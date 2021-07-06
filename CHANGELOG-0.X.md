@@ -163,7 +163,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
--   Move `URIService` to `@arkecosystem/platform-sdk-support` package (4b0b35ce, @faustbrian)
+-   Move `URIService` to `@payvo/sdk-support` package (4b0b35ce, @faustbrian)
 
 ### Fixed
 

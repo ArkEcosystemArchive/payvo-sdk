@@ -1,11 +1,11 @@
 importers:
   .:
     specifiers: {}
-  ../../packages/platform-sdk:
+  ../../packages/sdk:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@arkecosystem/utils': 1.3.0
       bad-words: 3.0.4
       bent: 7.3.12
@@ -51,9 +51,9 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@arkecosystem/utils': ^1.3.0
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/eslint': ^7.2.10
@@ -97,17 +97,17 @@ importers:
       ts-jest: ^26.5.5
       type-fest: ^1.0.2
       typescript: ^4.3.0
-  ../../packages/platform-sdk-ada:
+  ../../packages/sdk-ada:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@emurgo/cardano-serialization-lib-nodejs': 7.0.0
       bech32: 2.0.0
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -137,12 +137,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@emurgo/cardano-serialization-lib-nodejs': ^7.0.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -173,16 +173,16 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-ark:
+  ../../packages/sdk-ark:
     dependencies:
       '@arkecosystem/crypto': 3.0.0-next.23
       '@arkecosystem/crypto-identities': 1.1.1
       '@arkecosystem/ledger-transport': 2.0.0
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       dot-prop: 6.0.1
       is-url-superb: 4.0.0
@@ -191,7 +191,7 @@ importers:
       semver: 7.3.5
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@sindresorhus/tsconfig': 1.0.2
       '@types/eslint': 7.2.10
@@ -228,12 +228,12 @@ importers:
       '@arkecosystem/crypto': ^3.0.0-next.23
       '@arkecosystem/crypto-identities': ^1.1.1
       '@arkecosystem/ledger-transport': ^2.0.0
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@sindresorhus/tsconfig': ^1.0.2
@@ -273,7 +273,7 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-ark-musig:
+  ../../packages/sdk-ark-musig:
     dependencies:
       '@arkecosystem/crypto': 3.0.0-next.23
       '@hapi/boom': 9.1.2
@@ -349,19 +349,19 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-atom:
+  ../../packages/sdk-atom:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       bcrypto: 5.4.0
       bech32: 2.0.0
       ledger-cosmos-js: 2.1.8
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -392,12 +392,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -431,20 +431,20 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-avax:
+  ../../packages/sdk-avax:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@arkecosystem/utils': 1.3.0
       avalanche: 3.3.0
       hdkey: 2.0.1
       url-parse-lax: 4.0.0
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -478,12 +478,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@arkecosystem/utils': ^1.3.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -521,13 +521,13 @@ importers:
       typescript: ^4.3.0
       url-parse-lax: ^4.0.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-btc:
+  ../../packages/sdk-btc:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-app-btc': 5.50.0
       bignumber.js: 9.0.1
       bip32: 2.0.6
@@ -535,7 +535,7 @@ importers:
       bitcoinjs-message: 2.2.0
       bitcore-lib: 8.25.8
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -565,12 +565,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-app-btc': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -605,29 +605,29 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-cli:
+  ../../packages/sdk-cli:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-ada': link:../platform-sdk-ada
-      '@arkecosystem/platform-sdk-ark': link:../platform-sdk-ark
-      '@arkecosystem/platform-sdk-atom': link:../platform-sdk-atom
-      '@arkecosystem/platform-sdk-avax': link:../platform-sdk-avax
-      '@arkecosystem/platform-sdk-btc': link:../platform-sdk-btc
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-dot': link:../platform-sdk-dot
-      '@arkecosystem/platform-sdk-egld': link:../platform-sdk-egld
-      '@arkecosystem/platform-sdk-eos': link:../platform-sdk-eos
-      '@arkecosystem/platform-sdk-eth': link:../platform-sdk-eth
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
-      '@arkecosystem/platform-sdk-lsk': link:../platform-sdk-lsk
-      '@arkecosystem/platform-sdk-neo': link:../platform-sdk-neo
-      '@arkecosystem/platform-sdk-profiles': link:../platform-sdk-profiles
-      '@arkecosystem/platform-sdk-sol': link:../platform-sdk-sol
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
-      '@arkecosystem/platform-sdk-trx': link:../platform-sdk-trx
-      '@arkecosystem/platform-sdk-xlm': link:../platform-sdk-xlm
-      '@arkecosystem/platform-sdk-xrp': link:../platform-sdk-xrp
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-ada': link:../sdk-ada
+      '@payvo/sdk-ark': link:../sdk-ark
+      '@payvo/sdk-atom': link:../sdk-atom
+      '@payvo/sdk-avax': link:../sdk-avax
+      '@payvo/sdk-btc': link:../sdk-btc
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-dot': link:../sdk-dot
+      '@payvo/sdk-egld': link:../sdk-egld
+      '@payvo/sdk-eos': link:../sdk-eos
+      '@payvo/sdk-eth': link:../sdk-eth
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/sdk-lsk': link:../sdk-lsk
+      '@payvo/sdk-neo': link:../sdk-neo
+      '@payvo/sdk-profiles': link:../sdk-profiles
+      '@payvo/sdk-sol': link:../sdk-sol
+      '@payvo/sdk-support': link:../sdk-support
+      '@payvo/sdk-trx': link:../sdk-trx
+      '@payvo/sdk-xlm': link:../sdk-xlm
+      '@payvo/sdk-xrp': link:../sdk-xrp
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       better-sqlite3: 7.1.5
       boxen: 5.0.1
@@ -674,27 +674,27 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-ada': workspace:*
-      '@arkecosystem/platform-sdk-ark': workspace:*
-      '@arkecosystem/platform-sdk-atom': workspace:*
-      '@arkecosystem/platform-sdk-avax': workspace:*
-      '@arkecosystem/platform-sdk-btc': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-dot': workspace:*
-      '@arkecosystem/platform-sdk-egld': workspace:*
-      '@arkecosystem/platform-sdk-eos': workspace:*
-      '@arkecosystem/platform-sdk-eth': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-lsk': workspace:*
-      '@arkecosystem/platform-sdk-neo': workspace:*
-      '@arkecosystem/platform-sdk-profiles': workspace:*
-      '@arkecosystem/platform-sdk-sol': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
-      '@arkecosystem/platform-sdk-trx': workspace:*
-      '@arkecosystem/platform-sdk-xlm': workspace:*
-      '@arkecosystem/platform-sdk-xrp': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-ada': workspace:*
+      '@payvo/sdk-ark': workspace:*
+      '@payvo/sdk-atom': workspace:*
+      '@payvo/sdk-avax': workspace:*
+      '@payvo/sdk-btc': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-dot': workspace:*
+      '@payvo/sdk-egld': workspace:*
+      '@payvo/sdk-eos': workspace:*
+      '@payvo/sdk-eth': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-lsk': workspace:*
+      '@payvo/sdk-neo': workspace:*
+      '@payvo/sdk-profiles': workspace:*
+      '@payvo/sdk-sol': workspace:*
+      '@payvo/sdk-support': workspace:*
+      '@payvo/sdk-trx': workspace:*
+      '@payvo/sdk-xlm': workspace:*
+      '@payvo/sdk-xrp': workspace:*
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -739,7 +739,7 @@ importers:
       ts-jest: ^26.5.5
       type-fest: ^1.0.2
       typescript: ^4.3.0
-  ../../packages/platform-sdk-crypto:
+  ../../packages/sdk-crypto:
     dependencies:
       argon2-browser: 1.15.4
       bcryptjs: 2.4.3
@@ -839,13 +839,13 @@ importers:
       typescript: ^4.3.0
       uuid: ^8.3.2
       wif: ^2.0.6
-  ../../packages/platform-sdk-dot:
+  ../../packages/sdk-dot:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@polkadot/api': 3.11.1
       '@polkadot/keyring': 5.9.2
       '@polkadot/rpc-provider': 3.11.1
@@ -857,7 +857,7 @@ importers:
       '@zondax/ledger-polkadot': 0.13.6
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -888,12 +888,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@polkadot/api': ^3.6.4
       '@polkadot/keyring': ^5.5.1
@@ -933,7 +933,7 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-dot-indexer:
+  ../../packages/sdk-dot-indexer:
     dependencies:
       '@konceiver/foreman': 2.0.2
       '@polkadot/api': 3.11.1
@@ -947,7 +947,7 @@ importers:
       pino-pretty: 4.7.1
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/better-sqlite3': 5.4.1
       '@types/eslint': 7.2.10
@@ -981,7 +981,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@konceiver/foreman': ^2.0.2
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@polkadot/api': ^3.6.4
@@ -1025,19 +1025,19 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-egld:
+  ../../packages/sdk-egld:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@elrondnetwork/elrond-core-js': 2.1.0
       '@elrondnetwork/erdjs': 4.1.0
       bech32: 2.0.0
       noble-ed25519: 1.2.1
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1066,12 +1066,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@elrondnetwork/elrond-core-js': ^2.1.0
       '@elrondnetwork/erdjs': ^4.1.0
       '@types/eslint': ^7.2.10
@@ -1103,19 +1103,19 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-eos:
+  ../../packages/sdk-eos:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       bn.js: 5.1.3
       elliptic: 6.5.4
       eosjs: 21.0.4
       node-fetch: 2.6.1
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
@@ -1146,12 +1146,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
@@ -1185,13 +1185,13 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-eth:
+  ../../packages/sdk-eth:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ethereumjs/common': 2.2.0
       '@ethereumjs/tx': 3.1.4
       '@ledgerhq/hw-app-eth': 5.50.0
@@ -1199,7 +1199,7 @@ importers:
       ethereumjs-wallet: 1.0.1
       web3: 1.3.5
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1229,12 +1229,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ethereumjs/common': ^2.2.0
       '@ethereumjs/tx': ^3.1.4
       '@ledgerhq/hw-app-eth': ^5.50.0
@@ -1269,7 +1269,7 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       web3: ^1.3.4
-  ../../packages/platform-sdk-eth-indexer:
+  ../../packages/sdk-eth-indexer:
     dependencies:
       '@konceiver/foreman': 2.0.2
       better-sqlite3: 7.1.5
@@ -1281,7 +1281,7 @@ importers:
       uuid: 8.3.2
       web3: 1.3.5
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/better-sqlite3': 5.4.1
       '@types/eslint': 7.2.10
@@ -1316,7 +1316,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@konceiver/foreman': ^2.0.2
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/better-sqlite3': 5.4.1
@@ -1359,7 +1359,7 @@ importers:
       typescript: ^4.3.0
       uuid: ^8.3.2
       web3: ^1.3.4
-  ../../packages/platform-sdk-eth-server:
+  ../../packages/sdk-eth-server:
     dependencies:
       '@hapi/hapi': 20.1.2
       '@konceiver/foreman': 2.0.2
@@ -1371,7 +1371,7 @@ importers:
       uuid: 8.3.2
       web3: 1.3.5
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/better-sqlite3': 5.4.1
       '@types/eslint': 7.2.10
@@ -1406,7 +1406,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@hapi/hapi': ^20.1.2
       '@konceiver/foreman': ^2.0.2
       '@konceiver/hapi-rate-limiter-flexible': ^1.0.3
@@ -1449,7 +1449,7 @@ importers:
       typescript: ^4.3.0
       uuid: ^8.3.2
       web3: ^1.3.4
-  ../../packages/platform-sdk-http:
+  ../../packages/sdk-http:
     devDependencies:
       '@sindresorhus/tsconfig': 1.0.2
       '@types/eslint': 7.2.10
@@ -1508,9 +1508,9 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-http-axios:
+  ../../packages/sdk-http-axios:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk-http': link:../sdk-http
       axios: 0.21.1
     devDependencies:
       '@types/eslint': 7.2.10
@@ -1541,7 +1541,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
+      '@payvo/sdk-http': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -1570,9 +1570,9 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-http-bent:
+  ../../packages/sdk-http-bent:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk-http': link:../sdk-http
       bent: 7.3.12
     devDependencies:
       '@types/bent': 7.3.2
@@ -1604,7 +1604,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
+      '@payvo/sdk-http': workspace:*
       '@types/bent': ^7.3.2
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1634,9 +1634,9 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-http-got:
+  ../../packages/sdk-http-got:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk-http': link:../sdk-http
       form-data: 3.0.1
       got: 11.8.2
     devDependencies:
@@ -1669,7 +1669,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
+      '@payvo/sdk-http': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -1700,9 +1700,9 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-http-ky:
+  ../../packages/sdk-http-ky:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk-http': link:../sdk-http
       ky: 0.25.1
       ky-universal: 0.8.2_ky@0.25.1
     devDependencies:
@@ -1735,7 +1735,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
+      '@payvo/sdk-http': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -1766,9 +1766,9 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-http-node-fetch:
+  ../../packages/sdk-http-node-fetch:
     dependencies:
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk-http': link:../sdk-http
       node-fetch: 2.6.1
     devDependencies:
       '@types/eslint': 7.2.10
@@ -1800,7 +1800,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http': workspace:*
+      '@payvo/sdk-http': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -1830,7 +1830,7 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-intl:
+  ../../packages/sdk-intl:
     dependencies:
       dayjs: 1.10.4
       dinero.js: 1.8.1
@@ -1890,13 +1890,13 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-json-rpc:
+  ../../packages/sdk-json-rpc:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-ark': link:../platform-sdk-ark
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-ark': link:../sdk-ark
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@hapi/hapi': 20.1.2
       '@konceiver/foreman': 2.0.2
       '@konceiver/hapi-json-rpc': 1.0.0
@@ -1933,11 +1933,11 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-ark': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-ark': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@hapi/hapi': ^20.1.2
       '@konceiver/foreman': ^2.0.2
       '@konceiver/hapi-json-rpc': ^1.0.0
@@ -1972,20 +1972,20 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-lsk:
+  ../../packages/sdk-lsk:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       '@liskhq/lisk-client': 2.3.1
       '@liskhq/lisk-cryptography': 2.5.0
       '@liskhq/lisk-transactions': 2.3.1
       dpos-ledger-api: 3.0.1
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -2015,12 +2015,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@liskhq/lisk-client': ^2.0
@@ -2054,16 +2054,16 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-luna:
+  ../../packages/sdk-luna:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@terra-money/terra.js': 1.7.0
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -2093,12 +2093,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@terra-money/terra.js': ~1.7.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -2128,14 +2128,14 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-markets:
+  ../../packages/sdk-markets:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/jest': 26.0.23
@@ -2163,11 +2163,11 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/jest': ^26.0.23
@@ -2194,18 +2194,18 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-nano:
+  ../../packages/sdk-nano:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       nanocurrency: 2.5.0
       nanocurrency-web: 1.3.2
       noble-ed25519: 1.2.1
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -2235,12 +2235,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -2272,17 +2272,17 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-neo:
+  ../../packages/sdk-neo:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@cityofzion/neon-js': 4.8.3
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -2313,12 +2313,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@cityofzion/neon-js': ^4.8.2
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -2350,13 +2350,13 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-news:
+  ../../packages/sdk-news:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-http': link:../sdk-http
       rss-parser: 3.12.0
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/fs-extra': 9.0.11
@@ -2385,9 +2385,9 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -2416,14 +2416,14 @@ importers:
       rss-parser: ^3.9.0
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-profiles:
+  ../../packages/sdk-profiles:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-markets': link:../platform-sdk-markets
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-markets': link:../sdk-markets
+      '@payvo/sdk-support': link:../sdk-support
       '@arkecosystem/utils': 1.3.0
       '@sindresorhus/slugify': 1.1.2
       '@vechain/picasso': 2.1.1
@@ -2446,11 +2446,11 @@ importers:
       uuid: 8.3.2
       wif: 2.0.6
     devDependencies:
-      '@arkecosystem/platform-sdk-ada': link:../platform-sdk-ada
-      '@arkecosystem/platform-sdk-ark': link:../platform-sdk-ark
-      '@arkecosystem/platform-sdk-btc': link:../platform-sdk-btc
-      '@arkecosystem/platform-sdk-eth': link:../platform-sdk-eth
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-ada': link:../sdk-ada
+      '@payvo/sdk-ark': link:../sdk-ark
+      '@payvo/sdk-btc': link:../sdk-btc
+      '@payvo/sdk-eth': link:../sdk-eth
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@sindresorhus/tsconfig': 1.0.2
       '@types/async': 3.2.4
       '@types/bip38': 2.0.1
@@ -2487,17 +2487,17 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-ada': workspace:*
-      '@arkecosystem/platform-sdk-ark': workspace:*
-      '@arkecosystem/platform-sdk-btc': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-eth': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-markets': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-ada': workspace:*
+      '@payvo/sdk-ark': workspace:*
+      '@payvo/sdk-btc': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-eth': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-markets': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@arkecosystem/utils': ^1.3.0
       '@sindresorhus/slugify': ^1.1.0
       '@sindresorhus/tsconfig': ^1.0.2
@@ -2554,19 +2554,19 @@ importers:
       typescript: ^4.3.0
       uuid: ^8.3.2
       wif: ^2.0.6
-  ../../packages/platform-sdk-sol:
+  ../../packages/sdk-sol:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@solana/web3.js': 1.9.0
       bstring: 0.3.9
       ed25519-hd-key: 1.2.0
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -2596,12 +2596,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@solana/web3.js': ^1.9.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -2634,7 +2634,7 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-support:
+  ../../packages/sdk-support:
     dependencies:
       bad-words: 3.0.4
       bignumber.js: 9.0.1
@@ -2712,17 +2712,17 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-trx:
+  ../../packages/sdk-trx:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-app-trx': 5.50.0
       tronweb: 3.2.6
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -2751,12 +2751,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-app-trx': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -2786,19 +2786,19 @@ importers:
       tronweb: ^3.2.6
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-xlm:
+  ../../packages/sdk-xlm:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-app-str': 5.50.0
       ed25519-hd-key: 1.2.0
       stellar-sdk: 8.1.1
       uuid: 8.3.2
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -2827,12 +2827,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-app-str': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -2864,19 +2864,19 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/platform-sdk-xrp:
+  ../../packages/sdk-xrp:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@ledgerhq/hw-app-xrp': 5.50.0
       bignumber.js: 9.0.1
       ripple-keypairs: 1.0.3
       ripple-lib: 1.9.4
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -2910,12 +2910,12 @@ importers:
       typescript: 4.3.2
       typescript-language-server: 0.5.1
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@ledgerhq/hw-app-xrp': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/eslint': ^7.2.10
@@ -2952,17 +2952,17 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       typescript-language-server: ^0.5.1
-  ../../packages/platform-sdk-zil:
+  ../../packages/sdk-zil:
     dependencies:
-      '@arkecosystem/platform-sdk': link:../platform-sdk
-      '@arkecosystem/platform-sdk-crypto': link:../platform-sdk-crypto
-      '@arkecosystem/platform-sdk-http': link:../platform-sdk-http
-      '@arkecosystem/platform-sdk-intl': link:../platform-sdk-intl
-      '@arkecosystem/platform-sdk-support': link:../platform-sdk-support
+      '@payvo/sdk': link:../sdk
+      '@payvo/sdk-crypto': link:../sdk-crypto
+      '@payvo/sdk-http': link:../sdk-http
+      '@payvo/sdk-intl': link:../sdk-intl
+      '@payvo/sdk-support': link:../sdk-support
       '@zilliqa-js/account': 2.2.1
       '@zilliqa-js/zilliqa': 2.2.1
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -2992,12 +2992,12 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk': workspace:*
-      '@arkecosystem/platform-sdk-crypto': workspace:*
-      '@arkecosystem/platform-sdk-http': workspace:*
-      '@arkecosystem/platform-sdk-http-got': workspace:*
-      '@arkecosystem/platform-sdk-intl': workspace:*
-      '@arkecosystem/platform-sdk-support': workspace:*
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-crypto': workspace:*
+      '@payvo/sdk-http': workspace:*
+      '@payvo/sdk-http-got': workspace:*
+      '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-support': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -3028,7 +3028,7 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/platform-sdk-zil-indexer:
+  ../../packages/sdk-zil-indexer:
     dependencies:
       '@konceiver/foreman': 2.0.2
       '@zilliqa-js/zilliqa': 2.2.1
@@ -3041,7 +3041,7 @@ importers:
       uuid: 8.3.2
       web3: 1.3.5
     devDependencies:
-      '@arkecosystem/platform-sdk-http-got': link:../platform-sdk-http-got
+      '@payvo/sdk-http-got': link:../sdk-http-got
       '@ledgerhq/hw-transport-mocker': 5.50.0
       '@types/better-sqlite3': 5.4.1
       '@types/eslint': 7.2.10
@@ -3077,7 +3077,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@arkecosystem/platform-sdk-http-got': workspace:*
+      '@payvo/sdk-http-got': workspace:*
       '@konceiver/foreman': ^2.0.2
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@types/better-sqlite3': 5.4.1

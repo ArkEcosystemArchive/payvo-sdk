@@ -387,7 +387,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
--   Deprecate `@arkecosystem/platform-sdk-marketsquare` (4313ab42, @faustbrian)
+-   Deprecate `@payvo/sdk-marketsquare` (4313ab42, @faustbrian)
 -   Retrieve plugins from NPM (611197e3, @faustbrian)
 
 ## 2.3.4 - 2020-01-11
@@ -462,7 +462,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 -   **[BREAKING]** Encrypt profiles that use a password (e360e2f1, @faustbrian)
 -   Implement `ClientService#entityHistory` (d855f67a, @faustbrian)
 -   **[ADA]** Implement key derivation (2a36f9af, @sleepdefic1t)
--   Implement `@arkecosystem/platform-sdk-marketsquare` package (7e73dc8b, @faustbrian)
+-   Implement `@payvo/sdk-marketsquare` package (7e73dc8b, @faustbrian)
 -   Implement `EntityRegistrationData#ipfsContent|marketSquareLink` (d6bba663, @faustbrian)
 -   Implement `KnownWalletService` (f1e3b1fd, @goga-m)
 -   Implement `ProfileRepository#findByName` (f543ec5c, @dated)

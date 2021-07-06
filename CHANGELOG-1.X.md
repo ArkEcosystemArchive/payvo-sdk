@@ -166,4 +166,4 @@ Republish of 1.2.6
 
 ## 1.0.0 - 2020-11-09
 
-**This is the first stable release.** Please note that not all coins are fully implemented as of now. All packages are tagged as `1.0.0` to indicate their compliance with the APIs exposed by the `@arkecosystem/platform-sdk` package. If major changes to the internals are required to make certain functionality work we will tag a new major release to make it clear that breaking changes to the architecture were introduced.
+**This is the first stable release.** Please note that not all coins are fully implemented as of now. All packages are tagged as `1.0.0` to indicate their compliance with the APIs exposed by the `@payvo/sdk` package. If major changes to the internals are required to make certain functionality work we will tag a new major release to make it clear that breaking changes to the architecture were introduced.

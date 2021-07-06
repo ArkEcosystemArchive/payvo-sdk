@@ -56,7 +56,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk/ && pnpm run test -- --coverage
+              run: cd packages/sdk/ && pnpm run test -- --coverage
     ada:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -95,7 +95,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-ada/ && pnpm run test -- --coverage
+              run: cd packages/sdk-ada/ && pnpm run test -- --coverage
     ark:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -134,7 +134,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-ark/ && pnpm run test -- --coverage
+              run: cd packages/sdk-ark/ && pnpm run test -- --coverage
     atom:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -173,7 +173,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-atom/ && pnpm run test -- --coverage
+              run: cd packages/sdk-atom/ && pnpm run test -- --coverage
     avax:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -212,7 +212,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-avax/ && pnpm run test -- --coverage
+              run: cd packages/sdk-avax/ && pnpm run test -- --coverage
     btc:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -251,7 +251,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-btc/ && pnpm run test -- --coverage
+              run: cd packages/sdk-btc/ && pnpm run test -- --coverage
     crypto:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -290,7 +290,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-crypto/ && pnpm run test -- --coverage
+              run: cd packages/sdk-crypto/ && pnpm run test -- --coverage
     dot:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -329,7 +329,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-dot/ && pnpm run test -- --coverage --forceExit
+              run: cd packages/sdk-dot/ && pnpm run test -- --coverage --forceExit
     egld:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -368,7 +368,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-egld/ && pnpm run test -- --coverage
+              run: cd packages/sdk-egld/ && pnpm run test -- --coverage
     eos:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -407,7 +407,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-eos/ && pnpm run test -- --coverage
+              run: cd packages/sdk-eos/ && pnpm run test -- --coverage
     eth:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -446,7 +446,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-eth/ && pnpm run test -- --coverage
+              run: cd packages/sdk-eth/ && pnpm run test -- --coverage
     http-axios:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -485,7 +485,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-http-axios/ && pnpm run test -- --coverage
+              run: cd packages/sdk-http-axios/ && pnpm run test -- --coverage
     http-bent:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -524,7 +524,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-http-bent/ && pnpm run test -- --coverage
+              run: cd packages/sdk-http-bent/ && pnpm run test -- --coverage
     http-got:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -563,7 +563,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-http-got/ && pnpm run test -- --coverage
+              run: cd packages/sdk-http-got/ && pnpm run test -- --coverage
     http-ky:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -602,7 +602,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-http-ky/ && pnpm run test -- --coverage
+              run: cd packages/sdk-http-ky/ && pnpm run test -- --coverage
     http-node-fetch:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -641,7 +641,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-http-node-fetch/ && pnpm run test -- --coverage
+              run: cd packages/sdk-http-node-fetch/ && pnpm run test -- --coverage
     intl:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -680,7 +680,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-intl/ && pnpm run test -- --coverage
+              run: cd packages/sdk-intl/ && pnpm run test -- --coverage
     lsk:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -719,7 +719,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-lsk/ && pnpm run test -- --coverage
+              run: cd packages/sdk-lsk/ && pnpm run test -- --coverage
     markets:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -758,7 +758,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-markets/ && pnpm run test -- --coverage
+              run: cd packages/sdk-markets/ && pnpm run test -- --coverage
     nano:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -797,7 +797,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-nano/ && pnpm run test -- --coverage
+              run: cd packages/sdk-nano/ && pnpm run test -- --coverage
     neo:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -836,7 +836,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-neo/ && pnpm run test -- --coverage
+              run: cd packages/sdk-neo/ && pnpm run test -- --coverage
     news:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -875,7 +875,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-news/ && pnpm run test -- --coverage
+              run: cd packages/sdk-news/ && pnpm run test -- --coverage
     profiles:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -914,7 +914,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-profiles/ && pnpm run test -- --coverage
+              run: cd packages/sdk-profiles/ && pnpm run test -- --coverage
     sol:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -953,7 +953,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-sol/ && pnpm run test -- --coverage
+              run: cd packages/sdk-sol/ && pnpm run test -- --coverage
     support:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -992,7 +992,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-support/ && pnpm run test -- --coverage
+              run: cd packages/sdk-support/ && pnpm run test -- --coverage
     trx:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -1031,7 +1031,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-trx/ && pnpm run test -- --coverage
+              run: cd packages/sdk-trx/ && pnpm run test -- --coverage
     xlm:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -1070,7 +1070,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-xlm/ && pnpm run test -- --coverage
+              run: cd packages/sdk-xlm/ && pnpm run test -- --coverage
     xrp:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -1109,7 +1109,7 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-xrp/ && pnpm run test -- --coverage
+              run: cd packages/sdk-xrp/ && pnpm run test -- --coverage
     zil:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -1148,4 +1148,4 @@ jobs:
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js rebuild --verbose
             - name: Test
-              run: cd packages/platform-sdk-zil/ && pnpm run test -- --coverage
+              run: cd packages/sdk-zil/ && pnpm run test -- --coverage

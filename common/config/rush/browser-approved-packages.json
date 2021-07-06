@@ -19,107 +19,107 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk",
+      "name": "@payvo/sdk",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-ada",
+      "name": "@payvo/sdk-ada",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-ark",
+      "name": "@payvo/sdk-ark",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-atom",
+      "name": "@payvo/sdk-atom",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-avax",
+      "name": "@payvo/sdk-avax",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-btc",
+      "name": "@payvo/sdk-btc",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-coincap",
+      "name": "@payvo/sdk-coincap",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-coingecko",
+      "name": "@payvo/sdk-coingecko",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-crypto",
+      "name": "@payvo/sdk-crypto",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-cryptocompare",
+      "name": "@payvo/sdk-cryptocompare",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-dot",
+      "name": "@payvo/sdk-dot",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-egld",
+      "name": "@payvo/sdk-egld",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-eos",
+      "name": "@payvo/sdk-eos",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-eth",
+      "name": "@payvo/sdk-eth",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-http",
+      "name": "@payvo/sdk-http",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-http-got",
+      "name": "@payvo/sdk-http-got",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-intl",
+      "name": "@payvo/sdk-intl",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-lsk",
+      "name": "@payvo/sdk-lsk",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-markets",
+      "name": "@payvo/sdk-markets",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-neo",
+      "name": "@payvo/sdk-neo",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-profiles",
+      "name": "@payvo/sdk-profiles",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-sol",
+      "name": "@payvo/sdk-sol",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-support",
+      "name": "@payvo/sdk-support",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-trx",
+      "name": "@payvo/sdk-trx",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-xlm",
+      "name": "@payvo/sdk-xlm",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@arkecosystem/platform-sdk-xrp",
+      "name": "@payvo/sdk-xrp",
       "allowedCategories": [ "libraries" ]
     },
     {

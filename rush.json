@@ -4,7 +4,7 @@
 	"pnpmVersion": "5.18.1",
 	"nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0",
 	"repository": {
-		"url": "git@github.com:ArkEcosystem/platform-sdk.git",
+		"url": "git@github.com:PayvoHQ/sdk.git",
 		"defaultBranch": "master",
 		"defaultRemote": "origin"
 	},
@@ -24,230 +24,230 @@
 	},
 	"projects": [
 		{
-			"packageName": "@arkecosystem/platform-sdk",
-			"projectFolder": "packages/platform-sdk",
+			"packageName": "@payvo/sdk",
+			"projectFolder": "packages/sdk",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-ada",
-			"projectFolder": "packages/platform-sdk-ada",
+			"packageName": "@payvo/sdk-ada",
+			"projectFolder": "packages/sdk-ada",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-ark",
-			"projectFolder": "packages/platform-sdk-ark",
+			"packageName": "@payvo/sdk-ark",
+			"projectFolder": "packages/sdk-ark",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-ark-musig",
-			"projectFolder": "packages/platform-sdk-ark-musig",
+			"packageName": "@payvo/sdk-ark-musig",
+			"projectFolder": "packages/sdk-ark-musig",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-atom",
-			"projectFolder": "packages/platform-sdk-atom",
+			"packageName": "@payvo/sdk-atom",
+			"projectFolder": "packages/sdk-atom",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-avax",
-			"projectFolder": "packages/platform-sdk-avax",
+			"packageName": "@payvo/sdk-avax",
+			"projectFolder": "packages/sdk-avax",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-btc",
-			"projectFolder": "packages/platform-sdk-btc",
+			"packageName": "@payvo/sdk-btc",
+			"projectFolder": "packages/sdk-btc",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-cli",
-			"projectFolder": "packages/platform-sdk-cli",
+			"packageName": "@payvo/sdk-cli",
+			"projectFolder": "packages/sdk-cli",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-crypto",
-			"projectFolder": "packages/platform-sdk-crypto",
+			"packageName": "@payvo/sdk-crypto",
+			"projectFolder": "packages/sdk-crypto",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-dot",
-			"projectFolder": "packages/platform-sdk-dot",
+			"packageName": "@payvo/sdk-dot",
+			"projectFolder": "packages/sdk-dot",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-dot-indexer",
-			"projectFolder": "packages/platform-sdk-dot-indexer",
+			"packageName": "@payvo/sdk-dot-indexer",
+			"projectFolder": "packages/sdk-dot-indexer",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-egld",
-			"projectFolder": "packages/platform-sdk-egld",
+			"packageName": "@payvo/sdk-egld",
+			"projectFolder": "packages/sdk-egld",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-eos",
-			"projectFolder": "packages/platform-sdk-eos",
+			"packageName": "@payvo/sdk-eos",
+			"projectFolder": "packages/sdk-eos",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-eth",
-			"projectFolder": "packages/platform-sdk-eth",
+			"packageName": "@payvo/sdk-eth",
+			"projectFolder": "packages/sdk-eth",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-eth-indexer",
-			"projectFolder": "packages/platform-sdk-eth-indexer",
+			"packageName": "@payvo/sdk-eth-indexer",
+			"projectFolder": "packages/sdk-eth-indexer",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-eth-server",
-			"projectFolder": "packages/platform-sdk-eth-server",
+			"packageName": "@payvo/sdk-eth-server",
+			"projectFolder": "packages/sdk-eth-server",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http",
-			"projectFolder": "packages/platform-sdk-http",
+			"packageName": "@payvo/sdk-http",
+			"projectFolder": "packages/sdk-http",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http-axios",
-			"projectFolder": "packages/platform-sdk-http-axios",
+			"packageName": "@payvo/sdk-http-axios",
+			"projectFolder": "packages/sdk-http-axios",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http-bent",
-			"projectFolder": "packages/platform-sdk-http-bent",
+			"packageName": "@payvo/sdk-http-bent",
+			"projectFolder": "packages/sdk-http-bent",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http-got",
-			"projectFolder": "packages/platform-sdk-http-got",
+			"packageName": "@payvo/sdk-http-got",
+			"projectFolder": "packages/sdk-http-got",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http-ky",
-			"projectFolder": "packages/platform-sdk-http-ky",
+			"packageName": "@payvo/sdk-http-ky",
+			"projectFolder": "packages/sdk-http-ky",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-http-node-fetch",
-			"projectFolder": "packages/platform-sdk-http-node-fetch",
+			"packageName": "@payvo/sdk-http-node-fetch",
+			"projectFolder": "packages/sdk-http-node-fetch",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-intl",
-			"projectFolder": "packages/platform-sdk-intl",
+			"packageName": "@payvo/sdk-intl",
+			"projectFolder": "packages/sdk-intl",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-lsk",
-			"projectFolder": "packages/platform-sdk-lsk",
+			"packageName": "@payvo/sdk-lsk",
+			"projectFolder": "packages/sdk-lsk",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-markets",
-			"projectFolder": "packages/platform-sdk-markets",
+			"packageName": "@payvo/sdk-markets",
+			"projectFolder": "packages/sdk-markets",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-nano",
-			"projectFolder": "packages/platform-sdk-nano",
+			"packageName": "@payvo/sdk-nano",
+			"projectFolder": "packages/sdk-nano",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-neo",
-			"projectFolder": "packages/platform-sdk-neo",
+			"packageName": "@payvo/sdk-neo",
+			"projectFolder": "packages/sdk-neo",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-news",
-			"projectFolder": "packages/platform-sdk-news",
+			"packageName": "@payvo/sdk-news",
+			"projectFolder": "packages/sdk-news",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-profiles",
-			"projectFolder": "packages/platform-sdk-profiles",
+			"packageName": "@payvo/sdk-profiles",
+			"projectFolder": "packages/sdk-profiles",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-sol",
-			"projectFolder": "packages/platform-sdk-sol",
+			"packageName": "@payvo/sdk-sol",
+			"projectFolder": "packages/sdk-sol",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-json-rpc",
-			"projectFolder": "packages/platform-sdk-json-rpc",
+			"packageName": "@payvo/sdk-json-rpc",
+			"projectFolder": "packages/sdk-json-rpc",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-support",
-			"projectFolder": "packages/platform-sdk-support",
+			"packageName": "@payvo/sdk-support",
+			"projectFolder": "packages/sdk-support",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-luna",
-			"projectFolder": "packages/platform-sdk-luna",
+			"packageName": "@payvo/sdk-luna",
+			"projectFolder": "packages/sdk-luna",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-trx",
-			"projectFolder": "packages/platform-sdk-trx",
+			"packageName": "@payvo/sdk-trx",
+			"projectFolder": "packages/sdk-trx",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-xlm",
-			"projectFolder": "packages/platform-sdk-xlm",
+			"packageName": "@payvo/sdk-xlm",
+			"projectFolder": "packages/sdk-xlm",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-xrp",
-			"projectFolder": "packages/platform-sdk-xrp",
+			"packageName": "@payvo/sdk-xrp",
+			"projectFolder": "packages/sdk-xrp",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-zil",
-			"projectFolder": "packages/platform-sdk-zil",
+			"packageName": "@payvo/sdk-zil",
+			"projectFolder": "packages/sdk-zil",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@arkecosystem/platform-sdk-zil-indexer",
-			"projectFolder": "packages/platform-sdk-zil-indexer",
+			"packageName": "@payvo/sdk-zil-indexer",
+			"projectFolder": "packages/sdk-zil-indexer",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		}

@@ -8,7 +8,7 @@
 
 ## Usage
 
-Documentation can be found [here](https://ark.dev/docs/platform-sdk).
+Documentation can be found [here](https://ark.dev/docs/payvo-sdk).
 
 ## Development
 
