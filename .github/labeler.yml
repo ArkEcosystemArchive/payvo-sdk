@@ -43,10 +43,6 @@ test:
     - packages/sdk-dot/*
     - packages/sdk-dot/**/*
 
-"Domain: DOT/Indexer":
-    - packages/sdk-dot-indexer/*
-    - packages/sdk-dot-indexer/**/*
-
 "Domain: EGLD":
     - packages/sdk-egld/*
     - packages/sdk-egld/**/*

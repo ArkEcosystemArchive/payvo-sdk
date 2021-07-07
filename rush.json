@@ -84,12 +84,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@payvo/sdk-dot-indexer",
-			"projectFolder": "packages/sdk-dot-indexer",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@payvo/sdk-egld",
 			"projectFolder": "packages/sdk-egld",
 			"reviewCategory": "libraries",
