@@ -51,11 +51,13 @@ describe("ProfileInitialiser", () => {
 
 	it("should initialise the default settings", () => {
 		expect(profile.settings().get(ProfileSetting.Name)).toBeUndefined();
+		expect(profile.settings().get(ProfileSetting.AccentColor)).toBeUndefined();
 		expect(profile.settings().get(ProfileSetting.Theme)).toBeUndefined();
 
 		new ProfileInitialiser(profile).initialiseSettings("name");
 
 		expect(profile.settings().get(ProfileSetting.Name)).toBe("name");
+		expect(profile.settings().get(ProfileSetting.AccentColor)).toBe("green");
 		expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
 	});
 });

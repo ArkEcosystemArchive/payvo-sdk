@@ -24,6 +24,7 @@ export class ProfileInitialiser implements IProfileInitialiser {
 
 	/** {@inheritDoc IProfileInitialiser.initialiseSettings} */
 	public initialiseSettings(name: string): void {
+		this.#profile.settings().set(ProfileSetting.AccentColor, "green");
 		this.#profile.settings().set(ProfileSetting.AdvancedMode, false);
 		this.#profile.settings().set(ProfileSetting.AutomaticSignOutPeriod, 15);
 		this.#profile.settings().set(ProfileSetting.Bip39Locale, "english");

@@ -1,6 +1,6 @@
 import { BIP39 } from "@payvo/cryptography";
-import { Contracts } from "@payvo/sdk-profiles";
 import { BigNumber } from "@payvo/helpers";
+import { Contracts } from "@payvo/sdk-profiles";
 import prompts from "prompts";
 
 import { renderLogo } from "../helpers";

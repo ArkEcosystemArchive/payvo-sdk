@@ -51,6 +51,9 @@ distribution
 .vs
 .vscode
 
+# Webstorm
+.idea
+
 # Databases
 *.sqlite
 

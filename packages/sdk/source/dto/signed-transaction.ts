@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
+import { DateTime } from "@payvo/intl";
 
 import { RawTransactionData, SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";

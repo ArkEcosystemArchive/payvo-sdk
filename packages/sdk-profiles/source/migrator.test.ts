@@ -203,6 +203,7 @@ it("should migrate profiles from JSON to Base64", async () => {
 				data: {},
 			},
 			settings: {
+				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,
 				[ProfileSetting.AutomaticSignOutPeriod]: 60,
 				[ProfileSetting.Bip39Locale]: "english",
@@ -279,6 +280,7 @@ it("should migrate profiles from JSON to Base64", async () => {
 		  "peers": Object {},
 		  "plugins": Object {},
 		  "settings": Object {
+		    "ACCENT_COLOR": "blue",
 		    "ADVANCED_MODE": false,
 		    "AUTOMATIC_SIGN_OUT_PERIOD": 60,
 		    "BIP39_LOCALE": "english",

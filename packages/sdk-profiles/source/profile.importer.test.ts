@@ -175,6 +175,7 @@ describe("#restore", () => {
 				data: {},
 			},
 			settings: {
+				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,
 				[ProfileSetting.AutomaticSignOutPeriod]: 60,
 				[ProfileSetting.Bip39Locale]: "english",
@@ -237,6 +238,7 @@ describe("#restore", () => {
 		await subject.import();
 
 		expect(profile.wallets().count()).toEqual(2);
+		expect(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
 		expect(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
 	});
 
