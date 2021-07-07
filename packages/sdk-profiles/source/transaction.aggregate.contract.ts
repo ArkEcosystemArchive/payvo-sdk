@@ -1,4 +1,4 @@
-import { Services } from "@payvo/sdk";
+import { Contracts, Services } from "@payvo/sdk";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 export type AggregateQuery = {

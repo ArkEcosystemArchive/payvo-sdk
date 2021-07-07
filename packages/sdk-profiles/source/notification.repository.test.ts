@@ -4,6 +4,7 @@ import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
 
 import { NotificationRepository } from "./notification.repository";
+import { INotificationTypes } from "./notification.repository.contract";
 
 let subject: NotificationRepository;
 
@@ -30,6 +31,39 @@ const stubNotifications = [
 		action: "open",
 		meta: {
 			txId: "1",
+		},
+	},
+];
+
+const transactionNotifications = [
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "1",
+		},
+	},
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "2",
+		},
+	},
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "3",
+		},
+	},
+];
+
+const releaseNotifications = [
+	{
+		icon: "warning",
+		name: "Wallet Update Available",
+		type: INotificationTypes.Release,
+		body: "...",
+		meta: {
+			version: "3.0.0",
 		},
 	},
 ];
@@ -184,6 +218,40 @@ test("#unread", () => {
 	expect(subject.first().read_at).toBeTruthy();
 
 	expect(subject.last().read_at).toBeUndefined();
+});
+
+test("#filterByType", () => {
+	expect(subject.keys()).toHaveLength(0);
+
+	transactionNotifications.forEach((n) => subject.push(n));
+	releaseNotifications.forEach((n) => subject.push(n));
+
+	expect(subject.filterByType(INotificationTypes.Release)).toHaveLength(1);
+	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(3);
+});
+
+test("#findByTransactionId", () => {
+	expect(subject.keys()).toHaveLength(0);
+
+	expect(subject.findByTransactionId("1")?.meta?.transactionId).toBeUndefined();
+
+	transactionNotifications.forEach((n) => subject.push(n));
+
+	expect(subject.findByTransactionId("1")?.meta?.transactionId).toEqual(
+		transactionNotifications[0]?.meta.transactionId,
+	);
+	expect(subject.findByTransactionId("10")?.meta?.transactionId).toBeUndefined();
+});
+
+test("#findByVersion", () => {
+	expect(subject.keys()).toHaveLength(0);
+
+	expect(subject.findByVersion("3.0.0")?.meta?.version).toBeUndefined();
+
+	releaseNotifications.forEach((n) => subject.push(n));
+
+	expect(subject.findByVersion("3.0.0")?.meta?.version).toEqual(releaseNotifications[0]?.meta.version);
+	expect(subject.findByVersion("3.0.1")?.meta?.version).toBeUndefined();
 });
 
 it("should have meta info", () => {
