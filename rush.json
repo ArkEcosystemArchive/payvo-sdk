@@ -244,12 +244,6 @@
 			"projectFolder": "packages/sdk-zil",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-zil-indexer",
-			"projectFolder": "packages/sdk-zil-indexer",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
 		}
 	]
 }
