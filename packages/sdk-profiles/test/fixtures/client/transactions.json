@@ -2369,30 +2369,6 @@
 			"confirmations": 18766,
 			"timestamp": { "epoch": 94768208, "unix": 1584869408, "human": "2020-03-22T09:30:08.000Z" },
 			"nonce": "2938"
-		},
-		{
-			"id": "9049c49eb0e0d9b14becc38d4f51ab993aa9fc7f6a7b23a1aff9e7bc060d2bb1",
-			"blockId": "34e9ce5706d3550507b67676fec5c90a9bf8869c5def4305c953c3e8aa46f05e",
-			"version": 2,
-			"type": 3,
-			"typeGroup": 1,
-			"amount": "0",
-			"fee": "1000000",
-			"sender": "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve",
-			"senderPublicKey": "033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
-			"recipient": "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-			"signature": "cf96032e58e39066d1f156bb44e6fc34ee9926f7b40976ebaaee4054ab7900a9746efc64227eab4c1c657a0f11259d23967e10affc8f7d9f2d39db3334331c2f",
-			"signSignature": "e4ce6340dae3c5b7c88c0f2c3fbee9e9d1eb52b1bde400e9ca32af69a899d653d2b791b80a732993c7067eeea6cb419be6b8a41c522ff8b64cf8c23843899f69",
-			"asset": {
-				"votes": ["+03980b0482c60610695f2edc61bcfdae0d1048fb56d0041930eddc9e5c1246a5f5"]
-			},
-			"confirmations": 105763,
-			"timestamp": {
-				"epoch": 134701224,
-				"unix": 1624802424,
-				"human": "2021-06-27T14:00:24.000Z"
-			},
-			"nonce": "21662"
 		}
 	]
 }

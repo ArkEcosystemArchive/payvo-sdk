@@ -56,7 +56,7 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.findByTransactionId} */
-	public findByTransactionId = (transactionId: string): INotification | undefined => {
+	public findByTransactionId = (transactionId: string) => {
 		return this.#notifications.findByTransactionId(transactionId);
 	};
 
@@ -94,17 +94,18 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.sync} */
-	public sync = async (query: AggregateQuery = {}): Promise<void> => {
-		const defaultQuery = {
+	public sync = async (queryInput?: AggregateQuery) => {
+		const query = {
 			addresses: this.#profile
 				.wallets()
 				.values()
 				.map((wallet) => wallet.address()),
 			cursor: 1,
 			limit: 10,
+			...(queryInput && queryInput),
 		};
 
-		const transactions = await this.#profile.transactionAggregate().received({ ...defaultQuery, ...query });
+		const transactions = await this.#profile.transactionAggregate().received(query);
 		const unseen = this.filterUnseen(transactions.items());
 
 		for (const transaction of unseen) {

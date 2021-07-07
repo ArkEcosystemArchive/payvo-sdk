@@ -13,10 +13,11 @@ export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 		...notification,
 		type: INotificationTypes.Release,
 		action: "update",
+		read_at: undefined,
 	});
 
 	/** {@inheritDoc IWalletReleaseNotifications.findByVersion} */
-	public findByVersion = (version: string): INotification | undefined => {
+	public findByVersion = (version: string) => {
 		return this.#notifications.findByVersion(version);
 	};
 
@@ -26,7 +27,7 @@ export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 	};
 
 	/** {@inheritDoc IWalletReleaseNotifications.push} */
-	public push = (notification: INotification): INotification | undefined => {
+	public push = (notification: INotification) => {
 		if (this.has(notification?.meta?.version)) {
 			return;
 		}
@@ -46,13 +47,13 @@ export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 	};
 
 	/** {@inheritDoc IWalletReleaseNotifications.forget} */
-	public forget = (version: string): void => {
+	public forget = (version: string) => {
 		const notification = this.findByVersion(version);
 
 		if (!notification) {
 			return;
 		}
 
-		this.#notifications.forget(notification.id);
+		return this.#notifications.forget(notification.id);
 	};
 }

@@ -216,7 +216,7 @@ export interface IProfileTransactionNotifications {
 	 * @param {AggregateQuery} query
 	 * @memberof IProfileTransactionNotifications
 	 */
-	sync(query: AggregateQuery): Promise<void>;
+	sync(query?: AggregateQuery): Promise<void>;
 
 	/**
 	 * Check if the given transaction notification exists.

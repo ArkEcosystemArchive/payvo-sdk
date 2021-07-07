@@ -44,13 +44,13 @@ beforeEach(async () => {
 	notificationsRepository = new NotificationRepository(profile);
 	subject = new ProfileTransactionNotifications(profile, notificationsRepository);
 
-	await subject.sync({});
+	await subject.sync({ limit: 20 });
 });
 
 test("#recent", async () => {
 	expect(subject.recent(10)).toHaveLength(1);
 
-	await subject.sync({});
+	await subject.sync();
 	expect(subject.recent(10)).toHaveLength(1);
 });
 
