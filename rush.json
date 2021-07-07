@@ -72,12 +72,6 @@
             "shouldPublish": true
         },
         {
-            "packageName": "@payvo/sdk-crypto",
-            "projectFolder": "packages/sdk-crypto",
-            "reviewCategory": "libraries",
-            "shouldPublish": true
-        },
-        {
             "packageName": "@payvo/sdk-dot",
             "projectFolder": "packages/sdk-dot",
             "reviewCategory": "libraries",
@@ -110,12 +104,6 @@
         {
             "packageName": "@payvo/sdk-http-got",
             "projectFolder": "packages/sdk-http-got",
-            "reviewCategory": "libraries",
-            "shouldPublish": true
-        },
-        {
-            "packageName": "@payvo/sdk-intl",
-            "projectFolder": "packages/sdk-intl",
             "reviewCategory": "libraries",
             "shouldPublish": true
         },
@@ -158,18 +146,6 @@
         {
             "packageName": "@payvo/sdk-sol",
             "projectFolder": "packages/sdk-sol",
-            "reviewCategory": "libraries",
-            "shouldPublish": true
-        },
-        {
-            "packageName": "@payvo/sdk-json-rpc",
-            "projectFolder": "packages/sdk-json-rpc",
-            "reviewCategory": "libraries",
-            "shouldPublish": true
-        },
-        {
-            "packageName": "@payvo/sdk-support",
-            "projectFolder": "packages/sdk-support",
             "reviewCategory": "libraries",
             "shouldPublish": true
         },
