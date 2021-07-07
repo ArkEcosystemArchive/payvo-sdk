@@ -202,6 +202,7 @@ it("should create a profile with data and persist it when instructed to do so", 
 	`);
 	expect(newProfile.settings().all()).toMatchInlineSnapshot(`
 		Object {
+		  "ACCENT_COLOR": "green",
 		  "ADVANCED_MODE": false,
 		  "AUTOMATIC_SIGN_OUT_PERIOD": 15,
 		  "BIP39_LOCALE": "english",
@@ -239,6 +240,7 @@ it("should boot the environment from fixed data", async () => {
 		}
 	`);
 	expect(newProfile.settings().all()).toEqual({
+		ACCENT_COLOR: "green",
 		ADVANCED_MODE: false,
 		AUTOMATIC_SIGN_OUT_PERIOD: 15,
 		BIP39_LOCALE: "english",

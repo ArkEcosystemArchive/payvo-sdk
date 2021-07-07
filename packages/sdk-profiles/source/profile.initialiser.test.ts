@@ -40,14 +40,12 @@ describe("ProfileInitialiser", () => {
 
 		expect(profile.contacts().count()).toBe(1);
 		expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeTrue();
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toBe("blue");
 		expect(profile.settings().get(ProfileSetting.Theme)).toBe("dark");
 
 		new ProfileInitialiser(profile).initialise("name");
 
 		expect(profile.contacts().count()).toBe(0);
 		expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeUndefined();
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toBe("green");
 		expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
 	});
 
