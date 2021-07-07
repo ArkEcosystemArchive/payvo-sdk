@@ -1236,132 +1236,6 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^26.5.5
       typescript: ^4.3.0
-  ../../packages/sdk-http-axios:
-    dependencies:
-      '@payvo/sdk-http': link:../sdk-http
-      axios: 0.21.1
-    devDependencies:
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk-http': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      axios: ^0.21.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
-  ../../packages/sdk-http-bent:
-    dependencies:
-      '@payvo/sdk-http': link:../sdk-http
-      bent: 7.3.12
-    devDependencies:
-      '@types/bent': 7.3.2
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk-http': workspace:*
-      '@types/bent': ^7.3.2
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      bent: ^7.3
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
   ../../packages/sdk-http-got:
     dependencies:
       '@payvo/sdk-http': link:../sdk-http
@@ -1423,136 +1297,6 @@ importers:
       jest-extended: ^0.11.5
       jest-localstorage-mock: ^2.4.10
       nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
-  ../../packages/sdk-http-ky:
-    dependencies:
-      '@payvo/sdk-http': link:../sdk-http
-      ky: 0.25.1
-      ky-universal: 0.8.2_ky@0.25.1
-    devDependencies:
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk-http': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      ky: ^0.25.0
-      ky-universal: ^0.8.2
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
-  ../../packages/sdk-http-node-fetch:
-    dependencies:
-      '@payvo/sdk-http': link:../sdk-http
-      node-fetch: 2.6.1
-    devDependencies:
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk-http': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      node-fetch: ^2.6.1
       npm-check-updates: ^11.5.6
       prettier: ^2.3.1
       rimraf: ^3.0.2
@@ -7477,12 +7221,6 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
-  /data-uri-to-buffer/3.0.1:
-    dev: false
-    engines:
-      node: '>= 6'
-    resolution:
-      integrity: sha512-WboRycPNsVw3B3TL559F7kuBUM4d8CgMEvk6xEJlOp7OBPjt6G7z8WMWlD2rOFZLk6OYfFIUGsCOWzcQH9K2og==
   /data-urls/2.0.0:
     dependencies:
       abab: 2.0.5
@@ -8778,17 +8516,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==
-  /fetch-blob/2.1.2:
-    dev: false
-    engines:
-      node: ^10.17.0 || >=12.3.0
-    peerDependencies:
-      domexception: '*'
-    peerDependenciesMeta:
-      domexception:
-        optional: true
-    resolution:
-      integrity: sha512-YKqtUDwqLyfyMnmbw8XD6Q8j9i/HggKtPEI+pZ1+8bvheBu78biSmNaXWusx1TauGqtUUGx/cBb1mKdq2rLYow==
   /figgy-pudding/3.5.2:
     dev: true
     resolution:
@@ -11045,28 +10772,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-8QADVssbrFjivHWQU7KkMgptGTl6WAcSdlbBPY4uNF+mWr6DGcKrvY2w4FQJoXch7+fKMjj0dRrL75vk3k23OA==
-  /ky-universal/0.8.2_ky@0.25.1:
-    dependencies:
-      abort-controller: 3.0.0
-      ky: 0.25.1
-      node-fetch: 3.0.0-beta.9
-    dev: false
-    engines:
-      node: '>=10.17'
-    peerDependencies:
-      ky: '>=0.17.0'
-      web-streams-polyfill: '>=2.0.0'
-    peerDependenciesMeta:
-      web-streams-polyfill:
-        optional: true
-    resolution:
-      integrity: sha512-xe0JaOH9QeYxdyGLnzUOVGK4Z6FGvDVzcXFTdrYA1f33MZdEa45sUDaMBy98xQMcsd2XIBrTXRrRYnegcSdgVQ==
-  /ky/0.25.1:
-    dev: false
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-PjpCEWlIU7VpiMVrTwssahkYXX1by6NCT0fhTUX34F3DTinARlgMpriuroolugFPcMgpPWrOW4mTb984Qm1RXA==
   /latest-version/5.1.0:
     dependencies:
       package-json: 6.5.0
@@ -11910,15 +11615,6 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-  /node-fetch/3.0.0-beta.9:
-    dependencies:
-      data-uri-to-buffer: 3.0.1
-      fetch-blob: 2.1.2
-    dev: false
-    engines:
-      node: ^10.17 || >=12.3
-    resolution:
-      integrity: sha512-RdbZCEynH2tH46+tj0ua9caUHVWrd/RHnRfvly2EVdqGmI3ndS1Vn/xjm5KuGejDt2RNDQsVRLPNd2QPwcewVg==
   /node-forge/0.10.0:
     dev: false
     engines:

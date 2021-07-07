@@ -1,231 +1,207 @@
 {
-	"$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
-	"rushVersion": "5.40.6",
-	"pnpmVersion": "5.18.1",
-	"nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0",
-	"repository": {
-		"url": "git@github.com:PayvoHQ/sdk.git",
-		"defaultBranch": "master",
-		"defaultRemote": "origin"
-	},
-	"ensureConsistentVersions": true,
-	"approvedPackagesPolicy": {
-		"reviewCategories": [
-			"libraries",
-			"tests"
-		],
-		"ignoredNpmScopes": [
-			"@types"
-		]
-	},
-	"pnpmOptions": {
-		"preventManualShrinkwrapChanges": true,
-		"useWorkspaces": true
-	},
-	"projects": [
-		{
-			"packageName": "@payvo/sdk",
-			"projectFolder": "packages/sdk",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-ada",
-			"projectFolder": "packages/sdk-ada",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-ark",
-			"projectFolder": "packages/sdk-ark",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-ark-musig",
-			"projectFolder": "packages/sdk-ark-musig",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-atom",
-			"projectFolder": "packages/sdk-atom",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-avax",
-			"projectFolder": "packages/sdk-avax",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-btc",
-			"projectFolder": "packages/sdk-btc",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-cli",
-			"projectFolder": "packages/sdk-cli",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-crypto",
-			"projectFolder": "packages/sdk-crypto",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-dot",
-			"projectFolder": "packages/sdk-dot",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-egld",
-			"projectFolder": "packages/sdk-egld",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-eos",
-			"projectFolder": "packages/sdk-eos",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-eth",
-			"projectFolder": "packages/sdk-eth",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http",
-			"projectFolder": "packages/sdk-http",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http-axios",
-			"projectFolder": "packages/sdk-http-axios",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http-bent",
-			"projectFolder": "packages/sdk-http-bent",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http-got",
-			"projectFolder": "packages/sdk-http-got",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http-ky",
-			"projectFolder": "packages/sdk-http-ky",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-http-node-fetch",
-			"projectFolder": "packages/sdk-http-node-fetch",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-intl",
-			"projectFolder": "packages/sdk-intl",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-lsk",
-			"projectFolder": "packages/sdk-lsk",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-markets",
-			"projectFolder": "packages/sdk-markets",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-nano",
-			"projectFolder": "packages/sdk-nano",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-neo",
-			"projectFolder": "packages/sdk-neo",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-news",
-			"projectFolder": "packages/sdk-news",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-profiles",
-			"projectFolder": "packages/sdk-profiles",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-sol",
-			"projectFolder": "packages/sdk-sol",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-json-rpc",
-			"projectFolder": "packages/sdk-json-rpc",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-support",
-			"projectFolder": "packages/sdk-support",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-luna",
-			"projectFolder": "packages/sdk-luna",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-trx",
-			"projectFolder": "packages/sdk-trx",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-xlm",
-			"projectFolder": "packages/sdk-xlm",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-xrp",
-			"projectFolder": "packages/sdk-xrp",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-zil",
-			"projectFolder": "packages/sdk-zil",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		}
-	]
+    "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+    "rushVersion": "5.40.6",
+    "pnpmVersion": "5.18.1",
+    "nodeSupportedVersionRange": ">=12.13.0 <13.0.0 || >=14.15.0 <15.0.0",
+    "repository": {
+        "url": "git@github.com:PayvoHQ/sdk.git",
+        "defaultBranch": "master",
+        "defaultRemote": "origin"
+    },
+    "ensureConsistentVersions": true,
+    "approvedPackagesPolicy": {
+        "reviewCategories": [
+            "libraries",
+            "tests"
+        ],
+        "ignoredNpmScopes": [
+            "@types"
+        ]
+    },
+    "pnpmOptions": {
+        "preventManualShrinkwrapChanges": true,
+        "useWorkspaces": true
+    },
+    "projects": [
+        {
+            "packageName": "@payvo/sdk",
+            "projectFolder": "packages/sdk",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-ada",
+            "projectFolder": "packages/sdk-ada",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-ark",
+            "projectFolder": "packages/sdk-ark",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-ark-musig",
+            "projectFolder": "packages/sdk-ark-musig",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-atom",
+            "projectFolder": "packages/sdk-atom",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-avax",
+            "projectFolder": "packages/sdk-avax",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-btc",
+            "projectFolder": "packages/sdk-btc",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-cli",
+            "projectFolder": "packages/sdk-cli",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-crypto",
+            "projectFolder": "packages/sdk-crypto",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-dot",
+            "projectFolder": "packages/sdk-dot",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-egld",
+            "projectFolder": "packages/sdk-egld",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-eos",
+            "projectFolder": "packages/sdk-eos",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-eth",
+            "projectFolder": "packages/sdk-eth",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-http",
+            "projectFolder": "packages/sdk-http",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-http-got",
+            "projectFolder": "packages/sdk-http-got",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-intl",
+            "projectFolder": "packages/sdk-intl",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-lsk",
+            "projectFolder": "packages/sdk-lsk",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-markets",
+            "projectFolder": "packages/sdk-markets",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-nano",
+            "projectFolder": "packages/sdk-nano",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-neo",
+            "projectFolder": "packages/sdk-neo",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-news",
+            "projectFolder": "packages/sdk-news",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-profiles",
+            "projectFolder": "packages/sdk-profiles",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-sol",
+            "projectFolder": "packages/sdk-sol",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-json-rpc",
+            "projectFolder": "packages/sdk-json-rpc",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-support",
+            "projectFolder": "packages/sdk-support",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-luna",
+            "projectFolder": "packages/sdk-luna",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-trx",
+            "projectFolder": "packages/sdk-trx",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-xlm",
+            "projectFolder": "packages/sdk-xlm",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-xrp",
+            "projectFolder": "packages/sdk-xrp",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        },
+        {
+            "packageName": "@payvo/sdk-zil",
+            "projectFolder": "packages/sdk-zil",
+            "reviewCategory": "libraries",
+            "shouldPublish": true
+        }
+    ]
 }

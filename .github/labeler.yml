@@ -55,25 +55,9 @@ test:
     - packages/sdk-eth/*
     - packages/sdk-eth/**/*
 
-"Domain: HTTP/axios":
-    - packages/sdk-http-axios/*
-    - packages/sdk-http-axios/**/*
-
-"Domain: HTTP/bent":
-    - packages/sdk-http-bent/*
-    - packages/sdk-http-bent/**/*
-
 "Domain: HTTP/got":
     - packages/sdk-http-got/*
     - packages/sdk-http-got/**/*
-
-"Domain: HTTP/ky":
-    - packages/sdk-http-ky/*
-    - packages/sdk-http-ky/**/*
-
-"Domain: HTTP/node-fetch":
-    - packages/sdk-http-node-fetch/*
-    - packages/sdk-http-node-fetch/**/*
 
 "Domain: INTL":
     - packages/sdk-intl/*
