@@ -108,18 +108,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@payvo/sdk-eth-indexer",
-			"projectFolder": "packages/sdk-eth-indexer",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
-			"packageName": "@payvo/sdk-eth-server",
-			"projectFolder": "packages/sdk-eth-server",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@payvo/sdk-http",
 			"projectFolder": "packages/sdk-http",
 			"reviewCategory": "libraries",
