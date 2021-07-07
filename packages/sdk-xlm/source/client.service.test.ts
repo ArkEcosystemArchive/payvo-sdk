@@ -1,8 +1,8 @@
 import "jest-extended";
 
 import { DTO, IoC, Services, Signatories } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";

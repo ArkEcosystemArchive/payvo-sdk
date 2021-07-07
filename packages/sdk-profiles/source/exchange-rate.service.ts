@@ -1,6 +1,6 @@
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { MarketService } from "@payvo/sdk-markets";
-import { BigNumber, NumberLike } from "@payvo/sdk-support";
+import { BigNumber, NumberLike } from "@payvo/helpers";
 
 import { DataRepository } from "./data.repository";
 import { container } from "./container";

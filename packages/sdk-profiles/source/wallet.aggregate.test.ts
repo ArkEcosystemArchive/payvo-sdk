@@ -1,7 +1,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";

@@ -1,10 +1,10 @@
 import "jest-extended";
 
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 let subject: SignedTransactionData;
 

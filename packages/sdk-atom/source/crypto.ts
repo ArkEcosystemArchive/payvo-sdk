@@ -1,5 +1,5 @@
-import { Buffoon } from "@payvo/sdk-crypto";
-import { DateTime } from "@payvo/sdk-intl";
+import { Buffoon } from "@payvo/cryptography";
+import { DateTime } from "@payvo/intl";
 import { secp256k1 } from "bcrypto";
 
 import { HashAlgorithms } from "./hash";

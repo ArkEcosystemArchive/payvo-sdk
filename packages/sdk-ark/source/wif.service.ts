@@ -1,8 +1,8 @@
 import { Interfaces } from "@arkecosystem/crypto";
 import { WIF as BaseWIF } from "@arkecosystem/crypto-identities";
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-crypto";
-import { abort_if, abort_unless } from "@payvo/sdk-support";
+import { BIP39 } from "@payvo/cryptography";
+import { abort_if, abort_unless } from "@payvo/helpers";
 
 import { BindingType } from "./coin.contract";
 

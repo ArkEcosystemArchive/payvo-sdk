@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import { constants } from "@liskhq/lisk-transactions";
 
 @IoC.injectable()

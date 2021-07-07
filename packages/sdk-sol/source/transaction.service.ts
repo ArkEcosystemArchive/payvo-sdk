@@ -1,5 +1,5 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { Account, Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { v4 as uuidv4 } from "uuid";
 

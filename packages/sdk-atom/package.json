@@ -25,19 +25,19 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
+		"@payvo/cryptography": "^1.0.0",
+		"@payvo/helpers": "^1.0.0",
+		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-crypto": "workspace:*",
 		"@payvo/sdk-http": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"@payvo/sdk-support": "workspace:*",
 		"bcrypto": "^5.4.0",
 		"bech32": "^2.0.0",
 		"ledger-cosmos-js": "^2.1.8",
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-got": "workspace:*",
 		"@ledgerhq/hw-transport-mocker": "^5.50.0",
+		"@payvo/sdk-http-got": "workspace:*",
 		"@types/eslint": "^7.2.10",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@types/hapi__joi": "17.1.6",

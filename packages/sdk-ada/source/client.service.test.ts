@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { DTO, IoC, Services, Signatories } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { createService } from "../test/mocking";

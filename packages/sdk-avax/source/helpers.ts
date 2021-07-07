@@ -1,5 +1,5 @@
 import { Coins, Helpers, Services } from "@payvo/sdk";
-import { BIP39, BIP44 } from "@payvo/sdk-crypto";
+import { BIP39, BIP44 } from "@payvo/cryptography";
 import { Avalanche, BinTools, Buffer } from "avalanche";
 import { AVMAPI, KeyPair } from "avalanche/dist/apis/avm";
 import { InfoAPI } from "avalanche/dist/apis/info";

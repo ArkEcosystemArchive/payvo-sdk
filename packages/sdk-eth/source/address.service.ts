@@ -1,5 +1,5 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/sdk-crypto";
+import { Buffoon } from "@payvo/cryptography";
 import Wallet from "ethereumjs-wallet";
 
 import { createWallet, getAddress } from "./utils";

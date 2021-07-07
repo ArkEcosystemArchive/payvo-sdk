@@ -25,10 +25,10 @@
 		"preset": "../../jest.coverage.js"
 	},
 	"dependencies": {
+		"@payvo/helpers": "^1.0.0",
+		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"@payvo/sdk-support": "workspace:*"
+		"@payvo/sdk-http": "workspace:*"
 	},
 	"devDependencies": {
 		"@payvo/sdk-http-got": "workspace:*",

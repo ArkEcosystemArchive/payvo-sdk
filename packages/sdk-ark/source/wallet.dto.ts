@@ -1,5 +1,5 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import { get, has } from "dot-prop";
 
 @IoC.injectable()

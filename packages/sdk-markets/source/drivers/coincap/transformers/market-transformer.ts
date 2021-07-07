@@ -1,5 +1,5 @@
 import { Contracts } from "@payvo/sdk";
-import { CURRENCIES } from "@payvo/sdk-intl";
+import { CURRENCIES } from "@payvo/intl";
 
 import { convertToCurrency } from "../utils";
 import {

@@ -1,4 +1,4 @@
-import { Base64, PBKDF2 } from "@payvo/sdk-crypto";
+import { Base64, PBKDF2 } from "@payvo/cryptography";
 import { IProfile, IProfileData } from "./contracts";
 import { IProfileEncrypter } from "./contracts";
 

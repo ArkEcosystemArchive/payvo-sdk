@@ -1,4 +1,4 @@
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import Wallet, { hdkey } from "ethereumjs-wallet";
 
 export const createWallet = (

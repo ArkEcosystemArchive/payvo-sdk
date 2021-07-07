@@ -1,4 +1,4 @@
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { decrypt, encrypt } from "bip38";
 import { decode, WIFReturn } from "wif";
 

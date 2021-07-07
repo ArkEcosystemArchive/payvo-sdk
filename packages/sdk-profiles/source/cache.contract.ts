@@ -1,4 +1,4 @@
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 type CacheStore = Record<string, { expires_at: DateTime; value: unknown }>;
 

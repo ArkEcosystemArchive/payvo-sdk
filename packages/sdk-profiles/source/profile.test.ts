@@ -1,6 +1,6 @@
 import "jest-extended";
 import "reflect-metadata";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 import { bootContainer } from "../test/mocking";
 import { PluginRepository } from "./plugin.repository";

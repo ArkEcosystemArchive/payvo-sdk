@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 import CryptoConfiguration from "../test/fixtures/client/cryptoConfiguration.json";
 import Fixture from "../test/fixtures/client/transaction.json";

@@ -1,5 +1,5 @@
 import { Contracts, Exceptions, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import {
 	Address,
 	Balance,

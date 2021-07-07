@@ -10,7 +10,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { Wallet } from "./wallet";
 import { IProfile, IProfileRepository, IReadWriteWallet, WalletData, WalletFlag } from "./contracts";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 let profile: IProfile;
 let subject: IReadWriteWallet;

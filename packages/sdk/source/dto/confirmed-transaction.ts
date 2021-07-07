@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber, Censor } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber, Censor } from "@payvo/helpers";
 import { inject } from "inversify";
 import emoji from "node-emoji";
 

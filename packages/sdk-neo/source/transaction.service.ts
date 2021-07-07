@@ -1,5 +1,5 @@
 import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { api, wallet } from "@cityofzion/neon-js";
 import { v4 as uuidv4 } from "uuid";
 

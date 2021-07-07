@@ -25,12 +25,12 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-crypto": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"@payvo/sdk-support": "workspace:*",
 		"@ledgerhq/hw-app-btc": "^5.50.0",
+		"@payvo/cryptography": "^1.0.0",
+		"@payvo/helpers": "^1.0.0",
+		"@payvo/intl": "^1.0.0",
+		"@payvo/sdk": "workspace:*",
+		"@payvo/sdk-http": "workspace:*",
 		"bignumber.js": "^9.0.1",
 		"bip32": "^2.0.6",
 		"bitcoinjs-lib": "^5.2.0",
@@ -38,8 +38,8 @@
 		"bitcore-lib": "^8.25.8"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-got": "workspace:*",
 		"@ledgerhq/hw-transport-mocker": "^5.50.0",
+		"@payvo/sdk-http-got": "workspace:*",
 		"@types/eslint": "^7.2.10",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@types/hapi__joi": "17.1.6",

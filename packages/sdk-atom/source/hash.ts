@@ -1,4 +1,4 @@
-import { Buffoon } from "@payvo/sdk-crypto";
+import { Buffoon } from "@payvo/cryptography";
 import { RIPEMD160, SHA256 } from "bcrypto";
 
 export class HashAlgorithms {

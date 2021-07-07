@@ -1,4 +1,4 @@
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { Contracts } from "@payvo/sdk-profiles";
 import prompts from "prompts";
 

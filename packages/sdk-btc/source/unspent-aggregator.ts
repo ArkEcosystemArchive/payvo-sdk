@@ -1,5 +1,5 @@
 import { HttpClient } from "@payvo/sdk-http";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 import { UnspentTransaction } from "./contracts";
 

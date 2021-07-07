@@ -1,5 +1,5 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { getNetworkConfig } from "./config";

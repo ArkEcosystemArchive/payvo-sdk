@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";

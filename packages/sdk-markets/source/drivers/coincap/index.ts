@@ -1,6 +1,6 @@
 import { Contracts, Exceptions } from "@payvo/sdk";
 import { HttpClient } from "@payvo/sdk-http";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 import {
 	DailyAverageOptions,

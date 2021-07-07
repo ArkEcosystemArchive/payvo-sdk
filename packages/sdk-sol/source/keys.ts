@@ -1,4 +1,4 @@
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { derivePath, getPublicKey } from "ed25519-hd-key";
 
 export const derivePrivateKey = (mnemonic: string, account: number, index: number, slip44: number): Buffer =>

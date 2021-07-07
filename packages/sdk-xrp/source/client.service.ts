@@ -1,5 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { UUID } from "@payvo/sdk-crypto";
+import { UUID } from "@payvo/cryptography";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
