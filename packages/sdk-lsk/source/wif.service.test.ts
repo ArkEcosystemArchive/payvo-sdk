@@ -5,7 +5,7 @@ import { Exceptions } from "@payvo/sdk";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
-import { WIF } from "@payvo/sdk-crypto";
+import { WIF } from "@payvo/cryptography";
 
 let subject: WIFService;
 

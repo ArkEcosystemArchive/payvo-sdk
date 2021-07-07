@@ -1,5 +1,5 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import { bech32 } from "bech32";
 
 @IoC.injectable()

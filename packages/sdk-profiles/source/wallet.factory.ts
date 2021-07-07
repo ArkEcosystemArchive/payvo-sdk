@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { Enums, Exceptions } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { decrypt, encrypt } from "bip38";
 import { v4 as uuidv4 } from "uuid";
 import { decode } from "wif";

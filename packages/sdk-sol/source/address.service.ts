@@ -1,5 +1,5 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { base58 } from "bstring";
 
 import { derivePrivateKey, derivePublicKey } from "./keys";

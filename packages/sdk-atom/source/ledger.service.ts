@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import Cosmos from "ledger-cosmos-js";
 
 @IoC.injectable()

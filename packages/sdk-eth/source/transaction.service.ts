@@ -1,5 +1,5 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/sdk-crypto";
+import { Buffoon } from "@payvo/cryptography";
 import Common from "@ethereumjs/common";
 import { Transaction } from "@ethereumjs/tx";
 import Web3 from "web3";

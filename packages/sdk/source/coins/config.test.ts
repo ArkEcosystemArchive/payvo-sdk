@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { ValidatorSchema } from "@payvo/sdk-support";
+import { ValidatorSchema } from "@payvo/helpers";
 
 import { ConfigKey, ConfigRepository } from "./config";
 

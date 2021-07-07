@@ -1,5 +1,5 @@
 import { Coins, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { createHash } from "crypto";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";

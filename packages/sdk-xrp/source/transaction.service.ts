@@ -1,6 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { UUID } from "@payvo/sdk-crypto";
-import { DateTime } from "@payvo/sdk-intl";
+import { UUID } from "@payvo/cryptography";
+import { DateTime } from "@payvo/intl";
 import { RippleAPI } from "ripple-lib";
 
 @IoC.injectable()

@@ -1,5 +1,5 @@
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import { CommHandler, DposLedger, LedgerAccount, SupportedCoin } from "dpos-ledger-api";
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);

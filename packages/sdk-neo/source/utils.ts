@@ -1,4 +1,4 @@
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import { wallet } from "@cityofzion/neon-js";
 
 export const createWallet = (input: string): any => new wallet.Account(input);

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 import { data } from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";

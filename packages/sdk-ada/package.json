@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-ada",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -25,12 +25,12 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-crypto": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"@payvo/sdk-support": "workspace:*",
 		"@emurgo/cardano-serialization-lib-nodejs": "^7.0.0",
+		"@payvo/cryptography": "^1.0.0",
+		"@payvo/helpers": "^1.0.0",
+		"@payvo/intl": "^1.0.0",
+		"@payvo/sdk": "workspace:*",
+		"@payvo/sdk-http": "workspace:*",
 		"bech32": "^2.0.0"
 	},
 	"devDependencies": {

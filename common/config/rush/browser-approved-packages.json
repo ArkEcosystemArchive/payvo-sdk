@@ -19,6 +19,118 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@arkecosystem/utils",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@cityofzion/neon-js",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@elrondnetwork/elrond-core-js",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@elrondnetwork/erdjs",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@emurgo/cardano-serialization-lib-nodejs",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ethereumjs/common",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ethereumjs/tx",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@hapi/boom",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@hapi/hapi",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@kodekeep/foreman",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@kodekeep/hapi-json-rpc",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@konceiver/foreman",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@konceiver/hapi-json-rpc",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@konceiver/hapi-rate-limiter-flexible",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-app-btc",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-app-eth",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-app-str",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-app-trx",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-app-xrp",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-transport",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-transport-mocker",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@ledgerhq/hw-transport-node-hid-singleton",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@liskhq/lisk-client",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@liskhq/lisk-cryptography",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@liskhq/lisk-transactions",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@payvo/cryptography",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@payvo/helpers",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "@payvo/intl",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/sdk",
       "allowedCategories": [ "libraries" ]
     },
@@ -120,106 +232,6 @@
     },
     {
       "name": "@payvo/sdk-xrp",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@arkecosystem/utils",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@cityofzion/neon-js",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@elrondnetwork/elrond-core-js",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@elrondnetwork/erdjs",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@emurgo/cardano-serialization-lib-nodejs",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ethereumjs/common",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ethereumjs/tx",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@hapi/boom",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@hapi/hapi",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@kodekeep/foreman",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@kodekeep/hapi-json-rpc",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@konceiver/foreman",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@konceiver/hapi-json-rpc",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@konceiver/hapi-rate-limiter-flexible",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-app-btc",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-app-eth",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-app-str",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-app-trx",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-app-xrp",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-transport",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-transport-mocker",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@ledgerhq/hw-transport-node-hid-singleton",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@liskhq/lisk-client",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@liskhq/lisk-cryptography",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@liskhq/lisk-transactions",
       "allowedCategories": [ "libraries" ]
     },
     {

@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/sdk-crypto";
+import { Buffoon } from "@payvo/cryptography";
 import { deriveKeypair, sign, verify } from "ripple-keypairs";
 
 @IoC.injectable()

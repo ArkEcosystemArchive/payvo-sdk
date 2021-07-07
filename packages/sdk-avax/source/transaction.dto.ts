@@ -1,7 +1,7 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { Base64 } from "@payvo/sdk-crypto";
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { Base64 } from "@payvo/cryptography";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 @IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {

@@ -1,6 +1,6 @@
 import { Coins, Contracts, Exceptions, Networks, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 import { container } from "./container";
 import { Identifiers } from "./container.models";

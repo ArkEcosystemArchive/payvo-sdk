@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 import { KeyValuePair, WalletBalance } from "../contracts";
 import { NotImplemented } from "../exceptions";

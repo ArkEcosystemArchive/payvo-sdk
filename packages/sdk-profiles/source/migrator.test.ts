@@ -1,7 +1,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { Base64 } from "@payvo/sdk-crypto";
+import { Base64 } from "@payvo/cryptography";
 
 import { bootContainer } from "../test/mocking";
 import { Migrator } from "./migrator";

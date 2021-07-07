@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";

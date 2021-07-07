@@ -1,6 +1,6 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
-import { BIP44, HDKey } from "@payvo/sdk-crypto";
+import { BIP44, HDKey } from "@payvo/cryptography";
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers";
 
 @IoC.injectable()

@@ -1,4 +1,4 @@
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 export interface TransactionFee {
 	static: BigNumber;

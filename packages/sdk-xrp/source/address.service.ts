@@ -1,5 +1,5 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-crypto";
+import { BIP44 } from "@payvo/cryptography";
 import { deriveAddress, deriveKeypair } from "ripple-keypairs";
 
 @IoC.injectable()

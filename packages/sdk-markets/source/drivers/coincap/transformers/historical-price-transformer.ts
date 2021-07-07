@@ -1,5 +1,5 @@
 import { Contracts } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 import { convertToCurrency } from "../utils";
 import {

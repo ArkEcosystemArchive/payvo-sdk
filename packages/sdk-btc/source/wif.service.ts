@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP32 } from "@payvo/sdk-crypto";
+import { BIP32 } from "@payvo/cryptography";
 
 @IoC.injectable()
 export class WIFService extends Services.AbstractWIFService {

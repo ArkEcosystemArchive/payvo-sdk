@@ -2,7 +2,7 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { Coins } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,4 +1,4 @@
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 
 export const normalizeTimestamp = (input: number): DateTime => {
 	// TODO: use a genesis timestamp that matches the network

@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 
 import { Contracts, DTO } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 import { IExchangeRateService, IReadWriteWallet } from "./contracts";
 import { container } from "./container";

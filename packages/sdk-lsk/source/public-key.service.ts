@@ -1,7 +1,7 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
-import { BIP39 } from "@payvo/sdk-crypto";
-import { abort_if, abort_unless } from "@payvo/sdk-support";
+import { BIP39 } from "@payvo/cryptography";
+import { abort_if, abort_unless } from "@payvo/helpers";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {

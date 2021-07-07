@@ -1,5 +1,5 @@
 import { Contracts, DTO, Exceptions } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 import Web3 from "web3";
 
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {

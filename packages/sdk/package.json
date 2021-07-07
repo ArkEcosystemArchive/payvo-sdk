@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -25,10 +25,10 @@
 		"preset": "../../jest.coverage.js"
 	},
 	"dependencies": {
-		"@payvo/sdk-http": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"@payvo/sdk-support": "workspace:*",
 		"@arkecosystem/utils": "^1.3.0",
+		"@payvo/helpers": "^1.0.0",
+		"@payvo/intl": "^1.0.0",
+		"@payvo/sdk-http": "workspace:*",
 		"bad-words": "^3.0.4",
 		"bent": "^7.3",
 		"bignumber.js": "^9.0.1",

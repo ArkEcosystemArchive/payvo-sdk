@@ -1,5 +1,5 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-support";
+import { BigNumber } from "@payvo/helpers";
 
 @IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {

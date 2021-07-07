@@ -43,10 +43,6 @@ test:
     - packages/sdk-dot/*
     - packages/sdk-dot/**/*
 
-"Domain: DOT/Indexer":
-    - packages/sdk-dot-indexer/*
-    - packages/sdk-dot-indexer/**/*
-
 "Domain: EGLD":
     - packages/sdk-egld/*
     - packages/sdk-egld/**/*
@@ -59,33 +55,9 @@ test:
     - packages/sdk-eth/*
     - packages/sdk-eth/**/*
 
-"Domain: ETH/Indexer":
-    - packages/sdk-eth-indexer/*
-    - packages/sdk-eth-indexer/**/*
-
-"Domain: ETH/Server":
-    - packages/sdk-eth-server/*
-    - packages/sdk-eth-server/**/*
-
-"Domain: HTTP/axios":
-    - packages/sdk-http-axios/*
-    - packages/sdk-http-axios/**/*
-
-"Domain: HTTP/bent":
-    - packages/sdk-http-bent/*
-    - packages/sdk-http-bent/**/*
-
 "Domain: HTTP/got":
     - packages/sdk-http-got/*
     - packages/sdk-http-got/**/*
-
-"Domain: HTTP/ky":
-    - packages/sdk-http-ky/*
-    - packages/sdk-http-ky/**/*
-
-"Domain: HTTP/node-fetch":
-    - packages/sdk-http-node-fetch/*
-    - packages/sdk-http-node-fetch/**/*
 
 "Domain: INTL":
     - packages/sdk-intl/*

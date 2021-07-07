@@ -3,8 +3,8 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts";
 import { AbstractConfirmedTransactionData } from "./confirmed-transaction";

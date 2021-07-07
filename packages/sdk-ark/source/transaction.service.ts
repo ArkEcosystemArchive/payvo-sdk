@@ -1,7 +1,7 @@
 import { Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-crypto";
-import { BigNumber } from "@payvo/sdk-support";
+import { BIP39 } from "@payvo/cryptography";
+import { BigNumber } from "@payvo/helpers";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { BindingType } from "./coin.contract";

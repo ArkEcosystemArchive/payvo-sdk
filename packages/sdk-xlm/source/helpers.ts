@@ -1,5 +1,5 @@
 import { Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-crypto";
+import { BIP39 } from "@payvo/cryptography";
 import { derivePath } from "ed25519-hd-key";
 import { Keypair } from "stellar-sdk";
 

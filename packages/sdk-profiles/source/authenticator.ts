@@ -1,4 +1,4 @@
-import { Bcrypt } from "@payvo/sdk-crypto";
+import { Bcrypt } from "@payvo/cryptography";
 
 import { IAuthenticator, IProfile, ProfileSetting } from "./contracts";
 

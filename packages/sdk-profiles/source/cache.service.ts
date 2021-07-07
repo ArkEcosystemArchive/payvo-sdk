@@ -1,4 +1,4 @@
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { SHA1 } from "bcrypto";
 import NodeCache from "node-cache";
 import { ICache } from "./contracts";

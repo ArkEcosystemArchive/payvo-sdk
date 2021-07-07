@@ -1,5 +1,5 @@
 import { Contracts, Helpers, Services } from "@payvo/sdk";
-import { UUID } from "@payvo/sdk-crypto";
+import { UUID } from "@payvo/cryptography";
 import { LCDClient, MnemonicKey, MsgSend } from "@terra-money/terra.js";
 
 import { useClient } from "./helpers";

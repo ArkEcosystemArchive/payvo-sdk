@@ -1,5 +1,5 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { DateTime } from "@payvo/intl";
 import { computeWork } from "nanocurrency";
 import { block, tools } from "nanocurrency-web";
 

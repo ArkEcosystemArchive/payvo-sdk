@@ -1,5 +1,5 @@
 import { HttpClient } from "@payvo/sdk-http";
-import { CURRENCIES, DateTime } from "@payvo/sdk-intl";
+import { CURRENCIES, DateTime } from "@payvo/intl";
 
 import {
 	DailyAverageOptions,

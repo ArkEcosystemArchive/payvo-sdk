@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-support";
+import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 
 import { result as fixture } from "../test/fixtures/client/transaction.json";
 import { createService } from "../test/mocking";
