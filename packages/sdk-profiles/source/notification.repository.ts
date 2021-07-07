@@ -4,6 +4,7 @@ import { INotification, INotificationRepository, IProfile } from "./contracts";
 import { injectable } from "inversify";
 
 import { DataRepository } from "./data.repository";
+import { INotificationType, INotificationTypes } from "./notification.repository.contract";
 
 @injectable()
 export class NotificationRepository implements INotificationRepository {
@@ -111,5 +112,24 @@ export class NotificationRepository implements INotificationRepository {
 		this.get(key).read_at = +Date.now();
 
 		this.#profile.status().markAsDirty();
+	}
+
+	/** {@inheritDoc INotificationRepository.filterByType} */
+	public filterByType(type: INotificationType): INotification[] {
+		return this.values().filter((notification: INotification) => notification.type === type);
+	}
+
+	/** {@inheritDoc INotificationRepository.findByTransactionId} */
+	public findByTransactionId(transactionId: string): INotification | undefined {
+		return this.filterByType(INotificationTypes.Transaction).find(
+			(notification: INotification) => notification?.meta?.transactionId === transactionId,
+		);
+	}
+
+	/** {@inheritDoc INotificationRepository.findByTransactionId} */
+	public findByVersion(version: string): INotification | undefined {
+		return this.filterByType(INotificationTypes.Release).find(
+			(notification: INotification) => notification?.meta?.version === version,
+		);
 	}
 }
