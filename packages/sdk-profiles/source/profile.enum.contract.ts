@@ -16,6 +16,7 @@ export enum ProfileSetting {
 	ScreenshotProtection = "SCREENSHOT_PROTECTION",
 	ErrorReporting = "ERROR_REPORTING",
 	// UI
+	AccentColor = "ACCENT_COLOR",
 	DashboardConfiguration = "DASHBOARD_CONFIGURATION",
 	DashboardTransactionHistory = "DASHBOARD_TRANSACTION_HISTORY",
 	DoNotShowFeeWarning = "DO_NOT_SHOW_FEE_WARNING",

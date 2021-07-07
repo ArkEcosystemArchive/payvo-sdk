@@ -47,7 +47,7 @@ beforeEach(() => {
 });
 
 describe("#validate", () => {
-	it("should succesfully validate profile data", async () => {
+	it("should successfully validate profile data", async () => {
 		const validProfileData = {
 			id: "uuid",
 			contacts: {
@@ -78,6 +78,7 @@ describe("#validate", () => {
 				data: {},
 			},
 			settings: {
+				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,
 				[ProfileSetting.AutomaticSignOutPeriod]: 60,
 				[ProfileSetting.Bip39Locale]: "english",

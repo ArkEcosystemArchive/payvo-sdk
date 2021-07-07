@@ -75,6 +75,7 @@ export class ProfileValidator implements IProfileValidator {
 				.required(),
 			// @TODO: assert specific values for enums
 			settings: Joi.object({
+				[ProfileSetting.AccentColor]: Joi.string().required(),
 				[ProfileSetting.AdvancedMode]: Joi.boolean().required(),
 				[ProfileSetting.AutomaticSignOutPeriod]: Joi.number().required(),
 				[ProfileSetting.Avatar]: Joi.string(),

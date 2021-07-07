@@ -203,6 +203,7 @@ it("should migrate profiles from JSON to Base64", async () => {
 				data: {},
 			},
 			settings: {
+				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,
 				[ProfileSetting.AutomaticSignOutPeriod]: 60,
 				[ProfileSetting.Bip39Locale]: "english",
