@@ -1,4 +1,4 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { WIF } from "@payvo/cryptography";
 import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { BIP39 } from "@payvo/cryptography";

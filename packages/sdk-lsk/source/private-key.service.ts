@@ -15,7 +15,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 			const { privateKey } = getPrivateAndPublicKeyFromPassphrase(mnemonic);
 
 			return {
-				privateKey: privateKey.toString("hex"),
+				privateKey: privateKey.toString("hex").substring(0, 64),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
