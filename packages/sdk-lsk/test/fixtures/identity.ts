@@ -7,7 +7,7 @@ export const identity = {
 	wif: "LxHRaASFCWcPAvVZ1Vyg7rP9ajBeQB3ZQHmKkoqKmrXFAUhcoWX4",
 	mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
 	// Multi Signature
-	multiSignature: { min: 0, publicKeys: [] },
-	multiSignatureAddress: "...",
-	multiSignaturePublicKey: "...",
+	multiSignature: {},
+	multiSignatureAddress: undefined,
+	multiSignaturePublicKey: undefined,
 };
