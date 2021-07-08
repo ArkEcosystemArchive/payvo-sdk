@@ -48,6 +48,24 @@ test("#push", () => {
 
 	releaseNotifications.forEach((notification) => subject.push(notification));
 	expect(notificationsRepository.values()).toHaveLength(2);
+
+	subject.push({
+		name: "Wallet Update Available",
+		body: "...",
+		meta: undefined,
+	});
+
+	expect(notificationsRepository.values()).toHaveLength(2);
+
+	subject.push({
+		name: "Wallet Update Available",
+		body: "...",
+		meta: {
+			version: undefined,
+		},
+	});
+
+	expect(notificationsRepository.values()).toHaveLength(2);
 });
 
 test("#has", () => {

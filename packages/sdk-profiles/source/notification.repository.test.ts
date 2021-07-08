@@ -241,6 +241,13 @@ test("#findByTransactionId", () => {
 		transactionNotifications[0]?.meta.transactionId,
 	);
 	expect(subject.findByTransactionId("10")?.meta?.transactionId).toBeUndefined();
+
+	subject.push({
+		type: INotificationTypes.Transaction,
+	});
+
+	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(4);
+	expect(subject.findByTransactionId("100")?.meta?.transactionId).toBeUndefined();
 });
 
 test("#findByVersion", () => {
@@ -249,6 +256,10 @@ test("#findByVersion", () => {
 	expect(subject.findByVersion("3.0.0")?.meta?.version).toBeUndefined();
 
 	releaseNotifications.forEach((n) => subject.push(n));
+
+	subject.push({
+		type: INotificationTypes.Release,
+	});
 
 	expect(subject.findByVersion("3.0.0")?.meta?.version).toEqual(releaseNotifications[0]?.meta.version);
 	expect(subject.findByVersion("3.0.1")?.meta?.version).toBeUndefined();

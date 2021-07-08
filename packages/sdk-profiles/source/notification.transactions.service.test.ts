@@ -9,12 +9,15 @@ import { Profile } from "./profile";
 import { NotificationRepository } from "./notification.repository";
 import { ProfileTransactionNotifications } from "./notification.transactions.service";
 import { IProfileTransactionNotifications } from "./notification.repository.contract";
+import { IProfile } from "./profile.contract";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 
 const defaultTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
 
 let notificationsRepository: NotificationRepository;
 let subject: IProfileTransactionNotifications;
+let profile: IProfile;
 
 beforeAll(async () => {
 	bootContainer();
@@ -38,33 +41,39 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
 	notificationsRepository = new NotificationRepository(profile);
 	subject = new ProfileTransactionNotifications(profile, notificationsRepository);
-
-	await subject.sync({ limit: 20 });
 });
 
 test("#recent", async () => {
+	await subject.sync({ limit: 20 });
 	expect(subject.recent(10)).toHaveLength(1);
 
 	await subject.sync();
 	expect(subject.recent(10)).toHaveLength(1);
+	expect(subject.recent()).toHaveLength(1);
 });
 
 test("#has", async () => {
+	await subject.sync();
+
 	expect(subject.has(NotificationTransactionFixtures.data[0].id)).toBeFalse();
 	expect(subject.has(defaultTransactionNotificationId)).toBeTrue();
 });
 
 test("#findByTransactionId", async () => {
+	await subject.sync();
+
 	expect(subject.findByTransactionId(defaultTransactionNotificationId)).toBeTruthy();
 	expect(subject.findByTransactionId("unknown")).toBeUndefined();
 });
 
 test("#forget", async () => {
+	await subject.sync();
+
 	expect(subject.findByTransactionId(defaultTransactionNotificationId)).toBeTruthy();
 
 	subject.forget("unknown");
@@ -74,6 +83,8 @@ test("#forget", async () => {
 });
 
 test("#markAsRead", async () => {
+	await subject.sync({ limit: 20 });
+
 	const notification = subject.findByTransactionId(defaultTransactionNotificationId);
 	expect(notification?.read_at).toBeUndefined();
 
@@ -82,3 +93,22 @@ test("#markAsRead", async () => {
 
 	expect(subject.findByTransactionId(defaultTransactionNotificationId)?.read_at).toBeTruthy();
 });
+
+test("should handle undefined timestamp", async () => {
+	const transactions = await profile.transactionAggregate().received({ limit: 10 });
+	const transaction = transactions.findById(defaultTransactionNotificationId) as ExtendedConfirmedTransactionData;
+
+	jest.spyOn(transaction, "timestamp").mockReturnValue(undefined);
+	jest.spyOn(profile.transactionAggregate(), "received").mockResolvedValue(transactions);
+
+	await subject.sync();
+	expect(subject.recent(10)).toHaveLength(1);
+	expect(subject.recent()).toHaveLength(1);
+
+	jest.restoreAllMocks();
+
+	await subject.sync();
+	expect(subject.recent(10)).toHaveLength(1);
+	expect(subject.recent()).toHaveLength(1);
+});
+
