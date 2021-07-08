@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography";
+import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography-beta";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
@@ -10,7 +10,7 @@ export class MessageService extends Services.AbstractMessageService {
 				input.signatory.signingKey(),
 			);
 
-			return { message, signatory: publicKey, signature };
+			return { message, signatory: publicKey.toString("hex"), signature: signature.toString("hex") };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -20,8 +20,8 @@ export class MessageService extends Services.AbstractMessageService {
 		try {
 			return verifyMessageWithPublicKey({
 				message: input.message,
-				publicKey: input.signatory,
-				signature: input.signature,
+				publicKey: Buffer.from(input.signatory, "hex"),
+				signature: Buffer.from(input.signature, "hex"),
 			});
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);

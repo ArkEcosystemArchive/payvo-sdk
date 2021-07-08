@@ -1,6 +1,5 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { getAddressFromPassphrase, getAddressFromPublicKey } from "@liskhq/lisk-cryptography";
-import { getLisk32AddressFromPassphrase, getLisk32AddressFromPublicKey, validateBase32Address } from "@liskhq/lisk-cryptography-beta";
+import { getLegacyAddressFromPassphrase, getLegacyAddressFromPublicKey, getLisk32AddressFromPassphrase, getLisk32AddressFromPublicKey, validateBase32Address } from "@liskhq/lisk-cryptography-beta";
 import { utils } from "@liskhq/lisk-transactions";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
@@ -18,7 +17,7 @@ export class AddressService extends Services.AbstractAddressService {
 				return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
 			}
 
-			return { type: "bip39", address: getAddressFromPassphrase(mnemonic) };
+			return { type: "bip39", address: getLegacyAddressFromPassphrase(mnemonic) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -33,7 +32,7 @@ export class AddressService extends Services.AbstractAddressService {
 				return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 			}
 
-			return { type: "bip39", address: getAddressFromPublicKey(publicKey) };
+			return { type: "bip39", address: getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -47,7 +46,7 @@ export class AddressService extends Services.AbstractAddressService {
 				return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
 			}
 
-			return { type: "bip39", address: getAddressFromPassphrase(secret) };
+			return { type: "bip39", address: getLegacyAddressFromPassphrase(secret) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}

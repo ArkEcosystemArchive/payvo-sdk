@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
+import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography-beta";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
 
@@ -14,7 +14,10 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(mnemonic);
 
-			return { publicKey, privateKey: privateKey.slice(0, privateKey.length / 2) };
+			return {
+				publicKey: publicKey.toString("hex"),
+				privateKey: privateKey.toString("hex"),
+			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -26,7 +29,10 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(secret);
 
-			return { publicKey, privateKey: privateKey.slice(0, privateKey.length / 2) };
+			return {
+				publicKey: publicKey.toString("hex"),
+				privateKey: privateKey.toString("hex"),
+			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}

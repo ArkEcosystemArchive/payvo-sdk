@@ -1,14 +1,11 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 import { WIF } from "@payvo/cryptography";
-import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
+import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography-beta";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
 
 @IoC.injectable()
 export class WIFService extends Services.AbstractWIFService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,
@@ -20,7 +17,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: WIF.encode({
 					// Technically this isn't the WIF version but LSK has none.
 					version: this.configRepository.get<number>("network.constants.slip44"),
-					privateKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).privateKey,
+					privateKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).privateKey.toString("hex"),
 					compressed: true,
 				}),
 			};
@@ -52,7 +49,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: WIF.encode({
 					// Technically this isn't the WIF version but LSK has none.
 					version: this.configRepository.get<number>("network.constants.slip44"),
-					privateKey: getPrivateAndPublicKeyFromPassphrase(secret).privateKey,
+					privateKey: getPrivateAndPublicKeyFromPassphrase(secret).privateKey.toString("hex"),
 					compressed: true,
 				}),
 			};

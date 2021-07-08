@@ -1,6 +1,6 @@
 export const identity = {
 	// Standard
-	privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+	privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae6761739b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 	publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 	address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
 	addressLegacy: "8618851503045655226L",

@@ -1,8 +1,7 @@
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/cryptography";
 import { CommHandler, DposLedger, LedgerAccount, SupportedCoin } from "dpos-ledger-api";
-import { getAddressFromPublicKey } from "@liskhq/lisk-cryptography";
-import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography-beta";
+import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography-beta";
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
 
@@ -83,7 +82,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
 				address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
 			} else {
-				address = getAddressFromPublicKey(publicKey);
+				address = getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex"));
 			}
 
 			addresses.push(address);
