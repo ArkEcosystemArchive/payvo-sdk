@@ -41,6 +41,15 @@ const network: Networks.NetworkManifest = {
 	meta: {
 		// @TODO
 		networkId: "da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba",
+		assetIds: {
+			"token:transfer": 0,
+			"keys:registerMultisignatureGroup": 0,
+			"dpos:registerDelegate": 0,
+			"dpos:voteDelegate": 1,
+			"dpos:unlockToken": 2,
+			"dpos:reportDelegateMisbehavior": 3,
+			"legacyAccount:reclaimLSK": 0,
+		},
 		schemas: [
 			{
 				moduleAssetId: "2:0",
