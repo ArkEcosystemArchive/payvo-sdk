@@ -29,7 +29,7 @@ export interface INotification {
 	type: string;
 	action: string;
 	read_at?: number;
-	meta?: Record<string, any>;
+	meta: Record<string, any>;
 }
 
 /**
@@ -42,7 +42,7 @@ export interface ITransactionNotification {
 	id: string;
 	type: string;
 	read_at?: number;
-	meta?: {
+	meta: {
 		timestamp?: number;
 		transactionId: string;
 		walletAddress?: string;

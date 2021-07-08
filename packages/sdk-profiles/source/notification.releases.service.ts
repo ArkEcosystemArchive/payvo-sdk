@@ -28,7 +28,11 @@ export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 
 	/** {@inheritDoc IWalletReleaseNotifications.push} */
 	public push = (notification: INotification) => {
-		if (this.has(notification?.meta?.version)) {
+		if (!notification.meta?.version) {
+			return;
+		}
+
+		if (this.has(notification.meta.version)) {
 			return;
 		}
 
