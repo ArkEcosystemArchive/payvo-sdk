@@ -86,7 +86,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 				address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
 			} else {
 				address = getAddressFromPublicKey(publicKey);
-
 			}
 
 			addresses.push(address);
