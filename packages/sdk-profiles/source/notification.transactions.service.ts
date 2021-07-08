@@ -9,8 +9,10 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	readonly #profile: IProfile;
 	readonly #allowedTypes: string[];
 	readonly #notifications: INotificationRepository;
+	readonly #defaultLimit: number;
 
 	public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
+		this.#defaultLimit = 10;
 		this.#profile = profile;
 		this.#allowedTypes = ["transfer", "multiPayment"];
 		this.#notifications = notificationRepository;
@@ -68,18 +70,18 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	/** {@inheritDoc IProfileTransactionNotifications.forget} */
 	public forget = (transactionId: string): void => {
 		for (const { id, meta } of this.#notifications.values()) {
-			if (transactionId === meta?.transactionId) {
+			if (transactionId === meta.transactionId) {
 				this.#notifications.forget(id);
 			}
 		}
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.recent} */
-	public recent = (limit: number = 10) => {
+	public recent = (limit?: number) => {
 		const notifications = this.#notifications.filterByType(INotificationTypes.Transaction);
-		const sorted = sortByDesc(notifications, (notification) => notification?.meta?.timestamp);
+		const sorted = sortByDesc(notifications, (notification) => notification.meta.timestamp);
 
-		return sorted.slice(0, limit);
+		return sorted.slice(0, limit || this.#defaultLimit);
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.markAsRead} */
@@ -101,7 +103,7 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 				.values()
 				.map((wallet) => wallet.address()),
 			cursor: 1,
-			limit: 10,
+			limit: this.#defaultLimit,
 			...(queryInput && queryInput),
 		};
 

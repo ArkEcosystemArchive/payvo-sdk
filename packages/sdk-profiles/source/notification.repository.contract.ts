@@ -240,7 +240,7 @@ export interface IProfileTransactionNotifications {
 	 * @param {number} limit
 	 * @memberof IProfileTransactionNotifications
 	 */
-	recent(limit: number): INotification[];
+	recent(limit?: number): INotification[];
 
 	/**
 	 * Mark the given transaction notification as read.
