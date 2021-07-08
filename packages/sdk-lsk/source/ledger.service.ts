@@ -1,6 +1,8 @@
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/cryptography";
 import { CommHandler, DposLedger, LedgerAccount, SupportedCoin } from "dpos-ledger-api";
+import { getAddressFromPublicKey } from "@liskhq/lisk-cryptography";
+import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography-beta";
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
 
@@ -31,7 +33,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		const { publicKey } = await this.#getPublicKeyAndAddress(path);
+		const { publicKey } = await this.#getPublicKey(path);
 
 		return publicKey;
 	}
@@ -76,7 +78,16 @@ export class LedgerService extends Services.AbstractLedgerService {
 				coinType: slip44,
 				account: accountIndex,
 			});
-			const { publicKey, address } = await this.#getPublicKeyAndAddress(path);
+
+			const publicKey: string = await this.#getPublicKey(path);
+
+			let address: string;
+			if (options?.useLegacy) {
+				address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
+			} else {
+				address = getAddressFromPublicKey(publicKey);
+
+			}
 
 			addresses.push(address);
 
@@ -96,11 +107,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return this.mapPathsToWallets(addressCache, wallets);
 	}
 
-	async #getPublicKeyAndAddress(path: string): Promise<{
-		publicKey: string;
-		address: string;
-	}> {
-		return this.#transport.getPubKey(this.#getLedgerAccount(path));
+	async #getPublicKey(path: string): Promise<string> {
+		return (await this.#transport.getPubKey(this.#getLedgerAccount(path))).publicKey;
 	}
 
 	#getLedgerAccount(path: string): LedgerAccount {
