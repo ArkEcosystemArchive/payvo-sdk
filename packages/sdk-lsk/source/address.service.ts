@@ -59,9 +59,7 @@ export class AddressService extends Services.AbstractAddressService {
 				return validateBase32Address(address);
 			}
 
-			utils.validateAddress(address);
-
-			return true;
+			return utils.validateAddress(address);
 		} catch {
 			return false;
 		}
