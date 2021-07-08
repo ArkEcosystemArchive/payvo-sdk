@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography-beta";
+import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {

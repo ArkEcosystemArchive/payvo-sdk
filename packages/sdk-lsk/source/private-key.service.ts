@@ -1,5 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography-beta";
+import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
 

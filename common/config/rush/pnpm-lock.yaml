@@ -1207,11 +1207,9 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       '@liskhq/lisk-client': 2.3.1
       '@liskhq/lisk-client-beta': /@liskhq/lisk-client/5.1.1
-      '@liskhq/lisk-cryptography': 2.5.0
-      '@liskhq/lisk-cryptography-beta': /@liskhq/lisk-cryptography/3.1.0
+      '@liskhq/lisk-cryptography': 3.1.0
       '@liskhq/lisk-transactions': 2.3.1
       '@liskhq/lisk-transactions-beta': /@liskhq/lisk-transactions/5.1.1
-      '@liskhq/lisk-validator': 0.6.0
       '@payvo/cryptography': 1.0.0
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
@@ -1253,11 +1251,9 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@liskhq/lisk-client': ^2.0
       '@liskhq/lisk-client-beta': npm:@liskhq/lisk-client@^5.0
-      '@liskhq/lisk-cryptography': ^2.5
-      '@liskhq/lisk-cryptography-beta': npm:@liskhq/lisk-cryptography@^3.0
+      '@liskhq/lisk-cryptography': ^3.0
       '@liskhq/lisk-transactions': ^2.0
       '@liskhq/lisk-transactions-beta': npm:@liskhq/lisk-transactions@^5.0
-      '@liskhq/lisk-validator': ~0.6.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
@@ -3738,20 +3734,6 @@ packages:
       sodium-native: 2.4.6
     resolution:
       integrity: sha512-NMcUtRcZEyA71NuokGvl2ApXafhEe5Y8z+xdCFjhU1tt7RExmqik4JQ3pCNyvqBVKI7lVlg284zk03idjbmR5w==
-  /@liskhq/lisk-cryptography/2.5.0:
-    dependencies:
-      buffer-reverse: 1.0.1
-      ed2curve: 0.3.0
-      tweetnacl: 1.0.3
-      varuint-bitcoin: 1.1.2
-    dev: false
-    engines:
-      node: '>=12.13.0 <=12'
-      npm: '>=6.12.0'
-    optionalDependencies:
-      sodium-native: 2.4.6
-    resolution:
-      integrity: sha512-ZqRUd148gsz6e4gjWvViGJg79EU3on7sOB7cr3DJtImIxO5uiJyzen4lxVX1GF9f1xBn8RPmiDtHkZF4wEVkFg==
   /@liskhq/lisk-cryptography/3.1.0:
     dependencies:
       buffer-reverse: 1.0.1
