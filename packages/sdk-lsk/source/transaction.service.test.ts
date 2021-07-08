@@ -33,9 +33,9 @@ describe("TransactionService", () => {
 			{
 				to: identity.address,
 			},
-			{
-				to: identity.addressLegacy,
-			},
+			// {
+			// 	to: identity.addressLegacy,
+			// },
 		])("should create for %s", async ({ to }) => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
