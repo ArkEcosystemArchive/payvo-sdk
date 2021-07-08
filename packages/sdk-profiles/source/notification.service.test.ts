@@ -9,10 +9,10 @@ import { Profile } from "./profile";
 import { ProfileNotifications } from "./notification.service";
 import { ProfileTransactionNotifications } from "./notification.transactions.service";
 import { WalletReleaseNotifications } from "./notification.releases.service";
-import { INotificationTypes, ITransactionNotification } from "./notification.repository.contract";
+import { INotificationTypes } from "./notification.repository.contract";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 
-const defaultTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
+const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
 
 let subject: ProfileNotifications;
 
@@ -56,10 +56,13 @@ test("#markAsRead", async () => {
 	expect(subject.hasUnread()).toBeFalse();
 	await subject.transactions().sync({});
 
-	const notification = subject.transactions().findByTransactionId(defaultTransactionNotificationId);
 	expect(subject.hasUnread()).toBeTrue();
 
+	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 	subject.markAsRead(notification?.id as string);
+
+	const notification2 = subject.transactions().findByTransactionId(NotificationTransactionFixtures.data[2].id);
+	subject.markAsRead(notification2?.id as string);
 
 	expect(subject.hasUnread()).toBeFalse();
 });
@@ -68,7 +71,7 @@ test("#get", async () => {
 	expect(subject.hasUnread()).toBeFalse();
 	await subject.transactions().sync({});
 
-	const notification = subject.transactions().findByTransactionId(defaultTransactionNotificationId);
+	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 
 	expect(subject.get(notification?.id!).meta).toEqual(notification?.meta!);
 });
@@ -76,7 +79,7 @@ test("#get", async () => {
 test("#filterByType", async () => {
 	await subject.transactions().sync({});
 
-	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(1);
+	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(2);
 });
 
 test("#hasUnread", async () => {
