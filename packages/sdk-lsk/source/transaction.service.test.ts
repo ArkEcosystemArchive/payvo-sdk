@@ -29,7 +29,14 @@ beforeAll(async () => {
 
 describe("TransactionService", () => {
 	describe.only("#transfer", () => {
-		it.each(["lsk.mainnet", "lsk.testnet"])("should create for %s", async (network) => {
+		it.each([
+			{
+				to: identity.address,
+			},
+			{
+				to: identity.addressLegacy,
+			},
+		])("should create for %s", async ({ to }) => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
@@ -41,7 +48,7 @@ describe("TransactionService", () => {
 				),
 				data: {
 					amount: 1,
-					to: identity.address,
+					to,
 				},
 			});
 

@@ -10,6 +10,8 @@ import {
 	transfer,
 	utils,
 } from "@liskhq/lisk-transactions";
+import { validateBase32Address } from "@liskhq/lisk-cryptography";
+import { signTransaction } from "@liskhq/lisk-transactions-beta";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -33,6 +35,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
+		if (validateBase32Address(input.data.to)) {
+			return this.#createFromDataWithBeta("transfer", {
+				...input,
+				data: {
+					amount: this.toSatoshi(input.data.amount).toString(),
+					recipientId: input.data.to,
+					data: input.data.memo,
+				},
+			});
+		}
+
 		return this.#createFromData("transfer", {
 			...input,
 			data: {
@@ -88,7 +101,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		input: Contracts.KeyValuePair,
 		callback?: Function,
 	): Promise<Contracts.SignedTransactionData> {
-		try {
+		// try {
 			const struct: Contracts.KeyValuePair = { ...input.data };
 
 			struct.networkIdentifier = this.#network;
@@ -96,6 +109,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			if (callback) {
 				callback({ struct });
 			}
+
+			console.log(struct)
 
 			const transactionSigner = {
 				transfer,
@@ -151,8 +166,65 @@ export class TransactionService extends Services.AbstractTransactionService {
 				signedTransaction,
 				signedTransaction,
 			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error);
-		}
+		// } catch (error) {
+		// 	throw new Exceptions.CryptoException(error);
+		// }
+	}
+
+	async #createFromDataWithBeta(
+		type: string,
+		input: Contracts.KeyValuePair,
+		callback?: Function,
+	): Promise<Contracts.SignedTransactionData> {
+		const signedTransaction: any = signTransaction(
+			{
+				"$id": "lisk/transfer-asset",
+				"title": "Transfer transaction asset",
+				"type": "object",
+				"required": [
+					[
+						"amount",
+						"recipientAddress",
+						"data"
+					]
+				],
+				"properties": {
+					"amount": {
+						"dataType": "uint64",
+						"fieldNumber": 1
+					},
+					"recipientAddress": {
+						"dataType": "bytes",
+						"fieldNumber": 2,
+						"minLength": 20,
+						"maxLength": 20
+					},
+					"data": {
+						"dataType": "bytes",
+						"fieldNumber": 3,
+						"minLength": 0,
+						"maxLength": 64
+					}
+				}
+			},
+			{
+				amount: input.data.amount,
+				recipientAddress: input.data.recipientId,
+				data: input.data.data,
+				moduleID: "2:0",
+				assetID: "",
+				nonce: "",
+				fee: 1e8,
+				senderPublicKey: input.signatory.publicKey(),
+			},
+			Buffer.from("01e47ba4e3e57981642150f4b45f64c2160c10bac9434339888210a4fa5df097", "hex"),
+			input.signatory.signingKey(),
+		);
+
+		return this.dataTransferObjectService.signedTransaction(
+			signedTransaction.id,
+			signedTransaction,
+			signedTransaction,
+		);
 	}
 }
