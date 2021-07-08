@@ -102,70 +102,70 @@ export class TransactionService extends Services.AbstractTransactionService {
 		callback?: Function,
 	): Promise<Contracts.SignedTransactionData> {
 		// try {
-			const struct: Contracts.KeyValuePair = { ...input.data };
+		const struct: Contracts.KeyValuePair = { ...input.data };
 
-			struct.networkIdentifier = this.#network;
+		struct.networkIdentifier = this.#network;
 
-			if (callback) {
-				callback({ struct });
-			}
+		if (callback) {
+			callback({ struct });
+		}
 
-			console.log(struct)
+		console.log(struct);
 
-			const transactionSigner = {
-				transfer,
-				registerSecondPassphrase,
-				registerDelegate,
-				castVotes,
-				registerMultisignature,
-			}[type]!;
+		const transactionSigner = {
+			transfer,
+			registerSecondPassphrase,
+			registerDelegate,
+			castVotes,
+			registerMultisignature,
+		}[type]!;
 
-			if (input.signatory.actsWithLedger()) {
-				await this.ledgerService.connect(LedgerTransportNodeHID);
+		if (input.signatory.actsWithLedger()) {
+			await this.ledgerService.connect(LedgerTransportNodeHID);
 
-				const structTransaction = transactionSigner(struct as any) as unknown as TransactionJSON;
+			const structTransaction = transactionSigner(struct as any) as unknown as TransactionJSON;
+			// @ts-ignore - LSK uses JS so they don't encounter these type errors
+			structTransaction.senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
+
+			if (!structTransaction.recipientId) {
 				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
-
-				if (!structTransaction.recipientId) {
-					// @ts-ignore - LSK uses JS so they don't encounter these type errors
-					structTransaction.recipientId = (
-						await this.addressService.fromPublicKey(structTransaction.senderPublicKey)
-					).address;
-				}
-
-				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.signature = await this.ledgerService.signTransaction(
-					input.signatory.signingKey(),
-					utils.getTransactionBytes(structTransaction),
-				);
-				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.id = utils.getTransactionId(structTransaction as any);
-
-				await this.ledgerService.disconnect();
-
-				return this.dataTransferObjectService.signedTransaction(
-					structTransaction.id,
-					structTransaction,
-					structTransaction,
-				);
+				structTransaction.recipientId = (
+					await this.addressService.fromPublicKey(structTransaction.senderPublicKey)
+				).address;
 			}
 
-			if (input.signatory.signingKey()) {
-				struct.passphrase = input.signatory.signingKey();
-			}
+			// @ts-ignore - LSK uses JS so they don't encounter these type errors
+			structTransaction.signature = await this.ledgerService.signTransaction(
+				input.signatory.signingKey(),
+				utils.getTransactionBytes(structTransaction),
+			);
+			// @ts-ignore - LSK uses JS so they don't encounter these type errors
+			structTransaction.id = utils.getTransactionId(structTransaction as any);
 
-			if (input.signatory.actsWithSecondaryMnemonic()) {
-				struct.secondPassphrase = input.signatory.confirmKey();
-			}
-
-			const signedTransaction: any = transactionSigner(struct as any);
+			await this.ledgerService.disconnect();
 
 			return this.dataTransferObjectService.signedTransaction(
-				signedTransaction.id,
-				signedTransaction,
-				signedTransaction,
+				structTransaction.id,
+				structTransaction,
+				structTransaction,
 			);
+		}
+
+		if (input.signatory.signingKey()) {
+			struct.passphrase = input.signatory.signingKey();
+		}
+
+		if (input.signatory.actsWithSecondaryMnemonic()) {
+			struct.secondPassphrase = input.signatory.confirmKey();
+		}
+
+		const signedTransaction: any = transactionSigner(struct as any);
+
+		return this.dataTransferObjectService.signedTransaction(
+			signedTransaction.id,
+			signedTransaction,
+			signedTransaction,
+		);
 		// } catch (error) {
 		// 	throw new Exceptions.CryptoException(error);
 		// }
@@ -178,34 +178,28 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<Contracts.SignedTransactionData> {
 		const signedTransaction: any = signTransaction(
 			{
-				"$id": "lisk/transfer-asset",
-				"title": "Transfer transaction asset",
-				"type": "object",
-				"required": [
-					[
-						"amount",
-						"recipientAddress",
-						"data"
-					]
-				],
-				"properties": {
-					"amount": {
-						"dataType": "uint64",
-						"fieldNumber": 1
+				$id: "lisk/transfer-asset",
+				title: "Transfer transaction asset",
+				type: "object",
+				required: [["amount", "recipientAddress", "data"]],
+				properties: {
+					amount: {
+						dataType: "uint64",
+						fieldNumber: 1,
 					},
-					"recipientAddress": {
-						"dataType": "bytes",
-						"fieldNumber": 2,
-						"minLength": 20,
-						"maxLength": 20
+					recipientAddress: {
+						dataType: "bytes",
+						fieldNumber: 2,
+						minLength: 20,
+						maxLength: 20,
 					},
-					"data": {
-						"dataType": "bytes",
-						"fieldNumber": 3,
-						"minLength": 0,
-						"maxLength": 64
-					}
-				}
+					data: {
+						dataType: "bytes",
+						fieldNumber: 3,
+						minLength: 0,
+						maxLength: 64,
+					},
+				},
 			},
 			{
 				amount: input.data.amount,

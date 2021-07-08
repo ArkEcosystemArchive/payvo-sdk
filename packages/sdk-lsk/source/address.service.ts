@@ -1,5 +1,11 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { getLegacyAddressFromPassphrase, getLegacyAddressFromPublicKey, getLisk32AddressFromPassphrase, getLisk32AddressFromPublicKey, validateBase32Address } from "@liskhq/lisk-cryptography";
+import {
+	getLegacyAddressFromPassphrase,
+	getLegacyAddressFromPublicKey,
+	getLisk32AddressFromPassphrase,
+	getLisk32AddressFromPublicKey,
+	validateBase32Address,
+} from "@liskhq/lisk-cryptography";
 import { utils } from "@liskhq/lisk-transactions";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
