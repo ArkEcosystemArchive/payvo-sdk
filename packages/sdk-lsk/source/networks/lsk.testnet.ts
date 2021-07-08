@@ -22,7 +22,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "explorer",
-			host: "https://testnet-explorer.lisk.io",
+			host: "https://ams1-testnet-explorer-001.lisk.io/",
 		},
 	],
 	governance: {
@@ -33,7 +33,11 @@ const network: Networks.NetworkManifest = {
 	transactions,
 	importMethods,
 	featureFlags,
-	explorer,
+	explorer: {
+		block: "block/{0}",
+		transaction: "tx/{0}",
+		wallet: "address/{0}",
+	},
 	meta: {
 		// @TODO
 		networkId: "da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba",

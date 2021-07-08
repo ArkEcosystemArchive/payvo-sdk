@@ -82,7 +82,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "explorer",
-			host: "https://explorer.lisk.io",
+			host: "https://liskscan.com/",
 		},
 	],
 	governance: {
@@ -93,7 +93,11 @@ const network: Networks.NetworkManifest = {
 	transactions,
 	importMethods,
 	featureFlags,
-	explorer,
+	explorer: {
+		block: "block/{0}",
+		transaction: "transaction/{0}",
+		wallet: "account/{0}",
+	},
 	meta: {
 		// @TODO
 		networkId: "ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511",
