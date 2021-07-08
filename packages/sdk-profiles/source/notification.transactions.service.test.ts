@@ -13,7 +13,8 @@ import { IProfile } from "./profile.contract";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 
-const defaultTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
+const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
+const excludedTransactionNotificationId = NotificationTransactionFixtures.data[3].id;
 
 let notificationsRepository: NotificationRepository;
 let subject: IProfileTransactionNotifications;
@@ -50,65 +51,74 @@ beforeEach(async () => {
 
 test("#recent", async () => {
 	await subject.sync({ limit: 20 });
-	expect(subject.recent(10)).toHaveLength(1);
+
+	expect(subject.recent()).toHaveLength(2);
+	expect(subject.recent(10)).toHaveLength(2);
 
 	await subject.sync();
-	expect(subject.recent(10)).toHaveLength(1);
-	expect(subject.recent()).toHaveLength(1);
+	expect(subject.recent(1)).toHaveLength(1);
+});
+
+test("#sync", async () => {
+	await subject.sync({ limit: 10 });
+
+	expect(subject.has(excludedTransactionNotificationId)).toBeFalse();
+	expect(subject.has(includedTransactionNotificationId)).toBeTrue();
 });
 
 test("#has", async () => {
 	await subject.sync();
 
-	expect(subject.has(NotificationTransactionFixtures.data[0].id)).toBeFalse();
-	expect(subject.has(defaultTransactionNotificationId)).toBeTrue();
+	expect(subject.has(excludedTransactionNotificationId)).toBeFalse();
+	expect(subject.has(includedTransactionNotificationId)).toBeTrue();
 });
 
 test("#findByTransactionId", async () => {
 	await subject.sync();
 
-	expect(subject.findByTransactionId(defaultTransactionNotificationId)).toBeTruthy();
+	expect(subject.findByTransactionId(includedTransactionNotificationId)).toBeTruthy();
 	expect(subject.findByTransactionId("unknown")).toBeUndefined();
 });
 
 test("#forget", async () => {
 	await subject.sync();
 
-	expect(subject.findByTransactionId(defaultTransactionNotificationId)).toBeTruthy();
+	expect(subject.findByTransactionId(includedTransactionNotificationId)).toBeTruthy();
 
 	subject.forget("unknown");
-	subject.forget(defaultTransactionNotificationId);
+	subject.forget(includedTransactionNotificationId);
 
-	expect(subject.findByTransactionId(defaultTransactionNotificationId)).toBeUndefined();
+	expect(subject.findByTransactionId(includedTransactionNotificationId)).toBeUndefined();
 });
 
 test("#markAsRead", async () => {
 	await subject.sync({ limit: 20 });
 
-	const notification = subject.findByTransactionId(defaultTransactionNotificationId);
+	const notification = subject.findByTransactionId(includedTransactionNotificationId);
 	expect(notification?.read_at).toBeUndefined();
 
 	subject.markAsRead("unknown");
-	subject.markAsRead(defaultTransactionNotificationId);
+	subject.markAsRead(includedTransactionNotificationId);
 
-	expect(subject.findByTransactionId(defaultTransactionNotificationId)?.read_at).toBeTruthy();
+	expect(subject.findByTransactionId(includedTransactionNotificationId)?.read_at).toBeTruthy();
 });
 
 test("should handle undefined timestamp", async () => {
 	const transactions = await profile.transactionAggregate().received({ limit: 10 });
-	const transaction = transactions.findById(defaultTransactionNotificationId) as ExtendedConfirmedTransactionData;
+	const transaction = transactions.findById(
+		NotificationTransactionFixtures.data[2].id,
+	) as ExtendedConfirmedTransactionData;
 
 	jest.spyOn(transaction, "timestamp").mockReturnValue(undefined);
 	jest.spyOn(profile.transactionAggregate(), "received").mockResolvedValue(transactions);
 
 	await subject.sync();
-	expect(subject.recent(10)).toHaveLength(1);
-	expect(subject.recent()).toHaveLength(1);
-
+	expect(subject.recent(10)).toHaveLength(2);
+	expect(subject.recent()).toHaveLength(2);
+	//
 	jest.restoreAllMocks();
 
 	await subject.sync();
-	expect(subject.recent(10)).toHaveLength(1);
-	expect(subject.recent()).toHaveLength(1);
+	expect(subject.recent(10)).toHaveLength(2);
+	expect(subject.recent()).toHaveLength(2);
 });
-

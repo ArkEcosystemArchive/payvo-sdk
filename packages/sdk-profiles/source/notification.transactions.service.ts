@@ -3,7 +3,7 @@ import { sortByDesc } from "@arkecosystem/utils";
 import { Except } from "type-fest";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 import { AggregateQuery } from "./transaction.aggregate.contract";
-import { INotification, INotificationRepository } from "./notification.repository.contract";
+import { INotificationRepository } from "./notification.repository.contract";
 
 export class ProfileTransactionNotifications implements IProfileTransactionNotifications {
 	readonly #profile: IProfile;
