@@ -37,8 +37,7 @@
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-http": "workspace:*",
-		"dpos-ledger-api": "^3.0.1",
-		"@liskhq/lisk-validator": "~0.6.0"
+		"dpos-ledger-api": "^3.0.1"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^5.50.0",
