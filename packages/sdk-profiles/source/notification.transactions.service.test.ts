@@ -111,4 +111,3 @@ test("should handle undefined timestamp", async () => {
 	expect(subject.recent(10)).toHaveLength(1);
 	expect(subject.recent()).toHaveLength(1);
 });
-
