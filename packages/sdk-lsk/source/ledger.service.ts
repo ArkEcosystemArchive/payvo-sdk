@@ -79,10 +79,15 @@ export class LedgerService extends Services.AbstractLedgerService {
 			const publicKey: string = await this.getPublicKey(path);
 
 			let address: string;
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
-				address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
-			} else {
+
+			if (options?.useLegacy) {
 				address = getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex"));
+			} else {
+				if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+					address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
+				} else {
+					address = getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex"));
+				}
 			}
 
 			addresses.push(address);
