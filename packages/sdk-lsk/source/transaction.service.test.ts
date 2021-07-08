@@ -41,9 +41,9 @@ describe("TransactionService", () => {
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
-						address: "15957226662510576840L",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
+						address: identity.addressLegacy,
+						publicKey: identity.publicKey,
+						privateKey: identity.privateKey,
 					}),
 				),
 				data: {

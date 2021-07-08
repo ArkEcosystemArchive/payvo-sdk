@@ -10,8 +10,9 @@ import {
 	transfer,
 	utils,
 } from "@liskhq/lisk-transactions";
-import { validateBase32Address } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address, validateBase32Address } from "@liskhq/lisk-cryptography";
 import { signTransaction } from "@liskhq/lisk-transactions-beta";
+import { convertLSKToBeddows } from "@liskhq/lisk-transactions/dist-node/utils";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -176,49 +177,65 @@ export class TransactionService extends Services.AbstractTransactionService {
 		input: Contracts.KeyValuePair,
 		callback?: Function,
 	): Promise<Contracts.SignedTransactionData> {
-		const signedTransaction: any = signTransaction(
-			{
-				$id: "lisk/transfer-asset",
-				title: "Transfer transaction asset",
-				type: "object",
-				required: [["amount", "recipientAddress", "data"]],
-				properties: {
-					amount: {
-						dataType: "uint64",
-						fieldNumber: 1,
-					},
-					recipientAddress: {
-						dataType: "bytes",
-						fieldNumber: 2,
-						minLength: 20,
-						maxLength: 20,
-					},
-					data: {
-						dataType: "bytes",
-						fieldNumber: 3,
-						minLength: 0,
-						maxLength: 64,
+		try {
+			const signedTransaction: any = signTransaction(
+				{
+					$id: "lisk/transfer-asset",
+					title: "Transfer transaction asset",
+					type: "object",
+					required: ["amount", "recipientAddress", "data"],
+					properties: {
+						amount: {
+							dataType: "uint64",
+							fieldNumber: 1,
+						},
+						recipientAddress: {
+							dataType: "bytes",
+							fieldNumber: 2,
+							minLength: 20,
+							maxLength: 20,
+						},
+						data: {
+							dataType: "string",
+							fieldNumber: 3,
+							minLength: 0,
+							maxLength: 64,
+						},
 					},
 				},
-			},
-			{
-				amount: input.data.amount,
-				recipientAddress: input.data.recipientId,
-				data: input.data.data,
-				moduleID: 2,
-				assetID: 0,
-				nonce: 1,
-				fee: 1e8.toString(),
-				senderPublicKey: input.signatory.publicKey(),
-			},
-			Buffer.from("01e47ba4e3e57981642150f4b45f64c2160c10bac9434339888210a4fa5df097", "hex"),
-			input.signatory.signingKey(),
-		);
+				{
+					moduleID: 2,
+					assetID: 0,
+					nonce: BigInt(1),
+					fee: BigInt(convertLSKToBeddows("0.1")),
+					senderPublicKey: Buffer.from(input.signatory.publicKey(), "hex"),
+					asset: {
+						amount: BigInt(input.data.amount),
+						recipientAddress: getAddressFromBase32Address(input.data.recipientId),
+						data: input.data.data || '',
+					},
+				},
+				Buffer.from("01e47ba4e3e57981642150f4b45f64c2160c10bac9434339888210a4fa5df097", "hex"),
+				input.signatory.signingKey(),
+			);
 
-		return this.dataTransferObjectService.signedTransaction(
-			signedTransaction.id,
-			signedTransaction,
-			signedTransaction,
-		);
+			console.log(signedTransaction);
+
+			// senderId
+			// recipientId
+			// amount
+			// fee
+			// timestamp
+
+			return this.dataTransferObjectService.signedTransaction(
+				signedTransaction.id,
+				signedTransaction,
+				signedTransaction,
+			);
+		} catch (error) {
+			// console.log(error)
+
+			throw error;
+		}
 	}
 }
