@@ -136,8 +136,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				);
 			}
 
-			// todo: support multisignature
-
 			if (input.signatory.signingKey()) {
 				struct.passphrase = input.signatory.signingKey();
 			}

@@ -28,7 +28,7 @@ beforeAll(async () => {
 });
 
 describe("TransactionService", () => {
-	describe("#transfer", () => {
+	describe.only("#transfer", () => {
 		it.each(["lsk.mainnet", "lsk.testnet"])("should create for %s", async (network) => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
