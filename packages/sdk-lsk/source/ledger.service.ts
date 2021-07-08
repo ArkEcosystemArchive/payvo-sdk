@@ -33,9 +33,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		const { publicKey } = await this.#getPublicKey(path);
-
-		return publicKey;
+		return (await this.#transport.getPubKey(this.#getLedgerAccount(path))).publicKey;
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
@@ -79,7 +77,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 				account: accountIndex,
 			});
 
-			const publicKey: string = await this.#getPublicKey(path);
+			const publicKey: string = await this.getPublicKey(path);
 
 			let address: string;
 			if (options?.useLegacy) {
@@ -104,10 +102,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 		// Return a mapping of paths and wallets that have been found.
 		return this.mapPathsToWallets(addressCache, wallets);
-	}
-
-	async #getPublicKey(path: string): Promise<string> {
-		return (await this.#transport.getPubKey(this.#getLedgerAccount(path))).publicKey;
 	}
 
 	#getLedgerAccount(path: string): LedgerAccount {
