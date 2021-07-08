@@ -57,5 +57,6 @@ export enum ConfigKey {
 	KnownWallets = "network.knownWallets",
 	Network = "network",
 	NetworkId = "network.id",
+	NetworkType = "network.type",
 	Slip44 = "network.constants.slip44",
 }

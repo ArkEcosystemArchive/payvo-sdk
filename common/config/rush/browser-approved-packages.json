@@ -119,6 +119,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@liskhq/lisk-validator",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/cryptography",
       "allowedCategories": [ "libraries" ]
     },

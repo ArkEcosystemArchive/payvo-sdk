@@ -1,12 +1,17 @@
 /* istanbul ignore file */
 
+import { ConfigRepository } from "../coins";
 import { NotImplemented } from "../exceptions";
-import { injectable } from "../ioc";
+import { inject, injectable } from "../ioc";
+import { BindingType } from "../ioc/service-provider.contract";
 import { AddressDataTransferObject, AddressService } from "./address.contract";
 import { IdentityOptions } from "./shared.contract";
 
 @injectable()
 export class AbstractAddressService implements AddressService {
+	@inject(BindingType.ConfigRepository)
+	protected readonly configRepository!: ConfigRepository;
+
 	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}

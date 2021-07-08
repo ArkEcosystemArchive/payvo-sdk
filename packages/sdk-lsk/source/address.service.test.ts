@@ -1,11 +1,18 @@
 import "jest-extended";
 
+import { IoC } from "@payvo/sdk";
+
+import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 
 let subject: AddressService;
 
-beforeEach(async () => (subject = new AddressService()));
+beforeAll(() => {
+	subject = createService(AddressService, undefined, (container) => {
+		container.constant(IoC.BindingType.Container, container);
+	});
+});
 
 describe("Address", () => {
 	it("should generate an output from a mnemonic", async () => {
