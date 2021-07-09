@@ -3,7 +3,6 @@ import {
 	IProfileTransactionNotifications,
 	IProfileNotifications,
 	INotificationRepository,
-	INotification,
 	INotificationType,
 	IWalletReleaseNotifications,
 } from "./notification.repository.contract";
@@ -34,22 +33,42 @@ export class ProfileNotifications implements IProfileNotifications {
 	};
 
 	/** {@inheritDoc IProfileNotifications.markAsRead} */
-	public markAsRead = (key: string): void => {
-		return this.#notificationRepository.markAsRead(key);
+	public markAsRead = (id: string): void => {
+		return this.#notificationRepository.markAsRead(id);
 	};
 
 	/** {@inheritDoc IProfileNotifications.get} */
-	public get = (key: string): INotification => {
-		return this.#notificationRepository.get(key);
+	public get = (id: string) => {
+		return this.#notificationRepository.get(id);
 	};
 
 	/** {@inheritDoc IProfileNotifications.hasUnread} */
-	public hasUnread = (): Boolean => {
+	public hasUnread = (): boolean => {
 		return this.#notificationRepository.unread().length > 0;
 	};
 
 	/** {@inheritDoc IProfileNotifications.filterByType} */
-	public filterByType = (type: INotificationType): INotification[] => {
+	public filterByType = (type: INotificationType) => {
 		return this.#notificationRepository.filterByType(type);
+	};
+
+	/** {@inheritDoc IProfileNotifications.all} */
+	public all = () => {
+		return this.#notificationRepository.all();
+	};
+
+	/** {@inheritDoc IProfileNotifications.count} */
+	public count = () => {
+		return this.#notificationRepository.count();
+	};
+
+	/** {@inheritDoc IProfileNotifications.flush} */
+	public flush = () => {
+		return this.#notificationRepository.flush();
+	};
+
+	/** {@inheritDoc IProfileNotifications.filll} */
+	public fill = (entries: object) => {
+		return this.#notificationRepository.fill(entries);
 	};
 }
