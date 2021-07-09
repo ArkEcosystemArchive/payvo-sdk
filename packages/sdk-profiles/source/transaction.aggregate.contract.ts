@@ -1,7 +1,7 @@
 import { Contracts, Services } from "@payvo/sdk";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-type AggregateQuery = {
+export type AggregateQuery = {
 	addresses?: string[];
 } & Services.ClientPagination;
 
