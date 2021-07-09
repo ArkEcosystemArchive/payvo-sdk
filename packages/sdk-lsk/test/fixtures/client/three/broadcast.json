@@ -1,0 +1,4 @@
+{
+	"message": "Transaction payload was successfully passed to the network node",
+	"transactionId": "123456789"
+}

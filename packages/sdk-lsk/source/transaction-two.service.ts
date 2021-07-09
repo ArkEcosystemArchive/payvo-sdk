@@ -12,7 +12,7 @@ import {
 } from "@liskhq/lisk-transactions";
 
 @IoC.injectable()
-export class TransactionServiceTwo extends Services.AbstractTransactionService {
+export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
 	private readonly ledgerService!: Services.LedgerService;
 

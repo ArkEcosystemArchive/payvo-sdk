@@ -8,17 +8,40 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override address(): string {
-		return this.data.address || this.data.account?.address;
+		if (this.data.address) {
+			return this.data.address;
+		}
+
+		if (this.data.account?.address) {
+			return this.data.account?.address;
+		}
+
+		return this.data.summary.address;
 	}
 
 	public override publicKey(): string {
-		return this.data.publicKey || this.data.account?.publicKey;
+		if (this.data.publicKey) {
+			return this.data.publicKey;
+		}
+
+		if (this.data.account?.publicKey) {
+			return this.data.account?.publicKey;
+		}
+
+		return this.data.summary.publicKey;
 	}
 
 	public override balance(): Contracts.WalletBalance {
+		if (this.data.balance) {
+			return {
+				available: this.bigNumberService.make(this.data.balance),
+				fees: this.bigNumberService.make(this.data.balance),
+			};
+		}
+
 		return {
-			available: this.bigNumberService.make(this.data.balance || this.data.token.balance),
-			fees: this.bigNumberService.make(this.data.balance || this.data.token.balance),
+			available: this.bigNumberService.make(this.data.summary.balance),
+			fees: this.bigNumberService.make(this.data.summary.balance),
 		};
 	}
 
@@ -31,15 +54,43 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override username(): string | undefined {
-		return this.data.username || this.data.delegate?.username || this.data.dpos.delegate.username;
+		if (this.data.username) {
+			return this.data.username;
+		}
+
+		if (this.data.account?.username) {
+			return this.data.account?.username;
+		}
+
+		return this.data.summary.username;
 	}
 
 	public override rank(): number | undefined {
-		return this.data.rank || this.data.delegate?.rank;
+		if (this.data.rank) {
+			return this.data.rank;
+		}
+
+		if (this.data.delegate?.rank) {
+			return this.data.delegate?.rank;
+		}
+
+		return this.data.dpos.delegate.rank;
 	}
 
 	public override votes(): BigNumber | undefined {
-		return BigNumber.make(this.data.vote || this.data.delegate?.vote || this.data.dpos.delegate.totalVotesReceived);
+		if (this.data.rank) {
+			return BigNumber.make(this.data.rank);
+		}
+
+		if (this.data.delegate?.vote) {
+			return BigNumber.make(this.data.delegate?.vote);
+		}
+
+		if (this.data.dpos.delegate.totalVotesReceived) {
+			return BigNumber.make(this.data.dpos.delegate.totalVotesReceived);
+		}
+
+		return BigNumber.ZERO;
 	}
 
 	public multiSignature(): Contracts.WalletMultiSignature {
@@ -51,7 +102,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isDelegate(): boolean {
-		return !!this.data.delegate || !!this.data.dpos.delegate.username;
+		return !!this.data.delegate || !!this.data.isDelegate;
 	}
 
 	public override isResignedDelegate(): boolean {
@@ -59,7 +110,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isMultiSignature(): boolean {
-		return false;
+		return this.data.summary.isMultisignature;
 	}
 
 	public override isSecondSignature(): boolean {

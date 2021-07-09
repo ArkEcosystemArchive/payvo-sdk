@@ -1,0 +1,20 @@
+{
+	"data": {
+		"account": {
+			"address": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+			"username": "punkrock",
+			"votesUsed": 1
+		},
+		"votes": [
+			{
+				"address": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+				"amount": "307554000000000",
+				"username": "punkrock"
+			}
+		]
+	},
+	"meta": {
+		"count": 1,
+		"total": 1
+	}
+}
