@@ -11,6 +11,7 @@ import { Wallet } from "./wallet";
 import { TransactionService } from "./wallet-transaction.service";
 import { IProfile, IReadWriteWallet, ProfileSetting, WalletData } from "./contracts";
 import { Signatories } from "@payvo/sdk";
+import { BigNumber } from "@payvo/helpers";
 
 let profile: IProfile;
 let wallet: IReadWriteWallet;
@@ -221,7 +222,10 @@ describe("signatures", () => {
 				}),
 			),
 			data: {
-				votes: ["03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec"],
+				votes: [{
+					id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+					amount: BigNumber.ZERO,
+				}],
 				unvotes: [],
 			},
 		};

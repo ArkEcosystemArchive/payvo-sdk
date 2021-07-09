@@ -15,6 +15,7 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 import { identity } from "../test/fixtures/identity";
+import { BigNumber } from "@payvo/helpers";
 
 let subject: TransactionService;
 
@@ -188,8 +189,14 @@ describe("TransactionService", () => {
 					}),
 				),
 				data: {
-					votes: ["03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec"],
-					unvotes: ["03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621ded"],
+					votes: [{
+						id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+						amount: BigNumber.ZERO,
+					}],
+					unvotes: [{
+						id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621ded",
+						amount: BigNumber.ZERO,
+					}],
 				},
 			});
 
