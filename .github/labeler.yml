@@ -35,10 +35,6 @@ test:
     - packages/sdk-cli/*
     - packages/sdk-cli/**/*
 
-"Domain: Crypto":
-    - packages/sdk-crypto/*
-    - packages/sdk-crypto/**/*
-
 "Domain: DOT":
     - packages/sdk-dot/*
     - packages/sdk-dot/**/*
@@ -67,17 +63,9 @@ test:
     - packages/sdk-lsk/*
     - packages/sdk-lsk/**/*
 
-"Domain: Markets":
-    - packages/sdk-markets/*
-    - packages/sdk-markets/**/*
-
 "Domain: NEO":
     - packages/sdk-neo/*
     - packages/sdk-neo/**/*
-
-"Domain: News":
-    - packages/sdk-news/*
-    - packages/sdk-news/**/*
 
 "Domain: Profiles":
     - packages/sdk-profiles/*
@@ -86,14 +74,6 @@ test:
 "Domain: SOL":
     - packages/sdk-sol/*
     - packages/sdk-sol/**/*
-
-"Domain: JSPN-RPC":
-    - packages/sdk-json-rpc/*
-    - packages/sdk-json-rpc/**/*
-
-"Domain: Support":
-    - packages/sdk-support/*
-    - packages/sdk-support/**/*
 
 "Domain: TRX":
     - packages/sdk-trx/*

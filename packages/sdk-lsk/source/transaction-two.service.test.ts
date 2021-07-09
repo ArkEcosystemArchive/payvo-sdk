@@ -11,6 +11,7 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction-two.service";
+import { BigNumber } from "@payvo/helpers";
 
 let subject: TransactionService;
 
@@ -102,7 +103,10 @@ describe("TransactionService", () => {
 					}),
 				),
 				data: {
-					votes: ["9d3058175acab969f41ad9b86f7a2926c74258670fe56b37c429c01fca9f2f0f"],
+					votes: [{
+						id: "9d3058175acab969f41ad9b86f7a2926c74258670fe56b37c429c01fca9f2f0f",
+						amount: BigNumber.ZERO,
+					}],
 					unvotes: [],
 				},
 			});
