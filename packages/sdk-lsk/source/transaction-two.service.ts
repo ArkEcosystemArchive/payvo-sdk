@@ -10,6 +10,7 @@ import {
 	transfer,
 	utils,
 } from "@liskhq/lisk-transactions";
+import { BigNumber } from "@payvo/helpers";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -60,21 +61,23 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		const data: any = {
+		const mapVotes = (votes: { id: string; amount: BigNumber; }[]) => {
+			const result: string[] = [];
+
+			for (const vote of votes) {
+				result.push(vote.id);
+			}
+
+			return result;
+		}
+
+		return this.#createFromData("castVotes", {
 			...input,
-			votes: [],
-			unvotes: [],
-		};
-
-		for (const vote of input.data.votes) {
-			data.votes.push(`+${vote.id}`);
-		}
-
-		for (const unvote of input.data.unvotes) {
-			data.unvotes.push(`-${unvote.id}`);
-		}
-
-		return this.#createFromData("castVotes", data);
+			data: {
+				votes: mapVotes(input.data.votes),
+				unvotes: mapVotes(input.data.unvotes),
+			}
+		});
 	}
 
 	public override async multiSignature(
