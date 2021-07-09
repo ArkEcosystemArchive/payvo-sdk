@@ -9,7 +9,7 @@ import { Profile } from "./profile";
 import { ProfileNotifications } from "./notification.service";
 import { ProfileTransactionNotifications } from "./notification.transactions.service";
 import { WalletReleaseNotifications } from "./notification.releases.service";
-import { INotificationTypes } from "./notification.repository.contract";
+import { INotification, INotificationTypes } from "./notification.repository.contract";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 
 const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
@@ -86,4 +86,40 @@ test("#hasUnread", async () => {
 	expect(subject.hasUnread()).toBeFalse();
 	await subject.transactions().sync({});
 	expect(subject.hasUnread()).toBeTrue();
+});
+
+test("#all", async () => {
+	await subject.transactions().sync({});
+	expect(subject.all()).toBeInstanceOf(Object);
+	expect(Object.values(subject.all())).toHaveLength(2);
+});
+
+test("#count", async () => {
+	await subject.transactions().sync({});
+	expect(subject.count()).toBe(2);
+});
+
+test("#flush", async () => {
+	await subject.transactions().sync({});
+	expect(subject.count()).toBe(2);
+	subject.flush();
+	expect(subject.count()).toBe(0);
+});
+
+test("#fill", async () => {
+	const notifications = {
+		"46530491-0056-4239-ae12-1b406ba7f68d": {
+			id: "46530491-0056-4239-ae12-1b406ba7f68d",
+			meta: {
+				timestamp: 1584871208,
+				transactionId: "9049c49eb0e0d9b14becc38d4f51ab993aa9fc7f6a7b23a1aff9e7bc060d2bb1",
+			},
+			read_at: undefined,
+			type: "transaction",
+		},
+	};
+
+	expect(subject.count()).toBe(0);
+	subject.fill(notifications);
+	expect(subject.count()).toBe(1);
 });

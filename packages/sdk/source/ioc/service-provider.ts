@@ -45,11 +45,17 @@ export abstract class AbstractServiceProvider {
 		}
 
 		if (container.missing(BindingType.DataTransferObjectService)) {
-			container.singleton(BindingType.DataTransferObjectService, services.DataTransferObjectService || AbstractDataTransferObjectService);
+			container.singleton(
+				BindingType.DataTransferObjectService,
+				services.DataTransferObjectService || AbstractDataTransferObjectService,
+			);
 		}
 
 		if (container.missing(BindingType.ExtendedAddressService)) {
-			container.singleton(BindingType.ExtendedAddressService, services.ExtendedAddressService || AbstractExtendedAddressService);
+			container.singleton(
+				BindingType.ExtendedAddressService,
+				services.ExtendedAddressService || AbstractExtendedAddressService,
+			);
 		}
 
 		if (container.missing(BindingType.FeeService)) {
@@ -61,7 +67,10 @@ export abstract class AbstractServiceProvider {
 		}
 
 		if (container.missing(BindingType.KnownWalletService)) {
-			container.singleton(BindingType.KnownWalletService, services.KnownWalletService || AbstractKnownWalletService);
+			container.singleton(
+				BindingType.KnownWalletService,
+				services.KnownWalletService || AbstractKnownWalletService,
+			);
 		}
 
 		if (container.missing(BindingType.LedgerService)) {
@@ -77,7 +86,10 @@ export abstract class AbstractServiceProvider {
 		}
 
 		if (container.missing(BindingType.MultiSignatureService)) {
-			container.singleton(BindingType.MultiSignatureService, services.MultiSignatureService || AbstractMultiSignatureService);
+			container.singleton(
+				BindingType.MultiSignatureService,
+				services.MultiSignatureService || AbstractMultiSignatureService,
+			);
 		}
 
 		if (container.missing(BindingType.PrivateKeyService)) {
@@ -93,11 +105,17 @@ export abstract class AbstractServiceProvider {
 		}
 
 		if (container.missing(BindingType.TransactionService)) {
-			container.singleton(BindingType.TransactionService, services.TransactionService || AbstractTransactionService);
+			container.singleton(
+				BindingType.TransactionService,
+				services.TransactionService || AbstractTransactionService,
+			);
 		}
 
 		if (container.missing(BindingType.WalletDiscoveryService)) {
-			container.singleton(BindingType.WalletDiscoveryService, services.WalletDiscoveryService || AbstractWalletDiscoveryService);
+			container.singleton(
+				BindingType.WalletDiscoveryService,
+				services.WalletDiscoveryService || AbstractWalletDiscoveryService,
+			);
 		}
 
 		if (container.missing(BindingType.WIFService)) {

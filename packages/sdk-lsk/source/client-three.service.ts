@@ -51,7 +51,10 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async delegates(query?: any): Promise<Collections.WalletDataCollection> {
-		const result = await this.#get("accounts", this.#createSearchParams({ isDelegate: true, limit: 100, ...query }));
+		const result = await this.#get(
+			"accounts",
+			this.#createSearchParams({ isDelegate: true, limit: 100, ...query }),
+		);
 
 		return new Collections.WalletDataCollection(
 			result.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),

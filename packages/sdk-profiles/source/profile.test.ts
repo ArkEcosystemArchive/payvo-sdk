@@ -1,12 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
-import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 import { bootContainer } from "../test/mocking";
 import { PluginRepository } from "./plugin.repository";
 import { ContactRepository } from "./contact.repository";
 import { DataRepository } from "./data.repository";
-import { NotificationRepository } from "./notification.repository";
 import { SettingRepository } from "./setting.repository";
 import { WalletRepository } from "./wallet.repository";
 import { CountAggregate } from "./count.aggregate";
@@ -18,6 +16,7 @@ import { Profile } from "./profile";
 import { IProfile, IReadWriteWallet, ProfileData, ProfileSetting } from "./contracts";
 import { WalletFactory } from "./wallet.factory";
 import { mock, MockProxy } from "jest-mock-extended";
+import { ProfileNotifications } from "./notification.service";
 
 let subject: IProfile;
 
@@ -100,7 +99,7 @@ it("should have a data repository", () => {
 });
 
 it("should have a notifications repository", () => {
-	expect(subject.notifications()).toBeInstanceOf(NotificationRepository);
+	expect(subject.notifications()).toBeInstanceOf(ProfileNotifications);
 });
 
 it("should have a plugins repository", () => {

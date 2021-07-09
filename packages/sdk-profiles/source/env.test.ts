@@ -152,13 +152,14 @@ it("should create a profile with data and persist it when instructed to do so", 
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
 	// Create a Notification
-	profile.notifications().push({
-		icon: "warning",
-		name: "Ledger Update Available",
-		body: "...",
-		type: "ledger",
-		action: "Read Changelog",
-	});
+	profile
+		.notifications()
+		.releases()
+		.push({
+			name: "Update Available",
+			body: "...",
+			meta: { version: "3.0.0" },
+		});
 
 	// Create a DataEntry
 	profile.data().set(ProfileData.LatestMigration, "0.0.0");
@@ -194,7 +195,7 @@ it("should create a profile with data and persist it when instructed to do so", 
 
 	expect(newProfile.wallets().keys()).toHaveLength(1);
 	expect(newProfile.contacts().keys()).toHaveLength(1);
-	expect(newProfile.notifications().keys()).toHaveLength(1);
+	expect(newProfile.notifications().count()).toBe(1);
 	expect(newProfile.data().all()).toMatchInlineSnapshot(`
 		Object {
 		  "LATEST_MIGRATION": "0.0.0",
@@ -233,7 +234,7 @@ it("should boot the environment from fixed data", async () => {
 	expect(newProfile).toBeInstanceOf(Profile);
 	expect(newProfile.wallets().keys()).toHaveLength(1);
 	expect(newProfile.contacts().keys()).toHaveLength(1);
-	expect(newProfile.notifications().keys()).toHaveLength(1);
+	expect(newProfile.notifications().count()).toBe(1);
 	expect(newProfile.data().all()).toMatchInlineSnapshot(`
 		Object {
 		  "LATEST_MIGRATION": "0.0.0",
