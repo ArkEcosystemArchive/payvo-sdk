@@ -103,3 +103,9 @@ test("#forget", () => {
 
 	expect(subject.findByVersion("3.0.0")).toBeUndefined();
 });
+
+test("#recent", () => {
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	expect(subject.recent()).toHaveLength(2);
+	expect(subject.recent(10)).toHaveLength(2);
+});

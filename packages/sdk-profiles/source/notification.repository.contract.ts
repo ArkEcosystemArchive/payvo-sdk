@@ -262,9 +262,10 @@ export interface IProfileTransactionNotifications {
 	/**
 	 * Get stored transactions
 	 *
+	 * @param {string} limit
 	 * @memberof IProfileTransactionNotifications
 	 */
-	transactions(): ExtendedConfirmedTransactionData[];
+	transactions(limit?: number): ExtendedConfirmedTransactionData[];
 
 	/**
 	 * Get stored transaction by id
