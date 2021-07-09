@@ -49,14 +49,14 @@ describe("ClientService", () => {
 			expect(result.confirmations().toString()).toMatchInlineSnapshot(`"0"`);
 			expect(result.sender()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
 			expect(result.recipient()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
-			expect(result.amount().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(result.amount().toString()).toMatchInlineSnapshot(`"0"`);
 			expect(result.fee().toString()).toMatchInlineSnapshot(`"144000"`);
 			expect(result.memo()).toMatchInlineSnapshot(`undefined`);
 			expect(result.isTransfer()).toMatchInlineSnapshot(`false`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
 			expect(result.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
 			expect(result.isVoteCombination()).toMatchInlineSnapshot(`false`);
-			expect(result.isVote()).toMatchInlineSnapshot(`false`);
+			expect(result.isVote()).toMatchInlineSnapshot(`true`);
 			expect(result.isUnvote()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(result.username()).toMatchInlineSnapshot(`undefined`);
