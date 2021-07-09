@@ -53,8 +53,8 @@ export interface DelegateRegistrationInput extends TransactionInput {
 
 export interface VoteInput extends TransactionInput {
 	data: {
-		votes: { id: string; amount: BigNumber; }[];
-		unvotes: { id: string; amount: BigNumber; }[];
+		votes: { id: string; amount: number; }[];
+		unvotes: { id: string; amount: number; }[];
 	};
 }
 

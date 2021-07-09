@@ -26,21 +26,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
-            delegateAddress: string;
+            delegateAddress: Buffer;
             amount: BigInt;
         }[] = [];
 
 		for (const vote of input.data.votes) {
 			votes.push({
-				delegateAddress: vote.id,
-				amount: BigInt(vote.amount.toString()),
+				delegateAddress: getAddressFromBase32Address(vote.id),
+				amount: BigInt(this.bigNumberService.make(vote.amount).toSatoshi().toString()),
 			});
 		}
 
 		for (const unvote of input.data.unvotes) {
 			votes.push({
-				delegateAddress: unvote.id,
-				amount: BigInt(unvote.amount.toString()),
+				delegateAddress: getAddressFromBase32Address(unvote.id),
+				amount: BigInt(this.bigNumberService.make(unvote.amount).toSatoshi().toString()),
 			});
 		}
 

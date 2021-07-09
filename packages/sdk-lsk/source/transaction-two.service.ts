@@ -61,7 +61,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		const mapVotes = (votes: { id: string; amount: BigNumber; }[]) => {
+		const mapVotes = (votes: { id: string; }[]) => {
 			const result: string[] = [];
 
 			for (const vote of votes) {

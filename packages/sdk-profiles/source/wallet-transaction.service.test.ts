@@ -224,7 +224,7 @@ describe("signatures", () => {
 			data: {
 				votes: [{
 					id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-					amount: BigNumber.ZERO,
+					amount: 0,
 				}],
 				unvotes: [],
 			},
