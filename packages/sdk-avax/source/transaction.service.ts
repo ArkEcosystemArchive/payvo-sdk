@@ -82,7 +82,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					keyPairAddresses,
 					keyPairAddresses,
 					keyPairAddresses,
-					input.data.votes[0],
+					input.data.votes[0].id,
 					// @ts-ignore
 					"START-TIME",
 					"END-TIME",
