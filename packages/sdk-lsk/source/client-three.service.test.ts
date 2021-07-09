@@ -34,7 +34,9 @@ describe("ClientService", () => {
 				.query(true)
 				.reply(200, require(`${__dirname}/../test/fixtures/client/three/transaction.json`));
 
-			const result = await subject.transaction("827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
+			const result = await subject.transaction(
+				"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
+			);
 
 			expect(result).toBeInstanceOf(ConfirmedTransactionData);
 		});
@@ -64,6 +66,20 @@ describe("ClientService", () => {
 			const result = await subject.wallet("lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m");
 
 			expect(result).toBeInstanceOf(WalletData);
+			expect(result.primaryKey()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			expect(result.address()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			expect(result.publicKey()).toMatchInlineSnapshot(`null`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"8361961317361193"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"8361961317361193"`);
+			expect(result.nonce().toString()).toMatchInlineSnapshot(`"0"`);
+			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(result.username()).toMatchInlineSnapshot(`""`);
+			expect(result.rank()).toMatchInlineSnapshot(`undefined`);
+			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isMultiSignature()).toMatchInlineSnapshot(`false`);
+			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
 		});
 	});
 
@@ -75,9 +91,23 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/three/wallets.json`));
 
 			const result = await subject.wallets({ address: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" });
+			const wallet = result.items()[0];
 
 			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
+			expect(wallet).toBeInstanceOf(WalletData);
+			expect(wallet.primaryKey()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			expect(wallet.address()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			expect(wallet.publicKey()).toMatchInlineSnapshot(`null`);
+			expect(wallet.balance().toString()).toMatchInlineSnapshot(`"[object Object]"`);
+			expect(wallet.nonce().toString()).toMatchInlineSnapshot(`"0"`);
+			expect(wallet.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(wallet.username()).toMatchInlineSnapshot(`""`);
+			expect(wallet.rank()).toMatchInlineSnapshot(`undefined`);
+			expect(wallet.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
+			expect(wallet.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isMultiSignature()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);
 		});
 	});
 
@@ -91,6 +121,22 @@ describe("ClientService", () => {
 			const result = await subject.delegate("punkrock");
 
 			expect(result).toBeInstanceOf(WalletData);
+			expect(result.primaryKey()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			expect(result.address()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			expect(result.publicKey()).toMatchInlineSnapshot(
+				`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`,
+			);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"20115467794"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"20115467794"`);
+			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
+			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(result.username()).toMatchInlineSnapshot(`"punkrock"`);
+			expect(result.rank()).toMatchInlineSnapshot(`1`);
+			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isMultiSignature()).toMatchInlineSnapshot(`true`);
+			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
 		});
 	});
 
@@ -102,9 +148,25 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/three/delegates.json`));
 
 			const result = await subject.delegates();
+			const wallet = result.items()[0];
 
 			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
+			expect(wallet).toBeInstanceOf(WalletData);
+			expect(wallet.primaryKey()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			expect(wallet.address()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			expect(wallet.publicKey()).toMatchInlineSnapshot(
+				`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`,
+			);
+			expect(wallet.balance().toString()).toMatchInlineSnapshot(`"[object Object]"`);
+			expect(wallet.nonce().toString()).toMatchInlineSnapshot(`"2"`);
+			expect(wallet.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(wallet.username()).toMatchInlineSnapshot(`"punkrock"`);
+			expect(wallet.rank()).toMatchInlineSnapshot(`1`);
+			expect(wallet.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
+			expect(wallet.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isMultiSignature()).toMatchInlineSnapshot(`true`);
+			expect(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);
 		});
 	});
 
