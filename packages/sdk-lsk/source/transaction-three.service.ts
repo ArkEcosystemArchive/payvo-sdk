@@ -56,7 +56,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		asset: object,
 		input: Services.TransactionInput,
 	): Promise<Contracts.SignedTransactionData> {
-		const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
+		let nonce: BigInt | undefined = undefined;
+
+		try {
+			const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
+
+			nonce = BigInt(wallet.nonce().toString());
+		} catch{
+			nonce = BigInt(0);
+		}
 
 		const { assetID, assetSchema, moduleID } = this.configRepository.get<object>("network.meta.assets")[type];
 
@@ -65,7 +73,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			{
 				moduleID,
 				assetID,
-				nonce: BigInt(wallet.nonce().toString()),
+				nonce,
 				// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
 				// https://testnet-service.lisk.io/api/v2/fees
 				fee: BigInt(convertLSKToBeddows(String(input.fee || 0.1))),
@@ -81,7 +89,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// }));
 
 		return this.dataTransferObjectService.signedTransaction(
-			signedTransaction.id,
+			signedTransaction.id.toString("hex"),
 			{
 				senderId: signedTransaction.senderPublicKey.toString("hex"),
 				recipientId: signedTransaction.asset.recipientAddress,

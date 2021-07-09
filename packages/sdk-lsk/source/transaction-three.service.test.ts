@@ -11,6 +11,7 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction-three.service";
+import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: TransactionService;
 
@@ -27,7 +28,7 @@ beforeAll(async () => {
 	});
 });
 
-describe.skip("TransactionService", () => {
+describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("should verify", async () => {
 			const result = await subject.transfer({
@@ -45,7 +46,7 @@ describe.skip("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeObject();
+			expect(result).toBeInstanceOf(SignedTransactionData);
 		});
 	});
 
@@ -65,7 +66,7 @@ describe.skip("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeObject();
+			expect(result).toBeInstanceOf(SignedTransactionData);
 		});
 	});
 
@@ -89,7 +90,7 @@ describe.skip("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeObject();
+			expect(result).toBeInstanceOf(SignedTransactionData);
 		});
 	});
 });
