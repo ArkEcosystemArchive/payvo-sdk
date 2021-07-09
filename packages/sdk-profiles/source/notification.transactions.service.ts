@@ -11,11 +11,14 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	readonly #notifications: INotificationRepository;
 	readonly #defaultLimit: number;
 
+	#transactions: ExtendedConfirmedTransactionData[];
+
 	public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
 		this.#defaultLimit = 10;
 		this.#profile = profile;
 		this.#allowedTypes = ["transfer", "multiPayment"];
 		this.#notifications = notificationRepository;
+		this.#transactions = [];
 	}
 
 	private format = (
@@ -55,6 +58,14 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		}
 
 		return unseen;
+	};
+
+	private storeTransactions = (transactions: ExtendedConfirmedTransactionData[]) => {
+		for (const transaction of transactions) {
+			if (this.has(transaction.id())) {
+				this.#transactions.push(transaction);
+			}
+		}
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.findByTransactionId} */
@@ -113,5 +124,19 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		for (const transaction of unseen) {
 			this.#notifications.push(this.format(transaction));
 		}
+
+		this.storeTransactions(transactions.items());
+	};
+
+	/** {@inheritDoc IProfileTransactionNotifications.transactions} */
+	public transactions = (limit?: number): ExtendedConfirmedTransactionData[] => {
+		const sorted = sortByDesc(this.#transactions, (transaction) => transaction.timestamp()?.toUNIX());
+
+		return sorted.slice(0, limit || this.#defaultLimit);
+	};
+
+	/** {@inheritDoc IProfileTransactionNotifications.transaction} */
+	public transaction = (transactionId: string) => {
+		return this.transactions().find((transaction) => transaction.id() === transactionId);
 	};
 }
