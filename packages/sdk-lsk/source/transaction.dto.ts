@@ -14,7 +14,11 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override blockId(): string | undefined {
-		return this.data.blockId;
+		if (this.data.blockId) {
+			return this.data.blockId;
+		}
+
+		return this.data.block.id;
 	}
 
 	public override timestamp(): DateTime | undefined {
@@ -26,18 +30,38 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override confirmations(): BigNumber {
-		return BigNumber.make(this.data.confirmations);
+		if (this.data.confirmations) {
+			return BigNumber.make(this.data.confirmations);
+		}
+
+		return BigNumber.ZERO;
 	}
 
 	public override sender(): string {
-		return this.data.senderId;
+		if (this.data.senderId) {
+			return this.data.senderId;
+		}
+
+		return this.data.sender.address;
 	}
 
 	public override recipient(): string {
-		return this.data.recipientId;
+		if (this.data.recipientId) {
+			return this.data.recipientId;
+		}
+
+		if (this.data.asset.recipient?.address) {
+			return this.data.asset.recipient.address;
+		}
+
+		return this.data.sender.address;
 	}
 
 	public override amount(): BigNumber {
+		if (this.data.asset?.amount) {
+			return this.bigNumberService.make(this.data.asset.amount);
+		}
+
 		return this.bigNumberService.make(this.data.amount);
 	}
 

@@ -42,11 +42,13 @@ describe("ClientService", () => {
 			expect(result.id()).toMatchInlineSnapshot(
 				`"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5"`,
 			);
-			expect(result.blockId()).toMatchInlineSnapshot(`undefined`);
+			expect(result.blockId()).toMatchInlineSnapshot(
+				`"52bb109394008afc59fae3bc288c0c52e4f50ad1e173afb164c7df40d44ff0ec"`,
+			);
 			expect(result.timestamp()).toMatchInlineSnapshot(`"2021-07-04T14:38:10.000Z"`);
-			expect(result.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
-			expect(result.sender()).toMatchInlineSnapshot(`undefined`);
-			expect(result.recipient()).toMatchInlineSnapshot(`undefined`);
+			expect(result.confirmations().toString()).toMatchInlineSnapshot(`"0"`);
+			expect(result.sender()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
+			expect(result.recipient()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
 			expect(result.amount().toString()).toMatchInlineSnapshot(`"NaN"`);
 			expect(result.fee().toString()).toMatchInlineSnapshot(`"144000"`);
 			expect(result.memo()).toMatchInlineSnapshot(`undefined`);
@@ -81,12 +83,14 @@ describe("ClientService", () => {
 			expect(transaction.id()).toMatchInlineSnapshot(
 				`"eae780f7a5233cd06084f6cc7ae1939f83a31af4e4d9caa294f3a6e7b99130ed"`,
 			);
-			expect(transaction.blockId()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.blockId()).toMatchInlineSnapshot(
+				`"34750351b180d0698ffc777d89bcf6d79a3e2447b05ff1df353b47790f51aa68"`,
+			);
 			expect(transaction.timestamp()).toMatchInlineSnapshot(`"2021-07-02T11:22:20.000Z"`);
-			expect(transaction.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
-			expect(transaction.sender()).toMatchInlineSnapshot(`undefined`);
-			expect(transaction.recipient()).toMatchInlineSnapshot(`undefined`);
-			expect(transaction.amount().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(transaction.confirmations().toString()).toMatchInlineSnapshot(`"0"`);
+			expect(transaction.sender()).toMatchInlineSnapshot(`"lskzrja9we9f2hvtc6uoxtbwutb9b8cqmde8vnfro"`);
+			expect(transaction.recipient()).toMatchInlineSnapshot(`"lskpadb4stdcswz9cof7423bwvkwxvcowvq8gexob"`);
+			expect(transaction.amount().toString()).toMatchInlineSnapshot(`"2000000000000"`);
 			expect(transaction.fee().toString()).toMatchInlineSnapshot(`"100000000"`);
 			expect(transaction.memo()).toMatchInlineSnapshot(`"helping"`);
 			expect(transaction.isTransfer()).toMatchInlineSnapshot(`true`);
