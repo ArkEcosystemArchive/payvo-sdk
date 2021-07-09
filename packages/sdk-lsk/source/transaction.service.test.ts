@@ -11,11 +11,14 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { TransactionServiceTwo } from "./transaction-two.service";
+import { TransactionServiceThree } from "./transaction-three.service";
+import { BindingType } from "./coin.contract";
 
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = createService(TransactionService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -24,24 +27,26 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(BindingType.TransactionServiceTwo, TransactionServiceTwo);
+		container.singleton(BindingType.TransactionServiceThree, TransactionServiceThree);
 	});
 });
 
 describe("TransactionService", () => {
 	describe("#transfer", () => {
-		it.each(["lsk.mainnet", "lsk.testnet"])("should create for %s", async (network) => {
+		it("should create for %s", async () => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
-						address: "15957226662510576840L",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
+						address: identity.addressLegacy,
+						publicKey: identity.publicKey,
+						privateKey: identity.privateKey,
 					}),
 				),
 				data: {
 					amount: 1,
-					to: identity.address,
+					to: identity.addressLegacy,
 				},
 			});
 

@@ -14,7 +14,10 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(mnemonic);
 
-			return { publicKey, privateKey: privateKey.slice(0, privateKey.length / 2) };
+			return {
+				publicKey: publicKey.toString("hex"),
+				privateKey: privateKey.toString("hex").substring(0, 64),
+			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -26,7 +29,10 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(secret);
 
-			return { publicKey, privateKey: privateKey.slice(0, privateKey.length / 2) };
+			return {
+				publicKey: publicKey.toString("hex"),
+				privateKey: privateKey.toString("hex").substring(0, 64),
+			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}

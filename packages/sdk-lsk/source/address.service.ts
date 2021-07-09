@@ -1,5 +1,11 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { getAddressFromPassphrase, getAddressFromPublicKey } from "@liskhq/lisk-cryptography";
+import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import {
+	getLegacyAddressFromPassphrase,
+	getLegacyAddressFromPublicKey,
+	getLisk32AddressFromPassphrase,
+	getLisk32AddressFromPublicKey,
+	validateBase32Address,
+} from "@liskhq/lisk-cryptography";
 import { utils } from "@liskhq/lisk-transactions";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
@@ -13,7 +19,11 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
 
-			return { type: "bip39", address: getAddressFromPassphrase(mnemonic) };
+			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+				return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
+			}
+
+			return { type: "bip39", address: getLegacyAddressFromPassphrase(mnemonic) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -24,7 +34,11 @@ export class AddressService extends Services.AbstractAddressService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		try {
-			return { type: "bip39", address: getAddressFromPublicKey(publicKey) };
+			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+				return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
+			}
+
+			return { type: "bip39", address: getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -34,7 +48,11 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
-			return { type: "bip39", address: getAddressFromPassphrase(secret) };
+			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+				return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
+			}
+
+			return { type: "bip39", address: getLegacyAddressFromPassphrase(secret) };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
@@ -42,9 +60,11 @@ export class AddressService extends Services.AbstractAddressService {
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			utils.validateAddress(address);
+			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+				return validateBase32Address(address);
+			}
 
-			return true;
+			return utils.validateAddress(address);
 		} catch {
 			return false;
 		}

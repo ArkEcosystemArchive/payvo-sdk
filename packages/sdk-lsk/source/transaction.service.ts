@@ -1,30 +1,16 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/cryptography";
-import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
-import {
-	castVotes,
-	registerDelegate,
-	registerMultisignature,
-	registerSecondPassphrase,
-	TransactionJSON,
-	transfer,
-	utils,
-} from "@liskhq/lisk-transactions";
+import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
+
+import { BindingType } from "./coin.contract";
+import { TransactionServiceTwo } from "./transaction-two.service";
+import { TransactionServiceThree } from "./transaction-three.service";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	#network!: string;
+	@IoC.inject(BindingType.TransactionServiceTwo)
+	private readonly two!: TransactionServiceTwo;
 
-	@IoC.inject(IoC.BindingType.LedgerService)
-	private readonly ledgerService!: Services.LedgerService;
-
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = this.configRepository.get<string>("network.meta.networkId");
-	}
+	@IoC.inject(BindingType.TransactionServiceThree)
+	private readonly three!: TransactionServiceThree;
 
 	/**
 	 * @inheritDoc
@@ -33,31 +19,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("transfer", {
-			...input,
-			data: {
-				amount: this.toSatoshi(input.data.amount).toString(),
-				recipientId: input.data.to,
-				data: input.data.memo,
-			},
-		});
+		return this.#createFromData("transfer", input);
 	}
 
 	public override async secondSignature(
 		input: Services.SecondSignatureInput,
 	): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("registerSecondPassphrase", {
-			...input,
-			data: {
-				secondMnemonic: BIP39.normalize(input.data.mnemonic),
-			},
-		});
+		return this.#createFromData("secondSignature", input);
 	}
 
 	public override async delegateRegistration(
 		input: Services.DelegateRegistrationInput,
 	): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("registerDelegate", input);
+		return this.#createFromData("delegateRegistration", input);
 	}
 
 	/**
@@ -67,94 +41,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("castVotes", input);
+		return this.#createFromData("vote", input);
 	}
 
 	public override async multiSignature(
 		input: Services.MultiSignatureInput,
 	): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("registerMultisignature", {
-			...input,
-			data: {
-				keysgroup: input.data.publicKeys,
-				lifetime: input.data.lifetime,
-				minimum: input.data.min,
-			},
-		});
+		return this.#createFromData("multiSignature", input);
 	}
 
-	async #createFromData(
-		type: string,
-		input: Contracts.KeyValuePair,
-		callback?: Function,
-	): Promise<Contracts.SignedTransactionData> {
-		try {
-			const struct: Contracts.KeyValuePair = { ...input.data };
-
-			struct.networkIdentifier = this.#network;
-
-			if (callback) {
-				callback({ struct });
-			}
-
-			const transactionSigner = {
-				transfer,
-				registerSecondPassphrase,
-				registerDelegate,
-				castVotes,
-				registerMultisignature,
-			}[type]!;
-
-			if (input.signatory.actsWithLedger()) {
-				await this.ledgerService.connect(LedgerTransportNodeHID);
-
-				const structTransaction = transactionSigner(struct as any) as unknown as TransactionJSON;
-				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
-
-				if (!structTransaction.recipientId) {
-					// @ts-ignore - LSK uses JS so they don't encounter these type errors
-					structTransaction.recipientId = (
-						await this.addressService.fromPublicKey(structTransaction.senderPublicKey)
-					).address;
-				}
-
-				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.signature = await this.ledgerService.signTransaction(
-					input.signatory.signingKey(),
-					utils.getTransactionBytes(structTransaction),
-				);
-				// @ts-ignore - LSK uses JS so they don't encounter these type errors
-				structTransaction.id = utils.getTransactionId(structTransaction as any);
-
-				await this.ledgerService.disconnect();
-
-				return this.dataTransferObjectService.signedTransaction(
-					structTransaction.id,
-					structTransaction,
-					structTransaction,
-				);
-			}
-
-			// todo: support multisignature
-
-			if (input.signatory.signingKey()) {
-				struct.passphrase = input.signatory.signingKey();
-			}
-
-			if (input.signatory.actsWithSecondaryMnemonic()) {
-				struct.secondPassphrase = input.signatory.confirmKey();
-			}
-
-			const signedTransaction: any = transactionSigner(struct as any);
-
-			return this.dataTransferObjectService.signedTransaction(
-				signedTransaction.id,
-				signedTransaction,
-				signedTransaction,
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+	async #createFromData(method: string, input: object): Promise<Contracts.SignedTransactionData> {
+		if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			return this.three[method](input);
 		}
+
+		return this.two[method](input);
 	}
 }

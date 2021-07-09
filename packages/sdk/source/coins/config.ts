@@ -51,11 +51,12 @@ export class ConfigRepository {
 
 export enum ConfigKey {
 	Bech32 = "network.constants.bech32",
-	CurrencyTicker = "network.currency.ticker",
 	CurrencyDecimals = "network.currency.decimals",
+	CurrencyTicker = "network.currency.ticker",
 	HttpClient = "httpClient",
 	KnownWallets = "network.knownWallets",
 	Network = "network",
 	NetworkId = "network.id",
+	NetworkType = "network.type",
 	Slip44 = "network.constants.slip44",
 }

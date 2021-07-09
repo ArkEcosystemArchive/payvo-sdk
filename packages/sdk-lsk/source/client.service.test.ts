@@ -15,7 +15,7 @@ let subject: ClientService;
 beforeAll(() => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = createService(ClientService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);

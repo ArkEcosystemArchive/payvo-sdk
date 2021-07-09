@@ -1,6 +1,7 @@
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/cryptography";
 import { CommHandler, DposLedger, LedgerAccount, SupportedCoin } from "dpos-ledger-api";
+import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
 
@@ -31,9 +32,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		const { publicKey } = await this.#getPublicKeyAndAddress(path);
-
-		return publicKey;
+		return (await this.#transport.getPubKey(this.#getLedgerAccount(path))).publicKey;
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
@@ -76,7 +75,20 @@ export class LedgerService extends Services.AbstractLedgerService {
 				coinType: slip44,
 				account: accountIndex,
 			});
-			const { publicKey, address } = await this.#getPublicKeyAndAddress(path);
+
+			const publicKey: string = await this.getPublicKey(path);
+
+			let address: string;
+
+			if (options?.useLegacy) {
+				address = getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex"));
+			} else {
+				if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+					address = getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex"));
+				} else {
+					address = getLegacyAddressFromPublicKey(Buffer.from(publicKey, "hex"));
+				}
+			}
 
 			addresses.push(address);
 
@@ -94,13 +106,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 		// Return a mapping of paths and wallets that have been found.
 		return this.mapPathsToWallets(addressCache, wallets);
-	}
-
-	async #getPublicKeyAndAddress(path: string): Promise<{
-		publicKey: string;
-		address: string;
-	}> {
-		return this.#transport.getPubKey(this.#getLedgerAccount(path));
 	}
 
 	#getLedgerAccount(path: string): LedgerAccount {

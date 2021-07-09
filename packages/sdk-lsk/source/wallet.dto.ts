@@ -17,13 +17,13 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 
 	public override balance(): Contracts.WalletBalance {
 		return {
-			available: this.bigNumberService.make(this.data.balance),
-			fees: this.bigNumberService.make(this.data.balance),
+			available: this.bigNumberService.make(this.data.balance || this.data.token.balance),
+			fees: this.bigNumberService.make(this.data.balance || this.data.token.balance),
 		};
 	}
 
 	public override nonce(): BigNumber {
-		return BigNumber.ZERO;
+		return BigNumber.make(this.data.sequence.nonce);
 	}
 
 	public override secondPublicKey(): string | undefined {
@@ -31,7 +31,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override username(): string | undefined {
-		return this.data.username || this.data.delegate?.username;
+		return this.data.username || this.data.delegate?.username || this.data.dpos.delegate.username;
 	}
 
 	public override rank(): number | undefined {
@@ -39,7 +39,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override votes(): BigNumber | undefined {
-		return BigNumber.make(this.data.vote || this.data.delegate?.vote);
+		return BigNumber.make(this.data.vote || this.data.delegate?.vote || this.data.dpos.delegate.totalVotesReceived);
 	}
 
 	public multiSignature(): Contracts.WalletMultiSignature {
@@ -51,7 +51,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isDelegate(): boolean {
-		return !!this.data.delegate;
+		return !!this.data.delegate || !!this.data.dpos.delegate.username;
 	}
 
 	public override isResignedDelegate(): boolean {

@@ -12,7 +12,7 @@ import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
 const createMockService = async (record: string) => {
-	const transport = createService(LedgerService, undefined, (container) => {
+	const transport = createService(LedgerService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -75,28 +75,28 @@ describe("scan", () => {
 	beforeAll(() => nock.disableNetConnect());
 
 	it("should return scanned wallet", async () => {
-		nock("https://testnet.lisk.io:443")
+		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "7399986239080551550L" })
 			.reply(200, require("../test/fixtures/client/wallet-0.json"));
 
-		nock("https://testnet.lisk.io:443")
+		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "11603034586667438647L" })
 			.reply(200, require("../test/fixtures/client/wallet-1.json"));
 
-		nock("https://testnet.lisk.io:443")
+		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "8261766349562104742L" })
 			.reply(200, require("../test/fixtures/client/wallet-2.json"));
 
-		nock("https://testnet.lisk.io:443")
+		nock(/.+/)
 			.get("/api/accounts")
 			.reply(200, require("../test/fixtures/client/wallet-3.json"));
 
 		const lsk = await createMockService(ledger.wallets.record);
 
-		const walletData = await lsk.scan();
+		const walletData = await lsk.scan({ useLegacy: true });
 
 		expect(Object.keys(walletData)).toHaveLength(4);
 		expect(walletData).toMatchSnapshot();

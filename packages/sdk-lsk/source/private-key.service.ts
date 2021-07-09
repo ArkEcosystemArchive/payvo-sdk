@@ -15,7 +15,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 			const { privateKey } = getPrivateAndPublicKeyFromPassphrase(mnemonic);
 
 			return {
-				privateKey: privateKey.slice(0, privateKey.length / 2),
+				privateKey: privateKey.toString("hex").substring(0, 64),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
@@ -29,7 +29,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 			const { privateKey } = getPrivateAndPublicKeyFromPassphrase(secret);
 
 			return {
-				privateKey: privateKey.slice(0, privateKey.length / 2),
+				privateKey: privateKey.toString("hex"),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
