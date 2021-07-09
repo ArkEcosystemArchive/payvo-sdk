@@ -121,7 +121,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		}
 
 		if (isTest(this.data)) {
-			return this.data.asset.votes.filter(({ amount }) => !amount.startsWith("-")).map(({ address }) => address);
+			return this.data.asset.votes.filter(({ amount }) => !amount.startsWith("-")).map(({ delegateAddress }) => delegateAddress);
 		}
 
 		return this.data.asset.votes
@@ -135,7 +135,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		}
 
 		if (isTest(this.data)) {
-			return this.data.asset.votes.filter(({ amount }) => amount.startsWith("-")).map(({ address }) => address);
+			return this.data.asset.votes.filter(({ amount }) => amount.startsWith("-")).map(({ delegateAddress }) => delegateAddress);
 		}
 
 		return this.data.asset.votes

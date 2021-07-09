@@ -60,7 +60,11 @@ describe("ClientService", () => {
 			expect(result.isUnvote()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(result.username()).toMatchInlineSnapshot(`undefined`);
-			expect(result.votes()).toMatchInlineSnapshot(`Array []`);
+			expect(result.votes()).toMatchInlineSnapshot(`
+			Array [
+			  "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3",
+			]
+		`);
 			expect(result.unvotes()).toMatchInlineSnapshot(`Array []`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.publicKeys()).toMatchInlineSnapshot(`undefined`);
