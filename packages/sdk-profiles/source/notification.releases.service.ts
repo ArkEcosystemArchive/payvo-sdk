@@ -4,8 +4,10 @@ import { INotificationRepository } from "./notification.repository.contract";
 
 export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 	readonly #notifications: INotificationRepository;
+	readonly #defaultLimit: number;
 
 	public constructor(notificationRepository: INotificationRepository) {
+		this.#defaultLimit = 10;
 		this.#notifications = notificationRepository;
 	}
 
@@ -59,5 +61,11 @@ export class WalletReleaseNotifications implements IWalletReleaseNotifications {
 		}
 
 		return this.#notifications.forget(notification.id);
+	};
+
+	/** {@inheritDoc IWalletReleaseNotifications.recent} */
+	public recent = (limit?: number) => {
+		const releases = this.#notifications.filterByType(INotificationTypes.Release);
+		return releases.slice(0, limit || this.#defaultLimit);
 	};
 }
