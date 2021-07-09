@@ -34,18 +34,22 @@ export class TransactionService extends Services.AbstractTransactionService {
             amount: BigInt;
         }[] = [];
 
-		for (const vote of input.data.votes) {
-			votes.push({
-				delegateAddress: getAddressFromBase32Address(vote.id),
-				amount: BigInt(this.bigNumberService.make(vote.amount).toSatoshi().toString()),
-			});
+		if (Array.isArray(input.data.votes)) {
+			for (const vote of input.data.votes) {
+				votes.push({
+					delegateAddress: getAddressFromBase32Address(vote.id),
+					amount: BigInt(this.bigNumberService.make(vote.amount).toSatoshi().toString()),
+				});
+			}
 		}
 
-		for (const unvote of input.data.unvotes) {
-			votes.push({
-				delegateAddress: getAddressFromBase32Address(unvote.id),
-				amount: BigInt(this.bigNumberService.make(unvote.amount).toSatoshi().toString()),
-			});
+		if (Array.isArray(input.data.unvotes)) {
+			for (const unvote of input.data.unvotes) {
+				votes.push({
+					delegateAddress: getAddressFromBase32Address(unvote.id),
+					amount: BigInt(this.bigNumberService.make(unvote.amount).toSatoshi().toString()),
+				});
+			}
 		}
 
 		return this.#createFromData("dpos:voteDelegate", { votes }, input);
