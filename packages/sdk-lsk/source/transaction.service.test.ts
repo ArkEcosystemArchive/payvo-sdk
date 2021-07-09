@@ -18,7 +18,7 @@ import { BindingType } from "./coin.contract";
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = createService(TransactionService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -33,20 +33,20 @@ beforeAll(async () => {
 });
 
 describe("TransactionService", () => {
-	describe.only("#transfer", () => {
+	describe("#transfer", () => {
 		it("should create for %s", async () => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
-						address: identity.address,
+						address: identity.addressLegacy,
 						publicKey: identity.publicKey,
 						privateKey: identity.privateKey,
 					}),
 				),
 				data: {
 					amount: 1,
-					to: identity.address,
+					to: identity.addressLegacy,
 				},
 			});
 

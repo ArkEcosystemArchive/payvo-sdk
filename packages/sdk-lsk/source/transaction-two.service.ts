@@ -90,8 +90,6 @@ export class TransactionServiceTwo extends Services.AbstractTransactionService {
 				callback({ struct });
 			}
 
-			console.log(struct);
-
 			const transactionSigner = {
 				transfer,
 				registerSecondPassphrase,

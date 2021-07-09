@@ -120,8 +120,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		console.log(`${this.#peer}/${path}`)
-
 		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
 
 		return response.json();
