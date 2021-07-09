@@ -1,9 +1,11 @@
-import { Contracts, DTO, IoC } from "@payvo/sdk";
+import { DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
+
+const isTest = (data: Record<string, unknown>): boolean => data.moduleAssetName !== undefined;
 
 @IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
@@ -73,17 +75,41 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Delegate Registration
 	public override username(): string {
+		if (isTest(this.data)) {
+			return this.data.asset.username;
+		}
+
 		return this.data.asset.delegate.username;
 	}
 
 	// Vote
 	public override votes(): string[] {
+		if (!this.data.asset.votes) {
+			return [];
+		}
+
+		if (isTest(this.data)) {
+			return this.data.asset.votes
+				.filter(({ amount }) => amount.startsWith("+"))
+				.map(({ address }) => address);
+		}
+
 		return this.data.asset.votes
 			.filter((vote: string) => vote.startsWith("+"))
 			.map((publicKey: string) => publicKey.substr(1));
 	}
 
 	public override unvotes(): string[] {
+		if (!this.data.asset.votes) {
+			return [];
+		}
+
+		if (isTest(this.data)) {
+			return this.data.asset.votes
+				.filter(({ amount }) => amount.startsWith("-"))
+				.map(({ address }) => address);
+		}
+
 		return this.data.asset.votes
 			.filter((vote: string) => vote.startsWith("-"))
 			.map((publicKey: string) => publicKey.substr(1));
@@ -91,15 +117,15 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Second-Signature Registration
 	public override secondPublicKey(): string {
-		return this.data.asset.signature.publicKey;
+		return this.data.asset.signature?.publicKey;
 	}
 
 	// Multi-Signature Registration
 	public override publicKeys(): string[] {
-		return this.data.asset.multisignature.keysgroup;
+		return this.data.asset.multisignature?.keysgroup;
 	}
 
 	public override min(): number {
-		return this.data.asset.multisignature.min;
+		return this.data.asset.multisignature?.min;
 	}
 }

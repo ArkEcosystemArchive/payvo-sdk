@@ -39,6 +39,30 @@ describe("ClientService", () => {
 			);
 
 			expect(result).toBeInstanceOf(ConfirmedTransactionData);
+			expect(result.id()).toMatchInlineSnapshot(
+				`"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5"`,
+			);
+			expect(result.blockId()).toMatchInlineSnapshot(`undefined`);
+			expect(result.timestamp()).toMatchInlineSnapshot(`null`);
+			expect(result.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(result.sender()).toMatchInlineSnapshot(`undefined`);
+			expect(result.recipient()).toMatchInlineSnapshot(`undefined`);
+			expect(result.amount().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(result.fee().toString()).toMatchInlineSnapshot(`"144000"`);
+			expect(result.memo()).toMatchInlineSnapshot(`undefined`);
+			expect(result.isTransfer()).toMatchInlineSnapshot(`false`);
+			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			expect(result.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
+			expect(result.isVoteCombination()).toMatchInlineSnapshot(`false`);
+			expect(result.isVote()).toMatchInlineSnapshot(`false`);
+			expect(result.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
+			expect(result.username()).toMatchInlineSnapshot(`undefined`);
+			expect(result.votes()).toMatchInlineSnapshot(`Array []`);
+			expect(result.unvotes()).toMatchInlineSnapshot(`Array []`);
+			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(result.publicKeys()).toMatchInlineSnapshot(`undefined`);
+			expect(result.min()).toMatchInlineSnapshot(`undefined`);
 		});
 	});
 
@@ -50,9 +74,34 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/three/transactions.json`));
 
 			const result = await subject.transactions({ address: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" });
+			const transaction = result.items()[0];
 
 			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
+			expect(transaction).toBeInstanceOf(ConfirmedTransactionData);
+			expect(transaction.id()).toMatchInlineSnapshot(
+				`"eae780f7a5233cd06084f6cc7ae1939f83a31af4e4d9caa294f3a6e7b99130ed"`,
+			);
+			expect(transaction.blockId()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.timestamp()).toMatchInlineSnapshot(`null`);
+			expect(transaction.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(transaction.sender()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.recipient()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.amount().toString()).toMatchInlineSnapshot(`"NaN"`);
+			expect(transaction.fee().toString()).toMatchInlineSnapshot(`"100000000"`);
+			expect(transaction.memo()).toMatchInlineSnapshot(`"helping"`);
+			expect(transaction.isTransfer()).toMatchInlineSnapshot(`true`);
+			expect(transaction.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isVoteCombination()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isVote()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
+			expect(transaction.username()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.votes()).toMatchInlineSnapshot(`Array []`);
+			expect(transaction.unvotes()).toMatchInlineSnapshot(`Array []`);
+			expect(transaction.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.publicKeys()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.min()).toMatchInlineSnapshot(`undefined`);
 		});
 	});
 
