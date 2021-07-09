@@ -5,9 +5,6 @@ import { derivePrivateKey } from "./keys";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
 	#slip44!: number;
 
 	@IoC.postConstruct()

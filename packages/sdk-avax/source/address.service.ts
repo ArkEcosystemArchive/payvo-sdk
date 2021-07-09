@@ -5,9 +5,6 @@ import { keyPairFromMnemonic, useKeychain } from "./helpers";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,

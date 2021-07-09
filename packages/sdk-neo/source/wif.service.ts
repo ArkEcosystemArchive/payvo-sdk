@@ -4,9 +4,6 @@ import { deriveWallet } from "./utils";
 
 @IoC.injectable()
 export class WIFService extends Services.AbstractWIFService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,

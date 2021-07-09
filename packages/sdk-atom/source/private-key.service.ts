@@ -2,9 +2,6 @@ import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	@IoC.inject(IoC.BindingType.KeyPairService)
 	protected readonly keyPairService!: Services.KeyPairService;
 

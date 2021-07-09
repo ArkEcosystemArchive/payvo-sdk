@@ -11,6 +11,9 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { TransactionServiceTwo } from "./transaction-two.service";
+import { TransactionServiceThree } from "./transaction-three.service";
+import { BindingType } from "./coin.contract";
 
 let subject: TransactionService;
 
@@ -24,31 +27,26 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(BindingType.TransactionServiceTwo, TransactionServiceTwo);
+		container.singleton(BindingType.TransactionServiceThree, TransactionServiceThree);
 	});
 });
 
 describe("TransactionService", () => {
 	describe.only("#transfer", () => {
-		it.each([
-			{
-				to: identity.address,
-			},
-			// {
-			// 	to: identity.addressLegacy,
-			// },
-		])("should create for %s", async ({ to }) => {
+		it("should create for %s", async () => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
-						address: identity.addressLegacy,
+						address: identity.address,
 						publicKey: identity.publicKey,
 						privateKey: identity.privateKey,
 					}),
 				),
 				data: {
 					amount: 1,
-					to,
+					to: identity.address,
 				},
 			});
 

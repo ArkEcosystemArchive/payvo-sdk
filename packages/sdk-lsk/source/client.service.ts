@@ -1,4 +1,5 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
+import { Coins, Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -31,9 +32,15 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const result = await this.#get("accounts", { address: id });
+		let result: object;
 
-		return this.dataTransferObjectService.wallet(result.data[0]);
+		if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			result = (await this.#get(`accounts/${getAddressFromBase32Address(id).toString("hex")}`)).data;
+		} else {
+			result = (await this.#get("accounts", { address: id })).data[0];
+		}
+
+		return this.dataTransferObjectService.wallet(result);
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
@@ -80,16 +87,32 @@ export class ClientService extends Services.AbstractClientService {
 		};
 
 		for (const transaction of transactions) {
-			const { data, errors } = await this.#post("transactions", transaction.toBroadcast());
+			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+				const { transactionId, message } = await this.#post("v2/transactions", {
+					transaction: transaction.toBroadcast(),
+				});
 
-			if (data) {
-				result.accepted.push(transaction.id());
-			}
+				if (transactionId) {
+					result.accepted.push(transaction.id());
+				}
 
-			if (errors) {
-				result.rejected.push(transaction.id());
+				if (message) {
+					result.rejected.push(transaction.id());
 
-				result.errors[transaction.id()] = errors[0].message;
+					result.errors[transaction.id()] = message;
+				}
+			} else {
+				const { data, errors } = await this.#post("transactions", transaction.toBroadcast());
+
+				if (data) {
+					result.accepted.push(transaction.id());
+				}
+
+				if (errors) {
+					result.rejected.push(transaction.id());
+
+					result.errors[transaction.id()] = errors[0].message;
+				}
 			}
 		}
 
@@ -97,6 +120,8 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
+		console.log(`${this.#peer}/${path}`)
+
 		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
 
 		return response.json();

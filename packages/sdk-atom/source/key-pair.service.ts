@@ -4,9 +4,6 @@ import { secp256k1 } from "bcrypto";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,

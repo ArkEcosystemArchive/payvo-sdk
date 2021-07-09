@@ -21,8 +21,12 @@ const network: Networks.NetworkManifest = {
 			host: "https://testnet.lisk.io",
 		},
 		{
+			type: "archival",
+			host: "https://testnet-service.lisk.io",
+		},
+		{
 			type: "explorer",
-			host: "https://ams1-testnet-explorer-001.lisk.io/",
+			host: "https://testnet.liskscan.com/",
 		},
 	],
 	governance: {
@@ -35,35 +39,18 @@ const network: Networks.NetworkManifest = {
 	featureFlags,
 	explorer: {
 		block: "block/{0}",
-		transaction: "tx/{0}",
-		wallet: "address/{0}",
+		transaction: "transaction/{0}",
+		wallet: "account/{0}",
 	},
 	meta: {
-		// @TODO
-		networkId: "da3ed6a45429278bac2666961289ca17ad86595d33b31037615d4b8e8f158bba",
-		moduleIds: {
-			"token:transfer": 2,
-			"keys:registerMultisignatureGroup": 4,
-			"dpos:registerDelegate": 5,
-			"dpos:voteDelegate": 5,
-			"dpos:unlockToken": 5,
-			"dpos:reportDelegateMisbehavior": 5,
-			"legacyAccount:reclaimLSK": 1000,
-		},
-		assetIds: {
-			"token:transfer": 0,
-			"keys:registerMultisignatureGroup": 0,
-			"dpos:registerDelegate": 0,
-			"dpos:voteDelegate": 1,
-			"dpos:unlockToken": 2,
-			"dpos:reportDelegateMisbehavior": 3,
-			"legacyAccount:reclaimLSK": 0,
-		},
-		schemas: [
-			{
+		networkId: "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c",
+		assets: {
+			"token:transfer": {
 				moduleAssetId: "2:0",
 				moduleAssetName: "token:transfer",
-				schema: {
+				moduleID: 2,
+				assetID: 0,
+				assetSchema: {
 					$id: "lisk/transfer-asset",
 					title: "Transfer transaction asset",
 					type: "object",
@@ -88,10 +75,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"keys:registerMultisignatureGroup": {
 				moduleAssetId: "4:0",
 				moduleAssetName: "keys:registerMultisignatureGroup",
-				schema: {
+				moduleID: 4,
+				assetID: 0,
+				assetSchema: {
 					$id: "lisk/keys/register",
 					type: "object",
 					required: ["numberOfSignatures", "optionalKeys", "mandatoryKeys"],
@@ -127,10 +116,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"dpos:registerDelegate": {
 				moduleAssetId: "5:0",
 				moduleAssetName: "dpos:registerDelegate",
-				schema: {
+				moduleID: 5,
+				assetID: 0,
+				assetSchema: {
 					$id: "lisk/dpos/register",
 					type: "object",
 					required: ["username"],
@@ -144,10 +135,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"dpos:voteDelegate": {
 				moduleAssetId: "5:1",
 				moduleAssetName: "dpos:voteDelegate",
-				schema: {
+				moduleID: 5,
+				assetID: 1,
+				assetSchema: {
 					$id: "lisk/dpos/vote",
 					type: "object",
 					required: ["votes"],
@@ -177,10 +170,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"dpos:unlockToken": {
 				moduleAssetId: "5:2",
 				moduleAssetName: "dpos:unlockToken",
-				schema: {
+				moduleID: 5,
+				assetID: 2,
+				assetSchema: {
 					$id: "lisk/dpos/unlock",
 					type: "object",
 					required: ["unlockObjects"],
@@ -214,10 +209,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"dpos:reportDelegateMisbehavior": {
 				moduleAssetId: "5:3",
 				moduleAssetName: "dpos:reportDelegateMisbehavior",
-				schema: {
+				moduleID: 5,
+				assetID: 3,
+				assetSchema: {
 					$id: "lisk/dpos/pom",
 					type: "object",
 					required: ["header1", "header2"],
@@ -361,10 +358,12 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-			{
+			"legacyAccount:reclaimLSK": {
 				moduleAssetId: "1000:0",
 				moduleAssetName: "legacyAccount:reclaimLSK",
-				schema: {
+				moduleID: 1000,
+				assetID: 0,
+				assetSchema: {
 					$id: "lisk/legacyAccount/reclaim",
 					title: "Reclaim transaction asset",
 					type: "object",
@@ -377,7 +376,7 @@ const network: Networks.NetworkManifest = {
 					},
 				},
 			},
-		],
+		},
 	},
 };
 

@@ -4,9 +4,6 @@ import { deriveKeypair } from "ripple-keypairs";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,

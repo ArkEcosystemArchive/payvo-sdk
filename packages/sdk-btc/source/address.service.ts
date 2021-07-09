@@ -7,9 +7,6 @@ import { getNetworkConfig } from "./config";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
-
 	@IoC.inject(BindingType.AddressFactory)
 	protected readonly addressFactory!: AddressFactory;
 

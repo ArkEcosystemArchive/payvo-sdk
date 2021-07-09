@@ -99,8 +99,7 @@ const network: Networks.NetworkManifest = {
 		wallet: "account/{0}",
 	},
 	meta: {
-		// @TODO
-		networkId: "ed14889723f24ecc54871d058d98ce91ff2f973192075c0155ba2b7b70ad2511",
+		networkId: "01e47ba4e3e57981642150f4b45f64c2160c10bac9434339888210a4fa5df097",
 	},
 };
 
