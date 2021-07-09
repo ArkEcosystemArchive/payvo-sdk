@@ -1,7 +1,6 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
-import { getBytes, signTransaction } from "@liskhq/lisk-transactions-beta";
-import { convertLSKToBeddows } from "@liskhq/lisk-transactions/dist-node/utils";
+import { convertLSKToBeddows, getBytes, signTransaction } from "@liskhq/lisk-transactions-beta";
 import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
@@ -22,7 +21,7 @@ export class TransactionServiceThree extends Services.AbstractTransactionService
 		asset: object,
 		input: Services.TransactionInput,
 	): Promise<Contracts.SignedTransactionData> {
-		const wallet = await this.clientService.wallet(input.signatory.address());
+		const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
 
 		const { assetID, assetSchema, moduleID } = this.configRepository.get<object>("network.meta.assets")[type];
 
