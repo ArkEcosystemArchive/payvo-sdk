@@ -23,16 +23,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public override async delegateRegistration(
 		input: Services.DelegateRegistrationInput,
 	): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("dpos:registerDelegate", {
-			username: input.data.username,
-		}, input);
+		return this.#createFromData(
+			"dpos:registerDelegate",
+			{
+				username: input.data.username,
+			},
+			input,
+		);
 	}
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
-            delegateAddress: Buffer;
-            amount: BigInt;
-        }[] = [];
+			delegateAddress: Buffer;
+			amount: BigInt;
+		}[] = [];
 
 		for (const vote of input.data.votes) {
 			votes.push({
@@ -62,7 +66,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
 
 			nonce = BigInt(wallet.nonce().toString());
-		} catch{
+		} catch {
 			nonce = BigInt(0);
 		}
 

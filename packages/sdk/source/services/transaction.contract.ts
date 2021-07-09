@@ -1,4 +1,3 @@
-import { BigNumber } from "@payvo/helpers";
 import { RawTransactionData, SignedTransactionData } from "../contracts";
 import { Signatory } from "../signatories";
 
@@ -53,8 +52,8 @@ export interface DelegateRegistrationInput extends TransactionInput {
 
 export interface VoteInput extends TransactionInput {
 	data: {
-		votes: { id: string; amount: number; }[];
-		unvotes: { id: string; amount: number; }[];
+		votes: { id: string; amount: number }[];
+		unvotes: { id: string; amount: number }[];
 	};
 }
 

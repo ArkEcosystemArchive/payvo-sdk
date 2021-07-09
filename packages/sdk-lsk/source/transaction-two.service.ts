@@ -61,7 +61,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		const mapVotes = (votes: { id: string; }[]) => {
+		const mapVotes = (votes: { id: string }[]) => {
 			const result: string[] = [];
 
 			for (const vote of votes) {
@@ -69,14 +69,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			return result;
-		}
+		};
 
 		return this.#createFromData("castVotes", {
 			...input,
 			data: {
 				votes: mapVotes(input.data.votes),
 				unvotes: mapVotes(input.data.unvotes),
-			}
+			},
 		});
 	}
 

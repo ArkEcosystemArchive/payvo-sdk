@@ -73,32 +73,42 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("vote", input, ({ transaction, data }: { transaction: any; data: {
-			votes: {
-				id: string;
-				amount: BigNumber;
-			}[];
-			unvotes: {
-				id: string;
-				amount: BigNumber;
-			}[];
-		} }) => {
-			const votes: string[] = [];
+		return this.#createFromData(
+			"vote",
+			input,
+			({
+				transaction,
+				data,
+			}: {
+				transaction: any;
+				data: {
+					votes: {
+						id: string;
+						amount: BigNumber;
+					}[];
+					unvotes: {
+						id: string;
+						amount: BigNumber;
+					}[];
+				};
+			}) => {
+				const votes: string[] = [];
 
-			if (Array.isArray(data.unvotes)) {
-				for (const unvote of data.unvotes) {
-					votes.push(`-${unvote.id}`);
+				if (Array.isArray(data.unvotes)) {
+					for (const unvote of data.unvotes) {
+						votes.push(`-${unvote.id}`);
+					}
 				}
-			}
 
-			if (Array.isArray(data.votes)) {
-				for (const vote of data.votes) {
-					votes.push(`+${vote.id}`);
+				if (Array.isArray(data.votes)) {
+					for (const vote of data.votes) {
+						votes.push(`+${vote.id}`);
+					}
 				}
-			}
 
-			transaction.votesAsset(votes);
-		});
+				transaction.votesAsset(votes);
+			},
+		);
 	}
 
 	/**
