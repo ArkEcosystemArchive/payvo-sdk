@@ -1,5 +1,6 @@
 import { AggregateQuery } from "./transaction.aggregate.contract";
 import { Except } from "type-fest";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 
 /**
  * Defines the structure that represents the type of a notification
@@ -254,9 +255,25 @@ export interface IProfileTransactionNotifications {
 	 * Get notification by transaction id
 	 *
 	 * @param {string} transactionId
-	 * @memberof INotificationRepository
+	 * @memberof IProfileTransactionNotifications
 	 */
 	findByTransactionId(transactionId: string): INotification | undefined;
+
+	/**
+	 * Get stored transactions
+	 *
+	 * @param {string} limit
+	 * @memberof IProfileTransactionNotifications
+	 */
+	transactions(limit?: number): ExtendedConfirmedTransactionData[];
+
+	/**
+	 * Get stored transaction by id
+	 *
+	 * @param {string} transactionId
+	 * @memberof IProfileTransactionNotifications
+	 */
+	transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined;
 }
 
 /**
@@ -307,6 +324,14 @@ export interface IWalletReleaseNotifications {
 	 * @memberof IWalletReleaseNotifications
 	 */
 	forget(version: string): void;
+
+	/**
+	 * Get the most recent transaction notifications
+	 *
+	 * @param {number} limit
+	 * @memberof IWalletReleaseNotifications
+	 */
+	recent(limit?: number): INotification[];
 }
 
 /**

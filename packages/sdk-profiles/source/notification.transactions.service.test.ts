@@ -103,6 +103,19 @@ test("#markAsRead", async () => {
 	expect(subject.findByTransactionId(includedTransactionNotificationId)?.read_at).toBeTruthy();
 });
 
+test("#transactions", async () => {
+	await subject.sync({ limit: 20 });
+
+	expect(subject.transactions()).toHaveLength(3);
+	expect(subject.transactions(1)).toHaveLength(1);
+});
+
+test("#transactions", async () => {
+	await subject.sync({ limit: 20 });
+
+	expect(subject.transaction(includedTransactionNotificationId)).toBeInstanceOf(ExtendedConfirmedTransactionData);
+});
+
 test("should handle undefined timestamp", async () => {
 	const transactions = await profile.transactionAggregate().received({ limit: 10 });
 	const transaction = transactions.findById(
@@ -115,7 +128,8 @@ test("should handle undefined timestamp", async () => {
 	await subject.sync();
 	expect(subject.recent(10)).toHaveLength(2);
 	expect(subject.recent()).toHaveLength(2);
-	//
+	expect(subject.transactions()).toHaveLength(3);
+
 	jest.restoreAllMocks();
 
 	await subject.sync();

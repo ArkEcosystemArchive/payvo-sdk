@@ -103,10 +103,12 @@ describe("TransactionService", () => {
 					}),
 				),
 				data: {
-					votes: [{
-						id: "9d3058175acab969f41ad9b86f7a2926c74258670fe56b37c429c01fca9f2f0f",
-						amount: 0,
-					}],
+					votes: [
+						{
+							id: "9d3058175acab969f41ad9b86f7a2926c74258670fe56b37c429c01fca9f2f0f",
+							amount: 0,
+						},
+					],
 					unvotes: [],
 				},
 			});

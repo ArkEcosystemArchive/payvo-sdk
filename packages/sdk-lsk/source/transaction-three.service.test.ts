@@ -82,10 +82,12 @@ describe("TransactionService", () => {
 					}),
 				),
 				data: {
-					votes: [{
-						id: identity.address,
-						amount: 1,
-					}],
+					votes: [
+						{
+							id: identity.address,
+							amount: 1,
+						},
+					],
 					unvotes: [],
 				},
 			});
