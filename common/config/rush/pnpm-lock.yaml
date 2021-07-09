@@ -273,82 +273,6 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/sdk-ark-musig:
-    dependencies:
-      '@arkecosystem/crypto': 3.0.0-next.23
-      '@hapi/boom': 9.1.2
-      '@hapi/hapi': 20.1.2
-      '@konceiver/foreman': 2.0.2
-      better-sqlite3: 7.1.5
-      fs-extra: 9.1.0
-      meow: 9.0.0
-      uuid: 8.3.2
-    devDependencies:
-      '@sindresorhus/tsconfig': 1.0.2
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@types/uuid': 8.3.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      got: 11.8.2
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@arkecosystem/crypto': ^3.0.0-next.23
-      '@hapi/boom': ^9.1.0
-      '@hapi/hapi': ^20.1.2
-      '@konceiver/foreman': ^2.0.2
-      '@sindresorhus/tsconfig': ^1.0.2
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@types/uuid': ^8.3.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      better-sqlite3: ^7.1.5
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      got: ^11.8.2
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      meow: ^9.0.0
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
-      uuid: ^8.3.2
   ../../packages/sdk-atom:
     dependencies:
       '@payvo/cryptography': 1.0.0
@@ -1205,8 +1129,6 @@ importers:
   ../../packages/sdk-lsk:
     dependencies:
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
-      '@liskhq/lisk-client': 2.3.1
-      '@liskhq/lisk-client-beta': /@liskhq/lisk-client/5.1.1
       '@liskhq/lisk-cryptography': 3.1.0
       '@liskhq/lisk-transactions': 2.3.1
       '@liskhq/lisk-transactions-beta': /@liskhq/lisk-transactions/5.1.1
@@ -1249,8 +1171,6 @@ importers:
     specifiers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
-      '@liskhq/lisk-client': ^2.0
-      '@liskhq/lisk-client-beta': npm:@liskhq/lisk-client@^5.0
       '@liskhq/lisk-cryptography': ^3.0
       '@liskhq/lisk-transactions': ^2.0
       '@liskhq/lisk-transactions-beta': npm:@liskhq/lisk-transactions@^5.0
@@ -1344,72 +1264,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^4.22.0
       '@typescript-eslint/parser': ^4.22.0
       cardano-crypto.js: ^6.0.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      got: ^11.8.2
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
-  ../../packages/sdk-markets:
-    dependencies:
-      '@payvo/helpers': 1.0.0
-      '@payvo/intl': 1.0.0
-      '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
-    devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      got: 11.8.2
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/helpers': ^1.0.0
-      '@payvo/intl': ^1.0.0
-      '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
-      '@payvo/sdk-http-got': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
       cross-env: ^7.0.3
       eslint: ^7.25.0
       eslint-config-prettier: ^8.3.0
@@ -1584,81 +1438,15 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/sdk-news:
-    dependencies:
-      '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
-      rss-parser: 3.12.0
-    devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
-      '@payvo/sdk-http-got': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      fs-extra: ^9.1.0
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      rss-parser: ^3.9.0
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
   ../../packages/sdk-profiles:
     dependencies:
       '@arkecosystem/utils': 1.3.0
       '@payvo/cryptography': 1.0.0
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
+      '@payvo/markets': 1.0.0
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-http': link:../sdk-http
-      '@payvo/sdk-markets': link:../sdk-markets
       '@sindresorhus/slugify': 1.1.2
       '@vechain/picasso': 2.1.1
       bcrypto: 5.4.0
@@ -1725,6 +1513,7 @@ importers:
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
+      '@payvo/markets': ^1.0.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-ada': workspace:*
       '@payvo/sdk-ark': workspace:*
@@ -1732,7 +1521,6 @@ importers:
       '@payvo/sdk-eth': workspace:*
       '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
-      '@payvo/sdk-markets': workspace:*
       '@sindresorhus/slugify': ^1.1.0
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/async': 3.2.4
@@ -3027,235 +2815,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NsUCi/TpBb+oTFvMSccUkJGtp5o/84eOyqp5q5aBeiNBSLkYyw21znRn9mAmxZgySpxgruVgKbaapnYPgvctPQ==
-  /@hapi/accept/5.0.2:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-CmzBx/bXUR8451fnZRuZAJRlzgm0Jgu5dltTX/bszmR2lheb9BpyN47Q1RbaGTsvFzn0PXAEs+lXDKfshccYZw==
-  /@hapi/ammo/5.0.1:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-FbCNwcTbnQP4VYYhLNGZmA76xb2aHg9AMPiy18NZyWMG310P5KdFGyA9v2rm5ujrIny77dEEIkMOwl0Xv+fSSA==
-  /@hapi/b64/5.0.0:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-ngu0tSEmrezoiIaNGG6rRvKOUkUuDdf4XTPnONHGYfSGRmDqPZX5oJL6HAdKTo1UQHECbdB4OzhWrfgVppjHUw==
-  /@hapi/boom/9.1.2:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-uJEJtiNHzKw80JpngDGBCGAmWjBtzxDCz17A9NO2zCi8LLBlb5Frpq4pXwyN+2JQMod4pKz5BALwyneCgDg89Q==
-  /@hapi/bounce/2.0.0:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-JesW92uyzOOyuzJKjoLHM1ThiOvHPOLDHw01YV8yh5nCso7sDwJho1h0Ad2N+E62bZyz46TG3xhAi/78Gsct6A==
   /@hapi/bourne/2.0.0:
     dev: false
     resolution:
       integrity: sha512-WEezM1FWztfbzqIUbsDzFRVMxSoLy3HugVcux6KDDtTqzPsLE8NDRHfXvev66aH1i2oOKKar3/XDjbvh/OUBdg==
-  /@hapi/call/8.0.1:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-bOff6GTdOnoe5b8oXRV3lwkQSb/LAWylvDMae6RgEWWntd0SHtkYbQukDHKlfaYtVnSAgIavJ0kqszF/AIBb6g==
-  /@hapi/catbox-memory/5.0.1:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-QWw9nOYJq5PlvChLWV8i6hQHJYfvdqiXdvTupJFh0eqLZ64Xir7mKNi96d5/ZMUAqXPursfNDIDxjFgoEDUqeQ==
-  /@hapi/catbox/11.1.1:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-      '@hapi/podium': 4.1.3
-      '@hapi/validate': 1.1.3
-    dev: false
-    resolution:
-      integrity: sha512-u/8HvB7dD/6X8hsZIpskSDo4yMKpHxFd7NluoylhGrL6cUfYxdQPnvUp9YU2C6F9hsyBVLGulBd9vBN1ebfXOQ==
-  /@hapi/content/5.0.2:
-    dependencies:
-      '@hapi/boom': 9.1.2
-    dev: false
-    resolution:
-      integrity: sha512-mre4dl1ygd4ZyOH3tiYBrOUBzV7Pu/EOs8VLGf58vtOEECWed8Uuw6B4iR9AN/8uQt42tB04qpVaMyoMQh0oMw==
-  /@hapi/cryptiles/5.1.0:
-    dependencies:
-      '@hapi/boom': 9.1.2
-    dev: false
-    engines:
-      node: '>=12.0.0'
-    resolution:
-      integrity: sha512-fo9+d1Ba5/FIoMySfMqPBR/7Pa29J2RsiPrl7bkwo5W5o+AN1dAYQRi4SPrPwwVxVGKjgLOEWrsvt1BonJSfLA==
-  /@hapi/file/2.0.0:
-    dev: false
-    resolution:
-      integrity: sha512-WSrlgpvEqgPWkI18kkGELEZfXr0bYLtr16iIN4Krh9sRnzBZN6nnWxHFxtsnP684wueEySBbXPDg/WfA9xJdBQ==
-  /@hapi/hapi/20.1.2:
-    dependencies:
-      '@hapi/accept': 5.0.2
-      '@hapi/ammo': 5.0.1
-      '@hapi/boom': 9.1.2
-      '@hapi/bounce': 2.0.0
-      '@hapi/call': 8.0.1
-      '@hapi/catbox': 11.1.1
-      '@hapi/catbox-memory': 5.0.1
-      '@hapi/heavy': 7.0.1
-      '@hapi/hoek': 9.2.0
-      '@hapi/mimos': 5.0.0
-      '@hapi/podium': 4.1.3
-      '@hapi/shot': 5.0.5
-      '@hapi/somever': 3.0.0
-      '@hapi/statehood': 7.0.3
-      '@hapi/subtext': 7.0.3
-      '@hapi/teamwork': 5.1.0
-      '@hapi/topo': 5.0.0
-      '@hapi/validate': 1.1.3
-    dev: false
-    engines:
-      node: '>=12.0.0'
-    resolution:
-      integrity: sha512-yLppH93as7vw+uaAMVcHEB13eBojuzGhcX948y/CGukNRAlnPV+c1EJGbYPLXVffpH8wCNsI7TrTaeifSFS6Vw==
-  /@hapi/heavy/7.0.1:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/hoek': 9.2.0
-      '@hapi/validate': 1.1.3
-    dev: false
-    resolution:
-      integrity: sha512-vJ/vzRQ13MtRzz6Qd4zRHWS3FaUc/5uivV2TIuExGTM9Qk+7Zzqj0e2G7EpE6KztO9SalTbiIkTh7qFKj/33cA==
   /@hapi/hoek/9.2.0:
     dev: false
     resolution:
       integrity: sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
-  /@hapi/iron/6.0.0:
-    dependencies:
-      '@hapi/b64': 5.0.0
-      '@hapi/boom': 9.1.2
-      '@hapi/bourne': 2.0.0
-      '@hapi/cryptiles': 5.1.0
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-zvGvWDufiTGpTJPG1Y/McN8UqWBu0k/xs/7l++HVU535NLHXsHhy54cfEMdW7EjwKfbBfM9Xy25FmTiobb7Hvw==
-  /@hapi/mimos/5.0.0:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-      mime-db: 1.47.0
-    dev: false
-    resolution:
-      integrity: sha512-EVS6wJYeE73InTlPWt+2e3Izn319iIvffDreci3qDNT+t3lA5ylJ0/SoTaID8e0TPNUkHUSsgJZXEmLHvoYzrA==
-  /@hapi/nigel/4.0.2:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-      '@hapi/vise': 4.0.0
-    dev: false
-    engines:
-      node: '>=12.0.0'
-    resolution:
-      integrity: sha512-ht2KoEsDW22BxQOEkLEJaqfpoKPXxi7tvabXy7B/77eFtOyG5ZEstfZwxHQcqAiZhp58Ae5vkhEqI03kawkYNw==
-  /@hapi/pez/5.0.3:
-    dependencies:
-      '@hapi/b64': 5.0.0
-      '@hapi/boom': 9.1.2
-      '@hapi/content': 5.0.2
-      '@hapi/hoek': 9.2.0
-      '@hapi/nigel': 4.0.2
-    dev: false
-    resolution:
-      integrity: sha512-mpikYRJjtrbJgdDHG/H9ySqYqwJ+QU/D7FXsYciS9P7NYBXE2ayKDAy3H0ou6CohOCaxPuTV4SZ0D936+VomHA==
-  /@hapi/podium/4.1.3:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-      '@hapi/teamwork': 5.1.0
-      '@hapi/validate': 1.1.3
-    dev: false
-    resolution:
-      integrity: sha512-ljsKGQzLkFqnQxE7qeanvgGj4dejnciErYd30dbrYzUOF/FyS/DOF97qcrT3bhoVwCYmxa6PEMhxfCPlnUcD2g==
-  /@hapi/shot/5.0.5:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-      '@hapi/validate': 1.1.3
-    dev: false
-    resolution:
-      integrity: sha512-x5AMSZ5+j+Paa8KdfCoKh+klB78otxF+vcJR/IoN91Vo2e5ulXIW6HUsFTCU+4W6P/Etaip9nmdAx2zWDimB2A==
-  /@hapi/somever/3.0.0:
-    dependencies:
-      '@hapi/bounce': 2.0.0
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-Upw/kmKotC9iEmK4y047HMYe4LDKsE5NWfjgX41XNKmFvxsQL7OiaCWVhuyyhU0ShDGBfIAnCH8jZr49z/JzZA==
-  /@hapi/statehood/7.0.3:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/bounce': 2.0.0
-      '@hapi/bourne': 2.0.0
-      '@hapi/cryptiles': 5.1.0
-      '@hapi/hoek': 9.2.0
-      '@hapi/iron': 6.0.0
-      '@hapi/validate': 1.1.3
-    dev: false
-    resolution:
-      integrity: sha512-pYB+pyCHkf2Amh67QAXz7e/DN9jcMplIL7Z6N8h0K+ZTy0b404JKPEYkbWHSnDtxLjJB/OtgElxocr2fMH4G7w==
-  /@hapi/subtext/7.0.3:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/bourne': 2.0.0
-      '@hapi/content': 5.0.2
-      '@hapi/file': 2.0.0
-      '@hapi/hoek': 9.2.0
-      '@hapi/pez': 5.0.3
-      '@hapi/wreck': 17.1.0
-    dev: false
-    resolution:
-      integrity: sha512-CekDizZkDGERJ01C0+TzHlKtqdXZxzSWTOaH6THBrbOHnsr3GY+yiMZC+AfNCypfE17RaIakGIAbpL2Tk1z2+A==
-  /@hapi/teamwork/5.1.0:
-    dev: false
-    engines:
-      node: '>=12.0.0'
-    resolution:
-      integrity: sha512-llqoQTrAJDTXxG3c4Kz/uzhBS1TsmSBa/XG5SPcVXgmffHE1nFtyLIK0hNJHCB3EuBKT84adzd1hZNY9GJLWtg==
   /@hapi/topo/5.0.0:
     dependencies:
       '@hapi/hoek': 9.2.0
     dev: false
     resolution:
       integrity: sha512-tFJlT47db0kMqVm3H4nQYgn6Pwg10GTZHb1pwmSiv1K4ks6drQOtfEF5ZnPjkvC+y4/bUPHK+bc87QvLcL+WMw==
-  /@hapi/validate/1.1.3:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-      '@hapi/topo': 5.0.0
-    dev: false
-    resolution:
-      integrity: sha512-/XMR0N0wjw0Twzq2pQOzPBZlDzkekGcoCtzO314BpIEsbXdYGthQUbxgkGDf4nhk1+IPDAsXqWjMohRQYO06UA==
-  /@hapi/vise/4.0.0:
-    dependencies:
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-eYyLkuUiFZTer59h+SGy7hUm+qE9p+UemePTHLlIWppEd+wExn3Df5jO04bFQTm7nleF5V8CtuYQYb+VFpZ6Sg==
-  /@hapi/wreck/17.1.0:
-    dependencies:
-      '@hapi/boom': 9.1.2
-      '@hapi/bourne': 2.0.0
-      '@hapi/hoek': 9.2.0
-    dev: false
-    resolution:
-      integrity: sha512-nx6sFyfqOpJ+EFrHX+XWwJAxs3ju4iHdbB/bwR8yTNZOiYmuhA8eCe7lYPtYmb4j7vyK/SlbaQsmTtUrMvPEBw==
   /@istanbuljs/load-nyc-config/1.1.0:
     dependencies:
       camelcase: 5.3.1
@@ -3496,12 +3069,6 @@ packages:
       node: '>= 10.14.2'
     resolution:
       integrity: sha512-fC6QCp7Sc5sX6g8Tvbmj4XUTbyrik0akgRy03yjXbQaBWWNWGE7SGtJk98m0N8nzegD/7SggrUlivxo5ax4KWQ==
-  /@konceiver/foreman/2.0.2:
-    dependencies:
-      execa: 5.0.0
-    dev: false
-    resolution:
-      integrity: sha512-wBXc9Ize3vn0hJFu3JTQRt8I1nbjBz4U9vZyTbOhE1p6ExeK79aQ8iYyCfKpzJlDTzTuLWnzCIgmo9H8P2TLkQ==
   /@ledgerhq/cryptoassets/5.50.0:
     dependencies:
       invariant: 2.2.4
@@ -3642,62 +3209,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-q9+NvqbpmXOqpPmV8Y+XSEIUJFMZDGyfW6rkN9Ej3nzPb/qurY/Ic2UPTeTTaj8+q/bcw5JUwTb86hi7PIziDg==
-  /@liskhq/lisk-api-client/2.0.3:
-    dependencies:
-      '@types/node': 10.12.21
-      axios: 0.19.0
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    resolution:
-      integrity: sha512-wXMQAh9lS5tpgQZzrllbAvVJ3IlJi98/27JIjV2pqnu/tsuxZxHvI+hlYSldw+4ACB6NLUglGgx78bsT5QG+5w==
-  /@liskhq/lisk-api-client/5.1.1:
-    dependencies:
-      '@liskhq/lisk-codec': 0.2.0
-      '@liskhq/lisk-cryptography': 3.1.0
-      '@liskhq/lisk-transactions': 5.1.1
-      isomorphic-ws: 4.0.1_ws@7.4.6
-      pm2-axon: 4.0.1
-      pm2-axon-rpc: 0.7.1
-      ws: 7.4.6
-    dev: false
-    engines:
-      node: '>=12.13.0 <=12'
-      npm: '>=6.12.0'
-    resolution:
-      integrity: sha512-JT9dghtMTUVXh5sNc6vsIqQo2HvdCFYtM6IhEtPRkjWfa+KDNyvPmYub6UKPGbNimsZG5ZVfZeu9WgkKetrorQ==
-  /@liskhq/lisk-client/2.3.1:
-    dependencies:
-      '@liskhq/lisk-api-client': 2.0.3
-      '@liskhq/lisk-constants': 1.2.3
-      '@liskhq/lisk-cryptography': 2.3.0
-      '@liskhq/lisk-passphrase': 2.0.3
-      '@liskhq/lisk-transactions': 2.3.1
-      '@types/node': 10.12.21
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    resolution:
-      integrity: sha512-eav/CnVDhjWpHxyFRZR+DE9ndO2J3P1jdQtd6QdkWshFiuJPK3rrE1YRvwqVIO8+hpPOV1yFNkXklEojKC0yMA==
-  /@liskhq/lisk-client/5.1.1:
-    dependencies:
-      '@liskhq/lisk-api-client': 5.1.1
-      '@liskhq/lisk-codec': 0.2.0
-      '@liskhq/lisk-cryptography': 3.1.0
-      '@liskhq/lisk-passphrase': 3.1.0
-      '@liskhq/lisk-transactions': 5.1.1
-      '@liskhq/lisk-tree': 0.2.0
-      '@liskhq/lisk-utils': 0.2.0
-      '@liskhq/lisk-validator': 0.6.0
-      buffer: 6.0.3
-    dev: false
-    engines:
-      node: '>=12.13.0 <=12'
-      npm: '>=6.12.0'
-    resolution:
-      integrity: sha512-qbx3JADfjPHFV6DYM4FLrLSHDFl4obMTL7dC27wAMGPyLM0ZwlhUqCHUL2HKZZ/4YXp4k66cz9YPKuq31BapKQ==
   /@liskhq/lisk-codec/0.2.0:
     dependencies:
       '@liskhq/lisk-utils': 0.2.0
@@ -3708,15 +3219,6 @@ packages:
       npm: '>=6.12.0'
     resolution:
       integrity: sha512-OH8aE6Y5A4THkc9+8RHQz2+j2nRPOAvtW3WDZGJtbYMFGE6U4m51sRACr6l1xT0Y2+a3/yz8cIwz1wfoJDUZcg==
-  /@liskhq/lisk-constants/1.2.3:
-    dependencies:
-      '@types/node': 10.12.21
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    resolution:
-      integrity: sha512-PfkSswhX+CIibiXkKD7+MgQ06KXakfXr55Kg7lVe2tPan1fWYmHkGCUvKQkf5ybPYlHFJ9sOXjJG8ci4ZrFghg==
   /@liskhq/lisk-cryptography/2.3.0:
     dependencies:
       '@liskhq/bignum': 1.3.1
@@ -3748,26 +3250,6 @@ packages:
       sodium-native: 3.2.1
     resolution:
       integrity: sha512-/HrMH5px4/5s/qXtCDEvY/HX0F/OMvRAQcJUpVDjmyhWFMQL9hTHL0NA0PS3ZpQWQwOenR3K7iS0l0oF78/sVg==
-  /@liskhq/lisk-passphrase/2.0.3:
-    dependencies:
-      '@types/bip39': 2.4.1
-      '@types/node': 10.12.21
-      bip39: 2.5.0
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    resolution:
-      integrity: sha512-SvIWp5/mn8f6eT8ZxCiMtTo2XoaxxT+e6xQSVQAdmEbzs/ez2ez3CIU8kgtHDA8KHbRYhJLGB/B7WhbAhWjx5g==
-  /@liskhq/lisk-passphrase/3.1.0:
-    dependencies:
-      bip39: 3.0.3
-    dev: false
-    engines:
-      node: '>=12.13.0 <=12'
-      npm: '>=6.12.0'
-    resolution:
-      integrity: sha512-xylTDLNhyaZB9/9E6QvDv7uLi5iQodTGNOto4/nI5E2EteOBIc1F4/nb8dpccI1dxYIg9CXIGV8zXIQkV6RpGQ==
   /@liskhq/lisk-transactions/2.3.1:
     dependencies:
       '@liskhq/bignum': 1.3.1
@@ -3792,16 +3274,6 @@ packages:
       npm: '>=6.12.0'
     resolution:
       integrity: sha512-/7IpaPpsdRbrJ3ohDSxynlljOvQLIKzXgc1/TQA+GYQG2IXkgrq/aP/HtJrshtAfsYmvRuRS/VdypET5iI4c+Q==
-  /@liskhq/lisk-tree/0.2.0:
-    dependencies:
-      '@liskhq/lisk-cryptography': 3.1.0
-      '@liskhq/lisk-utils': 0.2.0
-    dev: false
-    engines:
-      node: '>=12.13.0 <=12'
-      npm: '>=6.12.0'
-    resolution:
-      integrity: sha512-YHq5/EwF+nwBsPjExq3+AA/WJ9k9X7yuJhD3mKiuUNEnIvF/2FFVtjorswSvXJpy3ZhL0AfiIVEHZ2+FqqHq3Q==
   /@liskhq/lisk-utils/0.2.0:
     dependencies:
       lodash.clonedeep: 4.5.0
@@ -4056,6 +3528,22 @@ packages:
       node: '>=12.x'
     resolution:
       integrity: sha512-E/tad0BvVEXWit0KJDpyiTybMBO/Q20WZTkN4MXspAm7aQWEVzG0MT1LRi/uH/tAckRK0FQmJIMfNMW+u16u2g==
+  /@payvo/markets/1.0.0:
+    dependencies:
+      '@payvo/helpers': 1.0.0
+      '@payvo/intl': 1.0.0
+      '@payvo/sdk-http': 1.1.0
+    dev: false
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-Gv+MJjjpma7twnZna1FPqjiI9arzNj5yoFUhMoS5OatX4JulNd3liYndLPuvWUwDwn0coZJrN4rdv9obtuL88Q==
+  /@payvo/sdk-http/1.1.0:
+    dev: false
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-GVq1Lp+YdGyCgD2uDYJl8GA93T/hMEl/uJRTJBJxdmmwflIQ0S7yEdJDJ0KKmAb2lb7G1H3+IQesHJQnO2ZjIA==
   /@polkadot/api-derive/3.11.1:
     dependencies:
       '@babel/runtime': 7.14.0
@@ -5200,16 +4688,6 @@ packages:
       uri-js: 4.4.1
     resolution:
       integrity: sha512-WSNGFuyWd//XO8n/m/EaOlNLtO0yL8EXT/74LqT4khdhpZjP7lkj/kT5uwRmGitKEVp/Oj7ZUHeGfPtgHhQ5CA==
-  /amp-message/0.1.2:
-    dependencies:
-      amp: 0.3.1
-    dev: false
-    resolution:
-      integrity: sha1-p48cmJlQh602GSpBKY5NtJ49/EU=
-  /amp/0.3.1:
-    dev: false
-    resolution:
-      integrity: sha1-at+NWKdPNh6CwfqNOJwHnhOfxH0=
   /ansi-align/3.0.0:
     dependencies:
       string-width: 3.1.0
@@ -5489,14 +4967,6 @@ packages:
   /aws4/1.11.0:
     resolution:
       integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==
-  /axios/0.19.0:
-    dependencies:
-      follow-redirects: 1.5.10
-      is-buffer: 2.0.5
-    deprecated: Critical security vulnerability fixed in v0.21.1. For more information, see https://github.com/axios/axios/pull/3410
-    dev: false
-    resolution:
-      integrity: sha512-1uvKqKQta3KBxIz14F2v06AEHZ/dIoeKfbTRkK1E5oqjDnuEerLmYTgJB5AiQZHJcljpg1TuRzdjDR06qNk0DQ==
   /axios/0.19.2:
     dependencies:
       follow-redirects: 1.5.10
@@ -5768,16 +5238,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-d5AQWuXS95rdrEBnaKeZ9osMkvDR3QDULbAfoE7xRw0W8jfDrza9CsZwf+UhqjV6lbbfaWCrJIu5uObJlfo5Rw==
-  /bip39/2.5.0:
-    dependencies:
-      create-hash: 1.2.0
-      pbkdf2: 3.1.2
-      randombytes: 2.1.0
-      safe-buffer: 5.2.1
-      unorm: 1.6.0
-    dev: false
-    resolution:
-      integrity: sha512-xwIx/8JKoT2+IPJpFEfXoWdYwP7UVAoUxxLNfGCfVowaJE7yg1Y5B1BVPqlUNsBq5/nGwmFkwRJ8xDW4sX8OdA==
   /bip39/2.6.0:
     dependencies:
       create-hash: 1.2.0
@@ -6224,13 +5684,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rVAXBwEcEoYtxnHSO5iWyhzV/O1WMtkUYWlfdLS7FjU4PnSJJHEfHXi/uHPI5EwltmOA794gN3bm3/pzuctWjQ==
-  /buffer/6.0.3:
-    dependencies:
-      base64-js: 1.5.1
-      ieee754: 1.2.1
-    dev: false
-    resolution:
-      integrity: sha512-FTiCpNxtwiZZHEZbcbTIcZjERVICn9yq/pDFkTl95/AxzD1naBctN7YO68riM/gLSDY7sdrMby8hofADYuuqOA==
   /buffers/0.1.1:
     dev: false
     engines:
@@ -6895,6 +6348,7 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+    dev: true
     engines:
       node: '>= 8'
     resolution:
@@ -7423,10 +6877,6 @@ packages:
       node: '>=8.6'
     resolution:
       integrity: sha512-yjNnPr315/FjS4zIsUxYguYUPP2e1NK4d7E7ZOLiyYCcbFBiTMyID+2wvm2w6+pZ/odMA7cRkjhsPbltwBOrLg==
-  /entities/2.2.0:
-    dev: false
-    resolution:
-      integrity: sha512-p92if5Nz619I0w+akJrLZH0MX0Pb5DX39XOwQTtXSdQQOaYH03S1uIQp4mhOZtAXrxq4ViO67YTiLBo2638o9A==
   /env-paths/2.2.1:
     engines:
       node: '>=6'
@@ -8038,22 +7488,6 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-j5W0//W7f8UxAn8hXVnwG8tLwdiUy4FJLcSupCg6maBYZDpyBvTApK7KyuI4bKj8KOh1r2YH+6ucuYtJv1bTZA==
-  /execa/5.0.0:
-    dependencies:
-      cross-spawn: 7.0.3
-      get-stream: 6.0.1
-      human-signals: 2.1.0
-      is-stream: 2.0.0
-      merge-stream: 2.0.0
-      npm-run-path: 4.0.1
-      onetime: 5.1.2
-      signal-exit: 3.0.3
-      strip-final-newline: 2.0.0
-    dev: false
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-ov6w/2LCiuyO4RLYGdpFGjkcs0wMTgGE8PrkTHikeUy5iJekXyPIKUjifk5CsE0pt7sMCrMZ3YNqoCj6idQOnQ==
   /exit-on-epipe/1.0.1:
     dev: false
     engines:
@@ -8639,12 +8073,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-nBF+F1rAZVCu/p7rjzgA+Yb4lfYXrpl7a6VmJrU8wF9I1CKvP/QwPNZHnOlwbTkY6dvtFIzFMSyQXbLoTQPRpA==
-  /get-stream/6.0.1:
-    dev: false
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==
   /get-value/2.0.6:
     dev: true
     engines:
@@ -9053,12 +8481,6 @@ packages:
       node: '>=8.12.0'
     resolution:
       integrity: sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
-  /human-signals/2.1.0:
-    dev: false
-    engines:
-      node: '>=10.17.0'
-    resolution:
-      integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
   /humanize-ms/1.2.1:
     dependencies:
       ms: 2.1.3
@@ -9268,12 +8690,6 @@ packages:
   /is-buffer/1.1.6:
     resolution:
       integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==
-  /is-buffer/2.0.5:
-    dev: false
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha512-i2R6zNFDwgEHJyQUtJEk0XFi1i0dPFn/oqjK3/vPCcDeJvW5NQ83V8QbicfF1SupOaB0h8ntgBC2YiE7dfyctQ==
   /is-callable/1.2.3:
     engines:
       node: '>= 0.4'
@@ -9619,14 +9035,6 @@ packages:
   /isomorphic-ws/4.0.1_ws@7.3.0:
     dependencies:
       ws: 7.3.0
-    dev: false
-    peerDependencies:
-      ws: '*'
-    resolution:
-      integrity: sha512-BhBvN2MBpWTaSHdWRb/bwdZJ1WaehQ2L1KngkCkfLUGF0mAWAT1sQUQacEmQ0jXkFw/czDXPNQSL5u2/Krsz1w==
-  /isomorphic-ws/4.0.1_ws@7.4.6:
-    dependencies:
-      ws: 7.4.6
     dev: false
     peerDependencies:
       ws: '*'
@@ -10911,6 +10319,7 @@ packages:
     resolution:
       integrity: sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=
   /merge-stream/2.0.0:
+    dev: true
     resolution:
       integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==
   /merge2/1.4.1:
@@ -11590,6 +10999,7 @@ packages:
   /npm-run-path/4.0.1:
     dependencies:
       path-key: 3.1.1
+    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -12077,6 +11487,7 @@ packages:
     resolution:
       integrity: sha1-QRyttXTFoUDTpLGRDUDYDMn0C0A=
   /path-key/3.1.1:
+    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -12167,25 +11578,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==
-  /pm2-axon-rpc/0.7.1:
-    dependencies:
-      debug: 4.3.1
-    dev: false
-    engines:
-      node: '>=5'
-    resolution:
-      integrity: sha512-FbLvW60w+vEyvMjP/xom2UPhUN/2bVpdtLfKJeYM3gwzYhoTEEChCOICfFzxkxuoEleOlnpjie+n1nue91bDQw==
-  /pm2-axon/4.0.1:
-    dependencies:
-      amp: 0.3.1
-      amp-message: 0.1.2
-      debug: 4.3.1
-      escape-string-regexp: 4.0.0
-    dev: false
-    engines:
-      node: '>=5'
-    resolution:
-      integrity: sha512-kES/PeSLS8orT8dR5jMlNl+Yu4Ty3nbvZRmaAtROuVm9nYYGiaoXqqKQqQYzWQzMYWUKHMQTvBlirjE5GIIxqg==
   /pngjs/3.4.0:
     dev: false
     engines:
@@ -12978,13 +12370,6 @@ packages:
       utf-8-validate: 5.0.4
     resolution:
       integrity: sha512-/6yKCkRrEEb+TlJb6Q/pNBD4WdO/tFxE22rQYBl1YyIgz3SpzQDQ/0qAMWWksjFkDayiq3xVxmkP8e/tL422ZA==
-  /rss-parser/3.12.0:
-    dependencies:
-      entities: 2.2.0
-      xml2js: 0.4.23
-    dev: false
-    resolution:
-      integrity: sha512-aqD3E8iavcCdkhVxNDIdg1nkBI17jgqF+9OqPS1orwNaOgySdpvq6B+DoONLhzjzwV8mWg37sb60e4bmLK117A==
   /rsvp/4.8.5:
     dev: true
     engines:
@@ -13036,10 +12421,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-hhbzAgTIX8O7SHfp2c8/kREfEn4qO/9q8C9beyY6+tvZ87EpoZ3i1RIEvp27YBswnNbY9mWd6paKVmKbAgLfZA==
-  /sax/1.2.4:
-    dev: false
-    resolution:
-      integrity: sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
   /saxes/5.0.1:
     dependencies:
       xmlchars: 2.2.0
@@ -13209,6 +12590,7 @@ packages:
   /shebang-command/2.0.0:
     dependencies:
       shebang-regex: 3.0.0
+    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -13219,6 +12601,7 @@ packages:
     resolution:
       integrity: sha1-2kL0l0DAtC2yypcoVxyxkMmO/qM=
   /shebang-regex/3.0.0:
+    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -13666,6 +13049,7 @@ packages:
     resolution:
       integrity: sha1-u0P/VZim6wXYm1n80SnJgzE2Br8=
   /strip-final-newline/2.0.0:
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -15134,20 +14518,6 @@ packages:
         optional: true
     resolution:
       integrity: sha512-xzyu3hFvomRfXKH8vOFMU3OguG6oOvhXMo3xsGy3xWExqaM2dxBbVxuD99O7m3ZUFMvvscsZDqxfgMaRr/Nr1g==
-  /ws/7.4.6:
-    dev: false
-    engines:
-      node: '>=8.3.0'
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: ^5.0.2
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    resolution:
-      integrity: sha512-YmhHDO4MzaDLB+M9ym/mDA5z0naX8j7SIlT8f8z+I0VtzsRbekxEutHSme7NPS2qE8StCYQNUnfWdXta/Yu85A==
   /xdg-basedir/4.0.0:
     dev: true
     engines:
@@ -15191,21 +14561,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-A5CUptxDsvxKJEU3yO6DuWBSJz/qizqzJKOMIfUJHETbBw/sFaDxgd6fxm1ewUaM0jZ444Fc5vC5ROYurg/4Pw==
-  /xml2js/0.4.23:
-    dependencies:
-      sax: 1.2.4
-      xmlbuilder: 11.0.1
-    dev: false
-    engines:
-      node: '>=4.0.0'
-    resolution:
-      integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
-  /xmlbuilder/11.0.1:
-    dev: false
-    engines:
-      node: '>=4.0'
-    resolution:
-      integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==
   /xmlchars/2.2.0:
     dev: true
     resolution:

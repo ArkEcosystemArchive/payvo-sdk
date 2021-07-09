@@ -131,6 +131,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/markets",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/sdk",
       "allowedCategories": [ "libraries" ]
     },
