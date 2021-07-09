@@ -112,6 +112,10 @@ it("should get maximum votes per transaction", () => {
 	expect(subject.maximumVotesPerTransaction()).toBe(0);
 });
 
+it("should get the delegate identifier", () => {
+	expect(subject.delegateIdentifier()).toBeString();
+});
+
 it("should determine if the network uses extended public keys", () => {
 	expect(subject.usesExtendedPublicKey()).toBeFalse();
 });
