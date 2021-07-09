@@ -1,6 +1,6 @@
 import { BigNumber } from "@payvo/helpers";
 
-import Fixture from "../test/fixtures/client/wallet.json";
+import Fixture from "../test/fixtures/client/two/wallet.json";
 import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 

@@ -78,21 +78,21 @@ describe("scan", () => {
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "7399986239080551550L" })
-			.reply(200, require("../test/fixtures/client/wallet-0.json"));
+			.reply(200, require("../test/fixtures/client/two/wallet-0.json"));
 
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "11603034586667438647L" })
-			.reply(200, require("../test/fixtures/client/wallet-1.json"));
+			.reply(200, require("../test/fixtures/client/two/wallet-1.json"));
 
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "8261766349562104742L" })
-			.reply(200, require("../test/fixtures/client/wallet-2.json"));
+			.reply(200, require("../test/fixtures/client/two/wallet-2.json"));
 
 		nock(/.+/)
 			.get("/api/accounts")
-			.reply(200, require("../test/fixtures/client/wallet-3.json"));
+			.reply(200, require("../test/fixtures/client/two/wallet-3.json"));
 
 		const lsk = await createMockService(ledger.wallets.record);
 

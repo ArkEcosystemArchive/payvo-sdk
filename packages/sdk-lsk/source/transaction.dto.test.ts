@@ -3,7 +3,7 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import Fixture from "../test/fixtures/client/transaction.json";
+import Fixture from "../test/fixtures/client/two/transaction.json";
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
