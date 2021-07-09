@@ -9,6 +9,7 @@ import {
 import { utils } from "@liskhq/lisk-transactions";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
+import { isTest } from "./helpers";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -19,7 +20,7 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
 
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			if (isTest(this.configRepository)) {
 				return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
 			}
 
@@ -34,7 +35,7 @@ export class AddressService extends Services.AbstractAddressService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		try {
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			if (isTest(this.configRepository)) {
 				return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 			}
 
@@ -48,7 +49,7 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			if (isTest(this.configRepository)) {
 				return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
 			}
 
@@ -60,7 +61,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+			if (isTest(this.configRepository)) {
 				return validateBase32Address(address);
 			}
 

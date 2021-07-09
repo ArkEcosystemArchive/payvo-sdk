@@ -1,173 +1,86 @@
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
-import { Coins, Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
+
+import { BindingType } from "./coin.contract";
+import { ClientServiceThree } from "./client-three.service";
+import { ClientServiceTwo } from "./client-two.service";
+import { isTest } from "./helpers";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
-	#peer!: string;
+	@IoC.inject(BindingType.ClientServiceTwo)
+	private readonly two!: ClientServiceTwo;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#peer = `${Helpers.randomHostFromConfig(this.configRepository)}/api`;
-	}
+	@IoC.inject(BindingType.ClientServiceThree)
+	private readonly three!: ClientServiceThree;
 
 	public override async transaction(
 		id: string,
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
-		const result = await this.#get("transactions", { id });
+		if (isTest(this.configRepository)) {
+			return this.three.transaction(id, input);
+		}
 
-		return this.dataTransferObjectService.transaction(result.data[0]);
+		return this.two.transaction(id, input);
 	}
 
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		// @ts-ignore
-		const result = await this.#get("transactions", this.#createSearchParams({ sort: "timestamp:desc", ...query }));
+		if (isTest(this.configRepository)) {
+			return this.three.transactions(query);
+		}
 
-		return this.dataTransferObjectService.transactions(
-			result.data,
-			this.#createPagination(result.data, result.meta),
-		);
+		return this.two.transactions(query);
 	}
 
 	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		let result: object;
-
-		if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
-			result = (await this.#get(`accounts/${getAddressFromBase32Address(id).toString("hex")}`)).data;
-		} else {
-			result = (await this.#get("accounts", { address: id })).data[0];
+		if (isTest(this.configRepository)) {
+			return this.three.wallet(id);
 		}
 
-		return this.dataTransferObjectService.wallet(result);
+		return this.two.wallet(id);
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
-		const result = await this.#get("accounts", query);
+		if (isTest(this.configRepository)) {
+			return this.three.wallets(query);
+		}
 
-		return new Collections.WalletDataCollection(
-			result.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
-			this.#createPagination(result.data, result.meta),
-		);
+		return this.two.wallets(query);
 	}
 
 	public override async delegate(id: string): Promise<Contracts.WalletData> {
-		const result = await this.#get("delegates", { username: id });
+		if (isTest(this.configRepository)) {
+			return this.three.delegate(id);
+		}
 
-		return this.dataTransferObjectService.wallet(result.data[0]);
+		return this.two.delegate(id);
 	}
 
 	public override async delegates(query?: any): Promise<Collections.WalletDataCollection> {
-		const result = await this.#get("delegates", this.#createSearchParams({ limit: 101, ...query }));
+		if (isTest(this.configRepository)) {
+			return this.three.delegates(query);
+		}
 
-		return new Collections.WalletDataCollection(
-			result.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
-			this.#createPagination(result.data, result.meta),
-		);
+		return this.two.delegates(query);
 	}
 
 	public override async votes(id: string): Promise<Services.VoteReport> {
-		const { data } = await this.#get("votes", { address: id, limit: 101 });
+		if (isTest(this.configRepository)) {
+			return this.three.votes(id);
+		}
 
-		return {
-			used: data.votesUsed,
-			available: data.votesAvailable,
-			publicKeys: data.votes.map((vote: { publicKey: string }) => vote.publicKey),
-		};
+		return this.two.votes(id);
 	}
 
 	public override async broadcast(
 		transactions: Contracts.SignedTransactionData[],
 	): Promise<Services.BroadcastResponse> {
-		const result: Services.BroadcastResponse = {
-			accepted: [],
-			rejected: [],
-			errors: {},
-		};
-
-		for (const transaction of transactions) {
-			if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
-				const { transactionId, message } = await this.#post("v2/transactions", {
-					transaction: transaction.toBroadcast(),
-				});
-
-				if (transactionId) {
-					result.accepted.push(transaction.id());
-				}
-
-				if (message) {
-					result.rejected.push(transaction.id());
-
-					result.errors[transaction.id()] = message;
-				}
-			} else {
-				const { data, errors } = await this.#post("transactions", transaction.toBroadcast());
-
-				if (data) {
-					result.accepted.push(transaction.id());
-				}
-
-				if (errors) {
-					result.rejected.push(transaction.id());
-
-					result.errors[transaction.id()] = errors[0].message;
-				}
-			}
+		if (isTest(this.configRepository)) {
+			return this.three.broadcast(transactions);
 		}
 
-		return result;
-	}
-
-	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
-
-		return response.json();
-	}
-
-	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.post(`${this.#peer}/${path}`, body);
-
-		return response.json();
-	}
-
-	#createSearchParams(searchParams: Services.ClientTransactionsInput): object {
-		if (!searchParams) {
-			searchParams = {};
-		}
-
-		if (searchParams.cursor) {
-			// @ts-ignore
-			searchParams.offset = searchParams.cursor - 1;
-			delete searchParams.cursor;
-		}
-
-		// What is used as "address" with ARK is "senderIdOrRecipientId" with LSK.
-		if (searchParams.address) {
-			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.senderIdOrRecipientId = searchParams.address;
-			delete searchParams.address;
-		}
-
-		// LSK doesn't support bulk lookups so we will simply use the first address.
-		if (searchParams.addresses) {
-			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.senderIdOrRecipientId = searchParams.addresses[0];
-			delete searchParams.addresses;
-		}
-
-		return searchParams;
-	}
-
-	#createPagination(data, meta): Services.MetaPagination {
-		const hasPreviousPage: boolean = data && data.length === meta.limit && meta.offset !== 0;
-		const hasNextPage: boolean = data && data.length === meta.limit;
-
-		return {
-			prev: hasPreviousPage ? Number(meta.offset) - Number(meta.limit) : undefined,
-			self: meta.offset,
-			next: hasNextPage ? Number(meta.offset) + Number(meta.limit) : undefined,
-			last: undefined,
-		};
+		return this.two.broadcast(transactions);
 	}
 }

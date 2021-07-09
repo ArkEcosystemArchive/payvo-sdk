@@ -3,6 +3,7 @@ import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BindingType } from "./coin.contract";
 import { TransactionServiceTwo } from "./transaction-two.service";
 import { TransactionServiceThree } from "./transaction-three.service";
+import { isTest } from "./helpers";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -51,7 +52,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #createFromData(method: string, input: object): Promise<Contracts.SignedTransactionData> {
-		if (this.configRepository.get(Coins.ConfigKey.NetworkType) === "test") {
+		if (isTest(this.configRepository)) {
 			return this.three[method](input);
 		}
 
