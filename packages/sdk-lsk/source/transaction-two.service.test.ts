@@ -6,14 +6,11 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
+import { ClientService } from "./client-two.service";
 import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
-import { TransactionService } from "./transaction.service";
-import { TransactionServiceTwo } from "./transaction-two.service";
-import { TransactionServiceThree } from "./transaction-three.service";
-import { BindingType } from "./coin.contract";
+import { TransactionService } from "./transaction-two.service";
 
 let subject: TransactionService;
 
@@ -27,8 +24,6 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(BindingType.TransactionServiceTwo, TransactionServiceTwo);
-		container.singleton(BindingType.TransactionServiceThree, TransactionServiceThree);
 	});
 });
 

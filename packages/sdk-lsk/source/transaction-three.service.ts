@@ -4,7 +4,7 @@ import { convertLSKToBeddows, getBytes, signTransaction } from "@liskhq/lisk-tra
 import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
-export class TransactionServiceThree extends Services.AbstractTransactionService {
+export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.ClientService)
 	private readonly clientService!: Services.ClientService;
 

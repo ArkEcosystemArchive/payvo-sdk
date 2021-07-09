@@ -1,7 +1,7 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
-export class ClientServiceTwo extends Services.AbstractClientService {
+export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 
 	@IoC.postConstruct()

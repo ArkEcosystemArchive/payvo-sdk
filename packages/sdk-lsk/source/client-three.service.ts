@@ -2,7 +2,7 @@ import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
-export class ClientServiceThree extends Services.AbstractClientService {
+export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 
 	@IoC.postConstruct()

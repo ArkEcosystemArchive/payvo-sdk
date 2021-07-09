@@ -8,7 +8,7 @@ import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
+import { ClientService } from "./client-two.service";
 import { LedgerService } from "./ledger.service";
 
 const createMockService = async (record: string) => {
