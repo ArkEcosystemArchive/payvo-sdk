@@ -68,4 +68,12 @@ export interface IReadOnlyWallet {
 	 * @memberof IReadOnlyWallet
 	 */
 	isResignedDelegate(): boolean;
+
+	/**
+	 * Returns the identifier used for voting.
+	 *
+	 * @returns {string}
+	 * @memberof IReadOnlyWallet
+	 */
+	governanceIdentifier(): string;
 }

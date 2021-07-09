@@ -9,6 +9,7 @@ interface ROWallet {
 	explorerLink: string;
 	isDelegate: boolean;
 	isResignedDelegate: boolean;
+	governanceIdentifier: string;
 }
 
 export class ReadOnlyWallet implements IReadOnlyWallet {
@@ -56,5 +57,14 @@ export class ReadOnlyWallet implements IReadOnlyWallet {
 	/** {@inheritDoc IReadOnlyWallet.isResignedDelegate} */
 	public isResignedDelegate(): boolean {
 		return this.#wallet.isResignedDelegate;
+	}
+
+	/** {@inheritDoc IReadOnlyWallet.governanceIdentifier} */
+	public governanceIdentifier(): string {
+		if (this.#wallet.governanceIdentifier === "address") {
+			return this.address();
+		}
+
+		return this.publicKey()!;
 	}
 }

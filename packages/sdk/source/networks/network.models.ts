@@ -105,6 +105,7 @@ export interface NetworkManifest {
 	hosts: NetworkHost[];
 	constants: NetworkManifestConstants;
 	governance?: {
+		delegateIdentifier?: "address" | "publicKey";
 		delegateCount: number;
 		votesPerWallet: number;
 		votesPerTransaction: number;

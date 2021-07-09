@@ -59,6 +59,7 @@ export class DelegateService implements IDelegateService {
 			result.map((delegate: Contracts.WalletData) => ({
 				...delegate.toObject(),
 				explorerLink: instance.link().wallet(delegate.address()),
+				governanceIdentifier: instance.network().delegateIdentifier(),
 			})),
 		);
 	}
@@ -101,6 +102,7 @@ export class DelegateService implements IDelegateService {
 						explorerLink: wallet.link().wallet(delegate.address()),
 						isDelegate: delegate.isDelegate(),
 						isResignedDelegate: delegate.isResignedDelegate(),
+						governanceIdentifier: delegate.governanceIdentifier(),
 					});
 				} catch {
 					return undefined;
@@ -128,6 +130,7 @@ export class DelegateService implements IDelegateService {
 			explorerLink: delegate.explorerLink,
 			isDelegate: delegate.isDelegate,
 			isResignedDelegate: delegate.isResignedDelegate,
+			governanceIdentifier: delegate.governanceIdentifier,
 		});
 	}
 }

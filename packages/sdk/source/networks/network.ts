@@ -133,6 +133,13 @@ export class Network {
 	}
 
 	/**
+	 * Get the property by which delegates are identified for voting.
+	 */
+	public delegateIdentifier(): string {
+		return get(this.#network, "governance.delegateIdentifier", "publicKey");
+	}
+
+	/**
 	 * Get the maximum number of votes per wallet.
 	 */
 	public maximumVotesPerWallet(): number {

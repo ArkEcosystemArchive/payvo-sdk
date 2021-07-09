@@ -14,6 +14,7 @@ beforeEach(async () => {
 		explorerLink: "https://google.com",
 		isDelegate: false,
 		isResignedDelegate: false,
+		governanceIdentifier: "address",
 	});
 });
 
@@ -37,4 +38,23 @@ it("should have an avatar", () => {
 
 it("should have an explorer link", () => {
 	expect(subject.explorerLink()).toEqual("https://google.com");
+});
+
+it("should have an address as governance identifier", () => {
+	expect(subject.governanceIdentifier()).toEqual(identity.address);
+});
+
+it("should have an publicKey as governance identifier", () => {
+	subject = new ReadOnlyWallet({
+		address: identity.address,
+		publicKey: identity.publicKey,
+		username: "arkx",
+		rank: 1,
+		explorerLink: "https://google.com",
+		isDelegate: false,
+		isResignedDelegate: false,
+		governanceIdentifier: "publicKey",
+	});
+
+	expect(subject.governanceIdentifier()).toEqual(identity.publicKey);
 });
