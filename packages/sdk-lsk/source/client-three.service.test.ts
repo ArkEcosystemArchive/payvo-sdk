@@ -238,7 +238,7 @@ describe("ClientService", () => {
 
 			expect(result).toBeObject();
 			expect(result.used).toBe(1);
-			expect(result.available).toBe(100);
+			expect(result.available).toBe(19);
 			expect(result.publicKeys).toHaveLength(1);
 		});
 	});

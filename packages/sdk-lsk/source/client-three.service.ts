@@ -67,8 +67,8 @@ export class ClientService extends Services.AbstractClientService {
 
 		return {
 			used: data.account.votesUsed,
-			available: 101 - data.account.votesUsed,
-			publicKeys: data.votes.map((vote: { address: string }) => vote.address),
+			available: 20 - data.account.votesUsed,
+			publicKeys: data.votes.map(({ delegateAddress }) => delegateAddress),
 		};
 	}
 
