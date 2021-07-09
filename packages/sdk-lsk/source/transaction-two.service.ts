@@ -60,7 +60,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @ledgerS
 	 */
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("castVotes", input);
+		const data: any = {
+			...input,
+			votes: [],
+			unvotes: [],
+		};
+
+		for (const vote of input.data.votes) {
+			data.votes.push(`+${vote.id}`);
+		}
+
+		for (const unvote of input.data.unvotes) {
+			data.unvotes.push(`-${unvote.id}`);
+		}
+
+		return this.#createFromData("castVotes", data);
 	}
 
 	public override async multiSignature(
