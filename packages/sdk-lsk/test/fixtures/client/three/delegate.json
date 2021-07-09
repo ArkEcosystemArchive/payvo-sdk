@@ -1,0 +1,54 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+				"legacyAddress": "16671600588889208369L",
+				"balance": "20115467794",
+				"username": "punkrock",
+				"publicKey": "3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "20115467794"
+			},
+			"sequence": {
+				"nonce": "2"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609",
+					"342ddd4abcf697f2311bf710320d5191d5184a83a4508376fb5e50f6c24c50e1"
+				],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "punkrock",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075268,
+					"isBanned": false,
+					"totalVotesReceived": "307554000000000",
+					"producedBlocks": 202,
+					"rank": 1,
+					"rewards": "20200000000"
+				},
+				"sentVotes": [
+					{
+						"delegateAddress": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+						"amount": "307554000000000"
+					}
+				]
+			}
+		}
+	],
+	"meta": {
+		"count": 100,
+		"offset": 0,
+		"total": 737
+	}
+}

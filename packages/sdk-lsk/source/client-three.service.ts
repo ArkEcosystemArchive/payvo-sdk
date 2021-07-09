@@ -7,14 +7,14 @@ export class ClientService extends Services.AbstractClientService {
 
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
-		this.#peer = `${Helpers.randomHostFromConfig(this.configRepository, "archival")}/api`;
+		this.#peer = `${Helpers.randomHostFromConfig(this.configRepository, "archival")}/api/v2`;
 	}
 
 	public override async transaction(
 		id: string,
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
-		const result = await this.#get("transactions", { id });
+		const result = await this.#get("transactions", { transactionId: id });
 
 		return this.dataTransferObjectService.transaction(result.data[0]);
 	}
@@ -32,7 +32,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		return this.dataTransferObjectService.wallet((await this.#get(`accounts/${getAddressFromBase32Address(id).toString("hex")}`)).data);
+		return this.dataTransferObjectService.wallet((await this.#get("accounts", { address: id })).data);
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
@@ -45,13 +45,13 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async delegate(id: string): Promise<Contracts.WalletData> {
-		const result = await this.#get("delegates", { username: id });
+		const result = await this.#get("accounts", { username: id });
 
 		return this.dataTransferObjectService.wallet(result.data[0]);
 	}
 
 	public override async delegates(query?: any): Promise<Collections.WalletDataCollection> {
-		const result = await this.#get("delegates", this.#createSearchParams({ limit: 101, ...query }));
+		const result = await this.#get("accounts", this.#createSearchParams({ isDelegate: true, limit: 100, ...query }));
 
 		return new Collections.WalletDataCollection(
 			result.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
@@ -60,12 +60,12 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async votes(id: string): Promise<Services.VoteReport> {
-		const { data } = await this.#get("votes", { address: id, limit: 101 });
+		const { data } = await this.#get("votes_sent", { address: id });
 
 		return {
-			used: data.votesUsed,
-			available: data.votesAvailable,
-			publicKeys: data.votes.map((vote: { publicKey: string }) => vote.publicKey),
+			used: data.account.votesUsed,
+			available: 101 - data.account.votesUsed,
+			publicKeys: data.votes.map((vote: { address: string }) => vote.address),
 		};
 	}
 
@@ -79,12 +79,14 @@ export class ClientService extends Services.AbstractClientService {
 		};
 
 		for (const transaction of transactions) {
-			const { transactionId, message } = await this.#post("v2/transactions", {
+			const { transactionId, message } = await this.#post("transactions", {
 				transaction: transaction.toBroadcast(),
 			});
 
 			if (transactionId) {
 				result.accepted.push(transaction.id());
+
+				continue;
 			}
 
 			if (message) {
@@ -98,7 +100,11 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
+		// console.log(`${this.#peer}/${path}`, query);
+
 		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
+
+		// console.log(response.body());
 
 		return response.json();
 	}
@@ -120,17 +126,10 @@ export class ClientService extends Services.AbstractClientService {
 			delete searchParams.cursor;
 		}
 
-		// What is used as "address" with ARK is "senderIdOrRecipientId" with LSK.
-		if (searchParams.address) {
-			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.senderIdOrRecipientId = searchParams.address;
-			delete searchParams.address;
-		}
-
 		// LSK doesn't support bulk lookups so we will simply use the first address.
 		if (searchParams.addresses) {
 			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.senderIdOrRecipientId = searchParams.addresses[0];
+			searchParams.address = searchParams.addresses[0];
 			delete searchParams.addresses;
 		}
 

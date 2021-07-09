@@ -1,0 +1,398 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t",
+				"balance": "8361961317361193",
+				"username": "",
+				"publicKey": null,
+				"isDelegate": false,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "8361961317361193"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lskhszrdpk5yzngd885cvsvsuxcko7trsvdpn2moz",
+				"legacyAddress": "18234943547133247982L",
+				"balance": "675936025731617",
+				"username": "testnet_faerie",
+				"publicKey": "9bc945f92141d5e11e97274c275d127dc7656dda5c8fcbf1df7d44827a732664",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "675936025731617"
+			},
+			"sequence": {
+				"nonce": "1"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "testnet_faerie",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": null,
+					"isBanned": false,
+					"totalVotesReceived": "0",
+					"producedBlocks": 0,
+					"rewards": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lsks3nfpf5bt6xa5qo73ftgaersg89t8fx5ov9d9z",
+				"legacyAddress": "10773624498522558426L",
+				"balance": "307528366560526",
+				"username": "gr33ndrag0n",
+				"publicKey": "961d1a1057a09f865291873e9ba3d0af7b2a3a1e971bb7576a2aab1c526acbcd",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "307528366560526"
+			},
+			"sequence": {
+				"nonce": "1"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"751a77d3b16408b2396665eb2337f7fd3c29e089eecb7b49f168ee3bd45305e3",
+					"961d1a1057a09f865291873e9ba3d0af7b2a3a1e971bb7576a2aab1c526acbcd"
+				],
+				"optionalKeys": [],
+				"members": [
+					{
+						"address": "lsks3nfpf5bt6xa5qo73ftgaersg89t8fx5ov9d9z",
+						"publicKey": "961d1a1057a09f865291873e9ba3d0af7b2a3a1e971bb7576a2aab1c526acbcd",
+						"isMandatory": true
+					},
+					{
+						"publicKey": "751a77d3b16408b2396665eb2337f7fd3c29e089eecb7b49f168ee3bd45305e3",
+						"isMandatory": true
+					}
+				]
+			},
+			"dpos": {
+				"delegate": {
+					"username": "gr33ndrag0n",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075292,
+					"isBanned": false,
+					"totalVotesReceived": "100010000000000",
+					"producedBlocks": 225,
+					"rewards": "22300000000"
+				},
+				"sentVotes": [
+					{
+						"delegateAddress": "lsks3nfpf5bt6xa5qo73ftgaersg89t8fx5ov9d9z",
+						"amount": "100000000000000"
+					}
+				]
+			}
+		},
+		{
+			"summary": {
+				"address": "lsk9tovmsz2wvewcod7fd99p79wdbswtq9uyrs23t",
+				"legacyAddress": "8191405714437232748L",
+				"balance": "79366014448711",
+				"username": "stellardynamic",
+				"publicKey": "279320364fc3edd39b77f1fa29594d442e39220b165956fa729f741150b0dc4d",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "79366014448711"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "stellardynamic",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14077445,
+					"isBanned": false,
+					"totalVotesReceived": "0",
+					"producedBlocks": 181,
+					"rewards": "18100000000"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lskbfurun2vc9nfn2g6goj5wscf4d4zkobvkbno6w",
+				"balance": "72238008905635",
+				"username": "wannabe_rotebaron",
+				"publicKey": null,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "72238008905635"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "wannabe_rotebaron",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "0",
+					"producedBlocks": 0,
+					"rewards": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lskyr6qjjbus3gz34m52tzbuokzpowkcyp5gskhok",
+				"balance": "65624324150611",
+				"username": "atreides",
+				"publicKey": null,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "65624324150611"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "atreides",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "0",
+					"producedBlocks": 0,
+					"rewards": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lsk8rygaq67dojw3gv8fe7fnyv8b6mmd3rgouxs3x",
+				"balance": "64894158188638",
+				"username": "bawga_testnet",
+				"publicKey": null,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "64894158188638"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "bawga_testnet",
+					"consecutiveMissedBlocks": 616,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "5000000000",
+					"producedBlocks": 0,
+					"rewards": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lsk6s82epcdg4qqqnsmhrtbfzxst3p3fj6d5nkums",
+				"legacyAddress": "6515576688092110678L",
+				"balance": "61690175415231",
+				"username": "phoenix1969",
+				"publicKey": "3697a4f8c74cb21949eec31fddde190c16ab2497709fb503c567d3a9e6a6e989",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "61690175415231"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"3697a4f8c74cb21949eec31fddde190c16ab2497709fb503c567d3a9e6a6e989",
+					"43d11c99b7591456a7fcc3ecbc7094147f71802fccb8f41b87416ae185f3bb98"
+				],
+				"optionalKeys": [],
+				"members": [
+					{
+						"address": "lsk6s82epcdg4qqqnsmhrtbfzxst3p3fj6d5nkums",
+						"publicKey": "3697a4f8c74cb21949eec31fddde190c16ab2497709fb503c567d3a9e6a6e989",
+						"isMandatory": true
+					},
+					{
+						"publicKey": "43d11c99b7591456a7fcc3ecbc7094147f71802fccb8f41b87416ae185f3bb98",
+						"isMandatory": true
+					}
+				]
+			},
+			"dpos": {
+				"delegate": {
+					"username": "phoenix1969",
+					"consecutiveMissedBlocks": 616,
+					"registrationHeight": 0,
+					"lastForgedHeight": null,
+					"isBanned": false,
+					"totalVotesReceived": "0",
+					"producedBlocks": 0,
+					"rewards": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lskp6hyd4hotfk2ht6oqakusfoqjbrh2oz8w2qq8h",
+				"legacyAddress": "10279923186189318946L",
+				"balance": "49972910007169",
+				"username": "",
+				"publicKey": "f59df94e54ebe23a4cd50ec7186e8739980277527b0a02ed3fc4ab3e169a4380",
+				"isMigrated": true,
+				"isDelegate": false,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "49972910007169"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"8b2ce4a98f10f0f520ae47e35fe2c273d1f92bdc18da331dc4ebf9dc804042c9",
+					"f59df94e54ebe23a4cd50ec7186e8739980277527b0a02ed3fc4ab3e169a4380"
+				],
+				"optionalKeys": [],
+				"members": [
+					{
+						"address": "lskp6hyd4hotfk2ht6oqakusfoqjbrh2oz8w2qq8h",
+						"publicKey": "f59df94e54ebe23a4cd50ec7186e8739980277527b0a02ed3fc4ab3e169a4380",
+						"isMandatory": true
+					},
+					{
+						"publicKey": "8b2ce4a98f10f0f520ae47e35fe2c273d1f92bdc18da331dc4ebf9dc804042c9",
+						"isMandatory": true
+					}
+				]
+			},
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				}
+			}
+		},
+		{
+			"summary": {
+				"address": "lskwcumkptb6vk964qcxkb2h9gxsznaa8sqmyeqf6",
+				"legacyAddress": "15395643725490872504L",
+				"balance": "49469822763411",
+				"username": "corsaro",
+				"publicKey": "abf9787621f8f43ec4e4a645b515094f42fc5615f2e231eca24eaf6e69dc6a65",
+				"isMigrated": true,
+				"isDelegate": true,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "49469822763411"
+			},
+			"sequence": {
+				"nonce": "1"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "corsaro",
+					"consecutiveMissedBlocks": 0,
+					"registrationHeight": 0,
+					"lastForgedHeight": 14075722,
+					"isBanned": false,
+					"totalVotesReceived": "10006000000000",
+					"producedBlocks": 214,
+					"rewards": "21400000000"
+				},
+				"sentVotes": [
+					{
+						"delegateAddress": "lskwcumkptb6vk964qcxkb2h9gxsznaa8sqmyeqf6",
+						"amount": "10006000000000"
+					}
+				]
+			}
+		}
+	],
+	"meta": {
+		"count": 10,
+		"offset": 0
+	}
+}
