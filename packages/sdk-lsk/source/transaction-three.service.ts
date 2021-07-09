@@ -33,6 +33,7 @@ export class TransactionServiceThree extends Services.AbstractTransactionService
 				assetID,
 				nonce: BigInt(wallet.nonce().toString()),
 				// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
+				// https://testnet-service.lisk.io/api/v2/fees
 				fee: BigInt(convertLSKToBeddows(String(input.fee || 0.1))),
 				senderPublicKey: Buffer.from(input.signatory.publicKey(), "hex"),
 				asset,
