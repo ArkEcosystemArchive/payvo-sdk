@@ -31,8 +31,8 @@ const network: Networks.NetworkManifest = {
 	],
 	governance: {
 		delegateCount: 101,
-		votesPerWallet: 101,
-		votesPerTransaction: 33,
+		votesPerWallet: 20,
+		votesPerTransaction: 20,
 	},
 	transactions,
 	importMethods,

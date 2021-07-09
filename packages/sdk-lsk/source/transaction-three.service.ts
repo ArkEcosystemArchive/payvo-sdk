@@ -16,6 +16,29 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}, input);
 	}
 
+	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
+		const votes: {
+            delegateAddress: string;
+            amount: BigInt;
+        }[] = [];
+
+		for (const vote of input.data.votes) {
+			votes.push({
+				delegateAddress: vote.id,
+				amount: BigInt(vote.amount.toString()),
+			});
+		}
+
+		for (const unvote of input.data.unvotes) {
+			votes.push({
+				delegateAddress: unvote.id,
+				amount: BigInt(unvote.amount.toString()),
+			});
+		}
+
+		return this.#createFromData("dpos:voteDelegate", { votes }, input);
+	}
+
 	async #createFromData<T>(
 		type: string,
 		asset: object,
