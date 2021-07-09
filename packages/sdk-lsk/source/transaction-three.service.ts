@@ -9,11 +9,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 	private readonly clientService!: Services.ClientService;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("token:transfer", {
-			amount: BigInt(this.toSatoshi(input.data.amount).toString()),
-			recipientAddress: getAddressFromBase32Address(input.data.to),
-			data: input.data.memo || '',
-		}, input);
+		return this.#createFromData(
+			"token:transfer",
+			{
+				amount: BigInt(this.toSatoshi(input.data.amount).toString()),
+				recipientAddress: getAddressFromBase32Address(input.data.to),
+				data: input.data.memo || "",
+			},
+			input,
+		);
 	}
 
 	async #createFromData<T>(
@@ -54,7 +58,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee: signedTransaction.fee,
 				timestamp: DateTime.make(),
 			},
-			getBytes(assetSchema, signedTransaction).toString('hex'),
+			getBytes(assetSchema, signedTransaction).toString("hex"),
 		);
 	}
 }

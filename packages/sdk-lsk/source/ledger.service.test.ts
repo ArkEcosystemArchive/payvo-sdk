@@ -90,9 +90,7 @@ describe("scan", () => {
 			.query({ address: "8261766349562104742L" })
 			.reply(200, require("../test/fixtures/client/two/wallet-2.json"));
 
-		nock(/.+/)
-			.get("/api/accounts")
-			.reply(200, require("../test/fixtures/client/two/wallet-3.json"));
+		nock(/.+/).get("/api/accounts").reply(200, require("../test/fixtures/client/two/wallet-3.json"));
 
 		const lsk = await createMockService(ledger.wallets.record);
 
