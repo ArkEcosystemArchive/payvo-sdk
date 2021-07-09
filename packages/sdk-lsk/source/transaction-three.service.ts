@@ -42,9 +42,9 @@ export class TransactionServiceThree extends Services.AbstractTransactionService
 			input.signatory.signingKey(),
 		);
 
-		console.log(JSON.stringify({
-			transaction: getBytes(assetSchema, signedTransaction).toString('hex'),
-		}));
+		// console.log(JSON.stringify({
+		// 	transaction: getBytes(assetSchema, signedTransaction).toString('hex'),
+		// }));
 
 		return this.dataTransferObjectService.signedTransaction(
 			signedTransaction.id,
