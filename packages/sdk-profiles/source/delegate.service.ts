@@ -85,7 +85,13 @@ export class DelegateService implements IDelegateService {
 		return publicKeys
 			.map((publicKey: string) => {
 				try {
-					const delegate = this.findByPublicKey(wallet.coinId(), wallet.networkId(), publicKey);
+					let delegate: IReadOnlyWallet | undefined;
+
+					try {
+						delegate = this.findByPublicKey(wallet.coinId(), wallet.networkId(), publicKey);
+					} catch {
+						delegate = this.findByAddress(wallet.coinId(), wallet.networkId(), publicKey);
+					}
 
 					return new ReadOnlyWallet({
 						address: delegate.address(),
