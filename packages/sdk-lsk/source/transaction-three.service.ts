@@ -32,7 +32,8 @@ export class TransactionServiceThree extends Services.AbstractTransactionService
 				moduleID,
 				assetID,
 				nonce: BigInt(wallet.nonce().toString()),
-				fee: BigInt(convertLSKToBeddows(String(input.fee || 0.1))), // @TODO: The estimates are currently under processing. Please retry in 30 seconds.
+				// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
+				fee: BigInt(convertLSKToBeddows(String(input.fee || 0.1))),
 				senderPublicKey: Buffer.from(input.signatory.publicKey(), "hex"),
 				asset,
 			},
