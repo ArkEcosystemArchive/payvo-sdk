@@ -246,7 +246,7 @@ export interface IProfileTransactionNotifications {
 	 * Mark the given transaction notification as read.
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileTransactionNotifications
 	 */
 	markAsRead(key: string): void;
 
@@ -333,25 +333,63 @@ export interface IProfileNotifications {
 	/**
 	 * Mark the given notification as read.
 	 *
-	 * @param {string} key
-	 * @memberof INotificationRepository
+	 * @param {string} id
+	 * @memberof IProfileNotifications
 	 */
-	markAsRead(key: string): void;
+	markAsRead(id: string): void;
 
 	/**
 	 * Get a notification for the given key.
 	 *
-	 * @param {string} key
+	 * @param {string} id
 	 * @returns {INotification}
 	 * @memberof IProfileNotifications
 	 */
-	get(key: string): INotification;
+	get(id: string): INotification;
+
+	/**
+	 * Count how many notifications there are.
+	 *
+	 * @returns {number}
+	 * @memberof IProfileNotifications
+	 */
+	count(): number;
 
 	/**
 	 * Filter notifications by type
 	 *
 	 * @param {INotificationType} type
-	 * @memberof INotificationRepository
+	 * @memberof IProfileNotifications
 	 */
 	filterByType(type: INotificationType): INotification[];
+
+	/**
+	 * Get all notifications.
+	 *
+	 * @returns {Record<string, INotification>}
+	 * @memberof IProfileNotifications
+	 */
+	all(): Record<string, INotification>;
+
+	/**
+	 * Remove all notifications.
+	 *
+	 * @memberof IProfileNotifications
+	 */
+	flush(): void;
+
+	/**
+	 * Fill the storage with notification data.
+	 *
+	 * @param {object} entries
+	 * @memberof IProfileNotifications
+	 */
+	fill(entries: object): void;
+
+	/**
+	 * Check if profile has unread notifications
+	 *
+	 * @memberof IProfileNotifications
+	 */
+	hasUnread(): boolean;
 }

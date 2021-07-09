@@ -4,7 +4,7 @@ import {
 	IPluginRepository,
 	IContactRepository,
 	IDataRepository,
-	INotificationRepository,
+	IProfileNotifications,
 	IPeerRepository,
 	ISettingRepository,
 	IWalletRepository,
@@ -164,12 +164,12 @@ export interface IProfile {
 	data(): IDataRepository;
 
 	/**
-	 * Get the notification repository instance.
+	 * Get the notification service instance.
 	 *
-	 * @return {INotificationRepository}
+	 * @return {IProfileNotifications}
 	 * @memberof IProfile
 	 */
-	notifications(): INotificationRepository;
+	notifications(): IProfileNotifications;
 
 	/**
 	 * Get the peer repository instance.

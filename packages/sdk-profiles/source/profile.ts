@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { BigNumber } from "@payvo/helpers";
 import {
 	IContactRepository,
 	IPortfolio,
 	ICountAggregate,
 	IDataRepository,
-	INotificationRepository,
 	IPeerRepository,
 	IPluginRepository,
 	IProfile,
@@ -27,7 +25,6 @@ import {
 import { PluginRepository } from "./plugin.repository";
 import { ContactRepository } from "./contact.repository";
 import { DataRepository } from "./data.repository";
-import { NotificationRepository } from "./notification.repository";
 import { PeerRepository } from "./peer.repository";
 import { SettingRepository } from "./setting.repository";
 import { WalletRepository } from "./wallet.repository";
@@ -45,6 +42,8 @@ import { ProfileInitialiser } from "./profile.initialiser";
 import { IPasswordManager } from "./contracts";
 import { PasswordManager } from "./password";
 import { ProfileStatus } from "./profile.status";
+import { IProfileNotifications } from "./notification.repository.contract";
+import { ProfileNotifications } from "./notification.service";
 
 export class Profile implements IProfile {
 	/**
@@ -80,12 +79,12 @@ export class Profile implements IProfile {
 	readonly #dataRepository: IDataRepository;
 
 	/**
-	 * The notification repository.
+	 * The notification service.
 	 *
-	 * @type {INotificationRepository}
+	 * @type {IProfileNotifications}
 	 * @memberof Profile
 	 */
-	readonly #notificationRepository: INotificationRepository;
+	readonly #notificationsService: IProfileNotifications;
 
 	/**
 	 * The peer repository.
@@ -189,7 +188,7 @@ export class Profile implements IProfile {
 		this.#portfolio = new Portfolio(this);
 		this.#contactRepository = new ContactRepository(this);
 		this.#dataRepository = new DataRepository();
-		this.#notificationRepository = new NotificationRepository(this);
+		this.#notificationsService = new ProfileNotifications(this);
 		this.#peerRepository = new PeerRepository(this);
 		this.#pluginRepository = new PluginRepository();
 		this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
@@ -294,8 +293,8 @@ export class Profile implements IProfile {
 	}
 
 	/** {@inheritDoc IProfile.notifications} */
-	public notifications(): INotificationRepository {
-		return this.#notificationRepository;
+	public notifications(): IProfileNotifications {
+		return this.#notificationsService;
 	}
 
 	/** {@inheritDoc IProfile.peers} */
