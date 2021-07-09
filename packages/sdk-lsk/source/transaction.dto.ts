@@ -18,6 +18,10 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override timestamp(): DateTime | undefined {
+		if (isTest(this.data)) {
+			return DateTime.fromUnix(this.data.block.timestamp);
+		}
+
 		return normalizeTimestamp(this.data.timestamp);
 	}
 

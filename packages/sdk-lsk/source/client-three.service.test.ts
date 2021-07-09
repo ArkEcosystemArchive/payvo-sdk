@@ -43,7 +43,7 @@ describe("ClientService", () => {
 				`"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5"`,
 			);
 			expect(result.blockId()).toMatchInlineSnapshot(`undefined`);
-			expect(result.timestamp()).toMatchInlineSnapshot(`null`);
+			expect(result.timestamp()).toMatchInlineSnapshot(`"2021-07-04T14:38:10.000Z"`);
 			expect(result.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
 			expect(result.sender()).toMatchInlineSnapshot(`undefined`);
 			expect(result.recipient()).toMatchInlineSnapshot(`undefined`);
@@ -82,7 +82,7 @@ describe("ClientService", () => {
 				`"eae780f7a5233cd06084f6cc7ae1939f83a31af4e4d9caa294f3a6e7b99130ed"`,
 			);
 			expect(transaction.blockId()).toMatchInlineSnapshot(`undefined`);
-			expect(transaction.timestamp()).toMatchInlineSnapshot(`null`);
+			expect(transaction.timestamp()).toMatchInlineSnapshot(`"2021-07-02T11:22:20.000Z"`);
 			expect(transaction.confirmations().toString()).toMatchInlineSnapshot(`"NaN"`);
 			expect(transaction.sender()).toMatchInlineSnapshot(`undefined`);
 			expect(transaction.recipient()).toMatchInlineSnapshot(`undefined`);
