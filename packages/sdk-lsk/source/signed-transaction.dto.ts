@@ -27,6 +27,10 @@ export class SignedTransactionData
 	}
 
 	public override timestamp(): DateTime {
+		if (this.timestamp instanceof DateTime) {
+			return this.signedData.timestamp;
+		}
+
 		return normalizeTimestamp(this.signedData.timestamp);
 	}
 

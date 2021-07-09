@@ -2,6 +2,7 @@ import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
 import { getAddressFromBase32Address, intToBuffer } from "@liskhq/lisk-cryptography";
 import { getBytes, signTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertLSKToBeddows } from "@liskhq/lisk-transactions/dist-node/utils";
+import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
 export class TransactionServiceThree extends Services.AbstractTransactionService {
@@ -50,7 +51,7 @@ export class TransactionServiceThree extends Services.AbstractTransactionService
 				recipientId: signedTransaction.asset.recipientAddress,
 				amount: signedTransaction.asset.amount,
 				fee: signedTransaction.fee,
-				timestamp: "", // @TODO
+				timestamp: DateTime.make(),
 			},
 			getBytes(assetSchema, signedTransaction).toString('hex'),
 		);
