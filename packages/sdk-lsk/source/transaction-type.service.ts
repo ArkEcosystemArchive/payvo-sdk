@@ -37,7 +37,7 @@ export class TransactionTypeService {
 				return false;
 			}
 
-			return data.asset.votes.some(({ amount }) => amount.startsWith("+"));
+			return data.asset.votes.some(({ amount }) => !amount.startsWith("-"));
 		}
 
 		if (parseInt(data.type) !== 3) {

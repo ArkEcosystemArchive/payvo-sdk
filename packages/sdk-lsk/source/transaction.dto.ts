@@ -58,11 +58,15 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override amount(): BigNumber {
+		if (this.data.amount) {
+			return this.bigNumberService.make(this.data.amount);
+		}
+
 		if (this.data.asset?.amount) {
 			return this.bigNumberService.make(this.data.asset.amount);
 		}
 
-		return this.bigNumberService.make(this.data.amount);
+		return BigNumber.ZERO;
 	}
 
 	public override fee(): BigNumber {
