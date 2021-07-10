@@ -60,10 +60,10 @@ export class WalletSynchroniser implements IWalletSynchroniser {
 
 	/** {@inheritDoc IWalletSynchroniser.votes} */
 	public async votes(): Promise<void> {
-		const { available, publicKeys, used } = await this.#wallet.client().votes(this.#wallet.address());
+		const { available, votes, used } = await this.#wallet.client().votes(this.#wallet.address());
 
 		this.#wallet.data().set(WalletData.VotesAvailable, available);
-		this.#wallet.data().set(WalletData.Votes, publicKeys);
+		this.#wallet.data().set(WalletData.Votes, votes);
 		this.#wallet.data().set(WalletData.VotesUsed, used);
 	}
 }
