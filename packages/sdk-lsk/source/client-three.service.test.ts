@@ -239,7 +239,14 @@ describe("ClientService", () => {
 			expect(result).toBeObject();
 			expect(result.used).toBe(1);
 			expect(result.available).toBe(19);
-			expect(result.publicKeys).toHaveLength(1);
+			expect(result.votes).toMatchInlineSnapshot(`
+			Array [
+			  Object {
+			    "amount": "307554000000000",
+			    "id": undefined,
+			  },
+			]
+		`);
 		});
 	});
 
