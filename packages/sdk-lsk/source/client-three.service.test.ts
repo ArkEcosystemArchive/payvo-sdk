@@ -243,7 +243,7 @@ describe("ClientService", () => {
 			Array [
 			  Object {
 			    "amount": "307554000000000",
-			    "id": undefined,
+			    "id": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
 			  },
 			]
 		`);
