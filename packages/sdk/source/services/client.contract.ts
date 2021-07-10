@@ -69,7 +69,7 @@ export interface ClientWalletsInput extends ClientPagination {
 export interface VoteReport {
 	used: number;
 	available: number;
-	publicKeys: string[];
+	votes: { id: string; amount: number }[];
 }
 
 export interface TransactionDetailInput {

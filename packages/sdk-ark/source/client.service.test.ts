@@ -209,7 +209,14 @@ describe("ClientService", () => {
 			expect(result).toBeObject();
 			expect(result.used).toBe(1);
 			expect(result.available).toBe(0);
-			expect(result.publicKeys).toHaveLength(1);
+			expect(result.votes).toMatchInlineSnapshot(`
+			Array [
+			  Object {
+			    "amount": 0,
+			    "id": "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+			  },
+			]
+		`);
 		});
 
 		it("should succeed without vote", async () => {
@@ -230,7 +237,7 @@ describe("ClientService", () => {
 			expect(result).toBeObject();
 			expect(result.used).toBe(0);
 			expect(result.available).toBe(1);
-			expect(result.publicKeys).toHaveLength(0);
+			expect(result.votes).toMatchInlineSnapshot(`Array []`);
 		});
 
 		it("should succeed without attributes", async () => {
@@ -248,7 +255,7 @@ describe("ClientService", () => {
 			expect(result).toBeObject();
 			expect(result.used).toBe(0);
 			expect(result.available).toBe(1);
-			expect(result.publicKeys).toHaveLength(0);
+			expect(result.votes).toMatchInlineSnapshot(`Array []`);
 		});
 	});
 
