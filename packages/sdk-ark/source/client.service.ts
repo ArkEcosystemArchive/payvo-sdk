@@ -62,10 +62,14 @@ export class ClientService extends Services.AbstractClientService {
 		return {
 			used: hasVoted ? 1 : 0,
 			available: hasVoted ? 0 : 1,
-			votes: hasVoted ? [{
-				id: data.attributes?.vote,
-				amount: 0,
-			}] : [],
+			votes: hasVoted
+				? [
+						{
+							id: data.attributes?.vote,
+							amount: 0,
+						},
+				  ]
+				: [],
 		};
 	}
 
