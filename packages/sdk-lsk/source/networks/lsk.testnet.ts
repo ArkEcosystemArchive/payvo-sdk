@@ -37,7 +37,14 @@ const network: Networks.NetworkManifest = {
 	},
 	transactions,
 	importMethods,
-	featureFlags,
+	featureFlags: {
+		...featureFlags,
+		Transaction: [
+			"delegateRegistration",
+			"transfer",
+			"vote",
+		],
+	},
 	explorer: {
 		block: "block/{0}",
 		transaction: "transaction/{0}",
