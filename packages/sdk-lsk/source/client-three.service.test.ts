@@ -242,7 +242,7 @@ describe("ClientService", () => {
 			expect(result.votes).toMatchInlineSnapshot(`
 			Array [
 			  Object {
-			    "amount": "307554000000000",
+			    "amount": 3075540,
 			    "id": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
 			  },
 			]

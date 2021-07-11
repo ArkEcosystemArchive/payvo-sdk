@@ -1,9 +1,11 @@
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
+
+	@IoC.inject(IoC.BindingType.BigNumberService)
+	protected readonly bigNumberService!: Services.BigNumberService;
 
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
@@ -70,7 +72,7 @@ export class ClientService extends Services.AbstractClientService {
 			available: 20 - data.account.votesUsed,
 			votes: data.votes.map(({ address, amount }) => ({
 				id: address,
-				amount,
+				amount: this.bigNumberService.make(amount).toHuman(),
 			})),
 		};
 	}
