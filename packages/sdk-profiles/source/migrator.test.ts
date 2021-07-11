@@ -9,6 +9,7 @@ import { Profile } from "./profile";
 import { IProfile, ProfileData, ProfileSetting } from "./contracts";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileSerialiser } from "./profile.serialiser";
+import { IProfileData } from "./profile.contract";
 
 let subject: Migrator;
 let profile: IProfile;
@@ -18,7 +19,7 @@ beforeAll(() => bootContainer());
 beforeEach(async () => {
 	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
 
-	subject = new Migrator(profile);
+	subject = new Migrator(profile, {} as IProfileData);
 });
 
 it("should save the project version as the initial migrated version", async () => {
@@ -227,7 +228,7 @@ it("should migrate profiles from JSON to Base64", async () => {
 		},
 	});
 
-	subject = new Migrator(profile);
+	subject = new Migrator(profile, {} as IProfileData);
 
 	await subject.migrate(
 		{
