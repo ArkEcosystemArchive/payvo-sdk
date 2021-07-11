@@ -23,7 +23,7 @@ export class ProfileImporter implements IProfileImporter {
 		let data: IProfileData | undefined = this.#unpack(password);
 
 		if (container.has(Identifiers.MigrationSchemas) && container.has(Identifiers.MigrationVersion)) {
-			await new Migrator(this.#profile).migrate(
+			await new Migrator(this.#profile, data).migrate(
 				container.get(Identifiers.MigrationSchemas),
 				container.get(Identifiers.MigrationVersion),
 			);
