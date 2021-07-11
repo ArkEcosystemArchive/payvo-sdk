@@ -108,6 +108,16 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		this.#notifications.markAsRead(notification.id);
 	};
 
+	/** {@inheritDoc IProfileTransactionNotifications.markAllAsRead} */
+	public markAllAsRead = () => {
+		const unread = this.#notifications.unread();
+
+		for (const notification of unread) {
+			if (notification.type === INotificationTypes.Transaction) {
+				this.#notifications.markAsRead(notification.id);
+			}
+		}
+	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.sync} */
 	public sync = async (queryInput?: AggregateQuery) => {
