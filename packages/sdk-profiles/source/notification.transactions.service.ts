@@ -62,11 +62,21 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		return unseen;
 	};
 
+	private hasStoredTransaction = (transactionId: string) => {
+		return !!this.transactions().find((storedTransaction) => storedTransaction.id() === transactionId);
+	};
+
 	private storeTransactions = (transactions: ExtendedConfirmedTransactionData[]) => {
 		for (const transaction of transactions) {
-			if (this.has(transaction.id())) {
-				this.#transactions.push(transaction);
+			if (this.hasStoredTransaction(transaction.id())) {
+				continue;
 			}
+
+			if (!this.has(transaction.id())) {
+				continue;
+			}
+
+			this.#transactions.push(transaction);
 		}
 	};
 
