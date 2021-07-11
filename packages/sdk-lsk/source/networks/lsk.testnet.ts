@@ -30,6 +30,7 @@ const network: Networks.NetworkManifest = {
 		},
 	],
 	governance: {
+		requiresAmount: true,
 		delegateIdentifier: "address",
 		delegateCount: 101,
 		votesPerWallet: 20,

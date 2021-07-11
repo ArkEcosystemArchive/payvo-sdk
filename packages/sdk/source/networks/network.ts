@@ -126,6 +126,13 @@ export class Network {
 	}
 
 	/**
+	 * Determine if the voting process requires an amount.
+	 */
+	public requiresStakeAmount(): boolean {
+		return get(this.#network, "governance.requiresAmount", false);
+	}
+
+	/**
 	 * Get the number of delegates that forge blocks.
 	 */
 	public delegateCount(): number {
