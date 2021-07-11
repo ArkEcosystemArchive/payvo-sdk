@@ -228,7 +228,7 @@ it("should migrate profiles from JSON to Base64", async () => {
 		},
 	});
 
-	subject = new Migrator(profile);
+	subject = new Migrator(profile, {} as IProfileData);
 
 	await subject.migrate(
 		{
