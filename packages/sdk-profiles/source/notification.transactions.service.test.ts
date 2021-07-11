@@ -8,7 +8,7 @@ import { Profile } from "./profile";
 
 import { NotificationRepository } from "./notification.repository";
 import { ProfileTransactionNotifications } from "./notification.transactions.service";
-import { IProfileTransactionNotifications } from "./notification.repository.contract";
+import { INotificationTypes, IProfileTransactionNotifications } from "./notification.repository.contract";
 import { IProfile } from "./profile.contract";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
@@ -106,7 +106,7 @@ test("#markAsRead", async () => {
 test("#transactions", async () => {
 	await subject.sync({ limit: 20 });
 
-	expect(subject.transactions()).toHaveLength(3);
+	expect(subject.transactions()).toHaveLength(2);
 	expect(subject.transactions(1)).toHaveLength(1);
 });
 
@@ -128,11 +128,29 @@ test("should handle undefined timestamp", async () => {
 	await subject.sync();
 	expect(subject.recent(10)).toHaveLength(2);
 	expect(subject.recent()).toHaveLength(2);
-	expect(subject.transactions()).toHaveLength(3);
+	expect(subject.transactions()).toHaveLength(2);
 
 	jest.restoreAllMocks();
 
 	await subject.sync();
 	expect(subject.recent(10)).toHaveLength(2);
 	expect(subject.recent()).toHaveLength(2);
+});
+
+test("#markAllAsRead", async () => {
+	await subject.sync({ limit: 20 });
+	notificationsRepository.push({
+		type: INotificationTypes.Release,
+		meta: { version: "3.0.0" },
+	});
+
+	expect(notificationsRepository.unread()).toHaveLength(3);
+	expect(subject.recent()).toHaveLength(2);
+	subject.markAllAsRead();
+	expect(notificationsRepository.unread()).toHaveLength(1);
+});
+
+test("#isSyncing", async () => {
+	expect(subject.isSyncing()).toBeFalse();
+	await subject.sync({ limit: 20 });
 });

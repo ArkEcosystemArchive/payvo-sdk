@@ -274,6 +274,20 @@ export interface IProfileTransactionNotifications {
 	 * @memberof IProfileTransactionNotifications
 	 */
 	transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined;
+
+	/**
+	 * Check if the notification transactions are syncing
+	 *
+	 * @memberof IProfileTransactionNotifications
+	 */
+	isSyncing(): boolean;
+
+	/**
+	 * Mark all notifications as read
+	 *
+	 * @memberof IProfileTransactionNotifications
+	 */
+	markAllAsRead(): void;
 }
 
 /**

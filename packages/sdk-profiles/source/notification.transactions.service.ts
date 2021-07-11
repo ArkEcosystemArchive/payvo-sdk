@@ -12,6 +12,7 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	readonly #defaultLimit: number;
 
 	#transactions: ExtendedConfirmedTransactionData[];
+	#isSyncing: boolean;
 
 	public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
 		this.#defaultLimit = 10;
@@ -19,6 +20,7 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		this.#allowedTypes = ["transfer", "multiPayment"];
 		this.#notifications = notificationRepository;
 		this.#transactions = [];
+		this.#isSyncing = false;
 	}
 
 	private format = (
@@ -60,11 +62,21 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		return unseen;
 	};
 
+	private hasStoredTransaction = (transactionId: string) => {
+		return !!this.transactions().find((storedTransaction) => storedTransaction.id() === transactionId);
+	};
+
 	private storeTransactions = (transactions: ExtendedConfirmedTransactionData[]) => {
 		for (const transaction of transactions) {
-			if (this.has(transaction.id())) {
-				this.#transactions.push(transaction);
+			if (this.hasStoredTransaction(transaction.id())) {
+				continue;
 			}
+
+			if (!this.has(transaction.id())) {
+				continue;
+			}
+
+			this.#transactions.push(transaction);
 		}
 	};
 
@@ -106,17 +118,26 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		this.#notifications.markAsRead(notification.id);
 	};
 
+	/** {@inheritDoc IProfileTransactionNotifications.markAllAsRead} */
+	public markAllAsRead = () => {
+		const unread = this.#notifications.unread();
+
+		for (const notification of unread) {
+			if (notification.type === INotificationTypes.Transaction) {
+				this.#notifications.markAsRead(notification.id);
+			}
+		}
+	};
+
 	/** {@inheritDoc IProfileTransactionNotifications.sync} */
 	public sync = async (queryInput?: AggregateQuery) => {
 		const query = {
-			addresses: this.#profile
-				.wallets()
-				.values()
-				.map((wallet) => wallet.address()),
 			cursor: 1,
 			limit: this.#defaultLimit,
 			...(queryInput && queryInput),
 		};
+
+		this.#isSyncing = true;
 
 		const transactions = await this.#profile.transactionAggregate().received(query);
 		const unseen = this.filterUnseen(transactions.items());
@@ -126,6 +147,8 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 		}
 
 		this.storeTransactions(transactions.items());
+
+		this.#isSyncing = false;
 	};
 
 	/** {@inheritDoc IProfileTransactionNotifications.transactions} */
@@ -138,5 +161,10 @@ export class ProfileTransactionNotifications implements IProfileTransactionNotif
 	/** {@inheritDoc IProfileTransactionNotifications.transaction} */
 	public transaction = (transactionId: string) => {
 		return this.transactions().find((transaction) => transaction.id() === transactionId);
+	};
+
+	/** {@inheritDoc IProfileTransactionNotifications.isSyncing} */
+	public isSyncing = (): boolean => {
+		return this.#isSyncing;
 	};
 }
