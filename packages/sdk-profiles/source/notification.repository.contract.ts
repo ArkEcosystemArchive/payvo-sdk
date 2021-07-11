@@ -278,7 +278,6 @@ export interface IProfileTransactionNotifications {
 	/**
 	 * Check if the notification transactions are syncing
 	 *
-	 * @param {string} transactionId
 	 * @memberof IProfileTransactionNotifications
 	 */
 	isSyncing(): boolean;
