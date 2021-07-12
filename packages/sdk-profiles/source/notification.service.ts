@@ -26,6 +26,7 @@ export class ProfileNotifications implements IProfileNotifications {
 	public all () {
 		return this.#notificationRepository.all();
 	}
+
 	/** {@inheritDoc IProfileNotifications.get} */
 	public get (id: string) {
 		return this.#notificationRepository.get(id);
@@ -36,11 +37,6 @@ export class ProfileNotifications implements IProfileNotifications {
 		return this.#notificationRepository.unread().length > 0;
 	}
 
-	/** {@inheritDoc IProfileNotifications.count} */
-	public count () {
-		return this.#notificationRepository.count();
-	}
-
 	/** {@inheritDoc IProfileNotifications.flush} */
 	public flush () {
 		return this.#notificationRepository.flush();
@@ -49,6 +45,11 @@ export class ProfileNotifications implements IProfileNotifications {
 	/** {@inheritDoc IProfileNotifications.filll} */
 	public fill (entries: object) {
 		return this.#notificationRepository.fill(entries);
+	}
+
+	/** {@inheritDoc IProfileNotifications.count} */
+	public count () {
+		return this.#notificationRepository.count();
 	}
 
 	/** {@inheritDoc IProfileNotifications.markAsRead} */
