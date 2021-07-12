@@ -46,6 +46,7 @@ export class FeeService extends Services.AbstractFeeService {
 			min: minimumFee.isGreaterThan(maximumFee) ? maximumFee : minimumFee,
 			avg: averageFee.isGreaterThan(maximumFee) ? maximumFee : averageFee,
 			max: maximumFee,
+			isDynamic: type !== "multiSignature",
 		};
 	}
 
