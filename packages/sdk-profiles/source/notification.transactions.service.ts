@@ -1,8 +1,4 @@
-import {
-	IProfileTransactionNotificationService,
-	IProfile,
-	INotificationTypes,
-} from "./contracts";
+import { IProfileTransactionNotificationService, IProfile, INotificationTypes } from "./contracts";
 import { sortByDesc } from "@arkecosystem/utils";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 import { AggregateQuery } from "./transaction.aggregate.contract";
@@ -46,10 +42,10 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 
 	/** {@inheritDoc IProfileTransactionNotificationService.recent} */
 	public recent(limit?: number) {
-		return sortByDesc(this.#notifications.filterByType(INotificationTypes.Transaction), (notification) => notification.meta.timestamp).slice(
-			0,
-			limit || this.#defaultLimit,
-		);
+		return sortByDesc(
+			this.#notifications.filterByType(INotificationTypes.Transaction),
+			(notification) => notification.meta.timestamp,
+		).slice(0, limit || this.#defaultLimit);
 	}
 
 	/** {@inheritDoc IProfileTransactionNotificationService.markAsRead} */
@@ -76,11 +72,13 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 	public async sync(queryInput?: AggregateQuery) {
 		this.#isSyncing = true;
 
-		const transactions: ExtendedConfirmedTransactionDataCollection = await this.#profile.transactionAggregate().received({
-			cursor: 1,
-			limit: this.#defaultLimit,
-			...(queryInput && queryInput),
-		});
+		const transactions: ExtendedConfirmedTransactionDataCollection = await this.#profile
+			.transactionAggregate()
+			.received({
+				cursor: 1,
+				limit: this.#defaultLimit,
+				...(queryInput && queryInput),
+			});
 
 		for (const transaction of this.#filterUnseen(transactions.items())) {
 			this.#notifications.push({
