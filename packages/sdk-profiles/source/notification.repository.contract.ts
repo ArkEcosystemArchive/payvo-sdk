@@ -352,20 +352,20 @@ export interface IWalletReleaseNotificationService {
  * Defines the implementation contract for the profile notification service.
  *
  * @export
- * @interface IProfileNotifications
+ * @interface IProfileNotificationService
  */
-export interface IProfileNotifications {
+export interface IProfileNotificationService {
 	/**
 	 * Get the transaction notification service
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	transactions(): IProfileTransactionNotificationService;
 
 	/**
 	 * Get the wallet releases notification service
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	releases(): IWalletReleaseNotificationService;
 
@@ -373,7 +373,7 @@ export interface IProfileNotifications {
 	 * Mark the given notification as read.
 	 *
 	 * @param {string} id
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	markAsRead(id: string): void;
 
@@ -382,7 +382,7 @@ export interface IProfileNotifications {
 	 *
 	 * @param {string} id
 	 * @returns {INotification}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	get(id: string): INotification;
 
@@ -390,7 +390,7 @@ export interface IProfileNotifications {
 	 * Count how many notifications there are.
 	 *
 	 * @returns {number}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	count(): number;
 
@@ -398,7 +398,7 @@ export interface IProfileNotifications {
 	 * Filter notifications by type
 	 *
 	 * @param {INotificationType} type
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	filterByType(type: INotificationType): INotification[];
 
@@ -406,14 +406,14 @@ export interface IProfileNotifications {
 	 * Get all notifications.
 	 *
 	 * @returns {Record<string, INotification>}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	all(): Record<string, INotification>;
 
 	/**
 	 * Remove all notifications.
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	flush(): void;
 
@@ -421,14 +421,14 @@ export interface IProfileNotifications {
 	 * Fill the storage with notification data.
 	 *
 	 * @param {object} entries
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	fill(entries: object): void;
 
 	/**
 	 * Check if profile has unread notifications
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	hasUnread(): boolean;
 }

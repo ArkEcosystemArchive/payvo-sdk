@@ -42,8 +42,8 @@ import { ProfileInitialiser } from "./profile.initialiser";
 import { IPasswordManager } from "./contracts";
 import { PasswordManager } from "./password";
 import { ProfileStatus } from "./profile.status";
-import { IProfileNotifications } from "./notification.repository.contract";
-import { ProfileNotifications } from "./notification.service";
+import { IProfileNotificationService } from "./notification.repository.contract";
+import { ProfileNotificationService } from "./notification.service";
 
 export class Profile implements IProfile {
 	/**
@@ -81,10 +81,10 @@ export class Profile implements IProfile {
 	/**
 	 * The notification service.
 	 *
-	 * @type {IProfileNotifications}
+	 * @type {IProfileNotificationService}
 	 * @memberof Profile
 	 */
-	readonly #notificationsService: IProfileNotifications;
+	readonly #notificationsService: IProfileNotificationService;
 
 	/**
 	 * The peer repository.
@@ -188,7 +188,7 @@ export class Profile implements IProfile {
 		this.#portfolio = new Portfolio(this);
 		this.#contactRepository = new ContactRepository(this);
 		this.#dataRepository = new DataRepository();
-		this.#notificationsService = new ProfileNotifications(this);
+		this.#notificationsService = new ProfileNotificationService(this);
 		this.#peerRepository = new PeerRepository(this);
 		this.#pluginRepository = new PluginRepository();
 		this.#settingRepository = new SettingRepository(this, Object.values(ProfileSetting));
@@ -293,7 +293,7 @@ export class Profile implements IProfile {
 	}
 
 	/** {@inheritDoc IProfile.notifications} */
-	public notifications(): IProfileNotifications {
+	public notifications(): IProfileNotificationService {
 		return this.#notificationsService;
 	}
 
