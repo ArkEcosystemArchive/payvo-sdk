@@ -1,22 +1,16 @@
-import {
-	IProfileTransactionNotificationService,
-	IProfile,
-	INotificationTypes,
-	ITransactionNotification,
-} from "./contracts";
+import { IProfileTransactionNotificationService, IProfile, INotificationTypes } from "./contracts";
 import { sortByDesc } from "@arkecosystem/utils";
-import { Except } from "type-fest";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 import { AggregateQuery } from "./transaction.aggregate.contract";
-import { INotificationRepository } from "./notification.repository.contract";
+import { INotification, INotificationRepository } from "./notification.repository.contract";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 export class ProfileTransactionNotificationService implements IProfileTransactionNotificationService {
 	readonly #profile: IProfile;
 	readonly #allowedTypes: string[];
 	readonly #notifications: INotificationRepository;
 	readonly #defaultLimit: number;
-
-	#transactions: ExtendedConfirmedTransactionData[];
+	readonly #transactions: Record<string, ExtendedConfirmedTransactionData> = {};
 	#isSyncing: boolean;
 
 	public constructor(profile: IProfile, notificationRepository: INotificationRepository) {
@@ -24,7 +18,6 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 		this.#profile = profile;
 		this.#allowedTypes = ["transfer", "multiPayment"];
 		this.#notifications = notificationRepository;
-		this.#transactions = [];
 		this.#isSyncing = false;
 	}
 
@@ -49,17 +42,15 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 
 	/** {@inheritDoc IProfileTransactionNotificationService.recent} */
 	public recent(limit?: number) {
-		const notifications = this.#notifications.filterByType(INotificationTypes.Transaction);
-
-		return sortByDesc(notifications, (notification) => notification.meta.timestamp).slice(
-			0,
-			limit || this.#defaultLimit,
-		);
+		return sortByDesc(
+			this.#notifications.filterByType(INotificationTypes.Transaction),
+			(notification) => notification.meta.timestamp,
+		).slice(0, limit || this.#defaultLimit);
 	}
 
 	/** {@inheritDoc IProfileTransactionNotificationService.markAsRead} */
 	public markAsRead(transactionId: string) {
-		const notification = this.findByTransactionId(transactionId);
+		const notification: INotification | undefined = this.findByTransactionId(transactionId);
 
 		if (!notification) {
 			return;
@@ -70,9 +61,7 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 
 	/** {@inheritDoc IProfileTransactionNotificationService.markAllAsRead} */
 	public markAllAsRead() {
-		const unread = this.#notifications.unread();
-
-		for (const notification of unread) {
+		for (const notification of this.#notifications.unread()) {
 			if (notification.type === INotificationTypes.Transaction) {
 				this.#notifications.markAsRead(notification.id);
 			}
@@ -83,14 +72,23 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 	public async sync(queryInput?: AggregateQuery) {
 		this.#isSyncing = true;
 
-		const transactions = await this.#profile.transactionAggregate().received({
-			cursor: 1,
-			limit: this.#defaultLimit,
-			...(queryInput && queryInput),
-		});
+		const transactions: ExtendedConfirmedTransactionDataCollection = await this.#profile
+			.transactionAggregate()
+			.received({
+				cursor: 1,
+				limit: this.#defaultLimit,
+				...(queryInput && queryInput),
+			});
 
 		for (const transaction of this.#filterUnseen(transactions.items())) {
-			this.#notifications.push(this.#format(transaction));
+			this.#notifications.push({
+				meta: {
+					timestamp: transaction.timestamp()?.toUNIX(),
+					transactionId: transaction.id(),
+				},
+				type: INotificationTypes.Transaction,
+				read_at: undefined,
+			});
 		}
 
 		this.#storeTransactions(transactions.items());
@@ -100,15 +98,15 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 
 	/** {@inheritDoc IProfileTransactionNotificationService.transactions} */
 	public transactions(limit?: number): ExtendedConfirmedTransactionData[] {
-		return sortByDesc(this.#transactions, (transaction) => transaction.timestamp()?.toUNIX()).slice(
+		return sortByDesc(Object.values(this.#transactions), (transaction) => transaction.timestamp()?.toUNIX()).slice(
 			0,
 			limit || this.#defaultLimit,
 		);
 	}
 
 	/** {@inheritDoc IProfileTransactionNotificationService.transaction} */
-	public transaction(transactionId: string) {
-		return this.transactions().find((transaction) => transaction.id() === transactionId);
+	public transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined {
+		return this.#transactions[transactionId];
 	}
 
 	/** {@inheritDoc IProfileTransactionNotificationService.isSyncing} */
@@ -116,25 +114,14 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 		return this.#isSyncing;
 	}
 
-	#format(transaction: ExtendedConfirmedTransactionData): Partial<Except<ITransactionNotification, "id">> {
-		return {
-			meta: {
-				timestamp: transaction.timestamp()?.toUNIX(),
-				transactionId: transaction.id(),
-			},
-			type: INotificationTypes.Transaction,
-			read_at: undefined,
-		};
-	}
-
-	#isRecipient(transaction: ExtendedConfirmedTransactionData) {
+	#isRecipient(transaction: ExtendedConfirmedTransactionData): boolean {
 		return [transaction.recipient(), ...transaction.recipients().map((recipient) => recipient.address)].some(
 			(address: string) => !!this.#profile.wallets().findByAddress(address),
 		);
 	}
 
-	#filterUnseen(transactions: ExtendedConfirmedTransactionData[]) {
-		const unseen: ExtendedConfirmedTransactionData[] = [];
+	#filterUnseen(transactions: ExtendedConfirmedTransactionData[]): ExtendedConfirmedTransactionData[] {
+		const result: ExtendedConfirmedTransactionData[] = [];
 
 		for (const transaction of transactions) {
 			if (!this.#allowedTypes.includes(transaction.type())) {
@@ -149,17 +136,17 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 				continue;
 			}
 
-			unseen.push(transaction);
+			result.push(transaction);
 		}
 
-		return unseen;
+		return result;
 	}
 
-	#hasStoredTransaction(transactionId: string) {
-		return !!this.transactions().find((storedTransaction) => storedTransaction.id() === transactionId);
+	#hasStoredTransaction(transactionId: string): boolean {
+		return !!this.#transactions[transactionId];
 	}
 
-	#storeTransactions(transactions: ExtendedConfirmedTransactionData[]) {
+	#storeTransactions(transactions: ExtendedConfirmedTransactionData[]): void {
 		for (const transaction of transactions) {
 			if (this.#hasStoredTransaction(transaction.id())) {
 				continue;
@@ -169,7 +156,7 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 				continue;
 			}
 
-			this.#transactions.push(transaction);
+			this.#transactions[transaction.id()] = transaction;
 		}
 	}
 }
