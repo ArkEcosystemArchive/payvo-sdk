@@ -22,21 +22,10 @@ export class ProfileNotifications implements IProfileNotifications {
 		this.#releases = new WalletReleaseNotificationService(this.#notificationRepository);
 	}
 
-	/** {@inheritDoc IProfileNotifications.transactions} */
-	public transactions (): IProfileTransactionNotificationService {
-		return this.#transactions;
+	/** {@inheritDoc IProfileNotifications.all} */
+	public all () {
+		return this.#notificationRepository.all();
 	}
-
-	/** {@inheritDoc IProfileNotifications.releases} */
-	public releases (): IWalletReleaseNotificationService {
-		return this.#releases;
-	}
-
-	/** {@inheritDoc IProfileNotifications.markAsRead} */
-	public markAsRead (id: string): void {
-		return this.#notificationRepository.markAsRead(id);
-	}
-
 	/** {@inheritDoc IProfileNotifications.get} */
 	public get (id: string) {
 		return this.#notificationRepository.get(id);
@@ -45,16 +34,6 @@ export class ProfileNotifications implements IProfileNotifications {
 	/** {@inheritDoc IProfileNotifications.hasUnread} */
 	public hasUnread (): boolean {
 		return this.#notificationRepository.unread().length > 0;
-	}
-
-	/** {@inheritDoc IProfileNotifications.filterByType} */
-	public filterByType (type: INotificationType) {
-		return this.#notificationRepository.filterByType(type);
-	}
-
-	/** {@inheritDoc IProfileNotifications.all} */
-	public all () {
-		return this.#notificationRepository.all();
 	}
 
 	/** {@inheritDoc IProfileNotifications.count} */
@@ -70,5 +49,25 @@ export class ProfileNotifications implements IProfileNotifications {
 	/** {@inheritDoc IProfileNotifications.filll} */
 	public fill (entries: object) {
 		return this.#notificationRepository.fill(entries);
+	}
+
+	/** {@inheritDoc IProfileNotifications.markAsRead} */
+	public markAsRead (id: string): void {
+		return this.#notificationRepository.markAsRead(id);
+	}
+
+	/** {@inheritDoc IProfileNotifications.transactions} */
+	public transactions (): IProfileTransactionNotificationService {
+		return this.#transactions;
+	}
+
+	/** {@inheritDoc IProfileNotifications.releases} */
+	public releases (): IWalletReleaseNotificationService {
+		return this.#releases;
+	}
+
+	/** {@inheritDoc IProfileNotifications.filterByType} */
+	public filterByType (type: INotificationType) {
+		return this.#notificationRepository.filterByType(type);
 	}
 }
