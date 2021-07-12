@@ -23,52 +23,52 @@ export class ProfileNotificationService implements IProfileNotificationService {
 	}
 
 	/** {@inheritDoc IProfileNotificationService.all} */
-	public all () {
+	public all() {
 		return this.#notificationRepository.all();
 	}
 
 	/** {@inheritDoc IProfileNotificationService.get} */
-	public get (id: string) {
+	public get(id: string) {
 		return this.#notificationRepository.get(id);
 	}
 
 	/** {@inheritDoc IProfileNotificationService.hasUnread} */
-	public hasUnread (): boolean {
+	public hasUnread(): boolean {
 		return this.#notificationRepository.unread().length > 0;
 	}
 
 	/** {@inheritDoc IProfileNotificationService.flush} */
-	public flush () {
+	public flush() {
 		return this.#notificationRepository.flush();
 	}
 
 	/** {@inheritDoc IProfileNotificationService.filll} */
-	public fill (entries: object) {
+	public fill(entries: object) {
 		return this.#notificationRepository.fill(entries);
 	}
 
 	/** {@inheritDoc IProfileNotificationService.count} */
-	public count () {
+	public count() {
 		return this.#notificationRepository.count();
 	}
 
 	/** {@inheritDoc IProfileNotificationService.markAsRead} */
-	public markAsRead (id: string): void {
+	public markAsRead(id: string): void {
 		return this.#notificationRepository.markAsRead(id);
 	}
 
 	/** {@inheritDoc IProfileNotificationService.transactions} */
-	public transactions (): IProfileTransactionNotificationService {
+	public transactions(): IProfileTransactionNotificationService {
 		return this.#transactions;
 	}
 
 	/** {@inheritDoc IProfileNotificationService.releases} */
-	public releases (): IWalletReleaseNotificationService {
+	public releases(): IWalletReleaseNotificationService {
 		return this.#releases;
 	}
 
 	/** {@inheritDoc IProfileNotificationService.filterByType} */
-	public filterByType (type: INotificationType) {
+	public filterByType(type: INotificationType) {
 		return this.#notificationRepository.filterByType(type);
 	}
 }
