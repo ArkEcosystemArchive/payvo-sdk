@@ -5,6 +5,7 @@ export interface TransactionFee {
 	max: BigNumber;
 	min: BigNumber;
 	avg: BigNumber;
+	isDynamic?: boolean;
 }
 
 export interface TransactionFees {
