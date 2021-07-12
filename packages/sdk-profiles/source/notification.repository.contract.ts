@@ -208,14 +208,14 @@ export interface INotificationRepository {
  * Defines the implementation contract for the profile transaction notification service.
  *
  * @export
- * @interface IProfileTransactionNotifications
+ * @interface IProfileTransactionNotificationService
  */
-export interface IProfileTransactionNotifications {
+export interface IProfileTransactionNotificationService {
 	/**
 	 * Fetch recent transactions
 	 *
 	 * @param {AggregateQuery} query
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	sync(query?: AggregateQuery): Promise<void>;
 
@@ -223,7 +223,7 @@ export interface IProfileTransactionNotifications {
 	 * Check if the given transaction notification exists.
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	has(transactionId: string): Boolean;
 
@@ -231,7 +231,7 @@ export interface IProfileTransactionNotifications {
 	 * Forget transaction notification
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	forget(transactionId: string): void;
 
@@ -239,7 +239,7 @@ export interface IProfileTransactionNotifications {
 	 * Get the most recent transaction notifications
 	 *
 	 * @param {number} limit
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	recent(limit?: number): INotification[];
 
@@ -247,7 +247,7 @@ export interface IProfileTransactionNotifications {
 	 * Mark the given transaction notification as read.
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	markAsRead(key: string): void;
 
@@ -255,7 +255,7 @@ export interface IProfileTransactionNotifications {
 	 * Get notification by transaction id
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	findByTransactionId(transactionId: string): INotification | undefined;
 
@@ -263,7 +263,7 @@ export interface IProfileTransactionNotifications {
 	 * Get stored transactions
 	 *
 	 * @param {string} limit
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	transactions(limit?: number): ExtendedConfirmedTransactionData[];
 
@@ -271,21 +271,21 @@ export interface IProfileTransactionNotifications {
 	 * Get stored transaction by id
 	 *
 	 * @param {string} transactionId
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	transaction(transactionId: string): ExtendedConfirmedTransactionData | undefined;
 
 	/**
 	 * Check if the notification transactions are syncing
 	 *
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	isSyncing(): boolean;
 
 	/**
 	 * Mark all notifications as read
 	 *
-	 * @memberof IProfileTransactionNotifications
+	 * @memberof IProfileTransactionNotificationService
 	 */
 	markAllAsRead(): void;
 }
@@ -296,12 +296,12 @@ export interface IProfileTransactionNotifications {
  * @export
  * @interface IProfileUpdateNotifications
  */
-export interface IWalletReleaseNotifications {
+export interface IWalletReleaseNotificationService {
 	/**
 	 * Mark the given version as read.
 	 *
 	 * @param {string} version
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	markAsRead(key: string): void;
 
@@ -309,7 +309,7 @@ export interface IWalletReleaseNotifications {
 	 * Get notification by version
 	 *
 	 * @param {string} version
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	findByVersion(version: string): INotification | undefined;
 
@@ -318,7 +318,7 @@ export interface IWalletReleaseNotifications {
 	 *
 	 * @param {string} version
 	 * @returns {boolean}
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	has(version: string): boolean;
 
@@ -327,7 +327,7 @@ export interface IWalletReleaseNotifications {
 	 *
 	 * @param {Partial<Except<INotification, "id">>} value
 	 * @returns {INotification}
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	push(notification: Partial<Except<INotification, "id">>): INotification | undefined;
 
@@ -335,7 +335,7 @@ export interface IWalletReleaseNotifications {
 	 * Remove the notification for the given version.
 	 *
 	 * @param {string} version
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	forget(version: string): void;
 
@@ -343,7 +343,7 @@ export interface IWalletReleaseNotifications {
 	 * Get the most recent transaction notifications
 	 *
 	 * @param {number} limit
-	 * @memberof IWalletReleaseNotifications
+	 * @memberof IWalletReleaseNotificationService
 	 */
 	recent(limit?: number): INotification[];
 }
@@ -352,28 +352,28 @@ export interface IWalletReleaseNotifications {
  * Defines the implementation contract for the profile notification service.
  *
  * @export
- * @interface IProfileNotifications
+ * @interface IProfileNotificationService
  */
-export interface IProfileNotifications {
+export interface IProfileNotificationService {
 	/**
 	 * Get the transaction notification service
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
-	transactions(): IProfileTransactionNotifications;
+	transactions(): IProfileTransactionNotificationService;
 
 	/**
 	 * Get the wallet releases notification service
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
-	releases(): IWalletReleaseNotifications;
+	releases(): IWalletReleaseNotificationService;
 
 	/**
 	 * Mark the given notification as read.
 	 *
 	 * @param {string} id
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	markAsRead(id: string): void;
 
@@ -382,7 +382,7 @@ export interface IProfileNotifications {
 	 *
 	 * @param {string} id
 	 * @returns {INotification}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	get(id: string): INotification;
 
@@ -390,7 +390,7 @@ export interface IProfileNotifications {
 	 * Count how many notifications there are.
 	 *
 	 * @returns {number}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	count(): number;
 
@@ -398,7 +398,7 @@ export interface IProfileNotifications {
 	 * Filter notifications by type
 	 *
 	 * @param {INotificationType} type
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	filterByType(type: INotificationType): INotification[];
 
@@ -406,14 +406,14 @@ export interface IProfileNotifications {
 	 * Get all notifications.
 	 *
 	 * @returns {Record<string, INotification>}
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	all(): Record<string, INotification>;
 
 	/**
 	 * Remove all notifications.
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	flush(): void;
 
@@ -421,14 +421,14 @@ export interface IProfileNotifications {
 	 * Fill the storage with notification data.
 	 *
 	 * @param {object} entries
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	fill(entries: object): void;
 
 	/**
 	 * Check if profile has unread notifications
 	 *
-	 * @memberof IProfileNotifications
+	 * @memberof IProfileNotificationService
 	 */
 	hasUnread(): boolean;
 }

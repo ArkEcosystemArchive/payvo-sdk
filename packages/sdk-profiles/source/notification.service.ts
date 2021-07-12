@@ -1,74 +1,74 @@
 import { IProfile } from "./contracts";
 import {
-	IProfileTransactionNotifications,
-	IProfileNotifications,
+	IProfileTransactionNotificationService,
+	IProfileNotificationService,
 	INotificationRepository,
 	INotificationType,
-	IWalletReleaseNotifications,
+	IWalletReleaseNotificationService,
 } from "./notification.repository.contract";
 
 import { NotificationRepository } from "./notification.repository";
-import { ProfileTransactionNotifications } from "./notification.transactions.service";
-import { WalletReleaseNotifications } from "./notification.releases.service";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { WalletReleaseNotificationService } from "./notification.releases.service";
 
-export class ProfileNotifications implements IProfileNotifications {
-	readonly #transactions: IProfileTransactionNotifications;
-	readonly #releases: IWalletReleaseNotifications;
+export class ProfileNotificationService implements IProfileNotificationService {
+	readonly #transactions: IProfileTransactionNotificationService;
+	readonly #releases: IWalletReleaseNotificationService;
 	readonly #notificationRepository: INotificationRepository;
 
 	public constructor(profile: IProfile) {
 		this.#notificationRepository = new NotificationRepository(profile);
-		this.#transactions = new ProfileTransactionNotifications(profile, this.#notificationRepository);
-		this.#releases = new WalletReleaseNotifications(this.#notificationRepository);
+		this.#transactions = new ProfileTransactionNotificationService(profile, this.#notificationRepository);
+		this.#releases = new WalletReleaseNotificationService(this.#notificationRepository);
 	}
 
-	/** {@inheritDoc IProfileNotifications.transactions} */
-	public transactions = (): IProfileTransactionNotifications => {
-		return this.#transactions;
-	};
-
-	/** {@inheritDoc IProfileNotifications.releases} */
-	public releases = (): IWalletReleaseNotifications => {
-		return this.#releases;
-	};
-
-	/** {@inheritDoc IProfileNotifications.markAsRead} */
-	public markAsRead = (id: string): void => {
-		return this.#notificationRepository.markAsRead(id);
-	};
-
-	/** {@inheritDoc IProfileNotifications.get} */
-	public get = (id: string) => {
-		return this.#notificationRepository.get(id);
-	};
-
-	/** {@inheritDoc IProfileNotifications.hasUnread} */
-	public hasUnread = (): boolean => {
-		return this.#notificationRepository.unread().length > 0;
-	};
-
-	/** {@inheritDoc IProfileNotifications.filterByType} */
-	public filterByType = (type: INotificationType) => {
-		return this.#notificationRepository.filterByType(type);
-	};
-
-	/** {@inheritDoc IProfileNotifications.all} */
-	public all = () => {
+	/** {@inheritDoc IProfileNotificationService.all} */
+	public all() {
 		return this.#notificationRepository.all();
-	};
+	}
 
-	/** {@inheritDoc IProfileNotifications.count} */
-	public count = () => {
-		return this.#notificationRepository.count();
-	};
+	/** {@inheritDoc IProfileNotificationService.get} */
+	public get(id: string) {
+		return this.#notificationRepository.get(id);
+	}
 
-	/** {@inheritDoc IProfileNotifications.flush} */
-	public flush = () => {
+	/** {@inheritDoc IProfileNotificationService.hasUnread} */
+	public hasUnread(): boolean {
+		return this.#notificationRepository.unread().length > 0;
+	}
+
+	/** {@inheritDoc IProfileNotificationService.flush} */
+	public flush() {
 		return this.#notificationRepository.flush();
-	};
+	}
 
-	/** {@inheritDoc IProfileNotifications.filll} */
-	public fill = (entries: object) => {
+	/** {@inheritDoc IProfileNotificationService.filll} */
+	public fill(entries: object) {
 		return this.#notificationRepository.fill(entries);
-	};
+	}
+
+	/** {@inheritDoc IProfileNotificationService.count} */
+	public count() {
+		return this.#notificationRepository.count();
+	}
+
+	/** {@inheritDoc IProfileNotificationService.markAsRead} */
+	public markAsRead(id: string): void {
+		return this.#notificationRepository.markAsRead(id);
+	}
+
+	/** {@inheritDoc IProfileNotificationService.transactions} */
+	public transactions(): IProfileTransactionNotificationService {
+		return this.#transactions;
+	}
+
+	/** {@inheritDoc IProfileNotificationService.releases} */
+	public releases(): IWalletReleaseNotificationService {
+		return this.#releases;
+	}
+
+	/** {@inheritDoc IProfileNotificationService.filterByType} */
+	public filterByType(type: INotificationType) {
+		return this.#notificationRepository.filterByType(type);
+	}
 }

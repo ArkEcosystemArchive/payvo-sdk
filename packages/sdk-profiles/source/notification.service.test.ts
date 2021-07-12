@@ -6,15 +6,15 @@ import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
 
-import { ProfileNotifications } from "./notification.service";
-import { ProfileTransactionNotifications } from "./notification.transactions.service";
-import { WalletReleaseNotifications } from "./notification.releases.service";
-import { INotification, INotificationTypes } from "./notification.repository.contract";
-const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
+import { ProfileNotificationService } from "./notification.service";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { WalletReleaseNotificationService } from "./notification.releases.service";
+import { INotificationTypes } from "./notification.repository.contract";
 
+const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
 
-let subject: ProfileNotifications;
+let subject: ProfileNotificationService;
 
 beforeAll(async () => {
 	bootContainer();
@@ -41,15 +41,15 @@ beforeEach(async () => {
 	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	subject = new ProfileNotifications(profile);
+	subject = new ProfileNotificationService(profile);
 });
 
 test("#transactions", async () => {
-	expect(subject.transactions()).toBeInstanceOf(ProfileTransactionNotifications);
+	expect(subject.transactions()).toBeInstanceOf(ProfileTransactionNotificationService);
 });
 
 test("#releases", async () => {
-	expect(subject.releases()).toBeInstanceOf(WalletReleaseNotifications);
+	expect(subject.releases()).toBeInstanceOf(WalletReleaseNotificationService);
 });
 
 test("#markAsRead", async () => {
