@@ -7,8 +7,8 @@ import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
 
 import { NotificationRepository } from "./notification.repository";
-import { ProfileTransactionNotifications } from "./notification.transactions.service";
-import { INotificationTypes, IProfileTransactionNotifications } from "./notification.repository.contract";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { INotificationTypes, IProfileTransactionNotificationService } from "./notification.repository.contract";
 import { IProfile } from "./profile.contract";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
@@ -17,7 +17,7 @@ const includedTransactionNotificationId = NotificationTransactionFixtures.data[1
 const excludedTransactionNotificationId = NotificationTransactionFixtures.data[3].id;
 
 let notificationsRepository: NotificationRepository;
-let subject: IProfileTransactionNotifications;
+let subject: IProfileTransactionNotificationService;
 let profile: IProfile;
 
 beforeAll(async () => {
@@ -46,7 +46,7 @@ beforeEach(async () => {
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
 	notificationsRepository = new NotificationRepository(profile);
-	subject = new ProfileTransactionNotifications(profile, notificationsRepository);
+	subject = new ProfileTransactionNotificationService(profile, notificationsRepository);
 });
 
 test("#recent", async () => {
