@@ -4,11 +4,11 @@ import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
 
 import { NotificationRepository } from "./notification.repository";
-import { WalletReleaseNotifications } from "./notification.releases.service";
-import { INotificationTypes, IWalletReleaseNotifications } from "./notification.repository.contract";
+import { WalletReleaseNotificationService } from "./notification.releases.service";
+import { INotificationTypes, IWalletReleaseNotificationService } from "./notification.repository.contract";
 
 let notificationsRepository: NotificationRepository;
-let subject: IWalletReleaseNotifications;
+let subject: IWalletReleaseNotificationService;
 
 const releaseNotifications = [
 	{
@@ -39,7 +39,7 @@ beforeEach(() => {
 	notificationsRepository = new NotificationRepository(
 		new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
 	);
-	subject = new WalletReleaseNotifications(notificationsRepository);
+	subject = new WalletReleaseNotificationService(notificationsRepository);
 });
 
 test("#push", () => {
