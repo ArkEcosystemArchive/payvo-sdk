@@ -16,7 +16,7 @@ import { Profile } from "./profile";
 import { IProfile, IReadWriteWallet, ProfileData, ProfileSetting } from "./contracts";
 import { WalletFactory } from "./wallet.factory";
 import { mock, MockProxy } from "jest-mock-extended";
-import { ProfileNotifications } from "./notification.service";
+import { ProfileNotificationService } from "./notification.service";
 
 let subject: IProfile;
 
@@ -99,7 +99,7 @@ it("should have a data repository", () => {
 });
 
 it("should have a notifications repository", () => {
-	expect(subject.notifications()).toBeInstanceOf(ProfileNotifications);
+	expect(subject.notifications()).toBeInstanceOf(ProfileNotificationService);
 });
 
 it("should have a plugins repository", () => {
