@@ -120,12 +120,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@payvo/sdk-profiles",
-			"projectFolder": "packages/sdk-profiles",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@payvo/sdk-sol",
 			"projectFolder": "packages/sdk-sol",
 			"reviewCategory": "libraries",

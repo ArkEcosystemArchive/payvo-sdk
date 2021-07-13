@@ -1,4 +1,4 @@
-import { Storage } from "@payvo/sdk-profiles";
+import { Storage } from "@payvo/profiles";
 import Conf from "conf";
 
 import { useLogger } from "./helpers";

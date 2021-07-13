@@ -1,6 +1,6 @@
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
+import { Contracts, Environment } from "@payvo/profiles";
 import { Services } from "@payvo/sdk";
-import { Contracts, Environment } from "@payvo/sdk-profiles";
 import Table from "cli-table3";
 import ora from "ora";
 import prompts from "prompts";

@@ -12,7 +12,7 @@ import { Request } from "@payvo/sdk-http-got";
 // import { EOS } from "@payvo/sdk-eos";
 // import { ETH } from "@payvo/sdk-eth";
 import { LSK } from "@payvo/sdk-lsk";
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 // import { NEO } from "@payvo/sdk-neo";
 import { SOL } from "@payvo/sdk-sol";
 import cfonts from "cfonts";

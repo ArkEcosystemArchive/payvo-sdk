@@ -1,4 +1,4 @@
-import { Contracts } from "@payvo/sdk-profiles";
+import { Contracts } from "@payvo/profiles";
 import Table from "cli-table3";
 
 import { renderLogo } from "../helpers";

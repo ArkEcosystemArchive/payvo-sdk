@@ -1,4 +1,4 @@
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import { createProfile, pollTransactionStatus, useLogger } from "../../helpers";
 
 export const transferFundsWithARK = async (env: Environment): Promise<void> => {
