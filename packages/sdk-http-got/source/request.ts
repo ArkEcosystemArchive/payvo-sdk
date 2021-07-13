@@ -14,7 +14,11 @@ import { URLSearchParams } from "url";
  */
 export class Request extends Http.AbstractRequest {
 	/** {@inheritDoc Request.send} */
-	protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<Http.HttpResponse> {
+	protected async send(
+		method: string,
+		url: string,
+		data?: { query?: object; data?: any },
+	): Promise<Http.HttpResponse> {
 		const options: Http.RequestOptions = {
 			...this._options,
 		};
