@@ -127,6 +127,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/http-got",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/intl",
       "allowedCategories": [ "libraries" ]
     },

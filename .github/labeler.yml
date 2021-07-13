@@ -47,10 +47,6 @@ test:
     - packages/sdk-eth/*
     - packages/sdk-eth/**/*
 
-"Domain: HTTP/got":
-    - packages/sdk-http-got/*
-    - packages/sdk-http-got/**/*
-
 "Domain: INTL":
     - packages/sdk-intl/*
     - packages/sdk-intl/**/*

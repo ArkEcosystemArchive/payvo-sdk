@@ -1,5 +1,5 @@
 import { Test } from "@payvo/sdk";
-import { Request } from "@payvo/sdk-http-got";
+import { Request } from "@payvo/http-got";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { manifest } from "../source/manifest";

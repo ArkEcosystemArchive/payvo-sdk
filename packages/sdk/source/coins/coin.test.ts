@@ -2,7 +2,7 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { ARK } from "../../../sdk-ark/source";
-import { Request } from "../../../sdk-http-got/source";
+import { Request } from "@payvo/http-got";
 import { Network, NetworkRepository } from "../networks";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";

@@ -1,5 +1,5 @@
 import { IoC, Test } from "@payvo/sdk";
-import { Request } from "@payvo/sdk-http-got";
+import { Request } from "@payvo/http-got";
 
 import { BindingType } from "../source/coin.contract";
 import { manifest } from "../source/manifest";
