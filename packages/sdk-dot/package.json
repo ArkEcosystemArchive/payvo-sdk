@@ -29,7 +29,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"@polkadot/api": "^3.6.4",
 		"@polkadot/keyring": "^5.5.1",
 		"@polkadot/rpc-provider": "^3.7.3",

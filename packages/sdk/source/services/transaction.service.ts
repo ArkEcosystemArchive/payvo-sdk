@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { BigNumber, NumberLike } from "@payvo/helpers";
-import { HttpClient } from "@payvo/sdk-http";
+import { HttpClient } from "../http";
 
 import { ConfigRepository } from "../coins";
 import { RawTransactionData, SignedTransactionData } from "../contracts";

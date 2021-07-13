@@ -29,7 +29,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"@zilliqa-js/account": "^2.2.1",
 		"@zilliqa-js/zilliqa": "^2.2.1"
 	},

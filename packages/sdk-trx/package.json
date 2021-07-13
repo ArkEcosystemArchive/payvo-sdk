@@ -30,7 +30,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"tronweb": "^3.2.6"
 	},
 	"devDependencies": {

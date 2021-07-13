@@ -1,5 +1,4 @@
-import { Coins, Exceptions, Helpers } from "@payvo/sdk";
-import { HttpClient } from "@payvo/sdk-http";
+import { Coins, Exceptions, Helpers, Http } from "@payvo/sdk";
 import { SignedBlock } from "nanocurrency-web/dist/lib/block-signer";
 
 interface AccountInfoResponse {
@@ -32,9 +31,9 @@ interface AccountHistoryResponse {
 }
 
 export class NanoClient {
-	readonly #http: HttpClient;
+	readonly #http: Http.HttpClient;
 
-	public constructor(config: Coins.ConfigRepository, httpClient: HttpClient) {
+	public constructor(config: Coins.ConfigRepository, httpClient: Http.HttpClient) {
 		this.#http = httpClient.baseUrl(Helpers.randomHostFromConfig(config));
 	}
 

@@ -1,5 +1,4 @@
-import { HttpClient } from "@payvo/sdk-http";
-
+import { HttpClient } from "../http";
 import { CoinManifest } from "../networks/network.models";
 import {
 	AddressService,

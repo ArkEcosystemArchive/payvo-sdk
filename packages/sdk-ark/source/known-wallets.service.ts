@@ -1,5 +1,4 @@
-import { Coins, IoC, Services } from "@payvo/sdk";
-import { HttpClient } from "@payvo/sdk-http";
+import { Coins, Http, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
 export class KnownWalletService extends Services.AbstractKnownWalletService {
@@ -7,7 +6,7 @@ export class KnownWalletService extends Services.AbstractKnownWalletService {
 	private readonly configRepository!: Coins.ConfigRepository;
 
 	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: HttpClient;
+	private readonly httpClient!: Http.HttpClient;
 
 	#source: string | undefined;
 

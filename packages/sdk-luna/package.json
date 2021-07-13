@@ -29,7 +29,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"@terra-money/terra.js": "~1.7.0"
 	},
 	"devDependencies": {

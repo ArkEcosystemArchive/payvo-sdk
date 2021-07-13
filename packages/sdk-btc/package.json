@@ -30,7 +30,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"bignumber.js": "^9.0.1",
 		"bip32": "^2.0.6",
 		"bitcoinjs-lib": "^5.2.0",

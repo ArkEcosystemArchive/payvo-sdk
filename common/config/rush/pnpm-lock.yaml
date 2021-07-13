@@ -6,7 +6,6 @@ importers:
       '@arkecosystem/utils': 1.3.0
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
-      '@payvo/sdk-http': link:../sdk-http
       bad-words: 3.0.4
       bent: 7.3.12
       bignumber.js: 9.0.1
@@ -54,7 +53,6 @@ importers:
       '@arkecosystem/utils': ^1.3.0
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
-      '@payvo/sdk-http': workspace:*
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -104,7 +102,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bech32: 2.0.0
     devDependencies:
       '@payvo/sdk-http-got': link:../sdk-http-got
@@ -142,7 +139,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -183,7 +179,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       dot-prop: 6.0.1
       is-url-superb: 4.0.0
       lodash.orderby: 4.6.0
@@ -234,7 +229,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/eslint': ^7.2.10
@@ -279,7 +273,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bcrypto: 5.4.0
       bech32: 2.0.0
       ledger-cosmos-js: 2.1.8
@@ -321,7 +314,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -362,7 +354,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       avalanche: 3.3.0
       hdkey: 2.0.1
       url-parse-lax: 4.0.0
@@ -408,7 +399,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -452,7 +442,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bignumber.js: 9.0.1
       bip32: 2.0.6
       bitcoinjs-lib: 5.2.0
@@ -495,7 +484,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -545,7 +533,6 @@ importers:
       '@payvo/sdk-egld': link:../sdk-egld
       '@payvo/sdk-eos': link:../sdk-eos
       '@payvo/sdk-eth': link:../sdk-eth
-      '@payvo/sdk-http': link:../sdk-http
       '@payvo/sdk-http-got': link:../sdk-http-got
       '@payvo/sdk-lsk': link:../sdk-lsk
       '@payvo/sdk-neo': link:../sdk-neo
@@ -612,7 +599,6 @@ importers:
       '@payvo/sdk-egld': workspace:*
       '@payvo/sdk-eos': workspace:*
       '@payvo/sdk-eth': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@payvo/sdk-lsk': workspace:*
       '@payvo/sdk-neo': workspace:*
@@ -669,7 +655,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       '@polkadot/api': 3.11.1
       '@polkadot/keyring': 5.9.2
       '@polkadot/rpc-provider': 3.11.1
@@ -717,7 +702,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@polkadot/api': ^3.6.4
       '@polkadot/keyring': ^5.5.1
@@ -765,7 +749,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bech32: 2.0.0
       noble-ed25519: 1.2.1
     devDependencies:
@@ -804,7 +787,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -841,7 +823,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bn.js: 5.1.3
       elliptic: 6.5.4
       eosjs: 21.0.4
@@ -883,7 +864,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
@@ -926,7 +906,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bip39: 3.0.4
       ethereumjs-wallet: 1.0.1
       web3: 1.3.5
@@ -969,7 +948,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1001,68 +979,8 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       web3: ^1.3.4
-  ../../packages/sdk-http:
-    devDependencies:
-      '@sindresorhus/tsconfig': 1.0.2
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/hapi__joi': 17.1.6
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/node-emoji': 1.8.1
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@sindresorhus/tsconfig': ^1.0.2
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/hapi__joi': 17.1.6
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/node-emoji': 1.8.1
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
   ../../packages/sdk-http-got:
     dependencies:
-      '@payvo/sdk-http': link:../sdk-http
       form-data: 3.0.1
       got: 11.8.2
     devDependencies:
@@ -1095,7 +1013,6 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@payvo/sdk-http': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.11
@@ -1136,7 +1053,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       dpos-ledger-api: 3.0.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
@@ -1178,7 +1094,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1214,7 +1129,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       '@terra-money/terra.js': 1.7.0
     devDependencies:
       '@payvo/sdk-http-got': link:../sdk-http-got
@@ -1251,7 +1165,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@terra-money/terra.js': ~1.7.0
       '@types/eslint': ^7.2.10
@@ -1288,7 +1201,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       nanocurrency: 2.5.0
       nanocurrency-web: 1.3.2
       noble-ed25519: 1.2.1
@@ -1327,7 +1239,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1367,7 +1278,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
@@ -1407,7 +1317,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1444,7 +1353,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       '@solana/web3.js': 1.9.0
       bstring: 0.3.9
       ed25519-hd-key: 1.2.0
@@ -1484,7 +1392,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@solana/web3.js': ^1.9.0
       '@types/eslint': ^7.2.10
@@ -1525,7 +1432,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       tronweb: 3.2.6
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
@@ -1563,7 +1469,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1599,7 +1504,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       ed25519-hd-key: 1.2.0
       stellar-sdk: 8.1.1
       uuid: 8.3.2
@@ -1639,7 +1543,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1677,7 +1580,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       bignumber.js: 9.0.1
       ripple-keypairs: 1.0.3
       ripple-lib: 1.9.4
@@ -1722,7 +1624,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1764,7 +1665,6 @@ importers:
       '@payvo/helpers': 1.0.0
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
       '@zilliqa-js/account': 2.2.1
       '@zilliqa-js/zilliqa': 2.2.1
     devDependencies:
@@ -1802,7 +1702,6 @@ importers:
       '@payvo/helpers': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http': workspace:*
       '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0

@@ -1,10 +1,10 @@
-import { HttpClient } from "@payvo/sdk-http";
+import { Http } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
 
 import { UnspentTransaction } from "./contracts";
 
 export class UnspentAggregator {
-	readonly #http: HttpClient;
+	readonly #http: Http.HttpClient;
 	readonly #peer: string;
 
 	public constructor({ http, peer }) {

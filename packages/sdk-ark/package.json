@@ -33,7 +33,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"dot-prop": "^6.0.0",
 		"is-url-superb": "^4.0.0",
 		"lodash.orderby": "^4.6.0",

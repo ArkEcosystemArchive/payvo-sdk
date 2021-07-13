@@ -30,7 +30,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"avalanche": "^3.3.0",
 		"hdkey": "^2.0.1",
 		"url-parse-lax": "^4.0.0",

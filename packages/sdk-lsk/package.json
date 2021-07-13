@@ -33,7 +33,6 @@
 		"@payvo/helpers": "^1.0.0",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-http": "workspace:*",
 		"dpos-ledger-api": "^3.0.1"
 	},
 	"devDependencies": {
