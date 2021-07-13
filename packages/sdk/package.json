@@ -41,7 +41,8 @@
 		"node-emoji": "^1.10.0",
 		"onetime": "~5.0.0",
 		"reflect-metadata": "~0.1.13",
-		"type-fest": "^1.0.2"
+		"type-fest": "^1.0.2",
+		"@payvo/http-got": "^1.0.0"
 	},
 	"devDependencies": {
 		"@sindresorhus/tsconfig": "^1.0.2",

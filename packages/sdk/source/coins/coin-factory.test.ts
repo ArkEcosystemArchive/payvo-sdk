@@ -1,8 +1,9 @@
 import "jest-extended";
 import "reflect-metadata";
 
+import { Request } from "@payvo/http-got";
+
 import { ARK } from "../../../sdk-ark/source";
-import { Request } from "../../../sdk-http-got/source";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 

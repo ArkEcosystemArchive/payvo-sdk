@@ -5,6 +5,7 @@ importers:
     dependencies:
       '@arkecosystem/utils': 1.3.0
       '@payvo/helpers': 1.0.0
+      '@payvo/http-got': 1.0.0
       '@payvo/intl': 1.0.0
       bad-words: 3.0.4
       bent: 7.3.12
@@ -52,6 +53,7 @@ importers:
     specifiers:
       '@arkecosystem/utils': ^1.3.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/eslint': ^7.2.10
@@ -104,7 +106,7 @@ importers:
       '@payvo/sdk': link:../sdk
       bech32: 2.0.0
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -137,9 +139,9 @@ importers:
       '@emurgo/cardano-serialization-lib-nodejs': ^7.0.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -187,7 +189,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@sindresorhus/tsconfig': 1.0.2
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -227,9 +229,9 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@sindresorhus/tsconfig': ^1.0.2
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -279,7 +281,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -312,9 +314,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -360,7 +362,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -397,9 +399,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -449,7 +451,7 @@ importers:
       bitcore-lib: 8.25.8
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -482,9 +484,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -535,7 +537,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -568,9 +570,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@polkadot/api': ^3.6.4
       '@polkadot/keyring': ^5.5.1
       '@polkadot/rpc-provider': ^3.7.3
@@ -620,7 +622,7 @@ importers:
       bech32: 2.0.0
       noble-ed25519: 1.2.1
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -653,9 +655,9 @@ importers:
       '@elrondnetwork/erdjs': ^4.1.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -697,7 +699,7 @@ importers:
       node-fetch: 2.6.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
       '@types/eslint': 7.2.10
@@ -730,9 +732,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
       '@types/eslint': ^7.2.10
@@ -779,7 +781,7 @@ importers:
       web3: 1.3.5
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -814,9 +816,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -847,72 +849,6 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       web3: ^1.3.4
-  ../../packages/sdk-http-got:
-    dependencies:
-      '@payvo/sdk': link:../sdk
-      form-data: 3.0.1
-      got: 11.8.2
-    devDependencies:
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/node': 14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@payvo/sdk': workspace:*
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/node': ^14.14.43
-      '@types/node-fetch': 2.5.7
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      cross-env: ^7.0.3
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      form-data: ^3.0.0
-      fs-extra: ^9.1.0
-      got: ^11.8.2
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      nock: ^13.0.11
-      npm-check-updates: ^11.5.6
-      prettier: ^2.3.1
-      rimraf: ^3.0.2
-      ts-jest: ^26.5.5
-      typescript: ^4.3.0
   ../../packages/sdk-lsk:
     dependencies:
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
@@ -926,7 +862,7 @@ importers:
       dpos-ledger-api: 3.0.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -962,9 +898,9 @@ importers:
       '@liskhq/lisk-transactions-beta': npm:@liskhq/lisk-transactions@^5.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1001,7 +937,7 @@ importers:
       '@payvo/sdk': link:../sdk
       '@terra-money/terra.js': 1.7.0
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1033,9 +969,9 @@ importers:
     specifiers:
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@terra-money/terra.js': ~1.7.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1075,7 +1011,7 @@ importers:
       nanocurrency-web: 1.3.2
       noble-ed25519: 1.2.1
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1107,9 +1043,9 @@ importers:
     specifiers:
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1151,7 +1087,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1185,9 +1121,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1228,7 +1164,7 @@ importers:
       ed25519-hd-key: 1.2.0
       uuid: 8.3.2
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1260,9 +1196,9 @@ importers:
     specifiers:
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@solana/web3.js': ^1.9.0
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1305,7 +1241,7 @@ importers:
       tronweb: 3.2.6
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1337,9 +1273,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1379,7 +1315,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1411,9 +1347,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1455,7 +1391,7 @@ importers:
       ripple-lib: 1.9.4
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 5.50.0
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1492,9 +1428,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1538,7 +1474,7 @@ importers:
       '@zilliqa-js/account': 2.2.1
       '@zilliqa-js/zilliqa': 2.2.1
     devDependencies:
-      '@payvo/sdk-http-got': link:../sdk-http-got
+      '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1570,9 +1506,9 @@ importers:
     specifiers:
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-got': workspace:*
       '@types/eslint': ^7.2.10
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.6
@@ -1666,7 +1602,6 @@ packages:
       fast-deep-equal: 3.1.3
       fast-sort: 2.2.0
       type-fest: 0.17.0
-    dev: false
     engines:
       node: '>=10.x'
     resolution:
@@ -2447,17 +2382,14 @@ packages:
     resolution:
       integrity: sha512-NsUCi/TpBb+oTFvMSccUkJGtp5o/84eOyqp5q5aBeiNBSLkYyw21znRn9mAmxZgySpxgruVgKbaapnYPgvctPQ==
   /@hapi/bourne/2.0.0:
-    dev: false
     resolution:
       integrity: sha512-WEezM1FWztfbzqIUbsDzFRVMxSoLy3HugVcux6KDDtTqzPsLE8NDRHfXvev66aH1i2oOKKar3/XDjbvh/OUBdg==
   /@hapi/hoek/9.2.0:
-    dev: false
     resolution:
       integrity: sha512-sqKVVVOe5ivCaXDWivIJYVSaEgdQK9ul7a4Kity5Iw7u9+wBAPbX1RMSnLLmp7O4Vzj0WOWwMAJsTL00xwaNug==
   /@hapi/topo/5.0.0:
     dependencies:
       '@hapi/hoek': 9.2.0
-    dev: false
     resolution:
       integrity: sha512-tFJlT47db0kMqVm3H4nQYgn6Pwg10GTZHb1pwmSiv1K4ks6drQOtfEF5ZnPjkvC+y4/bUPHK+bc87QvLcL+WMw==
   /@istanbuljs/load-nyc-config/1.1.0:
@@ -3145,20 +3077,50 @@ packages:
       joi: 17.4.0
       qrcode: 1.4.4
       remarkable: 2.0.1
-    dev: false
     engines:
       node: '>=12.x'
     resolution:
       integrity: sha512-Hen+0EZiooNlbszSpXu/rB/ZP3gaLW0Y2vBceuZYOSYmSk7r8YJ32d4b1jKLUhUneMKrCUEFC8yo5kxqBVVTEw==
+  /@payvo/http-got/1.0.0:
+    dependencies:
+      '@payvo/sdk': 1.2.0
+      form-data: 3.0.1
+      got: 11.8.2
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-7zKTaIPP6YMK2aV1DuDs+PyWlQz6MBYrdL7ElI+VoZeCRpUIi+ojOvpSjk9fvqm+ElHA8E8z0NrdqDGCjKwpYg==
   /@payvo/intl/1.0.0:
     dependencies:
       dayjs: 1.10.4
       dinero.js: 1.8.1
-    dev: false
     engines:
       node: '>=12.x'
     resolution:
       integrity: sha512-E/tad0BvVEXWit0KJDpyiTybMBO/Q20WZTkN4MXspAm7aQWEVzG0MT1LRi/uH/tAckRK0FQmJIMfNMW+u16u2g==
+  /@payvo/sdk/1.2.0:
+    dependencies:
+      '@arkecosystem/utils': 1.3.0
+      '@payvo/helpers': 1.0.0
+      '@payvo/intl': 1.0.0
+      bad-words: 3.0.4
+      bent: 7.3.12
+      bignumber.js: 9.0.1
+      bip32: 2.0.6
+      bip39: 3.0.4
+      censorify-it: 3.0.2
+      dayjs: 1.10.4
+      dot-prop: 6.0.1
+      inversify: 5.1.1
+      joi: 17.4.0
+      node-emoji: 1.10.0
+      onetime: 5.0.0
+      reflect-metadata: 0.1.13
+      type-fest: 1.0.2
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-ewswRdIhwlDDA8czxG4YAbXU3qZ+L5iOBJ0/87yNv+LVwB8D1kXNT1ZTcFLC5kcFPJkctwWk9vUQZAD2B9ZUfQ==
   /@polkadot/api-derive/3.11.1:
     dependencies:
       '@babel/runtime': 7.14.0
@@ -3420,15 +3382,12 @@ packages:
   /@sideway/address/4.1.1:
     dependencies:
       '@hapi/hoek': 9.2.0
-    dev: false
     resolution:
       integrity: sha512-+I5aaQr3m0OAmMr7RQ3fR9zx55sejEYR2BFJaxL+zT3VM2611X0SHvPWIbAUBZVTn/YzYKbV8gJ2oT/QELknfQ==
   /@sideway/formula/3.0.0:
-    dev: false
     resolution:
       integrity: sha512-vHe7wZ4NOXVfkoRb8T5otiENVlT7a3IAiw7H5M2+GO+9CDgcVUUsX1zalAztCmwyOr2RUTGJdgB+ZvSVqmdHmg==
   /@sideway/pinpoint/2.0.0:
-    dev: false
     resolution:
       integrity: sha512-RNiOoTPkptFtSVzQevY/yWtZwf/RxyVnPy/OcA9HBM3MlGDnBEYL5B41H0MTn0Uec8Hi+2qUtTfG2WWZBmMejQ==
   /@sindresorhus/is/0.14.0:
@@ -3632,12 +3591,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-DJOSHzX7pCiSElWaGR8kCprwibCB/3yW6vcT8VG3P0SJjnv19gnWG/AZMfM60Xj/YJIp/YCaDHyvzsFVeniARA==
-  /@types/fs-extra/9.0.11:
-    dependencies:
-      '@types/node': 14.14.43
-    dev: true
-    resolution:
-      integrity: sha512-mZsifGG4QeQ7hlkhO56u7zt/ycBgGxSVsFI/6lGTU34VtwkiqrrSDgw0+ygs8kFGWcXnFQWMrzF2h7TtDFNixA==
   /@types/glob/7.1.3:
     dependencies:
       '@types/minimatch': 3.0.4
@@ -3734,15 +3687,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-IpkX0AasN44hgEad0gEF/V6EgR5n69VEqPEgnmoM8GsIGro3PowbWs4tR6IhxUTyPLpOn+fiGG6nrQhcmoCuIQ==
-  /@types/node-fetch/2.5.7:
-    dependencies:
-      '@types/node': 14.14.43
-      form-data: 3.0.1
-    dev: true
-    resolution:
-      integrity: sha512-o2WVNf5UhWRkxlf6eq+jMZDu7kjgpgJfl4xVNlvryc95O/6F2ld8ztKX+qu+Rjyet93WAWm5LjeX9H5FGkODvw==
   /@types/node/10.12.18:
-    dev: false
     resolution:
       integrity: sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
   /@types/node/10.12.21:
@@ -4466,12 +4411,6 @@ packages:
   /asynckit/0.4.0:
     resolution:
       integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=
-  /at-least-node/1.0.0:
-    dev: true
-    engines:
-      node: '>= 4.0.0'
-    resolution:
-      integrity: sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
   /atob-lite/2.0.0:
     dev: false
     resolution:
@@ -4486,7 +4425,6 @@ packages:
   /autolinker/3.14.3:
     dependencies:
       tslib: 1.14.1
-    dev: false
     resolution:
       integrity: sha512-t81i2bCpS+s+5FIhatoww9DmpjhbdiimuU9ATEuLxtZMQ7jLv9fyFn7SWNG8IkEfD4AmYyirL1ss9k1aqVWRvg==
   /available-typed-arrays/1.0.2:
@@ -4622,13 +4560,11 @@ packages:
   /bad-words/3.0.4:
     dependencies:
       badwords-list: 1.0.0
-    dev: false
     engines:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-v/Q9uRPH4+yzDVLL4vR1+S9KoFgOEUl5s4axd6NIAq8SV2mradgi4E8lma/Y0cw1ltVdvyegCQQKffCPRCp8fg==
   /badwords-list/1.0.0:
-    dev: false
     resolution:
       integrity: sha1-XphW2/E0gqKVw7CzBK+51M/FxXk=
   /balanced-match/1.0.2:
@@ -4701,7 +4637,6 @@ packages:
       bytesish: 0.4.4
       caseless: 0.12.0
       is-stream: 2.0.0
-    dev: false
     resolution:
       integrity: sha512-T3yrKnVGB63zRuoco/7Ybl7BwwGZR0lceoVG5XmQyMIH9s19SV5m+a8qam4if0zQuAmOQTyPTPmsQBdAorGK3w==
   /big-integer/1.6.48:
@@ -4744,7 +4679,6 @@ packages:
   /bindings/1.5.0:
     dependencies:
       file-uri-to-path: 1.0.0
-    dev: false
     resolution:
       integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   /bip174/2.0.1:
@@ -4766,7 +4700,6 @@ packages:
       tiny-secp256k1: 1.1.6
       typeforce: 1.18.0
       wif: 2.0.6
-    dev: false
     engines:
       node: '>=6.0.0'
     resolution:
@@ -4923,7 +4856,6 @@ packages:
     resolution:
       integrity: sha512-ItfYfPLkWHUjckQCk8xC+LwxgK8NYcXywGigJgSwOP8Y2iyWT4f2vsZnoOXTTbo+o5yXmIUJ4gn5538SO5S3gA==
   /bn.js/4.12.0:
-    dev: false
     resolution:
       integrity: sha512-c98Bf3tPniI+scsdk237ku1Dc3ujXQTSgyiPUDEOe7tRkhrqridvh8klBv0HCEso1OLOYcHuCv/cS6DNxKH+ZA==
   /bn.js/5.1.1:
@@ -5015,7 +4947,6 @@ packages:
     resolution:
       integrity: sha512-b8um+L1RzM3WDSzvhm6gIz1yfTbBt6YTlcEKAvsmqCZZFw46z626lVj9j1yEPW33H5H+lBQpZMP1k8l+78Ha0A==
   /brorand/1.1.0:
-    dev: false
     resolution:
       integrity: sha1-EsJe/kCkXjwyPrhnWgoM5XsiNx8=
   /browser-process-hrtime/1.0.0:
@@ -5095,7 +5026,6 @@ packages:
   /bs58/4.0.1:
     dependencies:
       base-x: 3.0.8
-    dev: false
     resolution:
       integrity: sha1-vhYedsNU9veIrkBx9j806MTwpCo=
   /bs58check/2.1.2:
@@ -5103,7 +5033,6 @@ packages:
       bs58: 4.0.1
       create-hash: 1.2.0
       safe-buffer: 5.2.1
-    dev: false
     resolution:
       integrity: sha512-0TS1jicxdU09dwJMNZtVAfzPi6Q6QeN0pM1Fkzrjn+XYHvzMKPU3pHVpva+769iNVSfIYWf7LJ6WR+BuuMf8cA==
   /bser/2.1.1:
@@ -5144,14 +5073,12 @@ packages:
     resolution:
       integrity: sha1-M3dm2hWAEhD92VbCLpxokaudAzc=
   /buffer-alloc-unsafe/1.1.0:
-    dev: false
     resolution:
       integrity: sha512-TEM2iMIEQdJ2yjPJoSIsldnleVaAk1oW3DBVUykyOLsEsFmEc9kn+SFFPz+gl54KQNxlDnAwCXosOS9Okx2xAg==
   /buffer-alloc/1.2.0:
     dependencies:
       buffer-alloc-unsafe: 1.1.0
       buffer-fill: 1.0.0
-    dev: false
     resolution:
       integrity: sha512-CFsHQgjtW1UChdXgbyJGtnm+O/uLQeZdtbDo8mfUgYXCHSM1wgrVxXm6bSyrUuErEb+4sYVGCzASBRot7zyrow==
   /buffer-compare/1.1.1:
@@ -5169,7 +5096,6 @@ packages:
     resolution:
       integrity: sha1-A1O1T9B/2VZBcGca5vZrnPENJ/U=
   /buffer-fill/1.0.0:
-    dev: false
     resolution:
       integrity: sha1-+PeLdniYiO858gXNY39o5wISKyw=
   /buffer-from/1.1.1:
@@ -5275,7 +5201,6 @@ packages:
     resolution:
       integrity: sha512-zauLjrfCG+xvoyaqLoV8bLVXXNGC4JqlxFCutSDWA6fJrTo2ZuvLYTqZ7aHBLZSMOopbzwv8f+wZcVzfVTI2Dg==
   /bytesish/0.4.4:
-    dev: false
     resolution:
       integrity: sha512-i4uu6M4zuMUiyfZN4RU2+i9+peJh//pXhd9x1oSe1LBkZ3LEbCoygu8W0bXTukU1Jme2txKuotpCZRaC3FLxcQ==
   /cacache/15.0.6:
@@ -5408,7 +5333,6 @@ packages:
   /censorify-it/3.0.2:
     dependencies:
       linkify-it: 3.0.2
-    dev: false
     resolution:
       integrity: sha512-NxKiOLXZwGebaGPgXl7yAe3YrM6PRtWqilaqkwjMgk0FPLvQu9EQ2TDkUoP/hkJhQf0HYtnoSu4D5+vyXgTTRQ==
   /chainsaw/0.1.0:
@@ -5547,7 +5471,6 @@ packages:
       string-width: 3.1.0
       strip-ansi: 5.2.0
       wrap-ansi: 5.1.0
-    dev: false
     resolution:
       integrity: sha512-PYeGSEmmHM6zvoef2w8TPzlrnNpXIjTipYK780YswmIP9vjxmd6Y2a3CB2Ks6/AU8NHjZugXvo8w3oWM2qnwXA==
   /cliui/6.0.0:
@@ -5927,7 +5850,6 @@ packages:
     resolution:
       integrity: sha512-X5eWTSXO/BJmpdIKCRuKUgSCgAN0OwliVK3yPKbwIWU1Tdw5BRajxlzMidvh+gwko9AfQ9zIj52pzF91Q3YAvQ==
   /dayjs/1.10.4:
-    dev: false
     resolution:
       integrity: sha512-RI/Hh4kqRc1UKLOAf/T5zdMMX5DQIlDxwUe3wSyMMnEbGunnpENCdbUgM+dW7kXidZqCttBrmw7BhN4TMddkCw==
   /debug/2.6.9:
@@ -6137,11 +6059,9 @@ packages:
     resolution:
       integrity: sha512-kqag/Nl+f3GwyK25fhUMYj81BUOrZ9IuJsjIcDE5icNM9FJHAVm3VcUDxdLPoQtTuUylWm6ZIknYJwwaPxsUzg==
   /dijkstrajs/1.0.1:
-    dev: false
     resolution:
       integrity: sha1-082BIh4+pAdCz83lVtTpnpjdxxs=
   /dinero.js/1.8.1:
-    dev: false
     resolution:
       integrity: sha512-AQ09MDKonkGUrhBZZFx4tPTVcVJuHJ0VEA73LvcBoBB2eQSi1DbapeXj4wnUUpx1hVnPdyev1xPNnNMGy/Au0g==
   /dir-glob/3.0.1:
@@ -6192,7 +6112,6 @@ packages:
   /dot-prop/6.0.1:
     dependencies:
       is-obj: 2.0.0
-    dev: false
     engines:
       node: '>=10'
     resolution:
@@ -6291,7 +6210,6 @@ packages:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
-    dev: false
     resolution:
       integrity: sha512-iLhC6ULemrljPZb+QutR5TQGB+pdW6KGD5RSegS+8sorOZT+rdQFbsQFJgvN3eRqNALqJer4oQ16YvJHlU8hzQ==
   /emittery/0.7.2:
@@ -7088,7 +7006,6 @@ packages:
     resolution:
       integrity: sha1-Ys8SAjTGg3hdkCNIqADvPgzCC8A=
   /fast-copy/2.1.1:
-    dev: false
     resolution:
       integrity: sha512-Qod3DdRgFZ8GUIM6ygeoZYpQ0QLW9cf/FS9KhhjlYggcSZXWAemAw8BOCO5LuYCrR3Uj3qXDVTUzOUwG8C7beQ==
   /fast-deep-equal/2.0.1:
@@ -7135,7 +7052,6 @@ packages:
     resolution:
       integrity: sha512-Ue0LwpDYErFbmNnZSF0UH6eImUwDmogUO1jyE+JbN2gsQz/jICm1Ve7t9QT0rNSsfJt+Hs4/S3GnsDVjL4HVrw==
   /fast-sort/2.2.0:
-    dev: false
     resolution:
       integrity: sha512-W7zqnn2zsYoQA87FKmYtgOsbJohOrh7XrtZrCVHN5XZKqTBTv5UG+rSS3+iWbg/nepRQUOu+wnas8BwtK8kiCg==
   /fastq/1.11.0:
@@ -7163,7 +7079,6 @@ packages:
     resolution:
       integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==
   /file-uri-to-path/1.0.0:
-    dev: false
     resolution:
       integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==
   /fill-range/4.0.0:
@@ -7372,7 +7287,6 @@ packages:
   /front-matter/4.0.2:
     dependencies:
       js-yaml: 3.14.1
-    dev: false
     resolution:
       integrity: sha512-I8ZuJ/qG92NWX8i5x1Y8qyj3vizhXS31OxjKDu3LKP+7/qBgfIKValiZIEwoVoJKUHlhWtYrktkxV1XsX+pPlg==
   /fs-constants/1.0.0:
@@ -7407,17 +7321,6 @@ packages:
       node: '>=6 <7 || >=8'
     resolution:
       integrity: sha512-yhlQgA6mnOJUKOsRUFsgJdQCvkKhcz8tlZG5HBQfReYZy46OwLcY+Zia0mtdHsOo9y/hP+CxMN0TU9QxoOtG4g==
-  /fs-extra/9.1.0:
-    dependencies:
-      at-least-node: 1.0.0
-      graceful-fs: 4.2.6
-      jsonfile: 6.1.0
-      universalify: 2.0.0
-    dev: true
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-hcg3ZmepS30/7BSFqRvoo3DOMQu7IjqxO5nCDt+zM9XWjb33Wg7ziNT+Qvqbuc3+gWpzO02JubVyk2G4Zvo1OQ==
   /fs-minipass/1.2.7:
     dependencies:
       minipass: 2.9.0
@@ -7808,7 +7711,6 @@ packages:
     dependencies:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
-    dev: false
     resolution:
       integrity: sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
   /hdkey/1.1.2:
@@ -7832,7 +7734,6 @@ packages:
       hash.js: 1.1.7
       minimalistic-assert: 1.0.1
       minimalistic-crypto-utils: 1.0.1
-    dev: false
     resolution:
       integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=
   /hosted-git-info/2.8.9:
@@ -8067,7 +7968,6 @@ packages:
     resolution:
       integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==
   /inversify/5.1.1:
-    dev: false
     resolution:
       integrity: sha512-j8grHGDzv1v+8T1sAQ+3boTCntFPfvxLCkNcxB1J8qA0lUN+fAlSyYd+RXKvaPRL4AGyPxViutBEJHNXOyUdFQ==
   /ip-regex/4.3.0:
@@ -8447,7 +8347,6 @@ packages:
     resolution:
       integrity: sha1-u5NdSFgsuhaMBoNJV6VKPgcSTxE=
   /isarray/2.0.5:
-    dev: false
     resolution:
       integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==
   /isexe/2.0.0:
@@ -9060,7 +8959,6 @@ packages:
       '@sideway/address': 4.1.1
       '@sideway/formula': 3.0.0
       '@sideway/pinpoint': 2.0.0
-    dev: false
     resolution:
       integrity: sha512-F4WiW2xaV6wc1jxete70Rw4V/VuMd6IN+a5ilZsxG4uYtUXWu2kq9W5P2dz30e7Gmw8RCbY/u/uk+dMPma9tAg==
   /js-sha3/0.5.7:
@@ -9220,14 +9118,6 @@ packages:
       graceful-fs: 4.2.6
     resolution:
       integrity: sha1-h3Gq4HmbZAdrdmQPygWPnBDjPss=
-  /jsonfile/6.1.0:
-    dependencies:
-      universalify: 2.0.0
-    dev: true
-    optionalDependencies:
-      graceful-fs: 4.2.6
-    resolution:
-      integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
   /jsonlines/0.1.1:
     dev: true
     resolution:
@@ -9417,7 +9307,6 @@ packages:
   /linkify-it/3.0.2:
     dependencies:
       uc.micro: 1.0.6
-    dev: false
     resolution:
       integrity: sha512-gDBO4aHNZS6coiZCKVhSNh43F9ioIL4JwRjLZPkoLIY4yZFwg264Y5lu2x6rb1Js42Gh6Yqm2f6L2AJcnkzinQ==
   /listenercount/1.0.1:
@@ -9524,7 +9413,6 @@ packages:
     resolution:
       integrity: sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
   /lodash.toarray/4.4.0:
-    dev: false
     resolution:
       integrity: sha1-JMS/zWsvuji/0FlNsRedjptlZWE=
   /lodash.truncate/4.4.2:
@@ -9800,11 +9688,9 @@ packages:
     resolution:
       integrity: sha1-e9KC4/WELtKVu3SM3Z8f+iyCRoU=
   /minimalistic-assert/1.0.1:
-    dev: false
     resolution:
       integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==
   /minimalistic-crypto-utils/1.0.1:
-    dev: false
     resolution:
       integrity: sha1-9sAMHAsIIkblxNmd+4x8CDsrWCo=
   /minimatch/3.0.4:
@@ -9997,7 +9883,6 @@ packages:
     resolution:
       integrity: sha512-uVSvmeCWf36pU2nB4/1kzYZjsXD9vofZKpgudqkceYY5g2aZZXJ5r9lxuzoRLl1OAp28XljXsEJ/X/85ZsKmKw==
   /nan/2.14.2:
-    dev: false
     resolution:
       integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
   /nano-json-stream-parser/0.1.2:
@@ -10106,7 +9991,6 @@ packages:
   /node-emoji/1.10.0:
     dependencies:
       lodash.toarray: 4.4.0
-    dev: false
     resolution:
       integrity: sha512-Yt3384If5H6BYGVHiHwTL+99OzJKHhgp82S8/dktEK73T26BazdgZ4JZh92xSVtGNJvz9UbXdNAc5hcrXV42vw==
   /node-fetch/2.1.2:
@@ -10465,7 +10349,6 @@ packages:
   /onetime/5.0.0:
     dependencies:
       mimic-fn: 2.1.0
-    dev: false
     engines:
       node: '>=6'
     resolution:
@@ -10871,7 +10754,6 @@ packages:
     resolution:
       integrity: sha512-fnWVljUchTro6RiCFvCXBbNhJc2NijN7oIQxbwsyL0buWJPG85v81ehlHI9fXrJsMNgTofEoWIQeClKpgxFLrg==
   /pngjs/3.4.0:
-    dev: false
     engines:
       node: '>=4.0.0'
     resolution:
@@ -11139,7 +11021,6 @@ packages:
       isarray: 2.0.5
       pngjs: 3.4.0
       yargs: 13.3.2
-    dev: false
     engines:
       node: '>=4'
     hasBin: true
@@ -11320,7 +11201,6 @@ packages:
     resolution:
       integrity: sha1-hSBLVNuoLVdC4oyWdW70OvUOM4Q=
   /reflect-metadata/0.1.13:
-    dev: false
     resolution:
       integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==
   /regenerator-runtime/0.11.1:
@@ -11375,7 +11255,6 @@ packages:
     dependencies:
       argparse: 1.0.10
       autolinker: 3.14.3
-    dev: false
     engines:
       node: '>= 6.0.0'
     hasBin: true
@@ -12531,7 +12410,6 @@ packages:
       create-hmac: 1.1.7
       elliptic: 6.5.4
       nan: 2.14.2
-    dev: false
     engines:
       node: '>=6.0.0'
     requiresBuild: true
@@ -12757,7 +12635,6 @@ packages:
     resolution:
       integrity: sha512-EUV9jo4sffrwlg8s0zDhP0T2WD3pru5Xi0+HTE3zTUmBaZNhfkite9PdSJwdXLwPVW0jnAHT56pZHIOYckPEiw==
   /type-fest/0.17.0:
-    dev: false
     engines:
       node: '>=10'
     resolution:
@@ -12787,7 +12664,6 @@ packages:
     resolution:
       integrity: sha512-4dbzIzqvjtgiM5rw1k5rEHtBANKmdudhGyBEajN01fEyhaAIhsoKNy6y7+IN93IfpFtwY9iqi7kD+xwKhQsNJA==
   /type-fest/1.0.2:
-    dev: false
     engines:
       node: '>=10'
     resolution:
@@ -12815,7 +12691,6 @@ packages:
     resolution:
       integrity: sha512-zdu8XMNEDepKKR+XYOXAVPtWui0ly0NtohUscw+UmaHiAWT8hrV1rr//H6V+0DvJ3OQ19S979M0laLfX8rm82Q==
   /typeforce/1.18.0:
-    dev: false
     resolution:
       integrity: sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
   /typescript-compiler/1.4.1-2:
@@ -12846,7 +12721,6 @@ packages:
     resolution:
       integrity: sha512-fqLNg8vpvLOD5J/z4B6wpPg4Lvowz1nJ9xdHcCzdUPKcFE/qNCceV2gNZxSJd5vhAZemHr/K/hbzVA0zxB5mkg==
   /uc.micro/1.0.6:
-    dev: false
     resolution:
       integrity: sha512-8Y75pvTYkLJW2hWQHXxoqRgV7qb9B+9vFEtidML+7koHUFapnVJAZ6cKs+Qjz5Aw3aZWHMC6u0wJE3At+nSGwA==
   /ultron/1.1.1:
@@ -12919,12 +12793,6 @@ packages:
       node: '>= 4.0.0'
     resolution:
       integrity: sha512-rBJeI5CXAlmy1pV+617WB9J63U6XcazHHF2f2dbJix4XzpUF0RS3Zbj0FGIOCAva5P/d/GBOYaACQ1w+0azUkg==
-  /universalify/2.0.0:
-    dev: true
-    engines:
-      node: '>= 10.0.0'
-    resolution:
-      integrity: sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
   /unorm/1.6.0:
     dev: false
     engines:
@@ -13639,7 +13507,6 @@ packages:
   /wif/2.0.6:
     dependencies:
       bs58check: 2.1.2
-    dev: false
     resolution:
       integrity: sha1-CNP1IFbGZnkplyb63g1DKudLRwQ=
   /windows-release/3.3.3:
@@ -13661,7 +13528,6 @@ packages:
       ansi-styles: 3.2.1
       string-width: 3.1.0
       strip-ansi: 5.2.0
-    dev: false
     engines:
       node: '>=6'
     resolution:
@@ -13842,7 +13708,6 @@ packages:
     dependencies:
       camelcase: 5.3.1
       decamelize: 1.2.0
-    dev: false
     resolution:
       integrity: sha512-3lbsNRf/j+A4QuSZfDRA7HRSfWrzO0YjqTJd5kjAq37Zep1CEgaYmrH9Q3GwPiB9cHyd1Y1UwggGhJGoxipbzg==
   /yargs-parser/18.1.3:
@@ -13871,7 +13736,6 @@ packages:
       which-module: 2.0.0
       y18n: 4.0.3
       yargs-parser: 13.1.2
-    dev: false
     resolution:
       integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
   /yargs/15.4.1:

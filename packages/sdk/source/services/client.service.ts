@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 
-import { HttpClient } from "../http";
-
 import { ConfigRepository } from "../coins";
 import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
 import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";
 import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
 import { NotImplemented } from "../exceptions";
+import { HttpClient } from "../http";
 import { inject } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import {
