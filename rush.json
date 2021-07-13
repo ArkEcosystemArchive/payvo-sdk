@@ -60,12 +60,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@payvo/sdk-cli",
-			"projectFolder": "packages/sdk-cli",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@payvo/sdk-dot",
 			"projectFolder": "packages/sdk-dot",
 			"reviewCategory": "libraries",

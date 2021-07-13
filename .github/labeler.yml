@@ -31,10 +31,6 @@ test:
     - packages/sdk-btc/*
     - packages/sdk-btc/**/*
 
-"Domain: CLI":
-    - packages/sdk-cli/*
-    - packages/sdk-cli/**/*
-
 "Domain: DOT":
     - packages/sdk-dot/*
     - packages/sdk-dot/**/*
