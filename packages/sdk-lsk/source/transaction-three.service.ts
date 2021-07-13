@@ -33,6 +33,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
+		const normaliseAmount = (value: number): BigInt => {
+			if(typeof value === 'number' && !isNaN(value)){
+				if (Number.isInteger(value)) {
+					if (value % 10 === 0) {
+						return BigInt(this.bigNumberService.make(value).toSatoshi().toString())
+					}
+				}
+			}
+
+			throw new Error(`The value [${value}] is not a multiple of 10.`);
+		}
+
 		const votes: {
 			delegateAddress: Buffer;
 			amount: BigInt;
@@ -42,7 +54,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const vote of input.data.votes) {
 				votes.push({
 					delegateAddress: getAddressFromBase32Address(vote.id),
-					amount: BigInt(this.bigNumberService.make(vote.amount).toSatoshi().toString()),
+					amount: normaliseAmount(vote.amount),
 				});
 			}
 		}
@@ -51,7 +63,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
 					delegateAddress: getAddressFromBase32Address(unvote.id),
-					amount: BigInt(this.bigNumberService.make(unvote.amount).toSatoshi().toString()),
+					amount: normaliseAmount(unvote.amount),
 				});
 			}
 		}
