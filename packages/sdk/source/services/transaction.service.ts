@@ -1,11 +1,11 @@
 /* istanbul ignore file */
 
 import { BigNumber, NumberLike } from "@payvo/helpers";
-import { HttpClient } from "../http";
 
 import { ConfigRepository } from "../coins";
 import { RawTransactionData, SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";
+import { HttpClient } from "../http";
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import { BigNumberService } from "./big-number.service";

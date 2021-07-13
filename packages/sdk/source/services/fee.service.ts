@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
-import { HttpClient } from "../http";
-
 import { NotImplemented } from "../exceptions";
+import { HttpClient } from "../http";
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import { FeeService, TransactionFees } from "./fee.contract";
