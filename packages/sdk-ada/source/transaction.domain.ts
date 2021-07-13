@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { Coins, Http } from "@payvo/sdk";
 import CardanoWasm, {
 	Address,
 	BigNum,
@@ -9,7 +9,6 @@ import CardanoWasm, {
 } from "@emurgo/cardano-serialization-lib-nodejs";
 import { Buffer } from "buffer";
 
-import { HttpClient } from "@payvo/sdk-http";
 import { fetchUsedAddressesData } from "./graphql-helpers";
 import { addressFromAccountExtPublicKey, deriveAddress, deriveChangeKey, deriveSpendKey } from "./shelley";
 import { createValue } from "./transaction.factory";
@@ -17,7 +16,7 @@ import { UnspentTransaction } from "./transaction.models";
 
 export const usedAddressesForAccount = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	accountPublicKey: string,
 ) => {
 	const networkId: string = config.get<string>("network.meta.networkId");

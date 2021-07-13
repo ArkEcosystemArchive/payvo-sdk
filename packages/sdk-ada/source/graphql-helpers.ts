@@ -1,11 +1,10 @@
-import { Coins, Helpers } from "@payvo/sdk";
-import { HttpClient } from "@payvo/sdk-http";
+import { Coins, Helpers, Http } from "@payvo/sdk";
 
 import { UnspentTransaction } from "./transaction.models";
 
 const postGraphql = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	query: string,
 ): Promise<Record<string, any>> => {
 	const response = await httpClient.post(Helpers.randomHostFromConfig(config), { query });
@@ -21,7 +20,7 @@ const postGraphql = async (
 
 export const submitTransaction = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	toBroadcast: string,
 ): Promise<string> => {
 	return (
@@ -32,7 +31,7 @@ export const submitTransaction = async (
 export const fetchTransaction = async (
 	id: string,
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 ): Promise<object[]> => {
 	const query = `
 			{
@@ -66,7 +65,7 @@ export const fetchTransaction = async (
 
 export const fetchTransactions = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	addresses: string[],
 ): Promise<object[]> => {
 	const query = `
@@ -116,7 +115,7 @@ export const fetchTransactions = async (
 	return (await postGraphql(config, httpClient, query)).transactions;
 };
 
-export const fetchNetworkTip = async (config: Coins.ConfigRepository, httpClient: HttpClient): Promise<number> => {
+export const fetchNetworkTip = async (config: Coins.ConfigRepository, httpClient: Http.HttpClient): Promise<number> => {
 	const query = `{ cardano { tip { slotNo } } }`;
 
 	return parseInt((await postGraphql(config, httpClient, query)).cardano.tip.slotNo);
@@ -124,7 +123,7 @@ export const fetchNetworkTip = async (config: Coins.ConfigRepository, httpClient
 
 export const fetchUsedAddressesData = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	addresses: string[],
 ): Promise<string[]> => {
 	const query = `
@@ -168,7 +167,7 @@ export const fetchUsedAddressesData = async (
 
 export const listUnspentTransactions = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	addresses: string[],
 ): Promise<UnspentTransaction[]> => {
 	return (
@@ -198,7 +197,7 @@ export const listUnspentTransactions = async (
 
 export const fetchUtxosAggregate = async (
 	config: Coins.ConfigRepository,
-	httpClient: HttpClient,
+	httpClient: Http.HttpClient,
 	addresses: string[],
 ): Promise<string> => {
 	const query = `

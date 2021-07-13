@@ -1,6 +1,5 @@
 import { Managers } from "@arkecosystem/crypto";
-import { Coins, Helpers, IoC } from "@payvo/sdk";
-import { HttpClient } from "@payvo/sdk-http";
+import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
 import { BindingType } from "./coin.contract";
 import { Services } from "./coin.services";
@@ -19,7 +18,7 @@ export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.
 	}
 
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {
-		const http: HttpClient = container.get<HttpClient>(IoC.BindingType.HttpClient);
+		const http: Http.HttpClient = container.get<Http.HttpClient>(IoC.BindingType.HttpClient);
 
 		let peer: string = Helpers.randomHostFromConfig(this.configRepository);
 

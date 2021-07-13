@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { HttpClient } from "@payvo/sdk-http";
+import { HttpClient } from "../http";
 
 import { NotImplemented } from "../exceptions";
 import { inject, injectable } from "../ioc";

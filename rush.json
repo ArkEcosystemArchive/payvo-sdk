@@ -90,12 +90,6 @@
 			"shouldPublish": true
 		},
 		{
-			"packageName": "@payvo/sdk-http",
-			"projectFolder": "packages/sdk-http",
-			"reviewCategory": "libraries",
-			"shouldPublish": true
-		},
-		{
 			"packageName": "@payvo/sdk-http-got",
 			"projectFolder": "packages/sdk-http-got",
 			"reviewCategory": "libraries",

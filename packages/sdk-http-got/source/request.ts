@@ -1,4 +1,4 @@
-import { AbstractRequest, HttpResponse, RequestOptions, Response } from "@payvo/sdk-http";
+import { Http } from "@payvo/sdk";
 import FormData from "form-data";
 import got from "got";
 import { URLSearchParams } from "url";
@@ -12,10 +12,10 @@ import { URLSearchParams } from "url";
  * @class Request
  * @extends {Request}
  */
-export class Request extends AbstractRequest {
+export class Request extends Http.AbstractRequest {
 	/** {@inheritDoc Request.send} */
-	protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<HttpResponse> {
-		const options: RequestOptions = {
+	protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<Http.HttpResponse> {
+		const options: Http.RequestOptions = {
 			...this._options,
 		};
 
@@ -43,9 +43,9 @@ export class Request extends AbstractRequest {
 		}
 
 		try {
-			return new Response(await got[method.toLowerCase()](url.replace(/^\/+/g, ""), options));
+			return new Http.Response(await got[method.toLowerCase()](url.replace(/^\/+/g, ""), options));
 		} catch (error) {
-			return new Response(error.response, error);
+			return new Http.Response(error.response, error);
 		}
 	}
 }

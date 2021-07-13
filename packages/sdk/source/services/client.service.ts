@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { HttpClient } from "@payvo/sdk-http";
+import { HttpClient } from "../http";
 
 import { ConfigRepository } from "../coins";
 import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";

@@ -25,7 +25,7 @@
 		"preset": "../../jest.coverage.js"
 	},
 	"dependencies": {
-		"@payvo/sdk-http": "workspace:*",
+		"@payvo/sdk": "workspace:*",
 		"form-data": "^3.0.0",
 		"got": "^11.8.2"
 	},

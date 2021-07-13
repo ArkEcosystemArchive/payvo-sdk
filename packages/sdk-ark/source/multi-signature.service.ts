@@ -1,5 +1,5 @@
 import { Coins, Contracts, Helpers, IoC, Networks, Services } from "@payvo/sdk";
-import { HttpClient, RequestException } from "@payvo/sdk-http";
+import { Http } from "@payvo/sdk";
 
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 
@@ -9,7 +9,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	private readonly configRepository!: Coins.ConfigRepository;
 
 	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: HttpClient;
+	private readonly httpClient!: Http.HttpClient;
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -50,7 +50,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				errors: {},
 			};
 		} catch (error) {
-			if (error instanceof RequestException) {
+			if (error instanceof Http.RequestException) {
 				const message: string = (error as any).response.json().message;
 
 				let type: string | undefined = "ERR_UNKNOWN";
