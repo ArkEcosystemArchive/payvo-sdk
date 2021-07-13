@@ -1,4 +1,4 @@
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import { createProfile, useLogger } from "../../helpers";
 
 export const signMessageWithXLM = async (env: Environment): Promise<void> => {

@@ -1,4 +1,4 @@
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import { pollTransactionStatus, createProfile, useLogger } from "../../helpers";
 
 export const transferFundsWithXLM = async (env: Environment): Promise<void> => {

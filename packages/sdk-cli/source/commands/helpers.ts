@@ -1,4 +1,4 @@
-import { Contracts } from "@payvo/sdk-profiles";
+import { Contracts } from "@payvo/profiles";
 import terminalLink from "terminal-link";
 
 import { useLogger } from "../helpers";

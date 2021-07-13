@@ -1,4 +1,4 @@
-import { Contracts } from "@payvo/sdk-profiles";
+import { Contracts } from "@payvo/profiles";
 import { pwnd, strong } from "password-pwnd";
 import prompts from "prompts";
 

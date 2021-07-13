@@ -1,5 +1,5 @@
 import { Collections } from "@payvo/sdk";
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import { createProfile, pollTransactionStatus, useLogger } from "../../helpers";
 
 export const transferFundsWithTRX = async (env: Environment): Promise<void> => {

@@ -135,6 +135,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/profiles",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/sdk",
       "allowedCategories": [ "libraries" ]
     },

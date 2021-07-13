@@ -67,10 +67,6 @@ test:
     - packages/sdk-neo/*
     - packages/sdk-neo/**/*
 
-"Domain: Profiles":
-    - packages/sdk-profiles/*
-    - packages/sdk-profiles/**/*
-
 "Domain: SOL":
     - packages/sdk-sol/*
     - packages/sdk-sol/**/*

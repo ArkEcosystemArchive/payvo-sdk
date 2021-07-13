@@ -1,4 +1,4 @@
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import prompts from "prompts";
 
 import { renderLogo } from "../../helpers";

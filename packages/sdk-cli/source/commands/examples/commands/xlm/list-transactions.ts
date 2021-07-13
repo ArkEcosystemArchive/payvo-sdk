@@ -1,5 +1,5 @@
 import { Collections } from "@payvo/sdk";
-import { Environment } from "@payvo/sdk-profiles";
+import { Environment } from "@payvo/profiles";
 import { createProfile, useLogger } from "../../helpers";
 
 export const listTransactionsWithXLM = async (env: Environment): Promise<void> => {

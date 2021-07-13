@@ -534,6 +534,7 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       '@payvo/cryptography': 1.0.0
       '@payvo/helpers': 1.0.0
+      '@payvo/profiles': 1.0.0_jest@26.6.3+typescript@4.3.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-ada': link:../sdk-ada
       '@payvo/sdk-ark': link:../sdk-ark
@@ -548,7 +549,6 @@ importers:
       '@payvo/sdk-http-got': link:../sdk-http-got
       '@payvo/sdk-lsk': link:../sdk-lsk
       '@payvo/sdk-neo': link:../sdk-neo
-      '@payvo/sdk-profiles': link:../sdk-profiles
       '@payvo/sdk-sol': link:../sdk-sol
       '@payvo/sdk-trx': link:../sdk-trx
       '@payvo/sdk-xlm': link:../sdk-xlm
@@ -601,6 +601,7 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.0.0
+      '@payvo/profiles': ^1.0.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-ada': workspace:*
       '@payvo/sdk-ark': workspace:*
@@ -615,7 +616,6 @@ importers:
       '@payvo/sdk-http-got': workspace:*
       '@payvo/sdk-lsk': workspace:*
       '@payvo/sdk-neo': workspace:*
-      '@payvo/sdk-profiles': workspace:*
       '@payvo/sdk-sol': workspace:*
       '@payvo/sdk-trx': workspace:*
       '@payvo/sdk-xlm': workspace:*
@@ -1438,144 +1438,6 @@ importers:
       ts-jest: ^26.5.5
       typescript: ^4.3.0
       uuid: ^8.3.2
-  ../../packages/sdk-profiles:
-    dependencies:
-      '@arkecosystem/utils': 1.3.0
-      '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
-      '@payvo/intl': 1.0.0
-      '@payvo/markets': 1.0.0
-      '@payvo/sdk': link:../sdk
-      '@payvo/sdk-http': link:../sdk-http
-      '@sindresorhus/slugify': 1.1.2
-      '@vechain/picasso': 2.1.1
-      bcrypto: 5.4.0
-      bip38: 3.1.1
-      conf: 10.0.1
-      dot-prop: 6.0.1
-      eventemitter3: 4.0.7
-      inversify: 5.1.1
-      jest-mock-extended: 1.0.14_jest@26.6.3+typescript@4.3.2
-      joi: 17.4.0
-      localforage: 1.9.0
-      mem: 8.1.1
-      node-cache: 5.1.2
-      p-queue: 6.6.2
-      p-retry: 4.5.0
-      reflect-metadata: 0.1.13
-      semver: 7.3.5
-      type-fest: 1.0.2
-      uuid: 8.3.2
-      wif: 2.0.6
-    devDependencies:
-      '@payvo/sdk-ada': link:../sdk-ada
-      '@payvo/sdk-ark': link:../sdk-ark
-      '@payvo/sdk-btc': link:../sdk-btc
-      '@payvo/sdk-eth': link:../sdk-eth
-      '@payvo/sdk-http-got': link:../sdk-http-got
-      '@sindresorhus/tsconfig': 1.0.2
-      '@types/async': 3.2.4
-      '@types/bip38': 2.0.1
-      '@types/eslint': 7.2.10
-      '@types/eslint-plugin-prettier': 3.1.0
-      '@types/fs-extra': 9.0.11
-      '@types/jest': 26.0.23
-      '@types/mersenne-twister': 1.1.2
-      '@types/node': 14.14.43
-      '@types/prettier': 2.2.3
-      '@types/rimraf': 3.0.0
-      '@types/semver': 7.3.5
-      '@types/uuid': 8.3.0
-      '@types/wif': 2.0.2
-      '@typescript-eslint/eslint-plugin': 4.22.0_4b0fcef58004328916b1ecf8258de23e
-      '@typescript-eslint/parser': 4.22.0_eslint@7.25.0+typescript@4.3.2
-      cross-env: 7.0.3
-      eslint: 7.25.0
-      eslint-config-prettier: 8.3.0_eslint@7.25.0
-      eslint-plugin-import: 2.22.1_eslint@7.25.0
-      eslint-plugin-jest: 24.3.6_35117c1346fd2a1db02b1d647b7e5acd
-      eslint-plugin-prettier: 3.4.0_ed711e5f9f0b93b1702ff2485ae7ca00
-      eslint-plugin-simple-import-sort: 7.0.0_eslint@7.25.0
-      eslint-plugin-tsdoc: 0.2.14
-      fs-extra: 9.1.0
-      got: 11.8.2
-      jest: 26.6.3
-      jest-extended: 0.11.5
-      jest-localstorage-mock: 2.4.10
-      nock: 13.0.11
-      npm-check-updates: 11.5.9
-      prettier: 2.3.1
-      rimraf: 3.0.2
-      ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
-      typescript: 4.3.2
-    specifiers:
-      '@arkecosystem/utils': ^1.3.0
-      '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
-      '@payvo/intl': ^1.0.0
-      '@payvo/markets': ^1.0.0
-      '@payvo/sdk': workspace:*
-      '@payvo/sdk-ada': workspace:*
-      '@payvo/sdk-ark': workspace:*
-      '@payvo/sdk-btc': workspace:*
-      '@payvo/sdk-eth': workspace:*
-      '@payvo/sdk-http': workspace:*
-      '@payvo/sdk-http-got': workspace:*
-      '@sindresorhus/slugify': ^1.1.0
-      '@sindresorhus/tsconfig': ^1.0.2
-      '@types/async': 3.2.4
-      '@types/bip38': 2.0.1
-      '@types/eslint': ^7.2.10
-      '@types/eslint-plugin-prettier': ^3.1.0
-      '@types/fs-extra': ^9.0.11
-      '@types/jest': ^26.0.23
-      '@types/mersenne-twister': 1.1.2
-      '@types/node': ^14.14.43
-      '@types/prettier': ^2.2.3
-      '@types/rimraf': ^3.0.0
-      '@types/semver': 7.3.5
-      '@types/uuid': ^8.3.0
-      '@types/wif': 2.0.2
-      '@typescript-eslint/eslint-plugin': ^4.22.0
-      '@typescript-eslint/parser': ^4.22.0
-      '@vechain/picasso': ^2.1.1
-      bcrypto: ^5.4.0
-      bip38: ^3.1.1
-      conf: ^10.0.1
-      cross-env: ^7.0.3
-      dot-prop: ^6.0.0
-      eslint: ^7.25.0
-      eslint-config-prettier: ^8.3.0
-      eslint-plugin-import: ~2.22.1
-      eslint-plugin-jest: ^24.3.6
-      eslint-plugin-prettier: ^3.4.0
-      eslint-plugin-simple-import-sort: ^7.0.0
-      eslint-plugin-tsdoc: ~0.2.14
-      eventemitter3: ~4.0.7
-      fs-extra: ^9.1.0
-      got: ^11.8.2
-      inversify: ~5.1.1
-      jest: ^26.6.3
-      jest-extended: ^0.11.5
-      jest-localstorage-mock: ^2.4.10
-      jest-mock-extended: ~1.0.14
-      joi: ^17.4.0
-      localforage: ^1.9.0
-      mem: ^8.1.1
-      nock: ^13.0.11
-      node-cache: ^5.1.2
-      npm-check-updates: ^11.5.6
-      p-queue: ^6.6.2
-      p-retry: ^4.3.0
-      prettier: ^2.3.1
-      reflect-metadata: ~0.1.13
-      rimraf: ^3.0.2
-      semver: ^7.3.5
-      ts-jest: ^26.5.5
-      type-fest: ^1.0.2
-      typescript: ^4.3.0
-      uuid: ^8.3.2
-      wif: ^2.0.6
   ../../packages/sdk-sol:
     dependencies:
       '@payvo/cryptography': 1.0.0
@@ -3538,12 +3400,80 @@ packages:
       node: '>=12.x'
     resolution:
       integrity: sha512-Gv+MJjjpma7twnZna1FPqjiI9arzNj5yoFUhMoS5OatX4JulNd3liYndLPuvWUwDwn0coZJrN4rdv9obtuL88Q==
+  /@payvo/profiles/1.0.0_jest@26.6.3+typescript@4.3.2:
+    dependencies:
+      '@arkecosystem/utils': 1.3.0
+      '@payvo/cryptography': 1.0.0
+      '@payvo/helpers': 1.0.0
+      '@payvo/intl': 1.0.0
+      '@payvo/markets': 1.0.0
+      '@payvo/sdk': 1.1.20
+      '@payvo/sdk-http': 1.1.0
+      '@sindresorhus/slugify': 1.1.2
+      '@vechain/picasso': 2.1.1
+      bcrypto: 5.4.0
+      bip38: 3.1.1
+      conf: 10.0.1
+      dot-prop: 6.0.1
+      eventemitter3: 4.0.7
+      inversify: 5.1.1
+      jest-mock-extended: 1.0.14_jest@26.6.3+typescript@4.3.2
+      joi: 17.4.0
+      localforage: 1.9.0
+      mem: 8.1.1
+      node-cache: 5.1.2
+      p-queue: 6.6.2
+      p-retry: 4.5.0
+      reflect-metadata: 0.1.13
+      semver: 7.3.5
+      type-fest: 1.0.2
+      uuid: 8.3.2
+      wif: 2.0.6
+    dev: false
+    engines:
+      node: '>=12.x'
+    peerDependencies:
+      jest: '*'
+      typescript: '*'
+    resolution:
+      integrity: sha512-bRnrKA4zBoQNYlRqbaKm8UFh40HYUW+OqD15r6H94tA1LrPiaf+Kdruhgcem6VXyOC0bFVeMxdvn9jULLYHaqQ==
   /@payvo/sdk-http/1.1.0:
     dev: false
     engines:
       node: '>=12.x'
     resolution:
       integrity: sha512-GVq1Lp+YdGyCgD2uDYJl8GA93T/hMEl/uJRTJBJxdmmwflIQ0S7yEdJDJ0KKmAb2lb7G1H3+IQesHJQnO2ZjIA==
+  /@payvo/sdk-http/1.1.20:
+    dev: false
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-+KbsZMd97P+C1t4b0b0ug1F/X8l67Wp1a0oOzuK7cb0G2NYymnKT4JzQw55GdIFsM/lo2RsyGTxdL1DSX9KGzw==
+  /@payvo/sdk/1.1.20:
+    dependencies:
+      '@arkecosystem/utils': 1.3.0
+      '@payvo/helpers': 1.0.0
+      '@payvo/intl': 1.0.0
+      '@payvo/sdk-http': 1.1.20
+      bad-words: 3.0.4
+      bent: 7.3.12
+      bignumber.js: 9.0.1
+      bip32: 2.0.6
+      bip39: 3.0.4
+      censorify-it: 3.0.2
+      dayjs: 1.10.4
+      dot-prop: 6.0.1
+      inversify: 5.1.1
+      joi: 17.4.0
+      node-emoji: 1.10.0
+      onetime: 5.0.0
+      reflect-metadata: 0.1.13
+      type-fest: 1.0.2
+    dev: false
+    engines:
+      node: '>=12.x'
+    resolution:
+      integrity: sha512-q4MFmhrH4wcAIFiWsuHUAXzLnGzwnvezlGsWGvONLRcaRLHsBMUlQ9yk5Yo9d/gRcM/1p95HYld70bvrVWX2mw==
   /@polkadot/api-derive/3.11.1:
     dependencies:
       '@babel/runtime': 7.14.0
@@ -3925,10 +3855,6 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
-  /@types/async/3.2.4:
-    dev: true
-    resolution:
-      integrity: sha512-2c14HTaCn6tlb7bnqJGeH5JJGHZmyrkDD3EYe1NYBYjuY4+2EmMg8pjau2HvVz8+ANmO+DieV95H8PlzbK383g==
   /@types/babel__core/7.1.14:
     dependencies:
       '@babel/parser': 7.14.0
@@ -3958,12 +3884,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-Vs0hm0vPahPMYi9tDjtP66llufgO3ST16WXaSTtDGEl9cewAl3AibmxWw6TINOqHPT9z0uABKAYjT9jNSg4npw==
-  /@types/bip38/2.0.1:
-    dependencies:
-      '@types/node': 14.14.43
-    dev: true
-    resolution:
-      integrity: sha512-mZTvxt9Oue3dDV8/sgJWNCsdmrkmhnGVRja3ZFKeMHheKbyS6FgcBep0WlpTP5pK8Z3Y3YILBP4nHnAV7knq0g==
   /@types/bip39/2.4.1:
     dependencies:
       '@types/node': 14.14.43
@@ -4132,10 +4052,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==
-  /@types/mersenne-twister/1.1.2:
-    dev: true
-    resolution:
-      integrity: sha512-7KMIfSkMpaVExbzJRLUXHMO4hkFWbbspHPREk8I6pBxiNN+3+l6eAEClMCIPIo2KjCkR0rjYfXppr6+wKdTwpA==
   /@types/minimatch/3.0.4:
     dev: true
     resolution:
@@ -4263,12 +4179,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-B5m9aq7cbbD/5/jThEr33nUY8WEfVi6A2YKCTOvw5Ldy7mtsOkqRvGjnzy6g7iMMDsgu7xREuCzqATLDLQVKcQ==
-  /@types/wif/2.0.2:
-    dependencies:
-      '@types/node': 14.14.43
-    dev: true
-    resolution:
-      integrity: sha512-IiIuBeJzlh4LWJ7kVTrX0nwB60OG0vvGTaWC/SgSbVFw7uYUTF6gEuvDZ1goWkeirekJDD58Y8g7NljQh2fNkA==
   /@types/ws/7.4.0:
     dependencies:
       '@types/node': 14.14.43

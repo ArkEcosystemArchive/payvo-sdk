@@ -45,7 +45,7 @@
 		"@payvo/sdk-http-got": "workspace:*",
 		"@payvo/sdk-lsk": "workspace:*",
 		"@payvo/sdk-neo": "workspace:*",
-		"@payvo/sdk-profiles": "workspace:*",
+		"@payvo/profiles": "^1.0.0",
 		"@payvo/sdk-sol": "workspace:*",
 		"@payvo/sdk-trx": "workspace:*",
 		"@payvo/sdk-xlm": "workspace:*",
