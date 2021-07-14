@@ -8,5 +8,6 @@
 	"engines": {
 		"node": "^12 || ^14"
 	},
-	"engineStrict": true
+	"engineStrict": true,
+	"version": "1.0.3"
 }
