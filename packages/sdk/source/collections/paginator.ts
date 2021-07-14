@@ -55,10 +55,6 @@ export abstract class Paginator<T> {
 		}
 	}
 
-	public getData(): T[] {
-		return this.#data;
-	}
-
 	public getPagination(): MetaPagination {
 		return this.#pagination;
 	}

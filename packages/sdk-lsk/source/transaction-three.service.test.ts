@@ -96,25 +96,27 @@ describe("TransactionService", () => {
 		});
 
 		it("should fail to vote with a number that is not a multiple of 10", async () => {
-			await expect(subject.vote({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					votes: [
-						{
-							id: identity.address,
-							amount: 1,
-						},
-					],
-					unvotes: [],
-				},
-			})).rejects.toThrow(/not a multiple of 10/);
+			await expect(
+				subject.vote({
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: identity.mnemonic,
+							address: identity.address,
+							publicKey: identity.publicKey,
+							privateKey: identity.privateKey,
+						}),
+					),
+					data: {
+						votes: [
+							{
+								id: identity.address,
+								amount: 1,
+							},
+						],
+						unvotes: [],
+					},
+				}),
+			).rejects.toThrow(/not a multiple of 10/);
 		});
 	});
 });
