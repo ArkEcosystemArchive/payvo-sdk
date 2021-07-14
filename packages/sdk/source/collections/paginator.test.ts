@@ -103,7 +103,7 @@ test("#isNotEmpty", () => {
 });
 
 test("#transform", () => {
-	expect(subject.getData()).toMatchInlineSnapshot(`
+	expect(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": [Function],
@@ -128,7 +128,7 @@ test("#transform", () => {
 		return data;
 	});
 
-	expect(subject.getData()).toMatchInlineSnapshot(`
+	expect(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": "() => \\"id1\\"-transformed",
@@ -139,27 +139,6 @@ test("#transform", () => {
 		  },
 		  Object {
 		    "id": "() => \\"id2\\"-transformed",
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		]
-	`);
-});
-
-test("#getData", () => {
-	expect(subject.getData()).toMatchInlineSnapshot(`
-		Array [
-		  Object {
-		    "id": [Function],
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		  Object {
-		    "id": [Function],
 		    "recipient": [Function],
 		    "sender": [Function],
 		    "timestamp": [Function],
