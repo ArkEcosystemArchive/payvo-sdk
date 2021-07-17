@@ -49,13 +49,7 @@ describe("TransactionService", () => {
 			expect(result).toBeInstanceOf(SignedTransactionData);
 		});
 
-		// {"moduleID":2,"assetID":0,"senderPublicKey":"951ea6fd174ad81a20a3276f7f99bda35a28241d5760c9d45d1ae78b2f1a8dd1","nonce":"2n","fee":"207000n","signatures":["eebb923a6aa8ec4db630a708c4e269876e6a8440831f0b5f011cbf968089e5a189966028e031d7ce5ca2605ba80c35cc01deccee0826fd0e77d156b2cd013500"],"asset":{"recipientAddress":"fe4a135a02dd658903dd9db4963e91eb19194dc5","amount":"100000000n","data":""},"id":"892599e5fc288cc17fcd9a60e835437093b73349a905e63487a78e9439c50653"}
-
-		// {"moduleID":2,"assetID":0,"senderPublicKey":"951ea6fd174ad81a20a3276f7f99bda35a28241d5760c9d45d1ae78b2f1a8dd1","nonce":"2n","fee":"207000n","signatures":["2faca873a0156e6d902d33e5f9b82a7f19b2d472786d1db7fac44ceb6dff8bc2d0b06b3ce307d0b157e13d50b9988fa7a2e6d36ef08154e181533f334bc2630d",""],"asset":{"recipientAddress":"fe4a135a02dd658903dd9db4963e91eb19194dc5","amount":"100000000n","data":""},"id":"7ed94d567b577a7aa483e25bed968a0adf0350bcd041866d62a97a363491b18e"}
-
-		// {"moduleID":2,"assetID":0,"senderPublicKey":"951ea6fd174ad81a20a3276f7f99bda35a28241d5760c9d45d1ae78b2f1a8dd1","nonce":"2n","fee":"207000n","signatures":["2faca873a0156e6d902d33e5f9b82a7f19b2d472786d1db7fac44ceb6dff8bc2d0b06b3ce307d0b157e13d50b9988fa7a2e6d36ef08154e181533f334bc2630d","eebb923a6aa8ec4db630a708c4e269876e6a8440831f0b5f011cbf968089e5a189966028e031d7ce5ca2605ba80c35cc01deccee0826fd0e77d156b2cd013500"],"asset":{"recipientAddress":"fe4a135a02dd658903dd9db4963e91eb19194dc5","amount":"100000000n","data":""},"id":"3305b30c2b1664e559954f13f1581fb5e682aae35c6e6a7bb5c7b58c53a241b7"}
-
-		it.only("should sign with a multi-signature", async () => {
+		it.skip("should sign with a multi-signature", async () => {
 			const wallet1 = {
 				signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
 				address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
