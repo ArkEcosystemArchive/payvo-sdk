@@ -331,7 +331,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-    #createSignatureAsset(transaction: Record<string, any>): object {
+	#createSignatureAsset(transaction: Record<string, any>): object {
 		if (transaction.moduleID === 2 && transaction.assetID === 0) {
 			return {
 				amount: BigInt(`${transaction.asset.amount}`),
@@ -340,26 +340,26 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
-        if (transaction.moduleID === 4 && transaction.assetID === 0) {
-            return {
-                numberOfSignatures: transaction.asset.numberOfSignatures,
-                mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
-                optionalKeys: convertStringList(transaction.asset.optionalKeys),
+		if (transaction.moduleID === 4 && transaction.assetID === 0) {
+			return {
+				numberOfSignatures: transaction.asset.numberOfSignatures,
+				mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
+				optionalKeys: convertStringList(transaction.asset.optionalKeys),
 			};
-        }
+		}
 
-        if (transaction.moduleID === 5 && transaction.assetID === 0) {
-            return {
-                username: transaction.asset.username,
+		if (transaction.moduleID === 5 && transaction.assetID === 0) {
+			return {
+				username: transaction.asset.username,
 			};
-        }
+		}
 
-        if (transaction.moduleID === 5 && transaction.assetID === 1) {
-            return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
+		if (transaction.moduleID === 5 && transaction.assetID === 1) {
+			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
 				amount: this.#normaliseVoteAmount(amount),
 			}));
-        }
+		}
 
 		throw new Error("Failed to determine transaction type for asset signing.");
     }
@@ -409,6 +409,5 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		throw new Error(`The value [${value}] is not a multiple of 10.`);
-	};
-
+	}
 }
