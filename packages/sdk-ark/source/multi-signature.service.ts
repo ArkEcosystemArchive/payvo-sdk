@@ -1,5 +1,9 @@
+import { Interfaces } from "@arkecosystem/crypto";
 import { Coins, Contracts, Helpers, IoC, Networks, Services } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
+import { BindingType } from "./coin.contract";
+import { applyCryptoConfiguration } from "./config";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 
@@ -10,6 +14,24 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
+
+	@IoC.inject(BindingType.MultiSignatureSigner)
+	private readonly multiSignatureSigner!: MultiSignatureSigner;
+
+	@IoC.inject(BindingType.Crypto)
+	private readonly packageCrypto!: Interfaces.NetworkConfig;
+
+	@IoC.inject(BindingType.Height)
+	private readonly packageHeight!: number;
+
+	// @TODO: remove or inject
+	#configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#configCrypto = { crypto: this.packageCrypto, height: this.packageHeight };
+	}
+
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -105,6 +127,22 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	/** @inheritdoc */
 	public override remainingSignatureCount(transaction: Contracts.SignedTransactionData): number {
 		return new PendingMultiSignatureTransaction(transaction.data()).remainingSignatureCount();
+	}
+
+	/** @inheritdoc */
+	public override async addSignature(
+		transaction: Contracts.RawTransactionData,
+		input: Services.TransactionInputs,
+	): Promise<Contracts.SignedTransactionData> {
+		applyCryptoConfiguration(this.#configCrypto);
+
+		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, input);
+
+		return this.dataTransferObjectService.signedTransaction(
+			transactionWithSignature.id!,
+			transactionWithSignature,
+			transactionWithSignature,
+		);
 	}
 
 	/**

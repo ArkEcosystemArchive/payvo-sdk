@@ -84,10 +84,6 @@ export class AbstractTransactionService implements Contract {
 		throw new NotImplemented(this.constructor.name, this.htlcRefund.name);
 	}
 
-	public async multiSign(transaction: RawTransactionData, input: TransactionInputs): Promise<SignedTransactionData> {
-		throw new NotImplemented(this.constructor.name, this.multiSign.name);
-	}
-
 	public async estimateExpiration(value?: string): Promise<string | undefined> {
 		return undefined;
 	}

@@ -198,27 +198,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	/**
-	 * This method should be used to split-sign transactions in combination with the MuSig Server.
-	 *
-	 * @param transaction A transaction that was previously signed with a multi-signature.
-	 * @param input
-	 */
-	public override async multiSign(
-		transaction: Contracts.RawTransactionData,
-		input: Services.TransactionInputs,
-	): Promise<Contracts.SignedTransactionData> {
-		applyCryptoConfiguration(this.#configCrypto);
-
-		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, input);
-
-		return this.dataTransferObjectService.signedTransaction(
-			transactionWithSignature.id!,
-			transactionWithSignature,
-			transactionWithSignature,
-		);
-	}
-
 	public override async estimateExpiration(value?: string): Promise<string | undefined> {
 		const { data: blockchain } = (await this.httpClient.get(`${this.#peer}/blockchain`)).json();
 		const { data: configuration } = (await this.httpClient.get(`${this.#peer}/node/configuration`)).json();

@@ -1,4 +1,4 @@
-import { RawTransactionData, SignedTransactionData } from "../contracts";
+import { SignedTransactionData } from "../contracts";
 import { Signatory } from "../signatories";
 
 export interface TransactionService {
@@ -14,9 +14,6 @@ export interface TransactionService {
 	htlcLock(input: HtlcLockInput): Promise<SignedTransactionData>;
 	htlcClaim(input: HtlcClaimInput): Promise<SignedTransactionData>;
 	htlcRefund(input: HtlcRefundInput): Promise<SignedTransactionData>;
-
-	// Multi-Signature
-	multiSign(transaction: RawTransactionData, input: TransactionInputs): Promise<SignedTransactionData>;
 
 	// Estimations
 	estimateExpiration(value?: string): Promise<string | undefined>;
