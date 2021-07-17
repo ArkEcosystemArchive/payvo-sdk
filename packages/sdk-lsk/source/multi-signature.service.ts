@@ -152,12 +152,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 * @returns {Record<string, any>}
 	 * @memberof MultiSignatureService
 	 */
-	#normalizeTransaction({ data, id, timestamp, multisigAsset }: any): Record<string, any> {
+	#normalizeTransaction({ data, multiSignature }: any): Record<string, any> {
 		return {
 			...data,
-			id, // This is the real ID, computed by the MuSig Server.
-			timestamp,
-			multiSignature: multisigAsset,
+			multiSignature,
 		};
 	}
 

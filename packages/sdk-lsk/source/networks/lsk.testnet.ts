@@ -25,8 +25,12 @@ const network: Networks.NetworkManifest = {
 			host: "https://testnet-service.lisktools.eu",
 		},
 		{
+			type: "musig",
+			host: "http://localhost:3000",
+		},
+		{
 			type: "explorer",
-			host: "https://testnet.liskscan.com/",
+			host: "https://testnet.liskscan.com",
 		},
 	],
 	governance: {

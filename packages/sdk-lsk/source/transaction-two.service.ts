@@ -80,18 +80,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
-	public override async multiSignature(
-		input: Services.MultiSignatureInput,
-	): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("registerMultisignature", {
-			...input,
-			data: {
-				keysgroup: input.data.publicKeys,
-				lifetime: input.data.lifetime,
-				minimum: input.data.min,
-			},
-		});
-	}
+	// public override async multiSignature(
+	// 	input: Services.MultiSignatureInput,
+	// ): Promise<Contracts.SignedTransactionData> {
+	// 	return this.#createFromData("registerMultisignature", {
+	// 		...input,
+	// 		data: {
+	// 			keysgroup: input.data.mandatoryKeys,
+	// 			lifetime: input.data.lifetime,
+	// 			minimum: input.data.numberOfSignatures,
+	// 		},
+	// 	});
+	// }
 
 	async #createFromData(
 		type: string,

@@ -3,6 +3,7 @@ import { FeeService } from "./fee.service";
 import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { MessageService } from "./message.service";
+import { MultiSignatureService } from "./multi-signature.service";
 import { PrivateKeyService } from "./private-key.service";
 import { PublicKeyService } from "./public-key.service";
 import { WIFService } from "./wif.service";
@@ -13,6 +14,7 @@ export const Services = {
 	KeyPairService,
 	LedgerService,
 	MessageService,
+	MultiSignatureService,
 	PrivateKeyService,
 	PublicKeyService,
 	WIFService,
