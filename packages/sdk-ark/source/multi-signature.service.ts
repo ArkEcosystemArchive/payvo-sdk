@@ -12,6 +12,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	private readonly configRepository!: Coins.ConfigRepository;
 
+	@IoC.inject(IoC.BindingType.DataTransferObjectService)
+	protected readonly dataTransferObjectService!: Services.DataTransferObjectService;
+
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
 

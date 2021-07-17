@@ -6,7 +6,6 @@ import { injectable } from "../ioc";
 import { Signatory } from "../signatories";
 import { BroadcastResponse } from "./client.contract";
 import { MultiSignatureService, MultiSignatureTransaction } from "./multi-signature.contract";
-import { TransactionInputs } from "./transaction.contract";
 
 @injectable()
 export class AbstractMultiSignatureService implements MultiSignatureService {
