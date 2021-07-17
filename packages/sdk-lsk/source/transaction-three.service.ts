@@ -42,18 +42,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
-		const normaliseAmount = (value: number): BigInt => {
-			if (typeof value === "number" && !isNaN(value)) {
-				if (Number.isInteger(value)) {
-					if (value % 10 === 0) {
-						return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-					}
-				}
-			}
-
-			throw new Error(`The value [${value}] is not a multiple of 10.`);
-		};
-
 		const votes: {
 			delegateAddress: Buffer;
 			amount: BigInt;
@@ -63,7 +51,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const vote of input.data.votes) {
 				votes.push({
 					delegateAddress: getAddressFromBase32Address(vote.id),
-					amount: normaliseAmount(vote.amount),
+					amount: this.#normaliseVoteAmount(vote.amount),
 				});
 			}
 		}
@@ -72,7 +60,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
 					delegateAddress: getAddressFromBase32Address(unvote.id),
-					amount: normaliseAmount(unvote.amount),
+					amount: this.#normaliseVoteAmount(unvote.amount),
 				});
 			}
 		}
@@ -137,18 +125,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				nonce: BigInt(`${transactionObject.nonce}`),
 				fee: BigInt(`${transactionObject.fee}`),
 				senderPublicKey: convertString(transactionObject.senderPublicKey),
-				// @TODO
-				asset: isMultiSignatureRegistration
-					? {
-							numberOfSignatures: transactionObject.asset.numberOfSignatures,
-							mandatoryKeys: convertStringList(transactionObject.asset.mandatoryKeys),
-							optionalKeys: convertStringList(transactionObject.asset.optionalKeys),
-					  }
-					: {
-							amount: BigInt(`${transactionObject.asset.amount}`),
-							recipientAddress: transactionObject.asset.recipientAddress,
-							data: transactionObject.asset.data,
-					  },
+				asset: this.#createSignatureAsset(transactionObject),
 				signatures: convertStringList(transactionObject.signatures),
 			},
 			this.#networkIdentifier(),
@@ -358,4 +335,51 @@ export class TransactionService extends Services.AbstractTransactionService {
 			getBytes(schema, data).toString("hex"),
 		);
 	}
+
+    #createSignatureAsset(transaction: Record<string, any>): object {
+		if (transaction.moduleID === 2 && transaction.assetID === 0) {
+			return {
+				amount: BigInt(`${transaction.asset.amount}`),
+				recipientAddress: transaction.asset.recipientAddress,
+				data: transaction.asset.data,
+			};
+		}
+
+        if (transaction.moduleID === 4 && transaction.assetID === 0) {
+            return {
+                numberOfSignatures: transaction.asset.numberOfSignatures,
+                mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
+                optionalKeys: convertStringList(transaction.asset.optionalKeys),
+			};
+        }
+
+        if (transaction.moduleID === 5 && transaction.assetID === 0) {
+            return {
+                username: transaction.asset.username,
+			};
+        }
+
+        if (transaction.moduleID === 5 && transaction.assetID === 1) {
+            return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
+				delegateAddress: getAddressFromBase32Address(delegateAddress),
+				amount: this.#normaliseVoteAmount(amount),
+			}));
+        }
+
+		throw new Error("Failed to determine transaction type for asset hydration.");
+    }
+
+
+	#normaliseVoteAmount(value: number): BigInt {
+		if (typeof value === "number" && !isNaN(value)) {
+			if (Number.isInteger(value)) {
+				if (value % 10 === 0) {
+					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
+				}
+			}
+		}
+
+		throw new Error(`The value [${value}] is not a multiple of 10.`);
+	};
+
 }
