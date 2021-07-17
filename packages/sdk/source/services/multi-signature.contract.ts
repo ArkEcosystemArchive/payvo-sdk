@@ -1,7 +1,6 @@
 import { SignedTransactionData } from "../contracts";
 import { Signatory } from "../signatories";
 import { BroadcastResponse } from "./client.contract";
-import { TransactionInputs } from "./transaction.contract";
 
 export type MultiSignatureTransaction = Record<string, any>;
 

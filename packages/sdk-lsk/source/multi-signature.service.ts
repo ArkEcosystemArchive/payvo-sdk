@@ -32,13 +32,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
 
-	#modules: Record<string, string> = {
-		"2:0": "token:transfer",
-		"4:0": "keys:registerMultisignatureGroup",
-		"5:0": "dpos:registerDelegate",
-		"5:1": "dpos:voteDelegate",
-	};
-
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
 		return this.#fetchAll(publicKey, "pending");
@@ -281,34 +274,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	#networkIdentifier(): Buffer {
 		return convertString(this.configRepository.get<string>("network.meta.networkId"));
-	}
-
-	#senderPublicKey(input: Services.TransactionInput): Buffer {
-		return convertString(input.signatory.publicKey());
-	}
-
-	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<object> {
-		let nonce: BigInt | undefined = undefined;
-
-		try {
-			const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
-
-			nonce = BigInt(wallet.nonce().toString());
-		} catch {
-			nonce = BigInt(0);
-		}
-
-		const { assetID, moduleID } = this.#assets()[type];
-
-		return {
-			moduleID,
-			assetID,
-			nonce,
-			// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
-			// https://testnet-service.lisk.io/api/v2/fees
-			fee: BigInt(207000),
-			senderPublicKey: this.#senderPublicKey(input),
-		};
 	}
 
 	#transform(schema, data, transaction): Contracts.SignedTransactionData {
