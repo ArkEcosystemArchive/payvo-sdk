@@ -1,5 +1,5 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { getBytes, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import {
 	convertBuffer,
@@ -9,6 +9,7 @@ import {
 	findNonEmptySignatureIndices,
 	getKeys,
 	isTransactionFullySigned,
+	joinModuleAndAssetIds,
 } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
 
@@ -16,6 +17,13 @@ import { DateTime } from "@payvo/intl";
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.ClientService)
 	private readonly clientService!: Services.ClientService;
+
+	#modules: Record<string, string> = {
+		"2:0": "token:transfer",
+		"4:0": "keys:registerMultisignatureGroup",
+		"5:0": "dpos:registerDelegate",
+		"5:1": "dpos:voteDelegate",
+	};
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
@@ -90,16 +98,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const transactionObject = transaction.data();
 		const isMultiSignatureRegistration = transactionObject.moduleID === 4;
 
-		// @TODO
-		const { assetSchema } =
-			this.#assets()[isMultiSignatureRegistration ? "keys:registerMultisignatureGroup" : "token:transfer"];
+		const { assetSchema } = this.#assets()[this.#assets[joinModuleAndAssetIds(transactionObject)]];
 
 		let wallet: Contracts.WalletData;
 
 		if (isMultiSignatureRegistration) {
 			wallet = await this.clientService.wallet(input.signatory.address());
 		} else {
-			// @TODO
 			wallet = (
 				await this.clientService.wallets({
 					publicKey: transactionObject.senderPublicKey,
@@ -113,9 +118,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			isMultiSignatureRegistration,
 		});
 
-		// @TODO
-		const { assetID, moduleID } =
-			this.#assets()[isMultiSignatureRegistration ? "keys:registerMultisignatureGroup" : "token:transfer"];
+		const { assetID, moduleID } = this.#assets()[this.#assets[joinModuleAndAssetIds(transactionObject)]];
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
 			assetSchema,
@@ -145,7 +148,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 		}
 
-		// @TODO: add this based on the type of transaction that is being signed
 		return this.#transform(assetSchema, transactionWithSignature, {
 			moduleID: transactionWithSignature.moduleID,
 			assetID: transactionWithSignature.assetID,
@@ -153,14 +155,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			nonce: transactionWithSignature.nonce.toString(),
 			fee: transactionWithSignature.fee.toString(),
 			signatures: convertBufferList(transactionWithSignature.signatures),
-			// @TODO
-			asset: isMultiSignatureRegistration
-				? {
-						numberOfSignatures: transactionWithSignature.asset.numberOfSignatures,
-						mandatoryKeys: convertBufferList(transactionWithSignature.asset.mandatoryKeys),
-						optionalKeys: convertBufferList(transactionWithSignature.asset.optionalKeys),
-				  }
-				: transactionWithSignature.asset,
+			asset: this.#createNormalizedAsset(transactionWithSignature),
 			id: convertBuffer(transactionWithSignature.id),
 		});
 	}
@@ -366,7 +361,41 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}));
         }
 
-		throw new Error("Failed to determine transaction type for asset hydration.");
+		throw new Error("Failed to determine transaction type for asset signing.");
+    }
+
+
+    #createNormalizedAsset(transaction: Record<string, any>): object {
+		if (transaction.moduleID === 2 && transaction.assetID === 0) {
+			return {
+				amount: transaction.asset.amount.toString(),
+				recipientAddress: transaction.asset.recipientAddress,
+				data: transaction.asset.data,
+			};
+		}
+
+        if (transaction.moduleID === 4 && transaction.assetID === 0) {
+            return {
+                numberOfSignatures: transaction.asset.numberOfSignatures,
+                mandatoryKeys: convertBufferList(transaction.asset.mandatoryKeys),
+                optionalKeys: convertBufferList(transaction.asset.optionalKeys),
+          };
+        }
+
+        if (transaction.moduleID === 5 && transaction.assetID === 0) {
+            return {
+                username: transaction.asset.username,
+			};
+        }
+
+        if (transaction.moduleID === 5 && transaction.assetID === 1) {
+            return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
+				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
+				amount: amount.toString(),
+			}));
+        }
+
+		throw new Error("Failed to determine transaction type for asset normalization.");
     }
 
 

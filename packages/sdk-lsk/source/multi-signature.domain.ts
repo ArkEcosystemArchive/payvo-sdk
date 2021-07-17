@@ -1,8 +1,8 @@
 import { Contracts } from "@payvo/sdk";
 
-const joinModuleAndAssetIds = ({ moduleID, assetID }) => [moduleID, assetID].join(":");
+export const joinModuleAndAssetIds = ({ moduleID, assetID }) => [moduleID, assetID].join(":");
 
-const getNumbersOfSignaturesRequired = ({ keys, isMultiSignatureRegistration }) => {
+export const getNumbersOfSignaturesRequired = ({ keys, isMultiSignatureRegistration }) => {
 	if (isMultiSignatureRegistration) {
 		return keys.mandatoryKeys.length + keys.optionalKeys.length + 1;
 	}
