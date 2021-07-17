@@ -103,11 +103,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const isMultiSignatureRegistration = transactionObject.moduleID === 4;
 
 		// @TODO
-		const { assetSchema } = this.#assets()[
-			isMultiSignatureRegistration
-				? "keys:registerMultisignatureGroup"
-				: "token:transfer"
-		];
+		const { assetSchema } =
+			this.#assets()[isMultiSignatureRegistration ? "keys:registerMultisignatureGroup" : "token:transfer"];
 
 		let wallet: Contracts.WalletData;
 
@@ -115,9 +112,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			wallet = await this.clientService.wallet(input.signatory.address());
 		} else {
 			// @TODO
-			wallet = (await this.clientService.wallets({
-				publicKey: transactionObject.senderPublicKey,
-			})).first();
+			wallet = (
+				await this.clientService.wallets({
+					publicKey: transactionObject.senderPublicKey,
+				})
+			).first();
 		}
 
 		const { mandatoryKeys, optionalKeys } = getKeys({
@@ -127,11 +126,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 
 		// @TODO
-		const { assetID, moduleID } = this.#assets()[
-			isMultiSignatureRegistration
-				? "keys:registerMultisignatureGroup"
-				: "token:transfer"
-		];
+		const { assetID, moduleID } =
+			this.#assets()[isMultiSignatureRegistration ? "keys:registerMultisignatureGroup" : "token:transfer"];
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
 			assetSchema,
@@ -142,15 +138,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee: BigInt(`${transactionObject.fee}`),
 				senderPublicKey: convertString(transactionObject.senderPublicKey),
 				// @TODO
-				asset: isMultiSignatureRegistration ? {
-					numberOfSignatures: transactionObject.asset.numberOfSignatures,
-					mandatoryKeys: convertStringList(transactionObject.asset.mandatoryKeys),
-					optionalKeys: convertStringList(transactionObject.asset.optionalKeys),
-				} : {
-					amount: BigInt(`${transactionObject.asset.amount}`),
-					recipientAddress: transactionObject.asset.recipientAddress,
-					data: transactionObject.asset.data,
-				},
+				asset: isMultiSignatureRegistration
+					? {
+							numberOfSignatures: transactionObject.asset.numberOfSignatures,
+							mandatoryKeys: convertStringList(transactionObject.asset.mandatoryKeys),
+							optionalKeys: convertStringList(transactionObject.asset.optionalKeys),
+					  }
+					: {
+							amount: BigInt(`${transactionObject.asset.amount}`),
+							recipientAddress: transactionObject.asset.recipientAddress,
+							data: transactionObject.asset.data,
+					  },
 				signatures: convertStringList(transactionObject.signatures),
 			},
 			this.#networkIdentifier(),
@@ -179,11 +177,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			fee: transactionWithSignature.fee.toString(),
 			signatures: convertBufferList(transactionWithSignature.signatures),
 			// @TODO
-			asset: isMultiSignatureRegistration ? {
-				numberOfSignatures: transactionWithSignature.asset.numberOfSignatures,
-				mandatoryKeys: convertBufferList(transactionWithSignature.asset.mandatoryKeys),
-				optionalKeys: convertBufferList(transactionWithSignature.asset.optionalKeys),
-			} : transactionWithSignature.asset,
+			asset: isMultiSignatureRegistration
+				? {
+						numberOfSignatures: transactionWithSignature.asset.numberOfSignatures,
+						mandatoryKeys: convertBufferList(transactionWithSignature.asset.mandatoryKeys),
+						optionalKeys: convertBufferList(transactionWithSignature.asset.optionalKeys),
+				  }
+				: transactionWithSignature.asset,
 			id: convertBuffer(transactionWithSignature.id),
 		});
 	}
@@ -214,23 +214,25 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const keys = {
 				mandatoryKeys: isMultiSignatureRegistration
 					? asset.mandatoryKeys
-					// @ts-ignore
-					: convertStringList(wallet?.multiSignature().mandatoryKeys),
+					: // @ts-ignore
+					  convertStringList(wallet?.multiSignature().mandatoryKeys),
 				optionalKeys: isMultiSignatureRegistration
 					? asset.optionalKeys
-					// @ts-ignore
-					: convertStringList(wallet?.multiSignature().optionalKeys),
+					: // @ts-ignore
+					  convertStringList(wallet?.multiSignature().optionalKeys),
 			};
 
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
 					...(await this.#buildTransactionObject(input, type)),
-					asset: isMultiSignatureRegistration ? {
-						numberOfSignatures: asset.numberOfSignatures,
-						optionalKeys: asset.optionalKeys,
-						mandatoryKeys: asset.mandatoryKeys,
-					} : asset,
+					asset: isMultiSignatureRegistration
+						? {
+								numberOfSignatures: asset.numberOfSignatures,
+								optionalKeys: asset.optionalKeys,
+								mandatoryKeys: asset.mandatoryKeys,
+						  }
+						: asset,
 					signatures: [],
 				},
 				this.#networkIdentifier(),
@@ -271,15 +273,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee: signedTransaction.fee.toString(),
 				signatures: convertBufferList(signedTransaction.signatures),
 				// @TODO
-				asset: isMultiSignatureRegistration ? {
-					numberOfSignatures: signedTransaction.asset.numberOfSignatures,
-					mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-					optionalKeys: convertBufferList(keys.optionalKeys),
-				} : {
-					amount: signedTransaction.asset.amount.toString(),
-					recipientAddress: signedTransaction.asset.recipientAddress,
-					data: signedTransaction.asset.data,
-				},
+				asset: isMultiSignatureRegistration
+					? {
+							numberOfSignatures: signedTransaction.asset.numberOfSignatures,
+							mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+							optionalKeys: convertBufferList(keys.optionalKeys),
+					  }
+					: {
+							amount: signedTransaction.asset.amount.toString(),
+							recipientAddress: signedTransaction.asset.recipientAddress,
+							data: signedTransaction.asset.data,
+					  },
 				id: convertBuffer(signedTransaction.id),
 			});
 		}
