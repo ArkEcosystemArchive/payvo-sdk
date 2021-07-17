@@ -98,7 +98,11 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			throw new Error("This wallet does not have a multi-signature registered.");
 		}
 
-		return this.data.multiSignature;
+		if (this.data.multiSignature) {
+			return this.data.multiSignature;
+		}
+
+		return this.data.keys;
 	}
 
 	public override isDelegate(): boolean {

@@ -100,11 +100,25 @@ export class TransactionService extends Services.AbstractTransactionService {
 		options?: { actsWithSecondSignature: boolean },
 	): Promise<Contracts.SignedTransactionData> {
 		const transactionObject = transaction.data();
-		const { assetSchema } = this.#assets()["keys:registerMultisignatureGroup"];
-
 		const isMultiSignatureRegistration = transactionObject.moduleID === 4;
 
-		const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
+		// @TODO
+		const { assetSchema } = this.#assets()[
+			isMultiSignatureRegistration
+				? "keys:registerMultisignatureGroup"
+				: "token:transfer"
+		];
+
+		let wallet: Contracts.WalletData;
+
+		if (isMultiSignatureRegistration) {
+			wallet = await this.clientService.wallet(input.signatory.address());
+		} else {
+			// @TODO
+			wallet = (await this.clientService.wallets({
+				publicKey: transactionObject.senderPublicKey,
+			})).first();
+		}
 
 		const { mandatoryKeys, optionalKeys } = getKeys({
 			senderWallet: wallet,
@@ -112,7 +126,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			isMultiSignatureRegistration,
 		});
 
-		const { assetID, moduleID } = this.#assets()["keys:registerMultisignatureGroup"];
+		// @TODO
+		const { assetID, moduleID } = this.#assets()[
+			isMultiSignatureRegistration
+				? "keys:registerMultisignatureGroup"
+				: "token:transfer"
+		];
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
 			assetSchema,
@@ -122,10 +141,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 				nonce: BigInt(`${transactionObject.nonce}`),
 				fee: BigInt(`${transactionObject.fee}`),
 				senderPublicKey: convertString(transactionObject.senderPublicKey),
-				asset: {
+				// @TODO
+				asset: isMultiSignatureRegistration ? {
 					numberOfSignatures: transactionObject.asset.numberOfSignatures,
 					mandatoryKeys: convertStringList(transactionObject.asset.mandatoryKeys),
 					optionalKeys: convertStringList(transactionObject.asset.optionalKeys),
+				} : {
+					amount: BigInt(`${transactionObject.asset.amount}`),
+					recipientAddress: transactionObject.asset.recipientAddress,
+					data: transactionObject.asset.data,
 				},
 				signatures: convertStringList(transactionObject.signatures),
 			},
@@ -148,17 +172,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// @TODO: add this based on the type of transaction that is being signed
 		return this.#transform(assetSchema, transactionWithSignature, {
-			moduleID: 4,
-			assetID: 0,
+			moduleID: transactionWithSignature.moduleID,
+			assetID: transactionWithSignature.assetID,
 			senderPublicKey: convertBuffer(transactionWithSignature.senderPublicKey),
 			nonce: transactionWithSignature.nonce.toString(),
 			fee: transactionWithSignature.fee.toString(),
 			signatures: convertBufferList(transactionWithSignature.signatures),
-			asset: {
-				numberOfSignatures: 2,
+			// @TODO
+			asset: isMultiSignatureRegistration ? {
+				numberOfSignatures: transactionWithSignature.asset.numberOfSignatures,
 				mandatoryKeys: convertBufferList(transactionWithSignature.asset.mandatoryKeys),
-				optionalKeys: [],
-			},
+				optionalKeys: convertBufferList(transactionWithSignature.asset.optionalKeys),
+			} : transactionWithSignature.asset,
 			id: convertBuffer(transactionWithSignature.id),
 		});
 	}
@@ -185,29 +210,38 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const isMultiSignatureRegistration = moduleAssetId === "4:0";
 
 		if (wallet?.isMultiSignature() || isMultiSignatureRegistration) {
+			// @TODO
+			const keys = {
+				mandatoryKeys: isMultiSignatureRegistration
+					? asset.mandatoryKeys
+					// @ts-ignore
+					: convertStringList(wallet?.multiSignature().mandatoryKeys),
+				optionalKeys: isMultiSignatureRegistration
+					? asset.optionalKeys
+					// @ts-ignore
+					: convertStringList(wallet?.multiSignature().optionalKeys),
+			};
+
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
 					...(await this.#buildTransactionObject(input, type)),
-					asset: {
+					asset: isMultiSignatureRegistration ? {
 						numberOfSignatures: asset.numberOfSignatures,
 						optionalKeys: asset.optionalKeys,
 						mandatoryKeys: asset.mandatoryKeys,
-					},
+					} : asset,
 					signatures: [],
 				},
 				this.#networkIdentifier(),
 				input.signatory.signingKey(),
-				{
-					optionalKeys: asset.optionalKeys,
-					mandatoryKeys: asset.mandatoryKeys,
-				},
+				keys,
 				isMultiSignatureRegistration,
 			);
 
 			const transactionKeys = {
-				mandatoryKeys: convertBufferList(asset.mandatoryKeys) ?? [],
-				optionalKeys: convertBufferList(asset.optionalKeys) ?? [],
+				mandatoryKeys: convertBufferList(keys.mandatoryKeys ?? []),
+				optionalKeys: convertBufferList(keys.optionalKeys ?? []),
 			};
 
 			const needsDoubleSign = [...transactionKeys.mandatoryKeys, ...transactionKeys.optionalKeys].includes(
@@ -224,25 +258,27 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 					this.#networkIdentifier(),
 					input.signatory.signingKey(),
-					{
-						mandatoryKeys: asset.mandatoryKeys,
-						optionalKeys: asset.optionalKeys,
-					},
+					keys,
 					isMultiSignatureRegistration,
 				);
 			}
 
 			return this.#transform(assetSchema, signedTransaction, {
-				moduleID: 4,
-				assetID: 0,
+				moduleID: signedTransaction.moduleID,
+				assetID: signedTransaction.assetID,
 				senderPublicKey: convertBuffer(signedTransaction.senderPublicKey),
 				nonce: signedTransaction.nonce.toString(),
 				fee: signedTransaction.fee.toString(),
 				signatures: convertBufferList(signedTransaction.signatures),
-				asset: {
-					numberOfSignatures: 2,
-					mandatoryKeys: convertBufferList(signedTransaction.asset.mandatoryKeys),
-					optionalKeys: [],
+				// @TODO
+				asset: isMultiSignatureRegistration ? {
+					numberOfSignatures: signedTransaction.asset.numberOfSignatures,
+					mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+					optionalKeys: convertBufferList(keys.optionalKeys),
+				} : {
+					amount: signedTransaction.asset.amount.toString(),
+					recipientAddress: signedTransaction.asset.recipientAddress,
+					data: signedTransaction.asset.data,
 				},
 				id: convertBuffer(signedTransaction.id),
 			});
@@ -260,6 +296,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		if (input.signatory.actsWithSecondaryMnemonic()) {
+			// @TODO
 			signedTransaction = await this.multiSign(signedTransaction, input, { actsWithSecondSignature: true });
 		}
 
@@ -305,16 +342,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 			nonce,
 			// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
 			// https://testnet-service.lisk.io/api/v2/fees
-			fee: BigInt(314000),
+			fee: BigInt(207000),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
 	}
 
 	#transform(schema, data, transaction): Contracts.SignedTransactionData {
 		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(transaction.id),
-			data,
-			getBytes(schema, transaction).toString("hex"),
+			convertBuffer(data.id),
+			transaction,
+			getBytes(schema, data).toString("hex"),
 		);
 	}
 }
