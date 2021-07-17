@@ -120,5 +120,5 @@ export interface MultiSignatureService {
 	 * @return {*}  {Promise<SignedTransactionData>}
 	 * @memberof MultiSignatureService
 	 */
-	 addSignature(transaction: SignedTransactionData, signatory: Signatory): Promise<SignedTransactionData>;
+	addSignature(transaction: SignedTransactionData, signatory: Signatory): Promise<SignedTransactionData>;
 }

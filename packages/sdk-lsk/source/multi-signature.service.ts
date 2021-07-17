@@ -315,10 +315,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		}
 
 		throw new Error("Failed to determine transaction type for asset signing.");
-    }
+	}
 
-
-    #createNormalizedAsset(transaction: Record<string, any>): object {
+	#createNormalizedAsset(transaction: Record<string, any>): object {
 		if (transaction.moduleID === 2 && transaction.assetID === 0) {
 			return {
 				amount: transaction.asset.amount.toString(),
@@ -327,30 +326,29 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			};
 		}
 
-        if (transaction.moduleID === 4 && transaction.assetID === 0) {
-            return {
-                numberOfSignatures: transaction.asset.numberOfSignatures,
-                mandatoryKeys: convertBufferList(transaction.asset.mandatoryKeys),
-                optionalKeys: convertBufferList(transaction.asset.optionalKeys),
-          };
-        }
-
-        if (transaction.moduleID === 5 && transaction.assetID === 0) {
-            return {
-                username: transaction.asset.username,
+		if (transaction.moduleID === 4 && transaction.assetID === 0) {
+			return {
+				numberOfSignatures: transaction.asset.numberOfSignatures,
+				mandatoryKeys: convertBufferList(transaction.asset.mandatoryKeys),
+				optionalKeys: convertBufferList(transaction.asset.optionalKeys),
 			};
-        }
+		}
 
-        if (transaction.moduleID === 5 && transaction.assetID === 1) {
-            return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
+		if (transaction.moduleID === 5 && transaction.assetID === 0) {
+			return {
+				username: transaction.asset.username,
+			};
+		}
+
+		if (transaction.moduleID === 5 && transaction.assetID === 1) {
+			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
 				amount: amount.toString(),
 			}));
-        }
+		}
 
 		throw new Error("Failed to determine transaction type for asset normalization.");
-    }
-
+	}
 
 	#normaliseVoteAmount(value: number): BigInt {
 		if (typeof value === "number" && !isNaN(value)) {

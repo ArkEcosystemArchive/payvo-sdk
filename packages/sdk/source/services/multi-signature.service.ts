@@ -53,7 +53,10 @@ export class AbstractMultiSignatureService implements MultiSignatureService {
 		throw new NotImplemented(this.constructor.name, this.remainingSignatureCount.name);
 	}
 
-	public async addSignature(transaction: SignedTransactionData, signatory: Signatory): Promise<SignedTransactionData> {
+	public async addSignature(
+		transaction: SignedTransactionData,
+		signatory: Signatory,
+	): Promise<SignedTransactionData> {
 		throw new NotImplemented(this.constructor.name, this.addSignature.name);
 	}
 }

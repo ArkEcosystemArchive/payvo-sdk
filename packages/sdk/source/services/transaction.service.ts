@@ -3,7 +3,7 @@
 import { BigNumber, NumberLike } from "@payvo/helpers";
 
 import { ConfigRepository } from "../coins";
-import { RawTransactionData, SignedTransactionData } from "../contracts";
+import { SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";
 import { HttpClient } from "../http";
 import { inject, injectable } from "../ioc";
@@ -20,7 +20,6 @@ import {
 	MultiPaymentInput,
 	MultiSignatureInput,
 	SecondSignatureInput,
-	TransactionInputs,
 	TransactionService as Contract,
 	TransferInput,
 	VoteInput,

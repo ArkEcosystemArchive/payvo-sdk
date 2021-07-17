@@ -1,12 +1,7 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { getBytes, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
-import {
-	convertBuffer,
-	convertBufferList,
-	convertString,
-	convertStringList,
-} from "./multi-signature.domain";
+import { convertBuffer, convertBufferList, convertString, convertStringList } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
@@ -133,16 +128,22 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
-	async #handleMultiSignature({ asset, assetSchema, isMultiSignatureRegistration, input ,type }): Promise<Contracts.SignedTransactionData> {
+	async #handleMultiSignature({
+		asset,
+		assetSchema,
+		isMultiSignatureRegistration,
+		input,
+		type,
+	}): Promise<Contracts.SignedTransactionData> {
 		const keys = {
 			mandatoryKeys: isMultiSignatureRegistration
 				? asset.mandatoryKeys
 				: // @ts-ignore
-					convertStringList(wallet?.multiSignature().mandatoryKeys),
+				  convertStringList(wallet?.multiSignature().mandatoryKeys),
 			optionalKeys: isMultiSignatureRegistration
 				? asset.optionalKeys
 				: // @ts-ignore
-					convertStringList(wallet?.multiSignature().optionalKeys),
+				  convertStringList(wallet?.multiSignature().optionalKeys),
 		};
 
 		let signedTransaction: any = signMultiSignatureTransaction(
@@ -154,7 +155,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 							numberOfSignatures: asset.numberOfSignatures,
 							optionalKeys: asset.optionalKeys,
 							mandatoryKeys: asset.mandatoryKeys,
-						}
+					  }
 					: asset,
 				signatures: [],
 			},
@@ -201,12 +202,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 						numberOfSignatures: signedTransaction.asset.numberOfSignatures,
 						mandatoryKeys: convertBufferList(keys.mandatoryKeys),
 						optionalKeys: convertBufferList(keys.optionalKeys),
-					}
+				  }
 				: {
 						amount: signedTransaction.asset.amount.toString(),
 						recipientAddress: signedTransaction.asset.recipientAddress,
 						data: signedTransaction.asset.data,
-					},
+				  },
 			id: convertBuffer(signedTransaction.id),
 		});
 	}

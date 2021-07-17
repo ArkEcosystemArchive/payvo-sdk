@@ -35,7 +35,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		this.#configCrypto = { crypto: this.packageCrypto, height: this.packageHeight };
 	}
 
-
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
 		return this.#fetchAll(publicKey, "pending");
