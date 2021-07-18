@@ -18,8 +18,8 @@ export interface WalletBalance {
 
 export interface WalletMultiSignature {
 	limit?: number;
-	mandatoryKeys: string[];
 	numberOfSignatures: number;
+	mandatoryKeys: string[];
 	optionalKeys: string[];
 }
 
