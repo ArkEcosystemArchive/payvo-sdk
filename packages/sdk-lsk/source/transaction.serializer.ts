@@ -18,27 +18,23 @@ export class TransactionSerializer {
 			signatures: convertStringList(transaction.signatures),
 		};
 
-		// Transfer
-		if (mutated.moduleID === 2 && mutated.assetID === 0) {
+		if (this.#isTransfer(mutated)) {
 			mutated.asset.amount = BigInt(mutated.asset.amount);
 			mutated.asset.recipientAddress = getAddressFromBase32Address(mutated.asset.recipientAddress);
 			mutated.asset.data = convertString(mutated.asset.data ?? "");
 		}
 
-		// MuSig Registration
-		if (mutated.moduleID === 4 && mutated.assetID === 0) {
+		if (this.#isMultiSignatureRegistration(mutated)) {
 			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
 			mutated.asset.mandatoryKeys = convertBufferList(mutated.asset.mandatoryKeys);
 			mutated.asset.optionalKeys = convertBufferList(mutated.asset.optionalKeys);
 		}
 
-		// Delegate Registration
-		if (mutated.moduleID === 5 && mutated.assetID === 0) {
+		if (this.#isDelegateRegistration(mutated)) {
 			mutated.asset.username = mutated.asset.username;
 		}
 
-		// Vote
-		if (mutated.moduleID === 5 && mutated.assetID === 1) {
+		if (this.#isVote(mutated)) {
 			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
 				amount: amount.toString(),
@@ -62,27 +58,23 @@ export class TransactionSerializer {
 			signatures: convertBufferList(transaction.signatures),
 		};
 
-		// Transfer
-		if (mutated.moduleID === 2 && mutated.assetID === 0) {
+		if (this.#isTransfer(mutated)) {
 			mutated.asset.amount = mutated.asset.amount.toString();
 			mutated.asset.recipientAddress = getLisk32AddressFromAddress(mutated.asset.recipientAddress);
 			mutated.asset.data = convertBuffer(mutated.asset.data ?? "");
 		}
 
-		// MuSig Registration
-		if (mutated.moduleID === 4 && mutated.assetID === 0) {
+		if (this.#isMultiSignatureRegistration(mutated)) {
 			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
 			mutated.asset.mandatoryKeys = convertBufferList(mutated.asset.mandatoryKeys);
 			mutated.asset.optionalKeys = convertBufferList(mutated.asset.optionalKeys);
 		}
 
-		// Delegate Registration
-		if (mutated.moduleID === 5 && mutated.assetID === 0) {
+		if (this.#isDelegateRegistration(mutated)) {
 			mutated.asset.username = mutated.asset.username;
 		}
 
-		// Vote
-		if (mutated.moduleID === 5 && mutated.assetID === 1) {
+		if (this.#isVote(mutated)) {
 			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
 				amount: amount.toString(),
@@ -111,5 +103,21 @@ export class TransactionSerializer {
 			this.configRepository.get<object>("network.meta.assets")[assetKey].assetSchema,
 			this.toMachine(transaction),
 		).toString("hex");
+	}
+
+	#isTransfer({ assetID, moduleID }: Contracts.RawTransactionData): boolean {
+		return moduleID === 2 && assetID === 0;
+	}
+
+	#isMultiSignatureRegistration({ assetID, moduleID }: Contracts.RawTransactionData): boolean {
+		return moduleID === 4 && assetID === 0;
+	}
+
+	#isDelegateRegistration({ assetID, moduleID }: Contracts.RawTransactionData): boolean {
+		return moduleID === 5 && assetID === 0;
+	}
+
+	#isVote({ assetID, moduleID }: Contracts.RawTransactionData): boolean {
+		return moduleID === 5 && assetID === 1;
 	}
 }
