@@ -16,6 +16,7 @@ import {
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
+import { isMultiSignatureRegistration } from "./helpers";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -134,13 +135,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
-		const isMultiSignatureRegistration = transaction.moduleID === 4;
-
 		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
 
-		if (isMultiSignatureRegistration) {
+		if (isMultiSignatureRegistration(transaction)) {
 			wallet = await this.clientService.wallet(signatory.address());
 		} else {
 			wallet = (
@@ -153,7 +152,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		const { mandatoryKeys, optionalKeys } = getKeys({
 			senderWallet: wallet,
 			transaction: transaction,
-			isMultiSignatureRegistration,
+			isMultiSignatureRegistration: isMultiSignatureRegistration(transaction),
 		});
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
@@ -173,7 +172,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				mandatoryKeys: convertStringList(mandatoryKeys),
 				optionalKeys: convertStringList(optionalKeys),
 			},
-			isMultiSignatureRegistration,
+			isMultiSignatureRegistration(transaction),
 		);
 
 		if (isTransactionFullySigned(wallet, transaction)) {
