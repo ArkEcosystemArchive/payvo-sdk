@@ -9,7 +9,7 @@ import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client-three.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
-import { BroadcastSerializer } from "./broadcast.serializer";
+import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 
 let subject: ClientService;
@@ -21,7 +21,7 @@ beforeAll(() => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(BindingType.BroadcastSerializer, BroadcastSerializer);
+		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 });
 

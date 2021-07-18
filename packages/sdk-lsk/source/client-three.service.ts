@@ -1,5 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { BroadcastSerializer } from "./broadcast.serializer";
+import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 
 @IoC.injectable()
@@ -9,8 +9,8 @@ export class ClientService extends Services.AbstractClientService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;
 
-	@IoC.inject(BindingType.BroadcastSerializer)
-	protected readonly broadcastSerializer!: BroadcastSerializer;
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly broadcastSerializer!: TransactionSerializer;
 
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
@@ -93,7 +93,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		for (const transaction of transactions) {
 			const { transactionId, message } = await this.#post("transactions", {
-				transaction: this.broadcastSerializer.serialize(transaction.toBroadcast()),
+				transaction: this.broadcastSerializer.toString(transaction.toBroadcast()),
 			});
 
 			if (transactionId) {

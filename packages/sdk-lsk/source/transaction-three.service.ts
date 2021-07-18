@@ -1,8 +1,10 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
-import { getBytes, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
+import { signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
+import { TransactionSerializer } from "./transaction.serializer";
+import { BindingType } from "./coin.contract";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -11,6 +13,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;
+
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly broadcastSerializer!: TransactionSerializer;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
@@ -126,15 +131,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
-			signedTransaction,
 			{
-				senderId: convertBuffer(signedTransaction.senderPublicKey),
-				recipientId: signedTransaction.asset.recipientAddress,
-				amount: signedTransaction.asset.amount,
-				fee: signedTransaction.fee,
-				timestamp: DateTime.make(),
 				...signedTransaction,
+				timestamp: DateTime.make()
 			},
+			this.broadcastSerializer.toHuman(signedTransaction),
 		);
 	}
 

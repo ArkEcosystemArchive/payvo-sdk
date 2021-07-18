@@ -7,14 +7,14 @@ import { ClientService as ClientServiceTwo } from "./client-two.service";
 import { ClientService as ClientServiceThree } from "./client-three.service";
 import { isTest } from "./helpers";
 import { BindingType } from "./coin.contract";
-import { BroadcastSerializer } from "./broadcast.serializer";
+import { TransactionSerializer } from "./transaction.serializer";
 
 export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		if (isTest(this.configRepository)) {
 			container.singleton(IoC.BindingType.ClientService, ClientServiceThree);
 			container.singleton(IoC.BindingType.TransactionService, TransactionServiceThree);
-			container.singleton(BindingType.BroadcastSerializer, BroadcastSerializer);
+			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		} else {
 			container.singleton(IoC.BindingType.ClientService, ClientServiceTwo);
 			container.singleton(IoC.BindingType.TransactionService, TransactionServiceTwo);
