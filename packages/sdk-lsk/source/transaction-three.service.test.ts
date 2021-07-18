@@ -91,14 +91,17 @@ describe("TransactionService", () => {
 				},
 			});
 
-			const transaction2 = await musig.addSignature(transaction1, new Signatories.Signatory(
+			const transaction2 = await musig.addSignature(
+				transaction1,
+				new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: wallet2.signingKey,
 						address: wallet2.address,
 						publicKey: wallet2.publicKey,
 						privateKey: identity.privateKey,
 					}),
-				));
+				),
+			);
 
 			console.log(transaction2);
 		});
@@ -206,24 +209,31 @@ describe("TransactionService", () => {
 
 			expect(transaction1).toBeInstanceOf(SignedTransactionData);
 
-			const transaction2 = await musig.addSignature(transaction1, new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: wallet2.signingKey,
-					address: wallet2.address,
-					publicKey: wallet2.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			));
+			const transaction2 = await musig.addSignature(
+				transaction1,
+				new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						signingKey: wallet2.signingKey,
+						address: wallet2.address,
+						publicKey: wallet2.publicKey,
+						privateKey: identity.privateKey,
+					}),
+				),
+			);
 
 			expect(transaction2).toBeInstanceOf(SignedTransactionData);
 
-			const transaction3 = await musig.addSignature(transaction2, new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: wallet1.signingKey,
-					address: wallet1.address,
-					publicKey: wallet1.publicKey,
-					privateKey: identity.privateKey,
-				})));
+			const transaction3 = await musig.addSignature(
+				transaction2,
+				new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						signingKey: wallet1.signingKey,
+						address: wallet1.address,
+						publicKey: wallet1.publicKey,
+						privateKey: identity.privateKey,
+					}),
+				),
+			);
 
 			expect(transaction3).toBeInstanceOf(SignedTransactionData);
 		});
