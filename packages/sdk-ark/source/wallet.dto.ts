@@ -54,7 +54,10 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			throw new Error("This wallet does not have a multi-signature registered.");
 		}
 
-		const multiSignature: { min: number; publicKeys: string[] } = this.#getProperty(["multiSignature", "attributes.multiSignature"])!;
+		const multiSignature: { min: number; publicKeys: string[] } = this.#getProperty([
+			"multiSignature",
+			"attributes.multiSignature",
+		])!;
 
 		return {
 			numberOfSignatures: multiSignature?.min,
