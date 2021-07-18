@@ -159,13 +159,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			assetSchema,
 			{
 				...(await this.#buildTransactionObject(input, type)),
-				asset: isMultiSignatureRegistration
-					? {
-							numberOfSignatures: asset.numberOfSignatures,
-							optionalKeys: asset.optionalKeys,
-							mandatoryKeys: asset.mandatoryKeys,
-					  }
-					: asset,
+				asset,
 				signatures: [],
 			},
 			this.#networkIdentifier(),
