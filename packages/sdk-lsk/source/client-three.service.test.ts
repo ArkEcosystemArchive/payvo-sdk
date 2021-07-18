@@ -251,7 +251,18 @@ describe("ClientService", () => {
 	});
 
 	describe.only("#broadcast", () => {
-		const transactionSigned = {"moduleID":2,"assetID":0,"senderPublicKey":"5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b","nonce":"3","fee":"207000","signatures":["64e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604"],"asset":{"recipientAddress":"763c191b0a4d0575020ce1e6500375d6d0bdd45e","amount":"100000000","data":""},"id":"73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0"};
+		const transactionSigned = {
+			moduleID: 2,
+			assetID: 0,
+			senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
+			nonce: "3",
+			fee: "207000",
+			signatures: [
+				"64e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604",
+			],
+			asset: { recipientAddress: "763c191b0a4d0575020ce1e6500375d6d0bdd45e", amount: "100000000", data: "" },
+			id: "73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0",
+		};
 
 		const transactionPayload = createService(SignedTransactionData).configure(
 			"5961193224963457718",

@@ -99,7 +99,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const isMultiSignatureRegistration = moduleAssetId === "4:0";
 
 		if (wallet?.isMultiSignature() || isMultiSignatureRegistration) {
-			return this.#handleMultiSignature({ asset, assetSchema, isMultiSignatureRegistration, input, type, wallet });
+			return this.#handleMultiSignature({
+				asset,
+				assetSchema,
+				isMultiSignatureRegistration,
+				input,
+				type,
+				wallet,
+			});
 		}
 
 		signedTransaction = signTransaction(

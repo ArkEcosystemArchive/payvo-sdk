@@ -331,14 +331,16 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	}
 
 	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {
-		return this.#assets()[{
-			"2:0": "token:transfer",
-			"4:0": "keys:registerMultisignatureGroup",
-			"5:0": "dpos:registerDelegate",
-			"5:1": "dpos:voteDelegate",
-			"5:2": "dpos:unlockToken",
-			"5:3": "dpos:reportDelegateMisbehavior",
-			"1000:0": "legacyAccount:reclaimLSK",
-		}[joinModuleAndAssetIds(transaction)]!];
+		return this.#assets()[
+			{
+				"2:0": "token:transfer",
+				"4:0": "keys:registerMultisignatureGroup",
+				"5:0": "dpos:registerDelegate",
+				"5:1": "dpos:voteDelegate",
+				"5:2": "dpos:unlockToken",
+				"5:3": "dpos:reportDelegateMisbehavior",
+				"1000:0": "legacyAccount:reclaimLSK",
+			}[joinModuleAndAssetIds(transaction)]!
+		];
 	}
 }

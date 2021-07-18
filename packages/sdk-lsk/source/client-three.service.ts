@@ -91,15 +91,18 @@ export class ClientService extends Services.AbstractClientService {
 
 		const assets = this.configRepository.get<object>("network.meta.assets");
 		for (const transaction of transactions) {
-			const { assetSchema } = assets[{
-				"2:0": "token:transfer",
-				"4:0": "keys:registerMultisignatureGroup",
-				"5:0": "dpos:registerDelegate",
-				"5:1": "dpos:voteDelegate",
-				"5:2": "dpos:unlockToken",
-				"5:3": "dpos:reportDelegateMisbehavior",
-				"1000:0": "legacyAccount:reclaimLSK",
-			}[joinModuleAndAssetIds(transaction.data())]!];
+			const { assetSchema } =
+				assets[
+					{
+						"2:0": "token:transfer",
+						"4:0": "keys:registerMultisignatureGroup",
+						"5:0": "dpos:registerDelegate",
+						"5:1": "dpos:voteDelegate",
+						"5:2": "dpos:unlockToken",
+						"5:3": "dpos:reportDelegateMisbehavior",
+						"1000:0": "legacyAccount:reclaimLSK",
+					}[joinModuleAndAssetIds(transaction.data())]!
+				];
 
 			// @TODO
 			const tx = transaction.toBroadcast();
@@ -109,11 +112,11 @@ export class ClientService extends Services.AbstractClientService {
 			tx.senderPublicKey = convertString(tx.senderPublicKey);
 			tx.asset.amount = BigInt(tx.asset.amount);
 			tx.asset.recipientAddress = getAddressFromBase32Address(
-				getLisk32AddressFromAddress(Buffer.from(tx.asset.recipientAddress, "hex"))
+				getLisk32AddressFromAddress(Buffer.from(tx.asset.recipientAddress, "hex")),
 			);
 			tx.signatures = convertStringList(tx.signatures);
 
-			console.log(tx)
+			console.log(tx);
 
 			const { transactionId, message } = await this.#post("transactions", {
 				transaction: getBytes(assetSchema, tx).toString("hex"),
