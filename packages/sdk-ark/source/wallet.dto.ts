@@ -57,8 +57,8 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		const multiSignature: { min: number; publicKeys: string[] } = this.#getProperty(["multiSignature", "attributes.multiSignature"])!;
 
 		return {
-			mandatoryKeys: multiSignature?.publicKeys,
 			numberOfSignatures: multiSignature?.min,
+			mandatoryKeys: multiSignature?.publicKeys,
 			optionalKeys: [],
 		};
 	}
