@@ -133,7 +133,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			convertBuffer(signedTransaction.id),
 			{
 				...signedTransaction,
-				timestamp: DateTime.make()
+				timestamp: DateTime.make(),
 			},
 			this.broadcastSerializer.toHuman(signedTransaction),
 		);

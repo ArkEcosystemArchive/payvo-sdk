@@ -1,7 +1,13 @@
 import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { Coins, Contracts, IoC } from "@payvo/sdk";
-import { convertBuffer, convertBufferList, convertString, convertStringList, joinModuleAndAssetIds } from "./multi-signature.domain";
+import {
+	convertBuffer,
+	convertBufferList,
+	convertString,
+	convertStringList,
+	joinModuleAndAssetIds,
+} from "./multi-signature.domain";
 
 @IoC.injectable()
 export class TransactionSerializer {
