@@ -99,7 +99,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const isMultiSignatureRegistration = moduleAssetId === "4:0";
 
 		if (wallet?.isMultiSignature() || isMultiSignatureRegistration) {
-			return this.#handleMultiSignature({ asset, assetSchema, isMultiSignatureRegistration, input, type });
+			return this.#handleMultiSignature({ asset, assetSchema, isMultiSignatureRegistration, input, type, wallet });
 		}
 
 		signedTransaction = signTransaction(
@@ -134,16 +134,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		isMultiSignatureRegistration,
 		input,
 		type,
+		wallet,
 	}): Promise<Contracts.SignedTransactionData> {
 		const keys = {
 			mandatoryKeys: isMultiSignatureRegistration
 				? asset.mandatoryKeys
-				: // @ts-ignore
-				  convertStringList(wallet?.multiSignature().mandatoryKeys),
+				: convertStringList(wallet.multiSignature().mandatoryKeys),
 			optionalKeys: isMultiSignatureRegistration
 				? asset.optionalKeys
-				: // @ts-ignore
-				  convertStringList(wallet?.multiSignature().optionalKeys),
+				: convertStringList(wallet.multiSignature().optionalKeys),
 		};
 
 		let signedTransaction: any = signMultiSignatureTransaction(
