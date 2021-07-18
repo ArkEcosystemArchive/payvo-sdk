@@ -3,6 +3,7 @@ import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
+import { BindingType } from "./coin.contract";
 
 import {
 	convertBuffer,
@@ -15,6 +16,8 @@ import {
 	joinModuleAndAssetIds,
 } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { TransactionSerializer } from "./transaction.serializer";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -32,6 +35,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
+
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly transactionSerializer!: TransactionSerializer;
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -180,16 +186,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
 			transactionWithSignature,
-			{
-				moduleID: transactionWithSignature.moduleID,
-				assetID: transactionWithSignature.assetID,
-				senderPublicKey: convertBuffer(transactionWithSignature.senderPublicKey),
-				nonce: transactionWithSignature.nonce.toString(),
-				fee: transactionWithSignature.fee.toString(),
-				signatures: convertBufferList(transactionWithSignature.signatures),
-				asset: this.#createNormalizedAsset(transactionWithSignature),
-				id: convertBuffer(transactionWithSignature.id),
-			},
+			this.transactionSerializer.toHuman(transactionWithSignature),
 		);
 	}
 
@@ -249,7 +246,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	}
 
 	#createSignatureAsset(transaction: Record<string, any>): object {
-		if (transaction.moduleID === 2 && transaction.assetID === 0) {
+		if (isTransfer(transaction)) {
 			return {
 				amount: BigInt(`${transaction.asset.amount}`),
 				recipientAddress: transaction.asset.recipientAddress,
@@ -257,7 +254,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			};
 		}
 
-		if (transaction.moduleID === 4 && transaction.assetID === 0) {
+		if (isMultiSignatureRegistration(transaction)) {
 			return {
 				numberOfSignatures: transaction.asset.numberOfSignatures,
 				mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
@@ -265,13 +262,13 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			};
 		}
 
-		if (transaction.moduleID === 5 && transaction.assetID === 0) {
+		if (isDelegateRegistration(transaction)) {
 			return {
 				username: transaction.asset.username,
 			};
 		}
 
-		if (transaction.moduleID === 5 && transaction.assetID === 1) {
+		if (isVote(transaction)) {
 			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
 				amount: this.#normaliseVoteAmount(amount),
@@ -279,39 +276,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		}
 
 		throw new Error("Failed to determine transaction type for asset signing.");
-	}
-
-	#createNormalizedAsset(transaction: Record<string, any>): object {
-		if (transaction.moduleID === 2 && transaction.assetID === 0) {
-			return {
-				amount: transaction.asset.amount.toString(),
-				recipientAddress: transaction.asset.recipientAddress,
-				data: transaction.asset.data,
-			};
-		}
-
-		if (transaction.moduleID === 4 && transaction.assetID === 0) {
-			return {
-				numberOfSignatures: transaction.asset.numberOfSignatures,
-				mandatoryKeys: convertBufferList(transaction.asset.mandatoryKeys),
-				optionalKeys: convertBufferList(transaction.asset.optionalKeys),
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 0) {
-			return {
-				username: transaction.asset.username,
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 1) {
-			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
-				amount: amount.toString(),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset normalization.");
 	}
 
 	#normaliseVoteAmount(value: number): BigInt {
