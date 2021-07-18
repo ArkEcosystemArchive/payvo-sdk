@@ -1,18 +1,16 @@
-import { MultiSignatureTransaction } from "./multi-signature.contract";
-import { convertStringList } from "./multi-signature.domain";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { convertBufferList, convertStringList } from "./multi-signature.domain";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
+	readonly #multiSignature: MultiSignatureAsset;
 
 	public constructor(transaction: MultiSignatureTransaction) {
 		this.#transaction = transaction;
+		this.#multiSignature = transaction.multiSignature;
 	}
 
 	public isMultiSignature(): boolean {
-		if (this.isMultiSignatureRegistration()) {
-			return false;
-		}
-
 		return Array.isArray(this.#transaction.signatures);
 	}
 
@@ -41,14 +39,18 @@ export class PendingMultiSignatureTransaction {
 			return this.needsAllSignatures();
 		}
 
-		return this.getValidMultiSignatures().length < this.#transaction.multiSignature.numberOfSignatures;
+		return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
 	}
 
 	public needsAllSignatures(): boolean {
-		return this.getValidMultiSignatures().length < this.#transaction.multiSignature.mandatoryKeys.length;
+		return this.getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
 	}
 
 	public needsWalletSignature(publicKey: string): boolean {
+		if (!this.isMultiSignature()) {
+			return false;
+		}
+
 		if (!this.needsSignatures() && !this.needsFinalSignature()) {
 			return false;
 		}
@@ -57,38 +59,27 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
 		}
 
-		if (!this.isMultiSignature()) {
-			return false;
-		}
-
-		const index: number = [
-			...this.#transaction.multiSignature.mandatoryKeys,
-			...this.#transaction.multiSignature.optionalKeys,
-		].indexOf(publicKey);
+		const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
+			publicKey,
+		);
 
 		if (index === -1) {
 			return false;
 		}
 
-		if (!this.#transaction.signatures) {
-			return true;
-		}
-
-		return !this.#transaction.signatures.find(
-			(signature: string) => parseInt(signature.substring(0, 2), 16) === index,
-		);
+		return this.#transaction.signatures[index] === undefined;
 	}
 
 	public needsFinalSignature(): boolean {
-		if (this.isMultiSignature() && !this.isMultiSignatureRegistration()) {
+		if (!this.isMultiSignature()) {
 			return false;
 		}
 
-		return (
-			this.#transaction.signatures.filter(
-				(element: string, index: number, array: string[]) => array.indexOf(element) !== index,
-			).length < 2
-		);
+		if (!this.isMultiSignatureRegistration()) {
+			return false;
+		}
+
+		return this.#transaction.signatures.filter(Boolean).length !== this.#multiSignature.numberOfSignatures + 1;
 	}
 
 	public getValidMultiSignatures(): string[] {
@@ -101,19 +92,19 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		// Convert and sort the participant keys
-		const mandatoryKeys: Buffer[] = convertStringList(this.#transaction.multiSignature.mandatoryKeys);
+		const mandatoryKeys: Buffer[] = convertStringList(this.#multiSignature.mandatoryKeys);
 		mandatoryKeys.sort((a: Buffer, b: Buffer) => a.compare(b));
 
-		const optionalKeys: Buffer[] = convertStringList(this.#transaction.multiSignature.optionalKeys);
+		const optionalKeys: Buffer[] = convertStringList(this.#multiSignature.optionalKeys);
 		optionalKeys.sort((a: Buffer, b: Buffer) => a.compare(b));
 
 		// Iterate over all participant keys and check who has a signature set already
-		const result: string[] = [];
+		const result: Buffer[] = [];
 
-		for (const participant of [
-			...this.#transaction.multiSignature.mandatoryKeys,
-			...this.#transaction.multiSignature.optionalKeys,
-		]) {
+		for (const participant of convertStringList([
+			...this.#multiSignature.mandatoryKeys,
+			...this.#multiSignature.optionalKeys,
+		])) {
 			const mandatoryKeyIndex: number = mandatoryKeys.findIndex((publicKey: Buffer) =>
 				publicKey.equals(participant),
 			);
@@ -135,19 +126,17 @@ export class PendingMultiSignatureTransaction {
 			}
 		}
 
-		return result;
+		return convertBufferList(result);
 	}
 
 	public remainingSignatureCount(): number {
-		let numberOfSignatures: number = this.#transaction.multiSignature.numberOfSignatures;
+		let numberOfSignatures: number = this.#multiSignature.numberOfSignatures;
 
 		if (this.isMultiSignatureRegistration()) {
 			numberOfSignatures =
-				this.#transaction.multiSignature.mandatoryKeys.length +
-				this.#transaction.multiSignature.optionalKeys.length +
-				1;
+				this.#multiSignature.mandatoryKeys.length + this.#multiSignature.optionalKeys.length + 1;
 		}
 
-		return numberOfSignatures - this.#transaction.signatures.length;
+		return numberOfSignatures - this.#transaction.signatures.filter(Boolean).length;
 	}
 }
