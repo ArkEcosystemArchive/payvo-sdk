@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { DTO, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
@@ -9,6 +9,8 @@ import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client-three.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
+import { BroadcastSerializer } from "./broadcast.serializer";
+import { BindingType } from "./coin.contract";
 
 let subject: ClientService;
 
@@ -19,6 +21,7 @@ beforeAll(() => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(BindingType.BroadcastSerializer, BroadcastSerializer);
 	});
 });
 
@@ -250,27 +253,31 @@ describe("ClientService", () => {
 		});
 	});
 
-	describe.only("#broadcast", () => {
-		const transactionSigned = {
-			moduleID: 2,
-			assetID: 0,
-			senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
-			nonce: "3",
-			fee: "207000",
-			signatures: [
-				"64e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604",
-			],
-			asset: { recipientAddress: "763c191b0a4d0575020ce1e6500375d6d0bdd45e", amount: "100000000", data: "" },
-			id: "73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0",
-		};
+	describe("#broadcast", () => {
+		let transactionPayload;
 
-		const transactionPayload = createService(SignedTransactionData).configure(
-			"5961193224963457718",
-			transactionSigned,
-			transactionSigned,
-		);
+		beforeEach(() => {
+			const transactionSigned = {
+				moduleID: 2,
+				assetID: 0,
+				senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
+				nonce: "3",
+				fee: "207000",
+				signatures: [
+					"64e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604",
+				],
+				asset: { recipientAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: "100000000", data: "" },
+				id: "73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0",
+			};
 
-		it.only("should pass", async () => {
+			transactionPayload = createService(SignedTransactionData).configure(
+				"5961193224963457718",
+				transactionSigned,
+				transactionSigned,
+			);
+		});
+
+		it("should pass", async () => {
 			nock(/.+/)
 				.post("/api/v2/transactions")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/three/broadcast.json`));

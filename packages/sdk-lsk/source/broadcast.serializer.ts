@@ -1,4 +1,4 @@
-import { getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { Coins, Contracts, IoC } from "@payvo/sdk";
 import { convertBufferList, convertString, convertStringList, joinModuleAndAssetIds } from "./multi-signature.domain";
@@ -17,13 +17,11 @@ export class BroadcastSerializer {
 			"5:2": "dpos:unlockToken",
 			"5:3": "dpos:reportDelegateMisbehavior",
 			"1000:0": "legacyAccount:reclaimLSK",
-		}[joinModuleAndAssetIds(transaction.data())];
+		}[joinModuleAndAssetIds(transaction)];
 
 		if (!assetKey) {
 			throw new Error("Failed to determine the transaction type.");
 		}
-
-		const { assetSchema } = this.configRepository.get<object>("network.meta.assets")[assetKey];
 
 		const mutated = {
 			...transaction,
@@ -37,7 +35,8 @@ export class BroadcastSerializer {
 		// Transfer
 		if (mutated.moduleID === 2 && mutated.assetID === 0) {
 			mutated.asset.amount = BigInt(mutated.asset.amount);
-			mutated.asset.recipientAddress = getLisk32AddressFromAddress(mutated.asset.recipientAddress);
+			mutated.asset.recipientAddress = getAddressFromBase32Address(mutated.asset.recipientAddress);
+			mutated.asset.data = convertString(mutated.asset.data ?? "");
 		}
 
 		// MuSig Registration
@@ -55,13 +54,18 @@ export class BroadcastSerializer {
 		// Vote
 		if (mutated.moduleID === 5 && mutated.assetID === 1) {
 			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
+				delegateAddress: getAddressFromBase32Address(delegateAddress),
 				amount: amount.toString(),
 			}));
 		}
 
-		delete mutated.multiSignature;
+		if (mutated.multiSignature) {
+			delete mutated.multiSignature;
+		}
 
-		return getBytes(assetSchema, mutated).toString("hex");
+		return getBytes(
+			this.configRepository.get<object>("network.meta.assets")[assetKey].assetSchema,
+			mutated,
+		).toString("hex");
 	}
 }
