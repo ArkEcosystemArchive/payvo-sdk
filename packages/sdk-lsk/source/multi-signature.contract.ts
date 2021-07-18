@@ -1,5 +1,11 @@
-export type MultiSignatureTransaction = any;
+import { Contracts } from "@payvo/sdk";
 
-// export type MultiSignatureTransaction = Interfaces.ITransactionData;
+export interface MultiSignatureAsset {
+	numberOfSignatures: number;
+	mandatoryKeys: string[];
+	optionalKeys: string[];
+}
 
-export type MultiSignatureAsset = any;
+export type MultiSignatureTransaction = Record<string, any> & {
+	multiSignature: MultiSignatureAsset;
+};
