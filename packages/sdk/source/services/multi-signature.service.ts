@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { SignedTransactionData } from "../contracts";
+import { RawTransactionData } from "../dto";
 import { NotImplemented } from "../exceptions";
 import { injectable } from "../ioc";
 import { Signatory } from "../signatories";
@@ -54,7 +55,7 @@ export class AbstractMultiSignatureService implements MultiSignatureService {
 	}
 
 	public async addSignature(
-		transaction: SignedTransactionData,
+		transaction: RawTransactionData,
 		signatory: Signatory,
 	): Promise<SignedTransactionData> {
 		throw new NotImplemented(this.constructor.name, this.addSignature.name);

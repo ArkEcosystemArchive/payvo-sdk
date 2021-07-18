@@ -126,13 +126,12 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	/** @inheritdoc */
 	public override async addSignature(
-		transaction: Contracts.SignedTransactionData,
+		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
-		const transactionObject = transaction.data();
-		const isMultiSignatureRegistration = transactionObject.moduleID === 4;
+		const isMultiSignatureRegistration = transaction.moduleID === 4;
 
-		const { assetSchema } = this.#assets()[this.#assets[joinModuleAndAssetIds(transactionObject)]];
+		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
 
@@ -141,29 +140,27 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		} else {
 			wallet = (
 				await this.clientService.wallets({
-					publicKey: transactionObject.senderPublicKey,
+					publicKey: transaction.senderPublicKey,
 				})
 			).first();
 		}
 
 		const { mandatoryKeys, optionalKeys } = getKeys({
 			senderWallet: wallet,
-			transaction: transactionObject,
+			transaction: transaction,
 			isMultiSignatureRegistration,
 		});
-
-		const { assetID, moduleID } = this.#assets()[this.#assets[joinModuleAndAssetIds(transactionObject)]];
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
 			assetSchema,
 			{
 				moduleID,
 				assetID,
-				nonce: BigInt(`${transactionObject.nonce}`),
-				fee: BigInt(`${transactionObject.fee}`),
-				senderPublicKey: convertString(transactionObject.senderPublicKey),
-				asset: this.#createSignatureAsset(transactionObject),
-				signatures: convertStringList(transactionObject.signatures),
+				nonce: BigInt(`${transaction.nonce}`),
+				fee: BigInt(`${transaction.fee}`),
+				senderPublicKey: convertString(transaction.senderPublicKey),
+				asset: this.#createSignatureAsset(transaction),
+				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
 			signatory.actsWithSecondaryMnemonic() ? signatory.confirmKey() : signatory.signingKey(),
@@ -174,8 +171,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			isMultiSignatureRegistration,
 		);
 
-		if (isTransactionFullySigned(wallet, transactionObject)) {
-			const emptySignatureIndices = findNonEmptySignatureIndices(transactionObject.signatures);
+		if (isTransactionFullySigned(wallet, transaction)) {
+			const emptySignatureIndices = findNonEmptySignatureIndices(transaction.signatures);
 
 			for (let index = 0; index < emptySignatureIndices.length; index++) {
 				transactionWithSignature.signatures[index] = Buffer.from("");
@@ -333,5 +330,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		}
 
 		throw new Error(`The value [${value}] is not a multiple of 10.`);
+	}
+
+	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {
+		return this.#assets()[{
+			"2:0": "token:transfer",
+			"4:0": "keys:registerMultisignatureGroup",
+			"5:0": "dpos:registerDelegate",
+			"5:1": "dpos:voteDelegate",
+			"5:2": "dpos:unlockToken",
+			"5:3": "dpos:reportDelegateMisbehavior",
+			"1000:0": "legacyAccount:reclaimLSK",
+		}[joinModuleAndAssetIds(transaction)]!];
 	}
 }
