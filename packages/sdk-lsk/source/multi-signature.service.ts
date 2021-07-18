@@ -1,5 +1,5 @@
 import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
-import { getBytes, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
+import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
@@ -177,16 +177,20 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			}
 		}
 
-		return this.#transform(assetSchema, transactionWithSignature, {
-			moduleID: transactionWithSignature.moduleID,
-			assetID: transactionWithSignature.assetID,
-			senderPublicKey: convertBuffer(transactionWithSignature.senderPublicKey),
-			nonce: transactionWithSignature.nonce.toString(),
-			fee: transactionWithSignature.fee.toString(),
-			signatures: convertBufferList(transactionWithSignature.signatures),
-			asset: this.#createNormalizedAsset(transactionWithSignature),
-			id: convertBuffer(transactionWithSignature.id),
-		});
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(transactionWithSignature.id),
+			transactionWithSignature,
+			{
+				moduleID: transactionWithSignature.moduleID,
+				assetID: transactionWithSignature.assetID,
+				senderPublicKey: convertBuffer(transactionWithSignature.senderPublicKey),
+				nonce: transactionWithSignature.nonce.toString(),
+				fee: transactionWithSignature.fee.toString(),
+				signatures: convertBufferList(transactionWithSignature.signatures),
+				asset: this.#createNormalizedAsset(transactionWithSignature),
+				id: convertBuffer(transactionWithSignature.id),
+			},
+		);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
@@ -242,14 +246,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	#networkIdentifier(): Buffer {
 		return convertString(this.configRepository.get<string>("network.meta.networkId"));
-	}
-
-	#transform(schema, data, transaction): Contracts.SignedTransactionData {
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(data.id),
-			transaction,
-			getBytes(schema, data).toString("hex"),
-		);
 	}
 
 	#createSignatureAsset(transaction: Record<string, any>): object {

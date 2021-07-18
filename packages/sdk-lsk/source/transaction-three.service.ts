@@ -124,14 +124,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
-		return this.#transform(assetSchema, signedTransaction, {
-			senderId: convertBuffer(signedTransaction.senderPublicKey),
-			recipientId: signedTransaction.asset.recipientAddress,
-			amount: signedTransaction.asset.amount,
-			fee: signedTransaction.fee,
-			timestamp: DateTime.make(),
-			...signedTransaction,
-		});
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(signedTransaction.id),
+			signedTransaction,
+			{
+				senderId: convertBuffer(signedTransaction.senderPublicKey),
+				recipientId: signedTransaction.asset.recipientAddress,
+				amount: signedTransaction.asset.amount,
+				fee: signedTransaction.fee,
+				timestamp: DateTime.make(),
+				...signedTransaction,
+			},
+		);
 	}
 
 	async #handleMultiSignature({
@@ -194,16 +198,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return this.#transform(assetSchema, signedTransaction, {
-			moduleID: signedTransaction.moduleID,
-			assetID: signedTransaction.assetID,
-			senderPublicKey: convertBuffer(signedTransaction.senderPublicKey),
-			nonce: signedTransaction.nonce.toString(),
-			fee: signedTransaction.fee.toString(),
-			signatures: convertBufferList(signedTransaction.signatures),
-			asset: this.#transformAsset({ signedTransaction, keys }),
-			id: convertBuffer(signedTransaction.id),
-		});
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(signedTransaction.id),
+			signedTransaction,
+			{
+				moduleID: signedTransaction.moduleID,
+				assetID: signedTransaction.assetID,
+				senderPublicKey: convertBuffer(signedTransaction.senderPublicKey),
+				nonce: signedTransaction.nonce.toString(),
+				fee: signedTransaction.fee.toString(),
+				signatures: convertBufferList(signedTransaction.signatures),
+				asset: this.#transformAsset({ signedTransaction, keys }),
+				id: convertBuffer(signedTransaction.id),
+			},
+		);
 	}
 
 	#transformAsset({ signedTransaction, keys }): object {
@@ -273,14 +281,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			fee: BigInt(314000),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
-	}
-
-	#transform(schema, data, transaction): Contracts.SignedTransactionData {
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(data.id),
-			transaction,
-			getBytes(schema, data).toString("hex"),
-		);
 	}
 
 	#normaliseVoteAmount(value: number): BigInt {
