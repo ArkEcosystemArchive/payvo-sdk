@@ -55,7 +55,7 @@ export class TransactionSerializer {
 		return mutated;
 	}
 
-	public toHuman(transaction: Contracts.RawTransactionData): Record<string, unknown> {
+	public toHuman(transaction: Contracts.RawTransactionData, keys?: Record<string, string[]>): Record<string, unknown> {
 		const mutated = {
 			...transaction,
 			fee: transaction.fee.toString(),
@@ -73,8 +73,8 @@ export class TransactionSerializer {
 
 		if (isMultiSignatureRegistration(mutated)) {
 			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
-			mutated.asset.mandatoryKeys = convertBufferList(mutated.asset.mandatoryKeys);
-			mutated.asset.optionalKeys = convertBufferList(mutated.asset.optionalKeys);
+			mutated.asset.mandatoryKeys = convertBufferList(keys?.mandatoryKeys ?? mutated.asset.mandatoryKeys);
+			mutated.asset.optionalKeys = convertBufferList(keys?.optionalKeys ?? mutated.asset.optionalKeys);
 		}
 
 		if (isDelegateRegistration(mutated)) {

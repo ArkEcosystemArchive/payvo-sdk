@@ -16,7 +16,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	private readonly multiSignatureService!: Services.MultiSignatureService;
 
 	@IoC.inject(BindingType.TransactionSerializer)
-	protected readonly broadcastSerializer!: TransactionSerializer;
+	protected readonly transactionSerializer!: TransactionSerializer;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
@@ -89,15 +89,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		input: Services.TransactionInput,
 	): Promise<Contracts.SignedTransactionData> {
 		let signedTransaction: any;
-		let nonce: BigInt | undefined = undefined;
 		let wallet: Contracts.WalletData | undefined;
 
 		try {
 			wallet = await this.clientService.wallet(input.signatory.address());
-
-			nonce = BigInt(wallet.nonce().toString());
 		} catch {
-			nonce = BigInt(0);
+			//
 		}
 
 		const { assetSchema, moduleAssetId } = this.configRepository.get<object>("network.meta.assets")[type];
@@ -136,7 +133,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				...signedTransaction,
 				timestamp: DateTime.make(),
 			},
-			this.broadcastSerializer.toHuman(signedTransaction),
+			this.transactionSerializer.toHuman(signedTransaction),
 		);
 	}
 
@@ -197,50 +194,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			signedTransaction,
-			{
-				moduleID: signedTransaction.moduleID,
-				assetID: signedTransaction.assetID,
-				senderPublicKey: convertBuffer(signedTransaction.senderPublicKey),
-				nonce: signedTransaction.nonce.toString(),
-				fee: signedTransaction.fee.toString(),
-				signatures: convertBufferList(signedTransaction.signatures),
-				asset: this.#transformAsset({ signedTransaction, keys }),
-				id: convertBuffer(signedTransaction.id),
-			},
+			this.transactionSerializer.toHuman(signedTransaction, keys),
 		);
-	}
-
-	#transformAsset({ signedTransaction, keys }): object {
-		if (isTransfer(signedTransaction)) {
-			return {
-				amount: signedTransaction.asset.amount.toString(),
-				recipientAddress: signedTransaction.asset.recipientAddress,
-				data: signedTransaction.asset.data,
-			};
-		}
-
-		if (isMultiSignatureRegistration(signedTransaction)) {
-			return {
-				numberOfSignatures: signedTransaction.asset.numberOfSignatures,
-				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-				optionalKeys: convertBufferList(keys.optionalKeys),
-			};
-		}
-
-		if (isDelegateRegistration(signedTransaction)) {
-			return {
-				username: signedTransaction.asset.username,
-			};
-		}
-
-		if (isVote(signedTransaction)) {
-			return signedTransaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
-				amount: amount.toString(),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset normalization.");
 	}
 
 	#assets(): object {
