@@ -1,4 +1,6 @@
+import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -87,8 +89,18 @@ export class ClientService extends Services.AbstractClientService {
 		};
 
 		for (const transaction of transactions) {
+			const { assetSchema } = this.configRepository.get<object>("network.meta.assets")[{
+				"2:0": "token:transfer",
+				"4:0": "keys:registerMultisignatureGroup",
+				"5:0": "dpos:registerDelegate",
+				"5:1": "dpos:voteDelegate",
+				"5:2": "dpos:unlockToken",
+				"5:3": "dpos:reportDelegateMisbehavior",
+				"1000:0": "legacyAccount:reclaimLSK",
+			}[joinModuleAndAssetIds(transaction.data())]!];
+
 			const { transactionId, message } = await this.#post("transactions", {
-				transaction: transaction.toBroadcast(),
+				transaction: getBytes(assetSchema, transaction.toBroadcast()).toString("hex"),
 			});
 
 			if (transactionId) {
