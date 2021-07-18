@@ -1,5 +1,5 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { getBytes, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
@@ -196,21 +196,43 @@ export class TransactionService extends Services.AbstractTransactionService {
 			nonce: signedTransaction.nonce.toString(),
 			fee: signedTransaction.fee.toString(),
 			signatures: convertBufferList(signedTransaction.signatures),
-			// @TODO
-			asset: isMultiSignatureRegistration
-				? {
-						numberOfSignatures: signedTransaction.asset.numberOfSignatures,
-						mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-						optionalKeys: convertBufferList(keys.optionalKeys),
-				  }
-				: {
-						amount: signedTransaction.asset.amount.toString(),
-						recipientAddress: signedTransaction.asset.recipientAddress,
-						data: signedTransaction.asset.data,
-				  },
+			asset: this.#transformAsset({ signedTransaction, keys }),
 			id: convertBuffer(signedTransaction.id),
 		});
 	}
+
+    #transformAsset({ signedTransaction, keys }): object {
+		if (signedTransaction.moduleID === 2 && signedTransaction.assetID === 0) {
+			return {
+				amount: signedTransaction.asset.amount.toString(),
+				recipientAddress: signedTransaction.asset.recipientAddress,
+				data: signedTransaction.asset.data,
+		  };
+		}
+
+		if (signedTransaction.moduleID === 4 && signedTransaction.assetID === 0) {
+            return {
+                numberOfSignatures: signedTransaction.asset.numberOfSignatures,
+                mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+                optionalKeys: convertBufferList(keys.optionalKeys),
+            };
+		}
+
+		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 0) {
+			return {
+				username: signedTransaction.asset.username,
+			};
+		}
+
+		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 1) {
+			return signedTransaction.asset.votes.map(({ delegateAddress, amount }) => ({
+				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
+				amount: amount.toString(),
+			}));
+		}
+
+		throw new Error("Failed to determine transaction type for asset normalization.");
+    }
 
 	#assets(): object {
 		return this.configRepository.get<object>("network.meta.assets");
