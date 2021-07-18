@@ -197,12 +197,14 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.httpClient.post(
-				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host, {
-				jsonrpc: "2.0",
-				id: UUID.random(),
-				method,
-				params,
-			})
+				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+				{
+					jsonrpc: "2.0",
+					id: UUID.random(),
+					method,
+					params,
+				},
+			)
 		).json().result;
 	}
 
