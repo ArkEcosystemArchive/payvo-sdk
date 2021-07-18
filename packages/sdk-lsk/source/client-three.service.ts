@@ -1,7 +1,6 @@
-import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
-import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { convertString, convertStringList, joinModuleAndAssetIds } from "./multi-signature.domain";
+import { BroadcastSerializer } from "./broadcast.serializer";
+import { BindingType } from "./coin.contract";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -9,6 +8,9 @@ export class ClientService extends Services.AbstractClientService {
 
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;
+
+	@IoC.inject(BindingType.BroadcastSerializer)
+	protected readonly broadcastSerializer!: BroadcastSerializer;
 
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
@@ -89,37 +91,9 @@ export class ClientService extends Services.AbstractClientService {
 			errors: {},
 		};
 
-		const assets = this.configRepository.get<object>("network.meta.assets");
 		for (const transaction of transactions) {
-			const { assetSchema } =
-				assets[
-					{
-						"2:0": "token:transfer",
-						"4:0": "keys:registerMultisignatureGroup",
-						"5:0": "dpos:registerDelegate",
-						"5:1": "dpos:voteDelegate",
-						"5:2": "dpos:unlockToken",
-						"5:3": "dpos:reportDelegateMisbehavior",
-						"1000:0": "legacyAccount:reclaimLSK",
-					}[joinModuleAndAssetIds(transaction.data())]!
-				];
-
-			// @TODO
-			const tx = transaction.toBroadcast();
-			tx.fee = BigInt(tx.fee);
-			tx.nonce = BigInt(tx.nonce);
-			tx.id = convertString(tx.id);
-			tx.senderPublicKey = convertString(tx.senderPublicKey);
-			tx.asset.amount = BigInt(tx.asset.amount);
-			tx.asset.recipientAddress = getAddressFromBase32Address(
-				getLisk32AddressFromAddress(Buffer.from(tx.asset.recipientAddress, "hex")),
-			);
-			tx.signatures = convertStringList(tx.signatures);
-
-			console.log(tx);
-
 			const { transactionId, message } = await this.#post("transactions", {
-				transaction: getBytes(assetSchema, tx).toString("hex"),
+				transaction: this.broadcastSerializer.serialize(transaction.toBroadcast()),
 			});
 
 			if (transactionId) {
