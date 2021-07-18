@@ -43,22 +43,18 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return (
-			await this.#post("list", {
-				publicKey,
-				state: "pending",
-			})
-		) as Services.MultiSignatureTransaction[];
+		return (await this.#post("list", {
+			publicKey,
+			state: "pending",
+		})) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */
 	public override async allWithReadyState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return (
-			await this.#post("list", {
-				publicKey,
-				state: "ready",
-			})
-		) as Services.MultiSignatureTransaction[];
+		return (await this.#post("list", {
+			publicKey,
+			state: "ready",
+		})) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */

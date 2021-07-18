@@ -175,9 +175,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const needsDoubleSign = [
 			...convertBufferList(keys.mandatoryKeys ?? []),
 			...convertBufferList(keys.optionalKeys ?? []),
-		].includes(
-			input.signatory.publicKey(),
-		);
+		].includes(input.signatory.publicKey());
 
 		if (isMultiSignatureRegistration && needsDoubleSign) {
 			signedTransaction = signMultiSignatureTransaction(
