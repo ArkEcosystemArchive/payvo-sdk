@@ -1,11 +1,19 @@
 import "jest-extended";
 
-import { IoC } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
+import { DataTransferObjects } from "./coin.dtos";
+import { ClientService } from "./client.service";
+import { BindingType } from "./coin.contract";
+import { MultiSignatureSigner } from "./multi-signature.signer";
+import { KeyPairService } from "./key-pair.service";
+import { LedgerService } from "./ledger.service";
+import { PublicKeyService } from "./public-key.service";
+import { AddressService } from "./address.service";
 
 let subject: MultiSignatureService;
 
@@ -14,6 +22,14 @@ beforeAll(() => {
 
 	subject = createService(MultiSignatureService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 	});
 });
 

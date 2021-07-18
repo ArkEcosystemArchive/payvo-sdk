@@ -11,12 +11,26 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction-three.service";
+import { MultiSignatureService } from "./multi-signature.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: TransactionService;
+let musig: MultiSignatureService;
 
 beforeAll(async () => {
 	subject = createService(TransactionService, "lsk.testnet", (container) => {
+		container.constant(IoC.BindingType.Container, container);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+	});
+
+	musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -77,8 +91,9 @@ describe("TransactionService", () => {
 				},
 			});
 
-			const transaction2 = await subject.multiSign(transaction1, {
-				signatory: new Signatories.Signatory(
+			const transaction2 = await musig.addSignature(
+				transaction1,
+				new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: wallet2.signingKey,
 						address: wallet2.address,
@@ -86,7 +101,7 @@ describe("TransactionService", () => {
 						privateKey: identity.privateKey,
 					}),
 				),
-			});
+			);
 
 			console.log(transaction2);
 		});
@@ -194,8 +209,9 @@ describe("TransactionService", () => {
 
 			expect(transaction1).toBeInstanceOf(SignedTransactionData);
 
-			const transaction2 = await subject.multiSign(transaction1, {
-				signatory: new Signatories.Signatory(
+			const transaction2 = await musig.addSignature(
+				transaction1,
+				new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: wallet2.signingKey,
 						address: wallet2.address,
@@ -203,12 +219,13 @@ describe("TransactionService", () => {
 						privateKey: identity.privateKey,
 					}),
 				),
-			});
+			);
 
 			expect(transaction2).toBeInstanceOf(SignedTransactionData);
 
-			const transaction3 = await subject.multiSign(transaction2, {
-				signatory: new Signatories.Signatory(
+			const transaction3 = await musig.addSignature(
+				transaction2,
+				new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: wallet1.signingKey,
 						address: wallet1.address,
@@ -216,7 +233,7 @@ describe("TransactionService", () => {
 						privateKey: identity.privateKey,
 					}),
 				),
-			});
+			);
 
 			expect(transaction3).toBeInstanceOf(SignedTransactionData);
 		});

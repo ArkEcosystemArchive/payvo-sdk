@@ -3,6 +3,7 @@
 import { SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";
 import { injectable } from "../ioc";
+import { Signatory } from "../signatories";
 import { BroadcastResponse } from "./client.contract";
 import { MultiSignatureService, MultiSignatureTransaction } from "./multi-signature.contract";
 
@@ -50,5 +51,12 @@ export class AbstractMultiSignatureService implements MultiSignatureService {
 
 	public remainingSignatureCount(transaction: SignedTransactionData): number {
 		throw new NotImplemented(this.constructor.name, this.remainingSignatureCount.name);
+	}
+
+	public async addSignature(
+		transaction: SignedTransactionData,
+		signatory: Signatory,
+	): Promise<SignedTransactionData> {
+		throw new NotImplemented(this.constructor.name, this.addSignature.name);
 	}
 }

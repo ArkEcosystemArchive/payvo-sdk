@@ -1,4 +1,5 @@
 import { SignedTransactionData } from "../contracts";
+import { Signatory } from "../signatories";
 import { BroadcastResponse } from "./client.contract";
 
 export type MultiSignatureTransaction = Record<string, any>;
@@ -110,4 +111,14 @@ export interface MultiSignatureService {
 	 * @memberof MultiSignatureService
 	 */
 	remainingSignatureCount(transaction: SignedTransactionData): number;
+
+	/**
+	 * Add a signature to a multi-signature or multi-signature registration transaction.
+	 *
+	 * @param {SignedTransactionData} transaction
+	 * @param {Signatory} signatory
+	 * @return {*}  {Promise<SignedTransactionData>}
+	 * @memberof MultiSignatureService
+	 */
+	addSignature(transaction: SignedTransactionData, signatory: Signatory): Promise<SignedTransactionData>;
 }

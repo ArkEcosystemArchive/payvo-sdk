@@ -69,26 +69,26 @@ export class MultiSignatureSigner {
 
 	public async addSignature(
 		transaction: Contracts.RawTransactionData,
-		input: Services.TransactionInputs,
+		signatory: Signatories.Signatory,
 	): Promise<MultiSignatureTransaction> {
 		const pendingMultiSignature = new PendingMultiSignatureTransaction(transaction);
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
-		const { signingKeys, confirmKeys } = await this.#deriveKeyPairs(input);
+		const { signingKeys, confirmKeys } = await this.#deriveKeyPairs(signatory);
 
 		if (!isReady) {
-			if (input.signatory.actsWithLedger()) {
+			if (signatory.actsWithLedger()) {
 				const index: number = this.#publicKeyIndex(
 					transaction,
-					await this.ledgerService.getPublicKey(input.signatory.signingKey()),
+					await this.ledgerService.getPublicKey(signatory.signingKey()),
 				);
 
 				if (!transaction.signatures) {
 					transaction.signatures = [];
 				}
 
-				const signature: string = await this.#signWithLedger(transaction, input.signatory, true);
+				const signature: string = await this.#signWithLedger(transaction, signatory, true);
 				const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
 
 				transaction.signatures.push(`${signatureIndex}${signature}`);
@@ -114,8 +114,8 @@ export class MultiSignatureSigner {
 				Transactions.Signer.secondSign(transaction, confirmKeys);
 			}
 
-			if (input.signatory.actsWithLedger()) {
-				transaction.signature = this.#signWithLedger(transaction, input.signatory);
+			if (signatory.actsWithLedger()) {
+				transaction.signature = this.#signWithLedger(transaction, signatory);
 			}
 
 			transaction.id = Transactions.Utils.getId(transaction);
@@ -124,37 +124,37 @@ export class MultiSignatureSigner {
 		return transaction;
 	}
 
-	async #deriveKeyPairs(input: Services.TransactionInputs): Promise<{
+	async #deriveKeyPairs(signatory: Signatories.Signatory): Promise<{
 		signingKeys: Interfaces.IKeyPair | undefined;
 		confirmKeys: Interfaces.IKeyPair | undefined;
 	}> {
 		let signingKeys: Services.KeyPairDataTransferObject | undefined = undefined;
 		let confirmKeys: Services.KeyPairDataTransferObject | undefined = undefined;
 
-		if (input.signatory.actsWithLedger()) {
+		if (signatory.actsWithLedger()) {
 			return { signingKeys, confirmKeys };
 		}
 
-		if (input.signatory.actsWithMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
+		if (signatory.actsWithMnemonic()) {
+			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
 		}
 
-		if (input.signatory.actsWithSecret()) {
-			signingKeys = await this.keyPairService.fromSecret(input.signatory.signingKey());
+		if (signatory.actsWithSecret()) {
+			signingKeys = await this.keyPairService.fromSecret(signatory.signingKey());
 		}
 
-		if (input.signatory.actsWithSecondaryMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
-			confirmKeys = await this.keyPairService.fromMnemonic(input.signatory.confirmKey());
+		if (signatory.actsWithSecondaryMnemonic()) {
+			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
+			confirmKeys = await this.keyPairService.fromMnemonic(signatory.confirmKey());
 		}
 
-		if (input.signatory.actsWithWif()) {
-			signingKeys = await this.keyPairService.fromWIF(input.signatory.signingKey());
+		if (signatory.actsWithWif()) {
+			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
 		}
 
-		if (input.signatory.actsWithSecondaryWif()) {
-			signingKeys = await this.keyPairService.fromWIF(input.signatory.signingKey());
-			confirmKeys = await this.keyPairService.fromWIF(input.signatory.confirmKey());
+		if (signatory.actsWithSecondaryWif()) {
+			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
+			confirmKeys = await this.keyPairService.fromWIF(signatory.confirmKey());
 		}
 
 		if (!signingKeys) {
