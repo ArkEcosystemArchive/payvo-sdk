@@ -101,6 +101,7 @@ export class ClientService extends Services.AbstractClientService {
 				"1000:0": "legacyAccount:reclaimLSK",
 			}[joinModuleAndAssetIds(transaction.data())]!];
 
+			// @TODO
 			const tx = transaction.toBroadcast();
 			tx.fee = BigInt(tx.fee);
 			tx.nonce = BigInt(tx.nonce);
