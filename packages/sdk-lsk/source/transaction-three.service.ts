@@ -209,6 +209,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#transformAsset({ signedTransaction, keys }): object {
+		// Transfer
 		if (signedTransaction.moduleID === 2 && signedTransaction.assetID === 0) {
 			return {
 				amount: signedTransaction.asset.amount.toString(),
@@ -217,6 +218,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
+		// MuSig Registration
 		if (signedTransaction.moduleID === 4 && signedTransaction.assetID === 0) {
 			return {
 				numberOfSignatures: signedTransaction.asset.numberOfSignatures,
@@ -225,12 +227,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
+		// Delegate Registration
 		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 0) {
 			return {
 				username: signedTransaction.asset.username,
 			};
 		}
 
+		// Vote
 		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 1) {
 			return signedTransaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
