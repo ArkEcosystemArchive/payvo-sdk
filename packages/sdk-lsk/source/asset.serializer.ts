@@ -1,9 +1,7 @@
 import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
-import {
-	convertStringList,
-} from "./multi-signature.domain";
+import { convertStringList } from "./multi-signature.domain";
 
 @IoC.injectable()
 export class AssetSerializer {
@@ -42,7 +40,7 @@ export class AssetSerializer {
 			};
 		}
 
-		throw new Error("Failed to determine transaction type for asset serialization.")
+		throw new Error("Failed to determine transaction type for asset serialization.");
 	}
 
 	#normaliseVoteAmount(value: number): BigInt {
