@@ -61,8 +61,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Services.BroadcastResponse> {
 		let multiSignature = transaction.multiSignature;
 
-		if (transaction.asset && transaction.asset.multiSignature) {
-			multiSignature = transaction.asset.multiSignature;
+		if (transaction.asset && transaction.asset.mandatoryKeys) {
+			multiSignature = transaction.asset;
 		}
 
 		try {
