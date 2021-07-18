@@ -43,17 +43,27 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return this.#fetchAll(publicKey, "pending");
+		return (
+			await this.#post("list", {
+				publicKey,
+				state: "pending",
+			})
+		) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */
 	public override async allWithReadyState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return this.#fetchAll(publicKey, "ready");
+		return (
+			await this.#post("list", {
+				publicKey,
+				state: "ready",
+			})
+		) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */
 	public override async findById(id: string): Promise<Services.MultiSignatureTransaction> {
-		return this.#normalizeTransaction(await this.#post("show", { id }));
+		return this.#post("show", { id });
 	}
 
 	/** @inheritdoc */
@@ -202,39 +212,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				},
 			)
 		).json().result;
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {*} transaction
-	 * @returns {Record<string, any>}
-	 * @memberof MultiSignatureService
-	 */
-	#normalizeTransaction({ data, multiSignature }: any): Record<string, any> {
-		return {
-			...data,
-			multiSignature,
-		};
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {string} publicKey
-	 * @param {string} state
-	 * @returns {Promise<any[]>}
-	 * @memberof MultiSignatureService
-	 */
-	async #fetchAll(publicKey: string, state: string): Promise<any[]> {
-		return (
-			await this.#post("list", {
-				publicKey,
-				state,
-			})
-		).map((transaction) => this.#normalizeTransaction(transaction));
 	}
 
 	#assets(): object {
