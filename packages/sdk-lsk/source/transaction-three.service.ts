@@ -5,6 +5,7 @@ import { convertBuffer, convertBufferList, convertString, convertStringList } fr
 import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -210,8 +211,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#transformAsset({ signedTransaction, keys }): object {
-		// Transfer
-		if (signedTransaction.moduleID === 2 && signedTransaction.assetID === 0) {
+		if (isTransfer(signedTransaction)) {
 			return {
 				amount: signedTransaction.asset.amount.toString(),
 				recipientAddress: signedTransaction.asset.recipientAddress,
@@ -219,8 +219,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
-		// MuSig Registration
-		if (signedTransaction.moduleID === 4 && signedTransaction.assetID === 0) {
+		if (isMultiSignatureRegistration(signedTransaction)) {
 			return {
 				numberOfSignatures: signedTransaction.asset.numberOfSignatures,
 				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
@@ -228,15 +227,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
-		// Delegate Registration
-		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 0) {
+		if (isDelegateRegistration(signedTransaction)) {
 			return {
 				username: signedTransaction.asset.username,
 			};
 		}
 
-		// Vote
-		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 1) {
+		if (isVote(signedTransaction)) {
 			return signedTransaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
 				amount: amount.toString(),

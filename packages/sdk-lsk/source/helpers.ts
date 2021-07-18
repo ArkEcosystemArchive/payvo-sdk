@@ -33,3 +33,13 @@ export const calculateBalanceUnlockableInTheFuture = (unlocking = [], currentBlo
 			!isBlockHeightReached(vote.height.end, currentBlockHeight) ? sum + parseInt(vote.amount, 10) : sum,
 		0,
 	);
+
+
+
+export const isTransfer = ({ assetID, moduleID }): boolean => moduleID === 2 && assetID === 0;
+
+export const isMultiSignatureRegistration = ({ assetID, moduleID }): boolean => moduleID === 4 && assetID === 0;
+
+export const isDelegateRegistration = ({ assetID, moduleID }): boolean => moduleID === 5 && assetID === 0;
+
+export const isVote = ({ assetID, moduleID }): boolean => moduleID === 5 && assetID === 1;
