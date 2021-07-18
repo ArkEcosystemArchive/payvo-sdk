@@ -1,10 +1,10 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
+import { AssetSerializer } from "./asset.serializer";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -14,6 +14,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;
 
+	@IoC.inject(BindingType.AssetSerializer)
+	protected readonly assetSerializer!: AssetSerializer;
+
 	@IoC.inject(BindingType.TransactionSerializer)
 	protected readonly transactionSerializer!: TransactionSerializer;
 
@@ -21,9 +24,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData(
 			"token:transfer",
 			{
-				amount: BigInt(this.toSatoshi(input.data.amount).toString()),
-				recipientAddress: getAddressFromBase32Address(input.data.to),
-				data: input.data.memo || "",
+				amount: this.toSatoshi(input.data.amount).toString(),
+				recipientAddress: input.data.to,
+				data: input.data.memo,
 			},
 			input,
 		);
@@ -43,15 +46,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
-			delegateAddress: Buffer;
-			amount: BigInt;
+			delegateAddress: string;
+			amount: number;
 		}[] = [];
 
 		if (Array.isArray(input.data.votes)) {
 			for (const vote of input.data.votes) {
 				votes.push({
-					delegateAddress: getAddressFromBase32Address(vote.id),
-					amount: this.#normaliseVoteAmount(vote.amount),
+					delegateAddress: vote.id,
+					amount: vote.amount,
 				});
 			}
 		}
@@ -59,8 +62,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		if (Array.isArray(input.data.unvotes)) {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
-					delegateAddress: getAddressFromBase32Address(unvote.id),
-					amount: this.#normaliseVoteAmount(unvote.amount),
+					delegateAddress: unvote.id,
+					amount: unvote.amount,
 				});
 			}
 		}
@@ -75,8 +78,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			"keys:registerMultisignatureGroup",
 			{
 				numberOfSignatures: input.data.publicKeys.length,
-				mandatoryKeys: convertStringList(input.data.publicKeys.slice(0, input.data.min)),
-				optionalKeys: convertStringList(input.data.publicKeys.slice(input.data.min)),
+				mandatoryKeys: input.data.publicKeys.slice(0, input.data.min),
+				optionalKeys: input.data.publicKeys.slice(input.data.min),
 			},
 			input,
 		);
@@ -111,12 +114,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			});
 		}
 
+		const transactionObject = await this.#buildTransactionObject(input, type);
+
 		signedTransaction = signTransaction(
 			assetSchema,
 			{
-				...(await this.#buildTransactionObject(input, type)),
+				...transactionObject,
 				senderPublicKey: this.#senderPublicKey(input),
-				asset,
+				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 			},
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
@@ -153,11 +158,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 				: convertStringList(wallet?.multiSignature().optionalKeys),
 		};
 
+		const transactionObject = await this.#buildTransactionObject(input, type);
+
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
 			{
-				...(await this.#buildTransactionObject(input, type)),
-				asset,
+				...transactionObject,
+				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 				signatures: [],
 			},
 			this.#networkIdentifier(),
@@ -209,7 +216,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return convertString(input.signatory.publicKey());
 	}
 
-	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<object> {
+	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<Record<string, any>> {
 		let nonce: BigInt | undefined = undefined;
 
 		try {
@@ -231,17 +238,5 @@ export class TransactionService extends Services.AbstractTransactionService {
 			fee: BigInt(314000),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
-	}
-
-	#normaliseVoteAmount(value: number): BigInt {
-		if (typeof value === "number" && !isNaN(value)) {
-			if (Number.isInteger(value)) {
-				if (value % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 }

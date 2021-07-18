@@ -15,6 +15,7 @@ import { MultiSignatureService } from "./multi-signature.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
+import { AssetSerializer } from "./asset.serializer";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -29,8 +30,9 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+		container.singleton(BindingType.AssetSerializer, AssetSerializer);
+		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
 	musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
@@ -42,6 +44,7 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 });

@@ -1,4 +1,3 @@
-import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
@@ -7,7 +6,6 @@ import { BindingType } from "./coin.contract";
 
 import {
 	convertBuffer,
-	convertBufferList,
 	convertString,
 	convertStringList,
 	findNonEmptySignatureIndices,
@@ -17,7 +15,7 @@ import {
 } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { TransactionSerializer } from "./transaction.serializer";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
+import { AssetSerializer } from "./asset.serializer";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -35,6 +33,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
+
+	@IoC.inject(BindingType.AssetSerializer)
+	protected readonly assetSerializer!: AssetSerializer;
 
 	@IoC.inject(BindingType.TransactionSerializer)
 	protected readonly transactionSerializer!: TransactionSerializer;
@@ -163,7 +164,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				nonce: BigInt(`${transaction.nonce}`),
 				fee: BigInt(`${transaction.fee}`),
 				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.#createSignatureAsset(transaction),
+				asset: this.assetSerializer.toMachine(moduleID, assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
@@ -243,51 +244,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	#networkIdentifier(): Buffer {
 		return convertString(this.configRepository.get<string>("network.meta.networkId"));
-	}
-
-	#createSignatureAsset(transaction: Record<string, any>): object {
-		if (isTransfer(transaction)) {
-			return {
-				amount: BigInt(`${transaction.asset.amount}`),
-				recipientAddress: transaction.asset.recipientAddress,
-				data: transaction.asset.data,
-			};
-		}
-
-		if (isMultiSignatureRegistration(transaction)) {
-			return {
-				numberOfSignatures: transaction.asset.numberOfSignatures,
-				mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
-				optionalKeys: convertStringList(transaction.asset.optionalKeys),
-			};
-		}
-
-		if (isDelegateRegistration(transaction)) {
-			return {
-				username: transaction.asset.username,
-			};
-		}
-
-		if (isVote(transaction)) {
-			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getAddressFromBase32Address(delegateAddress),
-				amount: this.#normaliseVoteAmount(amount),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset signing.");
-	}
-
-	#normaliseVoteAmount(value: number): BigInt {
-		if (typeof value === "number" && !isNaN(value)) {
-			if (Number.isInteger(value)) {
-				if (value % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 
 	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {
