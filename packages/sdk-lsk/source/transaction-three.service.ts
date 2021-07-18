@@ -120,7 +120,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			assetSchema,
 			{
 				...transactionObject,
-				senderPublicKey: this.#senderPublicKey(input),
 				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 			},
 			this.#networkIdentifier(),
