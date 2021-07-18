@@ -61,4 +61,6 @@ export class SignedTransactionData
 	public override isMultiSignatureRegistration(): boolean {
 		return TransactionTypeService.isMultiSignatureRegistration(this.data);
 	}
+
+	// @TODO: implement uses musig
 }
