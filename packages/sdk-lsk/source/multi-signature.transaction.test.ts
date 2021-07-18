@@ -121,22 +121,12 @@ test("#isMultiSignatureRegistration", async () => {
 });
 
 test("#isMultiSignatureReady", async () => {
-	expect(
-		new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false }),
-	).toBeFalse();
-	expect(
-		new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false }),
-	).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
+	expect(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false })).toBeTrue();
 
-	expect(
-		new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false }),
-	).toBeFalse();
-	expect(
-		new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false }),
-	).toBeFalse();
-	expect(
-		new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: true }),
-	).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
+	expect(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
+	expect(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: true })).toBeTrue();
 });
 
 test("#needsSignatures", async () => {
@@ -160,9 +150,7 @@ test("#needsAllSignatures", async () => {
 describe("#needsWalletSignature", () => {
 	it("should return false if it is not a multi signature transaction", async () => {
 		expect(
-			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsWalletSignature(
-				wallet1,
-			),
+			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsWalletSignature(wallet1),
 		).toBeFalse();
 	});
 
@@ -207,9 +195,7 @@ test("#getValidMultiSignatures", async () => {
 		]
 	`);
 
-	expect(new PendingMultiSignatureTransaction(register1).getValidMultiSignatures()).toMatchInlineSnapshot(
-		`Array []`,
-	);
+	expect(new PendingMultiSignatureTransaction(register1).getValidMultiSignatures()).toMatchInlineSnapshot(`Array []`);
 	expect(new PendingMultiSignatureTransaction(register2).getValidMultiSignatures()).toMatchInlineSnapshot(`
 		Array [
 		  "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
