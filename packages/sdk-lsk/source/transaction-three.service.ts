@@ -264,7 +264,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			nonce,
 			// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
 			// https://testnet-service.lisk.io/api/v2/fees
-			fee: BigInt(207000),
+			fee: BigInt(314000),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
 	}
