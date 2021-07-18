@@ -59,12 +59,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		}
 
 		try {
-			const { id } = (
-				await this.#post("store", {
-					data: transaction,
-					multiSignature,
-				})
-			).json();
+			const { id } = await this.#post("store", {
+				data: transaction,
+				multiSignature,
+			});
 
 			return {
 				accepted: [id],
