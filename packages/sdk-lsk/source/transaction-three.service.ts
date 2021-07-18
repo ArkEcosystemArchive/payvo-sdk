@@ -201,21 +201,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
-    #transformAsset({ signedTransaction, keys }): object {
+	#transformAsset({ signedTransaction, keys }): object {
 		if (signedTransaction.moduleID === 2 && signedTransaction.assetID === 0) {
 			return {
 				amount: signedTransaction.asset.amount.toString(),
 				recipientAddress: signedTransaction.asset.recipientAddress,
 				data: signedTransaction.asset.data,
-		  };
+			};
 		}
 
 		if (signedTransaction.moduleID === 4 && signedTransaction.assetID === 0) {
-            return {
-                numberOfSignatures: signedTransaction.asset.numberOfSignatures,
-                mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-                optionalKeys: convertBufferList(keys.optionalKeys),
-            };
+			return {
+				numberOfSignatures: signedTransaction.asset.numberOfSignatures,
+				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+				optionalKeys: convertBufferList(keys.optionalKeys),
+			};
 		}
 
 		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 0) {
@@ -232,7 +232,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		throw new Error("Failed to determine transaction type for asset normalization.");
-    }
+	}
 
 	#assets(): object {
 		return this.configRepository.get<object>("network.meta.assets");
