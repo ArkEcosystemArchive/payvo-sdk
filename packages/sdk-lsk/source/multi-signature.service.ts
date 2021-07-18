@@ -52,17 +52,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	public override async broadcast(
 		transaction: Services.MultiSignatureTransaction,
 	): Promise<Services.BroadcastResponse> {
-		let multisigAsset = transaction.multiSignature;
+		let multiSignature = transaction.multiSignature;
 
 		if (transaction.asset && transaction.asset.multiSignature) {
-			multisigAsset = transaction.asset.multiSignature;
+			multiSignature = transaction.asset.multiSignature;
 		}
 
 		try {
 			const { id } = (
 				await this.#post("store", {
 					data: transaction,
-					multisigAsset,
+					multiSignature,
 				})
 			).json();
 
