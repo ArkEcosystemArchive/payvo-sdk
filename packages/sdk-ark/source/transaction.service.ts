@@ -126,8 +126,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			transaction.multiSignatureAsset({
-				publicKeys: data.mandatoryKeys,
-				min: data.numberOfSignatures,
+				publicKeys: data.publicKeys,
+				min: data.min,
 			});
 		});
 	}

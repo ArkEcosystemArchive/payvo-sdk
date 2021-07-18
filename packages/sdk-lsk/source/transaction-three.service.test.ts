@@ -201,9 +201,8 @@ describe("TransactionService", () => {
 					}),
 				),
 				data: {
-					numberOfSignatures: 2,
-					mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-					optionalKeys: [],
+					min: 2,
+					publicKeys: [wallet1.publicKey, wallet2.publicKey],
 				},
 			});
 

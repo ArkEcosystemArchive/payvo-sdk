@@ -69,9 +69,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData(
 			"keys:registerMultisignatureGroup",
 			{
-				numberOfSignatures: input.data.numberOfSignatures,
-				mandatoryKeys: convertStringList(input.data.mandatoryKeys),
-				optionalKeys: convertStringList(input.data.optionalKeys),
+				numberOfSignatures: input.data.publicKeys.length,
+				mandatoryKeys: convertStringList(input.data.publicKeys.slice(0, input.data.min)),
+				optionalKeys: convertStringList(input.data.publicKeys.slice(input.data.min)),
 			},
 			input,
 		);
