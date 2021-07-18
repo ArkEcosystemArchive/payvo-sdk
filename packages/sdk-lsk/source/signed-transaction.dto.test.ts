@@ -64,7 +64,7 @@ describe("SignedTransactionData", () => {
 	});
 
 	test("#isTransfer", () => {
-		expect(subject.isTransfer()).toBeFalse();
+		expect(subject.isTransfer()).toBeTrue();
 	});
 
 	test("#isSecondSignature", () => {
