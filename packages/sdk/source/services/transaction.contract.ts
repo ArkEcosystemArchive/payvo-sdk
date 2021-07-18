@@ -57,7 +57,6 @@ export interface VoteInput extends TransactionInput {
 export interface MultiSignatureInput extends TransactionInput {
 	data: {
 		lifetime?: number;
-		numberOfSignatures?: number;
 		min: number;
 		publicKeys: string[];
 		senderPublicKey?: string;
