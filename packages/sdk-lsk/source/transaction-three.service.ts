@@ -117,7 +117,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
-		// @TODO: add this based on the type of transaction that is being signed
 		return this.#transform(assetSchema, signedTransaction, {
 			senderId: convertBuffer(signedTransaction.senderPublicKey),
 			recipientId: signedTransaction.asset.recipientAddress,
