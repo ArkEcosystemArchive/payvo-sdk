@@ -196,11 +196,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			convertBuffer(transactionWithSignature.id),
 			{
 				...transactionWithSignature,
-				multiSignature: isMultiSignatureRegistration(transaction) ? {
-					numberOfSignatures: transaction.asset.numberOfSignatures,
-					mandatoryKeys,
-					optionalKeys,
-				} : wallet.multiSignature(),
+				multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
 			},
 			this.transactionSerializer.toHuman(transactionWithSignature),
 		);
@@ -240,5 +236,20 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				"1000:0": "legacyAccount:reclaimLSK",
 			}[joinModuleAndAssetIds(transaction)]!
 		];
+	}
+
+	#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
+		if (isMultiSignatureRegistration(transaction)) {
+			return {
+				numberOfSignatures: transaction.asset.numberOfSignatures,
+				mandatoryKeys,
+				optionalKeys,
+			};
+		}
+
+		const result = wallet.multiSignature();
+		delete result.members;
+
+		return result;
 	}
 }
