@@ -118,7 +118,7 @@ describe("2.0", () => {
 				type: 3,
 				asset: {
 					votes: ["+a", "-a"],
-				}
+				},
 			},
 			transaction,
 		);
@@ -136,7 +136,7 @@ describe("2.0", () => {
 				type: 3,
 				asset: {
 					votes: ["+a"],
-				}
+				},
 			},
 			transaction,
 		);
@@ -154,7 +154,7 @@ describe("2.0", () => {
 				type: 3,
 				asset: {
 					votes: ["-a"],
-				}
+				},
 			},
 			transaction,
 		);
@@ -256,7 +256,7 @@ describe("3.0", () => {
 				assetID: 0,
 				asset: {
 					username: "a",
-				}
+				},
 			},
 			transaction,
 		);
