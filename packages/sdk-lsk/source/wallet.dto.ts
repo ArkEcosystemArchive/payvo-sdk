@@ -46,7 +46,11 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override nonce(): BigNumber {
-		return BigNumber.make(this.data.sequence.nonce);
+		if (this.data.sequence?.nonce) {
+			return BigNumber.make(this.data.sequence.nonce);
+		}
+
+		return BigNumber.ZERO;
 	}
 
 	public override secondPublicKey(): string | undefined {
