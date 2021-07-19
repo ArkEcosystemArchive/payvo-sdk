@@ -44,7 +44,13 @@ export class AssetSerializer {
 	}
 
 	#normaliseVoteAmount(value: number): BigInt {
-		const human: number = this.bigNumberService.make(value).denominated().toNumber();
+		let human: number = this.bigNumberService.make(value).denominated().toNumber();
+
+		// It is possible that we are already handling a human-readable value.
+		// In such cases we will revert back to the original value.
+		if (human.toString().includes("e-")) {
+			human = value;
+		}
 
 		if (typeof human === "number" && !isNaN(human)) {
 			if (Number.isInteger(human)) {
