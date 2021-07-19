@@ -108,10 +108,10 @@ export class SignedTransactionData
 	}
 
 	public override usesMultiSignature(): boolean {
-		if (Array.isArray(this.signedData.signatures)) {
-			return true;
+		if (this.signedData.moduleID) {
+			return Array.isArray(this.signedData.signatures);
 		}
 
-		return !!this.signedData.multiSignature;
+		return typeof this.signedData.multiSignature === "object";
 	}
 }

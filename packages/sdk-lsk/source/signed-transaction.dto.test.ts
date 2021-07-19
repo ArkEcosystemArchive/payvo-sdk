@@ -176,6 +176,30 @@ describe("2.0", () => {
 
 		expect(subject.isMultiSignatureRegistration()).toBeTrue();
 	});
+
+	test("#usesMultiSignature", () => {
+		subject = createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				multiSignature: {},
+			},
+			transaction,
+		);
+
+		expect(subject.usesMultiSignature()).toBeTrue();
+
+		subject = createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				multiSignature: undefined,
+			},
+			transaction,
+		);
+
+		expect(subject.usesMultiSignature()).toBeFalse();
+	});
 });
 
 describe("3.0", () => {
@@ -335,5 +359,20 @@ describe("3.0", () => {
 		);
 
 		expect(subject.isMultiSignatureRegistration()).toBeTrue();
+	});
+
+	test("#usesMultiSignature", () => {
+		expect(subject.usesMultiSignature()).toBeTrue();
+
+		subject = createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				signatures: undefined,
+			},
+			transaction,
+		);
+
+		expect(subject.usesMultiSignature()).toBeFalse();
 	});
 });
