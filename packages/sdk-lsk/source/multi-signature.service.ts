@@ -195,7 +195,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
 			{
-				...transactionWithSignature,
+				...this.transactionSerializer.toHuman(transactionWithSignature),
 				multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
 			},
 			this.transactionSerializer.toHuman(transactionWithSignature),
