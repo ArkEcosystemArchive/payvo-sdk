@@ -1,5 +1,5 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { BigNumber } from "@payvo/helpers";
+import { BigNumber, NumberLike } from "@payvo/helpers";
 
 @IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
@@ -32,7 +32,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override balance(): Contracts.WalletBalance {
-		let balance = undefined;
+		let balance: NumberLike = NaN;
 
 		if (this.data.balance) {
 			balance = this.data.balance;
