@@ -118,7 +118,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isMultiSignature(): boolean {
-		return this.data.summary.isMultisignature;
+		return !!this.data.summary?.isMultisignature;
 	}
 
 	public override isSecondSignature(): boolean {
