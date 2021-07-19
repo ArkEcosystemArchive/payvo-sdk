@@ -1,12 +1,11 @@
-import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
-import { getBytes, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
+import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
+import { BindingType } from "./coin.contract";
 
 import {
 	convertBuffer,
-	convertBufferList,
 	convertString,
 	convertStringList,
 	findNonEmptySignatureIndices,
@@ -15,6 +14,9 @@ import {
 	joinModuleAndAssetIds,
 } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { TransactionSerializer } from "./transaction.serializer";
+import { AssetSerializer } from "./asset.serializer";
+import { isMultiSignatureRegistration } from "./helpers";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -33,19 +35,31 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
 
+	@IoC.inject(BindingType.AssetSerializer)
+	protected readonly assetSerializer!: AssetSerializer;
+
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly transactionSerializer!: TransactionSerializer;
+
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return this.#fetchAll(publicKey, "pending");
+		return (await this.#post("list", {
+			publicKey,
+			state: "pending",
+		})) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */
 	public override async allWithReadyState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
-		return this.#fetchAll(publicKey, "ready");
+		return (await this.#post("list", {
+			publicKey,
+			state: "ready",
+		})) as Services.MultiSignatureTransaction[];
 	}
 
 	/** @inheritdoc */
 	public override async findById(id: string): Promise<Services.MultiSignatureTransaction> {
-		return this.#normalizeTransaction(await this.#post("show", { id }));
+		return this.#post("show", { id });
 	}
 
 	/** @inheritdoc */
@@ -54,8 +68,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Services.BroadcastResponse> {
 		let multiSignature = transaction.multiSignature;
 
-		if (transaction.asset && transaction.asset.multiSignature) {
-			multiSignature = transaction.asset.multiSignature;
+		if (transaction.asset && transaction.asset.mandatoryKeys) {
+			multiSignature = transaction.asset;
 		}
 
 		try {
@@ -127,13 +141,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
-		const isMultiSignatureRegistration = transaction.moduleID === 4;
-
 		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
 
-		if (isMultiSignatureRegistration) {
+		if (isMultiSignatureRegistration(transaction)) {
 			wallet = await this.clientService.wallet(signatory.address());
 		} else {
 			wallet = (
@@ -146,7 +158,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		const { mandatoryKeys, optionalKeys } = getKeys({
 			senderWallet: wallet,
 			transaction: transaction,
-			isMultiSignatureRegistration,
+			isMultiSignatureRegistration: isMultiSignatureRegistration(transaction),
 		});
 
 		const transactionWithSignature: any = signMultiSignatureTransaction(
@@ -157,7 +169,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				nonce: BigInt(`${transaction.nonce}`),
 				fee: BigInt(`${transaction.fee}`),
 				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.#createSignatureAsset(transaction),
+				asset: this.assetSerializer.toMachine(moduleID, assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
@@ -166,7 +178,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				mandatoryKeys: convertStringList(mandatoryKeys),
 				optionalKeys: convertStringList(optionalKeys),
 			},
-			isMultiSignatureRegistration,
+			isMultiSignatureRegistration(transaction),
 		);
 
 		if (isTransactionFullySigned(wallet, transaction)) {
@@ -177,16 +189,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			}
 		}
 
-		return this.#transform(assetSchema, transactionWithSignature, {
-			moduleID: transactionWithSignature.moduleID,
-			assetID: transactionWithSignature.assetID,
-			senderPublicKey: convertBuffer(transactionWithSignature.senderPublicKey),
-			nonce: transactionWithSignature.nonce.toString(),
-			fee: transactionWithSignature.fee.toString(),
-			signatures: convertBufferList(transactionWithSignature.signatures),
-			asset: this.#createNormalizedAsset(transactionWithSignature),
-			id: convertBuffer(transactionWithSignature.id),
-		});
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(transactionWithSignature.id),
+			transactionWithSignature,
+			this.transactionSerializer.toHuman(transactionWithSignature),
+		);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
@@ -203,39 +210,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		).json().result;
 	}
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {*} transaction
-	 * @returns {Record<string, any>}
-	 * @memberof MultiSignatureService
-	 */
-	#normalizeTransaction({ data, multiSignature }: any): Record<string, any> {
-		return {
-			...data,
-			multiSignature,
-		};
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {string} publicKey
-	 * @param {string} state
-	 * @returns {Promise<any[]>}
-	 * @memberof MultiSignatureService
-	 */
-	async #fetchAll(publicKey: string, state: string): Promise<any[]> {
-		return (
-			await this.#post("list", {
-				publicKey,
-				state,
-			})
-		).map((transaction) => this.#normalizeTransaction(transaction));
-	}
-
 	#assets(): object {
 		return this.configRepository.get<object>("network.meta.assets");
 	}
@@ -244,101 +218,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return convertString(this.configRepository.get<string>("network.meta.networkId"));
 	}
 
-	#transform(schema, data, transaction): Contracts.SignedTransactionData {
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(data.id),
-			transaction,
-			getBytes(schema, data).toString("hex"),
-		);
-	}
-
-	#createSignatureAsset(transaction: Record<string, any>): object {
-		if (transaction.moduleID === 2 && transaction.assetID === 0) {
-			return {
-				amount: BigInt(`${transaction.asset.amount}`),
-				recipientAddress: transaction.asset.recipientAddress,
-				data: transaction.asset.data,
-			};
-		}
-
-		if (transaction.moduleID === 4 && transaction.assetID === 0) {
-			return {
-				numberOfSignatures: transaction.asset.numberOfSignatures,
-				mandatoryKeys: convertStringList(transaction.asset.mandatoryKeys),
-				optionalKeys: convertStringList(transaction.asset.optionalKeys),
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 0) {
-			return {
-				username: transaction.asset.username,
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 1) {
-			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getAddressFromBase32Address(delegateAddress),
-				amount: this.#normaliseVoteAmount(amount),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset signing.");
-	}
-
-	#createNormalizedAsset(transaction: Record<string, any>): object {
-		if (transaction.moduleID === 2 && transaction.assetID === 0) {
-			return {
-				amount: transaction.asset.amount.toString(),
-				recipientAddress: transaction.asset.recipientAddress,
-				data: transaction.asset.data,
-			};
-		}
-
-		if (transaction.moduleID === 4 && transaction.assetID === 0) {
-			return {
-				numberOfSignatures: transaction.asset.numberOfSignatures,
-				mandatoryKeys: convertBufferList(transaction.asset.mandatoryKeys),
-				optionalKeys: convertBufferList(transaction.asset.optionalKeys),
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 0) {
-			return {
-				username: transaction.asset.username,
-			};
-		}
-
-		if (transaction.moduleID === 5 && transaction.assetID === 1) {
-			return transaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
-				amount: amount.toString(),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset normalization.");
-	}
-
-	#normaliseVoteAmount(value: number): BigInt {
-		if (typeof value === "number" && !isNaN(value)) {
-			if (Number.isInteger(value)) {
-				if (value % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${value}] is not a multiple of 10.`);
-	}
-
 	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {
-		return this.#assets()[{
-			"2:0": "token:transfer",
-			"4:0": "keys:registerMultisignatureGroup",
-			"5:0": "dpos:registerDelegate",
-			"5:1": "dpos:voteDelegate",
-			"5:2": "dpos:unlockToken",
-			"5:3": "dpos:reportDelegateMisbehavior",
-			"1000:0": "legacyAccount:reclaimLSK",
-		}[joinModuleAndAssetIds(transaction)]!];
+		return this.#assets()[
+			{
+				"2:0": "token:transfer",
+				"4:0": "keys:registerMultisignatureGroup",
+				"5:0": "dpos:registerDelegate",
+				"5:1": "dpos:voteDelegate",
+				"5:2": "dpos:unlockToken",
+				"5:3": "dpos:reportDelegateMisbehavior",
+				"1000:0": "legacyAccount:reclaimLSK",
+			}[joinModuleAndAssetIds(transaction)]!
+		];
 	}
 }

@@ -22,7 +22,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "archival",
-			host: "https://testnet-service.lisktools.eu",
+			host: "https://testnet-service.lisktools.eu/api/v2",
 		},
 		{
 			type: "musig",

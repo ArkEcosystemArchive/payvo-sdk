@@ -1,8 +1,10 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
-import { getBytes, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
+import { signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./multi-signature.domain";
 import { DateTime } from "@payvo/intl";
+import { TransactionSerializer } from "./transaction.serializer";
+import { BindingType } from "./coin.contract";
+import { AssetSerializer } from "./asset.serializer";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -12,13 +14,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;
 
+	@IoC.inject(BindingType.AssetSerializer)
+	protected readonly assetSerializer!: AssetSerializer;
+
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly transactionSerializer!: TransactionSerializer;
+
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
 			"token:transfer",
 			{
-				amount: BigInt(this.toSatoshi(input.data.amount).toString()),
-				recipientAddress: getAddressFromBase32Address(input.data.to),
-				data: input.data.memo || "",
+				amount: this.toSatoshi(input.data.amount).toString(),
+				recipientAddress: input.data.to,
+				data: input.data.memo,
 			},
 			input,
 		);
@@ -38,15 +46,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
-			delegateAddress: Buffer;
-			amount: BigInt;
+			delegateAddress: string;
+			amount: number;
 		}[] = [];
 
 		if (Array.isArray(input.data.votes)) {
 			for (const vote of input.data.votes) {
 				votes.push({
-					delegateAddress: getAddressFromBase32Address(vote.id),
-					amount: this.#normaliseVoteAmount(vote.amount),
+					delegateAddress: vote.id,
+					amount: vote.amount,
 				});
 			}
 		}
@@ -54,8 +62,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		if (Array.isArray(input.data.unvotes)) {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
-					delegateAddress: getAddressFromBase32Address(unvote.id),
-					amount: this.#normaliseVoteAmount(unvote.amount),
+					delegateAddress: unvote.id,
+					amount: unvote.amount,
 				});
 			}
 		}
@@ -70,8 +78,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			"keys:registerMultisignatureGroup",
 			{
 				numberOfSignatures: input.data.publicKeys.length,
-				mandatoryKeys: convertStringList(input.data.publicKeys.slice(0, input.data.min)),
-				optionalKeys: convertStringList(input.data.publicKeys.slice(input.data.min)),
+				mandatoryKeys: input.data.publicKeys.slice(0, input.data.min),
+				optionalKeys: input.data.publicKeys.slice(input.data.min),
 			},
 			input,
 		);
@@ -83,15 +91,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		input: Services.TransactionInput,
 	): Promise<Contracts.SignedTransactionData> {
 		let signedTransaction: any;
-		let nonce: BigInt | undefined = undefined;
 		let wallet: Contracts.WalletData | undefined;
 
 		try {
 			wallet = await this.clientService.wallet(input.signatory.address());
-
-			nonce = BigInt(wallet.nonce().toString());
 		} catch {
-			nonce = BigInt(0);
+			//
 		}
 
 		const { assetSchema, moduleAssetId } = this.configRepository.get<object>("network.meta.assets")[type];
@@ -99,15 +104,23 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const isMultiSignatureRegistration = moduleAssetId === "4:0";
 
 		if (wallet?.isMultiSignature() || isMultiSignatureRegistration) {
-			return this.#handleMultiSignature({ asset, assetSchema, isMultiSignatureRegistration, input, type, wallet });
+			return this.#handleMultiSignature({
+				asset,
+				assetSchema,
+				isMultiSignatureRegistration,
+				input,
+				type,
+				wallet,
+			});
 		}
+
+		const transactionObject = await this.#buildTransactionObject(input, type);
 
 		signedTransaction = signTransaction(
 			assetSchema,
 			{
-				...(await this.#buildTransactionObject(input, type)),
-				senderPublicKey: this.#senderPublicKey(input),
-				asset,
+				...transactionObject,
+				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 			},
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
@@ -117,14 +130,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
-		return this.#transform(assetSchema, signedTransaction, {
-			senderId: convertBuffer(signedTransaction.senderPublicKey),
-			recipientId: signedTransaction.asset.recipientAddress,
-			amount: signedTransaction.asset.amount,
-			fee: signedTransaction.fee,
-			timestamp: DateTime.make(),
-			...signedTransaction,
-		});
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(signedTransaction.id),
+			{
+				...signedTransaction,
+				timestamp: DateTime.make(),
+			},
+			this.transactionSerializer.toHuman(signedTransaction),
+		);
 	}
 
 	async #handleMultiSignature({
@@ -144,17 +157,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 				: convertStringList(wallet?.multiSignature().optionalKeys),
 		};
 
+		const transactionObject = await this.#buildTransactionObject(input, type);
+
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
 			{
-				...(await this.#buildTransactionObject(input, type)),
-				asset: isMultiSignatureRegistration
-					? {
-							numberOfSignatures: asset.numberOfSignatures,
-							optionalKeys: asset.optionalKeys,
-							mandatoryKeys: asset.mandatoryKeys,
-					  }
-					: asset,
+				...transactionObject,
+				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 				signatures: [],
 			},
 			this.#networkIdentifier(),
@@ -163,14 +172,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 			isMultiSignatureRegistration,
 		);
 
-		const transactionKeys = {
-			mandatoryKeys: convertBufferList(keys.mandatoryKeys ?? []),
-			optionalKeys: convertBufferList(keys.optionalKeys ?? []),
-		};
-
-		const needsDoubleSign = [...transactionKeys.mandatoryKeys, ...transactionKeys.optionalKeys].includes(
-			input.signatory.publicKey(),
-		);
+		const needsDoubleSign = [
+			...convertBufferList(keys.mandatoryKeys ?? []),
+			...convertBufferList(keys.optionalKeys ?? []),
+		].includes(input.signatory.publicKey());
 
 		if (isMultiSignatureRegistration && needsDoubleSign) {
 			signedTransaction = signMultiSignatureTransaction(
@@ -187,49 +192,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return this.#transform(assetSchema, signedTransaction, {
-			moduleID: signedTransaction.moduleID,
-			assetID: signedTransaction.assetID,
-			senderPublicKey: convertBuffer(signedTransaction.senderPublicKey),
-			nonce: signedTransaction.nonce.toString(),
-			fee: signedTransaction.fee.toString(),
-			signatures: convertBufferList(signedTransaction.signatures),
-			asset: this.#transformAsset({ signedTransaction, keys }),
-			id: convertBuffer(signedTransaction.id),
-		});
-	}
-
-	#transformAsset({ signedTransaction, keys }): object {
-		if (signedTransaction.moduleID === 2 && signedTransaction.assetID === 0) {
-			return {
-				amount: signedTransaction.asset.amount.toString(),
-				recipientAddress: signedTransaction.asset.recipientAddress,
-				data: signedTransaction.asset.data,
-			};
-		}
-
-		if (signedTransaction.moduleID === 4 && signedTransaction.assetID === 0) {
-			return {
-				numberOfSignatures: signedTransaction.asset.numberOfSignatures,
-				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-				optionalKeys: convertBufferList(keys.optionalKeys),
-			};
-		}
-
-		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 0) {
-			return {
-				username: signedTransaction.asset.username,
-			};
-		}
-
-		if (signedTransaction.moduleID === 5 && signedTransaction.assetID === 1) {
-			return signedTransaction.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
-				amount: amount.toString(),
-			}));
-		}
-
-		throw new Error("Failed to determine transaction type for asset normalization.");
+		return this.dataTransferObjectService.signedTransaction(
+			convertBuffer(signedTransaction.id),
+			signedTransaction,
+			this.transactionSerializer.toHuman(signedTransaction, keys),
+		);
 	}
 
 	#assets(): object {
@@ -244,7 +211,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return convertString(input.signatory.publicKey());
 	}
 
-	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<object> {
+	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<Record<string, any>> {
 		let nonce: BigInt | undefined = undefined;
 
 		try {
@@ -266,25 +233,5 @@ export class TransactionService extends Services.AbstractTransactionService {
 			fee: BigInt(314000),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
-	}
-
-	#transform(schema, data, transaction): Contracts.SignedTransactionData {
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(data.id),
-			transaction,
-			getBytes(schema, data).toString("hex"),
-		);
-	}
-
-	#normaliseVoteAmount(value: number): BigInt {
-		if (typeof value === "number" && !isNaN(value)) {
-			if (Number.isInteger(value)) {
-				if (value % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 }

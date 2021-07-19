@@ -1,6 +1,6 @@
-import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { joinModuleAndAssetIds } from "./multi-signature.domain";
+import { TransactionSerializer } from "./transaction.serializer";
+import { BindingType } from "./coin.contract";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -9,9 +9,12 @@ export class ClientService extends Services.AbstractClientService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;
 
+	@IoC.inject(BindingType.TransactionSerializer)
+	protected readonly broadcastSerializer!: TransactionSerializer;
+
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
-		this.#peer = `${Helpers.randomHostFromConfig(this.configRepository, "archival")}/api/v2`;
+		this.#peer = Helpers.randomHostFromConfig(this.configRepository, "archival");
 	}
 
 	public override async transaction(
@@ -89,18 +92,8 @@ export class ClientService extends Services.AbstractClientService {
 		};
 
 		for (const transaction of transactions) {
-			const { assetSchema } = this.configRepository.get<object>("network.meta.assets")[{
-				"2:0": "token:transfer",
-				"4:0": "keys:registerMultisignatureGroup",
-				"5:0": "dpos:registerDelegate",
-				"5:1": "dpos:voteDelegate",
-				"5:2": "dpos:unlockToken",
-				"5:3": "dpos:reportDelegateMisbehavior",
-				"1000:0": "legacyAccount:reclaimLSK",
-			}[joinModuleAndAssetIds(transaction.data())]!];
-
 			const { transactionId, message } = await this.#post("transactions", {
-				transaction: getBytes(assetSchema, transaction.toBroadcast()).toString("hex"),
+				transaction: this.broadcastSerializer.toString(transaction.toBroadcast()),
 			});
 
 			if (transactionId) {
@@ -120,19 +113,11 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		// console.log(`${this.#peer}/${path}`, query);
-
-		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
-
-		// console.log(response.body());
-
-		return response.json();
+		return (await this.httpClient.get(`${this.#peer}/${path}`, query)).json();
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.post(`${this.#peer}/${path}`, body);
-
-		return response.json();
+		return (await this.httpClient.post(`${this.#peer}/${path}`, body)).json();
 	}
 
 	#createSearchParams(searchParams: Services.ClientTransactionsInput): object {

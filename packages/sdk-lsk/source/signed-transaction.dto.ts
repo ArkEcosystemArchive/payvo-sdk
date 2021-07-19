@@ -35,30 +35,38 @@ export class SignedTransactionData
 	}
 
 	public override isTransfer(): boolean {
-		return TransactionTypeService.isTransfer(this.data);
+		return TransactionTypeService.isTransfer(this.signedData);
 	}
 
 	public override isSecondSignature(): boolean {
-		return TransactionTypeService.isSecondSignature(this.data);
+		return TransactionTypeService.isSecondSignature(this.signedData);
 	}
 
 	public override isDelegateRegistration(): boolean {
-		return TransactionTypeService.isDelegateRegistration(this.data);
+		return TransactionTypeService.isDelegateRegistration(this.signedData);
 	}
 
 	public override isVoteCombination(): boolean {
-		return TransactionTypeService.isVoteCombination(this.data);
+		return TransactionTypeService.isVoteCombination(this.signedData);
 	}
 
 	public override isVote(): boolean {
-		return TransactionTypeService.isVote(this.data);
+		return TransactionTypeService.isVote(this.signedData);
 	}
 
 	public override isUnvote(): boolean {
-		return TransactionTypeService.isUnvote(this.data);
+		return TransactionTypeService.isUnvote(this.signedData);
 	}
 
 	public override isMultiSignatureRegistration(): boolean {
-		return TransactionTypeService.isMultiSignatureRegistration(this.data);
+		return TransactionTypeService.isMultiSignatureRegistration(this.signedData);
+	}
+
+	public override usesMultiSignature(): boolean {
+		if (Array.isArray(this.signedData.signatures)) {
+			return true;
+		}
+
+		return !!this.signedData.multiSignature;
 	}
 }

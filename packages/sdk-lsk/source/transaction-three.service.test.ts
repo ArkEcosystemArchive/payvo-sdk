@@ -13,6 +13,9 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction-three.service";
 import { MultiSignatureService } from "./multi-signature.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
+import { TransactionSerializer } from "./transaction.serializer";
+import { BindingType } from "./coin.contract";
+import { AssetSerializer } from "./asset.serializer";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -28,6 +31,8 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+		container.singleton(BindingType.AssetSerializer, AssetSerializer);
+		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
 	musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
@@ -39,6 +44,8 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(BindingType.AssetSerializer, AssetSerializer);
+		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 });
 
@@ -61,6 +68,24 @@ describe("TransactionService", () => {
 			});
 
 			expect(result).toBeInstanceOf(SignedTransactionData);
+			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			Object {
+			  "asset": Object {
+			    "amount": "100000000",
+			    "data": "",
+			    "recipientAddress": "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+			  },
+			  "assetID": 0,
+			  "fee": "314000",
+			  "id": "e2f2bcbcbc7d7d192f6d3300247bd87a72f696d854b89c46182d5f782a92c03d",
+			  "moduleID": 2,
+			  "nonce": "0",
+			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+			  "signatures": Array [
+			    "da11bab7ee2de8263020b350bc8d4d7d66ce95986d54fb1da039c8a37b8d1c623f35d4265c8583677ea9bdd4c1a3ba5af9d0f3ce72da4ad771990a19c7206908",
+			  ],
+			}
+		`);
 		});
 
 		it.skip("should sign with a multi-signature", async () => {
@@ -124,6 +149,22 @@ describe("TransactionService", () => {
 			});
 
 			expect(result).toBeInstanceOf(SignedTransactionData);
+			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			Object {
+			  "asset": Object {
+			    "username": "johndoe",
+			  },
+			  "assetID": 0,
+			  "fee": "314000",
+			  "id": "f00d7e1cc8981d171a5b761b290954548551bfeb76ed19c7f43e73b662ce8cff",
+			  "moduleID": 5,
+			  "nonce": "0",
+			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+			  "signatures": Array [
+			    "4e9aef82fc355a3cfbbcfce2e74e92038e0a1e5ec129ffae7e74f41c53119c6bcc21d7c4dc9ac0a87477f39bda6ae38d4b80d4602beb94c6c56686ed7705010f",
+			  ],
+			}
+		`);
 		});
 	});
 
@@ -150,6 +191,27 @@ describe("TransactionService", () => {
 			});
 
 			expect(result).toBeInstanceOf(SignedTransactionData);
+			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			Object {
+			  "asset": Object {
+			    "votes": Array [
+			      Object {
+			        "amount": "1000000000",
+			        "delegateAddress": "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+			      },
+			    ],
+			  },
+			  "assetID": 1,
+			  "fee": "314000",
+			  "id": "3edaddccbbf4731d161c466df5ea48af336d7ff70a3e7153e90fdf8f72bb788a",
+			  "moduleID": 5,
+			  "nonce": "0",
+			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+			  "signatures": Array [
+			    "c092a7d5a9297e8d33fc327e9fd1130edf2c8aebc20a2994f648a32ecdc1ecaa28b87f278abebad7b34c51030e2e217725456b321ae4b358de99b4dbf65fe80d",
+			  ],
+			}
+		`);
 		});
 
 		it("should fail to vote with a number that is not a multiple of 10", async () => {
