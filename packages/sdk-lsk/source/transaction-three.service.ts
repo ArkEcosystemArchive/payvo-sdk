@@ -133,7 +133,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{
-				...signedTransaction,
+				...this.transactionSerializer.toHuman(signedTransaction),
 				timestamp: DateTime.make(),
 			},
 			this.transactionSerializer.toHuman(signedTransaction),
@@ -196,10 +196,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
+
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{
-				...signedTransaction,
+				...this.transactionSerializer.toHuman(signedTransaction, keys),
 				multiSignature: this.#multiSignatureAsset({
 					isMultiSignatureRegistration,
 					numberOfSignatures,
