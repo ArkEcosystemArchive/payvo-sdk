@@ -33,8 +33,8 @@ export class TransactionSerializer {
 
 		if (isMultiSignatureRegistration(mutated)) {
 			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
-			mutated.asset.mandatoryKeys = convertBufferList(mutated.asset.mandatoryKeys);
-			mutated.asset.optionalKeys = convertBufferList(mutated.asset.optionalKeys);
+			mutated.asset.mandatoryKeys = convertStringList(mutated.asset.mandatoryKeys);
+			mutated.asset.optionalKeys = convertStringList(mutated.asset.optionalKeys);
 		}
 
 		if (isDelegateRegistration(mutated)) {
@@ -44,7 +44,7 @@ export class TransactionSerializer {
 		if (isVote(mutated)) {
 			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
-				amount: amount.toString(),
+				amount: BigInt(amount.toString()),
 			}));
 		}
 
@@ -70,7 +70,7 @@ export class TransactionSerializer {
 
 		if (isTransfer(mutated)) {
 			mutated.asset.amount = mutated.asset.amount.toString();
-			mutated.asset.recipientAddress = getLisk32AddressFromAddress(mutated.asset.recipientAddress);
+			mutated.asset.recipientAddress = this.#convertAddress(mutated.asset.recipientAddress);
 			mutated.asset.data = convertBuffer(mutated.asset.data ?? "");
 		}
 
@@ -86,7 +86,7 @@ export class TransactionSerializer {
 
 		if (isVote(mutated)) {
 			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
-				delegateAddress: getLisk32AddressFromAddress(delegateAddress),
+				delegateAddress: this.#convertAddress(delegateAddress),
 				amount: amount.toString(),
 			}));
 		}
@@ -111,7 +111,15 @@ export class TransactionSerializer {
 
 		return getBytes(
 			this.configRepository.get<object>("network.meta.assets")[assetKey].assetSchema,
-			this.toMachine(transaction),
+			this.toMachine(this.toHuman(transaction)),
 		).toString("hex");
+	}
+
+	#convertAddress(address: string | Buffer): string {
+		if (Buffer.isBuffer(address)) {
+			return getLisk32AddressFromAddress(address);
+		}
+
+		return getLisk32AddressFromAddress(getAddressFromBase32Address(address));
 	}
 }
