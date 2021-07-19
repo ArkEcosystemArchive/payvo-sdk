@@ -148,13 +148,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 		type,
 		wallet,
 	}): Promise<Contracts.SignedTransactionData> {
+		const numberOfSignatures: number = isMultiSignatureRegistration
+			? asset.numberOfSignatures
+			: wallet?.multiSignature().numberOfSignatures;
+
 		const keys = {
-			mandatoryKeys: isMultiSignatureRegistration
-				? asset.mandatoryKeys
-				: convertStringList(wallet?.multiSignature().mandatoryKeys),
-			optionalKeys: isMultiSignatureRegistration
-				? asset.optionalKeys
-				: convertStringList(wallet?.multiSignature().optionalKeys),
+			mandatoryKeys: convertStringList(
+				isMultiSignatureRegistration ? asset.mandatoryKeys : wallet?.multiSignature().mandatoryKeys,
+			),
+			optionalKeys: convertStringList(
+				isMultiSignatureRegistration ? asset.optionalKeys : wallet?.multiSignature().optionalKeys,
+			),
 		};
 
 		const transactionObject = await this.#buildTransactionObject(input, type);
@@ -194,9 +198,32 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
-			signedTransaction,
+			{
+				...signedTransaction,
+				multiSignature: this.#multiSignatureAsset({
+					isMultiSignatureRegistration,
+					numberOfSignatures,
+					keys,
+					wallet,
+				}),
+			},
 			this.transactionSerializer.toHuman(signedTransaction, keys),
 		);
+	}
+
+	#multiSignatureAsset({ isMultiSignatureRegistration, numberOfSignatures, keys, wallet }): object {
+		if (isMultiSignatureRegistration) {
+			return {
+				numberOfSignatures,
+				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+				optionalKeys: convertBufferList(keys.optionalKeys),
+			};
+		}
+
+		const result = wallet.multiSignature();
+		delete result.members;
+
+		return result;
 	}
 
 	#assets(): object {

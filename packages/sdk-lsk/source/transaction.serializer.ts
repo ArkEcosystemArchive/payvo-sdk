@@ -57,7 +57,7 @@ export class TransactionSerializer {
 
 	public toHuman(
 		transaction: Contracts.RawTransactionData,
-		keys?: Record<string, string[]>,
+		keys?: Record<string, Buffer[]>,
 	): Record<string, unknown> {
 		const mutated = {
 			...transaction,

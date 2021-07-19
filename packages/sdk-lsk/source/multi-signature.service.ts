@@ -141,6 +141,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
+		// Normalise to ensure consistent behaviour
+		transaction = this.transactionSerializer.toHuman(transaction);
+
 		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
@@ -191,7 +194,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
-			transactionWithSignature,
+			{
+				...transactionWithSignature,
+				multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
+			},
 			this.transactionSerializer.toHuman(transactionWithSignature),
 		);
 	}
@@ -230,5 +236,20 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				"1000:0": "legacyAccount:reclaimLSK",
 			}[joinModuleAndAssetIds(transaction)]!
 		];
+	}
+
+	#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
+		if (isMultiSignatureRegistration(transaction)) {
+			return {
+				numberOfSignatures: transaction.asset.numberOfSignatures,
+				mandatoryKeys,
+				optionalKeys,
+			};
+		}
+
+		const result = wallet.multiSignature();
+		delete result.members;
+
+		return result;
 	}
 }
