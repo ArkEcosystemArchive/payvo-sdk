@@ -196,7 +196,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{

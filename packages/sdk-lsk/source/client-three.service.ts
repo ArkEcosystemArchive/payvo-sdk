@@ -92,20 +92,30 @@ export class ClientService extends Services.AbstractClientService {
 		};
 
 		for (const transaction of transactions) {
-			const { transactionId, message } = await this.#post("transactions", {
-				transaction: this.broadcastSerializer.toString(transaction.toBroadcast()),
-			});
+			try {
+				const { transactionId, message } = await this.#post("transactions", {
+					transaction: this.broadcastSerializer.toString(transaction.toBroadcast()),
+				});
 
-			if (transactionId) {
-				result.accepted.push(transaction.id());
+				if (transactionId) {
+					result.accepted.push(transaction.id());
 
-				continue;
-			}
+					continue;
+				}
 
-			if (message) {
-				result.rejected.push(transaction.id());
+				if (message) {
+					result.rejected.push(transaction.id());
 
-				result.errors[transaction.id()] = message;
+					result.errors[transaction.id()] = message;
+				}
+			} catch (error) {
+				const { message } = error.response.body();
+
+				if (message) {
+					result.rejected.push(transaction.id());
+
+					result.errors[transaction.id()] = message;
+				}
 			}
 		}
 
