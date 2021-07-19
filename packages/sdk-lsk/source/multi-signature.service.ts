@@ -196,6 +196,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			}
 		}
 
+		// @TODO: timestamp
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
 			{
@@ -261,6 +262,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return {
 			...data,
 			multiSignature,
+			// @TODO: timestamp
 		};
 	}
 }

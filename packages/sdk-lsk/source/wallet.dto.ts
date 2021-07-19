@@ -106,6 +106,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			return this.data.multiSignature;
 		}
 
+		// @TODO: normalise
 		return this.data.keys;
 	}
 

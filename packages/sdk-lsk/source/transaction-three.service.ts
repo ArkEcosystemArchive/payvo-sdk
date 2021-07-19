@@ -130,6 +130,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
+		// @TODO: timestamp
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{
@@ -196,6 +197,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
+		// @TODO: timestamp
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{
