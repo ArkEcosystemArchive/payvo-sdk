@@ -46,7 +46,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return (await this.#post("list", {
 			publicKey,
 			state: "pending",
-		})) as Services.MultiSignatureTransaction[];
+		})).map((transaction) => this.#normalizeTransaction(transaction));
 	}
 
 	/** @inheritdoc */
@@ -54,12 +54,12 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return (await this.#post("list", {
 			publicKey,
 			state: "ready",
-		})) as Services.MultiSignatureTransaction[];
+		})).map((transaction) => this.#normalizeTransaction(transaction));
 	}
 
 	/** @inheritdoc */
 	public override async findById(id: string): Promise<Services.MultiSignatureTransaction> {
-		return this.#post("show", { id });
+		return this.#normalizeTransaction(await this.#post("show", { id }));
 	}
 
 	/** @inheritdoc */
@@ -251,5 +251,12 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		delete result.members;
 
 		return result;
+	}
+
+	#normalizeTransaction({ data, multisigAsset }: any): Services.MultiSignatureTransaction {
+		return {
+			...data,
+			multiSignature: multisigAsset,
+		};
 	}
 }
