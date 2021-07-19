@@ -253,10 +253,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return result;
 	}
 
-	#normalizeTransaction({ data, multisigAsset }: any): Services.MultiSignatureTransaction {
+	#normalizeTransaction({ data, multiSignature }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {
 			...data,
-			multiSignature: multisigAsset,
+			multiSignature,
 		};
 	}
 }
