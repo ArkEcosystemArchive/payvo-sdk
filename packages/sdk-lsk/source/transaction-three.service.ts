@@ -200,14 +200,25 @@ export class TransactionService extends Services.AbstractTransactionService {
 			convertBuffer(signedTransaction.id),
 			{
 				...signedTransaction,
-				multiSignature: isMultiSignatureRegistration ? {
-					numberOfSignatures,
-					mandatoryKeys: convertBufferList(keys.mandatoryKeys),
-					optionalKeys: convertBufferList(keys.optionalKeys),
-				} : wallet.multiSignature(),
+				multiSignature: this.#multiSignatureAsset({ isMultiSignatureRegistration, numberOfSignatures, keys, wallet }),
 			},
 			this.transactionSerializer.toHuman(signedTransaction, keys),
 		);
+	}
+
+	#multiSignatureAsset({ isMultiSignatureRegistration, numberOfSignatures, keys, wallet }): object {
+		if (isMultiSignatureRegistration) {
+			return {
+				numberOfSignatures,
+				mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+				optionalKeys: convertBufferList(keys.optionalKeys),
+			};
+		}
+
+		const result = wallet.multiSignature();
+		delete result.members;
+
+		return result;
 	}
 
 	#assets(): object {
