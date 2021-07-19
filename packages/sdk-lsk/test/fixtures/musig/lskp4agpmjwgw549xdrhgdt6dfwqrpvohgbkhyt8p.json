@@ -1,0 +1,53 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+				"balance": "139997833000",
+				"username": "",
+				"publicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+				"isDelegate": false,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "139997833000"
+			},
+			"sequence": {
+				"nonce": "8"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+					"5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0"
+				],
+				"optionalKeys": [],
+				"members": [
+					{
+						"address": "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+						"publicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+						"isMandatory": true
+					},
+					{
+						"address": "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+						"publicKey": "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+						"isMandatory": true
+					}
+				]
+			},
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 0,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				}
+			}
+		}
+	],
+	"meta": {
+		"count": 1,
+		"offset": 0
+	}
+}

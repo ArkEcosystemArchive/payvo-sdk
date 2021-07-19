@@ -141,6 +141,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
+		// Normalise to ensure consistent behaviour
+		transaction = this.transactionSerializer.toHuman(transaction);
+
 		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
@@ -191,7 +194,14 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
-			transactionWithSignature,
+			{
+				...transactionWithSignature,
+				multiSignature: isMultiSignatureRegistration(transaction) ? {
+					numberOfSignatures: transaction.asset.numberOfSignatures,
+					mandatoryKeys,
+					optionalKeys,
+				} : wallet.multiSignature(),
+			},
 			this.transactionSerializer.toHuman(transactionWithSignature),
 		);
 	}

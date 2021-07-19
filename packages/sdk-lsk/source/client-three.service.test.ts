@@ -25,10 +25,6 @@ beforeAll(() => {
 	});
 });
 
-beforeAll(() => {
-	nock.disableNetConnect();
-});
-
 describe("ClientService", () => {
 	describe("#transaction", () => {
 		it("should succeed", async () => {

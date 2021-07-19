@@ -148,13 +148,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 		type,
 		wallet,
 	}): Promise<Contracts.SignedTransactionData> {
+		const numberOfSignatures: number = isMultiSignatureRegistration
+			? asset.numberOfSignatures
+			: wallet?.multiSignature().numberOfSignatures;
+
 		const keys = {
-			mandatoryKeys: isMultiSignatureRegistration
+			mandatoryKeys: convertStringList(isMultiSignatureRegistration
 				? asset.mandatoryKeys
-				: convertStringList(wallet?.multiSignature().mandatoryKeys),
-			optionalKeys: isMultiSignatureRegistration
+				: wallet?.multiSignature().mandatoryKeys),
+			optionalKeys: convertStringList(isMultiSignatureRegistration
 				? asset.optionalKeys
-				: convertStringList(wallet?.multiSignature().optionalKeys),
+				: wallet?.multiSignature().optionalKeys),
 		};
 
 		const transactionObject = await this.#buildTransactionObject(input, type);
@@ -194,7 +198,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
-			signedTransaction,
+			{
+				...signedTransaction,
+				multiSignature: isMultiSignatureRegistration ? {
+					numberOfSignatures,
+					mandatoryKeys: convertBufferList(keys.mandatoryKeys),
+					optionalKeys: convertBufferList(keys.optionalKeys),
+				} : wallet.multiSignature(),
+			},
 			this.transactionSerializer.toHuman(signedTransaction, keys),
 		);
 	}

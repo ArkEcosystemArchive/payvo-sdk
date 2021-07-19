@@ -1,6 +1,7 @@
 import "jest-extended";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -86,49 +87,6 @@ describe("TransactionService", () => {
 			  ],
 			}
 		`);
-		});
-
-		it.skip("should sign with a multi-signature", async () => {
-			const wallet1 = {
-				signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-				address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-				publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-			};
-
-			const wallet2 = {
-				signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-				address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-				publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-			};
-
-			const transaction1 = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 1,
-					to: wallet1.address,
-				},
-			});
-
-			const transaction2 = await musig.addSignature(
-				transaction1,
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet2.signingKey,
-						address: wallet2.address,
-						publicKey: wallet2.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
-
-			console.log(transaction2);
 		});
 	});
 
@@ -239,64 +197,78 @@ describe("TransactionService", () => {
 		});
 	});
 
-	describe.skip("#multiSign", () => {
-		it("should verify", async () => {
-			const wallet1 = {
-				signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-				address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-				publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-			};
+	test("#multiSignature", async () => {
+		nock.disableNetConnect();
 
-			const wallet2 = {
-				signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-				address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-				publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-			};
+		nock(/.+/)
+			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
+			.reply(200, require(`${__dirname}/../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
+			.reply(200, require(`${__dirname}/../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
+			.reply(200, require(`${__dirname}/../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
+			.persist();
 
-			const transaction1 = await subject.multiSignature({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					min: 2,
-					publicKeys: [wallet1.publicKey, wallet2.publicKey],
-				},
-			});
+		const wallet1 = {
+			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
+			address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+			publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+		};
 
-			expect(transaction1).toBeInstanceOf(SignedTransactionData);
+		const wallet2 = {
+			signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
+			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+		};
 
-			const transaction2 = await musig.addSignature(
-				transaction1,
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet2.signingKey,
-						address: wallet2.address,
-						publicKey: wallet2.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
-
-			expect(transaction2).toBeInstanceOf(SignedTransactionData);
-
-			const transaction3 = await musig.addSignature(
-				transaction2,
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
-
-			expect(transaction3).toBeInstanceOf(SignedTransactionData);
+		const transaction1 = await subject.multiSignature({
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: wallet1.address,
+					publicKey: wallet1.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+			data: {
+				min: 2,
+				publicKeys: [wallet1.publicKey, wallet2.publicKey],
+			},
 		});
+
+		expect(transaction1).toBeInstanceOf(SignedTransactionData);
+		expect(transaction1).toMatchSnapshot();
+
+		const transaction2 = await musig.addSignature(
+			transaction1.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet2.signingKey,
+					address: wallet2.address,
+					publicKey: wallet2.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+		);
+
+		expect(transaction2).toBeInstanceOf(SignedTransactionData);
+		expect(transaction2).toMatchSnapshot();
+
+		const transaction3 = await musig.addSignature(
+			transaction2.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: wallet1.address,
+					publicKey: wallet1.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+		);
+
+		expect(transaction3).toBeInstanceOf(SignedTransactionData);
+		expect(transaction3).toMatchSnapshot();
+
+		nock.enableNetConnect();
 	});
 });
