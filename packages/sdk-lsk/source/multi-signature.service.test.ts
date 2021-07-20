@@ -17,6 +17,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
+import { DateTime } from "@payvo/intl";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -50,6 +51,8 @@ beforeAll(async () => {
 		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
+
+	jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
 });
 
 describe("MultiSignatureService", () => {

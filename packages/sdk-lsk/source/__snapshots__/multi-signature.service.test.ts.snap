@@ -29,7 +29,7 @@ SignedTransactionData {
       "",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
-    "timestamp": "2021-07-20T00:48:20.241Z",
+    "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
   "identifier": "c61a49b192d82f32f67dd1695c0f664b2d233b818fb5055be199ed9e4e717741",
@@ -57,7 +57,7 @@ SignedTransactionData {
       "",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
-    "timestamp": "2021-07-20T00:48:20.241Z",
+    "timestamp": "2021-01-01T12:00:00.000Z",
   },
 }
 `;
@@ -91,7 +91,7 @@ SignedTransactionData {
       "9eee70cbbd4d8cf58e087ac46d50ec2d9c86d5fa77b37b67fef2b585211819c41ca20d0bfa518c9cc33fbf5cb2d9626759c6b185a90c34693db4c59a34a39909",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
-    "timestamp": "2021-07-20T00:48:20.252Z",
+    "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
   "identifier": "634e1f197f106d372b0d28c2817de5d3da2fc88b9f1e9fc9b8fd9058196d361a",
@@ -119,7 +119,7 @@ SignedTransactionData {
       "9eee70cbbd4d8cf58e087ac46d50ec2d9c86d5fa77b37b67fef2b585211819c41ca20d0bfa518c9cc33fbf5cb2d9626759c6b185a90c34693db4c59a34a39909",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
-    "timestamp": "2021-07-20T00:48:20.252Z",
+    "timestamp": "2021-01-01T12:00:00.000Z",
   },
 }
 `;
