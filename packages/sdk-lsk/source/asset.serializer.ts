@@ -1,7 +1,7 @@
 import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
+import { convertStringList } from "@payvo/helpers";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
-import { convertStringList } from "./multi-signature.domain";
 
 @IoC.injectable()
 export class AssetSerializer {
