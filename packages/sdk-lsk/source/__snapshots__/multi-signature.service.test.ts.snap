@@ -15,12 +15,21 @@ SignedTransactionData {
     "fee": "314000",
     "id": "c61a49b192d82f32f67dd1695c0f664b2d233b818fb5055be199ed9e4e717741",
     "moduleID": 2,
+    "multiSignature": Object {
+      "mandatoryKeys": Array [
+        "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+        "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+      ],
+      "numberOfSignatures": 2,
+      "optionalKeys": Array [],
+    },
     "nonce": "0",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
       "",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
+    "timestamp": "2021-07-20T00:48:20.241Z",
   },
   "decimals": 8,
   "identifier": "c61a49b192d82f32f67dd1695c0f664b2d233b818fb5055be199ed9e4e717741",
@@ -48,6 +57,7 @@ SignedTransactionData {
       "",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
+    "timestamp": "2021-07-20T00:48:20.241Z",
   },
 }
 `;
@@ -67,12 +77,21 @@ SignedTransactionData {
     "fee": "314000",
     "id": "634e1f197f106d372b0d28c2817de5d3da2fc88b9f1e9fc9b8fd9058196d361a",
     "moduleID": 2,
+    "multiSignature": Object {
+      "mandatoryKeys": Array [
+        "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+        "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+      ],
+      "numberOfSignatures": 2,
+      "optionalKeys": Array [],
+    },
     "nonce": "0",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
       "9eee70cbbd4d8cf58e087ac46d50ec2d9c86d5fa77b37b67fef2b585211819c41ca20d0bfa518c9cc33fbf5cb2d9626759c6b185a90c34693db4c59a34a39909",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
+    "timestamp": "2021-07-20T00:48:20.252Z",
   },
   "decimals": 8,
   "identifier": "634e1f197f106d372b0d28c2817de5d3da2fc88b9f1e9fc9b8fd9058196d361a",
@@ -100,6 +119,7 @@ SignedTransactionData {
       "9eee70cbbd4d8cf58e087ac46d50ec2d9c86d5fa77b37b67fef2b585211819c41ca20d0bfa518c9cc33fbf5cb2d9626759c6b185a90c34693db4c59a34a39909",
       "281c7ea91c6afbc3898ce1420cfc60a4eb7dac201e1aa8ce2c1da1a4c04c4f14377f906611a9fb0a50886a4cc53a421d3cde9fd09dbfe721e02336c63e50b508",
     ],
+    "timestamp": "2021-07-20T00:48:20.252Z",
   },
 }
 `;
