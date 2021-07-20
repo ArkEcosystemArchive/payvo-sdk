@@ -142,7 +142,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				return this.dataTransferObjectService.signedTransaction(
 					structTransaction.id,
 					structTransaction,
-					structTransaction,
 				);
 			}
 
@@ -158,7 +157,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			return this.dataTransferObjectService.signedTransaction(
 				signedTransaction.id,
-				signedTransaction,
 				signedTransaction,
 			);
 		} catch (error) {

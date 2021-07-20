@@ -130,14 +130,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
-		// @TODO: timestamp
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
 			{
 				...this.transactionSerializer.toHuman(signedTransaction),
 				timestamp: DateTime.make(),
 			},
-			this.transactionSerializer.toHuman(signedTransaction),
 		);
 	}
 
@@ -197,19 +195,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		// @TODO: timestamp
+		const normalised = {
+			...this.transactionSerializer.toHuman(signedTransaction, keys),
+			multiSignature: this.#multiSignatureAsset({
+				isMultiSignatureRegistration,
+				numberOfSignatures,
+				keys,
+				wallet,
+			}),
+			timestamp: DateTime.make(),
+		};
+
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(signedTransaction.id),
-			{
-				...this.transactionSerializer.toHuman(signedTransaction, keys),
-				multiSignature: this.#multiSignatureAsset({
-					isMultiSignatureRegistration,
-					numberOfSignatures,
-					keys,
-					wallet,
-				}),
-			},
-			this.transactionSerializer.toHuman(signedTransaction, keys),
+			normalised,
+			normalised,
 		);
 	}
 

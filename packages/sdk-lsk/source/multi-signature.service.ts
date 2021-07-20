@@ -17,6 +17,7 @@ import { PendingMultiSignatureTransaction } from "./multi-signature.transaction"
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
 import { isMultiSignatureRegistration } from "./helpers";
+import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -196,14 +197,13 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			}
 		}
 
-		// @TODO: timestamp
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(transactionWithSignature.id),
 			{
 				...this.transactionSerializer.toHuman(transactionWithSignature),
 				multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
+				timestamp: DateTime.make(),
 			},
-			this.transactionSerializer.toHuman(transactionWithSignature),
 		);
 	}
 
@@ -258,11 +258,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return result;
 	}
 
-	#normalizeTransaction({ data, multiSignature }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
+	#normalizeTransaction({ data, multiSignature, timestamp }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {
 			...data,
 			multiSignature,
-			// @TODO: timestamp
+			timestamp,
 		};
 	}
 }
