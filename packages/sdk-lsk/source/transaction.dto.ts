@@ -122,7 +122,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Vote
 	public override votes(): string[] {
-		if (!this.data.asset.votes) {
+		if (!Array.isArray(this.data.asset.votes)) {
 			return [];
 		}
 
@@ -138,7 +138,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override unvotes(): string[] {
-		if (!this.data.asset.votes) {
+		if (!Array.isArray(this.data.asset.votes)) {
 			return [];
 		}
 
