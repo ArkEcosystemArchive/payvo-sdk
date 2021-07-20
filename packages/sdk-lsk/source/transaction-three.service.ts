@@ -130,14 +130,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
 		}
 
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(signedTransaction.id),
-			{
-				...this.transactionSerializer.toHuman(signedTransaction),
-				timestamp: DateTime.make(),
-			},
-			this.transactionSerializer.toHuman(signedTransaction),
-		);
+		return this.dataTransferObjectService.signedTransaction(convertBuffer(signedTransaction.id), {
+			...this.transactionSerializer.toHuman(signedTransaction),
+			timestamp: DateTime.make(),
+		});
 	}
 
 	async #handleMultiSignature({
@@ -196,19 +192,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(signedTransaction.id),
-			{
-				...this.transactionSerializer.toHuman(signedTransaction, keys),
-				multiSignature: this.#multiSignatureAsset({
-					isMultiSignatureRegistration,
-					numberOfSignatures,
-					keys,
-					wallet,
-				}),
-			},
-			this.transactionSerializer.toHuman(signedTransaction, keys),
-		);
+		return this.dataTransferObjectService.signedTransaction(convertBuffer(signedTransaction.id), {
+			...this.transactionSerializer.toHuman(signedTransaction, keys),
+			multiSignature: this.#multiSignatureAsset({
+				isMultiSignatureRegistration,
+				numberOfSignatures,
+				keys,
+				wallet,
+			}),
+			timestamp: DateTime.make(),
+		});
 	}
 
 	#multiSignatureAsset({ isMultiSignatureRegistration, numberOfSignatures, keys, wallet }): object {

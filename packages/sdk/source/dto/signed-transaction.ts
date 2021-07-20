@@ -41,12 +41,12 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	public configure(
 		identifier: string,
 		signedData: RawTransactionData,
-		broadcastData: any,
+		broadcastData?: any,
 		decimals?: number | string,
 	) {
 		this.identifier = identifier;
 		this.signedData = signedData;
-		this.broadcastData = broadcastData;
+		this.broadcastData = broadcastData ?? signedData;
 		this.decimals = typeof decimals === "string" ? parseInt(decimals) : decimals;
 
 		return this;

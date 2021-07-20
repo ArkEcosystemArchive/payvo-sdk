@@ -4,7 +4,7 @@ import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract"
 import { MetaPagination } from "./client.contract";
 
 export interface DataTransferObjectService {
-	signedTransaction(identifier: string, signedData: any, broadcastData: any): SignedTransactionData;
+	signedTransaction(identifier: string, signedData: any, broadcastData?: any): SignedTransactionData;
 
 	transaction(transaction: unknown): ConfirmedTransactionData;
 

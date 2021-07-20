@@ -81,7 +81,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			return this.data.delegate?.rank;
 		}
 
-		return this.data.dpos.delegate.rank;
+		return this.data.dpos?.delegate?.rank;
 	}
 
 	public override votes(): BigNumber | undefined {
@@ -93,7 +93,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			return BigNumber.make(this.data.delegate?.vote);
 		}
 
-		if (this.data.dpos.delegate.totalVotesReceived) {
+		if (this.data.dpos?.delegate?.totalVotesReceived) {
 			return BigNumber.make(this.data.dpos.delegate.totalVotesReceived);
 		}
 
@@ -109,6 +109,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			return this.data.multiSignature;
 		}
 
+		// @TODO: normalise
 		return this.data.keys;
 	}
 
