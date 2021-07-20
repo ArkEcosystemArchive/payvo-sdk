@@ -1,4 +1,5 @@
 import { Interfaces } from "@arkecosystem/crypto";
+import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
 import { BindingType } from "./coin.contract";
@@ -47,7 +48,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	/** @inheritdoc */
 	public override async findById(id: string): Promise<Services.MultiSignatureTransaction> {
-		return this.#normalizeTransaction(await this.#get(`transaction/${id}`));
+		return this.#normalizeTransaction(await this.#post("show", { id }));
 	}
 
 	/** @inheritdoc */
@@ -61,12 +62,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		}
 
 		try {
-			const { id } = (
-				await this.httpClient.post(`${this.#getPeer()}/transaction`, {
-					data: transaction,
-					multisigAsset,
-				})
-			).json();
+			const { id } = await this.#post("store", {
+				data: transaction,
+				multisigAsset,
+			});
 
 			return {
 				accepted: [id],
@@ -86,11 +85,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 			throw error;
 		}
-	}
-
-	/** @inheritdoc */
-	public async flush(): Promise<Services.MultiSignatureTransaction> {
-		return this.#delete("transactions");
 	}
 
 	/** @inheritdoc */
@@ -140,48 +134,21 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, signatory);
 
-		return this.dataTransferObjectService.signedTransaction(
-			transactionWithSignature.id!,
-			transactionWithSignature,
-			transactionWithSignature,
-		);
+		return this.dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
 	}
 
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {string} path
-	 * @param {Contracts.KeyValuePair} [query]
-	 * @returns {Promise<Contracts.KeyValuePair>}
-	 * @memberof MultiSignatureService
-	 */
-	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (await this.httpClient.get(`${this.#getPeer()}/${path}`, query)).json();
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @param {string} path
-	 * @param {Contracts.KeyValuePair} [query]
-	 * @returns {Promise<Contracts.KeyValuePair>}
-	 * @memberof MultiSignatureService
-	 */
-	async #delete(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (await this.httpClient.delete(`${this.#getPeer()}/${path}`, query)).json();
-	}
-
-	/**
-	 *
-	 *
-	 * @private
-	 * @returns {string}
-	 * @memberof MultiSignatureService
-	 */
-	#getPeer(): string {
-		return Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host;
+	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
+		return (
+			await this.httpClient.post(
+				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+				{
+					jsonrpc: "2.0",
+					id: UUID.random(),
+					method,
+					params,
+				},
+			)
+		).json().result;
 	}
 
 	/**
@@ -212,7 +179,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 */
 	async #fetchAll(publicKey: string, state: string): Promise<any[]> {
 		return (
-			await this.#get("transactions", {
+			await this.#post("list", {
 				publicKey,
 				state,
 			})
