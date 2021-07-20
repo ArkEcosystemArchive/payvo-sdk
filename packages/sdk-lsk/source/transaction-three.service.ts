@@ -1,11 +1,6 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
-import {
-	convertBuffer,
-	convertBufferList,
-	convertString,
-	convertStringList,
-} from "@payvo/helpers";
+import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/helpers";
 import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";

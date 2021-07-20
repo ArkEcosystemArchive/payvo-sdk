@@ -1,10 +1,6 @@
 import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
-import {
-	convertBuffer,
-	convertString,
-	convertStringList,
-} from "@payvo/helpers";
+import { convertBuffer, convertString, convertStringList } from "@payvo/helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { BindingType } from "./coin.contract";
 
