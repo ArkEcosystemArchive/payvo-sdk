@@ -25,7 +25,7 @@ export class AbstractDataTransferObjectService implements DataTransferObjectServ
 	@inject(BindingType.DataTransferObjects)
 	protected readonly dataTransferObjects!: Record<string, any>;
 
-	public signedTransaction(identifier: string, signedData: string, broadcastData: any): SignedTransactionData {
+	public signedTransaction(identifier: string, signedData: string, broadcastData?: any): SignedTransactionData {
 		return this.container
 			.resolve<SignedTransactionData>(this.dataTransferObjects.SignedTransactionData)
 			.configure(
