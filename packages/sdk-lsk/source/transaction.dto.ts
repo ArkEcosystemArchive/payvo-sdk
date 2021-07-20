@@ -4,6 +4,8 @@ import { BigNumber } from "@payvo/helpers";
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
+import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
+import { convertString } from "./multi-signature.domain";
 
 const isTest = (data: Record<string, unknown>): boolean => data.moduleAssetName !== undefined;
 
@@ -42,7 +44,11 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return this.data.senderId;
 		}
 
-		return this.data.sender.address;
+		if (this.data.sender.address) {
+			return this.data.sender.address;
+		}
+
+		return getLisk32AddressFromPublicKey(convertString(this.data.senderPublicKey));
 	}
 
 	public override recipient(): string {
