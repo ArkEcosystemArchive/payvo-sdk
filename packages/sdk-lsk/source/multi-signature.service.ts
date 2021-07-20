@@ -263,7 +263,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return {
 			...data,
 			multiSignature,
-			timestamp,
+			timestamp: DateTime.fromUnix(timestamp),
 		};
 	}
 }
