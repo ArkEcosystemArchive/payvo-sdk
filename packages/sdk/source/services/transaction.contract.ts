@@ -64,7 +64,7 @@ export interface MultiSignatureInput extends TransactionInput {
 		// Advanced
 		mandatoryKeys?: string[];
 		numberOfSignatures?: number;
-		optionalKeys?:  string[];
+		optionalKeys?: string[];
 	};
 }
 
