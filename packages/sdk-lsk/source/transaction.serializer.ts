@@ -1,12 +1,14 @@
 import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { getBytes } from "@liskhq/lisk-transactions-beta";
-import { Coins, Contracts, IoC } from "@payvo/sdk";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
 import {
 	convertBuffer,
 	convertBufferList,
 	convertString,
 	convertStringList,
+} from "@payvo/helpers";
+import { Coins, Contracts, IoC } from "@payvo/sdk";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
+import {
 	joinModuleAndAssetIds,
 } from "./multi-signature.domain";
 

@@ -1,13 +1,14 @@
 import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { UUID } from "@payvo/cryptography";
-import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
-import { Http } from "@payvo/sdk";
-import { BindingType } from "./coin.contract";
-
 import {
 	convertBuffer,
 	convertString,
 	convertStringList,
+} from "@payvo/helpers";
+import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
+import { BindingType } from "./coin.contract";
+
+import {
 	findNonEmptySignatureIndices,
 	getKeys,
 	isTransactionFullySigned,
