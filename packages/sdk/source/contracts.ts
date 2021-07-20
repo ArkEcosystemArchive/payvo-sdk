@@ -24,7 +24,7 @@ export interface WalletMultiSignature {
 	// Advanced
 	mandatoryKeys?: string[];
 	numberOfSignatures?: number;
-	optionalKeys?:  string[];
+	optionalKeys?: string[];
 }
 
 export interface WalletData {
