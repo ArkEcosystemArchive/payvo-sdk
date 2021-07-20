@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@payvo/cryptography": "^1.0.0",
-		"@payvo/helpers": "^1.0.0",
+		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@polkadot/api": "^3.6.4",

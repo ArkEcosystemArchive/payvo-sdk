@@ -1,5 +1,5 @@
+import { convertBufferList, convertStringList } from "@payvo/helpers";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
-import { convertBufferList, convertStringList } from "./multi-signature.domain";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;

@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@cityofzion/neon-js": "^4.8.2",
 		"@payvo/cryptography": "^1.0.0",
-		"@payvo/helpers": "^1.0.0",
+		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
 		"uuid": "^8.3.2"

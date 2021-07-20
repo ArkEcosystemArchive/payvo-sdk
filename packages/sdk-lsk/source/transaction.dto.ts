@@ -1,11 +1,10 @@
 import { DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
-import { BigNumber } from "@payvo/helpers";
+import { BigNumber, convertString } from "@payvo/helpers";
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
-import { convertString } from "./multi-signature.domain";
 
 const isTest = (data: Record<string, unknown>): boolean => data.moduleAssetName !== undefined;
 

@@ -4,7 +4,7 @@ importers:
   ../../packages/sdk:
     dependencies:
       '@arkecosystem/utils': 1.3.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/http-got': 1.0.0
       '@payvo/intl': 1.0.0
       bad-words: 3.0.4
@@ -52,7 +52,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@arkecosystem/utils': ^1.3.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@sindresorhus/tsconfig': ^1.0.2
@@ -101,7 +101,7 @@ importers:
     dependencies:
       '@emurgo/cardano-serialization-lib-nodejs': 7.0.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bech32: 2.0.0
@@ -138,7 +138,7 @@ importers:
     specifiers:
       '@emurgo/cardano-serialization-lib-nodejs': ^7.0.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -178,7 +178,7 @@ importers:
       '@arkecosystem/ledger-transport': 2.0.0
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       dot-prop: 6.0.1
@@ -228,7 +228,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -272,7 +272,7 @@ importers:
   ../../packages/sdk-atom:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bcrypto: 5.4.0
@@ -313,7 +313,7 @@ importers:
     specifiers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -353,7 +353,7 @@ importers:
     dependencies:
       '@arkecosystem/utils': 1.3.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       avalanche: 3.3.0
@@ -398,7 +398,7 @@ importers:
       '@arkecosystem/utils': ^1.3.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -441,7 +441,7 @@ importers:
     dependencies:
       '@ledgerhq/hw-app-btc': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bignumber.js: 9.0.1
@@ -483,7 +483,7 @@ importers:
       '@ledgerhq/hw-app-btc': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -522,7 +522,7 @@ importers:
   ../../packages/sdk-dot:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       '@polkadot/api': 3.11.1
@@ -569,7 +569,7 @@ importers:
     specifiers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -616,7 +616,7 @@ importers:
       '@elrondnetwork/elrond-core-js': 2.1.0
       '@elrondnetwork/erdjs': 4.1.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bech32: 2.0.0
@@ -654,7 +654,7 @@ importers:
       '@elrondnetwork/elrond-core-js': ^2.1.0
       '@elrondnetwork/erdjs': ^4.1.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -690,7 +690,7 @@ importers:
   ../../packages/sdk-eos:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bn.js: 5.1.3
@@ -731,7 +731,7 @@ importers:
     specifiers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -773,7 +773,7 @@ importers:
       '@ethereumjs/tx': 3.1.4
       '@ledgerhq/hw-app-eth': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bip39: 3.0.4
@@ -815,7 +815,7 @@ importers:
       '@ledgerhq/hw-app-eth': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -856,7 +856,7 @@ importers:
       '@liskhq/lisk-transactions': 2.3.1
       '@liskhq/lisk-transactions-beta': /@liskhq/lisk-transactions/5.1.1
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       dpos-ledger-api: 3.0.1
@@ -897,7 +897,7 @@ importers:
       '@liskhq/lisk-transactions': ^2.0
       '@liskhq/lisk-transactions-beta': npm:@liskhq/lisk-transactions@^5.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -932,7 +932,7 @@ importers:
   ../../packages/sdk-luna:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       '@terra-money/terra.js': 1.7.0
@@ -968,7 +968,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1004,7 +1004,7 @@ importers:
   ../../packages/sdk-nano:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       nanocurrency: 2.5.0
@@ -1042,7 +1042,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1081,7 +1081,7 @@ importers:
     dependencies:
       '@cityofzion/neon-js': 4.8.3
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       uuid: 8.3.2
@@ -1120,7 +1120,7 @@ importers:
       '@cityofzion/neon-js': ^4.8.2
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1156,7 +1156,7 @@ importers:
   ../../packages/sdk-sol:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       '@solana/web3.js': 1.9.0
@@ -1195,7 +1195,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1235,7 +1235,7 @@ importers:
     dependencies:
       '@ledgerhq/hw-app-trx': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       tronweb: 3.2.6
@@ -1272,7 +1272,7 @@ importers:
       '@ledgerhq/hw-app-trx': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1307,7 +1307,7 @@ importers:
     dependencies:
       '@ledgerhq/hw-app-str': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       ed25519-hd-key: 1.2.0
@@ -1346,7 +1346,7 @@ importers:
       '@ledgerhq/hw-app-str': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1383,7 +1383,7 @@ importers:
     dependencies:
       '@ledgerhq/hw-app-xrp': 5.50.0
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       bignumber.js: 9.0.1
@@ -1427,7 +1427,7 @@ importers:
       '@ledgerhq/hw-app-xrp': ^5.50.0
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -1468,7 +1468,7 @@ importers:
   ../../packages/sdk-zil:
     dependencies:
       '@payvo/cryptography': 1.0.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       '@payvo/sdk': link:../sdk
       '@zilliqa-js/account': 2.2.1
@@ -1505,7 +1505,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@payvo/cryptography': ^1.0.0
-      '@payvo/helpers': ^1.0.0
+      '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
       '@payvo/intl': ^1.0.0
       '@payvo/sdk': workspace:*
@@ -3067,7 +3067,7 @@ packages:
       node: '>=12.x'
     resolution:
       integrity: sha512-zu6sFm8GpJvmkvEWYGgpB85wKhtP3AAgTNIK0c7aA4na+vYRLIH6hiiY4D21Z5na610J8Gj4KLcl3AUNAX9HCA==
-  /@payvo/helpers/1.0.0:
+  /@payvo/helpers/1.1.1:
     dependencies:
       bad-words: 3.0.4
       bignumber.js: 9.0.1
@@ -3080,7 +3080,7 @@ packages:
     engines:
       node: '>=12.x'
     resolution:
-      integrity: sha512-Hen+0EZiooNlbszSpXu/rB/ZP3gaLW0Y2vBceuZYOSYmSk7r8YJ32d4b1jKLUhUneMKrCUEFC8yo5kxqBVVTEw==
+      integrity: sha512-yO1inAQgXhlHk9ETpMlTKkFmGzwjK3sx0eWl9VA2EPiRmULXUgpdbSqPUdJaqRcX3r9TN2tqa9/mbJx7Zv2JGQ==
   /@payvo/http-got/1.0.0:
     dependencies:
       '@payvo/sdk': 1.2.0
@@ -3101,7 +3101,7 @@ packages:
   /@payvo/sdk/1.2.0:
     dependencies:
       '@arkecosystem/utils': 1.3.0
-      '@payvo/helpers': 1.0.0
+      '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
       bad-words: 3.0.4
       bent: 7.3.12
