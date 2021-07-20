@@ -74,12 +74,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public override async multiSignature(
 		input: Services.MultiSignatureInput,
 	): Promise<Contracts.SignedTransactionData> {
+		if (!Array.isArray(input.data.mandatoryKeys)) {
+			throw new Error("Expected [input.data.mandatoryKeys] to be defined as a list of strings.");
+		}
+
+		if (!Array.isArray(input.data.optionalKeys)) {
+			throw new Error("Expected [input.data.optionalKeys] to be defined as a list of strings.");
+		}
+
 		return this.#createFromData(
 			"keys:registerMultisignatureGroup",
 			{
-				numberOfSignatures: input.data.publicKeys.length,
-				mandatoryKeys: input.data.publicKeys.slice(0, input.data.min),
-				optionalKeys: input.data.publicKeys.slice(input.data.min),
+				numberOfSignatures: input.data.numberOfSignatures,
+				mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
+				optionalKeys: input.data.optionalKeys.slice(input.data.min),
 			},
 			input,
 		);
