@@ -17,9 +17,14 @@ export interface WalletBalance {
 }
 
 export interface WalletMultiSignature {
-	min: number;
-	publicKeys: string[];
+	// Standard
+	min?: number;
+	publicKeys?: string[];
 	limit?: number;
+	// Advanced
+	mandatoryKeys?: string[];
+	numberOfSignatures?: number;
+	optionalKeys?: string[];
 }
 
 export interface WalletData {

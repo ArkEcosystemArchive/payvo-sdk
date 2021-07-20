@@ -17,6 +17,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
+import { DateTime } from "@payvo/intl";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -48,6 +49,8 @@ beforeAll(async () => {
 		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
+
+	jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
 });
 
 describe("TransactionService", () => {
@@ -85,7 +88,7 @@ describe("TransactionService", () => {
 			  "signatures": Array [
 			    "da11bab7ee2de8263020b350bc8d4d7d66ce95986d54fb1da039c8a37b8d1c623f35d4265c8583677ea9bdd4c1a3ba5af9d0f3ce72da4ad771990a19c7206908",
 			  ],
-			  "timestamp": "2021-07-20T00:48:20.694Z",
+			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
 		});
@@ -122,7 +125,7 @@ describe("TransactionService", () => {
 			  "signatures": Array [
 			    "4e9aef82fc355a3cfbbcfce2e74e92038e0a1e5ec129ffae7e74f41c53119c6bcc21d7c4dc9ac0a87477f39bda6ae38d4b80d4602beb94c6c56686ed7705010f",
 			  ],
-			  "timestamp": "2021-07-20T00:48:20.989Z",
+			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
 		});
@@ -170,7 +173,7 @@ describe("TransactionService", () => {
 			  "signatures": Array [
 			    "c092a7d5a9297e8d33fc327e9fd1130edf2c8aebc20a2994f648a32ecdc1ecaa28b87f278abebad7b34c51030e2e217725456b321ae4b358de99b4dbf65fe80d",
 			  ],
-			  "timestamp": "2021-07-20T00:48:21.270Z",
+			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
 		});
@@ -234,8 +237,9 @@ describe("TransactionService", () => {
 				}),
 			),
 			data: {
-				min: 2,
-				publicKeys: [wallet1.publicKey, wallet2.publicKey],
+				numberOfSignatures: 2,
+				mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+				optionalKeys: [],
 			},
 		});
 
