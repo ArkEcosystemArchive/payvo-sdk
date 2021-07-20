@@ -18,11 +18,11 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://wallets.ark.io/api",
+			host: "https://ark-live.payvo.com/api",
 		},
 		{
 			type: "musig",
-			host: "https://musig1.ark.io",
+			host: "https://ark-live-musig.payvo.com",
 		},
 		{
 			type: "explorer",

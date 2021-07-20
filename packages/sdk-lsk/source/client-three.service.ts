@@ -14,7 +14,7 @@ export class ClientService extends Services.AbstractClientService {
 
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository, "archival");
+		this.#peer = Helpers.randomHostFromConfig(this.configRepository, "full");
 	}
 
 	public override async transaction(
