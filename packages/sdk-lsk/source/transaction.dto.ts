@@ -44,7 +44,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return this.data.senderId;
 		}
 
-		if (this.data.sender.address) {
+		if (this.data.sender?.address) {
 			return this.data.sender.address;
 		}
 

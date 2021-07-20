@@ -197,14 +197,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			}
 		}
 
-		return this.dataTransferObjectService.signedTransaction(
-			convertBuffer(transactionWithSignature.id),
-			{
-				...this.transactionSerializer.toHuman(transactionWithSignature),
-				multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
-				timestamp: DateTime.make(),
-			},
-		);
+		return this.dataTransferObjectService.signedTransaction(convertBuffer(transactionWithSignature.id), {
+			...this.transactionSerializer.toHuman(transactionWithSignature),
+			multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
+			timestamp: DateTime.make(),
+		});
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
@@ -258,7 +255,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return result;
 	}
 
-	#normalizeTransaction({ data, multiSignature, timestamp }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
+	#normalizeTransaction({
+		data,
+		multiSignature,
+		timestamp,
+	}: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {
 			...data,
 			multiSignature,

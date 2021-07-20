@@ -139,10 +139,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 				await this.ledgerService.disconnect();
 
-				return this.dataTransferObjectService.signedTransaction(
-					structTransaction.id,
-					structTransaction,
-				);
+				return this.dataTransferObjectService.signedTransaction(structTransaction.id, structTransaction);
 			}
 
 			if (input.signatory.signingKey()) {
@@ -155,10 +152,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			const signedTransaction: any = transactionSigner(struct as any);
 
-			return this.dataTransferObjectService.signedTransaction(
-				signedTransaction.id,
-				signedTransaction,
-			);
+			return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
