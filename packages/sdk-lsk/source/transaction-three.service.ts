@@ -14,6 +14,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;
 
+	@IoC.inject(IoC.BindingType.FeeService)
+	private readonly feeService!: Services.FeeService;
+
 	@IoC.inject(BindingType.AssetSerializer)
 	protected readonly assetSerializer!: AssetSerializer;
 
@@ -122,14 +125,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			});
 		}
 
-		const transactionObject = await this.#buildTransactionObject(input, type);
+		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
 
 		signedTransaction = signTransaction(
 			assetSchema,
-			{
+			await this.#computeMinFee(input, {
 				...transactionObject,
 				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
-			},
+			}),
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
@@ -165,15 +168,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 			),
 		};
 
-		const transactionObject = await this.#buildTransactionObject(input, type);
+		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
 
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
-			{
+			await this.#computeMinFee(input, {
 				...transactionObject,
 				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 				signatures: [],
-			},
+			}),
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 			keys,
@@ -189,7 +192,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
-					...(await this.#buildTransactionObject(input, type)),
+					...(await this.#buildTransactionObject(input, type, signedTransaction.fee)),
 					asset: signedTransaction.asset,
 					signatures: signedTransaction.signatures,
 				},
@@ -239,11 +242,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return convertString(input.signatory.publicKey());
 	}
 
-	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<Record<string, any>> {
-		if (!input.fee || !Number.isInteger(input.fee)) {
-			throw new Error("Expected [input.fee] to be a number.");
-		}
-
+	async #buildTransactionObject(input: Services.TransactionInput, type: string, fee?: number): Promise<Record<string, any>> {
 		let nonce: BigInt | undefined = undefined;
 
 		try {
@@ -259,9 +258,27 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return {
 			moduleID,
 			assetID,
+			fee: typeof fee === "bigint" ? fee : BigInt(convertLSKToBeddows(`${fee ?? 0}`)),
 			nonce,
-			fee: BigInt(convertLSKToBeddows(`${input.fee}`)),
 			senderPublicKey: this.#senderPublicKey(input),
+		};
+	}
+
+	async #computeMinFee(
+		input: Services.TransactionInput,
+		transaction: Contracts.RawTransactionData,
+	): Promise<Record<string, any>> {
+		let fee: number;
+
+		if (input.fee && Number.isInteger(input.fee)) {
+			fee = input.fee;
+		} else {
+			fee = await this.feeService.calculate(transaction);
+		}
+
+		return {
+			...transaction,
+			fee: BigInt(convertLSKToBeddows(`${fee}`)),
 		};
 	}
 }

@@ -9,6 +9,7 @@ import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client-three.service";
+import { FeeService } from "./fee.service";
 import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
@@ -29,6 +30,7 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
@@ -43,6 +45,7 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
