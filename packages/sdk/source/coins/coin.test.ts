@@ -18,13 +18,13 @@ beforeEach(async () => {
 
 	nock(/.+/)
 		.get("/api/blockchain")
-		.reply(200, require("../../test/fixtures/blockchain.json"))
+		.reply(200, require("../../test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, require("../../test/fixtures/configuration.json"))
+		.reply(200, require("../../test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../../test/fixtures/configuration-crypto.json"))
+		.reply(200, require("../../test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../../test/fixtures/syncing.json"))
+		.reply(200, require("../../test/testnet/syncing.json"))
 		.persist();
 
 	subject = CoinFactory.make(ARK, {
