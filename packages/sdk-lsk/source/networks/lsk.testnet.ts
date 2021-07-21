@@ -40,6 +40,7 @@ const network: Networks.NetworkManifest = {
 	importMethods,
 	featureFlags: {
 		...featureFlags,
+		Fee: ["all", "calculate"],
 		Transaction: ["delegateRegistration", "transfer", "vote"],
 	},
 	explorer: {

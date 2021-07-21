@@ -25,6 +25,7 @@ test("FeatureFlag", () => {
 		  "ClientWallet": "Client.wallet",
 		  "ClientWallets": "Client.wallets",
 		  "FeeAll": "Fee.all",
+		  "FeeCalculate": "Fee.calculate",
 		  "KeyPairMnemonicBip39": "KeyPair.mnemonic.bip39",
 		  "KeyPairMnemonicBip44": "KeyPair.mnemonic.bip44",
 		  "KeyPairMnemonicBip49": "KeyPair.mnemonic.bip49",

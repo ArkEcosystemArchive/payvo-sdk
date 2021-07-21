@@ -145,7 +145,7 @@ export type ClientMethod =
 	| "broadcast";
 export type ClientMethods = ClientMethod[];
 
-export type FeeMethod = "all";
+export type FeeMethod = "all" | "calculate";
 export type FeeMethods = FeeMethod[];
 
 export type AddressMethod =
