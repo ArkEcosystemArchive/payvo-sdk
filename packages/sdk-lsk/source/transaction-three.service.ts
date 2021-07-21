@@ -242,7 +242,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return convertString(input.signatory.publicKey());
 	}
 
-	async #buildTransactionObject(input: Services.TransactionInput, type: string, fee?: number): Promise<Record<string, any>> {
+	async #buildTransactionObject(
+		input: Services.TransactionInput,
+		type: string,
+		fee?: number,
+	): Promise<Record<string, any>> {
 		let nonce: BigInt | undefined = undefined;
 
 		try {
