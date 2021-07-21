@@ -380,6 +380,10 @@ it("#multiPaymentRecipients", () => {
 	expect(subject.multiPaymentRecipients()).toBeNumber();
 });
 
+it("#multiSignatureType", () => {
+	expect(subject.multiSignatureType()).toBeString();
+});
+
 it("#wordCount", () => {
 	expect(subject.wordCount()).toBe(24);
 });
