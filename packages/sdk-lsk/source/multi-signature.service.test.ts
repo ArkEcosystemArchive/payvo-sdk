@@ -78,6 +78,7 @@ describe("MultiSignatureService", () => {
 		};
 
 		const transaction1 = await subject.transfer({
+			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: wallet1.signingKey,

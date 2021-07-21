@@ -57,6 +57,7 @@ describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("should sign with an mnemonic", async () => {
 			const result = await subject.transfer({
+				fee: 10,
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
@@ -80,13 +81,13 @@ describe("TransactionService", () => {
 			    "recipientAddress": "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
 			  },
 			  "assetID": 0,
-			  "fee": "314000",
-			  "id": "e2f2bcbcbc7d7d192f6d3300247bd87a72f696d854b89c46182d5f782a92c03d",
+			  "fee": "1000000000",
+			  "id": "c74791e86463b0379500feacfddb0f9a3f60307cfa53e428aa430fb9db9f9b82",
 			  "moduleID": 2,
 			  "nonce": "0",
 			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 			  "signatures": Array [
-			    "da11bab7ee2de8263020b350bc8d4d7d66ce95986d54fb1da039c8a37b8d1c623f35d4265c8583677ea9bdd4c1a3ba5af9d0f3ce72da4ad771990a19c7206908",
+			    "dff0300f5c115138693d43d6e92bfecdab4d8a514aff88b5986a67e35e3bd50ed049f3ff7732c9cf02d6dd1ea0332f74bf71db24e06985c4096e94a98a1c300c",
 			  ],
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
@@ -97,6 +98,7 @@ describe("TransactionService", () => {
 	describe("#delegateRegistration", () => {
 		it("should verify", async () => {
 			const result = await subject.delegateRegistration({
+				fee: 10,
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
@@ -117,13 +119,13 @@ describe("TransactionService", () => {
 			    "username": "johndoe",
 			  },
 			  "assetID": 0,
-			  "fee": "314000",
-			  "id": "f00d7e1cc8981d171a5b761b290954548551bfeb76ed19c7f43e73b662ce8cff",
+			  "fee": "1000000000",
+			  "id": "05659b40db0129bc51cdc2575fb414e8f49ec7498c05724e9dbeb6c1a38eb59e",
 			  "moduleID": 5,
 			  "nonce": "0",
 			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 			  "signatures": Array [
-			    "4e9aef82fc355a3cfbbcfce2e74e92038e0a1e5ec129ffae7e74f41c53119c6bcc21d7c4dc9ac0a87477f39bda6ae38d4b80d4602beb94c6c56686ed7705010f",
+			    "46cb605693a44f93278bdada4ab721891fcf21eabca077e7b74136353a1e2a6fe7e47e34b382a397823b47ddc038e8cac0767e4151ada6c01c6d6d51a307bd01",
 			  ],
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
@@ -134,6 +136,7 @@ describe("TransactionService", () => {
 	describe("#vote", () => {
 		it("should verify", async () => {
 			const result = await subject.vote({
+				fee: 10,
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
@@ -165,13 +168,13 @@ describe("TransactionService", () => {
 			    ],
 			  },
 			  "assetID": 1,
-			  "fee": "314000",
-			  "id": "3edaddccbbf4731d161c466df5ea48af336d7ff70a3e7153e90fdf8f72bb788a",
+			  "fee": "1000000000",
+			  "id": "7635e30a3ab8692a4c484654359b556f42256a35f367b19f12076351a6a28f55",
 			  "moduleID": 5,
 			  "nonce": "0",
 			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 			  "signatures": Array [
-			    "c092a7d5a9297e8d33fc327e9fd1130edf2c8aebc20a2994f648a32ecdc1ecaa28b87f278abebad7b34c51030e2e217725456b321ae4b358de99b4dbf65fe80d",
+			    "d46bd9dcd71a58468a7d0cfef8cfd6581707fd216f0fa2d26c88f0ed6dc4af2b66d3ce95714e60414dcb815a8a4574011fcf80bddf6e90c6d62a873eab654302",
 			  ],
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
@@ -181,6 +184,7 @@ describe("TransactionService", () => {
 		it("should fail to vote with a number that is not a multiple of 10", async () => {
 			await expect(
 				subject.vote({
+					fee: 10,
 					signatory: new Signatories.Signatory(
 						new Signatories.MnemonicSignatory({
 							signingKey: identity.mnemonic,
@@ -228,6 +232,7 @@ describe("TransactionService", () => {
 		};
 
 		const transaction1 = await subject.multiSignature({
+			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: wallet1.signingKey,
