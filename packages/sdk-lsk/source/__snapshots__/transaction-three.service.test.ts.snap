@@ -15,8 +15,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "a218ca9189872bf8bf836f3e1ebfc7770752551ae4fc61b7bb45f87fee89171f",
+    "fee": "1000000000",
+    "id": "2afeb17a2b67e73954503a64fe180ca37d3558e79331167147bb713f8cad219d",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -29,14 +29,14 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
       "",
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
-  "identifier": "a218ca9189872bf8bf836f3e1ebfc7770752551ae4fc61b7bb45f87fee89171f",
+  "identifier": "2afeb17a2b67e73954503a64fe180ca37d3558e79331167147bb713f8cad219d",
   "signedData": Object {
     "asset": Object {
       "mandatoryKeys": Array [
@@ -47,8 +47,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "a218ca9189872bf8bf836f3e1ebfc7770752551ae4fc61b7bb45f87fee89171f",
+    "fee": "1000000000",
+    "id": "2afeb17a2b67e73954503a64fe180ca37d3558e79331167147bb713f8cad219d",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -61,9 +61,9 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
       "",
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
@@ -85,8 +85,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "88647ef68cb91c5796843a571da994edf175876469f51c2a826afa7aa3dc2a34",
+    "fee": "1000000000",
+    "id": "c5a407e8e51e92fc99dabe10d4dae55a0ff4b0a6b88bff4c259d97c7576fe920",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -99,14 +99,14 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
-      "e0fcd3edb757214bb5b21a34cba6e485b7d23262487b4f980bb30e833fb1c2a972fa425a7223366949389108527fab74bf1ac2a56d8b030b0ea0bbf87214f30b",
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
+      "e137048288066e8f8511ec0ab0eaaf11dd5211424ee339630e3ba037393c0eb47f2ad462bac8b2643a365d41c8b056fbb45cc8e4a3074fd483e66e1523fdc907",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
-  "identifier": "88647ef68cb91c5796843a571da994edf175876469f51c2a826afa7aa3dc2a34",
+  "identifier": "c5a407e8e51e92fc99dabe10d4dae55a0ff4b0a6b88bff4c259d97c7576fe920",
   "signedData": Object {
     "asset": Object {
       "mandatoryKeys": Array [
@@ -117,8 +117,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "88647ef68cb91c5796843a571da994edf175876469f51c2a826afa7aa3dc2a34",
+    "fee": "1000000000",
+    "id": "c5a407e8e51e92fc99dabe10d4dae55a0ff4b0a6b88bff4c259d97c7576fe920",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -131,9 +131,9 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
-      "e0fcd3edb757214bb5b21a34cba6e485b7d23262487b4f980bb30e833fb1c2a972fa425a7223366949389108527fab74bf1ac2a56d8b030b0ea0bbf87214f30b",
-      "300716832537cc8930a8608fbf2e8ccce869411935ed863f721617e3d8a73253e645380758cac47f1a20a115b68146512ac4d89aa1c7a499c34a10c39bc63001",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
+      "e137048288066e8f8511ec0ab0eaaf11dd5211424ee339630e3ba037393c0eb47f2ad462bac8b2643a365d41c8b056fbb45cc8e4a3074fd483e66e1523fdc907",
+      "4d40239d00e095f4069f253f8e68776d514424f37aa3fada5778ca34c2949146c22538cccc6e675dc93dc0da9ca82c13e3bcd60eb454dd9e41c8ba94dd18ed0f",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
@@ -155,8 +155,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "808fe64c94e7e651342cf8102d25626c68024638e038aa298c6074feb23fe34a",
+    "fee": "1000000000",
+    "id": "5613cabcc9df9b451a4dbf8d5496004811be372f0d38fb5512dbbbd4af5bd93c",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -169,14 +169,14 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "e8343b8618a2ea6babf9d9ceb1f5fd3aa8c79fd91b771c40ede0f5b49c32096be7eb2e114a4fb90e6f0f02c3a120834e712654fb14dd33c0374347ae4f3fa208",
-      "e0fcd3edb757214bb5b21a34cba6e485b7d23262487b4f980bb30e833fb1c2a972fa425a7223366949389108527fab74bf1ac2a56d8b030b0ea0bbf87214f30b",
-      "e8343b8618a2ea6babf9d9ceb1f5fd3aa8c79fd91b771c40ede0f5b49c32096be7eb2e114a4fb90e6f0f02c3a120834e712654fb14dd33c0374347ae4f3fa208",
+      "1a0a9d88ac5ba5be18932bbd95036b3fbfcfab6a4a9619eeafea483baa3b1f84c0ccdaab806fe0620755a314b2c07beef1b87abb23eabbad24c3f7c05c392e0b",
+      "e137048288066e8f8511ec0ab0eaaf11dd5211424ee339630e3ba037393c0eb47f2ad462bac8b2643a365d41c8b056fbb45cc8e4a3074fd483e66e1523fdc907",
+      "1a0a9d88ac5ba5be18932bbd95036b3fbfcfab6a4a9619eeafea483baa3b1f84c0ccdaab806fe0620755a314b2c07beef1b87abb23eabbad24c3f7c05c392e0b",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
-  "identifier": "808fe64c94e7e651342cf8102d25626c68024638e038aa298c6074feb23fe34a",
+  "identifier": "5613cabcc9df9b451a4dbf8d5496004811be372f0d38fb5512dbbbd4af5bd93c",
   "signedData": Object {
     "asset": Object {
       "mandatoryKeys": Array [
@@ -187,8 +187,8 @@ SignedTransactionData {
       "optionalKeys": Array [],
     },
     "assetID": 0,
-    "fee": "314000",
-    "id": "808fe64c94e7e651342cf8102d25626c68024638e038aa298c6074feb23fe34a",
+    "fee": "1000000000",
+    "id": "5613cabcc9df9b451a4dbf8d5496004811be372f0d38fb5512dbbbd4af5bd93c",
     "moduleID": 4,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -201,9 +201,9 @@ SignedTransactionData {
     "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "e8343b8618a2ea6babf9d9ceb1f5fd3aa8c79fd91b771c40ede0f5b49c32096be7eb2e114a4fb90e6f0f02c3a120834e712654fb14dd33c0374347ae4f3fa208",
-      "e0fcd3edb757214bb5b21a34cba6e485b7d23262487b4f980bb30e833fb1c2a972fa425a7223366949389108527fab74bf1ac2a56d8b030b0ea0bbf87214f30b",
-      "e8343b8618a2ea6babf9d9ceb1f5fd3aa8c79fd91b771c40ede0f5b49c32096be7eb2e114a4fb90e6f0f02c3a120834e712654fb14dd33c0374347ae4f3fa208",
+      "1a0a9d88ac5ba5be18932bbd95036b3fbfcfab6a4a9619eeafea483baa3b1f84c0ccdaab806fe0620755a314b2c07beef1b87abb23eabbad24c3f7c05c392e0b",
+      "e137048288066e8f8511ec0ab0eaaf11dd5211424ee339630e3ba037393c0eb47f2ad462bac8b2643a365d41c8b056fbb45cc8e4a3074fd483e66e1523fdc907",
+      "1a0a9d88ac5ba5be18932bbd95036b3fbfcfab6a4a9619eeafea483baa3b1f84c0ccdaab806fe0620755a314b2c07beef1b87abb23eabbad24c3f7c05c392e0b",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
