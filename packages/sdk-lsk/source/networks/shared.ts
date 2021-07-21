@@ -8,6 +8,7 @@ export const transactions: Networks.NetworkManifestTransactions = {
 		ticker: "LSK",
 	},
 	memo: true,
+	multiSignatureType: "standard",
 };
 
 export const importMethods: Networks.NetworkManifestImportMethods = {
