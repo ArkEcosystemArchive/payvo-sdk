@@ -28,21 +28,21 @@ export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.
 		]);
 
 		const dataCrypto = crypto.json().data;
-		const dataStatus = status.json().data;
+		const { height } = status.json().data;
 
 		if (dataCrypto.network.client.token !== this.configRepository.get(Coins.ConfigKey.CurrencyTicker)) {
 			throw new Error(`Failed to connect to ${peer} because it is on another network.`);
 		}
 
 		Managers.configManager.setConfig(dataCrypto);
-		Managers.configManager.setHeight(dataStatus.height);
+		Managers.configManager.setHeight(height);
 
 		if (container.missing(BindingType.Crypto)) {
 			container.constant(BindingType.Crypto, dataCrypto);
 		}
 
 		if (container.missing(BindingType.Height)) {
-			container.constant(BindingType.Height, dataStatus.height);
+			container.constant(BindingType.Height, height);
 		}
 	}
 }

@@ -2,6 +2,7 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { Request } from "@payvo/http-got";
+import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/source";
 import { Network, NetworkRepository } from "../networks";
@@ -13,11 +14,26 @@ import { Manifest } from "./manifest";
 let subject: Coin;
 
 beforeEach(async () => {
+	nock.disableNetConnect();
+
+	nock(/.+/)
+		.get("/api/blockchain")
+		.reply(200, require("../../test/fixtures/blockchain.json"))
+		.get("/api/node/configuration")
+		.reply(200, require("../../test/fixtures/configuration.json"))
+		.get("/api/node/configuration/crypto")
+		.reply(200, require("../../test/fixtures/configuration-crypto.json"))
+		.get("/api/node/syncing")
+		.reply(200, require("../../test/fixtures/syncing.json"))
+		.persist();
+
 	subject = CoinFactory.make(ARK, {
 		network: "ark.devnet",
 		httpClient: new Request(),
 	});
 });
+
+afterEach(() => nock.cleanAll());
 
 test("#construct", async () => {
 	expect(() => subject.address()).toThrow(/No matching bindings found for serviceIdentifier/);
