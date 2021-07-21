@@ -43,7 +43,7 @@ export interface NetworkManifestTransactions {
 	memo?: boolean;
 	utxo?: boolean;
 	multiPaymentRecipients?: number;
-    multiSignatureType?: "standard" | "advanced";
+	multiSignatureType?: "standard" | "advanced";
 }
 
 export interface NetworkManifestFeatureFlags {
