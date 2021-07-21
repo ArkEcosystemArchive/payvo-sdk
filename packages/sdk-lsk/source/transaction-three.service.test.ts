@@ -1,5 +1,6 @@
 import "jest-extended";
 
+import { DateTime } from "@payvo/intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
@@ -17,7 +18,6 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
-import { DateTime } from "@payvo/intl";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;

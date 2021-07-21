@@ -1,0 +1,21 @@
+{
+	"data": {
+		"feeEstimatePerByte": {
+			"low": 0,
+			"medium": 0,
+			"high": 0
+		},
+		"baseFeeById": {
+			"5:0": "1000000000"
+		},
+		"baseFeeByName": {
+			"dpos:registerDelegate": "1000000000"
+		},
+		"minFeePerByte": 1000
+	},
+	"meta": {
+		"lastUpdate": 1626800293,
+		"lastBlockHeight": 14183817,
+		"lastBlockId": "9632b216cc4311b1b9b586b35bc941a5f1a5e56baf9010edc00c80dc8d125eef"
+	}
+}

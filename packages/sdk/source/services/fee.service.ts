@@ -1,10 +1,11 @@
 /* istanbul ignore file */
 
+import { SignedTransactionData } from "../dto";
 import { NotImplemented } from "../exceptions";
 import { HttpClient } from "../http";
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
-import { FeeService, TransactionFees } from "./fee.contract";
+import { FeeService, TransactionFeeOptions, TransactionFees } from "./fee.contract";
 
 @injectable()
 export class AbstractFeeService implements FeeService {
@@ -13,5 +14,9 @@ export class AbstractFeeService implements FeeService {
 
 	public async all(): Promise<TransactionFees> {
 		throw new NotImplemented(this.constructor.name, this.all.name);
+	}
+
+	public async calculate(transaction: SignedTransactionData, options?: TransactionFeeOptions): Promise<number> {
+		throw new NotImplemented(this.constructor.name, this.calculate.name);
 	}
 }

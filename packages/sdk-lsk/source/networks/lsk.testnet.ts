@@ -51,6 +51,7 @@ const network: Networks.NetworkManifest = {
 		networkId: "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c",
 		assets: {
 			"token:transfer": {
+				maximumFee: 1e8,
 				moduleAssetId: "2:0",
 				moduleAssetName: "token:transfer",
 				moduleID: 2,
@@ -81,6 +82,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"keys:registerMultisignatureGroup": {
+				maximumFee: 5e8,
 				moduleAssetId: "4:0",
 				moduleAssetName: "keys:registerMultisignatureGroup",
 				moduleID: 4,
@@ -122,6 +124,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"dpos:registerDelegate": {
+				maximumFee: 25e8,
 				moduleAssetId: "5:0",
 				moduleAssetName: "dpos:registerDelegate",
 				moduleID: 5,
@@ -141,6 +144,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"dpos:voteDelegate": {
+				maximumFee: 1e8,
 				moduleAssetId: "5:1",
 				moduleAssetName: "dpos:voteDelegate",
 				moduleID: 5,
@@ -176,6 +180,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"dpos:unlockToken": {
+				maximumFee: 1e8,
 				moduleAssetId: "5:2",
 				moduleAssetName: "dpos:unlockToken",
 				moduleID: 5,
@@ -215,6 +220,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"dpos:reportDelegateMisbehavior": {
+				maximumFee: 1e8,
 				moduleAssetId: "5:3",
 				moduleAssetName: "dpos:reportDelegateMisbehavior",
 				moduleID: 5,
@@ -364,6 +370,7 @@ const network: Networks.NetworkManifest = {
 				},
 			},
 			"legacyAccount:reclaimLSK": {
+				maximumFee: 1e8,
 				moduleAssetId: "1000:0",
 				moduleAssetName: "legacyAccount:reclaimLSK",
 				moduleID: 1000,
