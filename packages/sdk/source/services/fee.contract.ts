@@ -1,5 +1,7 @@
 import { BigNumber } from "@payvo/helpers";
 
+import { SignedTransactionData } from "../dto";
+
 export interface TransactionFee {
 	static: BigNumber;
 	max: BigNumber;
@@ -25,4 +27,13 @@ export interface TransactionFees {
 
 export interface FeeService {
 	all(): Promise<TransactionFees>;
+
+	calculate(
+		transaction: SignedTransactionData,
+		options?: TransactionFeeOptions,
+	): Promise<number>;
+}
+
+export interface TransactionFeeOptions {
+	priority?: "slow" | "average" | "fast";
 }
