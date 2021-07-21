@@ -18,67 +18,11 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://hub21.lisk.io",
+			host: "https://lsk-live.payvo.com",
 		},
 		{
-			type: "full",
-			host: "https://hub22.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub23.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub24.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub25.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub26.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub27.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub28.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub31.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub32.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub33.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub34.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub35.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub36.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub37.lisk.io",
-		},
-		{
-			type: "full",
-			host: "https://hub38.lisk.io",
+			type: "musig",
+			host: "https://lsk-live-musig.payvo.com",
 		},
 		{
 			type: "explorer",

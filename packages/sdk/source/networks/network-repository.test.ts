@@ -111,11 +111,11 @@ test("#all", () => {
 		    },
 		    "hosts": Array [
 		      Object {
-		        "host": "https://dwallets.ark.io/api",
+		        "host": "https://ark-test.payvo.com/api",
 		        "type": "full",
 		      },
 		      Object {
-		        "host": "https://dmusig1.ark.io",
+		        "host": "https://ark-test-musig.payvo.com",
 		        "type": "musig",
 		      },
 		      Object {
@@ -284,11 +284,11 @@ test("#all", () => {
 		    },
 		    "hosts": Array [
 		      Object {
-		        "host": "https://wallets.ark.io/api",
+		        "host": "https://ark-live.payvo.com/api",
 		        "type": "full",
 		      },
 		      Object {
-		        "host": "https://musig1.ark.io",
+		        "host": "https://ark-live-musig.payvo.com",
 		        "type": "musig",
 		      },
 		      Object {

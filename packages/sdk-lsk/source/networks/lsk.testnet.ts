@@ -18,15 +18,11 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://testnet.lisk.io",
-		},
-		{
-			type: "archival",
-			host: "https://testnet-service.lisktools.eu/api/v2",
+			host: "https://lsk-test.payvo.com/api/v2",
 		},
 		{
 			type: "musig",
-			host: "http://localhost:3000",
+			host: "https://lsk-test-musig.payvo.com",
 		},
 		{
 			type: "explorer",

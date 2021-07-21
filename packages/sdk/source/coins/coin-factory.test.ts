@@ -2,12 +2,41 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { Request } from "@payvo/http-got";
+import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/source";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
 const options = { network: "ark.mainnet", httpClient: new Request() };
+
+beforeAll(async () => {
+	nock.disableNetConnect();
+
+	nock("https://ark-live.payvo.com")
+		.get("/api/blockchain")
+		.reply(200, require("../../test/livenet/blockchain.json"))
+		.get("/api/node/configuration")
+		.reply(200, require("../../test/livenet/configuration.json"))
+		.get("/api/node/configuration/crypto")
+		.reply(200, require("../../test/livenet/configuration-crypto.json"))
+		.get("/api/node/syncing")
+		.reply(200, require("../../test/livenet/syncing.json"))
+		.persist();
+
+	nock("https://ark-test.payvo.com")
+		.get("/api/blockchain")
+		.reply(200, require("../../test/testnet/blockchain.json"))
+		.get("/api/node/configuration")
+		.reply(200, require("../../test/testnet/configuration.json"))
+		.get("/api/node/configuration/crypto")
+		.reply(200, require("../../test/testnet/configuration-crypto.json"))
+		.get("/api/node/syncing")
+		.reply(200, require("../../test/testnet/syncing.json"))
+		.persist();
+});
+
+afterAll(() => nock.cleanAll());
 
 it("should create an instance", async () => {
 	expect(CoinFactory.make(ARK, options)).toBeInstanceOf(Coin);
