@@ -28,10 +28,7 @@ export interface TransactionFees {
 export interface FeeService {
 	all(): Promise<TransactionFees>;
 
-	calculate(
-		transaction: SignedTransactionData,
-		options?: TransactionFeeOptions,
-	): Promise<number>;
+	calculate(transaction: SignedTransactionData, options?: TransactionFeeOptions): Promise<number>;
 }
 
 export interface TransactionFeeOptions {
