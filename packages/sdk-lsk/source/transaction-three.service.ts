@@ -1,5 +1,5 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
+import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/helpers";
 import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
@@ -240,6 +240,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #buildTransactionObject(input: Services.TransactionInput, type: string): Promise<Record<string, any>> {
+		if (!input.fee || !Number.isInteger(input.fee)) {
+			throw new Error("Expected [input.fee] to be a number.");
+		}
+
 		let nonce: BigInt | undefined = undefined;
 
 		try {
@@ -256,9 +260,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			moduleID,
 			assetID,
 			nonce,
-			// @TODO: The estimates are currently under processing. Please retry in 30 seconds.
-			// https://testnet-service.lisk.io/api/v2/fees
-			fee: BigInt(314000),
+			fee: BigInt(convertLSKToBeddows(`${input.fee}`)),
 			senderPublicKey: this.#senderPublicKey(input),
 		};
 	}
