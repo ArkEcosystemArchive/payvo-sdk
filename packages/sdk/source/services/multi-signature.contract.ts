@@ -39,6 +39,15 @@ export interface MultiSignatureService {
 	findById(id: string): Promise<MultiSignatureTransaction>;
 
 	/**
+	 * Find a multi-signature transaction by its ID and delete it.
+	 *
+	 * @param {string} id
+	 * @returns {Promise<void>}
+	 * @memberof MultiSignatureService
+	 */
+	forgetById(id: string): Promise<void>;
+
+	/**
 	 * Broadcast the given multi-signature transaction.
 	 *
 	 * @param {MultiSignatureTransaction} transaction

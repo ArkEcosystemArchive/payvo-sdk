@@ -22,6 +22,10 @@ export class AbstractMultiSignatureService implements MultiSignatureService {
 		throw new NotImplemented(this.constructor.name, this.findById.name);
 	}
 
+	public async forgetById(id: string): Promise<void> {
+		throw new NotImplemented(this.constructor.name, this.forgetById.name);
+	}
+
 	public async broadcast(transaction: MultiSignatureTransaction): Promise<BroadcastResponse> {
 		throw new NotImplemented(this.constructor.name, this.broadcast.name);
 	}
