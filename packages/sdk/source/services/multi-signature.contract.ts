@@ -45,7 +45,7 @@ export interface MultiSignatureService {
 	 * @returns {Promise<void>}
 	 * @memberof MultiSignatureService
 	 */
-	 forgetById(id: string): Promise<void>;
+	forgetById(id: string): Promise<void>;
 
 	/**
 	 * Broadcast the given multi-signature transaction.
