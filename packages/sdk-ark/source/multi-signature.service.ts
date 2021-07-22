@@ -53,7 +53,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	/** @inheritdoc */
 	public override async forgetById(id: string): Promise<void> {
-		return this.#post("delete", { id });
+		await this.#post("delete", { id });
 	}
 
 	/** @inheritdoc */
