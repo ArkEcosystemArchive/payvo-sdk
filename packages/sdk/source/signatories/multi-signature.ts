@@ -1,18 +1,15 @@
-export interface MultiSignature {
-	publicKeys: string[];
-	min: number;
-}
+import { MultiSignatureAsset } from "../services";
 
 export class MultiSignatureSignatory {
-	readonly #signature: MultiSignature;
+	readonly #signature: MultiSignatureAsset;
 	readonly #identifier: string | undefined;
 
-	public constructor(signature: MultiSignature, identifier?: string) {
+	public constructor(signature: MultiSignatureAsset, identifier?: string) {
 		this.#signature = signature;
 		this.#identifier = identifier;
 	}
 
-	public signingList(): MultiSignature {
+	public signingList(): MultiSignatureAsset {
 		return this.#signature;
 	}
 

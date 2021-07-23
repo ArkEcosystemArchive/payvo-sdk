@@ -129,6 +129,42 @@ describe("MnemonicSignatory", () => {
 
 		expect(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
 	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new MnemonicSignatory({
+				signingKey: "signingKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
+	});
 });
 
 describe("MultiMnemonicSignatory", () => {
@@ -192,6 +228,34 @@ describe("MultiMnemonicSignatory", () => {
 		const subject = new Signatory(new MultiMnemonicSignatory(["signingKey"], ["identifier"]));
 
 		expect(() => subject.privateKey()).toThrow(/cannot be called/);
+	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(new MultiMnemonicSignatory(["signingKey"], ["identifier"]), {
+			publicKeys: [
+				"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+				"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+				"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+				"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+				"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+				"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+			],
+			min: 4,
+		});
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
 	});
 });
 
@@ -321,6 +385,43 @@ describe("SecondaryMnemonicSignatory", () => {
 
 		expect(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
 	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new SecondaryMnemonicSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
+	});
 });
 
 describe("WIFSignatory", () => {
@@ -439,6 +540,42 @@ describe("WIFSignatory", () => {
 		);
 
 		expect(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new WIFSignatory({
+				signingKey: "signingKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
 	});
 });
 
@@ -568,6 +705,43 @@ describe("SecondaryWIFSignatory", () => {
 
 		expect(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
 	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new SecondaryWIFSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
+	});
 });
 
 describe("PrivateKeySignatory", () => {
@@ -668,6 +842,40 @@ describe("PrivateKeySignatory", () => {
 		);
 
 		expect(subject.privateKey()).toMatchInlineSnapshot(`"signingKey"`);
+	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new PrivateKeySignatory({
+				signingKey: "signingKey",
+				address: "address",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
 	});
 });
 
@@ -778,6 +986,41 @@ describe("SenderPublicKeySignatory", () => {
 		);
 
 		expect(() => subject.privateKey()).toThrow(/cannot be called/);
+	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new SenderPublicKeySignatory({
+				signingKey: "signingKey",
+				address: "address",
+				publicKey: "publicKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
 	});
 });
 
@@ -966,6 +1209,71 @@ describe("PrivateMultiSignatureSignatory", () => {
 
 		expect(() => subject.privateKey()).toThrow(/cannot be called/);
 	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new PrivateMultiSignatureSignatory("this is a top secret passphrase 1", [
+				"this is a top secret passphrase 1",
+				"this is a top secret passphrase 2",
+			]),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
+	});
+});
+
+test("#hasMultiSignature", () => {
+	let subject = new Signatory(
+		new PrivateMultiSignatureSignatory("this is a top secret passphrase 1", [
+			"this is a top secret passphrase 1",
+			"this is a top secret passphrase 2",
+		]),
+	);
+
+	expect(subject.hasMultiSignature()).toBeBoolean();
+
+	subject = new Signatory(
+		new PrivateMultiSignatureSignatory("this is a top secret passphrase 1", [
+			"this is a top secret passphrase 1",
+			"this is a top secret passphrase 2",
+		]),
+		{
+			publicKeys: [
+				"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+				"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+				"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+				"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+				"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+				"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+			],
+			min: 4,
+		},
+	);
+
+	expect(subject.hasMultiSignature()).toBeTrue();
 });
 
 test("#actsWithMnemonic", () => {

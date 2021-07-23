@@ -1,3 +1,5 @@
+import { MultiSignatureAsset } from "./multi-signature.contract";
+
 export interface IdentityOptions {
 	bip39?: boolean;
 	bip44?: {
@@ -15,4 +17,5 @@ export interface IdentityOptions {
 		change?: number;
 		addressIndex?: number;
 	};
+	multiSignature?: MultiSignatureAsset;
 }

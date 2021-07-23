@@ -9,6 +9,7 @@ import { HttpClient } from "../http";
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import { BigNumberService } from "./big-number.service";
+import { ClientService } from "./client.contract";
 import { DataTransferObjectService } from "./data-transfer-object.contract";
 import {
 	DelegateRegistrationInput,
@@ -27,6 +28,9 @@ import {
 
 @injectable()
 export class AbstractTransactionService implements Contract {
+	@inject(BindingType.ClientService)
+	protected readonly clientService!: ClientService;
+
 	@inject(BindingType.ConfigRepository)
 	protected readonly configRepository!: ConfigRepository;
 

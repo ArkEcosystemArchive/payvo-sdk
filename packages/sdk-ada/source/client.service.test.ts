@@ -163,6 +163,7 @@ describe("ClientService", () => {
 
 			const txService = createService(TransactionService, undefined, (container) => {
 				container.constant(IoC.BindingType.Container, container);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,

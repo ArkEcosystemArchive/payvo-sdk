@@ -7,6 +7,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
+import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { PrivateKeyService } from "./private-key.service";
 import { PublicKeyService } from "./public-key.service";
@@ -18,6 +19,7 @@ beforeAll(async () => {
 	subject = createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

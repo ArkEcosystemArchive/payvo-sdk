@@ -1,13 +1,14 @@
 /* istanbul ignore file */
 
 import { ForbiddenMethodCallException } from "../exceptions";
+import { MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
 import { AbstractValueSignatory } from "./abstract-value-signatory";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
 import { MultiMnemonicSignatory } from "./multi-mnemonic";
-import { MultiSignature, MultiSignatureSignatory } from "./multi-signature";
+import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
 import { PrivateMultiSignatureSignatory } from "./private-multi-signature";
 import { SecondaryMnemonicSignatory } from "./secondary-mnemonic";
@@ -31,9 +32,11 @@ type SignatoryType =
 
 export class Signatory {
 	readonly #signatory: SignatoryType;
+	readonly #multiSignature: MultiSignatureAsset | undefined;
 
-	public constructor(signatory: SignatoryType) {
+	public constructor(signatory: SignatoryType, multiSignature?: MultiSignatureAsset) {
 		this.#signatory = signatory;
+		this.#multiSignature = multiSignature;
 	}
 
 	public signingKey(): string {
@@ -62,7 +65,7 @@ export class Signatory {
 		throw new ForbiddenMethodCallException(this.constructor.name, this.signingKeys.name);
 	}
 
-	public signingList(): MultiSignature {
+	public signingList(): MultiSignatureAsset {
 		if (this.#signatory instanceof MultiSignatureSignatory) {
 			return this.#signatory.signingList();
 		}
@@ -160,6 +163,14 @@ export class Signatory {
 		}
 
 		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
+	}
+
+	public multiSignature(): MultiSignatureAsset | undefined {
+		return this.#multiSignature;
+	}
+
+	public hasMultiSignature(): boolean {
+		return this.#multiSignature !== undefined;
 	}
 
 	public actsWithMnemonic(): boolean {
