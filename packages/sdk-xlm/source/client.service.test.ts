@@ -118,6 +118,7 @@ describe("ClientService", () => {
 
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,
@@ -163,6 +164,7 @@ describe("ClientService", () => {
 
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,

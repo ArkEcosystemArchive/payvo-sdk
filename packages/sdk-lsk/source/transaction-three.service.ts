@@ -8,9 +8,6 @@ import { AssetSerializer } from "./asset.serializer";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.ClientService)
-	private readonly clientService!: Services.ClientService;
-
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;
 

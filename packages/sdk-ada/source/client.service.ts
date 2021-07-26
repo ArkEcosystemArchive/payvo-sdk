@@ -1,6 +1,5 @@
 import { Collections, Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { WalletData } from "./wallet.dto";
 import { fetchTransaction, fetchTransactions, fetchUtxosAggregate, submitTransaction } from "./graphql-helpers";
 import { usedAddressesForAccount } from "./transaction.domain";
 

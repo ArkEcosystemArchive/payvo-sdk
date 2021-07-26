@@ -14,8 +14,8 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+import { MultiSignatureService } from "./multi-signature.service";
 import { identity } from "../test/fixtures/identity";
-import { BigNumber } from "@payvo/helpers";
 
 let subject: TransactionService;
 
@@ -34,6 +34,7 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 	});
 });
 
@@ -131,6 +132,43 @@ describe("TransactionService", () => {
 				},
 			});
 			expect(result.toObject().data.expiration).toBe(6795392);
+		});
+
+		it("should add a signature if the sender public key is a multi-signature wallet", async () => {
+			nock(/.+/)
+				.get("/api/wallets/DBHbggggWbDUhdiqeh9HQ6b5Ryfit7Esek")
+				.reply(200, require(`${__dirname}/../test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
+
+			const result = await subject.transfer({
+				nonce: "1",
+				signatory: new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						signingKey: identity.mnemonic,
+						address: identity.address,
+						publicKey: identity.publicKey,
+						privateKey: identity.privateKey,
+					}),
+					{
+						publicKeys: [
+							identity.publicKey,
+							"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+							"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+							"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+							"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+							"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+						],
+						min: 4,
+					},
+				),
+				data: {
+					amount: 1,
+					to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+					memo: "foo",
+				},
+				fee: 1,
+			});
+
+			expect(result.data().signatures).toHaveLength(1);
 		});
 	});
 

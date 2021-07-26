@@ -4,6 +4,11 @@ import { BroadcastResponse } from "./client.contract";
 
 export type MultiSignatureTransaction = Record<string, any>;
 
+export interface MultiSignatureAsset {
+	publicKeys: string[];
+	min: number;
+}
+
 /**
  * A service to manage, sign and broadcast all multi-signature transactions.
  *

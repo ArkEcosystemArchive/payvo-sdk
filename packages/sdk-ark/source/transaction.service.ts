@@ -1,4 +1,4 @@
-import { Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/cryptography";
 import { BigNumber } from "@payvo/helpers";
@@ -18,6 +18,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.PublicKeyService)
 	private readonly publicKeyService!: Services.PublicKeyService;
+
+	@IoC.inject(IoC.BindingType.MultiSignatureService)
+	private readonly multiSignatureService!: Services.MultiSignatureService;
 
 	@IoC.inject(BindingType.MultiSignatureSigner)
 	private readonly multiSignatureSigner!: MultiSignatureSigner;
@@ -259,9 +262,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 			if (input.nonce) {
 				transaction.nonce(input.nonce);
 			} else {
-				const { data } = (await this.httpClient.get(`${this.#peer}/wallets/${address}`)).json();
+				const wallet = await this.clientService.wallet(address!);
 
-				transaction.nonce(BigNumber.make(data.nonce).plus(1).toFixed());
+				transaction.nonce(wallet.nonce().plus(1).toFixed());
 			}
 
 			if (input.data && input.data.amount) {
@@ -311,8 +314,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 				return this.dataTransferObjectService.signedTransaction(
 					transactionWithSignature.id!,
 					transactionWithSignature,
-					transactionWithSignature,
 				);
+			}
+
+			if (input.signatory.hasMultiSignature()) {
+				transaction.data.signatures = [];
+				transaction.senderPublicKey(
+					Identities.PublicKey.fromMultiSignatureAsset(input.signatory.multiSignature()!),
+				);
+
+				const struct = transaction.getStruct();
+				struct.multiSignature = input.signatory.multiSignature();
+
+				return this.multiSignatureService.addSignature(struct, input.signatory);
 			}
 
 			const actsWithMultiMnemonic =
@@ -360,11 +374,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			const signedTransaction = transaction.build().toJson();
 
-			return this.dataTransferObjectService.signedTransaction(
-				signedTransaction.id,
-				signedTransaction,
-				signedTransaction,
-			);
+			return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
