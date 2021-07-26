@@ -318,7 +318,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			if (input.signatory.hasMultiSignature()) {
-				return this.#addSignature(transaction, input.signatory);
+				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
 			}
 
 			const actsWithMultiMnemonic =
@@ -342,7 +342,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 				}
 			} else {
 				if (type === "multiSignature") {
-					return this.#addSignature(transaction, input.signatory);
+					return this.#addSignature(transaction, {
+						publicKeys: input.data.publicKeys,
+						min: input.data.min,
+					}, input.signatory);
 				}
 
 				if (input.signatory.actsWithMnemonic()) {
@@ -376,14 +379,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addSignature(transaction, signatory: Signatories.Signatory): Promise<Contracts.SignedTransactionData> {
+	async #addSignature(transaction, multiSignature: Interfaces.IMultiSignatureAsset, signatory: Signatories.Signatory): Promise<Contracts.SignedTransactionData> {
 		transaction.data.signatures = [];
 		transaction.senderPublicKey(
-			Identities.PublicKey.fromMultiSignatureAsset(signatory.multiSignature()!),
+			Identities.PublicKey.fromMultiSignatureAsset(multiSignature),
 		);
 
 		const struct = transaction.getStruct();
-		struct.multiSignature = signatory.multiSignature();
+		struct.multiSignature = multiSignature;
 
 		return this.multiSignatureService.addSignature(struct, signatory);
 	}
