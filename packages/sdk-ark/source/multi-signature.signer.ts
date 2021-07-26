@@ -75,7 +75,10 @@ export class MultiSignatureSigner {
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
-		const { signingKeys, confirmKeys } = await this.#deriveKeyPairs(signatory);
+		const { signingKeys, confirmKeys } = await this.#deriveKeyPairs(
+			signatory,
+			isReady && pendingMultiSignature.needsFinalSignature(),
+		);
 
 		if (!isReady) {
 			if (signatory.actsWithLedger()) {
@@ -124,7 +127,7 @@ export class MultiSignatureSigner {
 		return transaction;
 	}
 
-	async #deriveKeyPairs(signatory: Signatories.Signatory): Promise<{
+	async #deriveKeyPairs(signatory: Signatories.Signatory, needsFinalSignature: boolean): Promise<{
 		signingKeys: Interfaces.IKeyPair | undefined;
 		confirmKeys: Interfaces.IKeyPair | undefined;
 	}> {
@@ -135,17 +138,20 @@ export class MultiSignatureSigner {
 			return { signingKeys, confirmKeys };
 		}
 
-		if (signatory.actsWithMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
-		}
-
 		if (signatory.actsWithSecret()) {
 			signingKeys = await this.keyPairService.fromSecret(signatory.signingKey());
 		}
 
+		if (signatory.actsWithMnemonic()) {
+			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
+		}
+
 		if (signatory.actsWithSecondaryMnemonic()) {
 			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
-			confirmKeys = await this.keyPairService.fromMnemonic(signatory.confirmKey());
+
+			if (needsFinalSignature) {
+				confirmKeys = await this.keyPairService.fromMnemonic(signatory.confirmKey());
+			}
 		}
 
 		if (signatory.actsWithWif()) {
