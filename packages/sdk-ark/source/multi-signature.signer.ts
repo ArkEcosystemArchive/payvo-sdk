@@ -127,7 +127,10 @@ export class MultiSignatureSigner {
 		return transaction;
 	}
 
-	async #deriveKeyPairs(signatory: Signatories.Signatory, needsFinalSignature: boolean): Promise<{
+	async #deriveKeyPairs(
+		signatory: Signatories.Signatory,
+		needsFinalSignature: boolean,
+	): Promise<{
 		signingKeys: Interfaces.IKeyPair | undefined;
 		confirmKeys: Interfaces.IKeyPair | undefined;
 	}> {
