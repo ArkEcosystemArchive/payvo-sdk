@@ -238,7 +238,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
 			}
 
-			if (input.signatory.actsWithWif()) {
+			if (input.signatory.actsWithWif() ||
+				input.signatory.actsWithSecondaryWif()) {
 				address = (await this.addressService.fromWIF(input.signatory.signingKey())).address;
 			}
 
