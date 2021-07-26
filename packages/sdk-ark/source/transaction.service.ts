@@ -1,5 +1,5 @@
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/cryptography";
 import { BigNumber } from "@payvo/helpers";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
@@ -318,15 +318,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			if (input.signatory.hasMultiSignature()) {
-				transaction.data.signatures = [];
-				transaction.senderPublicKey(
-					Identities.PublicKey.fromMultiSignatureAsset(input.signatory.multiSignature()!),
-				);
-
-				const struct = transaction.getStruct();
-				struct.multiSignature = input.signatory.multiSignature();
-
-				return this.multiSignatureService.addSignature(struct, input.signatory);
+				return this.#addSignature(transaction, input.signatory);
 			}
 
 			const actsWithMultiMnemonic =
@@ -349,6 +341,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 					transaction.multiSign(signingKeys[i], i);
 				}
 			} else {
+				if (type === "multiSignature") {
+					return this.#addSignature(transaction, input.signatory);
+				}
+
 				if (input.signatory.actsWithMnemonic()) {
 					transaction.sign(input.signatory.signingKey());
 				}
@@ -378,5 +374,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
+	}
+
+	async #addSignature(transaction, signatory: Signatories.Signatory): Promise<Contracts.SignedTransactionData> {
+		transaction.data.signatures = [];
+		transaction.senderPublicKey(
+			Identities.PublicKey.fromMultiSignatureAsset(signatory.multiSignature()!),
+		);
+
+		const struct = transaction.getStruct();
+		struct.multiSignature = signatory.multiSignature();
+
+		return this.multiSignatureService.addSignature(struct, signatory);
 	}
 }
