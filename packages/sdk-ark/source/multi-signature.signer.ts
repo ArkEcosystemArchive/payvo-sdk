@@ -27,10 +27,7 @@ export class MultiSignatureSigner {
 	}
 
 	// The first argument should be a TransactionBuilder but we have no proper type to hint that.
-	public sign(
-		transaction: any,
-		multiSignature: MultiSignatureAsset,
-	): MultiSignatureTransaction {
+	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
 		if (transaction.data.type === Enums.TransactionType.MultiSignature && !transaction.signatures) {
 			transaction.data.signatures = [];
 		}
