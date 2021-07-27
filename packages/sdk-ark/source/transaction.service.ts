@@ -295,6 +295,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 				await this.ledgerService.disconnect();
 			}
 
+			if (input.signatory.actsWithMultiSignature()) {
+				const transactionWithSignature = this.multiSignatureSigner.sign(
+					transaction,
+					input.signatory.signingList(),
+				);
+
+				return this.dataTransferObjectService.signedTransaction(
+					transactionWithSignature.id!,
+					transactionWithSignature,
+				);
+			}
+
 			if (input.signatory.hasMultiSignature()) {
 				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
 			}

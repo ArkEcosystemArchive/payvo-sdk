@@ -107,6 +107,14 @@ export class Signatory {
 		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
 	}
 
+	public signingList(): MultiSignatureAsset {
+		if (this.#signatory instanceof MultiSignatureSignatory) {
+			return this.#signatory.signingList();
+		}
+
+		throw new ForbiddenMethodCallException(this.constructor.name, this.signingList.name);
+	}
+
 	public multiSignature(): MultiSignatureAsset | undefined {
 		return this.#multiSignature;
 	}

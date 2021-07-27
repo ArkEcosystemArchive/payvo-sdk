@@ -30,21 +30,7 @@ export class MultiSignatureSigner {
 	public sign(
 		transaction: any,
 		multiSignature: MultiSignatureAsset,
-		mnemonic?: string,
-		senderPublicKey?: string,
 	): MultiSignatureTransaction {
-		if (senderPublicKey) {
-			const publicKeyIndex: number = multiSignature.publicKeys.indexOf(senderPublicKey);
-
-			transaction.senderPublicKey(senderPublicKey);
-
-			if (publicKeyIndex > -1) {
-				if (mnemonic) {
-					transaction.multiSign(mnemonic, publicKeyIndex);
-				}
-			}
-		}
-
 		if (transaction.data.type === Enums.TransactionType.MultiSignature && !transaction.signatures) {
 			transaction.data.signatures = [];
 		}
