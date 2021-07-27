@@ -1,5 +1,5 @@
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 
-export class SecondaryWIFSignatory extends AbstractDoubleSignatory {
+export class ConfirmationWIFSignatory extends AbstractDoubleSignatory {
 	//
 }

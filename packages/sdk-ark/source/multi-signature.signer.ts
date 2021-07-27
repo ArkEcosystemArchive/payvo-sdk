@@ -149,7 +149,7 @@ export class MultiSignatureSigner {
 			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
 		}
 
-		if (signatory.actsWithSecondaryMnemonic()) {
+		if (signatory.actsWithConfirmationMnemonic()) {
 			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
 
 			if (needsFinalSignature) {
@@ -161,7 +161,7 @@ export class MultiSignatureSigner {
 			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
 		}
 
-		if (signatory.actsWithSecondaryWif()) {
+		if (signatory.actsWithConfirmationWif()) {
 			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
 			confirmKeys = await this.keyPairService.fromWIF(signatory.confirmKey());
 		}

@@ -183,7 +183,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
-			signatory.actsWithSecondaryMnemonic() ? signatory.confirmKey() : signatory.signingKey(),
+			signatory.actsWithConfirmationMnemonic() ? signatory.confirmKey() : signatory.signingKey(),
 			{
 				mandatoryKeys: convertStringList(mandatoryKeys),
 				optionalKeys: convertStringList(optionalKeys),
