@@ -89,20 +89,16 @@ describe("TransactionService", () => {
 		});
 
 		it("should verify without nonce if uses secondary wif", async () => {
-			const identifyWithSecondaryWif = {
-				...identity,
-				secondaryWif: "SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5eswarever"
-			}
-
 			nock(/.+/)
-				.get(`/api/wallets/${identifyWithSecondaryWif.address}`)
+				.get(`/api/wallets/${identity.address}`)
 				.reply(200, { data: { nonce: "1" } });
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
-					new Signatories.SecondaryWIFSignatory({
-						signingKey: identifyWithSecondaryWif.mnemonic,
-						address: identifyWithSecondaryWif.address,
+					new Signatories.ConfirmationWIFSignatory({
+						signingKey: identity.wif,
+						confirmKey: identity.wif,
+						address: identity.address,
 						publicKey: "publicKey",
 						privateKey: "privateKey",
 					}),
