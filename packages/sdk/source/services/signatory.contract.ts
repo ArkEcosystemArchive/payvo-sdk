@@ -12,6 +12,8 @@ export interface SignatoryService {
 
 	privateKey(privateKey: string, options?: IdentityOptions): Promise<Signatory>;
 
+	multiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<Signatory>;
+
 	ledger(path: string): Promise<Signatory>;
 
 	secret(secret: string): Promise<Signatory>;

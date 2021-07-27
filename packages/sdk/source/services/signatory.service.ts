@@ -7,6 +7,7 @@ import {
 	ConfirmationWIFSignatory,
 	LedgerSignatory,
 	MnemonicSignatory,
+	MultiSignatureSignatory,
 	PrivateKeySignatory,
 	SecretSignatory,
 	Signatory,
@@ -106,6 +107,16 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: (await this.addressService.fromPrivateKey(privateKey, options)).address,
 			}),
 			options?.multiSignature,
+		);
+	}
+
+	public async multiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<Signatory> {
+		return new Signatory(
+			new MultiSignatureSignatory(
+				{ min, publicKeys },
+				(await this.addressService.fromMultiSignature(min, publicKeys)).address,
+			),
+			options?.multiSignature ?? { min, publicKeys },
 		);
 	}
 
