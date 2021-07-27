@@ -27,24 +27,7 @@ export class MultiSignatureSigner {
 	}
 
 	// The first argument should be a TransactionBuilder but we have no proper type to hint that.
-	public sign(
-		transaction: any,
-		multiSignature: MultiSignatureAsset,
-		mnemonic?: string,
-		senderPublicKey?: string,
-	): MultiSignatureTransaction {
-		if (senderPublicKey) {
-			const publicKeyIndex: number = multiSignature.publicKeys.indexOf(senderPublicKey);
-
-			transaction.senderPublicKey(senderPublicKey);
-
-			if (publicKeyIndex > -1) {
-				if (mnemonic) {
-					transaction.multiSign(mnemonic, publicKeyIndex);
-				}
-			}
-		}
-
+	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
 		if (transaction.data.type === Enums.TransactionType.MultiSignature && !transaction.signatures) {
 			transaction.data.signatures = [];
 		}

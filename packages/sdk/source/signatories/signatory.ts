@@ -8,6 +8,7 @@ import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
+import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
 import { SecretSignatory } from "./secret";
 import { WIFSignatory } from "./wif";
@@ -17,6 +18,7 @@ type SignatoryType =
 	| ConfirmationWIFSignatory
 	| LedgerSignatory
 	| MnemonicSignatory
+	| MultiSignatureSignatory
 	| PrivateKeySignatory
 	| SecretSignatory
 	| WIFSignatory;
@@ -31,6 +33,10 @@ export class Signatory {
 	}
 
 	public signingKey(): string {
+		if (this.#signatory instanceof MultiSignatureSignatory) {
+			throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
+		}
+
 		return this.#signatory.signingKey();
 	}
 
@@ -58,6 +64,10 @@ export class Signatory {
 		}
 
 		if (this.#signatory instanceof PrivateKeySignatory) {
+			return this.#signatory.address();
+		}
+
+		if (this.#signatory instanceof MultiSignatureSignatory) {
 			return this.#signatory.address();
 		}
 
@@ -102,6 +112,14 @@ export class Signatory {
 		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
 	}
 
+	public asset(): MultiSignatureAsset {
+		if (this.#signatory instanceof MultiSignatureSignatory) {
+			return this.#signatory.asset();
+		}
+
+		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
+	}
+
 	public multiSignature(): MultiSignatureAsset | undefined {
 		return this.#multiSignature;
 	}
@@ -128,6 +146,10 @@ export class Signatory {
 
 	public actsWithPrivateKey(): boolean {
 		return this.#signatory instanceof PrivateKeySignatory;
+	}
+
+	public actsWithMultiSignature(): boolean {
+		return this.#signatory instanceof MultiSignatureSignatory;
 	}
 
 	public actsWithLedger(): boolean {
