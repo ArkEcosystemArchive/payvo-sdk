@@ -5,11 +5,12 @@ import { MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
 import { AbstractValueSignatory } from "./abstract-value-signatory";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
 import { PrivateKeySignatory } from "./private-key";
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
+import { PrivateMultiSignatureSignatory } from "./private-multi-signature";
 import { SecretSignatory } from "./secret";
 import { WIFSignatory } from "./wif";
 
@@ -19,6 +20,7 @@ type SignatoryType =
 	| LedgerSignatory
 	| MnemonicSignatory
 	| PrivateKeySignatory
+	| PrivateMultiSignatureSignatory
 	| SecretSignatory
 	| WIFSignatory;
 
@@ -127,11 +129,15 @@ export class Signatory {
 		return this.#signatory instanceof ConfirmationMnemonicSignatory;
 	}
 
-	public actsWithWIF(): boolean {
+	public actsWithConfirmationMnemonic(): boolean {
+		return this.#signatory instanceof ConfirmationMnemonicSignatory;
+	}
+
+	public actsWithWif(): boolean {
 		return this.#signatory instanceof WIFSignatory;
 	}
 
-	public actsWithConfirmationWIF(): boolean {
+	public actsWithConfirmationWif(): boolean {
 		return this.#signatory instanceof ConfirmationWIFSignatory;
 	}
 

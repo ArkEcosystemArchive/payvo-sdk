@@ -3,11 +3,11 @@
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import {
+	ConfirmationMnemonicSignatory,
+	ConfirmationWIFSignatory,
 	LedgerSignatory,
 	MnemonicSignatory,
 	PrivateKeySignatory,
-	ConfirmationMnemonicSignatory,
-	ConfirmationWIFSignatory,
 	SecretSignatory,
 	Signatory,
 	WIFSignatory,
@@ -82,7 +82,11 @@ export class AbstractSignatoryService implements SignatoryService {
 		);
 	}
 
-	public async confirmationWIF(signingKey: string, confirmKey: string, options?: IdentityOptions): Promise<Signatory> {
+	public async confirmationWIF(
+		signingKey: string,
+		confirmKey: string,
+		options?: IdentityOptions,
+	): Promise<Signatory> {
 		return new Signatory(
 			new ConfirmationWIFSignatory({
 				signingKey,
