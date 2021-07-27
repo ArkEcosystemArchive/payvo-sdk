@@ -8,6 +8,7 @@ import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
+import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
 import { SecretSignatory } from "./secret";
 import { WIFSignatory } from "./wif";
@@ -31,6 +32,10 @@ export class Signatory {
 	}
 
 	public signingKey(): string {
+		if (this.#signatory instanceof MultiSignatureSignatory) {
+			throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
+		}
+
 		return this.#signatory.signingKey();
 	}
 
@@ -128,6 +133,10 @@ export class Signatory {
 
 	public actsWithPrivateKey(): boolean {
 		return this.#signatory instanceof PrivateKeySignatory;
+	}
+
+	public actsWithMultiSignature(): boolean {
+		return this.#signatory instanceof MultiSignatureSignatory;
 	}
 
 	public actsWithLedger(): boolean {
