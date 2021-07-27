@@ -108,12 +108,12 @@ export class Signatory {
 		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
 	}
 
-	public signingList(): MultiSignatureAsset {
+	public asset(): MultiSignatureAsset {
 		if (this.#signatory instanceof MultiSignatureSignatory) {
-			return this.#signatory.signingList();
+			return this.#signatory.asset();
 		}
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.signingList.name);
+		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
 	}
 
 	public multiSignature(): MultiSignatureAsset | undefined {

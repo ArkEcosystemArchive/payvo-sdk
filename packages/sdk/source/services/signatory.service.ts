@@ -16,6 +16,7 @@ import {
 import { AddressService } from "./address.contract";
 import { ExtendedAddressService } from "./extended-address.contract";
 import { KeyPairService } from "./key-pair.contract";
+import { MultiSignatureAsset } from "./multi-signature.contract";
 import { PrivateKeyService } from "./private-key.contract";
 import { PublicKeyService } from "./public-key.contract";
 import { IdentityOptions } from "./shared.contract";
@@ -110,13 +111,13 @@ export class AbstractSignatoryService implements SignatoryService {
 		);
 	}
 
-	public async multiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<Signatory> {
+	public async multiSignature(asset: MultiSignatureAsset, options?: IdentityOptions): Promise<Signatory> {
 		return new Signatory(
 			new MultiSignatureSignatory(
-				{ min, publicKeys },
-				(await this.addressService.fromMultiSignature(min, publicKeys)).address,
+				asset,
+				(await this.addressService.fromMultiSignature(asset.min, asset.publicKeys)).address,
 			),
-			options?.multiSignature ?? { min, publicKeys },
+			options?.multiSignature ?? asset,
 		);
 	}
 

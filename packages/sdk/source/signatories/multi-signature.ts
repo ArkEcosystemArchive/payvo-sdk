@@ -1,16 +1,16 @@
 import { MultiSignatureAsset } from "../services";
 
 export class MultiSignatureSignatory {
-	readonly #signature: MultiSignatureAsset;
+	readonly #asset: MultiSignatureAsset;
 	readonly #address: string;
 
-	public constructor(signature: MultiSignatureAsset, address: string) {
-		this.#signature = signature;
+	public constructor(asset: MultiSignatureAsset, address: string) {
+		this.#asset = asset;
 		this.#address = address;
 	}
 
-	public signingList(): MultiSignatureAsset {
-		return this.#signature;
+	public asset(): MultiSignatureAsset {
+		return this.#asset;
 	}
 
 	public address(): string {
