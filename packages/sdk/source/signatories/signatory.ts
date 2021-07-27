@@ -18,6 +18,7 @@ type SignatoryType =
 	| ConfirmationWIFSignatory
 	| LedgerSignatory
 	| MnemonicSignatory
+	| MultiSignatureSignatory
 	| PrivateKeySignatory
 	| SecretSignatory
 	| WIFSignatory;
