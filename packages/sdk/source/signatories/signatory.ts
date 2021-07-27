@@ -10,7 +10,6 @@ import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
 import { PrivateKeySignatory } from "./private-key";
-import { PrivateMultiSignatureSignatory } from "./private-multi-signature";
 import { SecretSignatory } from "./secret";
 import { WIFSignatory } from "./wif";
 
@@ -20,7 +19,6 @@ type SignatoryType =
 	| LedgerSignatory
 	| MnemonicSignatory
 	| PrivateKeySignatory
-	| PrivateMultiSignatureSignatory
 	| SecretSignatory
 	| WIFSignatory;
 
@@ -129,15 +127,11 @@ export class Signatory {
 		return this.#signatory instanceof ConfirmationMnemonicSignatory;
 	}
 
-	public actsWithConfirmationMnemonic(): boolean {
-		return this.#signatory instanceof ConfirmationMnemonicSignatory;
-	}
-
-	public actsWithWif(): boolean {
+	public actsWithWIF(): boolean {
 		return this.#signatory instanceof WIFSignatory;
 	}
 
-	public actsWithConfirmationWif(): boolean {
+	public actsWithConfirmationWIF(): boolean {
 		return this.#signatory instanceof ConfirmationWIFSignatory;
 	}
 
