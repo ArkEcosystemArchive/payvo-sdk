@@ -4,6 +4,7 @@ import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
+import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
 import { SecretSignatory } from "./secret";
 import { Signatory } from "./signatory";
@@ -524,6 +525,63 @@ describe("PrivateKeySignatory", () => {
 	});
 });
 
+describe("MultiSignatureSignatory", () => {
+	test("#signingKey", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(() => subject.signingKey()).toThrow(/cannot be called/);
+	});
+
+	test("#asset", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(subject.asset()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 5,
+		  "publicKeys": Array [
+		    "identifier",
+		  ],
+		}
+	`);
+	});
+
+	test("#confirmKey", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(() => subject.confirmKey()).toThrow(/cannot be called/);
+	});
+
+	test("#address", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(subject.address()).toMatchInlineSnapshot(`"identifier"`);
+	});
+
+	test("#publicKey", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(() => subject.publicKey()).toThrow(/cannot be called/);
+	});
+
+	test("#privateKey", () => {
+		const subject = new Signatory(
+			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
+		);
+
+		expect(() => subject.privateKey()).toThrow(/cannot be called/);
+	});
+});
+
 test("#hasMultiSignature", () => {
 	let subject = new Signatory(
 		new SecretSignatory({
@@ -622,6 +680,12 @@ test("#actsWithPrivateKey", () => {
 	);
 
 	expect(subject.actsWithPrivateKey()).toBeBoolean();
+});
+
+test("#actsWithMultiSignature", () => {
+	const subject = new Signatory(new LedgerSignatory("path"));
+
+	expect(subject.actsWithMultiSignature()).toBeBoolean();
 });
 
 test("#actsWithLedger", () => {

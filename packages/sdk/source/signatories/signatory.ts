@@ -67,6 +67,10 @@ export class Signatory {
 			return this.#signatory.address();
 		}
 
+		if (this.#signatory instanceof MultiSignatureSignatory) {
+			return this.#signatory.address();
+		}
+
 		throw new ForbiddenMethodCallException(this.constructor.name, this.address.name);
 	}
 
