@@ -54,7 +54,7 @@ describe("TransactionService", () => {
 		it("should verify", async () => {
 			const result = await subject.secondSignature({
 				signatory: new Signatories.Signatory(
-					new Signatories.SecondaryMnemonicSignatory({
+					new Signatories.ConfirmationMnemonicSignatory({
 						signingKey: identity.mnemonic,
 						confirmKey: identity.mnemonic,
 						address: "15957226662510576840L",
