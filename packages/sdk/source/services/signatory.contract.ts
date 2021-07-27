@@ -6,17 +6,11 @@ export interface SignatoryService {
 
 	confirmationMnemonic(mnemonic: string, confirmation: string, options?: IdentityOptions): Promise<Signatory>;
 
-	multiMnemonic(mnemonics: string[]): Promise<Signatory>;
-
 	wif(mnemonic: string): Promise<Signatory>;
 
 	confirmationWIF(mnemonic: string, confirmation: string): Promise<Signatory>;
 
 	privateKey(privateKey: string, options?: IdentityOptions): Promise<Signatory>;
-
-	senderPublicKey(publicKey: string, options?: IdentityOptions): Promise<Signatory>;
-
-	multiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<Signatory>;
 
 	ledger(path: string): Promise<Signatory>;
 

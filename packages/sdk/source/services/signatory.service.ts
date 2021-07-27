@@ -7,11 +7,8 @@ import {
 	ConfirmationWIFSignatory,
 	LedgerSignatory,
 	MnemonicSignatory,
-	MultiMnemonicSignatory,
-	MultiSignatureSignatory,
 	PrivateKeySignatory,
 	SecretSignatory,
-	SenderPublicKeySignatory,
 	Signatory,
 	WIFSignatory,
 } from "../signatories";
@@ -73,18 +70,6 @@ export class AbstractSignatoryService implements SignatoryService {
 		);
 	}
 
-	public async multiMnemonic(mnemonics: string[], options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(
-			new MultiMnemonicSignatory(
-				mnemonics,
-				(
-					await Promise.all(mnemonics.map((mnemonic: string) => this.publicKeyService.fromMnemonic(mnemonic)))
-				).map(({ publicKey }) => publicKey),
-			),
-			options?.multiSignature,
-		);
-	}
-
 	public async wif(primary: string, options?: IdentityOptions): Promise<Signatory> {
 		return new Signatory(
 			new WIFSignatory({
@@ -121,27 +106,6 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: (await this.addressService.fromPrivateKey(privateKey, options)).address,
 			}),
 			options?.multiSignature,
-		);
-	}
-
-	public async senderPublicKey(publicKey: string, options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(
-			new SenderPublicKeySignatory({
-				signingKey: publicKey,
-				address: (await this.addressService.fromPublicKey(publicKey, options)).address,
-				publicKey,
-			}),
-			options?.multiSignature,
-		);
-	}
-
-	public async multiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(
-			new MultiSignatureSignatory(
-				{ min, publicKeys },
-				(await this.addressService.fromMultiSignature(min, publicKeys)).address,
-			),
-			options?.multiSignature ?? { min, publicKeys },
 		);
 	}
 

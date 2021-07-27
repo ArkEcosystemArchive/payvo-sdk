@@ -157,11 +157,11 @@ export class MultiSignatureSigner {
 			}
 		}
 
-		if (signatory.actsWithWif()) {
+		if (signatory.actsWithWIF()) {
 			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
 		}
 
-		if (signatory.actsWithConfirmationWif()) {
+		if (signatory.actsWithConfirmationWIF()) {
 			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
 			confirmKeys = await this.keyPairService.fromWIF(signatory.confirmKey());
 		}
