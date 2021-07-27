@@ -11,21 +11,21 @@ import { MultiMnemonicSignatory } from "./multi-mnemonic";
 import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
 import { PrivateMultiSignatureSignatory } from "./private-multi-signature";
-import { SecondaryMnemonicSignatory } from "./secondary-mnemonic";
-import { SecondaryWIFSignatory } from "./secondary-wif";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { SecretSignatory } from "./secret";
 import { SenderPublicKeySignatory } from "./sender-public-key";
 import { WIFSignatory } from "./wif";
 
 type SignatoryType =
+	| ConfirmationMnemonicSignatory
+	| ConfirmationWIFSignatory
 	| LedgerSignatory
 	| MnemonicSignatory
 	| MultiMnemonicSignatory
 	| MultiSignatureSignatory
 	| PrivateKeySignatory
 	| PrivateMultiSignatureSignatory
-	| SecondaryMnemonicSignatory
-	| SecondaryWIFSignatory
 	| SecretSignatory
 	| SenderPublicKeySignatory
 	| WIFSignatory;
@@ -75,11 +75,11 @@ export class Signatory {
 
 	public confirmKey(): string {
 		// @TODO: deduplicate this
-		if (this.#signatory instanceof SecondaryMnemonicSignatory) {
+		if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
 			return this.#signatory.confirmKey();
 		}
 
-		if (this.#signatory instanceof SecondaryWIFSignatory) {
+		if (this.#signatory instanceof ConfirmationWIFSignatory) {
 			return this.#signatory.confirmKey();
 		}
 
@@ -181,16 +181,16 @@ export class Signatory {
 		return this.#signatory instanceof MultiMnemonicSignatory;
 	}
 
-	public actsWithSecondaryMnemonic(): boolean {
-		return this.#signatory instanceof SecondaryMnemonicSignatory;
+	public actsWithConfirmationMnemonic(): boolean {
+		return this.#signatory instanceof ConfirmationMnemonicSignatory;
 	}
 
 	public actsWithWif(): boolean {
 		return this.#signatory instanceof WIFSignatory;
 	}
 
-	public actsWithSecondaryWif(): boolean {
-		return this.#signatory instanceof SecondaryWIFSignatory;
+	public actsWithConfirmationWif(): boolean {
+		return this.#signatory instanceof ConfirmationWIFSignatory;
 	}
 
 	public actsWithPrivateKey(): boolean {

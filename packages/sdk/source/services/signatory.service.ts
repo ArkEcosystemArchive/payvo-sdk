@@ -8,8 +8,8 @@ import {
 	MultiMnemonicSignatory,
 	MultiSignatureSignatory,
 	PrivateKeySignatory,
-	SecondaryMnemonicSignatory,
-	SecondaryWIFSignatory,
+	ConfirmationMnemonicSignatory,
+	ConfirmationWIFSignatory,
 	SecretSignatory,
 	SenderPublicKeySignatory,
 	Signatory,
@@ -56,13 +56,13 @@ export class AbstractSignatoryService implements SignatoryService {
 		);
 	}
 
-	public async secondaryMnemonic(
+	public async confirmationMnemonic(
 		signingKey: string,
 		confirmKey: string,
 		options?: IdentityOptions,
 	): Promise<Signatory> {
 		return new Signatory(
-			new SecondaryMnemonicSignatory({
+			new ConfirmationMnemonicSignatory({
 				signingKey,
 				confirmKey,
 				address: (await this.addressService.fromMnemonic(signingKey, options)).address,
@@ -97,9 +97,9 @@ export class AbstractSignatoryService implements SignatoryService {
 		);
 	}
 
-	public async secondaryWif(signingKey: string, confirmKey: string, options?: IdentityOptions): Promise<Signatory> {
+	public async confirmationWIF(signingKey: string, confirmKey: string, options?: IdentityOptions): Promise<Signatory> {
 		return new Signatory(
-			new SecondaryWIFSignatory({
+			new ConfirmationWIFSignatory({
 				signingKey,
 				confirmKey,
 				address: (await this.addressService.fromWIF(signingKey)).address,

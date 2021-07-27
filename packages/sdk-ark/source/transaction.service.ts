@@ -228,7 +228,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			if (
 				input.signatory.actsWithMnemonic() ||
-				input.signatory.actsWithSecondaryMnemonic() ||
+				input.signatory.actsWithConfirmationMnemonic() ||
 				input.signatory.actsWithPrivateMultiSignature()
 			) {
 				address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
@@ -356,7 +356,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					transaction.sign(input.signatory.signingKey());
 				}
 
-				if (input.signatory.actsWithSecondaryMnemonic()) {
+				if (input.signatory.actsWithConfirmationMnemonic()) {
 					transaction.sign(input.signatory.signingKey());
 					transaction.secondSign(input.signatory.confirmKey());
 				}
@@ -365,7 +365,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					transaction.signWithWif(input.signatory.signingKey());
 				}
 
-				if (input.signatory.actsWithSecondaryWif()) {
+				if (input.signatory.actsWithConfirmationWif()) {
 					transaction.signWithWif(input.signatory.signingKey());
 					transaction.secondSignWithWif(input.signatory.confirmKey());
 				}
