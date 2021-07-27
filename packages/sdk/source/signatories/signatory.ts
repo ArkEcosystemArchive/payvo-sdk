@@ -4,7 +4,6 @@ import { ForbiddenMethodCallException } from "../exceptions";
 import { MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
-import { AbstractValueSignatory } from "./abstract-value-signatory";
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
@@ -58,10 +57,6 @@ export class Signatory {
 			return this.#signatory.address();
 		}
 
-		if (this.#signatory instanceof AbstractValueSignatory) {
-			return this.#signatory.address();
-		}
-
 		if (this.#signatory instanceof PrivateKeySignatory) {
 			return this.#signatory.address();
 		}
@@ -76,10 +71,6 @@ export class Signatory {
 		}
 
 		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.publicKey();
-		}
-
-		if (this.#signatory instanceof AbstractValueSignatory) {
 			return this.#signatory.publicKey();
 		}
 
