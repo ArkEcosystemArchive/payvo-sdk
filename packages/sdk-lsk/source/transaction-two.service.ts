@@ -146,7 +146,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				struct.passphrase = input.signatory.signingKey();
 			}
 
-			if (input.signatory.actsWithSecondaryMnemonic()) {
+			if (input.signatory.actsWithConfirmationMnemonic()) {
 				struct.secondPassphrase = input.signatory.confirmKey();
 			}
 

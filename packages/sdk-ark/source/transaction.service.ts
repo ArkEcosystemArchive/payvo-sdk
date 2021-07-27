@@ -226,11 +226,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		try {
 			let address: string | undefined;
 
-			if (
-				input.signatory.actsWithMnemonic() ||
-				input.signatory.actsWithSecondaryMnemonic() ||
-				input.signatory.actsWithPrivateMultiSignature()
-			) {
+			if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
 				address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
 			}
 
@@ -238,8 +234,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
 			}
 
-			if (input.signatory.actsWithWif() ||
-				input.signatory.actsWithSecondaryWif()) {
+			if (input.signatory.actsWithWIF() || input.signatory.actsWithConfirmationWIF()) {
 				address = (await this.addressService.fromWIF(input.signatory.signingKey())).address;
 			}
 
@@ -252,12 +247,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				transaction.senderPublicKey(senderPublicKey);
 
 				address = (await this.addressService.fromPublicKey(senderPublicKey)).address;
-			}
-
-			if (input.signatory.actsWithSenderPublicKey()) {
-				address = input.signatory.address();
-
-				transaction.senderPublicKey(input.signatory.signingKey());
 			}
 
 			if (input.nonce) {
@@ -306,74 +295,41 @@ export class TransactionService extends Services.AbstractTransactionService {
 				await this.ledgerService.disconnect();
 			}
 
-			if (input.signatory.actsWithMultiSignature()) {
-				const transactionWithSignature = this.multiSignatureSigner.sign(
-					transaction,
-					input.signatory.signingList(),
-				);
-
-				return this.dataTransferObjectService.signedTransaction(
-					transactionWithSignature.id!,
-					transactionWithSignature,
-				);
-			}
-
 			if (input.signatory.hasMultiSignature()) {
 				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
 			}
 
-			const actsWithMultiMnemonic =
-				input.signatory.actsWithMultiMnemonic() || input.signatory.actsWithPrivateMultiSignature();
-
-			if (actsWithMultiMnemonic && Array.isArray(input.signatory.signingKeys())) {
-				const signingKeys: string[] = input.signatory.signingKeys();
-
-				const senderPublicKeys: string[] = (
-					await Promise.all(
-						signingKeys.map((mnemonic: string) => this.publicKeyService.fromMnemonic(mnemonic)),
-					)
-				).map(({ publicKey }) => publicKey);
-
-				transaction.senderPublicKey(
-					(await this.publicKeyService.fromMultiSignature(signingKeys.length, senderPublicKeys)).publicKey,
+			if (type === "multiSignature") {
+				return this.#addSignature(
+					transaction,
+					{
+						publicKeys: input.data.publicKeys,
+						min: input.data.min,
+					},
+					input.signatory,
 				);
+			}
 
-				for (let i = 0; i < signingKeys.length; i++) {
-					transaction.multiSign(signingKeys[i], i);
-				}
-			} else {
-				if (type === "multiSignature") {
-					return this.#addSignature(
-						transaction,
-						{
-							publicKeys: input.data.publicKeys,
-							min: input.data.min,
-						},
-						input.signatory,
-					);
-				}
+			if (input.signatory.actsWithMnemonic()) {
+				transaction.sign(input.signatory.signingKey());
+			}
 
-				if (input.signatory.actsWithMnemonic()) {
-					transaction.sign(input.signatory.signingKey());
-				}
+			if (input.signatory.actsWithConfirmationMnemonic()) {
+				transaction.sign(input.signatory.signingKey());
+				transaction.secondSign(input.signatory.confirmKey());
+			}
 
-				if (input.signatory.actsWithSecondaryMnemonic()) {
-					transaction.sign(input.signatory.signingKey());
-					transaction.secondSign(input.signatory.confirmKey());
-				}
+			if (input.signatory.actsWithWIF()) {
+				transaction.signWithWif(input.signatory.signingKey());
+			}
 
-				if (input.signatory.actsWithWif()) {
-					transaction.signWithWif(input.signatory.signingKey());
-				}
+			if (input.signatory.actsWithConfirmationWIF()) {
+				transaction.signWithWif(input.signatory.signingKey());
+				transaction.secondSignWithWif(input.signatory.confirmKey());
+			}
 
-				if (input.signatory.actsWithSecondaryWif()) {
-					transaction.signWithWif(input.signatory.signingKey());
-					transaction.secondSignWithWif(input.signatory.confirmKey());
-				}
-
-				if (input.signatory.actsWithSecret()) {
-					transaction.sign(input.signatory.signingKey());
-				}
+			if (input.signatory.actsWithSecret()) {
+				transaction.sign(input.signatory.signingKey());
 			}
 
 			const signedTransaction = transaction.build().toJson();

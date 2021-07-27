@@ -4,30 +4,21 @@ import { ForbiddenMethodCallException } from "../exceptions";
 import { MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
-import { AbstractValueSignatory } from "./abstract-value-signatory";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
-import { MultiMnemonicSignatory } from "./multi-mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
 import { PrivateKeySignatory } from "./private-key";
-import { PrivateMultiSignatureSignatory } from "./private-multi-signature";
-import { SecondaryMnemonicSignatory } from "./secondary-mnemonic";
-import { SecondaryWIFSignatory } from "./secondary-wif";
 import { SecretSignatory } from "./secret";
-import { SenderPublicKeySignatory } from "./sender-public-key";
 import { WIFSignatory } from "./wif";
 
 type SignatoryType =
+	| ConfirmationMnemonicSignatory
+	| ConfirmationWIFSignatory
 	| LedgerSignatory
 	| MnemonicSignatory
-	| MultiMnemonicSignatory
-	| MultiSignatureSignatory
 	| PrivateKeySignatory
-	| PrivateMultiSignatureSignatory
-	| SecondaryMnemonicSignatory
-	| SecondaryWIFSignatory
 	| SecretSignatory
-	| SenderPublicKeySignatory
 	| WIFSignatory;
 
 export class Signatory {
@@ -40,66 +31,20 @@ export class Signatory {
 	}
 
 	public signingKey(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof MultiMnemonicSignatory) {
-			throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
-		}
-
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
-		}
-
 		return this.#signatory.signingKey();
-	}
-
-	public signingKeys(): string[] {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof MultiMnemonicSignatory) {
-			return this.#signatory.signingKeys();
-		}
-
-		if (this.#signatory instanceof PrivateMultiSignatureSignatory) {
-			return this.#signatory.signingKeys();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.signingKeys.name);
-	}
-
-	public signingList(): MultiSignatureAsset {
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			return this.#signatory.signingList();
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.signingList.name);
 	}
 
 	public confirmKey(): string {
 		// @TODO: deduplicate this
-		if (this.#signatory instanceof SecondaryMnemonicSignatory) {
+		if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
 			return this.#signatory.confirmKey();
 		}
 
-		if (this.#signatory instanceof SecondaryWIFSignatory) {
+		if (this.#signatory instanceof ConfirmationWIFSignatory) {
 			return this.#signatory.confirmKey();
 		}
 
 		throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
-	}
-
-	public identifier(): string {
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			return this.#signatory.identifier()!;
-		}
-
-		throw new ForbiddenMethodCallException(this.constructor.name, this.identifier.name);
-	}
-
-	public identifiers(): string[] {
-		if (!(this.#signatory instanceof MultiMnemonicSignatory)) {
-			throw new ForbiddenMethodCallException(this.constructor.name, this.identifiers.name);
-		}
-
-		return this.#signatory.identifiers();
 	}
 
 	public address(): string {
@@ -109,10 +54,6 @@ export class Signatory {
 		}
 
 		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.address();
-		}
-
-		if (this.#signatory instanceof AbstractValueSignatory) {
 			return this.#signatory.address();
 		}
 
@@ -130,10 +71,6 @@ export class Signatory {
 		}
 
 		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.publicKey();
-		}
-
-		if (this.#signatory instanceof AbstractValueSignatory) {
 			return this.#signatory.publicKey();
 		}
 
@@ -177,36 +114,20 @@ export class Signatory {
 		return this.#signatory instanceof MnemonicSignatory;
 	}
 
-	public actsWithMultiMnemonic(): boolean {
-		return this.#signatory instanceof MultiMnemonicSignatory;
+	public actsWithConfirmationMnemonic(): boolean {
+		return this.#signatory instanceof ConfirmationMnemonicSignatory;
 	}
 
-	public actsWithSecondaryMnemonic(): boolean {
-		return this.#signatory instanceof SecondaryMnemonicSignatory;
-	}
-
-	public actsWithWif(): boolean {
+	public actsWithWIF(): boolean {
 		return this.#signatory instanceof WIFSignatory;
 	}
 
-	public actsWithSecondaryWif(): boolean {
-		return this.#signatory instanceof SecondaryWIFSignatory;
+	public actsWithConfirmationWIF(): boolean {
+		return this.#signatory instanceof ConfirmationWIFSignatory;
 	}
 
 	public actsWithPrivateKey(): boolean {
 		return this.#signatory instanceof PrivateKeySignatory;
-	}
-
-	public actsWithSenderPublicKey(): boolean {
-		return this.#signatory instanceof SenderPublicKeySignatory;
-	}
-
-	public actsWithMultiSignature(): boolean {
-		return this.#signatory instanceof MultiSignatureSignatory;
-	}
-
-	public actsWithPrivateMultiSignature(): boolean {
-		return this.#signatory instanceof PrivateMultiSignatureSignatory;
 	}
 
 	public actsWithLedger(): boolean {
