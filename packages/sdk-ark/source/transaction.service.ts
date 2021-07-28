@@ -245,10 +245,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			if (input.signatory.actsWithMultiSignature()) {
-				address = (await this.addressService.fromMultiSignature(
-					input.signatory.asset().min,
-					input.signatory.asset().publicKeys,
-				)).address;
+				address = (
+					await this.addressService.fromMultiSignature(
+						input.signatory.asset().min,
+						input.signatory.asset().publicKeys,
+					)
+				).address;
 			}
 
 			if (senderPublicKey) {
