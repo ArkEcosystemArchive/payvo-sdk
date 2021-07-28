@@ -1,28 +1,20 @@
-export const calculateBalanceLockedInVotes = (votes = {}) =>
-	Object.values(votes).reduce((total, vote: any) => total + vote.confirmed, 0);
+export const calculateBalanceLockedInVotes = (votes): number =>
+	votes.reduce((total: number, { amount }) => total + amount, 0);
 
-export const calculateBalanceLockedInUnvotes = (unlocking = []) =>
-	unlocking.reduce((acc, vote: any) => acc + parseInt(vote.amount, 10), 0);
+export const calculateBalanceLockedInUnvotes = (unlocking): number =>
+	unlocking.reduce((acc, { amount }) => acc + parseInt(amount, 10), 0);
 
-export const isBlockHeightReached = (unlockHeight, currentBlockHeight) => currentBlockHeight >= unlockHeight;
+export const isBlockHeightReached = (unlockHeight: number, currentBlockHeight: number): boolean =>
+	currentBlockHeight >= unlockHeight;
 
-export const getUnlockableUnlockObjects = (unlocking = [], currentBlockHeight = 0) =>
-	unlocking
-		.filter((vote: any) => isBlockHeightReached(vote.height.end, currentBlockHeight))
-		.map((vote: any) => ({
-			delegateAddress: vote.delegateAddress,
-			amount: vote.amount,
-			unvoteHeight: Number(vote.height.start),
-		}));
-
-export const calculateUnlockableBalance = (unlocking = [], currentBlockHeight = 0) =>
+export const calculateUnlockableBalance = (unlocking, currentBlockHeight: number = 0): number =>
 	unlocking.reduce(
 		(sum, vote: any) =>
 			isBlockHeightReached(vote.height.end, currentBlockHeight) ? sum + parseInt(vote.amount, 10) : sum,
 		0,
 	);
 
-export const calculateBalanceUnlockableInTheFuture = (unlocking = [], currentBlockHeight = 0) =>
+export const calculateUnlockableBalanceInTheFuture = (unlocking, currentBlockHeight: number = 0): number =>
 	unlocking.reduce(
 		(sum, vote: any) =>
 			!isBlockHeightReached(vote.height.end, currentBlockHeight) ? sum + parseInt(vote.amount, 10) : sum,
@@ -38,3 +30,5 @@ export const isDelegateRegistration = ({ assetID, moduleID }: Record<string, any
 	moduleID === 5 && assetID === 0;
 
 export const isVote = ({ assetID, moduleID }: Record<string, any>): boolean => moduleID === 5 && assetID === 1;
+
+export const isUnlockToken = ({ assetID, moduleID }: Record<string, any>): boolean => moduleID === 5 && assetID === 2;

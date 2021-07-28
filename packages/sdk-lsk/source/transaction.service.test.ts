@@ -19,6 +19,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
+import { BigNumber } from "@payvo/helpers";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -285,5 +286,55 @@ describe("TransactionService", () => {
 		expect(transaction3).toMatchSnapshot();
 
 		nock.enableNetConnect();
+	});
+
+	test("#unlockBalance", async () => {
+		const result = await subject.unlockBalance({
+			fee: 10,
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: identity.mnemonic,
+					address: identity.address,
+					publicKey: identity.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+			data: {
+				objects: [
+					{
+						address: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+						amount: BigNumber.make(10e8),
+						height: "14216291",
+						isReady: true,
+						timestamp: DateTime.make("2021-07-28T06:26:40.000Z"),
+					},
+				],
+			},
+		});
+
+		expect(result).toBeInstanceOf(SignedTransactionData);
+		expect(result.toBroadcast()).toMatchInlineSnapshot(`
+		Object {
+		  "asset": Object {
+		    "unlockObjects": Array [
+		      Object {
+		        "amount": "1000000000",
+		        "delegateAddress": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+		        "unvoteHeight": 14216291,
+		      },
+		    ],
+		  },
+		  "assetID": 2,
+		  "fee": "1000000000",
+		  "id": "eaf0d5d1873de1db0daf6daedcc8bfaa0fd162ff4a361ead9cf97ff1a24713f5",
+		  "moduleID": 5,
+		  "nonce": "0",
+		  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+		  "signatures": Array [
+		    "41b93881b43c67f4da6680df6550266e468658ba6aa749012226d47ae3ea5eb91ffd77251132fe479b036797b375c6a701421dd1ad9c15c964992415fe5c3e04",
+		  ],
+		  "timestamp": "2021-01-01T12:00:00.000Z",
+		}
+	`);
 	});
 });

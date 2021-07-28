@@ -67,7 +67,7 @@ describe("FeeService", () => {
 	test("#calculate", async () => {
 		nock(/.+/)
 			.get("/api/v2/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/three/fees.json`))
+			.reply(200, require(`${__dirname}/../test/fixtures/client/fees.json`))
 			.persist();
 
 		const transaction = {

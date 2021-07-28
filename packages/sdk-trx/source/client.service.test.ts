@@ -71,6 +71,7 @@ describe("ClientService", () => {
 			  "tokens": Object {
 			    "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7": BigNumber {},
 			  },
+			  "total": BigNumber {},
 			}
 		`);
 		});

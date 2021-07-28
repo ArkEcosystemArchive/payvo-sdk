@@ -11,6 +11,7 @@ import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
+import { DateTime } from "@payvo/intl";
 
 let subject: ClientService;
 
@@ -31,7 +32,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/transactions")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/transaction.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
@@ -50,7 +51,7 @@ describe("ClientService", () => {
 			expect(result.recipient()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
 			expect(result.amount().toString()).toMatchInlineSnapshot(`"0"`);
 			expect(result.fee().toString()).toMatchInlineSnapshot(`"144000"`);
-			expect(result.memo()).toMatchInlineSnapshot(`undefined`);
+			expect(result.memo()).toMatchInlineSnapshot(`"Account initialization"`);
 			expect(result.isTransfer()).toMatchInlineSnapshot(`false`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
 			expect(result.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
@@ -76,7 +77,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/transactions")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/transactions.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({ address: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" });
 			const transaction = result.items()[0];
@@ -117,17 +118,19 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/wallet.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet("lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m");
 
 			expect(result).toBeInstanceOf(WalletData);
-			expect(result.primaryKey()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
-			expect(result.address()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
-			expect(result.publicKey()).toMatchInlineSnapshot(`null`);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"8361961317361193"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"8361961317361193"`);
-			expect(result.nonce().toString()).toMatchInlineSnapshot(`"0"`);
+			expect(result.primaryKey()).toMatchInlineSnapshot(`"lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
+			expect(result.address()).toMatchInlineSnapshot(`"lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
+			expect(result.publicKey()).toMatchInlineSnapshot(
+				`"414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b"`,
+			);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"146999716000"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"146999716000"`);
+			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.username()).toMatchInlineSnapshot(`""`);
 			expect(result.rank()).toMatchInlineSnapshot(`undefined`);
@@ -144,7 +147,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/wallets.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({ address: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" });
 			const wallet = result.items()[0];
@@ -172,7 +175,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/delegate.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/delegate.json`));
 
 			const result = await subject.delegate("punkrock");
 
@@ -182,8 +185,8 @@ describe("ClientService", () => {
 			expect(result.publicKey()).toMatchInlineSnapshot(
 				`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`,
 			);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"20115467794"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"20115467794"`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"-307533884532206"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"-307533884532206"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.username()).toMatchInlineSnapshot(`"punkrock"`);
@@ -201,7 +204,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/delegates.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/delegates.json`));
 
 			const result = await subject.delegates();
 			const wallet = result.items()[0];
@@ -231,7 +234,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/votes_sent")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/votes.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/votes.json`));
 
 			const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
@@ -243,6 +246,111 @@ describe("ClientService", () => {
 			  Object {
 			    "amount": 3075540,
 			    "id": "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+			  },
+			]
+		`);
+		});
+	});
+
+	describe("#unlockableBalances", () => {
+		it("should have a pending balance if the current height is not greater than the unlock height", async () => {
+			jest.spyOn(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
+
+			nock(/.+/)
+				.get("/api/v2/accounts")
+				.query(true)
+				.reply(200, {
+					data: [
+						{
+							dpos: {
+								unlocking: [
+									{
+										delegateAddress: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+										amount: "1000000000",
+										height: {
+											start: 14216291,
+											end: 14218291,
+										},
+									},
+								],
+							},
+						},
+					],
+				})
+				.get("/api/v2/network/status")
+				.reply(200, {
+					data: {
+						blockTime: 10,
+						height: 14218290,
+					},
+				});
+
+			const { current, pending, objects } = await subject.unlockableBalances(
+				"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+			);
+
+			expect(current.toHuman()).toBe(0);
+			expect(pending.toHuman()).toBe(10);
+			expect(objects).toMatchInlineSnapshot(`
+			Array [
+			  Object {
+			    "address": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+			    "amount": BigNumber {},
+			    "height": 14216291,
+			    "isReady": false,
+			    "timestamp": "2021-07-28T17:33:10.000Z",
+			  },
+			]
+		`);
+		});
+
+		it("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
+			jest.spyOn(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
+
+			nock(/.+/)
+				.get("/api/v2/accounts")
+				.query(true)
+				.reply(200, {
+					data: [
+						{
+							dpos: {
+								unlocking: [
+									{
+										delegateAddress: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+										amount: "1000000000",
+										height: {
+											start: 14216291,
+											end: 14218291,
+										},
+									},
+								],
+							},
+						},
+					],
+				})
+				.get("/api/v2/network/status")
+				.reply(200, {
+					data: {
+						blockTime: 10,
+						height: 14218291,
+					},
+				});
+
+			const { current, pending, objects } = await subject.unlockableBalances(
+				"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+			);
+
+			expect(current.toHuman()).toBe(10);
+			expect(pending.toHuman()).toBe(0);
+			expect(objects[0].amount.toHuman()).toBe(10);
+			expect(objects).toMatchInlineSnapshot(`
+			Array [
+			  Object {
+			    "address": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+			    "amount": BigNumber {},
+			    "height": 14216291,
+			    "isReady": true,
+			    "timestamp": "2021-07-28T06:26:40.000Z",
 			  },
 			]
 		`);
@@ -276,7 +384,7 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock(/.+/)
 				.post("/api/v2/transactions")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/broadcast.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 
@@ -290,7 +398,7 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock(/.+/)
 				.post("/api/v2/transactions")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/three/broadcast-failure.json`));
+				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 

@@ -1,5 +1,6 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { BigNumber, NumberLike } from "@payvo/helpers";
+import { calculateBalanceLockedInUnvotes, calculateBalanceLockedInVotes } from "./helpers";
 
 @IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
@@ -34,17 +35,29 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	public override balance(): Contracts.WalletBalance {
 		let balance: NumberLike = NaN;
 
-		if (this.data.balance) {
-			balance = this.data.balance;
-		}
-
 		if (this.data.summary?.balance) {
 			balance = this.data.summary?.balance;
 		}
 
+		if (this.data.token?.balance) {
+			balance = this.data.token?.balance;
+		}
+
+		const lockedVotes: BigNumber = this.bigNumberService.make(
+			calculateBalanceLockedInVotes(this.data.dpos.sentVotes ?? []),
+		);
+		const lockedUnvotes: BigNumber = this.bigNumberService.make(
+			calculateBalanceLockedInUnvotes(this.data.dpos.unlocking ?? []),
+		);
+		const locked: BigNumber = lockedVotes.plus(lockedUnvotes);
+
 		return {
-			available: this.bigNumberService.make(balance),
-			fees: this.bigNumberService.make(balance),
+			total: this.bigNumberService.make(balance),
+			available: this.bigNumberService.make(balance).minus(locked),
+			fees: this.bigNumberService.make(balance).minus(locked),
+			locked,
+			lockedVotes,
+			lockedUnvotes,
 		};
 	}
 

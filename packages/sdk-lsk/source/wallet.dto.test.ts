@@ -1,6 +1,6 @@
 import { BigNumber } from "@payvo/helpers";
 
-import Fixture from "../test/fixtures/client/two/wallet.json";
+import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 
@@ -10,14 +10,30 @@ beforeEach(() => (subject = createService(WalletData).fill(Fixture.data[0])));
 
 describe("WalletData", () => {
 	test("#address", () => {
-		expect(subject.address()).toBe("6566229458323231555L");
+		expect(subject.address()).toBe("lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");
 	});
 
 	test("#publicKey", () => {
-		expect(subject.publicKey()).toBe("d121d3abf5425fdc0f161d9ddb32f89b7750b4bdb0bff7d18b191d4b4bafa6d4");
+		expect(subject.publicKey()).toBe("414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b");
 	});
 
 	test("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make("-9999333679754263"));
+		expect(subject.balance().total).toBeInstanceOf(BigNumber);
+		expect(subject.balance().total.toHuman()).toBe(1489.99716);
+
+		expect(subject.balance().available).toBeInstanceOf(BigNumber);
+		expect(subject.balance().available.toHuman()).toBe(1469.99716);
+
+		expect(subject.balance().fees).toBeInstanceOf(BigNumber);
+		expect(subject.balance().fees.toHuman()).toBe(1469.99716);
+
+		expect(subject.balance().locked).toBeInstanceOf(BigNumber);
+		expect(subject.balance().locked?.toHuman()).toBe(20);
+
+		expect(subject.balance().lockedVotes).toBeInstanceOf(BigNumber);
+		expect(subject.balance().lockedVotes?.toHuman()).toBe(10);
+
+		expect(subject.balance().lockedUnvotes).toBeInstanceOf(BigNumber);
+		expect(subject.balance().lockedUnvotes?.toHuman()).toBe(10);
 	});
 });

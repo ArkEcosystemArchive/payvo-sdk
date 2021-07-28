@@ -16,6 +16,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 
 	public override balance(): Contracts.WalletBalance {
 		return {
+			total: BigNumber.ZERO,
 			available: BigNumber.ZERO,
 			fees: BigNumber.ZERO,
 		};

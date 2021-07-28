@@ -14,6 +14,7 @@ import {
 	ClientTransactionsInput,
 	ClientWalletsInput,
 	TransactionDetailInput,
+	UnlockBalanceResponse,
 	VoteReport,
 } from "./client.contract";
 import { DataTransferObjectService } from "./data-transfer-object.contract";
@@ -58,6 +59,10 @@ export class AbstractClientService implements ClientService {
 
 	public async voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection> {
 		throw new NotImplemented(this.constructor.name, this.voters.name);
+	}
+
+	public async unlockableBalances(id: string): Promise<UnlockBalanceResponse> {
+		throw new NotImplemented(this.constructor.name, this.unlockableBalances.name);
 	}
 
 	public async broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse> {

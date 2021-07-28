@@ -5,6 +5,7 @@ import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
+import { getAddressFromLisk32Address } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -88,6 +89,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 				numberOfSignatures: input.data.numberOfSignatures,
 				mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
 				optionalKeys: input.data.optionalKeys.slice(input.data.min),
+			},
+			input,
+		);
+	}
+
+	public override async unlockBalance(input: Services.UnlockBalanceInput): Promise<Contracts.SignedTransactionData> {
+		return this.#createFromData(
+			"dpos:unlockToken",
+			{
+				unlockObjects: input.data.objects.map(({ address, amount, height }) => ({
+					delegateAddress: address,
+					amount,
+					unvoteHeight: height,
+				})),
 			},
 			input,
 		);
