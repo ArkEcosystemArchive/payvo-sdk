@@ -99,9 +99,9 @@ describe("scan", () => {
 
 		const lsk = await createMockService(ledger.wallets.record);
 
-		const walletData = await lsk.scan({ useLegacy: true });
+		const walletData = await lsk.scan();
 
-		expect(Object.keys(walletData)).toHaveLength(4);
+		expect(Object.keys(walletData)).toHaveLength(1);
 		expect(walletData).toMatchSnapshot();
 	});
 });
