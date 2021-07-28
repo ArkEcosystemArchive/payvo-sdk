@@ -7,6 +7,7 @@ Object {
     "available": BigNumber {},
     "fees": BigNumber {},
     "locked": BigNumber {},
+    "total": BigNumber {},
   },
   "isDelegate": false,
   "isMultiSignature": false,
