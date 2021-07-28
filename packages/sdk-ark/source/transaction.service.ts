@@ -225,20 +225,28 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		try {
 			let address: string | undefined;
+			let senderPublicKey: string | undefined;
+
+			const transaction = Transactions.BuilderFactory[type]().version(2);
 
 			if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
 				address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
+				senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
 			}
 
 			if (input.signatory.actsWithSecret()) {
 				address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
+				senderPublicKey = (await this.publicKeyService.fromSecret(input.signatory.signingKey())).publicKey;
 			}
 
 			if (input.signatory.actsWithWIF() || input.signatory.actsWithConfirmationWIF()) {
 				address = (await this.addressService.fromWIF(input.signatory.signingKey())).address;
+				senderPublicKey = (await this.publicKeyService.fromWIF(input.signatory.signingKey())).publicKey;
 			}
 
-			const transaction = Transactions.BuilderFactory[type]().version(2);
+			if (senderPublicKey) {
+				transaction.senderPublicKey(senderPublicKey);
+			}
 
 			if (input.signatory.actsWithLedger()) {
 				await this.ledgerService.connect(LedgerTransportNodeHID);
@@ -316,6 +324,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 						min: input.data.min,
 					},
 					input.signatory,
+					senderPublicKey,
 				);
 			}
 
@@ -353,9 +362,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		transaction,
 		multiSignature: Interfaces.IMultiSignatureAsset,
 		signatory: Signatories.Signatory,
+		senderPublicKey?: string,
 	): Promise<Contracts.SignedTransactionData> {
 		transaction.data.signatures = [];
-		transaction.senderPublicKey(Identities.PublicKey.fromMultiSignatureAsset(multiSignature));
+
+		if (senderPublicKey) {
+			transaction.senderPublicKey(senderPublicKey);
+		} else {
+			transaction.senderPublicKey(Identities.PublicKey.fromMultiSignatureAsset(multiSignature));
+		}
 
 		const struct = transaction.getStruct();
 		struct.multiSignature = multiSignature;
