@@ -25,7 +25,7 @@ const updaters = {
 
 	Fee: {
 		strategy: function (serviceSourceFile, serviceName) {
-			return knownMethodsStrategy(serviceSourceFile, serviceName, ["all"]);
+			return knownMethodsStrategy(serviceSourceFile, serviceName, ["all", "calculate"]);
 		},
 	},
 
