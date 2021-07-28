@@ -7,7 +7,7 @@ import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
-import { ClientService } from "./client-three.service";
+import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";

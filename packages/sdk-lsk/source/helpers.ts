@@ -1,8 +1,3 @@
-import { Coins } from "@payvo/sdk";
-
-export const isTest = (configRepository: Coins.ConfigRepository): boolean =>
-	configRepository.get(Coins.ConfigKey.NetworkType) === "test";
-
 export const calculateBalanceLockedInVotes = (votes = {}) =>
 	Object.values(votes).reduce((total, vote: any) => total + vote.confirmed, 0);
 

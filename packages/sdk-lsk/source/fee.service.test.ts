@@ -7,7 +7,7 @@ import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
-import { ClientService } from "./client-three.service";
+import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
