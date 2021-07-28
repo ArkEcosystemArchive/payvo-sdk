@@ -332,7 +332,7 @@ describe("ClientService", () => {
 				.reply(200, {
 					data: {
 						blockTime: 10,
-						height: 14218291,
+						height: 14218295,
 					},
 				});
 
@@ -350,7 +350,7 @@ describe("ClientService", () => {
 			    "amount": BigNumber {},
 			    "height": 14216291,
 			    "isReady": true,
-			    "timestamp": "2021-07-28T12:00:00.000Z",
+			    "timestamp": "2021-07-28T11:59:20.000Z",
 			  },
 			]
 		`);

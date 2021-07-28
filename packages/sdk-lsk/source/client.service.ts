@@ -90,7 +90,7 @@ export class ClientService extends Services.AbstractClientService {
 		const { blockTime, height: currentBlockHeight } = (await this.#get("network/status")).data;
 
 		const getPendingTime = (unvoteHeight: number, unlockHeight: number, blockTime: number): DateTime =>
-			DateTime.make().addSeconds((unlockHeight - unvoteHeight) * 10);
+			DateTime.make().setSecond((unlockHeight - unvoteHeight) * blockTime);
 
 		return {
 			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
