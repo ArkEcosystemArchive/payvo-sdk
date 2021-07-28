@@ -244,9 +244,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				senderPublicKey = (await this.publicKeyService.fromWIF(input.signatory.signingKey())).publicKey;
 			}
 
-            if (senderPublicKey) {
+			if (senderPublicKey) {
 				transaction.senderPublicKey(senderPublicKey);
-            }
+			}
 
 			if (input.signatory.actsWithLedger()) {
 				await this.ledgerService.connect(LedgerTransportNodeHID);
@@ -324,7 +324,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 						min: input.data.min,
 					},
 					input.signatory,
-                    senderPublicKey,
+					senderPublicKey,
 				);
 			}
 
@@ -362,15 +362,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		transaction,
 		multiSignature: Interfaces.IMultiSignatureAsset,
 		signatory: Signatories.Signatory,
-        senderPublicKey?: string,
+		senderPublicKey?: string,
 	): Promise<Contracts.SignedTransactionData> {
 		transaction.data.signatures = [];
 
-        if (senderPublicKey) {
-            transaction.senderPublicKey(senderPublicKey);
-        } else {
-            transaction.senderPublicKey(Identities.PublicKey.fromMultiSignatureAsset(multiSignature));
-        }
+		if (senderPublicKey) {
+			transaction.senderPublicKey(senderPublicKey);
+		} else {
+			transaction.senderPublicKey(Identities.PublicKey.fromMultiSignatureAsset(multiSignature));
+		}
 
 		const struct = transaction.getStruct();
 		struct.multiSignature = multiSignature;
