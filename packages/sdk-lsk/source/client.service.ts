@@ -3,6 +3,7 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers";
 import { DateTime } from "@payvo/intl";
+import moment from "moment";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -88,19 +89,17 @@ export class ClientService extends Services.AbstractClientService {
 		const { unlocking } = (await this.#get("accounts", { address: id })).data[0].dpos;
 		const { blockTime, height: currentBlockHeight } = (await this.#get("network/status")).data;
 
-		return {
-			objects: unlocking.map(({ amount, delegateAddress, height }) => {
-				const seconds: number = Math.abs(height.start - currentBlockHeight) * blockTime;
-				const isReady: boolean = isBlockHeightReached(height.end, currentBlockHeight);
+		const getPendingTime = (unvoteHeight: number, unlockHeight: number, blockTime: number): DateTime =>
+			DateTime.make().addSeconds((unlockHeight - unvoteHeight) * 10);
 
-				return {
-					address: delegateAddress,
-					amount: this.bigNumberService.make(amount),
-					height: Number(height.start),
-					timestamp: isReady ? DateTime.make().subSeconds(seconds) : DateTime.make().addSeconds(seconds),
-					isReady,
-				};
-			}),
+		return {
+			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
+				address: delegateAddress,
+				amount: this.bigNumberService.make(amount),
+				height: Number(height.start),
+				timestamp: getPendingTime(currentBlockHeight, height.end, blockTime),
+				isReady: isBlockHeightReached(height.end, currentBlockHeight),
+			})),
 			current: this.bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
 			pending: this.bigNumberService.make(calculateUnlockableBalanceInTheFuture(unlocking, currentBlockHeight)),
 		};
