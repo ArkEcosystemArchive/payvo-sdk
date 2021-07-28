@@ -244,6 +244,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 				senderPublicKey = (await this.publicKeyService.fromWIF(input.signatory.signingKey())).publicKey;
 			}
 
+			if (input.signatory.actsWithMultiSignature()) {
+				address = (await this.addressService.fromMultiSignature(
+					input.data.min,
+					input.data.publicKeys,
+				)).address;
+			}
+
 			if (senderPublicKey) {
 				transaction.senderPublicKey(senderPublicKey);
 			}
