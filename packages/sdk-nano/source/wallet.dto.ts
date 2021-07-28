@@ -18,6 +18,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		const available: BigNumber = BigNumber.make(this.data.balance).divide(1e30).times(1e8);
 
 		return {
+			total: available,
 			available,
 			fees: available,
 			locked: BigNumber.make(this.data.pending).divide(1e30).times(1e8),

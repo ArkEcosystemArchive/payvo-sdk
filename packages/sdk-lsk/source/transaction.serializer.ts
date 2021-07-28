@@ -2,7 +2,7 @@ import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskh
 import { getBytes } from "@liskhq/lisk-transactions-beta";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/helpers";
 import { Coins, Contracts, IoC } from "@payvo/sdk";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
 @IoC.injectable()
@@ -41,6 +41,16 @@ export class TransactionSerializer {
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
 				amount: BigInt(amount.toString()),
 			}));
+		}
+
+		if (isUnlockToken(mutated)) {
+			return {
+				unlockObjects: mutated.asset.unlockObjects.map(({ delegateAddress, amount, unvoteHeight }) => ({
+					delegateAddress: getAddressFromBase32Address(delegateAddress),
+					amount: BigInt(amount),
+					unvoteHeight: Number(unvoteHeight),
+				})),
+			};
 		}
 
 		if (mutated.multiSignature) {
@@ -84,6 +94,16 @@ export class TransactionSerializer {
 				delegateAddress: this.#convertAddress(delegateAddress),
 				amount: amount.toString(),
 			}));
+		}
+
+		if (isUnlockToken(mutated)) {
+			mutated.asset.unlockObjects = mutated.asset.unlockObjects.map(
+				({ delegateAddress, amount, unvoteHeight }) => ({
+					delegateAddress: this.#convertAddress(delegateAddress),
+					amount: amount.toString(),
+					unvoteHeight: Number(unvoteHeight),
+				}),
+			);
 		}
 
 		return mutated;

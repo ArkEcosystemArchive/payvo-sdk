@@ -1,5 +1,6 @@
 import { SignedTransactionData } from "../contracts";
 import { Signatory } from "../signatories";
+import { UnlockableBalance } from "./client.contract";
 
 export interface TransactionService {
 	// Core
@@ -14,6 +15,7 @@ export interface TransactionService {
 	htlcLock(input: HtlcLockInput): Promise<SignedTransactionData>;
 	htlcClaim(input: HtlcClaimInput): Promise<SignedTransactionData>;
 	htlcRefund(input: HtlcRefundInput): Promise<SignedTransactionData>;
+	unlockBalance(input: UnlockBalanceInput): Promise<SignedTransactionData>;
 
 	// Estimations
 	estimateExpiration(value?: string): Promise<string | undefined>;
@@ -104,30 +106,9 @@ export interface HtlcRefundInput extends TransactionInput {
 	data: { lockTransactionId: string };
 }
 
-export interface EntityRegistrationInput extends TransactionInput {
+export interface UnlockBalanceInput extends TransactionInput {
 	data: {
-		type: number;
-		subType: number;
-		name: string;
-		ipfs: string;
-	};
-}
-
-export interface EntityResignationInput extends TransactionInput {
-	data: {
-		type: number;
-		subType: number;
-		registrationId: string;
-	};
-}
-
-export interface EntityUpdateInput extends TransactionInput {
-	data: {
-		type: number;
-		subType: number;
-		registrationId: string;
-		name?: string;
-		ipfs?: string;
+		objects: UnlockableBalance[];
 	};
 }
 

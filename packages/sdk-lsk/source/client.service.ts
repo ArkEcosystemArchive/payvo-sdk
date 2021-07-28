@@ -1,6 +1,8 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
+import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers";
+import { DateTime } from "@payvo/intl";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -79,6 +81,28 @@ export class ClientService extends Services.AbstractClientService {
 				id: address,
 				amount: this.bigNumberService.make(amount).toHuman(),
 			})),
+		};
+	}
+
+	public override async unlockableBalances(id: string): Promise<Services.UnlockBalanceResponse> {
+		const { unlocking } = (await this.#get("accounts", { address: id })).data[0].dpos;
+		const { blockTime, height: currentBlockHeight } = (await this.#get("network/status")).data;
+
+		return {
+			objects: unlocking.map(({ amount, delegateAddress, height }) => {
+				const seconds: number = Math.abs(height.start - currentBlockHeight) * blockTime;
+				const isReady: boolean = isBlockHeightReached(height.end, currentBlockHeight);
+
+				return {
+					address: delegateAddress,
+					amount: this.bigNumberService.make(amount),
+					height: Number(height.start),
+					timestamp: isReady ? DateTime.make().subSeconds(seconds) : DateTime.make().addSeconds(seconds),
+					isReady,
+				};
+			}),
+			current: this.bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
+			pending: this.bigNumberService.make(calculateUnlockableBalanceInTheFuture(unlocking, currentBlockHeight)),
 		};
 	}
 

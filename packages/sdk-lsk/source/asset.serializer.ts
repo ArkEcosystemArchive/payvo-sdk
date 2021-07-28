@@ -1,7 +1,7 @@
 import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { convertStringList } from "@payvo/helpers";
 import { IoC, Services } from "@payvo/sdk";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
 
 @IoC.injectable()
 export class AssetSerializer {
@@ -36,6 +36,16 @@ export class AssetSerializer {
 				votes: asset.votes.map(({ delegateAddress, amount }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
 					amount: this.#normaliseVoteAmount(amount),
+				})),
+			};
+		}
+
+		if (isUnlockToken({ assetID, moduleID })) {
+			return {
+				unlockObjects: asset.unlockObjects.map(({ delegateAddress, amount, unvoteHeight }) => ({
+					delegateAddress: getAddressFromBase32Address(delegateAddress),
+					amount: BigInt(amount),
+					unvoteHeight: Number(unvoteHeight),
 				})),
 			};
 		}

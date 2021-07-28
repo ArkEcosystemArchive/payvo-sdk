@@ -1,0 +1,55 @@
+{
+	"data": {
+		"height": "14216379",
+		"finalizedHeight": 14216215,
+		"milestone": ["500000000", "400000000", "300000000", "200000000", "100000000"],
+		"networkVersion": "3.0",
+		"networkIdentifier": "15f0dacc1060e91818224a94286b13aa04279c640bd5d6f193182031d133df7c",
+		"currentReward": 100000000,
+		"rewards": {
+			"milestones": ["500000000", "400000000", "300000000", "200000000", "100000000"],
+			"offset": 2160,
+			"distance": 3000000
+		},
+		"registeredModules": ["token", "sequence", "keys", "dpos", "legacyAccount"],
+		"moduleAssets": [
+			{
+				"id": "2:0",
+				"name": "token:transfer"
+			},
+			{
+				"id": "4:0",
+				"name": "keys:registerMultisignatureGroup"
+			},
+			{
+				"id": "5:0",
+				"name": "dpos:registerDelegate"
+			},
+			{
+				"id": "5:1",
+				"name": "dpos:voteDelegate"
+			},
+			{
+				"id": "5:2",
+				"name": "dpos:unlockToken"
+			},
+			{
+				"id": "5:3",
+				"name": "dpos:reportDelegateMisbehavior"
+			},
+			{
+				"id": "1000:0",
+				"name": "legacyAccount:reclaimLSK"
+			}
+		],
+		"blockTime": 10,
+		"communityIdentifier": "Lisk",
+		"minRemainingBalance": "5000000",
+		"maxPayloadLength": 15360
+	},
+	"meta": {
+		"lastUpdate": 1627455754,
+		"lastBlockHeight": "14216379",
+		"lastBlockId": "3e563705c7ae9980bf7ea36698ef91ee5001aabcaa003066c4e7cbf4e7793e41"
+	}
+}

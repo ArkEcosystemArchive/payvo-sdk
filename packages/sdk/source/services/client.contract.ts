@@ -1,3 +1,6 @@
+import { BigNumber } from "@payvo/helpers";
+import { DateTime } from "@payvo/intl";
+
 import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
 import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";
 import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
@@ -30,6 +33,8 @@ export interface ClientService {
 	votes(id: string): Promise<VoteReport>;
 	// TODO: return struct like VoteReport
 	voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
+
+	unlockableBalances(id: string): Promise<UnlockBalanceResponse>;
 
 	broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 }
@@ -74,4 +79,19 @@ export interface VoteReport {
 
 export interface TransactionDetailInput {
 	walletId?: string;
+}
+
+// Only supported by Lisk at the moment
+export interface UnlockableBalance {
+	address: string;
+	amount: BigNumber;
+	height: string;
+	timestamp: DateTime;
+	isReady: boolean;
+}
+
+export interface UnlockBalanceResponse {
+	objects: UnlockableBalance[];
+	current: BigNumber;
+	pending: BigNumber;
 }

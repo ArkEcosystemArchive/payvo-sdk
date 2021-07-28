@@ -16,6 +16,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 
 	public override balance(): Contracts.WalletBalance {
 		return {
+			total: this.bigNumberService.make(this.data.balance).times(1e8),
 			available: this.bigNumberService.make(this.data.balance).times(1e8),
 			fees: this.bigNumberService.make(this.data.balance).times(1e8),
 		};

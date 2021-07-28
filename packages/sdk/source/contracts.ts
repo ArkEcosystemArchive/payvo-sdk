@@ -10,9 +10,12 @@ import {
 export type KeyValuePair = Record<string, any>;
 
 export interface WalletBalance {
+	total: BigNumber;
 	available: BigNumber;
 	fees: BigNumber;
 	locked?: BigNumber;
+	lockedVotes?: BigNumber;
+	lockedUnvotes?: BigNumber;
 	tokens?: Record<string, BigNumber>;
 }
 

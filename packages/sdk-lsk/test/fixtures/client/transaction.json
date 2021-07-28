@@ -26,7 +26,8 @@
 						"delegateAddress": "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3",
 						"amount": "29163000000000"
 					}
-				]
+				],
+				"data": "Account initialization"
 			},
 			"isPending": false
 		}
