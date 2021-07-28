@@ -10,6 +10,9 @@ import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
+import { BindingType } from "./coin.contract";
+import { AssetSerializer } from "./asset.serializer";
+import { TransactionSerializer } from "./transaction.serializer";
 
 const createMockService = async (record: string) => {
 	const transport = createService(LedgerService, "lsk.mainnet", (container) => {
@@ -18,6 +21,8 @@ const createMockService = async (record: string) => {
 		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(BindingType.AssetSerializer, AssetSerializer);
+		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
 	await transport.connect(createTransportReplayer(RecordStore.fromString(record)));
