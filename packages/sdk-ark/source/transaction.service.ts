@@ -223,6 +223,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<Contracts.SignedTransactionData> {
 		applyCryptoConfiguration(this.#configCrypto);
 
+        const isMultiSignatureRegistration: boolean = type === "multiSignature";
+
 		try {
 			let address: string | undefined;
 			let senderPublicKey: string | undefined;
@@ -300,18 +302,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				callback({ transaction, data: input.data });
 			}
 
-			if (input.signatory.actsWithLedger()) {
-				transaction.data.signature = await this.ledgerService.signTransaction(
-					input.signatory.signingKey(),
-					Transactions.Serializer.getBytes(transaction.data, {
-						excludeSignature: true,
-						excludeSecondSignature: true,
-					}),
-				);
-
-				await this.ledgerService.disconnect();
-			}
-
 			if (input.signatory.actsWithMultiSignature()) {
 				const transactionWithSignature = this.multiSignatureSigner.sign(transaction, input.signatory.asset());
 
@@ -325,7 +315,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
 			}
 
-			if (type === "multiSignature") {
+			if (isMultiSignatureRegistration) {
 				return this.#addSignature(
 					transaction,
 					{
@@ -335,6 +325,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 					input.signatory,
 					senderPublicKey,
 				);
+			}
+
+			if (input.signatory.actsWithLedger()) {
+				transaction.data.signature = await this.ledgerService.signTransaction(
+					input.signatory.signingKey(),
+					Transactions.Serializer.getBytes(transaction.data, {
+						excludeSignature: true,
+						excludeSecondSignature: true,
+					}),
+				);
+
+				await this.ledgerService.disconnect();
 			}
 
 			if (input.signatory.actsWithMnemonic()) {
