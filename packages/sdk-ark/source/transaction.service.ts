@@ -255,17 +255,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 				).address;
 			}
 
-			if (senderPublicKey) {
-				transaction.senderPublicKey(senderPublicKey);
-			}
-
 			if (input.signatory.actsWithLedger()) {
 				await this.ledgerService.connect(LedgerTransportNodeHID);
 
-				const senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
-				transaction.senderPublicKey(senderPublicKey);
-
+				senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
 				address = (await this.addressService.fromPublicKey(senderPublicKey)).address;
+			}
+
+			if (senderPublicKey) {
+				transaction.senderPublicKey(senderPublicKey);
 			}
 
 			if (input.nonce) {
