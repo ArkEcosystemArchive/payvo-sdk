@@ -1,0 +1,27 @@
+{
+	"data": {
+		"1": {
+			"transfer": "10000000",
+			"secondSignature": "50000000",
+			"delegateRegistration": "25000000000",
+			"vote": "100000000",
+			"multiSignature": "50000000",
+			"multiPayment": "25000000",
+			"delegateResignation": "1000000000"
+		},
+		"2": {
+			"entityRegistration": "5000000000",
+			"entityResignation": "500000000",
+			"entityUpdate": "500000000"
+		},
+		"100": {
+			"stakeCreate": "0",
+			"stakeCancel": "500000000",
+			"stakeExtend": "0",
+			"stakeRedeem": "0"
+		},
+		"101": {
+			"setFile": "100000000"
+		}
+	}
+}
