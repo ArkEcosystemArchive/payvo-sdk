@@ -223,8 +223,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<Contracts.SignedTransactionData> {
 		applyCryptoConfiguration(this.#configCrypto);
 
-        const isMultiSignatureRegistration: boolean = type === "multiSignature";
-
 		try {
 			let address: string | undefined;
 			let senderPublicKey: string | undefined;
@@ -313,7 +311,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
 			}
 
-			if (isMultiSignatureRegistration) {
+			if (type === "multiSignature") {
 				return this.#addSignature(
 					transaction,
 					{
