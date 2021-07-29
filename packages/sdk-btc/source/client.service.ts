@@ -51,7 +51,7 @@ export class ClientService extends Services.AbstractClientService {
 			query,
 		);
 
-		return response.json();
+		return response.json().data;
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
@@ -60,6 +60,6 @@ export class ClientService extends Services.AbstractClientService {
 			body,
 		);
 
-		return response.json();
+		return response.json().data;
 	}
 }
