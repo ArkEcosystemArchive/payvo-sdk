@@ -3,7 +3,6 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers";
 import { DateTime } from "@payvo/intl";
-import moment from "moment";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
