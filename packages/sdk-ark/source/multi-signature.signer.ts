@@ -101,7 +101,7 @@ export class MultiSignatureSigner {
 			}
 
 			if (signatory.actsWithLedger()) {
-				transaction.signature = this.#signWithLedger(transaction, signatory);
+				transaction.signature = await this.#signWithLedger(transaction, signatory);
 			}
 
 			transaction.id = Transactions.Utils.getId(transaction);
