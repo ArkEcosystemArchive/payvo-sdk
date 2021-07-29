@@ -5,12 +5,13 @@ import nock from "nock";
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-const matchSnapshot = (transaction): void => expect({
-	min: transaction.min.toString(),
-	avg: transaction.avg.toString(),
-	max: transaction.max.toString(),
-	static: transaction.static.toString(),
-}).toMatchSnapshot();
+const matchSnapshot = (transaction): void =>
+	expect({
+		min: transaction.min.toString(),
+		avg: transaction.avg.toString(),
+		max: transaction.max.toString(),
+		static: transaction.static.toString(),
+	}).toMatchSnapshot();
 
 afterEach(() => nock.cleanAll());
 
