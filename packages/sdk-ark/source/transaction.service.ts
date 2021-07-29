@@ -253,17 +253,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 				).address;
 			}
 
-			if (senderPublicKey) {
-				transaction.senderPublicKey(senderPublicKey);
-			}
-
 			if (input.signatory.actsWithLedger()) {
 				await this.ledgerService.connect(LedgerTransportNodeHID);
 
-				const senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
-				transaction.senderPublicKey(senderPublicKey);
-
+				senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
 				address = (await this.addressService.fromPublicKey(senderPublicKey)).address;
+			}
+
+			if (senderPublicKey) {
+				transaction.senderPublicKey(senderPublicKey);
 			}
 
 			if (input.nonce) {
@@ -300,18 +298,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				callback({ transaction, data: input.data });
 			}
 
-			if (input.signatory.actsWithLedger()) {
-				transaction.data.signature = await this.ledgerService.signTransaction(
-					input.signatory.signingKey(),
-					Transactions.Serializer.getBytes(transaction.data, {
-						excludeSignature: true,
-						excludeSecondSignature: true,
-					}),
-				);
-
-				await this.ledgerService.disconnect();
-			}
-
 			if (input.signatory.actsWithMultiSignature()) {
 				const transactionWithSignature = this.multiSignatureSigner.sign(transaction, input.signatory.asset());
 
@@ -335,6 +321,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 					input.signatory,
 					senderPublicKey,
 				);
+			}
+
+			if (input.signatory.actsWithLedger()) {
+				transaction.data.signature = await this.ledgerService.signTransaction(
+					input.signatory.signingKey(),
+					Transactions.Serializer.getBytes(transaction.data, {
+						excludeSignature: true,
+						excludeSecondSignature: true,
+					}),
+				);
+
+				await this.ledgerService.disconnect();
 			}
 
 			if (input.signatory.actsWithMnemonic()) {
