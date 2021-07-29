@@ -5,45 +5,87 @@ import nock from "nock";
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-let subject: FeeService;
-
-beforeEach(async () => {
-	subject = createService(FeeService);
-});
+const matchSnapshot = (transaction): void => expect({
+	min: transaction.min.toString(),
+	avg: transaction.avg.toString(),
+	max: transaction.max.toString(),
+	static: transaction.static.toString(),
+}).toMatchSnapshot();
 
 afterEach(() => nock.cleanAll());
 
 beforeAll(() => nock.disableNetConnect());
 
 describe("FeeService", () => {
-	describe("#all", () => {
-		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/node/fees")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode.json`))
-				.get("/api/transactions/fees")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`));
+	it("should get the fees for ARK", async () => {
+		nock(/.+/)
+			.get("/api/node/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode.json`))
+			.get("/api/transactions/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`));
 
-			const result = await subject.all();
+		const result = await createService(FeeService, "ark.devnet").all();
 
-			expect(result).toContainAllKeys([
-				"transfer",
-				"secondSignature",
-				"delegateRegistration",
-				"vote",
-				"multiSignature",
-				"ipfs",
-				"multiPayment",
-				"delegateResignation",
-				"htlcLock",
-				"htlcClaim",
-				"htlcRefund",
-			]);
+		expect(result).toContainAllKeys([
+			"transfer",
+			"secondSignature",
+			"delegateRegistration",
+			"vote",
+			"multiSignature",
+			"ipfs",
+			"multiPayment",
+			"delegateResignation",
+			"htlcLock",
+			"htlcClaim",
+			"htlcRefund",
+		]);
 
-			expect(result.transfer.min.toString()).toBe("3627425");
-			expect(result.transfer.avg.toString()).toBe("9878740");
-			expect(result.transfer.max.toString()).toBe("10000000");
-			expect(result.transfer.static.toString()).toBe("10000000");
-		});
+		matchSnapshot(result.transfer);
+		matchSnapshot(result.secondSignature);
+		matchSnapshot(result.delegateRegistration);
+		matchSnapshot(result.vote);
+		matchSnapshot(result.multiSignature);
+		matchSnapshot(result.ipfs);
+		matchSnapshot(result.multiPayment);
+		matchSnapshot(result.delegateResignation);
+		matchSnapshot(result.htlcLock);
+		matchSnapshot(result.htlcClaim);
+		matchSnapshot(result.htlcRefund);
+	});
+
+	it("should get the fees for BIND", async () => {
+		nock(/.+/)
+			.get("/api/node/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode-bind.json`))
+			.get("/api/transactions/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType-bind.json`));
+
+		const result = await createService(FeeService, "bind.testnet").all();
+
+		expect(result).toContainAllKeys([
+			"transfer",
+			"secondSignature",
+			"delegateRegistration",
+			"vote",
+			"multiSignature",
+			"ipfs",
+			"multiPayment",
+			"delegateResignation",
+			"htlcLock",
+			"htlcClaim",
+			"htlcRefund",
+		]);
+
+		matchSnapshot(result.transfer);
+		matchSnapshot(result.secondSignature);
+		matchSnapshot(result.delegateRegistration);
+		matchSnapshot(result.vote);
+		matchSnapshot(result.multiSignature);
+		matchSnapshot(result.ipfs);
+		matchSnapshot(result.multiPayment);
+		matchSnapshot(result.delegateResignation);
+		matchSnapshot(result.htlcLock);
+		matchSnapshot(result.htlcClaim);
+		matchSnapshot(result.htlcRefund);
 	});
 });

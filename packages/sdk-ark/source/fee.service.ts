@@ -31,10 +31,10 @@ export class FeeService extends Services.AbstractFeeService {
 	}
 
 	#transform(type: string, typeGroup: number, staticFees: object, dynamicFees: object): Services.TransactionFee {
-		const dynamicFee = dynamicFees[typeGroup][type];
-		let minimumFee = this.bigNumberService.make(dynamicFee?.min || "0");
-		let averageFee = this.bigNumberService.make(dynamicFee?.avg || "0");
-		const maximumFee = this.bigNumberService.make(staticFees[typeGroup][type]);
+		const dynamicFee = (dynamicFees[typeGroup] ?? staticFees[typeGroup])[type] ?? "0";
+		let minimumFee = this.bigNumberService.make(dynamicFee?.min ?? "0");
+		let averageFee = this.bigNumberService.make(dynamicFee?.avg ?? "0");
+		const maximumFee = this.bigNumberService.make(staticFees[typeGroup][type] ?? "0");
 
 		if (type === "multiPayment") {
 			minimumFee = maximumFee;
