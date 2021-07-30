@@ -33,8 +33,8 @@ beforeAll(() => {
 describe("ClientService", () => {
 	describe("#transaction", () => {
 		it("should succeed", async () => {
-			nock("https://coins.com")
-				.get("/api/btc/transactions/68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32")
+			nock("https://btc-live.payvo.com")
+				.get("/api/transactions/68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
@@ -57,8 +57,8 @@ describe("ClientService", () => {
 
 	describe("#wallet", () => {
 		it("should succeed", async () => {
-			nock("https://coins.com")
-				.get("/api/btc/wallets/my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz")
+			nock("https://btc-live.payvo.com")
+				.get("/api/wallets/my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
@@ -72,8 +72,8 @@ describe("ClientService", () => {
 
 	describe("#broadcast", () => {
 		it("should pass", async () => {
-			nock("https://coins.com")
-				.post("/api/btc/transactions")
+			nock("https://btc-live.payvo.com")
+				.post("/api/transactions")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([
@@ -88,8 +88,8 @@ describe("ClientService", () => {
 		});
 
 		it("should fail", async () => {
-			nock("https://coins.com")
-				.post("/api/btc/transactions")
+			nock("https://btc-live.payvo.com")
+				.post("/api/transactions")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([
