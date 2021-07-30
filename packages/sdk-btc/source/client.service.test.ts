@@ -42,7 +42,7 @@ describe("ClientService", () => {
 			);
 
 			expect(result).toBeInstanceOf(ConfirmedTransactionData);
-			expect(result.id()).toBe("68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32");
+			expect(result.id()).toBe("21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
 			expect(result.type()).toBe("transfer");
 			expect(result.timestamp()).toBeInstanceOf(DateTime);
 			expect(result.confirmations()).toEqual(BigNumber.make(159414));

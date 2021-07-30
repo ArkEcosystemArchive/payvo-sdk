@@ -13,7 +13,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override timestamp(): DateTime | undefined {
-		return DateTime.make(this.data.blockTime);
+		return DateTime.make(this.data.time);
 	}
 
 	public override confirmations(): BigNumber {
