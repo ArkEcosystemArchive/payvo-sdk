@@ -48,21 +48,27 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return true;
 	}
 
-    public override inputs(): Contracts.UnspentTransactionData[] {
-		return this.data.vin.map(({ address, amount, input_txid }) => new DTO.UnspentTransactionData({
-			id: input_txid,
-			timestamp: this.timestamp(),
-			amount,
-			address,
-		}));
+	public override inputs(): Contracts.UnspentTransactionData[] {
+		return this.data.vin.map(
+			({ address, amount, input_txid }) =>
+				new DTO.UnspentTransactionData({
+					id: input_txid,
+					timestamp: this.timestamp(),
+					amount,
+					address,
+				}),
+		);
 	}
 
-    public override outputs(): Contracts.UnspentTransactionData[] {
-		return this.data.vin.map(({ address, amount, output_txid }) => new DTO.UnspentTransactionData({
-			id: output_txid,
-			timestamp: this.timestamp(),
-			amount,
-			address,
-		}));
+	public override outputs(): Contracts.UnspentTransactionData[] {
+		return this.data.vin.map(
+			({ address, amount, output_txid }) =>
+				new DTO.UnspentTransactionData({
+					id: output_txid,
+					timestamp: this.timestamp(),
+					amount,
+					address,
+				}),
+		);
 	}
 }
