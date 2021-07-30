@@ -18,7 +18,7 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://coins.com/api/btc",
+			host: "https://btc-live.payvo.com/api",
 		},
 		{
 			type: "explorer",
