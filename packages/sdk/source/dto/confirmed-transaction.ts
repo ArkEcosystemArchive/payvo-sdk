@@ -90,6 +90,10 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 		throw new NotImplemented(this.constructor.name, this.sender.name);
 	}
 
+	public senders(): MultiPaymentRecipient[] {
+		return [];
+	}
+
 	public recipient(): string {
 		throw new NotImplemented(this.constructor.name, this.recipient.name);
 	}

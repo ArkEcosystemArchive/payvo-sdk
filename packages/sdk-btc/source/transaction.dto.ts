@@ -1,4 +1,4 @@
-import { Contracts, DTO, Exceptions, IoC } from "@payvo/sdk";
+import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
@@ -9,7 +9,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override blockId(): string | undefined {
-		return undefined;
+		return this.data.block_id;
 	}
 
 	public override timestamp(): DateTime | undefined {
@@ -17,19 +17,27 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override confirmations(): BigNumber {
-		return this.bigNumberService.make(this.data.confirmations);
+		return BigNumber.ZERO;
 	}
 
 	public override sender(): string {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.sender.name);
+		return this.data.vin[0].address;
+	}
+
+	public override senders(): Contracts.MultiPaymentRecipient[] {
+		return this.data.vin.map(({ address, amount }) => ({ address, amount }));
 	}
 
 	public override recipient(): string {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.recipient.name);
+		return this.data.vout[0].address;
+	}
+
+	public override recipients(): Contracts.MultiPaymentRecipient[] {
+		return this.data.vout.map(({ address, amount }) => ({ address, amount }));
 	}
 
 	public override amount(): BigNumber {
-		return this.bigNumberService.make(this.data.value);
+		return this.bigNumberService.make(this.data.amount);
 	}
 
 	public override fee(): BigNumber {
@@ -37,6 +45,24 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override isConfirmed(): boolean {
-		return false;
+		return true;
+	}
+
+    public override inputs(): Contracts.UnspentTransactionData[] {
+		return this.data.vin.map(({ address, amount, input_txid }) => new DTO.UnspentTransactionData({
+			id: input_txid,
+			timestamp: 1, // @TODO
+			amount,
+			address,
+		}));
+	}
+
+    public override outputs(): Contracts.UnspentTransactionData[] {
+		return this.data.vin.map(({ address, amount, output_txid }) => new DTO.UnspentTransactionData({
+			id: output_txid,
+			timestamp: 1, // @TODO
+			amount,
+			address,
+		}));
 	}
 }

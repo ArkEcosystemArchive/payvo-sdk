@@ -27,23 +27,23 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override secondPublicKey(): string | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.secondPublicKey.name);
+		return undefined;
 	}
 
 	public override username(): string | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.username.name);
+		return undefined;
 	}
 
 	public override rank(): number | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.rank.name);
+		return undefined;
 	}
 
 	public override votes(): BigNumber | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.votes.name);
+		return undefined;
 	}
 
 	public multiSignature(): Contracts.WalletMultiSignature {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.multiSignature.name);
+		throw new Error("This wallet does not have a multi-signature registered.");
 	}
 
 	public override isDelegate(): boolean {
