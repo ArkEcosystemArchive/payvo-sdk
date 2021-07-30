@@ -150,8 +150,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	 * @inheritDoc
 	 *
 	 * @musig
-	 * @ledgerX
-	 * @ledgerS
 	 */
 	public override async multiPayment(input: Services.MultiPaymentInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData("multiPayment", input, ({ transaction, data }) => {

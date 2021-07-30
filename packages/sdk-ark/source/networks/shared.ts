@@ -75,8 +75,6 @@ export const featureFlags: Networks.NetworkManifestFeatureFlags = {
 		"ipfs.ledgerX",
 		"ipfs.musig",
 		"ipfs",
-		"multiPayment.ledgerS",
-		"multiPayment.ledgerX",
 		"multiPayment.musig",
 		"multiPayment",
 		"multiSignature.ledgerX",
