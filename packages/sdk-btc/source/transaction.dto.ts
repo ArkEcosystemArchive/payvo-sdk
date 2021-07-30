@@ -51,7 +51,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
     public override inputs(): Contracts.UnspentTransactionData[] {
 		return this.data.vin.map(({ address, amount, input_txid }) => new DTO.UnspentTransactionData({
 			id: input_txid,
-			timestamp: 1, // @TODO
+			timestamp: this.timestamp(),
 			amount,
 			address,
 		}));
@@ -60,7 +60,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
     public override outputs(): Contracts.UnspentTransactionData[] {
 		return this.data.vin.map(({ address, amount, output_txid }) => new DTO.UnspentTransactionData({
 			id: output_txid,
-			timestamp: 1, // @TODO
+			timestamp: this.timestamp(),
 			amount,
 			address,
 		}));
