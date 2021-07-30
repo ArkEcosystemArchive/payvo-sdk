@@ -7,7 +7,7 @@ import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 
 describe("WalletData", () => {
-	const subject = createService(WalletData).fill(Fixture);
+	const subject = createService(WalletData).fill(Fixture.data);
 
 	it("#address", () => {
 		expect(subject.address()).toEqual("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
