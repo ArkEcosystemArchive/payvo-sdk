@@ -11,7 +11,7 @@ let subject: ConfirmedTransactionData;
 
 beforeEach(() => {
 	subject = createService(ConfirmedTransactionData);
-	subject.configure(Fixture);
+	subject.configure(Fixture.data);
 });
 
 describe("ConfirmedTransactionData", () => {
