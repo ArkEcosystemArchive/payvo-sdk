@@ -89,4 +89,19 @@ describe("FeeService", () => {
 		matchSnapshot(result.htlcClaim);
 		matchSnapshot(result.htlcRefund);
 	});
+
+	it("should calculate the fees for ARK", async () => {
+		nock(/.+/)
+			.get("/api/node/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode.json`))
+			.get("/api/transactions/fees")
+			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`))
+			.persist();
+
+		const a = await createService(FeeService, "ark.devnet").calculate({ type: 4, asset: { multiSignature: { publicKeys: ["a", "b", "c"] } } });
+		const b = await createService(FeeService, "ark.devnet").calculate({ type: 1 });
+
+		expect(a.toHuman()).toBe(20);
+		expect(b.toHuman()).toBe(0);
+	});
 });

@@ -1,3 +1,4 @@
+import { BigNumber } from "@payvo/helpers";
 import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
@@ -28,6 +29,19 @@ export class FeeService extends Services.AbstractFeeService {
 			htlcClaim: this.#transform("htlcClaim", 1, staticFees, dynamicFees),
 			htlcRefund: this.#transform("htlcRefund", 1, staticFees, dynamicFees),
 		};
+	}
+
+	public override async calculate(
+		transaction: Contracts.RawTransactionData,
+		options?: Services.TransactionFeeOptions,
+	): Promise<BigNumber> {
+		const { multiSignature } = await this.all();
+
+		if ([4, "multiSignature"].includes(transaction.type)) {
+			return multiSignature.static.plus(multiSignature.static.times(transaction.asset.multiSignature.publicKeys.length));
+		}
+
+		return BigNumber.ZERO;
 	}
 
 	#transform(type: string, typeGroup: number, staticFees: object, dynamicFees: object): Services.TransactionFee {
