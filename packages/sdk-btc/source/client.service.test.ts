@@ -82,7 +82,7 @@ describe("ClientService", () => {
 			expect(transaction.fee()).toEqual(BigNumber.make(10000));
 			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
 			expect(transaction.memo()).toBeUndefined();
-		})
+		});
 	});
 
 	describe("#wallet", () => {
