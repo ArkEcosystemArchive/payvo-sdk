@@ -98,7 +98,10 @@ describe("FeeService", () => {
 			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`))
 			.persist();
 
-		const a = await createService(FeeService, "ark.devnet").calculate({ type: 4, asset: { multiSignature: { publicKeys: ["a", "b", "c"] } } });
+		const a = await createService(FeeService, "ark.devnet").calculate({
+			type: 4,
+			asset: { multiSignature: { publicKeys: ["a", "b", "c"] } },
+		});
 		const b = await createService(FeeService, "ark.devnet").calculate({ type: 1 });
 
 		expect(a.toHuman()).toBe(20);

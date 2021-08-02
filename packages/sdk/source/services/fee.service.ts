@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { BigNumber } from "@payvo/helpers";
+
 import { SignedTransactionData } from "../dto";
 import { NotImplemented } from "../exceptions";
 import { HttpClient } from "../http";

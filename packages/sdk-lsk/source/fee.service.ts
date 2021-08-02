@@ -88,7 +88,9 @@ export class FeeService extends Services.AbstractFeeService {
 			tieBreaker = data.minFeePerByte * feePerByte * Math.random();
 		}
 
-		return this.bigNumberService.make(Math.min(Number(minFee) + size * feePerByte + tieBreaker, maximumFee as number));
+		return this.bigNumberService.make(
+			Math.min(Number(minFee) + size * feePerByte + tieBreaker, maximumFee as number),
+		);
 	}
 
 	#transform(type: string | number): Services.TransactionFee {
