@@ -38,7 +38,7 @@ export class FeeService extends Services.AbstractFeeService {
 		const { multiSignature } = await this.all();
 
 		if ([4, "multiSignature"].includes(transaction.type)) {
-			return multiSignature.static.times(transaction.asset.multiSignature.publicKeys.length);
+			return multiSignature.static.times(transaction.asset.multiSignature.publicKeys.length + 1);
 		}
 
 		return BigNumber.ZERO;
