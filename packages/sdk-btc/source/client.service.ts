@@ -1,4 +1,4 @@
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -6,11 +6,21 @@ export class ClientService extends Services.AbstractClientService {
 		id: string,
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
-		return this.dataTransferObjectService.transaction(await this.#get(`transactions/${id}`));
+		const response = await this.#get(`transactions/${id}`);
+		return this.dataTransferObjectService.transaction(response.data);
+	}
+
+	public override async transactions(
+		query: Services.ClientTransactionsInput,
+	): Promise<Collections.ConfirmedTransactionDataCollection> {
+		const response = await this.#get(`wallets/${query.address}/transactions`);
+
+		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
 
 	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		return this.dataTransferObjectService.wallet(await this.#get(`wallets/${id}`));
+		const response = await this.#get(`wallets/${id}`);
+		return this.dataTransferObjectService.wallet(response.data);
 	}
 
 	public override async broadcast(
@@ -29,7 +39,7 @@ export class ClientService extends Services.AbstractClientService {
 				throw new Error("Failed to compute the transaction ID.");
 			}
 
-			const response = await this.#post("transactions", { transactions: [transaction.toBroadcast()] });
+			const response = (await this.#post("transactions", { transactions: [transaction.toBroadcast()] })).data;
 
 			if (response.result) {
 				result.accepted.push(transactionId);
@@ -51,7 +61,7 @@ export class ClientService extends Services.AbstractClientService {
 			query,
 		);
 
-		return response.json().data;
+		return response.json();
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
@@ -60,6 +70,21 @@ export class ClientService extends Services.AbstractClientService {
 			body,
 		);
 
-		return response.json().data;
+		return response.json();
+	}
+
+	#createMetaPagination(body): Services.MetaPagination {
+		const getPage = (url: string): string | undefined => {
+			const match: RegExpExecArray | null = RegExp(/page=(\d+)/).exec(url);
+
+			return match ? match[1] || undefined : undefined;
+		};
+
+		return {
+			prev: getPage(body.links.prev) || undefined,
+			next: getPage(body.links.next) || undefined,
+			self: body.meta.current_page || undefined,
+			last: body.meta.last_page || undefined,
+		};
 	}
 }
