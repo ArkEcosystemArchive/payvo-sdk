@@ -104,7 +104,7 @@ describe("FeeService", () => {
 		});
 		const b = await createService(FeeService, "ark.devnet").calculate({ type: 1 });
 
-		expect(a.toHuman()).toBe(20);
+		expect(a.toHuman()).toBe(15);
 		expect(b.toHuman()).toBe(0);
 	});
 });
