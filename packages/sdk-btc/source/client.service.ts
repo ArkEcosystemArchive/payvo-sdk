@@ -13,7 +13,9 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const response = await this.#get(`wallets/${query.address}/transactions`);
+		let address = query.addresses ? query.addresses[0] : query.address;
+
+		const response = await this.#get(`wallets/${address}/transactions`);
 
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
