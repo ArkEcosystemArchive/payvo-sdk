@@ -96,11 +96,11 @@ describe("FeeService", () => {
 		const average = await subject.calculate(transaction, { priority: "average" });
 		const fast = await subject.calculate(transaction, { priority: "fast" });
 
-		expect(slow).toBeNumber();
-		expect(slow).toBe(0.00314);
-		expect(average).toBeNumber();
-		expect(average).toBe(0.00314);
-		expect(fast).toBeNumber();
-		expect(fast).toBe(0.00314);
+		expect(slow.toHuman()).toBeNumber();
+		expect(slow.toHuman()).toBe(0.00314);
+		expect(average.toHuman()).toBeNumber();
+		expect(average.toHuman()).toBe(0.00314);
+		expect(fast.toHuman()).toBeNumber();
+		expect(fast.toHuman()).toBe(0.00314);
 	});
 });
