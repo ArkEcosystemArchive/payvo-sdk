@@ -20,7 +20,7 @@ describe("ConfirmedTransactionData", () => {
 		expect(subject.id()).toBe("21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
 		expect(subject.type()).toBe("transfer");
 		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.confirmations().toNumber()).toEqual(0);
+		expect(subject.confirmations().toNumber()).toEqual(123456);
 
 		expect(subject.sender()).toBe("1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
 		expect(subject.senders()).toMatchSnapshot();
