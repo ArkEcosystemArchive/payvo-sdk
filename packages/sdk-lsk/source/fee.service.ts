@@ -38,7 +38,7 @@ export class FeeService extends Services.AbstractFeeService {
 	public override async calculate(
 		transaction: Contracts.RawTransactionData,
 		options?: Services.TransactionFeeOptions,
-	): Promise<number> {
+	): Promise<BigNumber> {
 		const { data } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
 		).json();
@@ -88,7 +88,9 @@ export class FeeService extends Services.AbstractFeeService {
 			tieBreaker = data.minFeePerByte * feePerByte * Math.random();
 		}
 
-		return Math.min(Number(minFee) + size * feePerByte + tieBreaker, maximumFee as number) / 1e8;
+		return this.bigNumberService.make(
+			Math.min(Number(minFee) + size * feePerByte + tieBreaker, maximumFee as number),
+		);
 	}
 
 	#transform(type: string | number): Services.TransactionFee {

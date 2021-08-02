@@ -1,5 +1,7 @@
 /* istanbul ignore file */
 
+import { BigNumber } from "@payvo/helpers";
+
 import { SignedTransactionData } from "../dto";
 import { NotImplemented } from "../exceptions";
 import { HttpClient } from "../http";
@@ -16,7 +18,7 @@ export class AbstractFeeService implements FeeService {
 		throw new NotImplemented(this.constructor.name, this.all.name);
 	}
 
-	public async calculate(transaction: SignedTransactionData, options?: TransactionFeeOptions): Promise<number> {
+	public async calculate(transaction: SignedTransactionData, options?: TransactionFeeOptions): Promise<BigNumber> {
 		throw new NotImplemented(this.constructor.name, this.calculate.name);
 	}
 }

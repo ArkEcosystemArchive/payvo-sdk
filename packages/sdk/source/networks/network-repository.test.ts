@@ -47,6 +47,7 @@ test("#all", () => {
 		      ],
 		      "Fee": Array [
 		        "all",
+		        "calculate",
 		      ],
 		      "KeyPair": Array [
 		        "mnemonic.bip39",
@@ -218,6 +219,7 @@ test("#all", () => {
 		      ],
 		      "Fee": Array [
 		        "all",
+		        "calculate",
 		      ],
 		      "KeyPair": Array [
 		        "mnemonic.bip39",
@@ -389,6 +391,7 @@ test("#all", () => {
 		      ],
 		      "Fee": Array [
 		        "all",
+		        "calculate",
 		      ],
 		      "KeyPair": Array [
 		        "mnemonic.bip39",
@@ -545,6 +548,7 @@ test("#all", () => {
 		      ],
 		      "Fee": Array [
 		        "all",
+		        "calculate",
 		      ],
 		      "KeyPair": Array [
 		        "mnemonic.bip39",
