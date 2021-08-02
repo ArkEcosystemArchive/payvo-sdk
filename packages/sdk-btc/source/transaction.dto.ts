@@ -17,7 +17,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override confirmations(): BigNumber {
-		return this.bigNumberService.make(this.data.confirmations);
+		return BigNumber.make(this.data.confirmations);
 	}
 
 	public override sender(): string {
