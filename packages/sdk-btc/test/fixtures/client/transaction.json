@@ -5,7 +5,7 @@
 		"block_id": 133908,
 		"amount": 62550000,
 		"fee": 50000,
-	  	"confirmations": 123456,
+		"confirmations": 123456,
 		"vin": [
 			{
 				"output_txid": "890a52bddd7e369fa079b206a90b9f8b435c670b83d5145950f95ce62eb3b391",
