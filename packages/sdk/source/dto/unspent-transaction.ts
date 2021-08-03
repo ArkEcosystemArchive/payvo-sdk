@@ -27,7 +27,7 @@ export class UnspentTransactionData implements Contract {
 		return this.#data.amount;
 	}
 
-	public addresses(): string[] {
-		return this.#data.addresses;
+	public address(): string {
+		return this.#data.address;
 	}
 }

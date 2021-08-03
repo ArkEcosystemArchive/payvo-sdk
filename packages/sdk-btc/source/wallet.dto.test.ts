@@ -18,31 +18,31 @@ describe("WalletData", () => {
 	});
 
 	it("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make(3050000));
+		expect(subject.balance().available).toEqual(BigNumber.make(3000001));
 	});
 
 	it("#nonce", () => {
-		expect(subject.nonce()).toEqual(BigNumber.make(24242));
+		expect(subject.nonce()).toEqual(BigNumber.make(0));
 	});
 
 	it("#secondPublicKey", () => {
-		expect(() => subject.secondPublicKey()).toThrow(/not implemented/);
+		expect(subject.secondPublicKey()).toBeUndefined();
 	});
 
 	it("#username", () => {
-		expect(() => subject.username()).toThrow(/not implemented/);
+		expect(subject.username()).toBeUndefined();
 	});
 
 	it("#rank", () => {
-		expect(() => subject.rank()).toThrow(/not implemented/);
+		expect(subject.rank()).toBeUndefined();
 	});
 
 	it("#votes", () => {
-		expect(() => subject.votes()).toThrow(/not implemented/);
+		expect(subject.votes()).toBeUndefined();
 	});
 
 	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/not implemented/);
+		expect(() => subject.multiSignature()).toThrow(/does not have/);
 	});
 
 	it("#isMultiSignature", () => {

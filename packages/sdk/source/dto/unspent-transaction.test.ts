@@ -19,5 +19,5 @@ test("#amount", () => {
 });
 
 test("#addresses", () => {
-	expect(new UnspentTransactionData({ addresses: ["a", "b", "c"] }).addresses()).toBeArray();
+	expect(new UnspentTransactionData({ address: "a" }).address()).toBe("a");
 });

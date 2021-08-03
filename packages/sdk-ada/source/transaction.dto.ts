@@ -43,7 +43,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 				new DTO.UnspentTransactionData({
 					id: input.sourceTransaction.hash,
 					amount: this.bigNumberService.make(input.value),
-					addresses: [input.address],
+					address: input.address,
 				}),
 		);
 	}
@@ -53,7 +53,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			(output: Contracts.KeyValuePair) =>
 				new DTO.UnspentTransactionData({
 					amount: this.bigNumberService.make(output.value),
-					addresses: [output.address],
+					address: output.address,
 				}),
 		);
 	}

@@ -1,98 +1,76 @@
 {
 	"data": {
-		"_id": "5d0c6cdd12025b0a391e459f",
-		"txid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-		"network": "testnet",
-		"chain": "BTC",
-		"blockHeight": 1563778,
-		"blockHash": "0000000000000ad67d6d1757e564c94fa94aa5683bf22daa298f28d170bf06d2",
-		"blockTime": "2019-06-21T05:37:33.000Z",
-		"blockTimeNormalized": "2019-06-21T05:37:33.000Z",
-		"coinbase": false,
-		"locktime": -1,
-		"inputCount": 3,
-		"outputCount": 2,
-		"size": 677,
-		"fee": 10000,
-		"value": 3050000,
-		"confirmations": 159414,
-		"inputs": [
+		"txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+		"time": "2011-06-29T20:41:59.000000Z",
+		"block_id": 133908,
+		"amount": 62550000,
+		"fee": 50000,
+		"confirmations": 123456,
+		"vin": [
 			{
-				"_id": "5d0c6b8812025b0a391cb64b",
-				"chain": "BTC",
-				"network": "testnet",
-				"coinbase": false,
-				"mintIndex": 0,
-				"spentTxid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-				"mintTxid": "22171cace4f2512ff720ce2769c1aac4d1784b82b99905e41d6baee5f9439427",
-				"mintHeight": 1563774,
-				"spentHeight": 1563778,
-				"address": "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz",
-				"script": "76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac",
-				"value": 30000,
-				"confirmations": -1
-			},
-			{
-				"_id": "5d0c6b8812025b0a391cb64c",
-				"chain": "BTC",
-				"network": "testnet",
-				"coinbase": false,
-				"mintIndex": 1,
-				"spentTxid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-				"mintTxid": "22171cace4f2512ff720ce2769c1aac4d1784b82b99905e41d6baee5f9439427",
-				"mintHeight": 1563774,
-				"spentHeight": 1563778,
-				"address": "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz",
-				"script": "76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac",
-				"value": 2990000,
-				"confirmations": -1
-			},
-			{
-				"_id": "5d0c6ccc12025b0a391e33e9",
-				"chain": "BTC",
-				"network": "testnet",
-				"coinbase": false,
-				"mintIndex": 0,
-				"spentTxid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-				"mintTxid": "a68b481c786a0704f3989d0da0c284af19ca51af92584a9fb046b46393e732bf",
-				"mintHeight": 1563777,
-				"spentHeight": 1563778,
-				"address": "2N31T8fELF2sjYJsa3pEQD1UCFTNg5syVcX",
-				"script": "a9146b166822861b3c0564288e60d36d2b9cdfb8683387",
-				"value": 40000,
-				"confirmations": -1
+				"output_txid": "890a52bddd7e369fa079b206a90b9f8b435c670b83d5145950f95ce62eb3b391",
+				"output_idx": 0,
+				"input_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"input_idx": 0,
+				"amount": 62600000,
+				"address": "1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg",
+				"script": "76a9148253bf04155a6b686869ea04590ea3518bd21cf288ac"
 			}
 		],
-		"outputs": [
+		"vout": [
 			{
-				"_id": "5d0c6cdd12025b0a391e4598",
-				"chain": "BTC",
-				"network": "testnet",
-				"coinbase": false,
-				"mintIndex": 0,
-				"spentTxid": "",
-				"mintTxid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-				"mintHeight": 1563778,
-				"spentHeight": -2,
-				"address": "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz",
-				"script": "76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac",
-				"value": 30000,
-				"confirmations": -1
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 0,
+				"input_txid": "9d67c21b6048d0767b4a082e997f6ea03d331d35488295c66f1d9b13aa537e4f",
+				"input_idx": 0,
+				"amount": 62050000,
+				"address": "1DVGtxX1ox92cQ5uMrXBL8snE3Agkt9zPr",
+				"script": "76a91488fa6ced1404532895adfb0015b9699c91d40bf288ac"
 			},
 			{
-				"_id": "5d0c6cdd12025b0a391e4599",
-				"chain": "BTC",
-				"network": "testnet",
-				"coinbase": false,
-				"mintIndex": 1,
-				"spentTxid": "",
-				"mintTxid": "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
-				"mintHeight": 1563778,
-				"spentHeight": -2,
-				"address": "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz",
-				"script": "76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac",
-				"value": 3020000,
-				"confirmations": -1
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 1,
+				"input_txid": null,
+				"input_idx": null,
+				"amount": 100000,
+				"address": "19N3CU2B775pk9E38Ebs3EwhAyrPUBZ7Jz",
+				"script": "76a9145bbb93750d17d68f784cacc0faef2791a3f80b6c88ac"
+			},
+			{
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 2,
+				"input_txid": null,
+				"input_idx": null,
+				"amount": 100000,
+				"address": "1FaT9yh2UVJW68ugwvoMkmZPemZjpduX9B",
+				"script": "76a9149fe552147ff81070b46f89de2cf1f4d869b9e7e788ac"
+			},
+			{
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 3,
+				"input_txid": "87676af14c20a03702c9282d031747a79f3793bec1d1a5aa1551765409a56c4a",
+				"input_idx": 0,
+				"amount": 100000,
+				"address": "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w",
+				"script": "76a9140d0d69ebd71fe3f5295934cff69c72b5df609d6788ac"
+			},
+			{
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 4,
+				"input_txid": null,
+				"input_idx": null,
+				"amount": 100000,
+				"address": "1NfjJVvACPArTywVPraMQPyie5mL9NkHbF",
+				"script": "76a914edadc27ae388d88b7c24bc9142b4d50ae840284b88ac"
+			},
+			{
+				"output_txid": "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d",
+				"output_idx": 5,
+				"input_txid": null,
+				"input_idx": null,
+				"amount": 100000,
+				"address": "13RCWHB1btpym5vX7Yu9Gq9ki66VVvLABy",
+				"script": "76a9141a83d6a015aeb48cd7d4b04f7f822bbd77067a6488ac"
 			}
 		]
 	}

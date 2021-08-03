@@ -16,7 +16,7 @@ export interface UnspentTransactionData {
 
 	amount(): BigNumber;
 
-	addresses(): string[];
+	address(): string;
 }
 
 export interface ConfirmedTransactionData {
@@ -35,6 +35,8 @@ export interface ConfirmedTransactionData {
 	confirmations(): BigNumber;
 
 	sender(): string;
+
+	senders(): MultiPaymentRecipient[];
 
 	recipient(): string;
 
