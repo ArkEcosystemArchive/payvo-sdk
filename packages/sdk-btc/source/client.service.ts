@@ -13,7 +13,6 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-
 		if (!query.addresses) {
 			throw new Error("No addresses specified for querying for transactions");
 		}
@@ -24,7 +23,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const response = await this.#post(`wallets`, { addresses: [id]});
+		const response = await this.#post(`wallets`, { addresses: [id] });
 		return this.dataTransferObjectService.wallet(response.data);
 	}
 
