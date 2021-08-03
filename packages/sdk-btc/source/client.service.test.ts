@@ -11,6 +11,7 @@ import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";
 
 let subject: ClientService;
 
@@ -52,6 +53,35 @@ describe("ClientService", () => {
 			expect(result.fee()).toEqual(BigNumber.make(10000));
 			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
 			expect(result.memo()).toBeUndefined();
+		});
+	});
+
+	describe("#transactions", () => {
+		it("should succeed", async () => {
+			nock("https://btc-live.payvo.com")
+				.get("/api/wallets/12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w/transactions")
+				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+
+			const result = await subject.transactions({ address: "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w" });
+			expect(result).toBeInstanceOf(ConfirmedTransactionDataCollection);
+			expect(result.currentPage()).toBe(1);
+			expect(result.getPagination().last).toBe(1);
+			expect(result.getPagination().self).toBe(1);
+			expect(result.getPagination().prev).toBeUndefined();
+			expect(result.getPagination().next).toBeUndefined();
+
+			const transaction = result.items()[0];
+			expect(transaction).toBeInstanceOf(ConfirmedTransactionData);
+			expect(transaction.id()).toBe("21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
+			expect(transaction.type()).toBe("transfer");
+			expect(transaction.timestamp()).toBeInstanceOf(DateTime);
+			expect(transaction.confirmations()).toEqual(BigNumber.make(159414));
+			// expect(transaction.sender()).toBe("...");
+			// expect(transaction.recipient()).toBe("...");
+			expect(transaction.amount()).toEqual(BigNumber.make(3050000));
+			expect(transaction.fee()).toEqual(BigNumber.make(10000));
+			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
+			expect(transaction.memo()).toBeUndefined();
 		});
 	});
 

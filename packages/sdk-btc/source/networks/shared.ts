@@ -50,7 +50,7 @@ export const importMethods: Networks.NetworkManifestImportMethods = {
 };
 
 export const featureFlags: Networks.NetworkManifestFeatureFlags = {
-	Client: ["transaction", "wallet", "broadcast"],
+	Client: ["transaction", "transactions", "wallet", "broadcast"],
 	Address: [
 		"mnemonic.bip39",
 		"mnemonic.bip44",
