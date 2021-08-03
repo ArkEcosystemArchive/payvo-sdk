@@ -29,6 +29,9 @@ const network: Networks.NetworkManifest = {
 	importMethods,
 	featureFlags,
 	explorer,
+	meta: {
+		extendedPublicKey: true,
+	}
 };
 
 export default network;
