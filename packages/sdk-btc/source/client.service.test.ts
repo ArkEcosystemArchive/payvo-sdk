@@ -59,10 +59,10 @@ describe("ClientService", () => {
 	describe("#transactions", () => {
 		it("should succeed", async () => {
 			nock("https://btc-live.payvo.com")
-				.get("/api/wallets/12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w/transactions")
+				.post("/api/wallets/transactions", { addresses: ["12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w"]})
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({ address: "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w" });
+			const result = await subject.transactions({ addresses: ["12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w"] });
 			expect(result).toBeInstanceOf(ConfirmedTransactionDataCollection);
 			expect(result.currentPage()).toBe(1);
 			expect(result.getPagination().last).toBe(1);
@@ -88,7 +88,7 @@ describe("ClientService", () => {
 	describe("#wallet", () => {
 		it("should succeed", async () => {
 			nock("https://btc-live.payvo.com")
-				.get("/api/wallets/my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz")
+				.post("/api/wallets", { addresses: ["my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz"]})
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
