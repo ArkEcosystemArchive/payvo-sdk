@@ -31,7 +31,7 @@ const network: Networks.NetworkManifest = {
 	explorer,
 	meta: {
 		extendedPublicKey: true,
-	}
+	},
 };
 
 export default network;
