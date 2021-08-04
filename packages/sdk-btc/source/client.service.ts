@@ -1,4 +1,4 @@
-import { Collections, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { getNetworkConfig } from "./config";
 import { addressGenerator } from "./address.domain";
 
@@ -15,8 +15,8 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		if (query.senderPublicKey === undefined) {
-			throw new Exceptions.InvalidArguments(this.constructor.name, this.transactions.name);
+		if (!query.addresses) {
+			throw new Error("No addresses specified for querying for transactions");
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses: query.addresses });
