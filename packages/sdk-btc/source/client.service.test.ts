@@ -28,7 +28,7 @@ beforeAll(() => {
 	});
 });
 
-afterEach(() => nock.cleanAll());
+// afterEach(() => nock.cleanAll());
 
 describe("ClientService", () => {
 	describe("#transaction", () => {
@@ -99,11 +99,13 @@ describe("ClientService", () => {
 		});
 
 		it("should derive addresses from xpub", async () => {
+			// nock.recorder.rec();
 			const xpub =
 				"xpub6Cf5giGqXRXEDztMvrs1kxoLvQACGHRMmCuBmrGJVqvKgooZQGPNPzJbJVo3HXdeLNACgkfh4EzWmqKz4TBdyZPnRjCvnZdPBgzgZqxdPjM";
 
 			const walletData = await subject.wallet(xpub);
 			console.log(walletData);
+			// nock.recorder.play();
 		});
 	});
 

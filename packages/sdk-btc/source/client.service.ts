@@ -67,9 +67,9 @@ export class ClientService extends Services.AbstractClientService {
 
 			const allAddresses = spendAddresses.concat(changeAddresses);
 			const usedAddresses: string[] = allAddresses
-				.filter(async a => {
+				.filter(async address => {
 					try {
-						const confirmedTransactionData = await this.walletTransactions(a);
+						const confirmedTransactionData = await this.walletTransactions(address);
 						console.log(confirmedTransactionData);
 						return confirmedTransactionData.meta.total > 0;
 					} catch (error) {
