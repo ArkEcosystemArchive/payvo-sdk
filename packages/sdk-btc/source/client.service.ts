@@ -27,7 +27,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async wallet(xpub: string): Promise<Contracts.WalletData> {
 		const network = getNetworkConfig(this.configRepository);
 
-		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 20))
+		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 20));
 		const usedChangeAddresses = await this.usedAddresses(addressGenerator(network, xpub, false, 20));
 
 		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
@@ -110,9 +110,9 @@ export class ClientService extends Services.AbstractClientService {
 		let exhausted = false;
 		do {
 			const addressChunk: string[] = addressesGenerator.next().value;
-			const used: {string: boolean}[] = await this.walletUsedTransactions(addressChunk);
+			const used: { string: boolean }[] = await this.walletUsedTransactions(addressChunk);
 
-			const items = addressChunk.filter(address => used[address]);
+			const items = addressChunk.filter((address) => used[address]);
 			usedAddresses.push(...items);
 
 			exhausted = items.length === 0;

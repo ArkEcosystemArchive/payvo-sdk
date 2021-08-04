@@ -1,6 +1,6 @@
 import * as bitcoin from "bitcoinjs-lib";
 
-export const addressGenerator = function*(
+export const addressGenerator = function* (
 	network: bitcoin.Network,
 	extendedPublicKey: string,
 	isSpend: boolean,
