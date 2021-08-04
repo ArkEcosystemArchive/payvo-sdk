@@ -1,23 +1,20 @@
 import { Collections, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { InvalidArguments } from "@payvo/sdk/distribution/exceptions";
-// import { usedAddressesForAccount } from "./transaction.domain";
-import * as bitcoin from "bitcoinjs-lib";
-import { Buffer } from "buffer";
+import { getNetworkConfig } from "./config";
+import { addressGenerator } from "./address.domain";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,
-		input?: Services.TransactionDetailInput
+		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
 		const response = await this.#get(`transactions/${id}`);
 		return this.dataTransferObjectService.transaction(response.data);
 	}
 
 	public override async transactions(
-		query: Services.ClientTransactionsInput
+		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-
 		if (query.senderPublicKey === undefined) {
 			throw new Exceptions.InvalidArguments(this.constructor.name, this.transactions.name);
 		}
@@ -28,78 +25,22 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(xpub: string): Promise<Contracts.WalletData> {
+		const network = getNetworkConfig(this.configRepository);
 
-		const addressFromAccountExtPublicKey = (
-			extPubKey: Buffer,
-			isChange: boolean,
-			addressIndex: number,
-			network: bitcoin.Network
-		): string => {
-			const node = bitcoin.bip32.fromBase58(xpub, network);
-			return bitcoin.payments.p2pkh({
-				pubkey: node.derive(addressIndex).publicKey,
-				network: network
-			}).address!;
-		};
+		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 20))
+		const usedChangeAddresses = await this.usedAddresses(addressGenerator(network, xpub, false, 20));
 
-		const addressesChunk = async (
-			network: bitcoin.Network,
-			accountPublicKey: string,
-			isChange: boolean,
-			offset: number
-		): Promise<string[]> => {
-			const publicKey = Buffer.from(accountPublicKey, "hex");
-			const addresses: string[] = [];
-			for (let i = offset; i < offset + 20; ++i) {
-				addresses.push(addressFromAccountExtPublicKey(publicKey, isChange, i, network));
-			}
-			return addresses;
-		};
-
-		const usedSpendAddresses: Set<string> = new Set<string>();
-		const usedChangeAddresses: Set<string> = new Set<string>();
-
-		let offset = 0;
-		let exhausted = false;
-		do {
-			const spendAddresses: string[] = await addressesChunk(bitcoin.networks.bitcoin, xpub, false, offset);
-			const changeAddresses: string[] = await addressesChunk(bitcoin.networks.bitcoin, xpub, true, offset);
-
-			const allAddresses = spendAddresses.concat(changeAddresses);
-			const usedAddresses: string[] = allAddresses
-				.filter(async address => {
-					try {
-						const confirmedTransactionData = await this.walletTransactions(address);
-						console.log(confirmedTransactionData);
-						return confirmedTransactionData.meta.total > 0;
-					} catch (error) {
-						console.log("fucking error", error);
-						throw error;
-					}
-				});
-
-			spendAddresses
-				.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)
-				.forEach((sa) => usedSpendAddresses.add(sa));
-			changeAddresses
-				.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)
-				.forEach((sa) => usedChangeAddresses.add(sa));
-
-			exhausted = usedAddresses.length === 0;
-			offset += 20;
-		} while (!exhausted);
-		console.log(usedSpendAddresses, usedChangeAddresses);
-		const response = await this.#post(`wallets`, { addresses: [xpub] });
+		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
 		return this.dataTransferObjectService.wallet(response.data);
 	}
 
 	public override async broadcast(
-		transactions: Contracts.SignedTransactionData[]
+		transactions: Contracts.SignedTransactionData[],
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
 			rejected: [],
-			errors: {}
+			errors: {},
 		};
 
 		for (const transaction of transactions) {
@@ -128,7 +69,7 @@ export class ClientService extends Services.AbstractClientService {
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
 		const response = await this.httpClient.get(
 			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			query
+			query,
 		);
 
 		return response.json();
@@ -137,7 +78,7 @@ export class ClientService extends Services.AbstractClientService {
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
 		const response = await this.httpClient.post(
 			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			body
+			body,
 		);
 
 		return response.json();
@@ -154,17 +95,28 @@ export class ClientService extends Services.AbstractClientService {
 			prev: getPage(body.links.prev) || undefined,
 			next: getPage(body.links.next) || undefined,
 			self: body.meta.current_page || undefined,
-			last: body.meta.last_page || undefined
+			last: body.meta.last_page || undefined,
 		};
 	}
 
-	private async walletTransactions(address: string) {
-		try {
-			const response = await this.#post(`wallets/transactions`, { addresses: [address] });
-			console.log("response", response);
-			return response.data;
-		} catch (e) {
-			console.log("error", e);
-		}
+	private async walletUsedTransactions(addresses: string[]): Promise<any[]> {
+		const response = await this.#post(`wallets/addresses`, { addresses: addresses });
+		return response.data;
+	}
+
+	private async usedAddresses(addressesGenerator: Generator<string[]>): Promise<string[]> {
+		const usedAddresses: string[] = [];
+
+		let exhausted = false;
+		do {
+			const addressChunk: string[] = addressesGenerator.next().value;
+			const used: {string: boolean}[] = await this.walletUsedTransactions(addressChunk);
+
+			const items = addressChunk.filter(address => used[address]);
+			usedAddresses.push(...items);
+
+			exhausted = items.length === 0;
+		} while (!exhausted);
+		return usedAddresses;
 	}
 }
