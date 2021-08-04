@@ -4,7 +4,8 @@ import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
-
+import * as bitcoin from "bitcoinjs-lib";
+// import b58  from 'bs58check';
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
@@ -12,11 +13,13 @@ import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";
+import { fetchUsedAddressesData } from "../../sdk-ada/source/graphql-helpers";
+import { Buffer } from "buffer";
 
 let subject: ClientService;
 
 beforeAll(() => {
-	nock.disableNetConnect();
+	// nock.disableNetConnect();
 
 	subject = createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
@@ -26,10 +29,6 @@ beforeAll(() => {
 });
 
 afterEach(() => nock.cleanAll());
-
-beforeAll(() => {
-	nock.disableNetConnect();
-});
 
 describe("ClientService", () => {
 	describe("#transaction", () => {
@@ -97,6 +96,14 @@ describe("ClientService", () => {
 			expect(result.address()).toBe("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
 			expect(result.publicKey()).toBe("76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac");
 			expect(result.balance().available).toEqual(BigNumber.make(3050000));
+		});
+
+		it("should derive addresses from xpub", async () => {
+			const xpub =
+				"xpub6Cf5giGqXRXEDztMvrs1kxoLvQACGHRMmCuBmrGJVqvKgooZQGPNPzJbJVo3HXdeLNACgkfh4EzWmqKz4TBdyZPnRjCvnZdPBgzgZqxdPjM";
+
+			const walletData = await subject.wallet(xpub);
+			console.log(walletData);
 		});
 	});
 
