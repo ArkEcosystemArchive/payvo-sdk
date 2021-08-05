@@ -109,30 +109,7 @@ describe("ClientService", () => {
 				})
 				.reply(
 					200,
-					{
-						data: {
-							mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz: true,
-							msy7ZqCfVFBuNAf4GJSEnrpc9HMpn6mPV2: false,
-							n4pMT65JrzLCfA6ErNX63yb6GvcA2oMwtA: false,
-							mjJ7AvduauMXmtj8AcxfkdJkjhYcKqChJR: false,
-							mm9gzxT8zh7Beo1wxmNKSgePXVSEYSrCrM: false,
-							mjTHjhtECpHPpTckxqUuEirexUoXnVa2C4: false,
-							mhn5Lm29KHQpSFb888Ne2N8sjCoTstAAAq: false,
-							mrHYgvzE2xAL7sxVfJDP4WuGUP181RvBr3: false,
-							mnL5PvKG4GXwX3AYLSx75S98vFeFteBJRq: false,
-							mn6RriDhuTh9DrXX8WwKmHBpMFkXpU4w4A: false,
-							msR3m6CyXZ9bTG5ooQDcbwEtzwgAsKrKDw: false,
-							n3kvzGysEJ3XuzecWaAtBTxjnpD4BZAiYe: false,
-							n2bKDbjXLj3QYLMfBmd9GVcy1c19wJUxWi: false,
-							mxyZfgBZo7goEiMFz4ZfXpWjqxGdfJnckQ: false,
-							mhThc9DvGgJZZoDf3JxE8mHpcTS8wBoiDH: false,
-							mzTxEzujzS2bMD9BWYck2U7k9m79grRnaw: false,
-							mpfthavUUarbK8vBkrLEqBX3SDaj8632Af: false,
-							moyKoZsCf6UP8X4HkRxdKmq5ihamCNpxon: false,
-							mksdPb37aU3QwvdHS3Q442PiPX1qxhquq3: false,
-							n4gPfaKpeLpTUyazt296bHf3hj6ZB7H2wc: false,
-						},
-					},
+					'{"data":{"mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz":true,"msy7ZqCfVFBuNAf4GJSEnrpc9HMpn6mPV2":false,"n4pMT65JrzLCfA6ErNX63yb6GvcA2oMwtA":false,"mjJ7AvduauMXmtj8AcxfkdJkjhYcKqChJR":false,"mm9gzxT8zh7Beo1wxmNKSgePXVSEYSrCrM":false,"mjTHjhtECpHPpTckxqUuEirexUoXnVa2C4":false,"mhn5Lm29KHQpSFb888Ne2N8sjCoTstAAAq":false,"mrHYgvzE2xAL7sxVfJDP4WuGUP181RvBr3":false,"mnL5PvKG4GXwX3AYLSx75S98vFeFteBJRq":false,"mn6RriDhuTh9DrXX8WwKmHBpMFkXpU4w4A":false,"msR3m6CyXZ9bTG5ooQDcbwEtzwgAsKrKDw":false,"n3kvzGysEJ3XuzecWaAtBTxjnpD4BZAiYe":false,"n2bKDbjXLj3QYLMfBmd9GVcy1c19wJUxWi":false,"mxyZfgBZo7goEiMFz4ZfXpWjqxGdfJnckQ":false,"mhThc9DvGgJZZoDf3JxE8mHpcTS8wBoiDH":false,"mzTxEzujzS2bMD9BWYck2U7k9m79grRnaw":false,"mpfthavUUarbK8vBkrLEqBX3SDaj8632Af":false,"moyKoZsCf6UP8X4HkRxdKmq5ihamCNpxon":false,"mksdPb37aU3QwvdHS3Q442PiPX1qxhquq3":false,"n4gPfaKpeLpTUyazt296bHf3hj6ZB7H2wc":false}}',
 					[],
 				);
 
@@ -163,30 +140,7 @@ describe("ClientService", () => {
 				})
 				.reply(
 					200,
-					{
-						data: {
-							mzXqh3GSAkRF83HA9xXvgkCsUMPhtbpF47: false,
-							mvRPTy61Eu5FuQkKSD9RschXsCcgT7F9Ke: false,
-							mfnKdSFaXGTgjd67xZrPMrxamBxuk9JfwF: false,
-							miqgjnVTsheUs75EQ7W6MVN2ScvP7uB8MX: false,
-							mtqgfbjZ9tstZtr3jyVKNzjPsfvKgqwdsh: false,
-							mj6WUpsrEE1DKyyh6Tt4dL4Q6ovYMJXDqv: false,
-							n2GwVELhoFabFoideHVSfimb66wUGHPzmp: false,
-							mi55ngoeJQUmZ8ewxe799pQ744JkMbCjcr: false,
-							mtd1drZCsnBXSnNhHj74N42xrXdTNQefbG: false,
-							moAgQVoviA2D2aQV2jB9CRyjQF4KcWJg1t: false,
-							mtoy82b6JjSjU44YMm49bUW3kkrgcA7eEL: false,
-							mvXQdC1Jup75WNTry5zx7iaYb6UFWtgt4o: false,
-							moa9QDEacjkayZ5VbWTTfCNkjKAVxgiX7K: false,
-							moyESkaN1TDxtdcMFk5LTU8EcB7tP2eSgJ: false,
-							mpRcrvTbFmwymYgW79m8tE5ANWJEGhBq2s: false,
-							mwcQ2Kd7fKqH9x7cWgMksmKy6UL8BYZFbc: false,
-							mnR7bePTUyRvm4Vu4EkvYrbc7UbLF7aiwi: false,
-							mqvktLDsBXL7WVLamv9XAaNw3mProXaah3: false,
-							mhCKygbPwuUojtMXKn5ugoDzfTyMxFek6D: false,
-							mhPGchVv6RRVAGBwGNNBzNpumQk2YGm9Gp: false,
-						},
-					},
+					'{"data":{"mzXqh3GSAkRF83HA9xXvgkCsUMPhtbpF47":false,"mvRPTy61Eu5FuQkKSD9RschXsCcgT7F9Ke":false,"mfnKdSFaXGTgjd67xZrPMrxamBxuk9JfwF":false,"miqgjnVTsheUs75EQ7W6MVN2ScvP7uB8MX":false,"mtqgfbjZ9tstZtr3jyVKNzjPsfvKgqwdsh":false,"mj6WUpsrEE1DKyyh6Tt4dL4Q6ovYMJXDqv":false,"n2GwVELhoFabFoideHVSfimb66wUGHPzmp":false,"mi55ngoeJQUmZ8ewxe799pQ744JkMbCjcr":false,"mtd1drZCsnBXSnNhHj74N42xrXdTNQefbG":false,"moAgQVoviA2D2aQV2jB9CRyjQF4KcWJg1t":false,"mtoy82b6JjSjU44YMm49bUW3kkrgcA7eEL":false,"mvXQdC1Jup75WNTry5zx7iaYb6UFWtgt4o":false,"moa9QDEacjkayZ5VbWTTfCNkjKAVxgiX7K":false,"moyESkaN1TDxtdcMFk5LTU8EcB7tP2eSgJ":false,"mpRcrvTbFmwymYgW79m8tE5ANWJEGhBq2s":false,"mwcQ2Kd7fKqH9x7cWgMksmKy6UL8BYZFbc":false,"mnR7bePTUyRvm4Vu4EkvYrbc7UbLF7aiwi":false,"mqvktLDsBXL7WVLamv9XAaNw3mProXaah3":false,"mhCKygbPwuUojtMXKn5ugoDzfTyMxFek6D":false,"mhPGchVv6RRVAGBwGNNBzNpumQk2YGm9Gp":false}}',
 					[],
 				);
 
@@ -217,30 +171,7 @@ describe("ClientService", () => {
 				})
 				.reply(
 					200,
-					{
-						data: {
-							n3LhrsyE8g1Ga2XPGuXfRkaPcipevENLre: false,
-							n1ii1xkSqM5zTyY4h5zpAnPi86csRbA5ar: false,
-							mkEU1tHycuDj2XPcRMBWZHrBvHJXwkcBNR: false,
-							my6MACmsGA3MXq73KJwnZwcNYwAYNXGGaM: false,
-							mvY8me8vYkKUz8Qn3pFhionqYWDZeiC1hC: false,
-							ms9QjBPWq7atAGtp4HrFRUhcuNU2QHj58z: false,
-							mtkq8N81uLbazEszNZSij7ago4k6KkfjKk: false,
-							mjZij3tVEKKFdyGcUTTkAVDR7jGhUfxEf7: false,
-							mhub5yjwn8aktqw2C1hipdYNW83njAgymv: false,
-							mjP4YPUBZZW6GaXJJ36W8gfTfxMCfuTvbP: false,
-							n2khkbRh2pc8srDNeqM8uEy3n9APaL8KgV: false,
-							mtBkrgNXdCX7gBVAugdtNqSq8L56EVV7Uw: false,
-							mi5VbkBz7tjfg7AQ2oxxQWj78LDBzhrb3d: false,
-							mhbNtdzhrxRLAuajTLYCzaec3DE79GLjwh: false,
-							mhuacfeCHWSVweiu6KwDVrTGhsrnCQfTgz: false,
-							mtbT1i9DnWaUMiWxUvSR42Ve56KbReKcgg: false,
-							mowcx8DHsDBuhKSQ9XBpML9nZSSB2SyJDc: false,
-							n2FJRGVUvWEk4rUzfJWkki5jqSg5bBwc98: false,
-							n1nSwLjZ54S6k58KBwjdNDuqs1mZSCXx3z: false,
-							moGqYcYarUUiLntbqEL3BBkq4XPuGBoVqN: false,
-						},
-					},
+					'{"data":{"n3LhrsyE8g1Ga2XPGuXfRkaPcipevENLre":false,"n1ii1xkSqM5zTyY4h5zpAnPi86csRbA5ar":false,"mkEU1tHycuDj2XPcRMBWZHrBvHJXwkcBNR":false,"my6MACmsGA3MXq73KJwnZwcNYwAYNXGGaM":false,"mvY8me8vYkKUz8Qn3pFhionqYWDZeiC1hC":false,"ms9QjBPWq7atAGtp4HrFRUhcuNU2QHj58z":false,"mtkq8N81uLbazEszNZSij7ago4k6KkfjKk":false,"mjZij3tVEKKFdyGcUTTkAVDR7jGhUfxEf7":false,"mhub5yjwn8aktqw2C1hipdYNW83njAgymv":false,"mjP4YPUBZZW6GaXJJ36W8gfTfxMCfuTvbP":false,"n2khkbRh2pc8srDNeqM8uEy3n9APaL8KgV":false,"mtBkrgNXdCX7gBVAugdtNqSq8L56EVV7Uw":false,"mi5VbkBz7tjfg7AQ2oxxQWj78LDBzhrb3d":false,"mhbNtdzhrxRLAuajTLYCzaec3DE79GLjwh":false,"mhuacfeCHWSVweiu6KwDVrTGhsrnCQfTgz":false,"mtbT1i9DnWaUMiWxUvSR42Ve56KbReKcgg":false,"mowcx8DHsDBuhKSQ9XBpML9nZSSB2SyJDc":false,"n2FJRGVUvWEk4rUzfJWkki5jqSg5bBwc98":false,"n1nSwLjZ54S6k58KBwjdNDuqs1mZSCXx3z":false,"moGqYcYarUUiLntbqEL3BBkq4XPuGBoVqN":false}}',
 					[],
 				);
 
@@ -248,13 +179,7 @@ describe("ClientService", () => {
 				.post("/api/wallets", { addresses: ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"] })
 				.reply(
 					200,
-					{
-						data: {
-							balance: 100000,
-							address: ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"],
-							publicKey: "figure this out",
-						},
-					},
+					'{"data":{"balance":100000,"address":["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"],"publicKey":"figure this out"}}',
 					[],
 				);
 
