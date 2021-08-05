@@ -24,8 +24,9 @@ export class ClientService extends Services.AbstractClientService {
 			const network = getNetworkConfig(this.configRepository);
 
 			const xpub = query.senderPublicKey!;
-			addresses = (await this.usedAddresses(addressGenerator(network, xpub, true, 100)))
-				.concat(await this.usedAddresses(addressGenerator(network, xpub, false, 100)))
+			addresses = (await this.usedAddresses(addressGenerator(network, xpub, true, 100))).concat(
+				await this.usedAddresses(addressGenerator(network, xpub, false, 100)),
+			);
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses });
