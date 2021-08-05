@@ -421,8 +421,6 @@ test("#all", () => {
 		        "delegateRegistration",
 		        "delegateResignation",
 		        "estimateExpiration",
-		        "ipfs.musig",
-		        "ipfs",
 		        "multiPayment.musig",
 		        "multiPayment",
 		        "multiSignature.musig",
