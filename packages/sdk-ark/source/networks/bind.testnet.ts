@@ -21,6 +21,10 @@ const network: Networks.NetworkManifest = {
 			host: "https://apis-testnet.compendia.org/api",
 		},
 		{
+			type: "musig",
+			host: "https://ark-test-musig.payvo.com",
+		},
+		{
 			type: "explorer",
 			host: "https://testnet.bindscan.io",
 		},
@@ -44,8 +48,6 @@ const network: Networks.NetworkManifest = {
 			"delegateRegistration",
 			"delegateResignation",
 			"estimateExpiration",
-			"ipfs.musig",
-			"ipfs",
 			"multiPayment.musig",
 			"multiPayment",
 			"multiSignature.musig",

@@ -448,6 +448,10 @@ test("#all", () => {
 		        "type": "full",
 		      },
 		      Object {
+		        "host": "https://ark-live-musig.payvo.com",
+		        "type": "musig",
+		      },
+		      Object {
 		        "host": "https://bindscan.io",
 		        "type": "explorer",
 		      },
@@ -578,8 +582,6 @@ test("#all", () => {
 		        "delegateRegistration",
 		        "delegateResignation",
 		        "estimateExpiration",
-		        "ipfs.musig",
-		        "ipfs",
 		        "multiPayment.musig",
 		        "multiPayment",
 		        "multiSignature.musig",
@@ -603,6 +605,10 @@ test("#all", () => {
 		      Object {
 		        "host": "https://apis-testnet.compendia.org/api",
 		        "type": "full",
+		      },
+		      Object {
+		        "host": "https://ark-test-musig.payvo.com",
+		        "type": "musig",
 		      },
 		      Object {
 		        "host": "https://testnet.bindscan.io",

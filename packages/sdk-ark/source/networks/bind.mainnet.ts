@@ -21,6 +21,10 @@ const network: Networks.NetworkManifest = {
 			host: "https://apis.compendia.org/api",
 		},
 		{
+			type: "musig",
+			host: "https://ark-live-musig.payvo.com",
+		},
+		{
 			type: "explorer",
 			host: "https://bindscan.io",
 		},
