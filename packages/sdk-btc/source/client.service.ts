@@ -27,8 +27,8 @@ export class ClientService extends Services.AbstractClientService {
 	public override async wallet(xpub: string): Promise<Contracts.WalletData> {
 		const network = getNetworkConfig(this.configRepository);
 
-		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 20));
-		const usedChangeAddresses = await this.usedAddresses(addressGenerator(network, xpub, false, 20));
+		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 100));
+		const usedChangeAddresses = await this.usedAddresses(addressGenerator(network, xpub, false, 100));
 
 		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
 		return this.dataTransferObjectService.wallet(response.data);
@@ -99,7 +99,7 @@ export class ClientService extends Services.AbstractClientService {
 		};
 	}
 
-	private async walletUsedTransactions(addresses: string[]): Promise<any[]> {
+	private async walletUsedTransactions(addresses: string[]): Promise<{ string: boolean }[]> {
 		const response = await this.#post(`wallets/addresses`, { addresses: addresses });
 		return response.data;
 	}
@@ -115,7 +115,9 @@ export class ClientService extends Services.AbstractClientService {
 			const items = addressChunk.filter((address) => used[address]);
 			usedAddresses.push(...items);
 
-			exhausted = items.length === 0;
+			exhausted = Object.values(used)
+				.slice(-20)
+				.every((x) => !x);
 		} while (!exhausted);
 		return usedAddresses;
 	}
