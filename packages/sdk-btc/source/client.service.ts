@@ -15,11 +15,20 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		if (!query.addresses) {
-			throw new Error("No addresses specified for querying for transactions");
+		if (!query.addresses && !query.senderPublicKey) {
+			throw new Error("Need specify either addresses or a extended public key for querying for transactions");
 		}
 
-		const response = await this.#post("wallets/transactions", { addresses: query.addresses });
+		let addresses = query.addresses;
+		if (!addresses) {
+			const network = getNetworkConfig(this.configRepository);
+
+			const xpub = query.senderPublicKey!;
+			addresses = (await this.usedAddresses(addressGenerator(network, xpub, true, 100)))
+				.concat(await this.usedAddresses(addressGenerator(network, xpub, false, 100)))
+		}
+
+		const response = await this.#post("wallets/transactions", { addresses });
 
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
