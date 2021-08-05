@@ -1,6 +1,6 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { getNetworkConfig } from "./config";
-import { addressGenerator } from "./address.domain";
+import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -23,9 +23,11 @@ export class ClientService extends Services.AbstractClientService {
 		if (!addresses) {
 			const network = getNetworkConfig(this.configRepository);
 
+			const bip = bip44; // TODO Make this a method param or part of the ClientTransactionsInput
+
 			const xpub = query.senderPublicKey!;
-			addresses = (await this.usedAddresses(addressGenerator(network, xpub, true, 100))).concat(
-				await this.usedAddresses(addressGenerator(network, xpub, false, 100)),
+			addresses = (await this.usedAddresses(addressGenerator(bip, network, xpub, true, 100))).concat(
+				await this.usedAddresses(addressGenerator(bip, network, xpub, false, 100)),
 			);
 		}
 
@@ -37,8 +39,10 @@ export class ClientService extends Services.AbstractClientService {
 	public override async wallet(xpub: string): Promise<Contracts.WalletData> {
 		const network = getNetworkConfig(this.configRepository);
 
-		const usedSpendAddresses = await this.usedAddresses(addressGenerator(network, xpub, true, 100));
-		const usedChangeAddresses = await this.usedAddresses(addressGenerator(network, xpub, false, 100));
+		const bip = bip44; // TODO Make this a method param
+
+		const usedSpendAddresses = await this.usedAddresses(addressGenerator(bip, network, xpub, true, 100));
+		const usedChangeAddresses = await this.usedAddresses(addressGenerator(bip, network, xpub, false, 100));
 
 		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
 		return this.dataTransferObjectService.wallet(response.data);

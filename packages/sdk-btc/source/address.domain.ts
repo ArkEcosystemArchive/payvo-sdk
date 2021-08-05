@@ -1,6 +1,28 @@
 import * as bitcoin from "bitcoinjs-lib";
 
+export const bip44 = (publicKey, network): string =>
+	bitcoin.payments.p2pkh({
+		pubkey: publicKey,
+		network: network,
+	}).address!;
+
+export const bip49 = (publicKey, network): string =>
+	bitcoin.payments.p2sh({
+		redeem: bitcoin.payments.p2wpkh({
+			pubkey: publicKey,
+			network: network,
+		}),
+		network: network,
+	}).address!;
+
+export const bip84 = (publicKey, network): string =>
+	bitcoin.payments.p2wpkh({
+		pubkey: publicKey,
+		network: network,
+	}).address!;
+
 export const addressGenerator = function* (
+	bip: (publicKey, network) => string,
 	network: bitcoin.Network,
 	extendedPublicKey: string,
 	isSpend: boolean,
@@ -13,12 +35,7 @@ export const addressGenerator = function* (
 	while (index < max) {
 		const chunk: string[] = [];
 		for (let i = 0; i < chunkSize; i++) {
-			chunk.push(
-				bitcoin.payments.p2pkh({
-					pubkey: node.derive(index++).publicKey,
-					network: network,
-				}).address!,
-			);
+			chunk.push(bip(node.derive(index++).publicKey, network));
 		}
 		yield chunk;
 	}
