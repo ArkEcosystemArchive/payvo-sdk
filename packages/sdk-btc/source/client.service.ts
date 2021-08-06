@@ -1,4 +1,4 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { getNetworkConfig } from "./config";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 
@@ -15,21 +15,14 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		if (!query.identifiers && !query.senderPublicKey) {
-			throw new Error("Need specify either addresses or a extended public key for querying for transactions");
+		if (!query.identifiers) {
+			throw new Error("Need specify either identifiers for querying transactions");
 		}
 
 		let addresses: string[] = [];
 
-		if (query.identifiers) {
-			const network = getNetworkConfig(this.configRepository);
-
-			const bip = this.#derivationMethod(query.identifiers[0]);
-
-			const xpub = query.senderPublicKey!;
-			addresses = (await this.#usedAddresses(addressGenerator(bip, network, xpub, true, 100))).concat(
-				await this.#usedAddresses(addressGenerator(bip, network, xpub, false, 100)),
-			);
+		for (const identifier of query.identifiers) {
+			addresses.push(...(await this.getAddresses(identifier)));
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses });
@@ -38,18 +31,32 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const network = getNetworkConfig(this.configRepository);
-		const derivationMethod = this.#derivationMethod(id);
+		const addresses = await this.getAddresses(id);
 
-		const usedSpendAddresses = await this.#usedAddresses(
-			addressGenerator(derivationMethod, network, id.value, true, 100),
-		);
-		const usedChangeAddresses = await this.#usedAddresses(
-			addressGenerator(derivationMethod, network, id.value, false, 100),
-		);
-
-		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
+		const response = await this.#post(`wallets`, { addresses });
 		return this.dataTransferObjectService.wallet(response.data);
+	}
+
+	private async getAddresses(id: Services.WalletIdentifier): Promise<string[]> {
+		if (id.type === "extendedPublicKey") {
+			const network = getNetworkConfig(this.configRepository);
+			const derivationMethod = this.#derivationMethod(id);
+
+			const usedSpendAddresses = await this.#usedAddresses(
+				addressGenerator(derivationMethod, network, id.value, true, 100),
+			);
+			const usedChangeAddresses = await this.#usedAddresses(
+				addressGenerator(derivationMethod, network, id.value, false, 100),
+			);
+
+			return usedSpendAddresses.concat(usedChangeAddresses);
+		} else if (id.type === "address") {
+			return [id.value];
+		} else if (id.type === "publicKey") {
+			return [id.value];
+		}
+
+		throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);
 	}
 
 	public override async broadcast(
@@ -68,7 +75,7 @@ export class ClientService extends Services.AbstractClientService {
 				throw new Error("Failed to compute the transaction ID.");
 			}
 
-			const response = (await this.#post("transactions", { transactions: [transaction.toBroadcast()] })).data;
+			const response = (await this.#post("transactions", { transaction: transaction.toBroadcast() })).data;
 
 			if (response.result) {
 				result.accepted.push(transactionId);
