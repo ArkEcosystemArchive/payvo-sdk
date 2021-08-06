@@ -236,6 +236,7 @@ describe("ClientService", () => {
 						...fixture.data.attributes,
 						vote: undefined,
 					},
+					vote: undefined,
 				},
 			};
 
