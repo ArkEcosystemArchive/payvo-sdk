@@ -35,10 +35,10 @@ export class ClientService extends Services.AbstractClientService {
 		);
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const { balance, pending } = await this.#client.accountInfo(id, { pending: true });
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const { balance, pending } = await this.#client.accountInfo(id.value, { pending: true });
 
-		return this.dataTransferObjectService.wallet({ id, balance, pending });
+		return this.dataTransferObjectService.wallet({ id: id.value, balance, pending });
 	}
 
 	public override async broadcast(

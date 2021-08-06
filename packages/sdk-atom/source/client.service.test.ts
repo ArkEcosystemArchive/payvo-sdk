@@ -86,7 +86,10 @@ describe("ClientService", () => {
 				.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+			const result = await subject.wallet({
+				type: "address",
+				value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.address()).toBe("cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");

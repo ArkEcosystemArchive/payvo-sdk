@@ -124,7 +124,10 @@ describe("ClientService", () => {
 				.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9");
+			const result = await subject.wallet({
+				type: "address",
+				value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 		});

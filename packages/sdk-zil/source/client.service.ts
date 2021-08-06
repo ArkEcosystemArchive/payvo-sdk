@@ -31,8 +31,8 @@ export class ClientService extends Services.AbstractClientService {
 		});
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const response = await this.#zilliqa.blockchain.getBalance(id);
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const response = await this.#zilliqa.blockchain.getBalance(id.value);
 
 		if (response.error) {
 			throw new Exceptions.Exception(`Received an error: ${JSON.stringify(response.error)}`);
@@ -43,7 +43,7 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		return this.dataTransferObjectService.wallet({
-			address: id,
+			address: id.value,
 			balance: response.result.balance,
 			nonce: response.result.nonce,
 		});

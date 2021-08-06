@@ -60,7 +60,10 @@ describe("ClientService", () => {
 				.get("/v1/accounts/TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ");
+			const result = await subject.wallet({
+				type: "address",
+				value: "TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.balance()).toMatchInlineSnapshot(`

@@ -13,11 +13,11 @@ export class ClientService extends Services.AbstractClientService {
 		await this.client.disconnect();
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const { data: balances, nonce } = await this.client.query.system.account(id);
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const { data: balances, nonce } = await this.client.query.system.account(id.value);
 
 		return this.dataTransferObjectService.wallet({
-			address: id,
+			address: id.value,
 			balance: balances.free.toString(),
 			nonce: nonce.toString(),
 		});

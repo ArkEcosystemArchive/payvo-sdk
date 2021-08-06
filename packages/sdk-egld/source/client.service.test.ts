@@ -56,7 +56,10 @@ describe("ClientService", () => {
 			.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7")
 			.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet("erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7");
+		const result = await subject.wallet({
+			type: "address",
+			value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7",
+		});
 
 		expect(result).toBeInstanceOf(WalletData);
 	});
