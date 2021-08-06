@@ -256,7 +256,7 @@ describe("ClientService", () => {
 					...fixture.data,
 					attributes: undefined,
 					vote: undefined,
-				}
+				},
 			};
 
 			nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
@@ -291,7 +291,7 @@ describe("ClientService", () => {
 			    "id": "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
 			  },
 			]
-		`)
+		`);
 		});
 	});
 
