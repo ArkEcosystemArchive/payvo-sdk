@@ -39,8 +39,12 @@ export class ClientService extends Services.AbstractClientService {
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
 		const network = getNetworkConfig(this.configRepository);
 
-		const usedSpendAddresses = await this.#usedAddresses(addressGenerator(this.#derivationMethod(id), network, id.value, true, 100));
-		const usedChangeAddresses = await this.#usedAddresses(addressGenerator(this.#derivationMethod(id), network, id.value, false, 100));
+		const usedSpendAddresses = await this.#usedAddresses(
+			addressGenerator(this.#derivationMethod(id), network, id.value, true, 100),
+		);
+		const usedChangeAddresses = await this.#usedAddresses(
+			addressGenerator(this.#derivationMethod(id), network, id.value, false, 100),
+		);
 
 		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
 		return this.dataTransferObjectService.wallet(response.data);
@@ -134,7 +138,7 @@ export class ClientService extends Services.AbstractClientService {
 		return usedAddresses;
 	}
 
-    #derivationMethod(id: Services.WalletIdentifier): (publicKey: string, network: string) => string {
-        return { bip44, bip49, bip84 }[id.type];
-    }
+	#derivationMethod(id: Services.WalletIdentifier): (publicKey: string, network: string) => string {
+		return { bip44, bip49, bip84 }[id.type];
+	}
 }
