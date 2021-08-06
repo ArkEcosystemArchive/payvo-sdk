@@ -22,7 +22,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		return this.dataTransferObjectService.transactions(
 			Object.values(history).map((transaction: any) => {
-				transaction._origin = account;
+				transaction._origin = account.value;
 
 				return transaction;
 			}),
