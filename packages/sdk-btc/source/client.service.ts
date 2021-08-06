@@ -13,11 +13,13 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		if (!query.addresses) {
-			throw new Error("No addresses specified for querying for transactions");
+		if (!query.identifiers) {
+			throw new Error("No identifiers specified for querying for transactions");
 		}
 
-		const response = await this.#post("wallets/transactions", { addresses: query.addresses });
+		const response = await this.#post("wallets/transactions", {
+			addresses: query.identifiers.map(({ value }) => value),
+		});
 
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}

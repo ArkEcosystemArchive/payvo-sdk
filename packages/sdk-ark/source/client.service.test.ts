@@ -56,7 +56,7 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
-				addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
+				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 				cursor: "0",
 			});
 
@@ -79,7 +79,9 @@ describe("ClientService", () => {
 				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({ addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"] });
+			const result = await subject.transactions({
+				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+			});
 
 			expect(result).toBeObject();
 			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
@@ -107,7 +109,7 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
-				addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
+				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 				asset: { type: 4, action: 0 },
 				type: 6,
 				typeGroup: 2,
@@ -148,7 +150,9 @@ describe("ClientService", () => {
 				.post("/api/wallets/search")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
 
-			const result = await subject.wallets({ addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"] });
+			const result = await subject.wallets({
+				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+			});
 
 			expect(result).toBeObject();
 			expect(result.items()[0]).toBeInstanceOf(WalletData);
@@ -169,7 +173,9 @@ describe("ClientService", () => {
 				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
 
-			const result = await subject.wallets({ addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"] });
+			const result = await subject.wallets({
+				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+			});
 
 			expect(result).toBeObject();
 			expect(result.items()[0]).toBeInstanceOf(WalletData);

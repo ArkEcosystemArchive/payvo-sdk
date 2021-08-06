@@ -44,7 +44,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 					id: input.transactionID,
 					timestamp: DateTime.make(input.timestamp),
 					amount: this.bigNumberService.make(input.amount),
-					addresses: input.addresses,
+					addresses: input.identifiers.map(({ value }) => value),
 				}),
 		);
 	}
@@ -56,7 +56,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 					id: output.transactionID,
 					timestamp: DateTime.make(output.timestamp),
 					amount: this.bigNumberService.make(output.amount),
-					addresses: output.addresses,
+					addresses: output.identifiers.map(({ value }) => value),
 				}),
 		);
 	}

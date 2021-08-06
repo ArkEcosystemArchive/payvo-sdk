@@ -203,13 +203,13 @@ export class ClientService extends Services.AbstractClientService {
 
 		if (this.#isUpcoming()) {
 			// @ts-ignore
-			const addresses: string[] | undefined = body.addresses as string[];
+			const addresses: string[] | undefined = body.identifiers.map(({ value }) => value) as string[];
 
 			if (Array.isArray(addresses)) {
 				result.searchParams.address = addresses.join(",");
 
 				// @ts-ignore
-				delete body.addresses;
+				delete body.identifiers;
 			}
 
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });

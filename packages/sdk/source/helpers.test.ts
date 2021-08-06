@@ -63,7 +63,7 @@ describe("pluckAddress", () => {
 	});
 
 	test("addresses", () => {
-		expect(pluckAddress({ addresses: ["addresses"] })).toBe("addresses");
+		expect(pluckAddress({ identifiers: [{ value: "addresses" }] })).toBe("addresses");
 	});
 
 	test("addresses", () => {
