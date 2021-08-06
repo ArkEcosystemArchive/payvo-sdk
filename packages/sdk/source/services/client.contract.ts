@@ -23,7 +23,7 @@ export interface BroadcastResponse {
 export interface WalletIdentifier {
 	type: "address" | "publicKey" | "extendedPublicKey";
 	value: string;
-	method?: string;
+	method?: "bip39" | "bip44" | "bip49" | "bip84";
 }
 
 export interface ClientService {
