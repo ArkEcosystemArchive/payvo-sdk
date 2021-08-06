@@ -38,12 +38,12 @@ export class ClientService extends Services.AbstractClientService {
 		);
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
 		return this.dataTransferObjectService.wallet(
 			(
 				await this.#post("account_info", [
 					{
-						account: id,
+						account: id.value,
 						strict: true,
 						ledger_index: "current",
 					},

@@ -41,11 +41,11 @@ export class ClientService extends Services.AbstractClientService {
 		});
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
 		const { usedSpendAddresses, usedChangeAddresses } = await usedAddressesForAccount(
 			this.configRepository,
 			this.httpClient,
-			id,
+			id.value,
 		);
 
 		const balance = await fetchUtxosAggregate(
@@ -55,7 +55,7 @@ export class ClientService extends Services.AbstractClientService {
 		);
 
 		return this.dataTransferObjectService.wallet({
-			id,
+			id: id.value,
 			balance,
 		});
 	}

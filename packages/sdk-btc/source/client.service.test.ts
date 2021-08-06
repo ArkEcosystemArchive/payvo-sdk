@@ -91,7 +91,10 @@ describe("ClientService", () => {
 				.post("/api/wallets", { addresses: ["my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz"] })
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
+			const result = await subject.wallet({
+				type: "address",
+				value: "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.address()).toBe("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");

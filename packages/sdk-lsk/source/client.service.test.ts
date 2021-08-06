@@ -120,7 +120,10 @@ describe("ClientService", () => {
 				.query(true)
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m");
+			const result = await subject.wallet({
+				type: "address",
+				value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.primaryKey()).toMatchInlineSnapshot(`"lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);

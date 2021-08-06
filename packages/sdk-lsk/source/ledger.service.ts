@@ -110,7 +110,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	async #fetchWallet(address: string, wallets: Contracts.WalletData[]): Promise<void> {
 		try {
-			const wallet: Contracts.WalletData = await this.clientService.wallet(address);
+			const wallet: Contracts.WalletData = await this.clientService.wallet({ type: "address", value: address });
 
 			if (wallet.address()) {
 				wallets.push(wallet);

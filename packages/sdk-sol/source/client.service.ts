@@ -12,8 +12,8 @@ export class ClientService extends Services.AbstractClientService {
 		this.#client = new Connection(this.#host());
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const response = await this.#client.getAccountInfo(new PublicKey(id));
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const response = await this.#client.getAccountInfo(new PublicKey(id.value));
 
 		if (!response) {
 			throw new Exceptions.Exception("Received an invalid response.");

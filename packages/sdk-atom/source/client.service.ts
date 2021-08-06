@@ -31,9 +31,9 @@ export class ClientService extends Services.AbstractClientService {
 		});
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const { result: details } = await this.#get(`auth/accounts/${id}`);
-		const { result: balance } = await this.#get(`bank/balances/${id}`);
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const { result: details } = await this.#get(`auth/accounts/${id.value}`);
+		const { result: balance } = await this.#get(`bank/balances/${id.value}`);
 
 		return this.dataTransferObjectService.wallet({
 			address: details.value.address,

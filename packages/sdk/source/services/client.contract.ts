@@ -20,11 +20,17 @@ export interface BroadcastResponse {
 	errors: Record<string, string>;
 }
 
+export interface WalletIdentifier {
+	type: "address" | "publicKey" | "extendedPublicKey";
+	value: string;
+	method?: string;
+}
+
 export interface ClientService {
 	transaction(id: string): Promise<ConfirmedTransactionData>;
 	transactions(query: ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
 
-	wallet(id: string): Promise<WalletData>;
+	wallet(id: WalletIdentifier): Promise<WalletData>;
 	wallets(query: ClientWalletsInput): Promise<WalletDataCollection>;
 
 	delegate(id: string): Promise<WalletData>;

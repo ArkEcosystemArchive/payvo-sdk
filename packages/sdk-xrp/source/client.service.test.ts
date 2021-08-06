@@ -81,7 +81,10 @@ describe("ClientService", () => {
 				.post("/")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
+			const result = await subject.wallet({
+				type: "address",
+				value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.address()).toEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");

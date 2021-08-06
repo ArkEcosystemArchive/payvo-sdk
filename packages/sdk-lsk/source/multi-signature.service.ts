@@ -156,7 +156,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		let wallet: Contracts.WalletData;
 
 		if (isMultiSignatureRegistration(transaction)) {
-			wallet = await this.clientService.wallet(signatory.address());
+			wallet = await this.clientService.wallet({ type: "address", value: signatory.address() });
 		} else {
 			wallet = (
 				await this.clientService.wallets({
