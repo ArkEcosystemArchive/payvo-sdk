@@ -149,7 +149,10 @@ describe("ClientService", () => {
 				);
 
 			nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
-				.post("/api/wallets", '{"addresses":["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT","2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"]}')
+				.post(
+					"/api/wallets",
+					'{"addresses":["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT","2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"]}',
+				)
 				.reply(
 					200,
 					'{"data":{"balance":59832,"address":["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT","2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"],"publicKey":"figure this out"}}',
@@ -162,7 +165,10 @@ describe("ClientService", () => {
 			const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip49" });
 
 			expect(result).toBeInstanceOf(WalletData);
-			expect(result.address()).toEqual(["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT", "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"]);
+			expect(result.address()).toEqual([
+				"2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT",
+				"2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x",
+			]);
 			expect(result.publicKey()).toBe("figure this out");
 			expect(result.balance().available.toNumber()).toBe(59832);
 		});
@@ -191,7 +197,10 @@ describe("ClientService", () => {
 				);
 
 			nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
-				.post("/api/wallets", '{"addresses":["tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3","tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62"]}')
+				.post(
+					"/api/wallets",
+					'{"addresses":["tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3","tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62"]}',
+				)
 				.reply(
 					200,
 					'{"data":{"balance":69854,"address":["tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3","tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62"],"publicKey":"figure this out"}}',
@@ -204,7 +213,10 @@ describe("ClientService", () => {
 			const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip84" });
 
 			expect(result).toBeInstanceOf(WalletData);
-			expect(result.address()).toEqual(["tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3","tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62"]);
+			expect(result.address()).toEqual([
+				"tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3",
+				"tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62",
+			]);
 			expect(result.publicKey()).toBe("figure this out");
 			expect(result.balance().available.toNumber()).toBe(69854);
 		});
