@@ -33,7 +33,10 @@ describe("ClientService", () => {
 				.post("/v1/chain/get_account")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("bdfkbzietxos");
+			const result = await subject.wallet({
+				type: "address",
+				value: "bdfkbzietxos",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 		});

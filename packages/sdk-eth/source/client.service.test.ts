@@ -76,7 +76,10 @@ describe("ClientService", () => {
 				.get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet("0x4581a610f96878266008993475f1476ca9997081");
+			const result = await subject.wallet({
+				type: "address",
+				value: "0x4581a610f96878266008993475f1476ca9997081",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.address()).toBe("0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");

@@ -53,7 +53,10 @@ describe("ClientService", () => {
 			.post("/proxy/")
 			.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet("nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3");
+		const result = await subject.wallet({
+			type: "address",
+			value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3",
+		});
 
 		expect(result).toBeInstanceOf(WalletData);
 		expect(result.toObject()).toMatchSnapshot();

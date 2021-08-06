@@ -37,11 +37,11 @@ export class ClientService extends Services.AbstractClientService {
 		});
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const response = await this.#get(`get_balance/${id}`);
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const response = await this.#get(`get_balance/${id.value}`);
 
 		return this.dataTransferObjectService.wallet({
-			address: id,
+			address: id.value,
 			balance: response.balance.find((balance) => balance.asset === "NEO").amount,
 		});
 	}

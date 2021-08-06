@@ -44,8 +44,8 @@ export class ClientService extends Services.AbstractClientService {
 		);
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		return this.dataTransferObjectService.wallet(await this.#client.loadAccount(id));
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		return this.dataTransferObjectService.wallet(await this.#client.loadAccount(id.value));
 	}
 
 	public override async broadcast(

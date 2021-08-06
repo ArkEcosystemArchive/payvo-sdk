@@ -23,8 +23,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const { address: senderAddress } = await this.addressService.fromMnemonic(input.signatory.signingKey());
 			const keyPair = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
 
-			// @ts-ignore
-			const { account_number, sequence } = (await this.clientService.wallet(senderAddress)).raw();
+			const { account_number, sequence } = (
+				await this.clientService.wallet({ type: "address", value: senderAddress })
+			)
+				// @ts-ignore
+				.raw();
 
 			const signedTransaction = createSignedTransactionData(
 				{

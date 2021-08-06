@@ -26,8 +26,8 @@ export class ClientService extends Services.AbstractClientService {
 			const bip = bip44; // TODO Make this a method param or part of the ClientTransactionsInput
 
 			const xpub = query.senderPublicKey!;
-			addresses = (await this.usedAddresses(addressGenerator(bip, network, xpub, true, 100))).concat(
-				await this.usedAddresses(addressGenerator(bip, network, xpub, false, 100)),
+			addresses = (await this.#usedAddresses(addressGenerator(bip, network, xpub, true, 100))).concat(
+				await this.#usedAddresses(addressGenerator(bip, network, xpub, false, 100)),
 			);
 		}
 
@@ -36,13 +36,11 @@ export class ClientService extends Services.AbstractClientService {
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
 
-	public override async wallet(xpub: string): Promise<Contracts.WalletData> {
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
 		const network = getNetworkConfig(this.configRepository);
 
-		const bip = bip44; // TODO Make this a method param
-
-		const usedSpendAddresses = await this.usedAddresses(addressGenerator(bip, network, xpub, true, 100));
-		const usedChangeAddresses = await this.usedAddresses(addressGenerator(bip, network, xpub, false, 100));
+		const usedSpendAddresses = await this.#usedAddresses(addressGenerator(this.#derivationMethod(id), network, id.value, true, 100));
+		const usedChangeAddresses = await this.#usedAddresses(addressGenerator(this.#derivationMethod(id), network, id.value, false, 100));
 
 		const response = await this.#post(`wallets`, { addresses: usedSpendAddresses.concat(usedChangeAddresses) });
 		return this.dataTransferObjectService.wallet(response.data);
@@ -113,18 +111,18 @@ export class ClientService extends Services.AbstractClientService {
 		};
 	}
 
-	private async walletUsedTransactions(addresses: string[]): Promise<{ string: boolean }[]> {
+	async #walletUsedTransactions(addresses: string[]): Promise<{ string: boolean }[]> {
 		const response = await this.#post(`wallets/addresses`, { addresses: addresses });
 		return response.data;
 	}
 
-	private async usedAddresses(addressesGenerator: Generator<string[]>): Promise<string[]> {
+	async #usedAddresses(addressesGenerator: Generator<string[]>): Promise<string[]> {
 		const usedAddresses: string[] = [];
 
 		let exhausted = false;
 		do {
 			const addressChunk: string[] = addressesGenerator.next().value;
-			const used: { string: boolean }[] = await this.walletUsedTransactions(addressChunk);
+			const used: { string: boolean }[] = await this.#walletUsedTransactions(addressChunk);
 
 			const items = addressChunk.filter((address) => used[address]);
 			usedAddresses.push(...items);
@@ -135,4 +133,8 @@ export class ClientService extends Services.AbstractClientService {
 		} while (!exhausted);
 		return usedAddresses;
 	}
+
+    #derivationMethod(id: Services.WalletIdentifier): (publicKey: string, network: string) => string {
+        return { bip44, bip49, bip84 }[id.type];
+    }
 }

@@ -115,7 +115,7 @@ describe("ClientService", () => {
 			const xpub =
 				"tpubDCzoRb9kb5qSjv1RcX5g4bJ9h28uuaqeuEhFmHCgtGRuoxB121X1e4DSwq44AD1gv7Lu33ije8b4b7fX8oXp3h28CRycqJkFJRd7GSSV7YK";
 
-			const result = await subject.wallet(xpub);
+			const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip44" });
 
 			expect(result).toBeInstanceOf(WalletData);
 			expect(result.address()).toEqual(["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);

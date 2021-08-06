@@ -54,7 +54,10 @@ describe("ClientService", () => {
 			.post("/")
 			.reply(200, require(`${fixtures}/wallet.json`));
 
-		const result = await subject.wallet(identity.address);
+		const result = await subject.wallet({
+			type: "address",
+			value: identity.address,
+		});
 
 		expect(result).toBeInstanceOf(WalletData);
 		expect(result.address()).toBe(identity.address);

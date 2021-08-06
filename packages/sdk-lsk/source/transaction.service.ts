@@ -117,7 +117,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let wallet: Contracts.WalletData | undefined;
 
 		try {
-			wallet = await this.clientService.wallet(input.signatory.address());
+			wallet = await this.clientService.wallet({ type: "address", value: input.signatory.address() });
 		} catch {
 			//
 		}
@@ -262,7 +262,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let nonce: BigInt | undefined = undefined;
 
 		try {
-			const wallet: Contracts.WalletData = await this.clientService.wallet(input.signatory.address());
+			const wallet: Contracts.WalletData = await this.clientService.wallet({
+				type: "address",
+				value: input.signatory.address(),
+			});
 
 			nonce = BigInt(wallet.nonce().toString());
 		} catch {

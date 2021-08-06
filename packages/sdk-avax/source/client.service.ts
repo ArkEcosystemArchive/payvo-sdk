@@ -49,8 +49,11 @@ export class ClientService extends Services.AbstractClientService {
 		});
 	}
 
-	public override async wallet(id: string): Promise<Contracts.WalletData> {
-		const { balance }: any = await this.#xchain.getBalance(id, this.configRepository.get("network.meta.assetId"));
+	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
+		const { balance }: any = await this.#xchain.getBalance(
+			id.value,
+			this.configRepository.get("network.meta.assetId"),
+		);
 
 		return this.dataTransferObjectService.wallet({
 			address: id,

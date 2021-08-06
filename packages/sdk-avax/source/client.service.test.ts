@@ -27,7 +27,10 @@ describe("ClientService", () => {
 
 	describe("#wallet", () => {
 		it("should succeed", async () => {
-			const result = await subject.wallet("X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq");
+			const result = await subject.wallet({
+				type: "address",
+				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+			});
 
 			expect(result).toBeInstanceOf(WalletData);
 		});
