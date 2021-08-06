@@ -140,6 +140,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#derivationMethod(id: Services.WalletIdentifier): (publicKey: string, network: string) => string {
-		return { bip44, bip49, bip84 }[id.type];
+		return { bip44, bip49, bip84 }[id.method!];
 	}
 }
