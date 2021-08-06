@@ -61,7 +61,7 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
-				address: "0x8e5231be3b71afdd0c417164986573fecddbae59",
+				address: { type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" },
 				limit: 1,
 			});
 

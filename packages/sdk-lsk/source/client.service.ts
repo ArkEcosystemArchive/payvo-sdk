@@ -164,10 +164,10 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		// LSK doesn't support bulk lookups so we will simply use the first address.
-		if (searchParams.addresses) {
+		if (searchParams.identifiers) {
 			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.address = searchParams.addresses[0];
-			delete searchParams.addresses;
+			searchParams.address = searchParams.identifiers[0];
+			delete searchParams.identifiers;
 		}
 
 		return searchParams;

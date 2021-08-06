@@ -79,7 +79,9 @@ describe("ClientService", () => {
 				.query(true)
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({ address: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" });
+			const result = await subject.transactions({
+				address: { type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" },
+			});
 			const transaction = result.items()[0];
 
 			expect(result).toBeObject();
