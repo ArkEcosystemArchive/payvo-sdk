@@ -21,7 +21,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const basePath = `get_address_abstracts/${query.address}`;
+		const basePath = `get_address_abstracts/${query.identifiers![0].value}`;
 		const basePage = (query.cursor as number) || 1;
 
 		const response = await this.#get(`${basePath}/${basePage}`);

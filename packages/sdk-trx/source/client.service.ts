@@ -37,7 +37,7 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		const response = (
-			await this.httpClient.get(`${this.#peer}/v1/accounts/${Helpers.pluckAddress(query)}/transactions`, payload)
+			await this.httpClient.get(`${this.#peer}/v1/accounts/${query.identifiers![0].value}/transactions`, payload)
 		).json();
 
 		return this.dataTransferObjectService.transactions(

@@ -76,7 +76,9 @@ export class LedgerService extends Services.AbstractLedgerService {
 					addressCache[path] = { address, publicKey };
 				}
 
-				const collection = await this.clientService.wallets({ addresses });
+				const collection = await this.clientService.wallets({
+					identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
+				});
 
 				wallets = wallets.concat(collection.items());
 
@@ -112,7 +114,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 				}
 
 				const collections = await Promise.all(
-					chunk(addresses, 50).map((addresses: string[]) => this.clientService.wallets({ addresses })),
+					chunk(addresses, 50).map((addresses: string[]) =>
+						this.clientService.wallets({
+							identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
+						}),
+					),
 				);
 
 				for (const collection of collections) {

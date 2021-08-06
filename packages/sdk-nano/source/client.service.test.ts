@@ -33,7 +33,9 @@ describe("ClientService", () => {
 			.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 		const result = await subject.transactions({
-			address: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3",
+			identifiers: [
+				{ type: "address", value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3" },
+			],
 		});
 
 		expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);

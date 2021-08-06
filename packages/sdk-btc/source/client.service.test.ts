@@ -57,7 +57,9 @@ describe("ClientService", () => {
 				.post("/api/wallets/transactions", { addresses: ["12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w"] })
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({ addresses: ["12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w"] });
+			const result = await subject.transactions({
+				identifiers: [{ type: "address", value: "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w" }],
+			});
 			expect(result).toBeInstanceOf(ConfirmedTransactionDataCollection);
 			expect(result.currentPage()).toBe(1);
 			expect(result.getPagination().last).toBe(1);

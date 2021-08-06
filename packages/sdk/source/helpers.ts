@@ -28,12 +28,8 @@ export const pluckAddress = (query): string => {
 		return query.recipientId;
 	}
 
-	if (query.address) {
-		return query.address;
-	}
-
-	if (Array.isArray(query.addresses) && query.addresses[0]) {
-		return query.addresses[0];
+	if (Array.isArray(query.identifiers) && query.identifiers[0]) {
+		return query.identifiers[0].value;
 	}
 
 	throw new Error("Failed to pluck any address.");

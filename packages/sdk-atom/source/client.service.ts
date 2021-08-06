@@ -18,7 +18,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		const response = await this.#get("txs", {
 			"message.action": "send",
-			"message.sender": query.address,
+			"message.sender": query.identifiers![0].value,
 			page,
 			limit: query.limit || 100,
 		});

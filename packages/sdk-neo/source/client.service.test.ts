@@ -36,7 +36,9 @@ describe("ClientService", () => {
 				.get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({ address: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" });
+			const result = await subject.transactions({
+				identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
+			});
 
 			expect(result).toBeObject();
 			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);

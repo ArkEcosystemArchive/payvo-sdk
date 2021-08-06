@@ -15,15 +15,16 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		if (!query.addresses && !query.senderPublicKey) {
+		if (!query.identifiers && !query.senderPublicKey) {
 			throw new Error("Need specify either addresses or a extended public key for querying for transactions");
 		}
 
-		let addresses = query.addresses;
-		if (!addresses) {
+		let addresses: string[] = [];
+
+		if (query.identifiers) {
 			const network = getNetworkConfig(this.configRepository);
 
-			const bip = bip44; // TODO Make this a method param or part of the ClientTransactionsInput
+			const bip = this.#derivationMethod(query.identifiers[0]);
 
 			const xpub = query.senderPublicKey!;
 			addresses = (await this.#usedAddresses(addressGenerator(bip, network, xpub, true, 100))).concat(

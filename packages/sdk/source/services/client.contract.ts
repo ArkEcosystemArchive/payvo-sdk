@@ -21,7 +21,7 @@ export interface BroadcastResponse {
 }
 
 export interface WalletIdentifier {
-	type: "address" | "publicKey" | "extendedPublicKey";
+	type: "address" | "publicKey" | "extendedPublicKey" | "username";
 	value: string;
 	method?: "bip39" | "bip44" | "bip49" | "bip84";
 }
@@ -53,11 +53,9 @@ export interface ClientPagination {
 
 export interface ClientTransactionsInput extends ClientPagination {
 	// Addresses
-	address?: string;
-	addresses?: string[];
+	identifiers?: WalletIdentifier[];
 	senderId?: string;
 	recipientId?: string;
-	walletId?: string;
 	// Public Keys
 	senderPublicKey?: string;
 	recipientPublicKey?: string;
@@ -70,10 +68,7 @@ export interface ClientTransactionsInput extends ClientPagination {
 }
 
 export interface ClientWalletsInput extends ClientPagination {
-	address?: string;
-	addresses?: string[];
-	publicKey?: string;
-	username?: string;
+	identifiers?: WalletIdentifier[];
 }
 
 // TODO: move
