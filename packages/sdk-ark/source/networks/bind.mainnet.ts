@@ -49,8 +49,6 @@ const network: Networks.NetworkManifest = {
 			"delegateRegistration",
 			"delegateResignation",
 			"estimateExpiration",
-			"ipfs.musig",
-			"ipfs",
 			"multiPayment.musig",
 			"multiPayment",
 			"multiSignature.musig",
