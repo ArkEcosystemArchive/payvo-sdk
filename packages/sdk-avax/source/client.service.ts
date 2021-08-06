@@ -38,7 +38,7 @@ export class ClientService extends Services.AbstractClientService {
 			chainID: this.configRepository.get("network.meta.blockchainId"),
 			limit: 100,
 			offset: query.cursor || 0,
-			address: query.address,
+			address: query.identifiers![0],
 		});
 
 		return this.dataTransferObjectService.transactions(transactions, {

@@ -37,7 +37,7 @@ describe("ClientService", () => {
 				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
-				address: { type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" },
+				identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
 			});
 
 			expect(result).toBeObject();

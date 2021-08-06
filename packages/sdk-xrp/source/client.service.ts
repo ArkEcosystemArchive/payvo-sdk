@@ -22,7 +22,7 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
 		const { transactions } = await this.#post("account_tx", [
 			{
-				account: query.address || query.identifiers![0].value,
+				account: query.identifiers![0].value,
 				limit: query.limit || 15,
 			},
 		]);

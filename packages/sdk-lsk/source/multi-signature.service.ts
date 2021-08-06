@@ -160,7 +160,12 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		} else {
 			wallet = (
 				await this.clientService.wallets({
-					publicKey: transaction.senderPublicKey,
+					identifiers: [
+						{
+							type: "publicKey",
+							value: transaction.senderPublicKey,
+						},
+					],
 				})
 			).first();
 		}

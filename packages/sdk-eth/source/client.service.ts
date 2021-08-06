@@ -22,7 +22,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const transactions: unknown[] = (await this.#get(`wallets/${query.address?.value}/transactions`)) as any;
+		const transactions: unknown[] = (await this.#get(`wallets/${query.identifiers![0].value}/transactions`)) as any;
 
 		return this.dataTransferObjectService.transactions(
 			transactions,

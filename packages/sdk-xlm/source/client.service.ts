@@ -31,7 +31,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const { records, next, prev } = await this.#client.payments().forAccount(query.address?.value).call();
+		const { records, next, prev } = await this.#client.payments().forAccount(query.identifiers![0].value).call();
 
 		return this.dataTransferObjectService.transactions(
 			records.filter((transaction) => transaction.type === "payment"),
