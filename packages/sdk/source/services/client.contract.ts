@@ -53,11 +53,9 @@ export interface ClientPagination {
 
 export interface ClientTransactionsInput extends ClientPagination {
 	// Addresses
-	address?: WalletIdentifier; // @TODO: remove in favour of identifiers with type
 	identifiers?: WalletIdentifier[];
 	senderId?: string;
 	recipientId?: string;
-	walletId?: string; // @TODO: remove in favour of identifiers with type
 	// Public Keys
 	senderPublicKey?: string;
 	recipientPublicKey?: string;
@@ -70,10 +68,7 @@ export interface ClientTransactionsInput extends ClientPagination {
 }
 
 export interface ClientWalletsInput extends ClientPagination {
-	address?: string; // @TODO: remove in favour of identifiers with type
 	identifiers?: WalletIdentifier[];
-	publicKey?: string; // @TODO: remove in favour of identifiers with type
-	username?: string; // @TODO: remove in favour of identifiers with type
 }
 
 // TODO: move

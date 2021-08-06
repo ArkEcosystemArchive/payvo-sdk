@@ -45,6 +45,19 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
+		// LSK doesn't support bulk lookups so we will simply use the first address.
+		if (query.identifiers) {
+			if (query.identifiers[0].type === "publicKey") {
+				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				query.publicKey = query.identifiers[0].value;
+			} else {
+				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				query.address = query.identifiers[0].value;
+			}
+
+			delete query.identifiers;
+		}
+
 		const result = await this.#get("accounts", query);
 
 		return new Collections.WalletDataCollection(

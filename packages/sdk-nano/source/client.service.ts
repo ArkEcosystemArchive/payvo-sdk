@@ -15,7 +15,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const account = query.address || query.identifiers![0];
+		const account = query.identifiers![0];
 		const count = (query.limit || 15).toString();
 		const options = { head: query.cursor || undefined };
 		const { history, previous } = await this.#client.accountHistory(account.value, count, options);

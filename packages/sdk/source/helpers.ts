@@ -28,10 +28,6 @@ export const pluckAddress = (query): string => {
 		return query.recipientId;
 	}
 
-	if (query.address) {
-		return query.address;
-	}
-
 	if (Array.isArray(query.identifiers) && query.identifiers[0]) {
 		return query.identifiers[0].value;
 	}
