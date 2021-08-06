@@ -57,7 +57,8 @@ export class ClientService extends Services.AbstractClientService {
 	public override async votes(id: string): Promise<Services.VoteReport> {
 		const { data } = await this.#get(`wallets/${id}`);
 
-		const hasVoted = data.attributes?.vote !== undefined;
+		const vote = data.vote || data.attributes?.vote;
+		const hasVoted = vote !== undefined;
 
 		return {
 			used: hasVoted ? 1 : 0,
@@ -65,7 +66,7 @@ export class ClientService extends Services.AbstractClientService {
 			votes: hasVoted
 				? [
 						{
-							id: data.attributes?.vote,
+							id: vote,
 							amount: 0,
 						},
 				  ]

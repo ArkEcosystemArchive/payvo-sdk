@@ -249,6 +249,25 @@ describe("ClientService", () => {
 			expect(result.votes).toMatchInlineSnapshot(`Array []`);
 		});
 
+		it("should succeed without attributes when no vote", async () => {
+			const fixtureWithoutVote = {
+				data: {
+					...fixture.data,
+					attributes: undefined,
+					vote: undefined,
+				}
+			};
+
+			nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+
+			const result = await subject.votes("arkx");
+
+			expect(result).toBeObject();
+			expect(result.used).toBe(0);
+			expect(result.available).toBe(1);
+			expect(result.votes).toMatchInlineSnapshot(`Array []`);
+		});
+
 		it("should succeed without attributes", async () => {
 			const fixtureWithoutVote = {
 				data: {
@@ -262,9 +281,16 @@ describe("ClientService", () => {
 			const result = await subject.votes("arkx");
 
 			expect(result).toBeObject();
-			expect(result.used).toBe(0);
-			expect(result.available).toBe(1);
-			expect(result.votes).toMatchInlineSnapshot(`Array []`);
+			expect(result.used).toBe(1);
+			expect(result.available).toBe(0);
+			expect(result.votes).toMatchInlineSnapshot(`
+			Array [
+			  Object {
+			    "amount": 0,
+			    "id": "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+			  },
+			]
+		`)
 		});
 	});
 
