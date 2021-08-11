@@ -57,6 +57,18 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return this.data.asset || {};
 	}
 
+	public override isReturn(): boolean {
+		if (this.isTransfer()) {
+			return this.isSent() && this.isReceived();
+		}
+
+		if (this.isMultiPayment()) {
+			return this.recipients().some(({ address }: Contracts.MultiPaymentRecipient) => address === this.sender());
+		}
+
+		return false;
+	}
+
 	public override isSent(): boolean {
 		return [this.getMeta("address"), this.getMeta("publicKey")].includes(this.sender());
 	}

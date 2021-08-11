@@ -80,6 +80,52 @@ describe("ConfirmedTransactionData", () => {
 		expect(subject.isConfirmed()).toBeTrue();
 	});
 
+	describe("#isReturn", () => {
+		test("should return true for transfers if sender equals recipient", () => {
+			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(true);
+			jest.spyOn(subject, "isSent").mockReturnValueOnce(true);
+			jest.spyOn(subject, "isReceived").mockReturnValueOnce(true);
+			jest.spyOn(subject, "recipient").mockReturnValueOnce(subject.sender());
+
+			expect(subject.isReturn()).toBeTrue();
+		});
+
+		test("should return false for transfers if sender does not equal recipient", () => {
+			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(true);
+			jest.spyOn(subject, "isReceived").mockReturnValueOnce(true);
+			jest.spyOn(subject, "recipient").mockReturnValueOnce(subject.sender());
+
+			expect(subject.isReturn()).toBeFalse();
+		});
+
+		test("should return true for multipayments if sender is included in recipients", () => {
+			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
+			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
+			jest.spyOn(subject, "recipients").mockReturnValueOnce([
+				{ amount: BigNumber.ZERO, address: subject.sender() },
+			]);
+
+			expect(subject.isReturn()).toBeTrue();
+		});
+
+		test("should return false for multipayments if sender is not included in recipients", () => {
+			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
+			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
+			jest.spyOn(subject, "recipients").mockReturnValueOnce([
+				{ amount: BigNumber.ZERO, address: subject.recipient() },
+			]);
+
+			expect(subject.isReturn()).toBeFalse();
+		});
+
+		test("should return false if transaction type is not 'transfer' or 'multiPayment'", () => {
+			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
+			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(false);
+
+			expect(subject.isReturn()).toBeFalse();
+		});
+	});
+
 	test("#isSent", () => {
 		expect(subject.isSent()).toBeFalse();
 	});
