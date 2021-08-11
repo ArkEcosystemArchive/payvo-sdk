@@ -216,6 +216,15 @@ export class ClientService extends Services.AbstractClientService {
 
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
+		} else {
+			// @ts-ignore
+			const identifiers: WalletIdentifier[] | undefined = body.identifiers as WalletIdentifier[];
+			if (identifiers) {
+				result.body.addresses = identifiers.map(({ value }) => value);
+
+				// @ts-ignore
+				delete body.identifiers;
+			}
 		}
 
 		return result;

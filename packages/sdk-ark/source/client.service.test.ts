@@ -40,83 +40,120 @@ describe("ClientService", () => {
 	});
 
 	describe("#transactions", () => {
-		it("should work with Core 2.0", async () => {
-			subject = createService(ClientService, "ark.mainnet", (container) => {
-				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-				container.singleton(
-					IoC.BindingType.DataTransferObjectService,
-					Services.AbstractDataTransferObjectService,
-				);
+		describe("should work with Core 2.0", () => {
+			beforeEach(() => {
+				subject = createService(ClientService, "ark.mainnet", (container) => {
+					container.constant(IoC.BindingType.Container, container);
+					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+					container.singleton(
+						IoC.BindingType.DataTransferObjectService,
+						Services.AbstractDataTransferObjectService,
+					);
+				});
+			});
+			it("single address", async () => {
+				nock(/.+/)
+					.post("/api/transactions/search", {
+						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
+					})
+					.query({ page: "0" })
+					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+
+				const result = await subject.transactions({
+					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+					cursor: "0",
+				});
+
+				expect(result).toBeObject();
+				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
 
-			nock(/.+/)
-				.post("/api/transactions/search")
-				.query({ page: "0" })
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+			it("multiple addresses", async () => {
+				nock(/.+/)
+					.post("/api/transactions/search", {
+						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5"],
+					})
+					.query({ page: "0" })
+					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-				cursor: "0",
+				const result = await subject.transactions({
+					identifiers: [
+						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
+						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
+					],
+					cursor: "0",
+				});
+
+				expect(result).toBeObject();
+				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 		});
 
-		it("should work with Core 3.0", async () => {
-			subject = createService(ClientService, "ark.devnet", (container) => {
-				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-				container.singleton(
-					IoC.BindingType.DataTransferObjectService,
-					Services.AbstractDataTransferObjectService,
-				);
+		describe("should work with Core 3.0", () => {
+			beforeEach(() => {
+				subject = createService(ClientService, "ark.devnet", (container) => {
+					container.constant(IoC.BindingType.Container, container);
+					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+					container.singleton(
+						IoC.BindingType.DataTransferObjectService,
+						Services.AbstractDataTransferObjectService,
+					);
+				});
 			});
 
-			nock(/.+/)
-				.get("/api/transactions")
-				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+			it("single address", async () => {
+				nock(/.+/)
+					.get("/api/transactions")
+					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
+					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+				const result = await subject.transactions({
+					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+				});
+
+				expect(result).toBeObject();
+				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
 
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-		});
+			it("multiple addresses", async () => {
+				nock(/.+/)
+					.get("/api/transactions")
+					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
+					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
-		it("should work with Core 3.0 for advanced search", async () => {
-			subject = createService(ClientService, "ark.devnet", (container) => {
-				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-				container.singleton(
-					IoC.BindingType.DataTransferObjectService,
-					Services.AbstractDataTransferObjectService,
-				);
+				const result = await subject.transactions({
+					identifiers: [
+						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
+						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
+					],
+				});
+
+				expect(result).toBeObject();
+				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
 
-			nock(/.+/)
-				.get("/api/transactions")
-				.query({
-					address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
-					"asset.type": "4",
-					"asset.action": "0",
-					type: "6",
+			it("for advanced search", async () => {
+				nock(/.+/)
+					.get("/api/transactions")
+					.query({
+						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
+						"asset.type": "4",
+						"asset.action": "0",
+						type: "6",
+						typeGroup: 2,
+					})
+					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+
+				const result = await subject.transactions({
+					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+					asset: { type: 4, action: 0 },
+					type: 6,
 					typeGroup: 2,
-				})
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+				});
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-				asset: { type: 4, action: 0 },
-				type: 6,
-				typeGroup: 2,
+				expect(result).toBeObject();
+				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 		});
 	});
 
