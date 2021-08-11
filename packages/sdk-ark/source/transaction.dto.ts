@@ -63,7 +63,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		}
 
 		if (this.isMultiPayment()) {
-			return this.recipients().some({ address }: Contracts.MultiPaymentRecipient => address === this.sender());
+			return this.recipients().some(({ address }: Contracts.MultiPaymentRecipient) => address === this.sender());
 		}
 
 		return false;

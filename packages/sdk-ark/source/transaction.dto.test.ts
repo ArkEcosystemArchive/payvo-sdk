@@ -100,7 +100,9 @@ describe("ConfirmedTransactionData", () => {
 		test("should return true for multipayments if sender is included in recipients", () => {
 			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
 			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipients").mockReturnValueOnce([{ amount: BigNumber.ZERO, address: subject.sender() }]);
+			jest.spyOn(subject, "recipients").mockReturnValueOnce([
+				{ amount: BigNumber.ZERO, address: subject.sender() },
+			]);
 
 			expect(subject.isReturn()).toBeTrue();
 		});
@@ -108,7 +110,9 @@ describe("ConfirmedTransactionData", () => {
 		test("should return false for multipayments if sender is not included in recipients", () => {
 			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
 			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipients").mockReturnValueOnce([{ amount: BigNumber.ZERO, address: subject.recipient() }]);
+			jest.spyOn(subject, "recipients").mockReturnValueOnce([
+				{ amount: BigNumber.ZERO, address: subject.recipient() },
+			]);
 
 			expect(subject.isReturn()).toBeFalse();
 		});
@@ -117,7 +121,7 @@ describe("ConfirmedTransactionData", () => {
 			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
 			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(false);
 
-			expect(subject.isReturn()).toBeFalse()
+			expect(subject.isReturn()).toBeFalse();
 		});
 	});
 
