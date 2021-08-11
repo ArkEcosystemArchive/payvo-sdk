@@ -83,6 +83,7 @@ describe("ConfirmedTransactionData", () => {
 	describe("#isReturn", () => {
 		test("should return true for transfers if sender equals recipient", () => {
 			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(true);
+			jest.spyOn(subject, "isSent").mockReturnValueOnce(true);
 			jest.spyOn(subject, "isReceived").mockReturnValueOnce(true);
 			jest.spyOn(subject, "recipient").mockReturnValueOnce(subject.sender());
 
