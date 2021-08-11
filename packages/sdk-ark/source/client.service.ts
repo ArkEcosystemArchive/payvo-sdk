@@ -220,7 +220,7 @@ export class ClientService extends Services.AbstractClientService {
 			// @ts-ignore
 			const identifiers: WalletIdentifier[] | undefined = body.identifiers as WalletIdentifier[];
 			if (identifiers) {
-				result.body.address = identifiers.map(({ value }) => value);
+				result.body.addresses = identifiers.map(({ value }) => value);
 
 				// @ts-ignore
 				delete body.identifiers;

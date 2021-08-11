@@ -53,7 +53,9 @@ describe("ClientService", () => {
 			});
 			it("single address", async () => {
 				nock(/.+/)
-					.post("/api/transactions/search")
+					.post("/api/transactions/search", {
+						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
+					})
 					.query({ page: "0" })
 					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
 
@@ -69,7 +71,7 @@ describe("ClientService", () => {
 			it("multiple addresses", async () => {
 				nock(/.+/)
 					.post("/api/transactions/search", {
-						address: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5"],
+						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5"],
 					})
 					.query({ page: "0" })
 					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
