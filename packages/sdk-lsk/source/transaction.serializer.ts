@@ -14,11 +14,17 @@ export class TransactionSerializer {
 		const mutated = {
 			...transaction,
 			fee: BigInt(transaction.fee),
-			id: convertString(transaction.id),
 			nonce: BigInt(transaction.nonce),
 			senderPublicKey: convertString(transaction.senderPublicKey),
-			signatures: convertStringList(transaction.signatures),
 		};
+
+		if (transaction.id) {
+			mutated.id = convertString(transaction.id);
+		}
+
+		if (transaction.signatures) {
+			mutated.signatures = convertStringList(transaction.signatures);
+		}
 
 		if (isTransfer(mutated)) {
 			mutated.asset.amount = BigInt(mutated.asset.amount);
