@@ -56,22 +56,18 @@ export class FeeService extends Services.AbstractFeeService {
 			signatures: undefined,
 		};
 
-		const minFee: bigint = computeMinFee(
-			assetSchema as object,
-			normalisedTransaction,
-			{
-				baseFees: Object.entries(data.baseFeeById).map((fee: [string, unknown]) => {
-					const [moduleID, assetID] = fee[0].split(":");
+		const minFee: bigint = computeMinFee(assetSchema as object, normalisedTransaction, {
+			baseFees: Object.entries(data.baseFeeById).map((fee: [string, unknown]) => {
+				const [moduleID, assetID] = fee[0].split(":");
 
-					return {
-						moduleID: Number(moduleID),
-						assetID: Number(assetID),
-						baseFee: fee[1] as string,
-					};
-				}),
-				numberOfSignatures,
-			},
-		);
+				return {
+					moduleID: Number(moduleID),
+					assetID: Number(assetID),
+					baseFee: fee[1] as string,
+				};
+			}),
+			numberOfSignatures,
+		});
 
 		const size: number = getBytes(assetSchema as object, {
 			...normalisedTransaction,
