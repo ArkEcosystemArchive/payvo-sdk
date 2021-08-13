@@ -76,11 +76,6 @@ describe("FeeService", () => {
 			senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
 			nonce: "2",
 			fee: "314000",
-			signatures: [
-				"b0886cde987421f4ff1effe65bd946458dd1912d02ad338b877f1658f0b3612823d2e01e9edf929d850ab58a10fb98e5efba7a0c662b7bd3bc05e5001f9ef208",
-				"b0886cde987421f4ff1effe65bd946458dd1912d02ad338b877f1658f0b3612823d2e01e9edf929d850ab58a10fb98e5efba7a0c662b7bd3bc05e5001f9ef208",
-				"80699a598998375594e76605ddecb4be72f6df3154af870f172b2fc98a61ea1de03db0a6473e041530fa1cbc30801b1e56fbfa3bb1ddaef717e5351fb1f09e07",
-			],
 			asset: {
 				numberOfSignatures: 2,
 				mandatoryKeys: [
@@ -89,7 +84,6 @@ describe("FeeService", () => {
 				],
 				optionalKeys: [],
 			},
-			id: "037602ae3aea5a597fa97d4489d287d98d24fe7c584e54a9ed359d3a06ae9466",
 		};
 
 		const slow = await subject.calculate(transaction, { priority: "slow" });

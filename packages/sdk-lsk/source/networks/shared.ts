@@ -57,6 +57,7 @@ export const governance: any = {
 	votesPerTransaction: 20,
 };
 
+// https://lsk-test.payvo.com/api/v2/transactions/schemas
 export const assets = {
 	"token:transfer": {
 		maximumFee: 1e8,

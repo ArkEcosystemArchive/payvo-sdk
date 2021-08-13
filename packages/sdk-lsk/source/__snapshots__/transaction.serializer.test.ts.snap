@@ -131,10 +131,7 @@ exports[`TransactionSerializer #toMachine({
 Object {
   "asset": Object {
     "amount": 100000000n,
-    "data": Object {
-      "data": Array [],
-      "type": "Buffer",
-    },
+    "data": "",
     "recipientAddress": Object {
       "data": Array [
         118,

@@ -292,7 +292,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		if (input.fee && Number.isInteger(input.fee)) {
 			fee = input.fee;
 		} else {
-			fee = (await this.feeService.calculate(transaction)).toHuman();
+			fee = (await this.feeService.calculate(this.transactionSerializer.toHuman(transaction) as Contracts.RawTransactionData)).toHuman();
 		}
 
 		return {

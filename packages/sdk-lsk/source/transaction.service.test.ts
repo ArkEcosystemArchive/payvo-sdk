@@ -25,6 +25,13 @@ let subject: TransactionService;
 let musig: MultiSignatureService;
 
 beforeAll(async () => {
+	nock.disableNetConnect();
+
+	nock(/.+/)
+		.get("/api/v2/fees")
+		.reply(200, require(`${__dirname}/../test/fixtures/client/fees.json`))
+		.persist();
+
 	subject = createService(TransactionService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -61,7 +68,6 @@ describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("should sign with an mnemonic", async () => {
 			const result = await subject.transfer({
-				fee: 10,
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
 						signingKey: identity.mnemonic,
@@ -85,13 +91,13 @@ describe("TransactionService", () => {
 			    "recipientAddress": "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
 			  },
 			  "assetID": 0,
-			  "fee": "1000000000",
-			  "id": "c74791e86463b0379500feacfddb0f9a3f60307cfa53e428aa430fb9db9f9b82",
+			  "fee": "141000",
+			  "id": "0919bfffb78de38eff73e1363b236c812766e6e5ca1b49195fa0acc338ba1f7f",
 			  "moduleID": 2,
 			  "nonce": "0",
 			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 			  "signatures": Array [
-			    "dff0300f5c115138693d43d6e92bfecdab4d8a514aff88b5986a67e35e3bd50ed049f3ff7732c9cf02d6dd1ea0332f74bf71db24e06985c4096e94a98a1c300c",
+			    "f750fec649514ed39c600553e421ddf0433b2a0448bdfdb17c83af1c6eaca58816901d4f1d414069b57f3ae32d80c205bf8fd1d98f36b9d2c81429b38426580b",
 			  ],
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}

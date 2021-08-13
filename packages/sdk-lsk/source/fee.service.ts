@@ -51,12 +51,14 @@ export class FeeService extends Services.AbstractFeeService {
 
 		const { assetSchema, maximumFee } = this.#asset(transaction);
 
+		const normalisedTransaction = {
+			...this.transactionSerializer.toMachine({ ...transaction }),
+			signatures: undefined,
+		};
+
 		const minFee: bigint = computeMinFee(
 			assetSchema as object,
-			{
-				...this.transactionSerializer.toMachine(transaction),
-				signatures: undefined,
-			},
+			normalisedTransaction,
 			{
 				baseFees: Object.entries(data.baseFeeById).map((fee: [string, unknown]) => {
 					const [moduleID, assetID] = fee[0].split(":");
@@ -72,7 +74,7 @@ export class FeeService extends Services.AbstractFeeService {
 		);
 
 		const size: number = getBytes(assetSchema as object, {
-			...this.transactionSerializer.toMachine(transaction),
+			...normalisedTransaction,
 			signatures: new Array(numberOfSignatures).fill(Buffer.alloc(64)),
 		}).length;
 
