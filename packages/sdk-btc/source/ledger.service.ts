@@ -35,9 +35,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const outputScript = serializeTransactionOutputs(tx).toString("hex");
 
 		const signature = await this.#transport.createPaymentTransactionNew({
-			inputs: [[tx, 1]],
-			associatedKeysets: utxoPath,
+			inputs: [[tx, 1, undefined, undefined]],
+			associatedKeysets: utxoPath!,
 			outputScriptHex: outputScript,
+			additionals: [],
 		});
 
 		return signature.toString();

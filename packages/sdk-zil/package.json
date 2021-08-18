@@ -29,8 +29,8 @@
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
-		"@zilliqa-js/account": "^2.2.1",
-		"@zilliqa-js/zilliqa": "^2.2.1"
+		"@zilliqa-js/account": "^3.0.0",
+		"@zilliqa-js/zilliqa": "^3.0.0"
 	},
 	"devDependencies": {
 		"@payvo/http-got": "^1.0.0",

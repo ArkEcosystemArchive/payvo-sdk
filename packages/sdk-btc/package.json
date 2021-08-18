@@ -25,7 +25,7 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-app-btc": "^5.50.0",
+		"@ledgerhq/hw-app-btc": "^6.3.0",
 		"@payvo/cryptography": "^1.0.0",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
@@ -37,7 +37,7 @@
 		"bitcore-lib": "^8.25.8"
 	},
 	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^5.50.0",
+		"@ledgerhq/hw-transport-mocker": "^6.3.0",
 		"@payvo/http-got": "^1.0.0",
 		"@types/eslint": "^7.2.10",
 		"@types/eslint-plugin-prettier": "^3.1.0",
