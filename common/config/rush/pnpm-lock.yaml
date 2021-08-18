@@ -853,8 +853,7 @@ importers:
     dependencies:
       '@ledgerhq/hw-transport-node-hid-singleton': 5.50.0
       '@liskhq/lisk-cryptography': 3.1.0
-      '@liskhq/lisk-transactions': 2.3.1
-      '@liskhq/lisk-transactions-beta': /@liskhq/lisk-transactions/5.1.1
+      '@liskhq/lisk-transactions': 5.1.1
       '@payvo/cryptography': 1.0.0
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.0
@@ -894,8 +893,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^5.50.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@liskhq/lisk-cryptography': ^3.0
-      '@liskhq/lisk-transactions': ^2.0
-      '@liskhq/lisk-transactions-beta': npm:@liskhq/lisk-transactions@^5.0
+      '@liskhq/lisk-transactions': ^5.1
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -2766,12 +2764,6 @@ packages:
   /@ledgerhq/logs/5.50.0:
     resolution:
       integrity: sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==
-  /@liskhq/bignum/1.3.1:
-    dependencies:
-      '@types/node': 11.11.2
-    dev: false
-    resolution:
-      integrity: sha512-q9+NvqbpmXOqpPmV8Y+XSEIUJFMZDGyfW6rkN9Ej3nzPb/qurY/Ic2UPTeTTaj8+q/bcw5JUwTb86hi7PIziDg==
   /@liskhq/lisk-codec/0.2.0:
     dependencies:
       '@liskhq/lisk-utils': 0.2.0
@@ -2782,23 +2774,6 @@ packages:
       npm: '>=6.12.0'
     resolution:
       integrity: sha512-OH8aE6Y5A4THkc9+8RHQz2+j2nRPOAvtW3WDZGJtbYMFGE6U4m51sRACr6l1xT0Y2+a3/yz8cIwz1wfoJDUZcg==
-  /@liskhq/lisk-cryptography/2.3.0:
-    dependencies:
-      '@liskhq/bignum': 1.3.1
-      '@types/ed2curve': 0.2.2
-      '@types/node': 10.12.21
-      buffer-reverse: 1.0.1
-      ed2curve: 0.2.1
-      tweetnacl: 1.0.1
-      varuint-bitcoin: 1.1.0
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    optionalDependencies:
-      sodium-native: 2.4.6
-    resolution:
-      integrity: sha512-NMcUtRcZEyA71NuokGvl2ApXafhEe5Y8z+xdCFjhU1tt7RExmqik4JQ3pCNyvqBVKI7lVlg284zk03idjbmR5w==
   /@liskhq/lisk-cryptography/3.1.0:
     dependencies:
       buffer-reverse: 1.0.1
@@ -2813,19 +2788,6 @@ packages:
       sodium-native: 3.2.1
     resolution:
       integrity: sha512-/HrMH5px4/5s/qXtCDEvY/HX0F/OMvRAQcJUpVDjmyhWFMQL9hTHL0NA0PS3ZpQWQwOenR3K7iS0l0oF78/sVg==
-  /@liskhq/lisk-transactions/2.3.1:
-    dependencies:
-      '@liskhq/bignum': 1.3.1
-      '@liskhq/lisk-cryptography': 2.3.0
-      '@types/node': 10.12.21
-      ajv: 6.8.1
-      ajv-merge-patch: 4.1.0_ajv@6.8.1
-    dev: false
-    engines:
-      node: '>=8.10 <=10'
-      npm: '>=5'
-    resolution:
-      integrity: sha512-RnB/FMgPOOl/C1QJ7ii71JpmRFTMD2hoWKQfwU5wYBjnXIiwgU6YvjXDIjoh+OfNYwv8frGlI5nq6qmPb0FhUQ==
   /@liskhq/lisk-transactions/5.1.1:
     dependencies:
       '@liskhq/lisk-codec': 0.2.0
@@ -3551,12 +3513,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-w1rUo6jY6dhNQXOl85UAvJHPX8pIqzfUH2E1+HxU3Z4HsuAaiYPkogEplJqD5QmtDtWC5MUkULtJEvpX5501xQ==
-  /@types/ed2curve/0.2.2:
-    dependencies:
-      tweetnacl: 1.0.1
-    dev: false
-    resolution:
-      integrity: sha512-G1sTX5xo91ydevQPINbL2nfgVAj/s1ZiqZxC8OCWduwu+edoNGUm5JXtTkg9F3LsBZbRI46/0HES4CPUE2wc9g==
   /@types/elliptic/6.4.12:
     dependencies:
       '@types/bn.js': 4.11.6
@@ -3690,14 +3646,6 @@ packages:
   /@types/node/10.12.18:
     resolution:
       integrity: sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
-  /@types/node/10.12.21:
-    dev: false
-    resolution:
-      integrity: sha512-CBgLNk4o3XMnqMc0rhb6lc77IwShMEglz05deDcn2lQxyXEZivfwgYJu7SMha9V5XcrP6qZuevTHV/QrN2vjKQ==
-  /@types/node/11.11.2:
-    dev: false
-    resolution:
-      integrity: sha512-iEaHiDNkHv4Jrm9O5T37OYEUwjJesiyt6ZlhLFK0sbo4CLD0jyCOB4Pc2F9iD3MbW2397SLNxZKdDGntGaBjQQ==
   /@types/node/11.11.6:
     resolution:
       integrity: sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ==
@@ -4153,16 +4101,6 @@ packages:
       ajv: ^6.9.1
     resolution:
       integrity: sha512-5p6WTN0DdTGVQk6VjcEju19IgaHudalcfabD7yhDGeA6bcQnmL+CpveLJq/3hvfwd1aof6L386Ougkx6RfyMIQ==
-  /ajv-merge-patch/4.1.0_ajv@6.8.1:
-    dependencies:
-      ajv: 6.8.1
-      fast-json-patch: 2.2.1
-      json-merge-patch: 0.2.3
-    dev: false
-    peerDependencies:
-      ajv: '>=6.0.0'
-    resolution:
-      integrity: sha512-0mAYXMSauA8RZ7r+B4+EAOYcZEcO9OK5EiQCR7W7Cv4E44pJj56ZnkKLJ9/PAcOc0dT+LlV9fdDcq2TxVJfOYw==
   /ajv/6.12.6:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -4171,15 +4109,6 @@ packages:
       uri-js: 4.4.1
     resolution:
       integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==
-  /ajv/6.8.1:
-    dependencies:
-      fast-deep-equal: 2.0.1
-      fast-json-stable-stringify: 2.1.0
-      json-schema-traverse: 0.4.1
-      uri-js: 4.4.1
-    dev: false
-    resolution:
-      integrity: sha512-eqxCp82P+JfqL683wwsL73XmFs1eG6qjw+RD3YHx+Jll1r0jNd4dh8QG9NYAeNGA/hnZjeEDgtTskgJULbxpWQ==
   /ajv/8.1.0:
     dependencies:
       fast-deep-equal: 3.1.3
@@ -5924,17 +5853,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-71WKyrjeJSBs1xOQbXTlaTDrafI=
-  /deep-equal/1.1.1:
-    dependencies:
-      is-arguments: 1.1.0
-      is-date-object: 1.0.2
-      is-regex: 1.1.2
-      object-is: 1.1.5
-      object-keys: 1.1.1
-      regexp.prototype.flags: 1.3.1
-    dev: false
-    resolution:
-      integrity: sha512-yd9c5AdiqVcR+JjcwUQb9DkhJc8ngNr0MahEBGvDiJw8puWab2yZlh+nkasOnZP+EGTAP6rRp2JzJhJZzvNF8g==
   /deep-extend/0.6.0:
     engines:
       node: '>=4.0.0'
@@ -6169,12 +6087,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pwES3tQ4Z8g3sfIBZEgtuTwFtHq5AlB9L8k9a48k7qPn74q2OmgrrgkdwyJ+P2GVTOBVCClAC7w21Wpksso3gw==
-  /ed2curve/0.2.1:
-    dependencies:
-      tweetnacl: 0.14.5
-    dev: false
-    resolution:
-      integrity: sha1-Iuaqo1aePE2/Tu+ilhLsMp5YGQw=
   /ed2curve/0.3.0:
     dependencies:
       tweetnacl: 1.0.3
@@ -7008,10 +6920,6 @@ packages:
   /fast-copy/2.1.1:
     resolution:
       integrity: sha512-Qod3DdRgFZ8GUIM6ygeoZYpQ0QLW9cf/FS9KhhjlYggcSZXWAemAw8BOCO5LuYCrR3Uj3qXDVTUzOUwG8C7beQ==
-  /fast-deep-equal/2.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-ewUhjd+WZ79/Nwv3/bLLFf3Qqkk=
   /fast-deep-equal/3.1.3:
     resolution:
       integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
@@ -7032,14 +6940,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-2DtFcgT68wiTTiwZ2hNdJfcHNke9XOfnwmBRWXhmeKM8rF0TGwmC/Qto3S7RoZKp5cilZbxzO5iTNTQsJ+EeDg==
-  /fast-json-patch/2.2.1:
-    dependencies:
-      fast-deep-equal: 2.0.1
-    dev: false
-    engines:
-      node: '>= 0.4.0'
-    resolution:
-      integrity: sha512-4j5uBaTnsYAV5ebkidvxiLUYOwjQ+JSFljeqfTxCrH9bDmlCQaOJFS84oDJ2rAXZq2yskmk3ORfoP9DCwqFNig==
   /fast-json-stable-stringify/2.1.0:
     resolution:
       integrity: sha512-lhd/wF+Lk98HZoTCtlVraHtfh5XYijIjalXck7saUtuanSDyLMxnHhSXEDJqHxD7msR8D0uCmqlkwjCV8xvwHw==
@@ -9059,12 +8959,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Bni9F4ItI9jA0JWLQwEYdfo382M=
-  /json-merge-patch/0.2.3:
-    dependencies:
-      deep-equal: 1.1.1
-    dev: false
-    resolution:
-      integrity: sha1-+ixrWvh9p3uuKWalidUuI+2B/kA=
   /json-parse-even-better-errors/2.3.1:
     dev: true
     resolution:
@@ -11220,15 +11114,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-J6SDjUgDxQj5NusnOtdFxDwN/+HWykR8GELwctJ7mdqhcyy1xEc4SRFHUXvxTp661YaVKAjfRLZ9cCqS6tn32A==
-  /regexp.prototype.flags/1.3.1:
-    dependencies:
-      call-bind: 1.0.2
-      define-properties: 1.1.3
-    dev: false
-    engines:
-      node: '>= 0.4'
-    resolution:
-      integrity: sha512-JiBdRBq91WlY7uRJ0ds7R+dU02i6LKi8r3BuQhNXn+kmeLN+EfHhfjqMRis1zJxnlu88hq/4dx0P2OP3APRTOA==
   /regexpp/3.1.0:
     dev: true
     engines:
@@ -11892,16 +11777,6 @@ packages:
       npm: '>= 3.0.0'
     resolution:
       integrity: sha512-kLQ9N5ucj8uIcxrDwjm0Jsqk06xdpBjGNQtpXy4Q8/QY2k+fY7nZH8CARy+hkbG+SGAovmzzuauCpBlb8FrnBA==
-  /sodium-native/2.4.6:
-    dependencies:
-      ini: 1.3.8
-      nan: 2.14.2
-      node-gyp-build: 4.2.3
-    dev: false
-    optional: true
-    requiresBuild: true
-    resolution:
-      integrity: sha512-Ro9lhTjot8M01nwKLXiqLSmjR7B8o+Wg4HmJUjEShw/q6XPlNMzjPkA1VJKaMH8SO8fJ/sggAKVwreTaFszS2Q==
   /sodium-native/2.4.9:
     dependencies:
       ini: 1.3.8
@@ -12594,10 +12469,6 @@ packages:
   /tweetnacl/0.14.5:
     resolution:
       integrity: sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
-  /tweetnacl/1.0.1:
-    dev: false
-    resolution:
-      integrity: sha512-kcoMoKTPYnoeS50tzoqjPY3Uv9axeuuFAZY9M/9zFnhoVvRfxz9K29IMPD7jGmt2c8SW7i3gT9WqDl2+nV7p4A==
   /tweetnacl/1.0.3:
     dev: false
     resolution:
@@ -13033,12 +12904,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-lKxKYG6H03yCZUpAGOPOsMcGxd1RHCu1iKvEHYDPmTyq2HueGhD73ssNBqqQWfvYs04G9iUFRvmAVLW20Jw6ow==
-  /varuint-bitcoin/1.1.0:
-    dependencies:
-      safe-buffer: 5.2.1
-    dev: false
-    resolution:
-      integrity: sha512-jCEPG+COU/1Rp84neKTyDJQr478/hAfVp5xxYn09QEH0yBjbmPeMfuuQIrp+BUD83hybtYZKhr5elV3bvdV1bA==
   /varuint-bitcoin/1.1.2:
     dependencies:
       safe-buffer: 5.2.1

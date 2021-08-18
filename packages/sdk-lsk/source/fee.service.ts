@@ -1,12 +1,19 @@
 import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
-import { constants } from "@liskhq/lisk-transactions";
+import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
 
 import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
-import { computeMinFee, getBytes } from "@liskhq/lisk-transactions-beta";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
+
+const constants = {
+	TRANSFER_FEE: 0.1 * 1e8,
+	SIGNATURE_FEE: 5 * 1e8,
+	DELEGATE_FEE: 25 * 1e8,
+	VOTE_FEE: 1 * 1e8,
+	MULTISIGNATURE_FEE: 5 * 1e8,
+}
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
