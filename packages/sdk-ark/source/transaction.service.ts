@@ -204,7 +204,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const { data: configuration } = (await this.httpClient.get(`${this.#peer}/node/configuration`)).json();
 
 		return BigNumber.make(blockchain.block.height)
-			.plus(value || 5 * configuration.constants.activeDelegates)
+			.plus((value ? Number(value) : 5) * configuration.constants.activeDelegates)
 			.toString();
 	}
 
@@ -282,7 +282,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 				if (input.data && input.data.expiration) {
 					transaction.expiration(input.data.expiration);
 				} else {
-					const estimatedExpiration = await this.estimateExpiration();
+					let estimatedExpiration: string | undefined;
+
+					if (input.signatory.actsWithMultiSignature() || input.signatory.hasMultiSignature() || type === "multiSignature") {
+						estimatedExpiration = await this.estimateExpiration("211");
+					} else {
+						estimatedExpiration = await this.estimateExpiration("5");
+					}
 
 					if (estimatedExpiration) {
 						transaction.expiration(parseInt(estimatedExpiration));
