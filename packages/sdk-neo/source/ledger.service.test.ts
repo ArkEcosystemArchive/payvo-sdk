@@ -59,6 +59,7 @@ describe("signTransaction", () => {
 	it("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.publicKey.record + ledger.transaction.record, {
 			autoSkipUnknownApdu: true,
+			warning: (log) => console.warn(log),
 		});
 
 		await expect(subject.getPublicKey(ledger.bip44.path)).resolves.toBeTruthy();
