@@ -25,7 +25,7 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-transport-node-hid-singleton": "~6.3.0",
+		"@ledgerhq/hw-transport-node-hid-singleton": "^6.3.0",
 		"@liskhq/lisk-cryptography": "^3.0",
 		"@liskhq/lisk-transactions": "^5.1",
 		"@payvo/cryptography": "^1.0.0",
