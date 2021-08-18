@@ -28,10 +28,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		return JSON.stringify(await this.#transport.signTransaction(path, payload));
+		return JSON.stringify(await this.#transport.signTransaction(path, payload.toString("hex")));
 	}
 
 	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		return JSON.stringify(await this.#transport.signPersonalMessage(path, payload));
+		return JSON.stringify(await this.#transport.signPersonalMessage(path, payload.toString("hex")));
 	}
 }
