@@ -14,16 +14,22 @@ export class TransactionSerializer {
 		const mutated = {
 			...transaction,
 			fee: BigInt(transaction.fee),
-			id: convertString(transaction.id),
 			nonce: BigInt(transaction.nonce),
 			senderPublicKey: convertString(transaction.senderPublicKey),
-			signatures: convertStringList(transaction.signatures),
 		};
+
+		if (transaction.id) {
+			mutated.id = convertString(transaction.id);
+		}
+
+		if (transaction.signatures) {
+			mutated.signatures = convertStringList(transaction.signatures);
+		}
 
 		if (isTransfer(mutated)) {
 			mutated.asset.amount = BigInt(mutated.asset.amount);
 			mutated.asset.recipientAddress = getAddressFromBase32Address(mutated.asset.recipientAddress);
-			mutated.asset.data = convertString(mutated.asset.data ?? "");
+			mutated.asset.data = mutated.asset.data ?? "";
 		}
 
 		if (isMultiSignatureRegistration(mutated)) {
@@ -67,11 +73,17 @@ export class TransactionSerializer {
 		const mutated = {
 			...transaction,
 			fee: transaction.fee.toString(),
-			id: convertBuffer(transaction.id),
 			nonce: transaction.nonce.toString(),
 			senderPublicKey: convertBuffer(transaction.senderPublicKey),
-			signatures: convertBufferList(transaction.signatures),
 		};
+
+		if (transaction.id) {
+			mutated.id = convertBuffer(transaction.id);
+		}
+
+		if (transaction.signatures) {
+			mutated.signatures = convertBufferList(transaction.signatures);
+		}
 
 		if (isTransfer(mutated)) {
 			mutated.asset.amount = mutated.asset.amount.toString();
