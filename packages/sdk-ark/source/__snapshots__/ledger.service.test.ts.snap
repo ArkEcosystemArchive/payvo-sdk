@@ -2,7 +2,7 @@
 
 exports[`scan should return scanned wallet 1`] = `
 Object {
-  "44'/1'/0'/0/0": WalletData {
+  "m/44'/1'/0'/0/0": WalletData {
     "bigNumberService": BigNumberService {
       "configRepository": ConfigRepository {},
     },
@@ -13,7 +13,7 @@ Object {
       "nonce": "0",
     },
   },
-  "44'/1'/1'/0/0": WalletData {
+  "m/44'/1'/1'/0/0": WalletData {
     "bigNumberService": BigNumberService {
       "configRepository": ConfigRepository {},
     },
