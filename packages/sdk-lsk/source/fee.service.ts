@@ -7,14 +7,6 @@ import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
-const constants = {
-	TRANSFER_FEE: 0.1 * 1e8,
-	SIGNATURE_FEE: 5 * 1e8,
-	DELEGATE_FEE: 25 * 1e8,
-	VOTE_FEE: 1 * 1e8,
-	MULTISIGNATURE_FEE: 5 * 1e8,
-}
-
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
@@ -28,11 +20,11 @@ export class FeeService extends Services.AbstractFeeService {
 
 	public override async all(): Promise<Services.TransactionFees> {
 		return {
-			transfer: this.#transform("TRANSFER_FEE"),
-			secondSignature: this.#transform("SIGNATURE_FEE"),
-			delegateRegistration: this.#transform("DELEGATE_FEE"),
-			vote: this.#transform("VOTE_FEE"),
-			multiSignature: this.#transform("MULTISIGNATURE_FEE"),
+			transfer: this.#transform(0.1 * 1e8),
+			secondSignature: this.#transform(5 * 1e8),
+			delegateRegistration: this.#transform(25 * 1e8),
+			vote: this.#transform(1 * 1e8),
+			multiSignature: this.#transform(5 * 1e8),
 			ipfs: this.#transform(0),
 			multiPayment: this.#transform(0),
 			delegateResignation: this.#transform(0),
@@ -98,8 +90,8 @@ export class FeeService extends Services.AbstractFeeService {
 		);
 	}
 
-	#transform(type: string | number): Services.TransactionFee {
-		const fee: BigNumber = this.bigNumberService.make(type === 0 ? 0 : constants[type]);
+	#transform(value: string | number): Services.TransactionFee {
+		const fee: BigNumber = this.bigNumberService.make(value);
 
 		return {
 			static: fee,
