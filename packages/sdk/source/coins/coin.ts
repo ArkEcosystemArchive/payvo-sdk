@@ -81,23 +81,6 @@ export class Coin {
 		this.#unbind(BindingType.TransactionService);
 		this.#unbind(BindingType.WalletDiscoveryService);
 		this.#unbind(BindingType.WIFService);
-		this.#unbind(BindingType.WalletDiscoveryService);
-		this.#unbind(BindingType.TransactionService);
-		this.#unbind(BindingType.SignatoryService);
-		this.#unbind(BindingType.PublicKeyService);
-		this.#unbind(BindingType.PrivateKeyService);
-		this.#unbind(BindingType.MultiSignatureService);
-		this.#unbind(BindingType.MessageService);
-		this.#unbind(BindingType.LinkService);
-		this.#unbind(BindingType.LedgerService);
-		this.#unbind(BindingType.KnownWalletService);
-		this.#unbind(BindingType.KeyPairService);
-		this.#unbind(BindingType.FeeService);
-		this.#unbind(BindingType.ExtendedAddressService);
-		this.#unbind(BindingType.DataTransferObjectService);
-		this.#unbind(BindingType.ClientService);
-		this.#unbind(BindingType.BigNumberService);
-		this.#unbind(BindingType.AddressService);
 	}
 
 	public hasBeenSynchronized(): boolean {
