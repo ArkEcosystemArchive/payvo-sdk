@@ -188,7 +188,7 @@ importers:
       semver: 7.3.5
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@sindresorhus/tsconfig': 1.0.2
       '@types/eslint': 7.2.10
@@ -225,7 +225,7 @@ importers:
       '@arkecosystem/crypto': ^3.0.0-next.23
       '@arkecosystem/crypto-identities': ^1.1.1
       '@arkecosystem/ledger-transport': ^2.0.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
@@ -280,7 +280,7 @@ importers:
       ledger-cosmos-js: 2.1.8
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -311,7 +311,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -361,7 +361,7 @@ importers:
       url-parse-lax: 4.0.0
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -396,7 +396,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@arkecosystem/utils': ^1.3.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -450,7 +450,7 @@ importers:
       bitcoinjs-message: 2.2.0
       bitcore-lib: 8.25.8
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -481,7 +481,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@ledgerhq/hw-app-btc': ^5.50.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -536,7 +536,7 @@ importers:
       '@zondax/ledger-polkadot': 0.13.6
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -567,7 +567,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -698,7 +698,7 @@ importers:
       eosjs: 21.0.4
       node-fetch: 2.6.1
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/bn.js': 4.11.6
       '@types/elliptic': 6.4.12
@@ -729,7 +729,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -780,7 +780,7 @@ importers:
       ethereumjs-wallet: 1.0.1
       web3: 1.3.5
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -813,7 +813,7 @@ importers:
       '@ethereumjs/common': ^2.2.0
       '@ethereumjs/tx': ^3.1.4
       '@ledgerhq/hw-app-eth': ^6.5.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -860,7 +860,7 @@ importers:
       '@payvo/sdk': link:../sdk
       dpos-ledger-api: 3.0.1
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -890,7 +890,7 @@ importers:
       ts-jest: 26.5.5_jest@26.6.3+typescript@4.3.2
       typescript: 4.3.2
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@ledgerhq/hw-transport-node-hid-singleton': ~5.50.0
       '@liskhq/lisk-cryptography': ^3.0
       '@liskhq/lisk-transactions': ^5.1
@@ -1084,7 +1084,7 @@ importers:
       '@payvo/sdk': link:../sdk
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1116,7 +1116,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@cityofzion/neon-js': ^4.8.2
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -1238,7 +1238,7 @@ importers:
       '@payvo/sdk': link:../sdk
       tronweb: 3.2.6
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1268,7 +1268,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@ledgerhq/hw-app-trx': ^5.50.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -1312,7 +1312,7 @@ importers:
       stellar-sdk: 8.1.1
       uuid: 8.3.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1342,7 +1342,7 @@ importers:
       typescript: 4.3.2
     specifiers:
       '@ledgerhq/hw-app-str': ^5.50.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -1388,7 +1388,7 @@ importers:
       ripple-keypairs: 1.0.3
       ripple-lib: 1.9.4
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 5.50.0
+      '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.2.10
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1423,7 +1423,7 @@ importers:
       typescript-language-server: 0.5.1
     specifiers:
       '@ledgerhq/hw-app-xrp': ^5.50.0
-      '@ledgerhq/hw-transport-mocker': ^5.50.0
+      '@ledgerhq/hw-transport-mocker': ^6.3.0
       '@payvo/cryptography': ^1.0.0
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -2951,6 +2951,7 @@ packages:
       '@ledgerhq/logs': 5.50.0
       rxjs: 6.6.7
       semver: 7.3.5
+    dev: false
     resolution:
       integrity: sha512-VU3i48egHwUSHqNPKa8dNXLxD6gvmPKbKkp2pGL8tNNGXT44iHWplEAQy7et7+Fa48Sh7G2WPBvCbQg9K/SeCw==
   /@ledgerhq/devices/6.3.0:
@@ -2959,14 +2960,13 @@ packages:
       '@ledgerhq/logs': 6.2.0
       rxjs: 6.6.7
       semver: 7.3.5
-    dev: false
     resolution:
       integrity: sha512-DmVxqMAf3FhkpKjkbBCFVJ5DmesfplujeCLzFwO/zF5VGuwY7xxPqeSxlpusXJkqhEq+DbFzIDRWJYDf7rtXqg==
   /@ledgerhq/errors/5.50.0:
+    dev: false
     resolution:
       integrity: sha512-gu6aJ/BHuRlpU7kgVpy2vcYk6atjB4iauP2ymF7Gk0ez0Y/6VSMVSJvubeEQN+IV60+OBK0JgeIZG7OiHaw8ow==
   /@ledgerhq/errors/6.2.0:
-    dev: false
     resolution:
       integrity: sha512-eO03x8HJmG60WtlrMuahigW/rwywFdcGzCnihta/MjkM8BD9A660cKVkyIuheCcpaB7UV/r+QsRl9abHbjjaag==
   /@ledgerhq/hw-app-btc/5.50.0:
@@ -3016,13 +3016,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-9LycuIDH+arJY9TOSU2C/K4X1mipZMkLzgiL2h9CRwC89NUrjJncFeqngKLm7y+9RYlycFcPIC9Amk3EkKdpFw==
-  /@ledgerhq/hw-transport-mocker/5.50.0:
+  /@ledgerhq/hw-transport-mocker/6.3.0:
     dependencies:
-      '@ledgerhq/hw-transport': 5.50.0
-      '@ledgerhq/logs': 5.50.0
+      '@ledgerhq/hw-transport': 6.3.0
+      '@ledgerhq/logs': 6.2.0
     dev: true
     resolution:
-      integrity: sha512-/whS7SDhnir8OzaHdHGk5ZE0N8RL0as5ypluqcT2QuLZ3jxkswOTU1KjTZTP7z6Y9yBHdMm81N3Qgz+rrXU0DA==
+      integrity: sha512-7Rank5BOMihFguHrFKGQiBNBa02YnVdEgqTk+Qfj06Obyo39Wg9WpOnTNc4I37MOQqz5B6lKdvTJXLgbYE/Avg==
   /@ledgerhq/hw-transport-node-hid-noevents/5.50.0:
     dependencies:
       '@ledgerhq/devices': 5.50.0
@@ -3083,6 +3083,7 @@ packages:
       '@ledgerhq/devices': 5.50.0
       '@ledgerhq/errors': 5.50.0
       events: 3.3.0
+    dev: false
     resolution:
       integrity: sha512-VlcVGgp+Ae4hrUFzSroPJS4i7iBWEYVat91pCl8LyrN+xD8sjamHje69JCdDYY+Cb5++0pbSZt3FGiV0ml3xGA==
   /@ledgerhq/hw-transport/6.3.0:
@@ -3090,14 +3091,13 @@ packages:
       '@ledgerhq/devices': 6.3.0
       '@ledgerhq/errors': 6.2.0
       events: 3.3.0
-    dev: false
     resolution:
       integrity: sha512-kdnVrgmxrFtKaRdkoaQBEa02RXgLzEBiooYbxA65BGSJig3PGWDS9LrqNpzLTZM1RQlivd9NLBmfwU2ze4chWA==
   /@ledgerhq/logs/5.50.0:
+    dev: false
     resolution:
       integrity: sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==
   /@ledgerhq/logs/6.2.0:
-    dev: false
     resolution:
       integrity: sha512-SLyFyD7ElMhgKWPYedFGCT/ilcbGPgL5hXXYHxOM79Fs5fWi0zaUpt5oGqGMsOAAFaMa9/rbun0pokzPhEFz8A==
   /@liskhq/lisk-codec/0.2.0:
