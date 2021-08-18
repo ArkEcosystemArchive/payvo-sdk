@@ -284,7 +284,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				} else {
 					let estimatedExpiration: string | undefined;
 
-					if (input.signatory.actsWithMultiSignature() || input.data.type === 4) {
+					if (input.signatory.actsWithMultiSignature() || type === "multiSignature") {
 						estimatedExpiration = await this.estimateExpiration("211");
 					} else {
 						estimatedExpiration = await this.estimateExpiration("5");
