@@ -176,6 +176,7 @@ export class Coin {
 	}
 
 	#unbind(key: symbol): void {
+		/* istanbul ignore else */
 		if (this.#container.has(key)) {
 			this.#container.unbind(key);
 		}
