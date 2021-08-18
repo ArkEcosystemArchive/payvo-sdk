@@ -44,7 +44,7 @@ describe("testnet", () => {
 	});
 
 	it("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic , {
+		const result = await subject.fromMnemonic(identity.mnemonic, {
 			bip39: true,
 			bip44: {
 				account: 7,
