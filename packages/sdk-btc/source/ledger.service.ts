@@ -9,15 +9,15 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Bitcoin;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-        try {
-            this.#ledger = transport.create();
-        } catch (error) {
-            if (transport.constructor.name === "TransportReplayer") {
-                this.#ledger = transport;
-            } else {
-                throw error;
-            }
-        }
+		try {
+			this.#ledger = transport.create();
+		} catch (error) {
+			if (transport.constructor.name === "TransportReplayer") {
+				this.#ledger = transport;
+			} else {
+				throw error;
+			}
+		}
 
 		this.#transport = new Bitcoin(this.#ledger);
 	}

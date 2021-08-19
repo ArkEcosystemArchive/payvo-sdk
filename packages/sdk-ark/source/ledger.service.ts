@@ -18,15 +18,15 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: ARKTransport;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-        try {
-            this.#ledger = transport.open();
-        } catch (error) {
-            if (transport.constructor.name === "TransportReplayer") {
-                this.#ledger = transport;
-            } else {
-                throw error;
-            }
-        }
+		try {
+			this.#ledger = transport.open();
+		} catch (error) {
+			if (transport.constructor.name === "TransportReplayer") {
+				this.#ledger = transport;
+			} else {
+				throw error;
+			}
+		}
 
 		this.#transport = new ARKTransport(this.#ledger);
 	}
