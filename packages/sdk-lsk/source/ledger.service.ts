@@ -17,11 +17,15 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: DposLedger;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		if (transport.constructor.name === "TransportReplayer") {
-			this.#ledger = transport;
-		} else {
-			this.#ledger = transport.open();
-		}
+        try {
+            this.#ledger = transport.open();
+        } catch (error) {
+            if (transport.constructor.name === "TransportReplayer") {
+                this.#ledger = transport;
+            } else {
+                throw error;
+            }
+        }
 
 		this.#transport = new DposLedger(new CommHandler(this.#ledger));
 	}
