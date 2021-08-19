@@ -4,7 +4,7 @@ export interface IdentityLevels {
 	account: number;
 	change?: number;
 	addressIndex?: number;
-};
+}
 
 export interface IdentityOptions {
 	bip39?: boolean;
