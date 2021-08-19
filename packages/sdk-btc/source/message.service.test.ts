@@ -28,6 +28,11 @@ describe("MessageService", () => {
 					address: identity.address,
 					publicKey: identity.publicKey,
 					privateKey: identity.privateKey,
+					options: {
+						bip44: {
+							account: 0,
+						},
+					},
 				}),
 			),
 		});

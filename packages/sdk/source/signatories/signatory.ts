@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
 import { ForbiddenMethodCallException } from "../exceptions";
-import { MultiSignatureAsset } from "../services";
+import { IdentityOptions, MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
@@ -115,6 +115,18 @@ export class Signatory {
 	public asset(): MultiSignatureAsset {
 		if (this.#signatory instanceof MultiSignatureSignatory) {
 			return this.#signatory.asset();
+		}
+
+		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
+	}
+
+	public options(): IdentityOptions | undefined {
+		if (this.#signatory instanceof AbstractSignatory) {
+			return this.#signatory.options();
+		}
+
+		if (this.#signatory instanceof PrivateKeySignatory) {
+			return this.#signatory.options();
 		}
 
 		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
