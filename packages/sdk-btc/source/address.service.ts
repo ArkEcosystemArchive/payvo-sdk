@@ -80,6 +80,10 @@ export class AddressService extends Services.AbstractAddressService {
 				});
 			}
 
+			if (!result) {
+				throw new Error("Please specify a valid derivation method.");
+			}
+
 			if (!result.address) {
 				throw new Error(`Failed to derive address for [${publicKeys}].`);
 			}
@@ -119,6 +123,10 @@ export class AddressService extends Services.AbstractAddressService {
 					pubkey: Buffer.from(publicKey, "hex"),
 					network: this.#network,
 				});
+			}
+
+			if (!result) {
+				throw new Error("Please specify a valid derivation method.");
 			}
 
 			if (!result.address) {
@@ -170,6 +178,10 @@ export class AddressService extends Services.AbstractAddressService {
 					pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
 					network: this.#network,
 				});
+			}
+
+			if (!result) {
+				throw new Error("Please specify a valid derivation method.");
 			}
 
 			if (!result.address) {
