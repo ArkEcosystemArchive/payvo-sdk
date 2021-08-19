@@ -50,6 +50,7 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: (await this.addressService.fromMnemonic(mnemonic, options)).address,
 				publicKey: (await this.publicKeyService.fromMnemonic(mnemonic, options)).publicKey,
 				privateKey: (await this.privateKeyService.fromMnemonic(mnemonic, options)).privateKey,
+				options,
 			}),
 			options?.multiSignature,
 		);
@@ -79,6 +80,7 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: (await this.addressService.fromWIF(primary)).address,
 				publicKey: (await this.publicKeyService.fromWIF(primary)).publicKey,
 				privateKey: (await this.privateKeyService.fromWIF(primary)).privateKey,
+				options,
 			}),
 			options?.multiSignature,
 		);
@@ -106,6 +108,7 @@ export class AbstractSignatoryService implements SignatoryService {
 			new PrivateKeySignatory({
 				signingKey: privateKey,
 				address: (await this.addressService.fromPrivateKey(privateKey, options)).address,
+				options,
 			}),
 			options?.multiSignature,
 		);
@@ -132,6 +135,7 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: (await this.addressService.fromSecret(secret)).address,
 				publicKey: (await this.publicKeyService.fromSecret(secret)).publicKey,
 				privateKey: (await this.privateKeyService.fromSecret(secret)).privateKey,
+				options,
 			}),
 			options?.multiSignature,
 		);

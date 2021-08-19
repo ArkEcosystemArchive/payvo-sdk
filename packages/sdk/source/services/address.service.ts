@@ -16,7 +16,11 @@ export class AbstractAddressService implements AddressService {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
-	public async fromMultiSignature(min: number, publicKeys: string[]): Promise<AddressDataTransferObject> {
+	public async fromMultiSignature(
+		min: number,
+		publicKeys: string[],
+		options?: IdentityOptions,
+	): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
@@ -28,11 +32,11 @@ export class AbstractAddressService implements AddressService {
 		throw new NotImplemented(this.constructor.name, this.fromPrivateKey.name);
 	}
 
-	public async fromWIF(wif: string): Promise<AddressDataTransferObject> {
+	public async fromWIF(wif: string, options?: IdentityOptions): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromWIF.name);
 	}
 
-	public async fromSecret(secret: string): Promise<AddressDataTransferObject> {
+	public async fromSecret(secret: string, options?: IdentityOptions): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromSecret.name);
 	}
 
