@@ -28,6 +28,7 @@ export class AddressFactory {
 		const levels: Levels = {
 			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip44?.account,
+			change: options?.bip44?.change,
 			index: options?.bip44?.addressIndex,
 		};
 
@@ -46,6 +47,7 @@ export class AddressFactory {
 			purpose: 49,
 			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip49?.account,
+			change: options?.bip49?.change,
 			index: options?.bip49?.addressIndex,
 		};
 
@@ -67,6 +69,7 @@ export class AddressFactory {
 			purpose: 84,
 			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip84?.account,
+			change: options?.bip84?.change,
 			index: options?.bip84?.addressIndex,
 		};
 
