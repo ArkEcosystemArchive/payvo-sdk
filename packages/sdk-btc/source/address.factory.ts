@@ -1,8 +1,6 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39, BIP44 } from "@payvo/cryptography";
+import { Coins, IoC, Services } from "@payvo/sdk";
+import { BIP44 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { abort_unless } from "@payvo/helpers";
-import { Address as BaseAddress } from "@arkecosystem/crypto-identities";
 
 import { getNetworkConfig } from "./config";
 
@@ -24,15 +22,6 @@ export class AddressFactory {
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
 		this.#network = getNetworkConfig(this.configRepository);
-	}
-
-	public bip39(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
-		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
-
-		return {
-			type: "bip39",
-			address: BaseAddress.fromPassphrase(mnemonic, this.#network),
-		};
 	}
 
 	public bip44(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {

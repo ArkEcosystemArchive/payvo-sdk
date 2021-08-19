@@ -16,7 +16,6 @@ export class WalletDiscoveryService extends Services.AbstractWalletDiscoveryServ
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject[]> {
 		return Promise.all([
-			this.addressFactory.bip39(mnemonic, options),
 			this.addressFactory.bip44(mnemonic, options),
 			this.addressFactory.bip49(mnemonic, options),
 			this.addressFactory.bip84(mnemonic, options),

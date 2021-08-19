@@ -22,10 +22,6 @@ describe("testnet", () => {
 
 		expect(result).toEqual([
 			{
-				address: "mjmLqx9vd9d3ANn7eX3tc7cdJhWqt3V722",
-				type: "bip39",
-			},
-			{
 				address: "n2qGdjfjmFyvAXqbErrtXpfypXhtbNWruM",
 				path: "m/44'/1'/0'/0/0",
 				type: "bip44",
@@ -45,7 +41,6 @@ describe("testnet", () => {
 
 	it("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
-			bip39: true,
 			bip44: {
 				account: 7,
 				change: 0,
@@ -64,10 +59,6 @@ describe("testnet", () => {
 		});
 
 		expect(result).toEqual([
-			{
-				address: "mjmLqx9vd9d3ANn7eX3tc7cdJhWqt3V722",
-				type: "bip39",
-			},
 			{
 				address: "mjS2VkYDn9ZxB4pVTgQGy5wYiPPwTnQHij",
 				path: "m/44'/1'/7'/0/3",
@@ -88,7 +79,6 @@ describe("testnet", () => {
 
 	it("should generate an output from a mnemonic for change chain", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
-			bip39: true,
 			bip44: {
 				account: 5,
 				change: 1,
@@ -107,10 +97,6 @@ describe("testnet", () => {
 		});
 
 		expect(result).toEqual([
-			{
-				address: "mjmLqx9vd9d3ANn7eX3tc7cdJhWqt3V722",
-				type: "bip39",
-			},
 			{
 				address: "mnaedh1YpvPsgybYyoyUjtnYaq91DjSXi4",
 				path: "m/44'/1'/5'/1/2",
@@ -140,10 +126,6 @@ describe("livenet", () => {
 
 		expect(result).toEqual([
 			{
-				address: "15FPYu4wp8BnPGJVvx5WnCQJShv8zSSsj6",
-				type: "bip39",
-			},
-			{
 				address: "1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa",
 				path: "m/44'/0'/0'/0/0",
 				type: "bip44",
@@ -163,7 +145,6 @@ describe("livenet", () => {
 
 	it("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
-			bip39: true,
 			bip44: {
 				account: 7,
 				change: 0,
@@ -182,10 +163,6 @@ describe("livenet", () => {
 		});
 
 		expect(result).toEqual([
-			{
-				address: "15FPYu4wp8BnPGJVvx5WnCQJShv8zSSsj6",
-				type: "bip39",
-			},
 			{
 				address: "1DFirytnzyKwMBA2T8JNhjzwEoEimKTCKd",
 				path: "m/44'/0'/7'/0/3",
@@ -206,7 +183,6 @@ describe("livenet", () => {
 
 	it("should generate an output from a mnemonic for change chain", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
-			bip39: true,
 			bip44: {
 				account: 5,
 				change: 1,
@@ -225,10 +201,6 @@ describe("livenet", () => {
 		});
 
 		expect(result).toEqual([
-			{
-				address: "15FPYu4wp8BnPGJVvx5WnCQJShv8zSSsj6",
-				type: "bip39",
-			},
 			{
 				address: "1PSddm78a9UnGWvL5xVCAcV7HddY16Vgjv",
 				path: "m/44'/0'/5'/1/2",
