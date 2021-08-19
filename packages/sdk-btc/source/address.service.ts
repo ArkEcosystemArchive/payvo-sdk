@@ -12,6 +12,11 @@ export class AddressService extends Services.AbstractAddressService {
 
 	#network!: bitcoin.networks.Network;
 
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
+
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,
@@ -25,102 +30,185 @@ export class AddressService extends Services.AbstractAddressService {
 				return this.addressFactory.bip49(mnemonic, options);
 			}
 
-			return this.addressFactory.bip84(mnemonic, options);
+			if (options?.bip84) {
+				return this.addressFactory.bip84(mnemonic, options);
+			}
+
+			throw new Error("Please specify a valid derivation method.");
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
 	}
 
-	// @TODO: support for bip44/49/84
 	public override async fromMultiSignature(
 		min: number,
 		publicKeys: string[],
+		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		try {
-			const { address } = bitcoin.payments.p2sh({
-				redeem: bitcoin.payments.p2ms({
-					m: min,
-					pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
-				}),
-				network: this.#network,
-			});
+			let result;
 
-			if (!address) {
+			if (options?.bip44) {
+				result = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2ms({
+						m: min,
+						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+					}),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip49) {
+				result = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wsh({
+						redeem: bitcoin.payments.p2ms({
+							m: min,
+							pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+						}),
+					}),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip84) {
+				result = bitcoin.payments.p2wsh({
+					redeem: bitcoin.payments.p2ms({
+						m: min,
+						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+					}),
+					network: this.#network,
+				});
+			}
+
+			if (!result.address) {
 				throw new Error(`Failed to derive address for [${publicKeys}].`);
 			}
 
 			return {
-				type: "bip39",
-				address: address.toString(),
+				type: this.#determineMethod(options),
+				address: result.address.toString(),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
 	}
 
-	// @TODO: support for bip44/49/84
 	public override async fromPublicKey(
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		try {
-			const { address } = bitcoin.payments.p2pkh({
-				pubkey: bitcoin.ECPair.fromPublicKey(Buffer.from(publicKey, "hex")).publicKey,
-				network: this.#network,
-			});
+			let result;
 
-			if (!address) {
+			if (options?.bip44) {
+				result = bitcoin.payments.p2pkh({
+					pubkey: Buffer.from(publicKey, "hex"),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip49) {
+				result = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({ pubkey: Buffer.from(publicKey, "hex") }),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip84) {
+				result = bitcoin.payments.p2wpkh({
+					pubkey: Buffer.from(publicKey, "hex"),
+					network: this.#network,
+				});
+			}
+
+			if (!result.address) {
 				throw new Error(`Failed to derive address for [${publicKey}].`);
 			}
 
 			return {
-				type: "bip39",
-				address: address.toString(),
+				type: this.#determineMethod(options),
+				address: result.address.toString(),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
 	}
 
-	// @TODO: support for bip44/49/84
 	public override async fromPrivateKey(
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		try {
-			const { address } = bitcoin.payments.p2pkh({
-				pubkey: bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).publicKey,
-				network: this.#network,
-			});
+			let result;
 
-			if (!address) {
+			const publicKey: Buffer = bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).publicKey;
+
+			if (options?.bip44) {
+				result = bitcoin.payments.p2pkh({
+					pubkey: publicKey,
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip49) {
+				result = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({ pubkey: publicKey }),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip84) {
+				result = bitcoin.payments.p2wpkh({
+					pubkey: publicKey,
+					network: this.#network,
+				});
+			}
+
+			if (!result.address) {
 				throw new Error(`Failed to derive address for [${privateKey}].`);
 			}
 
 			return {
-				type: "bip39",
-				address: address.toString(),
+				type: this.#determineMethod(options),
+				address: result.address.toString(),
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
 	}
 
-	// @TODO: support for bip44/49/84
-	public override async fromWIF(wif: string): Promise<Services.AddressDataTransferObject> {
+	public override async fromWIF(wif: string, options?: Services.IdentityOptions): Promise<Services.AddressDataTransferObject> {
 		try {
-			const { address } = bitcoin.payments.p2pkh({
-				pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
-				network: this.#network,
-			});
+			let result;
 
-			if (!address) {
+			if (options?.bip44) {
+				result = bitcoin.payments.p2pkh({
+					pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip49) {
+				result = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({ pubkey: bitcoin.ECPair.fromWIF(wif).publicKey }),
+					network: this.#network,
+				});
+			}
+
+			if (options?.bip84) {
+				result = bitcoin.payments.p2wpkh({
+					pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
+					network: this.#network,
+				});
+			}
+
+			if (!result.address) {
 				throw new Error(`Failed to derive address for [${wif}].`);
 			}
 
 			return {
-				type: "bip39",
-				address,
+				type: this.#determineMethod(options),
+				address: result.address,
 			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
@@ -131,8 +219,19 @@ export class AddressService extends Services.AbstractAddressService {
 		return address !== undefined;
 	}
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = getNetworkConfig(this.configRepository);
+	#determineMethod(options?: Services.IdentityOptions) {
+		if (options?.bip44) {
+			return "bip44";
+		}
+
+		if (options?.bip49) {
+			return "bip49";
+		}
+
+		if (options?.bip84) {
+			return "bip84";
+		}
+
+		throw new Error("Please specify a valid derivation method.");
 	}
 }
