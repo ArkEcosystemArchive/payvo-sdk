@@ -10,7 +10,7 @@ beforeEach(async () => {
 	subject = createService(ExtendedPublicKeyService);
 });
 
-describe("Address", () => {
+describe("ExtendedPublicKeyService", () => {
 	describe("#fromMnemonic", () => {
 		it("should derive with BIP44", async () => {
 			await expect(subject.fromMnemonic(identity.mnemonic, { bip44: {account: 0 }})).resolves.toBe(
