@@ -16,87 +16,171 @@ beforeEach(async () => {
 	});
 });
 
+// These tests are based on the values from https://github.com/bitcoinjs/bitcoinjs-lib/blob/master/test/integration/addresses.spec.ts
 describe("Address", () => {
-	it("should generate an output from a mnemonic (BIP44)", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, { bip44: { account: 0 } });
+	describe("#fromMnemonic", () => {
+		it("should generate an output from a mnemonic (BIP44)", async () => {
+			const result = await subject.fromMnemonic(identity.mnemonic, { bip44: { account: 0 } });
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa",
-		  "path": "m/44'/0'/0'/0/0",
-		  "type": "bip44",
-		}
-	`);
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa");
+			expect(result.path).toBe("m/44'/0'/0'/0/0");
+		});
+
+		it("should generate an output from a mnemonic (BIP49)", async () => {
+			const result = await subject.fromMnemonic(identity.mnemonic, { bip49: { account: 0 } });
+
+			expect(result.type).toBe("bip49");
+			expect(result.address).toBe("3GU5e9mPrLgPemhawVHHrDt6bjZZ6M9CPc");
+			expect(result.path).toBe("m/49'/0'/0'/0/0");
+		});
+
+		it("should generate an output from a mnemonic (BIP84)", async () => {
+			const result = await subject.fromMnemonic(identity.mnemonic, { bip84: { account: 0 } });
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1qpeeu3vjrm9dn2y42sl926374y5cvdhfn5k7kxm");
+			expect(result.path).toBe("m/84'/0'/0'/0/0");
+		});
 	});
 
-	it("should generate an output from a mnemonic (BIP49)", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, { bip49: { account: 0 } });
+	describe("#fromPublicKey", () => {
+		it("should import an address via WIF", async () => {
+			const result = await subject.fromPublicKey(
+				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+				{ bip44: { account: 0 } },
+			);
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "3GU5e9mPrLgPemhawVHHrDt6bjZZ6M9CPc",
-		  "path": "m/49'/0'/0'/0/0",
-		  "type": "bip49",
-		}
-	`);
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH");
+		});
+
+		it("should generate a SegWit address (via P2SH)", async () => {
+			const result = await subject.fromPublicKey(
+				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+				{ bip49: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip49");
+			expect(result.address).toBe("3JvL6Ymt8MVWiCNHC7oWU6nLeHNJKLZGLN");
+		});
+
+		it("should generate a SegWit address", async () => {
+			const result = await subject.fromPublicKey(
+				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
+		});
 	});
 
-	it("should generate an output from a mnemonic (BIP84)", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, { bip84: { account: 0 } });
+	describe("#fromPrivateKey", () => {
+		it("should import an address via WIF", async () => {
+			const result = await subject.fromPrivateKey(
+				"0000000000000000000000000000000000000000000000000000000000000001",
+				{ bip44: { account: 0 } },
+			);
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "bc1qpeeu3vjrm9dn2y42sl926374y5cvdhfn5k7kxm",
-		  "path": "m/84'/0'/0'/0/0",
-		  "type": "bip84",
-		}
-	`);
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH");
+		});
+
+		it("should generate a SegWit address (via P2SH)", async () => {
+			const result = await subject.fromPrivateKey(
+				"0000000000000000000000000000000000000000000000000000000000000001",
+				{ bip49: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip49");
+			expect(result.address).toBe("3JvL6Ymt8MVWiCNHC7oWU6nLeHNJKLZGLN");
+		});
+
+		it("should generate a SegWit address", async () => {
+			const result = await subject.fromPrivateKey(
+				"0000000000000000000000000000000000000000000000000000000000000001",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
+		});
 	});
 
-	it("should generate an output from a multiSignature", async () => {
-		const result = await subject.fromMultiSignature(
-			identity.multiSignature.min,
-			identity.multiSignature.publicKeys,
-		);
+	describe("#fromMultiSignature", () => {
+		it("should generate a P2SH, pay-to-multisig (2-of-3) address", async () => {
+			const result = await subject.fromMultiSignature(
+				2,
+				[
+					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+					"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
+				],
+				{ bip44: { account: 0 } },
+			);
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7",
-		  "type": "bip39",
-		}
-	`);
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("36NUkt6FWUi3LAWBqWRdDmdTWbt91Yvfu7");
+		});
+
+		it("should generate a P2SH(P2WSH(...)), pay-to-multisig (2-of-2) address", async () => {
+			const result = await subject.fromMultiSignature(
+				2,
+				[
+					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+				],
+				{ bip49: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip49");
+			expect(result.address).toBe("3P4mrxQfmExfhxqjLnR2Ah4WES5EB1KBrN");
+		});
+
+		it("should generate a P2WSH (SegWit), pay-to-multisig (3-of-4) address", async () => {
+			const result = await subject.fromMultiSignature(
+				3,
+				[
+					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+					"023e4740d0ba639e28963f3476157b7cf2fb7c6fdf4254f97099cf8670b505ea59",
+					"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
+				],
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1q75f6dv4q8ug7zhujrsp5t0hzf33lllnr3fe7e2pra3v24mzl8rrqtp3qul");
+		});
 	});
 
-	it("should generate an output from a publicKey", async () => {
-		const result = await subject.fromPublicKey(identity.publicKey);
+	describe("#fromWIF", () => {
+		it("should import an address via WIF", async () => {
+			const result = await subject.fromWIF("KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn", {
+				bip44: { account: 0 },
+			});
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "12eUJoaWBENQ3tNZE52ZQaHqr3v4tTX4os",
-		  "type": "bip39",
-		}
-	`);
-	});
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH");
+		});
 
-	it("should generate an output from a privateKey", async () => {
-		const result = await subject.fromPrivateKey(identity.privateKey);
+		it("should generate a SegWit address (via P2SH)", async () => {
+			const result = await subject.fromWIF("KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn", {
+				bip49: { account: 0 },
+			});
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "12eUJoaWBENQ3tNZE52ZQaHqr3v4tTX4os",
-		  "type": "bip39",
-		}
-	`);
-	});
+			expect(result.type).toBe("bip49");
+			expect(result.address).toBe("3JvL6Ymt8MVWiCNHC7oWU6nLeHNJKLZGLN");
+		});
 
-	it("should generate an output from a wif", async () => {
-		const result = await subject.fromWIF(identity.wif);
+		it("should generate a SegWit address", async () => {
+			const result = await subject.fromWIF("KwDiBf89QgGbjEhKnhXJuH7LrciVrZi3qYjgd9M7rFU73sVHnoWn", {
+				bip84: { account: 0 },
+			});
 
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "12eUJoaWBENQ3tNZE52ZQaHqr3v4tTX4os",
-		  "type": "bip39",
-		}
-	`);
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
+		});
 	});
 });

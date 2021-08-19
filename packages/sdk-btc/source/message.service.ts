@@ -17,7 +17,9 @@ export class MessageService extends Services.AbstractMessageService {
 
 			return {
 				message: input.message,
-				signatory: (await this.addressService.fromWIF(input.signatory.signingKey())).address,
+				// @TODO: we need to know what the address type should be
+				signatory: (await this.addressService.fromWIF(input.signatory.signingKey(), { bip44: { account: 0 } }))
+					.address,
 				signature: sign(input.message, privateKey, compressed).toString("base64"),
 			};
 		} catch (error) {
