@@ -17,6 +17,7 @@ export const BindingType = {
 	ClientService: Symbol.for("Coin<ClientService>"),
 	DataTransferObjectService: Symbol.for("Coin<DataTransferObjectService>"),
 	ExtendedAddressService: Symbol.for("Coin<ExtendedAddressService>"),
+	ExtendedPublicKeyService: Symbol.for("Coin<ExtendedPublicKeyService>"),
 	FeeService: Symbol.for("Coin<FeeService>"),
 	KeyPairService: Symbol.for("Coin<KeyPairService>"),
 	KnownWalletService: Symbol.for("Coin<KnownWalletService>"),

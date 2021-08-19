@@ -21,6 +21,7 @@ import {
 	WalletDiscoveryService,
 	WIFService,
 } from "../services";
+import { ExtendedPublicKeyService } from "../services/extended-public-key.contract";
 import { ConfigRepository } from "./config";
 import { CoinSpec } from "./contracts";
 import { Manifest } from "./manifest";
@@ -68,6 +69,7 @@ export class Coin {
 		this.#container.unbind(BindingType.ClientService);
 		this.#container.unbind(BindingType.DataTransferObjectService);
 		this.#container.unbind(BindingType.ExtendedAddressService);
+		this.#container.unbind(BindingType.ExtendedPublicKeyService);
 		this.#container.unbind(BindingType.FeeService);
 		this.#container.unbind(BindingType.KeyPairService);
 		this.#container.unbind(BindingType.KnownWalletService);
@@ -121,6 +123,10 @@ export class Coin {
 
 	public extendedAddress(): ExtendedAddressService {
 		return this.#container.get(BindingType.ExtendedAddressService);
+	}
+
+	public extendedPublicKey(): ExtendedPublicKeyService {
+		return this.#container.get(BindingType.ExtendedPublicKeyService);
 	}
 
 	public fee(): FeeService {

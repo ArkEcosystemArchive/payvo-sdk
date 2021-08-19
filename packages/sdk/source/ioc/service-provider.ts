@@ -23,6 +23,7 @@ import {
 	AbstractWIFService,
 	BigNumberService,
 } from "../services";
+import { AbstractExtendedPublicKeyService } from "../services/extended-public-key.service";
 import { Container } from "./container";
 import { BindingType, ServiceList } from "./service-provider.contract";
 
@@ -56,6 +57,10 @@ export abstract class AbstractServiceProvider {
 				BindingType.ExtendedAddressService,
 				services.ExtendedAddressService || AbstractExtendedAddressService,
 			);
+		}
+
+		if (container.missing(BindingType.ExtendedPublicKeyService)) {
+			container.singleton(BindingType.ExtendedPublicKeyService, services.ExtendedPublicKeyService || AbstractExtendedPublicKeyService);
 		}
 
 		if (container.missing(BindingType.FeeService)) {
