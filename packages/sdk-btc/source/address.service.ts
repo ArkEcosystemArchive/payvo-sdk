@@ -1,4 +1,4 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Exceptions, IoC, Services } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { BindingType } from "./constants";
@@ -89,7 +89,7 @@ export class AddressService extends Services.AbstractAddressService {
 			}
 
 			return {
-				type: this.#determineMethod(options),
+				type: this.#derivationMethod(options),
 				address: result.address.toString(),
 			};
 		} catch (error) {
@@ -134,7 +134,7 @@ export class AddressService extends Services.AbstractAddressService {
 			}
 
 			return {
-				type: this.#determineMethod(options),
+				type: this.#derivationMethod(options),
 				address: result.address.toString(),
 			};
 		} catch (error) {
@@ -189,7 +189,7 @@ export class AddressService extends Services.AbstractAddressService {
 			}
 
 			return {
-				type: this.#determineMethod(options),
+				type: this.#derivationMethod(options),
 				address: result.address,
 			};
 		} catch (error) {
@@ -201,7 +201,7 @@ export class AddressService extends Services.AbstractAddressService {
 		return address !== undefined;
 	}
 
-	#determineMethod(options?: Services.IdentityOptions) {
+	#derivationMethod(options?: Services.IdentityOptions) {
 		if (options?.bip44) {
 			return "bip44";
 		}
