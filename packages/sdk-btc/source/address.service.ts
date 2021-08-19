@@ -177,7 +177,10 @@ export class AddressService extends Services.AbstractAddressService {
 		}
 	}
 
-	public override async fromWIF(wif: string, options?: Services.IdentityOptions): Promise<Services.AddressDataTransferObject> {
+	public override async fromWIF(
+		wif: string,
+		options?: Services.IdentityOptions,
+	): Promise<Services.AddressDataTransferObject> {
 		try {
 			let result;
 

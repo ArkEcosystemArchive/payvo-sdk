@@ -16,7 +16,11 @@ export class AbstractAddressService implements AddressService {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
-	public async fromMultiSignature(min: number, publicKeys: string[], options?: IdentityOptions): Promise<AddressDataTransferObject> {
+	public async fromMultiSignature(
+		min: number,
+		publicKeys: string[],
+		options?: IdentityOptions,
+	): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
