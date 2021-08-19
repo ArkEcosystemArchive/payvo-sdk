@@ -1,6 +1,6 @@
 import { MultiSignatureAsset } from "./multi-signature.contract";
 
-export interface IdentityLevel {
+export interface IdentityLevels {
 	account: number;
 	change?: number;
 	addressIndex?: number;
@@ -8,8 +8,8 @@ export interface IdentityLevel {
 
 export interface IdentityOptions {
 	bip39?: boolean;
-	bip44?: IdentityLevel;
-	bip49?: IdentityLevel;
-	bip84?: IdentityLevel;
+	bip44?: IdentityLevels;
+	bip49?: IdentityLevels;
+	bip84?: IdentityLevels;
 	multiSignature?: MultiSignatureAsset;
 }
