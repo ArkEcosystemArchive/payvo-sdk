@@ -7,11 +7,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Ripple;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-        if (transport.constructor.name === "TransportReplayer") {
-            this.#ledger = transport;
-        } else {
-            this.#ledger = transport.open();
-        }
+		if (transport.constructor.name === "TransportReplayer") {
+			this.#ledger = transport;
+		} else {
+			this.#ledger = transport.open();
+		}
 
 		this.#transport = new Ripple(this.#ledger);
 	}

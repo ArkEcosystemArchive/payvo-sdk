@@ -4,4 +4,4 @@ export interface LedgerDerivationScheme {
 	account?: number;
 	change?: number;
 	address?: number;
-};
+}
