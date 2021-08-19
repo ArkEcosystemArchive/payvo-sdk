@@ -9,9 +9,9 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Bitcoin;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		if (transport.create === "function") {
+		try {
 			this.#ledger = transport.create();
-		} else {
+		} catch {
 			this.#ledger = transport;
 		}
 
