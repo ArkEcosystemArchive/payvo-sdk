@@ -138,43 +138,10 @@ export class AddressService extends Services.AbstractAddressService {
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			let result;
-
-			const publicKey: Buffer = bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).publicKey;
-
-			if (options?.bip44) {
-				result = bitcoin.payments.p2pkh({
-					pubkey: publicKey,
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip49) {
-				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({ pubkey: publicKey }),
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip84) {
-				result = bitcoin.payments.p2wpkh({
-					pubkey: publicKey,
-					network: this.#network,
-				});
-			}
-
-			if (!result.address) {
-				throw new Error(`Failed to derive address for [${privateKey}].`);
-			}
-
-			return {
-				type: this.#determineMethod(options),
-				address: result.address.toString(),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error);
-		}
+		return this.fromPublicKey(
+			bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).publicKey.toString("hex"),
+			options,
+		);
 	}
 
 	public override async fromWIF(
