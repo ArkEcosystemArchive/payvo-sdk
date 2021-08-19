@@ -5,7 +5,15 @@ export class PrivateKeySignatory {
 	readonly #address: string;
 	readonly #options?: IdentityOptions;
 
-	public constructor({ signingKey, address, options }: { signingKey: string; address: string; options?: IdentityOptions }) {
+	public constructor({
+		signingKey,
+		address,
+		options,
+	}: {
+		signingKey: string;
+		address: string;
+		options?: IdentityOptions;
+	}) {
 		this.#signingKey = signingKey;
 		this.#address = address;
 		this.#options = options;

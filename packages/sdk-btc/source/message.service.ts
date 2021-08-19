@@ -15,7 +15,10 @@ export class MessageService extends Services.AbstractMessageService {
 				throw new Error(`Failed to derive private key for [${input.signatory.signingKey()}].`);
 			}
 
-			const { address } = await this.addressService.fromWIF(input.signatory.signingKey(), input.signatory.options());
+			const { address } = await this.addressService.fromWIF(
+				input.signatory.signingKey(),
+				input.signatory.options(),
+			);
 
 			return {
 				message: input.message,
