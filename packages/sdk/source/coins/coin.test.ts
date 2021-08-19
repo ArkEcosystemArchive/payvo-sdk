@@ -41,6 +41,7 @@ test("#construct", async () => {
 	expect(() => subject.client()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.dataTransferObject()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.extendedAddress()).toThrow(/No matching bindings found for serviceIdentifier/);
+	expect(() => subject.extendedPublicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.fee()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.keyPair()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.knownWallet()).toThrow(/No matching bindings found for serviceIdentifier/);
@@ -62,6 +63,7 @@ test("#construct", async () => {
 	expect(() => subject.client()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.dataTransferObject()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.extendedAddress()).not.toThrow(/No matching bindings found for serviceIdentifier/);
+	expect(() => subject.extendedPublicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.fee()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.keyPair()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.knownWallet()).not.toThrow(/No matching bindings found for serviceIdentifier/);
@@ -85,6 +87,7 @@ test("#__destruct", async () => {
 	expect(() => subject.client()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.dataTransferObject()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.extendedAddress()).not.toThrow(/No matching bindings found for serviceIdentifier/);
+	expect(() => subject.extendedPublicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.fee()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.keyPair()).not.toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.knownWallet()).not.toThrow(/No matching bindings found for serviceIdentifier/);
@@ -106,6 +109,7 @@ test("#__destruct", async () => {
 	expect(() => subject.client()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.dataTransferObject()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.extendedAddress()).toThrow(/No matching bindings found for serviceIdentifier/);
+	expect(() => subject.extendedPublicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.fee()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.keyPair()).toThrow(/No matching bindings found for serviceIdentifier/);
 	expect(() => subject.knownWallet()).toThrow(/No matching bindings found for serviceIdentifier/);
@@ -155,6 +159,7 @@ describe.each([
 	"client",
 	"dataTransferObject",
 	"extendedAddress",
+	"extendedPublicKey",
 	"fee",
 	"keyPair",
 	"knownWallet",
@@ -168,14 +173,14 @@ describe.each([
 	"transaction",
 	"walletDiscovery",
 	"wif",
-])("#%s", () => {
+])("#%s", (method) => {
 	test("should throw if coin has not been fully set up", async () => {
-		expect(() => subject.fee()).toThrow();
+		expect(() => subject[method]()).toThrow();
 	});
 
 	test("should not throw if coin has not been fully set up", async () => {
 		await subject.__construct();
 
-		expect(subject.fee()).toBeObject();
+		expect(subject[method]()).toBeObject();
 	});
 });

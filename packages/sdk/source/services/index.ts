@@ -7,6 +7,8 @@ export * from "./data-transfer-object.contract";
 export * from "./data-transfer-object.service";
 export * from "./extended-address.contract";
 export * from "./extended-address.service";
+export * from "./extended-public-key.contract";
+export * from "./extended-public-key.service";
 export * from "./fee.contract";
 export * from "./fee.service";
 export * from "./key-pair.contract";
