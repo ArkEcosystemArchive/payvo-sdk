@@ -7,7 +7,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#bip44SessionPath = "";
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		this.#ledger = await transport.create();
+		if (transport.create === "function") {
+			this.#ledger = transport.create();
+		} else {
+			this.#ledger = transport;
+		}
 	}
 
 	public override async disconnect(): Promise<void> {

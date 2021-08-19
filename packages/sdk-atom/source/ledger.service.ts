@@ -8,7 +8,12 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Cosmos;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		this.#ledger = await transport.create();
+		if (transport.create === "function") {
+			this.#ledger = transport.create();
+		} else {
+			this.#ledger = transport;
+		}
+
 		this.#transport = new Cosmos(this.#ledger);
 	}
 

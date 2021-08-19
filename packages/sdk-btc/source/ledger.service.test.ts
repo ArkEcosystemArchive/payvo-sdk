@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { IoC, Services } from "@payvo/sdk";
-import { createTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -19,7 +19,7 @@ const createMockService = async (record: string) => {
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 
-	await transport.connect(createTransportReplayer(RecordStore.fromString(record)));
+	await transport.connect(await openTransportReplayer(RecordStore.fromString(record)));
 
 	return transport;
 };

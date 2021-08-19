@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
-import { createTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
 import { ledger } from "../test/fixtures/ledger";
@@ -22,7 +22,7 @@ const createMockService = async (record: string) => {
 	});
 
 	const fromString = RecordStore.fromString(record);
-	await transport.connect(createTransportReplayer(fromString));
+	await transport.connect(await openTransportReplayer(fromString));
 
 	return transport;
 };

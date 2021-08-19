@@ -7,7 +7,12 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Stellar;
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		this.#ledger = await transport.open();
+		if (transport.open === "function") {
+			this.#ledger = transport.open();
+		} else {
+			this.#ledger = transport;
+		}
+
 		this.#transport = new Stellar(this.#ledger);
 	}
 
