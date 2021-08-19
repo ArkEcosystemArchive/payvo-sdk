@@ -10,7 +10,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
 		try {
-			this.#ledger = transport.create();
+			this.#ledger = await transport.create();
 		} catch (error) {
 			if (transport.constructor.name === "TransportReplayer") {
 				this.#ledger = transport;
