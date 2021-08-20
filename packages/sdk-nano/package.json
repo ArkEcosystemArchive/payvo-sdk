@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-nano",
-	"version": "1.6.19",
+	"version": "1.6.20",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -25,7 +25,7 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@payvo/cryptography": "^1.1.0",
+		"@payvo/cryptography": "^1.1.1",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",
