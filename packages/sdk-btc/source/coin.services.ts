@@ -7,6 +7,7 @@ import { MessageService } from "./message.service";
 import { PrivateKeyService } from "./private-key.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { WIFService } from "./wif.service";
 
 export const Services = {
@@ -19,5 +20,6 @@ export const Services = {
 	PrivateKeyService,
 	PublicKeyService,
 	TransactionService,
+	WalletDiscoveryService,
 	WIFService,
 };
