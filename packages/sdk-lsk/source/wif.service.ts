@@ -17,7 +17,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: WIF.encode({
 					// Technically this isn't the WIF version but LSK has none.
 					version: this.configRepository.get<number>("network.constants.slip44"),
-					privateKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).privateKey.toString("hex"),
+					privateKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).privateKey.toString("hex").slice(0, 64),
 					compressed: true,
 				}),
 			};
