@@ -60,7 +60,10 @@ export abstract class AbstractServiceProvider {
 		}
 
 		if (container.missing(BindingType.ExtendedPublicKeyService)) {
-			container.singleton(BindingType.ExtendedPublicKeyService, services.ExtendedPublicKeyService || AbstractExtendedPublicKeyService);
+			container.singleton(
+				BindingType.ExtendedPublicKeyService,
+				services.ExtendedPublicKeyService || AbstractExtendedPublicKeyService,
+			);
 		}
 
 		if (container.missing(BindingType.FeeService)) {

@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 
-import { Services } from "..";
 import { ConfigRepository } from "../coins";
 import { NotImplemented } from "../exceptions";
 import { inject, injectable } from "../ioc";
