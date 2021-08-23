@@ -22,7 +22,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "musig",
-			host: "https://ark-live-musig.payvo.com",
+			host: "https://bind-live-musig.payvo.com",
 		},
 		{
 			type: "explorer",
