@@ -170,8 +170,8 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override min(): number {
-		if (this.data.asset.multisignature?.numberOfSignatures) {
-			return this.data.asset.multisignature?.numberOfSignatures;
+		if (this.data.asset.numberOfSignatures) {
+			return this.data.asset.numberOfSignatures;
 		}
 
 		return this.data.asset.multisignature?.min;
