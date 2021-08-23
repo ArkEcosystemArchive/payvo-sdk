@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 
-import { deriveAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
@@ -8,6 +8,12 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
+		if (options?.bip44Legacy) {
+			return {
+				publicKey: deriveLegacyAccount(mnemonic, options?.bip44Legacy?.account).publicKey,
+			};
+		}
+
 		return {
 			publicKey: deriveAccount(mnemonic, options?.bip44?.account).publicKey,
 		};

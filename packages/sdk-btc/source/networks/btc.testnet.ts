@@ -13,7 +13,12 @@ const network: Networks.NetworkManifest = {
 		decimals: 8,
 	},
 	constants: {
+		bip32: {
+			private: 70615956,
+			public: 70617039,
+		},
 		slip44: 1,
+		wif: 239,
 	},
 	hosts: [
 		{

@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-egld",
-	"version": "1.6.20",
+	"version": "1.6.21",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@elrondnetwork/elrond-core-js": "^2.1.0",
 		"@elrondnetwork/erdjs": "^6.6.2",
-		"@payvo/cryptography": "^1.1.1",
+		"@payvo/cryptography": "^1.1.2",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.0",
 		"@payvo/sdk": "workspace:*",

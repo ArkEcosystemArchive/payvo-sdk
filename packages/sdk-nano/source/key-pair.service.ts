@@ -1,6 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { deriveAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
@@ -9,6 +9,12 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
 		try {
+			if (options?.bip44Legacy) {
+				const { publicKey, privateKey } = deriveLegacyAccount(mnemonic, options?.bip44Legacy?.account);
+
+				return { publicKey, privateKey };
+			}
+
 			const { publicKey, privateKey } = deriveAccount(mnemonic, options?.bip44?.account);
 
 			return { publicKey, privateKey };
