@@ -446,7 +446,7 @@ test("#all", () => {
 		        "type": "full",
 		      },
 		      Object {
-		        "host": "https://ark-live-musig.payvo.com",
+		        "host": "https://bind-live-musig.payvo.com",
 		        "type": "musig",
 		      },
 		      Object {
@@ -605,7 +605,7 @@ test("#all", () => {
 		        "type": "full",
 		      },
 		      Object {
-		        "host": "https://ark-test-musig.payvo.com",
+		        "host": "https://bind-test-musig.payvo.com",
 		        "type": "musig",
 		      },
 		      Object {
