@@ -33,6 +33,8 @@ beforeAll(() => {
 	nock.disableNetConnect();
 });
 
+jest.setTimeout(5000);
+
 describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("should sign transaction", async () => {
