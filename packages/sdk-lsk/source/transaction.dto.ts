@@ -86,6 +86,10 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return this.data.asset;
 	}
 
+	public override isConfirmed(): boolean {
+		return true;
+	}
+
 	public override isTransfer(): boolean {
 		return TransactionTypeService.isTransfer(this.data);
 	}
