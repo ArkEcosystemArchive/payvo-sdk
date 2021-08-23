@@ -15,7 +15,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const { balance, representative, frontier } = await this.#client.accountInfo(input.signatory.address(), { representative: true });
+		const { balance, representative, frontier } = await this.#client.accountInfo(input.signatory.address(), {
+			representative: true,
+		});
 
 		const data = {
 			walletBalanceRaw: balance,
