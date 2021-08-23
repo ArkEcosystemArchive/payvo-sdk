@@ -9,7 +9,12 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
 		try {
-			return { privateKey: BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).privateKey!.toString("hex") };
+			return {
+				privateKey: BIP32.fromMnemonic(
+					mnemonic,
+					this.configRepository.get("network.constants"),
+				).privateKey!.toString("hex"),
+			};
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
