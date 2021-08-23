@@ -3,7 +3,6 @@ import { DateTime } from "@payvo/intl";
 import { computeWork } from "nanocurrency";
 import { block, tools } from "nanocurrency-web";
 
-import { deriveAccount } from "./account";
 import { NanoClient } from "./rpc";
 
 @IoC.injectable()
@@ -16,8 +15,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const { address, privateKey } = deriveAccount(input.signatory.signingKey());
-		const { balance, representative, frontier } = await this.#client.accountInfo(address, { representative: true });
+		const { balance, representative, frontier } = await this.#client.accountInfo(input.signatory.address(), { representative: true });
 
 		const data = {
 			walletBalanceRaw: balance,
@@ -29,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			work: (await computeWork(frontier))!,
 		};
 		const signedData = { ...data, timestamp: DateTime.make() };
-		const broadcastData = block.send(data, privateKey);
+		const broadcastData = block.send(data, input.signatory.privateKey());
 
 		return this.dataTransferObjectService.signedTransaction(broadcastData.signature, signedData, broadcastData);
 	}

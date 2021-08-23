@@ -2,7 +2,7 @@ import { IoC, Services } from "@payvo/sdk";
 import { deriveAddress, derivePublicKey } from "nanocurrency";
 import { tools } from "nanocurrency-web";
 
-import { deriveAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -10,6 +10,13 @@ export class AddressService extends Services.AbstractAddressService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
+		if (options?.bip44Legacy) {
+			return {
+				type: "bip44",
+				address: deriveLegacyAccount(mnemonic, options?.bip44Legacy?.account).address,
+			};
+		}
+
 		return {
 			type: "bip44",
 			address: deriveAccount(mnemonic, options?.bip44?.account).address,
