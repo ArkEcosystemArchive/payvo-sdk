@@ -4,7 +4,7 @@ import { IoC, Services } from "@payvo/sdk";
 @IoC.injectable()
 export class ExtendedPublicKeyService extends Services.AbstractExtendedPublicKeyService {
 	public override async fromMnemonic(mnemonic: string, options?: Services.IdentityOptions): Promise<string> {
-		let accountKey = BIP32.fromMnemonic(mnemonic);
+		let accountKey = BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants"));
 
 		if (options?.bip44) {
 			accountKey = accountKey

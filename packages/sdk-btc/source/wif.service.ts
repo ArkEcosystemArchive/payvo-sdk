@@ -8,7 +8,7 @@ export class WIFService extends Services.AbstractWIFService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.WIFDataTransferObject> {
 		try {
-			return { wif: BIP32.fromMnemonic(mnemonic).toWIF() };
+			return { wif: BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).toWIF() };
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}

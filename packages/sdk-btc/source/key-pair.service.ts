@@ -9,7 +9,11 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
 		try {
-			return this.#normalize(bitcoin.ECPair.fromPrivateKey(BIP32.fromMnemonic(mnemonic).privateKey!));
+			return this.#normalize(
+				bitcoin.ECPair.fromPrivateKey(
+					BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).privateKey!,
+				),
+			);
 		} catch (error) {
 			throw new Exceptions.CryptoException(error);
 		}
