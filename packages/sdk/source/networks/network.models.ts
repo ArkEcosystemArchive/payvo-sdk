@@ -111,11 +111,14 @@ export interface NetworkManifest {
 	hosts: NetworkHost[];
 	constants: NetworkManifestConstants;
 	governance?: {
-		requiresAmount?: boolean;
 		delegateIdentifier?: "address" | "publicKey";
 		delegateCount: number;
 		votesPerWallet: number;
 		votesPerTransaction: number;
+		// Only LSK at the moment
+		votesAmountStep?: number;
+		votesAmountMinimum?: number;
+		votesAmountMaximum?: number;
 	};
 	transactions: NetworkManifestTransactions;
 	importMethods: NetworkManifestImportMethods;

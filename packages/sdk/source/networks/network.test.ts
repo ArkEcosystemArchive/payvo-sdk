@@ -70,8 +70,16 @@ it("should allows voting", () => {
 	expect(subject.allowsVoting()).toBeFalse();
 });
 
-it("should determine if the stake amount is required", () => {
-	expect(subject.requiresStakeAmount()).toBeBoolean();
+test("#votesAmountStep", () => {
+	expect(subject.votesAmountStep()).toBeNumber();
+});
+
+test("#votesAmountMinimum", () => {
+	expect(subject.votesAmountMinimum()).toBeNumber();
+});
+
+test("#votesAmountMaximum", () => {
+	expect(subject.votesAmountMaximum()).toBeNumber();
 });
 
 it("should get the delegate count", () => {

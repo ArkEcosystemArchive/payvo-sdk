@@ -126,13 +126,6 @@ export class Network {
 	}
 
 	/**
-	 * Determine if the voting process requires an amount.
-	 */
-	public requiresStakeAmount(): boolean {
-		return get(this.#network, "governance.requiresAmount", false);
-	}
-
-	/**
 	 * Get the number of delegates that forge blocks.
 	 */
 	public delegateCount(): number {
@@ -158,6 +151,27 @@ export class Network {
 	 */
 	public maximumVotesPerTransaction(): number {
 		return get(this.#network, "governance.votesPerTransaction", 0);
+	}
+
+	/**
+	 * Get the step amount per vote. For example 10 for steps of 10/20/30.
+	 */
+	public votesAmountStep(): number {
+		return get(this.#network, "governance.votesAmountStep", 0);
+	}
+
+	/**
+	 * Get the minimum vote amount required.
+	 */
+	public votesAmountMinimum(): number {
+		return get(this.#network, "governance.votesAmountMinimum", 0);
+	}
+
+	/**
+	 * Get the maximum vote amount allowed.
+	 */
+	public votesAmountMaximum(): number {
+		return get(this.#network, "governance.votesAmountMaximum", 0);
 	}
 
 	/**

@@ -50,11 +50,12 @@ export const explorer = {
 };
 
 export const governance: any = {
-	requiresAmount: true,
 	delegateIdentifier: "address",
 	delegateCount: 101,
 	votesPerWallet: 20,
 	votesPerTransaction: 20,
+	votesAmountStep: 10,
+	votesAmountMinimum: 10,
 };
 
 // https://lsk-test.payvo.com/api/v2/transactions/schemas
