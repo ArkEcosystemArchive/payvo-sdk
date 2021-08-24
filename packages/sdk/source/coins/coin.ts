@@ -48,13 +48,19 @@ export class Coin {
 			return;
 		}
 
-		this.#isSyncing = true;
+		try {
+			this.#isSyncing = true;
 
-		await this.#container
-			.resolve<any>(this.#container.get<CoinSpec>(BindingType.Specification).ServiceProvider)
-			.make(this.#container);
+			await this.#container
+				.resolve<any>(this.#container.get<CoinSpec>(BindingType.Specification).ServiceProvider)
+				.make(this.#container);
 
-		this.#isSyncing = false;
+			this.#isSyncing = false;
+		} catch (error) {
+			this.#isSyncing = false;
+
+			throw error;
+		}
 	}
 
 	public async __destruct(): Promise<void> {
