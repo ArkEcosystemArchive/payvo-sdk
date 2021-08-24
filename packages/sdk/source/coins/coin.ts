@@ -56,9 +56,12 @@ export class Coin {
 				.make(this.#container);
 
 			this.#isSyncing = false;
+			/* istanbul ignore next */
 		} catch (error) {
+			/* istanbul ignore next */
 			this.#isSyncing = false;
 
+			/* istanbul ignore next */
 			throw error;
 		}
 	}
