@@ -1,8 +1,10 @@
-export const calculateBalanceLockedInVotes = (votes): number =>
-	votes.reduce((total: number, { amount }) => total + amount, 0);
+import { BigNumber } from "@payvo/helpers";
 
-export const calculateBalanceLockedInUnvotes = (unlocking): number =>
-	unlocking.reduce((acc, { amount }) => acc + parseInt(amount, 10), 0);
+export const calculateBalanceLockedInVotes = (votes): string =>
+	votes.reduce((total: BigNumber, { amount }) => total.plus(amount), BigNumber.ZERO).toString();
+
+export const calculateBalanceLockedInUnvotes = (unlocking): string =>
+	unlocking.reduce((acc: BigNumber, { amount }) => acc.plus(parseInt(amount, 10)), BigNumber.ZERO).toString();
 
 export const isBlockHeightReached = (unlockHeight: number, currentBlockHeight: number): boolean =>
 	currentBlockHeight >= unlockHeight;
