@@ -45,7 +45,7 @@ describe("Address", () => {
 	});
 
 	describe("#fromPublicKey", () => {
-		it("should import an address via WIF", async () => {
+		it("should import an address (via P2PKH)", async () => {
 			const result = await subject.fromPublicKey(
 				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
 				{ bip44: { account: 0 } },
@@ -65,7 +65,7 @@ describe("Address", () => {
 			expect(result.address).toBe("3JvL6Ymt8MVWiCNHC7oWU6nLeHNJKLZGLN");
 		});
 
-		it("should generate a SegWit address", async () => {
+		it("should generate a native SegWit address (via P2WPKH)", async () => {
 			const result = await subject.fromPublicKey(
 				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
 				{ bip84: { account: 0 } },
@@ -75,7 +75,17 @@ describe("Address", () => {
 			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
 		});
 
-		it("should generate a SegWit address from an extended public key for livenet", async () => {
+		it("should generate an address from an extended public key for livenet", async () => {
+			const result = await subject.fromPublicKey(
+				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
+				{ bip44: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
+		});
+
+		it("should generate a Native SegWit address from an extended public key for livenet", async () => {
 			const result = await subject.fromPublicKey(
 				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
 				{ bip84: { account: 0 } },
@@ -85,7 +95,7 @@ describe("Address", () => {
 			expect(result.address).toBe("bc1qpeeu3vjrm9dn2y42sl926374y5cvdhfn5k7kxm");
 		});
 
-		it("should generate a SegWit address from an extended public key for testnet", async () => {
+		it("should generate a Native SegWit address from an extended public key for testnet", async () => {
 			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
 				container.singleton(BindingType.AddressFactory, AddressFactory);
 			});
