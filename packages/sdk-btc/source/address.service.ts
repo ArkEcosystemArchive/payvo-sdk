@@ -240,7 +240,7 @@ export class AddressService extends Services.AbstractAddressService {
 		let bip32 = BIP32.fromBase58(publicKey, this.#network);
 
 		if (bip32.depth !== 3) {
-			throw new Error("extended public key must be depth 3 (account level)");
+			throw new Exceptions.Exception("The depth of the extended public key must equal 3 (account level)");
 		}
 
 		if (options?.bip44) {
