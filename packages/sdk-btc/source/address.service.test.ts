@@ -74,6 +74,30 @@ describe("Address", () => {
 			expect(result.type).toBe("bip84");
 			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
 		});
+
+		it("should generate a SegWit address from an extended public key for livenet", async () => {
+			const result = await subject.fromPublicKey(
+				"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("bc1qx3ppj0smkuy3d6g525sh9n2w9k7fm7q3x30rtg");
+		});
+
+		it("should generate a SegWit address from an extended public key for testnet", async () => {
+			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+			});
+
+			const result = await subject.fromPublicKey(
+				"tpubDCdFvjrda9JXDYFb518YfcEEWSj3gRfRAU69PGnNS4dYx3bBARVhKQNRC1wBYComzGCyXea7rpYW2YjxahrEPzapLQpfSMky4bdz3YPTgTJ",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("tb1q9njkftndu6hezq5l7cz8d62zexew2auesgx3mh");
+		});
 	});
 
 	describe("#fromPrivateKey", () => {
