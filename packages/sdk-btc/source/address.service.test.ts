@@ -7,6 +7,7 @@ import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
+import { CryptoException } from "@payvo/sdk/distribution/exceptions";
 
 let subject: AddressService;
 
@@ -55,6 +56,12 @@ describe("Address", () => {
 			expect(result.address).toBe("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH");
 		});
 
+		it("should fail to generate address if ext pub key is not depth 3", async () => {
+			await expect(subject.fromPublicKey(
+					"xpub6ENuDU6ouVBjsS46mpqzNzaJXs5iuNnhgKb9LWCgCwtK74fnATHwVJvsYYbH7bFUzZSh9PGA4Q9G5465WxHHRNys1hejSwbDZaw9ro5vDtD"
+				)).rejects.toThrowError(CryptoException);
+		});
+
 		it("should generate a SegWit address (via P2SH)", async () => {
 			const result = await subject.fromPublicKey(
 				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
@@ -82,6 +89,16 @@ describe("Address", () => {
 			);
 
 			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
+		});
+
+		it("should generate a Native SegWit address from an extended public key for tesnet", async () => {
+			const result = await subject.fromPublicKey(
+				"tpubDHLei9aRJ1pfXAqHFTNnsDcN82cWzsffpc5Ri4f4RSqJNG6XfuUKhcsU7s6zuLAyWdV4rq71PHfiwXYvSYiFDDy2m72x1xqcbhrERziPhWX",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
 			expect(result.address).toBe("12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
 		});
 

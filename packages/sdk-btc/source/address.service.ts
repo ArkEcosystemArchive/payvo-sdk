@@ -239,6 +239,10 @@ export class AddressService extends Services.AbstractAddressService {
 	#deriveBIP32(publicKey: string, options?: Services.IdentityOptions) {
 		let bip32 = BIP32.fromBase58(publicKey, this.#network);
 
+		if (bip32.depth !== 3) {
+			throw new Error("extended public key must be depth 3 (account level)");
+		}
+
 		if (options?.bip44) {
 			return bip32.derive(options?.bip44.change || 0).derive(options?.bip44.addressIndex || 0)
 		}
