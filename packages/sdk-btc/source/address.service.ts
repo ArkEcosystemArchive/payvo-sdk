@@ -251,6 +251,6 @@ export class AddressService extends Services.AbstractAddressService {
 			return bip32.derive(options?.bip84.change || 0).derive(options?.bip84.addressIndex || 0)
 		}
 
-		throw new Error("Please specify a valid derivation method.");
+		throw new Error("Please specify a valid derivation method when attempting BIP32 derivation.");
 	}
 }
