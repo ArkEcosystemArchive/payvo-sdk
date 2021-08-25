@@ -1,4 +1,5 @@
 import "jest-extended";
+import { Exceptions } from "@payvo/sdk";
 
 import { IoC } from "@payvo/sdk";
 
@@ -7,7 +8,6 @@ import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
-import { CryptoException } from "@payvo/sdk/distribution/exceptions";
 
 let subject: AddressService;
 
@@ -61,7 +61,7 @@ describe("Address", () => {
 				subject.fromPublicKey(
 					"xpub6ENuDU6ouVBjsS46mpqzNzaJXs5iuNnhgKb9LWCgCwtK74fnATHwVJvsYYbH7bFUzZSh9PGA4Q9G5465WxHHRNys1hejSwbDZaw9ro5vDtD",
 				),
-			).rejects.toThrowError(CryptoException);
+			).rejects.toThrowError(Exceptions.CryptoException);
 		});
 
 		it("should generate a SegWit address (via P2SH)", async () => {
