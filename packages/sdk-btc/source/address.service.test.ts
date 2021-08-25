@@ -95,13 +95,16 @@ describe("Address", () => {
 		});
 
 		it("should generate a Native SegWit address from an extended public key for tesnet", async () => {
+			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+			});
 			const result = await subject.fromPublicKey(
-				"tpubDHLei9aRJ1pfXAqHFTNnsDcN82cWzsffpc5Ri4f4RSqJNG6XfuUKhcsU7s6zuLAyWdV4rq71PHfiwXYvSYiFDDy2m72x1xqcbhrERziPhWX",
+				"tpubDDVP3DS6MLMUwxsGKzPLjcwY38BmKpZT3USFmjWycwi441G3Mi6j7FhiHLpv2TzQLaAQ1iAun9Q1inpWB37pWEWPc5sZZNfLKoeRtR1ZANL",
 				{ bip84: { account: 0 } },
 			);
 
 			expect(result.type).toBe("bip84");
-			expect(result.address).toBe("12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
+			expect(result.address).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		});
 
 		it("should generate a Native SegWit address from an extended public key for livenet", async () => {
