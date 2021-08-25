@@ -112,7 +112,7 @@ export class AddressService extends Services.AbstractAddressService {
 					throw new Error("Usage of a xpub requires livenet to be configured.");
 				}
 
-				publicKeyBuffer = BIP32.fromBase58(publicKey, this.#network).publicKey;
+				publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
 			}
 
 			if (publicKey.startsWith("tpub")) {
@@ -120,7 +120,7 @@ export class AddressService extends Services.AbstractAddressService {
 					throw new Error("Usage of a tpub requires testnet to be configured.");
 				}
 
-				publicKeyBuffer = BIP32.fromBase58(publicKey, this.#network).publicKey;
+				publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
 			}
 
 			if (options?.bip44) {
@@ -231,6 +231,24 @@ export class AddressService extends Services.AbstractAddressService {
 
 		if (options?.bip84) {
 			return "bip84";
+		}
+
+		throw new Error("Please specify a valid derivation method.");
+	}
+
+	#deriveBIP32(publicKey: string, options?: Services.IdentityOptions) {
+		let bip32 = BIP32.fromBase58(publicKey, this.#network);
+
+		if (options?.bip44) {
+			return bip32.derive(options?.bip44.change || 0).derive(options?.bip44.addressIndex || 0)
+		}
+
+		if (options?.bip49) {
+			return bip32.derive(options?.bip49.change || 0).derive(options?.bip49.addressIndex || 0)
+		}
+
+		if (options?.bip84) {
+			return bip32.derive(options?.bip84.change || 0).derive(options?.bip84.addressIndex || 0)
 		}
 
 		throw new Error("Please specify a valid derivation method.");

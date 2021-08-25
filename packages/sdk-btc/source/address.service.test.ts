@@ -77,12 +77,12 @@ describe("Address", () => {
 
 		it("should generate a SegWit address from an extended public key for livenet", async () => {
 			const result = await subject.fromPublicKey(
-				"xpub661MyMwAqRbcFtXgS5sYJABqqG9YLmC4Q1Rdap9gSE8NqtwybGhePY2gZ29ESFjqJoCu1Rupje8YtGqsefD265TMg7usUDFdp6W1EGMcet8",
+				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
 				{ bip84: { account: 0 } },
 			);
 
 			expect(result.type).toBe("bip84");
-			expect(result.address).toBe("bc1qx3ppj0smkuy3d6g525sh9n2w9k7fm7q3x30rtg");
+			expect(result.address).toBe("bc1qpeeu3vjrm9dn2y42sl926374y5cvdhfn5k7kxm");
 		});
 
 		it("should generate a SegWit address from an extended public key for testnet", async () => {
@@ -91,12 +91,12 @@ describe("Address", () => {
 			});
 
 			const result = await subject.fromPublicKey(
-				"tpubDCdFvjrda9JXDYFb518YfcEEWSj3gRfRAU69PGnNS4dYx3bBARVhKQNRC1wBYComzGCyXea7rpYW2YjxahrEPzapLQpfSMky4bdz3YPTgTJ",
+				"tpubDC9zgMaiUXPoSRkpk8gvDuzwHobq6GUw5D1nzWdeBWrEXYZUxaQGDLwtXvVFsmvdNUVernGA2JWFbJsj4se5Vemx8WK6w9bzmxj4K36ivox",
 				{ bip84: { account: 0 } },
 			);
 
 			expect(result.type).toBe("bip84");
-			expect(result.address).toBe("tb1q9njkftndu6hezq5l7cz8d62zexew2auesgx3mh");
+			expect(result.address).toBe("tb1qdyxry6tza2sflfzlr8w6m65873thva724yjlmw");
 		});
 	});
 
