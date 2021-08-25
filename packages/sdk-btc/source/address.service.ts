@@ -3,7 +3,8 @@ import * as bitcoin from "bitcoinjs-lib";
 
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
-import { getNetworkConfig } from "./config";
+import { getNetworkConfig, getNetworkID } from "./config";
+import { BIP32 } from "@payvo/cryptography";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -104,23 +105,41 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			let result;
 
+			let publicKeyBuffer: Buffer = Buffer.from(publicKey, "hex");
+
+			if (publicKey.startsWith("xpub")) {
+				if (getNetworkID(this.configRepository) !== "livenet") {
+					throw new Error("Usage of a xpub requires livenet to be configured.");
+				}
+
+				publicKeyBuffer = BIP32.fromBase58(publicKey, this.#network).publicKey;
+			}
+
+			if (publicKey.startsWith("tpub")) {
+				if (getNetworkID(this.configRepository) !== "testnet") {
+					throw new Error("Usage of a tpub requires testnet to be configured.");
+				}
+
+				publicKeyBuffer = BIP32.fromBase58(publicKey, this.#network).publicKey;
+			}
+
 			if (options?.bip44) {
 				result = bitcoin.payments.p2pkh({
-					pubkey: Buffer.from(publicKey, "hex"),
+					pubkey: publicKeyBuffer,
 					network: this.#network,
 				});
 			}
 
 			if (options?.bip49) {
 				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({ pubkey: Buffer.from(publicKey, "hex") }),
+					redeem: bitcoin.payments.p2wpkh({ pubkey: publicKeyBuffer }),
 					network: this.#network,
 				});
 			}
 
 			if (options?.bip84) {
 				result = bitcoin.payments.p2wpkh({
-					pubkey: Buffer.from(publicKey, "hex"),
+					pubkey: publicKeyBuffer,
 					network: this.#network,
 				});
 			}
