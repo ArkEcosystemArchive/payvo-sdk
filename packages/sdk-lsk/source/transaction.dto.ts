@@ -168,10 +168,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	// Multi-Signature Registration
 	public override publicKeys(): string[] {
 		if (Array.isArray(this.data.asset.mandatoryKeys)) {
-			return [
-				...this.data.asset.mandatoryKeys,
-				...this.data.asset.optionalKeys,
-			]
+			return [...this.data.asset.mandatoryKeys, ...this.data.asset.optionalKeys];
 		}
 
 		return this.data.asset.multisignature?.keysgroup;
