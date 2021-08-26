@@ -97,9 +97,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 				let initialAddressIndex = 0;
 
 				if (options?.startPath) {
-					/*
-					 * Get the address index from expected format `m/purpose'/coinType'/account'/change/addressIndex`
-					 */
+					// Get the address index from expected format `m/purpose'/coinType'/account'/change/addressIndex`
 					initialAddressIndex = BIP44.parse(options.startPath).addressIndex + 1;
 				}
 
@@ -145,10 +143,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async isNanoS(): Promise<boolean> {
-		return this.#ledger.deviceModel.id === "nanoS";
+		return this.#ledger.deviceModel?.id === "nanoS";
 	}
 
 	public override async isNanoX(): Promise<boolean> {
-		return this.#ledger.deviceModel.id === "nanoX";
+		return this.#ledger.deviceModel?.id === "nanoX";
 	}
 }

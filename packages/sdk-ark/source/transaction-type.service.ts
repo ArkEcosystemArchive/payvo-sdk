@@ -24,7 +24,7 @@ export class TransactionTypeService {
 			return false;
 		}
 
-		return ((data.asset || {}).votes as string[]).some((vote) => vote.startsWith("+"));
+		return (data.asset?.votes || []).some((vote) => vote.startsWith("+"));
 	}
 
 	public static isUnvote(data: TransactionData): boolean {
@@ -34,7 +34,7 @@ export class TransactionTypeService {
 			return false;
 		}
 
-		return ((data.asset || {}).votes as string[]).some((vote) => vote.startsWith("-"));
+		return (data.asset?.votes || []).some((vote) => vote.startsWith("-"));
 	}
 
 	public static isMultiSignatureRegistration(data: TransactionData): boolean {

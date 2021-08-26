@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`scan should return scanned wallet 1`] = `
+exports[`scan should scan for legacy wallets 1`] = `
 Object {
   "m/44'/1'/0'/0/0": WalletData {
     "bigNumberService": BigNumberService {
@@ -26,7 +26,7 @@ Object {
 }
 `;
 
-exports[`scan should return scanned wallet 2`] = `
+exports[`scan should scan for legacy wallets 2`] = `
 Object {
   "address": "D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK",
   "balance": Object {
@@ -46,7 +46,7 @@ Object {
 }
 `;
 
-exports[`scan should return scanned wallet 3`] = `
+exports[`scan should scan for legacy wallets 3`] = `
 Object {
   "address": "DFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ",
   "balance": Object {
@@ -60,6 +60,41 @@ Object {
   "isSecondSignature": false,
   "nonce": BigNumber {},
   "publicKey": "0348a63f3d9c0050575cbfe70de1722fd73ba205a9d2f7150d0725b99abb331892",
+  "rank": undefined,
+  "username": undefined,
+  "votes": undefined,
+}
+`;
+
+exports[`scan should scan for new wallets 1`] = `
+Object {
+  "m/44'/1'/0'/0/1": WalletData {
+    "bigNumberService": BigNumberService {
+      "configRepository": ConfigRepository {},
+    },
+    "data": Object {
+      "address": "D9Bv15zRZotbzqfpTMHK6t1ic4YrgRJg3u",
+      "balance": 0,
+      "publicKey": "03a13ffb326ebef9a8303db65c53582143d7a0f75afe1b75455d4bd880c50c3b54",
+    },
+  },
+}
+`;
+
+exports[`scan should scan for new wallets 2`] = `
+Object {
+  "address": "D9Bv15zRZotbzqfpTMHK6t1ic4YrgRJg3u",
+  "balance": Object {
+    "available": BigNumber {},
+    "fees": BigNumber {},
+    "total": BigNumber {},
+  },
+  "isDelegate": false,
+  "isMultiSignature": false,
+  "isResignedDelegate": false,
+  "isSecondSignature": false,
+  "nonce": BigNumber {},
+  "publicKey": "03a13ffb326ebef9a8303db65c53582143d7a0f75afe1b75455d4bd880c50c3b54",
   "rank": undefined,
   "username": undefined,
   "votes": undefined,

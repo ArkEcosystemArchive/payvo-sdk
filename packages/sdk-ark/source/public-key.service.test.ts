@@ -45,4 +45,14 @@ describe("PublicKey", () => {
 	it("should fail to generate an output from a wif", async () => {
 		await expect(subject.fromWIF(undefined!)).rejects.toThrow(Exceptions.CryptoException);
 	});
+
+	it("should generate an output from a secret", async () => {
+		const result = await subject.fromSecret("abc");
+
+		expect(result).toEqual({ publicKey: "0223542d61708e3fc48ba78fbe8fcc983ba94a520bc33f82b8e45e51dbc47af272" });
+	});
+
+	it("should fail to generate an output from a secret", async () => {
+		await expect(subject.fromSecret(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+	});
 });
