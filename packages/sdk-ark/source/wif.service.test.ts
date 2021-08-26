@@ -32,4 +32,14 @@ describe("WIF", () => {
 	it("should fail to generate an output from an invalid private key", async () => {
 		await expect(subject.fromPrivateKey(undefined!)).rejects.toThrow(Exceptions.CryptoException);
 	});
+
+	it("should generate an output from a secret", async () => {
+		const result = await subject.fromSecret("abc");
+
+		expect(result).toEqual({ wif: "SFpfYkttf168Ssa96XG5RjzpPCuMo3S2GDJuZorV9auX3cTQJdqW" });
+	});
+
+	it("should fail to generate an output from an invalid secret", async () => {
+		await expect(subject.fromSecret(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+	});
 });

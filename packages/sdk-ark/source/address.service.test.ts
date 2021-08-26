@@ -40,6 +40,12 @@ describe("Address", () => {
 		expect(result).toEqual({ type: "bip39", address: identity.address });
 	});
 
+	it("should generate an output from a secret", async () => {
+		const result = await subject.fromSecret("abc");
+
+		expect(result).toEqual({ type: "bip39", address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN" });
+	});
+
 	it("should generate an output from a wif", async () => {
 		const result = await subject.fromWIF(identity.wif);
 
@@ -56,7 +62,7 @@ describe("Address", () => {
 		await expect(subject.validate({} as unknown as string)).resolves.toBeFalse();
 	});
 
-	test.each(["fromMnemonic", "fromMultiSignature", "fromPublicKey", "fromPrivateKey", "fromWIF"])(
+	test.each(["fromMnemonic", "fromMultiSignature", "fromPublicKey", "fromPrivateKey", "fromSecret", "fromWIF"])(
 		"%s() should fail to generate an output from an invalid input",
 		async (method) => {
 			await expect(subject[method](undefined!)).rejects.toThrow(Exceptions.CryptoException);

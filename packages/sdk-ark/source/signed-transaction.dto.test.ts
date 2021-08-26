@@ -42,6 +42,35 @@ describe("SignedTransactionData", () => {
 		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
 	});
 
+	test("#amount for MultiPayment", () => {
+		subject.configure(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+			{
+				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+				type: 6,
+				fee: "0",
+				asset: {
+					payments: [
+						{
+							recipientId: "",
+							amount: "12500000000000000",
+						},
+						{
+							recipientId: "",
+							amount: "12500000000000000",
+						},
+					],
+				},
+				timestamp: "1970-01-01T00:00:00.000Z",
+				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
+			},
+			"",
+		);
+
+		expect(subject.amount()).toEqual(BigNumber.make("25000000000000000"));
+	});
+
 	test("#fee", () => {
 		expect(subject.fee()).toEqual(BigNumber.ZERO);
 	});
@@ -56,11 +85,63 @@ describe("SignedTransactionData", () => {
 		expect(subject.timestamp()).toBeInstanceOf(DateTime);
 	});
 
+	test("#isTransfer", () => {
+		expect(subject.isTransfer()).toBeBoolean();
+	});
+
+	test("#isSecondSignature", () => {
+		expect(subject.isSecondSignature()).toBeBoolean();
+	});
+
+	test("#isDelegateRegistration", () => {
+		expect(subject.isDelegateRegistration()).toBeBoolean();
+	});
+
+	test("#isVoteCombination", () => {
+		expect(subject.isVoteCombination()).toBeBoolean();
+	});
+
+	test("#isVote", () => {
+		expect(subject.isVote()).toBeBoolean();
+	});
+
+	test("#isUnvote", () => {
+		expect(subject.isUnvote()).toBeBoolean();
+	});
+
 	test("#isMultiSignatureRegistration", () => {
-		expect(subject.isMultiSignatureRegistration()).toBeFalse();
+		expect(subject.isMultiSignatureRegistration()).toBeBoolean();
+	});
+
+	test("#isIpfs", () => {
+		expect(subject.isIpfs()).toBeBoolean();
+	});
+
+	test("#isMultiPayment", () => {
+		expect(subject.isMultiPayment()).toBeBoolean();
+	});
+
+	test("#isDelegateResignation", () => {
+		expect(subject.isDelegateResignation()).toBeBoolean();
+	});
+
+	test("#isHtlcLock", () => {
+		expect(subject.isHtlcLock()).toBeBoolean();
+	});
+
+	test("#isHtlcClaim", () => {
+		expect(subject.isHtlcClaim()).toBeBoolean();
+	});
+
+	test("#isHtlcRefund", () => {
+		expect(subject.isHtlcRefund()).toBeBoolean();
+	});
+
+	test("#isMagistrate", () => {
+		expect(subject.isMagistrate()).toBeBoolean();
 	});
 
 	test("#usesMultiSignature", () => {
-		expect(subject.usesMultiSignature()).toBeFalse();
+		expect(subject.usesMultiSignature()).toBeBoolean();
 	});
 });

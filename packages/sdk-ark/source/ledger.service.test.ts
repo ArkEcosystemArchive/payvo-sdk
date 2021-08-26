@@ -12,7 +12,7 @@ import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record: string): Promise<LedgerService> => {
 	const transport = createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -84,7 +84,7 @@ describe("scan", () => {
 
 	beforeAll(() => nock.disableNetConnect());
 
-	it("should return scanned wallet", async () => {
+	it("should scan for legacy wallets", async () => {
 		nock(/.+/)
 			.get(
 				"/api/wallets?address=D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK%2CDFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ%2CDFr1CR81idSmfgQ19KXe4M6keqUEAuU8kF%2CDTYiNbvTKveMtJC8KPPdBrgRWxfPxGp1WV%2CDJyGFrZv4MYKrTMcjzEyhZzdTAJju2Rcjr",
@@ -110,7 +110,47 @@ describe("scan", () => {
 
 			expect(wallet.toObject()).toMatchSnapshot();
 		}
-
-		await expect(ark.scan({ useLegacy: false })).rejects.toThrow(); // TODO: update test once it works
 	});
+
+	it("should scan for new wallets", async () => {
+		nock(/.+/)
+			.get("/api/wallets")
+			.query(true)
+			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-0.json`))
+			.get("/api/wallets")
+			.query(true)
+			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-1.json`));
+
+		const ark = await createMockService(ledger.wallets.record);
+
+		jest.spyOn(ark, "getExtendedPublicKey").mockResolvedValue(
+			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+		);
+
+		const walletData = await ark.scan({ useLegacy: false, startPath: "m/44'/0'/0'/0/0" });
+		expect(Object.keys(walletData)).toHaveLength(1);
+		expect(walletData).toMatchSnapshot();
+
+		for (const wallet of Object.values(walletData) as any) {
+			const publicKey: string | undefined = wallet.publicKey();
+
+			if (publicKey) {
+				expect(Address.fromPublicKey(publicKey, { pubKeyHash: 30 })).toBe(wallet.address());
+			}
+
+			expect(wallet.toObject()).toMatchSnapshot();
+		}
+	});
+});
+
+test("#isNanoS", async () => {
+	const subject = await createMockService(ledger.message.schnorr.record);
+
+	await expect(subject.isNanoS()).resolves.toBeBoolean();
+});
+
+test("#isNanoX", async () => {
+	const subject = await createMockService(ledger.message.schnorr.record);
+
+	await expect(subject.isNanoX()).resolves.toBeBoolean();
 });

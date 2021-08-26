@@ -36,13 +36,9 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	#normalize(keyPair: bitcoin.ECPair.ECPairInterface): Services.KeyPairDataTransferObject {
-		try {
-			return {
-				publicKey: keyPair.publicKey.toString("hex"),
-				privateKey: keyPair.privateKey!.toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error);
-		}
+		return {
+			publicKey: keyPair.publicKey.toString("hex"),
+			privateKey: keyPair.privateKey!.toString("hex"),
+		};
 	}
 }
