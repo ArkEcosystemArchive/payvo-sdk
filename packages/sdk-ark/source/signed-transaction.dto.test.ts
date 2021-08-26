@@ -50,13 +50,16 @@ describe("SignedTransactionData", () => {
 				type: 6,
 				fee: "0",
 				asset: {
-					payments: [{
-						recipientId: "",
-						amount: "12500000000000000",
-					}, {
-						recipientId: "",
-						amount: "12500000000000000",
-					}]
+					payments: [
+						{
+							recipientId: "",
+							amount: "12500000000000000",
+						},
+						{
+							recipientId: "",
+							amount: "12500000000000000",
+						},
+					],
 				},
 				timestamp: "1970-01-01T00:00:00.000Z",
 				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",

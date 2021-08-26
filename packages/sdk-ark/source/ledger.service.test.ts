@@ -123,7 +123,9 @@ describe("scan", () => {
 
 		const ark = await createMockService(ledger.walletsCorrect.record);
 
-		jest.spyOn(ark, "getExtendedPublicKey").mockResolvedValue("030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+		jest.spyOn(ark, "getExtendedPublicKey").mockResolvedValue(
+			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+		);
 
 		const walletData = await ark.scan({ useLegacy: false, startPath: "m/44'/0'/0'/0/0" });
 		expect(Object.keys(walletData)).toHaveLength(1);

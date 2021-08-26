@@ -19,18 +19,18 @@ describe("TransactionTypeService", () => {
 	});
 
 	test("#isVoteCombination", () => {
-		expect(TransactionTypeService.isVoteCombination({ type: 3, asset: { votes: ['+a', "-a"] } })).toBeTrue();
+		expect(TransactionTypeService.isVoteCombination({ type: 3, asset: { votes: ["+a", "-a"] } })).toBeTrue();
 		expect(TransactionTypeService.isVoteCombination({ type: 0 })).toBeFalse();
 	});
 
 	test("#isVote", () => {
-		expect(TransactionTypeService.isVote({ type: 3, asset: { votes: ['+a'] } })).toBeTrue();
+		expect(TransactionTypeService.isVote({ type: 3, asset: { votes: ["+a"] } })).toBeTrue();
 		expect(TransactionTypeService.isVote({ type: 3 })).toBeFalse();
 		expect(TransactionTypeService.isVote({ type: 0 })).toBeFalse();
 	});
 
 	test("#isUnvote", () => {
-		expect(TransactionTypeService.isUnvote({ type: 3, asset: { votes: ['-a'] } })).toBeTrue();
+		expect(TransactionTypeService.isUnvote({ type: 3, asset: { votes: ["-a"] } })).toBeTrue();
 		expect(TransactionTypeService.isUnvote({ type: 3 })).toBeFalse();
 		expect(TransactionTypeService.isUnvote({ type: 0 })).toBeFalse();
 	});
