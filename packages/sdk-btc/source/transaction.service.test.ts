@@ -55,8 +55,8 @@ describe("Transfer", () => {
 		);
 		const result = await subject.transfer({
 			data: {
-				amount: 1000,
-				to: "",
+				amount: 0.001,
+				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 			},
 			signatory,
 		});
