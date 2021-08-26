@@ -121,7 +121,7 @@ describe("scan", () => {
 			.query(true)
 			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-1.json`));
 
-		const ark = await createMockService(ledger.walletsCorrect.record);
+		const ark = await createMockService(ledger.wallets.record);
 
 		jest.spyOn(ark, "getExtendedPublicKey").mockResolvedValue(
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
