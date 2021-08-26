@@ -18,14 +18,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 				throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 			}
 
+			if (input.signatory.actsWithMnemonic()) {
+				console.log(input.signatory.signingKey());
+			}
+
 			// NOTE: this is a WIF/PrivateKey - should probably be passed in as wif instead of mnemonic
 
 			// 1. Derive the sender address
-			const { address } = await this.addressService.fromWIF(input.signatory.signingKey());
-			// ({ wif: input.signatory.signingKey() });
+			const { address, type, path } = await this.addressService.fromMnemonic(input.signatory.signingKey(), input.signatory.options());
+			console.log(type, address, path);
 
 			// 2. Aggregate the unspent transactions
 			const unspent: UnspentTransaction[] = await this.#unspent.aggregate(address);
+			console.log("unspent", unspent);
 
 			// 3. Compute the amount to be transfered
 			const amount = this.toSatoshi(input.data.amount).toNumber();

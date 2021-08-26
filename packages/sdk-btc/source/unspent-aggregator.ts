@@ -12,15 +12,13 @@ export class UnspentAggregator {
 		this.#peer = peer;
 	}
 
-	public async aggregate(address: string, amount: BigNumber): Promise<UnspentTransaction[]> {
-		const response = (await this.#http.get(`${this.#peer}/wallets/${address}/transactions/unspent`)).json();
+	public async aggregate(address: string): Promise<UnspentTransaction[]> {
+		const response = (
+			await this.#http.post(`${this.#peer}/wallets/transactions/unspent`, {
+				addresses: [address],
+			})
+		).json();
 
-		return response.map((transaction) => ({
-			address: transaction.address,
-			txId: transaction.mintTxid,
-			outputIndex: transaction.mintIndex,
-			script: transaction.script,
-			satoshis: transaction.value,
-		}));
+		return response.data;
 	}
 }
