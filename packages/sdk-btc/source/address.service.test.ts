@@ -1,4 +1,5 @@
 import "jest-extended";
+import { Exceptions } from "@payvo/sdk";
 
 import { IoC } from "@payvo/sdk";
 
@@ -45,7 +46,7 @@ describe("Address", () => {
 	});
 
 	describe("#fromPublicKey", () => {
-		it("should import an address via WIF", async () => {
+		it("should import an address (via P2PKH)", async () => {
 			const result = await subject.fromPublicKey(
 				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
 				{ bip44: { account: 0 } },
@@ -53,6 +54,14 @@ describe("Address", () => {
 
 			expect(result.type).toBe("bip44");
 			expect(result.address).toBe("1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH");
+		});
+
+		it("should fail to generate address if ext pub key is not depth 3", async () => {
+			await expect(
+				subject.fromPublicKey(
+					"xpub6ENuDU6ouVBjsS46mpqzNzaJXs5iuNnhgKb9LWCgCwtK74fnATHwVJvsYYbH7bFUzZSh9PGA4Q9G5465WxHHRNys1hejSwbDZaw9ro5vDtD",
+				),
+			).rejects.toThrowError(Exceptions.CryptoException);
 		});
 
 		it("should generate a SegWit address (via P2SH)", async () => {
@@ -65,7 +74,7 @@ describe("Address", () => {
 			expect(result.address).toBe("3JvL6Ymt8MVWiCNHC7oWU6nLeHNJKLZGLN");
 		});
 
-		it("should generate a SegWit address", async () => {
+		it("should generate a native SegWit address (via P2WPKH)", async () => {
 			const result = await subject.fromPublicKey(
 				"0279be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798",
 				{ bip84: { account: 0 } },
@@ -75,7 +84,30 @@ describe("Address", () => {
 			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
 		});
 
-		it("should generate a SegWit address from an extended public key for livenet", async () => {
+		it("should generate an address from an extended public key for livenet", async () => {
+			const result = await subject.fromPublicKey(
+				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
+				{ bip44: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip44");
+			expect(result.address).toBe("12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
+		});
+
+		it("should generate a Native SegWit address from an extended public key for tesnet", async () => {
+			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+			});
+			const result = await subject.fromPublicKey(
+				"tpubDDVP3DS6MLMUwxsGKzPLjcwY38BmKpZT3USFmjWycwi441G3Mi6j7FhiHLpv2TzQLaAQ1iAun9Q1inpWB37pWEWPc5sZZNfLKoeRtR1ZANL",
+				{ bip84: { account: 0 } },
+			);
+
+			expect(result.type).toBe("bip84");
+			expect(result.address).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		});
+
+		it("should generate a Native SegWit address from an extended public key for livenet", async () => {
 			const result = await subject.fromPublicKey(
 				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
 				{ bip84: { account: 0 } },
@@ -85,7 +117,7 @@ describe("Address", () => {
 			expect(result.address).toBe("bc1qpeeu3vjrm9dn2y42sl926374y5cvdhfn5k7kxm");
 		});
 
-		it("should generate a SegWit address from an extended public key for testnet", async () => {
+		it("should generate a Native SegWit address from an extended public key for testnet", async () => {
 			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
 				container.singleton(BindingType.AddressFactory, AddressFactory);
 			});
