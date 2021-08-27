@@ -12,6 +12,7 @@ import { AddressFactory } from "./address.factory";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { DataTransferObjects } from "./coin.dtos";
+import { UnspentAggregator } from "./unspent-aggregator";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -27,6 +28,7 @@ beforeEach(async () => {
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.UnspentAggregator, UnspentAggregator);
 	});
 	nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 		.post("/api/wallets/transactions/unspent", { addresses: ["mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6"] })

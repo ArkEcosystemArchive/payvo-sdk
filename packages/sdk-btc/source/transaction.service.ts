@@ -9,8 +9,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;
 
-	// @TODO: bind via service provider and inject
-	#unspent;
+	@IoC.inject(BindingType.UnspentAggregator)
+	private readonly unspent!: UnspentAggregator;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		try {
