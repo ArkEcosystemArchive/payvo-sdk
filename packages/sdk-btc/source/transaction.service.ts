@@ -43,7 +43,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const unspent: UnspentTransaction[] = await this.#figureOutUtxos({
 				type: "extendedPublicKey",
 				value: xpub,
-				method: "bip44",
+				method: "bip44", // @TODO Get this based on the input.signatory.options() passed in
 			});
 			console.log("unspent", unspent);
 
