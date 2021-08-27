@@ -28,7 +28,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				console.log(input.signatory.signingKey());
 			}
 
-			// 1. Derive the sender address
+			// 1. Derive the sender address (corresponding to first address index for the wallet)
 			const { address, type, path } = await this.addressService.fromMnemonic(input.signatory.signingKey(), input.signatory.options());
 			console.log(type, address, path);
 
@@ -45,19 +45,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// 4. Build and sign the transaction
-			const alice = bitcoin.ECPair.fromWIF("L2uPYXe17xSTqbCjZvL2DsyXPCbXspvcu5mHLDYUgzdUbZGSKrSr");
 			const psbt = new bitcoin.Psbt({ network: getNetworkConfig(this.configRepository) });
-			psbt.setVersion(2); // These are defaults. This line is not needed.
-			psbt.setLocktime(0); // These are defaults. This line is not needed.
-			psbt.addInput({
-				// if hash is string, txid, if hash is Buffer, is reversed compared to txid
-				hash: "7d067b4a697a09d2c3cff7d4d9506c9955e93bff41bf82d439da7d030382bc3e",
-				index: 0,
-				sequence: 0xffffffff, // These are defaults. This line is not needed.
 
-				// non-segwit inputs now require passing the whole previous tx as Buffer
-				nonWitnessUtxo: Buffer.from(
-					"0200000001f9f34e95b9d5c8abcd20fc5bd4a825d1517be62f0f775e5f36da944d9" +
+			unspent.forEach((utxo, index) => {
+				psbt.addInput({
+					hash: utxo.txId,
+					index: utxo.outputIndex,
+
+					// non-segwit inputs now require passing the whole previous tx as Buffer
+					nonWitnessUtxo: Buffer.from(
+						"0200000001f9f34e95b9d5c8abcd20fc5bd4a825d1517be62f0f775e5f36da944d9" +
 						"452e550000000006b483045022100c86e9a111afc90f64b4904bd609e9eaed80d48" +
 						"ca17c162b1aca0a788ac3526f002207bb79b60d4fc6526329bf18a77135dc566020" +
 						"9e761da46e1c2f1152ec013215801210211755115eabf846720f5cb18f248666fec" +
@@ -70,14 +67,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 						"76a9148bbc95d2709c71607c60ee3f097c1217482f518d88ac" +
 						// locktime
 						"00000000",
-					"hex",
-				),
+						"hex",
+					),
+				});
+				// @TODO Figure out correct signing key for input
+				const alice = bitcoin.ECPair.fromWIF("L2uPYXe17xSTqbCjZvL2DsyXPCbXspvcu5mHLDYUgzdUbZGSKrSr");
+				psbt.signInput(index, alice);
 			});
+
 			psbt.addOutput({
 				address: input.data.to,
 				value: amount,
 			});
-			psbt.signInput(0, alice);
 			psbt.validateSignaturesOfInput(0);
 			psbt.finalizeAllInputs();
 
@@ -90,7 +91,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					recipient: input.data.to,
 					amount: amount,
 					fee: psbt.getFee(),
-					timestamp: psbt.locktime, // TODO I don't think this is the right one
+					timestamp: new Date(), // TODO See if we have a proper timestamp inside the built transaction
 				},
 				transaction.toHex(),
 			);
@@ -101,6 +102,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #figureOutUtxos(id: WalletIdentifier): Promise<UnspentTransaction[]> {
+		// @TODO Use coinselect to determine which utxos to use rather than returning all
 		return await this.unspent.aggregate(id);
 	}
 }

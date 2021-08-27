@@ -45,7 +45,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		return response.data.map((utxo) => ({
 			address: utxo.address,
-			txId: utxo.txid,
+			txId: utxo.txId,
 			outputIndex: utxo.outputIndex,
 			script: utxo.script,
 			satoshis: utxo.satoshis,
