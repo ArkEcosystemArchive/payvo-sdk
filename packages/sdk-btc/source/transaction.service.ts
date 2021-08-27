@@ -29,8 +29,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			// 1. Derive the sender address
-			// const { address, type, path } = await this.addressService.fromMnemonic(input.signatory.signingKey(), input.signatory.options());
-			// console.log(type, address, path);
+			const { address, type, path } = await this.addressService.fromMnemonic(input.signatory.signingKey(), input.signatory.options());
+			console.log(type, address, path);
 
 			// 2. Aggregate the unspent transactions
 			const xpub = await this.extendedPublicKeyService.fromMnemonic(input.signatory.signingKey(), input.signatory.options());
@@ -74,8 +74,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				),
 			});
 			psbt.addOutput({
-				address: "1KRMKfeZcmosxALVYESdPNez1AP1mEtywp",
-				value: 80000,
+				address: input.data.to,
+				value: amount,
 			});
 			psbt.signInput(0, alice);
 			psbt.validateSignaturesOfInput(0);
@@ -86,7 +86,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			return this.dataTransferObjectService.signedTransaction(
 				transaction.getId(),
 				{
-					sender: input.signatory.publicKey(),
+					sender: address,
 					recipient: input.data.to,
 					amount: amount,
 					fee: psbt.getFee(),

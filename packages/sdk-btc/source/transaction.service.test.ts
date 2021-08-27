@@ -75,14 +75,17 @@ describe("Transfer", () => {
 		);
 		const result = await subject.transfer({
 			data: {
-				amount: 0.001,
+				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 			},
 			signatory,
 		});
 
 		console.log("result", result);
-		// expect(Transactions.TransactionFactory.fromJson(result.data()).verify()).toBeTrue();
-		expect(result.amount().toNumber()).toBe(100_000_000);
+		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(result.amount().toNumber()).toBe(10_000);
+		expect(result.fee().toNumber()).toBe(80_000);
+		expect(result.timestamp()?.toISOString()).toBe("1970-01-01T00:00:00.000Z");
 	});
 });
