@@ -93,7 +93,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			txId: utxo.txId,
 			vout: utxo.outputIndex,
 			value: utxo.satoshis,
-			nonWitnessUtxo: Buffer.from(utxo.raw, 'hex'),
+			nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 			// // OR
 			// // if your utxo is a segwit output, you can use witnessUtxo instead
 			// witnessUtxo: {
