@@ -1,5 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
+import coinSelect from "coinselect";
 
 import { UnspentTransaction } from "./contracts";
 import { UnspentAggregator } from "./unspent-aggregator";
@@ -40,54 +41,29 @@ export class TransactionService extends Services.AbstractTransactionService {
 				input.signatory.signingKey(),
 				input.signatory.options(),
 			);
-			const unspent: UnspentTransaction[] = await this.#figureOutUtxos({
-				type: "extendedPublicKey",
-				value: xpub,
-				method: "bip44", // @TODO Get this based on the input.signatory.options() passed in
-			});
-			console.log("unspent", unspent);
 
 			// 3. Compute the amount to be transfered
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
-			// 4. Build and sign the transaction
+			const targets = [
+				{
+					address: input.data.to,
+					value: amount,
+				},
+			];
+
 			const psbt = new bitcoin.Psbt({ network: getNetworkConfig(this.configRepository) });
 
-			unspent.forEach((utxo, index) => {
-				psbt.addInput({
-					hash: utxo.txId,
-					index: utxo.outputIndex,
-
-					// @TODO For non-segwit we will need a new endpoint to fetch the raw transaction for which btc-server will have to proxy to bcoin server.
-					// non-segwit inputs now require passing the whole previous tx as Buffer
-					nonWitnessUtxo: Buffer.from(
-						"0200000001f9f34e95b9d5c8abcd20fc5bd4a825d1517be62f0f775e5f36da944d9" +
-							"452e550000000006b483045022100c86e9a111afc90f64b4904bd609e9eaed80d48" +
-							"ca17c162b1aca0a788ac3526f002207bb79b60d4fc6526329bf18a77135dc566020" +
-							"9e761da46e1c2f1152ec013215801210211755115eabf846720f5cb18f248666fec" +
-							"631e5e1e66009ce3710ceea5b1ad13ffffffff01" +
-							// value in satoshis (Int64LE) = 0x015f90 = 90000
-							"905f010000000000" +
-							// scriptPubkey length
-							"19" +
-							// scriptPubkey
-							"76a9148bbc95d2709c71607c60ee3f097c1217482f518d88ac" +
-							// locktime
-							"00000000",
-						"hex",
-					),
-				});
-				// @TODO Figure out correct signing key for input
-				const alice = bitcoin.ECPair.fromWIF("L2uPYXe17xSTqbCjZvL2DsyXPCbXspvcu5mHLDYUgzdUbZGSKrSr");
-				psbt.signInput(index, alice);
-			});
-
-			psbt.addOutput({
-				address: input.data.to,
-				value: amount,
-			});
-			psbt.validateSignaturesOfInput(0);
-			psbt.finalizeAllInputs();
+			await this.#addUtxos(
+				psbt,
+				{
+					type: "extendedPublicKey",
+					value: xpub,
+					method: "bip44", // @TODO Get this based on the input.signatory.options() passed in
+				},
+				targets,
+				address,
+			);
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
@@ -108,8 +84,57 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #figureOutUtxos(id: WalletIdentifier): Promise<UnspentTransaction[]> {
-		// @TODO Use coinselect to determine which utxos to use rather than returning all
-		return await this.unspent.aggregate(id);
+	async #addUtxos(psbt, id: WalletIdentifier, targets, changeAddress): Promise<void> {
+		const feeRate = 55; // satoshis per byte // @TODO Need to get this from endpoint
+
+		const allUnspentTransactionOutputs = await this.unspent.aggregate(id);
+
+		let utxos = allUnspentTransactionOutputs.map((utxo) => ({
+			txId: utxo.txId,
+			vout: utxo.outputIndex,
+			value: utxo.satoshis,
+			nonWitnessUtxo: Buffer.from(utxo.raw, 'hex'),
+			// // OR
+			// // if your utxo is a segwit output, you can use witnessUtxo instead
+			// witnessUtxo: {
+			// 	script: Buffer.from('... scriptPubkey hex...', 'hex'),
+			// 	value: 10000 // 0.0001 BTC and is the exact same as the value above
+			// }
+		}));
+
+		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
+		console.log("inputs", inputs);
+		console.log("outputs", outputs);
+		console.log("fee", fee);
+
+		if (!inputs || !outputs) {
+			throw new Error("Cannot determine utxos for this transaction");
+		}
+
+		inputs.forEach((input) =>
+			psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				nonWitnessUtxo: input.nonWitnessUtxo,
+				// // OR (not both)
+				// witnessUtxo: input.witnessUtxo,
+			}),
+		);
+		outputs.forEach((output) => {
+			// watch out, outputs may have been added that you need to provide
+			// an output address/script for
+			if (!output.address) {
+				output.address = changeAddress; // @TODO Derive and use fresh change addresses wallet.getChangeAddress()
+				// wallet.nextChangeAddress()
+			}
+
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			});
+		});
+
+		psbt.validateSignaturesOfAllInputs();
+		psbt.finalizeAllInputs();
 	}
 }

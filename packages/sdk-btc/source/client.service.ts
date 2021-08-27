@@ -41,9 +41,16 @@ export class ClientService extends Services.AbstractClientService {
 	public async unspentTransactionOutputs(id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
 		const addresses = await this.getAddresses(id);
 
-		const response = await this.#post(`wallets/transactions/unspent`, { addresses });
+		const utxos = (await this.#post(`wallets/transactions/unspent`, { addresses })).data;
 
-		return response.data;
+		const rawTxs = (
+			await this.#post(`wallets/transactions/raw`, { transaction_ids: utxos.map((utxo) => utxo.txId) })
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
 	}
 
 	private async getAddresses(id: Services.WalletIdentifier): Promise<string[]> {
