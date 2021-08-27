@@ -52,6 +52,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					hash: utxo.txId,
 					index: utxo.outputIndex,
 
+					// @TODO For non-segwit we will need a new endpoint to fetch the raw transaction for which btc-server will have to proxy to bcoin server.
 					// non-segwit inputs now require passing the whole previous tx as Buffer
 					nonWitnessUtxo: Buffer.from(
 						"0200000001f9f34e95b9d5c8abcd20fc5bd4a825d1517be62f0f775e5f36da944d9" +
