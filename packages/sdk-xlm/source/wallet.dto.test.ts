@@ -4,18 +4,15 @@ import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
+
+let subject;
+
+beforeAll(async () => {
+	subject = (await createService(WalletData)).fill(Fixture);
+});
 
 describe("WalletData", () => {
-	const subject = createService(WalletData).fill(Fixture);
-	const implementedMethods = {
-		address: "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB",
-		balance: BigNumber.make("17491629"),
-		publicKey: "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB",
-		entities: [],
-		nonce: BigNumber.make(24242),
-	};
-
 	it("#address", () => {
 		expect(subject.address()).toEqual("GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
 	});

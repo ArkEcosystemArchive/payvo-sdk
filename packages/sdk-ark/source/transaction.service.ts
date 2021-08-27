@@ -369,7 +369,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

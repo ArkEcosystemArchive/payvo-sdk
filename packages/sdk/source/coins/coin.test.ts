@@ -10,6 +10,7 @@ import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
+import { require } from "../../test/mocking";
 
 let subject: Coin;
 
@@ -18,13 +19,13 @@ beforeEach(async () => {
 
 	nock(/.+/)
 		.get("/api/blockchain")
-		.reply(200, require("../../test/testnet/blockchain.json"))
+		.reply(200, await require("../test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, require("../../test/testnet/configuration.json"))
+		.reply(200, await require("../test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../../test/testnet/configuration-crypto.json"))
+		.reply(200, await require("../test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../../test/testnet/syncing.json"))
+		.reply(200, await require("../test/testnet/syncing.json"))
 		.persist();
 
 	subject = CoinFactory.make(ARK, {

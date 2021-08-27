@@ -3,7 +3,7 @@ import "jest-extended";
 import { BigNumber } from "@payvo/helpers";
 
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 
 let subject: WalletData;
 
@@ -79,8 +79,8 @@ describe("WalletData", () => {
 	};
 
 	describe.each(["mainnet", "devnet"])("%s", (network) => {
-		beforeEach(() => {
-			subject = createService(WalletData).fill(WalletDataFixture[network]);
+		beforeEach(async () => {
+			subject = (await createService(WalletData)).fill(WalletDataFixture[network]);
 		});
 
 		test("#primaryKey", () => {
@@ -119,10 +119,10 @@ describe("WalletData", () => {
 			expect(subject.votes()).toEqual(network === "devnet" ? BigNumber.make(0) : undefined);
 		});
 
-		test("#isDelegate", () => {
+		test("#isDelegate", async () => {
 			expect(subject.isDelegate()).toBeTrue();
 
-			subject = createService(WalletData).fill({ ...WalletDataFixture.mainnet, isResigned: true });
+			subject = (await createService(WalletData)).fill({ ...WalletDataFixture.mainnet, isResigned: true });
 			expect(subject.isDelegate()).toBeFalse();
 		});
 
@@ -143,9 +143,9 @@ describe("WalletData", () => {
 		});
 	});
 
-	test("#multiSignature", () => {
-		const devnetSubject = createService(WalletData).fill(WalletDataFixture.devnet);
-		const mainnetSubject = createService(WalletData).fill(WalletDataFixture.mainnet);
+	test("#multiSignature", async () => {
+		const devnetSubject = (await createService(WalletData)).fill(WalletDataFixture.devnet);
+		const mainnetSubject = (await createService(WalletData)).fill(WalletDataFixture.mainnet);
 
 		expect(() => mainnetSubject.multiSignature()).toThrow(/does not have/);
 		expect(devnetSubject.multiSignature()).toEqual(WalletDataFixture.devnet.attributes.multiSignature);

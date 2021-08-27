@@ -1,5 +1,7 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
+
 import { ConfigRepository } from "./coins";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers";
 

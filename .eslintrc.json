@@ -40,7 +40,7 @@
 		"import/default": "error",
 		"import/export": "warn",
 		"import/exports-last": "warn",
-		"import/extensions": "error",
+		"import/extensions": "warn",
 		"import/first": "error",
 		"import/group-exports": "off",
 		"import/namespace": "error",

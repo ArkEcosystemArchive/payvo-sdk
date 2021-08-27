@@ -1,9 +1,10 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
 import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
@@ -15,10 +16,10 @@ import { DateTime } from "@payvo/intl";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, "lsk.testnet", (container) => {
+	subject = await createService(ClientService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -32,7 +33,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/transactions")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
+				.reply(200, await require(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
@@ -77,7 +78,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/transactions")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+				.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
 				identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
@@ -120,7 +121,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
+				.reply(200, await require(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -152,7 +153,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
+				.reply(200, await require(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
 				identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
@@ -182,7 +183,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/delegate.json`));
+				.reply(200, await require(`../test/fixtures/client/delegate.json`));
 
 			const result = await subject.delegate("punkrock");
 
@@ -211,7 +212,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/accounts")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/delegates.json`));
+				.reply(200, await require(`../test/fixtures/client/delegates.json`));
 
 			const result = await subject.delegates();
 			const wallet = result.items()[0];
@@ -241,7 +242,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/v2/votes_sent")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/votes.json`));
+				.reply(200, await require(`../test/fixtures/client/votes.json`));
 
 			const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
@@ -367,7 +368,7 @@ describe("ClientService", () => {
 	describe("#broadcast", () => {
 		let transactionPayload;
 
-		beforeEach(() => {
+		beforeEach(async () => {
 			const transactionSigned = {
 				moduleID: 2,
 				assetID: 0,
@@ -391,7 +392,7 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock(/.+/)
 				.post("/api/v2/transactions")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast.json`));
+				.reply(200, await require(`../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 
@@ -405,7 +406,7 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock(/.+/)
 				.post("/api/v2/transactions")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast-failure.json`));
+				.reply(200, await require(`../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 

@@ -10,7 +10,7 @@ import { PrivateKeyService } from "./private-key.service";
 let subject: PrivateKeyService;
 
 beforeEach(async () => {
-	subject = createService(PrivateKeyService, undefined, (container: IoC.Container) => {
+	subject = await createService(PrivateKeyService, undefined, (container: IoC.Container) => {
 		container.constant(BindingType.Wallet, mockWallet());
 	});
 });

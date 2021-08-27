@@ -10,7 +10,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		try {
 			return { privateKey: deriveKey(mnemonic).privateKey.toString("hex") };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

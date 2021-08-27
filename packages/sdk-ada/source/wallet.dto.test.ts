@@ -1,12 +1,16 @@
 import "jest-extended";
 
 import Fixture from "../test/fixtures/client/wallet.json";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
 
-describe("WalletData", () => {
-	const subject = createService(WalletData).fill(Fixture);
+let subject;
 
+beforeAll(async () => {
+	subject = (await createService(WalletData)).fill(Fixture);
+});
+
+describe("WalletData", () => {
 	it("#address", () => {
 		expect(subject.address()).toEqual("98c83431e94407bc0889e09953461fe5cecfdf18");
 	});

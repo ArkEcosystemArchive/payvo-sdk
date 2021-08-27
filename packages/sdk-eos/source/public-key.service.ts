@@ -11,7 +11,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		try {
 			return { publicKey: privateToPublic(mnemonic) };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

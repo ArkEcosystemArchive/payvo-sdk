@@ -3,15 +3,15 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import { result as fixture } from "../test/fixtures/client/transaction.json";
-import { createService } from "../test/mocking";
+import fixture from "../test/fixtures/client/transaction.json";
+import { createService, require } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(() => {
-	subject = createService(ConfirmedTransactionData);
-	subject.configure(fixture);
+beforeEach(async () => {
+	subject = await createService(ConfirmedTransactionData);
+	subject.configure(fixture.result);
 });
 
 describe("ConfirmedTransactionData", () => {

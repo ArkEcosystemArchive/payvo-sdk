@@ -19,7 +19,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 			}
 		}
 
-		this.#transport = new Bitcoin(this.#ledger);
+		// @ts-ignore
+		this.#transport = new Bitcoin.default(this.#ledger);
 	}
 
 	public override async disconnect(): Promise<void> {

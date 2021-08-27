@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 
 let subject: ExtendedPublicKeyService;
@@ -18,7 +18,7 @@ describe("ExtendedPublicKeyService", () => {
 				"tpubDDQk4rFQdee83hndqmtK8dRHEtLP5W4fBWtUojpnzmnjxqpaVfiYDFyNYpp9vRBhMCsMYBKv6bt3PTmcQC7j6QFg7JbWDRjir8sTFs7iMst",
 			],
 		])("should derive with BIP44", async (network, outcome) => {
-			subject = createService(ExtendedPublicKeyService, network);
+			subject = await createService(ExtendedPublicKeyService, network);
 
 			await expect(subject.fromMnemonic(identity.mnemonic, { bip44: { account: 0 } })).resolves.toBe(outcome);
 		});
@@ -33,7 +33,7 @@ describe("ExtendedPublicKeyService", () => {
 				"tpubDCAE2fa7YNAF2x2CpTEPRQmabzG7jNMks69zsPC6vLSqECRtb6tUmgivduD1XSXvuKZ794J9GjbEuDdLjGhEKmWfwGX45YuoMwhAXb8dpGw",
 			],
 		])("should derive with BIP49", async (network, outcome) => {
-			subject = createService(ExtendedPublicKeyService, network);
+			subject = await createService(ExtendedPublicKeyService, network);
 
 			await expect(subject.fromMnemonic(identity.mnemonic, { bip49: { account: 0 } })).resolves.toBe(outcome);
 		});
@@ -48,7 +48,7 @@ describe("ExtendedPublicKeyService", () => {
 				"tpubDC9zgMaiUXPoSRkpk8gvDuzwHobq6GUw5D1nzWdeBWrEXYZUxaQGDLwtXvVFsmvdNUVernGA2JWFbJsj4se5Vemx8WK6w9bzmxj4K36ivox",
 			],
 		])("should derive with BIP84", async (network, outcome) => {
-			subject = createService(ExtendedPublicKeyService, network);
+			subject = await createService(ExtendedPublicKeyService, network);
 
 			await expect(subject.fromMnemonic(identity.mnemonic, { bip84: { account: 0 } })).resolves.toBe(outcome);
 		});

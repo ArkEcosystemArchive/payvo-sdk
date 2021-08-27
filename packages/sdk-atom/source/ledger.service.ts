@@ -18,7 +18,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 			}
 		}
 
-		this.#transport = new Cosmos(this.#ledger);
+		this.#transport = new Cosmos.default(this.#ledger);
 	}
 
 	public override async disconnect(): Promise<void> {

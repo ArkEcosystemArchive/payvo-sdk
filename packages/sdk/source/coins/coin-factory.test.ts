@@ -7,6 +7,7 @@ import nock from "nock";
 import { ARK } from "../../../sdk-ark/source";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
+import { require } from "../../test/mocking";
 
 const options = { network: "ark.mainnet", httpClient: new Request() };
 
@@ -15,24 +16,24 @@ beforeAll(async () => {
 
 	nock("https://ark-live.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, require("../../test/livenet/blockchain.json"))
+		.reply(200, await require("../test/livenet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, require("../../test/livenet/configuration.json"))
+		.reply(200, await require("../test/livenet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../../test/livenet/configuration-crypto.json"))
+		.reply(200, await require("../test/livenet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../../test/livenet/syncing.json"))
+		.reply(200, await require("../test/livenet/syncing.json"))
 		.persist();
 
 	nock("https://ark-test.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, require("../../test/testnet/blockchain.json"))
+		.reply(200, await require("../test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, require("../../test/testnet/configuration.json"))
+		.reply(200, await require("../test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../../test/testnet/configuration-crypto.json"))
+		.reply(200, await require("../test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../../test/testnet/syncing.json"))
+		.reply(200, await require("../test/testnet/syncing.json"))
 		.persist();
 });
 

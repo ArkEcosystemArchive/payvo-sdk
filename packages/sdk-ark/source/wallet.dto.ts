@@ -1,6 +1,6 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
-import { get, has } from "dot-prop";
+import dotProp from "dot-prop";
 
 @IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
@@ -80,8 +80,8 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 
 	#getProperty<T>(keys: string[]): T | undefined {
 		for (const key of keys) {
-			if (has(this.data, key)) {
-				return get(this.data, key);
+			if (dotProp.has(this.data, key)) {
+				return dotProp.get(this.data, key);
 			}
 		}
 

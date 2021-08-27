@@ -19,7 +19,7 @@ export class WIFService extends Services.AbstractWIFService {
 				).WIF,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

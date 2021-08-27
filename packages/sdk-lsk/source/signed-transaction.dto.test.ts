@@ -3,7 +3,7 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;
@@ -31,8 +31,8 @@ describe("2.0", () => {
 		receivedAt: undefined,
 	};
 
-	beforeEach(() => {
-		subject = createService(SignedTransactionData);
+	beforeEach(async () => {
+		subject = await createService(SignedTransactionData);
 		subject.configure(transaction.id, transaction, transaction);
 	});
 
@@ -63,10 +63,10 @@ describe("2.0", () => {
 		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
 	});
 
-	test("#isTransfer", () => {
+	test("#isTransfer", async () => {
 		expect(subject.isTransfer()).toBeTrue();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -78,10 +78,10 @@ describe("2.0", () => {
 		expect(subject.isTransfer()).toBeFalse();
 	});
 
-	test("#isSecondSignature", () => {
+	test("#isSecondSignature", async () => {
 		expect(subject.isSecondSignature()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -93,10 +93,10 @@ describe("2.0", () => {
 		expect(subject.isSecondSignature()).toBeTrue();
 	});
 
-	test("#isDelegateRegistration", () => {
+	test("#isDelegateRegistration", async () => {
 		expect(subject.isDelegateRegistration()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -108,10 +108,10 @@ describe("2.0", () => {
 		expect(subject.isDelegateRegistration()).toBeTrue();
 	});
 
-	test("#isVoteCombination", () => {
+	test("#isVoteCombination", async () => {
 		expect(subject.isVoteCombination()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -126,10 +126,10 @@ describe("2.0", () => {
 		expect(subject.isVoteCombination()).toBeTrue();
 	});
 
-	test("#isVote", () => {
+	test("#isVote", async () => {
 		expect(subject.isVote()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -144,10 +144,10 @@ describe("2.0", () => {
 		expect(subject.isVote()).toBeTrue();
 	});
 
-	test("#isUnvote", () => {
+	test("#isUnvote", async () => {
 		expect(subject.isUnvote()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -162,10 +162,10 @@ describe("2.0", () => {
 		expect(subject.isUnvote()).toBeTrue();
 	});
 
-	test("#isMultiSignatureRegistration", () => {
+	test("#isMultiSignatureRegistration", async () => {
 		expect(subject.isMultiSignatureRegistration()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -177,8 +177,8 @@ describe("2.0", () => {
 		expect(subject.isMultiSignatureRegistration()).toBeTrue();
 	});
 
-	test("#usesMultiSignature", () => {
-		subject = createService(SignedTransactionData).configure(
+	test("#usesMultiSignature", async () => {
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -189,7 +189,7 @@ describe("2.0", () => {
 
 		expect(subject.usesMultiSignature()).toBeTrue();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -217,8 +217,8 @@ describe("3.0", () => {
 		id: "3279be353158ae19d47191605c82b6e112980c888e98e75d6185c858359428e4",
 	};
 
-	beforeEach(() => {
-		subject = createService(SignedTransactionData);
+	beforeEach(async () => {
+		subject = await createService(SignedTransactionData);
 		subject.configure(transaction.id, transaction, transaction);
 	});
 
@@ -249,10 +249,10 @@ describe("3.0", () => {
 		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Invalid Date"`);
 	});
 
-	test("#isTransfer", () => {
+	test("#isTransfer", async () => {
 		expect(subject.isTransfer()).toBeTrue();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -269,10 +269,10 @@ describe("3.0", () => {
 		expect(subject.isSecondSignature()).toBeFalse();
 	});
 
-	test("#isDelegateRegistration", () => {
+	test("#isDelegateRegistration", async () => {
 		expect(subject.isDelegateRegistration()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -288,10 +288,10 @@ describe("3.0", () => {
 		expect(subject.isDelegateRegistration()).toBeTrue();
 	});
 
-	test("#isVoteCombination", () => {
+	test("#isVoteCombination", async () => {
 		expect(subject.isVoteCombination()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -307,10 +307,10 @@ describe("3.0", () => {
 		expect(subject.isVoteCombination()).toBeTrue();
 	});
 
-	test("#isVote", () => {
+	test("#isVote", async () => {
 		expect(subject.isVote()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -326,10 +326,10 @@ describe("3.0", () => {
 		expect(subject.isVote()).toBeTrue();
 	});
 
-	test("#isUnvote", () => {
+	test("#isUnvote", async () => {
 		expect(subject.isUnvote()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -345,10 +345,10 @@ describe("3.0", () => {
 		expect(subject.isUnvote()).toBeTrue();
 	});
 
-	test("#isMultiSignatureRegistration", () => {
+	test("#isMultiSignatureRegistration", async () => {
 		expect(subject.isMultiSignatureRegistration()).toBeFalse();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,
@@ -361,10 +361,10 @@ describe("3.0", () => {
 		expect(subject.isMultiSignatureRegistration()).toBeTrue();
 	});
 
-	test("#usesMultiSignature", () => {
+	test("#usesMultiSignature", async () => {
 		expect(subject.usesMultiSignature()).toBeTrue();
 
-		subject = createService(SignedTransactionData).configure(
+		subject = await createService(SignedTransactionData).configure(
 			transaction.id,
 			{
 				...transaction,

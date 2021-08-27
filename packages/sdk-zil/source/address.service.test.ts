@@ -10,7 +10,7 @@ import { AddressService } from "./address.service";
 let subject: AddressService;
 
 beforeEach(async () => {
-	subject = createService(AddressService, undefined, (container: IoC.Container) => {
+	subject = await createService(AddressService, undefined, (container: IoC.Container) => {
 		container.constant(BindingType.Wallet, mockWallet());
 	});
 });

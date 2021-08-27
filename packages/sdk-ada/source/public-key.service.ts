@@ -13,7 +13,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: (await new KeyPairService().fromMnemonic(mnemonic, options)).publicKey,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }
