@@ -5,12 +5,12 @@ import { Request } from "@payvo/http-got";
 import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/source";
+import { require } from "../../test/mocking";
 import { Network, NetworkRepository } from "../networks";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
-import { require } from "../../test/mocking";
 
 let subject: Coin;
 

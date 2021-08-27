@@ -5,9 +5,9 @@ import { Request } from "@payvo/http-got";
 import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/source";
+import { require } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
-import { require } from "../../test/mocking";
 
 const options = { network: "ark.mainnet", httpClient: new Request() };
 
