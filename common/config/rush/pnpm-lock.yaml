@@ -449,6 +449,7 @@ importers:
       bitcoinjs-lib: 5.2.0
       bitcoinjs-message: 2.2.0
       bitcore-lib: 8.25.8
+      coinselect: 3.1.12
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.3.0
       '@payvo/http-got': 1.0.0
@@ -501,6 +502,7 @@ importers:
       bitcoinjs-lib: ^5.2.0
       bitcoinjs-message: ~2.2.0
       bitcore-lib: ^8.25.8
+      coinselect: ~3.1.12
       cross-env: ^7.0.3
       eslint: ^7.25.0
       eslint-config-prettier: ^8.3.0
@@ -5904,6 +5906,10 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+  /coinselect/3.1.12:
+    dev: false
+    resolution:
+      integrity: sha512-XKnm9wwZzJRGuvR1BGNbFZEfa4SEr38do8Z5riq0797QwMT836EqhdPuhtbn8uAX8vCMqJ7+gS4CHa1G9M5xhw==
   /collect-v8-coverage/1.0.1:
     dev: true
     resolution:

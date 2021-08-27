@@ -431,6 +431,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "coinselect",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "conf",
       "allowedCategories": [ "libraries" ]
     },
