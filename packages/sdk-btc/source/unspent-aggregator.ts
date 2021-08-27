@@ -1,29 +1,14 @@
-import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 
 import { UnspentTransaction } from "./contracts";
+import { ClientService } from "./client.service";
 
 @IoC.injectable()
 export class UnspentAggregator {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
+	@IoC.inject(IoC.BindingType.ClientService)
+	private readonly clientService!: ClientService;
 
-	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly http!: Http.HttpClient;
-
-	#peer!: string;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
-	}
-
-	public async aggregate(address: string): Promise<UnspentTransaction[]> {
-		const response = (
-			await this.http.post(`${this.#peer}/wallets/transactions/unspent`, {
-				addresses: [address],
-			})
-		).json();
-
-		return response.data;
+	public async aggregate(id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
+		return await this.clientService.unspentTransactionOutputs(id);
 	}
 }

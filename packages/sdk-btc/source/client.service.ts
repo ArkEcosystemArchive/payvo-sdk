@@ -1,6 +1,7 @@
 import { Collections, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { getNetworkConfig } from "./config";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
+import { UnspentTransaction } from "./contracts";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -35,6 +36,20 @@ export class ClientService extends Services.AbstractClientService {
 
 		const response = await this.#post(`wallets`, { addresses });
 		return this.dataTransferObjectService.wallet(response.data);
+	}
+
+	public async unspentTransactionOutputs(id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
+		const addresses = await this.getAddresses(id);
+
+		const response = await this.#post(`wallets/transactions/unspent`, { addresses });
+
+		return response.data.map((utxo) => ({
+			address: utxo.address,
+			txId: utxo.txid,
+			outputIndex: utxo.outputIndex,
+			script: utxo.script,
+			satoshis: utxo.satoshis,
+		}));
 	}
 
 	private async getAddresses(id: Services.WalletIdentifier): Promise<string[]> {
