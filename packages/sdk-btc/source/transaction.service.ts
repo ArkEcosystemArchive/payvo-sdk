@@ -21,14 +21,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 	private readonly extendedPublicKeyService!: Services.ExtendedPublicKeyService;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		try {
-			if (input.signatory.signingKey() === undefined) {
-				throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
-			}
+		if (input.signatory.signingKey() === undefined) {
+			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
+		}
 
+		try {
 			if (input.signatory.actsWithMnemonic()) {
 				console.log(input.signatory.signingKey());
 			}
+			const network = getNetworkConfig(this.configRepository);
 
 			// 1. Derive the sender address (corresponding to first address index for the wallet)
 			const { address, type, path } = await this.addressService.fromMnemonic(
@@ -37,18 +38,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 			console.log(type, address, path);
 
-			// 2. Aggregate the unspent transactions
-			const xpub = await this.extendedPublicKeyService.fromMnemonic(
-				input.signatory.signingKey(),
-				input.signatory.options(),
-			);
-
 			// 3. Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// 4. Add utxos
-			const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
-			const accountKey = rootKey
+			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
 				.deriveHardened(44) // @TODO Use proper addressing schema
 				.deriveHardened(this.configRepository.get("network.constants.slip44"))
 				.deriveHardened(input.signatory.options()?.bip44?.account || 0);
@@ -62,14 +56,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 				},
 			];
 
-			const psbt = new bitcoin.Psbt({ network: getNetworkConfig(this.configRepository) });
+			const psbt = new bitcoin.Psbt({ network: network });
 
 			await this.#addUtxos(
 				psbt,
 				accountKey,
 				{
 					type: "extendedPublicKey",
-					value: xpub,
+					value: await this.extendedPublicKeyService.fromMnemonic(
+						input.signatory.signingKey(),
+						input.signatory.options(),
+					),
 					method: "bip44", // @TODO Get this based on the input.signatory.options() passed in
 				},
 				targets,
