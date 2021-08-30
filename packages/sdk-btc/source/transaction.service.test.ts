@@ -14,6 +14,7 @@ import { ClientService } from "./client.service";
 import { DataTransferObjects } from "./coin.dtos";
 import { UnspentAggregator } from "./unspent-aggregator";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
+import { DateTime } from "@payvo/intl";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -86,17 +87,18 @@ describe("Transfer", () => {
 		);
 		const result = await subject.transfer({
 			data: {
-				amount: 0.0001,
+				amount: 0.001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 			},
 			signatory,
 		});
 
 		console.log("result", result);
+		expect(result.id()).toBe("912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371");
 		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(80_000);
-		expect(result.timestamp()?.toISOString()).toBe("1970-01-01T00:00:00.000Z");
+		expect(result.amount().toNumber()).toBe(100_000);
+		expect(result.fee().toNumber()).toBe(12_430);
+		expect(result.timestamp()).toBeInstanceOf(DateTime);
 	});
 });
