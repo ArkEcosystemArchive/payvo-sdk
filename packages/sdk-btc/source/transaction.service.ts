@@ -47,10 +47,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// 4. Add utxos
-			const rootKey = BIP32.fromMnemonic(
-				input.signatory.signingKey(),
-				getNetworkConfig(this.configRepository),
-			)
+			const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
 			const accountKey = rootKey
 				.deriveHardened(44) // @TODO Use proper addressing schema
 				.deriveHardened(this.configRepository.get("network.constants.slip44"))
@@ -98,7 +95,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addUtxos(psbt, accountKey: BIP32Interface,  id: Services.WalletIdentifier, targets, changeAddress): Promise<void> {
+	async #addUtxos(
+		psbt,
+		accountKey: BIP32Interface,
+		id: Services.WalletIdentifier,
+		targets,
+		changeAddress,
+	): Promise<void> {
 		const feeRate = 55; // satoshis per byte // @TODO Need to get this from endpoint
 
 		const allUnspentTransactionOutputs = await this.unspent.aggregate(id);
@@ -110,13 +113,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
 			let signingKey: string | undefined = undefined;
 			do {
-				const addressAndSigningKey: { address: string, privateKey: string } = signingKeysGenerator.next().value;
+				const addressAndSigningKey: { address: string; privateKey: string } = signingKeysGenerator.next().value;
 				if (addressAndSigningKey.address === utxo.address) {
 					signingKey = addressAndSigningKey.privateKey;
 				}
 			} while (signingKey === undefined);
 
-			return ({
+			return {
 				address: utxo.address,
 				txId: utxo.txId,
 				vout: utxo.outputIndex,
@@ -129,7 +132,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				// 	script: Buffer.from('... scriptPubkey hex...', 'hex'),
 				// 	value: 10000 // 0.0001 BTC and is the exact same as the value above
 				// }
-			});
+			};
 		});
 
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
@@ -170,7 +173,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 		psbt.finalizeAllInputs();
 	}
 
-	#derivationMethod(derivationMethod: "bip39" | "bip44" | "bip49" | "bip84"): (publicKey: string, network: string) => string {
+	#derivationMethod(
+		derivationMethod: "bip39" | "bip44" | "bip49" | "bip84",
+	): (publicKey: string, network: string) => string {
 		return { bip44, bip49, bip84 }[derivationMethod];
 	}
 }
