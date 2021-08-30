@@ -106,14 +106,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 				}
 			} while (signingKey === undefined);
 
-			const extra = levels.purpose === 44 ? {
-				nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
-			} : {
-				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
-					value: utxo.satoshis,
-				},
-			};
+			const extra =
+				levels.purpose === 44
+					? {
+							nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+					  }
+					: {
+							witnessUtxo: {
+								script: Buffer.from(utxo.script, "hex"),
+								value: utxo.satoshis,
+							},
+					  };
 			return {
 				address: utxo.address,
 				txId: utxo.txId,

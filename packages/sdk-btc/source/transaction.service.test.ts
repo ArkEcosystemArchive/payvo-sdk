@@ -69,35 +69,35 @@ describe("bip44 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
-			const signatory = new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: mnemonic,
-					address: "address",
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-					options: {
-						bip44: {
-							account: 0,
-						},
+		const signatory = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: mnemonic,
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+				options: {
+					bip44: {
+						account: 0,
 					},
-				}),
-			);
-			const result = await subject.transfer({
-				data: {
-					amount: 0.001,
-					to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 				},
-				signatory,
-			});
-
-			console.log("result", result);
-			expect(result.id()).toBe("912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371");
-			expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-			expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-			expect(result.amount().toNumber()).toBe(100_000);
-			expect(result.fee().toNumber()).toBe(12_430);
-			expect(result.timestamp()).toBeInstanceOf(DateTime);
+			}),
+		);
+		const result = await subject.transfer({
+			data: {
+				amount: 0.001,
+				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
+			},
+			signatory,
 		});
+
+		console.log("result", result);
+		expect(result.id()).toBe("912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371");
+		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(result.amount().toNumber()).toBe(100_000);
+		expect(result.fee().toNumber()).toBe(12_430);
+		expect(result.timestamp()).toBeInstanceOf(DateTime);
+	});
 });
 
 describe("bip49 wallet", () => {
