@@ -8,22 +8,25 @@ import { BindingType } from "./constants";
 import { BIP32 } from "@payvo/cryptography";
 import { bip44, bip49, bip84 } from "./address.domain";
 import { addressesAndSigningKeysGenerator } from "./transaction.domain";
+import { AddressFactory, Levels } from "./address.factory";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
+	@IoC.inject(BindingType.AddressFactory)
+	private readonly addressFactory!: AddressFactory;
+
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;
 
 	@IoC.inject(BindingType.UnspentAggregator)
 	private readonly unspent!: UnspentAggregator;
 
-	@IoC.inject(IoC.BindingType.ExtendedPublicKeyService)
-	private readonly extendedPublicKeyService!: Services.ExtendedPublicKeyService;
-
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (input.signatory.signingKey() === undefined) {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
+
+		const levels = this.addressFactory.getLevel(input.signatory.options());
 
 		try {
 			if (input.signatory.actsWithMnemonic()) {
@@ -43,9 +46,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// 4. Add utxos
 			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
-				.deriveHardened(44) // @TODO Use proper addressing schema
-				.deriveHardened(this.configRepository.get("network.constants.slip44"))
-				.deriveHardened(input.signatory.options()?.bip44?.account || 0);
+				.deriveHardened(levels.purpose!)
+				.deriveHardened(levels.coinType)
+				.deriveHardened(levels.account || 0);
 
 			console.log("accountKey", accountKey.toBase58(), accountKey.neutered().toBase58());
 
@@ -58,20 +61,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			const psbt = new bitcoin.Psbt({ network: network });
 
-			await this.#addUtxos(
-				psbt,
-				accountKey,
-				{
-					type: "extendedPublicKey",
-					value: await this.extendedPublicKeyService.fromMnemonic(
-						input.signatory.signingKey(),
-						input.signatory.options(),
-					),
-					method: "bip44", // @TODO Get this based on the input.signatory.options() passed in
-				},
-				targets,
-				address,
-			);
+			await this.#addUtxos(psbt, levels, accountKey, targets, address);
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
@@ -92,19 +82,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addUtxos(
-		psbt,
-		accountKey: BIP32Interface,
-		id: Services.WalletIdentifier,
-		targets,
-		changeAddress,
-	): Promise<void> {
+	async #addUtxos(psbt, levels: Levels, accountKey: BIP32Interface, targets, changeAddress): Promise<void> {
 		const feeRate = 55; // satoshis per byte // @TODO Need to get this from endpoint
+		const method = this.#addressingSchema(levels);
+		const id: Services.WalletIdentifier = {
+			type: "extendedPublicKey",
+			value: accountKey.neutered().toBase58(),
+			method: method,
+		};
 
 		const allUnspentTransactionOutputs = await this.unspent.aggregate(id);
 		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
 
-		const derivationMethod = this.#derivationMethod(id.method!);
+		const derivationMethod = this.#derivationMethod(method);
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
@@ -116,19 +106,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 				}
 			} while (signingKey === undefined);
 
+			const extra = levels.purpose === 44 ? {
+				nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+			} : {
+				witnessUtxo: {
+					script: Buffer.from(utxo.script, "hex"),
+					value: utxo.satoshis,
+				},
+			};
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 				signingKey: Buffer.from(signingKey, "hex"),
-				// // OR
-				// // if your utxo is a segwit output, you can use witnessUtxo instead
-				// witnessUtxo: {
-				// 	script: Buffer.from('... scriptPubkey hex...', 'hex'),
-				// 	value: 10000 // 0.0001 BTC and is the exact same as the value above
-				// }
+				...extra,
 			};
 		});
 
@@ -170,9 +162,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		psbt.finalizeAllInputs();
 	}
 
-	#derivationMethod(
-		derivationMethod: "bip39" | "bip44" | "bip49" | "bip84",
-	): (publicKey: string, network: string) => string {
+	#addressingSchema(levels: Levels): "bip44" | "bip49" | "bip84" {
+		// @ts-ignore
+		return `bip${levels.purpose}`;
+	}
+
+	#derivationMethod(derivationMethod: "bip44" | "bip49" | "bip84"): (publicKey: string, network: string) => string {
 		return { bip44, bip49, bip84 }[derivationMethod];
 	}
 }
