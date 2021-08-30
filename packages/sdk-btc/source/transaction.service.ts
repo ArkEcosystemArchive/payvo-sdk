@@ -5,7 +5,6 @@ import coinSelect from "coinselect";
 import { UnspentAggregator } from "./unspent-aggregator";
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { WalletIdentifier } from "@payvo/sdk/distribution/services";
 import { BIP32 } from "@payvo/cryptography";
 import { bip44, bip49, bip84 } from "./address.domain";
 import { addressesAndSigningKeysGenerator } from "./transaction.domain";
@@ -99,7 +98,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addUtxos(psbt, accountKey: BIP32Interface,  id: WalletIdentifier, targets, changeAddress): Promise<void> {
+	async #addUtxos(psbt, accountKey: BIP32Interface,  id: Services.WalletIdentifier, targets, changeAddress): Promise<void> {
 		const feeRate = 55; // satoshis per byte // @TODO Need to get this from endpoint
 
 		const allUnspentTransactionOutputs = await this.unspent.aggregate(id);
