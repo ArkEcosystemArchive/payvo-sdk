@@ -64,7 +64,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
 					delegateAddress: unvote.id,
-					amount: unvote.amount,
+					amount: unvote.amount * -1,
 				});
 			}
 		}
