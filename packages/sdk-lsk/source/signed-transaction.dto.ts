@@ -1,7 +1,7 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
-import { getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
+import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
@@ -14,7 +14,7 @@ export class SignedTransactionData
 {
 	public override sender(): string {
 		if (this.signedData.moduleID) {
-			return this.signedData.senderPublicKey;
+			return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex"));
 		}
 
 		return this.signedData.senderId;
