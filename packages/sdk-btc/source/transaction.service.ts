@@ -7,7 +7,7 @@ import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { BIP32 } from "@payvo/cryptography";
 import { bip44, bip49, bip84 } from "./address.domain";
-import { addressesAndSigningKeysGenerator } from "./transaction.domain";
+import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
 
 @IoC.injectable()
@@ -115,31 +115,41 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
-			let signingKey: string | undefined = undefined;
+			let signingKey: SigningKeys | undefined = undefined;
 			do {
-				const addressAndSigningKey: { address: string; privateKey: string } = signingKeysGenerator.next().value;
+				const addressAndSigningKey: SigningKeys = signingKeysGenerator.next().value;
 				if (addressAndSigningKey.address === utxo.address) {
-					signingKey = addressAndSigningKey.privateKey;
+					signingKey = addressAndSigningKey;
 				}
 			} while (signingKey === undefined);
 
-			const extra =
-				levels.purpose === 44
-					? {
-							nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
-					  }
-					: {
-							witnessUtxo: {
-								script: Buffer.from(utxo.script, "hex"),
-								value: utxo.satoshis,
-							},
-					  };
+			let extra;
+			if (levels.purpose === 44) {
+				extra = {
+					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+				};
+			} else {
+				const payment = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({
+						pubkey: Buffer.from(signingKey.publicKey, "hex"),
+						network: getNetworkConfig(this.configRepository),
+					}),
+					network: getNetworkConfig(this.configRepository),
+				});
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem!.output,
+				};
+			}
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: Buffer.from(signingKey, "hex"),
+				signingKey: Buffer.from(signingKey.privateKey, "hex"),
 				...extra,
 			};
 		});
@@ -161,6 +171,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					  }
 					: {
 							witnessUtxo: input.witnessUtxo,
+							redeemScript: input.script,
 					  };
 
 			return psbt.addInput({
