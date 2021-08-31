@@ -153,15 +153,22 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Error("Cannot determine utxos for this transaction");
 		}
 
-		inputs.forEach((input) =>
-			psbt.addInput({
+		inputs.forEach((input) => {
+			const extra =
+				levels.purpose === 44
+					? {
+							nonWitnessUtxo: input.nonWitnessUtxo,
+					  }
+					: {
+							witnessUtxo: input.witnessUtxo,
+					  };
+
+			return psbt.addInput({
 				hash: input.txId,
 				index: input.vout,
-				nonWitnessUtxo: input.nonWitnessUtxo,
-				// // OR (not both)
-				// witnessUtxo: input.witnessUtxo,
-			}),
-		);
+				...extra,
+			});
+		});
 		outputs.forEach((output) => {
 			// watch out, outputs may have been added that you need to provide
 			// an output address/script for
