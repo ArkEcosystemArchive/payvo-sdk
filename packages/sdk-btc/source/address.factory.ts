@@ -7,7 +7,7 @@ import { getNetworkConfig } from "./config";
 export type BipLevel = "bip44" | "bip49" | "bip84" ;
 
 export interface Levels {
-	purpose?: number;
+	purpose: number;
 	coinType: number;
 	account?: number;
 	change?: number;
@@ -62,6 +62,7 @@ export class AddressFactory {
 
 	public bip44(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
 		const levels: Levels = {
+			purpose: 44,
 			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip44?.account,
 			change: options?.bip44?.change,
