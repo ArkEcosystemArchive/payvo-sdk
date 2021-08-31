@@ -217,8 +217,7 @@ export class ClientService extends Services.AbstractClientService {
 			result.body = null;
 		} else {
 			// @ts-ignore
-			const identifiers: Services.WalletIdentifier[] | undefined =
-				body.identifiers as Services.WalletIdentifier[];
+			const identifiers: Services.WalletIdentifier[] | undefined = body.identifiers as Services.WalletIdentifier[];
 			if (identifiers) {
 				result.body.addresses = identifiers.map(({ value }) => value);
 
