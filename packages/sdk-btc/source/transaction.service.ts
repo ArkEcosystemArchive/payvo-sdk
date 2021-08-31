@@ -8,7 +8,7 @@ import { BindingType } from "./constants";
 import { BIP32 } from "@payvo/cryptography";
 import { bip44, bip49, bip84 } from "./address.domain";
 import { addressesAndSigningKeysGenerator } from "./transaction.domain";
-import { AddressFactory, Levels } from "./address.factory";
+import { AddressFactory, BipLevel, Levels } from "./address.factory";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -165,12 +165,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 		psbt.finalizeAllInputs();
 	}
 
-	#addressingSchema(levels: Levels): "bip44" | "bip49" | "bip84" {
-		// @ts-ignore
-		return `bip${levels.purpose}`;
+	#addressingSchema(levels: Levels): BipLevel {
+		if (levels.purpose === 44) {
+			return "bip44";
+		}
+		if (levels.purpose === 49) {
+			return "bip49";
+		}
+		if (levels.purpose === 84) {
+			return "bip84";
+		}
+		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
 
-	#derivationMethod(derivationMethod: "bip44" | "bip49" | "bip84"): (publicKey: string, network: string) => string {
-		return { bip44, bip49, bip84 }[derivationMethod];
+	#derivationMethod(bipLevel: BipLevel): (publicKey: string, network: string) => string {
+		return { bip44, bip49, bip84 }[bipLevel];
 	}
 }
