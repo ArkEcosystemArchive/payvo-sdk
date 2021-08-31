@@ -26,7 +26,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
 
-		const levels = this.addressFactory.getLevel(input.signatory.options());
+		const identityOptions = input.signatory.options();
+		if (identityOptions === undefined) {
+			throw new Exceptions.Exception("Invalid bip level requested. A valid level is required: bip44, bip49 or bip84");
+		}
+
+		if (identityOptions.bip44 === undefined && identityOptions.bip49 === undefined && identityOptions.bip84 === undefined) {
+			throw new Exceptions.Exception("Invalid bip level requested. A valid level is required: bip44, bip49 or bip84");
+		}
+
+		const levels = this.addressFactory.getLevel(identityOptions);
 
 		try {
 			if (input.signatory.actsWithMnemonic()) {
@@ -37,7 +46,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// 1. Derive the sender address (corresponding to first address index for the wallet)
 			const { address, type, path } = await this.addressService.fromMnemonic(
 				input.signatory.signingKey(),
-				input.signatory.options(),
+				identityOptions,
 			);
 			console.log(type, address, path);
 
