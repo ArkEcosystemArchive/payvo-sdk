@@ -216,8 +216,8 @@ export class ClientService extends Services.AbstractClientService {
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
 		} else {
-			// @ts-ignore
 			const identifiers: Services.WalletIdentifier[] | undefined =
+				// @ts-ignore
 				body.identifiers as Services.WalletIdentifier[];
 			if (identifiers) {
 				result.body.addresses = identifiers.map(({ value }) => value);
