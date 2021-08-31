@@ -163,11 +163,12 @@ describe("bip49 wallet", () => {
 		});
 
 		console.log("result", result);
-		expect(result.id()).toBe("912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371");
-		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		expect(result.id()).toBe("2f718af139fa92be03803a62bf79087b0f366c3eeb0ed797fe261a482c79c694");
+		expect(result.sender()).toBe("2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(100_000);
 		expect(result.fee().toNumber()).toBe(12_430);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		expect(result.toBroadcast()).toBe("02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4128b0d000000000017a914983aec29890d89c391f99a680e577a6449c6bc12870247304402202c36d500cdc51bb23749b1c4137cadde4540ad30f3c0c30f2e9999dbe4bda51102204e4cabb31e37e73bf0b76c08b2c58119933ce362b2b674b968127605aef41e33012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000");
 	});
 });
