@@ -28,11 +28,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const identityOptions = input.signatory.options();
 		if (identityOptions === undefined) {
-			throw new Exceptions.Exception("Invalid bip level requested. A valid level is required: bip44, bip49 or bip84");
+			throw new Exceptions.Exception(
+				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
+			);
 		}
 
-		if (identityOptions.bip44 === undefined && identityOptions.bip49 === undefined && identityOptions.bip84 === undefined) {
-			throw new Exceptions.Exception("Invalid bip level requested. A valid level is required: bip44, bip49 or bip84");
+		if (
+			identityOptions.bip44 === undefined &&
+			identityOptions.bip49 === undefined &&
+			identityOptions.bip84 === undefined
+		) {
+			throw new Exceptions.Exception(
+				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
+			);
 		}
 
 		const levels = this.addressFactory.getLevel(identityOptions);

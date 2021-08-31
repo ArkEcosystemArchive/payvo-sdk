@@ -4,7 +4,7 @@ import * as bitcoin from "bitcoinjs-lib";
 
 import { getNetworkConfig } from "./config";
 
-export type BipLevel = "bip44" | "bip49" | "bip84" ;
+export type BipLevel = "bip44" | "bip49" | "bip84";
 
 export interface Levels {
 	purpose: number;
