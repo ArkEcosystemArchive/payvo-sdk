@@ -128,7 +128,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				extra = {
 					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 				};
-			} else {
+			} else if (levels.purpose === 49) {
 				let network = getNetworkConfig(this.configRepository);
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
@@ -143,6 +143,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 						value: utxo.satoshis,
 					},
 					redeemScript: payment.redeem!.output,
+				};
+			} else if (levels.purpose === 84) {
+				let network = getNetworkConfig(this.configRepository);
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
 				};
 			}
 			return {
@@ -170,10 +178,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 				extra = {
 					nonWitnessUtxo: input.nonWitnessUtxo,
 				};
-			} else {
+			} else if (levels.purpose === 44) {
 				extra = {
 					witnessUtxo: input.witnessUtxo,
 					redeemScript: input.redeemScript,
+				};
+			} else if (levels.purpose === 84) {
+				extra = {
+					witnessUtxo: input.witnessUtxo,
 				};
 			}
 
