@@ -52,9 +52,9 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		const locked: BigNumber = lockedVotes.plus(lockedUnvotes);
 
 		return {
-			total: this.bigNumberService.make(balance),
-			available: this.bigNumberService.make(balance).minus(locked),
-			fees: this.bigNumberService.make(balance).minus(locked),
+			total: this.bigNumberService.make(balance).plus(locked),
+			available: this.bigNumberService.make(balance),
+			fees: this.bigNumberService.make(balance),
 			locked,
 			lockedVotes,
 			lockedUnvotes,

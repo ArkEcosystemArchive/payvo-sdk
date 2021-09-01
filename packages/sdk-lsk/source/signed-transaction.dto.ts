@@ -1,6 +1,7 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
+import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
@@ -13,7 +14,7 @@ export class SignedTransactionData
 {
 	public override sender(): string {
 		if (this.signedData.moduleID) {
-			return this.signedData.senderPublicKey;
+			return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex"));
 		}
 
 		return this.signedData.senderId;
@@ -21,6 +22,10 @@ export class SignedTransactionData
 
 	public override recipient(): string {
 		if (this.signedData.moduleID) {
+			if (Buffer.isBuffer(this.signedData.asset.recipientAddress)) {
+				return getLisk32AddressFromAddress(this.signedData.asset.recipientAddress);
+			}
+
 			return this.signedData.asset.recipientAddress;
 		}
 
@@ -109,7 +114,7 @@ export class SignedTransactionData
 
 	public override usesMultiSignature(): boolean {
 		if (this.signedData.moduleID) {
-			return Array.isArray(this.signedData.signatures);
+			return Array.isArray(this.signedData.signatures) && this.signedData.signatures.length >= 2;
 		}
 
 		return typeof this.signedData.multiSignature === "object";

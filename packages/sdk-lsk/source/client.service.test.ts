@@ -134,8 +134,12 @@ describe("ClientService", () => {
 			expect(result.publicKey()).toMatchInlineSnapshot(
 				`"414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b"`,
 			);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"146999716000"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"146999716000"`);
+			expect(result.balance().total.toString()).toMatchInlineSnapshot(`"150999716000"`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"148999716000"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"148999716000"`);
+			expect(result.balance().locked?.toString()).toMatchInlineSnapshot(`"2000000000"`);
+			expect(result.balance().lockedVotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
+			expect(result.balance().lockedUnvotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.username()).toMatchInlineSnapshot(`""`);
@@ -193,8 +197,8 @@ describe("ClientService", () => {
 			expect(result.publicKey()).toMatchInlineSnapshot(
 				`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`,
 			);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"-307533884532206"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"-307533884532206"`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"20115467794"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"20115467794"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.username()).toMatchInlineSnapshot(`"punkrock"`);

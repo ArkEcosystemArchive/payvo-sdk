@@ -227,7 +227,7 @@ describe("3.0", () => {
 	});
 
 	test("#sender", () => {
-		expect(subject.sender()).toBe(transaction.senderPublicKey);
+		expect(subject.sender()).toBe(transaction.asset.recipientAddress);
 	});
 
 	test("#recipient", () => {
