@@ -63,7 +63,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// 4. Add utxos
 			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
-				.deriveHardened(levels.purpose!)
+				.deriveHardened(levels.purpose)
 				.deriveHardened(levels.coinType)
 				.deriveHardened(levels.account || 0);
 
@@ -129,12 +129,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 				};
 			} else {
+				let network = getNetworkConfig(this.configRepository);
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
 						pubkey: Buffer.from(signingKey.publicKey, "hex"),
-						network: getNetworkConfig(this.configRepository),
+						network,
 					}),
-					network: getNetworkConfig(this.configRepository),
+					network,
 				});
 				extra = {
 					witnessUtxo: {
