@@ -21,7 +21,7 @@ export class Exception extends Error {
 export class RequestException extends Error {
 	public constructor(response: Response, error?: Error) {
 		const message = error
-			? `HTTP request returned status code ${response.status()}: ${error.message}`
+			? `HTTP request returned status code ${response.status()}: ${(error as any).message}`
 			: `HTTP request returned status code ${response.status()}.`;
 
 		super(message);

@@ -20,7 +20,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 				privateKey: Buffer.from(rootKey.to_raw_key().as_bytes()).toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

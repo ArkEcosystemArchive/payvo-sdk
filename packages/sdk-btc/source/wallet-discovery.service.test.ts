@@ -3,18 +3,22 @@ import "jest-extended";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
+
+let subject;
 
 beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
 describe("testnet", () => {
-	const subject = createService(WalletDiscoveryService, "btc.testnet", (container) => {
-		container.singleton(BindingType.AddressFactory, AddressFactory);
+	beforeEach(async () => {
+		subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+		});
 	});
 
 	it("should generate an output from a mnemonic", async () => {
@@ -117,8 +121,10 @@ describe("testnet", () => {
 });
 
 describe("livenet", () => {
-	const subject = createService(WalletDiscoveryService, "btc.livenet", (container) => {
-		container.singleton(BindingType.AddressFactory, AddressFactory);
+	beforeEach(async () => {
+		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+		});
 	});
 
 	it("should generate an output from a mnemonic", async () => {

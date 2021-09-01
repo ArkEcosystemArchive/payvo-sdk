@@ -3,7 +3,7 @@ import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
@@ -15,7 +15,7 @@ import { TransactionService } from "./transaction.service";
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -28,24 +28,22 @@ beforeAll(async () => {
 
 afterEach(() => nock.cleanAll());
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
-
-jest.setTimeout(10000);
 
 describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("is correct", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/transactions-page-1.json`))
+				.reply(200, await require(`../test/fixtures/transaction/transactions-page-1.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/transactions-page-2.json`))
+				.reply(200, await require(`../test/fixtures/transaction/transactions-page-2.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/utxos.json`))
+				.reply(200, await require(`../test/fixtures/transaction/utxos.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/expiration.json`));
+				.reply(200, await require(`../test/fixtures/transaction/expiration.json`));
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(

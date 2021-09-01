@@ -2,11 +2,11 @@ import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 
 let subject: WalletData;
 
-beforeEach(() => (subject = createService(WalletData).fill(Fixture.data[0])));
+beforeEach(async () => (subject = (await createService(WalletData)).fill(Fixture.data[0])));
 
 describe("WalletData", () => {
 	test("#address", () => {

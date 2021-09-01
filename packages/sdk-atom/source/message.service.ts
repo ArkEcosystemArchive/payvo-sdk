@@ -21,7 +21,7 @@ export class MessageService extends Services.AbstractMessageService {
 					.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -33,7 +33,7 @@ export class MessageService extends Services.AbstractMessageService {
 				Buffoon.fromHex(input.signatory),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

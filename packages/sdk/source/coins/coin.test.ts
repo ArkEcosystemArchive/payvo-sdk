@@ -5,6 +5,7 @@ import { Request } from "@payvo/http-got";
 import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/source";
+import { require } from "../../test/mocking";
 import { Network, NetworkRepository } from "../networks";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
@@ -18,13 +19,13 @@ beforeEach(async () => {
 
 	nock(/.+/)
 		.get("/api/blockchain")
-		.reply(200, require("../../test/testnet/blockchain.json"))
+		.reply(200, await require("../test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, require("../../test/testnet/configuration.json"))
+		.reply(200, await require("../test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../../test/testnet/configuration-crypto.json"))
+		.reply(200, await require("../test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../../test/testnet/syncing.json"))
+		.reply(200, await require("../test/testnet/syncing.json"))
 		.persist();
 
 	subject = CoinFactory.make(ARK, {

@@ -37,7 +37,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 			throw new Error("Please specify a valid derivation method.");
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -94,7 +94,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: result.address.toString(),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -157,7 +157,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: result.address.toString(),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -212,7 +212,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: result.address,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

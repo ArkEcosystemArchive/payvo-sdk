@@ -3,7 +3,7 @@ import "jest-extended";
 import { DTO, IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
@@ -12,10 +12,10 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -29,7 +29,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
+				.reply(200, await require(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -41,8 +41,8 @@ describe("ClientService", () => {
 
 	describe("#transactions", () => {
 		describe("should work with Core 2.0", () => {
-			beforeEach(() => {
-				subject = createService(ClientService, "ark.mainnet", (container) => {
+			beforeEach(async () => {
+				subject = await createService(ClientService, "ark.mainnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
 					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 					container.singleton(
@@ -57,7 +57,7 @@ describe("ClientService", () => {
 						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
 					})
 					.query({ page: "0" })
-					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -74,7 +74,7 @@ describe("ClientService", () => {
 						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5"],
 					})
 					.query({ page: "0" })
-					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [
@@ -90,8 +90,8 @@ describe("ClientService", () => {
 		});
 
 		describe("should work with Core 3.0", () => {
-			beforeEach(() => {
-				subject = createService(ClientService, "ark.devnet", (container) => {
+			beforeEach(async () => {
+				subject = await createService(ClientService, "ark.devnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
 					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 					container.singleton(
@@ -105,7 +105,7 @@ describe("ClientService", () => {
 				nock(/.+/)
 					.get("/api/transactions")
 					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -119,7 +119,7 @@ describe("ClientService", () => {
 				nock(/.+/)
 					.get("/api/transactions")
 					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
-					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [
@@ -142,7 +142,7 @@ describe("ClientService", () => {
 						type: "6",
 						typeGroup: 2,
 					})
-					.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -161,7 +161,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
+				.reply(200, await require(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -174,7 +174,7 @@ describe("ClientService", () => {
 
 	describe("#wallets", () => {
 		it("should work with Core 2.0", async () => {
-			subject = createService(ClientService, "ark.mainnet", (container) => {
+			subject = await createService(ClientService, "ark.mainnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 				container.singleton(
@@ -185,7 +185,7 @@ describe("ClientService", () => {
 
 			nock(/.+/)
 				.post("/api/wallets/search")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
+				.reply(200, await require(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
 				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -196,7 +196,7 @@ describe("ClientService", () => {
 		});
 
 		it("should work with Core 3.0", async () => {
-			subject = createService(ClientService, "ark.devnet", (container) => {
+			subject = await createService(ClientService, "ark.devnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 				container.singleton(
@@ -208,7 +208,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/wallets")
 				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallets.json`));
+				.reply(200, await require(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
 				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -223,7 +223,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/delegates/arkx")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/delegate.json`));
+				.reply(200, await require(`../test/fixtures/client/delegate.json`));
 
 			const result = await subject.delegate("arkx");
 
@@ -235,7 +235,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/delegates")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/delegates.json`));
+				.reply(200, await require(`../test/fixtures/client/delegates.json`));
 
 			const result = await subject.delegates();
 
@@ -245,9 +245,13 @@ describe("ClientService", () => {
 	});
 
 	describe("#votes", () => {
-		const fixture = require(`${__dirname}/../test/fixtures/client/wallet.json`);
+		let fixture;
 
-		it("should succeed", async () => {
+		beforeEach(async () => {
+			fixture = await require(`../test/fixtures/client/wallet.json`);
+		});
+
+		it.only("should succeed", async () => {
 			nock(/.+/).get("/api/wallets/arkx").reply(200, fixture);
 
 			const result = await subject.votes("arkx");
@@ -336,7 +340,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/delegates/arkx/voters")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/voters.json`));
+				.reply(200, await require(`../test/fixtures/client/voters.json`));
 
 			const result = await subject.voters("arkx");
 
@@ -346,7 +350,11 @@ describe("ClientService", () => {
 	});
 
 	describe("#broadcast", () => {
-		const fixture = require(`${__dirname}/../test/fixtures/client/broadcast.json`);
+		let fixture;
+
+		beforeEach(async () => {
+			fixture = await require(`../test/fixtures/client/broadcast.json`);
+		});
 
 		it("should accept 1 transaction and reject 1 transaction", async () => {
 			nock(/.+/).post("/api/transactions").reply(422, fixture);

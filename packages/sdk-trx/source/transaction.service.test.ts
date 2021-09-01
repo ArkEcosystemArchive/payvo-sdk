@@ -4,7 +4,7 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
@@ -16,7 +16,7 @@ import { TransactionService } from "./transaction.service";
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -28,7 +28,7 @@ beforeAll(async () => {
 	});
 });
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -36,7 +36,7 @@ describe("TransactionService", () => {
 	test("#transfer", async () => {
 		nock("https://api.shasta.trongrid.io")
 			.post("/wallet/createtransaction")
-			.reply(200, require(`${__dirname}/../test/fixtures/crypto/transfer.json`))
+			.reply(200, await require(`../test/fixtures/crypto/transfer.json`))
 			.post("/wallet/broadcasttransaction")
 			.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
 

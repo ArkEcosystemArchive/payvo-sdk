@@ -65,7 +65,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			return this.dataTransferObjectService.signedTransaction(uuidv4(), signedTransaction, signedTransaction);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

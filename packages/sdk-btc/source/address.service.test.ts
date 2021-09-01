@@ -4,7 +4,7 @@ import { Exceptions } from "@payvo/sdk";
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
@@ -12,7 +12,7 @@ import { AddressFactory } from "./address.factory";
 let subject: AddressService;
 
 beforeEach(async () => {
-	subject = createService(AddressService, undefined, async (container: IoC.Container) => {
+	subject = await createService(AddressService, undefined, async (container: IoC.Container) => {
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 });
@@ -95,7 +95,7 @@ describe("Address", () => {
 		});
 
 		it("should generate a Native SegWit address from an extended public key for tesnet", async () => {
-			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+			subject = await createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
 				container.singleton(BindingType.AddressFactory, AddressFactory);
 			});
 			const result = await subject.fromPublicKey(
@@ -118,7 +118,7 @@ describe("Address", () => {
 		});
 
 		it("should generate a Native SegWit address from an extended public key for testnet", async () => {
-			subject = createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+			subject = await createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
 				container.singleton(BindingType.AddressFactory, AddressFactory);
 			});
 

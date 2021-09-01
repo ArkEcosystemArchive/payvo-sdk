@@ -27,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			const { client, signatureProvider } = this.#getClient(input.signatory.signingKey());
 
-			const transfer = await client.transact(
+			const transfer: any = await client.transact(
 				{
 					actions: [
 						{
@@ -53,12 +53,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 					expireSeconds: 30,
 					broadcast: false,
 					sign: false,
+					requiredKeys: await signatureProvider.getAvailableKeys(),
 				},
 			);
 
-			const keys: string[] = await signatureProvider.getAvailableKeys();
-			transfer.requiredKeys = keys;
-			transfer.chainId = this.#networkId;
+			// transfer.chainId = this.#networkId;
 
 			const signatures = transfer.signatures || null;
 			const transaction = await signatureProvider.sign(transfer);
@@ -73,7 +72,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				transaction,
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

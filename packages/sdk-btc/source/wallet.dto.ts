@@ -1,4 +1,4 @@
-import { Contracts, DTO, Exceptions } from "@payvo/sdk";
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
 
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {

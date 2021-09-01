@@ -17,7 +17,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 			}
 		}
 
-		this.#transport = new Stellar(this.#ledger);
+		// @ts-ignore
+		this.#transport = new Stellar.default(this.#ledger);
 	}
 
 	public override async disconnect(): Promise<void> {

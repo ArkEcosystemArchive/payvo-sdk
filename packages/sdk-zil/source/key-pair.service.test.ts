@@ -10,7 +10,7 @@ import { KeyPairService } from "./key-pair.service";
 let subject: KeyPairService;
 
 beforeEach(async () => {
-	subject = createService(KeyPairService, undefined, (container: IoC.Container) => {
+	subject = await createService(KeyPairService, undefined, (container: IoC.Container) => {
 		container.constant(BindingType.Wallet, mockWallet());
 	});
 });

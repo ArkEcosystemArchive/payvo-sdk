@@ -17,7 +17,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 			}
 		}
 
-		this.#transport = new Ripple(this.#ledger);
+		// @ts-ignore
+		this.#transport = new Ripple.default(this.#ledger);
 	}
 
 	public override async disconnect(): Promise<void> {

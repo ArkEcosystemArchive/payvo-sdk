@@ -1,5 +1,7 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
+
 import { Response } from "./response";
 
 let subject: Response;

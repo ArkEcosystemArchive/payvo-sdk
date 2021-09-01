@@ -20,7 +20,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -28,7 +28,7 @@ export class MessageService extends Services.AbstractMessageService {
 		try {
 			return verify(input.signature, Buffer.from(input.message, "utf8").toString("hex"), input.signatory);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

@@ -24,7 +24,7 @@ export class AddressService extends Services.AbstractAddressService {
 				),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -35,10 +35,11 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			return {
 				type: "bip44",
-				address: getAddress(Wallet.fromPublicKey(Buffoon.fromHex(publicKey))),
+				// @ts-ignore
+				address: getAddress(new Wallet.default(undefined, Buffoon.fromHex(publicKey))),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -49,10 +50,11 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			return {
 				type: "bip44",
-				address: getAddress(Wallet.fromPrivateKey(Buffoon.fromHex(privateKey))),
+				// @ts-ignore
+				address: getAddress(new Wallet.default(Buffoon.fromHex(privateKey))),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

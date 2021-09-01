@@ -35,8 +35,6 @@ beforeAll(async () => {
 	});
 });
 
-jest.setTimeout(10000);
-
 describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it.skip("should verify", async () => {

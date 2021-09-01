@@ -2,14 +2,14 @@ import "jest-extended";
 
 import { IoC } from "@payvo/sdk";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 
 let subject: AddressService;
 
-beforeAll(() => {
-	subject = createService(AddressService, undefined, (container) => {
+beforeAll(async () => {
+	subject = await createService(AddressService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 	});
 });

@@ -41,7 +41,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			return transaction.sign(input.signatory.signingKey()).toString();
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

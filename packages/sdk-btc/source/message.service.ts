@@ -26,7 +26,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: sign(input.message, privateKey, compressed).toString("base64"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -34,7 +34,7 @@ export class MessageService extends Services.AbstractMessageService {
 		try {
 			return verify(input.message, input.signatory, input.signature);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }
