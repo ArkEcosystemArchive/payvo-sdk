@@ -139,7 +139,6 @@ describe("bip49 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
-		// nock.recorder.rec();
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
