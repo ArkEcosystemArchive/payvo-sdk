@@ -403,10 +403,6 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "bitcore-lib",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
       "name": "bn.js",
       "allowedCategories": [ "libraries" ]
     },
