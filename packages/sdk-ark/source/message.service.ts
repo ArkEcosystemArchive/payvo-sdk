@@ -15,7 +15,7 @@ export class MessageService extends Services.AbstractMessageService {
 				}),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -27,7 +27,7 @@ export class MessageService extends Services.AbstractMessageService {
 				input.signatory,
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

@@ -2,12 +2,12 @@ import "jest-extended";
 
 import { Services } from "@payvo/sdk";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 
 let subject: Services.AbstractLinkService;
 
 beforeAll(async () => {
-	subject = createService(Services.AbstractLinkService);
+	subject = await createService(Services.AbstractLinkService);
 });
 
 it("should generate a link for a block", async () => {

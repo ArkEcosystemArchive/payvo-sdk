@@ -18,7 +18,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 
 			return { privateKey };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

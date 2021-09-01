@@ -20,7 +20,7 @@ export class AddressService extends Services.AbstractAddressService {
 				).address,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -34,7 +34,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: createWallet(publicKey).address,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -48,7 +48,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: createWallet(privateKey).address,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -59,7 +59,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: createWallet(wif).address,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -67,7 +67,7 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			return address.length === 34;
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

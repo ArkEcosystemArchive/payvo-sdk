@@ -3,7 +3,7 @@ import "jest-extended";
 import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
@@ -12,7 +12,7 @@ import { MessageService } from "./message.service";
 let subject: MessageService;
 
 beforeEach(async () => {
-	subject = createService(MessageService, undefined, (container) => {
+	subject = await createService(MessageService, undefined, (container) => {
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});

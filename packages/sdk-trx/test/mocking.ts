@@ -13,3 +13,5 @@ export const createService = <T = any>(service: any, network: string = "trx.test
 		service,
 	});
 };
+
+export const require = async (path: string): Promise<any> => (await import(path)).default;

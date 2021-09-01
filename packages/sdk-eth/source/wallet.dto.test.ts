@@ -3,13 +3,13 @@ import "jest-extended";
 import { BigNumber } from "@payvo/helpers";
 
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 
 let subject: WalletData;
 
 beforeEach(
-	() =>
-		(subject = createService(WalletData).fill({
+	async () =>
+		(subject = (await createService(WalletData)).fill({
 			address: "0x4581a610f96878266008993475f1476ca9997081",
 			balance: 10,
 			nonce: 0,

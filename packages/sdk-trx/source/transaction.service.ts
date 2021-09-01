@@ -53,7 +53,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const decimals = this.configRepository.get<number>(Coins.ConfigKey.CurrencyDecimals);
 			return this.dataTransferObjectService.signedTransaction(response.txID, response, response);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

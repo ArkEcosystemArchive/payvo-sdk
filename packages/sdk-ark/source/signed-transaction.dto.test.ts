@@ -3,13 +3,13 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;
 
-beforeAll(() => {
-	subject = createService(SignedTransactionData);
+beforeAll(async () => {
+	subject = await createService(SignedTransactionData);
 
 	subject.configure(
 		"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -79,8 +79,8 @@ describe("SignedTransactionData", () => {
 		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
 	});
 
-	test("#timestamp missing", () => {
-		const subject = createService(SignedTransactionData);
+	test("#timestamp missing", async () => {
+		const subject = await createService(SignedTransactionData);
 		subject.configure("", {}, "");
 		expect(subject.timestamp()).toBeInstanceOf(DateTime);
 	});

@@ -19,7 +19,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				).publicKey,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -29,7 +29,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: createWallet(wif).publicKey,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

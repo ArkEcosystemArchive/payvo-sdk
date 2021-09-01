@@ -95,7 +95,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		} catch (error) {
 			console.log(error);
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

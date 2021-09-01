@@ -2,15 +2,19 @@ import "jest-extended";
 
 import { BigNumber } from "@payvo/helpers";
 
-import { data } from "../test/fixtures/client/wallet.json";
+import fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
+
+let subject;
+
+beforeEach(async () => {
+	subject = (await createService(WalletData)).fill(fixture.data[0]);
+});
 
 describe("WalletData", () => {
-	const subject = createService(WalletData).fill(data[0]);
-
 	it("#address", () => {
-		expect(subject.address()).toEqual(data[0].address);
+		expect(subject.address()).toEqual(fixture.data[0].address);
 	});
 
 	it("#publicKey", () => {

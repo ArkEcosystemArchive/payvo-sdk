@@ -8,7 +8,7 @@ export class ConfigRepository {
 		const { error, value } = schema.validate(config);
 
 		if (error !== undefined) {
-			throw new Error(`Failed to validate the configuration: ${error.message}`);
+			throw new Error(`Failed to validate the configuration: ${(error as any).message}`);
 		}
 
 		this.#config = value;

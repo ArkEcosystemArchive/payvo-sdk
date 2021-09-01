@@ -16,7 +16,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				).publicKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -26,7 +26,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: ECPair.fromWIF(wif).publicKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

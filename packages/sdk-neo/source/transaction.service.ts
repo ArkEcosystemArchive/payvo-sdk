@@ -23,7 +23,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				JSON.stringify(signedTransaction),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

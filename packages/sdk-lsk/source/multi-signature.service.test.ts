@@ -1,10 +1,11 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
@@ -26,7 +27,7 @@ let musig: MultiSignatureService;
 beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(TransactionService, "lsk.testnet", (container) => {
+	subject = await createService(TransactionService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -63,10 +64,10 @@ describe("MultiSignatureService", () => {
 		nock(/.+/)
 			.get("/api/v2/accounts")
 			.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
-			.reply(200, require(`${__dirname}/../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.reply(200, await require(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
 			.get("/api/v2/accounts")
 			.query({ publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed" })
-			.reply(200, require(`${__dirname}/../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`));
+			.reply(200, await require(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`));
 
 		const wallet1 = {
 			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",

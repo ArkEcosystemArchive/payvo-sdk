@@ -24,20 +24,21 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 				privateKey: wallet.getPrivateKey().toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
 		try {
-			const wallet: Wallet = Wallet.fromPrivateKey(Buffoon.fromHex(privateKey));
+			// @ts-ignore
+			const wallet: Wallet = new Wallet.default(Buffoon.fromHex(privateKey));
 
 			return {
 				publicKey: wallet.getPublicKey().toString("hex"),
 				privateKey: wallet.getPrivateKey().toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

@@ -2,13 +2,13 @@ import "jest-extended";
 
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
 let subject: FeeService;
 
 beforeEach(async () => {
-	subject = createService(FeeService);
+	subject = await createService(FeeService);
 });
 
 afterEach(() => nock.cleanAll());
@@ -19,7 +19,7 @@ describe("FeeService", () => {
 	it("should fetch all available fees", async () => {
 		nock("https://ethgas.watch")
 			.get("/api/gas")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/fees.json`));
+			.reply(200, await require(`../test/fixtures/client/fees.json`));
 
 		const result = await subject.all();
 

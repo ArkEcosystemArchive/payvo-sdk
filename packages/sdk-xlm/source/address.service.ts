@@ -18,7 +18,7 @@ export class AddressService extends Services.AbstractAddressService {
 				path,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -33,7 +33,7 @@ export class AddressService extends Services.AbstractAddressService {
 				path: buildPath(options),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

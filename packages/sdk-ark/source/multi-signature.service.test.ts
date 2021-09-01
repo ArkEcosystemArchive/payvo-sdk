@@ -3,7 +3,7 @@ import "jest-extended";
 import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
 import { DataTransferObjects } from "./coin.dtos";
@@ -17,10 +17,10 @@ import { AddressService } from "./address.service";
 
 let subject: MultiSignatureService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(MultiSignatureService, undefined, (container) => {
+	subject = await createService(MultiSignatureService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -36,7 +36,11 @@ beforeAll(() => {
 afterEach(() => nock.cleanAll());
 
 describe("MultiSignatureService", () => {
-	const fixtures = require(`${__dirname}/../test/fixtures/client/multisig-transactions.json`);
+	let fixtures;
+
+	beforeEach(async () => {
+		fixtures = await require(`../test/fixtures/client/multisig-transactions.json`);
+	});
 
 	test("#allWithPendingState", async () => {
 		nock(/.+/).post("/").reply(200, fixtures);
@@ -71,20 +75,20 @@ describe("MultiSignatureService", () => {
 		});
 	});
 
-	test("#isMultiSignatureRegistrationReady", () => {
-		const transaction = createService(SignedTransactionData).configure("123", { signatures: [] });
+	test("#isMultiSignatureRegistrationReady", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 		expect(subject.isMultiSignatureReady(transaction)).toBeTrue();
 	});
 
-	test("#needsSignatures", () => {
-		const transaction = createService(SignedTransactionData).configure("123", { signatures: [] });
+	test("#needsSignatures", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 		expect(subject.needsSignatures(transaction)).toBeFalse();
 	});
 
-	test("#needsAllSignatures", () => {
-		const transaction = createService(SignedTransactionData).configure("123", {
+	test("#needsAllSignatures", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", {
 			signatures: [],
 			multiSignature: {
 				publicKeys: [
@@ -98,26 +102,26 @@ describe("MultiSignatureService", () => {
 		expect(subject.needsAllSignatures(transaction)).toBeTrue();
 	});
 
-	test("#needsWalletSignature", () => {
-		const transaction = createService(SignedTransactionData).configure("123", { signatures: [] });
+	test("#needsWalletSignature", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 		expect(subject.needsWalletSignature(transaction, "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).toBeFalse();
 	});
 
-	test("#needsFinalSignature", () => {
-		const transaction = createService(SignedTransactionData).configure("123", { signatures: [] });
+	test("#needsFinalSignature", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 		expect(subject.needsFinalSignature(transaction)).toBeTrue();
 	});
 
-	test("#getValidMultiSignatures", () => {
-		const transaction = createService(SignedTransactionData).configure("123", { signatures: [] });
+	test("#getValidMultiSignatures", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 		expect(subject.getValidMultiSignatures(transaction)).toEqual([]);
 	});
 
-	test("#remainingSignatureCount", () => {
-		const transaction = createService(SignedTransactionData).configure("123", {
+	test("#remainingSignatureCount", async () => {
+		const transaction = (await createService(SignedTransactionData)).configure("123", {
 			signatures: [],
 			multiSignature: {
 				publicKeys: [

@@ -3,14 +3,14 @@ import "jest-extended";
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { PublicKeyService } from "./public-key.service";
 
 let subject: PublicKeyService;
 
 beforeEach(async () => {
-	subject = createService(PublicKeyService, undefined, (container: IoC.Container) => {
+	subject = await createService(PublicKeyService, undefined, (container: IoC.Container) => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 	});
 });

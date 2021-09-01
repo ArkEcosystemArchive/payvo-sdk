@@ -2,6 +2,8 @@
 
 import "jest-extended";
 
+import { jest } from "@jest/globals";
+
 import { HttpResponse } from "./contracts";
 import { AbstractRequest } from "./request";
 import { Response } from "./response";
@@ -25,7 +27,7 @@ class Stub extends AbstractRequest {
 	}
 }
 
-beforeEach(() => {
+beforeEach(async () => {
 	spy = jest.fn();
 	subject = new Stub(spy);
 });

@@ -2,13 +2,13 @@ import "jest-extended";
 
 import { Exceptions } from "@payvo/sdk";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;
 
-beforeEach(() => {
-	subject = createService(SignedTransactionData);
+beforeEach(async () => {
+	subject = await createService(SignedTransactionData);
 
 	subject.configure(
 		"912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371",

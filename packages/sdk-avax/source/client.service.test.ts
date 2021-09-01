@@ -1,6 +1,6 @@
 import { Collections, DTO, IoC, Services } from "@payvo/sdk";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
@@ -8,8 +8,8 @@ import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ClientService;
 
-beforeAll(() => {
-	subject = createService(ClientService, undefined, (container) => {
+beforeAll(async () => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);

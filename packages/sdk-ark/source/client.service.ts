@@ -100,7 +100,7 @@ export class ClientService extends Services.AbstractClientService {
 				},
 			});
 		} catch (error) {
-			response = error.response.json();
+			response = (error as any).response.json();
 		}
 
 		const { data, errors } = response;

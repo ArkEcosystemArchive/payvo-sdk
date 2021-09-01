@@ -22,7 +22,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			return { publicKey, privateKey };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -34,7 +34,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			return { publicKey, privateKey };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -44,7 +44,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 			return { publicKey, privateKey };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

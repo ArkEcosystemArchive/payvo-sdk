@@ -13,3 +13,5 @@ export const createService = <T = any>(service: any, network: string = "eth.main
 		service,
 	});
 };
+
+export const require = async (path: string): Promise<object> => (await import(path)).default;

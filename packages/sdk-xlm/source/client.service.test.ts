@@ -6,7 +6,7 @@ import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
@@ -16,10 +16,10 @@ import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -28,7 +28,7 @@ beforeAll(() => {
 
 afterEach(() => nock.cleanAll());
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -38,10 +38,10 @@ describe("ClientService", () => {
 			nock("https://horizon-testnet.stellar.org")
 				.get("/transactions/264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`))
+				.reply(200, await require(`../test/fixtures/client/transaction.json`))
 				.get("/transactions/264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c/operations")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction-operations.json`));
+				.reply(200, await require(`../test/fixtures/client/transaction-operations.json`));
 
 			const result = await subject.transaction(
 				"264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c",
@@ -66,7 +66,7 @@ describe("ClientService", () => {
 			nock("https://horizon-testnet.stellar.org")
 				.get("/accounts/GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO/payments")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+				.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 			const response = await subject.transactions({
 				identifiers: [{ type: "address", value: "GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO" }],
@@ -92,7 +92,7 @@ describe("ClientService", () => {
 			nock("https://horizon-testnet.stellar.org")
 				.get("/accounts/GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
+				.reply(200, await require(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -112,12 +112,12 @@ describe("ClientService", () => {
 			nock("https://horizon-testnet.stellar.org")
 				.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`))
+				.reply(200, await require(`../test/fixtures/client/wallet.json`))
 				.persist();
 
 			nock("https://horizon-testnet.stellar.org")
 				.post("/transactions")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast.json`));
+				.reply(200, await require(`../test/fixtures/client/broadcast.json`));
 
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
@@ -158,12 +158,12 @@ describe("ClientService", () => {
 			nock("https://horizon-testnet.stellar.org")
 				.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 				.query(true)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`))
+				.reply(200, await require(`../test/fixtures/client/wallet.json`))
 				.persist();
 
 			nock("https://horizon-testnet.stellar.org")
 				.post("/transactions")
-				.reply(400, require(`${__dirname}/../test/fixtures/client/broadcast-failure.json`));
+				.reply(400, await require(`../test/fixtures/client/broadcast-failure.json`));
 
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);

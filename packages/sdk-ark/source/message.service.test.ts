@@ -3,13 +3,13 @@ import "jest-extended";
 import { Exceptions, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { MessageService } from "./message.service";
 
 let subject: MessageService;
 
 beforeEach(async () => {
-	subject = createService(MessageService);
+	subject = await createService(MessageService);
 });
 
 describe("MessageService", () => {

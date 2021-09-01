@@ -3,17 +3,17 @@ import "jest-extended";
 import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -22,7 +22,7 @@ beforeAll(() => {
 
 afterEach(() => nock.cleanAll());
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -31,7 +31,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://api.testnet.eos.io")
 				.post("/v1/chain/get_account")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
+				.reply(200, await require(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",

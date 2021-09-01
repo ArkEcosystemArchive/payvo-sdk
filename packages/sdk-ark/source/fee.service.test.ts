@@ -2,7 +2,7 @@ import "jest-extended";
 
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
 const matchSnapshot = (transaction): void =>
@@ -21,11 +21,11 @@ describe("FeeService", () => {
 	it("should get the fees for ARK", async () => {
 		nock(/.+/)
 			.get("/api/node/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode.json`))
+			.reply(200, await require(`../test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`));
+			.reply(200, await require(`../test/fixtures/client/feesByType.json`));
 
-		const result = await createService(FeeService, "ark.devnet").all();
+		const result = await (await createService(FeeService, "ark.devnet")).all();
 
 		expect(result).toContainAllKeys([
 			"transfer",
@@ -57,11 +57,11 @@ describe("FeeService", () => {
 	it("should get the fees for BIND", async () => {
 		nock(/.+/)
 			.get("/api/node/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode-bind.json`))
+			.reply(200, await require(`../test/fixtures/client/feesByNode-bind.json`))
 			.get("/api/transactions/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType-bind.json`));
+			.reply(200, await require(`../test/fixtures/client/feesByType-bind.json`));
 
-		const result = await createService(FeeService, "bind.testnet").all();
+		const result = await (await createService(FeeService, "bind.testnet")).all();
 
 		expect(result).toContainAllKeys([
 			"transfer",
@@ -93,16 +93,18 @@ describe("FeeService", () => {
 	it("should calculate the fees for ARK", async () => {
 		nock(/.+/)
 			.get("/api/node/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByNode.json`))
+			.reply(200, await require(`../test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/feesByType.json`))
+			.reply(200, await require(`../test/fixtures/client/feesByType.json`))
 			.persist();
 
-		const a = await createService(FeeService, "ark.devnet").calculate({
+		const a = await (
+			await createService(FeeService, "ark.devnet")
+		).calculate({
 			type: 4,
 			asset: { multiSignature: { publicKeys: ["a", "b", "c"] } },
 		});
-		const b = await createService(FeeService, "ark.devnet").calculate({ type: 1 });
+		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1 });
 
 		expect(a.toHuman()).toBe(20);
 		expect(b.toHuman()).toBe(0);

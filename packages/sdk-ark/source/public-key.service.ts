@@ -22,7 +22,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: BasePublicKey.fromPassphrase(mnemonic),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -35,7 +35,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: BasePublicKey.fromMultiSignatureAsset({ min, publicKeys }),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -47,7 +47,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: BasePublicKey.fromPassphrase(secret),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -57,7 +57,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: BasePublicKey.fromWIF(wif, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

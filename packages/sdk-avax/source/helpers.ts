@@ -5,15 +5,14 @@ import { AVMAPI, KeyPair } from "avalanche/dist/apis/avm";
 import { InfoAPI } from "avalanche/dist/apis/info";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 import HDKey from "hdkey";
-import urlParseLax from "url-parse-lax";
 
 export const useAvalanche = (config: Coins.ConfigRepository): Avalanche => {
-	const { hostname: host, port, protocol } = urlParseLax(Helpers.randomHostFromConfig(config));
+	const host: string = Helpers.randomHostFromConfig(config);
 
 	return new Avalanche(
-		host,
-		port,
-		protocol.replace(":", ""),
+		new URL(host).hostname,
+		+host.split(":")[2],
+		host.startsWith("https") ? "https" : "http",
 		parseInt(config.get("network.meta.networkId")),
 		config.get("network.meta.blockchainId"),
 	);
