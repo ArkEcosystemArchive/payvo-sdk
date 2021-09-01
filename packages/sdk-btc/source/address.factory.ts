@@ -121,7 +121,7 @@ export class AddressFactory {
 	}
 
 	#derive(
-		type: "bip44" | "bip49" | "bip84",
+		type: BipLevel,
 		levels: Levels,
 		payment: bitcoin.payments.Payment,
 	): Services.AddressDataTransferObject {
