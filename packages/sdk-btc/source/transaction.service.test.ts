@@ -102,7 +102,6 @@ describe("bip44 wallet", () => {
 
 describe("bip49 wallet", () => {
 	beforeAll(() => {
-		// nock.recorder.rec();
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -212,7 +211,6 @@ describe("bip84 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
-		// nock.recorder.rec();
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,

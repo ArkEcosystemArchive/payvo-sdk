@@ -172,26 +172,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		inputs.forEach((input) => {
-			let extra;
-			if (levels.purpose === 44) {
-				extra = {
-					nonWitnessUtxo: input.nonWitnessUtxo,
-				};
-			} else if (levels.purpose === 44) {
-				extra = {
-					witnessUtxo: input.witnessUtxo,
-					redeemScript: input.redeemScript,
-				};
-			} else if (levels.purpose === 84) {
-				extra = {
-					witnessUtxo: input.witnessUtxo,
-				};
-			}
-
 			return psbt.addInput({
 				hash: input.txId,
 				index: input.vout,
-				...extra,
+				...input,
 			});
 		});
 		outputs.forEach((output) => {
