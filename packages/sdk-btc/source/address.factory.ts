@@ -120,11 +120,7 @@ export class AddressFactory {
 		);
 	}
 
-	#derive(
-		type: BipLevel,
-		levels: Levels,
-		payment: bitcoin.payments.Payment,
-	): Services.AddressDataTransferObject {
+	#derive(type: BipLevel, levels: Levels, payment: bitcoin.payments.Payment): Services.AddressDataTransferObject {
 		const { address } = payment;
 
 		if (!address) {
