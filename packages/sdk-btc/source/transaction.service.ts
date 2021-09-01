@@ -145,7 +145,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 					redeemScript: payment.redeem!.output,
 				};
 			} else if (levels.purpose === 84) {
-				let network = getNetworkConfig(this.configRepository);
 				extra = {
 					witnessUtxo: {
 						script: Buffer.from(utxo.script, "hex"),
