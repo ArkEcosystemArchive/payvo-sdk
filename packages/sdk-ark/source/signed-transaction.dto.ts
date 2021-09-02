@@ -31,6 +31,10 @@ export class SignedTransactionData
 		return this.bigNumberService.make(this.signedData.fee);
 	}
 
+	public override memo(): string | undefined {
+		return this.signedData.vendorField;
+	}
+
 	public override timestamp(): DateTime {
 		if (this.signedData.timestamp) {
 			return DateTime.make(this.signedData.timestamp);
