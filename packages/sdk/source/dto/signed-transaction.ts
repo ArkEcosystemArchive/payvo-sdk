@@ -90,6 +90,10 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		throw new NotImplemented(this.constructor.name, this.fee.name);
 	}
 
+	public memo(): string | undefined {
+		return undefined;
+	}
+
 	public timestamp(): DateTime {
 		throw new NotImplemented(this.constructor.name, this.timestamp.name);
 	}
