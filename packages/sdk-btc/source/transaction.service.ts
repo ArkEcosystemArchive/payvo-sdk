@@ -134,7 +134,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		accountKey: BIP32Interface,
 		targets,
 		feeRate: number,
-	): Promise<{ outputs: any[]; inputs: any[], fee: number }> {
+	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
 		const method = this.#addressingSchema(levels);
 		const id: Services.WalletIdentifier = {
 			type: "extendedPublicKey",
