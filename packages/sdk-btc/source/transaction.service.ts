@@ -78,9 +78,37 @@ export class TransactionService extends Services.AbstractTransactionService {
 				},
 			];
 
+			const feeRate = await this.#getFee(input);
+
+			const { inputs, outputs, fee } = await this.#selectUtxos(levels, accountKey, targets, feeRate);
+
 			const psbt = new bitcoin.Psbt({ network: network });
 
-			await this.#addUtxos(psbt, levels, accountKey, targets, address, input);
+			inputs.forEach((input) => {
+				return psbt.addInput({
+					hash: input.txId,
+					index: input.vout,
+					...input,
+				});
+			});
+			outputs.forEach((output) => {
+				// watch out, outputs may have been added that you need to provide
+				// an output address/script for change
+				if (!output.address) {
+					output.address = address; // @TODO Derive and use fresh change addresses wallet.getChangeAddress()
+					// wallet.nextChangeAddress()
+				}
+
+				psbt.addOutput({
+					address: output.address,
+					value: output.value,
+				});
+			});
+
+			inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+
+			psbt.validateSignaturesOfAllInputs();
+			psbt.finalizeAllInputs();
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
@@ -90,7 +118,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					sender: address,
 					recipient: input.data.to,
 					amount: amount,
-					fee: psbt.getFee(),
+					fee,
 					timestamp: new Date(), // TODO See if we have a proper timestamp inside the built transaction
 				},
 				transaction.toHex(),
@@ -101,20 +129,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addUtxos(
-		psbt,
+	async #selectUtxos(
 		levels: Levels,
 		accountKey: BIP32Interface,
 		targets,
-		changeAddress,
-		input: Services.TransferInput,
-	): Promise<void> {
-		let feeRate: number | undefined = input.fee;
-
-		if (!feeRate) {
-			feeRate = (await this.feeService.all()).transfer.avg.toNumber();
-		}
-
+		feeRate: number,
+	): Promise<{ outputs: any[]; inputs: any[], fee: number }> {
 		const method = this.#addressingSchema(levels);
 		const id: Services.WalletIdentifier = {
 			type: "extendedPublicKey",
@@ -193,31 +213,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Error("Cannot determine utxos for this transaction");
 		}
 
-		inputs.forEach((input) => {
-			return psbt.addInput({
-				hash: input.txId,
-				index: input.vout,
-				...input,
-			});
-		});
-		outputs.forEach((output) => {
-			// watch out, outputs may have been added that you need to provide
-			// an output address/script for
-			if (!output.address) {
-				output.address = changeAddress; // @TODO Derive and use fresh change addresses wallet.getChangeAddress()
-				// wallet.nextChangeAddress()
-			}
+		return { inputs, outputs, fee };
+	}
 
-			psbt.addOutput({
-				address: output.address,
-				value: output.value,
-			});
-		});
+	async #getFee(input: Services.TransferInput): Promise<number> {
+		let feeRate: number | undefined = input.fee;
 
-		inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)));
-
-		psbt.validateSignaturesOfAllInputs();
-		psbt.finalizeAllInputs();
+		if (!feeRate) {
+			feeRate = (await this.feeService.all()).transfer.avg.toNumber();
+		}
+		return feeRate;
 	}
 
 	#addressingSchema(levels: Levels): BipLevel {
