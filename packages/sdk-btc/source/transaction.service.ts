@@ -10,7 +10,6 @@ import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.dom
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
 import { UnspentTransaction } from "./contracts";
 import { getAddresses, getDerivationMethod, post } from "./helpers";
-import { BigNumber } from "@payvo/helpers";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -26,6 +25,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (input.signatory.signingKey() === undefined) {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
+		}
+
+		if (!input.signatory.actsWithMnemonic()) {
+			// @TODO Add more options (wif, ledger, extended private key, etc.).
+			throw new Exceptions.Exception("Need to provide a signatory that can be used for signing transactions.");
 		}
 
 		const identityOptions = input.signatory.options();
@@ -45,31 +49,24 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		const levels = this.addressFactory.getLevel(identityOptions);
+		const bipLevel = this.addressFactory.getLevel(identityOptions);
 
 		try {
-			if (input.signatory.actsWithMnemonic()) {
-				console.log(input.signatory.signingKey());
-			}
 			const network = getNetworkConfig(this.configRepository);
 
-			// 1. Derive the sender address (corresponding to first address index for the wallet)
+			// Derive the sender address (corresponding to first address index for the wallet)
 			const { address, type, path } = await this.addressService.fromMnemonic(
 				input.signatory.signingKey(),
 				identityOptions,
 			);
-			console.log(type, address, path);
 
-			// 3. Compute the amount to be transferred
+			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
-			// 4. Add utxos
 			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
-				.deriveHardened(levels.purpose)
-				.deriveHardened(levels.coinType)
-				.deriveHardened(levels.account || 0);
-
-			console.log("accountKey", accountKey.toBase58(), accountKey.neutered().toBase58());
+				.deriveHardened(bipLevel.purpose)
+				.deriveHardened(bipLevel.coinType)
+				.deriveHardened(bipLevel.account || 0);
 
 			const targets = [
 				{
@@ -78,10 +75,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 				},
 			];
 
-			const feeRate = await this.#getFee(input);
+			// Figure out inputs, outputs and fees
+			const { inputs, outputs, fee } = await this.#selectUtxos(
+				bipLevel,
+				accountKey,
+				targets,
+				await this.#getFee(input),
+			);
 
-			const { inputs, outputs, fee } = await this.#selectUtxos(levels, accountKey, targets, feeRate);
-
+			// Build bitcoin transaction
 			const psbt = new bitcoin.Psbt({ network: network });
 
 			inputs.forEach((input) => {
@@ -92,11 +94,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				});
 			});
 			outputs.forEach((output) => {
-				// watch out, outputs may have been added that you need to provide
-				// an output address/script for change
 				if (!output.address) {
 					output.address = address; // @TODO Derive and use fresh change addresses wallet.getChangeAddress()
-					// wallet.nextChangeAddress()
 				}
 
 				psbt.addOutput({
