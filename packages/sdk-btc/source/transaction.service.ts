@@ -128,7 +128,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				transaction.toHex(),
 			);
 		} catch (error) {
-			console.log(error);
 			throw new Exceptions.CryptoException(error as any);
 		}
 	}
@@ -143,7 +142,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const id = this.#toWalletIdentifier(accountKey, method);
 
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(id);
-		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
 
 		const derivationMethod = getDerivationMethod(id);
 
@@ -205,9 +203,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
-		console.log("inputs", inputs);
-		console.log("outputs", outputs);
-		console.log("fee", fee);
 
 		if (!inputs || !outputs) {
 			throw new Error("Cannot determine utxos for this transaction");
