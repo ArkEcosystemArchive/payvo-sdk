@@ -69,7 +69,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
 
-			const changeAddress = await this.#getChangeAddress(this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)));
+			const changeAddress = await this.#getChangeAddress(
+				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+			);
 
 			const targets = [
 				{
@@ -228,7 +230,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return await firstUnusedAddresses(
 			addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
 			this.httpClient,
-			this.configRepository);
+			this.configRepository,
+		);
 	}
 
 	async #getFee(input: Services.TransferInput): Promise<number> {
