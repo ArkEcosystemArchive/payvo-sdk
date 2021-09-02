@@ -9,7 +9,8 @@ import { BindingType } from "./constants";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
 import { UnspentTransaction } from "./contracts";
-import { getAddresses, getDerivationMethod, post } from "./helpers";
+import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
+import { addressGenerator } from "./address.domain";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -68,6 +69,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
 
+			const changeAddress = await this.#getChangeAddress(this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)));
+
 			const targets = [
 				{
 					address: input.data.to,
@@ -95,7 +98,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			});
 			outputs.forEach((output) => {
 				if (!output.address) {
-					output.address = address; // @TODO Derive and use fresh change addresses wallet.getChangeAddress()
+					output.address = changeAddress;
 				}
 
 				psbt.addOutput({
@@ -116,7 +119,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				{
 					sender: address,
 					recipient: input.data.to,
-					amount: amount,
+					amount,
 					fee,
 					timestamp: new Date(),
 				},
@@ -135,11 +138,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		feeRate: number,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
 		const method = this.#addressingSchema(levels);
-		const id: Services.WalletIdentifier = {
-			type: "extendedPublicKey",
-			value: accountKey.neutered().toBase58(),
-			method: method,
-		};
+		const id = this.#toWalletIdentifier(accountKey, method);
 
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(id);
 		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
@@ -213,6 +212,23 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return { inputs, outputs, fee };
+	}
+
+	#toWalletIdentifier(accountKey, method: "bip44" | "bip49" | "bip84"): Services.WalletIdentifier {
+		return {
+			type: "extendedPublicKey",
+			value: accountKey.neutered().toBase58(),
+			method: method,
+		};
+	}
+
+	async #getChangeAddress(id: Services.WalletIdentifier): Promise<string> {
+		const network = getNetworkConfig(this.configRepository);
+
+		return await firstUnusedAddresses(
+			addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
+			this.httpClient,
+			this.configRepository);
 	}
 
 	async #getFee(input: Services.TransferInput): Promise<number> {

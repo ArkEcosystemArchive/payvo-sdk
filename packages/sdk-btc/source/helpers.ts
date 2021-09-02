@@ -52,7 +52,7 @@ export const firstUnusedAddresses = async (
 		const addressChunk: string[] = addressesGenerator.next().value;
 		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
 
-		const items = addressChunk.filter((address) => used[address]);
+		const items = addressChunk.filter((address) => !used[address]);
 		if (items.length > 0) {
 			return items[0];
 		}
