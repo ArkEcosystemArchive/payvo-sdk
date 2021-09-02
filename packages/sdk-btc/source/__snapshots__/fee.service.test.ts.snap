@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FeeService should get the fees 1`] = `
+Object {
+  "avg": "1074",
+  "max": "180617",
+  "min": "1074",
+  "static": "180617",
+}
+`;
+
+exports[`FeeService should get the fees 2`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 3`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 4`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 5`] = `
+Object {
+  "avg": "1074",
+  "max": "180617",
+  "min": "1074",
+  "static": "180617",
+}
+`;
+
+exports[`FeeService should get the fees 6`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 7`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 8`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 9`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 10`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;
+
+exports[`FeeService should get the fees 11`] = `
+Object {
+  "avg": "0",
+  "max": "0",
+  "min": "0",
+  "static": "0",
+}
+`;

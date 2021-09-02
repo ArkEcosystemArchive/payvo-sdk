@@ -1,14 +1,16 @@
+import { BIP32 } from "@payvo/cryptography";
 import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
-import { UnspentAggregator } from "./unspent-aggregator";
+
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { BIP32 } from "@payvo/cryptography";
-import { bip44, bip49, bip84 } from "./address.domain";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
+import { UnspentTransaction } from "./contracts";
+import { getAddresses, getDerivationMethod, post } from "./helpers";
+import { BigNumber } from "@payvo/helpers";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -18,8 +20,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;
 
-	@IoC.inject(BindingType.UnspentAggregator)
-	private readonly unspent!: UnspentAggregator;
+	@IoC.inject(IoC.BindingType.FeeService)
+	private readonly feeService!: Services.FeeService;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (input.signatory.signingKey() === undefined) {
@@ -78,7 +80,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			const psbt = new bitcoin.Psbt({ network: network });
 
-			await this.#addUtxos(psbt, levels, accountKey, targets, address);
+			await this.#addUtxos(psbt, levels, accountKey, targets, address, input);
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
@@ -99,8 +101,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 	}
 
-	async #addUtxos(psbt, levels: Levels, accountKey: BIP32Interface, targets, changeAddress): Promise<void> {
-		const feeRate = 55; // satoshis per byte // @TODO Need to get this from endpoint
+	async #addUtxos(
+		psbt,
+		levels: Levels,
+		accountKey: BIP32Interface,
+		targets,
+		changeAddress,
+		input: Services.TransferInput,
+	): Promise<void> {
+		let feeRate: number | undefined = input.fee;
+
+		if (!feeRate) {
+			feeRate = (await this.feeService.all()).transfer.avg.toNumber();
+		}
+
 		const method = this.#addressingSchema(levels);
 		const id: Services.WalletIdentifier = {
 			type: "extendedPublicKey",
@@ -108,14 +122,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 			method: method,
 		};
 
-		const allUnspentTransactionOutputs = await this.unspent.aggregate(id);
+		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(id);
 		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
 
-		const derivationMethod = this.#derivationMethod(method);
+		const derivationMethod = getDerivationMethod(id);
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
 			let signingKey: SigningKeys | undefined = undefined;
+
 			do {
 				const addressAndSigningKey: SigningKeys = signingKeysGenerator.next().value;
 				if (addressAndSigningKey.address === utxo.address) {
@@ -130,6 +145,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				};
 			} else if (levels.purpose === 49) {
 				let network = getNetworkConfig(this.configRepository);
+
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
 						pubkey: Buffer.from(signingKey.publicKey, "hex"),
@@ -137,12 +153,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 					}),
 					network,
 				});
+
+				if (!payment.redeem) {
+					throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
+				}
+
 				extra = {
 					witnessUtxo: {
 						script: Buffer.from(utxo.script, "hex"),
 						value: utxo.satoshis,
 					},
-					redeemScript: payment.redeem!.output,
+					redeemScript: payment.redeem.output,
 				};
 			} else if (levels.purpose === 84) {
 				extra = {
@@ -152,6 +173,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 				};
 			}
+
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -202,16 +224,37 @@ export class TransactionService extends Services.AbstractTransactionService {
 		if (levels.purpose === 44) {
 			return "bip44";
 		}
+
 		if (levels.purpose === 49) {
 			return "bip49";
 		}
+
 		if (levels.purpose === 84) {
 			return "bip84";
 		}
+
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
 
-	#derivationMethod(bipLevel: BipLevel): (publicKey: string, network: string) => string {
-		return { bip44, bip49, bip84 }[bipLevel];
+	private async unspentTransactionOutputs(id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
+		const addresses = await getAddresses(id, this.httpClient, this.configRepository);
+
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.httpClient, this.configRepository)
+		).data;
+
+		const rawTxs = (
+			await post(
+				`wallets/transactions/raw`,
+				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
+				this.httpClient,
+				this.configRepository,
+			)
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
 	}
 }

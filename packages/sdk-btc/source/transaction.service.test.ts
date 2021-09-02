@@ -9,8 +9,8 @@ import { AddressFactory } from "./address.factory";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { DataTransferObjects } from "./coin.dtos";
-import { UnspentAggregator } from "./unspent-aggregator";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
+import { FeeService } from "./fee.service";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -26,8 +26,8 @@ beforeEach(async () => {
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.singleton(BindingType.UnspentAggregator, UnspentAggregator);
 	});
 });
 
@@ -65,7 +65,16 @@ describe("bip44 wallet", () => {
 			.reply(
 				200,
 				'{"data":{"94336a791ade1aee7a55f0132e1c766e7272b304b805347f34a716cd0b10ebe6":"01000000000101f918cfe92daf57938655190a9c49512ed3c90880de4573698e1ad9d91b86fdd40100000000f0ffffff0340420f00000000001976a9146bba19cd7beb53addb39ab750531668ad409474688ac6002200000000000160014a7ec2786b0b69fde7fa17c91b840010a0a459a1e0000000000000000196a1768747470733a2f2f746274632e6269746170732e636f6d0247304402202e95518835663a419bb68a20bf87050d60a5f74153344c00a9f4c58059501ae20220379384577ff91409c027db710366fa5bee110b1f3e93e0dd2fe686ca8dc705bd012102d9df366a292c38fee7d741066404cff7a2a7d33d5e065a1d0618b2424e18896400000000","3b182fedfbf8dca089b5ff97004e53081c6610a2eb08dd9bd8c3243a64216649":"010000000001018fd59fca8c155ca700f8dc82c582177464409d7525a7a529495ca1af9ae565ce0100000000f0ffffff0340420f00000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ac3af124000000000016001426675e52bd5285e36d3d5ab451adb40748c636af0000000000000000196a1768747470733a2f2f746274632e6269746170732e636f6d024830450221009c9262185b692f625351550fa76030a6d8d48f701c2dd09feb7c48484b85e6c302205f34e1e681ac5aa0f8e4ca7552b187310e37ef7e2376600951ef27141133cb6c012102bc4a237367a011b80c98e4a93fdd056f2d630097b82d455b96b2d441889d6b0b00000000","473f473a78f569e93ebd0955d3eb5855c888938106e8f55670c6b75ec1b44d16":"01000000000101605cf9d712df4533c9a8cbbc023b4bc97921d92ee23c3e450ad380455b8990460100000000f0ffffff0340420f00000000001976a914b17447e9524445be6572706a3ccfdc9c0e2a8ae788ac6cd41f0000000000160014e81b5d8f035a3b950ad72d869be2448b023d23410000000000000000196a1768747470733a2f2f746274632e6269746170732e636f6d024730440220148c049f0f9d5c2b6d5b8a3efbe02e5953a414dc078688f55a6ac7a8612ae8800220343527bc59b13724e6878e5d79952a83f53ebfa9aae84a7a6b5342dcae0195d8012103418ce7ab05d74e5b240116672dc1b0c983d534258bbedfd676d212a33554bed500000000"}}',
-			);
+			)
+			.get("/api/fees")
+			.reply(200, {
+				data: {
+					min: 0.00001074,
+					avg: 0.00001074,
+					max: 0.00180617,
+				},
+			})
+			.persist();
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
@@ -91,11 +100,11 @@ describe("bip44 wallet", () => {
 		});
 
 		console.log("result", result);
-		expect(result.id()).toBe("912ff5cac9d386fad9ad59a7661ed713990a8db12a801b34a3e8de0f27057371");
+		expect(result.id()).toBe("7ddbe230ddee5777ddf92c8926924b4edf3cf79c3eaf3ef27d41116531479322");
 		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(12_430);
+		expect(result.fee().toNumber()).toBe(242_724);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 	});
 });
@@ -161,14 +170,14 @@ describe("bip49 wallet", () => {
 		});
 
 		console.log("result", result);
-		expect(result.id()).toBe("2f718af139fa92be03803a62bf79087b0f366c3eeb0ed797fe261a482c79c694");
+		expect(result.id()).toBe("2d4c4e491b1a999dc771b2380a926ae16252fb844b503331540bc697eb1a0097");
 		expect(result.sender()).toBe("2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(12_430);
+		expect(result.fee().toNumber()).toBe(242_724);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4128b0d000000000017a914983aec29890d89c391f99a680e577a6449c6bc12870247304402202c36d500cdc51bb23749b1c4137cadde4540ad30f3c0c30f2e9999dbe4bda51102204e4cabb31e37e73bf0b76c08b2c58119933ce362b2b674b968127605aef41e33012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
+			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914983aec29890d89c391f99a680e577a6449c6bc12870247304402206d09ea0df189465b80225267d8d2ed15d5c836dc400704386c2d388b67efd225022039016f598f64699c39c89056d227535cdca8f2ecf22b6c0239f063c965a629d8012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
 		);
 	});
 });
@@ -234,14 +243,14 @@ describe("bip84 wallet", () => {
 		});
 
 		console.log("result", result);
-		expect(result.id()).toBe("c81b754732029614f547e4fcfbc7e8c73987b398fa081ad1a939e2cfed364f5a");
+		expect(result.id()).toBe("90a033f44bd8264bb946ae2dff7645588124459a1da0d0e2275fc01e74072792");
 		expect(result.sender()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(12_430);
+		expect(result.fee().toNumber()).toBe(242_724);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ac128b0d0000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac40247304402200821971e5410f620402d8ef3c58ccdc5aa3ef5d8e30d49ba3bce229917088f2f02200c885f647e6467f1bf777497cf012fb1d6aa229604678c6ee055e5f0155f8a130121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
+			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ac7c070a0000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4024730440220336bedd092ce365e7686711d0ef9bba010cfca72f62fdb93c2baa2124a4be7fa0220046b3531c6f356ea6184e09b00282bb3cacf6c8a884b39a377004cc4d10df2370121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
 		);
 	});
 });

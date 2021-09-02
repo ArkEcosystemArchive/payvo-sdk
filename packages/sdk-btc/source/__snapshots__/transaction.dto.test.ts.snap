@@ -47,5 +47,10 @@ Array [
 exports[`ConfirmedTransactionData should succeed 4`] = `
 Array [
   UnspentTransactionData {},
+  UnspentTransactionData {},
+  UnspentTransactionData {},
+  UnspentTransactionData {},
+  UnspentTransactionData {},
+  UnspentTransactionData {},
 ]
 `;
