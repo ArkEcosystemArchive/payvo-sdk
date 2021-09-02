@@ -118,7 +118,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					recipient: input.data.to,
 					amount: amount,
 					fee,
-					timestamp: new Date(), // TODO See if we have a proper timestamp inside the built transaction
+					timestamp: new Date(),
 				},
 				transaction.toHex(),
 			);
