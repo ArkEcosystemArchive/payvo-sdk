@@ -1,4 +1,4 @@
-import { Coins, IoC } from "@payvo/sdk";
+import { IoC } from "@payvo/sdk";
 import { BindingType } from "./constants";
 
 import { Services } from "./coin.services";

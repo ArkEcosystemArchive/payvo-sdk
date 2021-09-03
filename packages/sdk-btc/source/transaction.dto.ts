@@ -61,7 +61,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override outputs(): Contracts.UnspentTransactionData[] {
-		return this.data.vin.map(
+		return this.data.vout.map(
 			({ address, amount, output_txid }) =>
 				new DTO.UnspentTransactionData({
 					id: output_txid,

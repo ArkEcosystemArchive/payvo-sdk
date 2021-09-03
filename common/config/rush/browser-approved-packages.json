@@ -403,10 +403,6 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "bitcore-lib",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
       "name": "bn.js",
       "allowedCategories": [ "libraries" ]
     },
@@ -432,6 +428,10 @@
     },
     {
       "name": "cli-table3",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "coinselect",
       "allowedCategories": [ "libraries" ]
     },
     {
