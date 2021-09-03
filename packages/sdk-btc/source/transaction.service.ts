@@ -220,10 +220,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #getChangeAddress(id: Services.WalletIdentifier): Promise<string> {
-		const network = getNetworkConfig(this.configRepository);
 
-		return await firstUnusedAddresses(
-			addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
+		return firstUnusedAddresses(
+			addressGenerator(getDerivationMethod(id), getNetworkConfig(this.configRepository), id.value, false, 100),
 			this.httpClient,
 			this.configRepository,
 		);
