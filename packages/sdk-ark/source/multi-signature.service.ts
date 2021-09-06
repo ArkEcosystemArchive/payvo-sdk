@@ -1,4 +1,5 @@
 import { Interfaces } from "@arkecosystem/crypto";
+import { uniq } from "@arkecosystem/utils";
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
@@ -64,6 +65,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 		if (transaction.asset && transaction.asset.multiSignature) {
 			multisigAsset = transaction.asset.multiSignature;
+		}
+
+		if (Array.isArray(transaction.signatures)) {
+			transaction.signatures = uniq(transaction.signatures);
 		}
 
 		try {
@@ -165,12 +170,18 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 * @memberof MultiSignatureService
 	 */
 	#normalizeTransaction({ data, id, timestamp, multisigAsset }: any): Record<string, any> {
-		return {
+		const result = {
 			...data,
 			id, // This is the real ID, computed by the MuSig Server.
 			timestamp,
 			multiSignature: multisigAsset,
 		};
+
+		if (Array.isArray(result.signatures)) {
+			result.signatures = uniq(result.signatures);
+		}
+
+		return result;
 	}
 
 	/**
