@@ -67,7 +67,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			multisigAsset = transaction.asset.multiSignature;
 		}
 
-		if (transaction.signatures) {
+		if (Array.isArray(transaction.signatures)) {
 			transaction.signatures = uniq(transaction.signatures);
 		}
 
