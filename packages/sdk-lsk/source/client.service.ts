@@ -105,7 +105,7 @@ export class ClientService extends Services.AbstractClientService {
 			DateTime.make().setSecond((unlockHeight - unvoteHeight) * blockTime);
 
 		return {
-			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
+			objects: (unlocking ?? []).map(({ amount, delegateAddress, height }) => ({
 				address: delegateAddress,
 				amount: this.bigNumberService.make(amount),
 				height: Number(height.start),
