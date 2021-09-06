@@ -170,12 +170,19 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 * @memberof MultiSignatureService
 	 */
 	#normalizeTransaction({ data, id, timestamp, multisigAsset }: any): Record<string, any> {
-		return {
+		const result = {
 			...data,
 			id, // This is the real ID, computed by the MuSig Server.
 			timestamp,
 			multiSignature: multisigAsset,
 		};
+
+
+		if (Array.isArray(result.signatures)) {
+			result.signatures = uniq(result.signatures);
+		}
+
+        return result;
 	}
 
 	/**
