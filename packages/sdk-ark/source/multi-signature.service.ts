@@ -177,12 +177,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			multiSignature: multisigAsset,
 		};
 
-
 		if (Array.isArray(result.signatures)) {
 			result.signatures = uniq(result.signatures);
 		}
 
-        return result;
+		return result;
 	}
 
 	/**
