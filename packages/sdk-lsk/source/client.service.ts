@@ -98,14 +98,14 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async unlockableBalances(id: string): Promise<Services.UnlockBalanceResponse> {
-		const { unlocking } = (await this.#get("accounts", { address: id })).data[0].dpos;
+		const { unlocking = [] } = (await this.#get("accounts", { address: id })).data[0].dpos;
 		const { blockTime, height: currentBlockHeight } = (await this.#get("network/status")).data;
 
 		const getPendingTime = (unvoteHeight: number, unlockHeight: number, blockTime: number): DateTime =>
 			DateTime.make().setSecond((unlockHeight - unvoteHeight) * blockTime);
 
 		return {
-			objects: (unlocking ?? []).map(({ amount, delegateAddress, height }) => ({
+			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
 				address: delegateAddress,
 				amount: this.bigNumberService.make(amount),
 				height: Number(height.start),
