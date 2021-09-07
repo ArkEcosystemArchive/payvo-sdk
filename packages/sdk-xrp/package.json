@@ -3,9 +3,8 @@
 	"version": "1.6.41",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
-	"contributors": [],
-	"main": "distribution/index",
-	"types": "distribution/index",
+	"type": "module",
+	"exports": "./distribution/index.js",
 	"files": [
 		"/distribution"
 	],
@@ -71,6 +70,6 @@
 		"typescript-language-server": "^0.6.1"
 	},
 	"engines": {
-		"node": ">=12.x"
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	}
 }
