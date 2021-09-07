@@ -14,9 +14,9 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		try {
 			const { privateKey } = await this.privateKeyService.fromMnemonic(mnemonic, options);
 
-			const keyPair = new (
-				Wallet.hasOwnProperty("default") ? Wallet["default"] : Wallet
-			)(Buffoon.fromHex(privateKey));
+			const keyPair = new (Wallet.hasOwnProperty("default") ? Wallet["default"] : Wallet)(
+				Buffoon.fromHex(privateKey),
+			);
 
 			return { publicKey: keyPair.getPublicKey().toString("hex") };
 		} catch (error) {
