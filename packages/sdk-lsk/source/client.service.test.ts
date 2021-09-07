@@ -290,7 +290,7 @@ describe("ClientService", () => {
 
 			expect(current.toHuman()).toBe(0);
 			expect(pending.toHuman()).toBe(0);
-			expect(objects).toMatchInlineSnapshot(`Array []`);
+			expect(objects).toMatchInlineSnapshot("Array []");
 		});
 
 		it("should have a pending balance if the current height is not greater than the unlock height", async () => {
