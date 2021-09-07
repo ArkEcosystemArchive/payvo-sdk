@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { TransactionSerializer } from "./transaction.serializer";
 
 const clone = (data: any[]): any[] => JSON.parse(JSON.stringify(data));
@@ -70,14 +70,14 @@ describe("TransactionSerializer", () => {
 		expect(createService(TransactionSerializer).toMachine(transaction)).toMatchSnapshot();
 	});
 
-	test.each(clone(transactions))("#toHuman(%s)", (transaction) => {
-		const subject = createService(TransactionSerializer);
+	test.each(clone(transactions))("#toHuman(%s)", async (transaction) => {
+		const subject = await createService(TransactionSerializer);
 
 		expect(subject.toHuman(subject.toMachine(transaction))).toMatchSnapshot();
 	});
 
-	test.each(clone(transactions))("#toString(%s)", (transaction) => {
-		const subject = createService(TransactionSerializer);
+	test.each(clone(transactions))("#toString(%s)", async (transaction) => {
+		const subject = await createService(TransactionSerializer);
 
 		expect(subject.toString(subject.toHuman(transaction))).toMatchSnapshot();
 	});

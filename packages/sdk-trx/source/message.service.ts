@@ -42,7 +42,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: signature,
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -51,7 +51,7 @@ export class MessageService extends Services.AbstractMessageService {
 			const messageAsHex = Buffer.from(input.message).toString("hex");
 			return this.#connection.trx.verifyMessage(messageAsHex, input.signature, input.signatory);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
 import { formatString } from "@arkecosystem/utils";
-import onetime from "onetime";
 import { URL } from "url";
 
 import { ConfigRepository } from "../coins";
@@ -28,7 +27,7 @@ export class AbstractLinkService implements LinkService {
 	}
 
 	#buildURL(schema: string, id: string): string {
-		const { host, query } = onetime(() => randomNetworkHostFromConfig(this.configRepository, "explorer"))();
+		const { host, query } = randomNetworkHostFromConfig(this.configRepository, "explorer");
 		const url: URL = new URL(formatString(schema, id), host);
 
 		if (query) {

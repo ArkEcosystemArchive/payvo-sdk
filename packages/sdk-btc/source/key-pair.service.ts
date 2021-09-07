@@ -15,7 +15,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 				),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -23,7 +23,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		try {
 			return this.#normalize(bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")));
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -31,7 +31,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		try {
 			return this.#normalize(bitcoin.ECPair.fromWIF(wif));
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

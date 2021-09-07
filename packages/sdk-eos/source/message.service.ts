@@ -12,7 +12,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: sign(input.message, input.signatory.signingKey()),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -20,7 +20,7 @@ export class MessageService extends Services.AbstractMessageService {
 		try {
 			return verify(input.signature, input.message, input.signatory);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

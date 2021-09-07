@@ -1,19 +1,20 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
 const createMockService = async (record: string): Promise<LedgerService> => {
-	const transport = createService(LedgerService, undefined, (container) => {
+	const transport = await createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -89,11 +90,11 @@ describe("scan", () => {
 			.get(
 				"/api/wallets?address=D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK%2CDFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ%2CDFr1CR81idSmfgQ19KXe4M6keqUEAuU8kF%2CDTYiNbvTKveMtJC8KPPdBrgRWxfPxGp1WV%2CDJyGFrZv4MYKrTMcjzEyhZzdTAJju2Rcjr",
 			)
-			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-0.json`))
+			.reply(200, await require(`../test/fixtures/client/wallets-page-0.json`))
 			.get(
 				"/api/wallets?address=DHnV81YdhYDkwCLD8pkxiXh53pGFw435GS%2CDGhLzafzQpBYjDAWP41U4cx5CKZ5BdSnS3%2CDLVXZyKFxLLdyuEtJRUvFoKcorSrnBnq48%2CDFZAfJ1i1LsvhkUk76Piw4v7oTgq12pX9Z%2CDGfNF9bGPss6YKLEqK5gwr4C1M7vgfenzn",
 			)
-			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-1.json`));
+			.reply(200, await require(`../test/fixtures/client/wallets-page-1.json`));
 
 		const ark = await createMockService(ledger.wallets.record);
 
@@ -116,10 +117,10 @@ describe("scan", () => {
 		nock(/.+/)
 			.get("/api/wallets")
 			.query(true)
-			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-0.json`))
+			.reply(200, await require(`../test/fixtures/client/wallets-page-0.json`))
 			.get("/api/wallets")
 			.query(true)
-			.reply(200, require(`${__dirname}/../test/fixtures/client/wallets-page-1.json`));
+			.reply(200, await require(`../test/fixtures/client/wallets-page-1.json`));
 
 		const ark = await createMockService(ledger.wallets.record);
 

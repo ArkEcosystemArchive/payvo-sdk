@@ -16,7 +16,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).publicKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -28,7 +28,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 				publicKey: getPrivateAndPublicKeyFromPassphrase(secret).publicKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

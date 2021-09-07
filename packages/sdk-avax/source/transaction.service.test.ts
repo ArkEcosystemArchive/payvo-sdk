@@ -1,7 +1,7 @@
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
@@ -12,7 +12,7 @@ import { TransactionService } from "./transaction.service";
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);

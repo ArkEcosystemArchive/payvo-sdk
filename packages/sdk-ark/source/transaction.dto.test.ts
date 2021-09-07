@@ -1,5 +1,6 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
@@ -7,13 +8,13 @@ import CryptoConfiguration from "../test/fixtures/client/cryptoConfiguration.jso
 import Fixture from "../test/fixtures/client/transaction.json";
 import MultipaymentFixtures from "../test/fixtures/client/transactions.json";
 import VoteFixtures from "../test/fixtures/client/votes.json";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(() => {
-	subject = createService(ConfirmedTransactionData);
+beforeEach(async () => {
+	subject = await createService(ConfirmedTransactionData);
 	subject.configure(Fixture.data);
 });
 
@@ -44,18 +45,18 @@ describe("ConfirmedTransactionData", () => {
 		expect(subject.recipient()).toBe("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
-	test("#recipients", () => {
+	test("#recipients", async () => {
 		expect(subject.recipients()).toEqual([]);
 
-		subject = createService(ConfirmedTransactionData);
+		subject = await createService(ConfirmedTransactionData);
 		subject.configure(MultipaymentFixtures.data[0]);
 		expect(subject.recipients()).toBeArrayOfSize(9);
 	});
 
-	test("#amount", () => {
+	test("#amount", async () => {
 		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
 
-		subject = createService(ConfirmedTransactionData);
+		subject = await createService(ConfirmedTransactionData);
 		subject.configure(MultipaymentFixtures.data[0]);
 		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
 	});
@@ -146,11 +147,11 @@ describe("ConfirmedTransactionData", () => {
 		expect(subject.isDelegateRegistration()).toBeFalse();
 	});
 
-	test("#isVoteCombination", () => {
+	test("#isVoteCombination", async () => {
 		expect(subject.isVoteCombination()).toBeFalse();
 
 		const data = VoteFixtures.data[0];
-		subject = createService(ConfirmedTransactionData);
+		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ ...data, asset: { votes: [...data.asset.votes, "-X"] } });
 		expect(subject.isVoteCombination()).toBeTrue();
 	});
@@ -208,7 +209,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("DelegateRegistrationData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 		});
 
@@ -222,7 +223,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("DelegateResignationData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
 			subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 		});
@@ -233,7 +234,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("HtlcClaimData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
 		});
 
@@ -251,7 +252,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("HtlcLockData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({
 				type: 8,
 				asset: {
@@ -286,7 +287,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("HtlcRefundData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
 		});
 
@@ -300,7 +301,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("IpfsData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ type: 5, asset: { ipfs: "123456789" } });
 		});
 
@@ -314,7 +315,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("MultiPaymentData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({
 				type: 6,
 				asset: {
@@ -341,7 +342,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("MultiSignatureData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({
 				type: 4,
 				asset: {
@@ -367,7 +368,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("SecondSignatureData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
 		});
 
@@ -381,7 +382,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("TransferData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ vendorField: "X" });
 		});
 
@@ -395,7 +396,7 @@ describe("ConfirmedTransactionData", () => {
 	});
 
 	describe("VoteData", () => {
-		beforeEach(() => {
+		beforeEach(async () => {
 			subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
 		});
 

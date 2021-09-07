@@ -1,6 +1,5 @@
-import { Collections, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { getNetworkConfig } from "./config";
-import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
+import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { getAddresses } from "./helpers";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -22,7 +21,7 @@ export class ClientService extends Services.AbstractClientService {
 		let addresses: string[] = [];
 
 		for (const identifier of query.identifiers) {
-			addresses.push(...(await this.getAddresses(identifier)));
+			addresses.push(...(await getAddresses(identifier, this.httpClient, this.configRepository)));
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses });
@@ -31,32 +30,10 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const addresses = await this.getAddresses(id);
+		const addresses = await getAddresses(id, this.httpClient, this.configRepository);
 
 		const response = await this.#post(`wallets`, { addresses });
 		return this.dataTransferObjectService.wallet(response.data);
-	}
-
-	private async getAddresses(id: Services.WalletIdentifier): Promise<string[]> {
-		if (id.type === "extendedPublicKey") {
-			const network = getNetworkConfig(this.configRepository);
-			const derivationMethod = this.#derivationMethod(id);
-
-			const usedSpendAddresses = await this.#usedAddresses(
-				addressGenerator(derivationMethod, network, id.value, true, 100),
-			);
-			const usedChangeAddresses = await this.#usedAddresses(
-				addressGenerator(derivationMethod, network, id.value, false, 100),
-			);
-
-			return usedSpendAddresses.concat(usedChangeAddresses);
-		} else if (id.type === "address") {
-			return [id.value];
-		} else if (id.type === "publicKey") {
-			return [id.value];
-		}
-
-		throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);
 	}
 
 	public override async broadcast(
@@ -92,21 +69,15 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.get(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			query,
-		);
-
-		return response.json();
+		return (
+			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`, query)
+		).json();
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.post(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			body,
-		);
-
-		return response.json();
+		return (
+			await this.httpClient.post(`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`, body)
+		).json();
 	}
 
 	#createMetaPagination(body): Services.MetaPagination {
@@ -122,32 +93,5 @@ export class ClientService extends Services.AbstractClientService {
 			self: body.meta.current_page || undefined,
 			last: body.meta.last_page || undefined,
 		};
-	}
-
-	async #walletUsedTransactions(addresses: string[]): Promise<{ string: boolean }[]> {
-		const response = await this.#post(`wallets/addresses`, { addresses: addresses });
-		return response.data;
-	}
-
-	async #usedAddresses(addressesGenerator: Generator<string[]>): Promise<string[]> {
-		const usedAddresses: string[] = [];
-
-		let exhausted = false;
-		do {
-			const addressChunk: string[] = addressesGenerator.next().value;
-			const used: { string: boolean }[] = await this.#walletUsedTransactions(addressChunk);
-
-			const items = addressChunk.filter((address) => used[address]);
-			usedAddresses.push(...items);
-
-			exhausted = Object.values(used)
-				.slice(-20)
-				.every((x) => !x);
-		} while (!exhausted);
-		return usedAddresses;
-	}
-
-	#derivationMethod(id: Services.WalletIdentifier): (publicKey: string, network: string) => string {
-		return { bip44, bip49, bip84 }[id.method!];
 	}
 }

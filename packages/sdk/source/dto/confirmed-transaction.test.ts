@@ -3,6 +3,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
+import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 

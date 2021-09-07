@@ -22,7 +22,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: BaseWIF.fromPassphrase(mnemonic, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -34,7 +34,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: BaseWIF.fromPassphrase(secret, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -45,7 +45,7 @@ export class WIFService extends Services.AbstractWIFService {
 				wif: BaseWIF.fromKeys({ privateKey, compressed: true }, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

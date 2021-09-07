@@ -18,7 +18,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 			return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -29,7 +29,7 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -39,7 +39,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 			return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

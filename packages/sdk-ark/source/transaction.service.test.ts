@@ -4,7 +4,7 @@ import { Transactions } from "@arkecosystem/crypto";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { BindingType } from "./coin.contract";
 import { AddressService } from "./address.service";
@@ -24,7 +24,7 @@ afterEach(() => nock.cleanAll());
 beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -37,8 +37,6 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 	});
 });
-
-jest.setTimeout(10000);
 
 describe("TransactionService", () => {
 	describe("#transfer", () => {
@@ -136,9 +134,9 @@ describe("TransactionService", () => {
 		it("should sign using network estimated expiration", async () => {
 			nock(/.+/)
 				.get("/api/blockchain")
-				.reply(200, require("../test/fixtures/client/blockchain.json"))
+				.reply(200, await require("../test/fixtures/client/blockchain.json"))
 				.get("/api/node/configuration")
-				.reply(200, require("../test/fixtures/client/configuration.json"));
+				.reply(200, await require("../test/fixtures/client/configuration.json"));
 
 			const result = await subject.transfer({
 				nonce: "1",
@@ -161,7 +159,7 @@ describe("TransactionService", () => {
 		it("should add a signature if the sender public key is a multi-signature wallet", async () => {
 			nock(/.+/)
 				.get("/api/wallets/DBHbggggWbDUhdiqeh9HQ6b5Ryfit7Esek")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
+				.reply(200, await require(`../test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
 
 			const result = await subject.transfer({
 				nonce: "1",
@@ -431,9 +429,9 @@ describe("TransactionService", () => {
 	test("#estimateExpiration", async () => {
 		nock(/.+/)
 			.get("/api/blockchain")
-			.reply(200, require("../test/fixtures/client/blockchain.json"))
+			.reply(200, await require("../test/fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")
-			.reply(200, require("../test/fixtures/client/configuration.json"))
+			.reply(200, await require("../test/fixtures/client/configuration.json"))
 			.persist();
 
 		await expect(subject.estimateExpiration()).resolves.toBe("6795392");

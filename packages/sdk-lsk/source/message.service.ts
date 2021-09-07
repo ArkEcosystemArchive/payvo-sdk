@@ -12,7 +12,7 @@ export class MessageService extends Services.AbstractMessageService {
 
 			return { message, signatory: publicKey.toString("hex"), signature: signature.toString("hex") };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -24,7 +24,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: Buffer.from(input.signature, "hex"),
 			});
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

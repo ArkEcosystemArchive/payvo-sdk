@@ -20,7 +20,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: u8aToHex(keypair.sign(stringToU8a(input.message))),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -28,7 +28,7 @@ export class MessageService extends Services.AbstractMessageService {
 		try {
 			return signatureVerify(stringToU8a(input.message), hexToU8a(input.signature), input.signatory).isValid;
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

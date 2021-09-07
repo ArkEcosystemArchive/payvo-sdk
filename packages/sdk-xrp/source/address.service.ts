@@ -24,7 +24,7 @@ export class AddressService extends Services.AbstractAddressService {
 		try {
 			return { type: "rfc6979", address: deriveAddress(publicKey) };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

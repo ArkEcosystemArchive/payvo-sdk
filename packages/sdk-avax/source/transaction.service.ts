@@ -60,7 +60,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				signedTx.toString(),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -102,7 +102,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				signedTx.toString(),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

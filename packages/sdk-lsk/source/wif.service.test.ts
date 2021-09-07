@@ -3,14 +3,14 @@ import "jest-extended";
 import { Exceptions } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { WIFService } from "./wif.service";
 import { WIF } from "@payvo/cryptography";
 
 let subject: WIFService;
 
 beforeEach(async () => {
-	subject = createService(WIFService);
+	subject = await createService(WIFService);
 });
 
 describe("WIF", () => {

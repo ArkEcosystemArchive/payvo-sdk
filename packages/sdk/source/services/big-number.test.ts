@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import Joi from "joi";
 
-import { ConfigRepository } from "../coins";
+import { ConfigRepository } from "../coins/config";
 import { Container } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import { BigNumberService } from "./big-number.service";

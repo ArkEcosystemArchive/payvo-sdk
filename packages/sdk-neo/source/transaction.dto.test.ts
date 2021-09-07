@@ -3,13 +3,13 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(() => {
-	subject = createService(ConfirmedTransactionData);
+beforeEach(async () => {
+	subject = await createService(ConfirmedTransactionData);
 	subject.configure({
 		txid: "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
 		time: 1588930966,

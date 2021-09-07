@@ -3,7 +3,7 @@
 	"private": true,
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"dependencies": {
-		"ts-morph": "^11.0.0"
+		"ts-morph": "^12.0.0"
 	},
 	"engines": {
 		"node": "^12 || ^14"

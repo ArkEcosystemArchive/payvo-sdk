@@ -15,7 +15,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 				privateKey: accountKey.privateKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

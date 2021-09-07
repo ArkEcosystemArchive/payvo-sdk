@@ -18,7 +18,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				privateKey: privateKey.toString("hex").substring(0, 64),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -32,7 +32,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				privateKey: privateKey.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

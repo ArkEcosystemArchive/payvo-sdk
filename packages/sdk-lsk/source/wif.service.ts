@@ -22,7 +22,7 @@ export class WIFService extends Services.AbstractWIFService {
 				}),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -37,7 +37,7 @@ export class WIFService extends Services.AbstractWIFService {
 				}),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -54,7 +54,7 @@ export class WIFService extends Services.AbstractWIFService {
 				}),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

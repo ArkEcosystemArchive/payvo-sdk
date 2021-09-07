@@ -3,7 +3,7 @@ import "jest-extended";
 import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { FeeService } from "./fee.service";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
@@ -18,12 +18,12 @@ import { AssetSerializer } from "./asset.serializer";
 
 let subject: FeeService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
 beforeEach(async () => {
-	subject = createService(FeeService, "lsk.testnet", (container) => {
+	subject = await createService(FeeService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -67,7 +67,7 @@ describe("FeeService", () => {
 	test("#calculate", async () => {
 		nock(/.+/)
 			.get("/api/v2/fees")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/fees.json`))
+			.reply(200, await require(`../test/fixtures/client/fees.json`))
 			.persist();
 
 		const transaction = {

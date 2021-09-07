@@ -1,6 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
-import { WalletIdentifier } from "@payvo/sdk/distribution/services";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -101,7 +100,7 @@ export class ClientService extends Services.AbstractClientService {
 				},
 			});
 		} catch (error) {
-			response = error.response.json();
+			response = (error as any).response.json();
 		}
 
 		const { data, errors } = response;
@@ -205,7 +204,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		if (this.#isUpcoming()) {
 			// @ts-ignore
-			const addresses: WalletIdentifier[] | undefined = body.identifiers as WalletIdentifier[];
+			const addresses: Services.WalletIdentifier[] | undefined = body.identifiers as Services.WalletIdentifier[];
 
 			if (Array.isArray(addresses)) {
 				result.searchParams.address = addresses.map(({ value }) => value).join(",");
@@ -217,8 +216,9 @@ export class ClientService extends Services.AbstractClientService {
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
 		} else {
-			// @ts-ignore
-			const identifiers: WalletIdentifier[] | undefined = body.identifiers as WalletIdentifier[];
+			const identifiers: Services.WalletIdentifier[] | undefined =
+				// @ts-ignore
+				body.identifiers as Services.WalletIdentifier[];
 			if (identifiers) {
 				result.body.addresses = identifiers.map(({ value }) => value);
 

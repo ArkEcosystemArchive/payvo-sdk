@@ -76,7 +76,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				"0x" + transaction.serialize().toString("hex"),
 			);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

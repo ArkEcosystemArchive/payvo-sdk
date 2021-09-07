@@ -4,7 +4,7 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { AddressService } from "./address.service";
@@ -16,7 +16,7 @@ import { TransactionService } from "./transaction.service";
 let subject: TransactionService;
 
 beforeAll(async () => {
-	subject = createService(TransactionService, undefined, (container) => {
+	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -29,7 +29,7 @@ beforeAll(async () => {
 
 afterEach(() => nock.cleanAll());
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -38,7 +38,7 @@ describe("TransactionService", () => {
 		it("should sign transaction", async () => {
 			nock("https://proxy.nanos.cc/")
 				.post("/proxy/")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/account-info.json`));
+				.reply(200, await require(`../test/fixtures/client/account-info.json`));
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(

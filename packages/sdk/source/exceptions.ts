@@ -42,7 +42,7 @@ export class MissingArgument extends Exception {
 
 export class CryptoException extends Exception {
 	public constructor(error: Error) {
-		super(error.message);
+		super((error as any).message);
 	}
 }
 

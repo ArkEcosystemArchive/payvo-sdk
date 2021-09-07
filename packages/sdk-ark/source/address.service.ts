@@ -23,7 +23,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromPassphrase(mnemonic, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -37,7 +37,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -51,7 +51,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromPublicKey(publicKey, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -65,7 +65,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey), this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -78,7 +78,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromPassphrase(secret, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -89,7 +89,7 @@ export class AddressService extends Services.AbstractAddressService {
 				address: BaseAddress.fromWIF(wif, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

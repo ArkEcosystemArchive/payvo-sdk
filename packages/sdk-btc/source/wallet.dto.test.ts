@@ -4,11 +4,15 @@ import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
+
+let subject;
+
+beforeAll(async () => {
+	subject = (await createService(WalletData)).fill(Fixture.data);
+});
 
 describe("WalletData", () => {
-	const subject = createService(WalletData).fill(Fixture.data);
-
 	it("#address", () => {
 		expect(subject.address()).toEqual("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
 	});
