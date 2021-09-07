@@ -97,7 +97,10 @@ describe("FeeService", () => {
 				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-				container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+				container.singleton(
+					IoC.BindingType.DataTransferObjectService,
+					Services.AbstractDataTransferObjectService,
+				);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
@@ -164,7 +167,10 @@ describe("FeeService", () => {
 				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-				container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+				container.singleton(
+					IoC.BindingType.DataTransferObjectService,
+					Services.AbstractDataTransferObjectService,
+				);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
@@ -183,7 +189,13 @@ describe("FeeService", () => {
 			),
 			data: {
 				numberOfSignatures: 2,
-				mandatoryKeys: [wallet1.publicKey, wallet2.publicKey, wallet2.publicKey, wallet2.publicKey, wallet2.publicKey],
+				mandatoryKeys: [
+					wallet1.publicKey,
+					wallet2.publicKey,
+					wallet2.publicKey,
+					wallet2.publicKey,
+					wallet2.publicKey,
+				],
 				optionalKeys: [],
 			},
 		});
