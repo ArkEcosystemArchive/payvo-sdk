@@ -98,7 +98,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async unlockableBalances(id: string): Promise<Services.UnlockBalanceResponse> {
-		const { unlocking } = (await this.#get("accounts", { address: id })).data[0].dpos;
+		const { unlocking = [] } = (await this.#get("accounts", { address: id })).data[0].dpos;
 		const { blockTime, height: currentBlockHeight } = (await this.#get("network/status")).data;
 
 		const getPendingTime = (unvoteHeight: number, unlockHeight: number, blockTime: number): DateTime =>
