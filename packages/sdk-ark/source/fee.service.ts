@@ -38,7 +38,7 @@ export class FeeService extends Services.AbstractFeeService {
 	): Promise<BigNumber> {
 		const { multiSignature } = await this.all();
 
-		if (transaction instanceof SignedTransactionData) {
+		if (transaction.constructor?.name === "SignedTransactionData") {
 			return multiSignature.static.times(transaction.data().asset.multiSignature.publicKeys.length + 1);
 		}
 
