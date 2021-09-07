@@ -21,7 +21,7 @@ export class MessageService extends Services.AbstractMessageService {
 				signature: cb58Encode(child.sign(this.#digestMessage(input.message))),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 

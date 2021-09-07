@@ -67,7 +67,7 @@ export class ClientService extends Services.AbstractClientService {
 			} catch (err) {
 				result.rejected.push(transaction.id());
 
-				const { extras } = err.response.data;
+				const { extras } = (err as any).response.data;
 
 				result.errors[transaction.id()] = JSON.stringify(extras.result_codes.operations);
 			}

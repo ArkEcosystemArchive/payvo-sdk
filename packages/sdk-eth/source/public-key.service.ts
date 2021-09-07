@@ -13,11 +13,12 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 	): Promise<Services.PublicKeyDataTransferObject> {
 		try {
 			const { privateKey } = await this.privateKeyService.fromMnemonic(mnemonic, options);
-			const keyPair = Wallet.fromPrivateKey(Buffoon.fromHex(privateKey));
+			// @ts-ignore
+			const keyPair = new Wallet.default(Buffoon.fromHex(privateKey));
 
 			return { publicKey: keyPair.getPublicKey().toString("hex") };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

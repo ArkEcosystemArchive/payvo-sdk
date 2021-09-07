@@ -4,7 +4,7 @@ import { DTO, IoC, Services, Signatories } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
@@ -14,10 +14,10 @@ import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -26,7 +26,7 @@ beforeAll(() => {
 
 afterEach(() => nock.cleanAll());
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -34,11 +34,11 @@ describe("ClientService", () => {
 	it("#wallet should succeed", async () => {
 		nock(/.+/)
 			.post("/")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/transactions-0.json`))
+			.reply(200, await require(`../test/fixtures/client/transactions-0.json`))
 			.post("/")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/transactions-20.json`))
+			.reply(200, await require(`../test/fixtures/client/transactions-20.json`))
 			.post("/")
-			.reply(200, require(`${__dirname}/../test/fixtures/client/utxos-aggregate.json`));
+			.reply(200, await require(`../test/fixtures/client/utxos-aggregate.json`));
 
 		const result = await subject.wallet({
 			type: "address",
@@ -56,11 +56,11 @@ describe("ClientService", () => {
 		it("returns ok", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions-0.json`))
+				.reply(200, await require(`../test/fixtures/client/transactions-0.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions-20.json`))
+				.reply(200, await require(`../test/fixtures/client/transactions-20.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+				.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
 				senderPublicKey:
@@ -95,7 +95,7 @@ describe("ClientService", () => {
 	it("#transaction", async () => {
 		nock(/.+/)
 			.post(/.*/)
-			.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
+			.reply(200, await require(`../test/fixtures/client/transaction.json`));
 
 		const result = await subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 		expect(result).toBeInstanceOf(ConfirmedTransactionData);
@@ -156,15 +156,15 @@ describe("ClientService", () => {
 		it("#accepted", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/transactions-page-1.json`))
+				.reply(200, await require(`../test/fixtures/transaction/transactions-page-1.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/transactions-page-2.json`))
+				.reply(200, await require(`../test/fixtures/transaction/transactions-page-2.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/utxos.json`))
+				.reply(200, await require(`../test/fixtures/transaction/utxos.json`))
 				.post("/")
-				.reply(200, require(`${__dirname}/../test/fixtures/transaction/expiration.json`))
+				.reply(200, await require(`../test/fixtures/transaction/expiration.json`))
 				.post("/")
-				.reply(201, require(`${__dirname}/../test/fixtures/transaction/submit-tx.json`));
+				.reply(201, await require(`../test/fixtures/transaction/submit-tx.json`));
 
 			const txService = createService(TransactionService, undefined, (container) => {
 				container.constant(IoC.BindingType.Container, container);
@@ -204,7 +204,7 @@ describe("ClientService", () => {
 		it("#rejected", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(201, require(`${__dirname}/../test/fixtures/transaction/submit-tx-failed.json`));
+				.reply(201, await require(`../test/fixtures/transaction/submit-tx-failed.json`));
 
 			const transactions = [
 				createService(SignedTransactionData).configure(

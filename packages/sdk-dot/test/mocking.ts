@@ -27,3 +27,5 @@ export const createServiceAsync = async <T = any>(
 		service,
 	});
 };
+
+export const require = async (path: string): Promise<object> => (await import(path)).default;

@@ -5,7 +5,7 @@ import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocke
 import nock from "nock";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
@@ -15,7 +15,7 @@ import { AssetSerializer } from "./asset.serializer";
 import { TransactionSerializer } from "./transaction.serializer";
 
 const createMockService = async (record: string) => {
-	const transport = createService(LedgerService, "lsk.mainnet", (container) => {
+	const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -83,19 +83,21 @@ describe("scan", () => {
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "7399986239080551550L" })
-			.reply(200, require("../test/fixtures/client/wallet-0.json"));
+			.reply(200, await require("../test/fixtures/client/wallet-0.json"));
 
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "11603034586667438647L" })
-			.reply(200, require("../test/fixtures/client/wallet-1.json"));
+			.reply(200, await require("../test/fixtures/client/wallet-1.json"));
 
 		nock(/.+/)
 			.get("/api/accounts")
 			.query({ address: "8261766349562104742L" })
-			.reply(200, require("../test/fixtures/client/wallet-2.json"));
+			.reply(200, await require("../test/fixtures/client/wallet-2.json"));
 
-		nock(/.+/).get("/api/accounts").reply(200, require("../test/fixtures/client/wallet-3.json"));
+		nock(/.+/)
+			.get("/api/accounts")
+			.reply(200, await require("../test/fixtures/client/wallet-3.json"));
 
 		const lsk = await createMockService(ledger.wallets.record);
 

@@ -44,7 +44,7 @@ export class ClientService extends Services.AbstractClientService {
 			} catch (error) {
 				result.rejected.push(transaction.id());
 
-				result.errors[transaction.id()] = error.message;
+				result.errors[transaction.id()] = (error as any).message;
 			}
 		}
 

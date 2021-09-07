@@ -21,7 +21,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 					.toString("hex"),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

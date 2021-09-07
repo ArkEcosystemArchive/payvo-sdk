@@ -4,7 +4,7 @@ import { IoC, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
 import { identity } from "../test/fixtures/identity";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";
@@ -14,7 +14,7 @@ let subject: MessageService;
 beforeEach(async () => {
 	await waitReady();
 
-	subject = createService(MessageService, undefined, async (container: IoC.Container) => {
+	subject = await createService(MessageService, undefined, async (container: IoC.Container) => {
 		container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
 	});
 });

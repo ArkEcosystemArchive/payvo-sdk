@@ -5,7 +5,7 @@ import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { DataTransferObjects } from "./coin.dtos";
@@ -14,17 +14,17 @@ import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ClientService;
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(ClientService, undefined, (container) => {
+	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 });
 
-beforeAll(() => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
@@ -33,7 +33,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://stargate.cosmos.network")
 				.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transaction.json`));
+				.reply(200, await require(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11",
@@ -59,7 +59,7 @@ describe("ClientService", () => {
 				.get(
 					"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
 				)
-				.reply(200, require(`${__dirname}/../test/fixtures/client/transactions.json`));
+				.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
 				identifiers: [{ type: "address", value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0" }],
@@ -84,9 +84,9 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://stargate.cosmos.network")
 				.get("/auth/accounts/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`))
+				.reply(200, await require(`../test/fixtures/client/wallet.json`))
 				.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/wallet.json`));
+				.reply(200, await require(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -136,7 +136,7 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock("https://stargate.cosmos.network")
 				.post("/txs")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast.json`));
+				.reply(200, await require(`../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 
@@ -150,7 +150,7 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock("https://stargate.cosmos.network")
 				.post("/txs")
-				.reply(200, require(`${__dirname}/../test/fixtures/client/broadcast-failure.json`));
+				.reply(200, await require(`../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([transactionPayload]);
 

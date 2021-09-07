@@ -3,7 +3,7 @@ import "jest-extended";
 import { Coins, IoC } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { KnownWalletService } from "./known-wallets.service";
 
 let subject: KnownWalletService;
@@ -11,7 +11,7 @@ let subject: KnownWalletService;
 beforeAll(() => nock.disableNetConnect());
 
 beforeEach(async () => {
-	subject = createService(KnownWalletService);
+	subject = await createService(KnownWalletService);
 });
 
 afterEach(() => nock.cleanAll());
@@ -55,7 +55,7 @@ describe("KnownWalletService", () => {
 	});
 
 	it("should return an empty list if the source is empty", async () => {
-		subject = createService(KnownWalletService, undefined, async (container: IoC.Container) => {
+		subject = await createService(KnownWalletService, undefined, async (container: IoC.Container) => {
 			container
 				.get<Coins.ConfigRepository>(IoC.BindingType.ConfigRepository)
 				.forget(Coins.ConfigKey.KnownWallets);

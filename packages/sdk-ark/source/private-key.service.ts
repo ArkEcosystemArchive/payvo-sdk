@@ -22,7 +22,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				privateKey: BasePrivateKey.fromPassphrase(mnemonic),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -34,7 +34,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				privateKey: BasePrivateKey.fromPassphrase(secret),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 
@@ -44,7 +44,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				privateKey: BasePrivateKey.fromWIF(wif, this.config.network),
 			};
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

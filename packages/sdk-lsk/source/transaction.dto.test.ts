@@ -4,13 +4,13 @@ import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/transaction.json";
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(() => {
-	subject = createService(ConfirmedTransactionData).configure(Fixture.data[0]);
+beforeEach(async () => {
+	subject = await createService(ConfirmedTransactionData).configure(Fixture.data[0]);
 });
 
 describe("ConfirmedTransactionData", () => {

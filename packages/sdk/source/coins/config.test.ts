@@ -6,7 +6,7 @@ import { ConfigKey, ConfigRepository } from "./config";
 
 let subject: ConfigRepository;
 
-beforeEach(() => {
+beforeEach(async () => {
 	subject = new ConfigRepository(
 		{
 			network: "ark.mainnet",

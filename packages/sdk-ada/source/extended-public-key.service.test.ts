@@ -1,12 +1,12 @@
 import "jest-extended";
 
-import { createService } from "../test/mocking";
+import { createService, require } from "../test/mocking";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 
 let subject: ExtendedPublicKeyService;
 
 beforeEach(async () => {
-	subject = createService(ExtendedPublicKeyService);
+	subject = await createService(ExtendedPublicKeyService);
 });
 
 describe("ExtendedPublicKeyService", () => {

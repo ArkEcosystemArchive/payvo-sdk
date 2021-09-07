@@ -24,7 +24,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		try {
 			return deriveKeypair(secret);
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }

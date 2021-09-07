@@ -18,7 +18,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 
 			return { publicKey };
 		} catch (error) {
-			throw new Exceptions.CryptoException(error);
+			throw new Exceptions.CryptoException(error as any);
 		}
 	}
 }
