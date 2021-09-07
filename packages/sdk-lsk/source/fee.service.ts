@@ -39,7 +39,7 @@ export class FeeService extends Services.AbstractFeeService {
 		transaction: Contracts.RawTransactionData,
 		options?: Services.TransactionFeeOptions,
 	): Promise<BigNumber> {
-		if (transaction instanceof SignedTransactionData) {
+		if (transaction.constructor?.name === "SignedTransactionData") {
 			transaction = transaction.data();
 		}
 
