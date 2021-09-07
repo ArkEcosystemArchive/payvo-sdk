@@ -1,5 +1,6 @@
 import { BigNumber } from "@payvo/helpers";
 import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { SignedTransactionData } from "./signed-transaction.dto";
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
@@ -37,8 +38,8 @@ export class FeeService extends Services.AbstractFeeService {
 	): Promise<BigNumber> {
 		const { multiSignature } = await this.all();
 
-		if ([4, "multiSignature"].includes(transaction.type)) {
-			return multiSignature.static.times(transaction.asset.multiSignature.publicKeys.length + 1);
+		if (transaction instanceof SignedTransactionData) {
+			return multiSignature.static.times(transaction.data().asset.multiSignature.publicKeys.length + 1);
 		}
 
 		return BigNumber.ZERO;
