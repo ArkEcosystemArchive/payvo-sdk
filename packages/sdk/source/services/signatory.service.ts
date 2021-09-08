@@ -140,4 +140,18 @@ export class AbstractSignatoryService implements SignatoryService {
 			options?.multiSignature,
 		);
 	}
+
+	/**
+	 * This signatory should only be used for testing and fee calculations.
+	 */
+	public async stub(mnemonic: string): Promise<Signatory> {
+		return new Signatory(
+			new MnemonicSignatory({
+				signingKey: mnemonic,
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			})
+		);
+	}
 }
