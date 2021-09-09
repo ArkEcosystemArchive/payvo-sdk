@@ -44,6 +44,7 @@ export interface NetworkManifestTransactions {
 	utxo?: boolean;
 	multiPaymentRecipients?: number;
 	multiSignatureType?: "standard" | "advanced";
+	lockedBalance?: boolean;
 }
 
 export interface NetworkManifestFeatureFlags {

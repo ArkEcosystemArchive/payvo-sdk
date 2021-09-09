@@ -9,6 +9,7 @@ export const transactions: Networks.NetworkManifestTransactions = {
 	},
 	memo: true,
 	multiSignatureType: "advanced",
+	lockedBalance: true,
 };
 
 export const importMethods: Networks.NetworkManifestImportMethods = {
