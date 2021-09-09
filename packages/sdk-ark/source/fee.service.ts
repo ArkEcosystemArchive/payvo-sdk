@@ -29,6 +29,7 @@ export class FeeService extends Services.AbstractFeeService {
 			htlcLock: this.#transform("htlcLock", 1, staticFees, dynamicFees),
 			htlcClaim: this.#transform("htlcClaim", 1, staticFees, dynamicFees),
 			htlcRefund: this.#transform("htlcRefund", 1, staticFees, dynamicFees),
+			unlockToken: this.#transform("unlockToken", 1, staticFees, dynamicFees),
 		};
 	}
 

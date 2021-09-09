@@ -24,6 +24,7 @@ export class FeeService extends Services.AbstractFeeService {
 			htlcLock: fees,
 			htlcClaim: fees,
 			htlcRefund: fees,
+			unlockToken: fees,
 		};
 	}
 }

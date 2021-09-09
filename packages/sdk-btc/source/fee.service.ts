@@ -25,6 +25,7 @@ export class FeeService extends Services.AbstractFeeService {
 			htlcLock: this.#transform(0, 0, 0),
 			htlcClaim: this.#transform(0, 0, 0),
 			htlcRefund: this.#transform(0, 0, 0),
+			unlockToken: this.#transform(0, 0, 0),
 		};
 	}
 

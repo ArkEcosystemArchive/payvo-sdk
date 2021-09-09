@@ -23,6 +23,7 @@ export interface TransactionFees {
 	htlcLock: TransactionFee;
 	htlcClaim: TransactionFee;
 	htlcRefund: TransactionFee;
+	unlockToken: TransactionFee;
 }
 
 export interface FeeService {
