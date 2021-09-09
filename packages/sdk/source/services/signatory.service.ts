@@ -151,7 +151,7 @@ export class AbstractSignatoryService implements SignatoryService {
 				address: "address",
 				publicKey: "publicKey",
 				privateKey: "privateKey",
-			})
+			}),
 		);
 	}
 }
