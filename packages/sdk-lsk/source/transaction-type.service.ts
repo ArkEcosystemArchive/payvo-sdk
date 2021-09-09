@@ -70,4 +70,12 @@ export class TransactionTypeService {
 
 		return parseInt(data.type) === 4;
 	}
+
+	public static isUnlockToken(data: TransactionData): boolean {
+		if (isTest(data)) {
+			return data.moduleAssetName === "dpos:unlockToken";
+		}
+
+		return parseInt(data.type) === 5;
+	}
 }

@@ -114,6 +114,10 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return TransactionTypeService.isUnvote(this.data);
 	}
 
+	public override isUnlockToken(): boolean {
+		return TransactionTypeService.isUnlockToken(this.data);
+	}
+
 	public override isMultiSignatureRegistration(): boolean {
 		return TransactionTypeService.isMultiSignatureRegistration(this.data);
 	}

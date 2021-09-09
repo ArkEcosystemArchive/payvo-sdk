@@ -5,7 +5,7 @@ import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@lis
 
 import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isVote } from "./helpers";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
 
 @IoC.injectable()
 export class SignedTransactionData
@@ -118,5 +118,13 @@ export class SignedTransactionData
 		}
 
 		return typeof this.signedData.multiSignature === "object";
+	}
+
+	public override isUnlockToken(): boolean {
+		if (this.signedData.moduleID) {
+			return isUnlockToken(this.signedData);
+		}
+
+		return TransactionTypeService.isUnlockToken(this.signedData);
 	}
 }
