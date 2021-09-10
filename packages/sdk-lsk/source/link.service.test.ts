@@ -11,13 +11,13 @@ beforeAll(async () => {
 });
 
 it("should generate a link for a block", async () => {
-	expect(subject.block("id")).toMatchInlineSnapshot(`"https://testnet.liskscan.com/block/id"`);
+	expect(subject.block("id")).toMatchInlineSnapshot(`"https://testnet.lisk.observer/block/id"`);
 });
 
 it("should generate a link for a transaction", async () => {
-	expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://testnet.liskscan.com/transaction/id"`);
+	expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://testnet.lisk.observer/transaction/id"`);
 });
 
 it("should generate a link for a wallet", async () => {
-	expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://testnet.liskscan.com/account/id"`);
+	expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://testnet.lisk.observer/account/id"`);
 });
