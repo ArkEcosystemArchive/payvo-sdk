@@ -6,7 +6,7 @@ import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
-const isTest = (data: Record<string, unknown>): boolean => data.moduleAssetName !== undefined;
+const isLegacy = (data: Record<string, unknown>): boolean => data.moduleAssetName === undefined;
 
 @IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
@@ -23,11 +23,11 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override timestamp(): DateTime | undefined {
-		if (isTest(this.data)) {
-			return DateTime.fromUnix(this.data.block.timestamp);
+		if (isLegacy(this.data)) {
+			return normalizeTimestamp(this.data.timestamp);
 		}
 
-		return normalizeTimestamp(this.data.timestamp);
+		return DateTime.fromUnix(this.data.block.timestamp);
 	}
 
 	public override confirmations(): BigNumber {
@@ -120,11 +120,11 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Delegate Registration
 	public override username(): string {
-		if (isTest(this.data)) {
-			return this.data.asset.username;
+		if (isLegacy(this.data)) {
+			return this.data.asset.delegate.username;
 		}
 
-		return this.data.asset.delegate.username;
+		return this.data.asset.username;
 	}
 
 	// Vote
@@ -133,15 +133,15 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return [];
 		}
 
-		if (isTest(this.data)) {
+		if (isLegacy(this.data)) {
 			return this.data.asset.votes
-				.filter(({ amount }) => !amount.startsWith("-"))
-				.map(({ delegateAddress }) => delegateAddress);
+				.filter((vote: string) => vote.startsWith("+"))
+				.map((publicKey: string) => publicKey.substr(1));
 		}
 
 		return this.data.asset.votes
-			.filter((vote: string) => vote.startsWith("+"))
-			.map((publicKey: string) => publicKey.substr(1));
+			.filter(({ amount }) => !amount.startsWith("-"))
+			.map(({ delegateAddress }) => delegateAddress);
 	}
 
 	public override unvotes(): string[] {
@@ -149,15 +149,15 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return [];
 		}
 
-		if (isTest(this.data)) {
+		if (isLegacy(this.data)) {
 			return this.data.asset.votes
-				.filter(({ amount }) => amount.startsWith("-"))
-				.map(({ delegateAddress }) => delegateAddress);
+				.filter((vote: string) => vote.startsWith("-"))
+				.map((publicKey: string) => publicKey.substr(1));
 		}
 
 		return this.data.asset.votes
-			.filter((vote: string) => vote.startsWith("-"))
-			.map((publicKey: string) => publicKey.substr(1));
+			.filter(({ amount }) => amount.startsWith("-"))
+			.map(({ delegateAddress }) => delegateAddress);
 	}
 
 	// Second-Signature Registration

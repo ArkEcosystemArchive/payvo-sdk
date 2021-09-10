@@ -1,30 +1,30 @@
 type TransactionData = Record<string, any>;
 
-const isTest = (data: Record<string, unknown>): boolean => data.moduleAssetName !== undefined;
+const isLegacy = (data: Record<string, unknown>): boolean => data.moduleAssetName === undefined;
 
 export class TransactionTypeService {
 	public static isTransfer(data: TransactionData): boolean {
-		if (isTest(data)) {
-			return data.moduleAssetName === "token:transfer";
+		if (isLegacy(data)) {
+			return parseInt(data.type) === 0;
 		}
 
-		return parseInt(data.type) === 0;
+		return data.moduleAssetName === "token:transfer";
 	}
 
 	public static isSecondSignature(data: TransactionData): boolean {
-		if (isTest(data)) {
-			return false;
+		if (isLegacy(data)) {
+			return parseInt(data.type) === 1;
 		}
 
-		return parseInt(data.type) === 1;
+		return false;
 	}
 
 	public static isDelegateRegistration(data: TransactionData): boolean {
-		if (isTest(data)) {
-			return data.moduleAssetName === "dpos:registerDelegate";
+		if (isLegacy(data)) {
+			return parseInt(data.type) === 2;
 		}
 
-		return parseInt(data.type) === 2;
+		return data.moduleAssetName === "dpos:registerDelegate";
 	}
 
 	public static isVoteCombination(data: TransactionData): boolean {
@@ -32,42 +32,42 @@ export class TransactionTypeService {
 	}
 
 	public static isVote(data: TransactionData): boolean {
-		if (isTest(data)) {
-			if (data.moduleAssetName !== "dpos:voteDelegate") {
+		if (isLegacy(data)) {
+			if (parseInt(data.type) !== 3) {
 				return false;
 			}
 
-			return data.asset.votes.some(({ amount }) => !amount.startsWith("-"));
+			return data.asset.votes.some((vote) => vote.startsWith("+"));
 		}
 
-		if (parseInt(data.type) !== 3) {
+		if (data.moduleAssetName !== "dpos:voteDelegate") {
 			return false;
 		}
 
-		return data.asset.votes.some((vote) => vote.startsWith("+"));
+		return data.asset.votes.some(({ amount }) => !amount.startsWith("-"));
 	}
 
 	public static isUnvote(data: TransactionData): boolean {
-		if (isTest(data)) {
-			if (data.moduleAssetName !== "dpos:voteDelegate") {
+		if (isLegacy(data)) {
+			if (parseInt(data.type) !== 3) {
 				return false;
 			}
 
-			return data.asset.votes.some(({ amount }) => amount.startsWith("-"));
+			return data.asset.votes.some((vote) => vote.startsWith("-"));
 		}
 
-		if (parseInt(data.type) !== 3) {
+		if (data.moduleAssetName !== "dpos:voteDelegate") {
 			return false;
 		}
 
-		return data.asset.votes.some((vote) => vote.startsWith("-"));
+		return data.asset.votes.some(({ amount }) => amount.startsWith("-"));
 	}
 
 	public static isMultiSignatureRegistration(data: TransactionData): boolean {
-		if (isTest(data)) {
-			return data.moduleAssetName === "keys:registerMultisignatureGroup";
+		if (isLegacy(data)) {
+			return parseInt(data.type) === 4;
 		}
 
-		return parseInt(data.type) === 4;
+		return data.moduleAssetName === "keys:registerMultisignatureGroup";
 	}
 }
