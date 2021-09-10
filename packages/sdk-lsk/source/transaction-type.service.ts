@@ -76,6 +76,6 @@ export class TransactionTypeService {
 			return data.moduleAssetName === "dpos:unlockToken";
 		}
 
-		return parseInt(data.type) === 5;
+		return false;
 	}
 }

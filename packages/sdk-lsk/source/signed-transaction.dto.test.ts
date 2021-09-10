@@ -162,21 +162,6 @@ describe("2.0", () => {
 		expect(subject.isUnvote()).toBeTrue();
 	});
 
-	test("#isUnlockToken", async () => {
-		expect(subject.isUnlockToken()).toBeFalse();
-
-		subject = await createService(SignedTransactionData).configure(
-			transaction.id,
-			{
-				...transaction,
-				type: 5,
-			},
-			transaction,
-		);
-
-		expect(subject.isUnlockToken()).toBeTrue();
-	});
-
 	test("#isMultiSignatureRegistration", async () => {
 		expect(subject.isMultiSignatureRegistration()).toBeFalse();
 
