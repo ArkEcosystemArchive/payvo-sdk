@@ -5,12 +5,6 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
-
-### Changed
-
-- Update changelog ([e47a6c4](e47a6c46d25c65e576c71120d03b69427458fff5))
-
 ## [1.6.50] - 2021-09-09
 
 ### Added
