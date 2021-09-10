@@ -153,9 +153,9 @@ describe("FeeService", () => {
 						"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd", // 35
 						"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd", // 40
 						"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd", // 45
-					]
+					],
 				},
-			})
+			}),
 		);
 
 		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1 });
