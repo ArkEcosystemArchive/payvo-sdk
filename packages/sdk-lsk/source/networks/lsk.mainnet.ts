@@ -26,7 +26,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "explorer",
-			host: "https://liskscan.com",
+			host: "https://lisk.observer",
 		},
 	],
 	governance,
