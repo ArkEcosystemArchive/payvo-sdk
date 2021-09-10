@@ -135,8 +135,8 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 		if (isLegacy(this.data)) {
 			return this.data.asset.votes
-			.filter((vote: string) => vote.startsWith("+"))
-			.map((publicKey: string) => publicKey.substr(1));
+				.filter((vote: string) => vote.startsWith("+"))
+				.map((publicKey: string) => publicKey.substr(1));
 		}
 
 		return this.data.asset.votes
