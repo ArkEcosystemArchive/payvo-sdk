@@ -72,10 +72,10 @@ export class TransactionTypeService {
 	}
 
 	public static isUnlockToken(data: TransactionData): boolean {
-		if (isTest(data)) {
-			return data.moduleAssetName === "dpos:unlockToken";
+		if (isLegacy(data)) {
+			return false;
 		}
 
-		return false;
+		return data.moduleAssetName === "dpos:unlockToken";
 	}
 }
