@@ -51,6 +51,7 @@ describe("FeeService", () => {
 			"htlcLock",
 			"htlcClaim",
 			"htlcRefund",
+			"unlockToken",
 		]);
 
 		matchSnapshot(result.transfer);
@@ -64,6 +65,7 @@ describe("FeeService", () => {
 		matchSnapshot(result.htlcLock);
 		matchSnapshot(result.htlcClaim);
 		matchSnapshot(result.htlcRefund);
+		matchSnapshot(result.unlockToken);
 	});
 
 	it("should get the fees for BIND", async () => {
@@ -87,6 +89,7 @@ describe("FeeService", () => {
 			"htlcLock",
 			"htlcClaim",
 			"htlcRefund",
+			"unlockToken",
 		]);
 
 		matchSnapshot(result.transfer);
@@ -100,6 +103,7 @@ describe("FeeService", () => {
 		matchSnapshot(result.htlcLock);
 		matchSnapshot(result.htlcClaim);
 		matchSnapshot(result.htlcRefund);
+		matchSnapshot(result.unlockToken);
 	});
 
 	it("should calculate the fees for ARK multi-signature registrations", async () => {

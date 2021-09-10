@@ -43,6 +43,7 @@ describe("FeeService", () => {
 			"htlcLock",
 			"htlcClaim",
 			"htlcRefund",
+			"unlockToken",
 		]);
 
 		matchSnapshot(result.transfer);
@@ -56,5 +57,6 @@ describe("FeeService", () => {
 		matchSnapshot(result.htlcLock);
 		matchSnapshot(result.htlcClaim);
 		matchSnapshot(result.htlcRefund);
+		matchSnapshot(result.unlockToken);
 	});
 });

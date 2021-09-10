@@ -35,6 +35,7 @@ describe("FeeService", () => {
 			"htlcLock",
 			"htlcClaim",
 			"htlcRefund",
+			"unlockToken",
 		]);
 
 		expect(result.transfer).toEqual({

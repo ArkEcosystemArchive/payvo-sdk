@@ -57,6 +57,7 @@ describe("FeeService", () => {
 				"htlcLock",
 				"htlcClaim",
 				"htlcRefund",
+				"unlockToken",
 			]);
 
 			expect(result.transfer.min.toString()).toBe("10000000");
