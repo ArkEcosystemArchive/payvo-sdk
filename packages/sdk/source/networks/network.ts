@@ -308,6 +308,16 @@ export class Network {
 	}
 
 	/**
+	 * Determines if the network uses locked balances.
+	 *
+	 * @return {*}  {boolean}
+	 * @memberof Network
+	 */
+	public usesLockedBalance(): boolean {
+		return get(this.#network, "transactions.lockedBalance", false);
+	}
+
+	/**
 	 * Returns the number of recipients per multi payment transaction.
 	 *
 	 * @return {*}  {number}

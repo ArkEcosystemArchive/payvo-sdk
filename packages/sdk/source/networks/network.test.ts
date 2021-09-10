@@ -381,6 +381,10 @@ it("#usesUTXO", () => {
 	expect(subject.usesUTXO()).toBeBoolean();
 });
 
+it("#usesLockedBalance", () => {
+	expect(subject.usesLockedBalance()).toBeBoolean();
+});
+
 it("#tokens", () => {
 	expect(subject.tokens()).toBeArray();
 });

@@ -18,4 +18,6 @@ export interface SignatoryService {
 	ledger(path: string): Promise<Signatory>;
 
 	secret(secret: string): Promise<Signatory>;
+
+	stub(mnemonic: string): Promise<Signatory>;
 }

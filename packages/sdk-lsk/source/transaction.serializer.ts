@@ -13,7 +13,7 @@ export class TransactionSerializer {
 	public toMachine(transaction: Contracts.RawTransactionData): Record<string, unknown> {
 		const mutated = {
 			...transaction,
-			fee: BigInt(transaction.fee),
+			fee: BigInt(transaction.fee ?? 0),
 			nonce: BigInt(transaction.nonce),
 			senderPublicKey: convertString(transaction.senderPublicKey),
 		};

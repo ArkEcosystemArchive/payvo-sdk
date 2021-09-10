@@ -39,6 +39,7 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 		htlcClaim: "isHtlcClaim",
 		htlcRefund: "isHtlcRefund",
 		magistrate: "isMagistrate",
+		unlockToken: "isUnlockToken",
 	};
 
 	protected decimals?: number;
@@ -195,6 +196,10 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public isMagistrate(): boolean {
+		return false;
+	}
+
+	public isUnlockToken(): boolean {
 		return false;
 	}
 

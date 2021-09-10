@@ -6,6 +6,7 @@ import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
+import { SignedTransactionData } from "./signed-transaction.dto";
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
@@ -38,6 +39,10 @@ export class FeeService extends Services.AbstractFeeService {
 		transaction: Contracts.RawTransactionData,
 		options?: Services.TransactionFeeOptions,
 	): Promise<BigNumber> {
+		if (transaction.constructor?.name === "SignedTransactionData") {
+			transaction = transaction.data();
+		}
+
 		const { data } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
 		).json();
@@ -102,16 +107,20 @@ export class FeeService extends Services.AbstractFeeService {
 	}
 
 	#asset(transaction: Contracts.RawTransactionData): Record<string, number | object> {
-		return this.configRepository.get<object>("network.meta.assets")[
-			{
-				"2:0": "token:transfer",
-				"4:0": "keys:registerMultisignatureGroup",
-				"5:0": "dpos:registerDelegate",
-				"5:1": "dpos:voteDelegate",
-				"5:2": "dpos:unlockToken",
-				"5:3": "dpos:reportDelegateMisbehavior",
-				"1000:0": "legacyAccount:reclaimLSK",
-			}[joinModuleAndAssetIds(transaction)]!
-		];
+		const moduleAssetId: string | undefined = {
+			"2:0": "token:transfer",
+			"4:0": "keys:registerMultisignatureGroup",
+			"5:0": "dpos:registerDelegate",
+			"5:1": "dpos:voteDelegate",
+			"5:2": "dpos:unlockToken",
+			"5:3": "dpos:reportDelegateMisbehavior",
+			"1000:0": "legacyAccount:reclaimLSK",
+		}[joinModuleAndAssetIds(transaction)];
+
+		if (!moduleAssetId) {
+			throw new Error("Failed to determine module and asset ID.");
+		}
+
+		return this.configRepository.get<object>("network.meta.assets")[moduleAssetId];
 	}
 }

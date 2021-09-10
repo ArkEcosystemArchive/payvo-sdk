@@ -59,6 +59,7 @@ describe("ClientService", () => {
 			expect(result.isVoteCombination()).toMatchInlineSnapshot(`false`);
 			expect(result.isVote()).toMatchInlineSnapshot(`true`);
 			expect(result.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(result.isUnlockToken()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(result.username()).toMatchInlineSnapshot(`undefined`);
 			expect(result.votes()).toMatchInlineSnapshot(`
@@ -106,6 +107,7 @@ describe("ClientService", () => {
 			expect(transaction.isVoteCombination()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isVote()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isUnlockToken()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(transaction.username()).toMatchInlineSnapshot(`undefined`);
 			expect(transaction.votes()).toMatchInlineSnapshot(`Array []`);
@@ -265,6 +267,34 @@ describe("ClientService", () => {
 	});
 
 	describe("#unlockableBalances", () => {
+		it('should return empty when the property "unlocking" is missing in the response', async () => {
+			nock(/.+/)
+				.get("/api/v2/accounts")
+				.query(true)
+				.reply(200, {
+					data: [
+						{
+							dpos: {},
+						},
+					],
+				})
+				.get("/api/v2/network/status")
+				.reply(200, {
+					data: {
+						blockTime: 10,
+						height: 14216291,
+					},
+				});
+
+			const { current, pending, objects } = await subject.unlockableBalances(
+				"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+			);
+
+			expect(current.toHuman()).toBe(0);
+			expect(pending.toHuman()).toBe(0);
+			expect(objects).toMatchInlineSnapshot("Array []");
+		});
+
 		it("should have a pending balance if the current height is not greater than the unlock height", async () => {
 			jest.spyOn(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
 
