@@ -59,6 +59,7 @@ describe("ClientService", () => {
 			expect(result.isVoteCombination()).toMatchInlineSnapshot(`false`);
 			expect(result.isVote()).toMatchInlineSnapshot(`true`);
 			expect(result.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(result.isUnlockToken()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(result.username()).toMatchInlineSnapshot(`undefined`);
 			expect(result.votes()).toMatchInlineSnapshot(`
@@ -106,6 +107,7 @@ describe("ClientService", () => {
 			expect(transaction.isVoteCombination()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isVote()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isUnvote()).toMatchInlineSnapshot(`false`);
+			expect(transaction.isUnlockToken()).toMatchInlineSnapshot(`false`);
 			expect(transaction.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
 			expect(transaction.username()).toMatchInlineSnapshot(`undefined`);
 			expect(transaction.votes()).toMatchInlineSnapshot(`Array []`);

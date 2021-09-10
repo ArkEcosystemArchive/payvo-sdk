@@ -46,6 +46,7 @@ export interface SignedTransactionData {
 	isHtlcClaim(): boolean;
 	isHtlcRefund(): boolean;
 	isMagistrate(): boolean;
+	isUnlockToken(): boolean;
 
 	// Indicates if the transaction has been signed with a multi-signature.
 	usesMultiSignature(): boolean;

@@ -36,6 +36,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		htlcClaim: "isHtlcClaim",
 		htlcRefund: "isHtlcRefund",
 		magistrate: "isMagistrate",
+		unlockToken: "isUnlockToken",
 	};
 
 	public configure(
@@ -151,6 +152,10 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public isMagistrate(): boolean {
+		return false;
+	}
+
+	public isUnlockToken(): boolean {
 		return false;
 	}
 

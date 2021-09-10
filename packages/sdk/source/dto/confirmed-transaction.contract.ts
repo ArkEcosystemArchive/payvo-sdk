@@ -90,6 +90,8 @@ export interface ConfirmedTransactionData {
 
 	isMagistrate(): boolean;
 
+	isUnlockToken(): boolean;
+
 	// Second-Signature Registration
 	secondPublicKey(): string;
 
