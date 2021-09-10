@@ -70,4 +70,12 @@ export class TransactionTypeService {
 
 		return data.moduleAssetName === "keys:registerMultisignatureGroup";
 	}
+
+	public static isUnlockToken(data: TransactionData): boolean {
+		if (isLegacy(data)) {
+			return false;
+		}
+
+		return data.moduleAssetName === "dpos:unlockToken";
+	}
 }

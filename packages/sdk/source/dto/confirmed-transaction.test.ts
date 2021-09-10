@@ -141,6 +141,10 @@ test("#isMagistrate", () => {
 	expect(new Transaction().configure({ key: "value" }).isMagistrate()).toBeFalse();
 });
 
+test("#isUnlockToken", () => {
+	expect(new Transaction().configure({ key: "value" }).isUnlockToken()).toBeFalse();
+});
+
 test("#toObject", () => {
 	expect(new Transaction().configure({ key: "value" }).toObject()).toMatchInlineSnapshot(`
 		Object {

@@ -118,6 +118,10 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return TransactionTypeService.isMultiSignatureRegistration(this.data);
 	}
 
+	public override isUnlockToken(): boolean {
+		return TransactionTypeService.isUnlockToken(this.data);
+	}
+
 	// Delegate Registration
 	public override username(): string {
 		if (isLegacy(this.data)) {
