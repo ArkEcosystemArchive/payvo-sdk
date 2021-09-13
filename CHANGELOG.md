@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.6.53] - 2021-09-10
+
+### Added
+
+- Add unlockToken transaction type (#209) ([298aa90](298aa90b147effca72dd5eaf7ff287738844b906))
+
+### Changed
+
+- Update explorer url ([952b639](952b6397f87cab93885c32203e4403f852054cf1))
+- Invert production/legacy conditions (#211) ([ad8201c](ad8201c6b822d441a0b3a090ce0510704f13078e))
+
 ## [1.6.50] - 2021-09-09
 
 ### Added

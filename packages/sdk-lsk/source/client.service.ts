@@ -187,13 +187,13 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#createPagination(data, meta): Services.MetaPagination {
-		const hasPreviousPage: boolean = data && data.length === meta.limit && meta.offset !== 0;
-		const hasNextPage: boolean = data && data.length === meta.limit;
+		const hasPreviousPage: boolean = data && data.length === meta.count && meta.offset !== 0;
+		const hasNextPage: boolean = meta.count + meta.offset !== meta.total;
 
 		return {
-			prev: hasPreviousPage ? Number(meta.offset) - Number(meta.limit) : undefined,
+			prev: hasPreviousPage ? Number(meta.offset) - Number(meta.count) : undefined,
 			self: meta.offset,
-			next: hasNextPage ? Number(meta.offset) + Number(meta.limit) : undefined,
+			next: hasNextPage ? Number(meta.offset) + Number(meta.count) : undefined,
 			last: undefined,
 		};
 	}

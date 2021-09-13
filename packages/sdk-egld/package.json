@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-egld",
-	"version": "1.6.50",
+	"version": "1.6.54",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"type": "module",
