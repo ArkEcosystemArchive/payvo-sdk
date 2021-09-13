@@ -23,7 +23,7 @@ import {
 	SecondSignatureInput,
 	TransactionService as Contract,
 	TransferInput,
-	UnlockBalanceInput,
+	UnlockTokenInput,
 	VoteInput,
 } from "./transaction.contract";
 
@@ -88,8 +88,8 @@ export class AbstractTransactionService implements Contract {
 		throw new NotImplemented(this.constructor.name, this.htlcRefund.name);
 	}
 
-	public async unlockBalance(input: UnlockBalanceInput): Promise<SignedTransactionData> {
-		throw new NotImplemented(this.constructor.name, this.unlockBalance.name);
+	public async unlockToken(input: UnlockTokenInput): Promise<SignedTransactionData> {
+		throw new NotImplemented(this.constructor.name, this.unlockToken.name);
 	}
 
 	public async estimateExpiration(value?: string): Promise<string | undefined> {

@@ -295,8 +295,8 @@ describe("TransactionService", () => {
 		nock.enableNetConnect();
 	});
 
-	test("#unlockBalance", async () => {
-		const result = await subject.unlockBalance({
+	test("#unlockToken", async () => {
+		const result = await subject.unlockToken({
 			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
