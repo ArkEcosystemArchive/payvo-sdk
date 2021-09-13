@@ -8,6 +8,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Bitcoin;
 
+	public getTransport(): Bitcoin {
+		return this.#transport;
+	}
+
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
 		try {
 			this.#ledger = await transport.create();
@@ -34,13 +38,14 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		const { publicKey } = await this.#transport.getWalletPublicKey(path);
-
-		return publicKey;
+		const publicKey = await this.#transport.getWalletPublicKey(path, { format: "p2sh" });
+		console.log("publicKey", publicKey);
+		return publicKey.publicKey;
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
 		const tx = await this.#transport.splitTransaction(payload.toString());
+		console.log("split transaction", tx);
 		const utxoPath = path.match(new RegExp("([0-9]+'?/?){3}$", "g"));
 		const outputScript = serializeTransactionOutputs(tx).toString("hex");
 

@@ -3,6 +3,7 @@ import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
+import BtcApp from "@ledgerhq/hw-app-btc";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
@@ -11,9 +12,13 @@ import { AddressFactory, BipLevel, Levels } from "./address.factory";
 import { UnspentTransaction } from "./contracts";
 import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
 import { addressGenerator } from "./address.domain";
+import { LedgerService } from "./ledger.service";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
+	@IoC.inject(IoC.BindingType.LedgerService)
+	private readonly ledgerService!: LedgerService;
+
 	@IoC.inject(BindingType.AddressFactory)
 	private readonly addressFactory!: AddressFactory;
 
@@ -28,7 +33,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
 
-		if (!input.signatory.actsWithMnemonic()) {
+		if (!input.signatory.actsWithMnemonic() && !input.signatory.actsWithLedger()) {
 			// @TODO Add more options (wif, ledger, extended private key, etc.).
 			throw new Exceptions.Exception("Need to provide a signatory that can be used for signing transactions.");
 		}
@@ -109,7 +114,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 				});
 			});
 
-			inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+			if (input.signatory.actsWithLedger()) {
+				const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
+					ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
+
+				// @ts-ignore
+				const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+				// const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), utxo);
+				const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
+				// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
+				console.log("outLedgerTx", outLedgerTx);
+			} else {
+				inputs.forEach((input, index) =>
+					psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)),
+				);
+			}
 
 			psbt.validateSignaturesOfAllInputs();
 			psbt.finalizeAllInputs();
