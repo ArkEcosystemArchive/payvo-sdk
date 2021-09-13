@@ -61,7 +61,7 @@ describe("Address", () => {
 				subject.fromPublicKey(
 					"xpub6ENuDU6ouVBjsS46mpqzNzaJXs5iuNnhgKb9LWCgCwtK74fnATHwVJvsYYbH7bFUzZSh9PGA4Q9G5465WxHHRNys1hejSwbDZaw9ro5vDtD",
 				),
-			).rejects.toThrowError(Exceptions.CryptoException);
+			).rejects.toThrow();
 		});
 
 		it("should generate a SegWit address (via P2SH)", async () => {

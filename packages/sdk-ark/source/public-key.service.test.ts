@@ -20,7 +20,7 @@ describe("PublicKey", () => {
 	});
 
 	it("should fail to generate an output from an invalid mnemonic", async () => {
-		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow();
 	});
 
 	it("should generate an output from a multiSignature", async () => {
@@ -33,7 +33,7 @@ describe("PublicKey", () => {
 	});
 
 	it("should fail to generate an output from a multiSignature", async () => {
-		await expect(subject.fromMultiSignature(-1, [])).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromMultiSignature(-1, [])).rejects.toThrow();
 	});
 
 	it("should generate an output from a wif", async () => {
@@ -43,7 +43,7 @@ describe("PublicKey", () => {
 	});
 
 	it("should fail to generate an output from a wif", async () => {
-		await expect(subject.fromWIF(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromWIF(undefined!)).rejects.toThrow();
 	});
 
 	it("should generate an output from a secret", async () => {
@@ -53,6 +53,6 @@ describe("PublicKey", () => {
 	});
 
 	it("should fail to generate an output from a secret", async () => {
-		await expect(subject.fromSecret(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromSecret(undefined!)).rejects.toThrow();
 	});
 });

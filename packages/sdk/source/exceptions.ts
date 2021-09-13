@@ -40,12 +40,6 @@ export class MissingArgument extends Exception {
 	}
 }
 
-export class CryptoException extends Exception {
-	public constructor(error: Error) {
-		super((error as any).message);
-	}
-}
-
 export class ForbiddenMethodCallException extends Exception {
 	public constructor(klass: string, method: string) {
 		super(`Method ${klass}#${method} cannot be called.`);
