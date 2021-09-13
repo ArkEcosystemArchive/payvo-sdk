@@ -66,7 +66,15 @@ const transactions = [
 	{
 		moduleID: 5,
 		assetID: 2,
-		asset: { unlockObjects: [{ delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: `${10e8}`, unvoteHeight: 14548929 }] },
+		asset: {
+			unlockObjects: [
+				{
+					delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7",
+					amount: `${10e8}`,
+					unvoteHeight: 14548929,
+				},
+			],
+		},
 		senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
 		nonce: "3",
 		fee: "207000",
