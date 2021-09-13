@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { TransactionSerializer } from "./transaction.serializer";
 
 const clone = (data: any[]): any[] => JSON.parse(JSON.stringify(data));
@@ -55,6 +55,18 @@ const transactions = [
 		moduleID: 5,
 		assetID: 1,
 		asset: { votes: [{ delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: `${10e8}` }] },
+		senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
+		nonce: "3",
+		fee: "207000",
+		signatures: [
+			"64e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604",
+		],
+		id: "73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0",
+	},
+	{
+		moduleID: 5,
+		assetID: 2,
+		asset: { unlockObjects: [{ delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: `${10e8}`, unvoteHeight: 14548929 }] },
 		senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
 		nonce: "3",
 		fee: "207000",
