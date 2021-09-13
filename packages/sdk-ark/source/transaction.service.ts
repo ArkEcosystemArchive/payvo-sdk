@@ -221,156 +221,152 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<Contracts.SignedTransactionData> {
 		applyCryptoConfiguration(this.#configCrypto);
 
-		try {
-			let address: string | undefined;
-			let senderPublicKey: string | undefined;
+		let address: string | undefined;
+		let senderPublicKey: string | undefined;
 
-			const transaction = Transactions.BuilderFactory[type]().version(2);
+		const transaction = Transactions.BuilderFactory[type]().version(2);
 
-			if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
-				address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
-				senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
-			}
-
-			if (input.signatory.actsWithSecret()) {
-				address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
-				senderPublicKey = (await this.publicKeyService.fromSecret(input.signatory.signingKey())).publicKey;
-			}
-
-			if (input.signatory.actsWithWIF() || input.signatory.actsWithConfirmationWIF()) {
-				address = (await this.addressService.fromWIF(input.signatory.signingKey())).address;
-				senderPublicKey = (await this.publicKeyService.fromWIF(input.signatory.signingKey())).publicKey;
-			}
-
-			if (input.signatory.actsWithMultiSignature()) {
-				address = (
-					await this.addressService.fromMultiSignature(
-						input.signatory.asset().min,
-						input.signatory.asset().publicKeys,
-					)
-				).address;
-			}
-
-			if (input.signatory.actsWithLedger()) {
-				await this.ledgerService.connect(LedgerTransportNodeHID);
-
-				senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
-				address = (await this.addressService.fromPublicKey(senderPublicKey)).address;
-			}
-
-			if (senderPublicKey) {
-				transaction.senderPublicKey(senderPublicKey);
-			}
-
-			if (input.nonce) {
-				transaction.nonce(input.nonce);
-			} else {
-				const wallet = await this.clientService.wallet({ type: "address", value: address! });
-
-				transaction.nonce(wallet.nonce().plus(1).toFixed());
-			}
-
-			if (input.data && input.data.amount) {
-				transaction.amount(this.toSatoshi(input.data.amount).toString());
-			}
-
-			if (input.fee) {
-				transaction.fee(this.toSatoshi(input.fee).toString());
-			}
-
-			try {
-				if (input.data && input.data.expiration) {
-					transaction.expiration(input.data.expiration);
-				} else {
-					let estimatedExpiration: string | undefined;
-
-					if (
-						input.signatory.actsWithMultiSignature() ||
-						input.signatory.hasMultiSignature() ||
-						type === "multiSignature"
-					) {
-						estimatedExpiration = await this.estimateExpiration("211");
-					} else {
-						estimatedExpiration = await this.estimateExpiration("5");
-					}
-
-					if (estimatedExpiration) {
-						transaction.expiration(parseInt(estimatedExpiration));
-					}
-				}
-			} catch {
-				// If we fail to set the expiration we'll still continue.
-			}
-
-			if (callback) {
-				callback({ transaction, data: input.data });
-			}
-
-			if (input.signatory.actsWithMultiSignature()) {
-				const transactionWithSignature = this.multiSignatureSigner.sign(transaction, input.signatory.asset());
-
-				return this.dataTransferObjectService.signedTransaction(
-					transactionWithSignature.id!,
-					transactionWithSignature,
-				);
-			}
-
-			if (input.signatory.hasMultiSignature()) {
-				return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
-			}
-
-			if (type === "multiSignature") {
-				return this.#addSignature(
-					transaction,
-					{
-						publicKeys: input.data.publicKeys,
-						min: input.data.min,
-					},
-					input.signatory,
-					senderPublicKey,
-				);
-			}
-
-			if (input.signatory.actsWithLedger()) {
-				transaction.data.signature = await this.ledgerService.signTransaction(
-					input.signatory.signingKey(),
-					Transactions.Serializer.getBytes(transaction.data, {
-						excludeSignature: true,
-						excludeSecondSignature: true,
-					}),
-				);
-
-				await this.ledgerService.disconnect();
-			}
-
-			if (input.signatory.actsWithMnemonic()) {
-				transaction.sign(input.signatory.signingKey());
-			}
-
-			if (input.signatory.actsWithConfirmationMnemonic()) {
-				transaction.sign(input.signatory.signingKey());
-				transaction.secondSign(input.signatory.confirmKey());
-			}
-
-			if (input.signatory.actsWithWIF()) {
-				transaction.signWithWif(input.signatory.signingKey());
-			}
-
-			if (input.signatory.actsWithConfirmationWIF()) {
-				transaction.signWithWif(input.signatory.signingKey());
-				transaction.secondSignWithWif(input.signatory.confirmKey());
-			}
-
-			if (input.signatory.actsWithSecret()) {
-				transaction.sign(input.signatory.signingKey());
-			}
-
-			const signedTransaction = transaction.build().toJson();
-
-			return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
+			address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
+			senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
 		}
+
+		if (input.signatory.actsWithSecret()) {
+			address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
+			senderPublicKey = (await this.publicKeyService.fromSecret(input.signatory.signingKey())).publicKey;
+		}
+
+		if (input.signatory.actsWithWIF() || input.signatory.actsWithConfirmationWIF()) {
+			address = (await this.addressService.fromWIF(input.signatory.signingKey())).address;
+			senderPublicKey = (await this.publicKeyService.fromWIF(input.signatory.signingKey())).publicKey;
+		}
+
+		if (input.signatory.actsWithMultiSignature()) {
+			address = (
+				await this.addressService.fromMultiSignature(
+					input.signatory.asset().min,
+					input.signatory.asset().publicKeys,
+				)
+			).address;
+		}
+
+		if (input.signatory.actsWithLedger()) {
+			await this.ledgerService.connect(LedgerTransportNodeHID);
+
+			senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
+			address = (await this.addressService.fromPublicKey(senderPublicKey)).address;
+		}
+
+		if (senderPublicKey) {
+			transaction.senderPublicKey(senderPublicKey);
+		}
+
+		if (input.nonce) {
+			transaction.nonce(input.nonce);
+		} else {
+			const wallet = await this.clientService.wallet({ type: "address", value: address! });
+
+			transaction.nonce(wallet.nonce().plus(1).toFixed());
+		}
+
+		if (input.data && input.data.amount) {
+			transaction.amount(this.toSatoshi(input.data.amount).toString());
+		}
+
+		if (input.fee) {
+			transaction.fee(this.toSatoshi(input.fee).toString());
+		}
+
+		try {
+			if (input.data && input.data.expiration) {
+				transaction.expiration(input.data.expiration);
+			} else {
+				let estimatedExpiration: string | undefined;
+
+				if (
+					input.signatory.actsWithMultiSignature() ||
+					input.signatory.hasMultiSignature() ||
+					type === "multiSignature"
+				) {
+					estimatedExpiration = await this.estimateExpiration("211");
+				} else {
+					estimatedExpiration = await this.estimateExpiration("5");
+				}
+
+				if (estimatedExpiration) {
+					transaction.expiration(parseInt(estimatedExpiration));
+				}
+			}
+		} catch {
+			// If we fail to set the expiration we'll still continue.
+		}
+
+		if (callback) {
+			callback({ transaction, data: input.data });
+		}
+
+		if (input.signatory.actsWithMultiSignature()) {
+			const transactionWithSignature = this.multiSignatureSigner.sign(transaction, input.signatory.asset());
+
+			return this.dataTransferObjectService.signedTransaction(
+				transactionWithSignature.id!,
+				transactionWithSignature,
+			);
+		}
+
+		if (input.signatory.hasMultiSignature()) {
+			return this.#addSignature(transaction, input.signatory.multiSignature()!, input.signatory);
+		}
+
+		if (type === "multiSignature") {
+			return this.#addSignature(
+				transaction,
+				{
+					publicKeys: input.data.publicKeys,
+					min: input.data.min,
+				},
+				input.signatory,
+				senderPublicKey,
+			);
+		}
+
+		if (input.signatory.actsWithLedger()) {
+			transaction.data.signature = await this.ledgerService.signTransaction(
+				input.signatory.signingKey(),
+				Transactions.Serializer.getBytes(transaction.data, {
+					excludeSignature: true,
+					excludeSecondSignature: true,
+				}),
+			);
+
+			await this.ledgerService.disconnect();
+		}
+
+		if (input.signatory.actsWithMnemonic()) {
+			transaction.sign(input.signatory.signingKey());
+		}
+
+		if (input.signatory.actsWithConfirmationMnemonic()) {
+			transaction.sign(input.signatory.signingKey());
+			transaction.secondSign(input.signatory.confirmKey());
+		}
+
+		if (input.signatory.actsWithWIF()) {
+			transaction.signWithWif(input.signatory.signingKey());
+		}
+
+		if (input.signatory.actsWithConfirmationWIF()) {
+			transaction.signWithWif(input.signatory.signingKey());
+			transaction.secondSignWithWif(input.signatory.confirmKey());
+		}
+
+		if (input.signatory.actsWithSecret()) {
+			transaction.sign(input.signatory.signingKey());
+		}
+
+		const signedTransaction = transaction.build().toJson();
+
+		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 	}
 
 	async #addSignature(

@@ -8,12 +8,8 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		try {
-			return {
-				publicKey: (await new KeyPairService().fromMnemonic(mnemonic, options)).publicKey,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: (await new KeyPairService().fromMnemonic(mnemonic, options)).publicKey,
+		};
 	}
 }

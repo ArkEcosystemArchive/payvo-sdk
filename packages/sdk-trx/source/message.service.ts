@@ -23,35 +23,27 @@ export class MessageService extends Services.AbstractMessageService {
 	}
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		try {
-			const keys: Services.KeyPairDataTransferObject = await this.keyPairService.fromMnemonic(
-				input.signatory.signingKey(),
-			);
-			const { address } = await this.addressService.fromMnemonic(input.signatory.signingKey());
+		const keys: Services.KeyPairDataTransferObject = await this.keyPairService.fromMnemonic(
+			input.signatory.signingKey(),
+		);
+		const { address } = await this.addressService.fromMnemonic(input.signatory.signingKey());
 
-			if (keys.privateKey === undefined) {
-				throw new Error("Failed to retrieve the private key for the signatory wallet.");
-			}
-
-			const messageAsHex = Buffer.from(input.message).toString("hex");
-			const signature = await this.#connection.trx.sign(messageAsHex, keys.privateKey);
-
-			return {
-				message: input.message,
-				signatory: address,
-				signature: signature,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (keys.privateKey === undefined) {
+			throw new Error("Failed to retrieve the private key for the signatory wallet.");
 		}
+
+		const messageAsHex = Buffer.from(input.message).toString("hex");
+		const signature = await this.#connection.trx.sign(messageAsHex, keys.privateKey);
+
+		return {
+			message: input.message,
+			signatory: address,
+			signature: signature,
+		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
-		try {
-			const messageAsHex = Buffer.from(input.message).toString("hex");
-			return this.#connection.trx.verifyMessage(messageAsHex, input.signature, input.signatory);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		const messageAsHex = Buffer.from(input.message).toString("hex");
+		return this.#connection.trx.verifyMessage(messageAsHex, input.signature, input.signatory);
 	}
 }

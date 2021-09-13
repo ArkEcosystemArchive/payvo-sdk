@@ -8,25 +8,16 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		try {
-			return {
-				publicKey: BIP32.fromMnemonic(
-					mnemonic,
-					this.configRepository.get("network.constants"),
-				).publicKey.toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).publicKey.toString(
+				"hex",
+			),
+		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
-		try {
-			return {
-				publicKey: ECPair.fromWIF(wif).publicKey.toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: ECPair.fromWIF(wif).publicKey.toString("hex"),
+		};
 	}
 }

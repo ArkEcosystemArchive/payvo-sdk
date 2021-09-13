@@ -8,16 +8,12 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			const { privateKey } = await new KeyPairService().fromMnemonic(mnemonic);
+		const { privateKey } = await new KeyPairService().fromMnemonic(mnemonic);
 
-			if (!privateKey) {
-				throw new Error("Failed to derive the private key.");
-			}
-
-			return { privateKey };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (!privateKey) {
+			throw new Error("Failed to derive the private key.");
 		}
+
+		return { privateKey };
 	}
 }

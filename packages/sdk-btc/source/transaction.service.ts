@@ -52,84 +52,80 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const bipLevel = this.addressFactory.getLevel(identityOptions);
 
-		try {
-			const network = getNetworkConfig(this.configRepository);
+		const network = getNetworkConfig(this.configRepository);
 
-			// Derive the sender address (corresponding to first address index for the wallet)
-			const { address, type, path } = await this.addressService.fromMnemonic(
-				input.signatory.signingKey(),
-				identityOptions,
-			);
+		// Derive the sender address (corresponding to first address index for the wallet)
+		const { address, type, path } = await this.addressService.fromMnemonic(
+			input.signatory.signingKey(),
+			identityOptions,
+		);
 
-			// Compute the amount to be transferred
-			const amount = this.toSatoshi(input.data.amount).toNumber();
+		// Compute the amount to be transferred
+		const amount = this.toSatoshi(input.data.amount).toNumber();
 
-			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
-				.deriveHardened(bipLevel.purpose)
-				.deriveHardened(bipLevel.coinType)
-				.deriveHardened(bipLevel.account || 0);
+		const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
+			.deriveHardened(bipLevel.purpose)
+			.deriveHardened(bipLevel.coinType)
+			.deriveHardened(bipLevel.account || 0);
 
-			const changeAddress = await this.#getChangeAddress(
-				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
-			);
+		const changeAddress = await this.#getChangeAddress(
+			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+		);
 
-			const targets = [
-				{
-					address: input.data.to,
-					value: amount,
-				},
-			];
+		const targets = [
+			{
+				address: input.data.to,
+				value: amount,
+			},
+		];
 
-			// Figure out inputs, outputs and fees
-			const { inputs, outputs, fee } = await this.#selectUtxos(
-				bipLevel,
-				accountKey,
-				targets,
-				await this.#getFee(input),
-			);
+		// Figure out inputs, outputs and fees
+		const { inputs, outputs, fee } = await this.#selectUtxos(
+			bipLevel,
+			accountKey,
+			targets,
+			await this.#getFee(input),
+		);
 
-			// Build bitcoin transaction
-			const psbt = new bitcoin.Psbt({ network: network });
+		// Build bitcoin transaction
+		const psbt = new bitcoin.Psbt({ network: network });
 
-			inputs.forEach((input) => {
-				return psbt.addInput({
-					hash: input.txId,
-					index: input.vout,
-					...input,
-				});
+		inputs.forEach((input) => {
+			return psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				...input,
 			});
-			outputs.forEach((output) => {
-				if (!output.address) {
-					output.address = changeAddress;
-				}
+		});
+		outputs.forEach((output) => {
+			if (!output.address) {
+				output.address = changeAddress;
+			}
 
-				psbt.addOutput({
-					address: output.address,
-					value: output.value,
-				});
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
 			});
+		});
 
-			inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+		inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)));
 
-			psbt.validateSignaturesOfAllInputs();
-			psbt.finalizeAllInputs();
+		psbt.validateSignaturesOfAllInputs();
+		psbt.finalizeAllInputs();
 
-			const transaction: bitcoin.Transaction = psbt.extractTransaction();
+		const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
-			return this.dataTransferObjectService.signedTransaction(
-				transaction.getId(),
-				{
-					sender: address,
-					recipient: input.data.to,
-					amount,
-					fee,
-					timestamp: new Date(),
-				},
-				transaction.toHex(),
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return this.dataTransferObjectService.signedTransaction(
+			transaction.getId(),
+			{
+				sender: address,
+				recipient: input.data.to,
+				amount,
+				fee,
+				timestamp: new Date(),
+			},
+			transaction.toHex(),
+		);
 	}
 
 	async #selectUtxos(

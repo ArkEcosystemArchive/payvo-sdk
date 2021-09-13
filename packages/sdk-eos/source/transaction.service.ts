@@ -20,60 +20,56 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		try {
-			if (input.signatory.signingKey() === undefined) {
-				throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
-			}
-
-			const { client, signatureProvider } = this.#getClient(input.signatory.signingKey());
-
-			const transfer: any = await client.transact(
-				{
-					actions: [
-						{
-							account: "eosio.token",
-							name: "transfer",
-							authorization: [
-								{
-									actor: input.signatory.address(),
-									permission: "active",
-								},
-							],
-							data: {
-								from: input.signatory.address(),
-								to: input.data.to,
-								quantity: `${input.data.amount} ${this.#ticker}`,
-								memo: input.data.memo,
-							},
-						},
-					],
-				},
-				{
-					blocksBehind: 3,
-					expireSeconds: 30,
-					broadcast: false,
-					sign: false,
-					requiredKeys: await signatureProvider.getAvailableKeys(),
-				},
-			);
-
-			// transfer.chainId = this.#networkId;
-
-			const signatures = transfer.signatures || null;
-			const transaction = await signatureProvider.sign(transfer);
-
-			if (signatures) {
-				transaction.signatures = transaction.signatures.concat(signatures);
-			}
-
-			return this.dataTransferObjectService.signedTransaction(
-				createHash("sha256").update(transaction.serializedTransaction).digest("hex"),
-				{ ...transaction, timestamp: DateTime.make() },
-				transaction,
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (input.signatory.signingKey() === undefined) {
+			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
+
+		const { client, signatureProvider } = this.#getClient(input.signatory.signingKey());
+
+		const transfer: any = await client.transact(
+			{
+				actions: [
+					{
+						account: "eosio.token",
+						name: "transfer",
+						authorization: [
+							{
+								actor: input.signatory.address(),
+								permission: "active",
+							},
+						],
+						data: {
+							from: input.signatory.address(),
+							to: input.data.to,
+							quantity: `${input.data.amount} ${this.#ticker}`,
+							memo: input.data.memo,
+						},
+					},
+				],
+			},
+			{
+				blocksBehind: 3,
+				expireSeconds: 30,
+				broadcast: false,
+				sign: false,
+				requiredKeys: await signatureProvider.getAvailableKeys(),
+			},
+		);
+
+		// transfer.chainId = this.#networkId;
+
+		const signatures = transfer.signatures || null;
+		const transaction = await signatureProvider.sign(transfer);
+
+		if (signatures) {
+			transaction.signatures = transaction.signatures.concat(signatures);
+		}
+
+		return this.dataTransferObjectService.signedTransaction(
+			createHash("sha256").update(transaction.serializedTransaction).digest("hex"),
+			{ ...transaction, timestamp: DateTime.make() },
+			transaction,
+		);
 	}
 
 	#getClient(privateKey: string) {

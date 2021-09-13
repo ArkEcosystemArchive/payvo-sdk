@@ -8,18 +8,14 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			if (options?.bip44Legacy) {
-				const { publicKey, privateKey } = deriveLegacyAccount(mnemonic, options?.bip44Legacy?.account);
-
-				return { publicKey, privateKey };
-			}
-
-			const { publicKey, privateKey } = deriveAccount(mnemonic, options?.bip44?.account);
+		if (options?.bip44Legacy) {
+			const { publicKey, privateKey } = deriveLegacyAccount(mnemonic, options?.bip44Legacy?.account);
 
 			return { publicKey, privateKey };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
 		}
+
+		const { publicKey, privateKey } = deriveAccount(mnemonic, options?.bip44?.account);
+
+		return { publicKey, privateKey };
 	}
 }

@@ -21,11 +21,7 @@ export class AddressService extends Services.AbstractAddressService {
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return { type: "rfc6979", address: deriveAddress(publicKey) };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { type: "rfc6979", address: deriveAddress(publicKey) };
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.AddressDataTransferObject> {
