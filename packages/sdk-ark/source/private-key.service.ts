@@ -15,36 +15,24 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
+		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
 
-			return {
-				privateKey: BasePrivateKey.fromPassphrase(mnemonic),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			privateKey: BasePrivateKey.fromPassphrase(mnemonic),
+		};
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
+		abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
-			return {
-				privateKey: BasePrivateKey.fromPassphrase(secret),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			privateKey: BasePrivateKey.fromPassphrase(secret),
+		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			return {
-				privateKey: BasePrivateKey.fromWIF(wif, this.config.network),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			privateKey: BasePrivateKey.fromWIF(wif, this.config.network),
+		};
 	}
 }

@@ -2,7 +2,6 @@ import {
 	BadMethodDependencyException,
 	BadStateException,
 	BadVariableDependencyException,
-	CryptoException,
 	InvalidArguments,
 	MissingArgument,
 	NotImplemented,
@@ -31,12 +30,6 @@ test("MissingArgument", () => {
 	expect(() => {
 		throw new MissingArgument("klass", "method", "argument");
 	}).toThrow(`Method klass#method expects the argument [argument] but it was not given.`);
-});
-
-test("CryptoException", () => {
-	expect(() => {
-		throw new CryptoException(new Error("Boom"));
-	}).toThrow("Boom");
 });
 
 test("BadMethodDependencyException", () => {

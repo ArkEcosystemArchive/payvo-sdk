@@ -31,8 +31,7 @@
 		"@payvo/sdk": "workspace:*",
 		"bcrypto": "^5.4.0",
 		"bech32": "^2.0.0",
-		"ledger-cosmos-js": "^2.1.8",
-		"uuid": "^8.3.2"
+		"ledger-cosmos-js": "^2.1.8"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

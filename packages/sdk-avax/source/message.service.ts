@@ -12,17 +12,13 @@ export class MessageService extends Services.AbstractMessageService {
 	private readonly configRepository!: Coins.ConfigRepository;
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		try {
-			const { child } = keyPairFromMnemonic(this.configRepository, input.signatory.signingKey());
+		const { child } = keyPairFromMnemonic(this.configRepository, input.signatory.signingKey());
 
-			return {
-				message: input.message,
-				signatory: child.getAddressString(),
-				signature: cb58Encode(child.sign(this.#digestMessage(input.message))),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			message: input.message,
+			signatory: child.getAddressString(),
+			signature: cb58Encode(child.sign(this.#digestMessage(input.message))),
+		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {

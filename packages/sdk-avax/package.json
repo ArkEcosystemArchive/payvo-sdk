@@ -31,8 +31,7 @@
 		"@payvo/intl": "^1.0.1",
 		"@payvo/sdk": "workspace:*",
 		"avalanche": "^3.8.5",
-		"hdkey": "^2.0.1",
-		"uuid": "^8.3.2"
+		"hdkey": "^2.0.1"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

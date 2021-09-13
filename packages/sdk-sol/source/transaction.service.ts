@@ -1,7 +1,7 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { Account, Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
-import { v4 as uuidv4 } from "uuid";
+import { UUID } from "@payvo/cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys";
 
@@ -40,7 +40,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		return this.dataTransferObjectService.signedTransaction(
-			uuidv4(),
+			UUID.random(),
 			{
 				from: input.signatory.address(),
 				to: input.data.to,

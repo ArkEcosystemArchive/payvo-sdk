@@ -8,31 +8,19 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			return this.#normalize(
-				bitcoin.ECPair.fromPrivateKey(
-					BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).privateKey!,
-				),
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return this.#normalize(
+			bitcoin.ECPair.fromPrivateKey(
+				BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).privateKey!,
+			),
+		);
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			return this.#normalize(bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")));
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return this.#normalize(bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")));
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			return this.#normalize(bitcoin.ECPair.fromWIF(wif));
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return this.#normalize(bitcoin.ECPair.fromWIF(wif));
 	}
 
 	#normalize(keyPair: bitcoin.ECPair.ECPairInterface): Services.KeyPairDataTransferObject {

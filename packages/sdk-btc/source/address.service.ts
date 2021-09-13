@@ -22,23 +22,19 @@ export class AddressService extends Services.AbstractAddressService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			if (options?.bip44) {
-				return this.addressFactory.bip44(mnemonic, options);
-			}
-
-			if (options?.bip49) {
-				return this.addressFactory.bip49(mnemonic, options);
-			}
-
-			if (options?.bip84) {
-				return this.addressFactory.bip84(mnemonic, options);
-			}
-
-			throw new Error("Please specify a valid derivation method.");
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (options?.bip44) {
+			return this.addressFactory.bip44(mnemonic, options);
 		}
+
+		if (options?.bip49) {
+			return this.addressFactory.bip49(mnemonic, options);
+		}
+
+		if (options?.bip84) {
+			return this.addressFactory.bip84(mnemonic, options);
+		}
+
+		throw new Error("Please specify a valid derivation method.");
 	}
 
 	public override async fromMultiSignature(
@@ -46,119 +42,111 @@ export class AddressService extends Services.AbstractAddressService {
 		publicKeys: string[],
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			let result;
+		let result;
 
-			if (options?.bip44) {
-				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2ms({
-						m: min,
-						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
-					}),
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip49) {
-				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wsh({
-						redeem: bitcoin.payments.p2ms({
-							m: min,
-							pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
-						}),
-					}),
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip84) {
-				result = bitcoin.payments.p2wsh({
-					redeem: bitcoin.payments.p2ms({
-						m: min,
-						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
-					}),
-					network: this.#network,
-				});
-			}
-
-			if (!result) {
-				throw new Error("Please specify a valid derivation method.");
-			}
-
-			if (!result.address) {
-				throw new Error(`Failed to derive address for [${publicKeys}].`);
-			}
-
-			return {
-				type: this.#derivationMethod(options),
-				address: result.address.toString(),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (options?.bip44) {
+			result = bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2ms({
+					m: min,
+					pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+				}),
+				network: this.#network,
+			});
 		}
+
+		if (options?.bip49) {
+			result = bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2wsh({
+					redeem: bitcoin.payments.p2ms({
+						m: min,
+						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+					}),
+				}),
+				network: this.#network,
+			});
+		}
+
+		if (options?.bip84) {
+			result = bitcoin.payments.p2wsh({
+				redeem: bitcoin.payments.p2ms({
+					m: min,
+					pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+				}),
+				network: this.#network,
+			});
+		}
+
+		if (!result) {
+			throw new Error("Please specify a valid derivation method.");
+		}
+
+		if (!result.address) {
+			throw new Error(`Failed to derive address for [${publicKeys}].`);
+		}
+
+		return {
+			type: this.#derivationMethod(options),
+			address: result.address.toString(),
+		};
 	}
 
 	public override async fromPublicKey(
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			let result;
+		let result;
 
-			let publicKeyBuffer: Buffer = Buffer.from(publicKey, "hex");
+		let publicKeyBuffer: Buffer = Buffer.from(publicKey, "hex");
 
-			if (publicKey.startsWith("xpub")) {
-				if (getNetworkID(this.configRepository) !== "livenet") {
-					throw new Error("Usage of a xpub requires livenet to be configured.");
-				}
-
-				publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
+		if (publicKey.startsWith("xpub")) {
+			if (getNetworkID(this.configRepository) !== "livenet") {
+				throw new Error("Usage of a xpub requires livenet to be configured.");
 			}
 
-			if (publicKey.startsWith("tpub")) {
-				if (getNetworkID(this.configRepository) !== "testnet") {
-					throw new Error("Usage of a tpub requires testnet to be configured.");
-				}
-
-				publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
-			}
-
-			if (options?.bip44) {
-				result = bitcoin.payments.p2pkh({
-					pubkey: publicKeyBuffer,
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip49) {
-				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({ pubkey: publicKeyBuffer }),
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip84) {
-				result = bitcoin.payments.p2wpkh({
-					pubkey: publicKeyBuffer,
-					network: this.#network,
-				});
-			}
-
-			if (!result) {
-				throw new Error("Please specify a valid derivation method.");
-			}
-
-			if (!result.address) {
-				throw new Error(`Failed to derive address for [${publicKey}].`);
-			}
-
-			return {
-				type: this.#derivationMethod(options),
-				address: result.address.toString(),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+			publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
 		}
+
+		if (publicKey.startsWith("tpub")) {
+			if (getNetworkID(this.configRepository) !== "testnet") {
+				throw new Error("Usage of a tpub requires testnet to be configured.");
+			}
+
+			publicKeyBuffer = this.#deriveBIP32(publicKey, options).publicKey;
+		}
+
+		if (options?.bip44) {
+			result = bitcoin.payments.p2pkh({
+				pubkey: publicKeyBuffer,
+				network: this.#network,
+			});
+		}
+
+		if (options?.bip49) {
+			result = bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2wpkh({ pubkey: publicKeyBuffer }),
+				network: this.#network,
+			});
+		}
+
+		if (options?.bip84) {
+			result = bitcoin.payments.p2wpkh({
+				pubkey: publicKeyBuffer,
+				network: this.#network,
+			});
+		}
+
+		if (!result) {
+			throw new Error("Please specify a valid derivation method.");
+		}
+
+		if (!result.address) {
+			throw new Error(`Failed to derive address for [${publicKey}].`);
+		}
+
+		return {
+			type: this.#derivationMethod(options),
+			address: result.address.toString(),
+		};
 	}
 
 	public override async fromPrivateKey(
@@ -175,45 +163,41 @@ export class AddressService extends Services.AbstractAddressService {
 		wif: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			let result;
+		let result;
 
-			if (options?.bip44) {
-				result = bitcoin.payments.p2pkh({
-					pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip49) {
-				result = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({ pubkey: bitcoin.ECPair.fromWIF(wif).publicKey }),
-					network: this.#network,
-				});
-			}
-
-			if (options?.bip84) {
-				result = bitcoin.payments.p2wpkh({
-					pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
-					network: this.#network,
-				});
-			}
-
-			if (!result) {
-				throw new Error("Please specify a valid derivation method.");
-			}
-
-			if (!result.address) {
-				throw new Error(`Failed to derive address for [${wif}].`);
-			}
-
-			return {
-				type: this.#derivationMethod(options),
-				address: result.address,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (options?.bip44) {
+			result = bitcoin.payments.p2pkh({
+				pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
+				network: this.#network,
+			});
 		}
+
+		if (options?.bip49) {
+			result = bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2wpkh({ pubkey: bitcoin.ECPair.fromWIF(wif).publicKey }),
+				network: this.#network,
+			});
+		}
+
+		if (options?.bip84) {
+			result = bitcoin.payments.p2wpkh({
+				pubkey: bitcoin.ECPair.fromWIF(wif).publicKey,
+				network: this.#network,
+			});
+		}
+
+		if (!result) {
+			throw new Error("Please specify a valid derivation method.");
+		}
+
+		if (!result.address) {
+			throw new Error(`Failed to derive address for [${wif}].`);
+		}
+
+		return {
+			type: this.#derivationMethod(options),
+			address: result.address,
+		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {

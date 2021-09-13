@@ -11,16 +11,12 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		try {
-			const { privateKey } = await this.privateKeyService.fromMnemonic(mnemonic, options);
+		const { privateKey } = await this.privateKeyService.fromMnemonic(mnemonic, options);
 
-			const keyPair = new (Wallet.hasOwnProperty("default") ? Wallet["default"] : Wallet)(
-				Buffoon.fromHex(privateKey),
-			);
+		const keyPair = new (Wallet.hasOwnProperty("default") ? Wallet["default"] : Wallet)(
+			Buffoon.fromHex(privateKey),
+		);
 
-			return { publicKey: keyPair.getPublicKey().toString("hex") };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { publicKey: keyPair.getPublicKey().toString("hex") };
 	}
 }
