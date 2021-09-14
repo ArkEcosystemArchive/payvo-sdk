@@ -42,9 +42,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async isCompatible(): Promise<boolean> {
-		const currentVersion = await this.getVersion();
-
-		return compareVersion(currentVersion, this.#minimumVersion);
+		return compareVersion(await this.getVersion(), this.#minimumVersion);
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
