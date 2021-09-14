@@ -13,6 +13,7 @@ import { UnspentTransaction } from "./contracts";
 import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
 import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
+import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -114,24 +115,30 @@ export class TransactionService extends Services.AbstractTransactionService {
 				});
 			});
 
-			if (input.signatory.actsWithLedger()) {
-				const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
-					ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
-
-				// @ts-ignore
-				const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
-				// const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), utxo);
-				const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-				// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
-				console.log("outLedgerTx", outLedgerTx);
+			if (input.signatory.actsWithMnemonic()) {
+				inputs.forEach((input, index) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
 			} else {
-				inputs.forEach((input, index) =>
-					psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey)),
-				);
+				// const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
+				// 	ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
+				//
+				// // @ts-ignore
+				// const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+				// console.log(newTx);
+				//
+				// const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
+				// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
+				// console.log("outLedgerTx", outLedgerTx);
+				//
+				// inputs.forEach((input, index) => {
+				// 	const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
+				// 	this.ledgerService.signTransaction();
+				// });
 			}
 
-			psbt.validateSignaturesOfAllInputs();
-			psbt.finalizeAllInputs();
+			await Promise.all(inputs.map((input, index) => psbt.signInputAsync(index, input.signer)));
+
+			const validate = await psbt.validateSignaturesOfAllInputs();
+			await psbt.finalizeAllInputs();
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
 

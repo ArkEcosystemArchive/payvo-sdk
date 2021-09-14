@@ -112,7 +112,7 @@ describe("bip44 wallet", () => {
 		);
 	});
 
-	it("should generate and sign a transfer transaction with Ledger", async () => {
+	it("should generate a transfer transaction and sign with Ledger", async () => {
 		const signatory = new Signatories.Signatory(new Signatories.LedgerSignatory("doesn't matter"));
 		const result = await subject.transfer({
 			data: {
