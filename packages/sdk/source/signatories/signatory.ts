@@ -129,6 +129,10 @@ export class Signatory {
 			return this.#signatory.options();
 		}
 
+		if (this.#signatory instanceof LedgerSignatory) {
+			return this.#signatory.options();
+		}
+
 		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
 	}
 

@@ -751,13 +751,13 @@ test("#actsWithPrivateKey", () => {
 });
 
 test("#actsWithMultiSignature", () => {
-	const subject = new Signatory(new LedgerSignatory("path"));
+	const subject = new Signatory(new LedgerSignatory({ signingKey:  "path" }));
 
 	expect(subject.actsWithMultiSignature()).toBeBoolean();
 });
 
 test("#actsWithLedger", () => {
-	const subject = new Signatory(new LedgerSignatory("path"));
+	const subject = new Signatory(new LedgerSignatory({ signingKey:  "path" }));
 
 	expect(subject.actsWithLedger()).toBeBoolean();
 });
