@@ -29,6 +29,10 @@ export class AbstractLedgerService implements LedgerService {
 		throw new NotImplemented(this.constructor.name, this.getVersion.name);
 	}
 
+	public async isCompatible(): Promise<boolean> {
+		return true;
+	}
+
 	public async getPublicKey(path: string): Promise<string> {
 		throw new NotImplemented(this.constructor.name, this.getPublicKey.name);
 	}

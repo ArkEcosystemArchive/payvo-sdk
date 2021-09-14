@@ -1,7 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/cryptography";
-import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers";
+import { chunk, createRange, formatLedgerDerivationPath, compareVersion } from "./ledger.service.helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -16,6 +16,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	#ledger!: Services.LedgerTransport;
 	#transport!: ARKTransport;
+
+	readonly #minimumVersion: string = '2.1.0';
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
 		try {
@@ -37,6 +39,12 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async getVersion(): Promise<string> {
 		return this.#transport.getVersion();
+	}
+
+	public override async isCompatible(): Promise<boolean> {
+		const currentVersion = await this.getVersion();
+
+		return compareVersion(currentVersion, this.#minimumVersion);
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {

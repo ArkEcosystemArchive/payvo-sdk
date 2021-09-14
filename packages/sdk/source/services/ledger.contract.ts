@@ -16,6 +16,8 @@ export interface LedgerService {
 
 	getVersion(): Promise<string>;
 
+	isCompatible(): Promise<boolean>;
+
 	getPublicKey(path: string): Promise<string>;
 
 	getExtendedPublicKey(path: string): Promise<string>;
