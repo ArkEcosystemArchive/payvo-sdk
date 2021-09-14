@@ -17,7 +17,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#ledger!: Services.LedgerTransport;
 	#transport!: ARKTransport;
 
-	readonly #minimumVersion: string = '2.1.0';
+	readonly #minimumVersion: string = "2.1.0";
 
 	public override async connect(transport: Services.LedgerTransport): Promise<void> {
 		try {
