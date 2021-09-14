@@ -156,45 +156,45 @@ describe("mariano", () => {
 	// 		const outLedgerTx = splitTransaction(ledger, newTx);
 	// 		const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
 	//
-			const signer = (path: string) => {
-				const compressPublicKey = pubKey => {
-					const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
-					return publicKey.toString('hex');
-				};
-				const walletPublicKey = await ledger.getWalletPublicKey(path);
-				const publicKey = compressPublicKey(walletPublicKey.publicKey);
-				return {
-					network: NETWORK,
-					publicKey,
-					sign: async ($hash: Buffer) => {
-						const ledgerTxSignatures = await ledger.signP2SHTransaction({
-							// @ts-ignore
-							inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
-							associatedKeysets: [path],
-							outputScriptHex,
-							lockTime: DEFAULT_LOCK_TIME,
-							segwit: newTx.hasWitnesses(),
-							transactionVersion: version,
-							sigHashType: SIGHASH_ALL,
-						});
-						const [ledgerSignature] = ledgerTxSignatures;
-						const finalSignature = (() => {
-							if (newTx.hasWitnesses()) {
-								return Buffer.from(ledgerSignature, "hex");
-							}
-							return Buffer.concat([
-								ledgerSignature,
-								Buffer.from("01", "hex"), // SIGHASH_ALL
-							]);
-						})();
-						console.log({
-							finalSignature: finalSignature.toString("hex"),
-						});
-						const { signature } = bitcoin.script.signature.decode(finalSignature);
-						return signature;
-					},
-				};
-			};
+	// 		const signer = (path: string) => {
+	// 			const compressPublicKey = pubKey => {
+	// 				const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
+	// 				return publicKey.toString('hex');
+	// 			};
+	// 			const walletPublicKey = await ledger.getWalletPublicKey(path);
+	// 			const publicKey = compressPublicKey(walletPublicKey.publicKey);
+	// 			return {
+	// 				network: NETWORK,
+	// 				publicKey,
+	// 				sign: async ($hash: Buffer) => {
+	// 					const ledgerTxSignatures = await ledger.signP2SHTransaction({
+	// 						// @ts-ignore
+	// 						inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
+	// 						associatedKeysets: [path],
+	// 						outputScriptHex,
+	// 						lockTime: DEFAULT_LOCK_TIME,
+	// 						segwit: newTx.hasWitnesses(),
+	// 						transactionVersion: version,
+	// 						sigHashType: SIGHASH_ALL,
+	// 					});
+	// 					const [ledgerSignature] = ledgerTxSignatures;
+	// 					const finalSignature = (() => {
+	// 						if (newTx.hasWitnesses()) {
+	// 							return Buffer.from(ledgerSignature, "hex");
+	// 						}
+	// 						return Buffer.concat([
+	// 							ledgerSignature,
+	// 							Buffer.from("01", "hex"), // SIGHASH_ALL
+	// 						]);
+	// 					})();
+	// 					console.log({
+	// 						finalSignature: finalSignature.toString("hex"),
+	// 					});
+	// 					const { signature } = bitcoin.script.signature.decode(finalSignature);
+	// 					return signature;
+	// 				},
+	// 			};
+	// 		};
 	// 		await psbt.signInputAsync(0, signer(PATHS[0]));
 	// 		const validate = await psbt.validateSignaturesOfAllInputs();
 	// 		await psbt.finalizeAllInputs();
