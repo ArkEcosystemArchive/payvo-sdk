@@ -34,7 +34,13 @@ export class SignedTransactionData
 
 	public override amount(): BigNumber {
 		if (this.isUnlockToken()) {
-			return this.#unlockTokenAmount();
+			let amount = this.bigNumberService.make(0);
+
+			for (const unlockObject of this.signedData.asset.unlockObjects) {
+				amount = amount.plus(this.bigNumberService.make(unlockObject.amount));
+			}
+
+			return amount;
 		}
 
 		if (this.signedData.moduleID) {
@@ -130,15 +136,5 @@ export class SignedTransactionData
 		}
 
 		return TransactionTypeService.isUnlockToken(this.signedData);
-	}
-
-	#unlockTokenAmount(): BigNumber {
-		let amount = this.bigNumberService.make(0);
-
-		for (const unlockObject of this.signedData.asset.unlockObjects) {
-			amount = amount.plus(this.bigNumberService.make(unlockObject.amount));
-		}
-
-		return amount;
 	}
 }
