@@ -248,17 +248,17 @@ describe("3.0", () => {
 				asset: {
 					unlockObjects: [
 						{
-							"delegateAddress": "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
-							"amount": "2000000000",
-							"unvoteHeight": 14548930
+							delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
+							amount: "2000000000",
+							unvoteHeight: 14548930,
 						},
 						{
-							"delegateAddress": "8c955e70d0da3e0424abc4c0683280232f41c48b",
-							"amount": "3000000000",
-							"unvoteHeight": 14548929
-						}
-					]
-				}
+							delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
+							amount: "3000000000",
+							unvoteHeight: 14548929,
+						},
+					],
+				},
 			},
 			transaction,
 		);
