@@ -12,10 +12,13 @@ import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
+import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
 let subject: TransactionService;
+
+let ledgerService: LedgerService;
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -30,8 +33,16 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+
+		ledgerService = container.get(IoC.BindingType.LedgerService);
+		// @ts-ignore
+		await newVar.connect(TransportNodeHid.default);
 	});
 });
+
+afterEach(async () => {
+	await ledgerService.disconnect();
+})
 
 describe("bip44 wallet", () => {
 	beforeAll(() => {
@@ -112,26 +123,6 @@ describe("bip44 wallet", () => {
 		);
 	});
 
-	it("should generate a transfer transaction and sign with Ledger", async () => {
-		const signatory = new Signatories.Signatory(new Signatories.LedgerSignatory("doesn't matter"));
-		const result = await subject.transfer({
-			data: {
-				amount: 0.001,
-				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
-			},
-			signatory,
-		});
-
-		expect(result.id()).toBe("9bbea6184489022daf7f4bf22fd82a670eb9e4bbc5c5811bfd046d9dfe641d12");
-		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(242_724);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006a4730440220486047e297b38311f72868d32abe495796687fb72b12d125e45b7aef139510730220196da73e2e30d607dc05bbf396ba0cee63e00fa9eee4a7518a89294ad6346515012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",
-		);
-	});
 });
 
 describe("bip49 wallet", () => {

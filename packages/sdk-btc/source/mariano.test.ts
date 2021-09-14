@@ -1,7 +1,8 @@
 import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
+import nock from "nock";
 
-import { IoC, Services } from "@payvo/sdk";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import BtcApp from "@ledgerhq/hw-app-btc";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 import logger from "@ledgerhq/logs";
@@ -17,38 +18,75 @@ import { LedgerService } from "./ledger.service";
 import { BIP39 as bip39 } from "@payvo/cryptography";
 
 import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
+import { DateTime } from "@payvo/intl";
+import { TransactionService } from "./transaction.service";
+import { BindingType } from "./constants";
+import { AddressFactory } from "./address.factory";
+import { FeeService } from "./fee.service";
 
 jest.setTimeout(20_000);
 
-const createMockService = async (record: string) => {
+let ledgerService: LedgerService;
+
+const createMockService = async () => {
 	logger.listen((log) => console.info(log.type + ": " + log.message));
 
-	const transport = await createService(LedgerService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
+	const transactionService = await createService(
+		TransactionService,
+		"btc.testnet",
+		async (container: IoC.Container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.FeeService, FeeService);
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
 
-	// @ts-ignore
-	await transport.connect(TransportNodeHid.default);
+			// ledgerService = container.get(IoC.BindingType.LedgerService);
+			// // @ts-ignore
+			// await ledgerService.connect(TransportNodeHid.default);
+		},
+	);
 
-	return transport;
+	return transactionService;
 };
 
 describe("signTransaction", () => {
-	it("should pass with a signature old", async () => {
-		const subject = await createMockService(ledger.transaction.record);
+	nock.recorder.rec();
+	it("should generate a transfer transaction and sign with Ledger", async () => {
+		const signatory = new Signatories.Signatory(
+			new Signatories.LedgerSignatory({
+				signingKey: "doesn't matter",
+				options: {
+					bip44: {
+						account: 0,
+					},
+				},
+			}),
+		);
+		const subject: TransactionService = await createMockService();
+		// // @ts-ignore
+		// await subject.connect(TransportNodeHid.default);
 
-		/**
-		 *  btc: splitTransaction 02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100e83b0bf79dc14304fc1770aab7e50d1468578ab4d602c520d89ad36c97d067070220044704d8e6e5cf9d4d624b7cfc0bc20c8356ad716971bdb9f43ccbd99385048c012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000:
-		 *  TX version 02000000 locktime f79dc143 timestamp  nVersionGroupId  nExpiryHeight  extraData
-		 *  output 0: amount 01aaf23e0cb853c0 script 0b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100e83b0b
-		 */
-		await expect(
-			await subject.signTransaction("44'/0'/0'/0/0", Buffer.from("02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100e83b0bf79dc14304fc1770aab7e50d1468578ab4d602c520d89ad36c97d067070220044704d8e6e5cf9d4d624b7cfc0bc20c8356ad716971bdb9f43ccbd99385048c012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000")),
-		).toEqual({});
+		const result = await subject.transfer({
+			data: {
+				amount: 0.001,
+				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
+			},
+			signatory,
+		});
+
+		expect(result.id()).toBe("9bbea6184489022daf7f4bf22fd82a670eb9e4bbc5c5811bfd046d9dfe641d12");
+		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(result.amount().toNumber()).toBe(100_000);
+		expect(result.fee().toNumber()).toBe(242_724);
+		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		expect(result.toBroadcast()).toBe(
+			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006a4730440220486047e297b38311f72868d32abe495796687fb72b12d125e45b7aef139510730220196da73e2e30d607dc05bbf396ba0cee63e00fa9eee4a7518a89294ad6346515012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",
+		);
 	});
 });
 
@@ -118,43 +156,45 @@ describe("mariano", () => {
 	// 		const outLedgerTx = splitTransaction(ledger, newTx);
 	// 		const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
 	//
-	// 		const signer = (path: string) => {
-	// 			const ecPrivate = node.derivePath(path);
-	// 			// actually only publicKey is needed, albeit ledger give an uncompressed one.
-	// 			return {
-	// 				network: NETWORK,
-	// 				publicKey: ecPrivate.publicKey,
-	// 				sign: async ($hash: Buffer) => {
-	// 					const ledgerTxSignatures = await ledger.signP2SHTransaction({
-	// 						// @ts-ignore
-	// 						inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
-	// 						associatedKeysets: [path],
-	// 						outputScriptHex,
-	// 						lockTime: DEFAULT_LOCK_TIME,
-	// 						segwit: newTx.hasWitnesses(),
-	// 						transactionVersion: version,
-	// 						sigHashType: SIGHASH_ALL,
-	// 					});
-	// 					const [ledgerSignature] = ledgerTxSignatures;
-	// 					const expectedSignature = ecPrivate.sign($hash);
-	// 					const finalSignature = (() => {
-	// 						if (newTx.hasWitnesses()) {
-	// 							return Buffer.from(ledgerSignature, "hex");
-	// 						}
-	// 						return Buffer.concat([
-	// 							ledgerSignature,
-	// 							Buffer.from("01", "hex"), // SIGHASH_ALL
-	// 						]);
-	// 					})();
-	// 					console.log({
-	// 						expectedSignature: expectedSignature.toString("hex"),
-	// 						finalSignature: finalSignature.toString("hex"),
-	// 					});
-	// 					const { signature } = bitcoin.script.signature.decode(finalSignature);
-	// 					return signature;
-	// 				},
-	// 			};
-	// 		};
+			const signer = (path: string) => {
+				const compressPublicKey = pubKey => {
+					const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
+					return publicKey.toString('hex');
+				};
+				const walletPublicKey = await ledger.getWalletPublicKey(path);
+				const publicKey = compressPublicKey(walletPublicKey.publicKey);
+				return {
+					network: NETWORK,
+					publicKey,
+					sign: async ($hash: Buffer) => {
+						const ledgerTxSignatures = await ledger.signP2SHTransaction({
+							// @ts-ignore
+							inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
+							associatedKeysets: [path],
+							outputScriptHex,
+							lockTime: DEFAULT_LOCK_TIME,
+							segwit: newTx.hasWitnesses(),
+							transactionVersion: version,
+							sigHashType: SIGHASH_ALL,
+						});
+						const [ledgerSignature] = ledgerTxSignatures;
+						const finalSignature = (() => {
+							if (newTx.hasWitnesses()) {
+								return Buffer.from(ledgerSignature, "hex");
+							}
+							return Buffer.concat([
+								ledgerSignature,
+								Buffer.from("01", "hex"), // SIGHASH_ALL
+							]);
+						})();
+						console.log({
+							finalSignature: finalSignature.toString("hex"),
+						});
+						const { signature } = bitcoin.script.signature.decode(finalSignature);
+						return signature;
+					},
+				};
+			};
 	// 		await psbt.signInputAsync(0, signer(PATHS[0]));
 	// 		const validate = await psbt.validateSignaturesOfAllInputs();
 	// 		await psbt.finalizeAllInputs();

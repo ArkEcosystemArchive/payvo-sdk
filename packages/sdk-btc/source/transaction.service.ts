@@ -1,5 +1,5 @@
 import { BIP32 } from "@payvo/cryptography";
-import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
@@ -14,6 +14,8 @@ import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from ".
 import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
 import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
+import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
+import { ledger } from "../test/fixtures/ledger";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -70,10 +72,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
-			const accountKey = BIP32.fromMnemonic(input.signatory.signingKey(), network)
-				.deriveHardened(bipLevel.purpose)
-				.deriveHardened(bipLevel.coinType)
-				.deriveHardened(bipLevel.account || 0);
+			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
 
 			const changeAddress = await this.#getChangeAddress(
 				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
@@ -118,26 +117,59 @@ export class TransactionService extends Services.AbstractTransactionService {
 			if (input.signatory.actsWithMnemonic()) {
 				inputs.forEach((input, index) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
 			} else {
-				// const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
-				// 	ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
-				//
-				// // @ts-ignore
-				// const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
-				// console.log(newTx);
-				//
+				const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
+					ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
+
+				// @ts-ignore
+				const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+				console.log(newTx);
+
 				// const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
 				// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
 				// console.log("outLedgerTx", outLedgerTx);
 				//
-				// inputs.forEach((input, index) => {
-				// 	const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
-				// 	this.ledgerService.signTransaction();
-				// });
+				inputs.forEach((input, index) => {
+					const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
+					input.signer = {
+						network,
+						publicKey,
+						sign:
+							bitcoin.ECPair.fromPrivateKey(input.signingKey),
+						// async ($hash: Buffer) => {
+						// 	const ledgerTxSignatures = await ledger.signP2SHTransaction({
+						// 		// @ts-ignore
+						// 		inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
+						// 		associatedKeysets: [path],
+						// 		outputScriptHex,
+						// 		lockTime: DEFAULT_LOCK_TIME,
+						// 		segwit: newTx.hasWitnesses(),
+						// 		transactionVersion: version,
+						// 		sigHashType: SIGHASH_ALL,
+						// 	});
+						// 	const [ledgerSignature] = ledgerTxSignatures;
+						// 	const finalSignature = (() => {
+						// 		if (newTx.hasWitnesses()) {
+						// 			return Buffer.from(ledgerSignature, "hex");
+						// 		}
+						// 		return Buffer.concat([
+						// 			ledgerSignature,
+						// 			Buffer.from("01", "hex"), // SIGHASH_ALL
+						// 		]);
+						// 	})();
+						// 	console.log({
+						// 		finalSignature: finalSignature.toString("hex"),
+						// 	});
+						// 	const { signature } = bitcoin.script.signature.decode(finalSignature);
+						// 	return signature;
+						// },
+					};
+				});
 			}
 
-			await Promise.all(inputs.map((input, index) => psbt.signInputAsync(index, input.signer)));
+			// Sign and verify signatures
+			inputs.forEach((input, index) => psbt.signInput(index, input.signer));
 
-			const validate = await psbt.validateSignaturesOfAllInputs();
+			await psbt.validateSignaturesOfAllInputs();
 			await psbt.finalizeAllInputs();
 
 			const transaction: bitcoin.Transaction = psbt.extractTransaction();
@@ -154,8 +186,34 @@ export class TransactionService extends Services.AbstractTransactionService {
 				transaction.toHex(),
 			);
 		} catch (error) {
+			console.error(error);
 			throw new Exceptions.CryptoException(error as any);
 		}
+	}
+
+	async #getAccountKey(
+		signatory: Signatories.Signatory,
+		network: bitcoin.networks.Network,
+		bipLevel: Levels,
+	): Promise<BIP32Interface> {
+		if (signatory.actsWithMnemonic()) {
+			return BIP32.fromMnemonic(signatory.signingKey(), network)
+				.deriveHardened(bipLevel.purpose)
+				.deriveHardened(bipLevel.coinType)
+				.deriveHardened(bipLevel.account || 0);
+		} else if (signatory.actsWithLedger()) {
+			// @ts-ignore
+			await this.ledgerService.connect(LedgerTransportNodeHID.default);
+			try {
+				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
+				const publicKey = await this.ledgerService.getPublicKey(path);
+				console.log("path", path, "publicKey", publicKey, Buffer.from(publicKey, "hex"));
+				return BIP32.fromPublicKey(publicKey, "");
+			} finally {
+				await this.ledgerService.disconnect();
+			}
+		}
+		throw new Exceptions.Exception("Invalid signatory");
 	}
 
 	async #selectUtxos(
@@ -170,6 +228,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(id);
 
 		const derivationMethod = getDerivationMethod(id);
+
+		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
