@@ -16,6 +16,7 @@ import { LedgerService } from "./ledger.service";
 import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 import { ledger } from "../test/fixtures/ledger";
+import { fromPublicKey } from "bip32";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -132,7 +133,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
 					input.signer = {
 						network,
-						publicKey,
+						publicKey: accountKey,
 						sign:
 							bitcoin.ECPair.fromPrivateKey(input.signingKey),
 						// async ($hash: Buffer) => {
@@ -207,8 +208,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 			try {
 				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
 				const publicKey = await this.ledgerService.getPublicKey(path);
-				console.log("path", path, "publicKey", publicKey, Buffer.from(publicKey, "hex"));
-				return BIP32.fromPublicKey(publicKey, "");
+				let fromPublicKey1 = fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(""), network );
+				console.log("path", path, "publicKey", publicKey, fromPublicKey1);
+				return fromPublicKey1;
 			} finally {
 				await this.ledgerService.disconnect();
 			}

@@ -38,7 +38,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		const publicKey = await this.#transport.getWalletPublicKey(path, { format: "p2sh" });
+		const publicKey = await this.#transport.getWalletPublicKey(path);
 		console.log("publicKey", publicKey);
 		return publicKey.publicKey;
 	}
