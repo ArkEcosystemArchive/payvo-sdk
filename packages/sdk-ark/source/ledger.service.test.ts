@@ -44,6 +44,21 @@ describe("getVersion", () => {
 	});
 });
 
+describe("isCompatible", () => {
+	it("should check if app is compatible", async () => {
+		const arkApp = await createMockService(ledger.appVersion.record);
+
+		await expect(arkApp.isCompatible()).resolves.toBeTruthy();
+
+		const outdatedArkApp = await createMockService(`
+            => e006000000
+            <= 000101009000
+        `);
+
+		await expect(outdatedArkApp.isCompatible()).resolves.toBeFalsy();
+	});
+});
+
 describe("getPublicKey", () => {
 	it("should pass with a compressed publicKey", async () => {
 		const ark = await createMockService(ledger.publicKey.record);
