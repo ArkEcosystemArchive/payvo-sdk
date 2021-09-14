@@ -14,8 +14,8 @@ const normalizeVersion = (version: string) => {
     return version.replace(/\./g," .").split(' ').map(versionPart => parseFloat(versionPart));
 };
 export const compareVersion = (currentVersion: string, minVersion: string) => {
-	let current = normalizeVersion(currentVersion);
-	let min = normalizeVersion(minVersion);
+	const current = normalizeVersion(currentVersion);
+	const min = normalizeVersion(minVersion);
 
 	for(let i = 0; i < Math.max(current.length, min.length); i++) {
 		if((current[i] || 0) < (min[i] || 0)) {
