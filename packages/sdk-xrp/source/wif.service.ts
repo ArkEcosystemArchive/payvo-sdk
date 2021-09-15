@@ -12,13 +12,9 @@ export class WIFService extends Services.AbstractWIFService {
 			index: options?.bip44?.addressIndex,
 		});
 
-		try {
-			return {
-				wif: child.toWIF(),
-				path,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			wif: child.toWIF(),
+			path,
+		};
 	}
 }

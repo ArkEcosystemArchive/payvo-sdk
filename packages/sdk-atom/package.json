@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-atom",
-	"version": "1.6.54",
+	"version": "1.7.4",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -31,8 +31,7 @@
 		"@payvo/sdk": "workspace:*",
 		"bcrypto": "^5.4.0",
 		"bech32": "^2.0.0",
-		"ledger-cosmos-js": "^2.1.8",
-		"uuid": "^8.3.2"
+		"ledger-cosmos-js": "^2.1.8"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

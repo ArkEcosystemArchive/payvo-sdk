@@ -3,7 +3,7 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;
@@ -234,9 +234,40 @@ describe("3.0", () => {
 		expect(subject.recipient()).toBe(transaction.asset.recipientAddress);
 	});
 
-	test("#amount", () => {
-		expect(subject.amount()).toBeInstanceOf(BigNumber);
-		expect(subject.amount().toString()).toMatchInlineSnapshot(`"100000000"`);
+	describe("#amount", () => {
+		it("returns transaction amount", () => {
+			expect(subject.amount()).toBeInstanceOf(BigNumber);
+			expect(subject.amount().toString()).toMatchInlineSnapshot(`"100000000"`);
+		});
+
+		it("returns sum of unlock objects amounts if type is unlockToken", async () => {
+			subject = await createService(SignedTransactionData).configure(
+				transaction.id,
+				{
+					...transaction,
+					moduleID: 5,
+					assetID: 2,
+					asset: {
+						unlockObjects: [
+							{
+								delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
+								amount: "2000000000",
+								unvoteHeight: 14548930,
+							},
+							{
+								delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
+								amount: "3000000000",
+								unvoteHeight: 14548929,
+							},
+						],
+					},
+				},
+				transaction,
+			);
+
+			expect(subject.amount()).toBeInstanceOf(BigNumber);
+			expect(subject.amount().toString()).toMatchInlineSnapshot(`"5000000000"`);
+		});
 	});
 
 	test("#fee", () => {

@@ -15,7 +15,7 @@ export interface TransactionService {
 	htlcLock(input: HtlcLockInput): Promise<SignedTransactionData>;
 	htlcClaim(input: HtlcClaimInput): Promise<SignedTransactionData>;
 	htlcRefund(input: HtlcRefundInput): Promise<SignedTransactionData>;
-	unlockBalance(input: UnlockBalanceInput): Promise<SignedTransactionData>;
+	unlockToken(input: UnlockTokenInput): Promise<SignedTransactionData>;
 
 	// Estimations
 	estimateExpiration(value?: string): Promise<string | undefined>;
@@ -106,7 +106,7 @@ export interface HtlcRefundInput extends TransactionInput {
 	data: { lockTransactionId: string };
 }
 
-export interface UnlockBalanceInput extends TransactionInput {
+export interface UnlockTokenInput extends TransactionInput {
 	data: {
 		objects: UnlockableBalance[];
 	};

@@ -27,10 +27,10 @@ describe("MessageService", () => {
 		});
 
 		await expect(subject.verify(result)).resolves.toBeTrue();
-		await expect(subject.verify({} as Services.SignedMessage)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.verify({} as Services.SignedMessage)).rejects.toThrow();
 	});
 
 	it("shouldn't sign and verify a invalid message", async () => {
-		await expect(subject.sign({} as Services.MessageInput)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.sign({} as Services.MessageInput)).rejects.toThrow();
 	});
 });

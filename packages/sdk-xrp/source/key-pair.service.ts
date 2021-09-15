@@ -21,10 +21,6 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			return deriveKeypair(secret);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return deriveKeypair(secret);
 	}
 }

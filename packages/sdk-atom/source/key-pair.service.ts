@@ -8,23 +8,19 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			const { child, path } = BIP44.deriveChildWithPath(mnemonic, {
-				coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
-				index: options?.bip44?.addressIndex,
-			});
+		const { child, path } = BIP44.deriveChildWithPath(mnemonic, {
+			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			index: options?.bip44?.addressIndex,
+		});
 
-			if (!child.privateKey) {
-				throw new Error("Failed to derive private key.");
-			}
-
-			return {
-				publicKey: secp256k1.publicKeyCreate(child.privateKey, true).toString("hex"),
-				privateKey: child.privateKey.toString("hex"),
-				path,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (!child.privateKey) {
+			throw new Error("Failed to derive private key.");
 		}
+
+		return {
+			publicKey: secp256k1.publicKeyCreate(child.privateKey, true).toString("hex"),
+			privateKey: child.privateKey.toString("hex"),
+			path,
+		};
 	}
 }

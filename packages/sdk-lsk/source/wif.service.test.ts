@@ -22,7 +22,7 @@ describe("WIF", () => {
 	});
 
 	it("should fail to generate an output from an invalid mnemonic", async () => {
-		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow();
 	});
 
 	it("should generate an output from a private key", async () => {
@@ -33,6 +33,6 @@ describe("WIF", () => {
 	});
 
 	it("should fail to generate an output from an invalid private key", async () => {
-		await expect(subject.fromPrivateKey(undefined!)).rejects.toThrow(Exceptions.CryptoException);
+		await expect(subject.fromPrivateKey(undefined!)).rejects.toThrow();
 	});
 });

@@ -7,10 +7,6 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			return { privateKey: deriveKey(mnemonic).privateKey.toString("hex") };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { privateKey: deriveKey(mnemonic).privateKey.toString("hex") };
 	}
 }

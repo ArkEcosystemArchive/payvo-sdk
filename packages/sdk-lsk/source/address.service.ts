@@ -13,34 +13,22 @@ export class AddressService extends Services.AbstractAddressService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
+		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
 
-			return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
 	}
 
 	public override async fromPublicKey(
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.AddressDataTransferObject> {
-		try {
-			abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
+		abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
-			return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return { type: "bip39", address: getLisk32AddressFromPassphrase(secret) };
 	}
 
 	public override async validate(address: string): Promise<boolean> {

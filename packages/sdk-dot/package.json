@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-dot",
-	"version": "1.6.54",
+	"version": "1.7.4",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -37,8 +37,7 @@
 		"@polkadot/wasm-crypto": "^4.1.2",
 		"@polkadot/x-global": "^7.2.1",
 		"@polkadot/x-randomvalues": "^7.2.1",
-		"@zondax/ledger-polkadot": "^0.13.0",
-		"uuid": "^8.3.2"
+		"@zondax/ledger-polkadot": "^0.13.0"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

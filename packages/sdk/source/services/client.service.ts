@@ -14,7 +14,7 @@ import {
 	ClientTransactionsInput,
 	ClientWalletsInput,
 	TransactionDetailInput,
-	UnlockBalanceResponse,
+	UnlockTokenResponse,
 	VoteReport,
 	WalletIdentifier,
 } from "./client.contract";
@@ -62,7 +62,7 @@ export class AbstractClientService implements ClientService {
 		throw new NotImplemented(this.constructor.name, this.voters.name);
 	}
 
-	public async unlockableBalances(id: string): Promise<UnlockBalanceResponse> {
+	public async unlockableBalances(id: string): Promise<UnlockTokenResponse> {
 		throw new NotImplemented(this.constructor.name, this.unlockableBalances.name);
 	}
 

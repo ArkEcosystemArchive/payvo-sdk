@@ -94,7 +94,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	public override async unlockBalance(input: Services.UnlockBalanceInput): Promise<Contracts.SignedTransactionData> {
+	public override async unlockToken(input: Services.UnlockTokenInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
 			"dpos:unlockToken",
 			{

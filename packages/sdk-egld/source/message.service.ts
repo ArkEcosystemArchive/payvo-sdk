@@ -5,24 +5,16 @@ import { getPublicKey, sign, verify } from "noble-ed25519";
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		try {
-			const privateKey = Mnemonic.fromString(input.signatory.signingKey()).deriveKey(0).hex();
+		const privateKey = Mnemonic.fromString(input.signatory.signingKey()).deriveKey(0).hex();
 
-			return {
-				message: input.message,
-				signatory: await getPublicKey(privateKey),
-				signature: await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			message: input.message,
+			signatory: await getPublicKey(privateKey),
+			signature: await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey),
+		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
-		try {
-			return verify(input.signature, Buffer.from(input.message, "utf8").toString("hex"), input.signatory);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return verify(input.signature, Buffer.from(input.message, "utf8").toString("hex"), input.signatory);
 	}
 }

@@ -61,135 +61,129 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const bipLevel = this.addressFactory.getLevel(identityOptions);
 
-		try {
-			const network = getNetworkConfig(this.configRepository);
+		const network = getNetworkConfig(this.configRepository);
 
-			// Derive the sender address (corresponding to first address index for the wallet)
-			const { address, type, path } = await this.addressService.fromMnemonic(
-				input.signatory.signingKey(),
-				identityOptions,
-			);
+		// Derive the sender address (corresponding to first address index for the wallet)
+		const { address, type, path } = await this.addressService.fromMnemonic(
+			input.signatory.signingKey(),
+			identityOptions,
+		);
 
-			// Compute the amount to be transferred
-			const amount = this.toSatoshi(input.data.amount).toNumber();
+		// Compute the amount to be transferred
+		const amount = this.toSatoshi(input.data.amount).toNumber();
 
-			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
+		const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
 
-			const changeAddress = await this.#getChangeAddress(
-				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
-			);
+		const changeAddress = await this.#getChangeAddress(
+			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+		);
 
-			const targets = [
-				{
-					address: input.data.to,
-					value: amount,
-				},
-			];
+		const targets = [
+			{
+				address: input.data.to,
+				value: amount,
+			},
+		];
 
-			// Figure out inputs, outputs and fees
-			const { inputs, outputs, fee } = await this.#selectUtxos(
-				bipLevel,
-				accountKey,
-				targets,
-				await this.#getFee(input),
-			);
+		// Figure out inputs, outputs and fees
+		const { inputs, outputs, fee } = await this.#selectUtxos(
+			bipLevel,
+			accountKey,
+			targets,
+			await this.#getFee(input),
+		);
 
-			// Build bitcoin transaction
-			const psbt = new bitcoin.Psbt({ network: network });
+		// Build bitcoin transaction
+		const psbt = new bitcoin.Psbt({ network: network });
 
-			inputs.forEach((input) => {
-				return psbt.addInput({
-					hash: input.txId,
-					index: input.vout,
-					...input,
-				});
+		inputs.forEach((input) => {
+			return psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				...input,
 			});
-			outputs.forEach((output) => {
-				if (!output.address) {
-					output.address = changeAddress;
-				}
-
-				psbt.addOutput({
-					address: output.address,
-					value: output.value,
-				});
-			});
-
-			if (input.signatory.actsWithMnemonic()) {
-				inputs.forEach((input, index) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
-			} else {
-				const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
-					ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
-
-				// @ts-ignore
-				const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
-				console.log(newTx);
-
-				// const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-				// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
-				// console.log("outLedgerTx", outLedgerTx);
-				//
-				inputs.forEach((input, index) => {
-					const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
-					input.signer = {
-						network,
-						publicKey: accountKey,
-						sign:
-							bitcoin.ECPair.fromPrivateKey(input.signingKey),
-						// async ($hash: Buffer) => {
-						// 	const ledgerTxSignatures = await ledger.signP2SHTransaction({
-						// 		// @ts-ignore
-						// 		inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
-						// 		associatedKeysets: [path],
-						// 		outputScriptHex,
-						// 		lockTime: DEFAULT_LOCK_TIME,
-						// 		segwit: newTx.hasWitnesses(),
-						// 		transactionVersion: version,
-						// 		sigHashType: SIGHASH_ALL,
-						// 	});
-						// 	const [ledgerSignature] = ledgerTxSignatures;
-						// 	const finalSignature = (() => {
-						// 		if (newTx.hasWitnesses()) {
-						// 			return Buffer.from(ledgerSignature, "hex");
-						// 		}
-						// 		return Buffer.concat([
-						// 			ledgerSignature,
-						// 			Buffer.from("01", "hex"), // SIGHASH_ALL
-						// 		]);
-						// 	})();
-						// 	console.log({
-						// 		finalSignature: finalSignature.toString("hex"),
-						// 	});
-						// 	const { signature } = bitcoin.script.signature.decode(finalSignature);
-						// 	return signature;
-						// },
-					};
-				});
+		});
+		outputs.forEach((output) => {
+			if (!output.address) {
+				output.address = changeAddress;
 			}
 
-			// Sign and verify signatures
-			inputs.forEach((input, index) => psbt.signInput(index, input.signer));
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			});
+		});
 
-			await psbt.validateSignaturesOfAllInputs();
-			await psbt.finalizeAllInputs();
+		if (input.signatory.actsWithMnemonic()) {
+			inputs.forEach((input, index) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+		} else {
+			const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
+				ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
 
-			const transaction: bitcoin.Transaction = psbt.extractTransaction();
+			// @ts-ignore
+			const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+			console.log(newTx);
 
-			return this.dataTransferObjectService.signedTransaction(
-				transaction.getId(),
-				{
-					sender: address,
-					recipient: input.data.to,
-					amount,
-					fee,
-					timestamp: new Date(),
-				},
-				transaction.toHex(),
-			);
-		} catch (error) {
-			console.error(error);
-			throw new Exceptions.CryptoException(error as any);
+			// const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
+			// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
+			// console.log("outLedgerTx", outLedgerTx);
+			//
+			inputs.forEach((input, index) => {
+				const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
+				input.signer = {
+					network,
+					publicKey: accountKey,
+					sign: bitcoin.ECPair.fromPrivateKey(input.signingKey),
+					// async ($hash: Buffer) => {
+					// 	const ledgerTxSignatures = await ledger.signP2SHTransaction({
+					// 		// @ts-ignore
+					// 		inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
+					// 		associatedKeysets: [path],
+					// 		outputScriptHex,
+					// 		lockTime: DEFAULT_LOCK_TIME,
+					// 		segwit: newTx.hasWitnesses(),
+					// 		transactionVersion: version,
+					// 		sigHashType: SIGHASH_ALL,
+					// 	});
+					// 	const [ledgerSignature] = ledgerTxSignatures;
+					// 	const finalSignature = (() => {
+					// 		if (newTx.hasWitnesses()) {
+					// 			return Buffer.from(ledgerSignature, "hex");
+					// 		}
+					// 		return Buffer.concat([
+					// 			ledgerSignature,
+					// 			Buffer.from("01", "hex"), // SIGHASH_ALL
+					// 		]);
+					// 	})();
+					// 	console.log({
+					// 		finalSignature: finalSignature.toString("hex"),
+					// 	});
+					// 	const { signature } = bitcoin.script.signature.decode(finalSignature);
+					// 	return signature;
+					// },
+				};
+			});
 		}
+
+		// Sign and verify signatures
+		inputs.forEach((input, index) => psbt.signInput(index, input.signer));
+
+		await psbt.validateSignaturesOfAllInputs();
+		await psbt.finalizeAllInputs();
+
+		const transaction: bitcoin.Transaction = psbt.extractTransaction();
+
+		return this.dataTransferObjectService.signedTransaction(
+			transaction.getId(),
+			{
+				sender: address,
+				recipient: input.data.to,
+				amount,
+				fee,
+				timestamp: new Date(),
+			},
+			transaction.toHex(),
+		);
 	}
 
 	async #getAccountKey(
@@ -208,7 +202,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			try {
 				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
 				const publicKey = await this.ledgerService.getPublicKey(path);
-				let fromPublicKey1 = fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(""), network );
+				let fromPublicKey1 = fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(""), network);
 				console.log("path", path, "publicKey", publicKey, fromPublicKey1);
 				return fromPublicKey1;
 			} finally {

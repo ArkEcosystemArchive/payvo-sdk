@@ -8,19 +8,15 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			let rootKey = deriveRootKey(mnemonic);
+		let rootKey = deriveRootKey(mnemonic);
 
-			if (options?.bip44?.account !== undefined) {
-				rootKey = deriveAccountKey(rootKey, options.bip44.account);
-			}
-
-			return {
-				publicKey: Buffer.from(rootKey.to_public().as_bytes()).toString("hex"),
-				privateKey: Buffer.from(rootKey.to_raw_key().as_bytes()).toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (options?.bip44?.account !== undefined) {
+			rootKey = deriveAccountKey(rootKey, options.bip44.account);
 		}
+
+		return {
+			publicKey: Buffer.from(rootKey.to_public().as_bytes()).toString("hex"),
+			privateKey: Buffer.from(rootKey.to_raw_key().as_bytes()).toString("hex"),
+		};
 	}
 }

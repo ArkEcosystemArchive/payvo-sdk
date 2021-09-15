@@ -50,13 +50,13 @@ export class TransactionSerializer {
 		}
 
 		if (isUnlockToken(mutated)) {
-			return {
-				unlockObjects: mutated.asset.unlockObjects.map(({ delegateAddress, amount, unvoteHeight }) => ({
+			mutated.asset.unlockObjects = mutated.asset.unlockObjects.map(
+				({ delegateAddress, amount, unvoteHeight }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
 					amount: BigInt(amount),
 					unvoteHeight: Number(unvoteHeight),
-				})),
-			};
+				}),
+			);
 		}
 
 		if (mutated.multiSignature) {

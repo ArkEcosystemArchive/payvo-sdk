@@ -9,32 +9,24 @@ export class AddressService extends Services.AbstractAddressService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			const { child, path } = deriveKeyPair(mnemonic, options);
+		const { child, path } = deriveKeyPair(mnemonic, options);
 
-			return {
-				type: "bip44",
-				address: child.publicKey(),
-				path,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: child.publicKey(),
+			path,
+		};
 	}
 
 	public override async fromPrivateKey(
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return {
-				type: "bip44",
-				address: Stellar.Keypair.fromSecret(privateKey).publicKey(),
-				path: buildPath(options),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: Stellar.Keypair.fromSecret(privateKey).publicKey(),
+			path: buildPath(options),
+		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
