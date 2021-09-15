@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-eos",
-	"version": "1.7.3",
+	"version": "1.7.4",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
