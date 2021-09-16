@@ -49,9 +49,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return publicKey.publicKey;
 	}
 
-
 	public async getPublicKey2(path: string): Promise<any> {
-		return  await this.#transport.getWalletPublicKey(path, { verify: false });
+		return await this.#transport.getWalletPublicKey(path, { verify: false });
 	}
 
 	public override async getExtendedPublicKey(path: string): Promise<string> {
@@ -64,9 +63,9 @@ export class LedgerService extends Services.AbstractLedgerService {
 		console.log("ecpair", ecpair);
 
 		const publicKey2 = ecpair.publicKey;
-		console.log("publicKey2",publicKey2.toString('hex'));
+		console.log("publicKey2", publicKey2.toString("hex"));
 
-		let toBase58 = BIP32.fromPublicKey(publicKey2.toString('hex'), walletPublicKey.chainCode, network).toBase58();
+		let toBase58 = BIP32.fromPublicKey(publicKey2.toString("hex"), walletPublicKey.chainCode, network).toBase58();
 		console.log("toBase58", toBase58);
 
 		console.log(BIP32.fromBase58(toBase58, network));

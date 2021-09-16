@@ -92,7 +92,7 @@ const compressPublicKey = (pubKey: string, network: bitcoin.networks.Network): s
 	const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, "hex"), {
 		network,
 	});
-	return publicKey.toString('hex');
+	return publicKey.toString("hex");
 };
 
 describe("mariano", () => {
@@ -160,14 +160,11 @@ describe("mariano", () => {
 			const expectedBip32Interface = BIP32.fromBase58(expectedWalletPublicKey.base58, network);
 
 			const bip32Interface = bitcoin.bip32.fromPublicKey(
-				Buffer.from(compressed, 'hex'),
-				Buffer.from(walletPublicKey.chainCode, 'hex'),
+				Buffer.from(compressed, "hex"),
+				Buffer.from(walletPublicKey.chainCode, "hex"),
 				network,
 			);
-			console.log("bip32Interface", bip32Interface
-				.derive(0)
-				.derive(0)
-			);
+			console.log("bip32Interface", bip32Interface.derive(0).derive(0));
 			console.log("bip32Interface", bip32Interface);
 			console.log("toBase58", bip32Interface.toBase58());
 
