@@ -4,6 +4,7 @@ import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
 import { serializeTransactionOutputs } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import { getNetworkID } from "./config";
 import createXpub from "create-xpub";
+import { maxLevel } from "./helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -55,7 +56,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 		return createXpub({
 			networkVersion: networkId === "testnet" ? createXpub.testnet : createXpub.mainnet,
-			depth: 3,
+			depth: maxLevel(path),
 			childNumber: 2147483648,
 			chainCode: walletPublicKey.chainCode,
 			publicKey: walletPublicKey.publicKey,

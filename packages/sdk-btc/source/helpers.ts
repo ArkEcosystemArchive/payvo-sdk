@@ -1,3 +1,4 @@
+import { BIP44 } from "@payvo/cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
@@ -94,3 +95,24 @@ export const getAddresses = async (
 
 	throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);
 };
+
+export const maxLevel = (path: string): number => {
+	const bip44Levels = BIP44.parse(path)
+	let depth = 0;
+	if (bip44Levels.purpose !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.coinType !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.account !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.change !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.addressIndex !== undefined) {
+		depth++;
+	}
+	return depth;
+}
