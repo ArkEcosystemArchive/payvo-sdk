@@ -63,6 +63,7 @@ const updaters = {
 					"multiSignature",
 					"secondSignature",
 					"transfer",
+					"unlockToken",
 					"vote",
 				],
 				["ledgerS", "ledgerX", "musig"],
