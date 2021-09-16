@@ -13,7 +13,7 @@ import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
-import cryptography  from "@payvo/cryptography";
+import cryptography from "@payvo/cryptography";
 import { DateTime } from "@payvo/intl";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
