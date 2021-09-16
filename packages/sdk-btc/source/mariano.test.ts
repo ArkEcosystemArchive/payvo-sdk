@@ -1,23 +1,20 @@
 import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
 import nock from "nock";
+import createXpub from "create-xpub";
+import Base, { fromExtendedKey, fromMasterSeed } from "hdkey";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import BtcApp from "@ledgerhq/hw-app-btc";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 import logger from "@ledgerhq/logs";
 import { jest } from "@jest/globals";
-
-import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
-import { BIP32, BIP39 as bip39 } from "@payvo/cryptography";
-
-import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
+import cryptography, { HDKey } from "@payvo/cryptography";
 import { DateTime } from "@payvo/intl";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
@@ -52,6 +49,49 @@ const createMockService = async () => {
 
 	return transactionService;
 };
+
+const compressPublicKey = (pubKey: string, network: bitcoin.networks.Network): string => {
+	const key = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, "hex"), {
+		network,
+	});
+	console.log(key);
+	const { publicKey } = key;
+	return publicKey.toString("hex");
+};
+
+it("should create xpub from nano retrieved public key", async function () {
+	const network = bitcoin.networks.testnet;
+
+	const walletData = {
+		path: "44'/1'/0'",
+		publicKey:
+			"047cdc8c71b62628703c486378dd38254dda909038d52c68a5c6acf5af0b7239991fa292a7cfc747ca94f015484233b8563a22fec7aa9c6b5d796028314c351d30",
+		bitcoinAddress: "mrAnhdVfLEFhzVbn8nL9WdTCzmqomJaEsn",
+		chainCode: "252f8df8aa4cec969cf1befa706a2a93265ffe4d2c4d407493bfd4508de371d7",
+		compressed: "027cdc8c71b62628703c486378dd38254dda909038d52c68a5c6acf5af0b723999",
+		base58: "tpubDCzoRb9kb5qSjv1RcX5g4bJ9h28uuaqeuEhFmHCgtGRuoxB121X1e4DSwq44AD1gv7Lu33ije8b4b7fX8oXp3h28CRycqJkFJRd7GSSV7YK",
+	};
+	const expectedBip32Interface = cryptography.BIP32.fromBase58(walletData.base58, network);
+	console.log("expectedBip32Interface", walletData.base58, expectedBip32Interface);
+
+	const xpub2 = createXpub({
+		networkVersion: createXpub.testnet,
+		depth: 3,
+		childNumber: 2147483648,
+		chainCode: walletData.chainCode,
+		publicKey: walletData.publicKey,
+	});
+	console.log(xpub2);
+	const obtainedBip32Interface = cryptography.BIP32.fromBase58(xpub2, network);
+
+	expect(xpub2).not.toBe(walletData.base58);
+	expect(obtainedBip32Interface.derive(0).derive(0).toBase58()).toBe(
+		expectedBip32Interface.derive(0).derive(0).toBase58(),
+	);
+
+	console.log("expectedBip32Interface", expectedBip32Interface.derive(0).derive(0).toBase58());
+	console.log("obtainedBip32Interface", obtainedBip32Interface.derive(0).derive(0).toBase58());
+});
 
 describe("signTransaction", () => {
 	nock.recorder.rec();

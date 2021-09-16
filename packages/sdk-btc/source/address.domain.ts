@@ -40,3 +40,10 @@ export const addressGenerator = function* (
 		yield chunk;
 	}
 };
+
+export type BitcoinAddress = {
+	type: string,
+	address: string;
+	publicKey: string;
+	privateKey: string;
+};

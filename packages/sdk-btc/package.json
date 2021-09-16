@@ -36,7 +36,9 @@
 		"bitcoinjs-message": "~2.2.0",
 		"coinselect": "~3.1.12",
 		"@ledgerhq/hw-transport-node-hid-singleton": "^6.3.0",
-		"@ledgerhq/logs": "~6.2.0"
+		"@ledgerhq/logs": "~6.2.0",
+		"hdkey": "^2.0.1",
+		"create-xpub": "~2.1.0"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

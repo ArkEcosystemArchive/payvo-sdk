@@ -453,6 +453,8 @@ importers:
       bitcoinjs-lib: 5.2.0
       bitcoinjs-message: 2.2.0
       coinselect: 3.1.12
+      create-xpub: 2.1.0
+      hdkey: 2.0.1
     devDependencies:
       '@jest/globals': 27.0.6
       '@ledgerhq/hw-transport-mocker': 6.3.0
@@ -509,6 +511,7 @@ importers:
       bitcoinjs-lib: ^5.2.0
       bitcoinjs-message: ~2.2.0
       coinselect: ~3.1.12
+      create-xpub: ~2.1.0
       cross-env: ^7.0.3
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0
@@ -518,6 +521,7 @@ importers:
       eslint-plugin-simple-import-sort: ^7.0.0
       eslint-plugin-tsdoc: ~0.2.14
       got: ^11.8.2
+      hdkey: ^2.0.1
       jest: ^27.0.6
       jest-extended: ^0.11.5
       jest-localstorage-mock: ^2.4.17

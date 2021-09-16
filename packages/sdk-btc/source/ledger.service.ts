@@ -50,7 +50,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public async getPublicKey2(path: string): Promise<any> {
-		return await this.#transport.getWalletPublicKey(path, { verify: false });
+		return await this.#transport.getWalletPublicKey(path, { verify: false, format: "p2sh" });
 	}
 
 	public override async getExtendedPublicKey(path: string): Promise<string> {
