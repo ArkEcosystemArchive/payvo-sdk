@@ -1,10 +1,9 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import * as bitcoin from "bitcoinjs-lib";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
 import { serializeTransactionOutputs } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
-import { BIP32, BIP44 } from "@payvo/cryptography";
-import { getNetworkConfig } from "./config";
+import { getNetworkID } from "./config";
+import createXpub from "create-xpub";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -54,22 +53,17 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getExtendedPublicKey(path: string): Promise<string> {
-		const network = getNetworkConfig(this.configRepository);
+		const networkId = getNetworkID(this.configRepository);
 
 		const walletPublicKey = await this.#transport.getWalletPublicKey(path, { verify: false });
-		console.log("walletPublicKey", walletPublicKey);
 
-		const ecpair = bitcoin.ECPair.fromPublicKey(Buffer.from(walletPublicKey.publicKey, "hex"), { network });
-		console.log("ecpair", ecpair);
-
-		const publicKey2 = ecpair.publicKey;
-		console.log("publicKey2", publicKey2.toString("hex"));
-
-		let toBase58 = BIP32.fromPublicKey(publicKey2.toString("hex"), walletPublicKey.chainCode, network).toBase58();
-		console.log("toBase58", toBase58);
-
-		console.log(BIP32.fromBase58(toBase58, network));
-		return toBase58;
+		return createXpub({
+			networkVersion: networkId === "testnet" ? createXpub.testnet : createXpub.mainnet,
+			depth: 3,
+			childNumber: 2147483648,
+			chainCode: walletPublicKey.chainCode,
+			publicKey: walletPublicKey.publicKey,
+		});
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {

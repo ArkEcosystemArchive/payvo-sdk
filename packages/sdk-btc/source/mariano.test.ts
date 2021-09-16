@@ -2,7 +2,6 @@ import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
 import nock from "nock";
 import createXpub from "create-xpub";
-import Base, { fromExtendedKey, fromMasterSeed } from "hdkey";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
@@ -14,7 +13,7 @@ import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
-import cryptography, { HDKey } from "@payvo/cryptography";
+import cryptography  from "@payvo/cryptography";
 import { DateTime } from "@payvo/intl";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
@@ -76,7 +75,7 @@ it("should create xpub from nano retrieved public key", async function () {
 
 	const xpub2 = createXpub({
 		networkVersion: createXpub.testnet,
-		depth: 3,
+		depth: 3, // @TODO Derive this from given path
 		childNumber: 2147483648,
 		chainCode: walletData.chainCode,
 		publicKey: walletData.publicKey,
