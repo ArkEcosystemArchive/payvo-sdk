@@ -15,7 +15,7 @@ import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
-import { BIP39 as bip39 } from "@payvo/cryptography";
+import { BIP32, BIP39 as bip39 } from "@payvo/cryptography";
 
 import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import { DateTime } from "@payvo/intl";
@@ -44,9 +44,9 @@ const createMockService = async () => {
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 
-			// ledgerService = container.get(IoC.BindingType.LedgerService);
-			// // @ts-ignore
-			// await ledgerService.connect(TransportNodeHid.default);
+			ledgerService = container.get(IoC.BindingType.LedgerService);
+			// @ts-ignore
+			await ledgerService.connect(TransportNodeHid.default);
 		},
 	);
 

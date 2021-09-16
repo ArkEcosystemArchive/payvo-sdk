@@ -36,7 +36,7 @@ beforeEach(async () => {
 
 		ledgerService = container.get(IoC.BindingType.LedgerService);
 		// @ts-ignore
-		await newVar.connect(TransportNodeHid.default);
+		await ledgerService.connect(TransportNodeHid.default);
 	});
 });
 
