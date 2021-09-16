@@ -97,7 +97,7 @@ export const getAddresses = async (
 };
 
 export const maxLevel = (path: string): number => {
-	const bip44Levels = BIP44.parse(path)
+	const bip44Levels = BIP44.parse(path);
 	let depth = 0;
 	if (bip44Levels.purpose !== undefined) {
 		depth++;
@@ -115,4 +115,4 @@ export const maxLevel = (path: string): number => {
 		depth++;
 	}
 	return depth;
-}
+};
