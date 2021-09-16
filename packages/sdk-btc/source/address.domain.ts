@@ -42,7 +42,7 @@ export const addressGenerator = function* (
 };
 
 export type BitcoinAddress = {
-	type: string,
+	type: string;
 	address: string;
 	publicKey: string;
 	privateKey: string;

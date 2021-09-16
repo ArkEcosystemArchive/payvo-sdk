@@ -166,10 +166,7 @@ describe("mariano", () => {
 			);
 			console.log("bip32Interface", bip32Interface);
 			console.log("toBase58", bip32Interface.toBase58());
-			console.log("bip32Interface", bip32Interface
-				.derive(0)
-				.derive(0)
-			);
+			console.log("bip32Interface", bip32Interface.derive(0).derive(0));
 
 			expect(bip32Interface).toBe(expectedBip32Interface);
 			expect(bip32Interface.toBase58()).toBe(expectedWalletPublicKey.base58);
