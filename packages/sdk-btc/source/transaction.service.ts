@@ -122,12 +122,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 			console.log(newTx);
 
 			const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-			const outputScriptHex = await this.ledgerService.getTransport().serializeTransactionOutputs(outLedgerTx).toString("hex");
+			const outputScriptHex = await this.ledgerService
+				.getTransport()
+				.serializeTransactionOutputs(outLedgerTx)
+				.toString("hex");
 			console.log("outLedgerTx", outLedgerTx);
 
 			inputs.forEach((input, index) => {
 				console.log("input", input);
-				const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), bitcoin.Transaction.fromHex(input.txRaw));
+				const inLedgerTx = splitTransaction(
+					this.ledgerService.getTransport(),
+					bitcoin.Transaction.fromHex(input.txRaw),
+				);
 				input.signer = {
 					network,
 					publicKey: input.publicKey,
@@ -145,10 +151,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 							if (newTx.hasWitnesses()) {
 								return Buffer.from(ledgerSignature, "hex");
 							}
-							return Buffer.concat([
-								Buffer.from(ledgerSignature, "hex"),
-								Buffer.from("01", "hex"),
-							]);
+							return Buffer.concat([Buffer.from(ledgerSignature, "hex"), Buffer.from("01", "hex")]);
 						})();
 						console.log({
 							finalSignature: finalSignature.toString("hex"),
@@ -279,7 +282,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
-				publicKey:  Buffer.from(signingKey.publicKey, "hex"),
+				publicKey: Buffer.from(signingKey.publicKey, "hex"),
 				path: BIP44.stringify(levels) + "/" + signingKey.path,
 				...extra,
 			};

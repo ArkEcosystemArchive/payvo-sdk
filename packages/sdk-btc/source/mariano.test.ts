@@ -197,9 +197,9 @@ describe("mariano", () => {
 			const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
 
 			const signer = (path: string) => {
-				const compressPublicKey = pubKey => {
-					const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
-					return publicKey.toString('hex');
+				const compressPublicKey = (pubKey) => {
+					const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, "hex"));
+					return publicKey.toString("hex");
 				};
 				const walletPublicKey = await ledger.getWalletPublicKey(path);
 				const publicKey = compressPublicKey(walletPublicKey.publicKey);
