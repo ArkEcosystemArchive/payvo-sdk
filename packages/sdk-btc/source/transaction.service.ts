@@ -1,4 +1,4 @@
-import { BIP32 } from "@payvo/cryptography";
+import { BIP32, BIP44 } from "@payvo/cryptography";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
@@ -136,7 +136,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 						const ledgerTxSignatures = await this.ledgerService.getTransport().signP2SHTransaction({
 							// @ts-ignore
 							inputs: [[inLedgerTx, input.index, input.script]],
-							associatedKeysets: ["44'/1'/0'/" + input.path],
+							associatedKeysets: [input.path],
 							outputScriptHex,
 							segwit: newTx.hasWitnesses(),
 						});
@@ -280,7 +280,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				value: utxo.satoshis,
 				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
 				publicKey:  Buffer.from(signingKey.publicKey, "hex"),
-				path: signingKey.path,
+				path: BIP44.stringify(levels) + "/" + signingKey.path,
 				...extra,
 			};
 		});
