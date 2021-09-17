@@ -15,6 +15,9 @@ import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
 import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
+import { jest } from "@jest/globals";
+
+jest.setTimeout(20_000);
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -84,12 +87,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		];
 
 		// Figure out inputs, outputs and fees
-		const { inputs, outputs, fee } = await this.#selectUtxos(
-			bipLevel,
-			accountKey,
-			targets,
-			await this.#getFee(input),
-		);
+		const feeRate = await this.#getFee(input);
+		const { inputs, outputs, fee } = await this.#selectUtxos(bipLevel, accountKey, targets, feeRate);
 
 		// Build bitcoin transaction
 		const psbt = new bitcoin.Psbt({ network: network });
@@ -122,55 +121,56 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
 			console.log(newTx);
 
-			// const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-			// const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
-			// console.log("outLedgerTx", outLedgerTx);
-			//
+			const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
+			const outputScriptHex = await this.ledgerService.getTransport().serializeTransactionOutputs(outLedgerTx).toString("hex");
+			console.log("outLedgerTx", outLedgerTx);
+
 			inputs.forEach((input, index) => {
-				const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), input);
+				console.log("input", input);
+				const inLedgerTx = splitTransaction(this.ledgerService.getTransport(), bitcoin.Transaction.fromHex(input.txRaw));
 				input.signer = {
 					network,
-					publicKey: accountKey,
-					sign: bitcoin.ECPair.fromPrivateKey(input.signingKey),
-					// async ($hash: Buffer) => {
-					// 	const ledgerTxSignatures = await ledger.signP2SHTransaction({
-					// 		// @ts-ignore
-					// 		inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
-					// 		associatedKeysets: [path],
-					// 		outputScriptHex,
-					// 		lockTime: DEFAULT_LOCK_TIME,
-					// 		segwit: newTx.hasWitnesses(),
-					// 		transactionVersion: version,
-					// 		sigHashType: SIGHASH_ALL,
-					// 	});
-					// 	const [ledgerSignature] = ledgerTxSignatures;
-					// 	const finalSignature = (() => {
-					// 		if (newTx.hasWitnesses()) {
-					// 			return Buffer.from(ledgerSignature, "hex");
-					// 		}
-					// 		return Buffer.concat([
-					// 			ledgerSignature,
-					// 			Buffer.from("01", "hex"), // SIGHASH_ALL
-					// 		]);
-					// 	})();
-					// 	console.log({
-					// 		finalSignature: finalSignature.toString("hex"),
-					// 	});
-					// 	const { signature } = bitcoin.script.signature.decode(finalSignature);
-					// 	return signature;
-					// },
+					publicKey: input.publicKey,
+					sign: async ($hash: Buffer) => {
+						console.info("$hash", $hash);
+						const ledgerTxSignatures = await this.ledgerService.getTransport().signP2SHTransaction({
+							// @ts-ignore
+							inputs: [[inLedgerTx, input.index, input.script]],
+							associatedKeysets: ["44'/1'/0'/" + input.path],
+							outputScriptHex,
+							segwit: newTx.hasWitnesses(),
+						});
+						const [ledgerSignature] = ledgerTxSignatures;
+						const finalSignature = (() => {
+							if (newTx.hasWitnesses()) {
+								return Buffer.from(ledgerSignature, "hex");
+							}
+							return Buffer.concat([
+								Buffer.from(ledgerSignature, "hex"),
+								Buffer.from("01", "hex"),
+							]);
+						})();
+						console.log({
+							finalSignature: finalSignature.toString("hex"),
+						});
+						const { signature } = bitcoin.script.signature.decode(finalSignature);
+						return signature;
+					},
 				};
 			});
 		}
 
 		// Sign and verify signatures
-		inputs.forEach((input, index) => psbt.signInput(index, input.signer));
+		for (const input1 of inputs) {
+			const index = inputs.indexOf(input1);
+			await psbt.signInputAsync(index, input1.signer);
+		}
 
 		await psbt.validateSignaturesOfAllInputs();
 		await psbt.finalizeAllInputs();
 
 		const transaction: bitcoin.Transaction = psbt.extractTransaction();
-
+		console.log(9 / 0);
 		return this.dataTransferObjectService.signedTransaction(
 			transaction.getId(),
 			{
@@ -199,10 +199,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 			await this.ledgerService.connect(LedgerTransportNodeHID.default);
 			try {
 				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
-				const publicKey = await this.ledgerService.getPublicKey(path);
-				let fromPublicKey1 = BIP32.fromPublicKey(publicKey, "", network);
-				console.log("path", path, "publicKey", publicKey, fromPublicKey1);
-				return fromPublicKey1;
+				const publicKey = await this.ledgerService.getExtendedPublicKey(path);
+				console.log("path", path, "publicKey", publicKey);
+				return BIP32.fromBase58(publicKey, network);
 			} finally {
 				await this.ledgerService.disconnect();
 			}
@@ -275,17 +274,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
+				txRaw: utxo.raw,
+				script: utxo.script,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: Buffer.from(signingKey.privateKey, "hex"),
+				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
+				publicKey:  Buffer.from(signingKey.publicKey, "hex"),
+				path: signingKey.path,
 				...extra,
 			};
 		});
 
-		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
+		const { inputs, outputs, fee } = coinSelect(utxos, targets, 10, feeRate);
 
 		if (!inputs || !outputs) {
-			throw new Error("Cannot determine utxos for this transaction");
+			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds");
 		}
 
 		return { inputs, outputs, fee };

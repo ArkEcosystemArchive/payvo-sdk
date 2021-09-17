@@ -2,6 +2,7 @@ import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
 import nock from "nock";
 import createXpub from "create-xpub";
+import BtcApp from "@ledgerhq/hw-app-btc";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
@@ -130,119 +131,119 @@ describe("signTransaction", () => {
 });
 
 describe("mariano", () => {
-	// it("asdas", () => {
-	// 	const mnemonics =
-	// 		"abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
-	// 	const NETWORK = bitcoin.networks.regtest;
-	// 	const DEFAULT_LOCK_TIME = 0;
-	// 	const SIGHASH_ALL = 1;
-	// 	const PATHS = ["m/49'/1'/0'/0/0", "m/49'/1'/0'/0/1"];
-	//
-	// 	async function appBtc() {
-	// 		const transport = await TransportNodeHid.create();
-	// 		return new BtcApp(transport);
-	// 	}
-	//
-	// 	const compressPublicKey = (pk: string): string => {
-	// 		const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pk, "hex"));
-	// 		return publicKey.toString("hex");
-	// 	};
-	//
-	// 	function splitTransaction(ledger: BtcApp, tx: bitcoin.Transaction) {
-	// 		return ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
-	// 	}
-	//
-	// 	const signTransaction = async () => {
-	// 		const seed = await bip39.toSeed(mnemonics);
-	// 		const node = bitcoin.bip32.fromSeed(seed, NETWORK);
-	// 		const signers = PATHS.map((p) => node.derivePath(p));
-	// 		const publicKeys = signers.map((s) => s.publicKey);
-	// 		const p2ms = bitcoin.payments.p2ms({ pubkeys: publicKeys, network: NETWORK, m: 1 });
-	// 		const p2shP2ms = bitcoin.payments.p2sh({ redeem: p2ms, network: NETWORK });
-	// 		const previousTx =
-	// 			"02000000000101588e8fc89afea9adb79de2650f0cdba762f7d0880c29a1f20e7b468f97da9f850100000017160014345766130a8f8e83aef8621122ca14fff88e6d51ffffffff0240420f000000000017a914a0546d83e5f8876045d7025a230d87bf69db893287df9de6050000000017a9142ff4aa6ffa987335c7bdba58ef4cbfecbe9e49938702483045022100c654271a891af98e46ca4d82ede8cccb0503a430e50745f959274294c98030750220331b455fed13ff4286f6db699eca06aa0c1c37c45c9f3aed3a77a3b0187ff4ac0121037ebcf3cf122678b9dc89b339017c5b76bee9fedd068c7401f4a8eb1d7e841c3a00000000";
-	// 		const utxo = bitcoin.Transaction.fromHex(previousTx);
-	// 		const txIndex = 0;
-	// 		const destination = p2shP2ms;
-	// 		const redeemScript = destination.redeem?.output;
-	// 		// const witnessScript = destination.redeem.redeem.output;
-	// 		const ledgerRedeemScript = redeemScript;
-	// 		// use witness script if the outgoing transaction was from a p2sh-p2wsh-p2ms instead of p2sh-p2ms
-	// 		const fee = 1000;
-	// 		/** @type {number} */
-	// 		// @ts-ignore
-	// 		const amount = utxo.outs[txIndex].value;
-	// 		const withdrawAmount = amount - fee;
-	// 		const psbt = new bitcoin.Psbt({ network: NETWORK });
-	// 		const version = 1;
-	// 		psbt.addInput({
-	// 			hash: utxo.getId(),
-	// 			index: txIndex,
-	// 			nonWitnessUtxo: utxo.toBuffer(),
-	// 			redeemScript,
-	// 		});
-	// 		psbt.addOutput({
-	// 			address: "2MsK2NdiVEPCjBMFWbjFvQ39mxWPMopp5vp",
-	// 			value: withdrawAmount,
-	// 		});
-	// 		psbt.setVersion(version);
-	// 		/** @type {bitcoin.Transaction}  */
-	// 		// @ts-ignore
-	// 		const newTx = psbt.__CACHE.__TX;
-	//
-	// 		const ledger = await appBtc();
-	// 		const inLedgerTx = splitTransaction(ledger, utxo);
-	// 		const outLedgerTx = splitTransaction(ledger, newTx);
-	// 		const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
-	//
-	// 		const signer = (path: string) => {
-	// 			const compressPublicKey = pubKey => {
-	// 				const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
-	// 				return publicKey.toString('hex');
-	// 			};
-	// 			const walletPublicKey = await ledger.getWalletPublicKey(path);
-	// 			const publicKey = compressPublicKey(walletPublicKey.publicKey);
-	// 			return {
-	// 				network: NETWORK,
-	// 				publicKey,
-	// 				sign: async ($hash: Buffer) => {
-	// 					const ledgerTxSignatures = await ledger.signP2SHTransaction({
-	// 						// @ts-ignore
-	// 						inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
-	// 						associatedKeysets: [path],
-	// 						outputScriptHex,
-	// 						lockTime: DEFAULT_LOCK_TIME,
-	// 						segwit: newTx.hasWitnesses(),
-	// 						transactionVersion: version,
-	// 						sigHashType: SIGHASH_ALL,
-	// 					});
-	// 					const [ledgerSignature] = ledgerTxSignatures;
-	// 					const finalSignature = (() => {
-	// 						if (newTx.hasWitnesses()) {
-	// 							return Buffer.from(ledgerSignature, "hex");
-	// 						}
-	// 						return Buffer.concat([
-	// 							ledgerSignature,
-	// 							Buffer.from("01", "hex"), // SIGHASH_ALL
-	// 						]);
-	// 					})();
-	// 					console.log({
-	// 						finalSignature: finalSignature.toString("hex"),
-	// 					});
-	// 					const { signature } = bitcoin.script.signature.decode(finalSignature);
-	// 					return signature;
-	// 				},
-	// 			};
-	// 		};
-	// 		await psbt.signInputAsync(0, signer(PATHS[0]));
-	// 		const validate = await psbt.validateSignaturesOfAllInputs();
-	// 		await psbt.finalizeAllInputs();
-	// 		const hex = psbt.extractTransaction().toHex();
-	// 		console.log({ validate, hex });
-	// 	};
-	//
-	// 	if (process.argv[1] === __filename) {
-	// 		signTransaction().catch(console.error);
-	// 	}
-	// });
+	it("asdas", () => {
+		const mnemonics =
+			"abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about";
+		const NETWORK = bitcoin.networks.regtest;
+		const DEFAULT_LOCK_TIME = 0;
+		const SIGHASH_ALL = 1;
+		const PATHS = ["m/49'/1'/0'/0/0", "m/49'/1'/0'/0/1"];
+
+		async function appBtc() {
+			const transport = await TransportNodeHid.create();
+			return new BtcApp(transport);
+		}
+
+		const compressPublicKey = (pk: string): string => {
+			const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pk, "hex"));
+			return publicKey.toString("hex");
+		};
+
+		function splitTransaction(ledger: BtcApp, tx: bitcoin.Transaction) {
+			return ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
+		}
+
+		const signTransaction = async () => {
+			const seed = await bip39.toSeed(mnemonics);
+			const node = bitcoin.bip32.fromSeed(seed, NETWORK);
+			const signers = PATHS.map((p) => node.derivePath(p));
+			const publicKeys = signers.map((s) => s.publicKey);
+			const p2ms = bitcoin.payments.p2ms({ pubkeys: publicKeys, network: NETWORK, m: 1 });
+			const p2shP2ms = bitcoin.payments.p2sh({ redeem: p2ms, network: NETWORK });
+			const previousTx =
+				"02000000000101588e8fc89afea9adb79de2650f0cdba762f7d0880c29a1f20e7b468f97da9f850100000017160014345766130a8f8e83aef8621122ca14fff88e6d51ffffffff0240420f000000000017a914a0546d83e5f8876045d7025a230d87bf69db893287df9de6050000000017a9142ff4aa6ffa987335c7bdba58ef4cbfecbe9e49938702483045022100c654271a891af98e46ca4d82ede8cccb0503a430e50745f959274294c98030750220331b455fed13ff4286f6db699eca06aa0c1c37c45c9f3aed3a77a3b0187ff4ac0121037ebcf3cf122678b9dc89b339017c5b76bee9fedd068c7401f4a8eb1d7e841c3a00000000";
+			const utxo = bitcoin.Transaction.fromHex(previousTx);
+			const txIndex = 0;
+			const destination = p2shP2ms;
+			const redeemScript = destination.redeem?.output;
+			// const witnessScript = destination.redeem.redeem.output;
+			const ledgerRedeemScript = redeemScript;
+			// use witness script if the outgoing transaction was from a p2sh-p2wsh-p2ms instead of p2sh-p2ms
+			const fee = 1000;
+			/** @type {number} */
+			// @ts-ignore
+			const amount = utxo.outs[txIndex].value;
+			const withdrawAmount = amount - fee;
+			const psbt = new bitcoin.Psbt({ network: NETWORK });
+			const version = 1;
+			psbt.addInput({
+				hash: utxo.getId(),
+				index: txIndex,
+				nonWitnessUtxo: utxo.toBuffer(),
+				redeemScript,
+			});
+			psbt.addOutput({
+				address: "2MsK2NdiVEPCjBMFWbjFvQ39mxWPMopp5vp",
+				value: withdrawAmount,
+			});
+			psbt.setVersion(version);
+			/** @type {bitcoin.Transaction}  */
+			// @ts-ignore
+			const newTx = psbt.__CACHE.__TX;
+
+			const ledger = await appBtc();
+			const inLedgerTx = splitTransaction(ledger, utxo);
+			const outLedgerTx = splitTransaction(ledger, newTx);
+			const outputScriptHex = await serializer.serializeTransactionOutputs(outLedgerTx).toString("hex");
+
+			const signer = (path: string) => {
+				const compressPublicKey = pubKey => {
+					const { publicKey } = bitcoin.ECPair.fromPublicKey(Buffer.from(pubKey, 'hex'));
+					return publicKey.toString('hex');
+				};
+				const walletPublicKey = await ledger.getWalletPublicKey(path);
+				const publicKey = compressPublicKey(walletPublicKey.publicKey);
+				return {
+					network: NETWORK,
+					publicKey,
+					sign: async ($hash: Buffer) => {
+						const ledgerTxSignatures = await ledger.signP2SHTransaction({
+							// @ts-ignore
+							inputs: [[inLedgerTx, txIndex, ledgerRedeemScript.toString("hex")]],
+							associatedKeysets: [path],
+							outputScriptHex,
+							lockTime: DEFAULT_LOCK_TIME,
+							segwit: newTx.hasWitnesses(),
+							transactionVersion: version,
+							sigHashType: SIGHASH_ALL,
+						});
+						const [ledgerSignature] = ledgerTxSignatures;
+						const finalSignature = (() => {
+							if (newTx.hasWitnesses()) {
+								return Buffer.from(ledgerSignature, "hex");
+							}
+							return Buffer.concat([
+								ledgerSignature,
+								Buffer.from("01", "hex"), // SIGHASH_ALL
+							]);
+						})();
+						console.log({
+							finalSignature: finalSignature.toString("hex"),
+						});
+						const { signature } = bitcoin.script.signature.decode(finalSignature);
+						return signature;
+					},
+				};
+			};
+			await psbt.signInputAsync(0, signer(PATHS[0]));
+			const validate = await psbt.validateSignaturesOfAllInputs();
+			await psbt.finalizeAllInputs();
+			const hex = psbt.extractTransaction().toHex();
+			console.log({ validate, hex });
+		};
+
+		if (process.argv[1] === __filename) {
+			signTransaction().catch(console.error);
+		}
+	});
 });
