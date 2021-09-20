@@ -1,4 +1,4 @@
-export type FeeType = "static" | "dynamic" | "gas" | "free" | "weight";
+export type FeeType = "static" | "dynamic" | "gas" | "free" | "weight" | "size";
 
 export type ExpirationType = "height" | "timestamp";
 
