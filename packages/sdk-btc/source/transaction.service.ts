@@ -13,7 +13,6 @@ import { UnspentTransaction } from "./contracts";
 import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
 import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
-import { serializeTransaction as serializer } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 import { jest } from "@jest/globals";
 
@@ -165,15 +164,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Sign and verify signatures
 		for (const input1 of inputs) {
-			const index = inputs.indexOf(input1);
-			await psbt.signInputAsync(index, input1.signer);
+			psbt.signInput(inputs.indexOf(input1), input1.signer);
 		}
 
-		await psbt.validateSignaturesOfAllInputs();
+		if (await psbt.validateSignaturesOfAllInputs()) {
+			throw new Exceptions.Exception("There was a problem signing the transaction with Ledger.");
+		}
 		await psbt.finalizeAllInputs();
 
 		const transaction: bitcoin.Transaction = psbt.extractTransaction();
-		console.log(9 / 0);
+
 		return this.dataTransferObjectService.signedTransaction(
 			transaction.getId(),
 			{

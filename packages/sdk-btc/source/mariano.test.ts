@@ -187,9 +187,8 @@ describe("mariano", () => {
 				value: withdrawAmount,
 			});
 			psbt.setVersion(version);
-			/** @type {bitcoin.Transaction}  */
 			// @ts-ignore
-			const newTx = psbt.__CACHE.__TX;
+			const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
 
 			const ledger = await appBtc();
 			const inLedgerTx = splitTransaction(ledger, utxo);
