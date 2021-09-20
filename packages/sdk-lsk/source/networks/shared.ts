@@ -4,7 +4,7 @@ export const transactions: Networks.NetworkManifestTransactions = {
 	expirationType: "height",
 	types: ["delegate-registration", "second-signature", "transfer", "vote"],
 	fees: {
-		type: "static",
+		type: "size",
 		ticker: "LSK",
 	},
 	memo: true,
