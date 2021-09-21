@@ -145,7 +145,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}),
 		);
 
-		inputs.forEach((input) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+		inputs.forEach(
+			(input) =>
+				(input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey, {
+					network,
+				})),
+		);
 
 		// Sign and verify signatures
 		inputs.forEach((input, index) => psbt.signInput(index, input.signer));

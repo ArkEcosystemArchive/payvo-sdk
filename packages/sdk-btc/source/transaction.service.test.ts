@@ -12,7 +12,6 @@ import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
-import logger from "@ledgerhq/logs";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
@@ -21,7 +20,6 @@ let subject: TransactionService;
 
 beforeEach(async () => {
 	nock.disableNetConnect();
-	logger.listen((log) => console.info(log.type + ": " + log.message));
 
 	subject = createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
 		container.constant(IoC.BindingType.Container, container);
