@@ -13,22 +13,36 @@ import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
-import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
+import { createTransportRecorder, openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import logger from "@ledgerhq/logs";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
-let subject: TransactionService;
+let transportRecord;
 
-let ledgerService: LedgerService;
+@IoC.injectable()
+class Transport {
+	public create() {
+		return openTransportReplayer(RecordStore.fromString(transportRecord));
+		// @ts-ignore
+		return TransportNodeHid.default;
+
+		// const recordStore = new RecordStore();
+		// // @ts-ignore
+		// return createTransportRecorder(TransportNodeHid.default, recordStore);
+	}
+}
 
 beforeEach(async () => {
 	nock.disableNetConnect();
 	logger.listen((log) => console.info(log.type + ": " + log.message));
+});
 
-	subject = createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+const configureMock = (record: string): TransactionService =>
+	createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+		transportRecord = record;
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -38,16 +52,10 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-
-		ledgerService = container.get(IoC.BindingType.LedgerService);
+		container.singleton(BindingType.LedgerTransport, Transport);
 	});
-});
 
 jest.setTimeout(30_000);
-
-afterEach(async () => {
-	await ledgerService.disconnect();
-});
 
 describe("bip44 wallet", () => {
 	beforeAll(() => {
@@ -96,9 +104,7 @@ describe("bip44 wallet", () => {
 	});
 
 	it("should generate a transfer transaction and sign it with ledger nano", async () => {
-		// @ts-ignore
-		// await ledgerService.connect(TransportNodeHid.default);
-		await ledgerService.connect(await openTransportReplayer(RecordStore.fromString(ledger.mariano.record)));
+		let subject: TransactionService = configureMock(ledger.mariano.record);
 
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -121,17 +127,14 @@ describe("bip44 wallet", () => {
 
 		console.log(result);
 
-		expect(result.toBroadcast()).toBe(
-			"0200000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006a473044022022fa4f2bc8722403cbfc291ed2513e3fe4009942cfd912d613de3d9fa4da6e6202206c0cece52c6b2568e71df5e3d76a9571105172414a6921ce13efe005877cd9e5012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8bffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
-		);
-		expect(result.id()).toBe("f1ca2d1150317049dee81649ee6e612f87a1032d92cb3017463c80fa9f1e3c44");
+		expect(result.id()).toBe("32736c41e9062d44f34cfe2884cb29b8c524fd8f33638d3bb5f0c7a4d5dd5a52");
 		expect(result.sender()).toBe("mzeywHS67trEXZVrSxsEXcgvhd1vr9n8aF");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(1690);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			"0200000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006a473044022022fa4f2bc8722403cbfc291ed2513e3fe4009942cfd912d613de3d9fa4da6e6202206c0cece52c6b2568e71df5e3d76a9571105172414a6921ce13efe005877cd9e5012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8bffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
+			"0100000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006a473044022023b1dee87014d81c6954282c07431b4f90d4d790119453f3bc7028ecdc406532022021f126650d37f8d9775009d7806cd636cd2fae1375e833498d94ab5a7cbc191a012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8b00000000021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
 		);
 	});
 });
@@ -183,6 +186,8 @@ describe("bip49 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
+		let subject: TransactionService = configureMock(ledger.mariano.record);
+
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -264,6 +269,8 @@ describe("bip84 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
+		let subject: TransactionService = configureMock(ledger.mariano.record);
+
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,

@@ -13,7 +13,6 @@ import { UnspentTransaction } from "./contracts";
 import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
 import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
-import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 import { jest } from "@jest/globals";
 
 jest.setTimeout(20_000);
@@ -34,6 +33,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.FeeService)
 	private readonly feeService!: Services.FeeService;
+
+	@IoC.inject(BindingType.LedgerTransport)
+	private readonly transport!: Services.LedgerTransport;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (input.signatory.signingKey() === undefined) {
@@ -209,8 +211,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
 		} else if (signatory.actsWithLedger()) {
-			// @ts-ignore
-			await this.ledgerService.connect(LedgerTransportNodeHID.default);
+			await this.ledgerService.connect(this.transport);
 			try {
 				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
 				const publicKey = await this.ledgerService.getExtendedPublicKey(path);
