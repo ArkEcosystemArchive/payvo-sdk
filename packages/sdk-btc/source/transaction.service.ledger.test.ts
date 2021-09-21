@@ -18,8 +18,6 @@ import logger from "@ledgerhq/logs";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
 
-const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
-
 class TransportWrapper {
 	readonly #record;
 
@@ -131,7 +129,7 @@ describe("bip44 wallet", () => {
 		expect(result.sender()).toBe("mzeywHS67trEXZVrSxsEXcgvhd1vr9n8aF");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(1690);
+		expect(result.fee().toNumber()).toBe(1_690);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			"0100000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006a473044022023b1dee87014d81c6954282c07431b4f90d4d790119453f3bc7028ecdc406532022021f126650d37f8d9775009d7806cd636cd2fae1375e833498d94ab5a7cbc191a012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8b00000000021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
@@ -141,6 +139,7 @@ describe("bip44 wallet", () => {
 
 describe("bip49 wallet", () => {
 	beforeAll(() => {
+		nock.recorder.rec();
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -185,15 +184,12 @@ describe("bip49 wallet", () => {
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it.skip("should generate a transfer transaction and sign it with ledger nano", async () => {
 		let subject: TransactionService = configureMock(ledger.mariano.record);
 
 		const signatory = new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: mnemonic,
-				address: "address",
-				publicKey: "publicKey",
-				privateKey: "privateKey",
+			new Signatories.LedgerSignatory({
+				signingKey: "doesn't matter",
 				options: {
 					bip49: {
 						account: 0,
@@ -204,7 +200,7 @@ describe("bip49 wallet", () => {
 
 		const result = await subject.transfer({
 			data: {
-				amount: 0.001,
+				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 			},
 			signatory,
@@ -213,8 +209,8 @@ describe("bip49 wallet", () => {
 		expect(result.id()).toBe("4d6e178f4b1bc3c63ee167b15b277625c9c764a4fe19d9401c240358b1aa1195");
 		expect(result.sender()).toBe("2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(242_724);
+		expect(result.amount().toNumber()).toBe(10_000);
+		expect(result.fee().toNumber()).toBe(1_690);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100e83b0bf79dc14304fc1770aab7e50d1468578ab4d602c520d89ad36c97d067070220044704d8e6e5cf9d4d624b7cfc0bc20c8356ad716971bdb9f43ccbd99385048c012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
@@ -224,6 +220,7 @@ describe("bip49 wallet", () => {
 
 describe("bip84 wallet", () => {
 	beforeAll(() => {
+		nock.recorder.rec();
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -268,15 +265,12 @@ describe("bip84 wallet", () => {
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it.skip("should generate and sign a transfer transaction", async () => {
 		let subject: TransactionService = configureMock(ledger.mariano.record);
 
 		const signatory = new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: mnemonic,
-				address: "address",
-				publicKey: "publicKey",
-				privateKey: "privateKey",
+			new Signatories.LedgerSignatory({
+				signingKey: "doesn't matter",
 				options: {
 					bip84: {
 						account: 0,
@@ -287,7 +281,7 @@ describe("bip84 wallet", () => {
 
 		const result = await subject.transfer({
 			data: {
-				amount: 0.001,
+				amount: 0.0001,
 				to: "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
 			},
 			signatory,
@@ -296,8 +290,8 @@ describe("bip84 wallet", () => {
 		expect(result.id()).toBe("5f8d73a74d08d04739a633cd1cb22f11f1f235bf6a2256a0d337e9c87d900d22");
 		expect(result.sender()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(242_724);
+		expect(result.amount().toNumber()).toBe(10_000);
+		expect(result.fee().toNumber()).toBe(1_690);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ac7c070a00000000001600146a101086f0b693211782261f13bf4bbbd516f2b6024730440220031463623bf6c454601f8d3239c74802bd24409903d4c78a351df77fa2a94b6502207d9b509ba050a6fad10e30cb79ab67813c0b0ffc5c6051e6c3a094c0ee6f33320121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",

@@ -58,7 +58,6 @@ describe("getPublicKey", () => {
 });
 
 describe("getExtendedPublicKey", () => {
-	jest.setTimeout(20_000);
 	it("should pass with for a given path", async () => {
 		const subject = await createMockService(ledger.extendedPublicKey.record);
 

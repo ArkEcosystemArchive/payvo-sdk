@@ -13,6 +13,7 @@ import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
 import logger from "@ledgerhq/logs";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -32,6 +33,7 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.constant(BindingType.LedgerTransport, openTransportReplayer(RecordStore.fromString("")));
 	});
 });
 

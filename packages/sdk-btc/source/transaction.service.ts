@@ -131,14 +131,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<bitcoin.Transaction> {
 		const psbt = new bitcoin.Psbt({ network: network });
 
-		inputs.forEach((input, index) =>
+		inputs.forEach((input) =>
 			psbt.addInput({
 				hash: input.txId,
 				index: input.vout,
 				...input,
 			}),
 		);
-		outputs.forEach((output, index) =>
+		outputs.forEach((output) =>
 			psbt.addOutput({
 				address: output.address,
 				value: output.value,
@@ -148,12 +148,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		inputs.forEach((input) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
 
 		// Sign and verify signatures
-		for (const input1 of inputs) {
-			await psbt.signInputAsync(inputs.indexOf(input1), input1.signer);
-		}
+		inputs.forEach((input, index) => psbt.signInput(index, input.signer));
 
 		if (await psbt.validateSignaturesOfAllInputs()) {
-			throw new Exceptions.Exception("There was a problem signing the transaction with Ledger.");
+			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
 		}
 		await psbt.finalizeAllInputs();
 
