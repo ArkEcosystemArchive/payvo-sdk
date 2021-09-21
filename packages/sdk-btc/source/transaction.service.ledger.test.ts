@@ -20,18 +20,19 @@ import { ledger } from "../test/fixtures/ledger";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
-let transportRecord;
+class TransportWrapper {
+	readonly #record;
 
-@IoC.injectable()
-class Transport {
+	constructor(record: string) {
+		this.#record = record;
+	}
+
 	public create() {
-		return openTransportReplayer(RecordStore.fromString(transportRecord));
-		// @ts-ignore
-		return TransportNodeHid.default;
+		return openTransportReplayer(RecordStore.fromString(this.#record));
 
-		// const recordStore = new RecordStore();
-		// // @ts-ignore
-		// return createTransportRecorder(TransportNodeHid.default, recordStore);
+		// Uncomment for using real device
+		// @ts-ignore
+		// return TransportNodeHid.default;
 	}
 }
 
@@ -42,7 +43,6 @@ beforeEach(async () => {
 
 const configureMock = (record: string): TransactionService =>
 	createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
-		transportRecord = record;
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -52,7 +52,7 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.singleton(BindingType.LedgerTransport, Transport);
+		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
 jest.setTimeout(30_000);

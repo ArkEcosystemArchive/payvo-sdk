@@ -22,7 +22,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		try {
 			this.#ledger = await transport.create();
 		} catch (error) {
-			if (transport.constructor.name === "TransportReplayer") {
+			if (transport.constructor.name === "TransportReplayer" || transport.constructor.name === "TransportRecorder") {
 				this.#ledger = transport;
 			} else {
 				throw error;
