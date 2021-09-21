@@ -18,6 +18,9 @@ import { jest } from "@jest/globals";
 
 jest.setTimeout(20_000);
 
+const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
+	ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
+
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
@@ -77,6 +80,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const changeAddress = await this.#getChangeAddress(
 			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
 		);
+		console.log("changeAddress", changeAddress);
 
 		const targets = [
 			{
@@ -86,93 +90,27 @@ export class TransactionService extends Services.AbstractTransactionService {
 		];
 
 		// Figure out inputs, outputs and fees
-		const feeRate = await this.#getFee(input);
+		const feeRate = await this.#getFeeRateFromNetwork(input);
 		const { inputs, outputs, fee } = await this.#selectUtxos(bipLevel, accountKey, targets, feeRate);
 
-		// Build bitcoin transaction
-		const psbt = new bitcoin.Psbt({ network: network });
+		let transaction: bitcoin.Transaction;
 
-		inputs.forEach((input) => {
-			return psbt.addInput({
-				hash: input.txId,
-				index: input.vout,
-				...input,
-			});
-		});
 		outputs.forEach((output) => {
 			if (!output.address) {
 				output.address = changeAddress;
 			}
-
-			psbt.addOutput({
-				address: output.address,
-				value: output.value,
-			});
 		});
 
 		if (input.signatory.actsWithMnemonic()) {
-			inputs.forEach((input, index) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+			transaction = await this.createTransactionLocalSigning(network, inputs, outputs);
+		} else if (input.signatory.actsWithLedger()) {
+			transaction = await this.createMusigTransactionLedgerSigning(network, inputs, outputs);
+			// transaction = await this.createTransactionLedgerSigning(network, inputs, outputs);
+		} else if (input.signatory.actsWithMultiSignature()) {
+			transaction = await this.createMusigTransactionLedgerSigning(network, inputs, outputs);
 		} else {
-			const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
-				ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
-
-			// @ts-ignore
-			const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
-			console.log(newTx);
-
-			const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-			const outputScriptHex = await this.ledgerService
-				.getTransport()
-				.serializeTransactionOutputs(outLedgerTx)
-				.toString("hex");
-			console.log("outLedgerTx", outLedgerTx);
-
-			inputs.forEach((input, index) => {
-				console.log("input", input);
-				const inLedgerTx = splitTransaction(
-					this.ledgerService.getTransport(),
-					bitcoin.Transaction.fromHex(input.txRaw),
-				);
-				input.signer = {
-					network,
-					publicKey: input.publicKey,
-					sign: async ($hash: Buffer) => {
-						console.info("$hash", $hash);
-						const ledgerTxSignatures = await this.ledgerService.getTransport().signP2SHTransaction({
-							// @ts-ignore
-							inputs: [[inLedgerTx, input.index, input.script]],
-							associatedKeysets: [input.path],
-							outputScriptHex,
-							segwit: newTx.hasWitnesses(),
-						});
-						const [ledgerSignature] = ledgerTxSignatures;
-						const finalSignature = (() => {
-							if (newTx.hasWitnesses()) {
-								return Buffer.from(ledgerSignature, "hex");
-							}
-							return Buffer.concat([Buffer.from(ledgerSignature, "hex"), Buffer.from("01", "hex")]);
-						})();
-						console.log({
-							finalSignature: finalSignature.toString("hex"),
-						});
-						const { signature } = bitcoin.script.signature.decode(finalSignature);
-						return signature;
-					},
-				};
-			});
+			throw new Exceptions.Exception("Unsupported signatory");
 		}
-
-		// Sign and verify signatures
-		for (const input1 of inputs) {
-			psbt.signInput(inputs.indexOf(input1), input1.signer);
-		}
-
-		if (await psbt.validateSignaturesOfAllInputs()) {
-			throw new Exceptions.Exception("There was a problem signing the transaction with Ledger.");
-		}
-		await psbt.finalizeAllInputs();
-
-		const transaction: bitcoin.Transaction = psbt.extractTransaction();
 
 		return this.dataTransferObjectService.signedTransaction(
 			transaction.getId(),
@@ -185,6 +123,189 @@ export class TransactionService extends Services.AbstractTransactionService {
 			},
 			transaction.toHex(),
 		);
+	}
+
+	private async createTransactionLocalSigning(
+		network: bitcoin.networks.Network,
+		inputs: any[],
+		outputs: any[],
+	): Promise<bitcoin.Transaction> {
+		const psbt = new bitcoin.Psbt({ network: network });
+
+		inputs.forEach((input, index) =>
+			psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				...input,
+			}),
+		);
+		outputs.forEach((output, index) =>
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			}),
+		);
+
+		inputs.forEach((input) => (input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey)));
+
+		// Sign and verify signatures
+		for (const input1 of inputs) {
+			await psbt.signInputAsync(inputs.indexOf(input1), input1.signer);
+		}
+
+		if (await psbt.validateSignaturesOfAllInputs()) {
+			throw new Exceptions.Exception("There was a problem signing the transaction with Ledger.");
+		}
+		await psbt.finalizeAllInputs();
+
+		return psbt.extractTransaction();
+	}
+
+	private async createTransactionLedgerSigning(
+		network: bitcoin.networks.Network,
+		inputs: any[],
+		outputs: any[],
+	): Promise<bitcoin.Transaction> {
+		console.log("outputs", outputs);
+		const outputScriptHex = await this.#getOutputScript(
+			network,
+			outputs.filter((output) => output.address !== undefined),
+		);
+		console.log("outputScriptHex", outputScriptHex);
+		const transactionHex = await this.ledgerService.getTransport().createPaymentTransactionNew({
+			inputs: inputs.map((input, index) => {
+				const inLedgerTx = splitTransaction(
+					this.ledgerService.getTransport(),
+					bitcoin.Transaction.fromHex(input.txRaw),
+				);
+				return [inLedgerTx, input.index as number, input.script as string | undefined, index as number];
+			}),
+			associatedKeysets: inputs.map((input) => input.path),
+			changePath: "44'/1'/0'/1/0",
+			additionals: [],
+			outputScriptHex,
+		});
+		return bitcoin.Transaction.fromHex(transactionHex);
+	}
+	private async createMusigTransactionLedgerSigning(
+		network: bitcoin.networks.Network,
+		inputs: any[],
+		outputs: any[],
+	): Promise<bitcoin.Transaction> {
+		const psbt = new bitcoin.Psbt({ network: network });
+		inputs.forEach((input) =>
+			psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				...input,
+			}),
+		);
+		outputs.forEach((output) =>
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			}),
+		);
+
+		// @ts-ignore
+		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+		console.log(newTx);
+
+		const outputScriptHex = await this.#getOutputScript(network, outputs);
+
+		// inputs.forEach((input, index) => {
+		// 	console.log("input", input);
+		// 	const inLedgerTx = splitTransaction(
+		// 		this.ledgerService.getTransport(),
+		// 		bitcoin.Transaction.fromHex(input.txRaw),
+		// 	);
+		// 	// input.signer = {
+		// 	// 	network,
+		// 	// 	publicKey: input.publicKey,
+		// 	// 	sign: async ($hash: Buffer) => {
+		// 	// 		console.info("$hash", $hash);
+		// 	// 		const ledgerTxSignatures = await this.ledgerService.getTransport().signP2SHTransaction({
+		// 	// 			// @ts-ignore
+		// 	// 			inputs: [[inLedgerTx, input.index, input.script]],
+		// 	// 			associatedKeysets: [input.path],
+		// 	// 			outputScriptHex,
+		// 	// 			segwit: newTx.hasWitnesses(),
+		// 	// 		});
+		// 	// 		const [ledgerSignature] = ledgerTxSignatures;
+		// 	// 		const finalSignature = (() => {
+		// 	// 			if (newTx.hasWitnesses()) {
+		// 	// 				return Buffer.from(ledgerSignature, "hex");
+		// 	// 			}
+		// 	// 			return Buffer.concat([Buffer.from(ledgerSignature, "hex"), Buffer.from("01", "hex")]);
+		// 	// 		})();
+		// 	// 		console.log({
+		// 	// 			finalSignature: finalSignature.toString("hex"),
+		// 	// 		});
+		// 	// 		const { signature } = bitcoin.script.signature.decode(finalSignature);
+		// 	// 		return signature;
+		// 	// 	},
+		// 	// };
+		// });
+
+		// Sign and verify signatures
+		const signer: bitcoin.SignerAsync = {
+			network,
+			publicKey: input.publicKey,
+			sign: async ($hash: Buffer): Promise<Buffer> => {
+				console.info("$hash", $hash);
+				const ledgerTxSignatures = await this.ledgerService.getTransport().signP2SHTransaction({
+					// @ts-ignore
+					inputs: inputs.map((input) => {
+						const inLedgerTx = splitTransaction(
+							this.ledgerService.getTransport(),
+							bitcoin.Transaction.fromHex(input.txRaw),
+						);
+						return [inLedgerTx, input.index, input.script];
+					}),
+					associatedKeysets: inputs.map((input) => input.path),
+					outputScriptHex,
+					segwit: newTx.hasWitnesses(),
+				});
+				const [ledgerSignature] = ledgerTxSignatures;
+				const finalSignature = (() => {
+					if (newTx.hasWitnesses()) {
+						return Buffer.from(ledgerSignature, "hex");
+					}
+					return Buffer.concat([Buffer.from(ledgerSignature, "hex"), Buffer.from("01", "hex")]);
+				})();
+				console.log({
+					finalSignature: finalSignature.toString("hex"),
+				});
+				const { signature } = bitcoin.script.signature.decode(finalSignature);
+				return signature;
+			},
+		};
+
+		await psbt.signAllInputs(signer);
+		for (const input1 of inputs) {
+			await psbt.signInputAsync(inputs.indexOf(input1), input1.signer);
+		}
+
+		if (await psbt.validateSignaturesOfAllInputs()) {
+			throw new Exceptions.Exception("There was a problem signing the transaction with Ledger.");
+		}
+		await psbt.finalizeAllInputs();
+		return psbt.extractTransaction();
+	}
+
+	async #getOutputScript(network: bitcoin.networks.Network, outputs: any[]): Promise<string> {
+		const psbt = new bitcoin.Psbt({ network: network });
+		outputs.forEach((output) =>
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			}),
+		);
+		// @ts-ignore
+		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
+		const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
+
+		return await this.ledgerService.getTransport().serializeTransactionOutputs(outLedgerTx).toString("hex");
 	}
 
 	async #getAccountKey(
@@ -313,7 +434,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	async #getFee(input: Services.TransferInput): Promise<number> {
+	async #getFeeRateFromNetwork(input: Services.TransferInput): Promise<number> {
 		let feeRate: number | undefined = input.fee;
 
 		if (!feeRate) {
