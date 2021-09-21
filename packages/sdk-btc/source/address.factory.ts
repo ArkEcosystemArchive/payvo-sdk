@@ -61,7 +61,13 @@ export class AddressFactory {
 	}
 
 	public bip44(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
-		const levels = this.getLevel(options);
+		const levels: Levels = {
+			purpose: 44,
+			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			account: options?.bip44?.account,
+			change: options?.bip44?.change,
+			index: options?.bip44?.addressIndex,
+		};
 
 		return this.#derive(
 			"bip44",
@@ -74,7 +80,13 @@ export class AddressFactory {
 	}
 
 	public bip49(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
-		const levels = this.getLevel(options);
+		const levels: Levels = {
+			purpose: 49,
+			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			account: options?.bip49?.account,
+			change: options?.bip49?.change,
+			index: options?.bip49?.addressIndex,
+		};
 
 		return this.#derive(
 			"bip49",
@@ -90,7 +102,13 @@ export class AddressFactory {
 	}
 
 	public bip84(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
-		const levels = this.getLevel(options);
+		const levels: Levels = {
+			purpose: 84,
+			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			account: options?.bip84?.account,
+			change: options?.bip84?.change,
+			index: options?.bip84?.addressIndex,
+		};
 
 		return this.#derive(
 			"bip84",
