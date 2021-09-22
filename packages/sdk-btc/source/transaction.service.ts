@@ -129,7 +129,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		inputs: any[],
 		outputs: any[],
 	): Promise<bitcoin.Transaction> {
-		const psbt = new bitcoin.Psbt({ network: network });
+		const psbt = new bitcoin.Psbt({ network });
 
 		inputs.forEach((input) =>
 			psbt.addInput({
@@ -145,17 +145,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}),
 		);
 
-		inputs.forEach(
-			(input) =>
-				(input.signer = bitcoin.ECPair.fromPrivateKey(input.signingKey, {
-					network,
-				})),
-		);
+
 
 		// Sign and verify signatures
-		inputs.forEach((input, index) => psbt.signInput(index, input.signer));
+		inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network })));
 
-		if (await psbt.validateSignaturesOfAllInputs()) {
+		if (psbt.validateSignaturesOfAllInputs()) {
 			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
 		}
 		await psbt.finalizeAllInputs();
@@ -307,7 +302,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		});
 
-		const { inputs, outputs, fee } = coinSelect(utxos, targets, 10, feeRate);
+		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
 
 		if (!inputs || !outputs) {
 			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds");
