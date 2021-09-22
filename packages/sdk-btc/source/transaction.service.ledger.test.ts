@@ -97,7 +97,7 @@ describe("bip44 wallet", () => {
 			.reply(200, {
 				data: {
 					min: 0.00001074,
-					avg: 0.00000010,
+					avg: 0.0000001,
 					max: 0.00180617,
 				},
 			})
