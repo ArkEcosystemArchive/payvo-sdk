@@ -213,7 +213,7 @@ describe("FeeService", () => {
 			expect(fast.toHuman()).toBe(0.00615);
 		});
 
-		test("vote", async() => {
+		test("vote", async () => {
 			nock(/.+/)
 				.get("/api/v2/fees")
 				.reply(200, await require(`../test/fixtures/client/fees.json`))
@@ -266,9 +266,9 @@ describe("FeeService", () => {
 			expect(average.toHuman()).toBe(0.00142);
 			expect(fast.toHuman()).toBeNumber();
 			expect(fast.toHuman()).toBe(0.00142);
-		})
+		});
 
-		test("unlockToken", async() => {
+		test("unlockToken", async () => {
 			nock(/.+/)
 				.get("/api/v2/fees")
 				.reply(200, await require(`../test/fixtures/client/fees.json`))
@@ -322,6 +322,6 @@ describe("FeeService", () => {
 			expect(average.toHuman()).toBe(0.00142);
 			expect(fast.toHuman()).toBeNumber();
 			expect(fast.toHuman()).toBe(0.00142);
-		})
+		});
 	});
 });
