@@ -173,19 +173,19 @@ describe("TransactionService", () => {
 			  "asset": Object {
 			    "votes": Array [
 			      Object {
-			        "amount": "1000000000",
+			        "amount": "10000000000",
 			        "delegateAddress": "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
 			      },
 			    ],
 			  },
 			  "assetID": 1,
 			  "fee": "1000000000",
-			  "id": "7635e30a3ab8692a4c484654359b556f42256a35f367b19f12076351a6a28f55",
+			  "id": "c5543683adad72f49f49f1ec09ffde630a086b1616d33d9f5d1f59806f6f2549",
 			  "moduleID": 5,
 			  "nonce": "0",
 			  "senderPublicKey": "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
 			  "signatures": Array [
-			    "d46bd9dcd71a58468a7d0cfef8cfd6581707fd216f0fa2d26c88f0ed6dc4af2b66d3ce95714e60414dcb815a8a4574011fcf80bddf6e90c6d62a873eab654302",
+			    "a2e829ede76a79e9030c6e031623ae7b998c22e68d12407577844d43c282ef0abba4c55dafc763f343d7524ccc3fe1a545b8250de74b0bfb0b6b123e902bad08",
 			  ],
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}

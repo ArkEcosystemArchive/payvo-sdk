@@ -54,22 +54,10 @@ export class AssetSerializer {
 	}
 
 	#normaliseVoteAmount(value: number): BigInt {
-		let human: number = this.bigNumberService.make(value).denominated().toNumber();
-
-		// It is possible that we are already handling a human-readable value.
-		// In such cases we will revert back to the original value.
-		if (human.toString().includes("e-")) {
-			human = value;
+		if (value % 10 === 0) {
+			return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
 		}
 
-		if (typeof human === "number" && !isNaN(human)) {
-			if (Number.isInteger(human)) {
-				if (human % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${human}] is not a multiple of 10.`);
+		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 }
