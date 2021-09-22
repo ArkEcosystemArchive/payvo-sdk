@@ -28,9 +28,8 @@ class TransportWrapper {
 	public create() {
 		return openTransportReplayer(RecordStore.fromString(this.#record));
 
-		// Uncomment for using real device
 		// @ts-ignore
-		// return TransportNodeHid.default;
+		return TransportNodeHid.default;
 	}
 }
 
@@ -50,6 +49,10 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+
+		// @ts-ignore Uncomment for using real device
+		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
+
 		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
@@ -94,7 +97,7 @@ describe("bip44 wallet", () => {
 			.reply(200, {
 				data: {
 					min: 0.00001074,
-					avg: 0.00001074,
+					avg: 0.00000010,
 					max: 0.00180617,
 				},
 			})
