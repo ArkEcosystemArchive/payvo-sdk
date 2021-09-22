@@ -145,10 +145,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}),
 		);
 
-
-
 		// Sign and verify signatures
-		inputs.forEach((input, index) => psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network })));
+		inputs.forEach((input, index) =>
+			psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network })),
+		);
 
 		if (psbt.validateSignaturesOfAllInputs()) {
 			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
