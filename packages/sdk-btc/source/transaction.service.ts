@@ -150,7 +150,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network })),
 		);
 
-		if (psbt.validateSignaturesOfAllInputs()) {
+		if (!psbt.validateSignaturesOfAllInputs()) {
 			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
 		}
 		await psbt.finalizeAllInputs();
