@@ -6,7 +6,6 @@ import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
-import { SignedTransactionData } from "./signed-transaction.dto";
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
@@ -40,7 +39,7 @@ export class FeeService extends Services.AbstractFeeService {
 		options?: Services.TransactionFeeOptions,
 	): Promise<BigNumber> {
 		if (transaction.constructor?.name === "SignedTransactionData") {
-			transaction = transaction.data();
+			transaction = JSON.parse(JSON.stringify(transaction.data()));
 		}
 
 		const { data } = (
