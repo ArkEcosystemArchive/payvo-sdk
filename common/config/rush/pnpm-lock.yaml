@@ -442,8 +442,6 @@ importers:
   ../../packages/sdk-btc:
     dependencies:
       '@ledgerhq/hw-app-btc': 6.3.0
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.3.0
-      '@ledgerhq/logs': 6.2.0
       '@payvo/cryptography': 1.1.4
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.1
@@ -453,6 +451,7 @@ importers:
       bitcoinjs-lib: 5.2.0
       bitcoinjs-message: 2.2.0
       coinselect: 3.1.12
+      create-xpub: 2.1.0
     devDependencies:
       '@jest/globals': 27.0.6
       '@ledgerhq/hw-transport-mocker': 6.3.0
@@ -488,8 +487,6 @@ importers:
       '@jest/globals': ^27.0.6
       '@ledgerhq/hw-app-btc': ^6.3.0
       '@ledgerhq/hw-transport-mocker': ^6.3.0
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.3.0
-      '@ledgerhq/logs': ~6.2.0
       '@payvo/cryptography': ^1.1.4
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0
@@ -509,6 +506,7 @@ importers:
       bitcoinjs-lib: ^5.2.0
       bitcoinjs-message: ~2.2.0
       coinselect: ~3.1.12
+      create-xpub: ~2.1.0
       cross-env: ^7.0.3
       eslint: ^7.32.0
       eslint-config-prettier: ^8.3.0

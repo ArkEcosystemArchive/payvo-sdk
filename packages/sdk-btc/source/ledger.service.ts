@@ -1,10 +1,16 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Coins, IoC, Services } from "@payvo/sdk";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
 import { serializeTransactionOutputs } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
+import { getNetworkID } from "./config";
+import createXpub from "create-xpub";
+import { maxLevel } from "./helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
+	@IoC.inject(IoC.BindingType.ConfigRepository)
+	private readonly configRepository!: Coins.ConfigRepository;
+
 	#ledger: Services.LedgerTransport;
 	#transport!: Bitcoin;
 
@@ -37,6 +43,20 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const { publicKey } = await this.#transport.getWalletPublicKey(path);
 
 		return publicKey;
+	}
+
+	public override async getExtendedPublicKey(path: string): Promise<string> {
+		const networkId = getNetworkID(this.configRepository);
+
+		const walletPublicKey = await this.#transport.getWalletPublicKey(path, { verify: false });
+
+		return createXpub({
+			networkVersion: networkId === "testnet" ? createXpub.testnet : createXpub.mainnet,
+			depth: maxLevel(path),
+			childNumber: 2147483648,
+			chainCode: walletPublicKey.chainCode,
+			publicKey: walletPublicKey.publicKey,
+		});
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
