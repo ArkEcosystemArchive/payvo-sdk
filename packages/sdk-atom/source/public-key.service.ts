@@ -9,16 +9,12 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		try {
-			const { publicKey } = await this.keyPairService.fromMnemonic(mnemonic);
+		const { publicKey } = await this.keyPairService.fromMnemonic(mnemonic);
 
-			if (!publicKey) {
-				throw new Error("Failed to derive the public key.");
-			}
-
-			return { publicKey };
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		if (!publicKey) {
+			throw new Error("Failed to derive the public key.");
 		}
+
+		return { publicKey };
 	}
 }

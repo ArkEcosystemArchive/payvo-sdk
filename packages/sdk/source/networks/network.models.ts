@@ -1,4 +1,4 @@
-export type FeeType = "static" | "dynamic" | "gas" | "free" | "weight";
+export type FeeType = "static" | "dynamic" | "gas" | "free" | "weight" | "size";
 
 export type ExpirationType = "height" | "timestamp";
 
@@ -250,6 +250,10 @@ export type TransactionMethod =
 	| "transfer.ledgerX"
 	| "transfer.musig"
 	| "transfer"
+	| "unlockToken.ledgerS"
+	| "unlockToken.ledgerX"
+	| "unlockToken.musig"
+	| "unlockToken"
 	| "vote.ledgerS"
 	| "vote.ledgerX"
 	| "vote.musig"

@@ -7,15 +7,11 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			const accountKey = deriveKey(mnemonic);
+		const accountKey = deriveKey(mnemonic);
 
-			return {
-				publicKey: accountKey.publicKey!.toString("hex"),
-				privateKey: accountKey.privateKey.toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: accountKey.publicKey!.toString("hex"),
+			privateKey: accountKey.privateKey.toString("hex"),
+		};
 	}
 }

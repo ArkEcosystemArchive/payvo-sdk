@@ -63,6 +63,16 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override amount(): BigNumber {
+		if (this.isUnlockToken()) {
+			let amount = this.bigNumberService.make(0);
+
+			for (const unlockObject of this.data.asset.unlockObjects) {
+				amount = amount.plus(this.bigNumberService.make(unlockObject.amount));
+			}
+
+			return amount;
+		}
+
 		if (this.data.amount) {
 			return this.bigNumberService.make(this.data.amount);
 		}

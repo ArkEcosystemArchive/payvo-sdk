@@ -8,66 +8,46 @@ export class AddressService extends Services.AbstractAddressService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return {
-				type: "bip44",
-				address: deriveWallet(
-					mnemonic,
-					this.configRepository.get<number>("network.constants.slip44"),
-					options?.bip44?.account || 0,
-					options?.bip44?.change || 0,
-					options?.bip44?.addressIndex || 0,
-				).address,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: deriveWallet(
+				mnemonic,
+				this.configRepository.get<number>("network.constants.slip44"),
+				options?.bip44?.account || 0,
+				options?.bip44?.change || 0,
+				options?.bip44?.addressIndex || 0,
+			).address,
+		};
 	}
 
 	public override async fromPublicKey(
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return {
-				type: "bip44",
-				address: createWallet(publicKey).address,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: createWallet(publicKey).address,
+		};
 	}
 
 	public override async fromPrivateKey(
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		try {
-			return {
-				type: "bip44",
-				address: createWallet(privateKey).address,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: createWallet(privateKey).address,
+		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.AddressDataTransferObject> {
-		try {
-			return {
-				type: "bip44",
-				address: createWallet(wif).address,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			type: "bip44",
+			address: createWallet(wif).address,
+		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		try {
-			return address.length === 34;
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return address.length === 34;
 	}
 }

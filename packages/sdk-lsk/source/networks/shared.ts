@@ -4,7 +4,7 @@ export const transactions: Networks.NetworkManifestTransactions = {
 	expirationType: "height",
 	types: ["delegate-registration", "second-signature", "transfer", "vote"],
 	fees: {
-		type: "static",
+		type: "size",
 		ticker: "LSK",
 	},
 	memo: true,
@@ -41,7 +41,7 @@ export const featureFlags: Networks.NetworkManifestFeatureFlags = {
 	PublicKey: ["mnemonic.bip39"],
 	Ledger: ["getVersion", "getPublicKey", "signTransaction", "signMessage"],
 	Message: ["sign", "verify"],
-	Transaction: ["delegateRegistration", "multiSignature", "transfer", "vote"],
+	Transaction: ["delegateRegistration", "multiSignature", "transfer", "unlockToken", "vote"],
 };
 
 export const explorer = {

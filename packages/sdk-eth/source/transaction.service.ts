@@ -24,60 +24,56 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		try {
-			const senderData = await this.addressService.fromMnemonic(input.signatory.signingKey());
+		const senderData = await this.addressService.fromMnemonic(input.signatory.signingKey());
 
-			let privateKey: string;
-			if (input.signatory.actsWithPrivateKey()) {
-				privateKey = input.signatory.signingKey();
-			} else {
-				privateKey = (await this.privateKeyService.fromMnemonic(input.signatory.signingKey())).privateKey;
-			}
-
-			const { nonce } = await this.#get(`wallets/${senderData.address}`);
-
-			let data: object;
-
-			if (input.contract && input.contract.address) {
-				data = {
-					nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
-					gasPrice: Web3.utils.toHex(input.fee!),
-					gasLimit: Web3.utils.toHex(input.feeLimit!),
-					to: input.contract.address,
-					value: "0x0",
-					data: this.#createContract(input.contract.address)
-						.methods.transfer(input.data.to, input.data.amount)
-						.encodeABI(),
-				};
-			} else {
-				data = {
-					nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
-					gasLimit: Web3.utils.toHex(input.feeLimit!),
-					gasPrice: Web3.utils.toHex(input.fee!),
-					to: input.data.to,
-					value: Web3.utils.toHex(Web3.utils.toWei(`${input.data.amount}`, "wei")),
-				};
-
-				if (input.data.memo) {
-					// @ts-ignore
-					data.data = Buffoon.fromUTF8(input.data.memo);
-				}
-			}
-
-			const transaction: Transaction = new Transaction(data, {
-				common: Common.forCustomChain(this.#chain, {}),
-			});
-
-			transaction.sign(Buffoon.fromHex(privateKey));
-
-			return this.dataTransferObjectService.signedTransaction(
-				transaction.hash().toString("hex"),
-				"0x" + transaction.serialize().toString("hex"),
-				"0x" + transaction.serialize().toString("hex"),
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
+		let privateKey: string;
+		if (input.signatory.actsWithPrivateKey()) {
+			privateKey = input.signatory.signingKey();
+		} else {
+			privateKey = (await this.privateKeyService.fromMnemonic(input.signatory.signingKey())).privateKey;
 		}
+
+		const { nonce } = await this.#get(`wallets/${senderData.address}`);
+
+		let data: object;
+
+		if (input.contract && input.contract.address) {
+			data = {
+				nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
+				gasPrice: Web3.utils.toHex(input.fee!),
+				gasLimit: Web3.utils.toHex(input.feeLimit!),
+				to: input.contract.address,
+				value: "0x0",
+				data: this.#createContract(input.contract.address)
+					.methods.transfer(input.data.to, input.data.amount)
+					.encodeABI(),
+			};
+		} else {
+			data = {
+				nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
+				gasLimit: Web3.utils.toHex(input.feeLimit!),
+				gasPrice: Web3.utils.toHex(input.fee!),
+				to: input.data.to,
+				value: Web3.utils.toHex(Web3.utils.toWei(`${input.data.amount}`, "wei")),
+			};
+
+			if (input.data.memo) {
+				// @ts-ignore
+				data.data = Buffoon.fromUTF8(input.data.memo);
+			}
+		}
+
+		const transaction: Transaction = new Transaction(data, {
+			common: Common.forCustomChain(this.#chain, {}),
+		});
+
+		transaction.sign(Buffoon.fromHex(privateKey));
+
+		return this.dataTransferObjectService.signedTransaction(
+			transaction.hash().toString("hex"),
+			"0x" + transaction.serialize().toString("hex"),
+			"0x" + transaction.serialize().toString("hex"),
+		);
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {

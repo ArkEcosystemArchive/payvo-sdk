@@ -8,15 +8,11 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
-		try {
-			const { child, path } = deriveKeyPair(mnemonic, options);
+		const { child, path } = deriveKeyPair(mnemonic, options);
 
-			return {
-				privateKey: child.secret(),
-				path,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			privateKey: child.secret(),
+			path,
+		};
 	}
 }

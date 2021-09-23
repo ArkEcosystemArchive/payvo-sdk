@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-trx",
-	"version": "1.6.54",
+	"version": "1.7.7",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"type": "module",
@@ -27,7 +27,7 @@
 	},
 	"dependencies": {
 		"@ledgerhq/hw-app-trx": "^6.3.0",
-		"@payvo/cryptography": "^1.1.3",
+		"@payvo/cryptography": "^1.1.4",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.1",
 		"@payvo/sdk": "workspace:*",

@@ -9,29 +9,21 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			const { child, path } = deriveKeyPair(mnemonic, options);
+		const { child, path } = deriveKeyPair(mnemonic, options);
 
-			return {
-				publicKey: child.publicKey(),
-				privateKey: child.secret(),
-				path,
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: child.publicKey(),
+			privateKey: child.secret(),
+			path,
+		};
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		try {
-			const source = Stellar.Keypair.fromSecret(privateKey);
+		const source = Stellar.Keypair.fromSecret(privateKey);
 
-			return {
-				publicKey: source.publicKey(),
-				privateKey: source.secret(),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			publicKey: source.publicKey(),
+			privateKey: source.secret(),
+		};
 	}
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-ark",
-	"version": "1.6.54",
+	"version": "1.7.7",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"type": "module",
@@ -31,7 +31,7 @@
 		"@arkecosystem/ledger-transport": "^2.0.0",
 		"@arkecosystem/utils": "^1.3.0",
 		"@ledgerhq/hw-transport-node-hid-singleton": "^6.3.0",
-		"@payvo/cryptography": "^1.1.3",
+		"@payvo/cryptography": "^1.1.4",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.1",
 		"@payvo/sdk": "workspace:*",
@@ -39,8 +39,7 @@
 		"is-url-superb": "^6.0.0",
 		"lodash.orderby": "^4.6.0",
 		"node-dotify": "^1.1.0",
-		"semver": "^7.3.5",
-		"uuid": "^8.3.2"
+		"semver": "^7.3.5"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

@@ -4,7 +4,7 @@ import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/transaction.json";
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./transaction.dto";
 
 let subject: ConfirmedTransactionData;
@@ -44,8 +44,34 @@ describe("ConfirmedTransactionData", () => {
 		expect(subject.recipients()).toBeArray();
 	});
 
-	test("#amount", () => {
-		expect(subject.amount()).toEqual(BigNumber.make("1"));
+	describe("#amount", () => {
+		it("returns transaction amount", () => {
+			expect(subject.amount()).toEqual(BigNumber.make("1"));
+		});
+
+		it("returns sum of unlock objects amounts if type is unlockToken", async () => {
+			subject = await createService(ConfirmedTransactionData).configure({
+				...Fixture.data[0],
+				moduleAssetName: "dpos:unlockToken",
+				asset: {
+					unlockObjects: [
+						{
+							delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
+							amount: "2000000000",
+							unvoteHeight: 14548930,
+						},
+						{
+							delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
+							amount: "3000000000",
+							unvoteHeight: 14548929,
+						},
+					],
+				},
+			});
+
+			expect(subject.amount()).toBeInstanceOf(BigNumber);
+			expect(subject.amount().toString()).toMatchInlineSnapshot(`"5000000000"`);
+		});
 	});
 
 	test("#fee", () => {

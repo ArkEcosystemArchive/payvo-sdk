@@ -10,30 +10,22 @@ export class MessageService extends Services.AbstractMessageService {
 	protected readonly keyPairService!: Services.KeyPairService;
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		try {
-			const { publicKey, privateKey } = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
+		const { publicKey, privateKey } = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
 
-			return {
-				message: input.message,
-				signatory: publicKey,
-				signature: secp256k1
-					.sign(HashAlgorithms.sha256(input.message), Buffoon.fromHex(privateKey))
-					.toString("hex"),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			message: input.message,
+			signatory: publicKey,
+			signature: secp256k1
+				.sign(HashAlgorithms.sha256(input.message), Buffoon.fromHex(privateKey))
+				.toString("hex"),
+		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
-		try {
-			return secp256k1.verify(
-				HashAlgorithms.sha256(input.message),
-				Buffoon.fromHex(input.signature),
-				Buffoon.fromHex(input.signatory),
-			);
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return secp256k1.verify(
+			HashAlgorithms.sha256(input.message),
+			Buffoon.fromHex(input.signature),
+			Buffoon.fromHex(input.signatory),
+		);
 	}
 }

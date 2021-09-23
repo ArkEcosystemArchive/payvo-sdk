@@ -40,7 +40,7 @@ export interface ClientService {
 	// TODO: return struct like VoteReport
 	voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
 
-	unlockableBalances(id: string): Promise<UnlockBalanceResponse>;
+	unlockableBalances(id: string): Promise<UnlockTokenResponse>;
 
 	broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 }
@@ -91,7 +91,7 @@ export interface UnlockableBalance {
 	isReady: boolean;
 }
 
-export interface UnlockBalanceResponse {
+export interface UnlockTokenResponse {
 	objects: UnlockableBalance[];
 	current: BigNumber;
 	pending: BigNumber;

@@ -11,24 +11,16 @@ export class MessageService extends Services.AbstractMessageService {
 	protected readonly keyring!: Keyring;
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		try {
-			const keypair = this.keyring.addFromUri(input.signatory.signingKey());
+		const keypair = this.keyring.addFromUri(input.signatory.signingKey());
 
-			return {
-				message: input.message,
-				signatory: keypair.address,
-				signature: u8aToHex(keypair.sign(stringToU8a(input.message))),
-			};
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return {
+			message: input.message,
+			signatory: keypair.address,
+			signature: u8aToHex(keypair.sign(stringToU8a(input.message))),
+		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
-		try {
-			return signatureVerify(stringToU8a(input.message), hexToU8a(input.signature), input.signatory).isValid;
-		} catch (error) {
-			throw new Exceptions.CryptoException(error as any);
-		}
+		return signatureVerify(stringToU8a(input.message), hexToU8a(input.signature), input.signatory).isValid;
 	}
 }
