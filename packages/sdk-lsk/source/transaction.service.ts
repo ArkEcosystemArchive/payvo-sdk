@@ -137,14 +137,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			});
 		}
 
-		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
+		const transactionObject = await this.#buildTransactionObject(input, type, asset);
 
 		signedTransaction = signTransaction(
 			assetSchema,
-			await this.#computeMinFee(input, {
-				...transactionObject,
-				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
-			}),
+			transactionObject,
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
@@ -180,15 +177,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			),
 		};
 
-		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
+		const transactionObject = await this.#buildTransactionObject(input, type, asset);
 
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
-			await this.#computeMinFee(input, {
+			{
 				...transactionObject,
-				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
 				signatures: [],
-			}),
+			},
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 			keys,
@@ -204,8 +200,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
-					...(await this.#buildTransactionObject(input, type, signedTransaction.fee)),
-					asset: signedTransaction.asset,
+					...transactionObject,
 					signatures: signedTransaction.signatures,
 				},
 				this.#networkIdentifier(),
@@ -257,9 +252,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	async #buildTransactionObject(
 		input: Services.TransactionInput,
 		type: string,
-		fee?: number,
+		asset: Record<string, any>,
 	): Promise<Record<string, any>> {
-		let nonce: BigInt | undefined = undefined;
+		let nonce: BigInt | undefined;
 
 		try {
 			const wallet: Contracts.WalletData = await this.clientService.wallet({
@@ -274,34 +269,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const { assetID, moduleID } = this.#assets()[type];
 
-		return {
+		const transactionObject: any = {
 			moduleID,
 			assetID,
-			fee: typeof fee === "bigint" ? fee : BigInt(convertLSKToBeddows(`${fee ?? 0}`)),
+			asset: await this.assetSerializer.toMachine(moduleID, assetID, asset),
 			nonce,
 			senderPublicKey: this.#senderPublicKey(input),
 		};
-	}
 
-	async #computeMinFee(
-		input: Services.TransactionInput,
-		transaction: Contracts.RawTransactionData,
-	): Promise<Record<string, any>> {
-		let fee: number;
-
-		if (input.fee && Number.isInteger(input.fee)) {
-			fee = input.fee;
-		} else {
-			fee = (
-				await this.feeService.calculate(
-					this.transactionSerializer.toHuman(transaction) as Contracts.RawTransactionData,
-				)
-			).toHuman();
-		}
+		const fee = input.fee ?? (await this.feeService.calculate(transactionObject)).toHuman();
 
 		return {
-			...transaction,
-			fee: BigInt(convertLSKToBeddows(`${fee}`)),
+			...transactionObject,
+			fee: BigInt(convertLSKToBeddows(`${fee || 0}`)),
 		};
 	}
 }
