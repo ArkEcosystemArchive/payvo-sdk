@@ -69,17 +69,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const network = getNetworkConfig(this.configRepository);
 
 		// Derive the sender address (corresponding to first address index for the wallet)
-		const { address } = await this.addressService.fromMnemonic(
-			input.signatory.signingKey(),
-			identityOptions,
-		);
+		const { address } = await this.addressService.fromMnemonic(input.signatory.signingKey(), identityOptions);
 
 		// Compute the amount to be transferred
 		const amount = this.toSatoshi(input.data.amount).toNumber();
 
 		const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
 
-		const walledDataHelper = this.addressFactory.walletDataHelper(bipLevel, this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)));
+		const walledDataHelper = this.addressFactory.walletDataHelper(
+			bipLevel,
+			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+		);
 		await walledDataHelper.discoverAllUsed();
 
 		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
@@ -215,7 +215,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.purpose)
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
-				console.log("path", "publicKey", deriveHardened.neutered().toBase58());
+			console.log("path", "publicKey", deriveHardened.neutered().toBase58());
 
 			return deriveHardened;
 		} else if (signatory.actsWithLedger()) {
@@ -333,7 +333,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	async #getChangeAddress(bipLevel: Levels, id: Services.WalletIdentifier): Promise<string> {
 		return firstUnusedAddresses(
-			addressGenerator(bipLevel, getDerivationMethod(id), getNetworkConfig(this.configRepository), id.value, false, 100),
+			addressGenerator(
+				bipLevel,
+				getDerivationMethod(id),
+				getNetworkConfig(this.configRepository),
+				id.value,
+				false,
+				100,
+			),
 			this.httpClient,
 			this.configRepository,
 		);
@@ -364,7 +371,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
 
-	private async unspentTransactionOutputs(bipLevel: Levels, id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
+	private async unspentTransactionOutputs(
+		bipLevel: Levels,
+		id: Services.WalletIdentifier,
+	): Promise<UnspentTransaction[]> {
 		const addresses = await getAddresses(id, this.httpClient, this.configRepository, bipLevel);
 
 		const utxos = (

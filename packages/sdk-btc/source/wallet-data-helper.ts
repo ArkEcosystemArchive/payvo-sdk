@@ -28,8 +28,22 @@ export default class WalletDataHelper {
 		}
 		this.#bipLevel = bipLevel;
 		this.#network = network;
-		this.#spendAddressGenerator = this.#addressGenerator(bipLevel, getDerivationMethod(id), network, id.value, true, 100);
-		this.#changeAddressGenerator = this.#addressGenerator(bipLevel, getDerivationMethod(id), network, id.value, false, 100);
+		this.#spendAddressGenerator = this.#addressGenerator(
+			bipLevel,
+			getDerivationMethod(id),
+			network,
+			id.value,
+			true,
+			100,
+		);
+		this.#changeAddressGenerator = this.#addressGenerator(
+			bipLevel,
+			getDerivationMethod(id),
+			network,
+			id.value,
+			false,
+			100,
+		);
 		this.#httpClient = httpClient;
 		this.#configRepository = configRepository;
 	}
@@ -52,7 +66,7 @@ export default class WalletDataHelper {
 			throw new Exceptions.Exception("No discovered addresses yet. Call discoverAllUsed() first");
 		}
 
-		return this.#discoveredChangeAddresses.find(address => address.status === 'unused')!;
+		return this.#discoveredChangeAddresses.find((address) => address.status === "unused")!;
 	}
 
 	async #usedAddresses(

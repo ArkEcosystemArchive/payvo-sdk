@@ -127,7 +127,7 @@ export class AddressFactory {
 	}
 
 	public walletDataHelper(bipLevel: Levels, id: Services.WalletIdentifier): WalletDataHelper {
-		return new WalletDataHelper(bipLevel, id, this.#network, this.httpClient, this.configRepository)
+		return new WalletDataHelper(bipLevel, id, this.#network, this.httpClient, this.configRepository);
 	}
 
 	#derive(type: BipLevel, levels: Levels, payment: bitcoin.payments.Payment): Services.AddressDataTransferObject {

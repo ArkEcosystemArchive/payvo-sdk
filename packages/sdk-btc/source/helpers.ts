@@ -34,10 +34,14 @@ export const usedAddresses = async (
 	let exhausted = false;
 	do {
 		const addressChunk: Bip44Address[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk.map(address => address.address), httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(
+			addressChunk.map((address) => address.address),
+			httpClient,
+			configRepository,
+		);
 
 		const items = addressChunk.filter((address) => used[address.address]);
-		usedAddresses.push(...items.map(i => i.address));
+		usedAddresses.push(...items.map((i) => i.address));
 
 		exhausted = Object.values(used)
 			.slice(-20)
@@ -54,7 +58,11 @@ export const firstUnusedAddresses = async (
 ): Promise<string> => {
 	while (true) {
 		const addressChunk: Bip44Address[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk.map(address => address.address), httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(
+			addressChunk.map((address) => address.address),
+			httpClient,
+			configRepository,
+		);
 
 		const items = addressChunk.filter((address) => !used[address.address]);
 		if (items.length > 0) {

@@ -40,11 +40,13 @@ export const addressGenerator = function* (
 		const chunk: Bip44Address[] = [];
 		for (let i = 0; i < chunkSize; i++) {
 			chunk.push({
-				path: bipLevel ? BIP44.stringify({
-					...bipLevel,
-					change: chain,
-					index,
-				}) : chain + "/" + index,
+				path: bipLevel
+					? BIP44.stringify({
+							...bipLevel,
+							change: chain,
+							index,
+					  })
+					: chain + "/" + index,
 				address: bip(node.derive(index++).publicKey, network),
 				status: "unknown",
 			});
