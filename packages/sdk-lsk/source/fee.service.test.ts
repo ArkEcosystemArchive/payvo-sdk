@@ -17,6 +17,7 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
 import { TransactionService } from "./transaction.service";
+import { BigNumber } from "@payvo/helpers";
 
 let subject: FeeService;
 
@@ -115,11 +116,11 @@ describe("FeeService", () => {
 			const fast = await subject.calculate(transaction, { priority: "fast" });
 
 			expect(slow.toHuman()).toBeNumber();
-			expect(slow.toHuman()).toBe(0.00145);
+			expect(slow.toHuman()).toBe(0.00141);
 			expect(average.toHuman()).toBeNumber();
-			expect(average.toHuman()).toBe(0.00145);
+			expect(average.toHuman()).toBe(0.00141);
 			expect(fast.toHuman()).toBeNumber();
-			expect(fast.toHuman()).toBe(0.00145);
+			expect(fast.toHuman()).toBe(0.00141);
 		});
 
 		test("delegateRegistration", async () => {
@@ -280,11 +281,11 @@ describe("FeeService", () => {
 			const fast = await subject.calculate(transaction, { priority: "fast" });
 
 			expect(slow.toHuman()).toBeNumber();
-			expect(slow.toHuman()).toBe(0.00146);
+			expect(slow.toHuman()).toBe(0.00142);
 			expect(average.toHuman()).toBeNumber();
-			expect(average.toHuman()).toBe(0.00146);
+			expect(average.toHuman()).toBe(0.00142);
 			expect(fast.toHuman()).toBeNumber();
-			expect(fast.toHuman()).toBe(0.00146);
+			expect(fast.toHuman()).toBe(0.00142);
 		});
 
 		test("unlockToken", async () => {
@@ -300,9 +301,9 @@ describe("FeeService", () => {
 				data: {
 					objects: [
 						{
-							delegateAddress: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-							amount: `${10e8}`,
-							unvoteHeight: 14548929,
+							address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+							amount: BigNumber.make(1e8),
+							height: "14548929",
 						},
 					],
 				},
@@ -313,11 +314,11 @@ describe("FeeService", () => {
 			const fast = await subject.calculate(transaction, { priority: "fast" });
 
 			expect(slow.toHuman()).toBeNumber();
-			expect(slow.toHuman()).toBe(0.00142);
+			expect(slow.toHuman()).toBe(0.00146);
 			expect(average.toHuman()).toBeNumber();
-			expect(average.toHuman()).toBe(0.00142);
+			expect(average.toHuman()).toBe(0.00146);
 			expect(fast.toHuman()).toBeNumber();
-			expect(fast.toHuman()).toBe(0.00142);
+			expect(fast.toHuman()).toBe(0.00146);
 		});
 	});
 });

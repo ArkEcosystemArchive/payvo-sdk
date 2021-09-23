@@ -60,6 +60,7 @@ export class FeeService extends Services.AbstractFeeService {
 
 		const normalisedTransaction = {
 			...this.transactionSerializer.toMachine({ ...transaction }),
+			signatures: undefined,
 		};
 
 		const minFee: bigint = computeMinFee(assetSchema as object, normalisedTransaction, {

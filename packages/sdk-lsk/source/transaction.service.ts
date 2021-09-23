@@ -5,7 +5,6 @@ import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
-import { getAddressFromLisk32Address } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -25,7 +24,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData(
 			"token:transfer",
 			{
-				amount: input.data.amount,
+				amount: this.toSatoshi(input.data.amount).toString(),
 				recipientAddress: input.data.to,
 				data: input.data.memo,
 			},
@@ -48,14 +47,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
 			delegateAddress: string;
-			amount: number;
+			amount: string;
 		}[] = [];
 
 		if (Array.isArray(input.data.votes)) {
 			for (const vote of input.data.votes) {
 				votes.push({
 					delegateAddress: vote.id,
-					amount: vote.amount,
+					amount: this.toSatoshi(vote.amount).toString(),
 				});
 			}
 		}
@@ -64,7 +63,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
 					delegateAddress: unvote.id,
-					amount: unvote.amount * -1,
+					amount: this.toSatoshi(unvote.amount).times(-1).toString(),
 				});
 			}
 		}
@@ -100,7 +99,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			{
 				unlockObjects: input.data.objects.map(({ address, amount, height }) => ({
 					delegateAddress: address,
-					amount,
+					amount: amount.toString(),
 					unvoteHeight: height,
 				})),
 			},

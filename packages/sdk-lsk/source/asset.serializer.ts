@@ -11,7 +11,7 @@ export class AssetSerializer {
 	public toMachine(moduleID: string, assetID: string, asset: Record<string, any>): Record<string, unknown> {
 		if (isTransfer({ assetID, moduleID })) {
 			return {
-				amount: BigInt(this.bigNumberService.make(asset.amount).toSatoshi().toString()),
+				amount: BigInt(asset.amount),
 				recipientAddress: getAddressFromBase32Address(asset.recipientAddress),
 				data: asset.data ?? "",
 			};
@@ -33,7 +33,7 @@ export class AssetSerializer {
 
 		if (isVote({ assetID, moduleID })) {
 			return {
-				votes: asset.votes.map(({ delegateAddress, amount }: { delegateAddress: string; amount: number }) => ({
+				votes: asset.votes.map(({ delegateAddress, amount }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
 					amount: this.#normaliseVoteAmount(amount),
 				})),
@@ -44,7 +44,7 @@ export class AssetSerializer {
 			return {
 				unlockObjects: asset.unlockObjects.map(({ delegateAddress, amount, unvoteHeight }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
-					amount: BigInt(amount.toString()),
+					amount: BigInt(amount),
 					unvoteHeight: Number(unvoteHeight),
 				})),
 			};
@@ -53,9 +53,9 @@ export class AssetSerializer {
 		throw new Error("Failed to determine transaction type for asset serialization.");
 	}
 
-	#normaliseVoteAmount(value: number): BigInt {
-		if (value % 10 === 0) {
-			return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
+	#normaliseVoteAmount(value: string): BigInt {
+		if (this.bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
+			return BigInt(value);
 		}
 
 		throw new Error(`The value [${value}] is not a multiple of 10.`);

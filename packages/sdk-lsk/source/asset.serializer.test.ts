@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AssetSerializer } from "./asset.serializer";
 
 describe.each([

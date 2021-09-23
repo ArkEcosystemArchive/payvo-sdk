@@ -30,7 +30,7 @@ export class TransactionSerializer {
 		}
 
 		if (isTransfer(transaction)) {
-			mutated.asset.amount = BigInt(this.bigNumberService.make(transaction.asset.amount).toSatoshi().toString());
+			mutated.asset.amount = BigInt(transaction.asset.amount);
 			mutated.asset.recipientAddress = getAddressFromBase32Address(transaction.asset.recipientAddress);
 			mutated.asset.data = transaction.asset.data ?? "";
 		}
@@ -56,7 +56,7 @@ export class TransactionSerializer {
 			mutated.asset.unlockObjects = transaction.asset.unlockObjects.map(
 				({ delegateAddress, amount, unvoteHeight }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
-					amount: BigInt(amount.toString()),
+					amount: BigInt(amount),
 					unvoteHeight: Number(unvoteHeight),
 				}),
 			);
@@ -88,24 +88,24 @@ export class TransactionSerializer {
 			mutated.signatures = convertBufferList(transaction.signatures);
 		}
 
-		if (isTransfer(mutated)) {
-			mutated.asset.amount = mutated.asset.amount.toString();
-			mutated.asset.recipientAddress = this.#convertAddress(mutated.asset.recipientAddress);
-			mutated.asset.data = convertBuffer(mutated.asset.data ?? "");
+		if (isTransfer(transaction)) {
+			mutated.asset.amount = transaction.asset.amount.toString();
+			mutated.asset.recipientAddress = this.#convertAddress(transaction.asset.recipientAddress);
+			mutated.asset.data = convertBuffer(transaction.asset.data ?? "");
 		}
 
-		if (isMultiSignatureRegistration(mutated)) {
-			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
-			mutated.asset.mandatoryKeys = convertBufferList(keys?.mandatoryKeys ?? mutated.asset.mandatoryKeys);
-			mutated.asset.optionalKeys = convertBufferList(keys?.optionalKeys ?? mutated.asset.optionalKeys);
+		if (isMultiSignatureRegistration(transaction)) {
+			mutated.asset.numberOfSignatures = transaction.asset.numberOfSignatures;
+			mutated.asset.mandatoryKeys = convertBufferList(keys?.mandatoryKeys ?? transaction.asset.mandatoryKeys);
+			mutated.asset.optionalKeys = convertBufferList(keys?.optionalKeys ?? transaction.asset.optionalKeys);
 		}
 
-		if (isDelegateRegistration(mutated)) {
-			mutated.asset.username = mutated.asset.username;
+		if (isDelegateRegistration(transaction)) {
+			mutated.asset.username = transaction.asset.username;
 		}
 
-		if (isVote(mutated)) {
-			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
+		if (isVote(transaction)) {
+			mutated.asset.votes = transaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: this.#convertAddress(delegateAddress),
 				amount: amount.toString(),
 			}));
@@ -153,9 +153,9 @@ export class TransactionSerializer {
 		return getLisk32AddressFromAddress(getAddressFromBase32Address(address));
 	}
 
-	#normaliseVoteAmount(value: number): BigInt {
-		if (value % 10 === 0) {
-			return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
+	#normaliseVoteAmount(value: string): BigInt {
+		if (this.bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
+			return BigInt(value);
 		}
 
 		throw new Error(`The value [${value}] is not a multiple of 10.`);
