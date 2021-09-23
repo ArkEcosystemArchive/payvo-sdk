@@ -231,6 +231,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#isLegacy(): boolean {
-		return new RegExp("^bind.").test(this.configRepository.get<string>("network.id"));
+		return this.configRepository.get<string>("network.id").startsWith("bind");
 	}
 }
