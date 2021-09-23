@@ -5,6 +5,64 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.7.7] - 2021-09-20
+
+### Fixed
+
+- Mark fees as size-based (#222) ([c3bad3a](c3bad3a53b76e4ced07eae32c77a5ebe6101ce75))
+
+## [1.7.6] - 2021-09-16
+
+### Added
+
+- Add `unlockToken` transaction feature flag (#221) ([ae4709d](ae4709d568a2d36a0588c18e66651b02ba5eefa4))
+
+### Changed
+
+- Update `@payvo/cryptography` dependency (#220) ([c24eb96](c24eb96abf1dffa84af368fca620a993a678deed))
+
+## [1.7.4] - 2021-09-15
+
+### Changed
+
+- Calculate amount of `unlockToken` confirmed transaction (#218) ([65d5d2e](65d5d2e9e1d8e3c04e07d56f0d6e733d60433c15))
+
+## [1.7.3] - 2021-09-14
+
+### Changed
+
+- Calculate amount of `unlockToken` transaction (#216) ([2e6fd47](2e6fd4716b1a48da1b5a12b8caf9f9a9fae38a98))
+
+## [1.7.2] - 2021-09-13
+
+### Added
+
+- Add `unlockToken` type to transaction serializer test (#215) ([6ba2d73](6ba2d7365c2a9e09ebe3fa3dbe332738f9d5d72e))
+
+### Changed
+
+- Rename `unlockBalance` to `unlockToken` (#214) ([b149f60](b149f60eeeb0fea77abf313cb78a54c4ffd4faa0))
+
+## [1.7.0] - 2021-09-13
+
+### Changed
+
+- Adjust jest config and exception handling (#213) ([2e20aea](2e20aea3f562364bd248a7dd023007cd242e99cd))
+
+### Fixed
+
+- Persist `toMachine` mutations for `unlockToken` transaction (#212) ([05ff47e](05ff47e4b6816d3e0ff6626702fe5404b2a22439))
+
+## [1.6.54] - 2021-09-10
+
+### Changed
+
+- Update changelog ([5c42397](5c42397a8506eb7c45faed3dcd385de733bbe514))
+
+### Fixed
+
+- Pagination construction ([f8b1816](f8b1816b04408066ac5b0a651efbcabf1768a47f))
+
 ## [1.6.53] - 2021-09-10
 
 ### Added
