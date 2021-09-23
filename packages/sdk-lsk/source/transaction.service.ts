@@ -25,7 +25,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData(
 			"token:transfer",
 			{
-				amount: this.toSatoshi(input.data.amount).toString(),
+				amount: input.data.amount,
 				recipientAddress: input.data.to,
 				data: input.data.memo,
 			},
@@ -141,7 +141,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		signedTransaction = signTransaction(
 			assetSchema,
-			transactionObject,
+			this.transactionSerializer.toMachine(transactionObject),
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
@@ -182,7 +182,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
 			{
-				...transactionObject,
+				...this.transactionSerializer.toMachine(transactionObject),
 				signatures: [],
 			},
 			this.#networkIdentifier(),
@@ -200,7 +200,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
-					...transactionObject,
+					...this.transactionSerializer.toMachine(transactionObject),
 					signatures: signedTransaction.signatures,
 				},
 				this.#networkIdentifier(),
@@ -254,7 +254,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		type: string,
 		asset: Record<string, any>,
 	): Promise<Record<string, any>> {
-		let nonce: BigInt | undefined;
+		let nonce: string | undefined;
 
 		try {
 			const wallet: Contracts.WalletData = await this.clientService.wallet({
@@ -262,17 +262,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 				value: input.signatory.address(),
 			});
 
-			nonce = BigInt(wallet.nonce().toString());
+			nonce = wallet.nonce().toString();
 		} catch {
-			nonce = BigInt(0);
+			nonce = "0";
 		}
 
 		const { assetID, moduleID } = this.#assets()[type];
 
-		const transactionObject: any = {
+		const transactionObject: Contracts.RawTransactionData = {
 			moduleID,
 			assetID,
-			asset: await this.assetSerializer.toMachine(moduleID, assetID, asset),
+			asset,
 			nonce,
 			senderPublicKey: this.#senderPublicKey(input),
 		};
@@ -281,7 +281,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		return {
 			...transactionObject,
-			fee: BigInt(convertLSKToBeddows(`${fee || 0}`)),
+			fee: convertLSKToBeddows(`${fee || 0}`),
 		};
 	}
 }

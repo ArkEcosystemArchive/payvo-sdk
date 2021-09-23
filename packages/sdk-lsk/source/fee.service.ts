@@ -35,12 +35,16 @@ export class FeeService extends Services.AbstractFeeService {
 	}
 
 	public override async calculate(
-		transaction: Contracts.RawTransactionData,
+		rawTransactionData: Contracts.RawTransactionData,
 		options?: Services.TransactionFeeOptions,
 	): Promise<BigNumber> {
-		if (transaction.constructor?.name === "SignedTransactionData") {
-			transaction = JSON.parse(JSON.stringify(transaction.data()));
-		}
+		const transaction = JSON.parse(
+			JSON.stringify(
+				rawTransactionData.constructor?.name === "SignedTransactionData"
+					? rawTransactionData.data()
+					: rawTransactionData,
+			),
+		);
 
 		const { data } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
@@ -56,7 +60,6 @@ export class FeeService extends Services.AbstractFeeService {
 
 		const normalisedTransaction = {
 			...this.transactionSerializer.toMachine({ ...transaction }),
-			signatures: undefined,
 		};
 
 		const minFee: bigint = computeMinFee(assetSchema as object, normalisedTransaction, {

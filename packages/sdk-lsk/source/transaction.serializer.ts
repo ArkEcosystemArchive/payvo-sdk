@@ -1,7 +1,7 @@
 import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { getBytes } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/helpers";
-import { Coins, Contracts, IoC } from "@payvo/sdk";
+import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
@@ -9,6 +9,9 @@ import { joinModuleAndAssetIds } from "./multi-signature.domain";
 export class TransactionSerializer {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	protected readonly configRepository!: Coins.ConfigRepository;
+
+	@IoC.inject(IoC.BindingType.BigNumberService)
+	protected readonly bigNumberService!: Services.BigNumberService;
 
 	public toMachine(transaction: Contracts.RawTransactionData): Record<string, unknown> {
 		const mutated = {
@@ -26,40 +29,40 @@ export class TransactionSerializer {
 			mutated.signatures = convertStringList(transaction.signatures);
 		}
 
-		if (isTransfer(mutated)) {
-			mutated.asset.amount = BigInt(mutated.asset.amount);
-			mutated.asset.recipientAddress = getAddressFromBase32Address(mutated.asset.recipientAddress);
-			mutated.asset.data = mutated.asset.data ?? "";
+		if (isTransfer(transaction)) {
+			mutated.asset.amount = BigInt(this.bigNumberService.make(transaction.asset.amount).toSatoshi().toString());
+			mutated.asset.recipientAddress = getAddressFromBase32Address(transaction.asset.recipientAddress);
+			mutated.asset.data = transaction.asset.data ?? "";
 		}
 
-		if (isMultiSignatureRegistration(mutated)) {
-			mutated.asset.numberOfSignatures = mutated.asset.numberOfSignatures;
-			mutated.asset.mandatoryKeys = convertStringList(mutated.asset.mandatoryKeys);
-			mutated.asset.optionalKeys = convertStringList(mutated.asset.optionalKeys);
+		if (isMultiSignatureRegistration(transaction)) {
+			mutated.asset.numberOfSignatures = transaction.asset.numberOfSignatures;
+			mutated.asset.mandatoryKeys = convertStringList(transaction.asset.mandatoryKeys);
+			mutated.asset.optionalKeys = convertStringList(transaction.asset.optionalKeys);
 		}
 
-		if (isDelegateRegistration(mutated)) {
-			mutated.asset.username = mutated.asset.username;
+		if (isDelegateRegistration(transaction)) {
+			mutated.asset.username = transaction.asset.username;
 		}
 
-		if (isVote(mutated)) {
-			mutated.asset.votes = mutated.asset.votes.map(({ delegateAddress, amount }) => ({
+		if (isVote(transaction)) {
+			mutated.asset.votes = transaction.asset.votes.map(({ delegateAddress, amount }) => ({
 				delegateAddress: getAddressFromBase32Address(delegateAddress),
-				amount: BigInt(amount.toString()),
+				amount: this.#normaliseVoteAmount(amount),
 			}));
 		}
 
-		if (isUnlockToken(mutated)) {
-			mutated.asset.unlockObjects = mutated.asset.unlockObjects.map(
+		if (isUnlockToken(transaction)) {
+			mutated.asset.unlockObjects = transaction.asset.unlockObjects.map(
 				({ delegateAddress, amount, unvoteHeight }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
-					amount: BigInt(amount),
+					amount: BigInt(amount.toString()),
 					unvoteHeight: Number(unvoteHeight),
 				}),
 			);
 		}
 
-		if (mutated.multiSignature) {
+		if (transaction.multiSignature) {
 			delete mutated.multiSignature;
 		}
 
@@ -148,5 +151,13 @@ export class TransactionSerializer {
 		}
 
 		return getLisk32AddressFromAddress(getAddressFromBase32Address(address));
+	}
+
+	#normaliseVoteAmount(value: number): BigInt {
+		if (value % 10 === 0) {
+			return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
+		}
+
+		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 }

@@ -105,8 +105,8 @@ describe("FeeService", () => {
 					}),
 				),
 				data: {
-					amount: 10e8,
-					to: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+					amount: 1,
+					to: identity.address,
 				},
 			});
 
@@ -115,11 +115,11 @@ describe("FeeService", () => {
 			const fast = await subject.calculate(transaction, { priority: "fast" });
 
 			expect(slow.toHuman()).toBeNumber();
-			expect(slow.toHuman()).toBe(0.00146);
+			expect(slow.toHuman()).toBe(0.00145);
 			expect(average.toHuman()).toBeNumber();
-			expect(average.toHuman()).toBe(0.00146);
+			expect(average.toHuman()).toBe(0.00145);
 			expect(fast.toHuman()).toBeNumber();
-			expect(fast.toHuman()).toBe(0.00146);
+			expect(fast.toHuman()).toBe(0.00145);
 		});
 
 		test("delegateRegistration", async () => {
@@ -280,11 +280,11 @@ describe("FeeService", () => {
 			const fast = await subject.calculate(transaction, { priority: "fast" });
 
 			expect(slow.toHuman()).toBeNumber();
-			expect(slow.toHuman()).toBe(0.00142);
+			expect(slow.toHuman()).toBe(0.00146);
 			expect(average.toHuman()).toBeNumber();
-			expect(average.toHuman()).toBe(0.00142);
+			expect(average.toHuman()).toBe(0.00146);
 			expect(fast.toHuman()).toBeNumber();
-			expect(fast.toHuman()).toBe(0.00142);
+			expect(fast.toHuman()).toBe(0.00146);
 		});
 
 		test("unlockToken", async () => {

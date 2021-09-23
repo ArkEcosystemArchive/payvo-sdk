@@ -1,4 +1,4 @@
-import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address, getBase32AddressFromAddress } from "@liskhq/lisk-cryptography";
 import { convertStringList } from "@payvo/helpers";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
@@ -11,7 +11,7 @@ export class AssetSerializer {
 	public toMachine(moduleID: string, assetID: string, asset: Record<string, any>): Record<string, unknown> {
 		if (isTransfer({ assetID, moduleID })) {
 			return {
-				amount: BigInt(`${asset.amount}`),
+				amount: BigInt(this.bigNumberService.make(asset.amount).toSatoshi().toString()),
 				recipientAddress: getAddressFromBase32Address(asset.recipientAddress),
 				data: asset.data ?? "",
 			};
@@ -33,7 +33,7 @@ export class AssetSerializer {
 
 		if (isVote({ assetID, moduleID })) {
 			return {
-				votes: asset.votes.map(({ delegateAddress, amount }) => ({
+				votes: asset.votes.map(({ delegateAddress, amount }: { delegateAddress: string; amount: number }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
 					amount: this.#normaliseVoteAmount(amount),
 				})),
@@ -44,7 +44,7 @@ export class AssetSerializer {
 			return {
 				unlockObjects: asset.unlockObjects.map(({ delegateAddress, amount, unvoteHeight }) => ({
 					delegateAddress: getAddressFromBase32Address(delegateAddress),
-					amount: BigInt(amount),
+					amount: BigInt(amount.toString()),
 					unvoteHeight: Number(unvoteHeight),
 				})),
 			};
