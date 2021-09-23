@@ -43,6 +43,7 @@ export const usedAddresses = async (
 
 	return usedAddresses;
 };
+
 export const getDerivationMethod = (
 	id: Services.WalletIdentifier,
 ): ((publicKey: string, network: string) => string) => {
