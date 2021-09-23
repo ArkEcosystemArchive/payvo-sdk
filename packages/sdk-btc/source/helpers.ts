@@ -12,7 +12,7 @@ export const post = async (
 	return (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
 };
 
-export const walletUsedTransactions = async (
+export const walletUsedAddresses = async (
 	addresses: string[],
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
@@ -31,7 +31,7 @@ export const usedAddresses = async (
 	let exhausted = false;
 	do {
 		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk, httpClient, configRepository);
 
 		const items = addressChunk.filter((address) => used[address]);
 		usedAddresses.push(...items);
@@ -51,7 +51,7 @@ export const firstUnusedAddresses = async (
 ): Promise<string> => {
 	while (true) {
 		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk, httpClient, configRepository);
 
 		const items = addressChunk.filter((address) => !used[address]);
 		if (items.length > 0) {
