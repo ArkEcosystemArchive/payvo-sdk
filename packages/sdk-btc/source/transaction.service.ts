@@ -10,10 +10,10 @@ import { BindingType } from "./constants";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
 import { Bip44Address, UnspentTransaction } from "./contracts";
-import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
-import { addressGenerator } from "./address.domain";
+import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
+import WalletDataHelper from "./wallet-data-helper";
 
 jest.setTimeout(20_000);
 
@@ -94,7 +94,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Figure out inputs, outputs and fees
 		const feeRate = await this.#getFeeRateFromNetwork(input);
-		const { inputs, outputs, fee } = await this.#selectUtxos(bipLevel, accountKey, targets, feeRate);
+		const { inputs, outputs, fee } = await this.#selectUtxos(
+			bipLevel,
+			accountKey,
+			targets,
+			feeRate,
+			walledDataHelper,
+		);
 
 		let transaction: bitcoin.Transaction;
 
@@ -105,9 +111,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 
 		if (input.signatory.actsWithMnemonic()) {
-			transaction = await this.createTransactionLocalSigning(network, inputs, outputs);
+			transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
 		} else if (input.signatory.actsWithLedger()) {
-			transaction = await this.createTransactionLedgerSigning(network, inputs, outputs, changeAddress);
+			transaction = await this.#createTransactionLedgerSigning(network, inputs, outputs, changeAddress);
 		} else {
 			throw new Exceptions.Exception("Unsupported signatory");
 		}
@@ -125,7 +131,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	private async createTransactionLocalSigning(
+	async #createTransactionLocalSigning(
 		network: bitcoin.networks.Network,
 		inputs: any[],
 		outputs: any[],
@@ -159,7 +165,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return psbt.extractTransaction();
 	}
 
-	private async createTransactionLedgerSigning(
+	async #createTransactionLedgerSigning(
 		network: bitcoin.networks.Network,
 		inputs: any[],
 		outputs: any[],
@@ -234,14 +240,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	async #selectUtxos(
 		levels: Levels,
-		accountKey: BIP32Interface,
+		accountKey,
 		targets,
 		feeRate: number,
+		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
 		const method = this.#addressingSchema(levels);
 		const id = this.#toWalletIdentifier(accountKey, method);
 
-		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(levels, id);
+		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
 		const derivationMethod = getDerivationMethod(id);
 
@@ -331,21 +338,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		};
 	}
 
-	async #getChangeAddress(bipLevel: Levels, id: Services.WalletIdentifier): Promise<string> {
-		return firstUnusedAddresses(
-			addressGenerator(
-				bipLevel,
-				getDerivationMethod(id),
-				getNetworkConfig(this.configRepository),
-				id.value,
-				false,
-				100,
-			),
-			this.httpClient,
-			this.configRepository,
-		);
-	}
-
 	async #getFeeRateFromNetwork(input: Services.TransferInput): Promise<number> {
 		let feeRate: number | undefined = input.fee;
 
@@ -371,11 +363,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
 
-	private async unspentTransactionOutputs(
-		bipLevel: Levels,
-		id: Services.WalletIdentifier,
-	): Promise<UnspentTransaction[]> {
-		const addresses = await getAddresses(id, this.httpClient, this.configRepository, bipLevel);
+	private async unspentTransactionOutputs(bip44Addresses: Bip44Address[]): Promise<UnspentTransaction[]> {
+		const addresses = bip44Addresses.map((address) => address.address);
 
 		const utxos = (
 			await post(`wallets/transactions/unspent`, { addresses }, this.httpClient, this.configRepository)

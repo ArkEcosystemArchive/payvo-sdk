@@ -21,7 +21,7 @@ export class ClientService extends Services.AbstractClientService {
 		let addresses: string[] = [];
 
 		for (const identifier of query.identifiers) {
-			addresses.push(...(await getAddresses(identifier, this.httpClient, this.configRepository, undefined)));
+			addresses.push(...(await getAddresses(identifier, this.httpClient, this.configRepository)));
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses });
@@ -30,7 +30,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const addresses = await getAddresses(id, this.httpClient, this.configRepository, undefined);
+		const addresses = await getAddresses(id, this.httpClient, this.configRepository);
 
 		const response = await this.#post(`wallets`, { addresses });
 		return this.dataTransferObjectService.wallet(response.data);

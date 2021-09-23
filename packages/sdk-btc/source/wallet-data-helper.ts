@@ -69,6 +69,12 @@ export default class WalletDataHelper {
 		return this.#discoveredChangeAddresses.find((address) => address.status === "unused")!;
 	}
 
+	public allUsedAddresses(): Bip44Address[] {
+		return this.#discoveredSpendAddresses
+			.concat(this.#discoveredChangeAddresses)
+			.filter((address) => address.status === "used");
+	}
+
 	async #usedAddresses(
 		addressesGenerator: Generator<Bip44Address[]>,
 		discoveredAddresses: Bip44Address[],
