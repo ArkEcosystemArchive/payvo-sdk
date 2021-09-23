@@ -1,11 +1,9 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Coins, Exceptions, Http, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { getNetworkConfig } from "./config";
 import WalletDataHelper from "./wallet-data-helper";
-import { BindingType, inject } from "@payvo/sdk/distribution/ioc";
-import { HttpClient } from "@payvo/sdk/distribution/http";
 
 export type BipLevel = "bip44" | "bip49" | "bip84";
 
@@ -22,8 +20,8 @@ export class AddressFactory {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	protected readonly configRepository!: Coins.ConfigRepository;
 
-	@inject(BindingType.HttpClient)
-	protected readonly httpClient!: HttpClient;
+	@IoC.inject(IoC.BindingType.HttpClient)
+	protected readonly httpClient!: Http.HttpClient;
 
 	#network!: bitcoin.networks.Network;
 
