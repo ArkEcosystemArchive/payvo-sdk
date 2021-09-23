@@ -9,7 +9,7 @@ import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { UnspentTransaction } from "./contracts";
+import { Bip44Address, UnspentTransaction } from "./contracts";
 import { firstUnusedAddresses, getAddresses, getDerivationMethod, post } from "./helpers";
 import { addressGenerator } from "./address.domain";
 import { LedgerService } from "./ledger.service";
@@ -69,7 +69,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const network = getNetworkConfig(this.configRepository);
 
 		// Derive the sender address (corresponding to first address index for the wallet)
-		const { address, type, path } = await this.addressService.fromMnemonic(
+		const { address } = await this.addressService.fromMnemonic(
 			input.signatory.signingKey(),
 			identityOptions,
 		);
@@ -79,9 +79,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
 
-		const changeAddress = await this.#getChangeAddress(
-			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
-		);
+		const walledDataHelper = this.addressFactory.walletDataHelper(bipLevel, this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)));
+		await walledDataHelper.discoverAllUsed();
+
+		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
 		console.log("changeAddress", changeAddress);
 
 		const targets = [
@@ -99,14 +100,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		outputs.forEach((output) => {
 			if (!output.address) {
-				output.address = changeAddress;
+				output.address = changeAddress.address;
 			}
 		});
 
 		if (input.signatory.actsWithMnemonic()) {
 			transaction = await this.createTransactionLocalSigning(network, inputs, outputs);
 		} else if (input.signatory.actsWithLedger()) {
-			transaction = await this.createTransactionLedgerSigning(network, inputs, outputs);
+			transaction = await this.createTransactionLedgerSigning(network, inputs, outputs, changeAddress);
 		} else {
 			throw new Exceptions.Exception("Unsupported signatory");
 		}
@@ -162,6 +163,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		network: bitcoin.networks.Network,
 		inputs: any[],
 		outputs: any[],
+		changeAddress: Bip44Address,
 	): Promise<bitcoin.Transaction> {
 		console.log("outputs", outputs);
 		const outputScriptHex = await this.#getOutputScript(network, outputs);
@@ -176,9 +178,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 				return [inLedgerTx, input.vout as number, input.script as string | undefined, index as number];
 			}),
 			associatedKeysets: inputs.map((input) => input.path),
-			changePath: "44'/1'/0'/1/0",
+			changePath: changeAddress.path,
 			additionals: [],
 			outputScriptHex,
+			segwit: inputs.some((input) => {
+				const segwit = input.path.match(/49|84\\'/) !== null;
+				console.log("input.path", input.path, segwit);
+				return segwit;
+			}),
 		});
 		return bitcoin.Transaction.fromHex(transactionHex);
 	}
@@ -204,10 +211,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 		bipLevel: Levels,
 	): Promise<BIP32Interface> {
 		if (signatory.actsWithMnemonic()) {
-			return BIP32.fromMnemonic(signatory.signingKey(), network)
+			const deriveHardened = BIP32.fromMnemonic(signatory.signingKey(), network)
 				.deriveHardened(bipLevel.purpose)
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
+				console.log("path", "publicKey", deriveHardened.neutered().toBase58());
+
+			return deriveHardened;
 		} else if (signatory.actsWithLedger()) {
 			await this.ledgerService.connect(this.transport);
 			try {
@@ -231,7 +241,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const method = this.#addressingSchema(levels);
 		const id = this.#toWalletIdentifier(accountKey, method);
 
-		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(id);
+		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(levels, id);
 
 		const derivationMethod = getDerivationMethod(id);
 
@@ -301,8 +311,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 				...extra,
 			};
 		});
+		console.log("utxos", utxos);
 
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
+		console.log("inputs, outputs, fee", inputs, outputs, fee);
 
 		if (!inputs || !outputs) {
 			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds");
@@ -319,9 +331,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 		};
 	}
 
-	async #getChangeAddress(id: Services.WalletIdentifier): Promise<string> {
+	async #getChangeAddress(bipLevel: Levels, id: Services.WalletIdentifier): Promise<string> {
 		return firstUnusedAddresses(
-			addressGenerator(getDerivationMethod(id), getNetworkConfig(this.configRepository), id.value, false, 100),
+			addressGenerator(bipLevel, getDerivationMethod(id), getNetworkConfig(this.configRepository), id.value, false, 100),
 			this.httpClient,
 			this.configRepository,
 		);
@@ -352,8 +364,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
 
-	private async unspentTransactionOutputs(id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
-		const addresses = await getAddresses(id, this.httpClient, this.configRepository);
+	private async unspentTransactionOutputs(bipLevel: Levels, id: Services.WalletIdentifier): Promise<UnspentTransaction[]> {
+		const addresses = await getAddresses(id, this.httpClient, this.configRepository, bipLevel);
 
 		const utxos = (
 			await post(`wallets/transactions/unspent`, { addresses }, this.httpClient, this.configRepository)

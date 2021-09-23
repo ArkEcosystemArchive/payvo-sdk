@@ -13,7 +13,7 @@ import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
 import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
-import { createTransportRecorder, openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import logger from "@ledgerhq/logs";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
@@ -49,7 +49,6 @@ const configureMock = (record: string): TransactionService =>
 
 		// @ts-ignore Uncomment for using real device
 		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
-
 		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
@@ -205,14 +204,14 @@ describe("bip49 wallet", () => {
 			signatory,
 		});
 
-		// expect(result.id()).toBe("4d6e178f4b1bc3c63ee167b15b277625c9c764a4fe19d9401c240358b1aa1195");
+		expect(result.id()).toBe("cd8dca12963e117bad3e1f409db6ddd01d9a4e2e5d8485502fa3eeb6a5a15efc");
 		expect(result.sender()).toBe("2NDca3WWKitRjQpiNJhc3LigKmE5HNXGGRD");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(100_000);
 		expect(result.fee().toNumber()).toBe(2_520);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac47c070a000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100e83b0bf79dc14304fc1770aab7e50d1468578ab4d602c520d89ad36c97d067070220044704d8e6e5cf9d4d624b7cfc0bc20c8356ad716971bdb9f43ccbd99385048c012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
+			"010000000001020466d9ec0567df63f889ebac196d15c1da5de3cf769f631316a71abe508d7c0e010000001716001442fb7023e727bb7379fcc64aeaba7480519acf7800000000468b1f71846b12d3316024c8cbc3077b3067abc6fa72a88bf5844d048b41319b0100000017160014326fed83aae7b69646709e1827c94d8f9081a32c0100000002a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac428f000000000000017a914cd7c51c3f3a5ad8533215c499e55fef1d07f852d8702483045022100a9b8293db9c12d5920ebffd8e6d1b46959295eb56a8f2e2aa72f61873ff7ecc5022032140b7c6b96fd24512e5f672c10899524612476020537e4027baba358dea04a012103f8bcd944d7bd6d1c3518f6be482cf4d5b743fb58a35f1159c61b4c2262ab5b3102483045022100f228d63f892a52899259b71c4355cac2d1aae56b30121295c2c9cd94c417f74402207e28c4bfc0f7dae6eeb7e6badcb5440579631ed8dd6ebcbbe1c21f2cd4e77cb2012103cd236d6ebd9b63d308d0a3ef73d4f1924e4a19895f213f4011fea83b35750f3b00000000",
 		);
 	});
 });

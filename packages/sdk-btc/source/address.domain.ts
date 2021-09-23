@@ -1,4 +1,7 @@
+import { BIP44 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
+import { Levels } from "./address.factory";
+import { Bip44Address } from "./contracts";
 
 export const bip44 = (publicKey, network): string =>
 	bitcoin.payments.p2pkh({
@@ -22,20 +25,29 @@ export const bip84 = (publicKey, network): string =>
 	}).address!;
 
 export const addressGenerator = function* (
+	bipLevel: Levels | undefined,
 	bip: (publicKey, network) => string,
 	network: bitcoin.Network,
 	extendedPublicKey: string,
 	isSpend: boolean,
 	chunkSize: number,
 	max: number = Number.MAX_VALUE,
-): Generator<string[]> {
+): Generator<Bip44Address[]> {
 	let index = 0;
-	const node = bitcoin.bip32.fromBase58(extendedPublicKey, network).derive(isSpend ? 0 : 1);
-
+	const chain = isSpend ? 0 : 1;
+	const node = bitcoin.bip32.fromBase58(extendedPublicKey, network).derive(chain);
 	while (index < max) {
-		const chunk: string[] = [];
+		const chunk: Bip44Address[] = [];
 		for (let i = 0; i < chunkSize; i++) {
-			chunk.push(bip(node.derive(index++).publicKey, network));
+			chunk.push({
+				path: bipLevel ? BIP44.stringify({
+					...bipLevel,
+					change: chain,
+					index,
+				}) : chain + "/" + index,
+				address: bip(node.derive(index++).publicKey, network),
+				status: "unknown",
+			});
 		}
 		yield chunk;
 	}

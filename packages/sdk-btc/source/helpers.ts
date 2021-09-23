@@ -2,6 +2,9 @@ import { BIP44 } from "@payvo/cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
+import { Levels } from "./address.factory";
+import { WalletIdentifier } from "@payvo/sdk/distribution/services";
+import { Bip44Address } from "./contracts";
 
 export const post = async (
 	path: string,
@@ -12,7 +15,7 @@ export const post = async (
 	return (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
 };
 
-export const walletUsedTransactions = async (
+export const walletUsedAddresses = async (
 	addresses: string[],
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
@@ -22,7 +25,7 @@ export const walletUsedTransactions = async (
 };
 
 export const usedAddresses = async (
-	addressesGenerator: Generator<string[]>,
+	addressesGenerator: Generator<Bip44Address[]>,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
 ): Promise<string[]> => {
@@ -30,11 +33,11 @@ export const usedAddresses = async (
 
 	let exhausted = false;
 	do {
-		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const addressChunk: Bip44Address[] = addressesGenerator.next().value;
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk.map(address => address.address), httpClient, configRepository);
 
-		const items = addressChunk.filter((address) => used[address]);
-		usedAddresses.push(...items);
+		const items = addressChunk.filter((address) => used[address.address]);
+		usedAddresses.push(...items.map(i => i.address));
 
 		exhausted = Object.values(used)
 			.slice(-20)
@@ -45,17 +48,17 @@ export const usedAddresses = async (
 };
 
 export const firstUnusedAddresses = async (
-	addressesGenerator: Generator<string[]>,
+	addressesGenerator: Generator<Bip44Address[]>,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
 ): Promise<string> => {
 	while (true) {
-		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const addressChunk: Bip44Address[] = addressesGenerator.next().value;
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk.map(address => address.address), httpClient, configRepository);
 
-		const items = addressChunk.filter((address) => !used[address]);
+		const items = addressChunk.filter((address) => !used[address.address]);
 		if (items.length > 0) {
-			return items[0];
+			return items[0].address;
 		}
 	}
 };
@@ -70,18 +73,19 @@ export const getAddresses = async (
 	id: Services.WalletIdentifier,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
+	bipLevel?: Levels,
 ): Promise<string[]> => {
 	if (id.type === "extendedPublicKey") {
 		const network = getNetworkConfig(configRepository);
 
 		const usedSpendAddresses = await usedAddresses(
-			addressGenerator(getDerivationMethod(id), network, id.value, true, 100),
+			addressGenerator(bipLevel, getDerivationMethod(id), network, id.value, true, 100),
 			httpClient,
 			configRepository,
 		);
 
 		const usedChangeAddresses = await usedAddresses(
-			addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
+			addressGenerator(bipLevel, getDerivationMethod(id), network, id.value, false, 100),
 			httpClient,
 			configRepository,
 		);
