@@ -1,4 +1,4 @@
-import { getAddressFromBase32Address, getBase32AddressFromAddress } from "@liskhq/lisk-cryptography";
+import { getAddressFromBase32Address } from "@liskhq/lisk-cryptography";
 import { convertStringList } from "@payvo/helpers";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
