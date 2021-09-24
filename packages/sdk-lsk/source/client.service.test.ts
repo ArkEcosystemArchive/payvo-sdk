@@ -144,10 +144,10 @@ describe("ClientService", () => {
 			expect(result.balance().lockedUnvotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			expect(result.username()).toMatchInlineSnapshot(`""`);
+			expect(result.username()).toMatchInlineSnapshot(`"username"`);
 			expect(result.rank()).toMatchInlineSnapshot(`undefined`);
 			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
-			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignature()).toMatchInlineSnapshot(`false`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
@@ -206,7 +206,7 @@ describe("ClientService", () => {
 			expect(result.username()).toMatchInlineSnapshot(`"punkrock"`);
 			expect(result.rank()).toMatchInlineSnapshot(`1`);
 			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignature()).toMatchInlineSnapshot(`true`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
@@ -236,7 +236,7 @@ describe("ClientService", () => {
 			expect(wallet.username()).toMatchInlineSnapshot(`"punkrock"`);
 			expect(wallet.rank()).toMatchInlineSnapshot(`1`);
 			expect(wallet.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			expect(wallet.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(wallet.isMultiSignature()).toMatchInlineSnapshot(`true`);
 			expect(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);

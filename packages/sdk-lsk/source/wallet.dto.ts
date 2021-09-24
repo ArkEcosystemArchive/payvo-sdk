@@ -129,7 +129,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isDelegate(): boolean {
-		return !!this.data.delegate || !!this.data.isDelegate;
+		return !!this.data.delegate || !!this.data.summary?.isDelegate;
 	}
 
 	public override isResignedDelegate(): boolean {
