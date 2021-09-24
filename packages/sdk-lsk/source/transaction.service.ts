@@ -5,7 +5,6 @@ import { DateTime } from "@payvo/intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
-import { getAddressFromLisk32Address } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -48,14 +47,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public override async vote(input: Services.VoteInput): Promise<Contracts.SignedTransactionData> {
 		const votes: {
 			delegateAddress: string;
-			amount: number;
+			amount: string;
 		}[] = [];
 
 		if (Array.isArray(input.data.votes)) {
 			for (const vote of input.data.votes) {
 				votes.push({
 					delegateAddress: vote.id,
-					amount: vote.amount,
+					amount: this.toSatoshi(vote.amount).toString(),
 				});
 			}
 		}
@@ -64,7 +63,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			for (const unvote of input.data.unvotes) {
 				votes.push({
 					delegateAddress: unvote.id,
-					amount: unvote.amount * -1,
+					amount: this.toSatoshi(unvote.amount).times(-1).toString(),
 				});
 			}
 		}
@@ -100,7 +99,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			{
 				unlockObjects: input.data.objects.map(({ address, amount, height }) => ({
 					delegateAddress: address,
-					amount,
+					amount: amount.toString(),
 					unvoteHeight: height,
 				})),
 			},
@@ -137,14 +136,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			});
 		}
 
-		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
+		const transactionObject = await this.#buildTransactionObject(input, type, asset);
 
 		signedTransaction = signTransaction(
 			assetSchema,
-			await this.#computeMinFee(input, {
-				...transactionObject,
-				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
-			}),
+			this.transactionSerializer.toMachine(transactionObject),
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
@@ -180,15 +176,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			),
 		};
 
-		const transactionObject = await this.#buildTransactionObject(input, type, input.fee);
+		const transactionObject = await this.#buildTransactionObject(input, type, asset);
 
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
-			await this.#computeMinFee(input, {
-				...transactionObject,
-				asset: this.assetSerializer.toMachine(transactionObject.moduleID, transactionObject.assetID, asset),
+			{
+				...this.transactionSerializer.toMachine(transactionObject),
 				signatures: [],
-			}),
+			},
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 			keys,
@@ -204,8 +199,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
-					...(await this.#buildTransactionObject(input, type, signedTransaction.fee)),
-					asset: signedTransaction.asset,
+					...this.transactionSerializer.toMachine(transactionObject),
 					signatures: signedTransaction.signatures,
 				},
 				this.#networkIdentifier(),
@@ -257,9 +251,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	async #buildTransactionObject(
 		input: Services.TransactionInput,
 		type: string,
-		fee?: number,
+		asset: Record<string, any>,
 	): Promise<Record<string, any>> {
-		let nonce: BigInt | undefined = undefined;
+		let nonce: string | undefined;
 
 		try {
 			const wallet: Contracts.WalletData = await this.clientService.wallet({
@@ -267,41 +261,26 @@ export class TransactionService extends Services.AbstractTransactionService {
 				value: input.signatory.address(),
 			});
 
-			nonce = BigInt(wallet.nonce().toString());
+			nonce = wallet.nonce().toString();
 		} catch {
-			nonce = BigInt(0);
+			nonce = "0";
 		}
 
 		const { assetID, moduleID } = this.#assets()[type];
 
-		return {
+		const transactionObject: Contracts.RawTransactionData = {
 			moduleID,
 			assetID,
-			fee: typeof fee === "bigint" ? fee : BigInt(convertLSKToBeddows(`${fee ?? 0}`)),
+			asset,
 			nonce,
 			senderPublicKey: this.#senderPublicKey(input),
 		};
-	}
 
-	async #computeMinFee(
-		input: Services.TransactionInput,
-		transaction: Contracts.RawTransactionData,
-	): Promise<Record<string, any>> {
-		let fee: number;
-
-		if (input.fee && Number.isInteger(input.fee)) {
-			fee = input.fee;
-		} else {
-			fee = (
-				await this.feeService.calculate(
-					this.transactionSerializer.toHuman(transaction) as Contracts.RawTransactionData,
-				)
-			).toHuman();
-		}
+		const fee = input.fee ?? (await this.feeService.calculate(transactionObject)).toHuman();
 
 		return {
-			...transaction,
-			fee: BigInt(convertLSKToBeddows(`${fee}`)),
+			...transactionObject,
+			fee: convertLSKToBeddows(`${fee || 0}`),
 		};
 	}
 }

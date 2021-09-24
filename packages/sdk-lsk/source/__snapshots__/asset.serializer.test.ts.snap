@@ -125,7 +125,7 @@ exports[`AssetSerializer ({ moduleID: 5, assetID: 1, asset: [Object] }) #toMachi
 Object {
   "votes": Array [
     Object {
-      "amount": 100000000000000000n,
+      "amount": 1000000000n,
       "delegateAddress": Object {
         "data": Array [
           118,
