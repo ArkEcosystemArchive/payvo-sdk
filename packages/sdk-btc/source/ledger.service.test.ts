@@ -2,16 +2,17 @@ import "jest-extended";
 
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
+import { jest } from "@jest/globals";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 
 const createMockService = async (record: string) => {
-	const transport = await createService(LedgerService, undefined, (container) => {
+	const transport = await createService(LedgerService, "btc.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -53,6 +54,16 @@ describe("getPublicKey", () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
 		await expect(subject.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+	});
+});
+
+describe("getExtendedPublicKey", () => {
+	it("should pass with for a given path", async () => {
+		const subject = await createMockService(ledger.extendedPublicKey.record);
+
+		await expect(subject.getExtendedPublicKey(ledger.extendedPublicKey.path)).resolves.toEqual(
+			ledger.extendedPublicKey.result,
+		);
 	});
 });
 
