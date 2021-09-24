@@ -16,7 +16,7 @@ export default class WalletDataHelper {
 	readonly #httpClient: Http.HttpClient;
 	readonly #configRepository: Coins.ConfigRepository;
 
-	constructor(
+	public constructor(
 		bipLevel: Levels,
 		id: Services.WalletIdentifier,
 		network: bitcoin.networks.Network,
