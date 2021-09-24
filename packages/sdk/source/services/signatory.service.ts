@@ -125,7 +125,7 @@ export class AbstractSignatoryService implements SignatoryService {
 	}
 
 	public async ledger(path: string, options?: IdentityOptions): Promise<Signatory> {
-		return new Signatory(new LedgerSignatory(path), options?.multiSignature);
+		return new Signatory(new LedgerSignatory({ signingKey: path, options }), options?.multiSignature);
 	}
 
 	public async secret(secret: string, options?: IdentityOptions): Promise<Signatory> {

@@ -1,3 +1,4 @@
+import { BIP44 } from "@payvo/cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
@@ -11,7 +12,7 @@ export const post = async (
 	return (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
 };
 
-export const walletUsedTransactions = async (
+export const walletUsedAddresses = async (
 	addresses: string[],
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
@@ -30,7 +31,7 @@ export const usedAddresses = async (
 	let exhausted = false;
 	do {
 		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk, httpClient, configRepository);
 
 		const items = addressChunk.filter((address) => used[address]);
 		usedAddresses.push(...items);
@@ -50,7 +51,7 @@ export const firstUnusedAddresses = async (
 ): Promise<string> => {
 	while (true) {
 		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedTransactions(addressChunk, httpClient, configRepository);
+		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk, httpClient, configRepository);
 
 		const items = addressChunk.filter((address) => !used[address]);
 		if (items.length > 0) {
@@ -93,4 +94,25 @@ export const getAddresses = async (
 	}
 
 	throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);
+};
+
+export const maxLevel = (path: string): number => {
+	const bip44Levels = BIP44.parse(path);
+	let depth = 0;
+	if (bip44Levels.purpose !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.coinType !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.account !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.change !== undefined) {
+		depth++;
+	}
+	if (bip44Levels.addressIndex !== undefined) {
+		depth++;
+	}
+	return depth;
 };

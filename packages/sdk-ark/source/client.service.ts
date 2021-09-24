@@ -15,9 +15,9 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const response = this.#isUpcoming()
-			? await this.#get("transactions", this.#createSearchParams(query))
-			: await this.#post("transactions/search", this.#createSearchParams(query));
+		const response = this.#isLegacy()
+			? await this.#post("transactions/search", this.#createSearchParams(query))
+			: await this.#get("transactions", this.#createSearchParams(query));
 
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
@@ -29,9 +29,9 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
-		const response = this.#isUpcoming()
-			? await this.#get("wallets", this.#createSearchParams(query))
-			: await this.#post("wallets/search", this.#createSearchParams(query));
+		const response = this.#isLegacy()
+			? await this.#post("wallets/search", this.#createSearchParams(query))
+			: await this.#get("wallets", this.#createSearchParams(query));
 
 		return new Collections.WalletDataCollection(
 			response.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
@@ -185,7 +185,7 @@ export class ClientService extends Services.AbstractClientService {
 			memo: "vendorField",
 		};
 
-		if (this.#isUpcoming()) {
+		if (!this.#isLegacy()) {
 			Object.assign(mappings, {
 				address: "address",
 				recipientId: "recipientId",
@@ -202,7 +202,17 @@ export class ClientService extends Services.AbstractClientService {
 			}
 		}
 
-		if (this.#isUpcoming()) {
+		if (this.#isLegacy()) {
+			const identifiers: Services.WalletIdentifier[] | undefined =
+				// @ts-ignore
+				body.identifiers as Services.WalletIdentifier[];
+			if (identifiers) {
+				result.body.addresses = identifiers.map(({ value }) => value);
+
+				// @ts-ignore
+				delete body.identifiers;
+			}
+		} else {
 			// @ts-ignore
 			const addresses: Services.WalletIdentifier[] | undefined = body.identifiers as Services.WalletIdentifier[];
 
@@ -215,22 +225,12 @@ export class ClientService extends Services.AbstractClientService {
 
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
-		} else {
-			const identifiers: Services.WalletIdentifier[] | undefined =
-				// @ts-ignore
-				body.identifiers as Services.WalletIdentifier[];
-			if (identifiers) {
-				result.body.addresses = identifiers.map(({ value }) => value);
-
-				// @ts-ignore
-				delete body.identifiers;
-			}
 		}
 
 		return result;
 	}
 
-	#isUpcoming(): boolean {
-		return this.configRepository.get<string>("network.id") === "ark.devnet";
+	#isLegacy(): boolean {
+		return this.configRepository.get<string>("network.id").startsWith("bind");
 	}
 }

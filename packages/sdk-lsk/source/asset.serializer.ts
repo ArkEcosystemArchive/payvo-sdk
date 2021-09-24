@@ -11,7 +11,7 @@ export class AssetSerializer {
 	public toMachine(moduleID: string, assetID: string, asset: Record<string, any>): Record<string, unknown> {
 		if (isTransfer({ assetID, moduleID })) {
 			return {
-				amount: BigInt(`${asset.amount}`),
+				amount: BigInt(asset.amount),
 				recipientAddress: getAddressFromBase32Address(asset.recipientAddress),
 				data: asset.data ?? "",
 			};
@@ -53,23 +53,11 @@ export class AssetSerializer {
 		throw new Error("Failed to determine transaction type for asset serialization.");
 	}
 
-	#normaliseVoteAmount(value: number): BigInt {
-		let human: number = this.bigNumberService.make(value).denominated().toNumber();
-
-		// It is possible that we are already handling a human-readable value.
-		// In such cases we will revert back to the original value.
-		if (human.toString().includes("e-")) {
-			human = value;
+	#normaliseVoteAmount(value: string): BigInt {
+		if (this.bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
+			return BigInt(value);
 		}
 
-		if (typeof human === "number" && !isNaN(human)) {
-			if (Number.isInteger(human)) {
-				if (human % 10 === 0) {
-					return BigInt(this.bigNumberService.make(value).toSatoshi().toString());
-				}
-			}
-		}
-
-		throw new Error(`The value [${human}] is not a multiple of 10.`);
+		throw new Error(`The value [${value}] is not a multiple of 10.`);
 	}
 }
