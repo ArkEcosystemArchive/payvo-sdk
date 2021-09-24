@@ -50,7 +50,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			calculateBalanceLockedInUnvotes(this.data.dpos.unlocking ?? []),
 		);
 		const locked: BigNumber = lockedVotes.plus(lockedUnvotes);
-		
+
 		const availableBalance: BigNumber = this.bigNumberService.make(balance).minus(5000000);
 
 		return {
