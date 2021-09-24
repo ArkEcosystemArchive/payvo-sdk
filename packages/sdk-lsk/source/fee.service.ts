@@ -6,7 +6,6 @@ import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
-import { SignedTransactionData } from "./signed-transaction.dto";
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
@@ -36,12 +35,16 @@ export class FeeService extends Services.AbstractFeeService {
 	}
 
 	public override async calculate(
-		transaction: Contracts.RawTransactionData,
+		rawTransactionData: Contracts.RawTransactionData,
 		options?: Services.TransactionFeeOptions,
 	): Promise<BigNumber> {
-		if (transaction.constructor?.name === "SignedTransactionData") {
-			transaction = transaction.data();
-		}
+		const transaction = JSON.parse(
+			JSON.stringify(
+				rawTransactionData.constructor?.name === "SignedTransactionData"
+					? rawTransactionData.data()
+					: rawTransactionData,
+			),
+		);
 
 		const { data } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
