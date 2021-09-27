@@ -177,7 +177,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const outputScriptHex = await this.#getOutputScript(network, outputs);
 		console.log("outputScriptHex", outputScriptHex);
 		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null);
-		console.log("isSegwit", isSegwit);
+		const isBip84 = inputs.some((input) => input.path.match(/84'/) !== null);
+		const additionals: string[] = isBip84 ? ["bech32"] : [];
+		console.log("isSegwit", isSegwit, "isBip84", isBip84, "additionals", additionals);
+
 		const transactionHex = await this.ledgerService.getTransport().createPaymentTransactionNew({
 			inputs: inputs.map((input, index) => {
 				console.log("input", input);
@@ -185,17 +188,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 					this.ledgerService.getTransport(),
 					bitcoin.Transaction.fromHex(input.txRaw),
 				);
-				return [
-					inLedgerTx,
-					input.vout as number,
-					isSegwit ? input.redeemScript : (undefined as string | undefined),
-					undefined,
-				];
+				return [inLedgerTx, input.vout as number, undefined, undefined];
 			}),
 			associatedKeysets: inputs.map((input) => input.path),
 			changePath: changeAddress.path,
-			additionals: [],
+			additionals,
 			outputScriptHex,
+			sigHashType: bitcoin.Transaction.SIGHASH_ALL, // 1
 			segwit: isSegwit,
 		});
 		return bitcoin.Transaction.fromHex(transactionHex);

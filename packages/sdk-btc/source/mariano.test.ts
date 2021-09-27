@@ -127,7 +127,7 @@ describe("bip44 wallet", () => {
 			changePath: changeAddress.path,
 			additionals: [],
 			outputScriptHex,
-			segwit: inputs.some((input) => input.path.match(/49|84\\'/) !== null),
+			segwit: inputs.some((input) => input.path.match(/49|84'/) !== null),
 		});
 
 		expect(transactionHex).toBe(
@@ -205,6 +205,88 @@ describe("bip44 wallet", () => {
 	});
 });
 
+describe("bip49 wallet", () => {
+	const changeAddress: Bip44Address = {
+		path: "m/49'/1'/0'/1/1",
+		address: "2NByjSULyMEkygcskxGSacykeAiPRYZuNwy",
+		status: "unused",
+	};
+	const to = "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn";
+
+	const amount = 70_000; // sats
+	const inputs: any[] = [
+		{
+			address: "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x",
+			txId: "1e5d87c6d39346c50a71b48072b95c8e1618d0051d00c1b004d692a26a41c5ad",
+			txRaw: "01000000000101d4e042fb27460be8d962578bf183d11a348517ea8a601e0395bfeaaac96e2942010000001716001471897d984468d8fb600b2eba60ee3d737c90ea6b0000000002409c00000000000016001459a4852c42177df1e9f8375a1b05f8e32825bfd7b8e900000000000017a9143583ca9ecbbc0243c04bb32a5c91dde5c131fc328702483045022100a3bbfb14c02491d4dd82529ce5d6022577dd4f02dcc0c0a58199f0c3ef0038e502205b8b97fe2fa274cf376f3b1b48e2630ce597d0e8975087e14c41e91382841b3d0121038bd2835af1ed447588b19d896ed4c550084bb3dc5f5e6b4998ed8b4774962f2900000000",
+			script: "a9143583ca9ecbbc0243c04bb32a5c91dde5c131fc3287",
+			vout: 1,
+			value: 59832,
+			signingKey: undefined,
+			publicKey: "03de2db824354a86e663d615af1982e9ddf9a16565175961670f32091600ec1b28",
+			path: "m/49'/1'/0'/1/0",
+			witnessUtxo: {
+				script: "a9143583ca9ecbbc0243c04bb32a5c91dde5c131fc3287",
+				value: 59832,
+			},
+			redeemScript: Buffer.from("00148eb5fdd59771c49650cf7808784fe080d532b307", "hex"),
+		},
+		{
+			address: "2N7r2MdRF8crWp9n31FGS4khEzbCxqyhyt8",
+			txId: "de148feda978c203f529781f72ff1539fa5c82f033bd8c60ecf3861f75010eca",
+			txRaw: "0200000000010154b852d5e2d9859206a99118503a4826e4d1fda1c44a53914992877b556641ed01000000171600143c2c9959f7ad65bcb64bce3a151a606720ce4162feffffff02bf7c60010000000017a914c2f58c308c2617a7ac64ab56902386861c3a7ed78750c300000000000017a914a0269c180ab12c2334ac5af78a585098c71a1aac870247304402204bef84ccc6a3f65a3cdf5245dbf2418c8f47c1a0e7258aad10999bb5457930e802204ebcc7ca62ebca9a54b2d72448778d97b0cf2172fc8680b015e88f8c76321cb60121033dcbec2ffb07ff25faf068a0985fd6696158c473b2a7b0e22ed6ee7bea3d984a5cfa1f00",
+			script: "a914a0269c180ab12c2334ac5af78a585098c71a1aac87",
+			vout: 1,
+			value: 50000,
+			signingKey: undefined,
+			publicKey: "021e723637da0432ff9e9de6fdac2a070daaeaf6d6cb795ae42a965b81941e59ac",
+			path: "m/49'/1'/0'/0/2",
+			witnessUtxo: {
+				script: "a914a0269c180ab12c2334ac5af78a585098c71a1aac87",
+				value: 50000,
+			},
+			redeemScript: Buffer.from("00140f49ae97db28cee136efb9c15fbd9fa87df6cca5", "hex"),
+		},
+	];
+
+	const outputs = [
+		{
+			address: to,
+			value: amount,
+		},
+		{
+			address: changeAddress.address,
+			value: inputs.reduce((carry, item) => carry + item.value, 0) - amount - 2520,
+		},
+	];
+
+	it("should generate a transfer transaction and sign it with ledger nano using BtcApp", async () => {
+		console.log("outputs", outputs);
+		const outputScriptHex = await getOutputScript(network, outputs);
+		console.log("outputScriptHex", outputScriptHex);
+		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null); //Always true as the wallet is bip49
+		console.log("isSegwit", isSegwit);
+		const transactionHex = await ledger.createPaymentTransactionNew({
+			inputs: inputs.map((input, index) => {
+				console.log("input", input);
+				const inLedgerTx = splitTransaction(ledger, bitcoin.Transaction.fromHex(input.txRaw));
+				return [inLedgerTx, input.vout as number, undefined, undefined];
+			}),
+			associatedKeysets: inputs.map((input) => input.path),
+			changePath: changeAddress.path,
+			additionals: [],
+			outputScriptHex,
+			sigHashType: bitcoin.Transaction.SIGHASH_ALL, // 1
+			segwit: isSegwit,
+		});
+		console.log(bitcoin.Transaction.fromHex(transactionHex));
+
+		expect(transactionHex).toBe(
+			"01000000000102adc5416aa292d604b0c1001d05d018168e5cb97280b4710ac54693d3c6875d1e01000000171600148eb5fdd59771c49650cf7808784fe080d532b307ffffffffca0e01751f86f3ec608cbd33f0825cfa3915ff721f7829f503c278a9ed8f14de01000000171600140f49ae97db28cee136efb9c15fbd9fa87df6cca5ffffffff027011010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4c09100000000000017a914cd7c51c3f3a5ad8533215c499e55fef1d07f852d87024730440220624fca06ae5bf584e37f0a252c0d9a56fbf6d672153a5e5305cfcbb0c4a255c90220589a693fe06609cfb35177962f31b5d1fd492a402041e9283118a0d5b79a4a36012103de2db824354a86e663d615af1982e9ddf9a16565175961670f32091600ec1b2802473044022061219ee1d48659620c33e0482912ea03cdc730fba3c4f1a4807d4f8bb921dd3402200553d1aa9a19d9604df6304e12ce288ad4a1b764ad5166df68afa3af9095dcbe0121021e723637da0432ff9e9de6fdac2a070daaeaf6d6cb795ae42a965b81941e59ac00000000",
+		);
+	});
+});
+
 describe("bip84 wallet", () => {
 	const changeAddress: Bip44Address = {
 		path: "m/84'/1'/0'/1/1",
@@ -223,7 +305,7 @@ describe("bip84 wallet", () => {
 			vout: 1,
 			value: 69854,
 			signingKey: undefined,
-			publicKey: Buffer.from("023764fe32c78a9dea4cfdcf4682f0992d2724d65507dfe840d9f63a39dbe767c4>", "hex"),
+			publicKey: Buffer.from("023764fe32c78a9dea4cfdcf4682f0992d2724d65507dfe840d9f63a39dbe767c4", "hex"),
 			path: "m/84'/1'/0'/1/0",
 			witnessUtxo: {
 				script: "00140ab1eb8e14afc44bfcbe551762186ebbabc5a798",
