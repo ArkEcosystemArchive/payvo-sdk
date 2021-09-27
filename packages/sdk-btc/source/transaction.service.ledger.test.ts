@@ -48,8 +48,8 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 
 		// @ts-ignore Uncomment for using real device
-		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
-		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
+		container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
+		// container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
 jest.setTimeout(30_000);
