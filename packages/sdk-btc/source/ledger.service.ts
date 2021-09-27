@@ -62,7 +62,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		const tx = this.#splitTransaction(bitcoin.Transaction.fromHex(payload.toString()))
+		const tx = this.#splitTransaction(bitcoin.Transaction.fromHex(payload.toString()));
 		const utxoPath = path.match(new RegExp("([0-9]+'?/?){3}$", "g"));
 		const outputScript = serializeTransactionOutputs(tx).toString("hex");
 
