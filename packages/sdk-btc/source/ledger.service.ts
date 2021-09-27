@@ -32,7 +32,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async disconnect(): Promise<void> {
-		await this.#ledger.close();
+		await this.#transport.transport.close();
 	}
 
 	public override async getVersion(): Promise<string> {
