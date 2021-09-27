@@ -32,7 +32,7 @@ class TransportWrapper {
 
 beforeEach(async () => {
 	nock.disableNetConnect();
-	// logger.listen((log) => console.info(log.type + ": " + log.message));
+	logger.listen((log) => console.info(log.type + ": " + log.message));
 });
 
 const configureMock = (record: string): TransactionService =>

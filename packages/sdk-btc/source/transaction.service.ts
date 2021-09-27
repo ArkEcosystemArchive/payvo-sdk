@@ -3,7 +3,6 @@ import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
-import BtcApp from "@ledgerhq/hw-app-btc";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
@@ -16,9 +15,6 @@ import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
 
 jest.setTimeout(20_000);
-
-const splitTransaction = (ledger: BtcApp, tx: bitcoin.Transaction) =>
-	ledger.splitTransaction(tx.toHex(), tx.hasWitnesses());
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -63,72 +59,81 @@ export class TransactionService extends Services.AbstractTransactionService {
 				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
 			);
 		}
-
-		const bipLevel = this.addressFactory.getLevel(identityOptions);
-
-		const network = getNetworkConfig(this.configRepository);
-
-		// Compute the amount to be transferred
-		const amount = this.toSatoshi(input.data.amount).toNumber();
-
-		const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
-
-		const walledDataHelper = this.addressFactory.walletDataHelper(
-			bipLevel,
-			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
-		);
-		await walledDataHelper.discoverAllUsed();
-
-		// Derive the sender address (corresponding to first address index for the wallet)
-		const { address } = walledDataHelper.discoveredSpendAddresses()[0];
-
-		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
-
-		const targets = [
-			{
-				address: input.data.to,
-				value: amount,
-			},
-		];
-
-		// Figure out inputs, outputs and fees
-		const feeRate = await this.#getFeeRateFromNetwork(input);
-
-		const { inputs, outputs, fee } = await this.#selectUtxos(
-			bipLevel,
-			accountKey,
-			targets,
-			feeRate,
-			walledDataHelper,
-		);
-
-		let transaction: bitcoin.Transaction;
-
-		outputs.forEach((output) => {
-			if (!output.address) {
-				output.address = changeAddress.address;
+		try {
+			if (input.signatory.actsWithLedger()) {
+				await this.ledgerService.connect(this.transport);
 			}
-		});
 
-		if (input.signatory.actsWithMnemonic()) {
-			transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
-		} else if (input.signatory.actsWithLedger()) {
-			transaction = await this.#createTransactionLedgerSigning(network, inputs, outputs, changeAddress);
-		} else {
-			throw new Exceptions.Exception("Unsupported signatory");
+			const bipLevel = this.addressFactory.getLevel(identityOptions);
+
+			const network = getNetworkConfig(this.configRepository);
+
+			// Compute the amount to be transferred
+			const amount = this.toSatoshi(input.data.amount).toNumber();
+
+			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
+
+			const walledDataHelper = this.addressFactory.walletDataHelper(
+				bipLevel,
+				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+			);
+			await walledDataHelper.discoverAllUsed();
+
+			// Derive the sender address (corresponding to first address index for the wallet)
+			const { address } = walledDataHelper.discoveredSpendAddresses()[0];
+
+			const changeAddress = walledDataHelper.firstUnusedChangeAddress();
+
+			const targets = [
+				{
+					address: input.data.to,
+					value: amount,
+				},
+			];
+
+			// Figure out inputs, outputs and fees
+			const feeRate = await this.#getFeeRateFromNetwork(input);
+
+			const { inputs, outputs, fee } = await this.#selectUtxos(
+				bipLevel,
+				accountKey,
+				targets,
+				feeRate,
+				walledDataHelper,
+			);
+
+			let transaction: bitcoin.Transaction;
+
+			outputs.forEach((output) => {
+				if (!output.address) {
+					output.address = changeAddress.address;
+				}
+			});
+
+			if (input.signatory.actsWithMnemonic()) {
+				transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
+			} else if (input.signatory.actsWithLedger()) {
+				transaction = await this.ledgerService.createTransaction(network, inputs, outputs, changeAddress);
+			} else {
+				throw new Exceptions.Exception("Unsupported signatory");
+			}
+
+			return this.dataTransferObjectService.signedTransaction(
+				transaction.getId(),
+				{
+					sender: address,
+					recipient: input.data.to,
+					amount,
+					fee,
+					timestamp: new Date(),
+				},
+				transaction.toHex(),
+			);
+		} finally {
+			if (input.signatory.actsWithLedger()) {
+				await this.ledgerService.disconnect();
+			}
 		}
-
-		return this.dataTransferObjectService.signedTransaction(
-			transaction.getId(),
-			{
-				sender: address,
-				recipient: input.data.to,
-				amount,
-				fee,
-				timestamp: new Date(),
-			},
-			transaction.toHex(),
-		);
 	}
 
 	async #createTransactionLocalSigning(
@@ -163,50 +168,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		await psbt.finalizeAllInputs();
 
 		return psbt.extractTransaction();
-	}
-
-	async #createTransactionLedgerSigning(
-		network: bitcoin.networks.Network,
-		inputs: any[],
-		outputs: any[],
-		changeAddress: Bip44Address,
-	): Promise<bitcoin.Transaction> {
-		const outputScriptHex = await this.#getOutputScript(network, outputs);
-		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null);
-		const isBip84 = inputs.some((input) => input.path.match(/84'/) !== null);
-		const additionals: string[] = isBip84 ? ["bech32"] : [];
-
-		const transactionHex = await this.ledgerService.getTransport().createPaymentTransactionNew({
-			inputs: inputs.map((input, index) => {
-				const inLedgerTx = splitTransaction(
-					this.ledgerService.getTransport(),
-					bitcoin.Transaction.fromHex(input.txRaw),
-				);
-				return [inLedgerTx, input.vout as number, undefined, undefined];
-			}),
-			associatedKeysets: inputs.map((input) => input.path),
-			changePath: changeAddress.path,
-			additionals,
-			outputScriptHex,
-			sigHashType: bitcoin.Transaction.SIGHASH_ALL, // 1
-			segwit: isSegwit,
-		});
-		return bitcoin.Transaction.fromHex(transactionHex);
-	}
-
-	async #getOutputScript(network: bitcoin.networks.Network, outputs: any[]): Promise<string> {
-		const psbt = new bitcoin.Psbt({ network: network });
-		outputs.forEach((output) =>
-			psbt.addOutput({
-				address: output.address,
-				value: output.value,
-			}),
-		);
-		// @ts-ignore
-		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
-		const outLedgerTx = splitTransaction(this.ledgerService.getTransport(), newTx);
-
-		return await this.ledgerService.getTransport().serializeTransactionOutputs(outLedgerTx).toString("hex");
 	}
 
 	async #getAccountKey(
