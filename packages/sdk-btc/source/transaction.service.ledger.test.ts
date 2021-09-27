@@ -32,7 +32,7 @@ class TransportWrapper {
 
 beforeEach(async () => {
 	nock.disableNetConnect();
-	logger.listen((log) => console.info(log.type + ": " + log.message));
+	// logger.listen((log) => console.info(log.type + ": " + log.message));
 });
 
 const configureMock = (record: string): TransactionService =>
@@ -48,8 +48,8 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 
 		// @ts-ignore Uncomment for using real device
-		container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
-		// container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
+		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
+		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
 jest.setTimeout(30_000);
@@ -121,8 +121,6 @@ describe("bip44 wallet", () => {
 			},
 			signatory,
 		});
-
-		console.log(result);
 
 		expect(result.toBroadcast()).toBe(
 			"0100000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006b4830450221009a5f6bec6bade72cfc8abb260d5f36504de840b8397821ef666f32b32676d54b02203d8975cbe5c0b5eecbcfabca2b803c1f879a12652d4a437786b7ff2e4a2ed641012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8bffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",

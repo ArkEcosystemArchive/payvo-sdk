@@ -81,10 +81,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Derive the sender address (corresponding to first address index for the wallet)
 		const { address } = walledDataHelper.discoveredSpendAddresses()[0];
-		console.log("address", address);
 
 		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
-		console.log("changeAddress", changeAddress);
 
 		const targets = [
 			{
@@ -173,17 +171,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 		outputs: any[],
 		changeAddress: Bip44Address,
 	): Promise<bitcoin.Transaction> {
-		console.log("outputs", outputs);
 		const outputScriptHex = await this.#getOutputScript(network, outputs);
-		console.log("outputScriptHex", outputScriptHex);
 		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null);
 		const isBip84 = inputs.some((input) => input.path.match(/84'/) !== null);
 		const additionals: string[] = isBip84 ? ["bech32"] : [];
-		console.log("isSegwit", isSegwit, "isBip84", isBip84, "additionals", additionals);
 
 		const transactionHex = await this.ledgerService.getTransport().createPaymentTransactionNew({
 			inputs: inputs.map((input, index) => {
-				console.log("input", input);
 				const inLedgerTx = splitTransaction(
 					this.ledgerService.getTransport(),
 					bitcoin.Transaction.fromHex(input.txRaw),
@@ -221,19 +215,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		bipLevel: Levels,
 	): Promise<BIP32Interface> {
 		if (signatory.actsWithMnemonic()) {
-			const deriveHardened = BIP32.fromMnemonic(signatory.signingKey(), network)
+			return BIP32.fromMnemonic(signatory.signingKey(), network)
 				.deriveHardened(bipLevel.purpose)
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
-			console.log("path", "publicKey", deriveHardened.neutered().toBase58());
-
-			return deriveHardened;
 		} else if (signatory.actsWithLedger()) {
 			await this.ledgerService.connect(this.transport);
 			try {
 				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
 				const publicKey = await this.ledgerService.getExtendedPublicKey(path);
-				console.log("path", path, "publicKey", publicKey);
 				return BIP32.fromBase58(publicKey, network);
 			} finally {
 				await this.ledgerService.disconnect();
@@ -255,8 +245,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
 		const derivationMethod = getDerivationMethod(id);
-
-		console.log("allUnspentTransactionOutputs", allUnspentTransactionOutputs);
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
 			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
@@ -322,13 +310,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 				...extra,
 			};
 		});
-		console.log("utxos", utxos);
 
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
-		console.log("inputs, outputs, fee", inputs, outputs, fee);
 
 		if (!inputs || !outputs) {
-			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds");
+			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds.");
 		}
 
 		return { inputs, outputs, fee };
