@@ -83,7 +83,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const { address } = walledDataHelper.discoveredSpendAddresses()[0];
 		console.log("address", address);
 
-
 		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
 		console.log("changeAddress", changeAddress);
 
@@ -186,7 +185,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 					this.ledgerService.getTransport(),
 					bitcoin.Transaction.fromHex(input.txRaw),
 				);
-				return [inLedgerTx, input.vout as number, isSegwit ? input.redeemScript : undefined as string | undefined, undefined];
+				return [
+					inLedgerTx,
+					input.vout as number,
+					isSegwit ? input.redeemScript : (undefined as string | undefined),
+					undefined,
+				];
 			}),
 			associatedKeysets: inputs.map((input) => input.path),
 			changePath: changeAddress.path,

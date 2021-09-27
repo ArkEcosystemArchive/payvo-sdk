@@ -252,7 +252,10 @@ describe("bip84 wallet", () => {
 			address: to,
 			value: amount,
 		},
-		{ address: changeAddress.address, value: inputs.reduce((carry, item) => carry + item.value, 0) - amount - 5000 },
+		{
+			address: changeAddress.address,
+			value: inputs.reduce((carry, item) => carry + item.value, 0) - amount - 5000,
+		},
 	];
 
 	it("should generate a transfer transaction and sign it with ledger nano using BtcApp", async () => {
