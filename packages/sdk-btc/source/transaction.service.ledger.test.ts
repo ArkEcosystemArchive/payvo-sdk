@@ -285,7 +285,7 @@ describe("bip84 wallet", () => {
 		});
 
 		expect(result.id()).toBe("2654c846051c9d1b72349bae1b52daa4c1f8937c5c21d9b4c2ac22d6da0e7fb8");
-		expect(result.sender()).toBe("tb1qljg9u8wm4phquvdrz6ldklq5gmeetgg4j2f2ra");
+		expect(result.sender()).toBe("tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3");
 		expect(result.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(1_630);

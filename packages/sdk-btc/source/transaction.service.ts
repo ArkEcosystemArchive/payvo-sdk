@@ -68,9 +68,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const network = getNetworkConfig(this.configRepository);
 
-		// Derive the sender address (corresponding to first address index for the wallet)
-		const { address } = await this.addressService.fromMnemonic(input.signatory.signingKey(), identityOptions);
-
 		// Compute the amount to be transferred
 		const amount = this.toSatoshi(input.data.amount).toNumber();
 
@@ -81,6 +78,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
 		);
 		await walledDataHelper.discoverAllUsed();
+
+		// Derive the sender address (corresponding to first address index for the wallet)
+		const { address } = walledDataHelper.discoveredSpendAddresses()[0];
+		console.log("address", address);
+
 
 		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
 		console.log("changeAddress", changeAddress);
@@ -94,6 +96,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Figure out inputs, outputs and fees
 		const feeRate = await this.#getFeeRateFromNetwork(input);
+
 		const { inputs, outputs, fee } = await this.#selectUtxos(
 			bipLevel,
 			accountKey,
@@ -174,6 +177,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		console.log("outputs", outputs);
 		const outputScriptHex = await this.#getOutputScript(network, outputs);
 		console.log("outputScriptHex", outputScriptHex);
+		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null);
+		console.log("isSegwit", isSegwit);
 		const transactionHex = await this.ledgerService.getTransport().createPaymentTransactionNew({
 			inputs: inputs.map((input, index) => {
 				console.log("input", input);
@@ -181,17 +186,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 					this.ledgerService.getTransport(),
 					bitcoin.Transaction.fromHex(input.txRaw),
 				);
-				return [inLedgerTx, input.vout as number, input.script as string | undefined, index as number];
+				return [inLedgerTx, input.vout as number, isSegwit ? input.redeemScript : undefined as string | undefined, undefined];
 			}),
 			associatedKeysets: inputs.map((input) => input.path),
 			changePath: changeAddress.path,
 			additionals: [],
 			outputScriptHex,
-			segwit: inputs.some((input) => {
-				const segwit = input.path.match(/49|84\\'/) !== null;
-				console.log("input.path", input.path, segwit);
-				return segwit;
-			}),
+			segwit: isSegwit,
 		});
 		return bitcoin.Transaction.fromHex(transactionHex);
 	}
