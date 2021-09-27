@@ -13,9 +13,27 @@ import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
+import { LedgerTransport } from "@payvo/sdk/distribution/services";
 
 jest.setTimeout(20_000);
 
+const runWithLedgerConnectionIfNeeded = async (
+	signatory: Signatories.Signatory,
+	ledgerService: LedgerService,
+	transport: LedgerTransport,
+	callback: () => Promise<Contracts.SignedTransactionData>,
+): Promise<Contracts.SignedTransactionData> => {
+	try {
+		if (signatory.actsWithLedger()) {
+			await ledgerService.connect(transport);
+		}
+		return await callback();
+	} finally {
+		if (signatory.actsWithLedger()) {
+			await ledgerService.disconnect();
+		}
+	}
+};
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
@@ -59,11 +77,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
 			);
 		}
-		try {
-			if (input.signatory.actsWithLedger()) {
-				await this.ledgerService.connect(this.transport);
-			}
 
+		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
 			const bipLevel = this.addressFactory.getLevel(identityOptions);
 
 			const network = getNetworkConfig(this.configRepository);
@@ -71,8 +86,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
+			// Derivce account key (depth 3)
 			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
 
+			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
 				bipLevel,
 				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
@@ -82,6 +99,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// Derive the sender address (corresponding to first address index for the wallet)
 			const { address } = walledDataHelper.discoveredSpendAddresses()[0];
 
+			// Find first unused the change address
 			const changeAddress = walledDataHelper.firstUnusedChangeAddress();
 
 			const targets = [
@@ -93,7 +111,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-
 			const { inputs, outputs, fee } = await this.#selectUtxos(
 				bipLevel,
 				accountKey,
@@ -102,13 +119,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 				walledDataHelper,
 			);
 
-			let transaction: bitcoin.Transaction;
-
+			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
 				if (!output.address) {
 					output.address = changeAddress.address;
 				}
 			});
+
+			let transaction: bitcoin.Transaction;
 
 			if (input.signatory.actsWithMnemonic()) {
 				transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
@@ -129,11 +147,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				},
 				transaction.toHex(),
 			);
-		} finally {
-			if (input.signatory.actsWithLedger()) {
-				await this.ledgerService.disconnect();
-			}
-		}
+		});
 	}
 
 	async #createTransactionLocalSigning(
@@ -181,14 +195,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.coinType)
 				.deriveHardened(bipLevel.account || 0);
 		} else if (signatory.actsWithLedger()) {
-			await this.ledgerService.connect(this.transport);
-			try {
-				const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
-				const publicKey = await this.ledgerService.getExtendedPublicKey(path);
-				return BIP32.fromBase58(publicKey, network);
-			} finally {
-				await this.ledgerService.disconnect();
-			}
+			const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
+			const publicKey = await this.ledgerService.getExtendedPublicKey(path);
+			return BIP32.fromBase58(publicKey, network);
 		}
 		throw new Exceptions.Exception("Invalid signatory");
 	}

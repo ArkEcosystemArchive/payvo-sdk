@@ -12,11 +12,11 @@ import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
-import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import logger from "@ledgerhq/logs";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
+// import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
+// import logger from "@ledgerhq/logs";
 
 class TransportWrapper {
 	readonly #record;
@@ -32,7 +32,7 @@ class TransportWrapper {
 
 beforeEach(async () => {
 	nock.disableNetConnect();
-	logger.listen((log) => console.info(log.type + ": " + log.message));
+	// logger.listen((log) => console.info(log.type + ": " + log.message));
 });
 
 const configureMock = (record: string): TransactionService =>
@@ -196,7 +196,7 @@ describe("bip49 wallet", () => {
 
 		const result = await subject.transfer({
 			data: {
-				amount: 0.00070000,
+				amount: 0.0007,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 			},
 			signatory,
