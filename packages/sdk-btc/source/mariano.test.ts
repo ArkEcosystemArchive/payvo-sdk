@@ -45,7 +45,7 @@ const getOutputScript = async (network: bitcoin.networks.Network, outputs: any[]
 	return await ledger.serializeTransactionOutputs(outLedgerTx).toString("hex");
 };
 
-describe("bip44 wallet", () => {
+describe.skip("bip44 wallet", () => {
 	const changeAddress: Bip44Address = {
 		path: "m/44'/1'/0'/1/0",
 		address: "n3LhrsyE8g1Ga2XPGuXfRkaPcipevENLre",
@@ -205,7 +205,7 @@ describe("bip44 wallet", () => {
 	});
 });
 
-describe("bip49 wallet", () => {
+describe.skip("bip49 wallet", () => {
 	const changeAddress: Bip44Address = {
 		path: "m/49'/1'/0'/1/1",
 		address: "2NByjSULyMEkygcskxGSacykeAiPRYZuNwy",
@@ -287,7 +287,7 @@ describe("bip49 wallet", () => {
 	});
 });
 
-describe("bip84 wallet", () => {
+describe.skip("bip84 wallet", () => {
 	const changeAddress: Bip44Address = {
 		path: "m/84'/1'/0'/1/1",
 		address: "tb1q28sfszezu2m897hru9d74dh7ymuufq3qreqe74",
