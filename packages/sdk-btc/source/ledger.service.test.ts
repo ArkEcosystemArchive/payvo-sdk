@@ -2,7 +2,6 @@ import "jest-extended";
 
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { jest } from "@jest/globals";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -64,16 +63,6 @@ describe("getExtendedPublicKey", () => {
 		await expect(subject.getExtendedPublicKey(ledger.extendedPublicKey.path)).resolves.toEqual(
 			ledger.extendedPublicKey.result,
 		);
-	});
-});
-
-describe("signTransaction", () => {
-	it("should pass with a signature", async () => {
-		const subject = await createMockService(ledger.transaction.record);
-
-		await expect(
-			subject.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload)),
-		).resolves.toEqual(ledger.transaction.result);
 	});
 });
 

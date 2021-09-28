@@ -2,7 +2,6 @@ import { Coins, IoC, Services } from "@payvo/sdk";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
-import { serializeTransactionOutputs } from "@ledgerhq/hw-app-btc/lib/serializeTransaction";
 import { getNetworkID } from "./config";
 import createXpub from "create-xpub";
 import { maxLevel } from "./helpers";
@@ -59,21 +58,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 			chainCode: walletPublicKey.chainCode,
 			publicKey: walletPublicKey.publicKey,
 		});
-	}
-
-	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		const tx = this.#splitTransaction(bitcoin.Transaction.fromHex(payload.toString()));
-		const utxoPath = path.match(new RegExp("([0-9]+'?/?){3}$", "g"));
-		const outputScript = serializeTransactionOutputs(tx).toString("hex");
-
-		const signature = await this.#transport.createPaymentTransactionNew({
-			inputs: [[tx, 1, undefined, undefined]],
-			associatedKeysets: utxoPath!,
-			outputScriptHex: outputScript,
-			additionals: [],
-		});
-
-		return signature.toString();
 	}
 
 	public override async signMessage(path: string, payload: Buffer): Promise<string> {
