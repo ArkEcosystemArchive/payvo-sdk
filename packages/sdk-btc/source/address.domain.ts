@@ -1,4 +1,7 @@
+import { BIP44 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
+import { Levels } from "./address.factory";
+import { Bip44Address } from "./contracts";
 
 export const bip44 = (publicKey, network): string =>
 	bitcoin.payments.p2pkh({

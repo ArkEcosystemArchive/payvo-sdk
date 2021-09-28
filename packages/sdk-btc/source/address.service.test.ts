@@ -1,5 +1,4 @@
 import "jest-extended";
-import { Exceptions } from "@payvo/sdk";
 
 import { IoC } from "@payvo/sdk";
 

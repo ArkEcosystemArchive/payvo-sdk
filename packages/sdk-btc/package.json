@@ -13,7 +13,7 @@
 		"build": "pnpm run clean && tsc",
 		"build:watch": "pnpm run build -- -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
+		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --detectOpenHandles",
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll",
 		"prepublishOnly": "pnpm run build",
 		"format": "pnpm run lint && pnpm run prettier",
@@ -35,6 +35,7 @@
 		"bitcoinjs-lib": "^5.2.0",
 		"bitcoinjs-message": "~2.2.0",
 		"coinselect": "~3.1.12",
+		"@ledgerhq/hw-transport-node-hid-singleton": "^6.3.0",
 		"create-xpub": "~2.1.0"
 	},
 	"devDependencies": {
@@ -67,7 +68,8 @@
 		"prettier": "^2.3.2",
 		"rimraf": "^3.0.2",
 		"ts-jest": "^27.0.5",
-		"typescript": "^4.4.2"
+		"typescript": "^4.4.2",
+		"@ledgerhq/logs": "~6.2.0"
 	},
 	"engines": {
 		"node": ">=12.x"
