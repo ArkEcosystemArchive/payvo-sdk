@@ -53,7 +53,7 @@ export const explorer = {
 export const governance: any = {
 	delegateIdentifier: "address",
 	delegateCount: 101,
-	votesPerWallet: 20,
+	votesPerWallet: 10,
 	votesPerTransaction: 20,
 	votesAmountStep: 10,
 	votesAmountMinimum: 10,
