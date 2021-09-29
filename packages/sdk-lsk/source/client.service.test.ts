@@ -136,18 +136,18 @@ describe("ClientService", () => {
 			expect(result.publicKey()).toMatchInlineSnapshot(
 				`"414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b"`,
 			);
-			expect(result.balance().total.toString()).toMatchInlineSnapshot(`"150999716000"`);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"148999716000"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"148999716000"`);
+			expect(result.balance().total.toString()).toMatchInlineSnapshot(`"150994716000"`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"148994716000"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"148994716000"`);
 			expect(result.balance().locked?.toString()).toMatchInlineSnapshot(`"2000000000"`);
 			expect(result.balance().lockedVotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
 			expect(result.balance().lockedUnvotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			expect(result.username()).toMatchInlineSnapshot(`""`);
+			expect(result.username()).toMatchInlineSnapshot(`"username"`);
 			expect(result.rank()).toMatchInlineSnapshot(`undefined`);
 			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
-			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignature()).toMatchInlineSnapshot(`false`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
@@ -199,14 +199,14 @@ describe("ClientService", () => {
 			expect(result.publicKey()).toMatchInlineSnapshot(
 				`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`,
 			);
-			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"20115467794"`);
-			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"20115467794"`);
+			expect(result.balance().available.toString()).toMatchInlineSnapshot(`"20110467794"`);
+			expect(result.balance().fees.toString()).toMatchInlineSnapshot(`"20110467794"`);
 			expect(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
 			expect(result.username()).toMatchInlineSnapshot(`"punkrock"`);
 			expect(result.rank()).toMatchInlineSnapshot(`1`);
 			expect(result.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			expect(result.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(result.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(result.isMultiSignature()).toMatchInlineSnapshot(`true`);
 			expect(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
@@ -236,7 +236,7 @@ describe("ClientService", () => {
 			expect(wallet.username()).toMatchInlineSnapshot(`"punkrock"`);
 			expect(wallet.rank()).toMatchInlineSnapshot(`1`);
 			expect(wallet.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			expect(wallet.isDelegate()).toMatchInlineSnapshot(`false`);
+			expect(wallet.isDelegate()).toMatchInlineSnapshot(`true`);
 			expect(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
 			expect(wallet.isMultiSignature()).toMatchInlineSnapshot(`true`);
 			expect(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);

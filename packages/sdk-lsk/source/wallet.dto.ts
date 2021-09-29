@@ -51,10 +51,12 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		);
 		const locked: BigNumber = lockedVotes.plus(lockedUnvotes);
 
+		const availableBalance: BigNumber = this.bigNumberService.make(balance).minus(5000000);
+
 		return {
-			total: this.bigNumberService.make(balance).plus(locked),
-			available: this.bigNumberService.make(balance),
-			fees: this.bigNumberService.make(balance),
+			total: availableBalance.plus(locked),
+			available: availableBalance,
+			fees: availableBalance,
 			locked,
 			lockedVotes,
 			lockedUnvotes,
@@ -127,7 +129,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isDelegate(): boolean {
-		return !!this.data.delegate || !!this.data.isDelegate;
+		return !!this.data.delegate || !!this.data.summary?.isDelegate;
 	}
 
 	public override isResignedDelegate(): boolean {

@@ -200,6 +200,26 @@ describe("2.0", () => {
 
 		expect(subject.usesMultiSignature()).toBeFalse();
 	});
+
+	test("#username", async () => {
+		expect(subject.username()).toBeUndefined();
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				asset: {
+					delegate: {
+						username: "a",
+					},
+				},
+				type: 2,
+			},
+			transaction,
+		);
+
+		expect(subject.username()).toBe("a");
+	});
 });
 
 describe("3.0", () => {
@@ -421,5 +441,24 @@ describe("3.0", () => {
 		);
 
 		expect(subject.usesMultiSignature()).toBeFalse();
+	});
+
+	test("#username", async () => {
+		expect(subject.username()).toBeUndefined();
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 0,
+				asset: {
+					username: "a",
+				},
+			},
+			transaction,
+		);
+
+		expect(subject.username()).toBe("a");
 	});
 });

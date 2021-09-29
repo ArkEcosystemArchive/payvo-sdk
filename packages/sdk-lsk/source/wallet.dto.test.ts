@@ -3,6 +3,7 @@ import { BigNumber } from "@payvo/helpers";
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
 import { createService, require } from "../test/mocking";
+import { expect } from "@jest/globals";
 
 let subject: WalletData;
 
@@ -19,13 +20,13 @@ describe("WalletData", () => {
 
 	test("#balance", () => {
 		expect(subject.balance().total).toBeInstanceOf(BigNumber);
-		expect(subject.balance().total.toHuman()).toBe(1509.99716);
+		expect(subject.balance().total.toHuman()).toBe(1509.94716);
 
 		expect(subject.balance().available).toBeInstanceOf(BigNumber);
-		expect(subject.balance().available.toHuman()).toBe(1489.99716);
+		expect(subject.balance().available.toHuman()).toBe(1489.94716);
 
 		expect(subject.balance().fees).toBeInstanceOf(BigNumber);
-		expect(subject.balance().fees.toHuman()).toBe(1489.99716);
+		expect(subject.balance().fees.toHuman()).toBe(1489.94716);
 
 		expect(subject.balance().locked).toBeInstanceOf(BigNumber);
 		expect(subject.balance().locked?.toHuman()).toBe(20);
@@ -35,5 +36,9 @@ describe("WalletData", () => {
 
 		expect(subject.balance().lockedUnvotes).toBeInstanceOf(BigNumber);
 		expect(subject.balance().lockedUnvotes?.toHuman()).toBe(10);
+	});
+
+	test("#isDelegate", () => {
+		expect(subject.isDelegate()).toBe(true);
 	});
 });

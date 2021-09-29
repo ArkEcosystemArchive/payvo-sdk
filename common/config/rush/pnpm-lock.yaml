@@ -442,6 +442,7 @@ importers:
   ../../packages/sdk-btc:
     dependencies:
       '@ledgerhq/hw-app-btc': 6.3.0
+      '@ledgerhq/hw-transport-node-hid-singleton': 6.3.0
       '@payvo/cryptography': 1.1.4
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.1
@@ -455,6 +456,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.0.6
       '@ledgerhq/hw-transport-mocker': 6.3.0
+      '@ledgerhq/logs': 6.2.0
       '@payvo/http-got': 1.0.0
       '@types/eslint': 7.28.0
       '@types/eslint-plugin-prettier': 3.1.0
@@ -487,6 +489,8 @@ importers:
       '@jest/globals': ^27.0.6
       '@ledgerhq/hw-app-btc': ^6.3.0
       '@ledgerhq/hw-transport-mocker': ^6.3.0
+      '@ledgerhq/hw-transport-node-hid-singleton': ^6.3.0
+      '@ledgerhq/logs': ~6.2.0
       '@payvo/cryptography': ^1.1.4
       '@payvo/helpers': ^1.1.1
       '@payvo/http-got': ^1.0.0

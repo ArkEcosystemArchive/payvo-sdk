@@ -137,4 +137,12 @@ export class SignedTransactionData
 
 		return TransactionTypeService.isUnlockToken(this.signedData);
 	}
+
+	public override username(): string {
+		if (this.signedData.moduleID) {
+			return this.signedData.asset.username;
+		}
+
+		return this.signedData.asset.delegate?.username;
+	}
 }

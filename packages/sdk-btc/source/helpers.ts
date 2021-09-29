@@ -44,22 +44,6 @@ export const usedAddresses = async (
 	return usedAddresses;
 };
 
-export const firstUnusedAddresses = async (
-	addressesGenerator: Generator<string[]>,
-	httpClient: Http.HttpClient,
-	configRepository: Coins.ConfigRepository,
-): Promise<string> => {
-	while (true) {
-		const addressChunk: string[] = addressesGenerator.next().value;
-		const used: { string: boolean }[] = await walletUsedAddresses(addressChunk, httpClient, configRepository);
-
-		const items = addressChunk.filter((address) => !used[address]);
-		if (items.length > 0) {
-			return items[0];
-		}
-	}
-};
-
 export const getDerivationMethod = (
 	id: Services.WalletIdentifier,
 ): ((publicKey: string, network: string) => string) => {
