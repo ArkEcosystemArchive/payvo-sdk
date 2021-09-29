@@ -9,25 +9,111 @@ const mnemonic1 = "hard produce blood mosquito provide feed open enough access m
 const mnemonic2 = "build tuition fuel distance often swallow birth embark nest barely drink beach";
 const mnemonic3 = "mandate pull cat east limit enemy cabin possible success force mountain hood";
 
-const key1 = BIP32.fromMnemonic(mnemonic1, network);
+const key1 = BIP32.fromMnemonic(mnemonic1, network); // Master pub key Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN
+// for ps2h-segwit: Upub5T4iARd31HKU9kp1bZPe6amDxNWyb79scrVhhaFf5CEVrUo63aHGgkgR6TPhhNpqWqaTHvbwbEyUJNAHXomgNa7Ht5RUEQ9BpJNiQxoX7hr
+
 const key2 = BIP32.fromMnemonic(mnemonic2, network);
 const key3 = BIP32.fromMnemonic(mnemonic3, network);
+
+const sort = (a: Buffer, b: Buffer) => Buffer.compare(a, b);
 
 // jest.setTimeout(60_000);
 
 describe("multi signature", () => {
-	it("should create musig wallet", async () => {
-		const pubkeys = [key1.publicKey, key2.publicKey, key3.publicKey];
-		console.log(pubkeys.map((pk) => pk.toString("hex")));
-		const { address } = bitcoin.payments.p2wsh({
-			redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network }),
-			network,
-		});
+	it("should create a legacy multisig wallet like Electrum", async () => {
+		const createLegacyAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
+			bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2ms({
+					m: 2,
+					pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
+					network,
+				}),
+				network,
+			});
 
-		expect(address).toBe("tb1q3gu8yjqmjxfzg79vp3ez8dfmzxelf4z6ra42vwv0fnm02z6y6yyqdncskq");
+		const baseKeys = [
+			key1.deriveHardened(45).derive(0),
+			key2.deriveHardened(45).derive(0),
+			key3.deriveHardened(45).derive(0),
+		];
+
+		expect(createLegacyAddress(baseKeys, true, 0).address).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(createLegacyAddress(baseKeys, true, 1).address).toBe("2NAga16irQ8iaMEU3db3k7ZTmg7eaGSpzvy");
+		expect(createLegacyAddress(baseKeys, true, 2).address).toBe("2MzLoh1jz3QJ8DARk99NuQvy2Mfg954J4HE");
+
+		expect(createLegacyAddress(baseKeys, false, 0).address).toBe("2N5ETorn5JyFdWYYnAb9PVC3Hz1bgMjWQPU");
+		expect(createLegacyAddress(baseKeys, false, 1).address).toBe("2N5WAJtL3hhc9TwNJp6JjSNeUhg16o4D9T3");
+		expect(createLegacyAddress(baseKeys, false, 2).address).toBe("2MufXVhLZfhQSBgVaghCMdHvPZjWxCZBnSx");
 	});
 
-	it("should create a transfer from musig wallet", async () => {
+	it("should create a p2sh-segwit (p2wsh-p2sh) multisig wallet like Electrum", async () => {
+		const createP2SHSegwitAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
+			bitcoin.payments.p2sh({
+				redeem: bitcoin.payments.p2wsh({
+					redeem: bitcoin.payments.p2ms({
+						m: 2,
+						pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
+						network,
+					}),
+					network,
+				}),
+				network,
+			});
+
+		const baseKeys = [
+			key1.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(1),
+			key2.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(1),
+			key3.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(1),
+		];
+
+		expect(createP2SHSegwitAddress(baseKeys, true, 0).address).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		expect(createP2SHSegwitAddress(baseKeys, true, 1).address).toBe("2MtQ9HwWz8wvax9YNLo3S35tcGWZMYTWW1B");
+		expect(createP2SHSegwitAddress(baseKeys, true, 2).address).toBe("2N9kwKrsHVgnTuTiTSqVoXoxk4nUGKSscey");
+
+		expect(createP2SHSegwitAddress(baseKeys, false, 0).address).toBe("2N3WVdraaxhMKizN2EQ4p6QaZupBXs6dnBp");
+		expect(createP2SHSegwitAddress(baseKeys, false, 1).address).toBe("2N9iWAxKvU7PF4nKqFX1j57f1rxFXoaVW8Q");
+		expect(createP2SHSegwitAddress(baseKeys, false, 2).address).toBe("2N1WTeWAJmMmsRL4VFnTEtL6jphUEPTJSvB");
+	});
+
+	it("should create a native segwit (p2wsh) multisig wallet like Electrum", async () => {
+		const createNativeSegwitAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
+			bitcoin.payments.p2wsh({
+				redeem: bitcoin.payments.p2ms({
+					m: 2,
+					pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
+					network,
+				}),
+				network,
+			});
+
+		const baseKeys = [
+			key1.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+			key2.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+			key3.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+		];
+
+		expect(createNativeSegwitAddress(baseKeys, true, 0).address).toBe(
+			"tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965",
+		);
+		expect(createNativeSegwitAddress(baseKeys, true, 1).address).toBe(
+			"tb1qq57mp9ygm7d6ps9mzgelzwj806dfszw4paqzmuds8n24q9eacspq4t20kv",
+		);
+		expect(createNativeSegwitAddress(baseKeys, true, 2).address).toBe(
+			"tb1qu74mke55g3645qz2phgvej24k4qpmq33mkywyn5yyqknh7lcag5qapfmxv",
+		);
+
+		expect(createNativeSegwitAddress(baseKeys, false, 0).address).toBe(
+			"tb1qsyz35zpeueuwmcjap75flg93mny2gn7v3urnnwe4k05rcnvnp4cqq7hew2",
+		);
+		expect(createNativeSegwitAddress(baseKeys, false, 1).address).toBe(
+			"tb1q9dpf5gjwgwmdftn22tfmq4cmw3qt825nf3xgd4wkdg3ktw6z2shsa5wauj",
+		);
+		expect(createNativeSegwitAddress(baseKeys, false, 2).address).toBe(
+			"tb1qlj3qkv9c5j5gfqgfnqjl0nkwuvw8ktq9u3ahg0du4jnde852nrcstf4cka",
+		);
+	});
+
+	it("should create a transfer from multisig wallet", async () => {
 		const pubkeys = [key1.publicKey, key2.publicKey, key3.publicKey];
 
 		const utxo = {
