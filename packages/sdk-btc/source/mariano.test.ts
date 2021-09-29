@@ -20,6 +20,17 @@ const sort = (a: Buffer, b: Buffer) => Buffer.compare(a, b);
 // jest.setTimeout(60_000);
 
 describe("multi signature", () => {
+	it("should create musig wallet", async () => {
+		const pubkeys = [key1.publicKey, key2.publicKey, key3.publicKey];
+		console.log(pubkeys.map((pk) => pk.toString("hex")));
+		const { address } = bitcoin.payments.p2wsh({
+			redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network }),
+			network,
+		});
+
+		expect(address).toBe("tb1q3gu8yjqmjxfzg79vp3ez8dfmzxelf4z6ra42vwv0fnm02z6y6yyqdncskq");
+	});
+
 	it("should create a legacy multisig wallet like Electrum", async () => {
 		const createLegacyAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
 			bitcoin.payments.p2sh({
@@ -139,12 +150,8 @@ describe("multi signature", () => {
 				witnessScript: payment.redeem?.output,
 			})
 			.addOutput({
-				address: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
-				value: 45000,
-			})
-			.addOutput({
-				address: "tb1q3gu8yjqmjxfzg79vp3ez8dfmzxelf4z6ra42vwv0fnm02z6y6yyqdncskq",
-				value: 4600,
+				address: "tb1qq57mp9ygm7d6ps9mzgelzwj806dfszw4paqzmuds8n24q9eacspq4t20kv",
+				value: 49800,
 			});
 
 		// TODO We should probably sign it before distribution by the party initiating the transfer
@@ -187,7 +194,7 @@ describe("multi signature", () => {
 
 		// build and check
 		expect(psbt.extractTransaction().toHex()).toBe(
-			"02000000000101b1e1c5155e2d77c3f988fa71535541402dcf607008f4ec418bc3e2f285e95ac10100000000ffffffff02c8af000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f8110000000000002200208a3872481b91922478ac0c7223b53b11b3f4d45a1f6aa6398f4cf6f50b44d10804004830450221009050f060942523a180b90cd6f6116496b483a32a39c6d7251ea83d91bf55a128022048af6510a2c66e7e8800be3372d9dd2777b2df768bb1ea2f328cb2ed684e478201483045022100a3f5a97174f397075dfffe94a1543a4d776c8069967a472fd369d083d05e2321022036a226eafdcb8832e7ae4bd08cfabafb93079593fd421dc055138ad2e84d2d8e0169522103b1cc688497fc27a3033d5847da462bd9f6768e0e1c18e55cd28cc49f46e0749e21028c7f430d99b1bd5920f8f83fc8c1a613b52222c8d40806a5c086eb63af65788f2103b7141fab4a4094f596ed111e81a1b48d5f30ad0d5f1896959c61e6235cbac1e653ae00000000",
+			"02000000000101b1e1c5155e2d77c3f988fa71535541402dcf607008f4ec418bc3e2f285e95ac10100000000ffffffff0188c2000000000000220020053db09488df9ba0c0bb1233f13a477e9a9809d50f402df1b03cd550173dc402040047304402206962f25957d8e9158f2f64ebc9eb08a9da8b2d2647f7a774acef346ac9e31c5d02207709ffe752021a1e80c18177c05a187e6889a1255345ca1de4fd4a226473517d014830450221008645bc7a1fe784b625eab355e0b71b2dd8c406d47d4969e10b1452adbdfd217e02204fae17d13c8ccdf86655dd05b1e55760aa51f6e0b052dd064d409730113129400169522103b1cc688497fc27a3033d5847da462bd9f6768e0e1c18e55cd28cc49f46e0749e21028c7f430d99b1bd5920f8f83fc8c1a613b52222c8d40806a5c086eb63af65788f2103b7141fab4a4094f596ed111e81a1b48d5f30ad0d5f1896959c61e6235cbac1e653ae00000000",
 		);
 	});
 });
