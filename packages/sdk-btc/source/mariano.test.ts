@@ -63,7 +63,9 @@ describe("multi signature", () => {
 				redeem: bitcoin.payments.p2wsh({
 					redeem: bitcoin.payments.p2ms({
 						m: 2,
-						pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
+						pubkeys: pubkeys
+							.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey)
+							.sort(sort),
 						network,
 					}),
 					network,
@@ -86,17 +88,17 @@ describe("multi signature", () => {
 		expect(createP2SHSegwitAddress(baseKeys, false, 2).address).toBe("2N1WTeWAJmMmsRL4VFnTEtL6jphUEPTJSvB");
 	});
 
-	it("should create a native segwit (p2wsh) multisig wallet like Electrum", async () => {
-		const createNativeSegwitAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
-			bitcoin.payments.p2wsh({
-				redeem: bitcoin.payments.p2ms({
-					m: 2,
-					pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
-					network,
-				}),
+	const createNativeSegwitAddress = (pubkeys: bitcoin.BIP32Interface[], isSpend: boolean, addressIndex: number) =>
+		bitcoin.payments.p2wsh({
+			redeem: bitcoin.payments.p2ms({
+				m: 2,
+				pubkeys: pubkeys.map((pk) => pk.derive(isSpend ? 0 : 1).derive(addressIndex).publicKey).sort(sort),
 				network,
-			});
+			}),
+			network,
+		});
 
+	it("should create a native segwit (p2wsh) multisig wallet like Electrum", async () => {
 		const baseKeys = [
 			key1.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
 			key2.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
@@ -125,19 +127,20 @@ describe("multi signature", () => {
 	});
 
 	it("should create a transfer from multisig wallet", async () => {
-		const pubkeys = [key1.publicKey, key2.publicKey, key3.publicKey];
+		const baseKeys = [
+			key1.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+			key2.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+			key3.deriveHardened(48).deriveHardened(1).deriveHardened(0).deriveHardened(2),
+		];
 
 		const utxo = {
-			address: "tb1q3gu8yjqmjxfzg79vp3ez8dfmzxelf4z6ra42vwv0fnm02z6y6yyqdncskq",
-			txId: "c15ae985f2e2c38b41ecf4087060cf2d4041555371fa88f9c3772d5e15c5e1b1",
+			address: "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965",
+			txId: "7b063a6a6456a481d93e161f430aba62aa05a16e19c0a1897dd8c6cd99dad306",
 			outputIndex: 1,
-			script: "00208a3872481b91922478ac0c7223b53b11b3f4d45a1f6aa6398f4cf6f50b44d108",
-			satoshis: 50000,
+			script: "002013576ba1c404f89cf311580e76faa1fe3a8c0c82da5d8f93ad322457d9ccb843",
+			satoshis: 0.001,
 		};
-		const payment = bitcoin.payments.p2wsh({
-			redeem: bitcoin.payments.p2ms({ m: 2, pubkeys, network }),
-			network,
-		});
+		const payment = createNativeSegwitAddress(baseKeys, true, 0);
 
 		const psbt = new bitcoin.Psbt({ network })
 			.addInput({
@@ -145,13 +148,17 @@ describe("multi signature", () => {
 				index: utxo.outputIndex,
 				witnessUtxo: {
 					script: Buffer.from(utxo.script, "hex"),
-					value: 50000,
+					value: 100000,
 				},
 				witnessScript: payment.redeem?.output,
 			})
 			.addOutput({
-				address: "tb1qq57mp9ygm7d6ps9mzgelzwj806dfszw4paqzmuds8n24q9eacspq4t20kv",
-				value: 49800,
+				address: "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT",
+				value: 98800,
+			})
+			.addOutput({
+				address: "tb1qsyz35zpeueuwmcjap75flg93mny2gn7v3urnnwe4k05rcnvnp4cqq7hew2",
+				value: 200,
 			});
 
 		// TODO We should probably sign it before distribution by the party initiating the transfer
@@ -164,12 +171,10 @@ describe("multi signature", () => {
 		const signer2 = bitcoin.Psbt.fromBase64(psbtBaseText);
 		const signer3 = bitcoin.Psbt.fromBase64(psbtBaseText);
 
-		// Alice signs each input with the respective private keys
-		// signInput and signInputAsync are better
 		// (They take the input index explicitly as the first arg)
-		signer1.signAllInputs(key1);
-		signer2.signAllInputs(key2);
-		signer3.signAllInputs(key3);
+		signer1.signAllInputs(baseKeys[0].derive(0).derive(0));
+		signer2.signAllInputs(baseKeys[1].derive(0).derive(0));
+		signer3.signAllInputs(baseKeys[2].derive(0).derive(0));
 
 		// encode to send back to combiner (signer 1 and 2 are not near each other)
 		const s1text = signer1.toBase64();
@@ -194,7 +199,7 @@ describe("multi signature", () => {
 
 		// build and check
 		expect(psbt.extractTransaction().toHex()).toBe(
-			"02000000000101b1e1c5155e2d77c3f988fa71535541402dcf607008f4ec418bc3e2f285e95ac10100000000ffffffff0188c2000000000000220020053db09488df9ba0c0bb1233f13a477e9a9809d50f402df1b03cd550173dc402040047304402206962f25957d8e9158f2f64ebc9eb08a9da8b2d2647f7a774acef346ac9e31c5d02207709ffe752021a1e80c18177c05a187e6889a1255345ca1de4fd4a226473517d014830450221008645bc7a1fe784b625eab355e0b71b2dd8c406d47d4969e10b1452adbdfd217e02204fae17d13c8ccdf86655dd05b1e55760aa51f6e0b052dd064d409730113129400169522103b1cc688497fc27a3033d5847da462bd9f6768e0e1c18e55cd28cc49f46e0749e21028c7f430d99b1bd5920f8f83fc8c1a613b52222c8d40806a5c086eb63af65788f2103b7141fab4a4094f596ed111e81a1b48d5f30ad0d5f1896959c61e6235cbac1e653ae00000000",
+			"0200000000010106d3da99cdc6d87d89a1c0196ea105aa62ba0a431f163ed981a456646a3a067b0100000000ffffffff02f08101000000000017a9141fa993e76d714a6b603abea2361c20c0c7f003bb87c80000000000000022002081051a0839e678ede25d0fa89fa0b1dcc8a44fcc8f0739bb35b3e83c4d930d700400483045022100cdbd7729f8a25152e2eef2e4a737240dd553165c62370c12b9ee85f67c0c512302203a69e1285e21aff88f75ed144fe90a1bd1a826c9b2f042b9360ffdf54c33055b0147304402205150444107b40c102ae1455fe7099653216de2eba83009105722e5d879e2be9602200443f5866804005e0f37dcf7b343ad56c137b9c49eaaf19e54b5c52a5561b6ca016952210314e9ec814e8f5c7e7b16e17a0a8a65efea64c88f01085aaed41ebac7df9bf6e121032b0996a84fb0449a899616ca746c8e6cfc5d8f823114ba6bd7aed5b4e90442e221033830fa105ee889ae98074506e9d5f1153aafa64fa828904843204564f95a492653ae00000000",
 		);
 	});
 });
