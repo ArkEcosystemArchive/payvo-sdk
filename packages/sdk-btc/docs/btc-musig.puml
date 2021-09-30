@@ -1,0 +1,47 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+title "Musig 2-of-3 Registration"
+autonumber
+participant Alice
+participant Bob
+participant Dave
+participant Blockchain
+participant "Musig Server"
+
+Alice -> Bob: Ask Bob for Account Public Key
+Alice <-- Bob: Send pub key
+
+Alice -> Dave: Ask Dave for Account Public Key
+Alice <-- Dave: Send pub key
+
+Alice -> Blockchain: Broadcast musig registration tx
+@enduml
+
+@startuml
+'https://plantuml.com/sequence-diagram
+title Musig Transfer Transaction
+autonumber
+participant Dave
+participant Bob
+participant Alice
+participant "Musig Server"
+participant Blockchain
+
+Bob -> "Musig Server": Create musig transfer, sign it and distribute
+'Bob <-- "Musig Server": ok
+Alice -> "Musig Server": Get tx pending signature
+'Alice <-- "Musig Server": ok
+'Dave -> "Musig Server": Get tx pending signature
+'Dave <-- "Musig Server": ok
+Alice -> Alice: Sign tx
+Alice -> "Musig Server": Send new signature
+Bob -> "Musig Server": Get tx with all signatures
+'Bob <-- "Musig Server": ok
+Bob -> Blockchain: Broadcast transaction
+note left
+2-of-3 musig wallet,
+Dave not involved
+this time.
+end note
+@enduml
