@@ -9,11 +9,14 @@ const mnemonic1 = "hard produce blood mosquito provide feed open enough access m
 const mnemonic2 = "build tuition fuel distance often swallow birth embark nest barely drink beach";
 const mnemonic3 = "mandate pull cat east limit enemy cabin possible success force mountain hood";
 
-const key1 = BIP32.fromMnemonic(mnemonic1, network); // Master pub key Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN
-// for ps2h-segwit: Upub5T4iARd31HKU9kp1bZPe6amDxNWyb79scrVhhaFf5CEVrUo63aHGgkgR6TPhhNpqWqaTHvbwbEyUJNAHXomgNa7Ht5RUEQ9BpJNiQxoX7hr
+const key1 = BIP32.fromMnemonic(mnemonic1, network);
+// Master pub key Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN
 
 const key2 = BIP32.fromMnemonic(mnemonic2, network);
+// Master pub key Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1
+
 const key3 = BIP32.fromMnemonic(mnemonic3, network);
+// Master pub key Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py
 
 const sort = (a: Buffer, b: Buffer) => Buffer.compare(a, b);
 
