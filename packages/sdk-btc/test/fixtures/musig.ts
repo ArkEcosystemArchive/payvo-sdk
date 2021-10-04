@@ -28,6 +28,11 @@ export const musig = {
 			"2N5WAJtL3hhc9TwNJp6JjSNeUhg16o4D9T3",
 			"2MufXVhLZfhQSBgVaghCMdHvPZjWxCZBnSx",
 		],
+		accountKeys: [
+			"02d478b16ab1064364ef0ae18d23a9ab13607818646ef91fb1bd3fdcfd7f33f2dd",
+			"039379ddb4af9549269e6e79f4472ec9fedaedb38bbdba9855514f19aab9edc402",
+			"030e0a4f7028587d428daa5542427d6a483db7d1b24a9f6298387fabfdcc805e6f",
+		],
 	},
 
 	p2shSegwitWallet: {
@@ -40,6 +45,11 @@ export const musig = {
 			"2N3WVdraaxhMKizN2EQ4p6QaZupBXs6dnBp",
 			"2N9iWAxKvU7PF4nKqFX1j57f1rxFXoaVW8Q",
 			"2N1WTeWAJmMmsRL4VFnTEtL6jphUEPTJSvB",
+		],
+		accountKeys: [
+			"02589557b7d6a558ae69f0e1b9e8a55a9c77b21a18bcbfa57ad2ccf79247735e5a",
+			"02eb123910704e4ca10e21315ba46f98b607222c57059e25ac349431c43df8c584",
+			"03b03075e8e9dfdb21e676a0f4e91ced4b65a9999f8e1d9155cd8f371d9920aa10",
 		],
 	},
 
@@ -54,5 +64,9 @@ export const musig = {
 			"tb1q9dpf5gjwgwmdftn22tfmq4cmw3qt825nf3xgd4wkdg3ktw6z2shsa5wauj",
 			"tb1qlj3qkv9c5j5gfqgfnqjl0nkwuvw8ktq9u3ahg0du4jnde852nrcstf4cka",
 		],
-	},
+		accountKeys: [
+			"0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73",
+			"0258f655a19e21b2354a0750db10e33b1527241dd7dbe9bbecc4ef68e037d962ca",
+			"0274f4aec69af5db8f309964d75eeffb95c71968c993469066c7fb53919ca7b28b",
+		],	},
 };
