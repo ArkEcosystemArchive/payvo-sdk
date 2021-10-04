@@ -68,10 +68,11 @@ describe("ClientService", () => {
 
 			it("multiple addresses", async () => {
 				nock(/.+/)
-					.post("/api/transactions/search", {
-						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5"],
+					.get("/api/transactions")
+					.query({
+						page: "0",
+						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5",
 					})
-					.query({ page: "0" })
 					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
@@ -182,7 +183,8 @@ describe("ClientService", () => {
 			});
 
 			nock(/.+/)
-				.post("/api/wallets/search")
+				.get("/api/wallets")
+				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 				.reply(200, await require(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
