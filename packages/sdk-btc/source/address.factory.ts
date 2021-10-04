@@ -130,8 +130,19 @@ export class AddressFactory {
 		return new WalletDataHelper(bipLevel, id, this.#network, this.httpClient, this.configRepository);
 	}
 
-	public musigWalletDataHelper(n: number, accountPublicKeys: bitcoin.BIP32Interface[], method: MusigDerivationMethod): MusigWalletDataHelper {
-		return new MusigWalletDataHelper(n, accountPublicKeys, method, this.#network, this.httpClient, this.configRepository);
+	public musigWalletDataHelper(
+		n: number,
+		accountPublicKeys: bitcoin.BIP32Interface[],
+		method: MusigDerivationMethod,
+	): MusigWalletDataHelper {
+		return new MusigWalletDataHelper(
+			n,
+			accountPublicKeys,
+			method,
+			this.#network,
+			this.httpClient,
+			this.configRepository,
+		);
 	}
 
 	#derive(type: BipLevel, levels: Levels, payment: bitcoin.payments.Payment): Services.AddressDataTransferObject {

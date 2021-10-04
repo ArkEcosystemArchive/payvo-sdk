@@ -68,5 +68,6 @@ export const musig = {
 			"0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73",
 			"0258f655a19e21b2354a0750db10e33b1527241dd7dbe9bbecc4ef68e037d962ca",
 			"0274f4aec69af5db8f309964d75eeffb95c71968c993469066c7fb53919ca7b28b",
-		],	},
+		],
+	},
 };
