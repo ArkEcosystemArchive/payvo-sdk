@@ -493,7 +493,7 @@ test("#all", () => {
 		      "expirationType": "height",
 		      "fees": Object {
 		        "ticker": "BIND",
-		        "type": "dynamic",
+		        "type": "static",
 		      },
 		      "memo": true,
 		      "multiPaymentRecipients": 128,
@@ -652,7 +652,7 @@ test("#all", () => {
 		      "expirationType": "height",
 		      "fees": Object {
 		        "ticker": "TBIND",
-		        "type": "dynamic",
+		        "type": "static",
 		      },
 		      "memo": true,
 		      "multiPaymentRecipients": 64,
