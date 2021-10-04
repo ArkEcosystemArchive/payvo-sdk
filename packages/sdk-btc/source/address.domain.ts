@@ -47,26 +47,26 @@ const createMusigPayment = (m: number, pubkeys: Buffer[], network: bitcoin.Netwo
 		network,
 	});
 
-export const createLegacyMusigAddress = (m: number, pubkeys: Buffer[], network: bitcoin.Network) =>
+export const legacyMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): string =>
 	bitcoin.payments.p2sh({
 		redeem: createMusigPayment(m, pubkeys, network),
 		network,
-	});
+	}).address!;
 
-export const createP2SHSegwitMusigAddress = (m: number, pubkeys: Buffer[], network: bitcoin.Network) =>
+export const p2SHSegwitMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): string =>
 	bitcoin.payments.p2sh({
 		redeem: bitcoin.payments.p2wsh({
 			redeem: createMusigPayment(m, pubkeys, network),
 			network,
 		}),
 		network,
-	});
+	}).address!;
 
-export const createNativeSegwitMusigAddress = (m: number, pubkeys: Buffer[], network: bitcoin.Network) =>
+export const nativeSegwitMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): string =>
 	bitcoin.payments.p2wsh({
 		redeem: createMusigPayment(m, pubkeys, network),
 		network,
-	});
+	}).address!;
 
 export const addressGenerator = function* (
 	bip: (publicKey, network) => string,

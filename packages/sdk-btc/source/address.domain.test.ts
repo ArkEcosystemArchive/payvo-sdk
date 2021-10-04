@@ -2,9 +2,9 @@ import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32 } from "@payvo/cryptography";
 import {
-	createLegacyMusigAddress,
-	createNativeSegwitMusigAddress,
-	createP2SHSegwitMusigAddress,
+	legacyMusig,
+	nativeSegwitMusig,
+	p2SHSegwitMusig,
 	defaultLegacyMusigAccountKey,
 	defaultNativeSegwitMusigAccountKey,
 	defaultP2SHSegwitMusigAccountKey,
@@ -26,20 +26,20 @@ describe("multi signature", () => {
 
 		musig.legacyWallet.spendAddresses.forEach((address, index) => {
 			expect(
-				createLegacyMusigAddress(
+				legacyMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(0).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 		musig.legacyWallet.changeAddresses.forEach((address, index) => {
 			expect(
-				createLegacyMusigAddress(
+				legacyMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(1).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 	});
@@ -49,20 +49,20 @@ describe("multi signature", () => {
 
 		musig.p2shSegwitWallet.spendAddresses.forEach((address, index) => {
 			expect(
-				createP2SHSegwitMusigAddress(
+				p2SHSegwitMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(0).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 		musig.p2shSegwitWallet.changeAddresses.forEach((address, index) => {
 			expect(
-				createP2SHSegwitMusigAddress(
+				p2SHSegwitMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(1).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 	});
@@ -72,20 +72,20 @@ describe("multi signature", () => {
 
 		musig.nativeSegwitWallet.spendAddresses.forEach((address, index) => {
 			expect(
-				createNativeSegwitMusigAddress(
+				nativeSegwitMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(0).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 		musig.nativeSegwitWallet.changeAddresses.forEach((address, index) => {
 			expect(
-				createNativeSegwitMusigAddress(
+				nativeSegwitMusig(
 					2,
 					accountKeys.map((pk) => pk.derive(1).derive(index).publicKey),
 					network,
-				).address,
+				),
 			).toBe(address);
 		});
 	});
