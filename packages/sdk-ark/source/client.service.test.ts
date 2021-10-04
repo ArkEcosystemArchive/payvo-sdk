@@ -53,10 +53,8 @@ describe("ClientService", () => {
 			});
 			it("single address", async () => {
 				nock(/.+/)
-					.post("/api/transactions/search", {
-						addresses: ["DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"],
-					})
-					.query({ page: "0" })
+					.get("/api/transactions")
+					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
 					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
@@ -251,7 +249,7 @@ describe("ClientService", () => {
 			fixture = await require(`../test/fixtures/client/wallet.json`);
 		});
 
-		it.only("should succeed", async () => {
+		it("should succeed", async () => {
 			nock(/.+/).get("/api/wallets/arkx").reply(200, fixture);
 
 			const result = await subject.votes("arkx");
