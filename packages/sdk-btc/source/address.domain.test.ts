@@ -14,10 +14,6 @@ import { musig } from "../test/fixtures/musig";
 
 const network = bitcoin.networks.testnet;
 
-// const mnemonic1 = "tell rubber raise grow immune cabbage proof bus distance ship kidney great";
-// const mnemonic2 = "digital bright lava credit olive buzz awful crunch note salute deer gossip";
-// const mnemonic3 = "copy pulse nation multiply body long theme breeze profit juice wife hole";
-
 const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, network));
 
 describe("multi signature", () => {
