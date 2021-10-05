@@ -20,6 +20,7 @@ export const importMethods: Networks.NetworkManifestImportMethods = {
 	bip39: {
 		default: true,
 		permissions: ["read", "write"],
+		canBeEncrypted: true,
 	},
 	publicKey: {
 		default: false,
