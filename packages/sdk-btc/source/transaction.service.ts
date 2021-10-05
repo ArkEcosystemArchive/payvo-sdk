@@ -3,6 +3,7 @@ import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
+import { changeVersionBytes } from "./slip-132";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
@@ -13,14 +14,13 @@ import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
-import { LedgerTransport } from "@payvo/sdk/distribution/services";
 
 jest.setTimeout(20_000);
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
 	ledgerService: LedgerService,
-	transport: LedgerTransport,
+	transport: Services.LedgerTransport,
 	callback: () => Promise<Contracts.SignedTransactionData>,
 ): Promise<Contracts.SignedTransactionData> => {
 	try {
@@ -52,29 +52,38 @@ export class TransactionService extends Services.AbstractTransactionService {
 	private readonly transport!: Services.LedgerTransport;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		if (input.signatory.signingKey() === undefined) {
+		if (!input.signatory.actsWithMultiSignature() && input.signatory.signingKey() === undefined) {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
 
-		if (!input.signatory.actsWithMnemonic() && !input.signatory.actsWithLedger()) {
+		if (
+			!input.signatory.actsWithMnemonic() &&
+			!input.signatory.actsWithLedger() &&
+			!input.signatory.actsWithMultiSignature()
+		) {
 			// @TODO Add more options (wif, ledger, extended private key, etc.).
 			throw new Exceptions.Exception("Need to provide a signatory that can be used for signing transactions.");
+		}
+
+		if (input.signatory.actsWithMultiSignature()) {
+			return this.#transferMusig(input);
 		}
 
 		const identityOptions = input.signatory.options();
 		if (identityOptions === undefined) {
 			throw new Exceptions.Exception(
-				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
+				"Invalid input. Either a multi signature asset or a valid level is required: bip44, bip49 or bip84",
 			);
 		}
 
 		if (
 			identityOptions.bip44 === undefined &&
 			identityOptions.bip49 === undefined &&
-			identityOptions.bip84 === undefined
+			identityOptions.bip84 === undefined &&
+			identityOptions.multiSignature === undefined
 		) {
 			throw new Exceptions.Exception(
-				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
+				"Invalid input. Either a multi signature asset or a valid level is required: bip44, bip49 or bip84",
 			);
 		}
 
@@ -343,5 +352,39 @@ export class TransactionService extends Services.AbstractTransactionService {
 			...utxo,
 			raw: rawTxs[utxo.txId],
 		}));
+	}
+
+	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
+		const network = getNetworkConfig(this.configRepository);
+
+		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
+
+		// create a musig wallet data helper and find all used addresses
+		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
+			BIP32.fromBase58(changeVersionBytes(publicKey, "tpub"), network)
+		);
+
+		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
+			multiSignatureAsset.min,
+			accountPublicKeys,
+			"nativeSegwitMusig", // @TODO Add this to multiSignatureAsset
+		);
+		await walledDataHelper.discoverAllUsed();
+
+		// Compute the amount to be transferred
+		const amount = this.toSatoshi(input.data.amount).toNumber();
+		const fee = 45;
+
+		return this.dataTransferObjectService.signedTransaction(
+			"tx-id",
+			{
+				sender: input.signatory.address,
+				recipient: input.data.to,
+				amount,
+				fee,
+				timestamp: new Date(),
+			},
+			"xxxxwwee",
+		);
 	}
 }
