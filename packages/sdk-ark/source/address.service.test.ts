@@ -18,7 +18,7 @@ describe("Address", () => {
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { locale: "french" });
+		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { bip39Locale: "french" });
 
 		expect(result).toEqual({ type: "bip39", address: identityByLocale.french.address });
 	});
@@ -51,14 +51,16 @@ describe("Address", () => {
 	});
 
 	it("should detect if provided input is a bip39 compliant mnemonic based on locale", async () => {
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { locale: "french" })).rejects.toEqual(
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "french" })).rejects.toEqual(
 			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
 		);
 
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { locale: "english" })).resolves.toEqual({
-			address: identityByLocale.french.address,
-			type: "bip39",
-		});
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "english" })).resolves.toEqual(
+			{
+				address: identityByLocale.french.address,
+				type: "bip39",
+			},
+		);
 	});
 
 	it("should generate an output from a wif", async () => {

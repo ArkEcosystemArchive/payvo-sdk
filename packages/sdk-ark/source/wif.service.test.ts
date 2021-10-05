@@ -18,7 +18,7 @@ describe("WIF", () => {
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { locale: "french" });
+		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { bip39Locale: "french" });
 
 		expect(result).toEqual({ wif: identityByLocale.french.wif });
 	});

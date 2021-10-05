@@ -18,7 +18,7 @@ describe("PrivateKey", () => {
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { locale: "french" });
+		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { bip39Locale: "french" });
 
 		expect(result).toEqual({ privateKey: identityByLocale.french.privateKey });
 	});
@@ -43,13 +43,15 @@ describe("PrivateKey", () => {
 	});
 
 	it("should detect if provided input is a bip39 compliant mnemonic based on locale", async () => {
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { locale: "french" })).rejects.toEqual(
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "french" })).rejects.toEqual(
 			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
 		);
 
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { locale: "english" })).resolves.toEqual({
-			privateKey: identityByLocale.french.privateKey,
-		});
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "english" })).resolves.toEqual(
+			{
+				privateKey: identityByLocale.french.privateKey,
+			},
+		);
 	});
 
 	it("should fail to generate an output from an invalid secret", async () => {
