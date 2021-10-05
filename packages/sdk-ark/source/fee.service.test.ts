@@ -23,6 +23,7 @@ const matchSnapshot = (transaction): void =>
 		avg: transaction.avg.toString(),
 		max: transaction.max.toString(),
 		static: transaction.static.toString(),
+		isDynamic: transaction.isDynamic,
 	}).toMatchSnapshot();
 
 afterEach(() => nock.cleanAll());
