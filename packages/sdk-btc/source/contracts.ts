@@ -14,3 +14,5 @@ export interface Bip44Address {
 	path: string;
 	status: Status;
 }
+
+export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
