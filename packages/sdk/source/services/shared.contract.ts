@@ -13,4 +13,5 @@ export interface IdentityOptions {
 	bip49?: IdentityLevels;
 	bip84?: IdentityLevels;
 	multiSignature?: MultiSignatureAsset;
+	locale?: string;
 }
