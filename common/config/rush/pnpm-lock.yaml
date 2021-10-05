@@ -453,6 +453,7 @@ importers:
       bitcoinjs-message: 2.2.0
       coinselect: 3.1.12
       create-xpub: 2.1.0
+      xpub-converter: 1.0.2
     devDependencies:
       '@jest/globals': 27.0.6
       '@ledgerhq/hw-transport-mocker': 6.3.0
@@ -529,6 +530,7 @@ importers:
       rimraf: ^3.0.2
       ts-jest: ^27.0.5
       typescript: ^4.4.2
+      xpub-converter: ~1.0.2
   ../../packages/sdk-dot:
     dependencies:
       '@payvo/cryptography': 1.1.4
@@ -13851,6 +13853,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==
+  /xpub-converter/1.0.2:
+    dependencies:
+      bs58check: 2.1.2
+    dev: false
+    resolution:
+      integrity: sha512-YafJO7rMs9JY8r12BiOfRQF9kXzcMYTa/UPVIllkDu0yWas3i6iEJNUcQSiQUCDSljKzEVScgyG5uMFyMuefkA==
   /xtend/4.0.2:
     dev: false
     engines:

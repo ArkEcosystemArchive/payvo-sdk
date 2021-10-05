@@ -3,17 +3,18 @@ import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
-import { changeVersionBytes } from "./slip-132";
+import changeVersionBytes from "xpub-converter";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { Bip44Address, UnspentTransaction } from "./contracts";
+import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
+import * as net from "net";
 
 jest.setTimeout(20_000);
 
@@ -34,6 +35,7 @@ const runWithLedgerConnectionIfNeeded = async (
 		}
 	}
 };
+
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
@@ -359,15 +361,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
-		// create a musig wallet data helper and find all used addresses
-		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
-			BIP32.fromBase58(changeVersionBytes(publicKey, "tpub"), network)
-		);
+		// https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
+		const { accountPublicKeys, method } = this.#keysAndMethod(multiSignatureAsset, network);
 
+		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			accountPublicKeys,
-			"nativeSegwitMusig", // @TODO Add this to multiSignatureAsset
+			accountPublicKeys.map(extendedPublicKey => BIP32.fromBase58(extendedPublicKey, network)),
+			method,
 		);
 		await walledDataHelper.discoverAllUsed();
 
@@ -386,5 +387,42 @@ export class TransactionService extends Services.AbstractTransactionService {
 			},
 			"xxxxwwee",
 		);
+	}
+
+	#mainnetPrefixes = new Set(["Ypub", "Zpub"]);
+	#testnetPrefixes = new Set(["Upub", "Vpub"]);
+
+	#keysAndMethod(
+		multiSignatureAsset: Services.MultiSignatureAsset,
+		network: bitcoin.networks.Network,
+	): { accountPublicKeys: string[]; method: MusigDerivationMethod } {
+		const prefixes = multiSignatureAsset.publicKeys.map((publicKey) => publicKey.slice(0, 4));
+
+		if (new Set(prefixes).size > 1) {
+			throw new Exceptions.Exception(`Cannot mix extended public key prefixes.`);
+		}
+
+		let method: MusigDerivationMethod;
+
+		if (network === bitcoin.networks.bitcoin) {
+			if (prefixes.some((prefix) => !this.#mainnetPrefixes.has(prefix))) {
+				throw new Exceptions.Exception(`Extended public key must start with any of ${this.#mainnetPrefixes}.`);
+			}
+			method = prefixes[0] === "Ypub" ? "p2SHSegwitMusig" : "nativeSegwitMusig";
+		} else if (network === bitcoin.networks.testnet) {
+			if (prefixes.some((prefix) => !this.#testnetPrefixes.has(prefix))) {
+				throw new Exceptions.Exception(`Extended public key must start with any of ${this.#testnetPrefixes}.`);
+			}
+			method = prefixes[0] === "Upub" ? "p2SHSegwitMusig" : "nativeSegwitMusig";
+		} else {
+			throw new Exceptions.Exception(`Invalid network.`);
+		}
+		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
+			changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub": "tpub"),
+		);
+		return {
+			accountPublicKeys,
+			method,
+		};
 	}
 }
