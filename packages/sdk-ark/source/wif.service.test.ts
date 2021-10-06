@@ -1,9 +1,7 @@
 import "jest-extended";
 
-import { Exceptions } from "@payvo/sdk";
-
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
 
 let subject: WIFService;
@@ -19,6 +17,11 @@ describe("WIF", () => {
 		expect(result).toEqual({ wif: identity.wif });
 	});
 
+	it("should generate an output from a mnemonic given a custom locale", async () => {
+		const result = await subject.fromMnemonic(identity.mnemonic);
+
+		expect(result).toEqual({ wif: identity.wif });
+	});
 	it("should fail to generate an output from an invalid mnemonic", async () => {
 		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow();
 	});
@@ -34,6 +37,10 @@ describe("WIF", () => {
 	});
 
 	it("should generate an output from a secret", async () => {
+		await expect(subject.fromSecret(identity.mnemonic)).rejects.toEqual(
+			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
+		);
+
 		const result = await subject.fromSecret("abc");
 
 		expect(result).toEqual({ wif: "SFpfYkttf168Ssa96XG5RjzpPCuMo3S2GDJuZorV9auX3cTQJdqW" });

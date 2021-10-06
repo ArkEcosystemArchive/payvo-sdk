@@ -1,17 +1,19 @@
 import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
-import { getDerivationFunction, getDerivationMethod, walletUsedAddresses } from "./helpers";
+import { getDerivationFunction, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP44 } from "@payvo/cryptography";
-import { Bip44Address, BipLevel, Levels, SigningKeys } from "./contracts";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels } from "./contracts";
 
 export default class WalletDataHelper {
-	readonly #bipLevel: Levels;
-	readonly #spendAddressGenerator;
-	readonly #changeAddressGenerator;
+	readonly #levels: Levels;
+	readonly #bipLevel: BipLevel;
+	readonly #accountKey: bitcoin.BIP32Interface;
+	readonly #spendAddressGenerator: Generator<Bip44AddressWithKeys[]>;
+	readonly #changeAddressGenerator: Generator<Bip44AddressWithKeys[]>;
 	readonly #network: bitcoin.networks.Network;
 
-	readonly #discoveredSpendAddresses: Bip44Address[] = [];
-	readonly #discoveredChangeAddresses: Bip44Address[] = [];
+	readonly #discoveredSpendAddresses: Bip44AddressWithKeys[] = [];
+	readonly #discoveredChangeAddresses: Bip44AddressWithKeys[] = [];
 	readonly #httpClient: Http.HttpClient;
 	readonly #configRepository: Coins.ConfigRepository;
 
@@ -23,7 +25,9 @@ export default class WalletDataHelper {
 		httpClient: Http.HttpClient,
 		configRepository: Coins.ConfigRepository,
 	) {
-		this.#bipLevel = levels;
+		this.#levels = levels;
+		this.#bipLevel = bipLevel;
+		this.#accountKey = accountKey;
 		this.#network = network;
 		this.#spendAddressGenerator = this.#addressGenerator(
 			levels,
@@ -67,9 +71,27 @@ export default class WalletDataHelper {
 	}
 
 	public allUsedAddresses(): Bip44Address[] {
-		return this.#discoveredSpendAddresses
-			.concat(this.#discoveredChangeAddresses)
-			.filter((address) => address.status === "used");
+		return this.#allUsedAddresses();
+	}
+
+	public signingKeysForAddress(address: string): Bip44AddressWithKeys {
+		const found = this.#allUsedAddresses().find((a) => a.address === address);
+		if (!found) {
+			throw new Exceptions.Exception(`Address ${address} not found.`);
+		}
+		return found;
+	}
+
+	public isBip44(): boolean {
+		return this.#levels.purpose === 44;
+	}
+
+	public isBip49(): boolean {
+		return this.#levels.purpose === 49;
+	}
+
+	public isBip84(): boolean {
+		return this.#levels.purpose === 84;
 	}
 
 	async #usedAddresses(
@@ -94,6 +116,7 @@ export default class WalletDataHelper {
 				.every((x) => !x);
 		} while (!exhausted);
 	}
+
 	#addressGenerator = function* (
 		bipLevel: Levels,
 		bip: (publicKey, network) => string,
@@ -102,11 +125,11 @@ export default class WalletDataHelper {
 		isSpend: boolean,
 		chunkSize: number,
 		max: number = Number.MAX_VALUE,
-	): Generator<SigningKeys[]> {
+	): Generator<Bip44AddressWithKeys[]> {
 		let index = 0;
 		const chain = isSpend ? 0 : 1;
 		while (index < max) {
-			const chunk: SigningKeys[] = [];
+			const chunk: Bip44AddressWithKeys[] = [];
 			for (let i = 0; i < chunkSize; i++) {
 				const localNode = accountKey.derive(chain).derive(index);
 				chunk.push({
@@ -125,4 +148,10 @@ export default class WalletDataHelper {
 			yield chunk;
 		}
 	};
+
+	#allUsedAddresses(): Bip44AddressWithKeys[] {
+		return this.#discoveredSpendAddresses
+			.concat(this.#discoveredChangeAddresses)
+			.filter((address) => address.status === "used");
+	}
 }

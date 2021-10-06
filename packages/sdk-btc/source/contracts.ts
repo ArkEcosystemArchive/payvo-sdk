@@ -20,6 +20,11 @@ export type SigningKeys = Bip44Address & {
 	privateKey?: string;
 };
 
+export interface Bip44AddressWithKeys extends Bip44Address {
+	publicKey: string;
+	privateKey?: string;
+}
+
 export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
 
 export interface Levels {

@@ -9,7 +9,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
+		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		return {
 			publicKey: getPrivateAndPublicKeyFromPassphrase(mnemonic).publicKey.toString("hex"),
@@ -17,7 +17,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.PublicKeyDataTransferObject> {
-		abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
+		abort_if(BIP39.compatible(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
 		return {
 			publicKey: getPrivateAndPublicKeyFromPassphrase(secret).publicKey.toString("hex"),

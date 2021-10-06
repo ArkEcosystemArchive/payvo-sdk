@@ -7,10 +7,9 @@ import changeVersionBytes from "xpub-converter";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { addressesAndSigningKeysGenerator } from "./transaction.domain";
 import { AddressFactory } from "./address.factory";
-import { Bip44Address, BipLevel, Levels, MusigDerivationMethod, SigningKeys, UnspentTransaction } from "./contracts";
-import { getDerivationMethod, post } from "./helpers";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
@@ -121,13 +120,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const { inputs, outputs, fee } = await this.#selectUtxos(
-				levels,
-				accountKey,
-				targets,
-				feeRate,
-				walledDataHelper,
-			);
+			const { inputs, outputs, fee } = await this.#selectUtxos(targets, feeRate, walledDataHelper);
 
 			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
@@ -213,41 +206,26 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #selectUtxos(
-		levels: Levels,
-		accountKey,
 		targets,
 		feeRate: number,
 		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
-		const method = this.#addressingSchema(levels);
-		const id = this.#toWalletIdentifier(accountKey, method);
-
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
-		const derivationMethod = getDerivationMethod(id);
-
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
-			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
-			let signingKey: SigningKeys | undefined = undefined;
-
-			do {
-				const addressAndSigningKey: SigningKeys = signingKeysGenerator.next().value;
-				if (addressAndSigningKey.address === utxo.address) {
-					signingKey = addressAndSigningKey;
-				}
-			} while (signingKey === undefined);
+			let addressWithKeys: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
 
 			let extra;
-			if (levels.purpose === 44) {
+			if (walledDataHelper.isBip44()) {
 				extra = {
 					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 				};
-			} else if (levels.purpose === 49) {
+			} else if (walledDataHelper.isBip49()) {
 				let network = getNetworkConfig(this.configRepository);
 
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
-						pubkey: Buffer.from(signingKey.publicKey, "hex"),
+						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
 						network,
 					}),
 					network,
@@ -264,7 +242,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 					redeemScript: payment.redeem.output,
 				};
-			} else if (levels.purpose === 84) {
+			} else if (walledDataHelper.isBip84()) {
 				extra = {
 					witnessUtxo: {
 						script: Buffer.from(utxo.script, "hex"),
@@ -272,7 +250,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 				};
 			}
-			const path: string[] = signingKey.path.split("/");
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -280,13 +257,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				script: utxo.script,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
-				publicKey: Buffer.from(signingKey.publicKey, "hex"),
-				path: BIP44.stringify({
-					...levels,
-					change: parseInt(path[0]),
-					index: parseInt(path[1]),
-				}),
+				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
+				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
+				path: addressWithKeys.path,
 				...extra,
 			};
 		});
@@ -298,14 +271,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return { inputs, outputs, fee };
-	}
-
-	#toWalletIdentifier(accountKey, method: "bip44" | "bip49" | "bip84"): Services.WalletIdentifier {
-		return {
-			type: "extendedPublicKey",
-			value: accountKey.neutered().toBase58(),
-			method: method,
-		};
 	}
 
 	async #getFeeRateFromNetwork(input: Services.TransferInput): Promise<number> {

@@ -124,21 +124,18 @@ export default class MusigWalletDataHelper {
 		while (index < max) {
 			const chunk: SigningKeys[] = [];
 			for (let i = 0; i < chunkSize; i++) {
-				const number = index++;
 				chunk.push({
-					path: `${chain}/${number}`,
+					path: `${chain}/${index}`,
 					address: bip(
 						n,
-						accountKeys.map((pubKey) => {
-							const localNode = pubKey.derive(chain).derive(number);
-							return localNode.publicKey;
-						}),
+						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey),
 						network,
 					).address!,
 					status: "unknown",
 					publicKey: "", // TODO Check here
 					privateKey: undefined,
 				});
+				index++;
 			}
 			yield chunk;
 		}

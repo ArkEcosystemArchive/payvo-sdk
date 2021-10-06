@@ -21,10 +21,27 @@ describe("Address", () => {
 		expect(result).toEqual({ type: "bip39", address: identity.address });
 	});
 
+	it("should generate an output from a mnemonic given a custom locale", async () => {
+		const result = await subject.fromMnemonic(identity.mnemonic);
+
+		expect(result).toEqual({ type: "bip39", address: identity.address });
+	});
+
 	it("should generate an output from a publicKey", async () => {
 		const result = await subject.fromPublicKey(identity.publicKey);
 
 		expect(result).toEqual({ type: "bip39", address: identity.address });
+	});
+
+	it("should generate an output from a secret", async () => {
+		await expect(subject.fromSecret(identity.mnemonic)).rejects.toEqual(
+			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
+		);
+
+		await expect(subject.fromSecret("secret")).resolves.toEqual({
+			address: "lskn65ygkx543cg23m6db4ed8myd4ysrsu8q8pbug",
+			type: "bip39",
+		});
 	});
 
 	it("should validate an address", async () => {

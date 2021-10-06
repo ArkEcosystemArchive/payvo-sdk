@@ -5,11 +5,8 @@ import { abort_if, abort_unless } from "@payvo/helpers";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
-	public override async fromMnemonic(
-		mnemonic: string,
-		options?: Services.IdentityOptions,
-	): Promise<Services.KeyPairDataTransferObject> {
-		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
+	public override async fromMnemonic(mnemonic: string): Promise<Services.KeyPairDataTransferObject> {
+		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(mnemonic);
 
@@ -20,7 +17,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.KeyPairDataTransferObject> {
-		abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
+		abort_if(BIP39.compatible(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
 		const { publicKey, privateKey } = getPrivateAndPublicKeyFromPassphrase(secret);
 
