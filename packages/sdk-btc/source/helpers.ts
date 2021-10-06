@@ -51,9 +51,7 @@ export const getDerivationMethod = (
 	return { bip44, bip49, bip84 }[id.method!];
 };
 
-export const getDerivationFunction = (
-	bipLevel: BipLevel,
-): ((publicKey: string, network: string) => string) => {
+export const getDerivationFunction = (bipLevel: BipLevel): ((publicKey: string, network: string) => string) => {
 	return { bip44, bip49, bip84 }[bipLevel];
 };
 

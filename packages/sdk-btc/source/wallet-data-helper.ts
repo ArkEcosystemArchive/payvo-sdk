@@ -77,7 +77,7 @@ export default class WalletDataHelper {
 	}
 
 	public signingKeysForAddress(address: string): Bip44AddressWithKeys {
-		const found = this.allUsedAddresses().find(a => a.address === address);
+		const found = this.allUsedAddresses().find((a) => a.address === address);
 		if (!found) {
 			throw new Exceptions.Exception(`Address ${address} not found.`);
 		}

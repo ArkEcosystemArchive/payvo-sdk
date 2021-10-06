@@ -117,7 +117,14 @@ export class AddressFactory {
 	}
 
 	public walletDataHelper(levels: Levels, bipLevel: BipLevel, accountKey: bitcoin.BIP32Interface): WalletDataHelper {
-		return new WalletDataHelper(levels,bipLevel, accountKey, this.#network, this.httpClient, this.configRepository);
+		return new WalletDataHelper(
+			levels,
+			bipLevel,
+			accountKey,
+			this.#network,
+			this.httpClient,
+			this.configRepository,
+		);
 	}
 
 	public musigWalletDataHelper(
