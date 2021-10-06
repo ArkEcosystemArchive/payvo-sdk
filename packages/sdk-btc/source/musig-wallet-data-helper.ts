@@ -1,8 +1,9 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
-import { walletUsedAddresses } from "./helpers";
+import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Bip44Address, MusigDerivationMethod } from "./contracts";
+import { Bip44Address, Bip44AddressWithKeys, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
+import { getNetworkConfig } from "./config";
 
 const getDerivationFunction = (
 	method: MusigDerivationMethod,
@@ -88,6 +89,82 @@ export default class MusigWalletDataHelper {
 			.filter((address) => address.status === "used");
 	}
 
+	public async unspentTransactionOutputs(): Promise<UnspentTransaction[]> {
+		const addresses = this.allUsedAddresses().map((address) => address.address);
+
+		const utxos = await this.#unspentTransactionOutputs(addresses);
+
+		return utxos.map((utxo) => {
+			let address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+
+			let extra;
+			// if (this.isLegacyMusig()) {
+			// 	extra = {
+			// 		nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+			// 	};
+			// } else if (this.isP2SHSegwitMusig()) {
+			// 	let network = getNetworkConfig(this.#configRepository);
+			//
+			// 	const payment = bitcoin.payments.p2sh({
+			// 		redeem: bitcoin.payments.p2wpkh({
+			// 			pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
+			// 			network,
+			// 		}),
+			// 		network,
+			// 	});
+			//
+			// 	if (!payment.redeem) {
+			// 		throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
+			// 	}
+			//
+			// 	extra = {
+			// 		witnessUtxo: {
+			// 			script: Buffer.from(utxo.script, "hex"),
+			// 			value: utxo.satoshis,
+			// 		},
+			// 		redeemScript: payment.redeem.output,
+			// 	};
+			// } else if (this.isNativeSegwitMusig()) {
+			// 	extra = {
+			// 		witnessUtxo: {
+			// 			script: Buffer.from(utxo.script, "hex"),
+			// 			value: utxo.satoshis,
+			// 		},
+			// 	};
+			// }
+			return {
+				address: utxo.address,
+				txId: utxo.txId,
+				txRaw: utxo.raw,
+				script: utxo.script,
+				vout: utxo.outputIndex,
+				value: utxo.satoshis,
+				path: address.path,
+				...extra,
+			};
+		});
+	}
+
+	public isLegacyMusig(): boolean {
+		return this.#method === "legacyMusig";
+	}
+
+	public isP2SHSegwitMusig(): boolean {
+		return this.#method === "p2SHSegwitMusig";
+	}
+
+	public isNativeSegwitMusig(): boolean {
+		return this.#method === "nativeSegwitMusig";
+	}
+
+	#signingKeysForAddress(address: string): Bip44Address {
+		const found = this.allUsedAddresses().find((a) => a.address === address);
+		if (!found) {
+			throw new Exceptions.Exception(`Address ${address} not found.`);
+		}
+		return found;
+	}
+
 	async #usedAddresses(
 		addressesGenerator: Generator<Bip44Address[]>,
 		discoveredAddresses: Bip44Address[],
@@ -138,4 +215,24 @@ export default class MusigWalletDataHelper {
 			yield chunk;
 		}
 	};
+
+	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+		).data;
+
+		const rawTxs = (
+			await post(
+				`wallets/transactions/raw`,
+				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
+				this.#httpClient,
+				this.#configRepository,
+			)
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
+	}
 }
