@@ -7,14 +7,13 @@ import changeVersionBytes from "xpub-converter";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
-import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { addressesAndSigningKeysGenerator } from "./transaction.domain";
+import { AddressFactory } from "./address.factory";
+import { Bip44Address, BipLevel, Levels, MusigDerivationMethod, SigningKeys, UnspentTransaction } from "./contracts";
 import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
-import * as net from "net";
 
 jest.setTimeout(20_000);
 
@@ -74,23 +73,22 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const identityOptions = input.signatory.options();
 		if (identityOptions === undefined) {
 			throw new Exceptions.Exception(
-				"Invalid input. Either a multi signature asset or a valid level is required: bip44, bip49 or bip84",
+				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
 			);
 		}
 
 		if (
 			identityOptions.bip44 === undefined &&
 			identityOptions.bip49 === undefined &&
-			identityOptions.bip84 === undefined &&
-			identityOptions.multiSignature === undefined
+			identityOptions.bip84 === undefined
 		) {
 			throw new Exceptions.Exception(
-				"Invalid input. Either a multi signature asset or a valid level is required: bip44, bip49 or bip84",
+				"Invalid bip level requested. A valid level is required: bip44, bip49 or bip84",
 			);
 		}
 
 		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
-			const bipLevel = this.addressFactory.getLevel(identityOptions);
+			const levels = this.addressFactory.getLevel(identityOptions);
 
 			const network = getNetworkConfig(this.configRepository);
 
@@ -98,12 +96,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// Derivce account key (depth 3)
-			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
+			const accountKey = await this.#getAccountKey(input.signatory, network, levels);
 
 			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
-				bipLevel,
-				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+				levels,
+				this.#addressingSchema(levels),
+				accountKey,
 			);
 			await walledDataHelper.discoverAllUsed();
 
@@ -123,7 +122,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
 			const { inputs, outputs, fee } = await this.#selectUtxos(
-				bipLevel,
+				levels,
 				accountKey,
 				targets,
 				feeRate,
@@ -367,14 +366,44 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			accountPublicKeys.map(extendedPublicKey => BIP32.fromBase58(extendedPublicKey, network)),
+			accountPublicKeys.map((extendedPublicKey) => BIP32.fromBase58(extendedPublicKey, network)),
 			method,
 		);
 		await walledDataHelper.discoverAllUsed();
 
+		// Derive the sender address (corresponding to first address index for the wallet)
+		const { address } = walledDataHelper.discoveredSpendAddresses()[0];
+
+		// Find first unused the change address
+		const changeAddress = walledDataHelper.firstUnusedChangeAddress();
+
 		// Compute the amount to be transferred
 		const amount = this.toSatoshi(input.data.amount).toNumber();
+		const targets = [
+			{
+				address: input.data.to,
+				value: amount,
+			},
+		];
+
 		const fee = 45;
+
+		// // Figure out inputs, outputs and fees
+		// const feeRate = await this.#getFeeRateFromNetwork(input);
+		// const { inputs, outputs, fee } = await this.#selectUtxos(
+		// 	bipLevel,
+		// 	accountKey,
+		// 	targets,
+		// 	feeRate,
+		// 	walledDataHelper,
+		// );
+		//
+		// // Set change address (if any output back to the wallet)
+		// outputs.forEach((output) => {
+		// 	if (!output.address) {
+		// 		output.address = changeAddress.address;
+		// 	}
+		// });
 
 		return this.dataTransferObjectService.signedTransaction(
 			"tx-id",
@@ -418,7 +447,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Exceptions.Exception(`Invalid network.`);
 		}
 		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
-			changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub": "tpub"),
+			changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub" : "tpub"),
 		);
 		return {
 			accountPublicKeys,
