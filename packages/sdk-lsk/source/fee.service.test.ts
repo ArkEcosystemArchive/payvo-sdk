@@ -320,5 +320,11 @@ describe("FeeService", () => {
 			expect(fast.toHuman()).toBeNumber();
 			expect(fast.toHuman()).toBe(0.00146);
 		});
+
+		it("should throw error on unrecognized transaction type", async () => {
+			await expect(subject.calculate({ moduleID: 10, assetID: 10, asset: {} })).rejects.toThrowError(
+				"Failed to determine module and asset ID.",
+			);
+		});
 	});
 });

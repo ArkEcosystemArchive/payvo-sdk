@@ -40,7 +40,7 @@ export class FeeService extends Services.AbstractFeeService {
 	): Promise<BigNumber> {
 		const transaction = JSON.parse(
 			JSON.stringify(
-				rawTransactionData.constructor?.name === "SignedTransactionData"
+				rawTransactionData.constructor.name === "SignedTransactionData"
 					? rawTransactionData.data()
 					: rawTransactionData,
 			),
