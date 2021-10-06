@@ -127,7 +127,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const utxos = await walledDataHelper.unspentTransactionOutputs()
+			const utxos = await walledDataHelper.unspentTransactionOutputs();
 			const { inputs, outputs, fee } = await this.#selectUtxos(utxos, targets, feeRate);
 
 			// Set change address (if any output back to the wallet)
