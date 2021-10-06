@@ -1,7 +1,7 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Bip44Address, MusigDerivationMethod, SigningKeys } from "./contracts";
+import { Bip44Address, MusigDerivationMethod } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
 
 const getDerivationFunction = (
@@ -119,10 +119,10 @@ export default class MusigWalletDataHelper {
 		chain: number,
 		chunkSize: number,
 		max: number = Number.MAX_VALUE,
-	): Generator<SigningKeys[]> {
+	): Generator<Bip44Address[]> {
 		let index = 0;
 		while (index < max) {
-			const chunk: SigningKeys[] = [];
+			const chunk: Bip44Address[] = [];
 			for (let i = 0; i < chunkSize; i++) {
 				chunk.push({
 					path: `${chain}/${index}`,
@@ -132,8 +132,6 @@ export default class MusigWalletDataHelper {
 						network,
 					).address!,
 					status: "unknown",
-					publicKey: "", // TODO Check here
-					privateKey: undefined,
 				});
 				index++;
 			}

@@ -13,12 +13,7 @@ export interface Bip44Address {
 	address: string;
 	path: string;
 	status: Status;
-	publicKey: string;
 }
-
-export type SigningKeys = Bip44Address & {
-	privateKey?: string;
-};
 
 export interface Bip44AddressWithKeys extends Bip44Address {
 	publicKey: string;
