@@ -201,7 +201,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		feeRate: number,
 		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
-
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
