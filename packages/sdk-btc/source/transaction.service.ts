@@ -204,7 +204,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
-			let signingKey: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
+			let addressWithKeys: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
 
 			let extra;
 			if (levels.purpose === 44) {
@@ -216,7 +216,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
-						pubkey: Buffer.from(signingKey.publicKey, "hex"),
+						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
 						network,
 					}),
 					network,
@@ -241,7 +241,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 				};
 			}
-			const path: string[] = signingKey.path.split("/");
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -249,13 +248,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				script: utxo.script,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
-				publicKey: Buffer.from(signingKey.publicKey, "hex"),
-				path: BIP44.stringify({
-					...levels,
-					change: parseInt(path[0]),
-					index: parseInt(path[1]),
-				}),
+				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
+				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
+				path: addressWithKeys.path,
 				...extra,
 			};
 		});
