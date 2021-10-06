@@ -11,14 +11,3 @@ export const identity = {
 	multiSignatureAddress: undefined,
 	multiSignaturePublicKey: undefined,
 };
-
-export const identityByLocale = {
-	french: {
-		wif: "LwUyTS2NXysbDezkTfqhrdUbv7gfSSXQEh3UrLC3sEM6QeASUTMZ",
-		privateKey: "ca6bc86f1ba22a25556fb3db912b24e4dedc39f8031ca7dd8ab3ee49fae2fe45",
-		publicKey: "89e68bd2c10eaa8abdf886a17d8d983c784d8c4ec236beb0acdd4d125470e841",
-		address: "lsk879yhgfq4875sdmasxv543sz85nhh6xyjrtap8",
-		mnemonic:
-			"arbitre dauphin révolte riposter fatigue rotatif exécuter ravager renvoi automne boiser bistouri caneton sélectif chose achat tumulte prospère léger effigie buffle microbe oxyde appareil",
-	},
-};

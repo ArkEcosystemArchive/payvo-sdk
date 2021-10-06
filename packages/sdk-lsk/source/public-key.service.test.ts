@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { identity, identityByLocale } from "../test/fixtures/identity";
+import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
@@ -18,18 +18,18 @@ describe("PublicKey", () => {
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { bip39Locale: "french" });
+		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual({ publicKey: identityByLocale.french.publicKey });
+		expect(result).toEqual({ publicKey: identity.publicKey });
 	});
 
-	it("should detect if provided input is a bip39 compliant mnemonic based on locale", async () => {
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic, "french")).rejects.toEqual(
+	it("should generate an output from a secret", async () => {
+		await expect(subject.fromSecret(identity.mnemonic)).rejects.toEqual(
 			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
 		);
 
-		await expect(subject.fromSecret(identityByLocale.french.mnemonic)).resolves.toEqual({
-			publicKey: identityByLocale.french.publicKey,
+		await expect(subject.fromSecret("secret")).resolves.toEqual({
+			publicKey: "5d036a858ce89f844491762eb89e2bfbd50a4a0a0da658e4b2628b25b117ae09",
 		});
 	});
 });

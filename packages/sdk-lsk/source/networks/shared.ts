@@ -26,11 +26,6 @@ export const importMethods: Networks.NetworkManifestImportMethods = {
 		default: false,
 		permissions: ["read"],
 	},
-	secret: {
-		default: false,
-		permissions: ["read", "write"],
-		canBeEncrypted: true,
-	},
 };
 
 export const featureFlags: Networks.NetworkManifestFeatureFlags = {
