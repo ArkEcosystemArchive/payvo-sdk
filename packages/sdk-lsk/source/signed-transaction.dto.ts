@@ -123,6 +123,10 @@ export class SignedTransactionData
 	}
 
 	public override usesMultiSignature(): boolean {
+		if (!this.signedData) {
+			return false;
+		}
+
 		if (this.signedData.moduleID) {
 			return Array.isArray(this.signedData.signatures) && this.signedData.signatures.length >= 2;
 		}

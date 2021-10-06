@@ -101,6 +101,10 @@ export class SignedTransactionData
 	}
 
 	public override usesMultiSignature(): boolean {
+		if (!this.signedData) {
+			return false;
+		}
+
 		return !!this.signedData.multiSignature;
 	}
 }
