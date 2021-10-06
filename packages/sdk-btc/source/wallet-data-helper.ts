@@ -1,9 +1,8 @@
 import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
-import { getDerivationMethod, walletUsedAddresses } from "./helpers";
+import { getDerivationFunction, getDerivationMethod, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Levels } from "./address.factory";
 import { BIP44 } from "@payvo/cryptography";
-import { Bip44Address } from "./contracts";
+import { Bip44Address, BipLevel, Levels, SigningKeys } from "./contracts";
 
 export default class WalletDataHelper {
 	readonly #bipLevel: Levels;
@@ -17,30 +16,28 @@ export default class WalletDataHelper {
 	readonly #configRepository: Coins.ConfigRepository;
 
 	public constructor(
-		bipLevel: Levels,
-		id: Services.WalletIdentifier,
+		levels: Levels,
+		bipLevel: BipLevel,
+		accountKey: bitcoin.BIP32Interface,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
 		configRepository: Coins.ConfigRepository,
 	) {
-		if (id.type !== "extendedPublicKey") {
-			throw new Exceptions.Exception("invalid id type for walletData");
-		}
-		this.#bipLevel = bipLevel;
+		this.#bipLevel = levels;
 		this.#network = network;
 		this.#spendAddressGenerator = this.#addressGenerator(
-			bipLevel,
-			getDerivationMethod(id),
+			levels,
+			getDerivationFunction(bipLevel),
 			network,
-			id.value,
+			accountKey,
 			true,
 			100,
 		);
 		this.#changeAddressGenerator = this.#addressGenerator(
-			bipLevel,
-			getDerivationMethod(id),
+			levels,
+			getDerivationFunction(bipLevel),
 			network,
-			id.value,
+			accountKey,
 			false,
 			100,
 		);
@@ -101,26 +98,29 @@ export default class WalletDataHelper {
 		bipLevel: Levels,
 		bip: (publicKey, network) => string,
 		network: bitcoin.Network,
-		extendedPublicKey: string,
+		accountKey: bitcoin.BIP32Interface,
 		isSpend: boolean,
 		chunkSize: number,
 		max: number = Number.MAX_VALUE,
-	): Generator<Bip44Address[]> {
+	): Generator<SigningKeys[]> {
 		let index = 0;
 		const chain = isSpend ? 0 : 1;
-		const node = bitcoin.bip32.fromBase58(extendedPublicKey, network).derive(chain);
 		while (index < max) {
-			const chunk: Bip44Address[] = [];
+			const chunk: SigningKeys[] = [];
 			for (let i = 0; i < chunkSize; i++) {
+				const localNode = accountKey.derive(chain).derive(index);
 				chunk.push({
 					path: BIP44.stringify({
 						...bipLevel,
 						change: chain,
 						index,
 					}),
-					address: bip(node.derive(index++).publicKey, network),
+					address: bip(localNode.publicKey, network),
 					status: "unknown",
+					publicKey: localNode.publicKey.toString("hex"),
+					privateKey: localNode.privateKey?.toString("hex"),
 				});
+				index++;
 			}
 			yield chunk;
 		}

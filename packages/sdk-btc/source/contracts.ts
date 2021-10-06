@@ -13,6 +13,21 @@ export interface Bip44Address {
 	address: string;
 	path: string;
 	status: Status;
+	publicKey: string;
 }
 
+export type SigningKeys = Bip44Address & {
+	privateKey?: string;
+};
+
 export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
+
+export interface Levels {
+	purpose: number;
+	coinType: number;
+	account?: number;
+	change?: number;
+	index?: number;
+}
+
+export type BipLevel = "bip44" | "bip49" | "bip84";

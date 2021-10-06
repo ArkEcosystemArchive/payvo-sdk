@@ -2,6 +2,7 @@ import { BIP44 } from "@payvo/cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
+import { BipLevel } from "./contracts";
 
 export const post = async (
 	path: string,
@@ -48,6 +49,12 @@ export const getDerivationMethod = (
 	id: Services.WalletIdentifier,
 ): ((publicKey: string, network: string) => string) => {
 	return { bip44, bip49, bip84 }[id.method!];
+};
+
+export const getDerivationFunction = (
+	bipLevel: BipLevel,
+): ((publicKey: string, network: string) => string) => {
+	return { bip44, bip49, bip84 }[bipLevel];
 };
 
 export const getAddresses = async (

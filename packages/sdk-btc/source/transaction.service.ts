@@ -8,19 +8,18 @@ import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
 import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { Bip44Address, UnspentTransaction } from "./contracts";
+import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
-import { LedgerTransport } from "@payvo/sdk/distribution/services";
 
 jest.setTimeout(20_000);
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
 	ledgerService: LedgerService,
-	transport: LedgerTransport,
+	transport: Services.LedgerTransport,
 	callback: () => Promise<Contracts.SignedTransactionData>,
 ): Promise<Contracts.SignedTransactionData> => {
 	try {
@@ -79,7 +78,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
-			const bipLevel = this.addressFactory.getLevel(identityOptions);
+			const levels = this.addressFactory.getLevel(identityOptions);
 
 			const network = getNetworkConfig(this.configRepository);
 
@@ -87,12 +86,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// Derivce account key (depth 3)
-			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
+			const accountKey = await this.#getAccountKey(input.signatory, network, levels);
 
 			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
-				bipLevel,
-				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+				levels,
+				this.#addressingSchema(levels),
+				accountKey,
 			);
 			await walledDataHelper.discoverAllUsed();
 
@@ -112,7 +112,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
 			const { inputs, outputs, fee } = await this.#selectUtxos(
-				bipLevel,
+				levels,
 				accountKey,
 				targets,
 				feeRate,
