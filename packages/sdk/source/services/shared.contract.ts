@@ -8,6 +8,7 @@ export interface IdentityLevels {
 
 export interface IdentityOptions {
 	bip39?: boolean;
+	bip39Locale?: string;
 	bip44?: IdentityLevels;
 	bip44Legacy?: IdentityLevels;
 	bip49?: IdentityLevels;

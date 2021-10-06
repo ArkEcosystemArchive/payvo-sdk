@@ -15,15 +15,18 @@ export class WIFService extends Services.AbstractWIFService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.WIFDataTransferObject> {
-		abort_unless(BIP39.validate(mnemonic), "The given value is not BIP39 compliant.");
+		abort_unless(BIP39.validate(mnemonic, options?.bip39Locale), "The given value is not BIP39 compliant.");
 
 		return {
 			wif: BaseWIF.fromPassphrase(mnemonic, this.config.network),
 		};
 	}
 
-	public override async fromSecret(secret: string): Promise<Services.WIFDataTransferObject> {
-		abort_if(BIP39.validate(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
+	public override async fromSecret(secret: string, bip39Locale?: string): Promise<Services.WIFDataTransferObject> {
+		abort_if(
+			BIP39.validate(secret, bip39Locale),
+			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
+		);
 
 		return {
 			wif: BaseWIF.fromPassphrase(secret, this.config.network),

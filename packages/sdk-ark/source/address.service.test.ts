@@ -1,9 +1,7 @@
 import "jest-extended";
 
-import { Exceptions } from "@payvo/sdk";
-
-import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { identity, identityByLocale } from "../test/fixtures/identity";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 
 let subject: AddressService;
@@ -17,6 +15,12 @@ describe("Address", () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
 		expect(result).toEqual({ type: "bip39", address: identity.address });
+	});
+
+	it("should generate an output from a mnemonic given a custom locale", async () => {
+		const result = await subject.fromMnemonic(identityByLocale.french.mnemonic, { bip39Locale: "french" });
+
+		expect(result).toEqual({ type: "bip39", address: identityByLocale.french.address });
 	});
 
 	it("should generate an output from a multiSignature", async () => {
@@ -44,6 +48,19 @@ describe("Address", () => {
 		const result = await subject.fromSecret("abc");
 
 		expect(result).toEqual({ type: "bip39", address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN" });
+	});
+
+	it("should detect if provided input is a bip39 compliant mnemonic based on locale", async () => {
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "french" })).rejects.toEqual(
+			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
+		);
+
+		await expect(subject.fromSecret(identityByLocale.french.mnemonic, { bip39Locale: "english" })).resolves.toEqual(
+			{
+				address: identityByLocale.french.address,
+				type: "bip39",
+			},
+		);
 	});
 
 	it("should generate an output from a wif", async () => {
