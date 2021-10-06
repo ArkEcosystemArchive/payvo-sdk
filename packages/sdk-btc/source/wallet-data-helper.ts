@@ -82,6 +82,18 @@ export default class WalletDataHelper {
 		return found;
 	}
 
+	public isBip44(): boolean {
+		return this.#levels.purpose === 44;
+	}
+
+	public isBip49(): boolean {
+		return this.#levels.purpose === 49;
+	}
+
+	public isBip84(): boolean {
+		return this.#levels.purpose === 84;
+	}
+
 	async #usedAddresses(
 		addressesGenerator: Generator<Bip44Address[]>,
 		discoveredAddresses: Bip44Address[],

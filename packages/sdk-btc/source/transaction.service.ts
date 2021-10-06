@@ -110,7 +110,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const { inputs, outputs, fee } = await this.#selectUtxos(levels, targets, feeRate, walledDataHelper);
+			const { inputs, outputs, fee } = await this.#selectUtxos(targets, feeRate, walledDataHelper);
 
 			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
@@ -196,7 +196,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #selectUtxos(
-		levels: Levels,
 		targets,
 		feeRate: number,
 		walledDataHelper: WalletDataHelper,
@@ -207,11 +206,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			let addressWithKeys: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
 
 			let extra;
-			if (levels.purpose === 44) {
+			if (walledDataHelper.isBip44()) {
 				extra = {
 					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
 				};
-			} else if (levels.purpose === 49) {
+			} else if (walledDataHelper.isBip49()) {
 				let network = getNetworkConfig(this.configRepository);
 
 				const payment = bitcoin.payments.p2sh({
@@ -233,7 +232,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					},
 					redeemScript: payment.redeem.output,
 				};
-			} else if (levels.purpose === 84) {
+			} else if (walledDataHelper.isBip84()) {
 				extra = {
 					witnessUtxo: {
 						script: Buffer.from(utxo.script, "hex"),
@@ -262,14 +261,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return { inputs, outputs, fee };
-	}
-
-	#toWalletIdentifier(accountKey, method: "bip44" | "bip49" | "bip84"): Services.WalletIdentifier {
-		return {
-			type: "extendedPublicKey",
-			value: accountKey.neutered().toBase58(),
-			method: method,
-		};
 	}
 
 	async #getFeeRateFromNetwork(input: Services.TransferInput): Promise<number> {
