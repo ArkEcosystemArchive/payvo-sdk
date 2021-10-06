@@ -70,14 +70,12 @@ export default class WalletDataHelper {
 		return this.#discoveredChangeAddresses.find((address) => address.status === "unused")!;
 	}
 
-	public allUsedAddresses(): Bip44AddressWithKeys[] {
-		return this.#discoveredSpendAddresses
-			.concat(this.#discoveredChangeAddresses)
-			.filter((address) => address.status === "used");
+	public allUsedAddresses(): Bip44Address[] {
+		return this.#allUsedAddresses();
 	}
 
 	public signingKeysForAddress(address: string): Bip44AddressWithKeys {
-		const found = this.allUsedAddresses().find((a) => a.address === address);
+		const found = this.#allUsedAddresses().find((a) => a.address === address);
 		if (!found) {
 			throw new Exceptions.Exception(`Address ${address} not found.`);
 		}
@@ -106,6 +104,7 @@ export default class WalletDataHelper {
 				.every((x) => !x);
 		} while (!exhausted);
 	}
+
 	#addressGenerator = function* (
 		bipLevel: Levels,
 		bip: (publicKey, network) => string,
@@ -137,4 +136,10 @@ export default class WalletDataHelper {
 			yield chunk;
 		}
 	};
+
+	#allUsedAddresses(): Bip44AddressWithKeys[] {
+		return this.#discoveredSpendAddresses
+			.concat(this.#discoveredChangeAddresses)
+			.filter((address) => address.status === "used");
+	}
 }
