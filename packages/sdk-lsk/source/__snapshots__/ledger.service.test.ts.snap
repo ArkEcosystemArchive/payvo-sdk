@@ -1,5 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`scan should allow to pass a startPath 1`] = `
+Object {
+  "m/44'/134'/11'/0/0": WalletData {
+    "bigNumberService": BigNumberService {
+      "configRepository": ConfigRepository {},
+    },
+    "data": Object {
+      "address": "lskr8nouvjpm5te9smbtj4satv43rwmhkdvydhuts",
+      "balance": 0,
+      "publicKey": "44e94b00d812b2c92c6e41d90e19aa9b849b81a3c719146fc657b497a6471705",
+    },
+  },
+}
+`;
+
 exports[`scan should return scanned wallet 1`] = `
 Object {
   "m/44'/134'/0'/0/0": WalletData {

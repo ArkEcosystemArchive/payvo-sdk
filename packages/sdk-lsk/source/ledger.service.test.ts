@@ -129,10 +129,10 @@ describe("scan", () => {
 		expect(walletData).toMatchSnapshot();
 	});
 
-	it.only("should allow to pass a startPath", async () => {
-		const lsk = await createMockService(ledger.wallets.record);
+	it("should allow to pass a startPath", async () => {
+		const lsk = await createMockService(ledger.wallets.record2);
 
-		const walletData = await lsk.scan({ startPath: ledger.bip44.path });
+		const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
 
 		expect(walletData).toMatchSnapshot();
 	});
