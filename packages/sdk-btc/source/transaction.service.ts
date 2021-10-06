@@ -6,10 +6,9 @@ import coinSelect from "coinselect";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { addressesAndSigningKeysGenerator } from "./transaction.domain";
 import { AddressFactory } from "./address.factory";
-import { Bip44Address, SigningKeys, UnspentTransaction, BipLevel, Levels } from "./contracts";
-import { getDerivationMethod, post } from "./helpers";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
@@ -111,13 +110,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const { inputs, outputs, fee } = await this.#selectUtxos(
-				levels,
-				accountKey,
-				targets,
-				feeRate,
-				walledDataHelper,
-			);
+			const { inputs, outputs, fee } = await this.#selectUtxos(levels, targets, feeRate, walledDataHelper);
 
 			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
@@ -204,28 +197,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	async #selectUtxos(
 		levels: Levels,
-		accountKey,
 		targets,
 		feeRate: number,
 		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
-		const method = this.#addressingSchema(levels);
-		const id = this.#toWalletIdentifier(accountKey, method);
 
 		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
 
-		const derivationMethod = getDerivationMethod(id);
-
 		let utxos = allUnspentTransactionOutputs.map((utxo) => {
-			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
-			let signingKey: SigningKeys | undefined = undefined;
-
-			do {
-				const addressAndSigningKey: SigningKeys = signingKeysGenerator.next().value;
-				if (addressAndSigningKey.address === utxo.address) {
-					signingKey = addressAndSigningKey;
-				}
-			} while (signingKey === undefined);
+			let signingKey: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
 
 			let extra;
 			if (levels.purpose === 44) {
