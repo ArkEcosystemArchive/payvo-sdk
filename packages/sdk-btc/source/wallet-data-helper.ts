@@ -1,8 +1,9 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
-import { getDerivationFunction, walletUsedAddresses } from "./helpers";
+import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP44 } from "@payvo/cryptography";
-import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels } from "./contracts";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { getNetworkConfig } from "./config";
 
 export default class WalletDataHelper {
 	readonly #levels: Levels;
@@ -82,6 +83,64 @@ export default class WalletDataHelper {
 		return found;
 	}
 
+	public async unspentTransactionOutputs(): Promise<UnspentTransaction[]> {
+		const addresses = this.#allUsedAddresses().map((address) => address.address);
+
+		const utxos = await this.#unspentTransactionOutputs(addresses);
+
+		return utxos.map((utxo) => {
+			let addressWithKeys: Bip44AddressWithKeys = this.signingKeysForAddress(utxo.address);
+
+			let extra;
+			if (this.isBip44()) {
+				extra = {
+					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+				};
+			} else if (this.isBip49()) {
+				let network = getNetworkConfig(this.#configRepository);
+
+				const payment = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({
+						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
+						network,
+					}),
+					network,
+				});
+
+				if (!payment.redeem) {
+					throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
+				}
+
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem.output,
+				};
+			} else if (this.isBip84()) {
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+				};
+			}
+			return {
+				address: utxo.address,
+				txId: utxo.txId,
+				txRaw: utxo.raw,
+				script: utxo.script,
+				vout: utxo.outputIndex,
+				value: utxo.satoshis,
+				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
+				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
+				path: addressWithKeys.path,
+				...extra,
+			};
+		});
+	}
+
 	public isBip44(): boolean {
 		return this.#levels.purpose === 44;
 	}
@@ -153,5 +212,25 @@ export default class WalletDataHelper {
 		return this.#discoveredSpendAddresses
 			.concat(this.#discoveredChangeAddresses)
 			.filter((address) => address.status === "used");
+	}
+
+	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+		).data;
+
+		const rawTxs = (
+			await post(
+				`wallets/transactions/raw`,
+				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
+				this.#httpClient,
+				this.#configRepository,
+			)
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
 	}
 }

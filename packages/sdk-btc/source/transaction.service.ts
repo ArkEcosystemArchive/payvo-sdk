@@ -110,7 +110,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const { inputs, outputs, fee } = await this.#selectUtxos(targets, feeRate, walledDataHelper);
+			const utxos = await walledDataHelper.unspentTransactionOutputs()
+			const { inputs, outputs, fee } = await this.#selectUtxos(utxos, targets, feeRate);
 
 			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
@@ -196,64 +197,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #selectUtxos(
+		utxos: UnspentTransaction[],
 		targets,
 		feeRate: number,
-		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
-		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
-
-		let utxos = allUnspentTransactionOutputs.map((utxo) => {
-			let addressWithKeys: Bip44AddressWithKeys = walledDataHelper.signingKeysForAddress(utxo.address);
-
-			let extra;
-			if (walledDataHelper.isBip44()) {
-				extra = {
-					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
-				};
-			} else if (walledDataHelper.isBip49()) {
-				let network = getNetworkConfig(this.configRepository);
-
-				const payment = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({
-						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
-						network,
-					}),
-					network,
-				});
-
-				if (!payment.redeem) {
-					throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
-				}
-
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-					redeemScript: payment.redeem.output,
-				};
-			} else if (walledDataHelper.isBip84()) {
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-				};
-			}
-			return {
-				address: utxo.address,
-				txId: utxo.txId,
-				txRaw: utxo.raw,
-				script: utxo.script,
-				vout: utxo.outputIndex,
-				value: utxo.satoshis,
-				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
-				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
-				path: addressWithKeys.path,
-				...extra,
-			};
-		});
-
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
 
 		if (!inputs || !outputs) {
