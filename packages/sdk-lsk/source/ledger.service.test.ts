@@ -30,6 +30,28 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
+describe("connect", () => {
+	it("should throw error with unexpected input", async () => {
+		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AssetSerializer, AssetSerializer);
+			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+		});
+
+		await expect(() =>
+			transport.connect({
+				open: () => {
+					throw new Error("cannot open");
+				},
+			}),
+		).rejects.toThrow();
+	});
+});
+
 describe("destruct", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
@@ -104,6 +126,14 @@ describe("scan", () => {
 		const walletData = await lsk.scan();
 
 		expect(Object.keys(walletData)).toHaveLength(1);
+		expect(walletData).toMatchSnapshot();
+	});
+
+	it.only("should allow to pass a startPath", async () => {
+		const lsk = await createMockService(ledger.wallets.record);
+
+		const walletData = await lsk.scan({ startPath: ledger.bip44.path });
+
 		expect(walletData).toMatchSnapshot();
 	});
 });
