@@ -16,9 +16,9 @@ export interface Bip44Address {
 	publicKey: string;
 }
 
-export type SigningKeys = Bip44Address & {
+export interface SigningKeys extends Bip44Address {
 	privateKey?: string;
-};
+}
 
 export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
 

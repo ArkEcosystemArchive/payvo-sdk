@@ -6,9 +6,9 @@ import coinSelect from "coinselect";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
-import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { addressesAndSigningKeysGenerator } from "./transaction.domain";
+import { AddressFactory } from "./address.factory";
+import { Bip44Address, SigningKeys, UnspentTransaction, BipLevel, Levels } from "./contracts";
 import { getDerivationMethod, post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
