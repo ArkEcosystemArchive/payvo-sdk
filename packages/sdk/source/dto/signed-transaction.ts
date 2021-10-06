@@ -2,7 +2,7 @@
 
 import { BigNumber } from "@payvo/helpers";
 import { DateTime } from "@payvo/intl";
-import { strict as assert } from 'assert';
+import { strict as assert } from "assert";
 
 import { RawTransactionData, SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";
