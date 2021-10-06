@@ -22,7 +22,10 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		return { publicKey, privateKey };
 	}
 
-	public override async fromSecret(secret: string, bip39Locale?: string): Promise<Services.KeyPairDataTransferObject> {
+	public override async fromSecret(
+		secret: string,
+		bip39Locale?: string,
+	): Promise<Services.KeyPairDataTransferObject> {
 		abort_if(
 			BIP39.validate(secret, bip39Locale),
 			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
