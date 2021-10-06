@@ -15,21 +15,15 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		abort_unless(BIP39.validate(mnemonic, options?.bip39Locale), "The given value is not BIP39 compliant.");
+		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		const { publicKey, privateKey } = BaseKeys.fromPassphrase(mnemonic, true);
 
 		return { publicKey, privateKey };
 	}
 
-	public override async fromSecret(
-		secret: string,
-		bip39Locale?: string,
-	): Promise<Services.KeyPairDataTransferObject> {
-		abort_if(
-			BIP39.validate(secret, bip39Locale),
-			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
-		);
+	public override async fromSecret(secret: string): Promise<Services.KeyPairDataTransferObject> {
+		abort_if(BIP39.compatible(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
 		const { publicKey, privateKey } = BaseKeys.fromPassphrase(secret, true);
 

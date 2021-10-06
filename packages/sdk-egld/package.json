@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@elrondnetwork/elrond-core-js": "^2.1.0",
 		"@elrondnetwork/erdjs": "^7.0.0",
-		"@payvo/cryptography": "^1.1.4",
+		"@payvo/cryptography": "^1.1.5",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.1",
 		"@payvo/sdk": "workspace:*",
