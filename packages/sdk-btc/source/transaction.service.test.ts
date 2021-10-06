@@ -331,10 +331,7 @@ describe("native segwit multisignature wallet", () => {
 			publicKeys: musig.accounts.map((account) => account.masterPublicKey),
 		};
 		const signatory = new Signatories.Signatory(
-			new Signatories.MultiSignatureSignatory(
-				multiSignatureAsset,
-				"address",
-			),
+			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
 		const result = await subject.transfer({
