@@ -2,6 +2,7 @@
 
 import { BigNumber } from "@payvo/helpers";
 import { DateTime } from "@payvo/intl";
+import { strict as assert } from "assert";
 
 import { RawTransactionData, SignedTransactionData } from "../contracts";
 import { NotImplemented } from "../exceptions";
@@ -45,6 +46,8 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		broadcastData?: any,
 		decimals?: number | string,
 	) {
+		assert.ok(signedData);
+
 		this.identifier = identifier;
 		this.signedData = signedData;
 		this.broadcastData = broadcastData ?? signedData;
