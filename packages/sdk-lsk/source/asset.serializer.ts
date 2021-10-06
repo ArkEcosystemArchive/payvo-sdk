@@ -8,7 +8,7 @@ export class AssetSerializer {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;
 
-	public toMachine(moduleID: string, assetID: string, asset: Record<string, any>): Record<string, unknown> {
+	public toMachine(moduleID: number, assetID: number, asset: Record<string, any>): Record<string, unknown> {
 		if (isTransfer({ assetID, moduleID })) {
 			return {
 				amount: BigInt(asset.amount),

@@ -184,7 +184,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				nonce: BigInt(`${transaction.nonce}`),
 				fee: BigInt(`${transaction.fee}`),
 				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.assetSerializer.toMachine(moduleID, assetID, transaction.asset),
+				asset: this.assetSerializer.toMachine(+moduleID, +assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
