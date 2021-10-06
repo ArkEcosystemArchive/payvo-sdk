@@ -1,7 +1,7 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Bip44Address, MusigDerivationMethod, Bip44AddressWithKeys } from "./contracts";
+import { Bip44Address, MusigDerivationMethod } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
 
 const getDerivationFunction = (
@@ -124,17 +124,13 @@ export default class MusigWalletDataHelper {
 		while (index < max) {
 			const chunk: Bip44Address[] = [];
 			for (let i = 0; i < chunkSize; i++) {
-				const payment = bip(
-					n,
-					accountKeys.map((pubKey) => {
-						const localNode = pubKey.derive(chain).derive(index);
-						return localNode.publicKey;
-					}),
-					network,
-				);
 				chunk.push({
 					path: `${chain}/${index}`,
-					address: payment.address!,
+					address: bip(
+						n,
+						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey),
+						network,
+					).address!,
 					status: "unknown",
 				});
 				index++;
