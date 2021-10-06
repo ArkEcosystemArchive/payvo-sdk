@@ -1,4 +1,4 @@
-import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
+import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { getDerivationFunction, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP44 } from "@payvo/cryptography";
