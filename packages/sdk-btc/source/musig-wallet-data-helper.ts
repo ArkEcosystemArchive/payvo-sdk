@@ -1,9 +1,8 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Bip44Address, Bip44AddressWithKeys, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
-import { getNetworkConfig } from "./config";
 
 const getDerivationFunction = (
 	method: MusigDerivationMethod,
@@ -93,51 +92,21 @@ export default class MusigWalletDataHelper {
 		const addresses = this.allUsedAddresses().map((address) => address.address);
 
 		const utxos = await this.#unspentTransactionOutputs(addresses);
-
 		return utxos.map((utxo) => {
-			let address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+			const payment = getDerivationFunction(this.#method)(
+				this.#n,
+				this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
+				this.#network,
+			);
+			const extra: any = {
+				witnessUtxo: {
+					script: Buffer.from(utxo.script, "hex"),
+					value: utxo.satoshis,
+				},
+				redeemScript: payment.redeem!.output,
+			};
 
-			let extra;
-			if (this.isLegacyMusig()) {
-				const payment = legacyMusig(
-					this.#n,
-					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
-					this.#network,
-				);
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-					redeemScript: payment.redeem!.output,
-				};
-			} else if (this.isP2SHSegwitMusig()) {
-				const payment = legacyMusig(
-					this.#n,
-					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
-					this.#network,
-				);
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-					redeemScript: payment.redeem!.output,
-				};
-			} else if (this.isNativeSegwitMusig()) {
-				const payment = nativeSegwitMusig(
-					this.#n,
-					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
-					this.#network,
-				);
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-					redeemScript: payment.redeem!.output,
-				};
-			}
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -146,21 +115,14 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
+				witnessUtxo: {
+					script: Buffer.from(utxo.script, "hex"),
+					value: utxo.satoshis,
+				},
+				redeemScript: payment.redeem!.output,
 				...extra,
 			};
 		});
-	}
-
-	public isLegacyMusig(): boolean {
-		return this.#method === "legacyMusig";
-	}
-
-	public isP2SHSegwitMusig(): boolean {
-		return this.#method === "p2SHSegwitMusig";
-	}
-
-	public isNativeSegwitMusig(): boolean {
-		return this.#method === "nativeSegwitMusig";
 	}
 
 	#signingKeysForAddress(address: string): Bip44Address {
