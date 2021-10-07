@@ -38,33 +38,31 @@ export const defaultP2SHSegwitMusigAccountKey = (rootKey: bitcoin.BIP32Interface
 export const defaultNativeSegwitMusigAccountKey = (rootKey: bitcoin.BIP32Interface): bitcoin.BIP32Interface =>
 	rootKeyToAccountKey(rootKey, "48'/1'/0'/2'");
 
-const sort = (a: Buffer, b: Buffer) => Buffer.compare(a, b);
-
-const createMusigPayment = (m: number, pubkeys: Buffer[], network: bitcoin.Network) =>
+const createMusigPayment = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network) =>
 	bitcoin.payments.p2ms({
-		m,
-		pubkeys: pubkeys.sort(sort),
+		m: minSignatures,
+		pubkeys: pubkeys.sort(Buffer.compare),
 		network,
 	});
 
-export const legacyMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
+export const legacyMusig = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
 	bitcoin.payments.p2sh({
-		redeem: createMusigPayment(m, pubkeys, network),
+		redeem: createMusigPayment(minSignatures, pubkeys, network),
 		network,
 	});
 
-export const p2SHSegwitMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
+export const p2SHSegwitMusig = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
 	bitcoin.payments.p2sh({
 		redeem: bitcoin.payments.p2wsh({
-			redeem: createMusigPayment(m, pubkeys, network),
+			redeem: createMusigPayment(minSignatures, pubkeys, network),
 			network,
 		}),
 		network,
 	});
 
-export const nativeSegwitMusig = (m: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
+export const nativeSegwitMusig = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
 	bitcoin.payments.p2wsh({
-		redeem: createMusigPayment(m, pubkeys, network),
+		redeem: createMusigPayment(minSignatures, pubkeys, network),
 		network,
 	});
 
