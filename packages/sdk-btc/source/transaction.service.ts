@@ -297,35 +297,46 @@ export class TransactionService extends Services.AbstractTransactionService {
 			},
 		];
 
-		const fee = 45;
+		// Figure out inputs, outputs and fees
+		const feeRate = await this.#getFeeRateFromNetwork(input);
+		const utxos = await walledDataHelper.unspentTransactionOutputs();
+		const { inputs, outputs, fee } = await this.#selectUtxos(utxos, targets, feeRate);
 
-		// // Figure out inputs, outputs and fees
-		// const feeRate = await this.#getFeeRateFromNetwork(input);
-		// const { inputs, outputs, fee } = await this.#selectUtxos(
-		// 	bipLevel,
-		// 	accountKey,
-		// 	targets,
-		// 	feeRate,
-		// 	walledDataHelper,
-		// );
-		//
-		// // Set change address (if any output back to the wallet)
-		// outputs.forEach((output) => {
-		// 	if (!output.address) {
-		// 		output.address = changeAddress.address;
-		// 	}
-		// });
+		// Set change address (if any output back to the wallet)
+		outputs.forEach((output) => {
+			if (!output.address) {
+				output.address = changeAddress.address;
+			}
+		});
+
+		const psbt = new bitcoin.Psbt({ network });
+
+		inputs.forEach((input) =>
+			psbt.addInput({
+				hash: input.txId,
+				index: input.vout,
+				...input,
+			}),
+		);
+		outputs.forEach((output) =>
+			psbt.addOutput({
+				address: output.address,
+				value: output.value,
+			}),
+		);
+
+		const psbtBaseText = psbt.toBase64();
 
 		return this.dataTransferObjectService.signedTransaction(
-			"tx-id",
+			"temp id",
 			{
-				sender: input.signatory.address,
+				sender: address,
 				recipient: input.data.to,
 				amount,
 				fee,
 				timestamp: new Date(),
 			},
-			"xxxxwwee",
+			psbtBaseText,
 		);
 	}
 
