@@ -60,7 +60,11 @@ export const p2SHSegwitMusig = (minSignatures: number, pubkeys: Buffer[], networ
 		network,
 	});
 
-export const nativeSegwitMusig = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network): bitcoin.Payment =>
+export const nativeSegwitMusig = (
+	minSignatures: number,
+	pubkeys: Buffer[],
+	network: bitcoin.Network,
+): bitcoin.Payment =>
 	bitcoin.payments.p2wsh({
 		redeem: createMusigPayment(minSignatures, pubkeys, network),
 		network,
