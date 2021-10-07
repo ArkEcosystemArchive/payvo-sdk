@@ -124,16 +124,16 @@ export default class MusigWalletDataHelper {
 		while (index < max) {
 			const chunk: Bip44Address[] = [];
 			for (let i = 0; i < chunkSize; i++) {
-				const number = index++;
 				chunk.push({
-					path: `${chain}/${number}`,
+					path: `${chain}/${index}`,
 					address: bip(
 						n,
-						accountKeys.map((pubKey) => pubKey.derive(chain).derive(number).publicKey),
+						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey),
 						network,
 					).address!,
 					status: "unknown",
 				});
+				index++;
 			}
 			yield chunk;
 		}

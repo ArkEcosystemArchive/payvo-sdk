@@ -15,4 +15,19 @@ export interface Bip44Address {
 	status: Status;
 }
 
+export interface Bip44AddressWithKeys extends Bip44Address {
+	publicKey: string;
+	privateKey?: string;
+}
+
 export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
+
+export interface Levels {
+	purpose: number;
+	coinType: number;
+	account?: number;
+	change?: number;
+	index?: number;
+}
+
+export type BipLevel = "bip44" | "bip49" | "bip84";

@@ -5,6 +5,7 @@ import { IoC } from "@payvo/sdk";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
+import * as bitcoin from "bitcoinjs-lib";
 
 let subject: AddressFactory;
 
@@ -71,11 +72,11 @@ describe("cache wallet data", () => {
 				coinType: 1,
 				account: 0,
 			},
-			{
-				type: "extendedPublicKey",
-				value: "tpubDDAvBLg1EVUWj64oWHj7yduZcKaTVFiHXP8rnmtn8zqYTQB6tG49HJiGwLako3piYC7ByEFGgxxgyFSfVN3oEi1ppr4xurYPWLxnrYeUzjx",
-				method: "bip44",
-			},
+			"bip44",
+			bitcoin.bip32.fromBase58(
+				"tpubDDAvBLg1EVUWj64oWHj7yduZcKaTVFiHXP8rnmtn8zqYTQB6tG49HJiGwLako3piYC7ByEFGgxxgyFSfVN3oEi1ppr4xurYPWLxnrYeUzjx",
+				bitcoin.networks.testnet,
+			),
 		);
 	});
 
@@ -83,51 +84,9 @@ describe("cache wallet data", () => {
 		await expect(walletDataHelper.discoverAllUsed()).resolves.toBeUndefined();
 
 		expect(walletDataHelper.discoveredSpendAddresses()).toBeArrayOfSize(100);
-		expect(walletDataHelper.discoveredSpendAddresses().slice(0, 20)).toEqual([
-			{ path: "m/44'/1'/0'/0/0", address: "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6", status: "used" },
-			{ path: "m/44'/1'/0'/0/1", address: "mqLZY69ZjogwvFWfLEuGdFUPKeZ6JvyRj1", status: "used" },
-			{ path: "m/44'/1'/0'/0/2", address: "mwhFCM54gRxY27ynaB7xmmuuGpxATWDzXd", status: "used" },
-			{ path: "m/44'/1'/0'/0/3", address: "mjTpEuSwBh4KmKMt9pwFViTWQVZzqnWEis", status: "unused" },
-			{ path: "m/44'/1'/0'/0/4", address: "mxdEAqtmiXqqczohNonMbUZP8ntYLPUUF4", status: "unused" },
-			{ path: "m/44'/1'/0'/0/5", address: "miWmLw6bSSqvKDiVpM4SNKuSz5SX9kkMPA", status: "unused" },
-			{ path: "m/44'/1'/0'/0/6", address: "mvRNAXLYUYhxuTdZahnw3mNtyDcxeiSt6y", status: "unused" },
-			{ path: "m/44'/1'/0'/0/7", address: "mirzRVH2z9hyEVDDbv2QAMSaWjPDjFM3Na", status: "unused" },
-			{ path: "m/44'/1'/0'/0/8", address: "mo6XLVZ39Pd3bkSsNjLs6iyz56qF4PYe9g", status: "unused" },
-			{ path: "m/44'/1'/0'/0/9", address: "mtSQ96xauiYzz1xryvLhMNduw57Sie9LSE", status: "unused" },
-			{ path: "m/44'/1'/0'/0/10", address: "mqNKx6o1P74CDDkvMoa2Jq4qcMviKYZFc1", status: "unused" },
-			{ path: "m/44'/1'/0'/0/11", address: "mjr9b55DXcCLEZbqj4Z1JX2GgvZip75ge7", status: "unused" },
-			{ path: "m/44'/1'/0'/0/12", address: "msZGjfGbdNDwhcH4M2UypirvxFeBS1Q8Y6", status: "unused" },
-			{ path: "m/44'/1'/0'/0/13", address: "mo3dcPFguG2PacM5NUfp64k95qUzk8d6UE", status: "unused" },
-			{ path: "m/44'/1'/0'/0/14", address: "n2VAVsBWCESjCaWrdZwJq3aYJr7zLQdEJ8", status: "unused" },
-			{ path: "m/44'/1'/0'/0/15", address: "mytz9GeGaU7QrtGPYh7Pz9f7gihvbHKLum", status: "unused" },
-			{ path: "m/44'/1'/0'/0/16", address: "muKxLoTUeCBL4czS9uaYeoWrWGcc3guyqL", status: "unused" },
-			{ path: "m/44'/1'/0'/0/17", address: "mkkvJiKyYeRPZ8R4ZXv6p3aFBg28asBXZJ", status: "unused" },
-			{ path: "m/44'/1'/0'/0/18", address: "muH9SVf3xvZPTpezLyH8Q6oixq4gNnoz7k", status: "unused" },
-			{ path: "m/44'/1'/0'/0/19", address: "mfvGHJx8C5X7FjVaPvnkX4SLmC8XQ1xYHG", status: "unused" },
-		]);
+		expect(walletDataHelper.discoveredSpendAddresses()).toMatchSnapshot();
 		expect(walletDataHelper.discoveredChangeAddresses()).toBeArrayOfSize(100);
-		expect(walletDataHelper.discoveredChangeAddresses().slice(0, 20)).toEqual([
-			{ path: "m/44'/1'/0'/1/0", address: "mya5ZRZi3epftGxvMP5trEfkpCFhPzMPqA", status: "unused" },
-			{ path: "m/44'/1'/0'/1/1", address: "ms4Hd6b1a5TkfeWB9GJgNuFFKasfcNJ3tG", status: "unused" },
-			{ path: "m/44'/1'/0'/1/2", address: "mpYRddfkDi6j6PQtMQSdzW5cWcgBAyn13b", status: "unused" },
-			{ path: "m/44'/1'/0'/1/3", address: "mqwqp8LQ9KTW5z5T7Cz6bgKPYZfU295cNV", status: "unused" },
-			{ path: "m/44'/1'/0'/1/4", address: "mmn4RLfCQ212uJ9J4AsCdSBpdv8Zunsv3T", status: "unused" },
-			{ path: "m/44'/1'/0'/1/5", address: "my2fXCjuD171r23HDt6RdXqyTLtgNStode", status: "unused" },
-			{ path: "m/44'/1'/0'/1/6", address: "mpdihF6RNDvvMUgkR6XVd4vk7bNxn1fWQ1", status: "unused" },
-			{ path: "m/44'/1'/0'/1/7", address: "mgisjKNWXEQ4iTaxkqM1S6AzSk41J6GViq", status: "unused" },
-			{ path: "m/44'/1'/0'/1/8", address: "mrq2jg7jZ8RFmb7ghGUNNdug1uPjJQSRjP", status: "unused" },
-			{ path: "m/44'/1'/0'/1/9", address: "mhjGYmXqLWwvdNCQqTDk2u2g2pLgAyz3oY", status: "unused" },
-			{ path: "m/44'/1'/0'/1/10", address: "mzP1TqX7SZQkEL6KUC93sj2HjppkEpQsJS", status: "unused" },
-			{ path: "m/44'/1'/0'/1/11", address: "mmyKqrUdQY5PEnroPf3KoXA5Hz2HheYtj1", status: "unused" },
-			{ path: "m/44'/1'/0'/1/12", address: "mvvoazPwCXW1ZYt9RkzWU5wqhEJYkzFSkR", status: "unused" },
-			{ path: "m/44'/1'/0'/1/13", address: "mmqj1J2pyHTqeoXqYkEzamXXF24bnBepVi", status: "unused" },
-			{ path: "m/44'/1'/0'/1/14", address: "mpLbymsruNuEfMjmpTNbqnXiDiBPRPMXPz", status: "unused" },
-			{ path: "m/44'/1'/0'/1/15", address: "moawaywryMjx3jCMcVj1rvHk8umnQNfu3g", status: "unused" },
-			{ path: "m/44'/1'/0'/1/16", address: "mvSYNLhGPZAzKsD5JGNzrvUFaoy7XvSvk7", status: "unused" },
-			{ path: "m/44'/1'/0'/1/17", address: "mvYszAkFqNni1wp5KKXpzBhHWEr14wa2E6", status: "unused" },
-			{ path: "m/44'/1'/0'/1/18", address: "mmYuY2CKGp8RHWzE4dEA9N9ggn8uNpPsgd", status: "unused" },
-			{ path: "m/44'/1'/0'/1/19", address: "mhi6GknrHLmxmRzGbY1eQEFbrZ2k7os94w", status: "unused" },
-		]);
+		expect(walletDataHelper.discoveredChangeAddresses()).toMatchSnapshot();
 	});
 
 	it("should return the next change address", async () => {
@@ -137,6 +96,8 @@ describe("cache wallet data", () => {
 			address: "mya5ZRZi3epftGxvMP5trEfkpCFhPzMPqA",
 			path: "m/44'/1'/0'/1/0",
 			status: "unused",
+			publicKey: "037ee1abd7e0c84f5b79f18dbd67aed2a8e28c6b1cc431c9bbfdce1d2eb392a884",
+			privateKey: undefined,
 		});
 	});
 });
