@@ -130,10 +130,12 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async isNanoS(): Promise<boolean> {
+		/* istanbul ignore next */
 		return this.#ledger.deviceModel.id === "nanoS";
 	}
 
 	public override async isNanoX(): Promise<boolean> {
+		/* istanbul ignore next */
 		return this.#ledger.deviceModel.id === "nanoX";
 	}
 }

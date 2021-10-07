@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AssetSerializer #toMachine should serialize asset of known transaction types 1`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 2, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "amount": 100000000n,
   "data": "",
@@ -32,7 +32,7 @@ Object {
 }
 `;
 
-exports[`AssetSerializer #toMachine should serialize asset of known transaction types 2`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 4, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "mandatoryKeys": Array [
     Object {
@@ -115,13 +115,13 @@ Object {
 }
 `;
 
-exports[`AssetSerializer #toMachine should serialize asset of known transaction types 3`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "username": "johndoe",
 }
 `;
 
-exports[`AssetSerializer #toMachine should serialize asset of known transaction types 4`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 1, asset: [Object] }) 1`] = `
 Object {
   "votes": Array [
     Object {
@@ -156,7 +156,7 @@ Object {
 }
 `;
 
-exports[`AssetSerializer #toMachine should serialize asset of known transaction types 5`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 2, asset: [Object] }) 1`] = `
 Object {
   "unlockObjects": Array [
     Object {

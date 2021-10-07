@@ -45,7 +45,7 @@ describe("AssetSerializer #toMachine", () => {
 				],
 			},
 		},
-	])("should serialize asset of known transaction types", ({ moduleID, assetID, asset }) => {
+	])("should serialize asset of transaction type (%s)", ({ moduleID, assetID, asset }) => {
 		expect(createService(AssetSerializer).toMachine(moduleID, assetID, asset)).toMatchSnapshot();
 	});
 

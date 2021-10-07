@@ -1,16 +1,38 @@
 {
-	"meta": {
-		"offset": 0,
-		"limit": 10
-	},
-	"data": [
-		{
-			"address": "8261766349562104742L",
-			"publicKey": "",
-			"balance": "700000000",
-			"secondPublicKey": "",
-			"asset": {}
+  "data": [
+	{
+	  "summary": {
+		"address": "lskksmfa2q2evtwmfneaon79u9hv7a3saokuy9tv9",
+		"balance": "690000000",
+		"username": "",
+		"publicKey": null,
+		"isDelegate": false,
+		"isMultisignature": false
+	  },
+	  "token": {
+		"balance": "690000000"
+	  },
+	  "sequence": {
+		"nonce": "0"
+	  },
+	  "keys": {
+		"numberOfSignatures": 0,
+		"mandatoryKeys": [],
+		"optionalKeys": []
+	  },
+	  "dpos": {
+		"delegate": {
+		  "username": "",
+		  "consecutiveMissedBlocks": 0,
+		  "lastForgedHeight": 14075260,
+		  "isBanned": false,
+		  "totalVotesReceived": "0"
 		}
-	],
-	"links": {}
+	  }
+	}
+  ],
+  "meta": {
+	"count": 1,
+	"offset": 0
+  }
 }
