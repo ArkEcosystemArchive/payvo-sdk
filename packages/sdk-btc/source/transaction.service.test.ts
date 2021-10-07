@@ -318,14 +318,14 @@ describe("native segwit multisignature wallet", () => {
 			.reply(200, {
 				data: {
 					min: 0.00001074,
-					avg: 0.0000001,
+					avg: 0.000000011,
 					max: 0.00180617,
 				},
 			})
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it("should generate a transfer transaction", async () => {
 		const multiSignatureAsset: Services.MultiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.masterPublicKey),
@@ -342,11 +342,20 @@ describe("native segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("a24184f69af2af696a07e3a70c468339654904bbc254ea908e28e0c049200504");
-		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		expect(result.toBroadcast()).toBe(
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQNSwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIsQMgAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA",
+		);
+		// expect(result.toBroadcast()).toBe( // Electrum unsigned
+		// 	"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD+////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQASwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIngMgAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA==",
+		// );
+		expect(result.toBroadcast()).toBe( // Electrum with one signature
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQNSwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIsQMgAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBkcwRAIgICvmgD9ZXUO6tGLhStUE2Q+HMbBHXr+2OBl467+o4xMCIC2p46EIlkDBudq9Vx6B27lgZbLeo4ISnEHyP77xDhdkAQEFaVIhAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKIQKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBiED2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsBTriIGAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKDJ2qNdMBAAAAAgAAACIGAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAIAAAAiBgPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwAxhs2G/AQAAAAIAAAAAAAEBaVIhAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJIQM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmSED8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAxTriICAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAMAAAAiAgM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmQydqjXTAQAAAAMAAAAiAgPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDAxhs2G/AQAAAAMAAAAA",
+		);
+		expect(result.id()).toBe("d7924f8ff4b72a53712defc7870902772de46d390d2861786eb33169408597c5");
+		expect(result.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(169_000);
+		expect(result.amount().toNumber()).toBe(10_000);
+		// expect(result.fee().toNumber()).toBe(200);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006b483045022100fea3dfdd9e2afeb1d594c2020334a06fdb660d40238d6b2c45fb33fd90b5357102202297135d22b0d45d6638af023dfa3cc06f6d4cac1073a101a66d5acc5073b155012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac478270b00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",

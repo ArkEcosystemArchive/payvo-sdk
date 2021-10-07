@@ -94,17 +94,18 @@ export default class MusigWalletDataHelper {
 		const utxos = await this.#unspentTransactionOutputs(addresses);
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
-			const payment = getDerivationFunction(this.#method)(
-				this.#n,
-				this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
-				this.#network,
-			);
+			// const payment = getDerivationFunction(this.#method)(
+			// 	this.#n,
+			// 	this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
+			// 	this.#network,
+			// );
+			// console.log(payment.redeem);
 			const extra: any = {
 				witnessUtxo: {
 					script: Buffer.from(utxo.script, "hex"),
 					value: utxo.satoshis,
 				},
-				redeemScript: payment.redeem!.output,
+				// witnessScript: payment.redeem!.output,
 			};
 
 			return {
@@ -115,11 +116,6 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
-				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
-					value: utxo.satoshis,
-				},
-				redeemScript: payment.redeem!.output,
 				...extra,
 			};
 		});
