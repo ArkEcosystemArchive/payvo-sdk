@@ -98,40 +98,46 @@ export default class MusigWalletDataHelper {
 			let address: Bip44Address = this.#signingKeysForAddress(utxo.address);
 
 			let extra;
-			// if (this.isLegacyMusig()) {
-			// 	extra = {
-			// 		nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
-			// 	};
-			// } else if (this.isP2SHSegwitMusig()) {
-			// 	let network = getNetworkConfig(this.#configRepository);
-			//
-			// 	const payment = bitcoin.payments.p2sh({
-			// 		redeem: bitcoin.payments.p2wpkh({
-			// 			pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
-			// 			network,
-			// 		}),
-			// 		network,
-			// 	});
-			//
-			// 	if (!payment.redeem) {
-			// 		throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
-			// 	}
-			//
-			// 	extra = {
-			// 		witnessUtxo: {
-			// 			script: Buffer.from(utxo.script, "hex"),
-			// 			value: utxo.satoshis,
-			// 		},
-			// 		redeemScript: payment.redeem.output,
-			// 	};
-			// } else if (this.isNativeSegwitMusig()) {
-			// 	extra = {
-			// 		witnessUtxo: {
-			// 			script: Buffer.from(utxo.script, "hex"),
-			// 			value: utxo.satoshis,
-			// 		},
-			// 	};
-			// }
+			if (this.isLegacyMusig()) {
+				const payment = legacyMusig(
+					this.#n,
+					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
+					this.#network,
+				);
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem!.output,
+				};
+			} else if (this.isP2SHSegwitMusig()) {
+				const payment = legacyMusig(
+					this.#n,
+					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
+					this.#network,
+				);
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem!.output,
+				};
+			} else if (this.isNativeSegwitMusig()) {
+				const payment = nativeSegwitMusig(
+					this.#n,
+					this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
+					this.#network,
+				);
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem!.output,
+				};
+			}
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
