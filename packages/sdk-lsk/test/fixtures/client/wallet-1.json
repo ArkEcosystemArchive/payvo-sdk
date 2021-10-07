@@ -1,38 +1,38 @@
 {
-  "data": [
-	{
-	  "summary": {
-		"address": "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s",
-		"balance": "1280000000",
-		"username": "",
-		"publicKey": null,
-		"isDelegate": false,
-		"isMultisignature": false
-	  },
-	  "token": {
-		"balance": "1280000000"
-	  },
-	  "sequence": {
-		"nonce": "0"
-	  },
-	  "keys": {
-		"numberOfSignatures": 0,
-		"mandatoryKeys": [],
-		"optionalKeys": []
-	  },
-	  "dpos": {
-		"delegate": {
-		  "username": "",
-		  "consecutiveMissedBlocks": 0,
-		  "lastForgedHeight": 14075260,
-		  "isBanned": false,
-		  "totalVotesReceived": "0"
+	"data": [
+		{
+			"summary": {
+				"address": "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s",
+				"balance": "1280000000",
+				"username": "",
+				"publicKey": null,
+				"isDelegate": false,
+				"isMultisignature": false
+			},
+			"token": {
+				"balance": "1280000000"
+			},
+			"sequence": {
+				"nonce": "0"
+			},
+			"keys": {
+				"numberOfSignatures": 0,
+				"mandatoryKeys": [],
+				"optionalKeys": []
+			},
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 14075260,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				}
+			}
 		}
-	  }
+	],
+	"meta": {
+		"count": 1,
+		"offset": 0
 	}
-  ],
-  "meta": {
-	"count": 1,
-	"offset": 0
-  }
 }
