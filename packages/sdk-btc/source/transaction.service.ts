@@ -6,21 +6,19 @@ import coinSelect from "coinselect";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
-import { addressesAndSigningKeysGenerator, SigningKeys } from "./transaction.domain";
-import { AddressFactory, BipLevel, Levels } from "./address.factory";
-import { Bip44Address, UnspentTransaction } from "./contracts";
-import { getDerivationMethod, post } from "./helpers";
+import { AddressFactory } from "./address.factory";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { post } from "./helpers";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 import WalletDataHelper from "./wallet-data-helper";
-import { LedgerTransport } from "@payvo/sdk/distribution/services";
 
 jest.setTimeout(20_000);
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
 	ledgerService: LedgerService,
-	transport: LedgerTransport,
+	transport: Services.LedgerTransport,
 	callback: () => Promise<Contracts.SignedTransactionData>,
 ): Promise<Contracts.SignedTransactionData> => {
 	try {
@@ -79,7 +77,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
-			const bipLevel = this.addressFactory.getLevel(identityOptions);
+			const levels = this.addressFactory.getLevel(identityOptions);
 
 			const network = getNetworkConfig(this.configRepository);
 
@@ -87,12 +85,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// Derivce account key (depth 3)
-			const accountKey = await this.#getAccountKey(input.signatory, network, bipLevel);
+			const accountKey = await this.#getAccountKey(input.signatory, network, levels);
 
 			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
-				bipLevel,
-				this.#toWalletIdentifier(accountKey, this.#addressingSchema(bipLevel)),
+				levels,
+				this.#addressingSchema(levels),
+				accountKey,
 			);
 			await walledDataHelper.discoverAllUsed();
 
@@ -111,13 +110,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 			// Figure out inputs, outputs and fees
 			const feeRate = await this.#getFeeRateFromNetwork(input);
-			const { inputs, outputs, fee } = await this.#selectUtxos(
-				bipLevel,
-				accountKey,
-				targets,
-				feeRate,
-				walledDataHelper,
-			);
+			const utxos = await walledDataHelper.unspentTransactionOutputs();
+			const { inputs, outputs, fee } = await this.#selectUtxos(utxos, targets, feeRate);
 
 			// Set change address (if any output back to the wallet)
 			outputs.forEach((output) => {
@@ -203,84 +197,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #selectUtxos(
-		levels: Levels,
-		accountKey,
+		utxos: UnspentTransaction[],
 		targets,
 		feeRate: number,
-		walledDataHelper: WalletDataHelper,
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
-		const method = this.#addressingSchema(levels);
-		const id = this.#toWalletIdentifier(accountKey, method);
-
-		const allUnspentTransactionOutputs = await this.unspentTransactionOutputs(walledDataHelper.allUsedAddresses());
-
-		const derivationMethod = getDerivationMethod(id);
-
-		let utxos = allUnspentTransactionOutputs.map((utxo) => {
-			let signingKeysGenerator = addressesAndSigningKeysGenerator(derivationMethod, accountKey);
-			let signingKey: SigningKeys | undefined = undefined;
-
-			do {
-				const addressAndSigningKey: SigningKeys = signingKeysGenerator.next().value;
-				if (addressAndSigningKey.address === utxo.address) {
-					signingKey = addressAndSigningKey;
-				}
-			} while (signingKey === undefined);
-
-			let extra;
-			if (levels.purpose === 44) {
-				extra = {
-					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
-				};
-			} else if (levels.purpose === 49) {
-				let network = getNetworkConfig(this.configRepository);
-
-				const payment = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({
-						pubkey: Buffer.from(signingKey.publicKey, "hex"),
-						network,
-					}),
-					network,
-				});
-
-				if (!payment.redeem) {
-					throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
-				}
-
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-					redeemScript: payment.redeem.output,
-				};
-			} else if (levels.purpose === 84) {
-				extra = {
-					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
-						value: utxo.satoshis,
-					},
-				};
-			}
-			const path: string[] = signingKey.path.split("/");
-			return {
-				address: utxo.address,
-				txId: utxo.txId,
-				txRaw: utxo.raw,
-				script: utxo.script,
-				vout: utxo.outputIndex,
-				value: utxo.satoshis,
-				signingKey: signingKey.privateKey ? Buffer.from(signingKey.privateKey, "hex") : undefined,
-				publicKey: Buffer.from(signingKey.publicKey, "hex"),
-				path: BIP44.stringify({
-					...levels,
-					change: parseInt(path[0]),
-					index: parseInt(path[1]),
-				}),
-				...extra,
-			};
-		});
-
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
 
 		if (!inputs || !outputs) {
@@ -288,14 +208,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return { inputs, outputs, fee };
-	}
-
-	#toWalletIdentifier(accountKey, method: "bip44" | "bip49" | "bip84"): Services.WalletIdentifier {
-		return {
-			type: "extendedPublicKey",
-			value: accountKey.neutered().toBase58(),
-			method: method,
-		};
 	}
 
 	async #getFeeRateFromNetwork(input: Services.TransferInput): Promise<number> {

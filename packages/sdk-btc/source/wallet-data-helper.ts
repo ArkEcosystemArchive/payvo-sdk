@@ -1,46 +1,48 @@
-import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
-import { getDerivationMethod, walletUsedAddresses } from "./helpers";
+import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Levels } from "./address.factory";
 import { BIP44 } from "@payvo/cryptography";
-import { Bip44Address } from "./contracts";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { getNetworkConfig } from "./config";
 
 export default class WalletDataHelper {
-	readonly #bipLevel: Levels;
-	readonly #spendAddressGenerator;
-	readonly #changeAddressGenerator;
+	readonly #levels: Levels;
+	readonly #bipLevel: BipLevel;
+	readonly #accountKey: bitcoin.BIP32Interface;
+	readonly #spendAddressGenerator: Generator<Bip44AddressWithKeys[]>;
+	readonly #changeAddressGenerator: Generator<Bip44AddressWithKeys[]>;
 	readonly #network: bitcoin.networks.Network;
 
-	readonly #discoveredSpendAddresses: Bip44Address[] = [];
-	readonly #discoveredChangeAddresses: Bip44Address[] = [];
+	readonly #discoveredSpendAddresses: Bip44AddressWithKeys[] = [];
+	readonly #discoveredChangeAddresses: Bip44AddressWithKeys[] = [];
 	readonly #httpClient: Http.HttpClient;
 	readonly #configRepository: Coins.ConfigRepository;
 
 	public constructor(
-		bipLevel: Levels,
-		id: Services.WalletIdentifier,
+		levels: Levels,
+		bipLevel: BipLevel,
+		accountKey: bitcoin.BIP32Interface,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
 		configRepository: Coins.ConfigRepository,
 	) {
-		if (id.type !== "extendedPublicKey") {
-			throw new Exceptions.Exception("invalid id type for walletData");
-		}
+		this.#levels = levels;
 		this.#bipLevel = bipLevel;
+		this.#accountKey = accountKey;
 		this.#network = network;
 		this.#spendAddressGenerator = this.#addressGenerator(
-			bipLevel,
-			getDerivationMethod(id),
+			levels,
+			getDerivationFunction(bipLevel),
 			network,
-			id.value,
+			accountKey,
 			true,
 			100,
 		);
 		this.#changeAddressGenerator = this.#addressGenerator(
-			bipLevel,
-			getDerivationMethod(id),
+			levels,
+			getDerivationFunction(bipLevel),
 			network,
-			id.value,
+			accountKey,
 			false,
 			100,
 		);
@@ -70,9 +72,85 @@ export default class WalletDataHelper {
 	}
 
 	public allUsedAddresses(): Bip44Address[] {
-		return this.#discoveredSpendAddresses
-			.concat(this.#discoveredChangeAddresses)
-			.filter((address) => address.status === "used");
+		return this.#allUsedAddresses();
+	}
+
+	public signingKeysForAddress(address: string): Bip44AddressWithKeys {
+		const found = this.#allUsedAddresses().find((a) => a.address === address);
+		if (!found) {
+			throw new Exceptions.Exception(`Address ${address} not found.`);
+		}
+		return found;
+	}
+
+	public async unspentTransactionOutputs(): Promise<UnspentTransaction[]> {
+		const addresses = this.#allUsedAddresses().map((address) => address.address);
+
+		const utxos = await this.#unspentTransactionOutputs(addresses);
+
+		return utxos.map((utxo) => {
+			let addressWithKeys: Bip44AddressWithKeys = this.signingKeysForAddress(utxo.address);
+
+			let extra;
+			if (this.isBip44()) {
+				extra = {
+					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+				};
+			} else if (this.isBip49()) {
+				let network = getNetworkConfig(this.#configRepository);
+
+				const payment = bitcoin.payments.p2sh({
+					redeem: bitcoin.payments.p2wpkh({
+						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
+						network,
+					}),
+					network,
+				});
+
+				if (!payment.redeem) {
+					throw new Error("The [payment.redeem] property is empty. This looks like a bug.");
+				}
+
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+					redeemScript: payment.redeem.output,
+				};
+			} else if (this.isBip84()) {
+				extra = {
+					witnessUtxo: {
+						script: Buffer.from(utxo.script, "hex"),
+						value: utxo.satoshis,
+					},
+				};
+			}
+			return {
+				address: utxo.address,
+				txId: utxo.txId,
+				txRaw: utxo.raw,
+				script: utxo.script,
+				vout: utxo.outputIndex,
+				value: utxo.satoshis,
+				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
+				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
+				path: addressWithKeys.path,
+				...extra,
+			};
+		});
+	}
+
+	public isBip44(): boolean {
+		return this.#levels.purpose === 44;
+	}
+
+	public isBip49(): boolean {
+		return this.#levels.purpose === 49;
+	}
+
+	public isBip84(): boolean {
+		return this.#levels.purpose === 84;
 	}
 
 	async #usedAddresses(
@@ -97,32 +175,62 @@ export default class WalletDataHelper {
 				.every((x) => !x);
 		} while (!exhausted);
 	}
+
 	#addressGenerator = function* (
 		bipLevel: Levels,
 		bip: (publicKey, network) => string,
 		network: bitcoin.Network,
-		extendedPublicKey: string,
+		accountKey: bitcoin.BIP32Interface,
 		isSpend: boolean,
 		chunkSize: number,
 		max: number = Number.MAX_VALUE,
-	): Generator<Bip44Address[]> {
+	): Generator<Bip44AddressWithKeys[]> {
 		let index = 0;
 		const chain = isSpend ? 0 : 1;
-		const node = bitcoin.bip32.fromBase58(extendedPublicKey, network).derive(chain);
 		while (index < max) {
-			const chunk: Bip44Address[] = [];
+			const chunk: Bip44AddressWithKeys[] = [];
 			for (let i = 0; i < chunkSize; i++) {
+				const localNode = accountKey.derive(chain).derive(index);
 				chunk.push({
 					path: BIP44.stringify({
 						...bipLevel,
 						change: chain,
 						index,
 					}),
-					address: bip(node.derive(index++).publicKey, network),
+					address: bip(localNode.publicKey, network),
 					status: "unknown",
+					publicKey: localNode.publicKey.toString("hex"),
+					privateKey: localNode.privateKey?.toString("hex"),
 				});
+				index++;
 			}
 			yield chunk;
 		}
 	};
+
+	#allUsedAddresses(): Bip44AddressWithKeys[] {
+		return this.#discoveredSpendAddresses
+			.concat(this.#discoveredChangeAddresses)
+			.filter((address) => address.status === "used");
+	}
+
+	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+		).data;
+
+		const rawTxs = (
+			await post(
+				`wallets/transactions/raw`,
+				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
+				this.#httpClient,
+				this.#configRepository,
+			)
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
+	}
 }
