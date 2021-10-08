@@ -84,6 +84,7 @@ describe("TransactionService", () => {
 			});
 
 			expect(result).toBeInstanceOf(SignedTransactionData);
+			expect(result.timestamp()).toBeInstanceOf(DateTime);
 			expect(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {

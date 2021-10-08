@@ -55,7 +55,7 @@ export class SignedTransactionData
 	}
 
 	public override timestamp(): DateTime {
-		if (this.timestamp instanceof DateTime) {
+		if (this.signedData.timestamp instanceof DateTime) {
 			return this.signedData.timestamp;
 		}
 

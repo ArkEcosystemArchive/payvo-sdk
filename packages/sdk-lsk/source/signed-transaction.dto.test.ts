@@ -250,8 +250,27 @@ describe("3.0", () => {
 		expect(subject.sender()).toBe(transaction.asset.recipientAddress);
 	});
 
-	test("#recipient", () => {
-		expect(subject.recipient()).toBe(transaction.asset.recipientAddress);
+	describe("#recipient", () => {
+		it("returns the recipient address", () => {
+			expect(subject.recipient()).toBe(transaction.asset.recipientAddress);
+		});
+
+		it("returns the recipient address when it's buffer", async () => {
+			subject = await createService(SignedTransactionData).configure(
+				transaction.id,
+				{
+					...transaction,
+					asset: {
+						recipientAddress: Buffer.from([
+							118, 60, 25, 27, 10, 77, 5, 117, 2, 12, 225, 230, 80, 3, 117, 214, 208, 189, 212, 94,
+						]),
+					},
+				},
+				transaction,
+			);
+
+			expect(subject.recipient()).toBe("lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7");
+		});
 	});
 
 	describe("#amount", () => {
