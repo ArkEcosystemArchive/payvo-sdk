@@ -121,6 +121,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		try {
 			const wallet: Contracts.WalletData = await this.clientService.wallet({ type: "address", value: address });
 
+			/* istanbul ignore else */
 			if (wallet.address()) {
 				wallets.push(wallet);
 			}

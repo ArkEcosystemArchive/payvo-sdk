@@ -1,0 +1,28 @@
+{
+  "meta": {
+	"offset": 0,
+	"limit": 10
+  },
+  "data": [
+	{
+	  "account": {
+		"address": "11603034586667438647L",
+		"publicKey": "635ec78f25eefe8dcb7b4e7f5685c5aad1fef54048c596ee4e74cdf5e7b0f37c",
+		"balance": "1180000000",
+		"username": "username",
+		"secondPublicKey": "",
+		"asset": {}
+	  },
+	  "delegate": {
+		"rank": 1,
+		"vote": 1
+	  },
+	  "multiSignature": {
+		"numberOfSignatures": 0,
+		"mandatoryKeys": [],
+		"optionalKeys": []
+	  }
+	}
+  ],
+  "links": {}
+}

@@ -99,7 +99,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return this.data.dpos?.delegate?.rank;
 	}
 
-	public override votes(): BigNumber | undefined {
+	public override votes(): BigNumber {
 		if (this.data.rank) {
 			return BigNumber.make(this.data.rank);
 		}
@@ -137,7 +137,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override isMultiSignature(): boolean {
-		return !!this.data.summary?.isMultisignature;
+		return !!this.data.multiSignature || !!this.data.summary?.isMultisignature;
 	}
 
 	public override isSecondSignature(): boolean {
