@@ -344,8 +344,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	#mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig"};
-	#testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig"};
+	#mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };
+	#testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig" };
 
 	#keysAndMethod(
 		multiSignatureAsset: Services.MultiSignatureAsset,
@@ -361,12 +361,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		if (network === bitcoin.networks.bitcoin) {
 			if (prefixes.some((prefix) => !this.#mainnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(`Extended public key must start with any of ${Object.keys(this.#mainnetPrefixes)}.`);
+				throw new Exceptions.Exception(
+					`Extended public key must start with any of ${Object.keys(this.#mainnetPrefixes)}.`,
+				);
 			}
 			method = this.#mainnetPrefixes[prefixes[0]];
 		} else if (network === bitcoin.networks.testnet) {
 			if (prefixes.some((prefix) => !this.#testnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(`Extended public key must start with any of ${Object.keys(this.#testnetPrefixes)}.`);
+				throw new Exceptions.Exception(
+					`Extended public key must start with any of ${Object.keys(this.#testnetPrefixes)}.`,
+				);
 			}
 			method = this.#testnetPrefixes[prefixes[0]];
 		} else {
