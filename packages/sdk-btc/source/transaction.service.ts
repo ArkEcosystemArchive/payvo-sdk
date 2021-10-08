@@ -212,8 +212,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<{ outputs: any[]; inputs: any[]; fee: number }> {
 		const { inputs, outputs, fee } = coinSelect(utxos, targets, feeRate);
 
-		console.log(inputs, outputs, fee);
-
 		if (!inputs || !outputs) {
 			throw new Error("Cannot determine utxos for this transaction. Probably not enough founds.");
 		}
@@ -301,7 +299,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Figure out inputs, outputs and fees
 		const feeRate = await this.#getFeeRateFromNetwork(input);
-		console.log(feeRate);
 		const utxos = await walledDataHelper.unspentTransactionOutputs();
 		const { inputs, outputs, fee } = await this.#selectUtxos(utxos, targets, feeRate);
 
@@ -313,7 +310,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 
 		const psbt = new bitcoin.Psbt({ network });
-		psbt.setLocktime(2098097);
 		inputs.forEach((input) =>
 			psbt.addInput({
 				hash: input.txId,
@@ -328,24 +324,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}),
 		);
 
-		// @ts-ignore
-		console.log(
-			"electrum",
-			bitcoin.Psbt.fromBase64(
-				"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD+////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQASwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIsQMgAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA==",
-			).__CACHE.__TX,
-		);
-		// @ts-ignore
-		console.log("psbt", psbt.__CACHE.__TX);
 		const psbtBaseText = psbt.toBase64();
-		console.log("hex", psbt.toHex());
 		console.log("base64", psbtBaseText);
-		// cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD+////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQASwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIngMgAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA==
 
-		// const signer1 = bitcoin.Psbt.fromBase64(psbtBaseText);
-		// console.log("signer1", psbt.toHex());
+		// @ts-ignore
+		const tx: bitcoin.Transaction = psbt.__CACHE.__TX;
+
 		return this.dataTransferObjectService.signedTransaction(
-			"temp id",
+			tx.getId(),
 			{
 				sender: address,
 				recipient: input.data.to,
@@ -353,7 +339,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee,
 				timestamp: new Date(),
 			},
-			psbtBaseText,
+			tx.toHex(),
+			// psbtBaseText, // TODO where do we return the psbt to be co-signed
 		);
 	}
 

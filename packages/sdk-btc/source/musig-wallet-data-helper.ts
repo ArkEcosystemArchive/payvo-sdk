@@ -92,22 +92,9 @@ export default class MusigWalletDataHelper {
 		const addresses = this.allUsedAddresses().map((address) => address.address);
 
 		const utxos = await this.#unspentTransactionOutputs(addresses);
+		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
-			// const payment = getDerivationFunction(this.#method)(
-			// 	this.#n,
-			// 	this.#accountPublicKeys.map((pubKey) => pubKey.derivePath(address.path).publicKey),
-			// 	this.#network,
-			// );
-			// console.log(payment.redeem);
-			const extra: any = {
-				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
-					value: utxo.satoshis,
-				},
-				// witnessScript: payment.redeem!.output,
-			};
-
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -116,7 +103,10 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
-				...extra,
+				witnessUtxo: {
+					script: Buffer.from(utxo.script, "hex"),
+					value: utxo.satoshis,
+				},
 			};
 		});
 	}
@@ -181,22 +171,7 @@ export default class MusigWalletDataHelper {
 	};
 
 	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
-		const utxos = (
-			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
-		).data;
-
-		const rawTxs = (
-			await post(
-				`wallets/transactions/raw`,
-				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
-				this.#httpClient,
-				this.#configRepository,
-			)
-		).data;
-
-		return utxos.map((utxo) => ({
-			...utxo,
-			raw: rawTxs[utxo.txId],
-		}));
+		return (await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository))
+			.data;
 	}
 }
