@@ -171,6 +171,9 @@ export default class MusigWalletDataHelper {
 	};
 
 	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
+		if (addresses.length === 0) {
+			return [];
+		}
 		return (await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository))
 			.data;
 	}

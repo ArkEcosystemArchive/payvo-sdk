@@ -2,16 +2,25 @@ export const musig = {
 	accounts: [
 		{
 			mnemonic: "hard produce blood mosquito provide feed open enough access motor chimney swamp",
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDAAEEpXA719cjhRw18JBeWk8dgMYphpc9vJgeosdtEL9vxrHkumoLijuRVPtLF6qByEG9B3rLgsfofQ1Fben4DgR6FBSLShrZwfdERCfE8L",
 			masterPublicKey:
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
 		},
 		{
 			mnemonic: "build tuition fuel distance often swallow birth embark nest barely drink beach",
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDAo8kUYJD3WQa61Dz7neMDiwLwk433izoifv2ZcTks4t1XYxYdaYRCU6nkbNba3yRa12yLbx3EtY8cCQusGES91LbHoS1MJYVNfuAMPqGWL",
 			masterPublicKey:
 				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 		},
 		{
 			mnemonic: "mandate pull cat east limit enemy cabin possible success force mountain hood",
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDBb7ADvzzJ9Wi5R7fGN9iWZG9sp1zqbjFfemC1HNcyWitsuAu8suWUXrLYEFb8fSKW9NTMwDNAeo15HY8m7oi2NMo17xhmNEiAicBNz2SwB",
 			masterPublicKey:
 				"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
 		},

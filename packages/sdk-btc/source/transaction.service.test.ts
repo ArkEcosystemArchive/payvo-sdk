@@ -36,8 +36,12 @@ beforeEach(async () => {
 	});
 });
 
+afterEach( async () => {
+	nock.cleanAll();
+})
+
 describe("bip44 wallet", () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -117,7 +121,7 @@ describe("bip44 wallet", () => {
 });
 
 describe("bip49 wallet", () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -198,7 +202,7 @@ describe("bip49 wallet", () => {
 });
 
 describe("bip84 wallet", () => {
-	beforeAll(() => {
+	beforeEach(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -274,6 +278,74 @@ describe("bip84 wallet", () => {
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ace83e0b00000000001600146a101086f0b693211782261f13bf4bbbd516f2b60247304402204e38c7afe2318a8d5e7d26cc6a5205ef6b9155582e741255457438d6d84e444602206d76110a3a788d3863e926fdeac6952392e46898f31803f5093a7660975d626b0121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
+		);
+	});
+});
+
+describe("legacy multisignature wallet", () => {
+	beforeEach(() => {
+		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+			.post(
+				"/api/wallets/addresses",
+				'{"addresses":["2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","2NAga16irQ8iaMEU3db3k7ZTmg7eaGSpzvy","2MzLoh1jz3QJ8DARk99NuQvy2Mfg954J4HE","2MuDecKd8h4CwLJCD2vUSdtKGTopiR9QkVC","2N2sUjyiXGxBYo39MeuppR57ZUuPTFCbAhU","2MsmPAUNGwNSHqJeHwfsRF2bzuC8k8UGRB5","2N99WuTbJPvbhPj4Lch6USatqrJ8Sptjh62","2My8s3TaWBkhpAwWu1d8pHG8vNL2t2GXv6z","2N4q4BZE4sfQn4Fbv34ooezNZpnY2HShJFS","2NADDKDFCDwEuxdGnXrUBBqT4z1zASos7Kn","2MyRRQwfxgj7RLxB1WrGzgZk76Ybrd8aBA9","2N7Yeq6sdskLbByHzuVkFE6cW7fYuDLhyoY","2NDymWV8J1HReHPrxQLJt2SiqpWGDtrHcB9","2N5X2tx625hmLbS2szFJQNrANaFtTAok2HK","2MwWEaYH25jfJFzVkUUQ3E5vJvaDLJ6d2o7","2NGL4D6ypy45tVDu5wp58qmHZQzLVbg9XGF","2N2GhTcKw5x8t8bH8VgwJL5xmZwEyxFhL6w","2MsPsFoDKY5TDHQFykFrcLjZsxbCtL6rGnW","2NDFMbhEcPiveuP5aRGb9LysuS4ABPV9kGR","2NEy9NY8WcKyzRbLx413zgm1HmcohCLTAx5","2Mshmmh3UDPdepELxXYNNYWvmad4ibisYG4","2MzReeKG18uN2nkWUnsrirnBNJoBBYTvCaC","2NCNVYMJvrtXZXCfX62i6XaUemGkXygjP5h","2NGHiREgdM1DWT9QPohuMQfYkL4XKBC2p4R","2N5XgNC1qYrvM4gU2ZsgiYjMb2zPHYP4iur","2N7bnpxjpfBnu7sAUJaRguddY5G8Rg1dwLr","2NGEex9AYZmCe7vyhTjUcjGhGaF4L369n2c","2N8poQRukhmLZyARnBCd4hhttFsrr1UQNtp","2N4ebzXwqxbDNjXLTq9i4c5Rzkb2azsfWUF","2Mt9Kh1aLA9x3KEzyDTrbC8z7GE56wo49Ep","2N9mvnbsPHofThC6Jo3Mp6qg8TeJAh6RzsN","2NFNoxCAB8P77Yss39uhNBbJF5kvah39oBT","2N3BSZj88eWjc2PXAXEBChTmokQxLxNjeeG","2Mz7h15waFNRfCvhEXTkMG8S6s5MDeWjX2r","2N3sW2WVDYAMvZ9ridRjuVKZjXvJRGDhLa4","2N6GLd93Q2PtViHXsMrH6QQteZu48zddXhy","2N43s4UPNzUZpggzjsR3Ky4gHevoVDtsK73","2N6ik2Z3YZMps6bdJrvmRH23Ly3jHWpDksp","2MvMWnxaFhxTAs3j8v3r5abmaZPTMyAQG8j","2N2imDRsGinrK2U9yKQAEiEpFExJoCagZSq","2N52i6MhRnQVsaFYB4oVKx8UysmQXWhLWva","2Mzt5YoPysrsNVEMnoRbaawZE824CXUCbJN","2NEQtQXqrQMyoCc84H2fkBme6UrG7eVB8ce","2NFx7kkDf4vvMRMBJHENgm9go6VwvDegQie","2N1jSjzmyMXArjBwJsfwJfgfmkvenfwERp3","2MtPYwEt8atVwGsXyptg9RPBP9AkYphykmt","2N2jXKG7pEzaaQ7SMfYhbLK9Lf7c41PKo6J","2NC3qmfuxediUYHwerieAeY8PefWQ2RsYdJ","2N43t5S8eQhYjYboLL2w96yGTEou7vJtNAw","2N6amaJZUb3DtkpEsFWo4nEAQMZUpRjkAZ3","2N9pm7a5MAoVtMT5fmmiQM8Dnskzb5gcL9T","2N7tpWUCRMiDmCzkkbbnGZEVJnpjXsDQdJV","2MzQQzCJ3ASwmPXPuaJVTuqUueLd6Y9bYJr","2MvR7LgpKDd8sQ4DBgBCS4YP2yFPfte4vLa","2NETAdQ19YibtdpuVP48jNoPTX5FnXk8Qdk","2MwuqXiT5hLPhSDDRwcAaUr6mZD1q1QxEGS","2NCZQQLNDkFUtQ9gBF2kBmbgtvoi2pCuXrJ","2MveeHvE8nfhaDtXzHT1JUuYHd1rs1iX6yc","2MzkYDH7ZpdTXYn15qfpFnieDnJHrWgg6Qk","2MsjxkF78K7AX3ueGS8ytb9ampoXMctHin4","2NBmvPGXfQQYk8fPEhtYPYpe1FGwiyhq4Ss","2MyvDW6npiF95DPGAEBRR7ND6PrqKo2yxEK","2N4hJe6YDHaVGwjZX3qJnS954ifr4pTBdqo","2N3jjQev7dLHLYmojiaoZdLgFdSrMmdopHv","2N2YP37NuUg1Wo1m6pMARQNuExaughZLDsz","2ND4NwHC853wuWDzfLL2vUKYGvUDn9VGTjM","2NEoebEVPWseaMA5A3W8pe2ugY1uyxmqApA","2N95cG6zRafn2d3CZkKkHeRL3fn1p8eZFDU","2MusfviKsuqKEoman9sN7y7EDAWFQKMbzrB","2MzwniAC4TtCzTSiVdf52GGVgf4FUVsKt8A","2MwTjueWV4XYsAgpbeAfbbhgYyKXbbc4N6c","2N658QDFnMTqNLTyfZbVShQonxRcgDxtvMB","2NBtvtF1Y1S3Gb3Fw87DmZGwAybZFpHhJde","2N1PcDHnLKFzwVNoUaxxGLNbG7TwK4J5a2i","2NDtv5EiLtQ146sqSoBpZZ92GgVACvAUp3M","2N1yoYNCCwBK64YpurAp2JmXj6zreWaLbW6","2MzR7qGRCozRTtrqpyZpNX321xz1xJPePjU","2N8Xk8VXRDQJpUhMyUxEHcPdPM7xC6QxKG4","2NEQc3Kw5ttVPkeFVs9LioZEFw1qTwPe4FM","2MyMVLRxdqSC4pfuzFtrqjU6jteas4Yq47C","2NFKcdvRTxvRPM894hBrcoELVyQ74AsPo8U","2MxxdR1EB2r52iYBc1yQ3tEBCNHe7hMhdQ5","2NEcS5fJJjFq2E84wD9uqQVw5MUbaKqMFHi","2N1zdZzw58MxkVN44unaCfpa4VdJxYuPtpa","2N19qNAzeQ7tvrLpFdf5ncEEz2DqzWPT917","2MwQ6RdXyoFFK7tSKehGJkRhkFWFLiweWqr","2Mv5KUW3kVBdNCf6KnXFYR3kNHT1BvZmL8r","2N8gT1XUcjJK5yd3TK72ExqSAMmFzrAqJtM","2N4o5CuPWJNFbBrNuhCyY9A7SFnhzHaEyPy","2NARsar2aLWfFWWsACukG2aYS28sxZ3g4mz","2NEkBFBanbLuU8XiHPjFxbuV8vqKJqUAKog","2NBR4ZDUDDGXnUwwTjifZnrHkpAurpnxWAU","2NDWJPS4BT8ishZWMbqeKGgQCrxtXgLgKHE","2NEGBQxZTV3MQDML42YYRvbCBWL4GKrSon9","2N89zd657Y4v9SvThXgEjnbuKhEKvTQRAHE","2N3mZVGEKYn6LErJCoaWGAiLfbd1xfyfwj9","2NArmXzSEeekEh1zVaZqbouESKfDDvwiAZV","2NC4demeenvY8XHZ8pFvD88rZyz7m4xpQuk","2NEzFub2aPomAXnLDvoKtFhhNxYgTrkE6HU","2Mz3fPZiR6T9QW7n3zpiDJLpatqK6K4HBgf"]}',
+			)
+			.reply(
+				200,
+				'{"data":{"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k":true,"2NAga16irQ8iaMEU3db3k7ZTmg7eaGSpzvy":false,"2MzLoh1jz3QJ8DARk99NuQvy2Mfg954J4HE":false,"2MuDecKd8h4CwLJCD2vUSdtKGTopiR9QkVC":false,"2N2sUjyiXGxBYo39MeuppR57ZUuPTFCbAhU":false,"2MsmPAUNGwNSHqJeHwfsRF2bzuC8k8UGRB5":false,"2N99WuTbJPvbhPj4Lch6USatqrJ8Sptjh62":false,"2My8s3TaWBkhpAwWu1d8pHG8vNL2t2GXv6z":false,"2N4q4BZE4sfQn4Fbv34ooezNZpnY2HShJFS":false,"2NADDKDFCDwEuxdGnXrUBBqT4z1zASos7Kn":false,"2MyRRQwfxgj7RLxB1WrGzgZk76Ybrd8aBA9":false,"2N7Yeq6sdskLbByHzuVkFE6cW7fYuDLhyoY":false,"2NDymWV8J1HReHPrxQLJt2SiqpWGDtrHcB9":false,"2N5X2tx625hmLbS2szFJQNrANaFtTAok2HK":false,"2MwWEaYH25jfJFzVkUUQ3E5vJvaDLJ6d2o7":false,"2NGL4D6ypy45tVDu5wp58qmHZQzLVbg9XGF":false,"2N2GhTcKw5x8t8bH8VgwJL5xmZwEyxFhL6w":false,"2MsPsFoDKY5TDHQFykFrcLjZsxbCtL6rGnW":false,"2NDFMbhEcPiveuP5aRGb9LysuS4ABPV9kGR":false,"2NEy9NY8WcKyzRbLx413zgm1HmcohCLTAx5":false,"2Mshmmh3UDPdepELxXYNNYWvmad4ibisYG4":false,"2MzReeKG18uN2nkWUnsrirnBNJoBBYTvCaC":false,"2NCNVYMJvrtXZXCfX62i6XaUemGkXygjP5h":false,"2NGHiREgdM1DWT9QPohuMQfYkL4XKBC2p4R":false,"2N5XgNC1qYrvM4gU2ZsgiYjMb2zPHYP4iur":false,"2N7bnpxjpfBnu7sAUJaRguddY5G8Rg1dwLr":false,"2NGEex9AYZmCe7vyhTjUcjGhGaF4L369n2c":false,"2N8poQRukhmLZyARnBCd4hhttFsrr1UQNtp":false,"2N4ebzXwqxbDNjXLTq9i4c5Rzkb2azsfWUF":false,"2Mt9Kh1aLA9x3KEzyDTrbC8z7GE56wo49Ep":false,"2N9mvnbsPHofThC6Jo3Mp6qg8TeJAh6RzsN":false,"2NFNoxCAB8P77Yss39uhNBbJF5kvah39oBT":false,"2N3BSZj88eWjc2PXAXEBChTmokQxLxNjeeG":false,"2Mz7h15waFNRfCvhEXTkMG8S6s5MDeWjX2r":false,"2N3sW2WVDYAMvZ9ridRjuVKZjXvJRGDhLa4":false,"2N6GLd93Q2PtViHXsMrH6QQteZu48zddXhy":false,"2N43s4UPNzUZpggzjsR3Ky4gHevoVDtsK73":false,"2N6ik2Z3YZMps6bdJrvmRH23Ly3jHWpDksp":false,"2MvMWnxaFhxTAs3j8v3r5abmaZPTMyAQG8j":false,"2N2imDRsGinrK2U9yKQAEiEpFExJoCagZSq":false,"2N52i6MhRnQVsaFYB4oVKx8UysmQXWhLWva":false,"2Mzt5YoPysrsNVEMnoRbaawZE824CXUCbJN":false,"2NEQtQXqrQMyoCc84H2fkBme6UrG7eVB8ce":false,"2NFx7kkDf4vvMRMBJHENgm9go6VwvDegQie":false,"2N1jSjzmyMXArjBwJsfwJfgfmkvenfwERp3":false,"2MtPYwEt8atVwGsXyptg9RPBP9AkYphykmt":false,"2N2jXKG7pEzaaQ7SMfYhbLK9Lf7c41PKo6J":false,"2NC3qmfuxediUYHwerieAeY8PefWQ2RsYdJ":false,"2N43t5S8eQhYjYboLL2w96yGTEou7vJtNAw":false,"2N6amaJZUb3DtkpEsFWo4nEAQMZUpRjkAZ3":false,"2N9pm7a5MAoVtMT5fmmiQM8Dnskzb5gcL9T":false,"2N7tpWUCRMiDmCzkkbbnGZEVJnpjXsDQdJV":false,"2MzQQzCJ3ASwmPXPuaJVTuqUueLd6Y9bYJr":false,"2MvR7LgpKDd8sQ4DBgBCS4YP2yFPfte4vLa":false,"2NETAdQ19YibtdpuVP48jNoPTX5FnXk8Qdk":false,"2MwuqXiT5hLPhSDDRwcAaUr6mZD1q1QxEGS":false,"2NCZQQLNDkFUtQ9gBF2kBmbgtvoi2pCuXrJ":false,"2MveeHvE8nfhaDtXzHT1JUuYHd1rs1iX6yc":false,"2MzkYDH7ZpdTXYn15qfpFnieDnJHrWgg6Qk":false,"2MsjxkF78K7AX3ueGS8ytb9ampoXMctHin4":false,"2NBmvPGXfQQYk8fPEhtYPYpe1FGwiyhq4Ss":false,"2MyvDW6npiF95DPGAEBRR7ND6PrqKo2yxEK":false,"2N4hJe6YDHaVGwjZX3qJnS954ifr4pTBdqo":false,"2N3jjQev7dLHLYmojiaoZdLgFdSrMmdopHv":false,"2N2YP37NuUg1Wo1m6pMARQNuExaughZLDsz":false,"2ND4NwHC853wuWDzfLL2vUKYGvUDn9VGTjM":false,"2NEoebEVPWseaMA5A3W8pe2ugY1uyxmqApA":false,"2N95cG6zRafn2d3CZkKkHeRL3fn1p8eZFDU":false,"2MusfviKsuqKEoman9sN7y7EDAWFQKMbzrB":false,"2MzwniAC4TtCzTSiVdf52GGVgf4FUVsKt8A":false,"2MwTjueWV4XYsAgpbeAfbbhgYyKXbbc4N6c":false,"2N658QDFnMTqNLTyfZbVShQonxRcgDxtvMB":false,"2NBtvtF1Y1S3Gb3Fw87DmZGwAybZFpHhJde":false,"2N1PcDHnLKFzwVNoUaxxGLNbG7TwK4J5a2i":false,"2NDtv5EiLtQ146sqSoBpZZ92GgVACvAUp3M":false,"2N1yoYNCCwBK64YpurAp2JmXj6zreWaLbW6":false,"2MzR7qGRCozRTtrqpyZpNX321xz1xJPePjU":false,"2N8Xk8VXRDQJpUhMyUxEHcPdPM7xC6QxKG4":false,"2NEQc3Kw5ttVPkeFVs9LioZEFw1qTwPe4FM":false,"2MyMVLRxdqSC4pfuzFtrqjU6jteas4Yq47C":false,"2NFKcdvRTxvRPM894hBrcoELVyQ74AsPo8U":false,"2MxxdR1EB2r52iYBc1yQ3tEBCNHe7hMhdQ5":false,"2NEcS5fJJjFq2E84wD9uqQVw5MUbaKqMFHi":false,"2N1zdZzw58MxkVN44unaCfpa4VdJxYuPtpa":false,"2N19qNAzeQ7tvrLpFdf5ncEEz2DqzWPT917":false,"2MwQ6RdXyoFFK7tSKehGJkRhkFWFLiweWqr":false,"2Mv5KUW3kVBdNCf6KnXFYR3kNHT1BvZmL8r":false,"2N8gT1XUcjJK5yd3TK72ExqSAMmFzrAqJtM":false,"2N4o5CuPWJNFbBrNuhCyY9A7SFnhzHaEyPy":false,"2NARsar2aLWfFWWsACukG2aYS28sxZ3g4mz":false,"2NEkBFBanbLuU8XiHPjFxbuV8vqKJqUAKog":false,"2NBR4ZDUDDGXnUwwTjifZnrHkpAurpnxWAU":false,"2NDWJPS4BT8ishZWMbqeKGgQCrxtXgLgKHE":false,"2NEGBQxZTV3MQDML42YYRvbCBWL4GKrSon9":false,"2N89zd657Y4v9SvThXgEjnbuKhEKvTQRAHE":false,"2N3mZVGEKYn6LErJCoaWGAiLfbd1xfyfwj9":false,"2NArmXzSEeekEh1zVaZqbouESKfDDvwiAZV":false,"2NC4demeenvY8XHZ8pFvD88rZyz7m4xpQuk":false,"2NEzFub2aPomAXnLDvoKtFhhNxYgTrkE6HU":false,"2Mz3fPZiR6T9QW7n3zpiDJLpatqK6K4HBgf":false}}',
+			)
+			.post(
+				"/api/wallets/addresses",
+				'{"addresses":["2N5ETorn5JyFdWYYnAb9PVC3Hz1bgMjWQPU","2N5WAJtL3hhc9TwNJp6JjSNeUhg16o4D9T3","2MufXVhLZfhQSBgVaghCMdHvPZjWxCZBnSx","2NEPqy9v3jAuorUWjB5WsztDhb5vpLMU4uL","2MuJtEaiibDn2Kd9aF9qKocaof5vdHXHg3W","2Mw4Npp8CmwuH47oHAuPSMeXtZPgZN32mpv","2MuzcqQ2Bdk4JaXynJ9vavdpQbgJErks2LS","2NE7iC154tQ9y4ayhvELHRY1UDjtKxSfvak","2N6vJGS2y7mDqawac3acYAxSV2xtfzrUTv3","2N6DFQEcDWLBE4tqAjkpqm4kV1emkkv1GbD","2N8kR8DxSYRetrtaq7cGHczPSf7gqefUpKi","2N4rFQuiC3YaCFTHDCjegbpN1EU1hsiwMMG","2MsV6AGxYmvALsoSYNDjaM6gkEaAc4KHT9n","2MwahKdPFCrKq4y4vnBqZPCZ7Ev4a7vDPVC","2NDHbxy4maFWCiz2J8oGnGFfV8hF3GgdPFL","2MvLPw4PaH8UpzDR6fHEou4qcJGvpJgJNdw","2N4vWhzYpd3qhwNg3MnaSE3ViKoBytD82ay","2N7Hq3zg5VLtNvArwMm6HrJ9LEwV6Wc2qFc","2N5UzTGjnxKN1HvmZjfDJ9VPXnhCt7cLnpw","2N79t5eTR3hoW4RXyyV1NUpHtpsEywJ5XTv","2MzoqXmsvkmbne2L8DREym1HkRYGStDgpK5","2N2rtAqceXKVdvMGDfURgtWtNJnoz8ESP26","2N6et6RjjrYAHJvZfWUH7HiH8Y5NLHngZni","2N6Hzf5o9ApU9ETJL3DoDpXbtYbi5bNw4gZ","2NBerPgfA9a4m7NmYiCAokrNqP31VW3ptEX","2N3i9j3EPuUDqUdmfy6tJVo5UKSgoH6HnzX","2NDe5DdnqP27VBeJHGZqFpkoCDwq9wb1oo2","2N4PWNeR7q2MgEXeMfHGfTZxM81p1NK2ewa","2NBzTNr3E6qpQv7UrtF2aAehyJqj5EZ8tQc","2Mua3BkdAdZ84auwNdu66yQynmekcAUssiD","2MzbPW1mRWXkkBE2ofukUQXZa6ozvqimPG1","2NCobP6FmmriZKN2na8pT1ZBkBad7exau5N","2NF9HZSsKpQSqYvRmyyAoQQTLvnERmDnCJd","2NGY92p2VuGpnGNjEQe149pqzkdcxHCcLxU","2N4n2EWzDNozEDxyfzKwMjhv7cXXXNAuJBw","2N4Xbx38uYjt2tUfYqhVwYKks6DS81pQeH7","2N5DyZnXMfPCnNFACPSD4XNeWHtxrLgheGQ","2MwcEs68evEBEzQLc7D6xonB3gKmCqEb3VE","2Mxo1G3tHJgwFEMt49SqxxauyoMFMAF8kmF","2Mzhyq4SjpL6gZJbvwnzazmb8RxdLRn1XY4","2Mu7RgWt82XuvwWMLNVE2ur5fbYCSQnP2eq","2NG1nYPmkbQ4sjjLzY1JLsv3wPJyVqH3nYf","2N5inBrLLdgGyJgptJvPFi1w8ZkrsRw1DqW","2NCSj9Ki6hRkiD8mVjHLBqCShzhiUb4AW8c","2MzBzn5xEJmcaYubKPnFUFjHQi3JEGFLhg9","2MuDfViyXNinRxvyjCUEpAW7iMdexg6nzrJ","2MsgwWXRsuNoo7eTzSDSy6bpbbWrMDwbqfR","2MwJDSSv7pSAZq4M3nhkRedydihzKr9Vvjx","2N5ziCLDhupPNhBsg1jLp6FSw9XfPkpHCDR","2N36yA5XZeuGnJgLmL71stQRavZEs6b2tjY","2MvXdqzXNJAPoXZTyaqnrzf5zM16XyJBWN6","2NBBPucUX24QFYEbyi3p5uWD9DaHhhDtWoE","2NAAxenvJmd3v7K5gj2GvySFjfgRAak7m3Q","2MuxFTPd54PtR8jDMDd9rzvK79qhTTVss3a","2N6tcRp2kN3eJyUvzR4kY3bnGhFv9DTafRd","2Mwqas93AGzL8JQBXPn7WeCt16q6YMJXg4E","2N6bRzh5HGDUqw1jEsCzuWYz1BwPJqSM6TC","2MzfX91KUkB9Yx4k44k1cdqc4THwbhApa4a","2MvKN4v394HasuRTRvBWtdkkSUzE9tKKkxr","2N41ctEYgrYzZ8VouNCmeKjLrzXQKWmnjDP","2N6RbxwiWjZ3QyP2bo4ta1G2ScLN6jcBaju","2NAXgNTNpFa2nVUxXCk85pb3J4AjL3WaEsM","2NBpadBMWkanCPL7W2HfTqGL64iJipVQ4WB","2N5sRcsjyMAHRKLnnPMweLt66YzDMcuTVC2","2N3c5VndeJrNDrVreN5xZtKsLiGb73UT7uJ","2N9TnkEMNsNrUcHnCLjBwXyqGAcKVs729FC","2NEkuQdbjkvXz68zE8nPfL6SN2tv3nq8QPK","2N2AQr9jr8fkaJTfh2Vtx7wYBpMQrLgWD5j","2MzHhzSBae1qqHsbjnLk6RgXwKe7xNBuMkW","2N4cHKJbGCuBZTSMh7RwU7F7iFsNaNEkaT6","2MsQT5weLaceM5nZWFKYBNuK7rtJpiCuL1M","2NAYrYLJmbvSdrWWeA4oUuqcieUtEcjF9Pq","2MwmGUfQYVfxGPH4qp5WsW1VPS1Bh3HkWc6","2NCqsG8bgJ6g7EuA8diMHPhq4Bu58UHYCnc","2N638nCgvgeiwTSiFJ4V1R24pqnKDfBosqH","2MtjjNxHaWWFiWUt3Db3PU8dPohRoMKgZfm","2MtjAxYQQsdXiG96vUac9iNw3xy11R2j9VA","2MvugW6pX1SaqXU58yDTsJmRDosaJ2mWRtv","2NBr7WHPz7oPqig5n7JN1G545K2N1CWAvYu","2Mx4UDSYeN4cmhMPx6VLXbDQ4P4faPkWgih","2N3JgpWntUpApjfW6cv4KxsASPgJbYDySYP","2MtS64nyhXcgUVP1LNSxD3b6L8yrqB9KhjY","2MuAfEyEHcmdmnHD6Edwg391qaDW1S85E4h","2N693i7JTKx1xXUeAYbDmh7Uhj4zBiHccxh","2NEMEYgaezunQZWJr7Ezg9WBVxuM3B3S4ac","2NGLtNZhvp92vMV1uruWg7uw5AXmjjZrkvs","2MzvZGMJZ1ienAnLmKmiU2xrnJ8gzGoaQHT","2NCojkJdUhXKmVLQQyPnfakHn5k8bvUFsKh","2N53J6jSqJruYXDDmgtw89849TVig7yeWGP","2NGV7nrdfxfGLnwLrdQxYaga8JjzVhASvfZ","2NG9hP4pGpPaFGzNAFZbAtsjCmn2FKb1Zpr","2MztRGcL74pzPhCJdQbeDZ8KXFFSfGQbUNd","2MvHCXg45LBHkSh1ZPKgDZzNngC7veqsMfZ","2N72iAx88ob9RiDx8kweqA8umoRMjRY9HJN","2NDtkPqP5g1mREubwHnzxvLeiG1wgLKoXSm","2N5gzMWAfcKJZQ1EizxkeETgCJY7s4LApBo","2N6ykqZDexqaUMoBReHtMVeCVrjfKTqePLt","2MwpbvktYBKUUrpFj3aJiPgvcY47DmcUQcr","2NFegdrY7Q614Tv5F7qaU2pEPK3CNt7NuqL","2N3cvnPrT74CkmEtvgwSSbyjVi9DL6Mbjyv"]}',
+			)
+			.reply(
+				200,
+				'{"data":{"2N5ETorn5JyFdWYYnAb9PVC3Hz1bgMjWQPU":false,"2N5WAJtL3hhc9TwNJp6JjSNeUhg16o4D9T3":false,"2MufXVhLZfhQSBgVaghCMdHvPZjWxCZBnSx":false,"2NEPqy9v3jAuorUWjB5WsztDhb5vpLMU4uL":false,"2MuJtEaiibDn2Kd9aF9qKocaof5vdHXHg3W":false,"2Mw4Npp8CmwuH47oHAuPSMeXtZPgZN32mpv":false,"2MuzcqQ2Bdk4JaXynJ9vavdpQbgJErks2LS":false,"2NE7iC154tQ9y4ayhvELHRY1UDjtKxSfvak":false,"2N6vJGS2y7mDqawac3acYAxSV2xtfzrUTv3":false,"2N6DFQEcDWLBE4tqAjkpqm4kV1emkkv1GbD":false,"2N8kR8DxSYRetrtaq7cGHczPSf7gqefUpKi":false,"2N4rFQuiC3YaCFTHDCjegbpN1EU1hsiwMMG":false,"2MsV6AGxYmvALsoSYNDjaM6gkEaAc4KHT9n":false,"2MwahKdPFCrKq4y4vnBqZPCZ7Ev4a7vDPVC":false,"2NDHbxy4maFWCiz2J8oGnGFfV8hF3GgdPFL":false,"2MvLPw4PaH8UpzDR6fHEou4qcJGvpJgJNdw":false,"2N4vWhzYpd3qhwNg3MnaSE3ViKoBytD82ay":false,"2N7Hq3zg5VLtNvArwMm6HrJ9LEwV6Wc2qFc":false,"2N5UzTGjnxKN1HvmZjfDJ9VPXnhCt7cLnpw":false,"2N79t5eTR3hoW4RXyyV1NUpHtpsEywJ5XTv":false,"2MzoqXmsvkmbne2L8DREym1HkRYGStDgpK5":false,"2N2rtAqceXKVdvMGDfURgtWtNJnoz8ESP26":false,"2N6et6RjjrYAHJvZfWUH7HiH8Y5NLHngZni":false,"2N6Hzf5o9ApU9ETJL3DoDpXbtYbi5bNw4gZ":false,"2NBerPgfA9a4m7NmYiCAokrNqP31VW3ptEX":false,"2N3i9j3EPuUDqUdmfy6tJVo5UKSgoH6HnzX":false,"2NDe5DdnqP27VBeJHGZqFpkoCDwq9wb1oo2":false,"2N4PWNeR7q2MgEXeMfHGfTZxM81p1NK2ewa":false,"2NBzTNr3E6qpQv7UrtF2aAehyJqj5EZ8tQc":false,"2Mua3BkdAdZ84auwNdu66yQynmekcAUssiD":false,"2MzbPW1mRWXkkBE2ofukUQXZa6ozvqimPG1":false,"2NCobP6FmmriZKN2na8pT1ZBkBad7exau5N":false,"2NF9HZSsKpQSqYvRmyyAoQQTLvnERmDnCJd":false,"2NGY92p2VuGpnGNjEQe149pqzkdcxHCcLxU":false,"2N4n2EWzDNozEDxyfzKwMjhv7cXXXNAuJBw":false,"2N4Xbx38uYjt2tUfYqhVwYKks6DS81pQeH7":false,"2N5DyZnXMfPCnNFACPSD4XNeWHtxrLgheGQ":false,"2MwcEs68evEBEzQLc7D6xonB3gKmCqEb3VE":false,"2Mxo1G3tHJgwFEMt49SqxxauyoMFMAF8kmF":false,"2Mzhyq4SjpL6gZJbvwnzazmb8RxdLRn1XY4":false,"2Mu7RgWt82XuvwWMLNVE2ur5fbYCSQnP2eq":false,"2NG1nYPmkbQ4sjjLzY1JLsv3wPJyVqH3nYf":false,"2N5inBrLLdgGyJgptJvPFi1w8ZkrsRw1DqW":false,"2NCSj9Ki6hRkiD8mVjHLBqCShzhiUb4AW8c":false,"2MzBzn5xEJmcaYubKPnFUFjHQi3JEGFLhg9":false,"2MuDfViyXNinRxvyjCUEpAW7iMdexg6nzrJ":false,"2MsgwWXRsuNoo7eTzSDSy6bpbbWrMDwbqfR":false,"2MwJDSSv7pSAZq4M3nhkRedydihzKr9Vvjx":false,"2N5ziCLDhupPNhBsg1jLp6FSw9XfPkpHCDR":false,"2N36yA5XZeuGnJgLmL71stQRavZEs6b2tjY":false,"2MvXdqzXNJAPoXZTyaqnrzf5zM16XyJBWN6":false,"2NBBPucUX24QFYEbyi3p5uWD9DaHhhDtWoE":false,"2NAAxenvJmd3v7K5gj2GvySFjfgRAak7m3Q":false,"2MuxFTPd54PtR8jDMDd9rzvK79qhTTVss3a":false,"2N6tcRp2kN3eJyUvzR4kY3bnGhFv9DTafRd":false,"2Mwqas93AGzL8JQBXPn7WeCt16q6YMJXg4E":false,"2N6bRzh5HGDUqw1jEsCzuWYz1BwPJqSM6TC":false,"2MzfX91KUkB9Yx4k44k1cdqc4THwbhApa4a":false,"2MvKN4v394HasuRTRvBWtdkkSUzE9tKKkxr":false,"2N41ctEYgrYzZ8VouNCmeKjLrzXQKWmnjDP":false,"2N6RbxwiWjZ3QyP2bo4ta1G2ScLN6jcBaju":false,"2NAXgNTNpFa2nVUxXCk85pb3J4AjL3WaEsM":false,"2NBpadBMWkanCPL7W2HfTqGL64iJipVQ4WB":false,"2N5sRcsjyMAHRKLnnPMweLt66YzDMcuTVC2":false,"2N3c5VndeJrNDrVreN5xZtKsLiGb73UT7uJ":false,"2N9TnkEMNsNrUcHnCLjBwXyqGAcKVs729FC":false,"2NEkuQdbjkvXz68zE8nPfL6SN2tv3nq8QPK":false,"2N2AQr9jr8fkaJTfh2Vtx7wYBpMQrLgWD5j":false,"2MzHhzSBae1qqHsbjnLk6RgXwKe7xNBuMkW":false,"2N4cHKJbGCuBZTSMh7RwU7F7iFsNaNEkaT6":false,"2MsQT5weLaceM5nZWFKYBNuK7rtJpiCuL1M":false,"2NAYrYLJmbvSdrWWeA4oUuqcieUtEcjF9Pq":false,"2MwmGUfQYVfxGPH4qp5WsW1VPS1Bh3HkWc6":false,"2NCqsG8bgJ6g7EuA8diMHPhq4Bu58UHYCnc":false,"2N638nCgvgeiwTSiFJ4V1R24pqnKDfBosqH":false,"2MtjjNxHaWWFiWUt3Db3PU8dPohRoMKgZfm":false,"2MtjAxYQQsdXiG96vUac9iNw3xy11R2j9VA":false,"2MvugW6pX1SaqXU58yDTsJmRDosaJ2mWRtv":false,"2NBr7WHPz7oPqig5n7JN1G545K2N1CWAvYu":false,"2Mx4UDSYeN4cmhMPx6VLXbDQ4P4faPkWgih":false,"2N3JgpWntUpApjfW6cv4KxsASPgJbYDySYP":false,"2MtS64nyhXcgUVP1LNSxD3b6L8yrqB9KhjY":false,"2MuAfEyEHcmdmnHD6Edwg391qaDW1S85E4h":false,"2N693i7JTKx1xXUeAYbDmh7Uhj4zBiHccxh":false,"2NEMEYgaezunQZWJr7Ezg9WBVxuM3B3S4ac":false,"2NGLtNZhvp92vMV1uruWg7uw5AXmjjZrkvs":false,"2MzvZGMJZ1ienAnLmKmiU2xrnJ8gzGoaQHT":false,"2NCojkJdUhXKmVLQQyPnfakHn5k8bvUFsKh":false,"2N53J6jSqJruYXDDmgtw89849TVig7yeWGP":false,"2NGV7nrdfxfGLnwLrdQxYaga8JjzVhASvfZ":false,"2NG9hP4pGpPaFGzNAFZbAtsjCmn2FKb1Zpr":false,"2MztRGcL74pzPhCJdQbeDZ8KXFFSfGQbUNd":false,"2MvHCXg45LBHkSh1ZPKgDZzNngC7veqsMfZ":false,"2N72iAx88ob9RiDx8kweqA8umoRMjRY9HJN":false,"2NDtkPqP5g1mREubwHnzxvLeiG1wgLKoXSm":false,"2N5gzMWAfcKJZQ1EizxkeETgCJY7s4LApBo":false,"2N6ykqZDexqaUMoBReHtMVeCVrjfKTqePLt":false,"2MwpbvktYBKUUrpFj3aJiPgvcY47DmcUQcr":false,"2NFegdrY7Q614Tv5F7qaU2pEPK3CNt7NuqL":false,"2N3cvnPrT74CkmEtvgwSSbyjVi9DL6Mbjyv":false}}',
+			)
+			.post(
+				"/api/wallets/transactions/unspent",
+				'{"addresses":["2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k"]}',
+			)
+			.reply(
+				200,
+				'{"data":[{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c","outputIndex":1,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":81000},{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904","outputIndex":0,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":100000}],"links":{"first":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","last":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent","per_page":15,"to":2,"total":2}}',
+			)
+			.get("/api/fees")
+			.reply(200, {
+				data: {
+					min: 0.00001074,
+					avg: 0.00000002,
+					max: 0.00180617,
+				},
+			})
+			.persist();
+	});
+
+	it("should generate a transfer transaction", async () => {
+		const multiSignatureAsset: Services.MultiSignatureAsset = {
+			min: 2,
+			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
+		};
+		const signatory = new Signatories.Signatory(
+			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
+			multiSignatureAsset,
+		);
+		const result = await subject.transfer({
+			data: {
+				amount: 0.0001,
+				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
+			},
+			signatory,
+		});
+
+		expect(result.id()).toBe("8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148");
+		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(result.amount().toNumber()).toBe(10_000);
+		expect(result.fee().toNumber()).toBe(330);
+		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		expect(result.toBroadcast()).toBe(
+			// TODO Something seems to be missing here (apart from the signaures)
+			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d000000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
 	});
 });

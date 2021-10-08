@@ -344,8 +344,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 	}
 
-	#mainnetPrefixes = new Set(["Ypub", "Zpub"]);
-	#testnetPrefixes = new Set(["Upub", "Vpub"]);
+	#mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig"};
+	#testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig"};
 
 	#keysAndMethod(
 		multiSignatureAsset: Services.MultiSignatureAsset,
@@ -360,15 +360,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let method: MusigDerivationMethod;
 
 		if (network === bitcoin.networks.bitcoin) {
-			if (prefixes.some((prefix) => !this.#mainnetPrefixes.has(prefix))) {
-				throw new Exceptions.Exception(`Extended public key must start with any of ${this.#mainnetPrefixes}.`);
+			if (prefixes.some((prefix) => !this.#mainnetPrefixes[prefix])) {
+				throw new Exceptions.Exception(`Extended public key must start with any of ${Object.keys(this.#mainnetPrefixes)}.`);
 			}
-			method = prefixes[0] === "Ypub" ? "p2SHSegwitMusig" : "nativeSegwitMusig";
+			method = this.#mainnetPrefixes[prefixes[0]];
 		} else if (network === bitcoin.networks.testnet) {
-			if (prefixes.some((prefix) => !this.#testnetPrefixes.has(prefix))) {
-				throw new Exceptions.Exception(`Extended public key must start with any of ${this.#testnetPrefixes}.`);
+			if (prefixes.some((prefix) => !this.#testnetPrefixes[prefix])) {
+				throw new Exceptions.Exception(`Extended public key must start with any of ${Object.keys(this.#testnetPrefixes)}.`);
 			}
-			method = prefixes[0] === "Upub" ? "p2SHSegwitMusig" : "nativeSegwitMusig";
+			method = this.#testnetPrefixes[prefixes[0]];
 		} else {
 			throw new Exceptions.Exception(`Invalid network.`);
 		}
