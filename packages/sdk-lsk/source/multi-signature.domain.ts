@@ -45,26 +45,3 @@ export const isTransactionFullySigned = (senderWallet: Contracts.WalletData, tra
 
 	return required === alreadySigned;
 };
-
-export const isMember = (senderWallet, account, transaction) => {
-	let mandatoryKeys: string[] = [];
-	let optionalKeys: string[] = [];
-
-	if (transaction.moduleAssetId === "4:0") {
-		mandatoryKeys = transaction.asset.mandatoryKeys;
-		optionalKeys = transaction.asset.optionalKeys;
-	} else {
-		mandatoryKeys = senderWallet.keys.mandatoryKeys;
-		optionalKeys = senderWallet.keys.optionalKeys;
-	}
-
-	if (mandatoryKeys.includes(account.summary.publicKey)) {
-		return true;
-	}
-
-	if (optionalKeys.includes(account.summary.publicKey)) {
-		return true;
-	}
-
-	return false;
-};
