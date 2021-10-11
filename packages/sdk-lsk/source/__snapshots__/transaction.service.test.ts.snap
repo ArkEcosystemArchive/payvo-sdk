@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionService #multiSignature 1`] = `
+exports[`TransactionService #multiSignature should verify 1`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -70,7 +70,7 @@ SignedTransactionData {
 }
 `;
 
-exports[`TransactionService #multiSignature 2`] = `
+exports[`TransactionService #multiSignature should verify 2`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -140,7 +140,7 @@ SignedTransactionData {
 }
 `;
 
-exports[`TransactionService #multiSignature 3`] = `
+exports[`TransactionService #multiSignature should verify 3`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},

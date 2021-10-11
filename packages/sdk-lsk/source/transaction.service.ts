@@ -145,10 +145,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			input.signatory.signingKey(),
 		);
 
-		if (input.signatory.actsWithConfirmationMnemonic()) {
-			signedTransaction = await this.multiSignatureService.addSignature(signedTransaction, input.signatory);
-		}
-
 		return this.dataTransferObjectService.signedTransaction(convertBuffer(signedTransaction.id), {
 			...this.transactionSerializer.toHuman(signedTransaction),
 			timestamp: DateTime.make(),
