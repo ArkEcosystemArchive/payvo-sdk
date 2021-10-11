@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MultiSignatureService #addSignture 1`] = `
+exports[`MultiSignatureService should add signature 1`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -13,7 +13,7 @@ SignedTransactionData {
     },
     "assetID": 0,
     "fee": "1000000000",
-    "id": "817d9408604ec47f432c24fa7002c4c86d5db5fa244faba971afe7e6f6e01eca",
+    "id": "7395fb8f6d92a80afc28047e07ce3be4cd2beb4be11d36584961b7c6c3ddd664",
     "moduleID": 2,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -23,16 +23,16 @@ SignedTransactionData {
       "numberOfSignatures": 2,
       "optionalKeys": Array [],
     },
-    "nonce": "0",
+    "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
       "",
-      "95f01c372671cae2e7f418bab7ea7bdc940e1bfe885f2482e709fdd039c2506e53d7c00a4ce16f5193d92b57b841dd04df1593f3f030749ee30231d3d7b45202",
+      "9ccc8d65bfc3b777217ac8670b2e511f854c160e6a00b8e9a0869016657b97fbe115811e6229a4e8c8e46990d6e2603f796d108837c5b09d13f6ed6dad08ab0c",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
-  "identifier": "817d9408604ec47f432c24fa7002c4c86d5db5fa244faba971afe7e6f6e01eca",
+  "identifier": "7395fb8f6d92a80afc28047e07ce3be4cd2beb4be11d36584961b7c6c3ddd664",
   "signedData": Object {
     "asset": Object {
       "amount": "100000000",
@@ -41,7 +41,7 @@ SignedTransactionData {
     },
     "assetID": 0,
     "fee": "1000000000",
-    "id": "817d9408604ec47f432c24fa7002c4c86d5db5fa244faba971afe7e6f6e01eca",
+    "id": "7395fb8f6d92a80afc28047e07ce3be4cd2beb4be11d36584961b7c6c3ddd664",
     "moduleID": 2,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -51,18 +51,18 @@ SignedTransactionData {
       "numberOfSignatures": 2,
       "optionalKeys": Array [],
     },
-    "nonce": "0",
+    "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
       "",
-      "95f01c372671cae2e7f418bab7ea7bdc940e1bfe885f2482e709fdd039c2506e53d7c00a4ce16f5193d92b57b841dd04df1593f3f030749ee30231d3d7b45202",
+      "9ccc8d65bfc3b777217ac8670b2e511f854c160e6a00b8e9a0869016657b97fbe115811e6229a4e8c8e46990d6e2603f796d108837c5b09d13f6ed6dad08ab0c",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
 }
 `;
 
-exports[`MultiSignatureService #addSignture 2`] = `
+exports[`MultiSignatureService should add signature 2`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -75,7 +75,7 @@ SignedTransactionData {
     },
     "assetID": 0,
     "fee": "1000000000",
-    "id": "49aab858eed43883455f6206d2dec74a1bcd971657677695ddeaf3eeab736333",
+    "id": "9b251f6caf03725dcf6514dae3b147953fec70caff9db332953a1a02573e729d",
     "moduleID": 2,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -85,16 +85,16 @@ SignedTransactionData {
       "numberOfSignatures": 2,
       "optionalKeys": Array [],
     },
-    "nonce": "0",
+    "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "ab05e0f5614d64c2f2ad9278567cc19211f5f8ebc34878cb93d30d8ae72f137785e0a955a7003c87f0993b1102a6cb356f085e00da26f85dfd15b7c7a4c53501",
-      "95f01c372671cae2e7f418bab7ea7bdc940e1bfe885f2482e709fdd039c2506e53d7c00a4ce16f5193d92b57b841dd04df1593f3f030749ee30231d3d7b45202",
+      "3760f52b99f5c78b4cd3f46374baef1774279c876d9f23abef50b60670983916c3d69a33f8dd51acb7ef9ee30c6704e0d31bfbd9a42b5f17ba1d6ac6d4811505",
+      "9ccc8d65bfc3b777217ac8670b2e511f854c160e6a00b8e9a0869016657b97fbe115811e6229a4e8c8e46990d6e2603f796d108837c5b09d13f6ed6dad08ab0c",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
   "decimals": 8,
-  "identifier": "49aab858eed43883455f6206d2dec74a1bcd971657677695ddeaf3eeab736333",
+  "identifier": "9b251f6caf03725dcf6514dae3b147953fec70caff9db332953a1a02573e729d",
   "signedData": Object {
     "asset": Object {
       "amount": "100000000",
@@ -103,7 +103,7 @@ SignedTransactionData {
     },
     "assetID": 0,
     "fee": "1000000000",
-    "id": "49aab858eed43883455f6206d2dec74a1bcd971657677695ddeaf3eeab736333",
+    "id": "9b251f6caf03725dcf6514dae3b147953fec70caff9db332953a1a02573e729d",
     "moduleID": 2,
     "multiSignature": Object {
       "mandatoryKeys": Array [
@@ -113,11 +113,11 @@ SignedTransactionData {
       "numberOfSignatures": 2,
       "optionalKeys": Array [],
     },
-    "nonce": "0",
+    "nonce": "8",
     "senderPublicKey": "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
     "signatures": Array [
-      "ab05e0f5614d64c2f2ad9278567cc19211f5f8ebc34878cb93d30d8ae72f137785e0a955a7003c87f0993b1102a6cb356f085e00da26f85dfd15b7c7a4c53501",
-      "95f01c372671cae2e7f418bab7ea7bdc940e1bfe885f2482e709fdd039c2506e53d7c00a4ce16f5193d92b57b841dd04df1593f3f030749ee30231d3d7b45202",
+      "3760f52b99f5c78b4cd3f46374baef1774279c876d9f23abef50b60670983916c3d69a33f8dd51acb7ef9ee30c6704e0d31bfbd9a42b5f17ba1d6ac6d4811505",
+      "9ccc8d65bfc3b777217ac8670b2e511f854c160e6a00b8e9a0869016657b97fbe115811e6229a4e8c8e46990d6e2603f796d108837c5b09d13f6ed6dad08ab0c",
     ],
     "timestamp": "2021-01-01T12:00:00.000Z",
   },
