@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-avax",
-	"version": "1.7.26",
+	"version": "1.7.29",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -31,7 +31,8 @@
 		"@payvo/intl": "^1.0.1",
 		"@payvo/sdk": "workspace:*",
 		"avalanche": "^3.8.5",
-		"hdkey": "^2.0.1"
+		"hdkey": "^2.0.1",
+		"isomorphic-dompurify": "~0.15.0"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",
