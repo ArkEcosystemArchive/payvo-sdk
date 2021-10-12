@@ -35,7 +35,7 @@ const network: Networks.NetworkManifest = {
 	featureFlags,
 	explorer,
 	meta: {
-		networkId: "01e47ba4e3e57981642150f4b45f64c2160c10bac9434339888210a4fa5df097",
+		networkId: "4c09e6a781fc4c7bdb936ee815de8f94190f8a7519becd9de2081832be309a99",
 		assets,
 	},
 };
