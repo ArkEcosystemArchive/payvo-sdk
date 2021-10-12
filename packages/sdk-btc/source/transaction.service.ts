@@ -7,13 +7,9 @@ import coinSelect from "coinselect";
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
-import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { Bip44Address, BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { post } from "./helpers";
 import { LedgerService } from "./ledger.service";
-import { jest } from "@jest/globals";
-import WalletDataHelper from "./wallet-data-helper";
-
-jest.setTimeout(20_000);
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -32,6 +28,7 @@ const runWithLedgerConnectionIfNeeded = async (
 		}
 	}
 };
+
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
