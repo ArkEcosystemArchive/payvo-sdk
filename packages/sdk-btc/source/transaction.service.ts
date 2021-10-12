@@ -250,29 +250,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
-
-	private async unspentTransactionOutputs(bip44Addresses: Bip44Address[]): Promise<UnspentTransaction[]> {
-		const addresses = bip44Addresses.map((address) => address.address);
-
-		const utxos = (
-			await post(`wallets/transactions/unspent`, { addresses }, this.httpClient, this.configRepository)
-		).data;
-
-		const rawTxs = (
-			await post(
-				`wallets/transactions/raw`,
-				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
-				this.httpClient,
-				this.configRepository,
-			)
-		).data;
-
-		return utxos.map((utxo) => ({
-			...utxo,
-			raw: rawTxs[utxo.txId],
-		}));
-	}
-
 	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		const network = getNetworkConfig(this.configRepository);
 
