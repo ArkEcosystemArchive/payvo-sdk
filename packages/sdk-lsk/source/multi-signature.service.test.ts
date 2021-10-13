@@ -83,7 +83,7 @@ describe("MultiSignatureService", () => {
 			.persist();
 	});
 
-	it.only("should add signature", async () => {
+	it("should add signature", async () => {
 		const transaction1 = await subject.transfer({
 			fee: 10,
 			signatory: new Signatories.Signatory(
@@ -111,6 +111,7 @@ describe("MultiSignatureService", () => {
 
 		expect(musig.needsWalletSignature(transaction1, wallet1.publicKey)).toBeFalse();
 		expect(musig.needsWalletSignature(transaction1, wallet2.publicKey)).toBeTrue();
+		expect(musig.needsWalletSignature(transaction1, "non-participant publicKey")).toBeFalse();
 
 		const transaction2 = await musig.addSignature(
 			transaction1.data(),
@@ -132,6 +133,9 @@ describe("MultiSignatureService", () => {
 		expect(musig.needsAllSignatures(transaction2)).toBeFalse();
 		expect(musig.getValidMultiSignatures(transaction2)).toEqual([wallet1.publicKey, wallet2.publicKey]);
 		expect(musig.remainingSignatureCount(transaction2)).toBe(0);
+
+		expect(musig.needsWalletSignature(transaction2, wallet1.publicKey)).toBeFalse();
+		expect(musig.needsWalletSignature(transaction2, wallet2.publicKey)).toBeFalse();
 	});
 
 	describe("#broadcast", () => {

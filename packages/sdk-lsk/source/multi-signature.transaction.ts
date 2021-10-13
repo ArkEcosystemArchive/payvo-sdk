@@ -1,5 +1,6 @@
 import { convertBufferList, convertStringList } from "@payvo/helpers";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { findNonEmptySignatureIndices } from "./multi-signature.domain";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
@@ -59,17 +60,11 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
 		}
 
-		const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
-			publicKey,
-		);
-
-		if (index === -1) {
+		if (![...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].includes(publicKey)) {
 			return false;
 		}
 
-		console.log({ index, signatures: this.#transaction.signatures, musig: this.#multiSignature });
-
-		return this.#transaction.signatures[index] === undefined;
+		return !this.getValidMultiSignatures().includes(publicKey);
 	}
 
 	public needsFinalSignature(): boolean {
