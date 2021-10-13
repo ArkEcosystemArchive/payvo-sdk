@@ -15,6 +15,7 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
 import { isMultiSignatureRegistration } from "./helpers";
 import { DateTime } from "@payvo/intl";
+import { RequestException } from "@payvo/sdk/distribution/http";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -91,7 +92,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				errors: {},
 			};
 		} catch (error) {
-			if (error instanceof Http.RequestException) {
+			if ((error as any).constructor.name === "RequestException") {
 				return {
 					accepted: [],
 					rejected: [transaction.id],

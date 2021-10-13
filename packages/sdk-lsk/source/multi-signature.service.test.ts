@@ -83,7 +83,7 @@ describe("MultiSignatureService", () => {
 			.persist();
 	});
 
-	it("should add signature", async () => {
+	it.only("should add signature", async () => {
 		const transaction1 = await subject.transfer({
 			fee: 10,
 			signatory: new Signatories.Signatory(
@@ -109,6 +109,9 @@ describe("MultiSignatureService", () => {
 		expect(musig.getValidMultiSignatures(transaction1)).toEqual([wallet1.publicKey]);
 		expect(musig.remainingSignatureCount(transaction1)).toBe(1);
 
+		expect(musig.needsWalletSignature(transaction1, wallet1.publicKey)).toBeFalse();
+		expect(musig.needsWalletSignature(transaction1, wallet2.publicKey)).toBeTrue();
+
 		const transaction2 = await musig.addSignature(
 			transaction1.data(),
 			new Signatories.Signatory(
@@ -131,45 +134,145 @@ describe("MultiSignatureService", () => {
 		expect(musig.remainingSignatureCount(transaction2)).toBe(0);
 	});
 
-	it("should broadcast", async () => {
+	describe("#broadcast", () => {
+		let transaction;
+
+		beforeEach(async () => {
+			transaction = await musig.addSignature(
+				(
+					await subject.transfer({
+						fee: 10,
+						signatory: new Signatories.Signatory(
+							new Signatories.MnemonicSignatory({
+								signingKey: wallet1.signingKey,
+								address: wallet1.address,
+								publicKey: wallet1.publicKey,
+								privateKey: identity.privateKey,
+							}),
+						),
+						data: {
+							amount: 1,
+							to: wallet1.address,
+						},
+					})
+				).data(),
+				new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						signingKey: wallet2.signingKey,
+						address: wallet2.address,
+						publicKey: wallet2.publicKey,
+						privateKey: identity.privateKey,
+					}),
+				),
+			);
+		});
+
+		it("should broadcast a transaction", async () => {
+			nock(/.+/)
+				.post("/", (body) => body.method === "store")
+				.reply(200, {
+					result: { id: transaction.id() },
+				});
+
+			await expect(musig.broadcast(transaction.data())).resolves.toEqual({
+				accepted: [transaction.id()],
+				errors: {},
+				rejected: [],
+			});
+		});
+
+		it("should handle error", async () => {
+			nock(/.+/)
+				.post("/", (body) => body.method === "store")
+				.reply(400, {
+					message: "Unable to broadcast transaction.",
+				});
+
+			await expect(musig.broadcast(transaction.data())).resolves.toEqual({
+				accepted: [],
+				errors: {
+					[transaction.id()]: "Unable to broadcast transaction.",
+				},
+				rejected: [transaction.id()],
+			});
+		});
+	});
+
+	test("#allWithPendingState", async () => {
 		nock(/.+/)
-			.post("/")
+			.post("/", {
+				jsonrpc: "2.0",
+				id: /.+/,
+				method: "list",
+				params: {
+					publicKey: identity.publicKey,
+					state: "pending",
+				},
+			})
 			.reply(200, {
-				result: { id: "384b0438-36c0-4437-a35b-a8135cbba17d" },
+				result: [
+					{ data: {}, multiSignature: {} },
+					{ data: {}, multiSignature: {} },
+				],
 			});
 
-		const transaction1 = await subject.transfer({
-			fee: 10,
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: wallet1.signingKey,
-					address: wallet1.address,
-					publicKey: wallet1.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
-			data: {
-				amount: 1,
-				to: wallet1.address,
-			},
-		});
+		await expect(musig.allWithPendingState(identity.publicKey)).resolves.toHaveLength(2);
+	});
 
-		const transaction2 = await musig.addSignature(
-			transaction1.data(),
-			new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: wallet2.signingKey,
-					address: wallet2.address,
-					publicKey: wallet2.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
-		);
+	test("#allWithReadyState", async () => {
+		nock(/.+/)
+			.post("/", {
+				jsonrpc: "2.0",
+				id: /.+/,
+				method: "list",
+				params: {
+					publicKey: identity.publicKey,
+					state: "ready",
+				},
+			})
+			.reply(200, {
+				result: [
+					{ data: {}, multiSignature: {} },
+					{ data: {}, multiSignature: {} },
+				],
+			});
 
-		await expect(musig.broadcast(transaction2.data())).resolves.toEqual({
-			accepted: ["384b0438-36c0-4437-a35b-a8135cbba17d"],
-			errors: {},
-			rejected: [],
+		await expect(musig.allWithReadyState(identity.publicKey)).resolves.toHaveLength(2);
+	});
+
+	test("#findById", async () => {
+		nock(/.+/)
+			.post("/", {
+				jsonrpc: "2.0",
+				id: /.+/,
+				method: "show",
+				params: {
+					id: "384b0438-36c0-4437-a35b-a8135cbba17d",
+				},
+			})
+			.reply(200, { result: { data: {}, multiSignature: {} } });
+
+		await expect(musig.findById("384b0438-36c0-4437-a35b-a8135cbba17d")).resolves.toEqual({
+			multiSignature: {},
 		});
+	});
+
+	test("#forgetById", async () => {
+		const deleteNock = nock(/.+/)
+			.post("/", {
+				jsonrpc: "2.0",
+				id: /.+/,
+				method: "delete",
+				params: {
+					id: "384b0438-36c0-4437-a35b-a8135cbba17d",
+				},
+			})
+			.reply(200, {});
+
+		expect(deleteNock.isDone()).toBeFalse();
+
+		await musig.forgetById("384b0438-36c0-4437-a35b-a8135cbba17d");
+
+		expect(deleteNock.isDone()).toBeTrue();
 	});
 });

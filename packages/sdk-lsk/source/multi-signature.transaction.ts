@@ -67,6 +67,8 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
+		console.log({ index, signatures: this.#transaction.signatures, musig: this.#multiSignature });
+
 		return this.#transaction.signatures[index] === undefined;
 	}
 
