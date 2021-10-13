@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { IoC, Services } from "@payvo/sdk";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
@@ -73,6 +73,58 @@ describe("MultiSignatureService", () => {
 			errors: {},
 			rejected: [],
 		});
+	});
+
+	test("#addSignature", async () => {
+		const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
+		const signatory = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: mnemonic,
+				address: "address",
+				publicKey: "02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
+				privateKey: "privateKey",
+				options: {
+					bip44: {
+						account: 0,
+					},
+				},
+			}),
+		);
+
+		const transactionData = {
+			type: 4,
+			typeGroup: 1,
+			version: 2,
+			signatures: [],
+			nonce: "1",
+			amount: "0",
+			fee: "0",
+			senderPublicKey: "02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
+			asset: {
+				multiSignature: {
+					publicKeys: [
+						"02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
+						"034151a3ec46b5670a682b0a63394f863587d1bc97483b1b6c70eb58e7f0aed192",
+					],
+					min: 2,
+				},
+			},
+			multiSignature: {
+				publicKeys: [
+					"02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
+					"034151a3ec46b5670a682b0a63394f863587d1bc97483b1b6c70eb58e7f0aed192",
+				],
+				min: 2,
+			},
+		};
+
+		expect((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+			"00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
+		]);
+
+		expect((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+			"00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
+		]);
 	});
 
 	test("#isMultiSignatureRegistrationReady", async () => {
