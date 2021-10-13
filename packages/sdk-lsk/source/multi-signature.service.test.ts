@@ -108,10 +108,8 @@ describe("MultiSignatureService", () => {
 		expect(musig.needsAllSignatures(transaction1)).toBeTrue();
 		expect(musig.getValidMultiSignatures(transaction1)).toEqual([wallet1.publicKey]);
 		expect(musig.remainingSignatureCount(transaction1)).toBe(1);
-
 		expect(musig.needsWalletSignature(transaction1, wallet1.publicKey)).toBeFalse();
 		expect(musig.needsWalletSignature(transaction1, wallet2.publicKey)).toBeTrue();
-		expect(musig.needsWalletSignature(transaction1, "non-participant publicKey")).toBeFalse();
 
 		const transaction2 = await musig.addSignature(
 			transaction1.data(),
@@ -133,7 +131,6 @@ describe("MultiSignatureService", () => {
 		expect(musig.needsAllSignatures(transaction2)).toBeFalse();
 		expect(musig.getValidMultiSignatures(transaction2)).toEqual([wallet1.publicKey, wallet2.publicKey]);
 		expect(musig.remainingSignatureCount(transaction2)).toBe(0);
-
 		expect(musig.needsWalletSignature(transaction2, wallet1.publicKey)).toBeFalse();
 		expect(musig.needsWalletSignature(transaction2, wallet2.publicKey)).toBeFalse();
 	});
@@ -200,6 +197,28 @@ describe("MultiSignatureService", () => {
 				rejected: [transaction.id()],
 			});
 		});
+	});
+
+	test("#needsFinalSignature", async () => {
+		expect(
+			musig.needsFinalSignature(
+				await subject.transfer({
+					fee: 10,
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: wallet1.signingKey,
+							address: wallet1.address,
+							publicKey: wallet1.publicKey,
+							privateKey: identity.privateKey,
+						}),
+					),
+					data: {
+						amount: 1,
+						to: wallet1.address,
+					},
+				}),
+			),
+		).toBeFalse();
 	});
 
 	test("#allWithPendingState", async () => {
