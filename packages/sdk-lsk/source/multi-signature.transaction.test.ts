@@ -160,9 +160,9 @@ describe("#needsWalletSignature", () => {
 	});
 
 	it("should return true if it is a multi signature registration and it is not ready", async () => {
-		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet1)).toBeFalse();
+		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet1)).toBeTrue();
 		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet2)).toBeTrue();
-		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet1)).toBeFalse();
+		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet1)).toBeTrue();
 		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet2)).toBeFalse();
 		expect(new PendingMultiSignatureTransaction(register3).needsWalletSignature(wallet1)).toBeFalse();
 		expect(new PendingMultiSignatureTransaction(register3).needsWalletSignature(wallet2)).toBeFalse();
