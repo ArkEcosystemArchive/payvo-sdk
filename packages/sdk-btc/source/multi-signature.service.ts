@@ -1,10 +1,7 @@
 import { UUID } from "@payvo/cryptography";
-import { convertString } from "@payvo/helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
-
-import { joinModuleAndAssetIds } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-import { isMultiSignatureRegistration } from "./helpers";
+// import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./constants";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
@@ -139,7 +136,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Contracts.SignedTransactionData> {
 		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, signatory);
 
-		return this.dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
+		return this.dataTransferObjectService.signedTransaction("some id", transactionWithSignature);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
@@ -156,20 +153,20 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		).json().result;
 	}
 
-	#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
-		if (isMultiSignatureRegistration(transaction)) {
-			return {
-				numberOfSignatures: transaction.asset.numberOfSignatures,
-				mandatoryKeys,
-				optionalKeys,
-			};
-		}
-
-		const result = wallet.multiSignature();
-		delete result.members;
-
-		return result;
-	}
+	// #multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
+	// 	if (isMultiSignatureRegistration(transaction)) {
+	// 		return {
+	// 			numberOfSignatures: transaction.asset.numberOfSignatures,
+	// 			mandatoryKeys,
+	// 			optionalKeys,
+	// 		};
+	// 	}
+	//
+	// 	const result = wallet.multiSignature();
+	// 	delete result.members;
+	//
+	// 	return result;
+	// }
 
 	#normalizeTransaction({ data, multiSignature }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {

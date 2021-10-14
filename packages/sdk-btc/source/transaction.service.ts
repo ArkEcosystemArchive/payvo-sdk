@@ -1,4 +1,4 @@
-import { BIP32 } from "@payvo/cryptography";
+import { BIP32, UUID } from "@payvo/cryptography";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
@@ -10,9 +10,7 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
-import { jest } from "@jest/globals";
-
-jest.setTimeout(20_000);
+import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -152,6 +150,47 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
+	public override async multiSignature(
+		input: Services.MultiSignatureInput,
+	): Promise<Contracts.SignedTransactionData> {
+		if (!input.data.min) {
+			throw new Error("Expected [input.data.min] to be defined as an integer.");
+		}
+
+		if (!input.data.numberOfSignatures) {
+			throw new Error("Expected [input.data.numberOfSignatures] to be defined as an integer.");
+		}
+
+		if (input.data.min > input.data.numberOfSignatures) {
+			throw new Error("Expected [input.data.min] must be less than or equal to [input.data.numberOfSignatures].");
+		}
+
+		let address: string | undefined;
+		let senderPublicKey: string | undefined;
+
+		const transaction: MultiSignatureRegistrationTransaction = {
+			id: UUID.random(), // Not sure if this could be deterministic based on m, n and originator's ext public key
+			multiSignature: {
+				min: input.data.min, // m
+				numberOfSignatures: input.data.numberOfSignatures, // n
+				publicKeys: [],
+			},
+			signatures: [],
+		};
+
+		// if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
+		// 	address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
+		// 	senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
+		// }
+		//
+		// if (senderPublicKey) {
+		// 	transaction.senderPublicKey(senderPublicKey);
+		// }
+		const signedTransaction = {id: "mariano"}; //transaction.build().toJson();
+
+		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
+	}
+
 	async #createTransactionLocalSigning(
 		network: bitcoin.networks.Network,
 		inputs: any[],
@@ -242,6 +281,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
+
 	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		const network = getNetworkConfig(this.configRepository);
 

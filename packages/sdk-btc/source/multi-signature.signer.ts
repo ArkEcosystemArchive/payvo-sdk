@@ -15,14 +15,14 @@ export class MultiSignatureSigner {
 	private readonly keyPairService!: Services.KeyPairService;
 
 	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
-		if (transaction.data.type === Enums.TransactionType.MultiSignature && !transaction.signatures) {
+		if (!transaction.signatures) {
 			transaction.data.signatures = [];
 		}
 
-		const data =
-			transaction.data.type === Enums.TransactionType.MultiSignature
-				? transaction.getStruct()
-				: transaction.build().toJson();
+		const data: any = {};
+			// transaction.data.type === Enums.TransactionType.MultiSignature
+			// 	? transaction.getStruct()
+			// 	: transaction.build().toJson();
 
 		data.multiSignature = multiSignature;
 
@@ -62,30 +62,30 @@ export class MultiSignatureSigner {
 				//
 				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
-				const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
-				// Iterate the different transaction inputs
-				for (let i = 0; i < toBeSigned.inputCount; i++) {
-					// For each one, figure out the address / path
-					// Derive musig private key and sign that input
-					toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
-				}
+					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
+					// Iterate the different transaction inputs
+					for (let i = 0; i < toBeSigned.inputCount; i++) {
+						// For each one, figure out the address / path
+						// Derive musig private key and sign that input
+						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
+					}
 
 				const signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
 			}
 		}
 
-		if (isReady && pendingMultiSignature.needsFinalSignature()) {
-			if (signingKeys) {
-				// TODO Do proper signing with keys here. Beware signing keys could be the ledger account path
-				Transactions.Signer.sign(transaction, signingKeys);
-			}
-
-			if (signatory.actsWithLedger()) {
-				transaction.signature = await this.#signWithLedger(transaction, signatory);
-			}
-
-			transaction.id = Transactions.Utils.getId(transaction);
-		}
+		// if (isReady && pendingMultiSignature.needsFinalSignature()) {
+		// 	if (signingKeys) {
+		// 		// TODO Do proper signing with keys here. Beware signing keys could be the ledger account path
+		// 		Transactions.Signer.sign(transaction, signingKeys);
+		// 	}
+		//
+		// 	if (signatory.actsWithLedger()) {
+		// 		transaction.signature = await this.#signWithLedger(transaction, signatory);
+		// 	}
+		//
+		// 	transaction.id = Transactions.Utils.getId(transaction);
+		// }
 
 		return transaction;
 	}
@@ -114,25 +114,25 @@ export class MultiSignatureSigner {
 		}
 	}
 
-	#formatKeyPair(keyPair?: Services.KeyPairDataTransferObject): Interfaces.IKeyPair | undefined {
-		if (keyPair) {
-			return {
-				publicKey: keyPair.publicKey,
-				privateKey: keyPair.privateKey,
-				compressed: true,
-			};
-		}
+	// #formatKeyPair(keyPair?: Services.KeyPairDataTransferObject): Interfaces.IKeyPair | undefined {
+	// 	if (keyPair) {
+	// 		return {
+	// 			publicKey: keyPair.publicKey,
+	// 			privateKey: keyPair.privateKey,
+	// 			compressed: true,
+	// 		};
+	// 	}
+	//
+	// 	return undefined;
+	// }
 
-		return undefined;
-	}
-
-	#publicKeyIndex(transaction: Contracts.RawTransactionData, publicKey: string): number {
-		const index: number = transaction.multiSignature.publicKeys.indexOf(publicKey);
-
-		if (index === -1) {
-			throw new Error(`The public key [${publicKey}] is not associated with this transaction.`);
-		}
-
-		return index;
-	}
+	// #publicKeyIndex(transaction: Contracts.RawTransactionData, publicKey: string): number {
+	// 	const index: number = transaction.multiSignature.publicKeys.indexOf(publicKey);
+	//
+	// 	if (index === -1) {
+	// 		throw new Error(`The public key [${publicKey}] is not associated with this transaction.`);
+	// 	}
+	//
+	// 	return index;
+	// }
 }
