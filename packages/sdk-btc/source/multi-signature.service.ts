@@ -1,16 +1,12 @@
 import { UUID } from "@payvo/cryptography";
-import { convertBuffer, convertString, convertStringList } from "@payvo/helpers";
+import { convertString } from "@payvo/helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 
-import {
-	findNonEmptySignatureIndices,
-	getKeys,
-	isTransactionFullySigned,
-	joinModuleAndAssetIds,
-} from "./multi-signature.domain";
+import { joinModuleAndAssetIds } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { isMultiSignatureRegistration } from "./helpers";
-import { DateTime } from "@payvo/intl";
+import { BindingType } from "./constants";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -28,6 +24,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	@IoC.inject(IoC.BindingType.HttpClient)
 	private readonly httpClient!: Http.HttpClient;
+
+	@IoC.inject(BindingType.MultiSignatureSigner)
+	private readonly multiSignatureSigner!: MultiSignatureSigner;
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -65,7 +64,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Services.BroadcastResponse> {
 		let multiSignature = transaction.multiSignature;
 
-		if (transaction.asset && transaction.asset.mandatoryKeys) {
+		if (transaction.asset) {
 			multiSignature = transaction.asset;
 		}
 
@@ -138,67 +137,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
-		// Normalise to ensure consistent behaviour
-		transaction = this.transactionSerializer.toHuman(transaction);
+		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, signatory);
 
-		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
-
-		let wallet: Contracts.WalletData;
-
-		if (isMultiSignatureRegistration(transaction)) {
-			wallet = await this.clientService.wallet({ type: "address", value: signatory.address() });
-		} else {
-			wallet = (
-				await this.clientService.wallets({
-					identifiers: [
-						{
-							type: "publicKey",
-							value: transaction.senderPublicKey,
-						},
-					],
-				})
-			).first();
-		}
-
-		const { mandatoryKeys, optionalKeys } = getKeys({
-			senderWallet: wallet,
-			transaction: transaction,
-			isMultiSignatureRegistration: isMultiSignatureRegistration(transaction),
-		});
-
-		const transactionWithSignature: any = signMultiSignatureTransaction(
-			assetSchema,
-			{
-				moduleID,
-				assetID,
-				nonce: BigInt(`${transaction.nonce}`),
-				fee: BigInt(`${transaction.fee}`),
-				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.assetSerializer.toMachine(moduleID, assetID, transaction.asset),
-				signatures: convertStringList(transaction.signatures),
-			},
-			this.#networkIdentifier(),
-			signatory.actsWithConfirmationMnemonic() ? signatory.confirmKey() : signatory.signingKey(),
-			{
-				mandatoryKeys: convertStringList(mandatoryKeys),
-				optionalKeys: convertStringList(optionalKeys),
-			},
-			isMultiSignatureRegistration(transaction),
-		);
-
-		if (isTransactionFullySigned(wallet, transaction)) {
-			const emptySignatureIndices = findNonEmptySignatureIndices(transaction.signatures);
-
-			for (let index = 0; index < emptySignatureIndices.length; index++) {
-				transactionWithSignature.signatures[index] = Buffer.from("");
-			}
-		}
-
-		return this.dataTransferObjectService.signedTransaction(convertBuffer(transactionWithSignature.id), {
-			...this.transactionSerializer.toHuman(transactionWithSignature),
-			multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
-			timestamp: DateTime.make(),
-		});
+		return this.dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
