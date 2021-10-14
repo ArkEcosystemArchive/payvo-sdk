@@ -1,4 +1,5 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { convertString } from "@payvo/helpers";
 import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP44 } from "@payvo/cryptography";
@@ -94,14 +95,14 @@ export default class WalletDataHelper {
 			let extra;
 			if (this.isBip44()) {
 				extra = {
-					nonWitnessUtxo: Buffer.from(utxo.raw, "hex"),
+					nonWitnessUtxo: convertString(utxo.raw),
 				};
 			} else if (this.isBip49()) {
 				let network = getNetworkConfig(this.#configRepository);
 
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
-						pubkey: Buffer.from(addressWithKeys.publicKey, "hex"),
+						pubkey: convertString(addressWithKeys.publicKey),
 						network,
 					}),
 					network,
@@ -113,7 +114,7 @@ export default class WalletDataHelper {
 
 				extra = {
 					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
+						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
 					redeemScript: payment.redeem.output,
@@ -121,7 +122,7 @@ export default class WalletDataHelper {
 			} else if (this.isBip84()) {
 				extra = {
 					witnessUtxo: {
-						script: Buffer.from(utxo.script, "hex"),
+						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
 				};
@@ -133,8 +134,8 @@ export default class WalletDataHelper {
 				script: utxo.script,
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: addressWithKeys.privateKey ? Buffer.from(addressWithKeys.privateKey, "hex") : undefined,
-				publicKey: Buffer.from(addressWithKeys.publicKey, "hex"),
+				signingKey: addressWithKeys.privateKey ? convertString(addressWithKeys.privateKey) : undefined,
+				publicKey: convertString(addressWithKeys.publicKey),
 				path: addressWithKeys.path,
 				...extra,
 			};

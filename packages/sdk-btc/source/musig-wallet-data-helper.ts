@@ -1,4 +1,5 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { convertString } from "@payvo/helpers";
 import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
@@ -104,7 +105,7 @@ export default class MusigWalletDataHelper {
 				value: utxo.satoshis,
 				path: address.path,
 				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
+					script: convertString(utxo.script),
 					value: utxo.satoshis,
 				},
 			};

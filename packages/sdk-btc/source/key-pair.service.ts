@@ -1,4 +1,5 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
+import { convertString } from "@payvo/helpers";
 import { BIP32 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
@@ -16,7 +17,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		return this.#normalize(bitcoin.ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")));
+		return this.#normalize(bitcoin.ECPair.fromPrivateKey(convertString(privateKey)));
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.KeyPairDataTransferObject> {
