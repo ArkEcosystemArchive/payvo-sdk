@@ -31,7 +31,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "musig",
-			host: "https://btc-test-musig.payvo.com/api",
+			host: "https://btc-test-musig.payvo.com",
 		},
 	],
 	transactions,
