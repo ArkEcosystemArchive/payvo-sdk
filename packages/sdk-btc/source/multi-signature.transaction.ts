@@ -79,7 +79,7 @@ export class PendingMultiSignatureTransaction {
 		if (this.#transaction.psbt !== undefined) {
 			const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt, {
 				// network:
-			})
+			});
 			// return psbt.validateSignaturesOfAllInputs();
 		}
 
