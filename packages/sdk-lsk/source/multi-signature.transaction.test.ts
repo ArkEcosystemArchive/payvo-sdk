@@ -125,8 +125,10 @@ test("#isMultiSignatureReady", async () => {
 	expect(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false })).toBeTrue();
 
 	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
+	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: true })).toBeFalse();
 	expect(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
-	expect(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: true })).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: true })).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: false })).toBeTrue();
 });
 
 test("#needsSignatures", async () => {

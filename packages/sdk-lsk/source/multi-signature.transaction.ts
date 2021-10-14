@@ -19,11 +19,14 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
-		if (this.needsSignatures()) {
-			return false;
+		if (this.isMultiSignatureRegistration()) {
+			return (
+				this.#transaction.signatures.filter(Boolean).length ===
+				this.#multiSignature.numberOfSignatures + (excludeFinal ? 0 : 1)
+			);
 		}
 
-		if (!excludeFinal && this.isMultiSignatureRegistration() && this.needsFinalSignature()) {
+		if (this.needsSignatures()) {
 			return false;
 		}
 
