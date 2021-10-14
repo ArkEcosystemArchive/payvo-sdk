@@ -8,15 +8,7 @@ import changeVersionBytes from "xpub-converter";
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
-import {
-	Bip44Address,
-	Bip44AddressWithKeys,
-	BipLevel,
-	Levels,
-	MusigDerivationMethod,
-	UnspentTransaction,
-} from "./contracts";
-import { post } from "./helpers";
+import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { jest } from "@jest/globals";
 
