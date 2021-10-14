@@ -1,9 +1,10 @@
-import { Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
-import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
+// import { Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
+import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import * as bitcoin from "bitcoinjs-lib";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
@@ -16,10 +17,6 @@ export class MultiSignatureSigner {
 	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
 		if (transaction.data.type === Enums.TransactionType.MultiSignature && !transaction.signatures) {
 			transaction.data.signatures = [];
-		}
-
-		if (!transaction.data.senderPublicKey) {
-			transaction.senderPublicKey(Identities.PublicKey.fromMultiSignatureAsset(multiSignature));
 		}
 
 		const data =
@@ -44,46 +41,44 @@ export class MultiSignatureSigner {
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
-		const { signingKeys, confirmKeys } = await this.#deriveKeyPairs(
-			signatory,
-			isReady && pendingMultiSignature.needsFinalSignature(),
-		);
-
 		if (!isReady) {
 			if (signatory.actsWithLedger()) {
-				const index: number = this.#publicKeyIndex(
-					transaction,
-					await this.ledgerService.getPublicKey(signatory.signingKey()),
-				);
+				throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 
-				if (!transaction.signatures) {
-					transaction.signatures = [];
-				}
+				// TODO figure out all the signing paths and make a single
+				// call to ledger to sign them all
+				// Figure out how to merge the signed transaction back to Psbt
+				// const index: number = this.#publicKeyIndex(
+				// 	transaction,
+				// 	await this.ledgerService.getExtendedPublicKey(signatory.signingKey()),
+				// );
+				//
+				// if (!transaction.signatures) {
+				// 	transaction.signatures = [];
+				// }
 
-				const signature: string = await this.#signWithLedger(transaction, signatory, true);
-				const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
-
-				transaction.signatures.push(`${signatureIndex}${signature}`);
+				// const signature: string = await this.#signWithLedger(transaction, signatory, true);
+				// const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
+				//
+				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
-				if (!signingKeys) {
-					throw new Error("Failed to retrieve the signing keys for the signatory wallet.");
-				}
+					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
+					// Iterate the different transaction inputs
+					for (let i = 0; i < toBeSigned.inputCount; i++) {
+						// For each one, figure out the address / path
+						// Derive musig private key and sign that input
+						toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
+					}
 
-				Transactions.Signer.multiSign(
-					transaction,
-					signingKeys,
-					this.#publicKeyIndex(transaction, signingKeys.publicKey),
-				);
+					const signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
+
 			}
 		}
 
 		if (isReady && pendingMultiSignature.needsFinalSignature()) {
 			if (signingKeys) {
+				// TODO Do proper signing with keys here. Beware signing keys could be the ledger account path
 				Transactions.Signer.sign(transaction, signingKeys);
-			}
-
-			if (confirmKeys) {
-				Transactions.Signer.secondSign(transaction, confirmKeys);
 			}
 
 			if (signatory.actsWithLedger()) {
@@ -96,55 +91,6 @@ export class MultiSignatureSigner {
 		return transaction;
 	}
 
-	async #deriveKeyPairs(
-		signatory: Signatories.Signatory,
-		needsFinalSignature: boolean,
-	): Promise<{
-		signingKeys: Interfaces.IKeyPair | undefined;
-		confirmKeys: Interfaces.IKeyPair | undefined;
-	}> {
-		let signingKeys: Services.KeyPairDataTransferObject | undefined = undefined;
-		let confirmKeys: Services.KeyPairDataTransferObject | undefined = undefined;
-
-		if (signatory.actsWithLedger()) {
-			return { signingKeys, confirmKeys };
-		}
-
-		if (signatory.actsWithSecret()) {
-			signingKeys = await this.keyPairService.fromSecret(signatory.signingKey());
-		}
-
-		if (signatory.actsWithMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
-		}
-
-		if (signatory.actsWithConfirmationMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
-
-			if (needsFinalSignature) {
-				confirmKeys = await this.keyPairService.fromMnemonic(signatory.confirmKey());
-			}
-		}
-
-		if (signatory.actsWithWIF()) {
-			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
-		}
-
-		if (signatory.actsWithConfirmationWIF()) {
-			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
-			confirmKeys = await this.keyPairService.fromWIF(signatory.confirmKey());
-		}
-
-		if (!signingKeys) {
-			throw new Error("Failed to retrieve the signing keys for the signatory wallet.");
-		}
-
-		return {
-			signingKeys: this.#formatKeyPair(signingKeys),
-			confirmKeys: this.#formatKeyPair(confirmKeys),
-		};
-	}
-
 	async #signWithLedger(
 		transaction: MultiSignatureTransaction,
 		signatory: Signatories.Signatory,
@@ -152,18 +98,21 @@ export class MultiSignatureSigner {
 	): Promise<string> {
 		await this.ledgerService.connect(LedgerTransportNodeHID);
 
-		const signature = await this.ledgerService.signTransaction(
-			signatory.signingKey(),
-			Transactions.Serializer.getBytes(transaction, {
-				excludeSignature: true,
-				excludeSecondSignature: true,
-				excludeMultiSignature,
-			}),
-		);
-
-		await this.ledgerService.disconnect();
-
-		return signature;
+		try {
+			// TODO figure out how to sigh Psbt with Ledger
+			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
+			// const signature = await this.ledgerService.signTransaction(
+			// 	signatory.signingKey(),
+			// 	Transactions.Serializer.getBytes(transaction, {
+			// 		excludeSignature: true,
+			// 		excludeSecondSignature: true,
+			// 		excludeMultiSignature,
+			// 	}),
+			// );
+			// return signature;
+		} finally {
+			await this.ledgerService.disconnect();
+		}
 	}
 
 	#formatKeyPair(keyPair?: Services.KeyPairDataTransferObject): Interfaces.IKeyPair | undefined {
