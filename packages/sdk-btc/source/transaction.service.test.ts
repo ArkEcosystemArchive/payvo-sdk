@@ -507,7 +507,6 @@ describe("native segwit multisignature wallet", () => {
 	});
 });
 
-
 test("#multiSignature", async () => {
 	const wallet1 = {
 		signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
@@ -572,4 +571,3 @@ test("#multiSignature", async () => {
 
 	nock.enableNetConnect();
 });
-

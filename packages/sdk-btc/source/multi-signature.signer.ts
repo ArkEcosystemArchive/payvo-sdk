@@ -20,9 +20,9 @@ export class MultiSignatureSigner {
 		}
 
 		const data: any = {};
-			// transaction.data.type === Enums.TransactionType.MultiSignature
-			// 	? transaction.getStruct()
-			// 	: transaction.build().toJson();
+		// transaction.data.type === Enums.TransactionType.MultiSignature
+		// 	? transaction.getStruct()
+		// 	: transaction.build().toJson();
 
 		data.multiSignature = multiSignature;
 
@@ -62,13 +62,13 @@ export class MultiSignatureSigner {
 				//
 				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
-					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
-					// Iterate the different transaction inputs
-					for (let i = 0; i < toBeSigned.inputCount; i++) {
-						// For each one, figure out the address / path
-						// Derive musig private key and sign that input
-						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
-					}
+				const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
+				// Iterate the different transaction inputs
+				for (let i = 0; i < toBeSigned.inputCount; i++) {
+					// For each one, figure out the address / path
+					// Derive musig private key and sign that input
+					// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
+				}
 
 				const signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
 			}

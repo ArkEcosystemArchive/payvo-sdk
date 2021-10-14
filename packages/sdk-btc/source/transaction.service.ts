@@ -186,7 +186,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// if (senderPublicKey) {
 		// 	transaction.senderPublicKey(senderPublicKey);
 		// }
-		const signedTransaction = {id: "mariano"}; //transaction.build().toJson();
+		const signedTransaction = { id: "mariano" }; //transaction.build().toJson();
 
 		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 	}
