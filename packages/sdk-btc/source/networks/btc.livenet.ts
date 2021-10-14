@@ -23,11 +23,15 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://btc-live.payvo.com/api",
+			host: "https://btc-live.payvo.com",
 		},
 		{
 			type: "explorer",
 			host: "https://blockstream.info",
+		},
+		{
+			type: "musig",
+			host: "https://btc-live-musig.payvo.com",
 		},
 	],
 	transactions,
