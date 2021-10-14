@@ -28,6 +28,10 @@ const network: Networks.NetworkManifest = {
 			host: "https://blockstream.info/testnet",
 			type: "explorer",
 		},
+		{
+			host: "https://btc-test-musig.payvo.com",
+			type: "musig",
+		},
 	],
 	id: "btc.testnet",
 	importMethods,
