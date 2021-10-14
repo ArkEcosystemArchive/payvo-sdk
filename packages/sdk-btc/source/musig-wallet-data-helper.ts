@@ -1,7 +1,7 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
-import { walletUsedAddresses } from "./helpers";
+import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { Bip44Address, MusigDerivationMethod } from "./contracts";
+import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
 
 const getDerivationFunction = (
@@ -88,6 +88,37 @@ export default class MusigWalletDataHelper {
 			.filter((address) => address.status === "used");
 	}
 
+	public async unspentTransactionOutputs(): Promise<UnspentTransaction[]> {
+		const addresses = this.allUsedAddresses().map((address) => address.address);
+
+		const utxos = await this.#unspentTransactionOutputs(addresses);
+		// @ts-ignore
+		return utxos.map((utxo) => {
+			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+			return {
+				address: utxo.address,
+				txId: utxo.txId,
+				txRaw: utxo.raw,
+				script: utxo.script,
+				vout: utxo.outputIndex,
+				value: utxo.satoshis,
+				path: address.path,
+				witnessUtxo: {
+					script: Buffer.from(utxo.script, "hex"),
+					value: utxo.satoshis,
+				},
+			};
+		});
+	}
+
+	#signingKeysForAddress(address: string): Bip44Address {
+		const found = this.allUsedAddresses().find((a) => a.address === address);
+		if (!found) {
+			throw new Exceptions.Exception(`Address ${address} not found.`);
+		}
+		return found;
+	}
+
 	async #usedAddresses(
 		addressesGenerator: Generator<Bip44Address[]>,
 		discoveredAddresses: Bip44Address[],
@@ -138,4 +169,12 @@ export default class MusigWalletDataHelper {
 			yield chunk;
 		}
 	};
+
+	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
+		if (addresses.length === 0) {
+			return [];
+		}
+		return (await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository))
+			.data;
+	}
 }
