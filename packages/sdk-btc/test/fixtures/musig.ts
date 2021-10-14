@@ -2,17 +2,38 @@ export const musig = {
 	accounts: [
 		{
 			mnemonic: "hard produce blood mosquito provide feed open enough access motor chimney swamp",
-			masterPublicKey:
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDAAEEpXA719cjhRw18JBeWk8dgMYphpc9vJgeosdtEL9vxrHkumoLijuRVPtLF6qByEG9B3rLgsfofQ1Fben4DgR6FBSLShrZwfdERCfE8L",
+			p2shSegwitMasterPath: "m/48'/1'/0'/1'",
+			p2shSegwitMasterPublicKey:
+				"Upub5T4iARd31HKU9kp1bZPe6amDxNWyb79scrVhhaFf5CEVrUo63aHGgkgR6TPhhNpqWqaTHvbwbEyUJNAHXomgNa7Ht5RUEQ9BpJNiQxoX7hr",
+			nativeSegwitMasterPath: "m/48'/1'/0'/2'",
+			nativeSegwitMasterPublicKey:
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
 		},
 		{
 			mnemonic: "build tuition fuel distance often swallow birth embark nest barely drink beach",
-			masterPublicKey:
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDAo8kUYJD3WQa61Dz7neMDiwLwk433izoifv2ZcTks4t1XYxYdaYRCU6nkbNba3yRa12yLbx3EtY8cCQusGES91LbHoS1MJYVNfuAMPqGWL",
+			p2shSegwitMasterPath: "m/48'/1'/0'/1'",
+			p2shSegwitMasterPublicKey:
+				"Upub5SiRggvDtygQJBBCgFYGSmu1GG8qdu6P5Pzgu7x25ZvVY1DE4szxqzfntpxALjavwh5DiT6uQjNsra4Q5ggCWKMV9FnJ4rzGkcHMWttEJhT",
+			nativeSegwitMasterPath: "m/48'/1'/0'/2'",
+			nativeSegwitMasterPublicKey:
 				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 		},
 		{
 			mnemonic: "mandate pull cat east limit enemy cabin possible success force mountain hood",
-			masterPublicKey:
+			legacyMasterPath: "m/45'/0",
+			legacyMasterPublicKey:
+				"tpubDBb7ADvzzJ9Wi5R7fGN9iWZG9sp1zqbjFfemC1HNcyWitsuAu8suWUXrLYEFb8fSKW9NTMwDNAeo15HY8m7oi2NMo17xhmNEiAicBNz2SwB",
+			p2shSegwitMasterPath: "m/48'/1'/0'/1'",
+			p2shSegwitMasterPublicKey:
+				"Upub5ScB2WiLZN38iLRDwwpvdhJQBCk8vcaoXytsAiDq7C6BNhE449SdKMRou7Jn54mX9EDNUrTV2Z1jEqhgWeEgfHJ5wmajwgoJ1ap2pR9z9PG",
+			nativeSegwitMasterPath: "m/48'/1'/0'/2'",
+			nativeSegwitMasterPublicKey:
 				"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
 		},
 	],

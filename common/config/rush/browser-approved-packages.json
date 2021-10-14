@@ -867,6 +867,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "xpub-converter",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "yargs-parser",
       "allowedCategories": [ "libraries" ]
     }
