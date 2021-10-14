@@ -64,11 +64,7 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public needsFinalSignature(): boolean {
-		if (!this.isMultiSignatureRegistration()) {
-			return false;
-		}
-
-		return this.#transaction.signatures.filter(Boolean).length !== this.#multiSignature.numberOfSignatures + 1;
+		return false;
 	}
 
 	public getValidMultiSignatures(): string[] {

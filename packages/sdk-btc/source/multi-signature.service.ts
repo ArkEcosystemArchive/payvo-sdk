@@ -156,28 +156,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		).json().result;
 	}
 
-	#assets(): object {
-		return this.configRepository.get<object>("network.meta.assets");
-	}
-
-	#networkIdentifier(): Buffer {
-		return convertString(this.configRepository.get<string>("network.meta.networkId"));
-	}
-
-	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {
-		return this.#assets()[
-			{
-				"2:0": "token:transfer",
-				"4:0": "keys:registerMultisignatureGroup",
-				"5:0": "dpos:registerDelegate",
-				"5:1": "dpos:voteDelegate",
-				"5:2": "dpos:unlockToken",
-				"5:3": "dpos:reportDelegateMisbehavior",
-				"1000:0": "legacyAccount:reclaimLSK",
-			}[joinModuleAndAssetIds(transaction)]!
-		];
-	}
-
 	#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
 		if (isMultiSignatureRegistration(transaction)) {
 			return {
