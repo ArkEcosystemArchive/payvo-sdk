@@ -86,7 +86,7 @@ export class PendingMultiSignatureTransaction {
 			return [];
 		}
 
-		if (!this.#transaction.signatures || !this.#transaction.signatures.length) {
+		if (!this.#transaction.signatures.length) {
 			return [];
 		}
 
