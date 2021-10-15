@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { Wallet } from "@zilliqa-js/account";
+import { Zilliqa } from "@zilliqa-js/zilliqa";
 import { validation } from "@zilliqa-js/zilliqa";
 
 import { BindingType } from "./constants";
@@ -7,8 +7,8 @@ import { accountFromMnemonic, accountFromPrivateKey } from "./zilliqa";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(BindingType.Wallet)
-	private readonly wallet!: Wallet;
+	@IoC.inject(BindingType.Zilliqa)
+	private readonly zilliqa!: Zilliqa;
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -16,7 +16,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: (await accountFromMnemonic(this.wallet, mnemonic, options)).bech32Address,
+			address: (await accountFromMnemonic(this.zilliqa, mnemonic, options)).bech32Address,
 		};
 	}
 
@@ -26,7 +26,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: (await accountFromPrivateKey(this.wallet, privateKey)).bech32Address,
+			address: (await accountFromPrivateKey(this.zilliqa, privateKey)).bech32Address,
 		};
 	}
 

@@ -1,25 +1,25 @@
 import { IoC, Services } from "@payvo/sdk";
-import { Wallet } from "@zilliqa-js/account";
+import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { BindingType } from "./constants";
 import { accountFromMnemonic, accountFromPrivateKey } from "./zilliqa";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
-	@IoC.inject(BindingType.Wallet)
-	private readonly wallet!: Wallet;
+	@IoC.inject(BindingType.Zilliqa)
+	private readonly zilliqa!: Zilliqa;
 
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		const { publicKey, privateKey } = await accountFromMnemonic(this.wallet, mnemonic, options);
+		const { publicKey, privateKey } = await accountFromMnemonic(this.zilliqa, mnemonic, options);
 
 		return { publicKey, privateKey };
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		const { publicKey } = await accountFromPrivateKey(this.wallet, privateKey);
+		const { publicKey } = await accountFromPrivateKey(this.zilliqa, privateKey);
 
 		return { publicKey, privateKey };
 	}
