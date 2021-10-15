@@ -3,7 +3,6 @@ import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bitcoinjs-lib";
 import coinSelect from "coinselect";
-import changeVersionBytes from "xpub-converter";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
@@ -13,6 +12,7 @@ import { LedgerService } from "./ledger.service";
 import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
 import { sign } from "bitcoinjs-message";
+import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -188,7 +188,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [this.#toExtPubKey(accountKey, "nativeSegwitMusig", network)],
+				publicKeys: [toExtPubKey(accountKey, "nativeSegwitMusig", network)],
 			},
 			signatures: [],
 		};
@@ -304,7 +304,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
 		// https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
-		const { accountPublicKeys, method } = this.#keysAndMethod(multiSignatureAsset, network);
+		const { accountPublicKeys, method } = keysAndMethod(multiSignatureAsset, network);
 
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
@@ -374,63 +374,5 @@ export class TransactionService extends Services.AbstractTransactionService {
 			tx.toHex(),
 			// psbtBaseText, // TODO where do we return the psbt to be co-signed
 		);
-	}
-
-	#mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };
-	#testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig" };
-
-	#keysAndMethod(
-		multiSignatureAsset: Services.MultiSignatureAsset,
-		network: bitcoin.networks.Network,
-	): { accountPublicKeys: string[]; method: MusigDerivationMethod } {
-		const prefixes = multiSignatureAsset.publicKeys.map((publicKey) => publicKey.slice(0, 4));
-
-		if (new Set(prefixes).size > 1) {
-			throw new Exceptions.Exception(`Cannot mix extended public key prefixes.`);
-		}
-
-		let method: MusigDerivationMethod;
-
-		if (network === bitcoin.networks.bitcoin) {
-			if (prefixes.some((prefix) => !this.#mainnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(
-					`Extended public key must start with any of ${Object.keys(this.#mainnetPrefixes)}.`,
-				);
-			}
-			method = this.#mainnetPrefixes[prefixes[0]];
-		} else if (network === bitcoin.networks.testnet) {
-			if (prefixes.some((prefix) => !this.#testnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(
-					`Extended public key must start with any of ${Object.keys(this.#testnetPrefixes)}.`,
-				);
-			}
-			method = this.#testnetPrefixes[prefixes[0]];
-		} else {
-			throw new Exceptions.Exception(`Invalid network.`);
-		}
-		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
-			changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub" : "tpub"),
-		);
-		return {
-			accountPublicKeys,
-			method,
-		};
-	}
-
-	#toExtPubKey(
-		accountPrivateKey: BIP32Interface,
-		method: MusigDerivationMethod,
-		network: bitcoin.networks.Network,
-	): string {
-		let prefixes;
-		if (network === bitcoin.networks.bitcoin) {
-			prefixes = this.#mainnetPrefixes;
-		} else if (network === bitcoin.networks.testnet) {
-			prefixes = this.#testnetPrefixes;
-		} else {
-			throw new Exceptions.Exception(`Invalid network.`);
-		}
-		const prefix = Object.entries(prefixes).find((entry) => entry[1] === method);
-		return changeVersionBytes(accountPrivateKey.neutered().toBase58(), prefix![0]);
 	}
 }

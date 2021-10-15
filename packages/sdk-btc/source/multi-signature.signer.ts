@@ -7,6 +7,7 @@ import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
 import { getNetworkConfig } from "./config";
 import { BIP32 } from "@payvo/cryptography";
+import { toExtPubKey } from "./multi-signature.domain";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
@@ -50,7 +51,7 @@ export class MultiSignatureSigner {
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
-		let signedTransaction = { ...transaction };
+		let signedTransaction: Contracts.RawTransactionData = { ...transaction };
 
 		if (!isReady) {
 			if (signatory.actsWithLedger()) {
@@ -75,9 +76,9 @@ export class MultiSignatureSigner {
 			} else {
 				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
 				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
-				// senderPublicKey = convertBuffer(accountKey.publicKey);
+				console.log(signedTransaction);
+				signedTransaction.multiSignature.publicKeys.push(toExtPubKey(accountKey, "nativeSegwitMusig", this.#network));
 
-				// console.log(transaction);
 				let signed: any;
 				if ("senderPublicKey" in transaction) {
 					const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
