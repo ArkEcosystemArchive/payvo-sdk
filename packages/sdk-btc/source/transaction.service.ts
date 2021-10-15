@@ -11,6 +11,7 @@ import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
+import { convertBuffer } from "@payvo/helpers";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -161,15 +162,26 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Error("Expected [input.data.numberOfSignatures] to be defined as an integer.");
 		}
 
+		if (!input.data.senderPublicKey) {
+			throw new Error("Expected [input.data.senderPublicKey] to be defined and contain a valid derivation path.");
+		}
+
 		if (input.data.min > input.data.numberOfSignatures) {
 			throw new Error("Expected [input.data.min] must be less than or equal to [input.data.numberOfSignatures].");
 		}
 
-		let address: string | undefined;
-		let senderPublicKey: string | undefined;
+		let senderPublicKey: string;
+
+		if (input.signatory.actsWithMnemonic()) {
+			const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
+			senderPublicKey = convertBuffer(rootKey.derivePath(input.data.senderPublicKey).publicKey);
+		} else {
+			throw new Exceptions.Exception("No other signatory supported");
+		}
 
 		const transaction: MultiSignatureRegistrationTransaction = {
-			id: UUID.random(), // Not sure if this could be deterministic based on m, n and originator's ext public key
+			id: UUID.random(), // TODO We should aim to do this deterministic based on m, n and originator's ext public key
+			senderPublicKey: senderPublicKey,
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
@@ -178,14 +190,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signatures: [],
 		};
 
-		// if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
-		// 	address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;
-		// 	senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
-		// }
-		//
-		// if (senderPublicKey) {
-		// 	transaction.senderPublicKey(senderPublicKey);
-		// }
 		const signedTransaction = { id: "mariano" }; //transaction.build().toJson();
 
 		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);

@@ -1,7 +1,6 @@
 import { convertBufferList, convertStringList } from "@payvo/helpers";
 import {
 	MultiSignatureAsset,
-	MultiSignatureRegistrationTransaction,
 	MultiSignatureTransaction,
 } from "./multi-signature.contract";
 import * as bitcoin from "bitcoinjs-lib";
@@ -16,7 +15,7 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public isMultiSignatureRegistration(): boolean {
-		return "signatures" in this.#transaction;
+		return !("psbt" in this.#transaction);
 	}
 
 	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
@@ -48,9 +47,9 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
-			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
-		}
+		// if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
+		// 	return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
+		// }
 
 		// const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
 		// 	publicKey,
@@ -60,7 +59,8 @@ export class PendingMultiSignatureTransaction {
 		// 	return false;
 		// }
 
-		return this.#transaction.signatures[index] === undefined;
+		// return this.#transaction.signatures[index] === undefined;
+		return true;
 	}
 
 	public needsFinalSignature(): boolean {
@@ -125,6 +125,6 @@ export class PendingMultiSignatureTransaction {
 			? this.#multiSignature.numberOfSignatures
 			: this.#multiSignature.min;
 
-		return numberOfSignatures - this.#transaction.signatures.filter(Boolean).length;
+		return numberOfSignatures; // - this.#transaction.signatures.filter(Boolean).length;
 	}
 }

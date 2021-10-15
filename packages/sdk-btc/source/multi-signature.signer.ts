@@ -1,4 +1,3 @@
-// import { Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
@@ -10,9 +9,6 @@ import * as bitcoin from "bitcoinjs-lib";
 export class MultiSignatureSigner {
 	@IoC.inject(IoC.BindingType.LedgerService)
 	private readonly ledgerService!: Services.LedgerService;
-
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	private readonly keyPairService!: Services.KeyPairService;
 
 	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
 		if (!transaction.signatures) {

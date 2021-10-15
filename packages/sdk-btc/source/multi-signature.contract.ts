@@ -14,7 +14,6 @@ export interface MultiSignatureRegistrationTransaction {
 export interface MultiSignaturePsbtTransaction {
 	multiSignature: MultiSignatureAsset;
 	psbt: string;
-	signatures: string[];
 }
 
 export type MultiSignatureTransaction = MultiSignatureRegistrationTransaction | MultiSignaturePsbtTransaction;
