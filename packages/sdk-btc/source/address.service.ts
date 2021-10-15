@@ -202,7 +202,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			bitcoin.address.toOutputScript(address);
+			bitcoin.address.toOutputScript(address, this.#network);
 
 			return true;
 		} catch {
