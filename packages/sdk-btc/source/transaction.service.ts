@@ -10,9 +10,6 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
-import { jest } from "@jest/globals";
-
-jest.setTimeout(20_000);
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
