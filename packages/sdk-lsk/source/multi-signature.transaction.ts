@@ -58,10 +58,6 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
-			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
-		}
-
 		if (![...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].includes(publicKey)) {
 			return false;
 		}
