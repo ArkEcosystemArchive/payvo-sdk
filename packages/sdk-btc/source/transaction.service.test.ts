@@ -548,7 +548,6 @@ test("#multiSignature", async () => {
 
 	expect(transaction1).toBeInstanceOf(SignedTransactionData);
 	expect(transaction1).toMatchSnapshot();
-	console.log(transaction1.data());
 
 	const transaction2 = await musigService.addSignature(
 		transaction1.data(),
@@ -556,14 +555,14 @@ test("#multiSignature", async () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: "publicKey", // Not needed / used
+				publicKey: wallet2.path, // TODO really? We need a way to pass in the account path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		),
 	);
 
 	expect(transaction2).toBeInstanceOf(SignedTransactionData);
-	// expect(transaction2).toMatchSnapshot();
+	expect(transaction2).toMatchSnapshot();
 
 	const transaction3 = await musigService.addSignature(
 		transaction2.data(),
@@ -571,12 +570,12 @@ test("#multiSignature", async () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet3.signingKey,
 				address: "address", // Not needed / used
-				publicKey: "publicKey", // Not needed / used
+				publicKey: wallet3.path, // TODO really?
 				privateKey: "privateKey", // Not needed / used
 			}),
 		),
 	);
 
 	expect(transaction3).toBeInstanceOf(SignedTransactionData);
-	// expect(transaction3).toMatchSnapshot();
+	expect(transaction3).toMatchSnapshot();
 });

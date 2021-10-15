@@ -1,14 +1,27 @@
-import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
+import { Coins, Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import * as bitcoin from "bitcoinjs-lib";
+import { sign } from "bitcoinjs-message";
+import { getNetworkConfig } from "./config";
+import { BIP32 } from "@payvo/cryptography";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
 	@IoC.inject(IoC.BindingType.LedgerService)
 	private readonly ledgerService!: Services.LedgerService;
+
+	@IoC.inject(IoC.BindingType.ConfigRepository)
+	private readonly configRepository!: Coins.ConfigRepository;
+
+	#network!: bitcoin.networks.Network;
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
 
 	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
 		if (!transaction.signatures) {
@@ -37,6 +50,8 @@ export class MultiSignatureSigner {
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
+		let signedTransaction = {...transaction};
+
 		if (!isReady) {
 			if (signatory.actsWithLedger()) {
 				throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
@@ -58,15 +73,27 @@ export class MultiSignatureSigner {
 				//
 				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
-				const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
-				// Iterate the different transaction inputs
-				for (let i = 0; i < toBeSigned.inputCount; i++) {
-					// For each one, figure out the address / path
-					// Derive musig private key and sign that input
-					// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
-				}
+				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
+				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
+				// senderPublicKey = convertBuffer(accountKey.publicKey);
 
-				const signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
+				// console.log(transaction);
+				let signed: any;
+				if ("senderPublicKey" in transaction) {
+					const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
+					const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
+					signedTransaction.signatures.push(signature);
+
+				} else {
+					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
+					// Iterate the different transaction inputs
+					for (let i = 0; i < toBeSigned.inputCount; i++) {
+						// For each one, figure out the address / path
+						// Derive musig private key and sign that input
+						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
+					}
+					signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
+				}
 			}
 		}
 
@@ -83,7 +110,7 @@ export class MultiSignatureSigner {
 		// 	transaction.id = Transactions.Utils.getId(transaction);
 		// }
 
-		return transaction;
+		return signedTransaction;
 	}
 
 	async #signWithLedger(

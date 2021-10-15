@@ -174,8 +174,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let senderPublicKey: string;
 
 		// if (input.signatory.actsWithMnemonic()) {
-		const network1 = getNetworkConfig(this.configRepository);
-		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), network1);
+		const network = getNetworkConfig(this.configRepository);
+		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), network);
 		const accountKey = rootKey.derivePath(input.data.senderPublicKey);
 		senderPublicKey = convertBuffer(accountKey.publicKey);
 		// } else {
@@ -188,7 +188,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [this.#toExtPubKey(accountKey, "nativeSegwitMusig", network1)],
+				publicKeys: [this.#toExtPubKey(accountKey, "nativeSegwitMusig", network)],
 			},
 			signatures: [],
 		};
