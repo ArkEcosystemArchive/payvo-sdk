@@ -4,12 +4,7 @@ import { convertBuffer, convertString, convertStringList } from "@payvo/helpers"
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { BindingType } from "./coin.contract";
 
-import {
-	findNonEmptySignatureIndices,
-	getKeys,
-	isTransactionFullySigned,
-	joinModuleAndAssetIds,
-} from "./multi-signature.domain";
+import { getKeys, joinModuleAndAssetIds } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
@@ -91,17 +86,13 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				errors: {},
 			};
 		} catch (error) {
-			if (error instanceof Http.RequestException) {
-				return {
-					accepted: [],
-					rejected: [transaction.id],
-					errors: {
-						[transaction.id]: (error as any).response.json().message,
-					},
-				};
-			}
-
-			throw error;
+			return {
+				accepted: [],
+				rejected: [transaction.id],
+				errors: {
+					[transaction.id]: (error as any).response?.json?.()?.message,
+				},
+			};
 		}
 	}
 
@@ -184,7 +175,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				nonce: BigInt(`${transaction.nonce}`),
 				fee: BigInt(`${transaction.fee}`),
 				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.assetSerializer.toMachine(moduleID, assetID, transaction.asset),
+				asset: this.assetSerializer.toMachine(+moduleID, +assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
@@ -195,14 +186,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			},
 			isMultiSignatureRegistration(transaction),
 		);
-
-		if (isTransactionFullySigned(wallet, transaction)) {
-			const emptySignatureIndices = findNonEmptySignatureIndices(transaction.signatures);
-
-			for (let index = 0; index < emptySignatureIndices.length; index++) {
-				transactionWithSignature.signatures[index] = Buffer.from("");
-			}
-		}
 
 		return this.dataTransferObjectService.signedTransaction(convertBuffer(transactionWithSignature.id), {
 			...this.transactionSerializer.toHuman(transactionWithSignature),

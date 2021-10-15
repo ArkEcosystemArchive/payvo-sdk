@@ -15,6 +15,6 @@ export const createService = <T = any>(service: any, network: string = "zil.test
 	});
 };
 
-export const mockWallet = () => new Zilliqa("http://localhost:1234").wallet;
+export const mockWallet = () => new Zilliqa("http://localhost:1234");
 
 export const require = async (path: string): Promise<object> => (await import(path)).default;

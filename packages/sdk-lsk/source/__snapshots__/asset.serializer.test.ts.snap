@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`AssetSerializer ({ moduleID: 2, assetID: 0, asset: [Object] }) #toMachine 1`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 2, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "amount": 100000000n,
   "data": "",
@@ -32,7 +32,7 @@ Object {
 }
 `;
 
-exports[`AssetSerializer ({ moduleID: 4, assetID: 0, asset: [Object] }) #toMachine 1`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 4, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "mandatoryKeys": Array [
     Object {
@@ -115,13 +115,13 @@ Object {
 }
 `;
 
-exports[`AssetSerializer ({ moduleID: 5, assetID: 0, asset: [Object] }) #toMachine 1`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 0, asset: [Object] }) 1`] = `
 Object {
   "username": "johndoe",
 }
 `;
 
-exports[`AssetSerializer ({ moduleID: 5, assetID: 1, asset: [Object] }) #toMachine 1`] = `
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 1, asset: [Object] }) 1`] = `
 Object {
   "votes": Array [
     Object {
@@ -151,6 +151,42 @@ Object {
         ],
         "type": "Buffer",
       },
+    },
+  ],
+}
+`;
+
+exports[`AssetSerializer #toMachine should serialize asset of transaction type ({ moduleID: 5, assetID: 2, asset: [Object] }) 1`] = `
+Object {
+  "unlockObjects": Array [
+    Object {
+      "amount": 1000000000n,
+      "delegateAddress": Object {
+        "data": Array [
+          118,
+          60,
+          25,
+          27,
+          10,
+          77,
+          5,
+          117,
+          2,
+          12,
+          225,
+          230,
+          80,
+          3,
+          117,
+          214,
+          208,
+          189,
+          212,
+          94,
+        ],
+        "type": "Buffer",
+      },
+      "unvoteHeight": 1,
     },
   ],
 }

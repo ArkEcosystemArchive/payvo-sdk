@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TransactionSerializer #toHuman({
+exports[`TransactionSerializer #toHuman should serialize to human ({
   moduleID: 2,
   assetID: 0,
   asset: [Object],
@@ -28,7 +28,7 @@ Object {
 }
 `;
 
-exports[`TransactionSerializer #toHuman({
+exports[`TransactionSerializer #toHuman should serialize to human ({
   moduleID: 4,
   assetID: 0,
   asset: [Object],
@@ -61,7 +61,7 @@ Object {
 }
 `;
 
-exports[`TransactionSerializer #toHuman({
+exports[`TransactionSerializer #toHuman should serialize to human ({
   moduleID: 5,
   assetID: 0,
   asset: [Object],
@@ -87,7 +87,7 @@ Object {
 }
 `;
 
-exports[`TransactionSerializer #toHuman({
+exports[`TransactionSerializer #toHuman should serialize to human ({
   moduleID: 5,
   assetID: 1,
   asset: [Object],
@@ -118,7 +118,7 @@ Object {
 }
 `;
 
-exports[`TransactionSerializer #toHuman({
+exports[`TransactionSerializer #toHuman should serialize to human ({
   moduleID: 5,
   assetID: 2,
   asset: [Object],
@@ -1280,7 +1280,7 @@ Object {
 }
 `;
 
-exports[`TransactionSerializer #toString({
+exports[`TransactionSerializer #toString should serialize to string ({
   moduleID: 2,
   assetID: 0,
   asset: [Object],
@@ -1291,7 +1291,7 @@ exports[`TransactionSerializer #toString({
   id: '73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0'
 }) 1`] = `"0802100018032098d10c2a205e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b321d0880c2d72f1214763c191b0a4d0575020ce1e6500375d6d0bdd45e1a003a4064e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604"`;
 
-exports[`TransactionSerializer #toString({
+exports[`TransactionSerializer #toString should serialize to string ({
   moduleID: 4,
   assetID: 0,
   asset: [Object],
@@ -1302,7 +1302,7 @@ exports[`TransactionSerializer #toString({
   id: '73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0'
 }) 1`] = `"0804100018032098d10c2a205e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b3246080212205948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f1220a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff3a40fbedfba740b75c2c4ab3fee0422a0d65b0995b009d83e75c40bdb6f0653814dc9719a20c99af9ef4980eb8f7c67d4b3147023869e330003036ad2781227a56043a40fbedfba740b75c2c4ab3fee0422a0d65b0995b009d83e75c40bdb6f0653814dc9719a20c99af9ef4980eb8f7c67d4b3147023869e330003036ad2781227a56043a40d9ef77f025ad25ccb9871c1e931906345c621726f68fab057afaf5ecd85497ae2205178057c4f37ea1687a69f84140b74b159b086da560d6b8870a2a7fc90505"`;
 
-exports[`TransactionSerializer #toString({
+exports[`TransactionSerializer #toString should serialize to string ({
   moduleID: 5,
   assetID: 0,
   asset: [Object],
@@ -1313,7 +1313,7 @@ exports[`TransactionSerializer #toString({
   id: '73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0'
 }) 1`] = `"0805100018032098d10c2a205e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b32090a076a6f686e646f653a4064e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604"`;
 
-exports[`TransactionSerializer #toString({
+exports[`TransactionSerializer #toString should serialize to string ({
   moduleID: 5,
   assetID: 1,
   asset: [Object],
@@ -1324,7 +1324,7 @@ exports[`TransactionSerializer #toString({
   id: '73413ba3034d67f794b5c151c0a148b058ee476415c631e5f3d68d37c7b64db0'
 }) 1`] = `"0805100118032098d10c2a205e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b321e0a1c0a14763c191b0a4d0575020ce1e6500375d6d0bdd45e1080a8d6b9073a4064e1c880e844f970e46ebdcc7c9c89a80bf8618de82706f3873ee91fa666657de610a8899f1370664721cdcb08eb5ac1e12aa6e1611b85a12050711aca478604"`;
 
-exports[`TransactionSerializer #toString({
+exports[`TransactionSerializer #toString should serialize to string ({
   moduleID: 5,
   assetID: 2,
   asset: [Object],

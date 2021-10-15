@@ -3,7 +3,7 @@ import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, mockWallet, require } from "../test/mocking";
 import { DataTransferObjects } from "./coin.dtos";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { AddressService } from "./address.service";
@@ -11,11 +11,13 @@ import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { BindingType } from "./constants";
 
 let subject: TransactionService;
 
 beforeAll(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
+		container.constant(BindingType.Zilliqa, mockWallet());
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);

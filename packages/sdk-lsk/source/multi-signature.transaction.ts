@@ -19,11 +19,14 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
-		if (this.needsSignatures()) {
-			return false;
+		if (this.isMultiSignatureRegistration()) {
+			return (
+				this.#transaction.signatures.filter(Boolean).length ===
+				this.#multiSignature.numberOfSignatures + (excludeFinal ? 0 : 1)
+			);
 		}
 
-		if (!excludeFinal && this.isMultiSignatureRegistration() && this.needsFinalSignature()) {
+		if (this.needsSignatures()) {
 			return false;
 		}
 
@@ -59,15 +62,11 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
 		}
 
-		const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
-			publicKey,
-		);
-
-		if (index === -1) {
+		if (![...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].includes(publicKey)) {
 			return false;
 		}
 
-		return this.#transaction.signatures[index] === undefined;
+		return !this.getValidMultiSignatures().includes(publicKey);
 	}
 
 	public needsFinalSignature(): boolean {
@@ -87,7 +86,7 @@ export class PendingMultiSignatureTransaction {
 			return [];
 		}
 
-		if (!this.#transaction.signatures || !this.#transaction.signatures.length) {
+		if (!this.#transaction.signatures.length) {
 			return [];
 		}
 
