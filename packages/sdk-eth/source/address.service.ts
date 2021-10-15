@@ -1,6 +1,7 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/cryptography";
 import Wallet from "ethereumjs-wallet";
+import web3 from "web3";
 
 import { createWallet, getAddress } from "./utils";
 
@@ -47,6 +48,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return address !== undefined;
+		return web3.utils.isAddress(address);
 	}
 }
