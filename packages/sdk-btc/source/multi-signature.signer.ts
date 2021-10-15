@@ -50,7 +50,7 @@ export class MultiSignatureSigner {
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
-		let signedTransaction = {...transaction};
+		let signedTransaction = { ...transaction };
 
 		if (!isReady) {
 			if (signatory.actsWithLedger()) {
@@ -83,7 +83,6 @@ export class MultiSignatureSigner {
 					const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
 					const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
 					signedTransaction.signatures.push(signature);
-
 				} else {
 					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
 					// Iterate the different transaction inputs
