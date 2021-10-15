@@ -30,6 +30,28 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
+describe("connect", () => {
+	it("should throw error with unexpected input", async () => {
+		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AssetSerializer, AssetSerializer);
+			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+		});
+
+		await expect(() =>
+			transport.connect({
+				open: () => {
+					throw new Error("cannot open");
+				},
+			}),
+		).rejects.toThrow();
+	});
+});
+
 describe("destruct", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
@@ -81,29 +103,40 @@ describe("scan", () => {
 
 	it("should return scanned wallet", async () => {
 		nock(/.+/)
-			.get("/api/accounts")
-			.query({ address: "7399986239080551550L" })
-			.reply(200, await require("../test/fixtures/client/wallet-0.json"));
-
-		nock(/.+/)
-			.get("/api/accounts")
-			.query({ address: "11603034586667438647L" })
-			.reply(200, await require("../test/fixtures/client/wallet-1.json"));
-
-		nock(/.+/)
-			.get("/api/accounts")
-			.query({ address: "8261766349562104742L" })
+			.get("/api/v2/accounts")
+			.query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
+			.reply(200, await require("../test/fixtures/client/wallet-0.json"))
+			.get("/api/v2/accounts")
+			.query({ address: "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s" })
+			.reply(200, await require("../test/fixtures/client/wallet-1.json"))
+			.get("/api/v2/accounts")
+			.query({ address: "lskksmfa2q2evtwmfneaon79u9hv7a3saokuy9tv9" })
 			.reply(200, await require("../test/fixtures/client/wallet-2.json"));
-
-		nock(/.+/)
-			.get("/api/accounts")
-			.reply(200, await require("../test/fixtures/client/wallet-3.json"));
 
 		const lsk = await createMockService(ledger.wallets.record);
 
 		const walletData = await lsk.scan();
 
+		expect(Object.keys(walletData)).toHaveLength(4); // 3 + 1 cold wallet
+		expect(walletData).toMatchSnapshot();
+	});
+
+	it("should allow to pass a startPath", async () => {
+		const lsk = await createMockService(ledger.wallets.record2);
+
+		const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
+
 		expect(Object.keys(walletData)).toHaveLength(1);
+		expect(walletData).toMatchSnapshot();
+	});
+
+	it("should support legacy", async () => {
+		const lsk = await createMockService(ledger.wallets.record);
+
+		const walletData = await lsk.scan({ useLegacy: true });
+
+		expect(Object.keys(walletData)).toHaveLength(1);
+		expect((Object.values(walletData) as any[])[0].data.address).not.toStartWith("lsk");
 		expect(walletData).toMatchSnapshot();
 	});
 });

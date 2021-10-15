@@ -166,10 +166,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#createSearchParams(searchParams: Services.ClientTransactionsInput): object {
-		if (!searchParams) {
-			searchParams = {};
-		}
-
 		if (searchParams.cursor) {
 			// @ts-ignore
 			searchParams.offset = searchParams.cursor - 1;
