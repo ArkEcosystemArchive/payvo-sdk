@@ -1,8 +1,5 @@
 import { convertBufferList, convertStringList } from "@payvo/helpers";
-import {
-	MultiSignatureAsset,
-	MultiSignatureTransaction,
-} from "./multi-signature.contract";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import * as bitcoin from "bitcoinjs-lib";
 
 export class PendingMultiSignatureTransaction {

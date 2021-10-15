@@ -430,7 +430,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		} else {
 			throw new Exceptions.Exception(`Invalid network.`);
 		}
-		const prefix = Object.entries(prefixes).find(entry => entry[1] === method);
+		const prefix = Object.entries(prefixes).find((entry) => entry[1] === method);
 		return changeVersionBytes(accountPrivateKey.neutered().toBase58(), prefix![0]);
 	}
 }
