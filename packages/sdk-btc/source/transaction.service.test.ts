@@ -1,4 +1,6 @@
 import "jest-extended";
+import { jest } from "@jest/globals";
+
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import nock from "nock";
@@ -17,6 +19,7 @@ import { musig } from "../test/fixtures/musig";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+import { UUID } from "@payvo/cryptography";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -510,6 +513,7 @@ describe("native segwit multisignature wallet", () => {
 });
 
 test("#multiSignature", async () => {
+	jest.spyOn(UUID, "random").mockReturnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
 	const wallet1 = {
 		signingKey: musig.accounts[0].mnemonic,
 		path: musig.accounts[0].nativeSegwitMasterPath
@@ -544,6 +548,7 @@ test("#multiSignature", async () => {
 
 	expect(transaction1).toBeInstanceOf(SignedTransactionData);
 	expect(transaction1).toMatchSnapshot();
+	console.log(transaction1.data());
 
 	const transaction2 = await musigService.addSignature(
 		transaction1.data(),

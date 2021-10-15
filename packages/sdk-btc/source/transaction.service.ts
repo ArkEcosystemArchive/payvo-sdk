@@ -12,6 +12,7 @@ import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./c
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
+import { sign } from "bitcoinjs-message";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -172,12 +173,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		let senderPublicKey: string;
 
-		if (input.signatory.actsWithMnemonic()) {
-			const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
-			senderPublicKey = convertBuffer(rootKey.derivePath(input.data.senderPublicKey).publicKey);
-		} else {
-			throw new Exceptions.Exception("No other signatory supported");
-		}
+		// if (input.signatory.actsWithMnemonic()) {
+		const network1 = getNetworkConfig(this.configRepository);
+		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), network1);
+		const accountKey = rootKey.derivePath(input.data.senderPublicKey);
+		senderPublicKey = convertBuffer(accountKey.publicKey);
+		// } else {
+		// 	throw new Exceptions.Exception("No other signatory supported");
+		// }
 
 		const transaction: MultiSignatureRegistrationTransaction = {
 			id: UUID.random(), // TODO We should aim to do this deterministic based on m, n and originator's ext public key
@@ -185,12 +188,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [],
+				publicKeys: [this.#toExtPubKey(accountKey, "nativeSegwitMusig", network1)],
 			},
 			signatures: [],
 		};
 
-		const signedTransaction = { id: "mariano" }; //transaction.build().toJson();
+		// const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
+		// const accountKey = rootKey.derivePath(input.data.senderPublicKey).privateKey;
+
+		const messageToSign = `${transaction.id}${senderPublicKey}`; // TODO Enough?
+		const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
+
+		const signedTransaction = {
+			...transaction,
+			signatures: [signature],
+		};
 
 		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 	}
@@ -403,5 +415,22 @@ export class TransactionService extends Services.AbstractTransactionService {
 			accountPublicKeys,
 			method,
 		};
+	}
+
+	#toExtPubKey(
+		accountPrivateKey: BIP32Interface,
+		method: MusigDerivationMethod,
+		network: bitcoin.networks.Network,
+	): string {
+		let prefixes;
+		if (network === bitcoin.networks.bitcoin) {
+			prefixes = this.#mainnetPrefixes;
+		} else if (network === bitcoin.networks.testnet) {
+			prefixes = this.#testnetPrefixes;
+		} else {
+			throw new Exceptions.Exception(`Invalid network.`);
+		}
+		const prefix = Object.entries(prefixes).find(entry => entry[1] === method);
+		return changeVersionBytes(accountPrivateKey.neutered().toBase58(), prefix![0]);
 	}
 }
