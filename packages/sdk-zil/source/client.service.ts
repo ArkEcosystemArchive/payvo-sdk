@@ -1,8 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { BN, Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { WalletData } from "./wallet.dto";
-
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#zilliqa!: Zilliqa;

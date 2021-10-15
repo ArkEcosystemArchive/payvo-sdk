@@ -11,7 +11,7 @@ let subject: PrivateKeyService;
 
 beforeEach(async () => {
 	subject = await createService(PrivateKeyService, undefined, (container: IoC.Container) => {
-		container.constant(BindingType.Wallet, mockWallet());
+		container.constant(BindingType.Zilliqa, mockWallet());
 	});
 });
 
