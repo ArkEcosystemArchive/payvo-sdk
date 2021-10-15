@@ -201,7 +201,13 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return address !== undefined;
+		try {
+			bitcoin.address.toOutputScript(address, this.#network);
+
+			return true;
+		} catch {
+			return false;
+		}
 	}
 
 	#derivationMethod(options?: Services.IdentityOptions) {
