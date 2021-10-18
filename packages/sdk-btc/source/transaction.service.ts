@@ -303,7 +303,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
-		// https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
 		const { accountPublicKeys, method } = keysAndMethod(multiSignatureAsset, network);
 
 		// create a musig wallet data helper and find all used addresses

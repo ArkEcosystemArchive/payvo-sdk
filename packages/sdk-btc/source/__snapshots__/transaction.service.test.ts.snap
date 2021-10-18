@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`#multiSignature 1`] = `
+exports[`#multiSignature (fake) registration 1`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -38,7 +38,7 @@ SignedTransactionData {
 }
 `;
 
-exports[`#multiSignature 2`] = `
+exports[`#multiSignature (fake) registration 2`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},
@@ -80,7 +80,7 @@ SignedTransactionData {
 }
 `;
 
-exports[`#multiSignature 3`] = `
+exports[`#multiSignature (fake) registration 3`] = `
 SignedTransactionData {
   "bigNumberService": BigNumberService {
     "configRepository": ConfigRepository {},

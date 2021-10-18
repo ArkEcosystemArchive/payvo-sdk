@@ -4,6 +4,7 @@ import changeVersionBytes from "xpub-converter";
 
 import { MusigDerivationMethod } from "./contracts";
 
+// https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
 const mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };
 const testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig" };
 

@@ -512,7 +512,7 @@ describe("native segwit multisignature wallet", () => {
 	});
 });
 
-test("#multiSignature", async () => {
+test("#multiSignature (fake) registration", async () => {
 	jest.spyOn(UUID, "random").mockReturnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
 	const wallet1 = {
 		signingKey: musig.accounts[0].mnemonic,

@@ -1,7 +1,6 @@
 import { UUID } from "@payvo/cryptography";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-// import { isMultiSignatureRegistration } from "./helpers";
 import { BindingType } from "./constants";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
@@ -152,21 +151,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			)
 		).json().result;
 	}
-
-	// #multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }): object {
-	// 	if (isMultiSignatureRegistration(transaction)) {
-	// 		return {
-	// 			numberOfSignatures: transaction.asset.numberOfSignatures,
-	// 			mandatoryKeys,
-	// 			optionalKeys,
-	// 		};
-	// 	}
-	//
-	// 	const result = wallet.multiSignature();
-	// 	delete result.members;
-	//
-	// 	return result;
-	// }
 
 	#normalizeTransaction({ data, multiSignature }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {
