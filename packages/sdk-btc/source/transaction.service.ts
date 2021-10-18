@@ -211,10 +211,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
 	}
 
-	async #createTransactionLocalSigning(
-		inputs: any[],
-		outputs: any[],
-	): Promise<bitcoin.Transaction> {
+	async #createTransactionLocalSigning(inputs: any[], outputs: any[]): Promise<bitcoin.Transaction> {
 		const psbt = new bitcoin.Psbt({ network: this.#network });
 
 		inputs.forEach((input) =>
