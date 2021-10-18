@@ -88,7 +88,7 @@ describe("MultiSignatureService", () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet1.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet1.path,  // TODO for now we use publicKey for passing path
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
@@ -102,7 +102,7 @@ describe("MultiSignatureService", () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet2.path,  // TODO for now we use publicKey for passing path
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
@@ -116,7 +116,7 @@ describe("MultiSignatureService", () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet3.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet3.path,  // TODO for now we use publicKey for passing path
+				publicKey: wallet3.path, // TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
