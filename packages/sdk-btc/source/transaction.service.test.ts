@@ -534,7 +534,7 @@ test("#multiSignature (fake) registration", async () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet1.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet1.path,  // TODO for now we use publicKey for passing path
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		),
