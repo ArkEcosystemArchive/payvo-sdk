@@ -14,7 +14,7 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { AddressService } from "./address.service";
 import { BindingType } from "./constants";
-import { unsignedTx } from "../test/fixtures/musig-txs";
+import { oneSignatureTx, threeSignatureTx, twoSignatureTx, unsignedTx } from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
 
 let subject: MultiSignatureService;
@@ -78,6 +78,8 @@ describe("MultiSignatureService", () => {
 	});
 
 	test("#addSignature", async () => {
+		const transactionData = { ...unsignedTx };
+
 		const wallet1 = {
 			signingKey: musig.accounts[0].mnemonic,
 			path: musig.accounts[0].nativeSegwitMasterPath,
@@ -90,11 +92,7 @@ describe("MultiSignatureService", () => {
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
-		const transactionData = unsignedTx;
-
-		expect((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
-			"H4yJgFpPH6b0ED6OYBm0IJILt5u6h+E37WbKkTNjdAQZG/lS7ShWcyJ713QRNJRoEn3g7JrWcJjV+1hoicCAz6A=",
-		]);
+		expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(oneSignatureTx);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -108,11 +106,21 @@ describe("MultiSignatureService", () => {
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
+		expect((await subject.addSignature(transactionData, signatory2)).data()).toEqual(twoSignatureTx);
 
-		expect((await subject.addSignature(transactionData, signatory2)).data().signatures).toEqual([
-			"H4yJgFpPH6b0ED6OYBm0IJILt5u6h+E37WbKkTNjdAQZG/lS7ShWcyJ713QRNJRoEn3g7JrWcJjV+1hoicCAz6A=",
-			"Hwap/1p+ng4GjwzJSzRw/YLi2mV1auhEWQa3mkP7j06BLHG+b69+VLBU68Qw0R0y0YTGsFi2b1Ls+dJZtk6b0FA=",
-		]);
+		const wallet3 = {
+			signingKey: musig.accounts[2].mnemonic,
+			path: musig.accounts[2].nativeSegwitMasterPath,
+		};
+		const signatory3 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet3.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet3.path,  // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+		expect((await subject.addSignature(transactionData, signatory3)).data()).toEqual(threeSignatureTx);
 	});
 
 	test("#isMultiSignatureRegistrationReady", async () => {
