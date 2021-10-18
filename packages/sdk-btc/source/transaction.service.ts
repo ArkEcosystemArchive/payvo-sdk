@@ -7,7 +7,7 @@ import coinSelect from "coinselect";
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
-import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
@@ -49,6 +49,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(BindingType.LedgerTransport)
 	private readonly transport!: Services.LedgerTransport;
 
+	#network!: bitcoin.networks.Network;
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
+
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (!input.signatory.actsWithMultiSignature() && input.signatory.signingKey() === undefined) {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
@@ -87,13 +94,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
 			const levels = this.addressFactory.getLevel(identityOptions);
 
-			const network = getNetworkConfig(this.configRepository);
-
 			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// Derivce account key (depth 3)
-			const accountKey = await this.#getAccountKey(input.signatory, network, levels);
+			const accountKey = await this.#getAccountKey(input.signatory, this.#network, levels);
 
 			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
@@ -131,9 +136,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 			let transaction: bitcoin.Transaction;
 
 			if (input.signatory.actsWithMnemonic()) {
-				transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
+				transaction = await this.#createTransactionLocalSigning(inputs, outputs);
 			} else if (input.signatory.actsWithLedger()) {
-				transaction = await this.ledgerService.createTransaction(network, inputs, outputs, changeAddress);
+				transaction = await this.ledgerService.createTransaction(this.#network, inputs, outputs, changeAddress);
 			} else {
 				throw new Exceptions.Exception("Unsupported signatory");
 			}
@@ -174,8 +179,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let senderPublicKey: string;
 
 		// if (input.signatory.actsWithMnemonic()) {
-		const network = getNetworkConfig(this.configRepository);
-		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), network);
+		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
 		const accountKey = rootKey.derivePath(input.data.senderPublicKey);
 		senderPublicKey = convertBuffer(accountKey.publicKey);
 		// } else {
@@ -188,12 +192,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [toExtPubKey(accountKey, "nativeSegwitMusig", network)],
+				publicKeys: [toExtPubKey(accountKey, "nativeSegwitMusig", this.#network)],
 			},
 			signatures: [],
 		};
 
-		// const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), getNetworkConfig(this.configRepository));
+		// const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
 		// const accountKey = rootKey.derivePath(input.data.senderPublicKey).privateKey;
 
 		const messageToSign = `${transaction.id}${senderPublicKey}`; // TODO Enough?
@@ -208,11 +212,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #createTransactionLocalSigning(
-		network: bitcoin.networks.Network,
 		inputs: any[],
 		outputs: any[],
 	): Promise<bitcoin.Transaction> {
-		const psbt = new bitcoin.Psbt({ network });
+		const psbt = new bitcoin.Psbt({ network: this.#network });
 
 		inputs.forEach((input) =>
 			psbt.addInput({
@@ -230,7 +233,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Sign and verify signatures
 		inputs.forEach((input, index) =>
-			psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network })),
+			psbt.signInput(index, bitcoin.ECPair.fromPrivateKey(input.signingKey, { network: this.#network })),
 		);
 
 		if (!psbt.validateSignaturesOfAllInputs()) {
