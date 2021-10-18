@@ -15,6 +15,8 @@ import { LedgerService } from "./ledger.service";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
+import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 // import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 // import logger from "@ledgerhq/logs";
 
@@ -45,7 +47,9 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 
 		// @ts-ignore Uncomment for using real device
 		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);

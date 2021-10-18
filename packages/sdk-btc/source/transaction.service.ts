@@ -11,8 +11,8 @@ import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
-import { sign } from "bitcoinjs-message";
-import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
+import { keysAndMethod } from "./multi-signature.domain";
+import { MultiSignatureService } from "./multi-signature.service";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -48,6 +48,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(BindingType.LedgerTransport)
 	private readonly transport!: Services.LedgerTransport;
+
+	@IoC.inject(IoC.BindingType.MultiSignatureService)
+	private readonly multiSignatureService!: MultiSignatureService;
 
 	#network!: bitcoin.networks.Network;
 
@@ -168,10 +171,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Error("Expected [input.data.numberOfSignatures] to be defined as an integer.");
 		}
 
-		if (!input.data.senderPublicKey) {
-			throw new Error("Expected [input.data.senderPublicKey] to be defined and contain a valid derivation path.");
-		}
-
 		if (input.data.min > input.data.numberOfSignatures) {
 			throw new Error("Expected [input.data.min] must be less than or equal to [input.data.numberOfSignatures].");
 		}
@@ -180,7 +179,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// if (input.signatory.actsWithMnemonic()) {
 		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
-		const accountKey = rootKey.derivePath(input.data.senderPublicKey);
+		const accountKey = rootKey.derivePath(input.signatory.publicKey());
 		senderPublicKey = convertBuffer(accountKey.publicKey);
 		// } else {
 		// 	throw new Exceptions.Exception("No other signatory supported");
@@ -192,23 +191,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [toExtPubKey(accountKey, "nativeSegwitMusig", this.#network)],
+				publicKeys: [],
 			},
 			signatures: [],
 		};
 
-		// const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
-		// const accountKey = rootKey.derivePath(input.data.senderPublicKey).privateKey;
-
-		const messageToSign = `${transaction.id}${senderPublicKey}`; // TODO Enough?
-		const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
-
-		const signedTransaction = {
-			...transaction,
-			signatures: [signature],
-		};
-
-		return this.dataTransferObjectService.signedTransaction(signedTransaction.id, signedTransaction);
+		return await this.multiSignatureService.addSignature(transaction, input.signatory);
 	}
 
 	async #createTransactionLocalSigning(inputs: any[], outputs: any[]): Promise<bitcoin.Transaction> {
@@ -356,7 +344,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		const psbtBaseText = psbt.toBase64();
-		console.log("base64", psbtBaseText);
 
 		// @ts-ignore
 		const tx: bitcoin.Transaction = psbt.__CACHE.__TX;

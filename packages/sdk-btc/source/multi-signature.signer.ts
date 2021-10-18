@@ -76,7 +76,7 @@ export class MultiSignatureSigner {
 			} else {
 				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
 				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
-				console.log(signedTransaction);
+
 				signedTransaction.multiSignature.publicKeys.push(
 					toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
 				);

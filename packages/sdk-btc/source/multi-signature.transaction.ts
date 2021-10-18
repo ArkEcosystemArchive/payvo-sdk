@@ -29,7 +29,11 @@ export class PendingMultiSignatureTransaction {
 
 	public needsSignatures(): boolean {
 		if (this.isMultiSignatureRegistration()) {
-			return this.needsAllSignatures();
+			return (
+				"signatures" in this.#transaction &&
+				this.#transaction.signatures.length < this.#multiSignature.numberOfSignatures
+			);
+			// return this.needsAllSignatures();
 		}
 
 		return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
