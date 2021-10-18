@@ -1,7 +1,7 @@
 import { Coins, Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
@@ -22,25 +22,6 @@ export class MultiSignatureSigner {
 	@IoC.postConstruct()
 	private onPostConstruct(): void {
 		this.#network = getNetworkConfig(this.configRepository);
-	}
-
-	public sign(transaction: any, multiSignature: MultiSignatureAsset): MultiSignatureTransaction {
-		if (!transaction.signatures) {
-			transaction.data.signatures = [];
-		}
-
-		const data: any = {};
-		// transaction.data.type === Enums.TransactionType.MultiSignature
-		// 	? transaction.getStruct()
-		// 	: transaction.build().toJson();
-
-		data.multiSignature = multiSignature;
-
-		if (!data.signatures) {
-			data.signatures = [];
-		}
-
-		return data;
 	}
 
 	public async addSignature(
