@@ -14,7 +14,7 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { AddressService } from "./address.service";
 import { BindingType } from "./constants";
-import { oneSignatureTx, threeSignatureTx, twoSignatureTx, unsignedTx } from "../test/fixtures/musig-txs";
+import { manyTxs, oneSignatureTx, threeSignatureTx, twoSignatureTx, unsignedTx } from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
 
 let subject: MultiSignatureService;
@@ -38,29 +38,41 @@ beforeAll(async () => {
 afterEach(() => nock.cleanAll());
 
 describe("MultiSignatureService", () => {
-	// let fixtures;
+	let fixtures;
 
-	// beforeEach(async () => {
-	// 	fixtures = await require(`../test/fixtures/client/multisig-transactions.json`);
-	// });
-	//
-	// test("#allWithPendingState", async () => {
-	// 	nock(/.+/).post("/").reply(200, fixtures);
-	//
-	// 	await expect(subject.allWithPendingState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeArrayOfSize(3);
-	// });
-	//
-	// test("#allWithReadyState", async () => {
-	// 	nock(/.+/).post("/").reply(200, fixtures);
-	//
-	// 	await expect(subject.allWithReadyState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeArrayOfSize(3);
-	// });
-	//
-	// test("#findById", async () => {
-	// 	nock(/.+/).post("/").reply(200, { result: fixtures.result[0] });
-	//
-	// 	await expect(subject.findById("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeObject();
-	// });
+	beforeEach(async () => {
+		fixtures = { result: [...manyTxs] };
+	});
+
+	test("#allWithPendingState", async () => {
+		nock("https://btc-test-musig.payvo.com").post("/").reply(200, fixtures);
+
+		await expect(
+			subject.allWithPendingState(
+				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			),
+		).resolves.toBeArrayOfSize(2);
+	});
+
+	test("#allWithReadyState", async () => {
+		nock("https://btc-test-musig.payvo.com").post("/").reply(200, fixtures);
+
+		await expect(
+			subject.allWithReadyState(
+				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			),
+		).resolves.toBeArrayOfSize(2);
+	});
+
+	test("#findById", async () => {
+		nock("https://btc-test-musig.payvo.com").post("/").reply(200, { result: oneSignatureTx });
+
+		await expect(
+			subject.findById(
+				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			),
+		).resolves.toBeObject();
+	});
 
 	test("#broadcast", async () => {
 		nock("https://btc-test-musig.payvo.com")
@@ -153,7 +165,12 @@ describe("MultiSignatureService", () => {
 	test("#needsWalletSignature", async () => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.needsWalletSignature(transaction, "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).toBeFalse();
+		expect(
+			subject.needsWalletSignature(
+				transaction,
+				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			),
+		).toBeFalse();
 	});
 
 	test("#needsFinalSignature", async () => {
