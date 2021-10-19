@@ -71,7 +71,6 @@ export const manyTxs = [
 			],
 		},
 		senderPublicKey: "0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73",
-		signatures: [
-			"IE6oFRIsi8qYTtujTSEhgOXPPdPBUSTzvCggm0Zq8kdBemOsEz2ElRuqHRmEaGcuQa/qvf2sBfGlLK5Gknslykc=",
-		],
-	}];
+		signatures: ["IE6oFRIsi8qYTtujTSEhgOXPPdPBUSTzvCggm0Zq8kdBemOsEz2ElRuqHRmEaGcuQa/qvf2sBfGlLK5Gknslykc="],
+	},
+];
