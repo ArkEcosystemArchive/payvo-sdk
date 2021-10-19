@@ -344,6 +344,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		const psbtBaseText = psbt.toBase64();
+		console.log(psbtBaseText);
 
 		// @ts-ignore
 		const tx: bitcoin.Transaction = psbt.__CACHE.__TX;

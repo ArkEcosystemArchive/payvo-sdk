@@ -1,4 +1,4 @@
-export const unsignedTx = {
+export const unsignedMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -9,7 +9,7 @@ export const unsignedTx = {
 	signatures: [],
 };
 
-export const oneSignatureTx = {
+export const oneSignatureMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -22,7 +22,7 @@ export const oneSignatureTx = {
 	signatures: ["H4yJgFpPH6b0ED6OYBm0IJILt5u6h+E37WbKkTNjdAQZG/lS7ShWcyJ713QRNJRoEn3g7JrWcJjV+1hoicCAz6A="],
 };
 
-export const twoSignatureTx = {
+export const twoSignatureMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -39,7 +39,7 @@ export const twoSignatureTx = {
 	],
 };
 
-export const threeSignatureTx = {
+export const threeSignatureMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -58,8 +58,8 @@ export const threeSignatureTx = {
 	],
 };
 
-export const manyTxs = [
-	oneSignatureTx,
+export const manyMusigRegistrationTxs = [
+	oneSignatureMusigRegistrationTx,
 	{
 		id: "ac6bc776-5f46-4a71-86cd-a6a5c094189b",
 		multiSignature: {
@@ -75,3 +75,19 @@ export const manyTxs = [
 		signatures: ["IE6oFRIsi8qYTtujTSEhgOXPPdPBUSTzvCggm0Zq8kdBemOsEz2ElRuqHRmEaGcuQa/qvf2sBfGlLK5Gknslykc="],
 	},
 ];
+
+export const unsignedTransferTx = {
+	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
+	multiSignature: {
+		min: 2,
+		numberOfSignatures: 3,
+		publicKeys: [
+			"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+			"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
+		],
+	},
+	senderPublicKey: "0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73",
+	psbt: "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA",
+	signatures: [],
+};

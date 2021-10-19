@@ -60,10 +60,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Services.BroadcastResponse> {
 		let multiSignature = transaction.multiSignature;
 
-		if (transaction.asset) {
-			multiSignature = transaction.asset;
-		}
-
 		try {
 			const { id } = await this.#post("store", {
 				data: transaction,
