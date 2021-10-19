@@ -3,6 +3,7 @@ import * as bitcoin from "bitcoinjs-lib";
 import changeVersionBytes from "xpub-converter";
 
 import { MusigDerivationMethod } from "./contracts";
+import { MultiSignatureTransaction } from "./multi-signature.contract";
 
 // https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
 const mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };
@@ -62,3 +63,6 @@ export const toExtPubKey = (
 	const prefix = Object.entries(prefixes).find((entry) => entry[1] === method);
 	return changeVersionBytes(accountPrivateKey.neutered().toBase58(), prefix![0]);
 };
+
+export const isMultiSignatureRegistration = (transaction: MultiSignatureTransaction): boolean =>
+	transaction.psbt === undefined;

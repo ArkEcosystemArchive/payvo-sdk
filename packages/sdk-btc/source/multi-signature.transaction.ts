@@ -1,6 +1,7 @@
 import { convertBufferList } from "@payvo/helpers";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import * as bitcoin from "bitcoinjs-lib";
+import { isMultiSignatureRegistration } from "./multi-signature.domain";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
@@ -12,7 +13,7 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public isMultiSignatureRegistration(): boolean {
-		return !("psbt" in this.#transaction);
+		return isMultiSignatureRegistration(this.#transaction);
 	}
 
 	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
@@ -29,11 +30,7 @@ export class PendingMultiSignatureTransaction {
 
 	public needsSignatures(): boolean {
 		if (this.isMultiSignatureRegistration()) {
-			return (
-				"signatures" in this.#transaction &&
-				this.#transaction.signatures.length < this.#multiSignature.numberOfSignatures
-			);
-			// return this.needsAllSignatures();
+			return this.#transaction.signatures.length < this.#multiSignature.numberOfSignatures;
 		}
 
 		return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
@@ -48,9 +45,9 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		// if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
-		// 	return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
-		// }
+		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
+			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
+		}
 
 		// const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
 		// 	publicKey,
@@ -69,16 +66,13 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public getValidMultiSignatures(): string[] {
-		if (
-			"signatures" in this.#transaction &&
-			(!this.#transaction.signatures || !this.#transaction.signatures.length)
-		) {
+		if (!this.#transaction.signatures || !this.#transaction.signatures.length) {
 			return [];
 		}
 
-		if ("psbt" in this.#transaction && this.#transaction.psbt !== undefined) {
-			const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt, {
-				// network:
+		if (!isMultiSignatureRegistration(this.#transaction)) {
+			const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, {
+				// network: this.#network,
 			});
 			// return psbt.validateSignaturesOfAllInputs();
 		}

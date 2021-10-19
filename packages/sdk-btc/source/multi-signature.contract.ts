@@ -4,16 +4,10 @@ export interface MultiSignatureAsset {
 	publicKeys: string[];
 }
 
-export interface MultiSignatureRegistrationTransaction {
+export interface MultiSignatureTransaction {
 	id: string;
 	senderPublicKey: string;
 	multiSignature: MultiSignatureAsset;
+	psbt?: string;
 	signatures: string[];
 }
-
-export interface MultiSignaturePsbtTransaction {
-	multiSignature: MultiSignatureAsset;
-	psbt: string;
-}
-
-export type MultiSignatureTransaction = MultiSignatureRegistrationTransaction | MultiSignaturePsbtTransaction;

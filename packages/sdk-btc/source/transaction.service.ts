@@ -9,7 +9,7 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
-import { MultiSignatureRegistrationTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
 import { keysAndMethod } from "./multi-signature.domain";
 import { MultiSignatureService } from "./multi-signature.service";
@@ -185,7 +185,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// 	throw new Exceptions.Exception("No other signatory supported");
 		// }
 
-		const transaction: MultiSignatureRegistrationTransaction = {
+		const transaction: MultiSignatureTransaction = {
 			id: UUID.random(), // TODO We should aim to do this deterministic based on m, n and originator's ext public key
 			senderPublicKey: senderPublicKey,
 			multiSignature: {

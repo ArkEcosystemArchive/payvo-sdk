@@ -21,6 +21,7 @@ export const oneSignatureTx = {
 	senderPublicKey: "0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73",
 	signatures: ["H4yJgFpPH6b0ED6OYBm0IJILt5u6h+E37WbKkTNjdAQZG/lS7ShWcyJ713QRNJRoEn3g7JrWcJjV+1hoicCAz6A="],
 };
+
 export const twoSignatureTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {

@@ -163,12 +163,19 @@ describe("MultiSignatureService", () => {
 	});
 
 	test("#needsWalletSignature", async () => {
-		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
+		const transaction = (await createService(SignedTransactionData)).configure(oneSignatureTx.id, oneSignatureTx);
 
 		expect(
 			subject.needsWalletSignature(
 				transaction,
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			),
+		).toBeTrue();
+
+		expect(
+			subject.needsWalletSignature(
+				transaction,
+				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 			),
 		).toBeFalse();
 	});
@@ -176,7 +183,7 @@ describe("MultiSignatureService", () => {
 	test("#needsFinalSignature", async () => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.needsFinalSignature(transaction)).toBeTrue();
+		expect(subject.needsFinalSignature(transaction)).toBeFalse();
 	});
 
 	test("#getValidMultiSignatures", async () => {
