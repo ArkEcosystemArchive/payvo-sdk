@@ -1,11 +1,14 @@
 import dot from "dot-prop";
-import { Schema } from "joi";
+import { ValidatorSchema } from "@payvo/helpers";
 
 export class ConfigRepository {
 	readonly #config: Record<string, any>;
 
-	public constructor(config: object, schema: Schema) {
-		const { error, value } = schema.validate(config);
+	public constructor(config: object) {
+		const { error, value } = ValidatorSchema.object({
+			network: ValidatorSchema.string(),
+			httpClient: ValidatorSchema.object(),
+		}).validate(config);
 
 		if (error !== undefined) {
 			throw new Error(`Failed to validate the configuration: ${(error as any).message}`);
