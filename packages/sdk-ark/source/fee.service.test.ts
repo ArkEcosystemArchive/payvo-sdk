@@ -6,7 +6,6 @@ import nock from "nock";
 import { createService, require } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { FeeService } from "./fee.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";

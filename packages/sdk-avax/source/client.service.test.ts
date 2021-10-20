@@ -2,7 +2,6 @@ import { Collections, DTO, IoC, Services } from "@payvo/sdk";
 
 import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 

@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 
 import { inject, injectable } from "inversify";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 import { ConfigRepository } from "../coins";
 import {
@@ -25,14 +27,22 @@ import {
 } from "../services";
 import { AbstractExtendedPublicKeyService } from "../services/extended-public-key.service";
 import { Container } from "./container";
-import { BindingType, ServiceList } from "./service-provider.contract";
+import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract";
 
 @injectable()
-export abstract class AbstractServiceProvider {
+export abstract class AbstractServiceProvider implements IServiceProvider {
 	@inject(BindingType.ConfigRepository)
 	protected readonly configRepository!: ConfigRepository;
 
-	protected async compose(services: ServiceList, container: Container): Promise<void> {
+	public async make(container: Container): Promise<void> {
+		return this.compose(container);
+	}
+
+	protected async compose(container: Container): Promise<void> {
+		await this.#discoverDataTransferObjects(container);
+
+		const services: ServiceList = await this.#discoverServices();
+
 		if (container.missing(BindingType.AddressService)) {
 			container.singleton(BindingType.AddressService, services.AddressService || AbstractAddressService);
 		}
@@ -129,5 +139,62 @@ export abstract class AbstractServiceProvider {
 		if (container.missing(BindingType.WIFService)) {
 			container.singleton(BindingType.WIFService, services.WIFService || AbstractWIFService);
 		}
+	}
+
+	protected abstract path(): string;
+
+	async #discoverServices(): Promise<ServiceList> {
+		const services: Record<string, string> = {
+			AddressService: "address",
+			ClientService: "client",
+			DataTransferObjectService: "data-transfer-object",
+			ExtendedAddressService: "extended-address",
+			ExtendedPublicKeyService: "extended-public-key",
+			FeeService: "fee",
+			KeyPairService: "key-pair",
+			KnownWalletService: "known-wallet",
+			LedgerService: "ledger",
+			LinkService: "link",
+			MessageService: "message",
+			MultiSignatureService: "multi-signature",
+			PrivateKeyService: "private-key",
+			PublicKeyService: "public-key",
+			SignatoryService: "signatory",
+			TransactionService: "transaction",
+			WalletDiscoveryService: "wallet-discovery",
+			WIFService: "wif",
+		};
+
+		const result = {};
+
+		for (const [service, file] of Object.entries(services)) {
+			try {
+				result[service] = (await import(join(this.path(), `${file}.service.js`)))[service];
+			} catch {
+				// Service doesn't exist, lets use the default implementation.
+			}
+		}
+
+		return result;
+	}
+
+	async #discoverDataTransferObjects(container: Container): Promise<void> {
+		const services: Record<string, string> = {
+			SignedTransactionData: "signed-transaction",
+			ConfirmedTransactionData: "confirmed-transaction",
+			WalletData: "wallet",
+		};
+
+		const result = {};
+
+		for (const [service, file] of Object.entries(services)) {
+			try {
+				result[service] = (await import(join(this.path(), `${file}.dto.js`)))[service];
+			} catch {
+				// Service doesn't exist, lets use the default implementation.
+			}
+		}
+
+		container.constant(BindingType.DataTransferObjects, result);
 	}
 }

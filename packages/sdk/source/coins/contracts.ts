@@ -24,7 +24,6 @@ import { BigNumberService } from "../services/big-number.service";
 export interface CoinSpec {
 	manifest: CoinManifest;
 	ServiceProvider: any;
-	dataTransferObjects: Record<string, any>;
 }
 
 export interface CoinOptions {

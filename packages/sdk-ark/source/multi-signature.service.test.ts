@@ -6,7 +6,6 @@ import nock from "nock";
 import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { BindingType } from "./coin.contract";
 import { MultiSignatureSigner } from "./multi-signature.signer";

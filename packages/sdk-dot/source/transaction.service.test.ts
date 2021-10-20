@@ -6,7 +6,6 @@ import { waitReady } from "@polkadot/wasm-crypto";
 import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
 import { BindingType } from "./constants";
-import { DataTransferObjects } from "./coin.dtos";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { createApiPromise, createKeyring } from "./factories";
 import { AddressService } from "./address.service";
