@@ -4,7 +4,7 @@ import { waitReady } from "@polkadot/wasm-crypto";
 import { BindingType } from "./constants";
 import { createApiPromise, createKeyring } from "./factories";
 
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		await waitReady();
 

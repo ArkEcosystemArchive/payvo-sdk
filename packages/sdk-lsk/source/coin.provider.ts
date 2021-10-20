@@ -4,7 +4,7 @@ import { BindingType } from "./coin.contract";
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
 
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);

@@ -5,7 +5,7 @@ import { BindingType } from "./coin.contract";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
 @IoC.injectable()
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		await this.#retrieveNetworkConfiguration(container);
 

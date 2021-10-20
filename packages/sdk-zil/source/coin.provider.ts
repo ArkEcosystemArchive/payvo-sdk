@@ -3,7 +3,7 @@ import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { BindingType } from "./constants";
 
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		container.constant(BindingType.Zilliqa, new Zilliqa(Helpers.randomHostFromConfig(this.configRepository)));
 

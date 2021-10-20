@@ -4,7 +4,7 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public async make(container: IoC.Container): Promise<void> {
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 		// @ts-ignore
