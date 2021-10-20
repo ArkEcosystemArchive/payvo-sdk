@@ -1,6 +1,8 @@
 /* istanbul ignore file */
 
 import { inject, injectable } from "inversify";
+import { dirname, join } from "path";
+import { fileURLToPath } from "url";
 
 import { ConfigRepository } from "../coins";
 import {
@@ -37,7 +39,7 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 	}
 
 	protected async compose(container: Container): Promise<void> {
-		const services: ServiceList = this.#discoverServices();
+		const services: ServiceList = await this.#discoverServices();
 
 		if (container.missing(BindingType.AddressService)) {
 			container.singleton(BindingType.AddressService, services.AddressService || AbstractAddressService);
@@ -137,9 +139,40 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 		}
 	}
 
-	#discoverServices(): ServiceList {
-		console.log("what");
+	protected abstract path(): string;
 
-		return {};
+	async #discoverServices(): Promise<ServiceList> {
+		const services: Record<string, string> = {
+			AddressService: "address",
+			ClientService: "client",
+			DataTransferObjectService: "data-transfer-object",
+			ExtendedAddressService: "extended-address",
+			ExtendedPublicKeyService: "extended-public-key",
+			FeeService: "fee",
+			KeyPairService: "key-pair",
+			KnownWalletService: "known-wallet",
+			LedgerService: "ledger",
+			LinkService: "link",
+			MessageService: "message",
+			MultiSignatureService: "multi-signature",
+			PrivateKeyService: "private-key",
+			PublicKeyService: "public-key",
+			SignatoryService: "signatory",
+			TransactionService: "transaction",
+			WalletDiscoveryService: "wallet-discovery",
+			WIFService: "wif",
+		};
+
+		const result = {};
+
+		for (const [service, file] of Object.entries(services)) {
+			try {
+				result[service] = (await import(join(this.path(), `${file}.service.js`)))[service];
+			} catch {
+				// Service doesn't exist, lets use the default implementation.
+			}
+		}
+
+		return result;
 	}
 }

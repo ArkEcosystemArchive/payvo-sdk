@@ -16,6 +16,10 @@ export class ServiceProvider extends IoC.AbstractServiceProvider {
 		return this.compose(container);
 	}
 
+	protected override path(): string {
+		return __dirname;
+	}
+
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {
 		const http: Http.HttpClient = container.get<Http.HttpClient>(IoC.BindingType.HttpClient);
 

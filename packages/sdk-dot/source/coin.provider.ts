@@ -13,4 +13,8 @@ export class ServiceProvider extends IoC.AbstractServiceProvider {
 
 		return this.compose(container);
 	}
+
+	protected override path(): string {
+		return __dirname;
+	}
 }
