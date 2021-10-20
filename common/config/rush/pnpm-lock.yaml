@@ -19,6 +19,7 @@ importers:
       inversify: 5.1.1
       joi: 17.4.2
       node-emoji: 1.11.0
+      parent-module: 3.0.0
       reflect-metadata: 0.1.13
       type-fest: 2.1.0
     devDependencies:
@@ -93,6 +94,7 @@ importers:
       nock: ^13.1.3
       node-emoji: ^1.11.0
       npm-check-updates: ^11.8.3
+      parent-module: ~3.0.0
       prettier: ^2.3.2
       reflect-metadata: ~0.1.13
       rimraf: ^3.0.2
@@ -5560,6 +5562,12 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
+  /callsites/4.0.0:
+    dev: false
+    engines:
+      node: '>=12.20'
+    resolution:
+      integrity: sha512-y3jRROutgpKdz5vzEhWM34TidDU8vkJppF8dszITeb1PQmSqV3DTxyV8G/lyO/DNvtE1YTedehmw9MPZsCBHxQ==
   /camelcase/5.3.1:
     engines:
       node: '>=6'
@@ -10857,6 +10865,14 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==
+  /parent-module/3.0.0:
+    dependencies:
+      callsites: 4.0.0
+    dev: false
+    engines:
+      node: ^12.20.0 || ^14.13.1 || >=16.0.0
+    resolution:
+      integrity: sha512-zJXn5iKdXXUV51iC7O4nHiPs/eWnkd0obrHDlOKQ6/MafFrxljinW6hCkr0UTsAGq7B+NXT2wIfLshcD+5RvIw==
   /parse-asn1/5.1.6:
     dependencies:
       asn1.js: 5.4.1
