@@ -100,7 +100,8 @@ describe("MultiSignatureService", () => {
 		});
 
 		test("#addSignature", async () => {
-			const transactionData = { ...unsignedMusigRegistrationTx };
+			// We need a deep copy as signing modifies the signatures and public keys
+			const transactionData = JSON.parse(JSON.stringify(unsignedMusigRegistrationTx));
 
 			const wallet1 = {
 				signingKey: musig.accounts[0].mnemonic,
@@ -151,10 +152,18 @@ describe("MultiSignatureService", () => {
 			);
 		});
 
-		test("#isMultiSignatureRegistrationReady", async () => {
-			const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-			expect(subject.isMultiSignatureReady(transaction)).toBeTrue();
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+		])("#isMultiSignatureRegistrationReady", ({ tx, expected }) => {
+			test(`when already signed by ${tx.signatures.length} participants`, async () => {
+				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
+
+				expect(subject.isMultiSignatureReady(transaction)).toBe(expected);
+			});
 		});
 
 		test("#needsSignatures", async () => {
@@ -205,25 +214,17 @@ describe("MultiSignatureService", () => {
 			expect(subject.needsFinalSignature(transaction)).toBeFalse();
 		});
 
-		test("#getValidMultiSignatures", async () => {
-			const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx, expected: 3 },
+			{ tx: oneSignatureMusigRegistrationTx, expected: 2 },
+			{ tx: twoSignatureMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureMusigRegistrationTx, expected: 0 },
+		])("#remainingSignatureCount", ({ tx, expected }) => {
+			test(`when already signed by ${tx.signatures.length} participants`, async () => {
+				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
 
-			expect(subject.getValidMultiSignatures(transaction)).toEqual([]);
-		});
-
-		test("#remainingSignatureCount", async () => {
-			const transaction = (await createService(SignedTransactionData)).configure("123", {
-				signatures: [],
-				multiSignature: {
-					publicKeys: [
-						"0301fd417566397113ba8c55de2f093a572744ed1829b37b56a129058000ef7bce",
-						"034151a3ec46b5670a682b0a63394f863587d1bc97483b1b6c70eb58e7f0aed192",
-					],
-					min: 2,
-				},
+				expect(subject.remainingSignatureCount(transaction)).toBe(expected);
 			});
-
-			expect(subject.remainingSignatureCount(transaction)).toBe(2);
 		});
 	});
 

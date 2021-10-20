@@ -125,7 +125,7 @@ export class PendingMultiSignatureTransaction {
 
 	public remainingSignatureCount(): number {
 		let numberOfSignatures = this.isMultiSignatureRegistration()
-			? this.#multiSignature.numberOfSignatures
+			? this.#multiSignature.numberOfSignatures - this.#transaction.signatures.length
 			: this.#multiSignature.min;
 
 		return numberOfSignatures; // - this.#transaction.signatures.filter(Boolean).length;
