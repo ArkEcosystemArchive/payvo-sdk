@@ -41,7 +41,8 @@
 		"joi": "^17.4.2",
 		"node-emoji": "^1.11.0",
 		"reflect-metadata": "~0.1.13",
-		"type-fest": "^2.1.0"
+		"type-fest": "^2.1.0",
+		"import-fresh": "~3.3.0"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.0.6",

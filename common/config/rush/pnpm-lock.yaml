@@ -15,6 +15,7 @@ importers:
       censorify-it: 3.0.2
       dayjs: 1.10.6
       dot-prop: 6.0.1
+      import-fresh: 3.3.0
       inversify: 5.1.1
       joi: 17.4.2
       node-emoji: 1.11.0
@@ -83,6 +84,7 @@ importers:
       eslint-plugin-prettier: ^3.4.1
       eslint-plugin-simple-import-sort: ^7.0.0
       eslint-plugin-tsdoc: ~0.2.14
+      import-fresh: ~3.3.0
       inversify: ~5.1.1
       jest: ^27.0.6
       jest-extended: ^0.11.5
@@ -5554,7 +5556,6 @@ packages:
     resolution:
       integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==
   /callsites/3.1.0:
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -8155,7 +8156,6 @@ packages:
     dependencies:
       parent-module: 1.0.1
       resolve-from: 4.0.0
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -10853,7 +10853,6 @@ packages:
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -11594,7 +11593,6 @@ packages:
     resolution:
       integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==
   /resolve-from/4.0.0:
-    dev: true
     engines:
       node: '>=4'
     resolution:

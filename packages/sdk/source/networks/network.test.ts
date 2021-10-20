@@ -2,13 +2,13 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { ARK } from "../../../sdk-ark/source";
+import { manifest } from "../../../sdk-ark/distribution/manifest";
 import { FeatureFlag } from "../enums";
 import { Network } from "./network";
 
 let subject: Network;
 
-beforeEach(() => (subject = new Network(ARK.manifest, ARK.manifest.networks["ark.devnet"])));
+beforeEach(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
 
 it("should have an coin", () => {
 	expect(subject.coin()).toBe("ARK");
@@ -61,10 +61,10 @@ it("should get the expiration type", () => {
 it("should allows voting", () => {
 	expect(subject.allowsVoting()).toBeTrue();
 
-	subject = new Network(ARK.manifest, {
+	subject = new Network(manifest, {
 		// @ts-ignore
 		"ark.devnet": {
-			...ARK.manifest.networks["ark.devnet"],
+			...manifest.networks["ark.devnet"],
 			governance: {},
 		},
 	});
@@ -87,10 +87,10 @@ test("#votesAmountMaximum", () => {
 it("should get the delegate count", () => {
 	expect(subject.delegateCount()).toBe(51);
 
-	subject = new Network(ARK.manifest, {
+	subject = new Network(manifest, {
 		// @ts-ignore
 		"ark.devnet": {
-			...ARK.manifest.networks["ark.devnet"],
+			...manifest.networks["ark.devnet"],
 			governance: {},
 		},
 	});
@@ -101,10 +101,10 @@ it("should get the delegate count", () => {
 it("should get maximum votes per wallet", () => {
 	expect(subject.maximumVotesPerWallet()).toBe(1);
 
-	subject = new Network(ARK.manifest, {
+	subject = new Network(manifest, {
 		// @ts-ignore
 		"ark.devnet": {
-			...ARK.manifest.networks["ark.devnet"],
+			...manifest.networks["ark.devnet"],
 			governance: {},
 		},
 	});
@@ -115,10 +115,10 @@ it("should get maximum votes per wallet", () => {
 it("should get maximum votes per transaction", () => {
 	expect(subject.maximumVotesPerTransaction()).toBe(1);
 
-	subject = new Network(ARK.manifest, {
+	subject = new Network(manifest, {
 		// @ts-ignore
 		"ark.devnet": {
-			...ARK.manifest.networks["ark.devnet"],
+			...manifest.networks["ark.devnet"],
 			governance: {},
 		},
 	});

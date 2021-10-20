@@ -7,12 +7,12 @@ import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
-import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { TransactionService } from "./transaction.service";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: ClientService;
 
@@ -21,7 +21,11 @@ beforeAll(async () => {
 
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 });
@@ -122,7 +126,11 @@ describe("ClientService", () => {
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
 				container.singleton(IoC.BindingType.ClientService, ClientService);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
@@ -168,7 +176,11 @@ describe("ClientService", () => {
 			const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
 				container.singleton(IoC.BindingType.ClientService, ClientService);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,

@@ -8,10 +8,12 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
@@ -40,7 +42,11 @@ const configureMock = (record: string): TransactionService =>
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);

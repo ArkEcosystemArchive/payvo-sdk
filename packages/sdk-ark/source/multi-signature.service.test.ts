@@ -4,9 +4,7 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { BindingType } from "./coin.contract";
 import { MultiSignatureSigner } from "./multi-signature.signer";
@@ -14,6 +12,9 @@ import { KeyPairService } from "./key-pair.service";
 import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { AddressService } from "./address.service";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: MultiSignatureService;
 
@@ -24,7 +25,11 @@ beforeAll(async () => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

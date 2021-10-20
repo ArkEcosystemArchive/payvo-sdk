@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { Request } from "@payvo/http-got";
 import nock from "nock";
 
-import { ARK } from "../../../sdk-ark/source";
+import { ARK } from "../../../sdk-ark/distribution";
 import { require } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
@@ -40,17 +40,17 @@ beforeAll(async () => {
 afterAll(() => nock.cleanAll());
 
 it("should create an instance", async () => {
-	expect(CoinFactory.make(ARK, options)).toBeInstanceOf(Coin);
+	await expect(CoinFactory.make(ARK, options)).resolves.toBeInstanceOf(Coin);
 });
 
 it("should create multiple instances with independent containers", async () => {
-	const first = CoinFactory.make(ARK, options);
+	const first = await CoinFactory.make(ARK, options);
 	await first.__construct();
 
-	const second = CoinFactory.make(ARK, options);
+	const second = await CoinFactory.make(ARK, options);
 	await second.__construct();
 
-	const third = CoinFactory.make(ARK, options);
+	const third = await CoinFactory.make(ARK, options);
 	await third.__construct();
 
 	// A equals A
