@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { ARK } from "../../../sdk-ark/source";
+import { ARK } from "../../../sdk-ark/distribution";
 import { FeatureFlag } from "../enums";
 import { Network } from "./network";
 
