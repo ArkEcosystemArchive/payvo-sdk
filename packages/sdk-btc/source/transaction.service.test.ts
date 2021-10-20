@@ -366,7 +366,7 @@ describe("legacy multisignature wallet", () => {
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			// TODO Something seems to be missing here (apart from the signaures)
-			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d000000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
+			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQEgoIYBAAAAAAAXqRRTLT36HGxBOjhfIW7SwrUd63rt3YcAAAA=",
 		);
 	});
 });
@@ -431,7 +431,7 @@ describe("p2sh segwit multisignature wallet", () => {
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			// TODO Something seems to be missing here (apart from the signaures)
-			"0200000001492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df0000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f38700000000",
+			"cHNidP8BAHICAAAAAUkjcbxZ6KPifldHWeSXKdcwu/ioBUwYgiuaQK4jH6jfAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesSWWQEAAAAAABepFHCUjzOEMTdcpeoAe6S6KHcS1FnzhwAAAAAAAQEg8IEBAAAAAAAXqRQfqZPnbXFKa2A6vqI2HCDAx/ADu4cAAAA=",
 		);
 	});
 });
@@ -507,7 +507,7 @@ describe("native segwit multisignature wallet", () => {
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
 			// TODO Something seems to be missing here (apart from the signaures)
-			"0200000001fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa0800000000",
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA",
 		);
 	});
 });

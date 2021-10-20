@@ -358,8 +358,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee,
 				timestamp: new Date(),
 			},
-			tx.toHex(),
-			// psbtBaseText, // TODO where do we return the psbt to be co-signed
+			psbtBaseText,
 		);
 	}
 }
