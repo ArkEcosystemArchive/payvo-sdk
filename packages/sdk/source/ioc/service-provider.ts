@@ -25,12 +25,16 @@ import {
 } from "../services";
 import { AbstractExtendedPublicKeyService } from "../services/extended-public-key.service";
 import { Container } from "./container";
-import { BindingType } from "./service-provider.contract";
+import { BindingType, IServiceProvider } from "./service-provider.contract";
 
 @injectable()
-export abstract class AbstractServiceProvider {
+export abstract class AbstractServiceProvider implements IServiceProvider {
 	@inject(BindingType.ConfigRepository)
 	protected readonly configRepository!: ConfigRepository;
+
+	public async make(container: Container): Promise<void> {
+		return this.compose(container);
+	}
 
 	protected async compose(container: Container): Promise<void> {
 		if (container.missing(BindingType.AddressService)) {
