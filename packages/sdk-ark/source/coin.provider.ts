@@ -6,7 +6,7 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 
 @IoC.injectable()
 export class ServiceProvider extends IoC.AbstractServiceProvider {
-	public async make(container: IoC.Container): Promise<void> {
+	public override async make(container: IoC.Container): Promise<void> {
 		await this.#retrieveNetworkConfiguration(container);
 
 		if (container.missing(BindingType.MultiSignatureSigner)) {

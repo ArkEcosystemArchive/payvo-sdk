@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { inject, injectable } from "inversify";
+import { inject, injectable, interfaces } from "inversify";
 
 import { ConfigRepository } from "../coins";
 import {
@@ -25,7 +25,7 @@ import {
 } from "../services";
 import { AbstractExtendedPublicKeyService } from "../services/extended-public-key.service";
 import { Container } from "./container";
-import { BindingType, IServiceProvider } from "./service-provider.contract";
+import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract";
 
 @injectable()
 export abstract class AbstractServiceProvider implements IServiceProvider {
@@ -37,6 +37,8 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 	}
 
 	protected async compose(container: Container): Promise<void> {
+		const services: ServiceList = this.#discoverServices();
+
 		if (container.missing(BindingType.AddressService)) {
 			container.singleton(BindingType.AddressService, services.AddressService || AbstractAddressService);
 		}
@@ -133,5 +135,11 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 		if (container.missing(BindingType.WIFService)) {
 			container.singleton(BindingType.WIFService, services.WIFService || AbstractWIFService);
 		}
+	}
+
+	#discoverServices(): ServiceList {
+		console.log("what");
+
+		return {};
 	}
 }

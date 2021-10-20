@@ -1,6 +1,6 @@
 module.exports = {
 	bail: false,
-	collectCoverage: true,
+	collectCoverage: false,
 	collectCoverageFrom: [
 		"source/**/*.ts",
 		"!source/**/index.ts",
