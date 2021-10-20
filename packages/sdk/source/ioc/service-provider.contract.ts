@@ -1,7 +1,5 @@
 import { interfaces } from "inversify";
 
-export type ServiceList = Record<string, interfaces.Newable<any>>;
-
 export const BindingType = {
 	// [Coin] Internals
 	Container: Symbol.for("Coin<Container>"),
