@@ -1,34 +1,22 @@
 import "jest-extended";
 
-import { ValidatorSchema } from "@payvo/helpers";
-
 import { ConfigKey, ConfigRepository } from "./config";
 
 let subject: ConfigRepository;
 
 beforeEach(async () => {
-	subject = new ConfigRepository(
-		{
-			network: "ark.mainnet",
-		},
-		ValidatorSchema.object({
-			network: ValidatorSchema.string().valid("ark.mainnet", "ark.devnet").required(),
-		}),
-	);
+	subject = new ConfigRepository({
+		network: "ark.mainnet",
+	});
 });
 
 test("#constructor", () => {
 	expect(
 		() =>
-			new ConfigRepository(
-				{
-					network: "invalid",
-				},
-				ValidatorSchema.object({
-					network: ValidatorSchema.string().valid("ark.mainnet", "ark.devnet").required(),
-				}),
-			),
-	).toThrow('Failed to validate the configuration: "network" must be one of [ark.mainnet, ark.devnet]');
+			new ConfigRepository({
+				network: 123,
+			}),
+	).toThrow('Failed to validate the configuration: "network" must be a string');
 });
 
 test("#all", () => {
