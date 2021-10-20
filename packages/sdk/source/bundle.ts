@@ -1,13 +1,10 @@
 import importFresh from "import-fresh";
 import { join } from "path";
-import parentModule from "parent-module";
 
+import { CoinBundle } from "./coins";
 import { AbstractServiceProvider } from "./ioc";
 
-export const bundle = (): object => {
-	console.log(parentModule());
-	const path: string = "";
-
+export const bundle = (path: string): CoinBundle => {
 	const importFile = (file: string): Record<string, unknown> => importFresh(join(path, file));
 
 	const discoverServices = (): any => {

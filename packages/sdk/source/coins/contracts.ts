@@ -52,3 +52,10 @@ export interface CoinServices {
 	transaction: TransactionService;
 	walletDiscovery: WalletDiscoveryService;
 }
+
+export interface CoinBundle {
+	services: CoinManifest;
+	dataTransferObjects: object; // @TODO
+	manifest: CoinManifest;
+	serviceProvider: CoinServices;
+}

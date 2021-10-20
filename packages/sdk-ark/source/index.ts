@@ -1,3 +1,3 @@
-import { bundle } from "@payvo/sdk";
+import { bundle, Coins } from "@payvo/sdk";
 
-export const ARK = bundle();
+export const ARK: Coins.CoinBundle = bundle(__dirname);
