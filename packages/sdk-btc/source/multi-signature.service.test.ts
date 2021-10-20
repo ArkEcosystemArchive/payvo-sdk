@@ -152,7 +152,6 @@ describe("MultiSignatureService", () => {
 			);
 		});
 
-
 		describe.each([
 			{ tx: unsignedMusigRegistrationTx, expected: false },
 			{ tx: oneSignatureMusigRegistrationTx, expected: false },
