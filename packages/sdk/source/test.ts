@@ -10,15 +10,13 @@ const createContainer = ({
 	httpClient,
 	manifest,
 	meta,
-	schema,
 }: {
 	config?: ConfigRepository;
 	httpClient: any;
 	manifest: NetworkManifest;
 	meta?: any;
-	schema: any;
 }): Container => {
-	config ??= new ConfigRepository({ network: manifest.id, httpClient }, schema);
+	config ??= new ConfigRepository({ network: manifest.id, httpClient });
 
 	config.set(ConfigKey.Network, manifest);
 
@@ -42,7 +40,6 @@ export const createService = <T = any>({
 	manifest,
 	meta,
 	predicate,
-	schema,
 	service,
 }: {
 	config?: ConfigRepository;
@@ -50,7 +47,6 @@ export const createService = <T = any>({
 	manifest: NetworkManifest;
 	meta?: any;
 	predicate: any;
-	schema: any;
 	service: any;
 }): T => {
 	const container = createContainer({
@@ -58,7 +54,6 @@ export const createService = <T = any>({
 		httpClient,
 		manifest,
 		meta,
-		schema,
 	});
 
 	if (predicate) {
@@ -74,7 +69,6 @@ export const createServiceAsync = async <T = any>({
 	manifest,
 	meta,
 	predicate,
-	schema,
 	service,
 }: {
 	config?: ConfigRepository;
@@ -82,7 +76,6 @@ export const createServiceAsync = async <T = any>({
 	manifest: NetworkManifest;
 	meta?: any;
 	predicate: any;
-	schema: any;
 	service: any;
 }): Promise<T> => {
 	const container = createContainer({
@@ -90,7 +83,6 @@ export const createServiceAsync = async <T = any>({
 		httpClient,
 		manifest,
 		meta,
-		schema,
 	});
 
 	if (predicate) {
