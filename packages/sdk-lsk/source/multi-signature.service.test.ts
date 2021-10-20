@@ -115,7 +115,6 @@ describe("MultiSignatureService", () => {
 		expect(musig.isMultiSignatureReady(transaction1)).toBeFalse();
 		expect(musig.needsSignatures(transaction1)).toBeTrue();
 		expect(musig.needsAllSignatures(transaction1)).toBeTrue();
-		expect(musig.getValidMultiSignatures(transaction1)).toEqual([wallet1.publicKey]);
 		expect(musig.remainingSignatureCount(transaction1)).toBe(1);
 		expect(musig.needsWalletSignature(transaction1, wallet1.publicKey)).toBeFalse();
 		expect(musig.needsWalletSignature(transaction1, wallet2.publicKey)).toBeTrue();
@@ -138,7 +137,6 @@ describe("MultiSignatureService", () => {
 		expect(musig.isMultiSignatureReady(transaction2)).toBeTrue();
 		expect(musig.needsSignatures(transaction2)).toBeFalse();
 		expect(musig.needsAllSignatures(transaction2)).toBeFalse();
-		expect(musig.getValidMultiSignatures(transaction2)).toEqual([wallet1.publicKey, wallet2.publicKey]);
 		expect(musig.remainingSignatureCount(transaction2)).toBe(0);
 		expect(musig.needsWalletSignature(transaction2, wallet1.publicKey)).toBeFalse();
 		expect(musig.needsWalletSignature(transaction2, wallet2.publicKey)).toBeFalse();

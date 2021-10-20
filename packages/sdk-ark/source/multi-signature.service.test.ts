@@ -171,12 +171,6 @@ describe("MultiSignatureService", () => {
 		expect(subject.needsFinalSignature(transaction)).toBeTrue();
 	});
 
-	test("#getValidMultiSignatures", async () => {
-		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
-
-		expect(subject.getValidMultiSignatures(transaction)).toEqual([]);
-	});
-
 	test("#remainingSignatureCount", async () => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", {
 			signatures: [],
