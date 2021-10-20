@@ -2,7 +2,6 @@ import { Managers } from "@arkecosystem/crypto";
 import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
 import { BindingType } from "./coin.contract";
-import { Services } from "./coin.services";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
 @IoC.injectable()
@@ -14,7 +13,7 @@ export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		}
 
-		return this.compose(Services, container);
+		return this.compose(container);
 	}
 
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {
