@@ -247,5 +247,58 @@ describe("MultiSignatureService", () => {
 				rejected: [],
 			});
 		});
+
+		test("#addSignature", async () => {
+			// We need a deep copy as signing modifies the signatures and public keys
+			const transactionData = JSON.parse(JSON.stringify(unsignedTransferTx));
+
+			const wallet1 = {
+				signingKey: musig.accounts[0].mnemonic,
+				path: musig.accounts[0].nativeSegwitMasterPath,
+			};
+			const signatory = new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			);
+			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(
+				oneSignatureMusigRegistrationTx,
+			);
+
+			const wallet2 = {
+				signingKey: musig.accounts[1].mnemonic,
+				path: musig.accounts[1].nativeSegwitMasterPath,
+			};
+			const signatory2 = new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet2.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			);
+			expect((await subject.addSignature(transactionData, signatory2)).data()).toEqual(
+				twoSignatureMusigRegistrationTx,
+			);
+
+			const wallet3 = {
+				signingKey: musig.accounts[2].mnemonic,
+				path: musig.accounts[2].nativeSegwitMasterPath,
+			};
+			const signatory3 = new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet3.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet3.path, // TODO for now we use publicKey for passing path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			);
+			expect((await subject.addSignature(transactionData, signatory3)).data()).toEqual(
+				threeSignatureMusigRegistrationTx,
+			);
+		});
 	});
 });
