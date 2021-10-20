@@ -50,10 +50,6 @@ export class AbstractMultiSignatureService implements MultiSignatureService {
 		throw new NotImplemented(this.constructor.name, this.needsFinalSignature.name);
 	}
 
-	public getValidMultiSignatures(transaction: SignedTransactionData): string[] {
-		throw new NotImplemented(this.constructor.name, this.getValidMultiSignatures.name);
-	}
-
 	public remainingSignatureCount(transaction: SignedTransactionData): number {
 		throw new NotImplemented(this.constructor.name, this.remainingSignatureCount.name);
 	}

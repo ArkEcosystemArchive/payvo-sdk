@@ -3,7 +3,6 @@ import { Request } from "@payvo/http-got";
 
 import { BindingType } from "../source/coin.contract";
 import { manifest } from "../source/manifest";
-import { schema } from "../source/coin.schema";
 
 export const createService = async <T = any>(
 	service: any,
@@ -29,7 +28,6 @@ export const createService = async <T = any>(
 				predicate(container);
 			}
 		},
-		schema,
 		service,
 	});
 };
