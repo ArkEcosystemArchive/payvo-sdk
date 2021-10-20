@@ -8,7 +8,6 @@ import nock from "nock";
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { TransactionService } from "./transaction.service";

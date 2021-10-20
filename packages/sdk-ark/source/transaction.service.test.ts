@@ -5,7 +5,6 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { BindingType } from "./coin.contract";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";

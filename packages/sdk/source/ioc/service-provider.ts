@@ -39,6 +39,8 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 	}
 
 	protected async compose(container: Container): Promise<void> {
+		await this.#discoverDataTransferObjects(container);
+
 		const services: ServiceList = await this.#discoverServices();
 
 		if (container.missing(BindingType.AddressService)) {
@@ -174,5 +176,25 @@ export abstract class AbstractServiceProvider implements IServiceProvider {
 		}
 
 		return result;
+	}
+
+	async #discoverDataTransferObjects(container: Container): Promise<void> {
+		const services: Record<string, string> = {
+			SignedTransactionData: "signed-transaction",
+			ConfirmedTransactionData: "confirmed-transaction",
+			WalletData: "wallet",
+		};
+
+		const result = {};
+
+		for (const [service, file] of Object.entries(services)) {
+			try {
+				result[service] = (await import(join(this.path(), `${file}.dto.js`)))[service];
+			} catch {
+				// Service doesn't exist, lets use the default implementation.
+			}
+		}
+
+		container.constant(BindingType.DataTransferObjects, result);
 	}
 }

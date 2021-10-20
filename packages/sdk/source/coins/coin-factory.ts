@@ -19,7 +19,6 @@ export class CoinFactory {
 		const container = new Container();
 		container.constant(BindingType.ConfigRepository, configRepository);
 		container.constant(BindingType.Container, container);
-		container.constant(BindingType.DataTransferObjects, specification.dataTransferObjects);
 		container.constant(BindingType.HttpClient, options.httpClient);
 		container.constant(BindingType.Manifest, new Manifest(specification.manifest));
 		container.constant(BindingType.Network, CoinFactory.#createNetwork(specification, configRepository));
