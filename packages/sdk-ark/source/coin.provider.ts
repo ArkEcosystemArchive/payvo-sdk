@@ -2,19 +2,22 @@ import { Managers } from "@arkecosystem/crypto";
 import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
 import { BindingType } from "./coin.contract";
-import { Services } from "./coin.services";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
 @IoC.injectable()
-export class ServiceProvider extends IoC.AbstractServiceProvider implements IoC.IServiceProvider {
-	public async make(container: IoC.Container): Promise<void> {
+export class ServiceProvider extends IoC.AbstractServiceProvider {
+	public override async make(container: IoC.Container): Promise<void> {
 		await this.#retrieveNetworkConfiguration(container);
 
 		if (container.missing(BindingType.MultiSignatureSigner)) {
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		}
 
-		return this.compose(Services, container);
+		return this.compose(container);
+	}
+
+	protected override path(): string {
+		return __dirname;
 	}
 
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {
