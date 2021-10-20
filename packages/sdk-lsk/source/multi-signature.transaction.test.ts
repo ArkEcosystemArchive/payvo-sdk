@@ -200,61 +200,6 @@ describe("#needsFinalSignature", () => {
 	});
 });
 
-describe("#getValidMultiSignatures", () => {
-	it("should return empty array if it is not a multi signature transaction", () => {
-		expect(
-			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).getValidMultiSignatures(),
-		).toMatchInlineSnapshot("Array []");
-	});
-
-	it("should return empty array if the transaction has no signatures yet", () => {
-		expect(
-			new PendingMultiSignatureTransaction({ ...transfer1, signatures: [] }).getValidMultiSignatures(),
-		).toMatchInlineSnapshot("Array []");
-	});
-
-	it("should verify", () => {
-		expect(new PendingMultiSignatureTransaction(transfer1).getValidMultiSignatures()).toEqual([
-			"5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-		]);
-
-		expect(new PendingMultiSignatureTransaction(transfer2).getValidMultiSignatures()).toEqual([
-			"5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-			"a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]);
-
-		expect(new PendingMultiSignatureTransaction(register1).getValidMultiSignatures()).toMatchInlineSnapshot(
-			"Array []",
-		);
-		expect(new PendingMultiSignatureTransaction(register2).getValidMultiSignatures()).toEqual([
-			"a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]);
-
-		expect(new PendingMultiSignatureTransaction(register3).getValidMultiSignatures()).toEqual([
-			"5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-			"a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]);
-
-		expect(
-			new PendingMultiSignatureTransaction({
-				...register3,
-				asset: {
-					...register3.asset,
-					optionalKeys: ["008a3d0b5015cc106053e3f871e471cb607db738662790b5d6917abe02232af3"],
-				},
-
-				multiSignature: {
-					...register3.multiSignature,
-					optionalKeys: ["008a3d0b5015cc106053e3f871e471cb607db738662790b5d6917abe02232af3"],
-				},
-			}).getValidMultiSignatures(),
-		).toEqual([
-			"5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-			"a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]);
-	});
-});
-
 test("#remainingSignatureCount", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).remainingSignatureCount()).toBe(1);
 	expect(new PendingMultiSignatureTransaction(transfer2).remainingSignatureCount()).toBe(0);

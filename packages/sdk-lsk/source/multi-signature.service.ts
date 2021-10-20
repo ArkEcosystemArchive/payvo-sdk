@@ -125,11 +125,6 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	}
 
 	/** @inheritdoc */
-	public override getValidMultiSignatures(transaction: Contracts.SignedTransactionData): string[] {
-		return new PendingMultiSignatureTransaction(transaction.data()).getValidMultiSignatures();
-	}
-
-	/** @inheritdoc */
 	public override remainingSignatureCount(transaction: Contracts.SignedTransactionData): number {
 		return new PendingMultiSignatureTransaction(transaction.data()).remainingSignatureCount();
 	}
