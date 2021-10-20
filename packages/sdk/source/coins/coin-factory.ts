@@ -10,7 +10,7 @@ import { Manifest } from "./manifest";
 export class CoinFactory {
 	public static make(specification: CoinSpec, options: CoinOptions): Coin {
 		// Arrange
-		const configRepository: ConfigRepository = new ConfigRepository(options, specification.schema);
+		const configRepository: ConfigRepository = new ConfigRepository(options);
 		const networkRepository: NetworkRepository = new NetworkRepository(specification.manifest.networks);
 
 		configRepository.set(ConfigKey.Network, networkRepository.get(options.network));

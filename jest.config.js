@@ -7,7 +7,6 @@ module.exports = {
 		"!**/node_modules/**",
 		"!source/(container|contracts|manifest|schema|service-provider|dto|repositories).ts",
 		"!source/coin.provider.ts",
-		"!source/coin.schema.ts",
 		"!source/coin.services.ts",
 	],
 	coverageDirectory: "<rootDir>/.coverage",
