@@ -41,11 +41,11 @@ export class PendingMultiSignatureTransaction {
 			return this.needsAllSignatures();
 		}
 
-		return this.getValidMultiSignatures().length < this.#transaction.multiSignature.min;
+		return this.#getValidMultiSignatures().length < this.#transaction.multiSignature.min;
 	}
 
 	public needsAllSignatures(): boolean {
-		return this.getValidMultiSignatures().length < this.#transaction.multiSignature.publicKeys.length;
+		return this.#getValidMultiSignatures().length < this.#transaction.multiSignature.publicKeys.length;
 	}
 
 	public needsWalletSignature(publicKey: string): boolean {
@@ -81,7 +81,7 @@ export class PendingMultiSignatureTransaction {
 			return true;
 		}
 
-		return !Crypto.Hash.verifySchnorr(this.getHash(), signature.slice(2, 130), publicKey);
+		return !Crypto.Hash.verifySchnorr(this.#getHash(), signature.slice(2, 130), publicKey);
 	}
 
 	public needsFinalSignature(): boolean {
@@ -93,11 +93,23 @@ export class PendingMultiSignatureTransaction {
 
 		return (
 			!transaction.signature ||
-			!Crypto.Hash.verifySchnorr(this.getHash(false), transaction.signature, transaction.senderPublicKey!)
+			!Crypto.Hash.verifySchnorr(this.#getHash(false), transaction.signature, transaction.senderPublicKey!)
 		);
 	}
 
-	public getValidMultiSignatures(): string[] {
+	public remainingSignatureCount(): number {
+		const transaction: MultiSignatureTransaction = this.#transaction;
+
+		let min: number = transaction.multiSignature.min;
+
+		if (this.isMultiSignatureRegistration()) {
+			min = transaction.multiSignature.publicKeys.length;
+		}
+
+		return min - transaction.signatures!.length;
+	}
+
+	#getValidMultiSignatures(): string[] {
 		const transaction: MultiSignatureTransaction = this.#transaction;
 
 		if (!this.isMultiSignature()) {
@@ -114,7 +126,7 @@ export class PendingMultiSignatureTransaction {
 			const partialSignature: string = signature.slice(2, 130);
 			const publicKey: string = transaction.multiSignature.publicKeys[publicKeyIndex];
 
-			if (Crypto.Hash.verifySchnorr(this.getHash(), partialSignature, publicKey)) {
+			if (Crypto.Hash.verifySchnorr(this.#getHash(), partialSignature, publicKey)) {
 				validSignatures.push(signature);
 			}
 		}
@@ -122,19 +134,7 @@ export class PendingMultiSignatureTransaction {
 		return validSignatures;
 	}
 
-	public remainingSignatureCount(): number {
-		const transaction: MultiSignatureTransaction = this.#transaction;
-
-		let min: number = transaction.multiSignature.min;
-
-		if (this.isMultiSignatureRegistration()) {
-			min = transaction.multiSignature.publicKeys.length;
-		}
-
-		return min - transaction.signatures!.length;
-	}
-
-	private getHash(excludeMultiSignature = true): Buffer {
+	#getHash(excludeMultiSignature = true): Buffer {
 		return Transactions.Utils.toHash(this.#transaction, {
 			excludeSignature: true,
 			excludeSecondSignature: true,
