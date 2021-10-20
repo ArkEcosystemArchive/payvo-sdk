@@ -1,5 +1,5 @@
-import dot from "dot-prop";
 import { ValidatorSchema } from "@payvo/helpers";
+import dot from "dot-prop";
 
 export class ConfigRepository {
 	readonly #config: Record<string, any>;
