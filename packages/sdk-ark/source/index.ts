@@ -1,1 +1,3 @@
-export const ARK: string = __dirname;
+import { bundle } from "@payvo/sdk";
+
+export const ARK = bundle();
