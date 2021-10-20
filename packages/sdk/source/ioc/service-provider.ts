@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { inject, injectable, interfaces } from "inversify";
+import { inject, injectable } from "inversify";
 
 import { ConfigRepository } from "../coins";
 import {
