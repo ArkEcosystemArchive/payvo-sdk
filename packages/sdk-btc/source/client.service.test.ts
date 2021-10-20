@@ -7,7 +7,6 @@ import nock from "nock";
 import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";

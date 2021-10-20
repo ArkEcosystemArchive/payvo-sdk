@@ -4,7 +4,6 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";

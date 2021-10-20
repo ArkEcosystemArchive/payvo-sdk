@@ -8,7 +8,6 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";

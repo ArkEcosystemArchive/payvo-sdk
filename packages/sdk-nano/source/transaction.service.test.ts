@@ -5,7 +5,6 @@ import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";

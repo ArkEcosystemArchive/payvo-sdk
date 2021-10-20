@@ -4,7 +4,6 @@ import { DTO, IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./transaction.dto";
 import { WalletData } from "./wallet.dto";
