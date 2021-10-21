@@ -4,6 +4,7 @@ import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
+import { musig } from "../test/fixtures/musig";
 
 const getDerivationFunction = (
 	method: MusigDerivationMethod,
@@ -96,6 +97,10 @@ export default class MusigWalletDataHelper {
 		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+
+			// const fingerPrints = (pk: string) => musig.accounts
+			// 	.find((account) => account.nativeSegwitMasterPublicKey === pk)!
+			// 	.masterFingerprint;
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -104,6 +109,14 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
+				bip32Derivation: this.#accountPublicKeys.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					// masterFingerprint: convertString(fingerPrints(convertBuffer(pubKey.publicKey))),
+					path: "m/" + address.path,
+					// path: "m/48'/1'/0'/2'/" + address.path,
+					// path: address.path,
+					pubkey: pubKey.publicKey,
+				})),
 				witnessUtxo: {
 					script: convertString(utxo.script),
 					value: utxo.satoshis,

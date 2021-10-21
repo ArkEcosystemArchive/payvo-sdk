@@ -34,6 +34,7 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.signatures.length < this.#multiSignature.numberOfSignatures;
 		}
 
+		return true;
 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
 		console.log(psbt.data.globalMap);
 		console.log(JSON.stringify(psbt, null, 2));

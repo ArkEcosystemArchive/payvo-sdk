@@ -7,7 +7,8 @@ import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
 import { getNetworkConfig } from "./config";
 import { BIP32 } from "@payvo/cryptography";
-import { toExtPubKey } from "./multi-signature.domain";
+import { isMultiSignatureRegistration, toExtPubKey } from "./multi-signature.domain";
+import { convertBuffer, convertString } from "@payvo/helpers";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
@@ -56,26 +57,31 @@ export class MultiSignatureSigner {
 				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
 				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
+				console.log(signatory.signingKey(), rootKey.fingerprint);
 				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
-
-				signedTransaction.multiSignature.publicKeys.push(
-					toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
-				);
-
+				const newRootKey = BIP32.fromPrivateKey(convertBuffer(accountKey.privateKey!), convertBuffer(accountKey.chainCode), this.#network);
 				let signed: any;
-				if ("senderPublicKey" in transaction) {
+				if (isMultiSignatureRegistration(transaction)) {
+					signedTransaction.multiSignature.publicKeys.push(
+						toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
+					);
+
 					const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
 					const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
 					signedTransaction.signatures.push(signature);
 				} else {
-					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data, { network: this.#network });
+					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
 					// Iterate the different transaction inputs
-					for (let i = 0; i < toBeSigned.inputCount; i++) {
+					toBeSigned.signAllInputsHD(newRootKey);
+					// for (let i = 0; i < toBeSigned.inputCount; i++) {
 						// For each one, figure out the address / path
 						// Derive musig private key and sign that input
 						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
-					}
-					signed = bitcoin.Psbt.fromBase64(transaction.data, { network: this.#network }).combine(toBeSigned);
+						// toBeSigned.signAllInputsHD(rootKey);
+					// }
+					console.log("toBeSigned", toBeSigned);
+					signed = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network }).combine(toBeSigned);
+					console.log("signed", signed);
 				}
 			}
 		}
