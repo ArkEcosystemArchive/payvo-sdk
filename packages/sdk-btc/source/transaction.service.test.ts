@@ -1,8 +1,10 @@
 import "jest-extended";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import nock from "nock";
-import { createService } from "../test/mocking";
+
+import { createServiceAsync } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
@@ -11,7 +13,6 @@ import { ClientService } from "./client.service";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
-import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { musig } from "../test/fixtures/musig";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -24,7 +25,7 @@ let subject: TransactionService;
 beforeEach(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -38,7 +39,7 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.constant(BindingType.LedgerTransport, openTransportReplayer(RecordStore.fromString("")));
+		container.constant(BindingType.LedgerTransport, await openTransportReplayer(RecordStore.fromString("")));
 	});
 });
 

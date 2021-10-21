@@ -19,7 +19,7 @@ export class Container {
 		this.#bind(key).toConstantValue(value);
 	}
 
-	public singleton(key: ContainerKey, value: new (...args: any[]) => unknown): void {
+	public singleton(key: ContainerKey, value: new (...args: never[]) => unknown): void {
 		this.#bind(key).to(value).inSingletonScope();
 	}
 
