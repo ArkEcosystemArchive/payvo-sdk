@@ -16,7 +16,7 @@ importers:
       dayjs: 1.10.6
       dot-prop: 6.0.1
       import-fresh: 3.3.0
-      inversify: 5.1.1
+      inversify: 6.0.1
       joi: 17.4.2
       node-emoji: 1.11.0
       reflect-metadata: 0.1.13
@@ -85,7 +85,7 @@ importers:
       eslint-plugin-simple-import-sort: ^7.0.0
       eslint-plugin-tsdoc: ~0.2.14
       import-fresh: ~3.3.0
-      inversify: ~5.1.1
+      inversify: ^6.0.0
       jest: ^27.0.6
       jest-extended: ^0.11.5
       jest-localstorage-mock: ^2.4.17
@@ -8242,6 +8242,10 @@ packages:
   /inversify/5.1.1:
     resolution:
       integrity: sha512-j8grHGDzv1v+8T1sAQ+3boTCntFPfvxLCkNcxB1J8qA0lUN+fAlSyYd+RXKvaPRL4AGyPxViutBEJHNXOyUdFQ==
+  /inversify/6.0.1:
+    dev: false
+    resolution:
+      integrity: sha512-B3ex30927698TJENHR++8FfEaJGqoWOgI6ZY5Ht/nLUsFCwHn6akbwtnUAPCgUepAnTpe2qHxhDNjoKLyz6rgQ==
   /ip-regex/4.3.0:
     dev: false
     engines:

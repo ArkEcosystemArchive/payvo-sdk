@@ -37,9 +37,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(BindingType.AddressFactory)
 	private readonly addressFactory!: AddressFactory;
 
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
-
 	@IoC.inject(IoC.BindingType.FeeService)
 	private readonly feeService!: Services.FeeService;
 
