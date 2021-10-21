@@ -100,7 +100,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.SignedTransactionData,
 		excludeFinal?: boolean,
 	): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).isMultiSignatureReady({ excludeFinal });
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).isMultiSignatureReady({
+			excludeFinal,
+		});
 	}
 
 	/** @inheritdoc */
