@@ -40,17 +40,21 @@ beforeAll(async () => {
 afterAll(() => nock.cleanAll());
 
 it("should create an instance", async () => {
-	await expect(CoinFactory.make(ARK, options)).resolves.toBeInstanceOf(Coin);
+	// @ts-ignore
+	expect(CoinFactory.make(ARK, options)).toBeInstanceOf(Coin);
 });
 
 it("should create multiple instances with independent containers", async () => {
-	const first = await CoinFactory.make(ARK, options);
+	// @ts-ignore
+	const first = CoinFactory.make(ARK, options);
 	await first.__construct();
 
-	const second = await CoinFactory.make(ARK, options);
+	// @ts-ignore
+	const second = CoinFactory.make(ARK, options);
 	await second.__construct();
 
-	const third = await CoinFactory.make(ARK, options);
+	// @ts-ignore
+	const third = CoinFactory.make(ARK, options);
 	await third.__construct();
 
 	// A equals A

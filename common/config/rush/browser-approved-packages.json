@@ -739,6 +739,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "parent-module",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "password-pwnd",
       "allowedCategories": [ "libraries" ]
     },

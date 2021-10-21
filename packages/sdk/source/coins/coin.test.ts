@@ -28,7 +28,8 @@ beforeEach(async () => {
 		.reply(200, await require("../test/testnet/syncing.json"))
 		.persist();
 
-	subject = await CoinFactory.make(ARK, {
+	// @ts-ignore
+	subject = CoinFactory.make(ARK, {
 		network: "ark.devnet",
 		httpClient: new Request(),
 	});

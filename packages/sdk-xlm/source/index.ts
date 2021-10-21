@@ -1,1 +1,3 @@
-export const XLM = __dirname;
+import { bundle, Coins } from "@payvo/sdk";
+
+export const XLM: Coins.CoinBundle = bundle(__dirname);
