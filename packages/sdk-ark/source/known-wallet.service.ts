@@ -23,7 +23,7 @@ export class KnownWalletService extends Services.AbstractKnownWalletService {
 			}
 
 			return [];
-		} catch (error) {
+		} catch {
 			return [];
 		}
 	}
