@@ -110,35 +110,45 @@ const register3 = {
 	multiSignature: asset,
 };
 
-test("#isMultiSignature", async () => {
+test("#isMultiSignature", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).isMultiSignature()).toBeTrue();
 	expect(new PendingMultiSignatureTransaction(register1).isMultiSignature()).toBeTrue();
 });
 
-test("#isMultiSignatureRegistration", async () => {
+test("#isMultiSignatureRegistration", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureRegistration()).toBeFalse();
 	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureRegistration()).toBeTrue();
 });
 
-test("#isMultiSignatureReady", async () => {
+test("#isMultiSignatureReady", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
 	expect(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false })).toBeTrue();
 
 	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
+	expect(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: true })).toBeFalse();
 	expect(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false })).toBeFalse();
-	expect(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: true })).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: true })).toBeTrue();
+	expect(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: false })).toBeTrue();
 });
 
-test("#needsSignatures", async () => {
-	expect(new PendingMultiSignatureTransaction(transfer1).needsSignatures()).toBeTrue();
-	expect(new PendingMultiSignatureTransaction(transfer2).needsSignatures()).toBeFalse();
+describe("#needsSignatures", () => {
+	it("should return false if it is not a multi signature transaction", () => {
+		expect(
+			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsSignatures(),
+		).toBeFalse();
+	});
 
-	expect(new PendingMultiSignatureTransaction(register1).needsSignatures()).toBeTrue();
-	expect(new PendingMultiSignatureTransaction(register2).needsSignatures()).toBeTrue();
-	expect(new PendingMultiSignatureTransaction(register3).needsSignatures()).toBeFalse();
+	it("should verify", () => {
+		expect(new PendingMultiSignatureTransaction(transfer1).needsSignatures()).toBeTrue();
+		expect(new PendingMultiSignatureTransaction(transfer2).needsSignatures()).toBeFalse();
+
+		expect(new PendingMultiSignatureTransaction(register1).needsSignatures()).toBeTrue();
+		expect(new PendingMultiSignatureTransaction(register2).needsSignatures()).toBeTrue();
+		expect(new PendingMultiSignatureTransaction(register3).needsSignatures()).toBeFalse();
+	});
 });
 
-test("#needsAllSignatures", async () => {
+test("#needsAllSignatures", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).needsAllSignatures()).toBeTrue();
 	expect(new PendingMultiSignatureTransaction(transfer2).needsAllSignatures()).toBeFalse();
 
@@ -148,68 +158,49 @@ test("#needsAllSignatures", async () => {
 });
 
 describe("#needsWalletSignature", () => {
-	it("should return false if it is not a multi signature transaction", async () => {
+	it("should return false if it is not a multi signature transaction", () => {
 		expect(
 			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsWalletSignature(wallet1),
 		).toBeFalse();
 	});
 
-	it("should return false if it does not need any signatures and the final signature", async () => {
+	it("should return false if it does not need any signatures and the final signature", () => {
 		expect(new PendingMultiSignatureTransaction(transfer2).needsWalletSignature(wallet1)).toBeFalse();
 		expect(new PendingMultiSignatureTransaction(transfer2).needsWalletSignature(wallet2)).toBeFalse();
 	});
 
-	it("should return true if it is a multi signature registration and it is not ready", async () => {
-		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet1)).toBeFalse();
+	it("should return true if it is a multi signature registration and it is not ready", () => {
+		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet1)).toBeTrue();
 		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet2)).toBeTrue();
-		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet1)).toBeFalse();
+		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet1)).toBeTrue();
 		expect(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet2)).toBeFalse();
 		expect(new PendingMultiSignatureTransaction(register3).needsWalletSignature(wallet1)).toBeFalse();
 		expect(new PendingMultiSignatureTransaction(register3).needsWalletSignature(wallet2)).toBeFalse();
 	});
 
-	it("should return false if the public key is not a participant", async () => {
+	it("should return false if the public key is not a participant", () => {
 		expect(new PendingMultiSignatureTransaction(register1).needsWalletSignature("unknown")).toBeFalse();
 	});
 });
 
-test("#needsFinalSignature", async () => {
-	expect(new PendingMultiSignatureTransaction(transfer1).needsFinalSignature()).toBeFalse();
-	expect(new PendingMultiSignatureTransaction(transfer2).needsFinalSignature()).toBeFalse();
+describe("#needsFinalSignature", () => {
+	it("should return false if it is not a multi signature transaction", () => {
+		expect(
+			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsFinalSignature(),
+		).toBeFalse();
+	});
 
-	expect(new PendingMultiSignatureTransaction(register1).needsFinalSignature()).toBeTrue();
-	expect(new PendingMultiSignatureTransaction(register2).needsFinalSignature()).toBeTrue();
-	expect(new PendingMultiSignatureTransaction(register3).needsFinalSignature()).toBeFalse();
+	it("should verify", () => {
+		expect(new PendingMultiSignatureTransaction(transfer1).needsFinalSignature()).toBeFalse();
+		expect(new PendingMultiSignatureTransaction(transfer2).needsFinalSignature()).toBeFalse();
+
+		expect(new PendingMultiSignatureTransaction(register1).needsFinalSignature()).toBeTrue();
+		expect(new PendingMultiSignatureTransaction(register2).needsFinalSignature()).toBeTrue();
+		expect(new PendingMultiSignatureTransaction(register3).needsFinalSignature()).toBeFalse();
+	});
 });
 
-test("#getValidMultiSignatures", async () => {
-	expect(new PendingMultiSignatureTransaction(transfer1).getValidMultiSignatures()).toMatchInlineSnapshot(`
-		Array [
-		  "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-		]
-	`);
-	expect(new PendingMultiSignatureTransaction(transfer2).getValidMultiSignatures()).toMatchInlineSnapshot(`
-		Array [
-		  "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-		  "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]
-	`);
-
-	expect(new PendingMultiSignatureTransaction(register1).getValidMultiSignatures()).toMatchInlineSnapshot(`Array []`);
-	expect(new PendingMultiSignatureTransaction(register2).getValidMultiSignatures()).toMatchInlineSnapshot(`
-		Array [
-		  "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]
-	`);
-	expect(new PendingMultiSignatureTransaction(register3).getValidMultiSignatures()).toMatchInlineSnapshot(`
-		Array [
-		  "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
-		  "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
-		]
-	`);
-});
-
-test("#remainingSignatureCount", async () => {
+test("#remainingSignatureCount", () => {
 	expect(new PendingMultiSignatureTransaction(transfer1).remainingSignatureCount()).toBe(1);
 	expect(new PendingMultiSignatureTransaction(transfer2).remainingSignatureCount()).toBe(0);
 

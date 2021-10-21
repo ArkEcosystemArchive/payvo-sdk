@@ -5,13 +5,15 @@ import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
 import { PrivateKeyService } from "./private-key.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
@@ -20,7 +22,11 @@ beforeAll(async () => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);

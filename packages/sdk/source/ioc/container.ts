@@ -19,7 +19,7 @@ export class Container {
 		this.#bind(key).toConstantValue(value);
 	}
 
-	public singleton(key: ContainerKey, value: new (...args: any[]) => unknown): void {
+	public singleton(key: ContainerKey, value: new (...args: never[]) => unknown): void {
 		this.#bind(key).to(value).inSingletonScope();
 	}
 
@@ -36,7 +36,11 @@ export class Container {
 	}
 
 	public unbind(key: ContainerKey): void {
-		this.#container.unbind(key);
+		return this.#container.unbind(key);
+	}
+
+	public async unbindAsync(key: ContainerKey): Promise<void> {
+		return this.#container.unbindAsync(key);
 	}
 
 	public flush(): void {

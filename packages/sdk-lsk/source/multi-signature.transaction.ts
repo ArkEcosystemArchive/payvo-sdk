@@ -19,11 +19,14 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
-		if (this.needsSignatures()) {
-			return false;
+		if (this.isMultiSignatureRegistration()) {
+			return (
+				this.#transaction.signatures.filter(Boolean).length ===
+				this.#multiSignature.numberOfSignatures + (excludeFinal ? 0 : 1)
+			);
 		}
 
-		if (!excludeFinal && this.isMultiSignatureRegistration() && this.needsFinalSignature()) {
+		if (this.needsSignatures()) {
 			return false;
 		}
 
@@ -39,11 +42,11 @@ export class PendingMultiSignatureTransaction {
 			return this.needsAllSignatures();
 		}
 
-		return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
+		return this.#getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
 	}
 
 	public needsAllSignatures(): boolean {
-		return this.getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
+		return this.#getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
 	}
 
 	public needsWalletSignature(publicKey: string): boolean {
@@ -59,15 +62,11 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
 		}
 
-		const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
-			publicKey,
-		);
-
-		if (index === -1) {
+		if (![...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].includes(publicKey)) {
 			return false;
 		}
 
-		return this.#transaction.signatures[index] === undefined;
+		return !this.#getValidMultiSignatures().includes(publicKey);
 	}
 
 	public needsFinalSignature(): boolean {
@@ -82,12 +81,23 @@ export class PendingMultiSignatureTransaction {
 		return this.#transaction.signatures.filter(Boolean).length !== this.#multiSignature.numberOfSignatures + 1;
 	}
 
-	public getValidMultiSignatures(): string[] {
+	public remainingSignatureCount(): number {
+		let numberOfSignatures: number = this.#multiSignature.numberOfSignatures;
+
+		if (this.isMultiSignatureRegistration()) {
+			numberOfSignatures =
+				this.#multiSignature.mandatoryKeys.length + this.#multiSignature.optionalKeys.length + 1;
+		}
+
+		return numberOfSignatures - this.#transaction.signatures.filter(Boolean).length;
+	}
+
+	#getValidMultiSignatures(): string[] {
 		if (!this.isMultiSignature()) {
 			return [];
 		}
 
-		if (!this.#transaction.signatures || !this.#transaction.signatures.length) {
+		if (!this.#transaction.signatures.length) {
 			return [];
 		}
 
@@ -127,16 +137,5 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		return convertBufferList(result);
-	}
-
-	public remainingSignatureCount(): number {
-		let numberOfSignatures: number = this.#multiSignature.numberOfSignatures;
-
-		if (this.isMultiSignatureRegistration()) {
-			numberOfSignatures =
-				this.#multiSignature.mandatoryKeys.length + this.#multiSignature.optionalKeys.length + 1;
-		}
-
-		return numberOfSignatures - this.#transaction.signatures.filter(Boolean).length;
 	}
 }

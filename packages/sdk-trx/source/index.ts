@@ -1,11 +1,3 @@
-import { manifest } from "./manifest";
-import { schema } from "./coin.schema";
-import { ServiceProvider } from "./coin.provider";
-import { DataTransferObjects } from "./coin.dtos";
+import { bundle, Coins } from "@payvo/sdk";
 
-export const TRX = {
-	dataTransferObjects: DataTransferObjects, // @TODO: consistent casing to avoid alias
-	manifest,
-	schema,
-	ServiceProvider,
-};
+export const TRX: Coins.CoinBundle = bundle(__dirname);

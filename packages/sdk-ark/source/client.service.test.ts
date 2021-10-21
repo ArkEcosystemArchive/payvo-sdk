@@ -1,14 +1,13 @@
 import "jest-extended";
 
-import { DTO, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./transaction.dto";
-import { WalletData } from "./wallet.dto";
 import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: ClientService;
 
@@ -17,7 +16,11 @@ beforeAll(async () => {
 
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 });
@@ -44,7 +47,11 @@ describe("ClientService", () => {
 			beforeEach(async () => {
 				subject = await createService(ClientService, "ark.mainnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
-					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+					container.constant(IoC.BindingType.DataTransferObjects, {
+						SignedTransactionData,
+						ConfirmedTransactionData,
+						WalletData,
+					});
 					container.singleton(
 						IoC.BindingType.DataTransferObjectService,
 						Services.AbstractDataTransferObjectService,
@@ -92,7 +99,11 @@ describe("ClientService", () => {
 			beforeEach(async () => {
 				subject = await createService(ClientService, "ark.devnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
-					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+					container.constant(IoC.BindingType.DataTransferObjects, {
+						SignedTransactionData,
+						ConfirmedTransactionData,
+						WalletData,
+					});
 					container.singleton(
 						IoC.BindingType.DataTransferObjectService,
 						Services.AbstractDataTransferObjectService,
@@ -175,7 +186,11 @@ describe("ClientService", () => {
 		it("should work with Core 2.0", async () => {
 			subject = await createService(ClientService, "ark.mainnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
@@ -198,7 +213,11 @@ describe("ClientService", () => {
 		it("should work with Core 3.0", async () => {
 			subject = await createService(ClientService, "ark.devnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
 				container.singleton(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,

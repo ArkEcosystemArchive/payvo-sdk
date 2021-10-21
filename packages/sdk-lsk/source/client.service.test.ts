@@ -7,9 +7,8 @@ import nock from "nock";
 import { createService, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { DateTime } from "@payvo/intl";
@@ -21,7 +20,11 @@ beforeAll(async () => {
 
 	subject = await createService(ClientService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
@@ -83,6 +86,7 @@ describe("ClientService", () => {
 
 			const result = await subject.transactions({
 				identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
+				cursor: 1,
 			});
 			const transaction = result.items()[0];
 
@@ -449,6 +453,20 @@ describe("ClientService", () => {
 				rejected: ["5961193224963457718"],
 				errors: {
 					"5961193224963457718": "Transaction payload was rejected by the network node",
+				},
+			});
+		});
+
+		it("should handle http exception", async () => {
+			nock(/.+/).post("/api/v2/transactions").reply(500, { message: "unknown error" });
+
+			const result = await subject.broadcast([transactionPayload]);
+
+			expect(result).toEqual({
+				accepted: [],
+				rejected: ["5961193224963457718"],
+				errors: {
+					"5961193224963457718": "unknown error",
 				},
 			});
 		});

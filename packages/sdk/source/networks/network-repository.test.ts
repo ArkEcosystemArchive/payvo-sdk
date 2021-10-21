@@ -1,11 +1,11 @@
 import "jest-extended";
 
-import { ARK } from "../../../sdk-ark/source";
+import { manifest } from "../../../sdk-ark/distribution/manifest";
 import { NetworkRepository } from "./network-repository";
 
 let subject: NetworkRepository;
 
-beforeEach(() => (subject = new NetworkRepository(ARK.manifest.networks)));
+beforeEach(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
 	expect(subject.all()).toMatchInlineSnapshot(`
@@ -679,7 +679,7 @@ test("#all", () => {
 test("#get | #push | #forget", () => {
 	expect(subject.get("ark.devnet")).toBeObject();
 
-	subject.push("ark.devnet", ARK.manifest.networks["ark.devnet"]);
+	subject.push("ark.devnet", manifest.networks["ark.devnet"]);
 
 	expect(subject.get("ark.devnet")).toBeObject();
 

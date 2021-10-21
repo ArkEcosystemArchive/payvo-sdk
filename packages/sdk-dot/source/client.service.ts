@@ -2,14 +2,14 @@ import { Contracts, IoC, Services } from "@payvo/sdk";
 import { ApiPromise } from "@polkadot/api";
 
 import { BindingType } from "./constants";
-import { WalletData } from "./wallet.dto";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	@IoC.inject(BindingType.ApiPromise)
 	protected readonly client!: ApiPromise;
 
-	public async __destruct(): Promise<void> {
+	@IoC.preDestroy()
+	public async onPreDestroy(): Promise<void> {
 		await this.client.disconnect();
 	}
 

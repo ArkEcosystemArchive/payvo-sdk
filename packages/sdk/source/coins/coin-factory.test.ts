@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { Request } from "@payvo/http-got";
 import nock from "nock";
 
-import { ARK } from "../../../sdk-ark/source";
+import { ARK } from "../../../sdk-ark/distribution";
 import { require } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
@@ -40,16 +40,20 @@ beforeAll(async () => {
 afterAll(() => nock.cleanAll());
 
 it("should create an instance", async () => {
+	// @ts-ignore
 	expect(CoinFactory.make(ARK, options)).toBeInstanceOf(Coin);
 });
 
 it("should create multiple instances with independent containers", async () => {
+	// @ts-ignore
 	const first = CoinFactory.make(ARK, options);
 	await first.__construct();
 
+	// @ts-ignore
 	const second = CoinFactory.make(ARK, options);
 	await second.__construct();
 
+	// @ts-ignore
 	const third = CoinFactory.make(ARK, options);
 	await third.__construct();
 

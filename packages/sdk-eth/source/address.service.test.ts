@@ -43,4 +43,9 @@ describe("Address", () => {
 		}
 	`);
 	});
+
+	it("should validate an address", async () => {
+		await expect(subject.validate("0x986A007A43D65FF18D040ACDAD844CFE7C349135")).resolves.toBeTrue();
+		await expect(subject.validate("randomString")).resolves.toBeFalse();
+	});
 });

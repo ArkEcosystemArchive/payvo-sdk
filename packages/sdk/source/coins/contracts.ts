@@ -23,7 +23,6 @@ import { BigNumberService } from "../services/big-number.service";
 
 export interface CoinSpec {
 	manifest: CoinManifest;
-	schema: any;
 	ServiceProvider: any;
 	dataTransferObjects: Record<string, any>;
 }
@@ -52,4 +51,11 @@ export interface CoinServices {
 	signatory: SignatoryService;
 	transaction: TransactionService;
 	walletDiscovery: WalletDiscoveryService;
+}
+
+export interface CoinBundle {
+	services: CoinManifest;
+	dataTransferObjects: object; // @TODO
+	manifest: CoinManifest;
+	serviceProvider: CoinServices;
 }

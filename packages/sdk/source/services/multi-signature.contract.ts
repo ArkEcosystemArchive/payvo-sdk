@@ -109,15 +109,6 @@ export interface MultiSignatureService {
 	needsFinalSignature(transaction: SignedTransactionData): boolean;
 
 	/**
-	 * Retrieve all signatures that are valid according to schnorr verification.
-	 *
-	 * @param {SignedTransactionData} transaction
-	 * @returns {string[]}
-	 * @memberof MultiSignatureService
-	 */
-	getValidMultiSignatures(transaction: SignedTransactionData): string[];
-
-	/**
 	 * Determine how many signatures are missing.
 	 *
 	 * @param {SignedTransactionData} transaction

@@ -5,12 +5,12 @@ import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, mockWallet, require } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { BindingType } from "./constants";
 
 const fixtures = `../test/fixtures/client`;
 
@@ -20,8 +20,13 @@ beforeAll(async () => {
 	nock.disableNetConnect();
 
 	subject = await createService(ClientService, undefined, (container) => {
+		container.constant(BindingType.Zilliqa, mockWallet());
 		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 });

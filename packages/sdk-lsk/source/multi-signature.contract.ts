@@ -1,5 +1,3 @@
-import { Contracts } from "@payvo/sdk";
-
 export interface MultiSignatureAsset {
 	numberOfSignatures: number;
 	mandatoryKeys: string[];

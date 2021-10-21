@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-dot",
-	"version": "1.7.29",
+	"version": "1.8.4",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -27,16 +27,16 @@
 	"dependencies": {
 		"@payvo/cryptography": "^1.1.5",
 		"@payvo/helpers": "^1.1.1",
-		"@payvo/intl": "^1.0.1",
+		"@payvo/intl": "^1.0.2",
 		"@payvo/sdk": "workspace:*",
-		"@polkadot/api": "^5.6.1",
-		"@polkadot/keyring": "^7.2.1",
-		"@polkadot/rpc-provider": "^5.6.1",
-		"@polkadot/util": "^7.2.1",
-		"@polkadot/util-crypto": "^7.2.1",
-		"@polkadot/wasm-crypto": "^4.1.2",
-		"@polkadot/x-global": "^7.2.1",
-		"@polkadot/x-randomvalues": "^7.2.1",
+		"@polkadot/api": "^6.3.1",
+		"@polkadot/keyring": "^7.4.1",
+		"@polkadot/rpc-provider": "^6.3.1",
+		"@polkadot/util": "^7.4.1",
+		"@polkadot/util-crypto": "^7.4.1",
+		"@polkadot/wasm-crypto": "^4.2.1",
+		"@polkadot/x-global": "^7.4.1",
+		"@polkadot/x-randomvalues": "^7.4.1",
 		"@zondax/ledger-polkadot": "^0.13.0"
 	},
 	"devDependencies": {

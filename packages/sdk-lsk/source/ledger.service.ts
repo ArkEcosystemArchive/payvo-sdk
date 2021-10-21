@@ -30,6 +30,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new DposLedger(new CommHandler(this.#ledger));
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}
@@ -121,6 +122,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		try {
 			const wallet: Contracts.WalletData = await this.clientService.wallet({ type: "address", value: address });
 
+			/* istanbul ignore else */
 			if (wallet.address()) {
 				wallets.push(wallet);
 			}
@@ -130,10 +132,12 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async isNanoS(): Promise<boolean> {
+		/* istanbul ignore next */
 		return this.#ledger.deviceModel.id === "nanoS";
 	}
 
 	public override async isNanoX(): Promise<boolean> {
+		/* istanbul ignore next */
 		return this.#ledger.deviceModel.id === "nanoX";
 	}
 }

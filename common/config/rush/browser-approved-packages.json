@@ -571,6 +571,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "import-fresh",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "inversify",
       "allowedCategories": [ "libraries" ]
     },
@@ -735,6 +739,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "parent-module",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "password-pwnd",
       "allowedCategories": [ "libraries" ]
     },
@@ -864,6 +872,10 @@
     },
     {
       "name": "ws",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "xpub-converter",
       "allowedCategories": [ "libraries" ]
     },
     {

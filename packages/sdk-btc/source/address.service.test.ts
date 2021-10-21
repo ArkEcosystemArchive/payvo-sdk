@@ -238,4 +238,17 @@ describe("Address", () => {
 			expect(result.address).toBe("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4");
 		});
 	});
+
+	it("should validate an address", async () => {
+		await expect(subject.validate(identity.address)).resolves.toBeTrue();
+		await expect(subject.validate(identity.addressBIP44)).resolves.toBeTrue();
+		await expect(subject.validate(identity.addressBIP49)).resolves.toBeTrue();
+		await expect(subject.validate(identity.addressBIP84)).resolves.toBeTrue();
+		await expect(subject.validate("AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX")).resolves.toBeFalse();
+		await expect(subject.validate("ABC")).resolves.toBeFalse();
+		await expect(subject.validate("")).resolves.toBeFalse();
+		await expect(subject.validate(undefined!)).resolves.toBeFalse();
+		await expect(subject.validate(null!)).resolves.toBeFalse();
+		await expect(subject.validate({} as unknown as string)).resolves.toBeFalse();
+	});
 });

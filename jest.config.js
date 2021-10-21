@@ -1,13 +1,12 @@
 module.exports = {
 	bail: false,
-	collectCoverage: true,
+	collectCoverage: false,
 	collectCoverageFrom: [
 		"source/**/*.ts",
 		"!source/**/index.ts",
 		"!**/node_modules/**",
 		"!source/(container|contracts|manifest|schema|service-provider|dto|repositories).ts",
 		"!source/coin.provider.ts",
-		"!source/coin.schema.ts",
 		"!source/coin.services.ts",
 	],
 	coverageDirectory: "<rootDir>/.coverage",

@@ -31,8 +31,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new ARKTransport(this.#ledger);
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
-		await this.#ledger.close();
+		if (this.#ledger) {
+			await this.#ledger.close();
+		}
 	}
 
 	public override async getVersion(): Promise<string> {

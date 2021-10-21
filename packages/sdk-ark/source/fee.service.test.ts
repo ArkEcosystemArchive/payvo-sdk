@@ -6,7 +6,6 @@ import nock from "nock";
 import { createService, require } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { FeeService } from "./fee.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
@@ -16,6 +15,9 @@ import { MultiSignatureService } from "./multi-signature.service";
 import { BindingType } from "./coin.contract";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 const matchSnapshot = (transaction): void =>
 	expect({
@@ -122,7 +124,11 @@ describe("FeeService", () => {
 					container.singleton(IoC.BindingType.AddressService, AddressService);
 					container.singleton(IoC.BindingType.ClientService, ClientService);
 					container.singleton(IoC.BindingType.FeeService, FeeService);
-					container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+					container.constant(IoC.BindingType.DataTransferObjects, {
+						SignedTransactionData,
+						ConfirmedTransactionData,
+						WalletData,
+					});
 					container.singleton(
 						IoC.BindingType.DataTransferObjectService,
 						Services.AbstractDataTransferObjectService,
