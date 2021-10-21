@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-avax",
-	"version": "1.7.36",
+	"version": "1.8.0",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
