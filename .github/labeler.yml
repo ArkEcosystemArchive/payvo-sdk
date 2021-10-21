@@ -7,74 +7,70 @@ ci:
 test:
     - source/**/*.test.ts
 
-"Domain: SDK":
+"SDK":
     - packages/sdk/*
     - packages/sdk/**/*
 
-"Domain: ADA":
+"ADA":
     - packages/sdk-ada/*
     - packages/sdk-ada/**/*
 
-"Domain: ARK":
+"ARK":
     - packages/sdk-ark/*
     - packages/sdk-ark/**/*
 
-"Domain: ATOM":
+"ATOM":
     - packages/sdk-atom/*
     - packages/sdk-atom/**/*
 
-"Domain: AVAX":
+"AVAX":
     - packages/sdk-avax/*
     - packages/sdk-avax/**/*
 
-"Domain: BTC":
+"BTC":
     - packages/sdk-btc/*
     - packages/sdk-btc/**/*
 
-"Domain: DOT":
+"DOT":
     - packages/sdk-dot/*
     - packages/sdk-dot/**/*
 
-"Domain: EGLD":
+"EGLD":
     - packages/sdk-egld/*
     - packages/sdk-egld/**/*
 
-"Domain: EOS":
+"EOS":
     - packages/sdk-eos/*
     - packages/sdk-eos/**/*
 
-"Domain: ETH":
+"ETH":
     - packages/sdk-eth/*
     - packages/sdk-eth/**/*
 
-"Domain: INTL":
-    - packages/sdk-intl/*
-    - packages/sdk-intl/**/*
-
-"Domain: LSK":
+"LSK":
     - packages/sdk-lsk/*
     - packages/sdk-lsk/**/*
 
-"Domain: NEO":
+"NEO":
     - packages/sdk-neo/*
     - packages/sdk-neo/**/*
 
-"Domain: SOL":
+"SOL":
     - packages/sdk-sol/*
     - packages/sdk-sol/**/*
 
-"Domain: TRX":
+"TRX":
     - packages/sdk-trx/*
     - packages/sdk-trx/**/*
 
-"Domain: XLM":
+"XLM":
     - packages/sdk-xlm/*
     - packages/sdk-xlm/**/*
 
-"Domain: XRP":
+"XRP":
     - packages/sdk-xrp/*
     - packages/sdk-xrp/**/*
 
-"Domain: ZIL":
+"ZIL":
     - packages/sdk-zil/*
     - packages/sdk-zil/**/*
