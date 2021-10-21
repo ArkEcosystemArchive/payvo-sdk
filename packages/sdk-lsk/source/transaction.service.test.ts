@@ -2,12 +2,12 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/helpers";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { FeeService } from "./fee.service";
@@ -16,11 +16,12 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureService } from "./multi-signature.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
-import { BigNumber } from "@payvo/helpers";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 let musig: MultiSignatureService;
@@ -37,7 +38,11 @@ beforeAll(async () => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
@@ -52,7 +57,11 @@ beforeAll(async () => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

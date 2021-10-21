@@ -4,7 +4,7 @@ import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 
 import { createService, require } from "../test/mocking";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 let subject: ConfirmedTransactionData;
 

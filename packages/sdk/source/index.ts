@@ -1,5 +1,6 @@
 import "reflect-metadata";
 
+export * from "./bundle";
 export * as Coins from "./coins";
 export * as Collections from "./collections";
 export * as Contracts from "./contracts";

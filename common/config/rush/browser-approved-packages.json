@@ -571,6 +571,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "import-fresh",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "inversify",
       "allowedCategories": [ "libraries" ]
     },
@@ -732,6 +736,10 @@
     },
     {
       "name": "p-wait-for",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "parent-module",
       "allowedCategories": [ "libraries" ]
     },
     {

@@ -6,7 +6,7 @@ import { BigNumber } from "@payvo/helpers";
 import Fixture from "../test/fixtures/client/transaction.json";
 import FixtureLegacy from "../test/fixtures/client/transaction-legacy.json";
 import { createService } from "../test/mocking";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 let subject: ConfirmedTransactionData;
 

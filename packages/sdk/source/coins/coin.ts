@@ -23,7 +23,6 @@ import {
 } from "../services";
 import { ExtendedPublicKeyService } from "../services/extended-public-key.contract";
 import { ConfigRepository } from "./config";
-import { CoinSpec } from "./contracts";
 import { Manifest } from "./manifest";
 
 @injectable()
@@ -51,9 +50,7 @@ export class Coin {
 		try {
 			this.#isSyncing = true;
 
-			await this.#container
-				.resolve<any>(this.#container.get<CoinSpec>(BindingType.Specification).ServiceProvider)
-				.make(this.#container);
+			await this.#container.resolve<any>(this.#container.get(BindingType.ServiceProvider)).make(this.#container);
 
 			this.#isSyncing = false;
 			/* istanbul ignore next */
