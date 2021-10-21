@@ -1,5 +1,4 @@
 import { Container } from "../ioc";
-
 import { BindingType } from "../ioc/service-provider.contract";
 import { CoinManifest, Network, NetworkManifest } from "../networks";
 import { NetworkRepository } from "../networks/network-repository";
