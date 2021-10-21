@@ -3,6 +3,8 @@ import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories }
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { BindingType } from "./constants";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+import { getNetworkConfig } from "./config";
+import * as bitcoin from "bitcoinjs-lib";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
@@ -23,6 +25,13 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	@IoC.inject(BindingType.MultiSignatureSigner)
 	private readonly multiSignatureSigner!: MultiSignatureSigner;
+
+	#network!: bitcoin.networks.Network;
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -91,32 +100,32 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.SignedTransactionData,
 		excludeFinal?: boolean,
 	): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data()).isMultiSignatureReady({ excludeFinal });
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).isMultiSignatureReady({ excludeFinal });
 	}
 
 	/** @inheritdoc */
 	public override needsSignatures(transaction: Contracts.SignedTransactionData): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data()).needsSignatures();
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).needsSignatures();
 	}
 
 	/** @inheritdoc */
 	public override needsAllSignatures(transaction: Contracts.SignedTransactionData): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data()).needsAllSignatures();
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).needsAllSignatures();
 	}
 
 	/** @inheritdoc */
 	public override needsWalletSignature(transaction: Contracts.SignedTransactionData, publicKey: string): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data()).needsWalletSignature(publicKey);
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).needsWalletSignature(publicKey);
 	}
 
 	/** @inheritdoc */
 	public override needsFinalSignature(transaction: Contracts.SignedTransactionData): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data()).needsFinalSignature();
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).needsFinalSignature();
 	}
 
 	/** @inheritdoc */
 	public override remainingSignatureCount(transaction: Contracts.SignedTransactionData): number {
-		return new PendingMultiSignatureTransaction(transaction.data()).remainingSignatureCount();
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).remainingSignatureCount();
 	}
 
 	/** @inheritdoc */

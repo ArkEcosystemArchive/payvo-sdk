@@ -17,6 +17,7 @@ import { BindingType } from "./constants";
 import {
 	manyMusigRegistrationTxs,
 	oneSignatureMusigRegistrationTx,
+	oneSignatureTransferTx,
 	threeSignatureMusigRegistrationTx,
 	twoSignatureMusigRegistrationTx,
 	unsignedMusigRegistrationTx,
@@ -253,6 +254,18 @@ describe("MultiSignatureService", () => {
 			});
 		});
 
+		describe.each([
+			{ tx: unsignedTransferTx, expected: 2 },
+			// { tx: twoSignatureMusigRegistrationTx, expected: 1 },
+			// { tx: threeSignatureMusigRegistrationTx, expected: 0 },
+		])("#remainingSignatureCount", ({ tx, expected }) => {
+			test(`when already signed by ${tx.signatures.length} participants`, async () => {
+				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
+
+				expect(subject.remainingSignatureCount(transaction)).toBe(expected);
+			});
+		});
+
 		test("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
 			const transactionData = JSON.parse(JSON.stringify(unsignedTransferTx));
@@ -269,9 +282,8 @@ describe("MultiSignatureService", () => {
 					privateKey: "privateKey", // Not needed / used
 				}),
 			);
-			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(
-				oneSignatureMusigRegistrationTx,
-			);
+			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(oneSignatureTransferTx);
+			// psbt with wallet 3 signature from Electrum: cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBkcwRAIgSFVXMzVtUOgT/UiXZQ1Yx3rUvFDtHOmas9R0LE9Sy88CIGVoVn53aJ7PtD4WGP4woMPg/QjV/kUN2lFSOmlyPGfoAQEFaVIhAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKIQKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBiED2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsBTriIGAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKDJ2qNdMBAAAAAgAAACIGAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAIAAAAiBgPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwAxhs2G/AQAAAAIAAAAAAAEBaVIhAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJIQM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmSED8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAxTriICAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAMAAAAiAgM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmQydqjXTAQAAAAMAAAAiAgPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDAxhs2G/AQAAAAMAAAAA
 
 			const wallet2 = {
 				signingKey: musig.accounts[1].mnemonic,

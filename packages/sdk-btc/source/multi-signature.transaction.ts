@@ -1,4 +1,3 @@
-import { convertBufferList } from "@payvo/helpers";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import * as bitcoin from "bitcoinjs-lib";
 import { isMultiSignatureRegistration } from "./multi-signature.domain";
@@ -6,10 +5,12 @@ import { isMultiSignatureRegistration } from "./multi-signature.domain";
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
 	readonly #multiSignature: MultiSignatureAsset;
+	readonly #network: bitcoin.networks.Network;
 
-	public constructor(transaction: MultiSignatureTransaction) {
+	public constructor(transaction: MultiSignatureTransaction, network: bitcoin.networks.Network) {
 		this.#transaction = { ...transaction };
 		this.#multiSignature = { ...transaction.multiSignature };
+		this.#network = network;
 	}
 
 	public isMultiSignatureRegistration(): boolean {
@@ -33,7 +34,11 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.signatures.length < this.#multiSignature.numberOfSignatures;
 		}
 
-		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!);
+		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
+		console.log(psbt.data.globalMap);
+		console.log(JSON.stringify(psbt, null, 2));
+		console.log(psbt.toHex());
+		console.log(psbt.toBase64());
 		return psbt.validateSignaturesOfAllInputs();
 		// return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
 	}
@@ -43,7 +48,7 @@ export class PendingMultiSignatureTransaction {
 			return this.#transaction.signatures.length === 0;
 		}
 
-		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!);
+		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
 		return psbt.validateSignaturesOfAllInputs();
 		// return this.getValidMultiSignatures().length < this.#multiSignature.publicKeys.length;
 	}
@@ -80,7 +85,7 @@ export class PendingMultiSignatureTransaction {
 	//
 	// 	if (!isMultiSignatureRegistration(this.#transaction)) {
 	// 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, {
-	// 			// network: this.#network,
+	// 			network: this.#network,
 	// 		});
 	// 		// return psbt.validateSignaturesOfAllInputs();
 	// 	}

@@ -28,7 +28,7 @@ export class MultiSignatureSigner {
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<MultiSignatureTransaction> {
-		const pendingMultiSignature = new PendingMultiSignatureTransaction(transaction);
+		const pendingMultiSignature = new PendingMultiSignatureTransaction(transaction, this.#network);
 
 		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
@@ -68,14 +68,14 @@ export class MultiSignatureSigner {
 					const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
 					signedTransaction.signatures.push(signature);
 				} else {
-					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data);
+					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.data, { network: this.#network });
 					// Iterate the different transaction inputs
 					for (let i = 0; i < toBeSigned.inputCount; i++) {
 						// For each one, figure out the address / path
 						// Derive musig private key and sign that input
 						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
 					}
-					signed = bitcoin.Psbt.fromBase64(transaction.data).combine(toBeSigned);
+					signed = bitcoin.Psbt.fromBase64(transaction.data, { network: this.#network }).combine(toBeSigned);
 				}
 			}
 		}

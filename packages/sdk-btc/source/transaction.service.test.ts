@@ -22,6 +22,7 @@ import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/cryptography";
+import { oneSignatureTransferTx } from "../test/fixtures/musig-txs";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -492,7 +493,7 @@ describe("native segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	it("should generate a transfer transaction", async () => {
+	it("should generate, sign and broadcast a transfer transaction", async () => {
 		const multiSignatureAsset: Services.MultiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
@@ -519,6 +520,36 @@ describe("native segwit multisignature wallet", () => {
 			// TODO Something seems to be missing here (apart from the signaures)
 			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA",
 		);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].nativeSegwitMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+		console.log(result.data());
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id,
+				...result.data(),
+				// multiSignature: {
+				//
+				// },
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.data()).toEqual(oneSignatureTransferTx);
 	});
 });
 
