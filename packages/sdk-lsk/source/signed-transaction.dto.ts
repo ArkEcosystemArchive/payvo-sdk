@@ -44,10 +44,10 @@ export class SignedTransactionData
 		}
 
 		if (this.signedData.moduleID) {
-			return this.bigNumberService.make(this.signedData.asset.amount);
+			return this.bigNumberService.make(this.signedData.asset.amount ?? BigNumber.ZERO);
 		}
 
-		return this.bigNumberService.make(this.signedData.amount);
+		return this.bigNumberService.make(this.signedData.amount ?? BigNumber.ZERO);
 	}
 
 	public override fee(): BigNumber {
