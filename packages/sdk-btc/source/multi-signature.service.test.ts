@@ -25,8 +25,8 @@ import {
 } from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
 import { UUID } from "@payvo/cryptography";
-import { ConfirmedTransactionData } from "../../sdk-avax/source/confirmed-transaction.dto";
-import { WalletData } from "../../sdk-avax/source/wallet.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: MultiSignatureService;
 
