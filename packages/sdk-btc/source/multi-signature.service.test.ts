@@ -7,7 +7,6 @@ import nock from "nock";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ClientService } from "./client.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 import { KeyPairService } from "./key-pair.service";
@@ -25,6 +24,8 @@ import {
 } from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
 import { UUID } from "@payvo/cryptography";
+import { ConfirmedTransactionData } from "../../sdk-avax/source/confirmed-transaction.dto";
+import { WalletData } from "../../sdk-avax/source/wallet.dto";
 
 let subject: MultiSignatureService;
 
@@ -35,7 +36,11 @@ beforeAll(async () => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

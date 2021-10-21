@@ -47,14 +47,18 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.constant(BindingType.LedgerTransport, openTransportReplayer(RecordStore.fromString("")));
+		container.constant(BindingType.LedgerTransport, await openTransportReplayer(RecordStore.fromString("")));
 	});
 
-	musigService = createService(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
+	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
