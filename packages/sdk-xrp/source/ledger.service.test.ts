@@ -30,11 +30,11 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
-describe("onPreDestroy", () => {
+describe("disconnect", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const xrp = await createMockService("");
 
-		await expect(xrp.onPreDestroy()).resolves.toBeUndefined();
+		await expect(xrp.disconnect()).resolves.toBeUndefined();
 	});
 });
 

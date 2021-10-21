@@ -62,11 +62,11 @@ describe("connect", () => {
 	});
 });
 
-describe("onPreDestroy", () => {
+describe("disconnect", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
 
-		await expect(lsk.onPreDestroy()).resolves.toBeUndefined();
+		await expect(lsk.disconnect()).resolves.toBeUndefined();
 	});
 });
 

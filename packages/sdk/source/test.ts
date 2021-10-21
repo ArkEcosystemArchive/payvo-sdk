@@ -61,7 +61,11 @@ export const createService = <T = any>({
 		predicate(container);
 	}
 
-	return container.resolve(service);
+	const uuid: string = randomUUID();
+
+	container.singleton(uuid, service);
+
+	return container.get(uuid);
 };
 
 export const createServiceAsync = async <T = any>({
