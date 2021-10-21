@@ -12,7 +12,11 @@ export const createService = <T = any>(service: any, network: string = "btc.live
 	});
 };
 
-export const createServiceAsync = <T = any>(service: any, network: string = "btc.livenet", predicate?: Function): Promise<T> => {
+export const createServiceAsync = <T = any>(
+	service: any,
+	network: string = "btc.livenet",
+	predicate?: Function,
+): Promise<T> => {
 	return Test.createServiceAsync({
 		httpClient: new Request(),
 		manifest: manifest.networks[network],
