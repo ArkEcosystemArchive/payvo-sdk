@@ -34,11 +34,11 @@ const createMockService = async (record: string): Promise<LedgerService> => {
 	return transport;
 };
 
-describe("destruct", () => {
+describe("disconnect", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const ark = await createMockService("");
 
-		await expect(ark.__destruct()).resolves.toBeUndefined();
+		await expect(ark.disconnect()).resolves.toBeUndefined();
 	});
 });
 

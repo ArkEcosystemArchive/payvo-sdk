@@ -1,4 +1,4 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { ApiPromise } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
@@ -13,7 +13,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(BindingType.Keyring)
 	protected readonly keyring!: Keyring;
 
-	public async __destruct(): Promise<void> {
+	@IoC.preDestroy()
+	public async onPreDestroy(): Promise<void> {
 		await this.client.disconnect();
 	}
 

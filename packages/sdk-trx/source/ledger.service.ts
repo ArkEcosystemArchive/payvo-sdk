@@ -21,6 +21,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new Tron.default(this.#ledger);
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

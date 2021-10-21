@@ -30,11 +30,11 @@ const createMockService = async (record: string, opts?: RecordStoreOptions) => {
 	return transport;
 };
 
-describe("destruct", () => {
+describe("onPreDestroy", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.__destruct()).resolves.toBeUndefined();
+		await expect(subject.onPreDestroy()).resolves.toBeUndefined();
 	});
 });
 
