@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@payvo/cryptography": "^1.1.5",
 		"@payvo/helpers": "^1.1.1",
-		"@payvo/intl": "^1.0.1",
+		"@payvo/intl": "^1.0.2",
 		"@payvo/sdk": "workspace:*",
 		"bn.js": "5.2.0",
 		"elliptic": "^6.5.4",

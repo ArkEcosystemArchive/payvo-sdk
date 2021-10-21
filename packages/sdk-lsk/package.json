@@ -30,7 +30,7 @@
 		"@liskhq/lisk-transactions": "^5.1",
 		"@payvo/cryptography": "^1.1.5",
 		"@payvo/helpers": "^1.1.1",
-		"@payvo/intl": "^1.0.1",
+		"@payvo/intl": "^1.0.2",
 		"@payvo/sdk": "workspace:*",
 		"dpos-ledger-api": "^3.0.1"
 	},
