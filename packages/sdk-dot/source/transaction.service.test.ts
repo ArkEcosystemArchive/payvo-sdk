@@ -6,13 +6,14 @@ import { waitReady } from "@polkadot/wasm-crypto";
 import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
 import { BindingType } from "./constants";
-import { DataTransferObjects } from "./coin.dtos";
-import { SignedTransactionData } from "./signed-transaction.dto";
 import { createApiPromise, createKeyring } from "./factories";
 import { AddressService } from "./address.service";
 import { KeyPairService } from "./key-pair.service";
 import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
@@ -28,7 +29,11 @@ beforeAll(async () => {
 
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);

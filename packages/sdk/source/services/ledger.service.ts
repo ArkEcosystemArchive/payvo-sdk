@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { inject, injectable } from "inversify";
+import { inject, injectable, preDestroy } from "inversify";
 
 import { WalletData } from "../contracts";
 import { NotImplemented } from "../exceptions";
@@ -13,14 +13,11 @@ export class AbstractLedgerService implements LedgerService {
 	@inject(BindingType.DataTransferObjectService)
 	private readonly dataTransferObjectService!: DataTransferObjectService;
 
-	public async __destruct(): Promise<void> {
-		await this.disconnect();
-	}
-
 	public async connect(transport: LedgerTransport): Promise<void> {
 		throw new NotImplemented(this.constructor.name, this.connect.name);
 	}
 
+	@preDestroy()
 	public async disconnect(): Promise<void> {
 		throw new NotImplemented(this.constructor.name, this.disconnect.name);
 	}

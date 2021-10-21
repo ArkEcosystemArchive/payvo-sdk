@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { Request } from "@payvo/http-got";
 import nock from "nock";
 
-import { ARK } from "../../../sdk-ark/source";
+import { ARK } from "../../../sdk-ark/distribution";
 import { require } from "../../test/mocking";
 import { Network, NetworkRepository } from "../networks";
 import { Coin } from "./coin";
@@ -28,6 +28,7 @@ beforeEach(async () => {
 		.reply(200, await require("../test/testnet/syncing.json"))
 		.persist();
 
+	// @ts-ignore
 	subject = CoinFactory.make(ARK, {
 		network: "ark.devnet",
 		httpClient: new Request(),

@@ -37,6 +37,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new Bitcoin.default(this.#ledger);
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#transport.transport.close();
 	}

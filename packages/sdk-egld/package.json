@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-egld",
-	"version": "1.7.36",
+	"version": "1.8.4",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -29,7 +29,7 @@
 		"@elrondnetwork/erdjs": "^7.0.0",
 		"@payvo/cryptography": "^1.1.5",
 		"@payvo/helpers": "^1.1.1",
-		"@payvo/intl": "^1.0.1",
+		"@payvo/intl": "^1.0.2",
 		"@payvo/sdk": "workspace:*",
 		"bech32": "^2.0.0",
 		"noble-ed25519": "~1.2.5"

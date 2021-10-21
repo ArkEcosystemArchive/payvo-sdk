@@ -3,8 +3,8 @@ import "jest-extended";
 import { Coins, IoC } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
-import { KnownWalletService } from "./known-wallets.service";
+import { createService } from "../test/mocking";
+import { KnownWalletService } from "./known-wallet.service";
 
 let subject: KnownWalletService;
 

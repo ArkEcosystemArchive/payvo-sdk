@@ -3,7 +3,7 @@ import "jest-extended";
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";
-import { ConfirmedTransactionData } from "./transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 let subject: ConfirmedTransactionData;
 

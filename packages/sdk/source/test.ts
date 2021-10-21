@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 
+import { randomUUID } from "crypto";
 import { ConfigKey, ConfigRepository } from "./coins";
 import { Container, BindingType } from "./ioc";
 import { NetworkManifest } from "./networks";
@@ -60,7 +61,11 @@ export const createService = <T = any>({
 		predicate(container);
 	}
 
-	return container.resolve(service);
+	const uuid: string = randomUUID();
+
+	container.singleton(uuid, service);
+
+	return container.get(uuid);
 };
 
 export const createServiceAsync = async <T = any>({
@@ -89,5 +94,9 @@ export const createServiceAsync = async <T = any>({
 		await predicate(container);
 	}
 
-	return container.resolve(service);
+	const uuid: string = randomUUID();
+
+	container.singleton(uuid, service);
+
+	return container.get(uuid);
 };

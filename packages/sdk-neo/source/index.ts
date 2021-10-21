@@ -1,9 +1,3 @@
-import { manifest } from "./manifest";
-import { ServiceProvider } from "./coin.provider";
-import { DataTransferObjects } from "./coin.dtos";
+import { bundle, Coins } from "@payvo/sdk";
 
-export const NEO = {
-	dataTransferObjects: DataTransferObjects, // @TODO: consistent casing to avoid alias
-	manifest,
-	ServiceProvider,
-};
+export const NEO: Coins.CoinBundle = bundle(__dirname);

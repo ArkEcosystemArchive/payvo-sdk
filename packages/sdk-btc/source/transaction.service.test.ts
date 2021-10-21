@@ -1,24 +1,26 @@
 import "jest-extended";
 import { jest } from "@jest/globals";
 
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import nock from "nock";
-import { createService } from "../test/mocking";
+
+import { createServiceAsync } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
-import { DataTransferObjects } from "./coin.dtos";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
-import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { musig } from "../test/fixtures/musig";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/cryptography";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
@@ -29,11 +31,15 @@ let musigService: MultiSignatureService;
 beforeEach(async () => {
 	nock.disableNetConnect();
 
-	subject = createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
@@ -56,7 +62,7 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.constant(BindingType.LedgerTransport, openTransportReplayer(RecordStore.fromString("")));
+		container.constant(BindingType.LedgerTransport, await openTransportReplayer(RecordStore.fromString("")));
 	});
 });
 

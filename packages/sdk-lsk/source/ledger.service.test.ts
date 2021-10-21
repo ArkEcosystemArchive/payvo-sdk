@@ -6,20 +6,26 @@ import nock from "nock";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService, require } from "../test/mocking";
-import { DataTransferObjects } from "./coin.dtos";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
 import { TransactionSerializer } from "./transaction.serializer";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 const createMockService = async (record: string) => {
 	const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
@@ -36,7 +42,11 @@ describe("connect", () => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.constant(IoC.BindingType.DataTransferObjects, DataTransferObjects);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(BindingType.AssetSerializer, AssetSerializer);
 			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
@@ -52,11 +62,11 @@ describe("connect", () => {
 	});
 });
 
-describe("destruct", () => {
+describe("disconnect", () => {
 	it("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
 
-		await expect(lsk.__destruct()).resolves.toBeUndefined();
+		await expect(lsk.disconnect()).resolves.toBeUndefined();
 	});
 });
 
