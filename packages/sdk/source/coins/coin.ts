@@ -70,25 +70,25 @@ export class Coin {
 			return;
 		}
 
-		this.#container.unbind(BindingType.AddressService);
-		this.#container.unbind(BindingType.BigNumberService);
-		this.#container.unbind(BindingType.ClientService);
-		this.#container.unbind(BindingType.DataTransferObjectService);
-		this.#container.unbind(BindingType.ExtendedAddressService);
-		this.#container.unbind(BindingType.ExtendedPublicKeyService);
-		this.#container.unbind(BindingType.FeeService);
-		this.#container.unbind(BindingType.KeyPairService);
-		this.#container.unbind(BindingType.KnownWalletService);
-		this.#container.unbind(BindingType.LedgerService);
-		this.#container.unbind(BindingType.LinkService);
-		this.#container.unbind(BindingType.MessageService);
-		this.#container.unbind(BindingType.MultiSignatureService);
-		this.#container.unbind(BindingType.PrivateKeyService);
-		this.#container.unbind(BindingType.PublicKeyService);
-		this.#container.unbind(BindingType.SignatoryService);
-		this.#container.unbind(BindingType.TransactionService);
-		this.#container.unbind(BindingType.WalletDiscoveryService);
-		this.#container.unbind(BindingType.WIFService);
+		await this.#container.unbindAsync(BindingType.AddressService);
+		await this.#container.unbindAsync(BindingType.BigNumberService);
+		await this.#container.unbindAsync(BindingType.ClientService);
+		await this.#container.unbindAsync(BindingType.DataTransferObjectService);
+		await this.#container.unbindAsync(BindingType.ExtendedAddressService);
+		await this.#container.unbindAsync(BindingType.ExtendedPublicKeyService);
+		await this.#container.unbindAsync(BindingType.FeeService);
+		await this.#container.unbindAsync(BindingType.KeyPairService);
+		await this.#container.unbindAsync(BindingType.KnownWalletService);
+		await this.#container.unbindAsync(BindingType.LedgerService);
+		await this.#container.unbindAsync(BindingType.LinkService);
+		await this.#container.unbindAsync(BindingType.MessageService);
+		await this.#container.unbindAsync(BindingType.MultiSignatureService);
+		await this.#container.unbindAsync(BindingType.PrivateKeyService);
+		await this.#container.unbindAsync(BindingType.PublicKeyService);
+		await this.#container.unbindAsync(BindingType.SignatoryService);
+		await this.#container.unbindAsync(BindingType.TransactionService);
+		await this.#container.unbindAsync(BindingType.WalletDiscoveryService);
+		await this.#container.unbindAsync(BindingType.WIFService);
 	}
 
 	public hasBeenSynchronized(): boolean {

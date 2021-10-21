@@ -36,7 +36,11 @@ export class Container {
 	}
 
 	public unbind(key: ContainerKey): void {
-		this.#container.unbind(key);
+		return this.#container.unbind(key);
+	}
+
+	public async unbindAsync(key: ContainerKey): Promise<void> {
+		return this.#container.unbindAsync(key);
 	}
 
 	public flush(): void {

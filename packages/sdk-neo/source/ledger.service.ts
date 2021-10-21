@@ -18,6 +18,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		}
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

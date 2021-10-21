@@ -30,6 +30,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new DposLedger(new CommHandler(this.#ledger));
 	}
 
+	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}
