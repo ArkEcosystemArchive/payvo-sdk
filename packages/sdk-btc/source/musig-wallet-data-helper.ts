@@ -126,7 +126,11 @@ export default class MusigWalletDataHelper {
 				// 	script: convertString(utxo.script),
 				// 	value: utxo.satoshis,
 				// },
-				witnessScript: getDerivationFunction(this.#method)(this.#n, this.#accountPublicKeys.map(apk => apk.derivePath(address.path).publicKey), this.#network).redeem!.output
+				witnessScript: getDerivationFunction(this.#method)(
+					this.#n,
+					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+					this.#network,
+				).redeem!.output,
 			};
 		});
 	}
@@ -194,8 +198,9 @@ export default class MusigWalletDataHelper {
 		if (addresses.length === 0) {
 			return [];
 		}
-		const utxos = (await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository))
-			.data;
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+		).data;
 
 		const rawTxs = (
 			await post(
