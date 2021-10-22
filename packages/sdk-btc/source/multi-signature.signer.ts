@@ -68,7 +68,15 @@ export class MultiSignatureSigner {
 					signedTransaction.signatures.push(signature);
 				} else {
 					const toSign = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
-					toSign.signAllInputsHD(rootKey);
+					try {
+						// The creator can sign with with root key
+						toSign.signAllInputsHD(rootKey);
+					} catch (error) {
+						// The others sign with account key
+						const newAccountKey = BIP32.fromPrivateKey(convertBuffer(accountKey.privateKey!), convertBuffer(accountKey.chainCode), this.#network);
+
+						toSign.signAllInputsHD(newAccountKey);
+					}
 					signedTransaction.psbt = toSign.toBase64();
 				}
 			}
