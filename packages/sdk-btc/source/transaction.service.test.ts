@@ -343,6 +343,11 @@ describe("legacy multisignature wallet", () => {
 				200,
 				'{"data":[{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c","outputIndex":1,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":81000},{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904","outputIndex":0,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":100000}],"links":{"first":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","last":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent","per_page":15,"to":2,"total":2}}',
 			)
+			.post('/api/wallets/transactions/raw', '{"transaction_ids":["8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c","002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904"]}')
+			.reply(
+				200,
+				'{"data":{"8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c":"0200000000010192fe603fc7ad46549a47f66fed8d1265bd12e135f0657bbfd8d839888fd0c0f40100000000feffffff02e4f2c6eb00000000160014a1dcb4f5d6c16066155bbda7bdca72c3b4dd6521683c01000000000017a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd870247304402206052f3392a9886eefc0ee27864021e8be3dadeb089e8cd4aed352a203f9649f502202b778ef60669b46bf38ff4dbdeb3304854393173987e2e95963aa35a21baa288012103e5b942ce33a7fb43b161342e014d8e1395a872e716ca7b2794369636ffee547849042000","002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904":"02000000000101326683d547d76fff487958bd73f0dcad90b9828d29c373f91771dea274a33fce0000000000feffffff02a08601000000000017a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87fab86b000000000017a9145ca092c6ad33d1b8e56e78d634791ac843708380870247304402203c6d562030c380952130a81328c63cf969488320194009dc30c2734063f50bd50220389a7324b44538f1e697808b623db1bb34338da4be1605671629940482685e79012103823effd3ddd2ee2e120edc073c4bc9e7cdb8498c6f717be1036dd232037645bf49042000"}}',
+			)
 			.get("/api/fees")
 			.reply(200, {
 				data: {
@@ -378,8 +383,8 @@ describe("legacy multisignature wallet", () => {
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			// TODO Something seems to be missing here (apart from the signaures)
-			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQEgoIYBAAAAAAAXqRRTLT36HGxBOjhfIW7SwrUd63rt3YcAAAA=",
+			// TODO Change output derivation paths are missing (compared to Electrum)
+			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQDgAgAAAAABATJmg9VH12//SHlYvXPw3K2QuYKNKcNz+Rdx3qJ0oz/OAAAAAAD+////AqCGAQAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2H+rhrAAAAAAAXqRRcoJLGrTPRuOVueNY0eRrIQ3CDgIcCRzBEAiA8bVYgMMOAlSEwqBMoxjz5aUiDIBlACdwwwnNAY/UL1QIgOJpzJLRFOPHml4CLYj2xuzQzjaS+FgVnFimUBIJoXnkBIQOCPv/T3dLuLhIO3Ac8S8nnzbhJjG9xe+EDbdIyA3ZFv0kEIAABBWlSIQJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5ViECkBWvIBZNcxthKZC+56mVwDKruoP6GGo645GPmW8hc0AhA5cPLGFhgQY+Jv2XC5vBMIp4mG8/WQU+VUsfKXvejj1QU64iBgJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5Vgwj/PIxAAAAAAAAAAAiBgKQFa8gFk1zG2EpkL7nqZXAMqu6g/oYajrjkY+ZbyFzQAwpdhjSAAAAAAAAAAAiBgOXDyxhYYEGPib9lwubwTCKeJhvP1kFPlVLHyl73o49UAz6ukcjAAAAAAAAAAAAAAA=",
 		);
 	});
 });
@@ -407,6 +412,11 @@ describe("p2sh segwit multisignature wallet", () => {
 			.reply(
 				200,
 				'{"data":[{"address":"2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT","txId":"dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349","outputIndex":0,"script":"a9141fa993e76d714a6b603abea2361c20c0c7f003bb87","satoshis":98800}],"links":{"first":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","last":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent","per_page":15,"to":1,"total":1}}',
+			)
+			.post('/api/wallets/transactions/raw', {"transaction_ids":["dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349"]})
+			.reply(
+				200,
+				'{"data":{"dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349":"0200000000010106d3da99cdc6d87d89a1c0196ea105aa62ba0a431f163ed981a456646a3a067b0100000000ffffffff02f08101000000000017a9141fa993e76d714a6b603abea2361c20c0c7f003bb87c80000000000000022002081051a0839e678ede25d0fa89fa0b1dcc8a44fcc8f0739bb35b3e83c4d930d700400483045022100cdbd7729f8a25152e2eef2e4a737240dd553165c62370c12b9ee85f67c0c512302203a69e1285e21aff88f75ed144fe90a1bd1a826c9b2f042b9360ffdf54c33055b0147304402205150444107b40c102ae1455fe7099653216de2eba83009105722e5d879e2be9602200443f5866804005e0f37dcf7b343ad56c137b9c49eaaf19e54b5c52a5561b6ca016952210314e9ec814e8f5c7e7b16e17a0a8a65efea64c88f01085aaed41ebac7df9bf6e121032b0996a84fb0449a899616ca746c8e6cfc5d8f823114ba6bd7aed5b4e90442e221033830fa105ee889ae98074506e9d5f1153aafa64fa828904843204564f95a492653ae00000000"}}',
 			)
 			.get("/api/fees")
 			.reply(200, {
@@ -443,8 +453,8 @@ describe("p2sh segwit multisignature wallet", () => {
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			// TODO Something seems to be missing here (apart from the signaures)
-			"cHNidP8BAHICAAAAAUkjcbxZ6KPifldHWeSXKdcwu/ioBUwYgiuaQK4jH6jfAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesSWWQEAAAAAABepFHCUjzOEMTdcpeoAe6S6KHcS1FnzhwAAAAAAAQEg8IEBAAAAAAAXqRQfqZPnbXFKa2A6vqI2HCDAx/ADu4cAAAA=",
+			// TODO Change output derivation paths are missing (compared to Electrum)
+			"cHNidP8BAHICAAAAAUkjcbxZ6KPifldHWeSXKdcwu/ioBUwYgiuaQK4jH6jfAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesSWWQEAAAAAABepFHCUjzOEMTdcpeoAe6S6KHcS1FnzhwAAAAAAAQD9fQECAAAAAAEBBtPamc3G2H2JocAZbqEFqmK6CkMfFj7ZgaRWZGo6BnsBAAAAAP////8C8IEBAAAAAAAXqRQfqZPnbXFKa2A6vqI2HCDAx/ADu4fIAAAAAAAAACIAIIEFGgg55njt4l0PqJ+gsdzIpE/Mjwc5uzWz6DxNkw1wBABIMEUCIQDNvXcp+KJRUuLu8uSnNyQN1VMWXGI3DBK57oX2fAxRIwIgOmnhKF4hr/iPde0UT+kKG9GoJsmy8EK5Ng/99UwzBVsBRzBEAiBRUERBB7QMECrhRV/nCZZTIW3i66gwCRBXIuXYeeK+lgIgBEP1hmgEAF4PN9z3s0OtVsE3ucSeqvGeVLXFKlVhtsoBaVIhAxTp7IFOj1x+exbhegqKZe/qZMiPAQhartQeusffm/bhIQMrCZaoT7BEmomWFsp0bI5s/F2PgjEUumvXrtW06QRC4iEDODD6EF7oia6YB0UG6dXxFTqvpk+oKJBIQyBFZPlaSSZTrgAAAAABBSIAIJS/+lf8MYwCwi0MCnOuvg87vw6UP27j9b5p2K9R7sH6IgYCOYz3Fnu6vOw1o00H01l1kqVdDr2OarjJEb+msFGbyCAMJJqwvwAAAAAAAAAAIgYCgG/ypFIo0Rfkcj1ttpQ7f8uHE5caWcfHBR9sEt/bpoAM6BcHPQAAAAAAAAAAIgYDGmn01zXxU6Ocg/FnZfzLDy5mZz7EfGv7w7L6wan8oEcMlDmPywAAAAAAAAAAAAAA",
 		);
 	});
 });
@@ -518,23 +528,17 @@ describe("native segwit multisignature wallet", () => {
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(374);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		// expect(result.toBroadcast()).toBe(
-		// 	// TODO Something seems to be missing here (apart from the signaures)
-		// 	// "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA",
-		// 	// "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxIgYCWPZVoZ4hsjVKB1DbEOM7FSckHdfb6bvsxO9o4DfZYsoInao10wIAAAAiBgJ09K7GmvXbjzCZZNde7/uVxxloyZNGkGbH+1ORnKeyiwh3k8AlAgAAACIGAnf/nXJIYTbH7mir1GsT08HO8befVgTNr6/KDYgIUb1zCGGzYb8CAAAAAAAA",
-		// 	// "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxIgYCWPZVoZ4hsjVKB1DbEOM7FSckHdfb6bvsxO9o4DfZYsocnao10zAAAIABAACAAAAAgAIAAIABAAAAAgAAACIGAnT0rsaa9duPMJlk117v+5XHGWjJk0aQZsf7U5Gcp7KLHHeTwCUwAACAAQAAgAAAAIACAACAAQAAAAIAAAAiBgJ3/51ySGE2x+5oq9RrE9PBzvG3n1YEza+vyg2ICFG9cxxhs2G/MAAAgAEAAIAAAACAAgAAgAEAAAACAAAAAAAA",
-		// 	"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxIgYCWPZVoZ4hsjVKB1DbEOM7FSckHdfb6bvsxO9o4DfZYsoMnao10wEAAAACAAAAIgYCdPSuxpr1248wmWTXXu/7lccZaMmTRpBmx/tTkZynsosMd5PAJQEAAAACAAAAIgYCd/+dckhhNsfuaKvUaxPTwc7xt59WBM2vr8oNiAhRvXMMYbNhvwEAAAACAAAAAAAA",
-		// 	// This is what Electrum produces "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA=="
-		// );
-
-		// Now make participants sign their parts
-
-		const electrum = bitcoin.Psbt.fromBase64(
-			// "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",
+		expect(result.toBroadcast()).toBe(
+			// TODO Change output derivation paths are missing (compared to Electrum)
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAAA",
+			// This is what Electrum produces "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA=="
 		);
 
-		prettyPrint(electrum);
+		prettyPrint(bitcoin.Psbt.fromBase64(
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD+////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesQASwAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIwwsgAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwABBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA==",
+		));
+
+		// Now make participants sign their parts
 
 		const wallet1 = {
 			signingKey: musig.accounts[2].mnemonic,
@@ -553,18 +557,25 @@ describe("native segwit multisignature wallet", () => {
 
 		const signed1 = await musigService.addSignature(
 			{
-				id: result.id,
+				id: result.id(),
 				...result.data(),
-				// multiSignature: {
-				//
-				// },
 				psbt: result.toBroadcast(),
 				signatures: [],
 			},
 			signatory1,
 		);
 
-		expect(signed1.data()).toEqual(oneSignatureTransferTx);
+		expect(signed1.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		expect(signed1.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(374);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(
+			// TODO Change output derivation paths are missing (compared to Electrum)
+			"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBkgwRQIhALhCf3ENXcWeVIMcVqLd6eIp4cwG4Pom0MTOk6x4D5rtAiAsSidFXGkZV9HBjXOkatQjSyrwljfnxPScHkAGu+gnFgEBBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAAA",
+			// This is what Electrum produces "cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBkgwRQIhALhCf3ENXcWeVIMcVqLd6eIp4cwG4Pom0MTOk6x4D5rtAiAsSidFXGkZV9HBjXOkatQjSyrwljfnxPScHkAGu+gnFgEBBWlSIQJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRiiECoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYhA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirAU64iBgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRigydqjXTAQAAAAIAAAAiBgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBhyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAABAWlSIQMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCSEDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5khA/JBnJh7zVhB/Djk2K2B8K2zmz7HHGfSO1lr0oZicawMU64iAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCRyotLRIMAAAgAEAAIAAAACAAgAAgAEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA=="
+		);
 	});
 });
 
