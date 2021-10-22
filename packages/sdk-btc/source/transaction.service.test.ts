@@ -602,7 +602,7 @@ describe("native segwit multisignature wallet", () => {
 				psbt: signed1.toBroadcast(),
 				signatures: [],
 			},
-			signatory1,
+			signatory2,
 		);
 
 		expect(signed2.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");

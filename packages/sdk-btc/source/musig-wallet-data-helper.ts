@@ -112,11 +112,11 @@ export default class MusigWalletDataHelper {
 				path: address.path,
 				bip32Derivation: this.#accountPublicKeys.map((pubKey, index) => ({
 					masterFingerprint:
-						Buffer.compare(accountKey.fingerprint, pubKey.fingerprint) === 0
+						accountKey.fingerprint.equals(pubKey.fingerprint)
 							? this.#creatorRootKey.fingerprint
 							: pubKey.fingerprint,
 					path:
-						Buffer.compare(accountKey.fingerprint, pubKey.fingerprint) === 0
+						accountKey.fingerprint.equals(pubKey.fingerprint)
 							? "m/48'/1'/0'/2'/" + address.path
 							: "m/" + address.path,
 					pubkey: pubKey.derivePath(address.path).publicKey,
