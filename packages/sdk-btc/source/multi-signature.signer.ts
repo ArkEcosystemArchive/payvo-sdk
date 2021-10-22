@@ -73,7 +73,11 @@ export class MultiSignatureSigner {
 						toSign.signAllInputsHD(rootKey);
 					} catch (error) {
 						// The others sign with account key
-						const newAccountKey = BIP32.fromPrivateKey(convertBuffer(accountKey.privateKey!), convertBuffer(accountKey.chainCode), this.#network);
+						const newAccountKey = BIP32.fromPrivateKey(
+							convertBuffer(accountKey.privateKey!),
+							convertBuffer(accountKey.chainCode),
+							this.#network,
+						);
 
 						toSign.signAllInputsHD(newAccountKey);
 					}

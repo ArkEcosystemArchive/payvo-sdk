@@ -111,14 +111,12 @@ export default class MusigWalletDataHelper {
 				value: utxo.satoshis,
 				path: address.path,
 				bip32Derivation: this.#accountPublicKeys.map((pubKey, index) => ({
-					masterFingerprint:
-						accountKey.fingerprint.equals(pubKey.fingerprint)
-							? this.#creatorRootKey.fingerprint
-							: pubKey.fingerprint,
-					path:
-						accountKey.fingerprint.equals(pubKey.fingerprint)
-							? "m/48'/1'/0'/2'/" + address.path
-							: "m/" + address.path,
+					masterFingerprint: accountKey.fingerprint.equals(pubKey.fingerprint)
+						? this.#creatorRootKey.fingerprint
+						: pubKey.fingerprint,
+					path: accountKey.fingerprint.equals(pubKey.fingerprint)
+						? "m/48'/1'/0'/2'/" + address.path
+						: "m/" + address.path,
 					pubkey: pubKey.derivePath(address.path).publicKey,
 				})),
 				nonWitnessUtxo: convertString(utxo.raw), // TODO this should depend on the utxo, whether to use nonWitness or witness
