@@ -259,7 +259,7 @@ describe("MultiSignatureService", () => {
 			// { tx: twoSignatureMusigRegistrationTx, expected: 1 },
 			// { tx: threeSignatureMusigRegistrationTx, expected: 0 },
 		])("#remainingSignatureCount", ({ tx, expected }) => {
-			test(`when already signed by ${tx.signatures.length} participants`, async () => {
+			test.skip(`when already signed by ${tx.signatures.length} participants`, async () => {
 				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
 
 				expect(subject.remainingSignatureCount(transaction)).toBe(expected);
