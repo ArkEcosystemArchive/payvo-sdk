@@ -4,7 +4,6 @@ import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
-import { musig } from "../test/fixtures/musig";
 
 const getDerivationFunction = (
 	method: MusigDerivationMethod,
@@ -14,6 +13,7 @@ const getDerivationFunction = (
 
 export default class MusigWalletDataHelper {
 	readonly #n: number;
+	readonly #creatorRootKey: bitcoin.BIP32Interface;
 	readonly #accountPublicKeys: bitcoin.BIP32Interface[];
 	readonly #method: MusigDerivationMethod;
 	readonly #network: bitcoin.networks.Network;
@@ -27,6 +27,7 @@ export default class MusigWalletDataHelper {
 
 	public constructor(
 		n: number,
+		creatorRootKey: bitcoin.BIP32Interface,
 		accountPublicKeys: bitcoin.BIP32Interface[],
 		method: MusigDerivationMethod,
 		network: bitcoin.networks.Network,
@@ -40,6 +41,7 @@ export default class MusigWalletDataHelper {
 		}
 
 		this.#n = n;
+		this.#creatorRootKey = creatorRootKey;
 		this.#accountPublicKeys = accountPublicKeys;
 		this.#method = method;
 		this.#network = network;
@@ -98,9 +100,7 @@ export default class MusigWalletDataHelper {
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
 
-			// const fingerPrints = (pk: string) => musig.accounts
-			// 	.find((account) => account.nativeSegwitMasterPublicKey === pk)!
-			// 	.masterFingerprint;
+			const accountKey = this.#creatorRootKey.derivePath("m/48'/1'/0'/2'");
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -109,13 +109,10 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
-				bip32Derivation: this.#accountPublicKeys.map((pubKey) => ({
-					masterFingerprint: pubKey.fingerprint,
-					// masterFingerprint: convertString(fingerPrints(convertBuffer(pubKey.publicKey))),
-					path: "m/" + address.path,
-					// path: "m/48'/1'/0'/2'/" + address.path,
-					// path: address.path,
-					pubkey: pubKey.publicKey,
+				bip32Derivation: this.#accountPublicKeys.map((pubKey, index) => ({
+					masterFingerprint: Buffer.compare(accountKey.fingerprint, pubKey.fingerprint) === 0 ? this.#creatorRootKey.fingerprint : pubKey.fingerprint,
+					path: Buffer.compare(accountKey.fingerprint, pubKey.fingerprint) === 0 ? "m/48'/1'/0'/2'/" + address.path : "m/" + address.path,
+					pubkey: pubKey.derivePath(address.path).publicKey,
 				})),
 				witnessUtxo: {
 					script: convertString(utxo.script),

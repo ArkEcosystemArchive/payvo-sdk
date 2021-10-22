@@ -24,6 +24,7 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/cryptography";
 import { oneSignatureTransferTx } from "../test/fixtures/musig-txs";
+import { prettyPrint } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -528,12 +529,16 @@ describe("native segwit multisignature wallet", () => {
 
 		// Now make participants sign their parts
 
-		const electrum = bitcoin.Psbt.fromBase64("cHNidP8BAH0CAAAAAVjkVqZPcqbOkQp8DiYf04ejlcvp/SRwchUj9JnitHRfAQAAAAD+////AmAiAAAAAAAAIgAgZVWRzOSU4/AUZHfrYirNMu3jxcdi2QTECa8OMv5VxLMQJwAAAAAAABYAFPPp33bVzL+04pwEepQoFaMqR3rEYgsgAAABAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAEFaVIhAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJIQM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmSED8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAxTriIGAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAMAAAAiBgM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmQydqjXTAQAAAAMAAAAiBgPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDAxhs2G/AQAAAAMAAAAAAQFpUiEDOreNU7T0952RT3cMK69YcSCfn/FBaks566wIZcJSH6ghA3e2SqH6leWMwYGcGZRK+UUbDpF+QNNKuZcSqXdFl+ZdIQPonAVU36oyNbFRxK3tnNUAXu05KSDsxDc37BBRf3MYzFOuIgIDOreNU7T0952RT3cMK69YcSCfn/FBaks566wIZcJSH6gMYbNhvwEAAAAEAAAAIgIDd7ZKofqV5YzBgZwZlEr5RRsOkX5A00q5lxKpd0WX5l0Mnao10wEAAAAEAAAAIgID6JwFVN+qMjWxUcSt7ZzVAF7tOSkg7MQ3N+wQUX9zGMwcqLS0SDAAAIABAACAAAAAgAIAAIABAAAABAAAAAAA");
-		console.log(electrum);
+		const electrum = bitcoin.Psbt.fromBase64(
+			// "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",
+		);
+
+		prettyPrint(electrum);
 
 		const wallet1 = {
-			signingKey: musig.accounts[0].mnemonic,
-			path: musig.accounts[0].nativeSegwitMasterPath,
+			signingKey: musig.accounts[2].mnemonic,
+			path: musig.accounts[2].nativeSegwitMasterPath,
 		};
 		const signatory1 = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
@@ -543,7 +548,9 @@ describe("native segwit multisignature wallet", () => {
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
-		console.log(result.data());
+		prettyPrint(bitcoin.Psbt.fromBase64(result.toBroadcast()));
+		console.log(result.toBroadcast());
+
 		const signed1 = await musigService.addSignature(
 			{
 				id: result.id,

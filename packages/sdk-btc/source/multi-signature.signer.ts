@@ -57,9 +57,9 @@ export class MultiSignatureSigner {
 				// transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
 				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
-				console.log(signatory.signingKey(), rootKey.fingerprint);
+				// console.log(signatory.signingKey(), rootKey.fingerprint);
 				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
-				const newRootKey = BIP32.fromPrivateKey(convertBuffer(accountKey.privateKey!), convertBuffer(accountKey.chainCode), this.#network);
+				// const newRootKey = BIP32.fromPrivateKey(convertBuffer(accountKey.privateKey!), convertBuffer(accountKey.chainCode), this.#network);
 				let signed: any;
 				if (isMultiSignatureRegistration(transaction)) {
 					signedTransaction.multiSignature.publicKeys.push(
@@ -72,7 +72,7 @@ export class MultiSignatureSigner {
 				} else {
 					const toBeSigned = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
 					// Iterate the different transaction inputs
-					toBeSigned.signAllInputsHD(newRootKey);
+					toBeSigned.signAllInputsHD(rootKey);
 					// for (let i = 0; i < toBeSigned.inputCount; i++) {
 						// For each one, figure out the address / path
 						// Derive musig private key and sign that input

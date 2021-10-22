@@ -4,6 +4,21 @@ import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
 
+export const prettyBufferSerializer = (k, v) => {
+	if (v !== null && v.type === "Buffer") {
+		return Buffer.from(v.data).toString('hex');
+	}
+	return v;
+};
+
+export const prettySerialize = (obj) => {
+	return JSON.stringify(obj, prettyBufferSerializer, 2);
+};
+
+export const prettyPrint = (obj) => {
+	return console.log(prettySerialize(obj));
+};
+
 export const post = async (
 	path: string,
 	body: Contracts.KeyValuePair,

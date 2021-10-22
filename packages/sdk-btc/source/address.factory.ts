@@ -129,11 +129,13 @@ export class AddressFactory {
 
 	public musigWalletDataHelper(
 		n: number,
+		creatorRootKey: bitcoin.BIP32Interface,
 		accountPublicKeys: bitcoin.BIP32Interface[],
 		method: MusigDerivationMethod,
 	): MusigWalletDataHelper {
 		return new MusigWalletDataHelper(
 			n,
+			creatorRootKey,
 			accountPublicKeys,
 			method,
 			this.#network,
