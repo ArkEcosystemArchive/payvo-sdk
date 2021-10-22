@@ -6,7 +6,7 @@ import { BipLevel } from "./contracts";
 
 export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && v.type === "Buffer") {
-		return Buffer.from(v.data).toString('hex');
+		return Buffer.from(v.data).toString("hex");
 	}
 	return v;
 };

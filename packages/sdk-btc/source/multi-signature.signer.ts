@@ -74,10 +74,10 @@ export class MultiSignatureSigner {
 					// Iterate the different transaction inputs
 					toBeSigned.signAllInputsHD(rootKey);
 					// for (let i = 0; i < toBeSigned.inputCount; i++) {
-						// For each one, figure out the address / path
-						// Derive musig private key and sign that input
-						// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
-						// toBeSigned.signAllInputsHD(rootKey);
+					// For each one, figure out the address / path
+					// Derive musig private key and sign that input
+					// toBeSigned.signInput(i, this.#figureOutSigner(toBeSigned, i));
+					// toBeSigned.signAllInputsHD(rootKey);
 					// }
 					console.log("toBeSigned", toBeSigned);
 					signed = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network }).combine(toBeSigned);
