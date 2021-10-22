@@ -80,6 +80,7 @@ export interface NetworkManifestImportMethods {
 	bip44?: ImportMethod;
 	bip49?: ImportMethod;
 	bip84?: ImportMethod;
+	discovery?: ImportMethod;
 	privateKey?: ImportMethod;
 	publicKey?: ImportMethod;
 	secret?: ImportMethod;

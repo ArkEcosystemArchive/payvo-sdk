@@ -19,19 +19,7 @@ export const importMethods: Networks.NetworkManifestImportMethods = {
 		default: false,
 		permissions: ["read", "write"],
 	},
-	bip39: {
-		default: false,
-		permissions: ["read", "write"],
-	},
-	bip44: {
-		default: false,
-		permissions: ["read", "write"],
-	},
-	bip49: {
-		default: false,
-		permissions: ["read", "write"],
-	},
-	bip84: {
+	discovery: {
 		default: true,
 		permissions: ["read", "write"],
 	},
