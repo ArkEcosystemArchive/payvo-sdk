@@ -1,5 +1,5 @@
 import { HttpClient } from "../http";
-import { CoinManifest } from "../networks/network.models";
+import { CoinManifest, NetworkManifest } from "../networks/network.models";
 import {
 	AddressService,
 	ClientService,
@@ -29,6 +29,7 @@ export interface CoinSpec {
 
 export interface CoinOptions {
 	network: string;
+	networks?: Record<string, NetworkManifest>;
 	httpClient: HttpClient;
 }
 

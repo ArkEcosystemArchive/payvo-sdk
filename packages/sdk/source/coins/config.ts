@@ -7,6 +7,7 @@ export class ConfigRepository {
 	public constructor(config: object) {
 		const { error, value } = ValidatorSchema.object({
 			network: ValidatorSchema.string(),
+			networks: ValidatorSchema.object().optional(),
 			httpClient: ValidatorSchema.object(),
 		}).validate(config);
 
