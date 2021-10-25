@@ -9,13 +9,26 @@ import { Manifest } from "./manifest";
 
 export class CoinFactory {
 	public static make(bundle: CoinBundle, options: CoinOptions): Coin {
-		// Arrange
-		const configRepository: ConfigRepository = new ConfigRepository(options);
-		const networkRepository: NetworkRepository = new NetworkRepository(bundle.manifest.networks);
+		// Combine default and extension networks
+		const networks: Record<string, NetworkManifest> = bundle.manifest.networks;
 
+		if (options.networks) {
+			for (const [key, value] of Object.entries(options.networks)) {
+				if (networks[key] !== undefined) {
+					continue;
+				}
+
+				networks[key] = value;
+			}
+		}
+
+		const networkRepository: NetworkRepository = new NetworkRepository(networks);
+
+		// Store configuration
+		const configRepository: ConfigRepository = new ConfigRepository(options);
 		configRepository.set(ConfigKey.Network, networkRepository.get(options.network));
 
-		// Act
+		// Prepare container and bindings
 		const container = new Container();
 		container.constant(BindingType.ConfigRepository, configRepository);
 		container.constant(BindingType.Services, bundle.services);

@@ -70,3 +70,21 @@ it("should create multiple instances with independent containers", async () => {
 	// B does not equal C
 	expect(second.address() === third.address()).toBeFalse();
 });
+
+it("should create an instance", async () => {
+	// @ts-ignore
+	const coin: Coin = CoinFactory.make(ARK, {
+		network: "coin.network",
+		httpClient: new Request(),
+		// @ts-ignore
+		networks: {
+			"coin.network": {
+				id: "coin.network",
+				name: "Mainnet",
+			},
+		}
+	});
+
+	expect(coin.network().id()).toBe("coin.network");
+	expect(coin.network().name()).toBe("Mainnet");
+});
