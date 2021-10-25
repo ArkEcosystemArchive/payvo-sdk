@@ -14,11 +14,11 @@ export class CoinFactory {
 
 		if (options.networks) {
 			for (const [key, value] of Object.entries(options.networks)) {
-				if (networks[key] !== undefined) {
-					continue;
+				if (networks[key] === undefined) {
+					networks[key] = value;
+				} else {
+					networks[key] = { ...networks[key], ...value };
 				}
-
-				networks[key] = value;
 			}
 		}
 
