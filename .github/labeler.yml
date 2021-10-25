@@ -1,76 +1,23 @@
-repo:
-    - ./*
+version: 1
 
-ci:
-    - any: [".github/**/*"]
-
-test:
-    - source/**/*.test.ts
-
-"SDK":
-    - packages/sdk/*
-    - packages/sdk/**/*
-
-"ADA":
-    - packages/sdk-ada/*
-    - packages/sdk-ada/**/*
-
-"ARK":
-    - packages/sdk-ark/*
-    - packages/sdk-ark/**/*
-
-"ATOM":
-    - packages/sdk-atom/*
-    - packages/sdk-atom/**/*
-
-"AVAX":
-    - packages/sdk-avax/*
-    - packages/sdk-avax/**/*
-
-"BTC":
-    - packages/sdk-btc/*
-    - packages/sdk-btc/**/*
-
-"DOT":
-    - packages/sdk-dot/*
-    - packages/sdk-dot/**/*
-
-"EGLD":
-    - packages/sdk-egld/*
-    - packages/sdk-egld/**/*
-
-"EOS":
-    - packages/sdk-eos/*
-    - packages/sdk-eos/**/*
-
-"ETH":
-    - packages/sdk-eth/*
-    - packages/sdk-eth/**/*
-
-"LSK":
-    - packages/sdk-lsk/*
-    - packages/sdk-lsk/**/*
-
-"NEO":
-    - packages/sdk-neo/*
-    - packages/sdk-neo/**/*
-
-"SOL":
-    - packages/sdk-sol/*
-    - packages/sdk-sol/**/*
-
-"TRX":
-    - packages/sdk-trx/*
-    - packages/sdk-trx/**/*
-
-"XLM":
-    - packages/sdk-xlm/*
-    - packages/sdk-xlm/**/*
-
-"XRP":
-    - packages/sdk-xrp/*
-    - packages/sdk-xrp/**/*
-
-"ZIL":
-    - packages/sdk-zil/*
-    - packages/sdk-zil/**/*
+labels:
+  - label: "bugfix"
+    title: "^fix.*"
+  - label: "feature"
+    title: "^feat.*"
+  - label: "build"
+    title: "^build.*"
+  - label: "chore"
+    title: "^chore.*"
+  - label: "ci"
+    title: "^ci.*"
+  - label: "docs"
+    title: "^docs.*"
+  - label: "style"
+    title: "^style.*"
+  - label: "refactor"
+    title: "^refactor.*"
+  - label: "performance"
+    title: "^perf.*"
+  - label: "test"
+    title: "^test.*"
