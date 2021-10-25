@@ -71,7 +71,7 @@ it("should create multiple instances with independent containers", async () => {
 	expect(second.address() === third.address()).toBeFalse();
 });
 
-it("should create an instance", async () => {
+it("should create an instance with a custom network", async () => {
 	// @ts-ignore
 	const coin: Coin = CoinFactory.make(ARK, {
 		network: "coin.network",
