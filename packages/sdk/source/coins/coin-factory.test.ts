@@ -82,7 +82,7 @@ it("should create an instance with a custom network", async () => {
 				id: "coin.network",
 				name: "Mainnet",
 			},
-		}
+		},
 	});
 
 	expect(coin.network().id()).toBe("coin.network");
