@@ -63,7 +63,20 @@ export interface ClientTransactionsInput extends ClientPagination {
 	asset?: Record<string, any>;
 	memo?: string;
 	// Transaction Types
-	type?: string;
+	type?:
+	"delegate-registration" |
+	"delegate-resignation" |
+	"htlc-claim" |
+	"htlc-lock" |
+	"htlc-refund" |
+	"ipfs" |
+	"magistrate" |
+	"multi-payment" |
+	"multi-signature" |
+	"second-signature" |
+	"transfer" |
+	"vote"
+	;
 }
 
 export interface ClientWalletsInput extends ClientPagination {
