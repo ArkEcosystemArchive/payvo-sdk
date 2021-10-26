@@ -169,6 +169,7 @@ export class ClientService extends Services.AbstractClientService {
 		if (searchParams.cursor) {
 			// @ts-ignore
 			searchParams.offset = searchParams.cursor - 1;
+
 			delete searchParams.cursor;
 		}
 
@@ -176,7 +177,38 @@ export class ClientService extends Services.AbstractClientService {
 		if (searchParams.identifiers) {
 			// @ts-ignore - This field doesn't exist on the interface but are needed.
 			searchParams.address = searchParams.identifiers[0].value;
+
 			delete searchParams.identifiers;
+		}
+
+		if (searchParams.senderId) {
+			// @ts-ignore - This field doesn't exist on the interface but are needed.
+			searchParams.senderAddress = searchParams.senderId;
+
+			delete searchParams.senderId;
+		}
+
+		if (searchParams.recipientId) {
+			// @ts-ignore - This field doesn't exist on the interface but are needed.
+			searchParams.recipientAddress = searchParams.recipientId;
+
+			delete searchParams.recipientId;
+		}
+
+		if (searchParams.type) {
+			const moduleAssetId: string | undefined = {
+				delegateRegistration: "5:0",
+				multiSignature: "4:0",
+				transfer: "2:0",
+				vote: "5:1",
+			}[searchParams.type];
+
+			if (moduleAssetId) {
+				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				searchParams.moduleAssetId = searchParams.type;
+			}
+
+			delete searchParams.type;
 		}
 
 		return searchParams;
