@@ -196,10 +196,28 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		if (searchParams.type) {
-			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.moduleAssetId = searchParams.type;
+			const moduleAssetId: string | undefined = {
+				delegateRegistration: "5:0",
+				delegateResignation: undefined,
+				htlcClaim: undefined,
+				htlcLock: undefined,
+				htlcRefund: undefined,
+				ipfs: undefined,
+				magistrate: undefined,
+				multiPayment: undefined,
+				multiSignature: "4:0",
+				secondSignature: undefined,
+				transfer: "2:0",
+				vote: "5:1",
+				// @ts-ignore
+			}[body.type];
 
-			delete searchParams.typeGroup;
+			if (moduleAssetId) {
+				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				searchParams.moduleAssetId = searchParams.type;
+			}
+
+			delete searchParams.type;
 		}
 
 		return searchParams;
