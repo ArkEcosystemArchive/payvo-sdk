@@ -100,6 +100,22 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return true;
 	}
 
+	public override isReturn(): boolean {
+		if (this.isTransfer()) {
+			return this.isSent() && this.isReceived();
+		}
+
+		return false;
+	}
+
+	public override isSent(): boolean {
+		return [this.getMeta("address"), this.getMeta("publicKey")].includes(this.sender());
+	}
+
+	public override isReceived(): boolean {
+		return [this.getMeta("address"), this.getMeta("publicKey")].includes(this.recipient());
+	}
+
 	public override isTransfer(): boolean {
 		return TransactionTypeService.isTransfer(this.data);
 	}
