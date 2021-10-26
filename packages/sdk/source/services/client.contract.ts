@@ -64,19 +64,18 @@ export interface ClientTransactionsInput extends ClientPagination {
 	memo?: string;
 	// Transaction Types
 	type?:
-	"delegate-registration" |
-	"delegate-resignation" |
-	"htlc-claim" |
-	"htlc-lock" |
-	"htlc-refund" |
-	"ipfs" |
-	"magistrate" |
-	"multi-payment" |
-	"multi-signature" |
-	"second-signature" |
-	"transfer" |
-	"vote"
-	;
+		| "delegate-registration"
+		| "delegate-resignation"
+		| "htlc-claim"
+		| "htlc-lock"
+		| "htlc-refund"
+		| "ipfs"
+		| "magistrate"
+		| "multi-payment"
+		| "multi-signature"
+		| "second-signature"
+		| "transfer"
+		| "vote";
 }
 
 export interface ClientWalletsInput extends ClientPagination {
