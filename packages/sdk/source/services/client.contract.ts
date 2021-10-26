@@ -63,8 +63,7 @@ export interface ClientTransactionsInput extends ClientPagination {
 	asset?: Record<string, any>;
 	memo?: string;
 	// Transaction Types
-	type?: number;
-	typeGroup?: number;
+	type?: string;
 }
 
 export interface ClientWalletsInput extends ClientPagination {

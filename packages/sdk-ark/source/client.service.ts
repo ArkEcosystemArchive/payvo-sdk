@@ -1,3 +1,4 @@
+import { Enums } from "@arkecosystem/crypto";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 
@@ -65,11 +66,11 @@ export class ClientService extends Services.AbstractClientService {
 			available: hasVoted ? 0 : 1,
 			votes: hasVoted
 				? [
-						{
-							id: vote,
-							amount: 0,
-						},
-				  ]
+					{
+						id: vote,
+						amount: 0,
+					},
+				]
 				: [],
 		};
 	}
@@ -143,7 +144,7 @@ export class ClientService extends Services.AbstractClientService {
 		).json();
 	}
 
-	async #post(path: string, { body, searchParams }: { body; searchParams? }): Promise<Contracts.KeyValuePair> {
+	async #post(path: string, { body, searchParams }: { body; searchParams?}): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.httpClient.post(
 				`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
@@ -225,6 +226,68 @@ export class ClientService extends Services.AbstractClientService {
 
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
+		}
+
+		// @ts-ignore
+		if (body.type) {
+			const { type, typeGroup } = {
+				"delegate-registration": {
+					type: Enums.TransactionType.DelegateRegistration,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"delegate-resignation": {
+					type: Enums.TransactionType.DelegateResignation,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"htlc-claim": {
+					type: Enums.TransactionType.HtlcClaim,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"htlc-lock": {
+					type: Enums.TransactionType.HtlcLock,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"htlc-refund": {
+					type: Enums.TransactionType.HtlcRefund,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				ipfs: {
+					type: Enums.TransactionType.Ipfs,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"multi-payment": {
+					type: Enums.TransactionType.MultiPayment,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"multi-signature": {
+					type: Enums.TransactionType.MultiSignature,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				"second-signature": {
+					type: Enums.TransactionType.SecondSignature,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				transfer: {
+					type: Enums.TransactionType.Transfer,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				vote: {
+					type: Enums.TransactionType.Vote,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				magistrate: {
+					typeGroup: 2,
+				},
+				// @ts-ignore
+			}[body.type];
+
+			if (type) {
+				result.searchParams.type = type;
+			}
+
+			if (typeGroup) {
+				result.searchParams.typeGroup = typeGroup;
+			}
 		}
 
 		return result;

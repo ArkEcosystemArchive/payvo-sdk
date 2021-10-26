@@ -149,16 +149,14 @@ describe("ClientService", () => {
 						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
 						"asset.type": "4",
 						"asset.action": "0",
-						type: "6",
-						typeGroup: 2,
+						type: "transfer",
 					})
 					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 					asset: { type: 4, action: 0 },
-					type: 6,
-					typeGroup: 2,
+					type: "transfer",
 				});
 
 				expect(result).toBeObject();
