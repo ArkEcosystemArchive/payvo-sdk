@@ -198,15 +198,7 @@ export class ClientService extends Services.AbstractClientService {
 		if (searchParams.type) {
 			const moduleAssetId: string | undefined = {
 				delegateRegistration: "5:0",
-				delegateResignation: undefined,
-				htlcClaim: undefined,
-				htlcLock: undefined,
-				htlcRefund: undefined,
-				ipfs: undefined,
-				magistrate: undefined,
-				multiPayment: undefined,
 				multiSignature: "4:0",
-				secondSignature: undefined,
 				transfer: "2:0",
 				vote: "5:1",
 			}[searchParams.type];
