@@ -209,8 +209,7 @@ export class ClientService extends Services.AbstractClientService {
 				secondSignature: undefined,
 				transfer: "2:0",
 				vote: "5:1",
-				// @ts-ignore
-			}[body.type];
+			}[searchParams.type];
 
 			if (moduleAssetId) {
 				// @ts-ignore - This field doesn't exist on the interface but are needed.
