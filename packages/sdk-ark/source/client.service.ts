@@ -66,11 +66,11 @@ export class ClientService extends Services.AbstractClientService {
 			available: hasVoted ? 0 : 1,
 			votes: hasVoted
 				? [
-						{
-							id: vote,
-							amount: 0,
-						},
-				  ]
+					{
+						id: vote,
+						amount: 0,
+					},
+				]
 				: [],
 		};
 	}
@@ -144,7 +144,7 @@ export class ClientService extends Services.AbstractClientService {
 		).json();
 	}
 
-	async #post(path: string, { body, searchParams }: { body; searchParams? }): Promise<Contracts.KeyValuePair> {
+	async #post(path: string, { body, searchParams }: { body; searchParams?}): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.httpClient.post(
 				`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
@@ -231,23 +231,23 @@ export class ClientService extends Services.AbstractClientService {
 		// @ts-ignore
 		if (body.type) {
 			const { type, typeGroup } = {
-				"delegate-registration": {
+				delegateRegistration: {
 					type: Enums.TransactionType.DelegateRegistration,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"delegate-resignation": {
+				delegateResignation: {
 					type: Enums.TransactionType.DelegateResignation,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"htlc-claim": {
+				htlcClaim: {
 					type: Enums.TransactionType.HtlcClaim,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"htlc-lock": {
+				htlcLock: {
 					type: Enums.TransactionType.HtlcLock,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"htlc-refund": {
+				htlcRefund: {
 					type: Enums.TransactionType.HtlcRefund,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
@@ -255,15 +255,15 @@ export class ClientService extends Services.AbstractClientService {
 					type: Enums.TransactionType.Ipfs,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"multi-payment": {
+				multiPayment: {
 					type: Enums.TransactionType.MultiPayment,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"multi-signature": {
+				multiSignature: {
 					type: Enums.TransactionType.MultiSignature,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
-				"second-signature": {
+				secondSignature: {
 					type: Enums.TransactionType.SecondSignature,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
@@ -281,13 +281,16 @@ export class ClientService extends Services.AbstractClientService {
 				// @ts-ignore
 			}[body.type];
 
-			if (type) {
+			if (type !== undefined) {
 				result.searchParams.type = type;
 			}
 
-			if (typeGroup) {
+			if (typeGroup !== undefined) {
 				result.searchParams.typeGroup = typeGroup;
 			}
+
+			// @ts-ignore
+			delete body.type;
 		}
 
 		return result;

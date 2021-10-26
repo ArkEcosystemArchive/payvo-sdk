@@ -149,7 +149,8 @@ describe("ClientService", () => {
 						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
 						"asset.type": "4",
 						"asset.action": "0",
-						type: "transfer",
+						type: 0,
+						typeGroup: 1,
 					})
 					.reply(200, await require(`../test/fixtures/client/transactions.json`));
 
