@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-sol",
-	"version": "1.9.1",
+	"version": "2.0.0",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
