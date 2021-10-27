@@ -13,7 +13,7 @@ const network: Networks.NetworkManifest = {
 		decimals: 8,
 	},
 	constants: {
-		slip44: 111,
+		slip44: 1,
 	},
 	hosts: [
 		{
