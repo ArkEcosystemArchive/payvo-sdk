@@ -43,10 +43,6 @@ const network: Networks.NetworkManifest = {
 		...featureFlags,
 		Transaction: [
 			"delegateRegistration",
-			"delegateResignation",
-			"estimateExpiration",
-			"multiPayment",
-			"multiSignature",
 			"secondSignature",
 			"transfer",
 			"vote",
