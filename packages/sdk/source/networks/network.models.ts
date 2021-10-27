@@ -8,7 +8,7 @@ export type NetworkHostType = "full" | "musig" | "archival" | "explorer";
 
 export type WalletPermission = "read" | "write";
 
-export type CoinTransactionTypes =
+export type CoinTransactionType =
 	| "delegateRegistration"
 	| "delegateResignation"
 	| "htlcClaim"
@@ -35,7 +35,7 @@ export interface ImportMethod {
 
 export interface NetworkManifestTransactions {
 	expirationType: ExpirationType;
-	types: CoinTransactionTypes[];
+	types: CoinTransactionType[];
 	fees: {
 		type: FeeType;
 		ticker: string;
