@@ -4,7 +4,7 @@ import { DateTime } from "@payvo/intl";
 import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
 import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";
 import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
-import { CoinTransactionType } from "../networks";
+import { TransactionType } from "../networks";
 
 export type ClientPaginatorCursor = string | number | undefined;
 
@@ -64,7 +64,7 @@ export interface ClientTransactionsInput extends ClientPagination {
 	asset?: Record<string, any>;
 	memo?: string;
 	// Transaction Types
-	type?: CoinTransactionType;
+	type?: TransactionType;
 }
 
 export interface ClientWalletsInput extends ClientPagination {
