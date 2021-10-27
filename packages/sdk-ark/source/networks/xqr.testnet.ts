@@ -8,8 +8,8 @@ const network: Networks.NetworkManifest = {
 	name: "Testnet",
 	coin: "Qredit",
 	currency: {
-		ticker: "DXQR",
-		symbol: "DQ",
+		ticker: "dXQR",
+		symbol: "dQ",
 		decimals: 8,
 	},
 	constants: {
