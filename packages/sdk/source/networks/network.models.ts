@@ -15,7 +15,6 @@ export type TransactionType =
 	| "htlcLock"
 	| "htlcRefund"
 	| "ipfs"
-	| "magistrate"
 	| "multiPayment"
 	| "multiSignature"
 	| "secondSignature"
