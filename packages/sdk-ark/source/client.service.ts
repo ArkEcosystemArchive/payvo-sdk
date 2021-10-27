@@ -297,6 +297,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#isLegacy(): boolean {
-		return this.configRepository.get<string>("network.id").startsWith("bind");
+		return ["bind", "xqr"].some((coin: string) => this.configRepository.get<string>("network.id").startsWith(coin));
 	}
 }
