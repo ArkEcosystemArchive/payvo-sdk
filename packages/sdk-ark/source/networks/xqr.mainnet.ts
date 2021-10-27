@@ -3,7 +3,7 @@ import { Networks } from "@payvo/sdk";
 import { explorer, featureFlags, importMethods, transactions } from "./shared";
 
 const network: Networks.NetworkManifest = {
-	id: "qredit.mainnet",
+	id: "xqr.mainnet",
 	type: "live",
 	name: "Mainnet",
 	coin: "Qredit",
