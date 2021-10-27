@@ -18,7 +18,7 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://testnet.qredit.cloud/api",
+			host: "https://qredit.dev/api",
 		},
 		{
 			type: "explorer",
