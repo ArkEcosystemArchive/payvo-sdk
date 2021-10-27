@@ -4,7 +4,7 @@ import { explorer, featureFlags, importMethods, transactions } from "./shared";
 
 const network: Networks.NetworkManifest = {
 	id: "xqr.testnet",
-	type: "live",
+	type: "test",
 	name: "Testnet",
 	coin: "Qredit",
 	currency: {
