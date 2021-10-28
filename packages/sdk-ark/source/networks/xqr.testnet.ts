@@ -22,7 +22,7 @@ const network: Networks.NetworkManifest = {
 		},
 		{
 			type: "explorer",
-			host: "https://explorer.sh/qredit-testnet",
+			host: "https://explorer.sh/",
 		},
 	],
 	governance: {
@@ -51,7 +51,11 @@ const network: Networks.NetworkManifest = {
 			"vote",
 		],
 	},
-	explorer,
+	explorer: {
+		block: "qredit-testnet/block/{0}",
+		transaction: "qredit-testnet/transaction/{0}",
+		wallet: "qredit-testnet/wallets/{0}",
+	},
 	meta: {
 		fastDelegateSync: true,
 	},
