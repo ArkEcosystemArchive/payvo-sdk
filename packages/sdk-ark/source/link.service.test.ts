@@ -92,7 +92,7 @@ describe("xqr.mainnet", () => {
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/wallets/id"`);
+		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/wallet/id"`);
 	});
 });
 
@@ -110,6 +110,6 @@ describe("xqr.testnet", () => {
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/wallets/id"`);
+		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/wallet/id"`);
 	});
 });

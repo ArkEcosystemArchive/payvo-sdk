@@ -54,7 +54,7 @@ const network: Networks.NetworkManifest = {
 	explorer: {
 		block: "qredit/block/{0}",
 		transaction: "qredit/transaction/{0}",
-		wallet: "qredit/wallets/{0}",
+		wallet: "qredit/wallet/{0}",
 	},
 	knownWallets: "https://raw.githubusercontent.com/qredit/common/master/mainnet/known-wallets-extended.json",
 	meta: {

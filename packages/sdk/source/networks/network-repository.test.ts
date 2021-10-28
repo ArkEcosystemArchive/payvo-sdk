@@ -685,7 +685,7 @@ Object {
     "explorer": Object {
       "block": "qredit/block/{0}",
       "transaction": "qredit/transaction/{0}",
-      "wallet": "qredit/wallets/{0}",
+      "wallet": "qredit/wallet/{0}",
     },
     "featureFlags": Object {
       "Address": Array [
@@ -836,7 +836,7 @@ Object {
     "explorer": Object {
       "block": "qredit-testnet/block/{0}",
       "transaction": "qredit-testnet/transaction/{0}",
-      "wallet": "qredit-testnet/wallets/{0}",
+      "wallet": "qredit-testnet/wallet/{0}",
     },
     "featureFlags": Object {
       "Address": Array [

@@ -54,7 +54,7 @@ const network: Networks.NetworkManifest = {
 	explorer: {
 		block: "qredit-testnet/block/{0}",
 		transaction: "qredit-testnet/transaction/{0}",
-		wallet: "qredit-testnet/wallets/{0}",
+		wallet: "qredit-testnet/wallet/{0}",
 	},
 	meta: {
 		fastDelegateSync: true,
