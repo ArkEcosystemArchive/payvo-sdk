@@ -672,6 +672,307 @@ Object {
     },
     "type": "test",
   },
+  "xqr.mainnet": Object {
+    "coin": "Qredit",
+    "constants": Object {
+      "slip44": 111,
+    },
+    "currency": Object {
+      "decimals": 8,
+      "symbol": "Q",
+      "ticker": "XQR",
+    },
+    "explorer": Object {
+      "block": "qredit/block/{0}",
+      "transaction": "qredit/transaction/{0}",
+      "wallet": "qredit/wallets/{0}",
+    },
+    "featureFlags": Object {
+      "Address": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "privateKey",
+        "publicKey",
+        "validate",
+        "wif",
+      ],
+      "Client": Array [
+        "transaction",
+        "transactions",
+        "wallet",
+        "wallets",
+        "delegate",
+        "delegates",
+        "votes",
+        "voters",
+        "broadcast",
+      ],
+      "Fee": Array [
+        "all",
+        "calculate",
+      ],
+      "KeyPair": Array [
+        "mnemonic.bip39",
+        "privateKey",
+        "wif",
+      ],
+      "Ledger": Array [
+        "getVersion",
+        "getPublicKey",
+        "signTransaction",
+        "signMessage",
+      ],
+      "Message": Array [
+        "sign",
+        "verify",
+      ],
+      "PrivateKey": Array [
+        "mnemonic.bip39",
+        "wif",
+      ],
+      "PublicKey": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "wif",
+      ],
+      "Transaction": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "estimateExpiration",
+        "multiPayment",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+      "WIF": Array [
+        "mnemonic.bip39",
+      ],
+    },
+    "governance": Object {
+      "delegateCount": 51,
+      "votesPerTransaction": 1,
+      "votesPerWallet": 1,
+    },
+    "hosts": Array [
+      Object {
+        "host": "https://qredit.cloud/api",
+        "type": "full",
+      },
+      Object {
+        "host": "https://explorer.sh/",
+        "type": "explorer",
+      },
+    ],
+    "id": "xqr.mainnet",
+    "importMethods": Object {
+      "address": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "bip39": Object {
+        "canBeEncrypted": true,
+        "default": true,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+      "publicKey": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "secret": Object {
+        "canBeEncrypted": true,
+        "default": false,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+    },
+    "knownWallets": "https://raw.githubusercontent.com/qredit/common/master/mainnet/known-wallets-extended.json",
+    "meta": Object {
+      "fastDelegateSync": true,
+    },
+    "name": "Mainnet",
+    "transactions": Object {
+      "expirationType": "height",
+      "fees": Object {
+        "ticker": "XQR",
+        "type": "dynamic",
+      },
+      "memo": true,
+      "multiPaymentRecipients": 128,
+      "types": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "htlcClaim",
+        "htlcLock",
+        "htlcRefund",
+        "ipfs",
+        "multiPayment",
+        "multiSignature",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+    },
+    "type": "live",
+  },
+  "xqr.testnet": Object {
+    "coin": "Qredit",
+    "constants": Object {
+      "slip44": 1,
+    },
+    "currency": Object {
+      "decimals": 8,
+      "symbol": "dQ",
+      "ticker": "dXQR",
+    },
+    "explorer": Object {
+      "block": "qredit-testnet/block/{0}",
+      "transaction": "qredit-testnet/transaction/{0}",
+      "wallet": "qredit-testnet/wallets/{0}",
+    },
+    "featureFlags": Object {
+      "Address": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "privateKey",
+        "publicKey",
+        "validate",
+        "wif",
+      ],
+      "Client": Array [
+        "transaction",
+        "transactions",
+        "wallet",
+        "wallets",
+        "delegate",
+        "delegates",
+        "votes",
+        "voters",
+        "broadcast",
+      ],
+      "Fee": Array [
+        "all",
+        "calculate",
+      ],
+      "KeyPair": Array [
+        "mnemonic.bip39",
+        "privateKey",
+        "wif",
+      ],
+      "Ledger": Array [
+        "getVersion",
+        "getPublicKey",
+        "signTransaction",
+        "signMessage",
+      ],
+      "Message": Array [
+        "sign",
+        "verify",
+      ],
+      "PrivateKey": Array [
+        "mnemonic.bip39",
+        "wif",
+      ],
+      "PublicKey": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "wif",
+      ],
+      "Transaction": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "estimateExpiration",
+        "multiPayment",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+      "WIF": Array [
+        "mnemonic.bip39",
+      ],
+    },
+    "governance": Object {
+      "delegateCount": 51,
+      "votesPerTransaction": 1,
+      "votesPerWallet": 1,
+    },
+    "hosts": Array [
+      Object {
+        "host": "https://qredit.dev/api",
+        "type": "full",
+      },
+      Object {
+        "host": "https://explorer.sh/",
+        "type": "explorer",
+      },
+    ],
+    "id": "xqr.testnet",
+    "importMethods": Object {
+      "address": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "bip39": Object {
+        "canBeEncrypted": true,
+        "default": true,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+      "publicKey": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "secret": Object {
+        "canBeEncrypted": true,
+        "default": false,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+    },
+    "meta": Object {
+      "fastDelegateSync": true,
+    },
+    "name": "Testnet",
+    "transactions": Object {
+      "expirationType": "height",
+      "fees": Object {
+        "ticker": "dXQR",
+        "type": "dynamic",
+      },
+      "memo": true,
+      "multiPaymentRecipients": 128,
+      "types": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "htlcClaim",
+        "htlcLock",
+        "htlcRefund",
+        "ipfs",
+        "multiPayment",
+        "multiSignature",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+    },
+    "type": "test",
+  },
 }
 `);
 });
