@@ -10,6 +10,7 @@ const network: Networks.NetworkManifest = {
 	currency: {
 		ticker: "BPL",
 		symbol: "β",
+		decimals: 8,
 	},
 	constants: {
 		slip44: 111,
@@ -25,7 +26,7 @@ const network: Networks.NetworkManifest = {
 		},
 	],
 	governance: {
-		delegateCount: 51,
+		delegateCount: 201,
 		votesPerWallet: 1,
 		votesPerTransaction: 1,
 	},
