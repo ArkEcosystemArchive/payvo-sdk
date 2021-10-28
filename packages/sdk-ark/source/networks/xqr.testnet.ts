@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared";
+import { featureFlags, importMethods, transactions } from "./shared";
 
 const network: Networks.NetworkManifest = {
 	id: "xqr.testnet",
