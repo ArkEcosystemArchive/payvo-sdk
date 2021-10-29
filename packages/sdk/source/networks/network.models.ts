@@ -101,6 +101,8 @@ export interface NetworkManifestConstants {
 	wif?: number;
 }
 
+export type VotingMethod = "simple" | "split" | "transfer";
+
 export interface NetworkManifest {
 	id: string;
 	type: string;
@@ -114,6 +116,17 @@ export interface NetworkManifest {
 	hosts: NetworkHost[];
 	constants: NetworkManifestConstants;
 	governance?: {
+		/**
+		 * If the type is "simple" then the transaction can be send as is.
+		 * ARK for example can do everything in a single vote transaction.
+		 *
+		 * If the type is "split" then a vote and unvote have to be performed separately.
+		 * BIND for exampel can't vote and unvote in a single vote transaction.
+		 *
+		 * If the type is "transfer" then funds have to be transfered before voting.
+		 * AVAX for example operates on multiple blockchains and requires fund transfers.
+		 */
+		method?: VotingMethod;
 		delegateIdentifier?: "address" | "publicKey";
 		delegateCount: number;
 		votesPerWallet: number;
