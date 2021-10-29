@@ -4,7 +4,7 @@ import { explorer, featureFlags, importMethods, transactions } from "./shared";
 
 const network: Networks.NetworkManifest = {
 	id: "avax.testnet",
-	type: "live",
+	type: "test",
 	name: "Testnet",
 	coin: "Avalanche",
 	currency: {
