@@ -208,12 +208,11 @@ export class ClientService extends Services.AbstractClientService {
 				multiSignature: "4:0",
 				transfer: "2:0",
 				vote: "5:1",
+				unlockToken: "5:2",
 			}[searchParams.type];
 
-			if (moduleAssetId) {
-				// @ts-ignore - This field doesn't exist on the interface but is needed.
-				searchParams.moduleAssetId = moduleAssetId;
-			}
+			// @ts-ignore - This field doesn't exist on the interface but is needed.
+			searchParams.moduleAssetId = moduleAssetId || "0:0";
 
 			delete searchParams.type;
 		}
