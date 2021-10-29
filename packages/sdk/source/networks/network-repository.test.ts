@@ -437,6 +437,7 @@ Object {
     },
     "governance": Object {
       "delegateCount": 47,
+      "method": "split",
       "votesPerTransaction": 1,
       "votesPerWallet": 1,
     },
@@ -596,6 +597,7 @@ Object {
     },
     "governance": Object {
       "delegateCount": 47,
+      "method": "split",
       "votesPerTransaction": 1,
       "votesPerWallet": 1,
     },
@@ -678,6 +680,7 @@ Object {
       "slip44": 111,
     },
     "currency": Object {
+      "decimals": 8,
       "symbol": "β",
       "ticker": "BPL",
     },
@@ -748,7 +751,8 @@ Object {
       ],
     },
     "governance": Object {
-      "delegateCount": 51,
+      "delegateCount": 201,
+      "method": "split",
       "votesPerTransaction": 1,
       "votesPerWallet": 1,
     },
@@ -899,6 +903,7 @@ Object {
     },
     "governance": Object {
       "delegateCount": 51,
+      "method": "split",
       "votesPerTransaction": 1,
       "votesPerWallet": 1,
     },
@@ -1050,6 +1055,7 @@ Object {
     },
     "governance": Object {
       "delegateCount": 51,
+      "method": "split",
       "votesPerTransaction": 1,
       "votesPerWallet": 1,
     },

@@ -126,6 +126,13 @@ export class Network {
 	}
 
 	/**
+	 * Get the method of voting.
+	 */
+	public votingMethod(): string {
+		return get(this.#network, "governance.method", "simple");
+	}
+
+	/**
 	 * Get the number of delegates that forge blocks.
 	 */
 	public delegateCount(): number {

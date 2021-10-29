@@ -26,6 +26,7 @@ const network: Networks.NetworkManifest = {
 		},
 	],
 	governance: {
+		method: "split",
 		delegateCount: 51,
 		votesPerWallet: 1,
 		votesPerTransaction: 1,

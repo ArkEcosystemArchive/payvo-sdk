@@ -15,6 +15,12 @@ const network: Networks.NetworkManifest = {
 	constants: {
 		slip44: 9000,
 	},
+	governance: {
+		method: "transfer",
+		delegateCount: 0, // @TODO
+		votesPerWallet: 1,
+		votesPerTransaction: 1,
+	},
 	hosts: [
 		{
 			type: "full",
