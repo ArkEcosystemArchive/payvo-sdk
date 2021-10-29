@@ -672,6 +672,155 @@ Object {
     },
     "type": "test",
   },
+  "bpl.mainnet": Object {
+    "coin": "Blockpool",
+    "constants": Object {
+      "slip44": 111,
+    },
+    "currency": Object {
+      "symbol": "β",
+      "ticker": "BPL",
+    },
+    "explorer": Object {
+      "block": "#/block/{0}",
+      "transaction": "#/transaction/{0}",
+      "wallet": "#/wallets/{0}",
+    },
+    "featureFlags": Object {
+      "Address": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "privateKey",
+        "publicKey",
+        "validate",
+        "wif",
+      ],
+      "Client": Array [
+        "transaction",
+        "transactions",
+        "wallet",
+        "wallets",
+        "delegate",
+        "delegates",
+        "votes",
+        "voters",
+        "broadcast",
+      ],
+      "Fee": Array [
+        "all",
+        "calculate",
+      ],
+      "KeyPair": Array [
+        "mnemonic.bip39",
+        "privateKey",
+        "wif",
+      ],
+      "Ledger": Array [
+        "getVersion",
+        "getPublicKey",
+        "signTransaction",
+        "signMessage",
+      ],
+      "Message": Array [
+        "sign",
+        "verify",
+      ],
+      "PrivateKey": Array [
+        "mnemonic.bip39",
+        "wif",
+      ],
+      "PublicKey": Array [
+        "mnemonic.bip39",
+        "multiSignature",
+        "wif",
+      ],
+      "Transaction": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "estimateExpiration",
+        "multiPayment",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+      "WIF": Array [
+        "mnemonic.bip39",
+      ],
+    },
+    "governance": Object {
+      "delegateCount": 51,
+      "votesPerTransaction": 1,
+      "votesPerWallet": 1,
+    },
+    "hosts": Array [
+      Object {
+        "host": "http://explorer.blockpool.io:9031/api",
+        "type": "full",
+      },
+      Object {
+        "host": "https://explorer.blockpool.io/",
+        "type": "explorer",
+      },
+    ],
+    "id": "bpl.mainnet",
+    "importMethods": Object {
+      "address": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "bip39": Object {
+        "canBeEncrypted": true,
+        "default": true,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+      "publicKey": Object {
+        "default": false,
+        "permissions": Array [
+          "read",
+        ],
+      },
+      "secret": Object {
+        "canBeEncrypted": true,
+        "default": false,
+        "permissions": Array [
+          "read",
+          "write",
+        ],
+      },
+    },
+    "meta": Object {
+      "fastDelegateSync": true,
+    },
+    "name": "Mainnet",
+    "transactions": Object {
+      "expirationType": "height",
+      "fees": Object {
+        "ticker": "BPL",
+        "type": "dynamic",
+      },
+      "memo": true,
+      "multiPaymentRecipients": 128,
+      "types": Array [
+        "delegateRegistration",
+        "delegateResignation",
+        "htlcClaim",
+        "htlcLock",
+        "htlcRefund",
+        "ipfs",
+        "multiPayment",
+        "multiSignature",
+        "secondSignature",
+        "transfer",
+        "vote",
+      ],
+    },
+    "type": "live",
+  },
   "xqr.mainnet": Object {
     "coin": "Qredit",
     "constants": Object {

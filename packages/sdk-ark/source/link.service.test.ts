@@ -113,3 +113,21 @@ describe("xqr.testnet", () => {
 		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/wallet/id"`);
 	});
 });
+
+describe("bpl.mainnet", () => {
+	beforeAll(async () => {
+		subject = await createService(Services.AbstractLinkService, "bpl.mainnet");
+	});
+
+	it("should generate a link for a block", async () => {
+		expect(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/block/id"`);
+	});
+
+	it("should generate a link for a transaction", async () => {
+		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/transaction/id"`);
+	});
+
+	it("should generate a link for a wallet", async () => {
+		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/wallets/id"`);
+	});
+});
