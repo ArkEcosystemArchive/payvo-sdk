@@ -26,7 +26,7 @@
 	},
 	"dependencies": {
 		"@arkecosystem/utils": "^1.3.0",
-		"@payvo/cryptography": "^1.1.5",
+		"@payvo/cryptography": "^2.0.0",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.2",
 		"@payvo/sdk": "workspace:*",
