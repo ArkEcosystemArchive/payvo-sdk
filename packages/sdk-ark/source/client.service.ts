@@ -169,7 +169,7 @@ export class ClientService extends Services.AbstractClientService {
 		};
 	}
 
-	#createSearchParams(body: Services.ClientPagination): { body: object | null; searchParams: object | null } {
+	#createSearchParams(body: Services.ClientTransactionsInput): { body: object | null; searchParams: object | null } {
 		if (Object.keys(body).length <= 0) {
 			return { body: null, searchParams: null };
 		}
@@ -208,7 +208,9 @@ export class ClientService extends Services.AbstractClientService {
 				// @ts-ignore
 				body.identifiers as Services.WalletIdentifier[];
 			if (identifiers) {
-				result.body.addresses = identifiers.map(({ value }) => value);
+				if (!body.recipientId && !body.senderId) {
+					result.body.addresses = identifiers.map(({ value }) => value);
+				}
 
 				// @ts-ignore
 				delete body.identifiers;
@@ -282,15 +284,25 @@ export class ClientService extends Services.AbstractClientService {
 			}[body.type];
 
 			if (type !== undefined) {
-				result.searchParams.type = type;
+				if (this.#isLegacy()) {
+					result.body!.type = type;
+				} else {
+					result.searchParams.type = type;
+				}
 			}
 
 			if (typeGroup !== undefined) {
-				result.searchParams.typeGroup = typeGroup;
+				if (this.#isLegacy()) {
+					result.body!.typeGroup = typeGroup;
+				} else {
+					result.searchParams.typeGroup = typeGroup;
+				}
 			}
 
-			// @ts-ignore
-			delete body.type;
+			if (!this.#isLegacy()) {
+				// @ts-ignore
+				delete body.type;
+			}
 		}
 
 		return result;
