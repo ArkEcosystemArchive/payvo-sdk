@@ -101,6 +101,8 @@ export interface NetworkManifestConstants {
 	wif?: number;
 }
 
+export type VotingMethod = "simple" | "split" | "transfer";
+
 export interface NetworkManifest {
 	id: string;
 	type: string;
@@ -124,7 +126,7 @@ export interface NetworkManifest {
 		 * If the type is "transfer" then funds have to be transfered before voting.
 		 * AVAX for example operates on multiple blockchains and requires fund transfers.
 		 */
-		method?: "simple" | "split" | "transfer";
+		method?: VotingMethod;
 		delegateIdentifier?: "address" | "publicKey";
 		delegateCount: number;
 		votesPerWallet: number;
