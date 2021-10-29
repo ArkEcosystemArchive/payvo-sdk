@@ -18,11 +18,11 @@ const network: Networks.NetworkManifest = {
 	hosts: [
 		{
 			type: "full",
-			host: "https://api.avax.network:443",
+			host: "https://api.avax.network",
 		},
 		{
 			type: "archival",
-			host: "https://api.avax.network:8080",
+			host: "https://avax-live.payvo.com",
 		},
 		{
 			type: "explorer",
