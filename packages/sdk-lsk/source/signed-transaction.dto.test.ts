@@ -17,7 +17,7 @@ describe("2.0", () => {
 		confirmations: undefined,
 		amount: 1,
 		type: 0,
-		timestamp: 133697283,
+		timestamp: 1597806483,
 		senderPublicKey: "ceb7bb7475a14b729eba069dfb27715331727a910acf5773a950ed4f863c89ed",
 		senderId: "15957226662510576840L",
 		recipientId: "15957226662510576840L",
@@ -59,6 +59,24 @@ describe("2.0", () => {
 	});
 
 	test("#timestamp", () => {
+		expect(subject.timestamp()).toBeInstanceOf(DateTime);
+		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
+
+		subject.configure(
+			transaction.id,
+			{ ...transaction, timestamp: "2020-08-19T03:08:03.000Z" },
+			{ ...transaction, timestamp: "2020-08-19T03:08:03.000Z" },
+		);
+
+		expect(subject.timestamp()).toBeInstanceOf(DateTime);
+		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
+
+		subject.configure(
+			transaction.id,
+			{ ...transaction, timestamp: DateTime.fromUnix(transaction.timestamp) },
+			{ ...transaction, timestamp: DateTime.fromUnix(transaction.timestamp) },
+		);
+
 		expect(subject.timestamp()).toBeInstanceOf(DateTime);
 		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
 	});
