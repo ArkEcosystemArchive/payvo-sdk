@@ -1,4 +1,4 @@
-import { Collections, DTO, IoC, Services } from "@payvo/sdk";
+import { Collections, IoC, Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
@@ -26,6 +26,19 @@ describe("ClientService", () => {
 			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
 			expect(result).toBeInstanceOf(ConfirmedTransactionData);
+		});
+	});
+
+	describe("#transactions", () => {
+		it("should succeed", async () => {
+			const result = await subject.transactions({
+				identifiers: [{
+					type: "address",
+					value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+				}],
+			});
+
+			expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
 		});
 	});
 
