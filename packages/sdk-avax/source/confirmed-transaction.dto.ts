@@ -10,23 +10,31 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override blockId(): string | undefined {
-		return undefined;
+		return this.data.txBlockId;
 	}
 
 	public override timestamp(): DateTime | undefined {
 		return DateTime.make(this.data.timestamp);
 	}
 
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override sender(): string {
-		return Object.keys(this.data.inputTotals)[0];
+		const { addresses } = Object.values(this.data.inputs)[0] as { addresses: string[] };
+
+		if (addresses) {
+			return addresses[0];
+		}
+
+		if (this.data.__identifier__) {
+			return this.data.__identifier__;
+		}
+
+		return this.getMeta("address") as string;
 	}
 
 	public override recipient(): string {
-		return Object.keys(this.data.outputTotals)[0];
+		const { addresses } = Object.values(this.data.outputs)[0] as { addresses: string[] };
+
+		return addresses[0];
 	}
 
 	public override amount(): BigNumber {
