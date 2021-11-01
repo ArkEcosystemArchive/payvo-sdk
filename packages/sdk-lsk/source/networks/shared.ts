@@ -2,7 +2,7 @@ import { Networks } from "@payvo/sdk";
 
 export const transactions: Networks.NetworkManifestTransactions = {
 	expirationType: "height",
-	types: ["delegateRegistration", "secondSignature", "transfer", "unlockToken", "vote"],
+	types: ["delegateRegistration", "transfer", "unlockToken", "vote"],
 	fees: {
 		type: "size",
 		ticker: "LSK",
