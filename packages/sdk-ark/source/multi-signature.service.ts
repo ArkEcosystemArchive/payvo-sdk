@@ -1,6 +1,7 @@
 import { Interfaces } from "@arkecosystem/crypto";
 import { uniq } from "@arkecosystem/utils";
 import { UUID } from "@payvo/cryptography";
+import { DateTime } from "@payvo/intl";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
 import { BindingType } from "./coin.contract";
@@ -166,7 +167,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 */
 	#normalizeTransaction({ data, id, multisigAsset, timestampReceived }: any): Record<string, any> {
 		const result = {
-			...{ ...data, timestamp: timestampReceived },
+			...{ ...data, timestamp: DateTime.fromUnix(timestampReceived) },
 			id, // This is the real ID, computed by the MuSig Server.
 			multiSignature: multisigAsset,
 		};
