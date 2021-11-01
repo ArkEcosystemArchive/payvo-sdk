@@ -3,8 +3,8 @@ import { uniq } from "@arkecosystem/utils";
 import { AVMAPI, Tx } from "avalanche/dist/apis/avm";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 
-import { WalletData } from "./wallet.dto";
 import { cb58Decode, usePChain, useXChain } from "./helpers";
+import { WalletIdentifier } from "@payvo/sdk/distribution/services";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -34,12 +34,18 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
+		const identifier: WalletIdentifier = query.identifiers![0];
+
 		const { transactions } = await this.#get("v2/transactions", {
 			chainID: this.configRepository.get("network.meta.blockchainId"),
 			limit: 100,
 			offset: query.cursor || 0,
-			address: query.identifiers![0],
+			address: identifier.value,
 		});
+
+		for (const transaction of transactions) {
+			transaction.__identifier__ = identifier.value;
+		}
 
 		return this.dataTransferObjectService.transactions(transactions, {
 			prev: undefined,
