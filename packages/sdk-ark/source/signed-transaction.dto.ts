@@ -36,10 +36,6 @@ export class SignedTransactionData
 	}
 
 	public override timestamp(): DateTime {
-		if (typeof this.signedData.timestamp === "number") {
-			return DateTime.fromUnix(this.signedData.timestamp);
-		}
-
 		if (this.signedData.timestamp) {
 			return DateTime.make(this.signedData.timestamp);
 		}
