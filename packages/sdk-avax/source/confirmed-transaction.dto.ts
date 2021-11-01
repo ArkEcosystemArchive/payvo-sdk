@@ -24,11 +24,11 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return addresses[0];
 		}
 
-        if (this.data.__identifier__) {
-            return this.data.__identifier__;
-        }
+		if (this.data.__identifier__) {
+			return this.data.__identifier__;
+		}
 
-        return this.getMeta("address") as string;
+		return this.getMeta("address") as string;
 	}
 
 	public override recipient(): string {
