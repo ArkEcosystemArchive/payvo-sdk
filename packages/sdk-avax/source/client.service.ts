@@ -110,7 +110,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (await this.httpClient.get(`${this.#host()}/${path}`, query?.searchParams)).json();
+		return (await this.httpClient.get(`${this.#host()}/${path}`, query)).json();
 	}
 
 	#host(): string {
