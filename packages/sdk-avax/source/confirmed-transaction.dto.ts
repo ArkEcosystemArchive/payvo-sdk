@@ -18,11 +18,23 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override sender(): string {
-		return (Object.values(this.data.inputs)[0] as { addresses: string[] }).addresses[0];
+		const { addresses } = Object.values(this.data.inputs)[0] as { addresses: string[] };
+
+		if (addresses) {
+			return addresses[0];
+		}
+
+        if (this.data.__identifier__) {
+            return this.data.__identifier__;
+        }
+
+        return this.getMeta("address") as string;
 	}
 
 	public override recipient(): string {
-		return (Object.values(this.data.outputs)[0] as { addresses: string[] }).addresses[0];
+		const { addresses } = Object.values(this.data.outputs)[0] as { addresses: string[] };
+
+		return addresses[0];
 	}
 
 	public override amount(): BigNumber {
