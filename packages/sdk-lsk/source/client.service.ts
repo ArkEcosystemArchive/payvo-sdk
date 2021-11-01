@@ -175,14 +175,16 @@ export class ClientService extends Services.AbstractClientService {
 
 		// LSK doesn't support bulk lookups so we will simply use the first address.
 		if (searchParams.identifiers) {
-			const value = searchParams.identifiers[0].value;
+			if (!searchParams.recipientId) {
+				const value = searchParams.identifiers[0].value;
 
-			if (!searchParams.type || searchParams.type === "transfer") {
-				// @ts-ignore - This field doesn't exist on the interface but is needed.
-				searchParams.address = value;
-			} else {
-				// @ts-ignore - This field doesn't exist on the interface but is needed.
-				searchParams.senderAddress = value;
+				if (!searchParams.type || searchParams.type === "transfer") {
+					// @ts-ignore - This field doesn't exist on the interface but is needed.
+					searchParams.address = value;
+				} else {
+					// @ts-ignore - This field doesn't exist on the interface but is needed.
+					searchParams.senderAddress = value;
+				}
 			}
 
 			delete searchParams.identifiers;
