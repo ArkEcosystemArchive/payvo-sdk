@@ -17,7 +17,7 @@ beforeAll(async () => {
 			id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			amount: "12500000000000000",
 			fee: "0",
-			timestamp: 1597806483,
+			timestamp: "1970-01-01T00:00:00.000Z",
 			senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
 			recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
 		},
@@ -61,7 +61,7 @@ describe("SignedTransactionData", () => {
 						},
 					],
 				},
-				timestamp: 1597806483,
+				timestamp: "1970-01-01T00:00:00.000Z",
 				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
 				recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
 			},
@@ -76,49 +76,13 @@ describe("SignedTransactionData", () => {
 	});
 
 	test("#timestamp", () => {
-		const transaction = {
-			id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-			type: 6,
-			fee: "0",
-			asset: {
-				payments: [
-					{
-						recipientId: "",
-						amount: "12500000000000000",
-					},
-					{
-						recipientId: "",
-						amount: "12500000000000000",
-					},
-				],
-			},
-			timestamp: 1597806483,
-			senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
-			recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
-		};
+		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+	});
 
-		subject.configure(transaction.id, transaction, "");
-
+	test("#timestamp missing", async () => {
+		const subject = await createService(SignedTransactionData);
+		subject.configure("", {}, "");
 		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
-
-		subject.configure(
-			transaction.id,
-			{ timestamp: "2020-08-19T03:08:03.000Z" },
-			{ ...transaction, timestamp: "2020-08-19T03:08:03.000Z" },
-		);
-
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
-
-		subject.configure(
-			transaction.id,
-			{ ...transaction, timestamp: DateTime.fromUnix(transaction.timestamp) },
-			{ ...transaction, timestamp: DateTime.fromUnix(transaction.timestamp) },
-		);
-
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.timestamp().toString()).toMatchInlineSnapshot(`"Wed, 19 Aug 2020 03:08:03 GMT"`);
 	});
 
 	test("#isTransfer", () => {
