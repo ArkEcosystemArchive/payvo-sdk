@@ -18,11 +18,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override sender(): string {
-		if (this.data.__identifier__) {
-			return this.data.__identifier__;
-		}
-
-		return this.getMeta("address") as string;
+		return (Object.values(this.data.inputs)[0] as { addresses: string[] }).addresses[0];
 	}
 
 	public override recipient(): string {
