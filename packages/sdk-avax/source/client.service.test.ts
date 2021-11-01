@@ -29,7 +29,7 @@ describe("ClientService", () => {
 		});
 	});
 
-	describe("#transactions", () => {
+	describe.skip("#transactions", () => {
 		it("should succeed", async () => {
 			const result = await subject.transactions({
 				identifiers: [
