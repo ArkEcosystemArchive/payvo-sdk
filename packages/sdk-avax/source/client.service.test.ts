@@ -29,13 +29,15 @@ describe("ClientService", () => {
 		});
 	});
 
-	describe("#transactions", () => {
+	describe.skip("#transactions", () => {
 		it("should succeed", async () => {
 			const result = await subject.transactions({
-				identifiers: [{
-					type: "address",
-					value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-				}],
+				identifiers: [
+					{
+						type: "address",
+						value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+					},
+				],
 			});
 
 			expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
