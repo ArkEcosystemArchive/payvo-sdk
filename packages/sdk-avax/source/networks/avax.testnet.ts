@@ -8,8 +8,8 @@ const network: Networks.NetworkManifest = {
 	name: "Testnet",
 	coin: "Avalanche",
 	currency: {
-		ticker: "FUJI",
-		symbol: "FUJI",
+		ticker: "AVAX",
+		symbol: "AVAX",
 		decimals: 9,
 	},
 	constants: {
@@ -39,7 +39,7 @@ const network: Networks.NetworkManifest = {
 		...transactions,
 		fees: {
 			type: "static",
-			ticker: "FUJI",
+			ticker: "AVAX",
 		},
 	},
 	importMethods,
