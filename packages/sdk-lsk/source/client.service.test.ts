@@ -72,7 +72,7 @@ describe("ClientService", () => {
 		`);
 			expect(result.unvotes()).toMatchInlineSnapshot(`Array []`);
 			expect(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			expect(result.publicKeys()).toMatchInlineSnapshot(`undefined`);
+			expect(result.publicKeys()).toMatchInlineSnapshot(`Array []`);
 			expect(result.min()).toMatchInlineSnapshot(`undefined`);
 		});
 	});
@@ -117,7 +117,7 @@ describe("ClientService", () => {
 			expect(transaction.votes()).toMatchInlineSnapshot(`Array []`);
 			expect(transaction.unvotes()).toMatchInlineSnapshot(`Array []`);
 			expect(transaction.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			expect(transaction.publicKeys()).toMatchInlineSnapshot(`undefined`);
+			expect(transaction.publicKeys()).toMatchInlineSnapshot(`Array []`);
 			expect(transaction.min()).toMatchInlineSnapshot(`undefined`);
 		});
 	});
