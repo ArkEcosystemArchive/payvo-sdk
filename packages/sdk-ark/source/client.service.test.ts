@@ -72,27 +72,6 @@ describe("ClientService", () => {
 				expect(result).toBeObject();
 				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
 			});
-
-			it("multiple addresses", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({
-						page: "0",
-						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5",
-					})
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [
-						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
-						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
-					],
-					cursor: "0",
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
 		});
 
 		describe("should work with Core 3.0", () => {
@@ -119,23 +98,6 @@ describe("ClientService", () => {
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-
-			it("multiple addresses", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [
-						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
-						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
-					],
 				});
 
 				expect(result).toBeObject();
