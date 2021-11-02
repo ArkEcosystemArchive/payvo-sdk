@@ -20,5 +20,4 @@ export interface MultisignatureAddressInput {
 	min?: number;
 	publicKeys?: string[];
 	senderPublicKey?: string;
-	options?: IdentityOptions;
 }

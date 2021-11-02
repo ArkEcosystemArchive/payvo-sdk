@@ -38,11 +38,10 @@ export class AddressService extends Services.AbstractAddressService {
 		throw new Error("Please specify a valid derivation method.");
 	}
 
-	public override async fromMultiSignature({
-		min,
-		publicKeys,
-		options,
-	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
+	public override async fromMultiSignature(
+		{ min, publicKeys }: Services.MultisignatureAddressInput,
+		options?: Services.IdentityOptions,
+	): Promise<Services.AddressDataTransferObject> {
 		assert.ok(publicKeys);
 		assert.ok(min);
 
