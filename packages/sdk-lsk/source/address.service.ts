@@ -6,6 +6,7 @@ import {
 } from "@liskhq/lisk-cryptography";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
+import { strict as assert } from "assert";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -16,6 +17,17 @@ export class AddressService extends Services.AbstractAddressService {
 		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		return { type: "bip39", address: getLisk32AddressFromPassphrase(mnemonic) };
+	}
+
+	public override async fromMultiSignature({
+		senderPublicKey,
+	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
+		assert.ok(senderPublicKey);
+
+		return {
+			type: "lip17",
+			address: senderPublicKey,
+		};
 	}
 
 	public override async fromPublicKey(
