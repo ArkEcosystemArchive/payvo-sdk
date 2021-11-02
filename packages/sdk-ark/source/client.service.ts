@@ -291,7 +291,7 @@ export class ClientService extends Services.AbstractClientService {
 			}
 		}
 
-		if (! this.#isLegacy()) {
+		if (!this.#isLegacy()) {
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
 		}
