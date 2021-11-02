@@ -6,8 +6,6 @@ import { normalizeTimestamp } from "./timestamps";
 import { TransactionTypeService } from "./transaction-type.service";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
-const isLegacy = (data: Record<string, unknown>): boolean => data.moduleAssetName === undefined;
-
 @IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
 	public override id(): string {
@@ -15,18 +13,10 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override blockId(): string | undefined {
-		if (this.data.blockId) {
-			return this.data.blockId;
-		}
-
 		return this.data.block.id;
 	}
 
 	public override timestamp(): DateTime | undefined {
-		if (isLegacy(this.data)) {
-			return normalizeTimestamp(this.data.timestamp);
-		}
-
 		return DateTime.fromUnix(this.data.block.timestamp);
 	}
 
@@ -150,10 +140,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Delegate Registration
 	public override username(): string {
-		if (isLegacy(this.data)) {
-			return this.data.asset.delegate.username;
-		}
-
 		return this.data.asset.username;
 	}
 
@@ -161,12 +147,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	public override votes(): string[] {
 		if (!Array.isArray(this.data.asset.votes)) {
 			return [];
-		}
-
-		if (isLegacy(this.data)) {
-			return this.data.asset.votes
-				.filter((vote: string) => vote.startsWith("+"))
-				.map((publicKey: string) => publicKey.substr(1));
 		}
 
 		return this.data.asset.votes
@@ -177,12 +157,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	public override unvotes(): string[] {
 		if (!Array.isArray(this.data.asset.votes)) {
 			return [];
-		}
-
-		if (isLegacy(this.data)) {
-			return this.data.asset.votes
-				.filter((vote: string) => vote.startsWith("-"))
-				.map((publicKey: string) => publicKey.substr(1));
 		}
 
 		return this.data.asset.votes
@@ -197,18 +171,14 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	// Multi-Signature Registration
 	public override publicKeys(): string[] {
-		if (Array.isArray(this.data.asset.mandatoryKeys)) {
-			return [...this.data.asset.mandatoryKeys, ...this.data.asset.optionalKeys];
+		if (!Array.isArray(this.data.asset.mandatoryKeys)) {
+			return [];
 		}
 
-		return this.data.asset.multisignature?.keysgroup;
+		return [...this.data.asset.mandatoryKeys, ...this.data.asset.optionalKeys];
 	}
 
 	public override min(): number {
-		if (this.data.asset.numberOfSignatures) {
-			return this.data.asset.numberOfSignatures;
-		}
-
-		return this.data.asset.multisignature?.min;
+		return this.data.asset.numberOfSignatures;
 	}
 }
