@@ -13,4 +13,12 @@ export interface IdentityOptions {
 	bip49?: IdentityLevels;
 	bip84?: IdentityLevels;
 	multiSignature?: MultiSignatureAsset;
+	senderPublicKey?: string;
+}
+
+export interface MultisignatureAddressInput {
+	min?: number;
+	publicKeys?: string[];
+	senderPublicKey?: string;
+	options?: IdentityOptions;
 }

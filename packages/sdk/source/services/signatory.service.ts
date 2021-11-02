@@ -118,7 +118,9 @@ export class AbstractSignatoryService implements SignatoryService {
 		return new Signatory(
 			new MultiSignatureSignatory(
 				asset,
-				(await this.addressService.fromMultiSignature(asset.min, asset.publicKeys)).address,
+				(
+					await this.addressService.fromMultiSignature({ min: asset.min, publicKeys: asset.publicKeys })
+				).address,
 			),
 			options?.multiSignature ?? asset,
 		);

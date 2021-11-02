@@ -5,7 +5,7 @@ import { NotImplemented } from "../exceptions";
 import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import { AddressDataTransferObject, AddressService } from "./address.contract";
-import { IdentityOptions } from "./shared.contract";
+import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract";
 
 @injectable()
 export class AbstractAddressService implements AddressService {
@@ -16,11 +16,7 @@ export class AbstractAddressService implements AddressService {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
-	public async fromMultiSignature(
-		min: number,
-		publicKeys: string[],
-		options?: IdentityOptions,
-	): Promise<AddressDataTransferObject> {
+	public async fromMultiSignature(input: MultisignatureAddressInput): Promise<AddressDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);
 	}
 
