@@ -204,12 +204,12 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		if (body.identifiers) {
-			const address = body.identifiers[0].value;
+			const identifiers: Services.WalletIdentifier[] = body.identifiers;
 
 			if (this.#isLegacy()) {
-				result.body.addresses = [address];
+				result.body.addresses = identifiers.map(({ value }) => value);
 			} else {
-				result.searchParams.address = address;
+				result.searchParams.address = identifiers.map(({ value }) => value).join(",");
 			}
 
 			// @ts-ignore
