@@ -48,4 +48,12 @@ describe("Address", () => {
 		await expect(subject.validate(identity.address)).resolves.toBeTrue();
 		await expect(subject.validate("ABC")).resolves.toBeFalse();
 	});
+
+	it("should return sender public key as an output from a multiSignature", async () => {
+		const result = await subject.fromMultiSignature({
+			senderPublicKey: identity.publicKey,
+		});
+
+		expect(result).toEqual({ type: "lip17", address: identity.address });
+	});
 });

@@ -1,7 +1,7 @@
 import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract";
 
 export interface AddressDataTransferObject {
-	type: "bip39" | "bip44" | "bip49" | "bip84" | "ss58" | "rfc6979" | "bip44.legacy";
+	type: "bip39" | "bip44" | "bip49" | "bip84" | "ss58" | "rfc6979" | "bip44.legacy" | "lip17";
 	address: string;
 	path?: string;
 }
