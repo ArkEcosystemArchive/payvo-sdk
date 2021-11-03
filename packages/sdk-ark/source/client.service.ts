@@ -203,31 +203,17 @@ export class ClientService extends Services.AbstractClientService {
 			}
 		}
 
-		if (this.#isLegacy()) {
-			const identifiers: Services.WalletIdentifier[] | undefined =
-				// @ts-ignore
-				body.identifiers as Services.WalletIdentifier[];
-			if (identifiers) {
-				if (!body.recipientId && !body.senderId) {
-					result.body.addresses = identifiers.map(({ value }) => value);
-				}
+		if (body.identifiers) {
+			const identifiers: Services.WalletIdentifier[] = body.identifiers;
 
-				// @ts-ignore
-				delete body.identifiers;
+			if (this.#isLegacy()) {
+				result.body.addresses = identifiers.map(({ value }) => value);
+			} else {
+				result.searchParams.address = identifiers.map(({ value }) => value).join(",");
 			}
-		} else {
+
 			// @ts-ignore
-			const addresses: Services.WalletIdentifier[] | undefined = body.identifiers as Services.WalletIdentifier[];
-
-			if (Array.isArray(addresses)) {
-				result.searchParams.address = addresses.map(({ value }) => value).join(",");
-
-				// @ts-ignore
-				delete body.identifiers;
-			}
-
-			result.searchParams = dotify({ ...result.searchParams, ...result.body });
-			result.body = null;
+			delete body.identifiers;
 		}
 
 		// @ts-ignore
@@ -303,6 +289,11 @@ export class ClientService extends Services.AbstractClientService {
 				// @ts-ignore
 				delete body.type;
 			}
+		}
+
+		if (!this.#isLegacy()) {
+			result.searchParams = dotify({ ...result.searchParams, ...result.body });
+			result.body = null;
 		}
 
 		return result;

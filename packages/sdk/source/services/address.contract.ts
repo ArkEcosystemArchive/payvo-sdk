@@ -1,4 +1,4 @@
-import { IdentityOptions } from "./shared.contract";
+import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract";
 
 export interface AddressDataTransferObject {
 	type: "bip39" | "bip44" | "bip49" | "bip84" | "ss58" | "rfc6979" | "bip44.legacy" | "lip17";
@@ -9,8 +9,7 @@ export interface AddressDataTransferObject {
 export interface AddressService {
 	fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<AddressDataTransferObject>;
 	fromMultiSignature(
-		min: number,
-		publicKeys: string[],
+		input: MultisignatureAddressInput,
 		options?: IdentityOptions,
 	): Promise<AddressDataTransferObject>;
 	fromPublicKey(publicKey: string, options?: IdentityOptions): Promise<AddressDataTransferObject>;

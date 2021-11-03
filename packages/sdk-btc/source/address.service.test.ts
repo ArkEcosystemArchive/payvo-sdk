@@ -166,12 +166,15 @@ describe("Address", () => {
 	describe("#fromMultiSignature", () => {
 		it("should generate a P2SH, pay-to-multisig (2-of-3) address", async () => {
 			const result = await subject.fromMultiSignature(
-				2,
-				[
-					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
-					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
-					"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
-				],
+				{
+					min: 2,
+					publicKeys: [
+						"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+						"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+						"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
+					],
+				},
+
 				{ bip44: { account: 0 } },
 			);
 
@@ -181,11 +184,13 @@ describe("Address", () => {
 
 		it("should generate a P2SH(P2WSH(...)), pay-to-multisig (2-of-2) address", async () => {
 			const result = await subject.fromMultiSignature(
-				2,
-				[
-					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
-					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
-				],
+				{
+					min: 2,
+					publicKeys: [
+						"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+						"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+					],
+				},
 				{ bip49: { account: 0 } },
 			);
 
@@ -195,13 +200,15 @@ describe("Address", () => {
 
 		it("should generate a P2WSH (SegWit), pay-to-multisig (3-of-4) address", async () => {
 			const result = await subject.fromMultiSignature(
-				3,
-				[
-					"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
-					"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
-					"023e4740d0ba639e28963f3476157b7cf2fb7c6fdf4254f97099cf8670b505ea59",
-					"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
-				],
+				{
+					min: 3,
+					publicKeys: [
+						"026477115981fe981a6918a6297d9803c4dc04f328f22041bedff886bbc2962e01",
+						"02c96db2302d19b43d4c69368babace7854cc84eb9e061cde51cfa77ca4a22b8b9",
+						"023e4740d0ba639e28963f3476157b7cf2fb7c6fdf4254f97099cf8670b505ea59",
+						"03c6103b3b83e4a24a0e33a4df246ef11772f9992663db0c35759a5e2ebf68d8e9",
+					],
+				},
 				{ bip84: { account: 0 } },
 			);
 

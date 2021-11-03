@@ -243,10 +243,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		if (input.signatory.actsWithMultiSignature()) {
 			address = (
-				await this.addressService.fromMultiSignature(
-					input.signatory.asset().min,
-					input.signatory.asset().publicKeys,
-				)
+				await this.addressService.fromMultiSignature({
+					min: input.signatory.asset().min,
+					publicKeys: input.signatory.asset().publicKeys,
+				})
 			).address;
 		}
 
