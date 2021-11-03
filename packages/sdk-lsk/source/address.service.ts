@@ -26,7 +26,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "lip17",
-			address: senderPublicKey,
+			address: (await this.fromPublicKey(senderPublicKey)).address,
 		};
 	}
 

@@ -54,6 +54,6 @@ describe("Address", () => {
 			senderPublicKey: identity.publicKey,
 		});
 
-		expect(result).toEqual({ type: "lip17", address: identity.publicKey });
+		expect(result).toEqual({ type: "lip17", address: identity.address });
 	});
 });
