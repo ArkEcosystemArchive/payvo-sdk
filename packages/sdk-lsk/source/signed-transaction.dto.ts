@@ -4,7 +4,6 @@ import { BigNumber } from "@payvo/helpers";
 import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
 import { normalizeTimestamp } from "./timestamps";
-import { TransactionTypeService } from "./transaction-type.service";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
 
 @IoC.injectable()
@@ -13,23 +12,15 @@ export class SignedTransactionData
 	implements Contracts.SignedTransactionData
 {
 	public override sender(): string {
-		if (this.signedData.moduleID) {
-			return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex"));
-		}
-
-		return this.signedData.senderId;
+		return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex"));
 	}
 
 	public override recipient(): string {
-		if (this.signedData.moduleID) {
-			if (Buffer.isBuffer(this.signedData.asset.recipientAddress)) {
-				return getLisk32AddressFromAddress(this.signedData.asset.recipientAddress);
-			}
-
-			return this.signedData.asset.recipientAddress;
+		if (Buffer.isBuffer(this.signedData.asset.recipientAddress)) {
+			return getLisk32AddressFromAddress(this.signedData.asset.recipientAddress);
 		}
 
-		return this.signedData.recipientId;
+		return this.signedData.asset.recipientAddress;
 	}
 
 	public override amount(): BigNumber {
@@ -43,11 +34,7 @@ export class SignedTransactionData
 			return amount;
 		}
 
-		if (this.signedData.moduleID) {
-			return this.bigNumberService.make(this.signedData.asset.amount ?? BigNumber.ZERO);
-		}
-
-		return this.bigNumberService.make(this.signedData.amount ?? BigNumber.ZERO);
+		return this.bigNumberService.make(this.signedData.asset.amount ?? BigNumber.ZERO);
 	}
 
 	public override fee(): BigNumber {
@@ -67,86 +54,50 @@ export class SignedTransactionData
 	}
 
 	public override isTransfer(): boolean {
-		if (this.signedData.moduleID) {
-			return isTransfer(this.signedData);
-		}
-
-		return TransactionTypeService.isTransfer(this.signedData);
+		return isTransfer(this.signedData);
 	}
 
 	public override isSecondSignature(): boolean {
-		return TransactionTypeService.isSecondSignature(this.signedData);
+		return false;
 	}
 
 	public override isDelegateRegistration(): boolean {
-		if (this.signedData.moduleID) {
-			return isDelegateRegistration(this.signedData);
-		}
-
-		return TransactionTypeService.isDelegateRegistration(this.signedData);
+		return isDelegateRegistration(this.signedData);
 	}
 
 	public override isVoteCombination(): boolean {
-		if (this.signedData.moduleID) {
-			return this.isVote() && this.isUnvote();
-		}
-
-		return TransactionTypeService.isVoteCombination(this.signedData);
+		return this.isVote() && this.isUnvote();
 	}
 
 	public override isVote(): boolean {
-		if (this.signedData.moduleID) {
-			if (!isVote(this.signedData)) {
-				return false;
-			}
-
-			return this.signedData.asset.votes.some(({ amount }) => !amount.toString().startsWith("-"));
+		if (!isVote(this.signedData)) {
+			return false;
 		}
 
-		return TransactionTypeService.isVote(this.signedData);
+		return this.signedData.asset.votes.some(({ amount }) => !amount.toString().startsWith("-"));
 	}
 
 	public override isUnvote(): boolean {
-		if (this.signedData.moduleID) {
-			if (!isVote(this.signedData)) {
-				return false;
-			}
-
-			return this.signedData.asset.votes.some(({ amount }) => amount.toString().startsWith("-"));
+		if (!isVote(this.signedData)) {
+			return false;
 		}
 
-		return TransactionTypeService.isUnvote(this.signedData);
+		return this.signedData.asset.votes.some(({ amount }) => amount.toString().startsWith("-"));
 	}
 
 	public override isMultiSignatureRegistration(): boolean {
-		if (this.signedData.moduleID) {
-			return isMultiSignatureRegistration(this.signedData);
-		}
-
-		return TransactionTypeService.isMultiSignatureRegistration(this.signedData);
+		return isMultiSignatureRegistration(this.signedData);
 	}
 
 	public override usesMultiSignature(): boolean {
-		if (this.signedData.moduleID) {
-			return Array.isArray(this.signedData.signatures) && this.signedData.signatures.length >= 2;
-		}
-
-		return typeof this.signedData.multiSignature === "object";
+		return Array.isArray(this.signedData.signatures) && this.signedData.signatures.length >= 2;
 	}
 
 	public override isUnlockToken(): boolean {
-		if (this.signedData.moduleID) {
-			return isUnlockToken(this.signedData);
-		}
-
-		return TransactionTypeService.isUnlockToken(this.signedData);
+		return isUnlockToken(this.signedData);
 	}
 
 	public override username(): string {
-		if (this.signedData.moduleID) {
-			return this.signedData.asset.username;
-		}
-
-		return this.signedData.asset.delegate?.username;
+		return this.signedData.asset.username;
 	}
 }
