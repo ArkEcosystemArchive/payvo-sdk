@@ -5,6 +5,7 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import { getNetworkConfig, getNetworkID } from "./config";
 import { BIP32 } from "@payvo/cryptography";
+import { strict as assert } from "assert";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -38,10 +39,12 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async fromMultiSignature(
-		min: number,
-		publicKeys: string[],
+		{ min, publicKeys }: Services.MultisignatureAddressInput,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
+		assert.ok(publicKeys);
+		assert.ok(min);
+
 		let result;
 
 		if (options?.bip44) {

@@ -3,6 +3,7 @@ import { Address as BaseAddress, Keys } from "@arkecosystem/crypto-identities";
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/cryptography";
 import { abort_if, abort_unless } from "@payvo/helpers";
+import { strict as assert } from "assert";
 
 import { BindingType } from "./coin.contract";
 
@@ -23,10 +24,13 @@ export class AddressService extends Services.AbstractAddressService {
 		};
 	}
 
-	public override async fromMultiSignature(
-		min: number,
-		publicKeys: string[],
-	): Promise<Services.AddressDataTransferObject> {
+	public override async fromMultiSignature({
+		min,
+		publicKeys,
+	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
+		assert.ok(publicKeys);
+		assert.ok(min);
+
 		return {
 			type: "bip39",
 			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.config.network),
