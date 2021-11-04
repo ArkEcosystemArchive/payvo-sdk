@@ -231,7 +231,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			senderPublicKey = (await this.publicKeyService.fromMnemonic(input.signatory.signingKey())).publicKey;
 		}
 
-		if (input.signatory.actsWithSecret()) {
+		if (input.signatory.actsWithSecret() || input.signatory.actsWithConfirmationSecret()) {
 			address = (await this.addressService.fromSecret(input.signatory.signingKey())).address;
 			senderPublicKey = (await this.publicKeyService.fromSecret(input.signatory.signingKey())).publicKey;
 		}
@@ -362,6 +362,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		if (input.signatory.actsWithSecret()) {
 			transaction.sign(input.signatory.signingKey());
+		}
+
+		if (input.signatory.actsWithConfirmationSecret()) {
+			transaction.sign(input.signatory.signingKey());
+			transaction.secondSign(input.signatory.confirmKey());
 		}
 
 		const signedTransaction = transaction.build().toJson();
