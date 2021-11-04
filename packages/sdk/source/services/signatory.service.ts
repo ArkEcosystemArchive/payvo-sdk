@@ -4,6 +4,7 @@ import { inject, injectable } from "../ioc";
 import { BindingType } from "../ioc/service-provider.contract";
 import {
 	ConfirmationMnemonicSignatory,
+	ConfirmationSecretSignatory,
 	ConfirmationWIFSignatory,
 	LedgerSignatory,
 	MnemonicSignatory,
@@ -138,6 +139,23 @@ export class AbstractSignatoryService implements SignatoryService {
 				publicKey: (await this.publicKeyService.fromSecret(secret)).publicKey,
 				privateKey: (await this.privateKeyService.fromSecret(secret)).privateKey,
 				options,
+			}),
+			options?.multiSignature,
+		);
+	}
+
+	public async confirmationSecret(
+		signingKey: string,
+		confirmKey: string,
+		options?: IdentityOptions,
+	): Promise<Signatory> {
+		return new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey,
+				confirmKey,
+				address: (await this.addressService.fromSecret(signingKey)).address,
+				publicKey: (await this.publicKeyService.fromSecret(signingKey)).publicKey,
+				privateKey: (await this.privateKeyService.fromSecret(signingKey)).privateKey,
 			}),
 			options?.multiSignature,
 		);
