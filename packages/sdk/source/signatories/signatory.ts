@@ -5,6 +5,7 @@ import { IdentityOptions, MultiSignatureAsset } from "../services";
 import { AbstractDoubleSignatory } from "./abstract-double-signatory";
 import { AbstractSignatory } from "./abstract-signatory";
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+import { ConfirmationSecretSignatory } from "./confirmation-secret";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
@@ -15,6 +16,7 @@ import { WIFSignatory } from "./wif";
 
 type SignatoryType =
 	| ConfirmationMnemonicSignatory
+	| ConfirmationSecretSignatory
 	| ConfirmationWIFSignatory
 	| LedgerSignatory
 	| MnemonicSignatory
@@ -43,6 +45,10 @@ export class Signatory {
 	public confirmKey(): string {
 		// @TODO: deduplicate this
 		if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
+			return this.#signatory.confirmKey();
+		}
+
+		if (this.#signatory instanceof ConfirmationSecretSignatory) {
 			return this.#signatory.confirmKey();
 		}
 
@@ -174,5 +180,9 @@ export class Signatory {
 
 	public actsWithSecret(): boolean {
 		return this.#signatory instanceof SecretSignatory;
+	}
+
+	public actsWithConfirmationSecret(): boolean {
+		return this.#signatory instanceof ConfirmationSecretSignatory;
 	}
 }

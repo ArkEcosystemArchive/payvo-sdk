@@ -1,6 +1,7 @@
 import "jest-extended";
 
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+import { ConfirmationSecretSignatory } from "./confirmation-secret";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";
 import { LedgerSignatory } from "./ledger";
 import { MnemonicSignatory } from "./mnemonic";
@@ -650,6 +651,115 @@ describe("MultiSignatureSignatory", () => {
 	});
 });
 
+describe("ConfirmationSecretSignatory", () => {
+	test("#signingKey", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		);
+
+		expect(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+	});
+
+	test("#confirmKey", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		);
+
+		expect(subject.confirmKey()).toMatchInlineSnapshot(`"confirmKey"`);
+	});
+
+	test("#address", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		);
+
+		expect(subject.address()).toMatchInlineSnapshot(`"address"`);
+	});
+
+	test("#publicKey", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		);
+
+		expect(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+	});
+
+	test("#privateKey", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		);
+
+		expect(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+	});
+
+	test("#multiSignature", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				signingKey: "signingKey",
+				confirmKey: "confirmKey",
+				address: "address",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+			{
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+				min: 4,
+			},
+		);
+
+		expect(subject.multiSignature()).toMatchInlineSnapshot(`
+		Object {
+		  "min": 4,
+		  "publicKeys": Array [
+		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+		  ],
+		}
+	`);
+	});
+});
+
 test("#hasMultiSignature", () => {
 	let subject = new Signatory(
 		new SecretSignatory({
@@ -687,7 +797,7 @@ test("#hasMultiSignature", () => {
 
 test("#actsWithMnemonic", () => {
 	const subject = new Signatory(
-		new SecretSignatory({
+		new MnemonicSignatory({
 			signingKey: "this is a top secret passphrase 1",
 			address: "",
 			publicKey: "",
@@ -700,8 +810,9 @@ test("#actsWithMnemonic", () => {
 
 test("#actsWithConfirmationMnemonic", () => {
 	const subject = new Signatory(
-		new SecretSignatory({
+		new ConfirmationMnemonicSignatory({
 			signingKey: "this is a top secret passphrase 1",
+			confirmKey: "this is a top secret passphrase 2",
 			address: "",
 			publicKey: "",
 			privateKey: "",
@@ -713,7 +824,7 @@ test("#actsWithConfirmationMnemonic", () => {
 
 test("#actsWithWIF", () => {
 	const subject = new Signatory(
-		new SecretSignatory({
+		new WIFSignatory({
 			signingKey: "this is a top secret passphrase 1",
 			address: "",
 			publicKey: "",
@@ -726,8 +837,9 @@ test("#actsWithWIF", () => {
 
 test("#actsWithConfirmationWIF", () => {
 	const subject = new Signatory(
-		new SecretSignatory({
+		new ConfirmationWIFSignatory({
 			signingKey: "this is a top secret passphrase 1",
+			confirmKey: "this is a top secret passphrase 2",
 			address: "",
 			publicKey: "",
 			privateKey: "",
@@ -739,11 +851,9 @@ test("#actsWithConfirmationWIF", () => {
 
 test("#actsWithPrivateKey", () => {
 	const subject = new Signatory(
-		new SecretSignatory({
+		new PrivateKeySignatory({
 			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
-			privateKey: "",
 		}),
 	);
 
@@ -773,4 +883,18 @@ test("#actsWithSecret", () => {
 	);
 
 	expect(subject.actsWithSecret()).toBeBoolean();
+});
+
+test("#actsWithConfirmationSecret", () => {
+	const subject = new Signatory(
+		new ConfirmationSecretSignatory({
+			signingKey: "this is a top secret passphrase 1",
+			confirmKey: "this is a top secret passphrase 2",
+			address: "",
+			publicKey: "",
+			privateKey: "",
+		}),
+	);
+
+	expect(subject.actsWithConfirmationSecret()).toBeBoolean();
 });

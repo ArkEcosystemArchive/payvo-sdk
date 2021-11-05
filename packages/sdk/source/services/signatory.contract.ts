@@ -19,5 +19,7 @@ export interface SignatoryService {
 
 	secret(secret: string): Promise<Signatory>;
 
+	confirmationSecret(secret: string, confirmation: string, options?: IdentityOptions): Promise<Signatory>;
+
 	stub(mnemonic: string): Promise<Signatory>;
 }
