@@ -3,7 +3,7 @@ import "jest-extended";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";

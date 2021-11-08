@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { IoC, Services, Signatories } from "@payvo/sdk";
+import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { FeeService } from "./fee.service";
 import { AddressService } from "./address.service";
@@ -36,9 +36,9 @@ describe("FeeService", () => {
 	it("should get the fees for ARK", async () => {
 		nock(/.+/)
 			.get("/api/node/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByNode.json`))
+			.reply(200, requireModule(`../test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByType.json`));
+			.reply(200, requireModule(`../test/fixtures/client/feesByType.json`));
 
 		const result = await (await createService(FeeService, "ark.devnet")).all();
 
@@ -72,9 +72,9 @@ describe("FeeService", () => {
 	it("should get the fees for BIND", async () => {
 		nock(/.+/)
 			.get("/api/node/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByNode-bind.json`))
+			.reply(200, requireModule(`../test/fixtures/client/feesByNode-bind.json`))
 			.get("/api/transactions/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByType-bind.json`));
+			.reply(200, requireModule(`../test/fixtures/client/feesByType-bind.json`));
 
 		const result = await (await createService(FeeService, "bind.testnet")).all();
 
@@ -110,9 +110,9 @@ describe("FeeService", () => {
 			.get(`/api/wallets/${identity.address}`)
 			.reply(200, { data: { nonce: "1" } })
 			.get("/api/node/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByNode.json`))
+			.reply(200, requireModule(`../test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, await require(`../test/fixtures/client/feesByType.json`))
+			.reply(200, requireModule(`../test/fixtures/client/feesByType.json`))
 			.persist();
 
 		const a = await (

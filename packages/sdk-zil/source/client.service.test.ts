@@ -1,11 +1,11 @@
 import "jest-extended";
 
-import { DTO, IoC, Services } from "@payvo/sdk";
+import { IoC, Services, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, mockWallet, require } from "../test/mocking";
+import { createService, mockWallet, requireModule } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -41,7 +41,7 @@ describe("ClientService", () => {
 	test("#transaction", async () => {
 		nock(/.+/)
 			.post("/")
-			.reply(200, await require(`${fixtures}/transaction.json`));
+			.reply(200, requireModule(`${fixtures}/transaction.json`));
 
 		const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
 
@@ -57,7 +57,7 @@ describe("ClientService", () => {
 	test("#wallet", async () => {
 		nock(/.+/)
 			.post("/")
-			.reply(200, await require(`${fixtures}/wallet.json`));
+			.reply(200, requireModule(`${fixtures}/wallet.json`));
 
 		const result = await subject.wallet({
 			type: "address",
@@ -74,11 +74,11 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, await require(`${fixtures}/broadcast-minimum-gas-price.json`))
+				.reply(200, requireModule(`${fixtures}/broadcast-minimum-gas-price.json`))
 				.post("/")
-				.reply(200, await require(`${fixtures}/broadcast-create.json`))
+				.reply(200, requireModule(`${fixtures}/broadcast-create.json`))
 				.post("/")
-				.reply(200, await require(`${fixtures}/broadcast-success.json`));
+				.reply(200, requireModule(`${fixtures}/broadcast-success.json`));
 
 			const signedData = {
 				sender: "",
@@ -87,7 +87,7 @@ describe("ClientService", () => {
 				fee: "2000000000",
 			};
 
-			const broadcastData = JSON.stringify(await require(`${fixtures}/broadcast-request-payload.json`));
+			const broadcastData = JSON.stringify(requireModule(`${fixtures}/broadcast-request-payload.json`));
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 
@@ -101,9 +101,9 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, await require(`${fixtures}/broadcast-minimum-gas-price.json`))
+				.reply(200, requireModule(`${fixtures}/broadcast-minimum-gas-price.json`))
 				.post("/")
-				.reply(200, await require(`${fixtures}/broadcast-failure.json`));
+				.reply(200, requireModule(`${fixtures}/broadcast-failure.json`));
 
 			const signedData = {
 				sender: "",
@@ -112,7 +112,7 @@ describe("ClientService", () => {
 				fee: "2000000000", // keeping it high here to test lib code
 			};
 
-			const broadcastData = JSON.stringify(await require(`${fixtures}/broadcast-request-payload.json`));
+			const broadcastData = JSON.stringify(requireModule(`${fixtures}/broadcast-request-payload.json`));
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 

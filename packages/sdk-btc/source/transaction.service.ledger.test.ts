@@ -2,7 +2,7 @@ import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import nock from "nock";
-import { createService } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";

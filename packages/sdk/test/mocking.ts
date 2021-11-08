@@ -1,2 +1,6 @@
-// @ts-ignore
-export const require = async (path: string): Promise<any> => (await import(path)).default;
+import { createRequire } from "module";
+
+export const requireModule = (path: string): any => {
+	// @ts-ignore
+	return createRequire(import.meta.url)(path);
+};

@@ -4,7 +4,7 @@ import { BigNumber } from "@payvo/helpers";
 
 import fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 
 describe("WalletData", () => {
 	it("should succeed", async () => {

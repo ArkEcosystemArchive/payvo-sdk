@@ -1,10 +1,10 @@
 import "jest-extended";
 
 import { Transactions } from "@arkecosystem/crypto";
-import { IoC, Services, Signatories } from "@payvo/sdk";
+import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { BindingType } from "./coin.contract";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
@@ -140,9 +140,9 @@ describe("TransactionService", () => {
 		it("should sign using network estimated expiration", async () => {
 			nock(/.+/)
 				.get("/api/blockchain")
-				.reply(200, await require("../test/fixtures/client/blockchain.json"))
+				.reply(200, requireModule("../test/fixtures/client/blockchain.json"))
 				.get("/api/node/configuration")
-				.reply(200, await require("../test/fixtures/client/configuration.json"));
+				.reply(200, requireModule("../test/fixtures/client/configuration.json"));
 
 			const result = await subject.transfer({
 				nonce: "1",
@@ -165,7 +165,7 @@ describe("TransactionService", () => {
 		it("should add a signature if the sender public key is a multi-signature wallet", async () => {
 			nock(/.+/)
 				.get("/api/wallets/DBHbggggWbDUhdiqeh9HQ6b5Ryfit7Esek")
-				.reply(200, await require(`../test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
+				.reply(200, requireModule(`../test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
 
 			const result = await subject.transfer({
 				nonce: "1",
@@ -435,9 +435,9 @@ describe("TransactionService", () => {
 	test("#estimateExpiration", async () => {
 		nock(/.+/)
 			.get("/api/blockchain")
-			.reply(200, await require("../test/fixtures/client/blockchain.json"))
+			.reply(200, requireModule("../test/fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")
-			.reply(200, await require("../test/fixtures/client/configuration.json"))
+			.reply(200, requireModule("../test/fixtures/client/configuration.json"))
 			.persist();
 
 		await expect(subject.estimateExpiration()).resolves.toBe("6795392");

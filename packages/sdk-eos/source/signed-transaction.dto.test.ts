@@ -3,7 +3,7 @@ import "jest-extended";
 import { DateTime } from "@payvo/intl";
 import { Exceptions } from "@payvo/sdk";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;

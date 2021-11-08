@@ -1,10 +1,10 @@
 import "jest-extended";
 
-import { DTO, IoC, Services } from "@payvo/sdk";
+import { IoC, Services, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -37,7 +37,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://platform.ark.io/api/eth")
 				.get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
-				.reply(200, await require(`../test/fixtures/client/transaction.json`));
+				.reply(200, requireModule(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae",
@@ -61,7 +61,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://platform.ark.io/api/eth")
 				.get("/wallets/0x8e5231be3b71afdd0c417164986573fecddbae59/transactions")
-				.reply(200, await require(`../test/fixtures/client/transactions.json`));
+				.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
 				identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
@@ -77,7 +77,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://platform.ark.io/api/eth")
 				.get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
-				.reply(200, await require(`../test/fixtures/client/wallet.json`));
+				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -96,7 +96,7 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock("https://platform.ark.io/api/eth")
 				.post("/transactions")
-				.reply(200, await require(`../test/fixtures/client/broadcast.json`));
+				.reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([
 				createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
@@ -112,7 +112,7 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock("https://platform.ark.io/api/eth")
 				.post("/transactions")
-				.reply(200, await require(`../test/fixtures/client/broadcast-failure.json`));
+				.reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([
 				createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),

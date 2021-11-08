@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { IoC } from "@payvo/sdk";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 

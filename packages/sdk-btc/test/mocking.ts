@@ -1,5 +1,7 @@
 import { Test } from "@payvo/sdk";
 import { Request } from "@payvo/http-got";
+import { createRequire } from "module";
+import { resolve } from "path";
 
 import { manifest } from "../source/manifest";
 
@@ -25,4 +27,12 @@ export const createServiceAsync = <T = any>(
 	});
 };
 
-export const require = async (path: string): Promise<object> => (await import(path)).default;
+// @ts-ignore
+export const requireModule = (path: string): any => {
+	if (path.startsWith("../test")) {
+		path = path.replace("../test", "./test");
+	}
+
+	// @ts-ignore
+	return createRequire(import.meta.url)(resolve(path));
+};

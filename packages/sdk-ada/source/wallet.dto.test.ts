@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import Fixture from "../test/fixtures/client/wallet.json";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
 
 let subject;

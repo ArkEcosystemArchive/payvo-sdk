@@ -1,8 +1,9 @@
 import "jest-extended";
 
+import { Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
 let subject: FeeService;
@@ -17,9 +18,7 @@ beforeAll(() => nock.disableNetConnect());
 
 describe("FeeService", () => {
 	it("should fetch all available fees", async () => {
-		nock("https://ethgas.watch")
-			.get("/api/gas")
-			.reply(200, await require(`../test/fixtures/client/fees.json`));
+		nock("https://ethgas.watch").get("/api/gas").reply(200, requireModule(`../test/fixtures/client/fees.json`));
 
 		const result = await subject.all();
 
