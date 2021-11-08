@@ -58,7 +58,7 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		if (![...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].includes(publicKey)) {
+		if (!this.#publicKeys().includes(publicKey)) {
 			return false;
 		}
 
@@ -70,11 +70,11 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		if (!this.isMultiSignatureRegistration()) {
-			return false;
+		if (this.isMultiSignatureRegistration()) {
+			return this.#getValidMultiSignatures().length < this.#publicKeys().length;
 		}
 
-		return this.#transaction.signatures.filter(Boolean).length !== this.#multiSignature.numberOfSignatures + 1;
+		return this.#getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
 	}
 
 	public remainingSignatureCount(): number {
@@ -133,5 +133,9 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		return convertBufferList(result);
+	}
+
+	#publicKeys(): string[] {
+		return [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys];
 	}
 }
