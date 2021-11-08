@@ -191,7 +191,7 @@ describe("#needsFinalSignature", () => {
 	});
 
 	it("should verify", () => {
-		expect(new PendingMultiSignatureTransaction(transfer1).needsFinalSignature()).toBeFalse();
+		expect(new PendingMultiSignatureTransaction(transfer1).needsFinalSignature()).toBeTrue();
 		expect(new PendingMultiSignatureTransaction(transfer2).needsFinalSignature()).toBeFalse();
 
 		expect(new PendingMultiSignatureTransaction(register1).needsFinalSignature()).toBeTrue();
