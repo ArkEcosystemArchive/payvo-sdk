@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { BigNumber } from "@payvo/helpers";
 

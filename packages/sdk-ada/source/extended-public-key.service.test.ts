@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { createService, require } from "../test/mocking";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";

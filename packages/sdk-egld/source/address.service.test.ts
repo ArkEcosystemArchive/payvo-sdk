@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";

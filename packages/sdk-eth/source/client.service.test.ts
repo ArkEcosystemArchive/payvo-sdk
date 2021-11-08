@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { DTO, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/helpers";

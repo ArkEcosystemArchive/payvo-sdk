@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { Signatories } from "@payvo/sdk";
 

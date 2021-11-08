@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 

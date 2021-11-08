@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";

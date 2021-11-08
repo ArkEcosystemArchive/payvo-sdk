@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";

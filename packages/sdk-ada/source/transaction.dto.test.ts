@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { DTO } from "@payvo/sdk";
 

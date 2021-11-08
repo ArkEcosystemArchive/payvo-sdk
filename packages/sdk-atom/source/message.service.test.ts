@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { IoC, Signatories } from "@payvo/sdk";
 

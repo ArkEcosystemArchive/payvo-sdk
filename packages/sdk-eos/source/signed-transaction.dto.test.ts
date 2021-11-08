@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { DateTime } from "@payvo/intl";
 import { Exceptions } from "@payvo/sdk";

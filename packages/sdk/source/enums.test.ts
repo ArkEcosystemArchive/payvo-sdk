@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { FeatureFlag } from "./enums";
 

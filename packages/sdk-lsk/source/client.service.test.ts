@@ -1,4 +1,3 @@
-import "jest-extended";
 
 import { jest } from "@jest/globals";
 import { IoC, Services } from "@payvo/sdk";

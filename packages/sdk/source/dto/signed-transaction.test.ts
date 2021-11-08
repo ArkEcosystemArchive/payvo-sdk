@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-import "jest-extended";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/intl";
