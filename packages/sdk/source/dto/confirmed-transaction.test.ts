@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-import "jest-extended";
 import "reflect-metadata";
 
 import { jest } from "@jest/globals";

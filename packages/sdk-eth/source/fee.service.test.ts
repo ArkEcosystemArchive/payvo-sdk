@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Test } from "@payvo/sdk";
 import nock from "nock";
 

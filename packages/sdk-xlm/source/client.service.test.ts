@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";

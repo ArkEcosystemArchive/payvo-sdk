@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 
 import { ConfigKey, ConfigRepository } from "../coins/config";

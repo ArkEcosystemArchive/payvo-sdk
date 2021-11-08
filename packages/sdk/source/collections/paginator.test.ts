@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Paginator } from "./paginator";
 
 let subject: Stub;

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { DateTime } from "@payvo/intl";
 import { BigNumber } from "@payvo/helpers";
 

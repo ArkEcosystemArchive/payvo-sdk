@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { ConfigKey, ConfigRepository } from "./config";
 
 let subject: ConfigRepository;

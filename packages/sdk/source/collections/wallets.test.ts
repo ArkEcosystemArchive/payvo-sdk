@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { WalletDataCollection } from "./wallets";
 
 let subject: WalletDataCollection;

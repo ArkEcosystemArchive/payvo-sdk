@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { jest } from "@jest/globals";
 import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";

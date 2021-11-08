@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { DateTime } from "@payvo/intl";
 
 import { createService, requireModule } from "../test/mocking";
