@@ -46,6 +46,10 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public needsAllSignatures(): boolean {
+		if (this.isMultiSignatureRegistration()) {
+			return this.#getValidMultiSignatures().length < this.#publicKeys().length;
+		}
+
 		return this.#getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
 	}
 
@@ -74,7 +78,7 @@ export class PendingMultiSignatureTransaction {
 			return this.#getValidMultiSignatures().length < this.#publicKeys().length;
 		}
 
-		return this.#getValidMultiSignatures().length < this.#multiSignature.mandatoryKeys.length;
+		return this.#getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
 	}
 
 	public remainingSignatureCount(): number {
