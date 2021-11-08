@@ -2,7 +2,7 @@ import "jest-extended";
 
 import nock from "nock";
 import { IoC } from "@payvo/sdk";
-import { createService } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import * as bitcoin from "bitcoinjs-lib";

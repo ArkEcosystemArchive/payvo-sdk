@@ -3,7 +3,7 @@ import "jest-extended";
 import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/transaction.json";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 let subject: ConfirmedTransactionData;

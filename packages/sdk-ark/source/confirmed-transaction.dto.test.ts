@@ -8,7 +8,7 @@ import CryptoConfiguration from "../test/fixtures/client/cryptoConfiguration.jso
 import Fixture from "../test/fixtures/client/transaction.json";
 import MultipaymentFixtures from "../test/fixtures/client/transactions.json";
 import VoteFixtures from "../test/fixtures/client/votes.json";
-import { createService } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 let subject: ConfirmedTransactionData;

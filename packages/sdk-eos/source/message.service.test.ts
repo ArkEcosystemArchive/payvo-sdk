@@ -3,7 +3,7 @@ import "jest-extended";
 import { Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { MessageService } from "./message.service";
 
 let subject: MessageService;

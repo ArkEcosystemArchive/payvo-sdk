@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { randomUUID } from "crypto";
+
 import { ConfigKey, ConfigRepository } from "./coins";
 import { Container, BindingType } from "./ioc";
 import { NetworkManifest } from "./networks";
