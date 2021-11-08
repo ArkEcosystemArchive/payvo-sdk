@@ -1,4 +1,3 @@
-
 import { ConfigKey, ConfigRepository } from "./config";
 
 let subject: ConfigRepository;

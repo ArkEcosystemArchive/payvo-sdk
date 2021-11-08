@@ -1,4 +1,3 @@
-
 import { jest } from "@jest/globals";
 
 import { manifest } from "../../../sdk-ark/distribution/manifest";

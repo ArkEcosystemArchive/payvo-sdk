@@ -1,4 +1,3 @@
-
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 
 const asset = {

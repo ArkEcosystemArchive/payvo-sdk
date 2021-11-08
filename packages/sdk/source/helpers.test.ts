@@ -1,4 +1,3 @@
-
 import { jest } from "@jest/globals";
 
 import { ConfigRepository } from "./coins";

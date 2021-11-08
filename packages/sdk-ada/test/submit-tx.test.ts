@@ -1,4 +1,3 @@
-
 import { createService, require } from "../test/mocking";
 import { ClientService } from "../source/client.service";
 import { TransactionService } from "../source/transaction.service";

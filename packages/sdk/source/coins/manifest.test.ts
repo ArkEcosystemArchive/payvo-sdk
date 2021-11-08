@@ -1,4 +1,3 @@
-
 import { Manifest } from "./manifest";
 
 test("#all", () => {

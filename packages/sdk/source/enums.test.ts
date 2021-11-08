@@ -1,4 +1,3 @@
-
 import { FeatureFlag } from "./enums";
 
 test("FeatureFlag", () => {

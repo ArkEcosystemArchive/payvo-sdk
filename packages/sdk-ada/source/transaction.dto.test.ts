@@ -1,4 +1,3 @@
-
 import { DTO } from "@payvo/sdk";
 
 import Fixture from "../test/fixtures/client/transaction.json";

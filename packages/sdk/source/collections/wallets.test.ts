@@ -1,4 +1,3 @@
-
 import { WalletDataCollection } from "./wallets";
 
 let subject: WalletDataCollection;

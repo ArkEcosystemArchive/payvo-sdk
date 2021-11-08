@@ -1,4 +1,3 @@
-
 import { BigNumber } from "@payvo/helpers";
 
 import { WalletData } from "./wallet.dto";

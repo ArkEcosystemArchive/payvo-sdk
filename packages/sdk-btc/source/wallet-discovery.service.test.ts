@@ -1,4 +1,3 @@
-
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";

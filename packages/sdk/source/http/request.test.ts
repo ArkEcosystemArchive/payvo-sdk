@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-
 import { jest } from "@jest/globals";
 
 import { HttpResponse } from "./contracts";

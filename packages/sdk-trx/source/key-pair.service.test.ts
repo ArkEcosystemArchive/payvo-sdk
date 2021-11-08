@@ -1,4 +1,3 @@
-
 import { identity } from "../test/fixtures/identity";
 import { createService, require } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";

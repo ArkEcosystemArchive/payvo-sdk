@@ -1,4 +1,3 @@
-
 import { Paginator } from "./paginator";
 
 let subject: Stub;

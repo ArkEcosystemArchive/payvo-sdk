@@ -1,4 +1,3 @@
-
 import nock from "nock";
 
 import { createService, require } from "../test/mocking";

@@ -1,4 +1,3 @@
-
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";

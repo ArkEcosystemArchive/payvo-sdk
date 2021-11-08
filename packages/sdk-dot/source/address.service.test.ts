@@ -1,4 +1,3 @@
-
 import { IoC } from "@payvo/sdk";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 

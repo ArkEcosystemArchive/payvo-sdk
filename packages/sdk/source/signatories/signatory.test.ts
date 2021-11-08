@@ -1,4 +1,3 @@
-
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
 import { ConfirmationSecretSignatory } from "./confirmation-secret";
 import { ConfirmationWIFSignatory } from "./confirmation-wif";

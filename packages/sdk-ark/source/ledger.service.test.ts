@@ -1,4 +1,3 @@
-
 import { jest } from "@jest/globals";
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";

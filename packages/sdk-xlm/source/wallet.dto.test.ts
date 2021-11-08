@@ -1,4 +1,3 @@
-
 import { BigNumber } from "@payvo/helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";

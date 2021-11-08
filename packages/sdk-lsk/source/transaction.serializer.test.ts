@@ -1,4 +1,3 @@
-
 import { createService } from "../test/mocking";
 import { TransactionSerializer } from "./transaction.serializer";
 

@@ -1,4 +1,3 @@
-
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";

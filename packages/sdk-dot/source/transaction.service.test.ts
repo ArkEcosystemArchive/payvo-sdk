@@ -1,4 +1,3 @@
-
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 

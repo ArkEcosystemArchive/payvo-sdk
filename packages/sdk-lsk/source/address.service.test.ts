@@ -1,4 +1,3 @@
-
 import { IoC } from "@payvo/sdk";
 
 import { createService, require } from "../test/mocking";
