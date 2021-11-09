@@ -225,7 +225,7 @@ describe("MultiSignatureService", () => {
 					},
 				}),
 			),
-		).toBeFalse();
+		).toBeTrue();
 	});
 
 	test("#allWithPendingState", async () => {
