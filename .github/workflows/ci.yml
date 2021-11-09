@@ -54,7 +54,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk/ && pnpm run test -- --coverage
     ada:
@@ -93,7 +93,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-ada/ && pnpm run test -- --coverage
     ark:
@@ -132,7 +132,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-ark/ && pnpm run test -- --coverage
     atom:
@@ -171,7 +171,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-atom/ && pnpm run test -- --coverage
     avax:
@@ -210,7 +210,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-avax/ && pnpm run test -- --coverage
     btc:
@@ -249,7 +249,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-btc/ && pnpm run test -- --coverage
     dot:
@@ -288,7 +288,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-dot/ && pnpm run test -- --coverage --forceExit
     egld:
@@ -327,7 +327,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-egld/ && pnpm run test -- --coverage
     eos:
@@ -366,7 +366,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-eos/ && pnpm run test -- --coverage
     eth:
@@ -405,7 +405,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-eth/ && pnpm run test -- --coverage
     lsk:
@@ -444,7 +444,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-lsk/ && pnpm run test -- --coverage
     nano:
@@ -483,7 +483,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-nano/ && pnpm run test -- --coverage
     neo:
@@ -522,7 +522,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-neo/ && pnpm run test -- --coverage
     sol:
@@ -561,7 +561,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-sol/ && pnpm run test -- --coverage
     trx:
@@ -600,7 +600,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-trx/ && pnpm run test -- --coverage
     xlm:
@@ -639,7 +639,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-xlm/ && pnpm run test -- --coverage
     xrp:
@@ -678,7 +678,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-xrp/ && pnpm run test -- --coverage
     zil:
@@ -717,6 +717,6 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js rebuild --verbose
+                  command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/sdk-zil/ && pnpm run test -- --coverage
