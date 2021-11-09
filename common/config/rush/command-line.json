@@ -3,6 +3,14 @@
 	"commands": [
 		{
 			"commandKind": "bulk",
+			"name": "build",
+			"summary": "...",
+			"description": "...",
+			"enableParallelism": true,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
 			"name": "format",
 			"summary": "...",
 			"description": "...",
