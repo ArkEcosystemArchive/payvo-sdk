@@ -12,7 +12,7 @@
 		"/distribution"
 	],
 	"scripts": {
-		"build": "pnpm run clean && pnpm run lint && tsc --project tsconfig.json && pnpm run bundle:esm && pnpm run bundle:esm:min && pnpm run bundle:umd && pnpm run bundle:umd:min && pnpm run build:stats",
+		"build": "pnpm run clean && tsc --project tsconfig.json && pnpm run bundle:esm && pnpm run bundle:esm:min && pnpm run bundle:umd && pnpm run bundle:umd:min && pnpm run build:stats",
 		"build:stats": "(echo '\\033[35;3m' ; cd distribution && ls -lh index*js index*gz | tail -n +2 | awk '{print $5,$9}')",
 		"bundle:esm": "rollup distribution/index.js --file distribution/index.mjs --format esm",
 		"bundle:esm:min": "terser --ecma 6 --compress --mangle --module -o distribution/index.min.mjs -- distribution/index.mjs && gzip -9 -c distribution/index.min.mjs > distribution/index.min.mjs.gz",
