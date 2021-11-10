@@ -1478,7 +1478,9 @@ importers:
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.4
       '@payvo/sdk': link:../sdk
+      base-x: 3.0.9
       bignumber.js: 9.0.1
+      multicoin-address-validator: 0.5.2
       ripple-keypairs: 1.0.3
       ripple-lib: 1.10.0
     devDependencies:
@@ -1536,6 +1538,7 @@ importers:
       '@types/rimraf': ^3.0.2
       '@typescript-eslint/eslint-plugin': ^5.3.1
       '@typescript-eslint/parser': ^5.3.1
+      base-x: ~3.0.9
       bignumber.js: ^9.0.1
       cross-env: ^7.0.3
       eslint: ^8.2.0
@@ -1550,6 +1553,7 @@ importers:
       jest-extended: ^1.1.0
       jest-localstorage-mock: ^2.4.18
       lodash: ^4.17.21
+      multicoin-address-validator: ~0.5.2
       nock: ^13.2.0
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
@@ -4868,7 +4872,6 @@ packages:
   /base-x/3.0.9:
     dependencies:
       safe-buffer: 5.2.1
-    dev: false
     resolution:
       integrity: sha512-H7JU6iBHTal1gp56aKoaa//YUxEaAOUiydvrV/pILqIHXTtqxSkATOnDA2u+jZ/61sD+L/412+7kzXRtWukhpQ==
   /base32.js/0.1.0:
@@ -5214,6 +5217,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+7CHXqGuspUn/Sl5aO7Ea0xWGAtETPXNSAjHo48JfLdPWcMng33Xe4znFvQweqc/uzk5zSOI3H52CYnjCfb5hA==
+  /browserify-bignum/1.3.0-2:
+    dev: false
+    resolution:
+      integrity: sha1-3cO27WB/1slglmlQ4rNaKwxvub8=
   /browserify-cipher/1.0.1:
     dependencies:
       browserify-aes: 1.2.0
@@ -5275,7 +5282,7 @@ packages:
       integrity: sha512-pd8DCoxmbgc7hyPKOvxtqNcjYoOsABPQdcCUjGp3d42VR2CX1ORhk2A87oqqu5R1kk+76nsxZupkmyd+MVtCog==
   /bs58/4.0.1:
     dependencies:
-      base-x: 3.0.8
+      base-x: 3.0.9
     resolution:
       integrity: sha1-vhYedsNU9veIrkBx9j806MTwpCo=
   /bs58check/2.1.2:
@@ -5422,6 +5429,10 @@ packages:
     dev: true
     resolution:
       integrity: sha1-y5T662HIaWRR2zZTThQi+U8K7og=
+  /bundle/2.1.0:
+    dev: false
+    resolution:
+      integrity: sha512-d7TeT8m2HuymDjSEmMppWe/h5SSPPUZkaWKrAofx6gNXDdZ3FL/81oOTGPG+LIaZbNr9m4rtUi98Yw0Q1vHIIw==
   /bytebuffer/5.0.1:
     dependencies:
       long: 3.2.0
@@ -5515,6 +5526,13 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==
+  /camel-case/4.1.2:
+    dependencies:
+      pascal-case: 3.1.2
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-gxGWBrTT1JuMx6R+o5PTXMmUnhnVzLQ9SNutD4YqKtI6ap897t3tKECYla6gCWEkplXnlNybEkZg9GEGxKFCgw==
   /camelcase/5.3.1:
     engines:
       node: '>=6'
@@ -5541,6 +5559,10 @@ packages:
   /caseless/0.12.0:
     resolution:
       integrity: sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
+  /cbor-js/0.1.0:
+    dev: false
+    resolution:
+      integrity: sha1-yAzmEg84fo+qdDcN/aIdlluPx/k=
   /censorify-it/3.0.2:
     dependencies:
       linkify-it: 3.0.2
@@ -5660,6 +5682,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-rhjH9AG1fvabIDoGRVH587413LPjTZgmDF9fOFCbFJQV4yuocX1mHxxvXI4g3cGwbVY9wAYIoKlg1N79frJKQw==
+  /clean-css/4.2.4:
+    dependencies:
+      source-map: 0.6.1
+    dev: false
+    engines:
+      node: '>= 4.0'
+    resolution:
+      integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==
   /clean-stack/2.2.0:
     dev: true
     engines:
@@ -5778,6 +5808,12 @@ packages:
   /commander/2.20.3:
     resolution:
       integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
+  /commander/4.1.1:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==
   /commander/6.2.1:
     engines:
       node: '>= 6'
@@ -5992,6 +6028,11 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==
+  /css-b64-images/0.2.5:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha1-QgBdgyBLK0pdk7axpWRBM7WSegI=
   /cssom/0.3.8:
     resolution:
       integrity: sha512-b0tGHbfegbhPJpxpiBPU2sCkigAqtM9O121le6bbOlgyV+NyGyCmVfJ6QW9eRjz8CpNfWEOYBIMIGRYkLwsIYg==
@@ -6303,6 +6344,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-dqnqRkPMAjOZE0FogZ+ceJNM2dZ3V/yNOuFB7+39qpO93hHhfRpHw3heYQC7DPK9FqbQTfBKUJhiSfz4MvXYwg==
+  /dot-case/3.0.4:
+    dependencies:
+      no-case: 3.0.4
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-Kv5nKlh6yRrdrGvxeJ2e5y2eRUpkUosIW4A2AS38zwSz27zu7ufDwQPi5Jhs3XAlGNetl3bmnGhQsMtkKJnj3w==
   /dot-prop/5.3.0:
     dependencies:
       is-obj: 2.0.0
@@ -7800,6 +7848,11 @@ packages:
     dev: false
     resolution:
       integrity: sha512-c+tl9PHG9/XkGgG0tD7CJpRVaE0jfZizDNmnErUAKQ4EjQSOcOUcV3EN9ZEZS8pZ4usaeiiK0H7stzuzna8feA==
+  /he/1.2.0:
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==
   /hmac-drbg/1.0.1:
     dependencies:
       hash.js: 1.1.7
@@ -7834,6 +7887,21 @@ packages:
     dev: true
     resolution:
       integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==
+  /html-minifier-terser/5.1.1:
+    dependencies:
+      camel-case: 4.1.2
+      clean-css: 4.2.4
+      commander: 4.1.1
+      he: 1.2.0
+      param-case: 3.0.4
+      relateurl: 0.2.7
+      terser: 4.8.0
+    dev: false
+    engines:
+      node: '>=6'
+    hasBin: true
+    resolution:
+      integrity: sha512-ZPr5MNObqnV/T9akshPKbVgyOqLmy+Bxo7juKCfTfnjNniTAMdy4hz21YQqoofMBJD2kdREaqPPdThoR78Tgxg==
   /http-cache-semantics/4.1.0:
     resolution:
       integrity: sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
@@ -9066,6 +9134,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
+  /js-sha512/0.8.0:
+    dev: false
+    resolution:
+      integrity: sha512-PWsmefG6Jkodqt+ePTvBZCSMFgN7Clckjd0O7su3I0+BW2QWUTJNzjktHsztGLhncP2h8mcF9V9Y2Ha59pAViQ==
   /js-tokens/4.0.0:
     resolution:
       integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
@@ -9429,6 +9501,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
+  /lodash.isequal/4.5.0:
+    dev: false
+    resolution:
+      integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=
   /lodash.memoize/4.1.2:
     dev: true
     resolution:
@@ -9484,6 +9560,12 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
+  /lower-case/2.0.2:
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-7fm3l3NAF9WfN6W3JOmf5drwpVqX78JtoGJ3A6W0a6ZnldM41w2fV5D490psKFTpMds8TJse/eHLFFsNHHjHgg==
   /lowercase-keys/1.0.1:
     engines:
       node: '>=0.10.0'
@@ -9656,6 +9738,20 @@ packages:
     dev: false
     resolution:
       integrity: sha1-e9KC4/WELtKVu3SM3Z8f+iyCRoU=
+  /minify/6.0.1:
+    dependencies:
+      clean-css: 4.2.4
+      css-b64-images: 0.2.5
+      debug: 4.3.2
+      html-minifier-terser: 5.1.1
+      terser: 5.9.0
+      try-to-catch: 3.0.0
+    dev: false
+    engines:
+      node: '>=12'
+    hasBin: true
+    resolution:
+      integrity: sha512-JMG5VruvghXZ1VnPCffnpESUzrhNPTT/uNogew9CmPdd3zmohSEt8/HhPxpR7CiXnBYWExW2gGoagZxTy9rnLg==
   /minimalistic-assert/1.0.1:
     resolution:
       integrity: sha512-UtJcAD4yEaGtjPezWuO9wC4nwUnVH/8/Im3yEHQP4b67cXlD/Qr9hdITCU1xDbSEXg2XKNaP8jsReV7vQd00/A==
@@ -9830,6 +9926,20 @@ packages:
     dev: false
     resolution:
       integrity: sha512-NDd7FeS3QamVtbgfvu5h7fd1IlbaC4EQ0/pgU4zqE2vdHCmBGsUa0TiM8/TdSeG6BMPC92OOCf8F1ocE/Wkrrg==
+  /multicoin-address-validator/0.5.2:
+    dependencies:
+      base-x: 3.0.9
+      browserify-bignum: 1.3.0-2
+      bundle: 2.1.0
+      cbor-js: 0.1.0
+      crc: 3.8.0
+      js-sha512: 0.8.0
+      jssha: 2.4.2
+      lodash.isequal: 4.5.0
+      minify: 6.0.1
+    dev: false
+    resolution:
+      integrity: sha512-0X0g1dhWKhtpadIe+cwTonTObw7FrHZkJVfd9yjlPFnictOrVZOaMFWLU0iV1Ok9vl4oi8H0t4OWAAMRAuYwJw==
   /multihashes/0.4.21:
     dependencies:
       buffer: 5.7.1
@@ -9889,6 +9999,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
+  /no-case/3.0.4:
+    dependencies:
+      lower-case: 2.0.2
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==
   /noble-ed25519/1.2.6:
     dev: false
     resolution:
@@ -10466,6 +10583,13 @@ packages:
     dev: false
     resolution:
       integrity: sha512-WjR1hOeg+kki3ZIOjaf4b5WVcay1jaliKSYiEaB1XzwhMQZJxRdQRv0V31EKBYlxb4T7SK3hjfc/jxyU64BoSw==
+  /param-case/3.0.4:
+    dependencies:
+      dot-case: 3.0.4
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-RXlj7zCYokReqWpOPH9oYivUzLYZ5vAPIfEmCTNViosC78F8F0H9y7T7gG2M39ymgutxF5gcFEsyZQSph9Bp3A==
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
@@ -10503,6 +10627,13 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
+  /pascal-case/3.1.2:
+    dependencies:
+      no-case: 3.0.4
+      tslib: 2.3.1
+    dev: false
+    resolution:
+      integrity: sha512-uWlGT3YSnK9x3BQJaOdcZwrnV6hPpd8jFH1/ucpiLRPh/2zCVJKS19E4GvYHvaCcACn3foXZ0cLB9Wrx1KGe5g==
   /path-exists/3.0.0:
     engines:
       node: '>=4'
@@ -11078,6 +11209,12 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-8acYXXTI0AkQv6RAOjE3vOaIXZkT9wo4LOFbBKYQEEnnMNBpKqdUrI6S4NT0KPIo/WVvJ5tE/X5LF/TQUf0ekw==
+  /relateurl/0.2.7:
+    dev: false
+    engines:
+      node: '>= 0.10'
+    resolution:
+      integrity: sha1-VNvzd+UUQKypCkzSdGANP/LYiKk=
   /remarkable/2.0.1:
     dependencies:
       argparse: 1.0.10
@@ -11627,7 +11764,6 @@ packages:
     dependencies:
       buffer-from: 1.1.1
       source-map: 0.6.1
-    dev: true
     resolution:
       integrity: sha512-n1lZZ8Ve4ksRqizaBQgxXDgKwttHDhyfQjA6YZZn8+AroHbsIz+JjwxQDxbp+7y5OYCI8t1Yk7etjD9CRd2hIw==
   /source-map/0.5.7:
@@ -11642,7 +11778,6 @@ packages:
     resolution:
       integrity: sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
   /source-map/0.7.3:
-    dev: true
     engines:
       node: '>= 8'
     resolution:
@@ -12022,12 +12157,22 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-un0FmiRUQNr5PJqy9kP7c40F5BOfpGlYTrxonDChEZB7pzZxRNp/bt+ymiy9/npwXya9KH99nJ/GXFIiUkYGFQ==
+  /terser/4.8.0:
+    dependencies:
+      commander: 2.20.3
+      source-map: 0.6.1
+      source-map-support: 0.5.20
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    hasBin: true
+    resolution:
+      integrity: sha512-EAPipTNeWsb/3wLPeup1tVPaXfIaU68xMnVdPafIL1TV05OhASArYyIfFvnvJCNrR2NIOvDVNNTFRa+Re2MWyw==
   /terser/5.9.0:
     dependencies:
       commander: 2.20.3
       source-map: 0.7.3
       source-map-support: 0.5.20
-    dev: true
     engines:
       node: '>=10'
     hasBin: true
@@ -12179,6 +12324,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-yKRkEe9A5RJCRiDcKXfXhfF6CDJl7QWhBLleaW+GlTwVXKGNJdpGomuYhCXvQyFQVlY6cKzOfH7pXPH69rcfNQ==
+  /try-to-catch/3.0.0:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-eIm6ZXwR35jVF8By/HdbbkcaCDTBI5PpCPkejRKrYp0jyf/DbCCcRhHD7/O9jtFI3ewsqo9WctFEiJTS6i+CQA==
   /ts-jest/27.0.7_2c4ca6574207836d1023f54689cc81ac:
     dependencies:
       '@types/jest': 27.0.2

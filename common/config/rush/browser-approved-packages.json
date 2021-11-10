@@ -363,6 +363,14 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "base-x",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "basex",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "bcryptjs",
       "allowedCategories": [ "libraries" ]
     },
@@ -672,6 +680,10 @@
     },
     {
       "name": "micromatch",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "multicoin-address-validator",
       "allowedCategories": [ "libraries" ]
     },
     {
