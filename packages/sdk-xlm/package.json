@@ -36,7 +36,7 @@
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
 		"ed25519-hd-key": "^1.2.0",
-		"stellar-sdk": "^8.0.0"
+		"stellar-sdk": "^9.0.1"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.3.1",
