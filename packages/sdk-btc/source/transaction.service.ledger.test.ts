@@ -60,7 +60,7 @@ const configureMock = (record: string): TransactionService =>
 
 jest.setTimeout(30_000);
 
-describe("bip44 wallet", () => {
+describe.skip("bip44 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -140,7 +140,7 @@ describe("bip44 wallet", () => {
 	});
 });
 
-describe("bip49 wallet", () => {
+describe.skip("bip49 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -220,7 +220,7 @@ describe("bip49 wallet", () => {
 	});
 });
 
-describe("bip84 wallet", () => {
+describe.skip("bip84 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(

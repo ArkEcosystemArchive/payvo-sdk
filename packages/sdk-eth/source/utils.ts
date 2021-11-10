@@ -1,5 +1,4 @@
-import { BIP39 } from "@payvo/cryptography";
-import Wallet, { hdkey } from "ethereumjs-wallet";
+import { ethers } from "ethers";
 
 export const createWallet = (
 	mnemonic: string,
@@ -7,10 +6,4 @@ export const createWallet = (
 	account: number,
 	change: number,
 	addressIndex: number,
-): Wallet =>
-	hdkey
-		.fromMasterSeed(BIP39.toSeed(mnemonic))
-		.derivePath(`m/44'/${coinType}'/${account}'/${change}/${addressIndex}`)
-		.getWallet();
-
-export const getAddress = (wallet: Wallet): string => "0x" + wallet.getAddress().toString("hex").toUpperCase();
+): ethers.Wallet => ethers.Wallet.fromMnemonic(mnemonic, `m/44'/${coinType}'/${account}'/${change}/${addressIndex}`);

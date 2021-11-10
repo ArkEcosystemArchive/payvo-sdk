@@ -1,6 +1,7 @@
 import { Coins, Exceptions, Services } from "@payvo/sdk";
-import { Wallet, Account } from "@zilliqa-js/account";
-import { bytes, units, BN, Zilliqa } from "@zilliqa-js/zilliqa";
+import { Account } from "@zilliqa-js/account";
+import { BN, bytes, units } from "@zilliqa-js/util";
+import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 export const getZilliqaVersion = (config: Coins.ConfigRepository) => {
 	const id = config.get<string>("network.id");
