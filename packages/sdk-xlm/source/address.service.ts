@@ -30,6 +30,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return true;
+		return Stellar.StrKey.isValidEd25519PublicKey(address);
 	}
 }
