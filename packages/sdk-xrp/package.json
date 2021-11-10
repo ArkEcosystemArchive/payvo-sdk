@@ -36,6 +36,7 @@
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
 		"bignumber.js": "^9.0.1",
+		"multicoin-address-validator": "~0.5.2",
 		"ripple-keypairs": "^1.0.3",
 		"ripple-lib": "^1.10.0"
 	},

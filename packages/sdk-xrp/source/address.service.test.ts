@@ -22,4 +22,9 @@ describe("Address", () => {
 
 		expect(result).toEqual({ type: "rfc6979", address: identity.address });
 	});
+
+	it("should validate an address", async () => {
+		await expect(subject.validate(identity.address)).resolves.toBeTrue();
+		await expect(subject.validate("invalid")).resolves.toBeFalse();
+	});
 });
