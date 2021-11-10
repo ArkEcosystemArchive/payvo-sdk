@@ -34,7 +34,6 @@
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
-		"bn.js": "5.2.0",
 		"elliptic": "^6.5.4",
 		"eosjs": "^22.1.0",
 		"node-fetch": "^2.0.0"
@@ -43,7 +42,6 @@
 		"@jest/globals": "^27.3.1",
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@payvo/http-got": "^1.0.0",
-		"@types/bn.js": "5.1.0",
 		"@types/elliptic": "6.4.14",
 		"@types/eslint": "^7.28.2",
 		"@types/eslint-plugin-prettier": "^3.1.0",

@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
-import { validation } from "@zilliqa-js/zilliqa";
+import { validation } from "@zilliqa-js/util";
 
 import { BindingType } from "./constants";
 import { accountFromMnemonic, accountFromPrivateKey } from "./zilliqa";

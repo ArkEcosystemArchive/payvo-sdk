@@ -1572,7 +1572,9 @@ importers:
       '@payvo/intl': 1.0.4
       '@payvo/sdk': link:../sdk
       '@zilliqa-js/account': 3.3.2
+      '@zilliqa-js/util': 3.3.2
       '@zilliqa-js/zilliqa': 3.3.2
+      bn.js: 5.2.0
     devDependencies:
       '@jest/globals': 27.3.1
       '@payvo/http-got': 1.0.0
@@ -1624,7 +1626,9 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.3.1
       '@typescript-eslint/parser': ^5.3.1
       '@zilliqa-js/account': ^3.3.2
+      '@zilliqa-js/util': ~3.3.2
       '@zilliqa-js/zilliqa': ^3.3.2
+      bn.js: 5.2.0
       cross-env: ^7.0.3
       eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
