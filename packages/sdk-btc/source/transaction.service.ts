@@ -13,7 +13,6 @@ import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/helpers";
 import { keysAndMethod } from "./multi-signature.domain";
 import { MultiSignatureService } from "./multi-signature.service";
-import { musig } from "../test/fixtures/musig";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -294,7 +293,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			BIP32.fromMnemonic(musig.accounts[0].mnemonic, this.#network), // TODO unhardcode this
+			BIP32.fromMnemonic("hard produce blood mosquito provide feed open enough access motor chimney swamp", this.#network), // TODO unhardcode this
 			accountPublicKeys.map((extendedPublicKey) => BIP32.fromBase58(extendedPublicKey, network)),
 			method,
 		);
