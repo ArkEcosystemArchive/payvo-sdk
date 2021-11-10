@@ -30,8 +30,8 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-app-btc": "^6.12.1",
-		"@ledgerhq/hw-transport-node-hid-singleton": "^6.11.2",
+		"@ledgerhq/hw-app-btc": "^6.3.0",
+		"@ledgerhq/hw-transport-node-hid-singleton": "^6.3.0",
 		"@payvo/cryptography": "^2.0.0",
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.4",
