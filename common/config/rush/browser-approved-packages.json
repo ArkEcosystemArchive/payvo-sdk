@@ -543,6 +543,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "ethers",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "eventemitter3",
       "allowedCategories": [ "libraries" ]
     },

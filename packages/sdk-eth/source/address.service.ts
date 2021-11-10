@@ -1,9 +1,9 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Coins, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/cryptography";
-import Wallet from "ethereumjs-wallet";
+import { ethers } from "ethers";
 import web3 from "web3";
 
-import { createWallet, getAddress } from "./utils";
+import { createWallet } from "./utils";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -13,26 +13,13 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: getAddress(
-				createWallet(
-					mnemonic,
-					this.configRepository.get(Coins.ConfigKey.Slip44),
-					options?.bip44?.account || 0,
-					options?.bip44?.change || 0,
-					options?.bip44?.addressIndex || 0,
-				),
-			),
-		};
-	}
-
-	public override async fromPublicKey(
-		publicKey: string,
-		options?: Services.IdentityOptions,
-	): Promise<Services.AddressDataTransferObject> {
-		return {
-			type: "bip44",
-			// @ts-ignore
-			address: getAddress(new Wallet.default(undefined, Buffoon.fromHex(publicKey))),
+			address: await createWallet(
+				mnemonic,
+				this.configRepository.get(Coins.ConfigKey.Slip44),
+				options?.bip44?.account || 0,
+				options?.bip44?.change || 0,
+				options?.bip44?.addressIndex || 0,
+			).getAddress(),
 		};
 	}
 
@@ -42,8 +29,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			// @ts-ignore
-			address: getAddress(new Wallet.default(Buffoon.fromHex(privateKey))),
+			address: await new ethers.Wallet(privateKey).getAddress(),
 		};
 	}
 
