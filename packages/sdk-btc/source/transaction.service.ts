@@ -293,7 +293,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			BIP32.fromMnemonic("hard produce blood mosquito provide feed open enough access motor chimney swamp", this.#network), // TODO unhardcode this
+			BIP32.fromMnemonic(
+				"hard produce blood mosquito provide feed open enough access motor chimney swamp",
+				this.#network,
+			), // TODO unhardcode this
 			accountPublicKeys.map((extendedPublicKey) => BIP32.fromBase58(extendedPublicKey, network)),
 			method,
 		);
