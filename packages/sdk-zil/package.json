@@ -34,8 +34,8 @@
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
-		"@zilliqa-js/account": "^3.0.0",
-		"@zilliqa-js/zilliqa": "^3.0.0"
+		"@zilliqa-js/account": "^3.3.2",
+		"@zilliqa-js/zilliqa": "^3.3.2"
 	},
 	"devDependencies": {
 		"@jest/globals": "^27.3.1",
