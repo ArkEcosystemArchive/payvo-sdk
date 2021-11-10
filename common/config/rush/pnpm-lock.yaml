@@ -658,7 +658,7 @@ importers:
   ../../packages/sdk-egld:
     dependencies:
       '@elrondnetwork/elrond-core-js': 2.1.0
-      '@elrondnetwork/erdjs': 7.0.0
+      '@elrondnetwork/erdjs': 8.0.0
       '@payvo/cryptography': 2.0.0
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.4
@@ -699,7 +699,7 @@ importers:
       typescript: 4.4.4
     specifiers:
       '@elrondnetwork/elrond-core-js': ^2.1.0
-      '@elrondnetwork/erdjs': ^7.0.0
+      '@elrondnetwork/erdjs': ^8.0.0
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^1.1.1
@@ -829,7 +829,6 @@ importers:
       '@payvo/intl': 1.0.4
       '@payvo/sdk': link:../sdk
       bip39: 3.0.4
-      ethereumjs-wallet: 1.0.2
       ethers: 5.5.1
       web3: 1.6.0
     devDependencies:
@@ -894,7 +893,6 @@ importers:
       eslint-plugin-prettier: ^4.0.0
       eslint-plugin-simple-import-sort: ^7.0.0
       eslint-plugin-tsdoc: ~0.2.14
-      ethereumjs-wallet: ^1.0.2
       ethers: ~5.5.1
       got: ^11.8.2
       jest: ^27.3.1
@@ -1572,7 +1570,6 @@ importers:
       '@zilliqa-js/account': 3.3.2
       '@zilliqa-js/util': 3.3.2
       '@zilliqa-js/zilliqa': 3.3.2
-      bn.js: 5.2.0
     devDependencies:
       '@jest/globals': 27.3.1
       '@payvo/http-got': 1.0.0
@@ -1626,7 +1623,6 @@ importers:
       '@zilliqa-js/account': ^3.3.2
       '@zilliqa-js/util': ~3.3.2
       '@zilliqa-js/zilliqa': ^3.3.2
-      bn.js: 5.2.0
       cross-env: ^7.0.3
       eslint: ^8.2.0
       eslint-config-prettier: ^8.3.0
@@ -2124,7 +2120,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-mCRHnNzy02gicY02R0P5bIRLTL9uWNrTHDu5UZWkvaxUFpqD/XGbPcbs5tnlCpQpIqXH0RsXzYDpxyZS2byubQ==
-  /@elrondnetwork/erdjs/7.0.0:
+  /@elrondnetwork/erdjs/8.0.0:
     dependencies:
       '@babel/runtime': 7.11.2
       '@elrondnetwork/bls-wasm': 0.3.3
@@ -2150,7 +2146,7 @@ packages:
       uuid: 8.3.2
     dev: false
     resolution:
-      integrity: sha512-/gnam6ziGYUdxrwlDQYRYPNnXdrDeHjA0MgVCRdP5T+My1zlwTK9DXxE9cU9UZei4ZmuxgErBCnmt+5MEJdarw==
+      integrity: sha512-y/+9iWwxoFukmmC6ofR7JHRBvq91Ai/WvtS+0Sz8Fna2pirMVwtadlee41yco7ZLwc86g1llSSEfUJSuSNbmOg==
   /@elrondnetwork/hw-app-elrond/0.3.0:
     dependencies:
       '@ledgerhq/hw-transport': 5.50.0
@@ -3155,7 +3151,7 @@ packages:
       '@octokit/request-error': 2.0.5
       '@octokit/types': 6.14.2
       is-plain-object: 5.0.0
-      node-fetch: 2.6.1
+      node-fetch: 2.6.6
       universal-user-agent: 6.0.0
     dev: false
     resolution:
@@ -4561,6 +4557,7 @@ packages:
     resolution:
       integrity: sha512-1apePfXM1UOSqw0o9IiFAovVz9M5S1Dg+4TrDwfMewQ6p/rmMueb7tWZjQ1rx4Loy1ArBggoqGpfqqdI4rondg==
   /ansi-regex/5.0.0:
+    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -5598,7 +5595,7 @@ packages:
       braces: 3.0.2
       glob-parent: 5.1.2
       is-binary-path: 2.1.0
-      is-glob: 4.0.1
+      is-glob: 4.0.3
       normalize-path: 3.0.0
       readdirp: 3.5.0
     dev: false
@@ -5693,7 +5690,7 @@ packages:
   /cliui/6.0.0:
     dependencies:
       string-width: 4.2.2
-      strip-ansi: 6.0.0
+      strip-ansi: 6.0.1
       wrap-ansi: 6.2.0
     dev: false
     resolution:
@@ -6900,19 +6897,6 @@ packages:
       node: '>=10.0.0'
     resolution:
       integrity: sha512-y+82tEbyASO0K0X1/SRhbJJoAlfcvq8JbrG4a5cjrOks7HS/36efU/0j2flxCPOUM++HFahk33kr/ZxyC4vNuw==
-  /ethereumjs-wallet/1.0.2:
-    dependencies:
-      aes-js: 3.1.2
-      bs58check: 2.1.2
-      ethereum-cryptography: 0.1.3
-      ethereumjs-util: 7.1.3
-      randombytes: 2.1.0
-      scrypt-js: 3.0.1
-      utf8: 3.0.0
-      uuid: 8.3.2
-    dev: false
-    resolution:
-      integrity: sha512-CCWV4RESJgRdHIvFciVQFnCHfqyhXWchTPlkfp28Qc53ufs+doi5I/cV2+xeK9+qEo25XCWfP9MiL+WEPAZfdA==
   /ethers/5.5.1:
     dependencies:
       '@ethersproject/abi': 5.5.0
@@ -8197,14 +8181,6 @@ packages:
       node: '>= 0.4'
     resolution:
       integrity: sha512-2Omr/twNtufVZFr1GhxjOMFPAj2sjc/dKaIqBhvo4qciXfJmITGH6ZGd8eZYNHza8t1y0e01AuqRhJwfWp26WQ==
-  /is-glob/4.0.1:
-    dependencies:
-      is-extglob: 2.1.1
-    dev: false
-    engines:
-      node: '>=0.10.0'
-    resolution:
-      integrity: sha512-5G0tKtBTFImOqDnLB2hG6Bp2qcKEFduo4tZu9MT/H6NQv/ghhy30o55ufafxJ/LdH79LLs2Kfrn85TLKyA7BUg==
   /is-glob/4.0.3:
     dependencies:
       is-extglob: 2.1.1
@@ -11835,14 +11811,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-DuRs1gKbBqsMKIZlrffwlug8MHkcnpjs5VPmL1PAh+mA30U0DTotfDZ0d2UUsXpPmPmMMJ6W773MaA3J+lbiWA==
-  /strip-ansi/6.0.0:
-    dependencies:
-      ansi-regex: 5.0.0
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-AuvKTrTfQNYNIctbR1K/YGTR1756GycPsg7b9bdV9Duqur4gv6aKqHXah67Z8ImS7WEz5QVcOtlfW2rZEugt6w==
   /strip-ansi/6.0.1:
     dependencies:
       ansi-regex: 5.0.1
@@ -13096,7 +13064,7 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       string-width: 4.2.2
-      strip-ansi: 6.0.0
+      strip-ansi: 6.0.1
     dev: false
     engines:
       node: '>=8'
