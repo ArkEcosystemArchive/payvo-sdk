@@ -745,7 +745,7 @@ importers:
       '@payvo/sdk': link:../sdk
       elliptic: 6.5.4
       eosjs: 22.1.0
-      node-fetch: 2.6.5
+      node-fetch: 3.1.0
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
@@ -811,7 +811,7 @@ importers:
       jest-extended: ^1.1.0
       jest-localstorage-mock: ^2.4.18
       nock: ^13.2.0
-      node-fetch: ^2.0.0
+      node-fetch: ^3.1.0
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
@@ -6028,6 +6028,12 @@ packages:
       node: '>=0.10'
     resolution:
       integrity: sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=
+  /data-uri-to-buffer/4.0.0:
+    dev: false
+    engines:
+      node: '>= 12'
+    resolution:
+      integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==
   /data-urls/2.0.0:
     dependencies:
       abab: 2.0.5
@@ -7164,6 +7170,14 @@ packages:
     dev: true
     resolution:
       integrity: sha512-DkPJKQeY6kKwmuMretBhr7G6Vodr7bFwDYTXIkfG1gjvNpaxBTQV3PbXg6bR1c1UP4jPOX0jHUbbHANL9vRjVg==
+  /fetch-blob/3.1.3:
+    dependencies:
+      web-streams-polyfill: 3.2.0
+    dev: false
+    engines:
+      node: ^12.20 || >= 14.13
+    resolution:
+      integrity: sha512-ax1Y5I9w+9+JiM+wdHkhBoxew+zG4AJ2SvAD1v1szpddUIiPERVGBxrMcB2ZqW0Y3PP8bOWYv2zqQq1Jp2kqUQ==
   /figgy-pudding/3.5.2:
     dev: true
     resolution:
@@ -7354,6 +7368,14 @@ packages:
       node: '>= 6'
     resolution:
       integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
+  /formdata-polyfill/4.0.10:
+    dependencies:
+      fetch-blob: 3.1.3
+    dev: false
+    engines:
+      node: '>=12.20.0'
+    resolution:
+      integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==
   /forwarded/0.1.2:
     dev: false
     engines:
@@ -9919,14 +9941,6 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
-  /node-fetch/2.6.5:
-    dependencies:
-      whatwg-url: 5.0.0
-    dev: false
-    engines:
-      node: 4.x || >=6.0.0
-    resolution:
-      integrity: sha512-mmlIVHJEu5rnIxgEgez6b9GgWXbkZj5YZ7fx+2r94a2E+Uirsp6HsPTPlomfdHtpt/B0cdKviwkoaM6pyvUOpQ==
   /node-fetch/2.6.6:
     dependencies:
       whatwg-url: 5.0.0
@@ -9935,6 +9949,16 @@ packages:
       node: 4.x || >=6.0.0
     resolution:
       integrity: sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
+  /node-fetch/3.1.0:
+    dependencies:
+      data-uri-to-buffer: 4.0.0
+      fetch-blob: 3.1.3
+      formdata-polyfill: 4.0.10
+    dev: false
+    engines:
+      node: ^12.20.0 || ^14.13.1 || >=16.0.0
+    resolution:
+      integrity: sha512-QU0WbIfMUjd5+MUzQOYhenAazakV7Irh1SGkWCsRzBwvm4fAhzEUaHMJ6QLP7gWT6WO9/oH2zhKMMGMuIrDyKw==
   /node-forge/0.10.0:
     dev: false
     engines:
@@ -12639,6 +12663,12 @@ packages:
     dev: true
     resolution:
       integrity: sha1-L3+bj9ENZ3JisYqITijRlhjgKPs=
+  /web-streams-polyfill/3.2.0:
+    dev: false
+    engines:
+      node: '>= 8'
+    resolution:
+      integrity: sha512-EqPmREeOzttaLRm5HS7io98goBgZ7IVz79aDvqjD0kYXLtFZTc0T/U6wHTPKyIjb+MdN7DFIIX6hgdBEpWmfPA==
   /web3-bzz/1.6.0:
     dependencies:
       '@types/node': 12.20.11
