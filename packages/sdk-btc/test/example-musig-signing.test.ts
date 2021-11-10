@@ -4,6 +4,7 @@ import nock from "nock";
 import { nativeSegwitMusig, rootKeyToAccountKey } from "../source/address.domain";
 import { BIP32 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
+import { BIP32Interface } from "bitcoinjs-lib";
 import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/helpers";
 
@@ -135,6 +136,13 @@ describe("example code using bitcoinjs-lib", () => {
 					value: utxo.satoshis * 10e8,
 				},
 				witnessScript: payment.redeem?.output,
+				bip32Derivation: neuturedAccountKeys.map((pubKey, index) => ({
+					// Non-root level fingerprint, not valid for HD signing, but we won't use it
+					masterFingerprint: pubKey.fingerprint,
+					// Fake relative path, not valid for HD signing
+					path: "m/0/0",
+					pubkey: pubKey.derivePath("0/0").publicKey,
+				})),
 				nonWitnessUtxo: convertString(utxo.raw),
 			})
 			.addOutput({
@@ -145,6 +153,11 @@ describe("example code using bitcoinjs-lib", () => {
 				// Change address m/48'/1'/0'/2'/1/0
 				address: "tb1qsyz35zpeueuwmcjap75flg93mny2gn7v3urnnwe4k05rcnvnp4cqq7hew2",
 				value: 200,
+				bip32Derivation: neuturedAccountKeys.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					path: "m/1/0",
+					pubkey: pubKey.derivePath("1/0").publicKey,
+				})),
 			});
 
 		// encode to send out to the signers
@@ -153,12 +166,24 @@ describe("example code using bitcoinjs-lib", () => {
 		// each signer imports the unsigned transaction
 		const signer1 = bitcoin.Psbt.fromBase64(psbtBaseText);
 		const signer2 = bitcoin.Psbt.fromBase64(psbtBaseText);
-		// const signer3 = bitcoin.Psbt.fromBase64(psbtBaseText);
+		const signer3 = bitcoin.Psbt.fromBase64(psbtBaseText);
 
-		// (They take the input index explicitly as the first arg)
-		signer1.signInput(0, rootKeys[0].derivePath("48'/1'/0'/2'/0/0")); // The trick here is figuring out the path (last two bits)
-		signer2.signInput(0, rootKeys[1].derivePath("48'/1'/0'/2'/0/0"));
-		// signer3.signInput(0, rootKeys[2].derivePath("48'/1'/0'/2'/0/0"));
+		function signWith(psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: string) {
+			psbt.txInputs.forEach((input, index) => {
+				for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
+					const [internal, addressIndex] = derivation.path.split("/").slice(-2);
+					const child = rootKey.derivePath(`${path}/${internal}/${addressIndex}`);
+					if (psbt.inputHasPubkey(index, child.publicKey)) {
+						psbt.signInput(index, child);
+						break;
+					}
+				}
+			});
+		}
+
+		signWith(signer1, rootKeys[0], "m/48'/1'/0'/2'");
+		signWith(signer2, rootKeys[1], "m/48'/1'/0'/2'");
+		signWith(signer3, rootKeys[2], "m/48'/1'/0'/2'");
 
 		// encode to send back to combiner (signer 1 and 2 are not near each other)
 		const s1text = signer1.toBase64();
