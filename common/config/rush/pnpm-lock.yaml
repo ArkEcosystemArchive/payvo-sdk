@@ -105,7 +105,7 @@ importers:
       typescript: ^4.4.4
   ../../packages/sdk-ada:
     dependencies:
-      '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
+      '@emurgo/cardano-serialization-lib-nodejs': 8.1.0
       '@payvo/cryptography': 2.0.0
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.4
@@ -145,7 +145,7 @@ importers:
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
-      '@emurgo/cardano-serialization-lib-nodejs': ^9.0.0
+      '@emurgo/cardano-serialization-lib-nodejs': ^8.0.0
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^1.1.1
@@ -1478,7 +1478,6 @@ importers:
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.4
       '@payvo/sdk': link:../sdk
-      base-x: 3.0.9
       bignumber.js: 9.0.1
       multicoin-address-validator: 0.5.2
       ripple-keypairs: 1.0.3
@@ -1538,7 +1537,6 @@ importers:
       '@types/rimraf': ^3.0.2
       '@typescript-eslint/eslint-plugin': ^5.3.1
       '@typescript-eslint/parser': ^5.3.1
-      base-x: ~3.0.9
       bignumber.js: ^9.0.1
       cross-env: ^7.0.3
       eslint: ^8.2.0
@@ -2161,10 +2159,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-amDVVV4demxQdcvL8xEZNrPDDXve3d1sO3/1Tk5UglG2S2RTW3nnmC2UccKYUROEaQaH6YAyZwYhzyTKQilz4g==
-  /@emurgo/cardano-serialization-lib-nodejs/9.1.2:
+  /@emurgo/cardano-serialization-lib-nodejs/8.1.0:
     dev: false
     resolution:
-      integrity: sha512-wX0z/P2xysCjSxClnJxdcEKk9+uttpLnHiCsHZj1x+FEUYZ0FCnfIsJT8nN7oRCGyM/Y9peppoZUbqR05d97nQ==
+      integrity: sha512-BH8MhQQt+BDqWM4Yqa9Asn/vhJJLxi43pp7Crq6bdQuj2NOT2F6e3nhdLS2KJhvb47YGFdg0pnvGaH+TCmUoIA==
   /@eslint/eslintrc/1.0.4:
     dependencies:
       ajv: 6.12.6
