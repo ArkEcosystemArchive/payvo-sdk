@@ -14,11 +14,10 @@ beforeEach(async () => {
 const network = bitcoin.networks.testnet;
 
 describe("example code using bitcoinjs-lib", () => {
-
 	const rootKeys = musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, network));
 
-	const accountKeys = rootKeys.map(rootKey => rootKeyToAccountKey(rootKey, "48'/1'/0'/2'"));
-	const neuturedAccountKeys = accountKeys.map(key => key.neutered());
+	const accountKeys = rootKeys.map((rootKey) => rootKeyToAccountKey(rootKey, "48'/1'/0'/2'"));
+	const neuturedAccountKeys = accountKeys.map((key) => key.neutered());
 
 	it("should create and sign a transfer from multisig wallet", async () => {
 		const network = bitcoin.networks.testnet;
