@@ -1,6 +1,7 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/intl";
-import { BN, Long, units, Zilliqa } from "@zilliqa-js/zilliqa";
+import { BN, Long, units } from "@zilliqa-js/util";
+import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { convertZilToQa, getZilliqaVersion } from "./zilliqa";
 

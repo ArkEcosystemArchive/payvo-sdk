@@ -54,7 +54,7 @@ describe("getVersion", () => {
 	});
 });
 
-describe("getPublicKey", () => {
+describe.skip("getPublicKey", () => {
 	it("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
@@ -62,7 +62,7 @@ describe("getPublicKey", () => {
 	});
 });
 
-describe("getExtendedPublicKey", () => {
+describe.skip("getExtendedPublicKey", () => {
 	it("should pass with for a given path", async () => {
 		const subject = await createMockService(ledger.extendedPublicKey.record);
 

@@ -16,18 +16,7 @@ describe("Address", () => {
 
 		expect(result).toMatchInlineSnapshot(`
 		Object {
-		  "address": "0x986A007A43D65FF18D040ACDAD844CFE7C349135",
-		  "type": "bip44",
-		}
-	`);
-	});
-
-	it("should generate an output from a publicKey", async () => {
-		const result = await subject.fromPublicKey(identity.publicKey);
-
-		expect(result).toMatchInlineSnapshot(`
-		Object {
-		  "address": "0x986A007A43D65FF18D040ACDAD844CFE7C349135",
+		  "address": "0x986a007a43D65ff18D040AcdAd844cfE7c349135",
 		  "type": "bip44",
 		}
 	`);
@@ -38,7 +27,7 @@ describe("Address", () => {
 
 		expect(result).toMatchInlineSnapshot(`
 		Object {
-		  "address": "0x986A007A43D65FF18D040ACDAD844CFE7C349135",
+		  "address": "0x986a007a43D65ff18D040AcdAd844cfE7c349135",
 		  "type": "bip44",
 		}
 	`);
