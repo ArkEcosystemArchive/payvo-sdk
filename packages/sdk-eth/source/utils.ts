@@ -6,5 +6,4 @@ export const createWallet = (
 	account: number,
 	change: number,
 	addressIndex: number,
-): ethers.Wallet =>
-    ethers.Wallet.fromMnemonic(mnemonic, `m/44'/${coinType}'/${account}'/${change}/${addressIndex}`)
+): ethers.Wallet => ethers.Wallet.fromMnemonic(mnemonic, `m/44'/${coinType}'/${account}'/${change}/${addressIndex}`);
