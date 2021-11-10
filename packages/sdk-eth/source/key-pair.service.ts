@@ -1,6 +1,5 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/cryptography";
-import Wallet from "ethereumjs-wallet";
+import { Coins, IoC, Services } from "@payvo/sdk";
+import { ethers } from "ethers";
 
 import { createWallet } from "./utils";
 
@@ -10,7 +9,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		const wallet: Wallet = createWallet(
+		const wallet: ethers.Wallet = createWallet(
 			mnemonic,
 			this.configRepository.get(Coins.ConfigKey.Slip44),
 			options?.bip44?.account || 0,
@@ -19,18 +18,17 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		);
 
 		return {
-			publicKey: wallet.getPublicKey().toString("hex"),
-			privateKey: wallet.getPrivateKey().toString("hex"),
+			publicKey: wallet.publicKey,
+			privateKey: wallet.privateKey,
 		};
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		// @ts-ignore
-		const wallet: Wallet = new Wallet.default(Buffoon.fromHex(privateKey));
+		const wallet: ethers.Wallet = new ethers.Wallet(privateKey);
 
 		return {
-			publicKey: wallet.getPublicKey().toString("hex"),
-			privateKey: wallet.getPrivateKey().toString("hex"),
+			publicKey: wallet.publicKey,
+			privateKey: wallet.privateKey,
 		};
 	}
 }

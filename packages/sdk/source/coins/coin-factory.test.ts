@@ -5,7 +5,7 @@ import { Request } from "@payvo/http-got";
 import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/distribution";
-import { require } from "../../test/mocking";
+import { requireModule } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
@@ -16,24 +16,24 @@ beforeAll(async () => {
 
 	nock("https://ark-live.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, await require("../test/livenet/blockchain.json"))
+		.reply(200, requireModule("../test/livenet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, await require("../test/livenet/configuration.json"))
+		.reply(200, requireModule("../test/livenet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, await require("../test/livenet/configuration-crypto.json"))
+		.reply(200, requireModule("../test/livenet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, await require("../test/livenet/syncing.json"))
+		.reply(200, requireModule("../test/livenet/syncing.json"))
 		.persist();
 
 	nock("https://ark-test.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, await require("../test/testnet/blockchain.json"))
+		.reply(200, requireModule("../test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, await require("../test/testnet/configuration.json"))
+		.reply(200, requireModule("../test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, await require("../test/testnet/configuration-crypto.json"))
+		.reply(200, requireModule("../test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, await require("../test/testnet/syncing.json"))
+		.reply(200, requireModule("../test/testnet/syncing.json"))
 		.persist();
 });
 
@@ -69,4 +69,22 @@ it("should create multiple instances with independent containers", async () => {
 	expect(first.address() === third.address()).toBeFalse();
 	// B does not equal C
 	expect(second.address() === third.address()).toBeFalse();
+});
+
+it("should create an instance with a custom network", async () => {
+	// @ts-ignore
+	const coin: Coin = CoinFactory.make(ARK, {
+		network: "coin.network",
+		httpClient: new Request(),
+		// @ts-ignore
+		networks: {
+			"coin.network": {
+				id: "coin.network",
+				name: "Mainnet",
+			},
+		},
+	});
+
+	expect(coin.network().id()).toBe("coin.network");
+	expect(coin.network().name()).toBe("Mainnet");
 });

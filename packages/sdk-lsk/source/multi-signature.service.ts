@@ -240,11 +240,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		return result;
 	}
 
-	#normalizeTransaction({
-		data,
-		multiSignature,
-		timestamp,
-	}: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
+	#normalizeTransaction({ data, multiSignature }: Contracts.KeyValuePair): Services.MultiSignatureTransaction {
 		return {
 			...data,
 			multiSignature,

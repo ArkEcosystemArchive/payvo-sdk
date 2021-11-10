@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { IoC, Services, Signatories } from "@payvo/sdk";
+import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { MultiSignatureService } from "./multi-signature.service";
 import { ClientService } from "./client.service";
 import { BindingType } from "./coin.contract";
@@ -44,7 +44,7 @@ describe("MultiSignatureService", () => {
 	let fixtures;
 
 	beforeEach(async () => {
-		fixtures = await require(`../test/fixtures/client/multisig-transactions.json`);
+		fixtures = requireModule(`../test/fixtures/client/multisig-transactions.json`);
 	});
 
 	test("#allWithPendingState", async () => {

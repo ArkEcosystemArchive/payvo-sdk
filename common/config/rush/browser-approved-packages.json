@@ -335,6 +335,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@zilliqa-js/util",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@zilliqa-js/zilliqa",
       "allowedCategories": [ "libraries" ]
     },
@@ -356,6 +360,14 @@
     },
     {
       "name": "bad-words",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "base-x",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "basex",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -539,6 +551,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "ethers",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "eventemitter3",
       "allowedCategories": [ "libraries" ]
     },
@@ -664,6 +680,10 @@
     },
     {
       "name": "micromatch",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "multicoin-address-validator",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -807,6 +827,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "rollup",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "rss-parser",
       "allowedCategories": [ "libraries" ]
     },
@@ -832,6 +856,10 @@
     },
     {
       "name": "terminal-link",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "terser",
       "allowedCategories": [ "libraries" ]
     },
     {

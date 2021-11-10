@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { AddressService } from "./address.service";
 
 let subject: AddressService;
@@ -21,5 +21,10 @@ describe("Address", () => {
 						}
 					`);
 		});
+	});
+
+	it("should validate an address", async () => {
+		await expect(subject.validate(identity.address)).resolves.toBeTrue();
+		await expect(subject.validate("invalid")).resolves.toBeFalse();
 	});
 });

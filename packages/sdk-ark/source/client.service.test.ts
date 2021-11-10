@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { IoC, Services } from "@payvo/sdk";
+import { IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -32,7 +32,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
-				.reply(200, await require(`../test/fixtures/client/transaction.json`));
+				.reply(200, requireModule(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -62,7 +62,7 @@ describe("ClientService", () => {
 				nock(/.+/)
 					.get("/api/transactions")
 					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
+					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -80,7 +80,7 @@ describe("ClientService", () => {
 						page: "0",
 						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5",
 					})
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
+					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [
@@ -115,7 +115,7 @@ describe("ClientService", () => {
 				nock(/.+/)
 					.get("/api/transactions")
 					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
+					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -129,7 +129,7 @@ describe("ClientService", () => {
 				nock(/.+/)
 					.get("/api/transactions")
 					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
+					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [
@@ -149,16 +149,15 @@ describe("ClientService", () => {
 						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
 						"asset.type": "4",
 						"asset.action": "0",
-						type: "6",
-						typeGroup: 2,
+						type: 0,
+						typeGroup: 1,
 					})
-					.reply(200, await require(`../test/fixtures/client/transactions.json`));
+					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 				const result = await subject.transactions({
 					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 					asset: { type: 4, action: 0 },
-					type: 6,
-					typeGroup: 2,
+					type: "transfer",
 				});
 
 				expect(result).toBeObject();
@@ -171,7 +170,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
-				.reply(200, await require(`../test/fixtures/client/wallet.json`));
+				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -200,7 +199,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/wallets")
 				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, await require(`../test/fixtures/client/wallets.json`));
+				.reply(200, requireModule(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
 				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -227,7 +226,7 @@ describe("ClientService", () => {
 			nock(/.+/)
 				.get("/api/wallets")
 				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, await require(`../test/fixtures/client/wallets.json`));
+				.reply(200, requireModule(`../test/fixtures/client/wallets.json`));
 
 			const result = await subject.wallets({
 				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
@@ -240,9 +239,7 @@ describe("ClientService", () => {
 
 	describe("#delegate", () => {
 		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/delegates/arkx")
-				.reply(200, await require(`../test/fixtures/client/delegate.json`));
+			nock(/.+/).get("/api/delegates/arkx").reply(200, requireModule(`../test/fixtures/client/delegate.json`));
 
 			const result = await subject.delegate("arkx");
 
@@ -252,9 +249,7 @@ describe("ClientService", () => {
 
 	describe("#delegates", () => {
 		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/delegates")
-				.reply(200, await require(`../test/fixtures/client/delegates.json`));
+			nock(/.+/).get("/api/delegates").reply(200, requireModule(`../test/fixtures/client/delegates.json`));
 
 			const result = await subject.delegates();
 
@@ -267,7 +262,7 @@ describe("ClientService", () => {
 		let fixture;
 
 		beforeEach(async () => {
-			fixture = await require(`../test/fixtures/client/wallet.json`);
+			fixture = requireModule(`../test/fixtures/client/wallet.json`);
 		});
 
 		it("should succeed", async () => {
@@ -359,7 +354,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock(/.+/)
 				.get("/api/delegates/arkx/voters")
-				.reply(200, await require(`../test/fixtures/client/voters.json`));
+				.reply(200, requireModule(`../test/fixtures/client/voters.json`));
 
 			const result = await subject.voters("arkx");
 
@@ -372,7 +367,7 @@ describe("ClientService", () => {
 		let fixture;
 
 		beforeEach(async () => {
-			fixture = await require(`../test/fixtures/client/broadcast.json`);
+			fixture = requireModule(`../test/fixtures/client/broadcast.json`);
 		});
 
 		it("should accept 1 transaction and reject 1 transaction", async () => {

@@ -1,3 +1,4 @@
+import { Enums } from "@arkecosystem/crypto";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 
@@ -168,7 +169,7 @@ export class ClientService extends Services.AbstractClientService {
 		};
 	}
 
-	#createSearchParams(body: Services.ClientPagination): { body: object | null; searchParams: object | null } {
+	#createSearchParams(body: Services.ClientTransactionsInput): { body: object | null; searchParams: object | null } {
 		if (Object.keys(body).length <= 0) {
 			return { body: null, searchParams: null };
 		}
@@ -202,27 +203,95 @@ export class ClientService extends Services.AbstractClientService {
 			}
 		}
 
-		if (this.#isLegacy()) {
-			const identifiers: Services.WalletIdentifier[] | undefined =
-				// @ts-ignore
-				body.identifiers as Services.WalletIdentifier[];
-			if (identifiers) {
+		if (body.identifiers) {
+			const identifiers: Services.WalletIdentifier[] = body.identifiers;
+
+			if (this.#isLegacy()) {
 				result.body.addresses = identifiers.map(({ value }) => value);
-
-				// @ts-ignore
-				delete body.identifiers;
+			} else {
+				result.searchParams.address = identifiers.map(({ value }) => value).join(",");
 			}
-		} else {
+
 			// @ts-ignore
-			const addresses: Services.WalletIdentifier[] | undefined = body.identifiers as Services.WalletIdentifier[];
+			delete body.identifiers;
+		}
 
-			if (Array.isArray(addresses)) {
-				result.searchParams.address = addresses.map(({ value }) => value).join(",");
-
+		// @ts-ignore
+		if (body.type) {
+			const { type, typeGroup } = {
+				delegateRegistration: {
+					type: Enums.TransactionType.DelegateRegistration,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				delegateResignation: {
+					type: Enums.TransactionType.DelegateResignation,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				htlcClaim: {
+					type: Enums.TransactionType.HtlcClaim,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				htlcLock: {
+					type: Enums.TransactionType.HtlcLock,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				htlcRefund: {
+					type: Enums.TransactionType.HtlcRefund,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				ipfs: {
+					type: Enums.TransactionType.Ipfs,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				multiPayment: {
+					type: Enums.TransactionType.MultiPayment,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				multiSignature: {
+					type: Enums.TransactionType.MultiSignature,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				secondSignature: {
+					type: Enums.TransactionType.SecondSignature,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				transfer: {
+					type: Enums.TransactionType.Transfer,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				vote: {
+					type: Enums.TransactionType.Vote,
+					typeGroup: Enums.TransactionTypeGroup.Core,
+				},
+				magistrate: {
+					typeGroup: 2,
+				},
 				// @ts-ignore
-				delete body.identifiers;
+			}[body.type];
+
+			if (type !== undefined) {
+				if (this.#isLegacy()) {
+					result.body!.type = type;
+				} else {
+					result.searchParams.type = type;
+				}
 			}
 
+			if (typeGroup !== undefined) {
+				if (this.#isLegacy()) {
+					result.body!.typeGroup = typeGroup;
+				} else {
+					result.searchParams.typeGroup = typeGroup;
+				}
+			}
+
+			if (!this.#isLegacy()) {
+				// @ts-ignore
+				delete body.type;
+			}
+		}
+
+		if (!this.#isLegacy()) {
 			result.searchParams = dotify({ ...result.searchParams, ...result.body });
 			result.body = null;
 		}
@@ -231,6 +300,8 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#isLegacy(): boolean {
-		return this.configRepository.get<string>("network.id").startsWith("bind");
+		return ["bind", "bpl", "xqr"].some((coin: string) =>
+			this.configRepository.get<string>("network.id").startsWith(coin),
+		);
 	}
 }

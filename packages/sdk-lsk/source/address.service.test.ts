@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { IoC } from "@payvo/sdk";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 
@@ -47,5 +47,13 @@ describe("Address", () => {
 	it("should validate an address", async () => {
 		await expect(subject.validate(identity.address)).resolves.toBeTrue();
 		await expect(subject.validate("ABC")).resolves.toBeFalse();
+	});
+
+	it("should return sender public key as an output from a multiSignature", async () => {
+		const result = await subject.fromMultiSignature({
+			senderPublicKey: identity.publicKey,
+		});
+
+		expect(result).toEqual({ type: "lip17", address: identity.address });
 	});
 });

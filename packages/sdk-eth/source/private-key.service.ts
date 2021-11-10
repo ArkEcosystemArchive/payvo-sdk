@@ -1,4 +1,4 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Coins, IoC, Services } from "@payvo/sdk";
 
 import { createWallet } from "./utils";
 
@@ -15,9 +15,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 				options?.bip44?.account || 0,
 				options?.bip44?.change || 0,
 				options?.bip44?.addressIndex || 0,
-			)
-				.getPrivateKey()
-				.toString("hex"),
+			).privateKey,
 		};
 	}
 }

@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { Services } from "@payvo/sdk";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 
 let subject: Services.AbstractLinkService;
 

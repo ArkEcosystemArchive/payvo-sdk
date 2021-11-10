@@ -19,10 +19,6 @@ export const importMethods: Networks.NetworkManifestImportMethods = {
 		default: true,
 		permissions: ["read", "write"],
 	},
-	publicKey: {
-		default: false,
-		permissions: ["read"],
-	},
 };
 
 export const featureFlags: Networks.NetworkManifestFeatureFlags = {

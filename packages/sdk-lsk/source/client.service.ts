@@ -48,10 +48,10 @@ export class ClientService extends Services.AbstractClientService {
 		// LSK doesn't support bulk lookups so we will simply use the first address.
 		if (query.identifiers) {
 			if (query.identifiers[0].type === "publicKey") {
-				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				// @ts-ignore - This field doesn't exist on the interface but is needed.
 				query.publicKey = query.identifiers[0].value;
 			} else {
-				// @ts-ignore - This field doesn't exist on the interface but are needed.
+				// @ts-ignore - This field doesn't exist on the interface but is needed.
 				query.address = query.identifiers[0].value;
 			}
 
@@ -169,14 +169,52 @@ export class ClientService extends Services.AbstractClientService {
 		if (searchParams.cursor) {
 			// @ts-ignore
 			searchParams.offset = searchParams.cursor - 1;
+
 			delete searchParams.cursor;
 		}
 
 		// LSK doesn't support bulk lookups so we will simply use the first address.
 		if (searchParams.identifiers) {
-			// @ts-ignore - This field doesn't exist on the interface but are needed.
-			searchParams.address = searchParams.identifiers[0].value;
+			const value = searchParams.identifiers[0].value;
+
+			if (!searchParams.type || searchParams.type === "transfer") {
+				// @ts-ignore - This field doesn't exist on the interface but is needed.
+				searchParams.address = value;
+			} else {
+				// @ts-ignore - This field doesn't exist on the interface but is needed.
+				searchParams.senderAddress = value;
+			}
+
 			delete searchParams.identifiers;
+		}
+
+		if (searchParams.senderId) {
+			// @ts-ignore - This field doesn't exist on the interface but is needed.
+			searchParams.senderAddress = searchParams.senderId;
+
+			delete searchParams.senderId;
+		}
+
+		if (searchParams.recipientId) {
+			// @ts-ignore - This field doesn't exist on the interface but is needed.
+			searchParams.recipientAddress = searchParams.recipientId;
+
+			delete searchParams.recipientId;
+		}
+
+		if (searchParams.type) {
+			const moduleAssetId: string | undefined = {
+				delegateRegistration: "5:0",
+				multiSignature: "4:0",
+				transfer: "2:0",
+				vote: "5:1",
+				unlockToken: "5:2",
+			}[searchParams.type];
+
+			// @ts-ignore - This field doesn't exist on the interface but is needed.
+			searchParams.moduleAssetId = moduleAssetId || "0:0";
+
+			delete searchParams.type;
 		}
 
 		return searchParams;

@@ -31,4 +31,9 @@ describe("Address", () => {
 		}
 	`);
 	});
+
+	it("should validate an address", async () => {
+		await expect(subject.validate(identity.address)).resolves.toBeTrue();
+		await expect(subject.validate("invalid")).resolves.toBeFalse();
+	});
 });

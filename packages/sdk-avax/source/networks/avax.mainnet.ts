@@ -15,14 +15,20 @@ const network: Networks.NetworkManifest = {
 	constants: {
 		slip44: 9000,
 	},
+	governance: {
+		method: "transfer",
+		delegateCount: 0, // @TODO
+		votesPerWallet: 1,
+		votesPerTransaction: 1,
+	},
 	hosts: [
 		{
 			type: "full",
-			host: "https://api.avax.network:443",
+			host: "https://api.avax.network",
 		},
 		{
 			type: "archival",
-			host: "https://api.avax.network:8080",
+			host: "https://avax-live.payvo.com",
 		},
 		{
 			type: "explorer",

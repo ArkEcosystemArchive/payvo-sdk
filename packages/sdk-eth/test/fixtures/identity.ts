@@ -1,8 +1,8 @@
 export const identity = {
 	// Standard
-	privateKey: "9486c278c67ca7da28a521c0f080077483b0d0e72fc0f4e0b928f8d38f7bae50",
+	privateKey: "0x9486c278c67ca7da28a521c0f080077483b0d0e72fc0f4e0b928f8d38f7bae50",
 	publicKey:
-		"6cf5dea4ea78886c216b8b3d696ea296ff047c952ab5a7be95f706dea2defd64197edae8a969df5f7a60b972231a9e7c9672f842acb01855bc950ae82a7d156f",
+		"0x046cf5dea4ea78886c216b8b3d696ea296ff047c952ab5a7be95f706dea2defd64197edae8a969df5f7a60b972231a9e7c9672f842acb01855bc950ae82a7d156f",
 	address: "0x986A007A43D65FF18D040ACDAD844CFE7C349135",
 	wif: "not-available",
 	mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",

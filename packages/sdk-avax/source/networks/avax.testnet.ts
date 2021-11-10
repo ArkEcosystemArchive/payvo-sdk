@@ -4,25 +4,31 @@ import { explorer, featureFlags, importMethods, transactions } from "./shared";
 
 const network: Networks.NetworkManifest = {
 	id: "avax.testnet",
-	type: "live",
+	type: "test",
 	name: "Testnet",
 	coin: "Avalanche",
 	currency: {
-		ticker: "FUJI",
-		symbol: "FUJI",
+		ticker: "AVAX",
+		symbol: "AVAX",
 		decimals: 9,
 	},
 	constants: {
 		slip44: 9000,
 	},
+	governance: {
+		method: "transfer",
+		delegateCount: 0, // @TODO
+		votesPerWallet: 1,
+		votesPerTransaction: 1,
+	},
 	hosts: [
 		{
 			type: "full",
-			host: "https://api.avax-test.network:443",
+			host: "https://api.avax-test.network",
 		},
 		{
 			type: "archival",
-			host: "https://api.avax-test.network:8080",
+			host: "https://avax-test.payvo.com",
 		},
 		{
 			type: "explorer",
@@ -33,7 +39,7 @@ const network: Networks.NetworkManifest = {
 		...transactions,
 		fees: {
 			type: "static",
-			ticker: "FUJI",
+			ticker: "AVAX",
 		},
 	},
 	importMethods,

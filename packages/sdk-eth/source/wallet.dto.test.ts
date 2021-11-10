@@ -3,7 +3,7 @@ import "jest-extended";
 import { BigNumber } from "@payvo/helpers";
 
 import { WalletData } from "./wallet.dto";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 
 let subject: WalletData;
 

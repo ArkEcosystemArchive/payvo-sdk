@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { Collections, DTO, IoC, Services } from "@payvo/sdk";
+import { Collections, IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -34,7 +34,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://api.shasta.trongrid.io")
 				.post("/wallet/gettransactionbyid")
-				.reply(200, await require(`../test/fixtures/client/transaction.json`));
+				.reply(200, requireModule(`../test/fixtures/client/transaction.json`));
 
 			const result = await subject.transaction(
 				"0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
@@ -49,7 +49,7 @@ describe("ClientService", () => {
 			nock("https://api.shasta.trongrid.io")
 				.get("/v1/accounts/TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq/transactions")
 				.query(true)
-				.reply(200, await require(`../test/fixtures/client/transactions.json`));
+				.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 			const result = await subject.transactions({
 				identifiers: [{ type: "address", value: "TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq" }],
@@ -63,7 +63,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			nock("https://api.shasta.trongrid.io")
 				.get("/v1/accounts/TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ")
-				.reply(200, await require(`../test/fixtures/client/wallet.json`));
+				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
 
 			const result = await subject.wallet({
 				type: "address",
@@ -89,15 +89,13 @@ describe("ClientService", () => {
 		it("should pass", async () => {
 			nock("https://api.shasta.trongrid.io")
 				.post("/wallet/broadcasttransaction")
-				.reply(200, await require(`../test/fixtures/client/broadcast.json`));
+				.reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
 
 			const result = await subject.broadcast([
 				createService(SignedTransactionData).configure(
-					(
-						await require(`../test/fixtures/crypto/transferSigned.json`)
-					).txID,
-					await require(`../test/fixtures/crypto/transferSigned.json`),
-					await require(`../test/fixtures/crypto/transferSigned.json`),
+					requireModule(`../test/fixtures/crypto/transferSigned.json`).txID,
+					requireModule(`../test/fixtures/crypto/transferSigned.json`),
+					requireModule(`../test/fixtures/crypto/transferSigned.json`),
 				),
 			]);
 
@@ -111,15 +109,13 @@ describe("ClientService", () => {
 		it("should fail", async () => {
 			nock("https://api.shasta.trongrid.io")
 				.post("/wallet/broadcasttransaction")
-				.reply(200, await require(`../test/fixtures/client/broadcast-failure.json`));
+				.reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
 
 			const result = await subject.broadcast([
 				createService(SignedTransactionData).configure(
-					(
-						await require(`../test/fixtures/crypto/transferSigned.json`)
-					).txID,
-					await require(`../test/fixtures/crypto/transferSigned.json`),
-					await require(`../test/fixtures/crypto/transferSigned.json`),
+					requireModule(`../test/fixtures/crypto/transferSigned.json`).txID,
+					requireModule(`../test/fixtures/crypto/transferSigned.json`),
+					requireModule(`../test/fixtures/crypto/transferSigned.json`),
 				),
 			]);
 

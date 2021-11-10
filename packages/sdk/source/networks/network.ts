@@ -8,6 +8,7 @@ import {
 	NetworkManifest,
 	NetworkManifestImportMethods,
 	NetworkManifestToken,
+	VotingMethod,
 } from "./network.models";
 
 export class Network {
@@ -123,6 +124,13 @@ export class Network {
 	 */
 	public allowsVoting(): boolean {
 		return get(this.#network, "governance") !== undefined;
+	}
+
+	/**
+	 * Get the method of voting.
+	 */
+	public votingMethod(): VotingMethod {
+		return get(this.#network, "governance.method", "simple");
 	}
 
 	/**

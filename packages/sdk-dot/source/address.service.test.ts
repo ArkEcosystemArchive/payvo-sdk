@@ -4,7 +4,7 @@ import { IoC } from "@payvo/sdk";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, require } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { AddressService } from "./address.service";
@@ -27,10 +27,10 @@ describe("Address", () => {
 	});
 
 	it("should generate an output from a multiSignature", async () => {
-		const result = await subject.fromMultiSignature(
-			identity.multiSignature.min,
-			identity.multiSignature.publicKeys,
-		);
+		const result = await subject.fromMultiSignature({
+			min: identity.multiSignature.min,
+			publicKeys: identity.multiSignature.publicKeys,
+		});
 
 		expect(result).toEqual({ type: "ss58", address: identity.multiSignatureAddress });
 	});
