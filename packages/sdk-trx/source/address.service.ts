@@ -1,5 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/cryptography";
+import { validate } from "multicoin-address-validator";
 import TronWeb from "tronweb";
 
 @IoC.injectable()
@@ -21,6 +22,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return true;
+		return validate(address, "TRX");
 	}
 }

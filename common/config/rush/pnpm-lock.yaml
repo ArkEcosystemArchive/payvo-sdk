@@ -1320,6 +1320,7 @@ importers:
       '@payvo/helpers': 1.1.1
       '@payvo/intl': 1.0.4
       '@payvo/sdk': link:../sdk
+      multicoin-address-validator: 0.5.2
       tronweb: 4.0.0
     devDependencies:
       '@jest/globals': 27.3.1
@@ -1382,6 +1383,7 @@ importers:
       jest: ^27.3.1
       jest-extended: ^1.1.0
       jest-localstorage-mock: ^2.4.18
+      multicoin-address-validator: ~0.5.2
       nock: ^13.2.0
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1

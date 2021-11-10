@@ -35,6 +35,7 @@
 		"@payvo/helpers": "^1.1.1",
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
+		"multicoin-address-validator": "~0.5.2",
 		"tronweb": "^4.0.0"
 	},
 	"devDependencies": {
