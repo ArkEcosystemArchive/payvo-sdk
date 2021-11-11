@@ -349,10 +349,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}),
 		);
 
-		inputs.forEach((input, index) => console.log("tx", index, input));
-
 		const psbtBaseText = psbt.toBase64();
-		console.log(psbtBaseText);
 
 		// @ts-ignore
 		const tx: bitcoin.Transaction = psbt.__CACHE.__TX;

@@ -36,10 +36,7 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
-		console.log(psbt.data.globalMap);
 		console.log(prettySerialize(psbt));
-		console.log(psbt.toHex());
-		console.log(psbt.toBase64());
 		try {
 			return psbt.validateSignaturesOfAllInputs();
 		} catch (e) {
