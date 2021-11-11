@@ -326,6 +326,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		outputs.forEach((output) => {
 			if (!output.address) {
 				output.address = changeAddress.address;
+				output.bip32Derivation = accountPublicKeys1.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					path: `m/${changeAddress.path}`,
+					pubkey: pubKey.derivePath(changeAddress.path).publicKey,
+				}));
 			}
 		});
 
@@ -341,6 +346,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			psbt.addOutput({
 				address: output.address,
 				value: output.value,
+				...output,
 			}),
 		);
 
