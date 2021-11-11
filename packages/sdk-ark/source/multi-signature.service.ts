@@ -1,5 +1,5 @@
 import { Interfaces } from "@arkecosystem/crypto";
-import { uniq } from "@arkecosystem/utils";
+import { uniq } from "@payvo/helpers";
 import { UUID } from "@payvo/cryptography";
 import { DateTime } from "@payvo/intl";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";

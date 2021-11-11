@@ -34,7 +34,7 @@
 		"@ethereumjs/tx": "^3.4.0",
 		"@ledgerhq/hw-app-eth": "^6.14.0",
 		"@payvo/cryptography": "^2.0.0",
-		"@payvo/helpers": "^1.1.1",
+		"@payvo/helpers": "^2.0.0",
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
 		"bip39": "^3.0.4",

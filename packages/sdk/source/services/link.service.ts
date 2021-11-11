@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { formatString } from "@arkecosystem/utils";
+import { formatString } from "@payvo/helpers";
 import { URL } from "url";
 
 import { ConfigRepository } from "../coins";

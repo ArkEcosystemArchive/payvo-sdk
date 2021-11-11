@@ -32,7 +32,7 @@
 	"dependencies": {
 		"@ledgerhq/hw-app-trx": "^6.11.2",
 		"@payvo/cryptography": "^2.0.0",
-		"@payvo/helpers": "^1.1.1",
+		"@payvo/helpers": "^2.0.0",
 		"@payvo/intl": "^1.0.4",
 		"@payvo/sdk": "workspace:*",
 		"multicoin-address-validator": "~0.5.2",

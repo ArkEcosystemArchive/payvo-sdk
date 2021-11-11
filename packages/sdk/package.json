@@ -30,8 +30,7 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@arkecosystem/utils": "^1.3.0",
-		"@payvo/helpers": "^1.1.1",
+		"@payvo/helpers": "^2.0.0",
 		"@payvo/http-got": "^1.0.0",
 		"@payvo/intl": "^1.0.4",
 		"bad-words": "^3.0.4",
