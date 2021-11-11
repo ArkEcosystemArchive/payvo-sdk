@@ -130,4 +130,109 @@ describe("MultiSignatureTransaction", () => {
 			});
 		});
 	});
+
+	describe("#isMultiSignatureReady", () => {
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+		])("for musig registration", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
+				expect(subject.isMultiSignatureReady({})).toBe(expected);
+			});
+		});
+
+		describe.each([
+			{ tx: unsignedTransferTx, expected: false },
+			{ tx: oneSignatureTransferTx, expected: false },
+			{ tx: twoSignatureTransferTx, expected: true },
+			{ tx: threeSignatureTransferTx, expected: true },
+		])("for transfer", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
+				expect(subject.isMultiSignatureReady({})).toBe(expected);
+			});
+		});
+	});
+
+	describe("#needsWalletSignature", () => {
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+		])("for musig registration", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
+				expect(
+					subject.needsWalletSignature("0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73"),
+				).toBe(expected);
+			});
+		});
+
+		describe.each([
+			{ tx: unsignedTransferTx, expected: false },
+			{ tx: oneSignatureTransferTx, expected: false },
+			{ tx: twoSignatureTransferTx, expected: true },
+			{ tx: threeSignatureTransferTx, expected: true },
+		])("for transfer", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
+				expect(
+					subject.needsWalletSignature("0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73"),
+				).toBe(expected);
+			});
+		});
+	});
+
+	describe("#needsFinalSignature", () => {
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx },
+			{ tx: oneSignatureMusigRegistrationTx },
+			{ tx: twoSignatureMusigRegistrationTx },
+			{ tx: threeSignatureMusigRegistrationTx },
+			{ tx: unsignedTransferTx },
+			{ tx: oneSignatureTransferTx },
+			{ tx: twoSignatureTransferTx },
+			{ tx: threeSignatureTransferTx },
+		])("for musig registration", ({ tx }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
+				expect(subject.needsFinalSignature()).toBeFalse();
+			});
+		});
+	});
+
+
+	describe("#remainingSignatureCount", () => {
+		describe.each([
+			{ tx: unsignedMusigRegistrationTx, expected: 3 },
+			{ tx: oneSignatureMusigRegistrationTx, expected: 2 },
+			{ tx: twoSignatureMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureMusigRegistrationTx, expected: 0 },
+		])("for musig registration", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
+				expect(
+					subject.remainingSignatureCount(),
+				).toBe(expected);
+			});
+		});
+
+		describe.each([
+			{ tx: unsignedTransferTx, expected: 2 },
+			{ tx: oneSignatureTransferTx, expected: 1 },
+			{ tx: twoSignatureTransferTx, expected: 0 },
+			{ tx: threeSignatureTransferTx, expected: 0 },
+		])("for transfer", ({ tx, expected }) => {
+			test(` with ${tx.signatures.length} signatures`, () => {
+				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
+				expect(
+					subject.remainingSignatureCount(),
+				).toBe(expected);
+			});
+		});
+	});
 });
