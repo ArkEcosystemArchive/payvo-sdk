@@ -1,10 +1,8 @@
-import { Coins, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
-import fetch from "node-fetch";
+import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
-
-import { WalletData } from "./wallet.dto";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
