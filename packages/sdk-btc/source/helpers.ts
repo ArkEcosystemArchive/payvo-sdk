@@ -122,7 +122,7 @@ export const maxLevel = (path: string): number => {
 	return depth;
 };
 
-export const signWith = (psbt: bitcoin.Psbt, rootKey: bitcoin.BIP32Interface, path: string) => {
+export const signWith = (psbt: bitcoin.Psbt, rootKey: bitcoin.BIP32Interface, path: string): bitcoin.Psbt => {
 	psbt.txInputs.forEach((input, index) => {
 		for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
 			const [internal, addressIndex] = derivation.path.split("/").slice(-2);
@@ -133,4 +133,5 @@ export const signWith = (psbt: bitcoin.Psbt, rootKey: bitcoin.BIP32Interface, pa
 			}
 		}
 	});
+	return psbt;
 };

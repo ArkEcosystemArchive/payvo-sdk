@@ -21,6 +21,7 @@ import {
 	oneSignatureMusigRegistrationTx,
 	oneSignatureTransferTx,
 	threeSignatureMusigRegistrationTx,
+	threeSignatureTransferTx,
 	twoSignatureMusigRegistrationTx,
 	twoSignatureTransferTx,
 	unsignedMusigRegistrationTx,
@@ -244,7 +245,7 @@ describe("MultiSignatureService", () => {
 			nock("https://btc-test-musig.payvo.com")
 				.post(
 					"/",
-					'{"jsonrpc":"2.0","id":"68db1bb0-d747-48e8-b6f6-e347cc01b568","method":"store","params":{"data":{"id":"189f015c-2a58-4664-83f4-0b331fa9172a","senderPublicKey":"0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73","psbt":"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA","signatures":[]}}}',
+					`{"jsonrpc":"2.0","id":"68db1bb0-d747-48e8-b6f6-e347cc01b568","method":"store","params":{"data":{"id":"189f015c-2a58-4664-83f4-0b331fa9172a","senderPublicKey":"0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73","psbt":"${unsignedTransferTx.psbt}","signatures":[]}}}`,
 				)
 				.reply(
 					200,
@@ -271,24 +272,24 @@ describe("MultiSignatureService", () => {
 		});
 
 		test("mariano", async () => {
-			const rootKey = BIP32.fromMnemonic(musig.accounts[0].mnemonic, bitcoin.networks.testnet);
-			console.log(prettySerialize(rootKey.fingerprint), rootKey);
-
-			const accountKey = rootKey.derivePath("m/48'/1'/0'/2'");
-			console.log(prettySerialize(accountKey.fingerprint), accountKey.neutered());
-
-			const xpub = accountKey.neutered().toBase58();
-			console.log(xpub);
-
-			// const fromBase58 = BIP32.fromBase58(musig.accounts[0].nativeSegwitMasterPublicKey, bitcoin.networks.testnet);
-			const fromBase58 = BIP32.fromBase58(xpub, bitcoin.networks.testnet);
-			console.log(fromBase58);
+			// const rootKey = BIP32.fromMnemonic(musig.accounts[0].mnemonic, bitcoin.networks.testnet);
+			// console.log(prettySerialize(rootKey.fingerprint), rootKey);
+			//
+			// const accountKey = rootKey.derivePath("m/48'/1'/0'/2'");
+			// console.log(prettySerialize(accountKey.fingerprint), accountKey.neutered());
+			//
+			// const xpub = accountKey.neutered().toBase58();
+			// console.log(xpub);
+			//
+			// // const fromBase58 = BIP32.fromBase58(musig.accounts[0].nativeSegwitMasterPublicKey, bitcoin.networks.testnet);
+			// const fromBase58 = BIP32.fromBase58(xpub, bitcoin.networks.testnet);
+			// console.log(fromBase58);
 
 			// const psbt = Psbt.fromBase64("cHNidP8BAH4CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD9////AhAnAAAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2HAEsAAAAAAAAiACDMKfxizC+W/m5kY42JX8Sv8761/Ful+v8IpUlzWav6CJ0XIAAAAQD9ewECAAAAAAEBSg+u2v90sY9wBvKy+BMHzFuBVMAA4l0xGLyHysE/tm0BAAAAAP7///8CECcAAAAAAAAWABSgGhY28zUGwFK/SjZM5Ts5TnqkW9hyAAAAAAAAIgAg/KILMLikqISBCZgl987O4xx7LAXke3Q9vKym3J6KmPEEAEcwRAIgLWscXvN74nMGjBT5X8j8IAmdhlfWdmZi1ClW+tCEopwCIBapxIvcM7UP8SChHxhAAWtruqwkj9LRiVV/86bVp4Z1AUcwRAIgWlxaZZsfKQ/evKt9ElRNKmWBS+bQiACOxZujLy0Qi2wCIFi9bcBVjceorjmaN//6ob9+m+jdfkr+VeE4lXFYyVcVAWlSIQL+o1J8k5iXG8bJG+HmXWi/gxvUfkWFdrL5taeSdddP8SEDfC1cm4SIB/bnHXtGOzePhql1gz4tLPWJ+Qxqm8T/QCwhA5O0473ItEp3G9uUAyqXPJGM1DD1e0TKkP5cepTkcKFWU64r/x8AAQVpUiECaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YohAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGIQPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwFOuIgYCaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YoMnao10wEAAAACAAAAIgYCoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYMd5PAJQEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAcrymSkjAAAIABAACAAAAAgAIAAIABAAAAAgAAAAAAAQFpUiEDBch4XFWGGoVEoxJiLUwFMHGTJRYuHQX7JpzVerbvpwkhAzdXlM16ikqwAkerfQCo+RvqjL270606uzVYMRRViIeZIQPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDFOuIgIDBch4XFWGGoVEoxJiLUwFMHGTJRYuHQX7JpzVerbvpwkMd5PAJQEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwcrymSkjAAAIABAACAAAAAgAIAAIABAAAAAwAAAAA=");
 			// // const psbt = Psbt.fromBase64("cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA");
 			// console.log(prettySerialize(psbt));
 			const psbt = Psbt.fromBase64(
-				"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",
+				"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgJpSZJHSntfVOMvlTPrhjjj/i/r4f2R+liFEgbB/mXRikcwRAIgZqm7oUMwJd39LokVyR73qDgV90h4RO3p0Px+UIc03iQCIGcFix2D6v8gB1Yk5yIl8cJ5X67Mx0hBpE8gm3sfDZGqASICAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGSDBFAiEAuEJ/cQ1dxZ5UgxxWot3p4inhzAbg+ibQxM6TrHgPmu0CICxKJ0VcaRlX0cGNc6Rq1CNLKvCWN+fE9JweQAa76CcWASICA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirARzBEAiBi13ugGMfEvO9eLhKoinSHRY/2IQkvr4YKM395eFdQ8wIgaCdwMaKwTHMbOBeJ1NyUcadbruITbnxs9Ncvg2/UCdIBAQVpUiECaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YohAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGIQPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwFOuIgYCaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YoMnao10wEAAAACAAAAIgYCoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYMd5PAJQEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAMYbNhvwEAAAACAAAAAAAiAgMFyHhcVYYahUSjEmItTAUwcZMlFi4dBfsmnNV6tu+nCQx3k8AlAQAAAAMAAAAiAgM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmQydqjXTAQAAAAMAAAAiAgPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDAxhs2G/AQAAAAMAAAAA",
 			);
 			// const psbt = Psbt.fromBase64("cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA");
 			console.log(prettySerialize(psbt));
@@ -327,7 +328,7 @@ describe("MultiSignatureService", () => {
 					privateKey: "privateKey", // Not needed / used
 				}),
 			);
-			const signedTransaction2 = await subject.addSignature(signedTransaction1, signatory2);
+			const signedTransaction2 = await subject.addSignature(signedTransaction1.data(), signatory2);
 			expect(signedTransaction2.data()).toEqual(twoSignatureTransferTx);
 
 			const wallet3 = {
@@ -342,9 +343,8 @@ describe("MultiSignatureService", () => {
 					privateKey: "privateKey", // Not needed / used
 				}),
 			);
-			expect((await subject.addSignature(transactionData, signatory3)).data()).toEqual(
-				threeSignatureMusigRegistrationTx,
-			);
+			const signedTransaction3 = await subject.addSignature(signedTransaction2.data(), signatory3);
+			expect(signedTransaction3.data()).toEqual(threeSignatureTransferTx);
 		});
 	});
 });
