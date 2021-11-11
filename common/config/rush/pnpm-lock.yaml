@@ -4,7 +4,7 @@ importers:
   ../../packages/sdk:
     dependencies:
       '@payvo/helpers': 2.0.0
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@payvo/intl': 1.0.4
       bad-words: 3.0.4
       bent: 7.3.12
@@ -55,7 +55,7 @@ importers:
     specifiers:
       '@jest/globals': ^27.3.1
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/eslint': ^7.28.2
@@ -111,7 +111,7 @@ importers:
       bech32: 2.0.0
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -147,7 +147,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -199,7 +199,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@sindresorhus/tsconfig': 2.0.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -242,7 +242,7 @@ importers:
       '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@sindresorhus/tsconfig': ^2.0.0
@@ -295,7 +295,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -331,7 +331,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -379,7 +379,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -418,7 +418,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -476,7 +476,7 @@ importers:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@ledgerhq/logs': 6.10.0
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -514,7 +514,7 @@ importers:
       '@ledgerhq/logs': ~6.10.0
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -571,7 +571,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -607,7 +607,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@polkadot/api': ^6.7.2
@@ -661,7 +661,7 @@ importers:
       noble-ed25519: 1.2.6
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -697,7 +697,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -743,7 +743,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/elliptic': 6.4.14
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -778,7 +778,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/elliptic': 6.4.14
@@ -828,7 +828,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -866,7 +866,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -914,7 +914,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -952,7 +952,7 @@ importers:
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -994,7 +994,7 @@ importers:
       '@terra-money/terra.js': 2.0.15
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1029,7 +1029,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@terra-money/terra.js': ~2.0.15
@@ -1074,7 +1074,7 @@ importers:
       noble-ed25519: 1.2.6
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1109,7 +1109,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -1155,7 +1155,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1192,7 +1192,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -1236,7 +1236,7 @@ importers:
       ed25519-hd-key: 1.2.0
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1271,7 +1271,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@solana/web3.js': ^1.30.2
@@ -1319,7 +1319,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1354,7 +1354,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -1399,7 +1399,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1434,7 +1434,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -1481,7 +1481,7 @@ importers:
     devDependencies:
       '@jest/globals': 27.3.1
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1520,7 +1520,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -1570,7 +1570,7 @@ importers:
       '@zilliqa-js/zilliqa': 3.3.2
     devDependencies:
       '@jest/globals': 27.3.1
-      '@payvo/http-fetch': 1.0.0
+      '@payvo/http-fetch': 1.1.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1605,7 +1605,7 @@ importers:
       '@jest/globals': ^27.3.1
       '@payvo/cryptography': ^2.0.0
       '@payvo/helpers': ^2.0.0
-      '@payvo/http-fetch': ^1.0.0
+      '@payvo/http-fetch': ^1.1.0
       '@payvo/intl': ^1.0.4
       '@payvo/sdk': workspace:*
       '@types/eslint': ^7.28.2
@@ -3241,14 +3241,14 @@ packages:
       node: '>=12.x'
     resolution:
       integrity: sha512-e9e6DdjC1SHzpuds8HU4of4Sj1lwA1ovQGef+371TPNFUfzgoLDziRWljahsG/zwu8qMAd6KsggMqVusuICKPw==
-  /@payvo/http-fetch/1.0.0:
+  /@payvo/http-fetch/1.1.0:
     dependencies:
       '@payvo/sdk': 1.2.0
       cross-fetch: 3.1.4
     engines:
       node: '>=12.x'
     resolution:
-      integrity: sha512-u7sYIQa8DqbDRB3fv4O0+TcLJX0SfDX5nFjbzNBwzwQpH6mNXqcfoufiUEpzNm5stmVRayQsha9LDcvDfQ32QA==
+      integrity: sha512-tpMRVYlJah87+Iik3O3ZiIsEaujOzGlQTfqEMgiKfIML1QdBqWPIs8Wa3CuKdOznNV5j873G6REl0utoV8tu9g==
   /@payvo/intl/1.0.4:
     dependencies:
       dayjs: 1.10.7

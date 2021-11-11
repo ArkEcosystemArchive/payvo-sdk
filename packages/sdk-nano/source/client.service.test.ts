@@ -56,9 +56,7 @@ describe("ClientService", () => {
 	});
 
 	test("#wallet", async () => {
-		nock("https://proxy.nanos.cc/")
-			.post("/proxy")
-			.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+		nock("https://proxy.nanos.cc/").post("/proxy").reply(200, requireModule(`../test/fixtures/client/wallet.json`));
 
 		const result = await subject.wallet({
 			type: "address",

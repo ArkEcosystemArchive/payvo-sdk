@@ -31,7 +31,7 @@
 	},
 	"dependencies": {
 		"@payvo/helpers": "^2.0.0",
-		"@payvo/http-fetch": "^1.0.0",
+		"@payvo/http-fetch": "^1.1.0",
 		"@payvo/intl": "^1.0.4",
 		"bad-words": "^3.0.4",
 		"bent": "^7.3",
