@@ -66,7 +66,9 @@ export class NanoClient {
 	}
 
 	async #post<T = Record<string, any>>(action: string, params: Record<string, unknown>): Promise<T> {
-		const result = (await this.#http.post(Helpers.randomHostFromConfig(this.#config), { action, ...params })).json();
+		const result = (
+			await this.#http.post(Helpers.randomHostFromConfig(this.#config), { action, ...params })
+		).json();
 
 		if (result.error) {
 			throw new Exceptions.Exception(`RPC error: ${JSON.stringify(result.error)}`);
