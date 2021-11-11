@@ -34,7 +34,7 @@ beforeAll(async () => {
 describe("ClientService", () => {
 	test("#transactions", async () => {
 		nock("https://proxy.nanos.cc/")
-			.post("/proxy/")
+			.post("/proxy")
 			.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
 
 		const result = await subject.transactions({
@@ -57,7 +57,7 @@ describe("ClientService", () => {
 
 	test("#wallet", async () => {
 		nock("https://proxy.nanos.cc/")
-			.post("/proxy/")
+			.post("/proxy")
 			.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
 
 		const result = await subject.wallet({

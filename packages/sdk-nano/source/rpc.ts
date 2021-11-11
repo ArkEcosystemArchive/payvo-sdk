@@ -31,10 +31,12 @@ interface AccountHistoryResponse {
 }
 
 export class NanoClient {
+	readonly #config: Coins.ConfigRepository;
 	readonly #http: Http.HttpClient;
 
 	public constructor(config: Coins.ConfigRepository, httpClient: Http.HttpClient) {
-		this.#http = httpClient.baseUrl(Helpers.randomHostFromConfig(config));
+		this.#config = config;
+		this.#http = httpClient;
 	}
 
 	public async accountBalance(account: string): Promise<{ balance: string; pending: string }> {
@@ -64,7 +66,7 @@ export class NanoClient {
 	}
 
 	async #post<T = Record<string, any>>(action: string, params: Record<string, unknown>): Promise<T> {
-		const result = (await this.#http.post("/", { action, ...params })).json();
+		const result = (await this.#http.post(Helpers.randomHostFromConfig(this.#config), { action, ...params })).json();
 
 		if (result.error) {
 			throw new Exceptions.Exception(`RPC error: ${JSON.stringify(result.error)}`);
