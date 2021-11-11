@@ -8,7 +8,7 @@ import { sign } from "bitcoinjs-message";
 import { getNetworkConfig } from "./config";
 import { BIP32 } from "@payvo/cryptography";
 import { isMultiSignatureRegistration, toExtPubKey } from "./multi-signature.domain";
-import { convertBuffer, convertString } from "@payvo/helpers";
+import { signWith } from "./helpers";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
@@ -68,19 +68,22 @@ export class MultiSignatureSigner {
 					signedTransaction.signatures.push(signature);
 				} else {
 					const toSign = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
-					try {
-						// The creator can sign with with root key
-						toSign.signAllInputsHD(rootKey);
-					} catch (error) {
-						// The others sign with account key
-						const newAccountKey = BIP32.fromPrivateKey(
-							convertBuffer(accountKey.privateKey!),
-							convertBuffer(accountKey.chainCode),
-							this.#network,
-						);
+					signWith(toSign, rootKey, signatory.publicKey())
 
-						toSign.signAllInputsHD(newAccountKey);
-					}
+					// try {
+					// 	// The creator can sign with with root key
+					// 	toSign.signAllInputsHD(rootKey);
+					// } catch (error) {
+					// 	// The others sign with account key
+					// 	const newAccountKey = BIP32.fromPrivateKey(
+					// 		convertBuffer(accountKey.privateKey!),
+					// 		convertBuffer(accountKey.chainCode),
+					// 		this.#network,
+					// 	);
+					//
+					// 	// toSign.signAllInputsHD(newAccountKey);
+					// }
+
 					signedTransaction.psbt = toSign.toBase64();
 				}
 			}

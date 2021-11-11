@@ -3,6 +3,7 @@ import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sd
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
+import * as bitcoin from "bitcoinjs-lib";
 
 export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && v.type === "Buffer") {
@@ -120,3 +121,17 @@ export const maxLevel = (path: string): number => {
 	}
 	return depth;
 };
+
+export const signWith = (psbt: bitcoin.Psbt, rootKey: bitcoin.BIP32Interface, path: string) => {
+	psbt.txInputs.forEach((input, index) => {
+		for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
+			const [internal, addressIndex] = derivation.path.split("/").slice(-2);
+			const child = rootKey.derivePath(`${path}/${internal}/${addressIndex}`);
+			if (psbt.inputHasPubkey(index, child.publicKey)) {
+				psbt.signInput(index, child);
+				break;
+			}
+		}
+	});
+};
+
