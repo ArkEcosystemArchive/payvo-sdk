@@ -12,7 +12,7 @@ const testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "n
 export const keysAndMethod = (
 	multiSignatureAsset: Services.MultiSignatureAsset,
 	network: bitcoin.networks.Network,
-): { accountPublicKeys: string[]; method: MusigDerivationMethod } => {
+): { accountExtendedPublicKeys: string[]; method: MusigDerivationMethod } => {
 	const prefixes = multiSignatureAsset.publicKeys.map((publicKey) => publicKey.slice(0, 4));
 
 	if (new Set(prefixes).size > 1) {
@@ -42,7 +42,7 @@ export const keysAndMethod = (
 		changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub" : "tpub"),
 	);
 	return {
-		accountPublicKeys,
+		accountExtendedPublicKeys: accountPublicKeys,
 		method,
 	};
 };

@@ -288,16 +288,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
-		const { accountPublicKeys, method } = keysAndMethod(multiSignatureAsset, network);
+		const { accountExtendedPublicKeys, method } = keysAndMethod(multiSignatureAsset, network);
+		const accountPublicKeys = accountExtendedPublicKeys.map((extendedPublicKey) =>
+			BIP32.fromBase58(extendedPublicKey, network),
+		);
 
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			BIP32.fromMnemonic(
-				"hard produce blood mosquito provide feed open enough access motor chimney swamp",
-				this.#network,
-			), // TODO unhardcode this
-			accountPublicKeys.map((extendedPublicKey) => BIP32.fromBase58(extendedPublicKey, network)),
+			accountPublicKeys,
 			method,
 		);
 		await walledDataHelper.discoverAllUsed();
@@ -326,7 +325,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		outputs.forEach((output) => {
 			if (!output.address) {
 				output.address = changeAddress.address;
-				output.bip32Derivation = accountPublicKeys1.map((pubKey) => ({
+				output.bip32Derivation = accountPublicKeys.map((pubKey) => ({
 					masterFingerprint: pubKey.fingerprint,
 					path: `m/${changeAddress.path}`,
 					pubkey: pubKey.derivePath(changeAddress.path).publicKey,

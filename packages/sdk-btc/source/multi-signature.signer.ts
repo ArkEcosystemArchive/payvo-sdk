@@ -68,7 +68,7 @@ export class MultiSignatureSigner {
 					signedTransaction.signatures.push(signature);
 				} else {
 					const toSign = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
-					signWith(toSign, rootKey, signatory.publicKey())
+					signWith(toSign, rootKey, signatory.publicKey());
 
 					// try {
 					// 	// The creator can sign with with root key

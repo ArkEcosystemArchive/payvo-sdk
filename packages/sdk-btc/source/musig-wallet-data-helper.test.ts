@@ -52,7 +52,7 @@ describe("cache wallet data", () => {
 	const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
 	beforeEach(async () => {
-		walletDataHelper = subject.musigWalletDataHelper(2, rootAccountKeys[0], accountKeys, "nativeSegwitMusig");
+		walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
 	});
 
 	it("should discover all used", async () => {

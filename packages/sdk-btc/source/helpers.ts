@@ -134,4 +134,3 @@ export const signWith = (psbt: bitcoin.Psbt, rootKey: bitcoin.BIP32Interface, pa
 		}
 	});
 };
-

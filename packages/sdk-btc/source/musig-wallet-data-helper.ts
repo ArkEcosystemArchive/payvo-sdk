@@ -13,7 +13,6 @@ const getDerivationFunction = (
 
 export default class MusigWalletDataHelper {
 	readonly #n: number;
-	readonly #creatorRootKey: bitcoin.BIP32Interface;
 	readonly #accountPublicKeys: bitcoin.BIP32Interface[];
 	readonly #method: MusigDerivationMethod;
 	readonly #network: bitcoin.networks.Network;
@@ -27,7 +26,6 @@ export default class MusigWalletDataHelper {
 
 	public constructor(
 		n: number,
-		creatorRootKey: bitcoin.BIP32Interface,
 		accountPublicKeys: bitcoin.BIP32Interface[],
 		method: MusigDerivationMethod,
 		network: bitcoin.networks.Network,
@@ -41,7 +39,6 @@ export default class MusigWalletDataHelper {
 		}
 
 		this.#n = n;
-		this.#creatorRootKey = creatorRootKey;
 		this.#accountPublicKeys = accountPublicKeys;
 		this.#method = method;
 		this.#network = network;
@@ -99,9 +96,6 @@ export default class MusigWalletDataHelper {
 		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
-
-			const accountKey = this.#creatorRootKey.derivePath("m/48'/1'/0'/2'"); // TODO path to come from input
-
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -110,13 +104,9 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
-				bip32Derivation: this.#accountPublicKeys.map((pubKey, index) => ({
-					masterFingerprint: accountKey.fingerprint.equals(pubKey.fingerprint)
-						? this.#creatorRootKey.fingerprint
-						: pubKey.fingerprint,
-					path: accountKey.fingerprint.equals(pubKey.fingerprint)
-						? "m/48'/1'/0'/2'/" + address.path
-						: "m/" + address.path,
+				bip32Derivation: this.#accountPublicKeys.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					path: "m/" + address.path,
 					pubkey: pubKey.derivePath(address.path).publicKey,
 				})),
 				nonWitnessUtxo: convertString(utxo.raw), // TODO this should depend on the utxo, whether to use nonWitness or witness

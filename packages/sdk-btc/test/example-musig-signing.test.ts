@@ -4,9 +4,9 @@ import nock from "nock";
 import { nativeSegwitMusig, rootKeyToAccountKey } from "../source/address.domain";
 import { BIP32 } from "@payvo/cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bitcoinjs-lib";
 import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/helpers";
+import { signWith } from "../source/helpers";
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -168,19 +168,6 @@ describe("example code using bitcoinjs-lib", () => {
 		const signer2 = bitcoin.Psbt.fromBase64(psbtBaseText);
 		const signer3 = bitcoin.Psbt.fromBase64(psbtBaseText);
 
-		function signWith(psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: string) {
-			psbt.txInputs.forEach((input, index) => {
-				for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
-					const [internal, addressIndex] = derivation.path.split("/").slice(-2);
-					const child = rootKey.derivePath(`${path}/${internal}/${addressIndex}`);
-					if (psbt.inputHasPubkey(index, child.publicKey)) {
-						psbt.signInput(index, child);
-						break;
-					}
-				}
-			});
-		}
-
 		signWith(signer1, rootKeys[0], "m/48'/1'/0'/2'");
 		signWith(signer2, rootKeys[1], "m/48'/1'/0'/2'");
 		signWith(signer3, rootKeys[2], "m/48'/1'/0'/2'");
@@ -201,7 +188,7 @@ describe("example code using bitcoinjs-lib", () => {
 		expect(psbt.validateSignaturesOfInput(0)).toBeTrue();
 		expect(psbt.validateSignaturesOfAllInputs()).toBeTrue();
 
-		// Finilizing creates the scriptSig and witness stack
+		// Finalizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();
 
 		// Build and check the hex

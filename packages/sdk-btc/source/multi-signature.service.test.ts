@@ -3,6 +3,8 @@ import { jest } from "@jest/globals";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
+import * as bitcoin from "bitcoinjs-lib";
+import { Psbt } from "bitcoinjs-lib";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -20,13 +22,15 @@ import {
 	oneSignatureTransferTx,
 	threeSignatureMusigRegistrationTx,
 	twoSignatureMusigRegistrationTx,
+	twoSignatureTransferTx,
 	unsignedMusigRegistrationTx,
 	unsignedTransferTx,
 } from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
-import { UUID } from "@payvo/cryptography";
+import { BIP32, UUID } from "@payvo/cryptography";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { prettySerialize } from "./helpers";
 
 let subject: MultiSignatureService;
 
@@ -266,15 +270,40 @@ describe("MultiSignatureService", () => {
 			});
 		});
 
+		test("mariano", async () => {
+			const rootKey = BIP32.fromMnemonic(musig.accounts[0].mnemonic, bitcoin.networks.testnet);
+			console.log(prettySerialize(rootKey.fingerprint), rootKey);
+
+			const accountKey = rootKey.derivePath("m/48'/1'/0'/2'");
+			console.log(prettySerialize(accountKey.fingerprint), accountKey.neutered());
+
+			const xpub = accountKey.neutered().toBase58();
+			console.log(xpub);
+
+			// const fromBase58 = BIP32.fromBase58(musig.accounts[0].nativeSegwitMasterPublicKey, bitcoin.networks.testnet);
+			const fromBase58 = BIP32.fromBase58(xpub, bitcoin.networks.testnet);
+			console.log(fromBase58);
+
+			// const psbt = Psbt.fromBase64("cHNidP8BAH4CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD9////AhAnAAAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2HAEsAAAAAAAAiACDMKfxizC+W/m5kY42JX8Sv8761/Ful+v8IpUlzWav6CJ0XIAAAAQD9ewECAAAAAAEBSg+u2v90sY9wBvKy+BMHzFuBVMAA4l0xGLyHysE/tm0BAAAAAP7///8CECcAAAAAAAAWABSgGhY28zUGwFK/SjZM5Ts5TnqkW9hyAAAAAAAAIgAg/KILMLikqISBCZgl987O4xx7LAXke3Q9vKym3J6KmPEEAEcwRAIgLWscXvN74nMGjBT5X8j8IAmdhlfWdmZi1ClW+tCEopwCIBapxIvcM7UP8SChHxhAAWtruqwkj9LRiVV/86bVp4Z1AUcwRAIgWlxaZZsfKQ/evKt9ElRNKmWBS+bQiACOxZujLy0Qi2wCIFi9bcBVjceorjmaN//6ob9+m+jdfkr+VeE4lXFYyVcVAWlSIQL+o1J8k5iXG8bJG+HmXWi/gxvUfkWFdrL5taeSdddP8SEDfC1cm4SIB/bnHXtGOzePhql1gz4tLPWJ+Qxqm8T/QCwhA5O0473ItEp3G9uUAyqXPJGM1DD1e0TKkP5cepTkcKFWU64r/x8AAQVpUiECaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YohAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGIQPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwFOuIgYCaUmSR0p7X1TjL5Uz64Y44/4v6+H9kfpYhRIGwf5l0YoMnao10wEAAAACAAAAIgYCoLxCvU1EqT4GY4HEQnM0ATV6mm8wvQ7Zw13XDpoJRwYMd5PAJQEAAAACAAAAIgYD2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsAcrymSkjAAAIABAACAAAAAgAIAAIABAAAAAgAAAAAAAQFpUiEDBch4XFWGGoVEoxJiLUwFMHGTJRYuHQX7JpzVerbvpwkhAzdXlM16ikqwAkerfQCo+RvqjL270606uzVYMRRViIeZIQPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDFOuIgIDBch4XFWGGoVEoxJiLUwFMHGTJRYuHQX7JpzVerbvpwkMd5PAJQEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwcrymSkjAAAIABAACAAAAAgAIAAIABAAAAAwAAAAA=");
+			// // const psbt = Psbt.fromBase64("cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA");
+			// console.log(prettySerialize(psbt));
+			const psbt = Psbt.fromBase64(
+				"cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwEcwRAIgYtd7oBjHxLzvXi4SqIp0h0WP9iEJL6+GCjN/eXhXUPMCIGgncDGisExzGzgXidTclHGnW67iE258bPTXL4Nv1AnSAQEFaVIhAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKIQKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBiED2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsBTriIGAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKDJ2qNdMBAAAAAgAAACIGAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGDHeTwCUBAAAAAgAAACIGA9oSpGzHvYgHYrTp+36ZSW6I3Sq4zxXbsZXT2DSKRirADGGzYb8BAAAAAgAAAAAAIgIDBch4XFWGGoVEoxJiLUwFMHGTJRYuHQX7JpzVerbvpwkMd5PAJQEAAAADAAAAIgIDN1eUzXqKSrACR6t9AKj5G+qMvbvTrTq7NVgxFFWIh5kMnao10wEAAAADAAAAIgID8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAwMYbNhvwEAAAADAAAAAA==",
+			);
+			// const psbt = Psbt.fromBase64("cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABASvYcgAAAAAAACIAIPyiCzC4pKiEgQmYJffOzuMceywF5Ht0PbysptyeipjxAAAA");
+			console.log(prettySerialize(psbt));
+		});
+
 		test("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
 			const transactionData = JSON.parse(JSON.stringify(unsignedTransferTx));
+			console.log(prettySerialize(bitcoin.Psbt.fromBase64(unsignedTransferTx.psbt)));
 
 			const wallet1 = {
 				signingKey: musig.accounts[0].mnemonic,
 				path: musig.accounts[0].nativeSegwitMasterPath,
 			};
-			const signatory = new Signatories.Signatory(
+			const signatory1 = new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: wallet1.signingKey,
 					address: "address", // Not needed / used
@@ -282,8 +311,9 @@ describe("MultiSignatureService", () => {
 					privateKey: "privateKey", // Not needed / used
 				}),
 			);
-			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(oneSignatureTransferTx);
-			// psbt with wallet 3 signature from Electrum: cHNidP8BAH0CAAAAAfwqGh7h9o7dS3ijZ/AtMBq9b4+Iwa3oO+cHPfxYif2WAQAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRSSgAAAAAAACIAIMwp/GLML5b+bmRjjYlfxK/zvrX8W6X6/wilSXNZq/oIAAAAAAABAP17AQIAAAAAAQFKD67a/3Sxj3AG8rL4EwfMW4FUwADiXTEYvIfKwT+2bQEAAAAA/v///wIQJwAAAAAAABYAFKAaFjbzNQbAUr9KNkzlOzlOeqRb2HIAAAAAAAAiACD8ogswuKSohIEJmCX3zs7jHHssBeR7dD28rKbcnoqY8QQARzBEAiAtaxxe83vicwaMFPlfyPwgCZ2GV9Z2ZmLUKVb60ISinAIgFqnEi9wztQ/xIKEfGEABa2u6rCSP0tGJVX/zptWnhnUBRzBEAiBaXFplmx8pD968q30SVE0qZYFL5tCIAI7Fm6MvLRCLbAIgWL1twFWNx6iuOZo3//qhv36b6N1+Sv5V4TiVcVjJVxUBaVIhAv6jUnyTmJcbxskb4eZdaL+DG9R+RYV2svm1p5J110/xIQN8LVybhIgH9ucde0Y7N4+GqXWDPi0s9Yn5DGqbxP9ALCEDk7Tjvci0Sncb25QDKpc8kYzUMPV7RMqQ/lx6lORwoVZTriv/HwAiAgKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBkcwRAIgSFVXMzVtUOgT/UiXZQ1Yx3rUvFDtHOmas9R0LE9Sy88CIGVoVn53aJ7PtD4WGP4woMPg/QjV/kUN2lFSOmlyPGfoAQEFaVIhAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKIQKgvEK9TUSpPgZjgcRCczQBNXqabzC9DtnDXdcOmglHBiED2hKkbMe9iAditOn7fplJbojdKrjPFduxldPYNIpGKsBTriIGAmlJkkdKe19U4y+VM+uGOOP+L+vh/ZH6WIUSBsH+ZdGKDJ2qNdMBAAAAAgAAACIGAqC8Qr1NRKk+BmOBxEJzNAE1eppvML0O2cNd1w6aCUcGHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAIAAAAiBgPaEqRsx72IB2K06ft+mUluiN0quM8V27GV09g0ikYqwAxhs2G/AQAAAAIAAAAAAAEBaVIhAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJIQM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmSED8kGcmHvNWEH8OOTYrYHwrbObPsccZ9I7WWvShmJxrAxTriICAwXIeFxVhhqFRKMSYi1MBTBxkyUWLh0F+yac1Xq276cJHKi0tEgwAACAAQAAgAAAAIACAACAAQAAAAMAAAAiAgM3V5TNeopKsAJHq30AqPkb6oy9u9OtOrs1WDEUVYiHmQydqjXTAQAAAAMAAAAiAgPyQZyYe81YQfw45NitgfCts5s+xxxn0jtZa9KGYnGsDAxhs2G/AQAAAAMAAAAA
+
+			const signedTransaction1 = await subject.addSignature(transactionData, signatory1);
+			expect(signedTransaction1.data()).toEqual(oneSignatureTransferTx);
 
 			const wallet2 = {
 				signingKey: musig.accounts[1].mnemonic,
@@ -297,9 +327,8 @@ describe("MultiSignatureService", () => {
 					privateKey: "privateKey", // Not needed / used
 				}),
 			);
-			expect((await subject.addSignature(transactionData, signatory2)).data()).toEqual(
-				twoSignatureMusigRegistrationTx,
-			);
+			const signedTransaction2 = await subject.addSignature(signedTransaction1, signatory2);
+			expect(signedTransaction2.data()).toEqual(twoSignatureTransferTx);
 
 			const wallet3 = {
 				signingKey: musig.accounts[2].mnemonic,
