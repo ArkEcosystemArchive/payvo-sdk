@@ -467,6 +467,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "cross-fetch",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "dayjs",
       "allowedCategories": [ "libraries" ]
     },

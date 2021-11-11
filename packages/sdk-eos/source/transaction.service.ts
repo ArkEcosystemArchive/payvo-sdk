@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/intl";
 import { createHash } from "crypto";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
-import fetch from "node-fetch";
+import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
 @IoC.injectable()
