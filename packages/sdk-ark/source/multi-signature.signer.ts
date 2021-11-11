@@ -5,7 +5,7 @@ import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 import { BindingType } from "./coin.contract";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-import { uniq } from "@arkecosystem/utils";
+import { uniq } from "@payvo/helpers";
 
 @IoC.injectable()
 export class MultiSignatureSigner {
