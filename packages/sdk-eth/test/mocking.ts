@@ -1,5 +1,5 @@
 import { Test } from "@payvo/sdk";
-import { Request } from "@payvo/http-got";
+import { Request } from "@payvo/http-fetch";
 import { createRequire } from "module";
 import { resolve } from "path";
 

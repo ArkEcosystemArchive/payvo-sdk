@@ -135,6 +135,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/http-fetch",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/http-got",
       "allowedCategories": [ "libraries" ]
     },

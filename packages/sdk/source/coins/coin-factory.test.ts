@@ -1,7 +1,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { Request } from "@payvo/http-got";
+import { Request } from "@payvo/http-fetch";
 import nock from "nock";
 
 import { ARK } from "../../../sdk-ark/distribution";
