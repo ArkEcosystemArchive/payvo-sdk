@@ -205,7 +205,6 @@ describe("MultiSignatureTransaction", () => {
 		});
 	});
 
-
 	describe("#remainingSignatureCount", () => {
 		describe.each([
 			{ tx: unsignedMusigRegistrationTx, expected: 3 },
@@ -215,9 +214,7 @@ describe("MultiSignatureTransaction", () => {
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
-				expect(
-					subject.remainingSignatureCount(),
-				).toBe(expected);
+				expect(subject.remainingSignatureCount()).toBe(expected);
 			});
 		});
 
@@ -229,9 +226,7 @@ describe("MultiSignatureTransaction", () => {
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
-				expect(
-					subject.remainingSignatureCount(),
-				).toBe(expected);
+				expect(subject.remainingSignatureCount()).toBe(expected);
 			});
 		});
 	});
