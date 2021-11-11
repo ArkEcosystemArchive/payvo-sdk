@@ -42,7 +42,7 @@ describe("TransactionService", () => {
 	describe("#transfer", () => {
 		it("should sign transaction", async () => {
 			nock("https://proxy.nanos.cc/")
-				.post("/proxy/")
+				.post("/proxy")
 				.reply(200, requireModule(`../test/fixtures/client/account-info.json`));
 
 			const result = await subject.transfer({
