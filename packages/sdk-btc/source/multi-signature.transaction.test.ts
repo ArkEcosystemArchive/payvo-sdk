@@ -167,13 +167,19 @@ describe("MultiSignatureTransaction", () => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
 				expect(
-					subject.needsWalletSignature("Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN"),
+					subject.needsWalletSignature(
+						"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+					),
 				).toBe(expected1);
 				expect(
-					subject.needsWalletSignature("Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1"),
+					subject.needsWalletSignature(
+						"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+					),
 				).toBe(expected2);
 				expect(
-					subject.needsWalletSignature("Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py"),
+					subject.needsWalletSignature(
+						"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
+					),
 				).toBe(expected3);
 			});
 		});
@@ -187,17 +193,22 @@ describe("MultiSignatureTransaction", () => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
 				expect(
-					subject.needsWalletSignature("Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN"),
+					subject.needsWalletSignature(
+						"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+					),
 				).toBe(expected1);
 				expect(
-					subject.needsWalletSignature("Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1"),
+					subject.needsWalletSignature(
+						"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+					),
 				).toBe(expected2);
 				expect(
-					subject.needsWalletSignature("Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py"),
+					subject.needsWalletSignature(
+						"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
+					),
 				).toBe(expected3);
 			});
 		});
-
 	});
 
 	describe("#needsFinalSignature", () => {

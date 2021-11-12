@@ -44,22 +44,29 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		if (this.isMultiSignatureRegistration()) {
-			return this.#transaction.multiSignature.publicKeys.find(pk => pk === publicKey) === undefined;
+			return this.#transaction.multiSignature.publicKeys.find((pk) => pk === publicKey) === undefined;
 		}
 
-		const accountKey = BIP32.fromBase58(changeVersionBytes(publicKey, this.#network === bitcoin.networks.bitcoin ? "xpub" : "tpub"), this.#network);
+		const accountKey = BIP32.fromBase58(
+			changeVersionBytes(publicKey, this.#network === bitcoin.networks.bitcoin ? "xpub" : "tpub"),
+			this.#network,
+		);
 
 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
 		const firstInput = psbt.data.inputs[0];
 
-		const signer = firstInput.bip32Derivation!.find(bip32Derivation => bip32Derivation.masterFingerprint.equals(accountKey.fingerprint));
+		const signer = firstInput.bip32Derivation!.find((bip32Derivation) =>
+			bip32Derivation.masterFingerprint.equals(accountKey.fingerprint),
+		);
 
 		if (!signer) {
 			// This extended public key is not required to sign the transaction
 			return false;
 		}
 
-		return (firstInput.partialSig || []).find(partialSig => partialSig.pubkey.equals(signer.pubkey)) === undefined;
+		return (
+			(firstInput.partialSig || []).find((partialSig) => partialSig.pubkey.equals(signer.pubkey)) === undefined
+		);
 	}
 
 	public needsFinalSignature(): boolean {
@@ -67,7 +74,6 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public remainingSignatureCount(): number {
-
 		if (this.isMultiSignatureRegistration()) {
 			return this.#multiSignature.numberOfSignatures - this.#transaction.signatures.length;
 		}
