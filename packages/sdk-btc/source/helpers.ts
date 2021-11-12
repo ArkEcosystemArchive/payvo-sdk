@@ -9,6 +9,12 @@ export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && v.type === "Buffer") {
 		return Buffer.from(v.data).toString("hex");
 	}
+	if (v !== null && typeof v === "string") {
+		try {
+			return bitcoin.Psbt.fromBase64(v);
+		}
+		catch (_) {}
+	}
 	return v;
 };
 

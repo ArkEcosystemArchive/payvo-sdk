@@ -24,7 +24,7 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/cryptography";
 import { oneSignatureTransferTx, twoSignatureTransferTx, unsignedTransferTx } from "../test/fixtures/musig-txs";
-import { prettyPrint } from "./helpers";
+import { prettyPrint, prettySerialize } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -386,8 +386,7 @@ describe("legacy multisignature wallet", () => {
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			// TODO Change output derivation paths are missing (compared to Electrum)
-			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQDgAgAAAAABATJmg9VH12//SHlYvXPw3K2QuYKNKcNz+Rdx3qJ0oz/OAAAAAAD+////AqCGAQAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2H+rhrAAAAAAAXqRRcoJLGrTPRuOVueNY0eRrIQ3CDgIcCRzBEAiA8bVYgMMOAlSEwqBMoxjz5aUiDIBlACdwwwnNAY/UL1QIgOJpzJLRFOPHml4CLYj2xuzQzjaS+FgVnFimUBIJoXnkBIQOCPv/T3dLuLhIO3Ac8S8nnzbhJjG9xe+EDbdIyA3ZFv0kEIAABBWlSIQJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5ViECkBWvIBZNcxthKZC+56mVwDKruoP6GGo645GPmW8hc0AhA5cPLGFhgQY+Jv2XC5vBMIp4mG8/WQU+VUsfKXvejj1QU64iBgJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5Vgwj/PIxAAAAAAAAAAAiBgKQFa8gFk1zG2EpkL7nqZXAMqu6g/oYajrjkY+ZbyFzQAwpdhjSAAAAAAAAAAAiBgOXDyxhYYEGPib9lwubwTCKeJhvP1kFPlVLHyl73o49UAz6ukcjAAAAAAAAAAAAAAA=",
+			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQDgAgAAAAABATJmg9VH12//SHlYvXPw3K2QuYKNKcNz+Rdx3qJ0oz/OAAAAAAD+////AqCGAQAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2H+rhrAAAAAAAXqRRcoJLGrTPRuOVueNY0eRrIQ3CDgIcCRzBEAiA8bVYgMMOAlSEwqBMoxjz5aUiDIBlACdwwwnNAY/UL1QIgOJpzJLRFOPHml4CLYj2xuzQzjaS+FgVnFimUBIJoXnkBIQOCPv/T3dLuLhIO3Ac8S8nnzbhJjG9xe+EDbdIyA3ZFv0kEIAABBWlSIQJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5ViECkBWvIBZNcxthKZC+56mVwDKruoP6GGo645GPmW8hc0AhA5cPLGFhgQY+Jv2XC5vBMIp4mG8/WQU+VUsfKXvejj1QU64iBgJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5Vgwj/PIxAAAAAAAAAAAiBgKQFa8gFk1zG2EpkL7nqZXAMqu6g/oYajrjkY+ZbyFzQAwpdhjSAAAAAAAAAAAiBgOXDyxhYYEGPib9lwubwTCKeJhvP1kFPlVLHyl73o49UAz6ukcjAAAAAAAAAAAAACICAiB9HMDuorlegpW6k1d8dpDSPx4rhwG75ix/VXqM1ctEDCl2GNIBAAAAAAAAACICAyA0bO8i+ssRrJcIl7eyeS5BLNclagsQp6Lwruw+mrlPDCP88jEBAAAAAAAAACICAyc/qQ+Y4nKNKn5W2GS4/5qmdicWkVU4KOPLNNdbwhLzDPq6RyMBAAAAAAAAAAA=",
 		);
 	});
 });
@@ -458,8 +457,7 @@ describe("p2sh segwit multisignature wallet", () => {
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
 		expect(result.toBroadcast()).toBe(
-			// TODO Change output derivation paths are missing (compared to Electrum)
-			"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",
+			"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",
 		);
 	});
 });
