@@ -4,8 +4,8 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { jest } from "@jest/globals";
-import { DateTime } from "@payvo/intl";
-import { BigNumber } from "@payvo/helpers";
+import { DateTime } from "@payvo/sdk-intl";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts";
 import { AbstractConfirmedTransactionData } from "./confirmed-transaction";

@@ -1,6 +1,7 @@
 /* istanbul ignore file */
+/* eslint-disable import/no-namespace */
 
-import { get } from "dot-prop";
+import { get } from "@payvo/sdk-helpers";
 
 import { ConfigKey, ConfigRepository } from "../coins";
 import { ConfirmedTransactionDataCollection } from "../collections";

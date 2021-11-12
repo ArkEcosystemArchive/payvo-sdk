@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { BigNumber } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 
 import { KeyValuePair } from "../contracts";
 import { injectable } from "../ioc";

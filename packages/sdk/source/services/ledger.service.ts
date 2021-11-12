@@ -19,7 +19,7 @@ export class AbstractLedgerService implements LedgerService {
 
 	@preDestroy()
 	public async disconnect(): Promise<void> {
-		throw new NotImplemented(this.constructor.name, this.disconnect.name);
+		//
 	}
 
 	public async getVersion(): Promise<string> {
@@ -74,8 +74,8 @@ export class AbstractLedgerService implements LedgerService {
 
 				ledgerWallets[path] = this.dataTransferObjectService.wallet({
 					address,
-					publicKey,
 					balance: 0,
+					publicKey,
 				});
 			} else {
 				ledgerWallets[path] = matchingWallet;

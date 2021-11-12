@@ -10,7 +10,7 @@ There's a myriad of things to keep in mind when integrating a new coin. This doc
 
 ## Profiles
 
-The SDK is primarily consumed by the [@payvo/profiles](https://github.com/PayvoHQ/profiles) package. This package is responsible for providing a unified interface for interacting with all available coins and serves as the backend for the [Payvo Wallet](https://github.com/PayvoHQ/wallet).
+The SDK is primarily consumed by the [@payvo/sdk-profiles](https://github.com/PayvoHQ/profiles) package. This package is responsible for providing a unified interface for interacting with all available coins and serves as the backend for the [Payvo Wallet](https://github.com/PayvoHQ/wallet).
 
 Every time a new coin has been implemented it needs to be added to the profiles package as a development dependency. After this has been done a few tests need to be updated to ensure that the coin behaves as expected. This might seem redundant because each coin already has a suite of tests but the way it is consumed might reveal missing or faulty behaviours.
 

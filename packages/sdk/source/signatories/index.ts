@@ -1,23 +1,10 @@
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
-import { Signatory } from "./signatory";
-import { WIFSignatory } from "./wif";
-
-export {
-	ConfirmationMnemonicSignatory,
-	ConfirmationSecretSignatory,
-	ConfirmationWIFSignatory,
-	LedgerSignatory,
-	MnemonicSignatory,
-	MultiSignatureSignatory,
-	PrivateKeySignatory,
-	SecretSignatory,
-	Signatory,
-	WIFSignatory,
-};
+export { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
+export { ConfirmationSecretSignatory } from "./confirmation-secret";
+export { ConfirmationWIFSignatory } from "./confirmation-wif";
+export { LedgerSignatory } from "./ledger";
+export { MnemonicSignatory } from "./mnemonic";
+export { MultiSignatureSignatory } from "./multi-signature";
+export { PrivateKeySignatory } from "./private-key";
+export { SecretSignatory } from "./secret";
+export { Signatory } from "./signatory";
+export { WIFSignatory } from "./wif";

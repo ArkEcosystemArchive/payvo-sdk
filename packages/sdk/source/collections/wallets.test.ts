@@ -15,7 +15,7 @@ beforeEach(
 					username: () => "username",
 				},
 			],
-			{ prev: "", self: "", next: "" },
+			{ next: "", prev: "", self: "" },
 		)),
 );
 

@@ -1,7 +1,8 @@
 /* istanbul ignore file */
+/* eslint-disable import/order */
 
-import { BigNumber } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 import { strict as assert } from "assert";
 
 import { RawTransactionData, SignedTransactionData } from "../contracts";
@@ -23,21 +24,21 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	protected decimals!: number | undefined;
 
 	readonly #types = {
-		transfer: "isTransfer",
-		secondSignature: "isSecondSignature",
 		delegateRegistration: "isDelegateRegistration",
-		voteCombination: "isVoteCombination",
-		vote: "isVote",
-		unvote: "isUnvote",
-		multiSignature: "isMultiSignatureRegistration",
-		ipfs: "isIpfs",
-		multiPayment: "isMultiPayment",
 		delegateResignation: "isDelegateResignation",
-		htlcLock: "isHtlcLock",
 		htlcClaim: "isHtlcClaim",
+		htlcLock: "isHtlcLock",
 		htlcRefund: "isHtlcRefund",
+		ipfs: "isIpfs",
 		magistrate: "isMagistrate",
+		multiPayment: "isMultiPayment",
+		multiSignature: "isMultiSignatureRegistration",
+		secondSignature: "isSecondSignature",
+		transfer: "isTransfer",
 		unlockToken: "isUnlockToken",
+		unvote: "isUnvote",
+		vote: "isVote",
+		voteCombination: "isVoteCombination",
 	};
 
 	public configure(
@@ -51,7 +52,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		this.identifier = identifier;
 		this.signedData = signedData;
 		this.broadcastData = broadcastData ?? signedData;
-		this.decimals = typeof decimals === "string" ? parseInt(decimals) : decimals;
+		this.decimals = typeof decimals === "string" ? Number.parseInt(decimals) : decimals;
 
 		return this;
 	}
@@ -184,14 +185,14 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 
 	public toObject(): SignedTransactionObject {
 		return {
-			id: this.id(),
-			sender: this.sender(),
-			recipient: this.recipient(),
-			amount: this.amount().toFixed(),
-			fee: this.fee().toFixed(),
-			timestamp: this.timestamp().toISOString(),
-			data: this.data(),
+			amount: this.amount().toFixed(0),
 			broadcast: this.toBroadcast(),
+			data: this.data(),
+			fee: this.fee().toFixed(0),
+			id: this.id(),
+			recipient: this.recipient(),
+			sender: this.sender(),
+			timestamp: this.timestamp().toISOString(),
 		};
 	}
 

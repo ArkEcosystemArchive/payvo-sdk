@@ -1,5 +1,5 @@
-import { Arr } from "@payvo/helpers";
-import { BigNumber, NumberLike } from "@payvo/helpers";
+import { Arr } from "@payvo/sdk-helpers";
+import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 import { ConfigRepository } from "./coins";
 import { NetworkHost, NetworkHostType } from "./networks";
 
