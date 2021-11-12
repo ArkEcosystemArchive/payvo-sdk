@@ -205,14 +205,14 @@ describe("MultiSignatureService", () => {
 					transaction,
 					"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
 				),
-			).toBeTrue();
+			).toBeFalse();
 
 			expect(
 				subject.needsWalletSignature(
 					transaction,
 					"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 				),
-			).toBeFalse();
+			).toBeTrue();
 		});
 
 		test("#needsFinalSignature", async () => {
