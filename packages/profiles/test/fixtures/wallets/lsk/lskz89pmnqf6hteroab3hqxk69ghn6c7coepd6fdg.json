@@ -1,0 +1,59 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskz89pmnqf6hteroab3hqxk69ghn6c7coepd6fdg",
+				"balance": "149999686000",
+				"username": "",
+				"publicKey": "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
+				"isDelegate": false,
+				"isMultisignature": true
+			},
+			"token": {
+				"balance": "149999686000"
+			},
+			"sequence": {
+				"nonce": "1"
+			},
+			"keys": {
+				"numberOfSignatures": 2,
+				"mandatoryKeys": [
+					"5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
+					"a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff"
+				],
+				"optionalKeys": [],
+				"members": [
+					{
+						"address": "lskz89pmnqf6hteroab3hqxk69ghn6c7coepd6fdg",
+						"publicKey": "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f",
+						"isMandatory": true
+					},
+					{
+						"address": "lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap",
+						"publicKey": "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
+						"isMandatory": true
+					}
+				],
+				"memberships": [
+					{
+						"address": "lskz89pmnqf6hteroab3hqxk69ghn6c7coepd6fdg",
+						"publicKey": "5948cc0565a3e9320c7442cecb62acdc92b428a0da504c52afb3e84a025d221f"
+					}
+				]
+			},
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 0,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				}
+			}
+		}
+	],
+	"meta": {
+		"count": 1,
+		"offset": 0
+	}
+}

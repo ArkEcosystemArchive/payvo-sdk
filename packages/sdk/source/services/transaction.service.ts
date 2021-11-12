@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { BigNumber, NumberLike } from "@payvo/helpers";
+import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
 import { ConfigRepository } from "../coins";
 import { SignedTransactionData } from "../contracts";

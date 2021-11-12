@@ -1,5 +1,5 @@
-import { BigNumber } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 
 import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
 import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";

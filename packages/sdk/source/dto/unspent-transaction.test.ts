@@ -1,8 +1,8 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { BigNumber } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 
 import { UnspentTransactionData } from "./unspent-transaction";
 

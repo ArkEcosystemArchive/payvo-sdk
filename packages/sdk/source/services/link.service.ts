@@ -1,6 +1,7 @@
 /* istanbul ignore file */
+/* eslint-disable import/order */
 
-import { formatString } from "@arkecosystem/utils";
+import { formatString } from "@payvo/sdk-helpers";
 import { URL } from "url";
 
 import { ConfigRepository } from "../coins";

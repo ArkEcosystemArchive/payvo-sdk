@@ -3,7 +3,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { BigNumber } from "@payvo/helpers";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { WalletBalance } from "../contracts";
 import { AbstractWalletData } from "./wallet";

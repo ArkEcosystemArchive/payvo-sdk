@@ -15,10 +15,10 @@ describe("MnemonicSignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -28,10 +28,10 @@ describe("MnemonicSignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -41,10 +41,10 @@ describe("MnemonicSignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -54,10 +54,10 @@ describe("MnemonicSignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -67,10 +67,10 @@ describe("MnemonicSignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -80,12 +80,13 @@ describe("MnemonicSignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -94,7 +95,6 @@ describe("MnemonicSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -116,17 +116,18 @@ describe("MnemonicSignatory", () => {
 	test("#options", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
-				privateKey: "privateKey",
 				options: {
 					bip44: {
 						account: 0,
 					},
 				},
+				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -135,7 +136,6 @@ describe("MnemonicSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -153,11 +153,11 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -167,11 +167,11 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -181,11 +181,11 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -195,11 +195,11 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -209,11 +209,11 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -223,13 +223,14 @@ describe("ConfirmationMnemonicSignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -238,7 +239,6 @@ describe("ConfirmationMnemonicSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -262,10 +262,10 @@ describe("WIFSignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -275,10 +275,10 @@ describe("WIFSignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -288,10 +288,10 @@ describe("WIFSignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -301,10 +301,10 @@ describe("WIFSignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -314,10 +314,10 @@ describe("WIFSignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -327,12 +327,13 @@ describe("WIFSignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
-				signingKey: "signingKey",
 				address: "address",
-				publicKey: "publicKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -341,7 +342,6 @@ describe("WIFSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -365,11 +365,11 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -379,11 +379,11 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -393,11 +393,11 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -407,11 +407,11 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -421,11 +421,11 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -435,13 +435,14 @@ describe("ConfirmationWIFSignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -450,7 +451,6 @@ describe("ConfirmationWIFSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -474,8 +474,8 @@ describe("PrivateKeySignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -485,8 +485,8 @@ describe("PrivateKeySignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -496,8 +496,8 @@ describe("PrivateKeySignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -507,8 +507,8 @@ describe("PrivateKeySignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -518,8 +518,8 @@ describe("PrivateKeySignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -529,10 +529,11 @@ describe("PrivateKeySignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -541,7 +542,6 @@ describe("PrivateKeySignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -563,15 +563,16 @@ describe("PrivateKeySignatory", () => {
 	test("#options", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
-				signingKey: "signingKey",
 				address: "address",
 				options: {
 					bip44: {
 						account: 0,
 					},
 				},
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -580,7 +581,6 @@ describe("PrivateKeySignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -655,11 +655,11 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -669,11 +669,11 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#confirmKey", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -683,11 +683,11 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#address", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -697,11 +697,11 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#publicKey", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -711,11 +711,11 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#privateKey", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 		);
 
@@ -725,13 +725,14 @@ describe("ConfirmationSecretSignatory", () => {
 	test("#multiSignature", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
-				signingKey: "signingKey",
-				confirmKey: "confirmKey",
 				address: "address",
-				publicKey: "publicKey",
+				confirmKey: "confirmKey",
 				privateKey: "privateKey",
+				publicKey: "publicKey",
+				signingKey: "signingKey",
 			}),
 			{
+				min: 4,
 				publicKeys: [
 					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -740,7 +741,6 @@ describe("ConfirmationSecretSignatory", () => {
 					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 				],
-				min: 4,
 			},
 		);
 
@@ -763,10 +763,10 @@ describe("ConfirmationSecretSignatory", () => {
 test("#hasMultiSignature", () => {
 	let subject = new Signatory(
 		new SecretSignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -774,12 +774,13 @@ test("#hasMultiSignature", () => {
 
 	subject = new Signatory(
 		new SecretSignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 		{
+			min: 4,
 			publicKeys: [
 				"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
 				"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
@@ -788,7 +789,6 @@ test("#hasMultiSignature", () => {
 				"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
 				"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
 			],
-			min: 4,
 		},
 	);
 
@@ -798,10 +798,10 @@ test("#hasMultiSignature", () => {
 test("#actsWithMnemonic", () => {
 	const subject = new Signatory(
 		new MnemonicSignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -811,11 +811,11 @@ test("#actsWithMnemonic", () => {
 test("#actsWithConfirmationMnemonic", () => {
 	const subject = new Signatory(
 		new ConfirmationMnemonicSignatory({
-			signingKey: "this is a top secret passphrase 1",
-			confirmKey: "this is a top secret passphrase 2",
 			address: "",
-			publicKey: "",
+			confirmKey: "this is a top secret passphrase 2",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -825,10 +825,10 @@ test("#actsWithConfirmationMnemonic", () => {
 test("#actsWithWIF", () => {
 	const subject = new Signatory(
 		new WIFSignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -838,11 +838,11 @@ test("#actsWithWIF", () => {
 test("#actsWithConfirmationWIF", () => {
 	const subject = new Signatory(
 		new ConfirmationWIFSignatory({
-			signingKey: "this is a top secret passphrase 1",
-			confirmKey: "this is a top secret passphrase 2",
 			address: "",
-			publicKey: "",
+			confirmKey: "this is a top secret passphrase 2",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -852,8 +852,8 @@ test("#actsWithConfirmationWIF", () => {
 test("#actsWithPrivateKey", () => {
 	const subject = new Signatory(
 		new PrivateKeySignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -875,10 +875,10 @@ test("#actsWithLedger", () => {
 test("#actsWithSecret", () => {
 	const subject = new Signatory(
 		new SecretSignatory({
-			signingKey: "this is a top secret passphrase 1",
 			address: "",
-			publicKey: "",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 
@@ -888,11 +888,11 @@ test("#actsWithSecret", () => {
 test("#actsWithConfirmationSecret", () => {
 	const subject = new Signatory(
 		new ConfirmationSecretSignatory({
-			signingKey: "this is a top secret passphrase 1",
-			confirmKey: "this is a top secret passphrase 2",
 			address: "",
-			publicKey: "",
+			confirmKey: "this is a top secret passphrase 2",
 			privateKey: "",
+			publicKey: "",
+			signingKey: "this is a top secret passphrase 1",
 		}),
 	);
 

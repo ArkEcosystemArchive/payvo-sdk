@@ -10,22 +10,26 @@ beforeEach(
 			[
 				{
 					id: () => "id1",
-					type: () => "type1",
+
+					recipient: () => "recipient1",
+
+					sender: () => "sender1",
 					// @ts-ignore
 					timestamp: () => "timestamp1",
-					sender: () => "sender1",
-					recipient: () => "recipient1",
+					type: () => "type1",
 				},
 				{
 					id: () => "id2",
-					type: () => "type2",
+
+					recipient: () => "recipient2",
+
+					sender: () => "sender2",
 					// @ts-ignore
 					timestamp: () => "timestamp2",
-					sender: () => "sender2",
-					recipient: () => "recipient2",
+					type: () => "type2",
 				},
 			],
-			{ prev: 1, self: 2, next: 4, last: 4 },
+			{ last: 4, next: 4, prev: 1, self: 2 },
 		)),
 );
 

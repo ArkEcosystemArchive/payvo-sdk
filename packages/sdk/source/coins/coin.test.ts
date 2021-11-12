@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { Request } from "@payvo/http-got";
 import nock from "nock";
 
-import { ARK } from "../../../sdk-ark/distribution";
+import { ARK } from "../../../ark/distribution";
+import { Request } from "../../../http-fetch";
 import { requireModule } from "../../test/mocking";
 import { Network, NetworkRepository } from "../networks";
 import { Coin } from "./coin";
@@ -30,8 +30,8 @@ beforeEach(async () => {
 
 	// @ts-ignore
 	subject = CoinFactory.make(ARK, {
-		network: "ark.devnet",
 		httpClient: new Request(),
+		network: "ark.devnet",
 	});
 });
 

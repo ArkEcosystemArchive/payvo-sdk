@@ -11,14 +11,16 @@ beforeEach(
 				// @ts-ignore
 				{
 					id: () => "id",
-					type: () => "type",
+
+					recipient: () => "recipient",
+
+					sender: () => "sender",
 					// @ts-ignore
 					timestamp: () => "timestamp",
-					sender: () => "sender",
-					recipient: () => "recipient",
+					type: () => "type",
 				},
 			],
-			{ prev: "", self: "", next: "" },
+			{ next: "", prev: "", self: "" },
 		)),
 );
 

@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { BigNumber } from "@payvo/helpers";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { KeyValuePair, WalletBalance } from "../contracts";
 import { NotImplemented } from "../exceptions";
@@ -84,16 +84,16 @@ export class AbstractWalletData {
 	public toObject(): KeyValuePair {
 		return {
 			address: this.address(),
-			publicKey: this.publicKey(),
 			balance: this.balance(),
-			nonce: this.nonce(),
-			username: this.username(),
-			rank: this.rank(),
-			votes: this.votes(),
 			isDelegate: this.isDelegate(),
-			isResignedDelegate: this.isResignedDelegate(),
 			isMultiSignature: this.isMultiSignature(),
+			isResignedDelegate: this.isResignedDelegate(),
 			isSecondSignature: this.isSecondSignature(),
+			nonce: this.nonce(),
+			publicKey: this.publicKey(),
+			rank: this.rank(),
+			username: this.username(),
+			votes: this.votes(),
 		};
 	}
 

@@ -1,0 +1,36 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap",
+				"balance": "37999392000",
+				"username": "",
+				"publicKey": "a3c22fd67483ae07134c93224384dac7206c40b1b7a14186dd2d3f0dcc8234ff",
+				"isDelegate": false,
+				"isMultisignature": false
+			},
+			"token": { "balance": "37999392000" },
+			"sequence": { "nonce": "3" },
+			"keys": { "numberOfSignatures": 0, "mandatoryKeys": [], "optionalKeys": [] },
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 0,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				},
+				"sentVotes": [
+					{ "delegateAddress": "lskn9vkhh5yd8dm3r7jskzyk66md5z52j2jckcydk", "amount": "1000000000" },
+					{ "delegateAddress": "lsk3bdwgn5ke3cvwd3gp48emwjcjjzmu6zz5p5b97", "amount": "1000000000" },
+					{ "delegateAddress": "lsk36gyjssnv3hqwnurbpzgt8545donr48ev7jasg", "amount": "1000000000" },
+					{ "delegateAddress": "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3", "amount": "1000000000" },
+					{ "delegateAddress": "lskuo56apnddppfz76yyznwnn5nc9as5br5tzcnsp", "amount": "1000000000" },
+					{ "delegateAddress": "lsktwxohgkh7myufa97ozm9w4c9ag74dpzff2xfvy", "amount": "1000000000" },
+					{ "delegateAddress": "lskf2f35wsetvw9t5prhrjkm9wc4cs6jmuusvr8bp", "amount": "1000000000" }
+				]
+			}
+		}
+	],
+	"meta": { "count": 1, "offset": 0 }
+}

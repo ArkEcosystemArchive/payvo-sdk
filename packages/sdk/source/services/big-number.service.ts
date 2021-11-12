@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import { BigNumber, NumberLike } from "@payvo/helpers";
+import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
 import { ConfigKey, ConfigRepository } from "../coins/config";
 import { inject, injectable } from "../ioc";

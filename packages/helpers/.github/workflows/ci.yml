@@ -1,0 +1,46 @@
+name: CI
+
+on:
+    push:
+        branches:
+            - "master"
+            - "develop"
+    pull_request:
+        types: [ready_for_review, synchronize, opened]
+
+jobs:
+    conflicts:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+              with:
+                  ref: ${{ github.head_ref }}
+            - name: Merge Conflict finder
+              uses: olivernybroe/action-conflict-finder@v1.1
+    test:
+        needs: [conflicts]
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x]
+        concurrency:
+            group: ${{ github.head_ref }}-sdk
+            cancel-in-progress: true
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Cache .pnpm-store
+              uses: actions/cache@v1
+              with:
+                  path: ~/.pnpm-store
+                  key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+            - name: Install pnpm
+              run: curl -f https://get.pnpm.io/v6.14.js | node - add --global pnpm@6
+            - name: Install
+              run: pnpm install
+            - name: Test
+              run: pnpm run test

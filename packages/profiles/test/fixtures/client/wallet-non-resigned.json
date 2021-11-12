@@ -1,0 +1,29 @@
+{
+	"data": {
+		"address": "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+		"publicKey": "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+		"nonce": "111932",
+		"balance": "55827093444556",
+		"attributes": {
+			"delegate": {
+				"username": "arkx",
+				"voteBalance": "57037342430760",
+				"forgedFees": "124364463486",
+				"forgedRewards": "16899000000000",
+				"producedBlocks": 84709,
+				"lastBlock": {
+					"id": "682a1c53eb9e6fcf285d1b6819de08f88bd15b083a612c3fe32aa870001dbf22",
+					"height": 4269235,
+					"timestamp": 91907944,
+					"generatorPublicKey": "033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200"
+				},
+				"resigned": true
+			},
+			"vote": "033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200"
+		},
+		"isDelegate": true,
+		"isResigned": false,
+		"vote": "033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
+		"username": "arkx"
+	}
+}

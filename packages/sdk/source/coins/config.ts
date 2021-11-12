@@ -1,14 +1,13 @@
-import { ValidatorSchema } from "@payvo/helpers";
-import dot from "dot-prop";
+import { get, has, set, unset, ValidatorSchema } from "@payvo/sdk-helpers";
 
 export class ConfigRepository {
 	readonly #config: Record<string, any>;
 
 	public constructor(config: object) {
 		const { error, value } = ValidatorSchema.object({
+			httpClient: ValidatorSchema.object(),
 			network: ValidatorSchema.string(),
 			networks: ValidatorSchema.object().optional(),
-			httpClient: ValidatorSchema.object(),
 		}).validate(config);
 
 		if (error !== undefined) {
@@ -23,7 +22,7 @@ export class ConfigRepository {
 	}
 
 	public get<T>(key: string, defaultValue?: T): T {
-		const value: T | undefined = dot.get(this.#config, key, defaultValue);
+		const value: T | undefined = get(this.#config, key, defaultValue);
 
 		if (value === undefined) {
 			throw new Error(`The [${key}] is an unknown configuration value.`);
@@ -33,15 +32,15 @@ export class ConfigRepository {
 	}
 
 	public getLoose<T>(key: string, defaultValue?: T): T | undefined {
-		return dot.get(this.#config, key, defaultValue);
+		return get(this.#config, key, defaultValue);
 	}
 
 	public set(key: string, value: unknown): void {
-		dot.set(this.#config, key, value);
+		set(this.#config, key, value);
 	}
 
 	public has(key: string): boolean {
-		return dot.has(this.#config, key);
+		return has(this.#config, key);
 	}
 
 	public missing(key: string): boolean {
@@ -49,7 +48,7 @@ export class ConfigRepository {
 	}
 
 	public forget(key: string): boolean {
-		return dot.delete(this.#config, key);
+		return unset(this.#config, key);
 	}
 }
 

@@ -1,15 +1,17 @@
+/* eslint-disable sonarjs/no-identical-expressions */
+
 import "jest-extended";
 import "reflect-metadata";
 
-import { Request } from "@payvo/http-got";
 import nock from "nock";
 
-import { ARK } from "../../../sdk-ark/distribution";
+import { ARK } from "../../../ark/distribution";
+import { Request } from "../../../http-fetch";
 import { requireModule } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
-const options = { network: "ark.mainnet", httpClient: new Request() };
+const options = { httpClient: new Request(), network: "ark.mainnet" };
 
 beforeAll(async () => {
 	nock.disableNetConnect();
@@ -74,8 +76,8 @@ it("should create multiple instances with independent containers", async () => {
 it("should create an instance with a custom network", async () => {
 	// @ts-ignore
 	const coin: Coin = CoinFactory.make(ARK, {
-		network: "coin.network",
 		httpClient: new Request(),
+		network: "coin.network",
 		// @ts-ignore
 		networks: {
 			"coin.network": {
