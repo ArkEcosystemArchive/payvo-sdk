@@ -1,7 +1,8 @@
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
 import * as bitcoin from "bitcoinjs-lib";
 import { isMultiSignatureRegistration } from "./multi-signature.domain";
-import { prettySerialize } from "./helpers";
+import { BIP32 } from "@payvo/cryptography";
+import changeVersionBytes from "xpub-converter";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
@@ -38,24 +39,27 @@ export class PendingMultiSignatureTransaction {
 	}
 
 	public needsWalletSignature(publicKey: string): boolean {
-		if (!this.needsSignatures() && !this.needsFinalSignature()) {
+		if (!this.needsSignatures()) {
 			return false;
 		}
 
-		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady()) {
-			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
+		if (this.isMultiSignatureRegistration()) {
+			return this.#transaction.multiSignature.publicKeys.find(pk => pk === publicKey) === undefined;
 		}
 
-		// const index: number = [...this.#multiSignature.mandatoryKeys, ...this.#multiSignature.optionalKeys].indexOf(
-		// 	publicKey,
-		// );
-		//
-		// if (index === -1) {
-		// 	return false;
-		// }
+		const accountKey = BIP32.fromBase58(changeVersionBytes(publicKey, this.#network === bitcoin.networks.bitcoin ? "xpub" : "tpub"), this.#network);
 
-		// return this.#transaction.signatures[index] === undefined;
-		return true;
+		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
+		const firstInput = psbt.data.inputs[0];
+
+		const signer = firstInput.bip32Derivation!.find(bip32Derivation => bip32Derivation.masterFingerprint.equals(accountKey.fingerprint));
+
+		if (!signer) {
+			// This extended public key is not required to sign the transaction
+			return false;
+		}
+
+		return (firstInput.partialSig || []).find(partialSig => partialSig.pubkey.equals(signer.pubkey)) === undefined;
 	}
 
 	public needsFinalSignature(): boolean {

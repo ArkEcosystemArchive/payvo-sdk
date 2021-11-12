@@ -159,32 +159,45 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#needsWalletSignature", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: false },
-			{ tx: oneSignatureMusigRegistrationTx, expected: false },
-			{ tx: twoSignatureMusigRegistrationTx, expected: false },
-			{ tx: threeSignatureMusigRegistrationTx, expected: true },
-		])("for musig registration", ({ tx, expected }) => {
+			{ tx: unsignedMusigRegistrationTx, expected1: true, expected2: true, expected3: true },
+			{ tx: oneSignatureMusigRegistrationTx, expected1: false, expected2: true, expected3: true },
+			{ tx: twoSignatureMusigRegistrationTx, expected1: false, expected2: false, expected3: true },
+			{ tx: threeSignatureMusigRegistrationTx, expected1: false, expected2: false, expected3: false },
+		])("for musig registration", ({ tx, expected1, expected2, expected3 }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
 				expect(
-					subject.needsWalletSignature("0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73"),
-				).toBe(expected);
+					subject.needsWalletSignature("Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN"),
+				).toBe(expected1);
+				expect(
+					subject.needsWalletSignature("Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1"),
+				).toBe(expected2);
+				expect(
+					subject.needsWalletSignature("Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py"),
+				).toBe(expected3);
 			});
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: false },
-			{ tx: oneSignatureTransferTx, expected: false },
-			{ tx: twoSignatureTransferTx, expected: true },
-			{ tx: threeSignatureTransferTx, expected: true },
-		])("for transfer", ({ tx, expected }) => {
+			{ tx: unsignedTransferTx, expected1: true, expected2: true, expected3: true },
+			{ tx: oneSignatureTransferTx, expected1: false, expected2: true, expected3: true },
+			{ tx: twoSignatureTransferTx, expected1: false, expected2: false, expected3: false },
+			{ tx: threeSignatureTransferTx, expected1: false, expected2: false, expected3: false },
+		])("for transfer", ({ tx, expected1, expected2, expected3 }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
-				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
+				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
 				expect(
-					subject.needsWalletSignature("0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73"),
-				).toBe(expected);
+					subject.needsWalletSignature("Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN"),
+				).toBe(expected1);
+				expect(
+					subject.needsWalletSignature("Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1"),
+				).toBe(expected2);
+				expect(
+					subject.needsWalletSignature("Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py"),
+				).toBe(expected3);
 			});
 		});
+
 	});
 
 	describe("#needsFinalSignature", () => {
