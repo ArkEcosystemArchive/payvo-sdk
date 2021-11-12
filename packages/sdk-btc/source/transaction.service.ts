@@ -362,6 +362,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				amount,
 				fee,
 				timestamp: new Date(),
+				multiSignatureAsset,
 			},
 			psbtBaseText,
 		);
