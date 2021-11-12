@@ -66,61 +66,15 @@ export class PendingMultiSignatureTransaction {
 		return false;
 	}
 
-	// public getValidMultiSignatures(): string[] {
-	// 	if (!this.#transaction.signatures || !this.#transaction.signatures.length) {
-	// 		return [];
-	// 	}
-	//
-	// 	if (!isMultiSignatureRegistration(this.#transaction)) {
-	// 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, {
-	// 			network: this.#network,
-	// 		});
-	// 		// return psbt.validateSignaturesOfAllInputs();
-	// 	}
-	//
-	// 	// // Convert and sort the participant keys
-	// 	// const mandatoryKeys: Buffer[] = convertStringList(this.#multiSignature.mandatoryKeys);
-	// 	// mandatoryKeys.sort((a: Buffer, b: Buffer) => a.compare(b));
-	// 	//
-	// 	// const optionalKeys: Buffer[] = convertStringList(this.#multiSignature.optionalKeys);
-	// 	// optionalKeys.sort((a: Buffer, b: Buffer) => a.compare(b));
-	//
-	// 	// Iterate over all participant keys and check who has a signature set already
-	// 	const result: Buffer[] = [];
-	//
-	// 	// for (const participant of convertStringList([
-	// 	// 	...this.#multiSignature.mandatoryKeys,
-	// 	// 	...this.#multiSignature.optionalKeys,
-	// 	// ])) {
-	// 	// 	const mandatoryKeyIndex: number = mandatoryKeys.findIndex((publicKey: Buffer) =>
-	// 	// 		publicKey.equals(participant),
-	// 	// 	);
-	// 	// 	const optionalKeyIndex: number = optionalKeys.findIndex((publicKey: Buffer) =>
-	// 	// 		publicKey.equals(participant),
-	// 	// 	);
-	// 	// 	const signatureOffset: number = this.isMultiSignatureRegistration() ? 1 : 0;
-	// 	//
-	// 	// 	if (mandatoryKeyIndex !== -1) {
-	// 	// 		if (this.#transaction.signatures[mandatoryKeyIndex + signatureOffset]) {
-	// 	// 			result.push(participant);
-	// 	// 		}
-	// 	// 	}
-	// 	//
-	// 	// 	if (optionalKeyIndex !== -1) {
-	// 	// 		if (this.#transaction.signatures[mandatoryKeys.length + optionalKeyIndex + signatureOffset]) {
-	// 	// 			result.push(participant);
-	// 	// 		}
-	// 	// 	}
-	// 	// }
-	//
-	// 	return convertBufferList(result);
-	// }
-
 	public remainingSignatureCount(): number {
-		let numberOfSignatures = this.isMultiSignatureRegistration()
-			? this.#multiSignature.numberOfSignatures - this.#transaction.signatures.length
-			: this.#multiSignature.min;
 
-		return numberOfSignatures; // - this.#transaction.signatures.filter(Boolean).length;
+		if (this.isMultiSignatureRegistration()) {
+			return this.#multiSignature.numberOfSignatures - this.#transaction.signatures.length;
+		}
+
+		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
+		const firstInput = psbt.data.inputs[0];
+
+		return Math.max(this.#multiSignature.min - (firstInput.partialSig || []).length, 0);
 	}
 }
