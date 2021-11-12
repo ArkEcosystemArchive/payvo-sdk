@@ -31,47 +31,45 @@ export class MultiSignatureSigner {
 	): Promise<MultiSignatureTransaction> {
 		const pendingMultiSignature = new PendingMultiSignatureTransaction(transaction, this.#network);
 
-		const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
+		// const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
 
 		let signedTransaction: Contracts.RawTransactionData = { ...transaction };
 
-		if (!isReady) {
-			if (signatory.actsWithLedger()) {
-				throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
+		if (signatory.actsWithLedger()) {
+			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 
-				// TODO figure out all the signing paths and make a single
-				// call to ledger to sign them all
-				// Figure out how to merge the signed transaction back to Psbt
-				// const index: number = this.#publicKeyIndex(
-				// 	transaction,
-				// 	await this.ledgerService.getExtendedPublicKey(signatory.signingKey()),
-				// );
-				//
-				// if (!transaction.signatures) {
-				// 	transaction.signatures = [];
-				// }
+			// TODO figure out all the signing paths and make a single
+			// call to ledger to sign them all
+			// Figure out how to merge the signed transaction back to Psbt
+			// const index: number = this.#publicKeyIndex(
+			// 	transaction,
+			// 	await this.ledgerService.getExtendedPublicKey(signatory.signingKey()),
+			// );
+			//
+			// if (!transaction.signatures) {
+			// 	transaction.signatures = [];
+			// }
 
-				// const signature: string = await this.#signWithLedger(transaction, signatory, true);
-				// const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
-				//
-				// transaction.signatures.push(`${signatureIndex}${signature}`);
+			// const signature: string = await this.#signWithLedger(transaction, signatory, true);
+			// const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
+			//
+			// transaction.signatures.push(`${signatureIndex}${signature}`);
+		} else {
+			const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
+			const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
+			if (isMultiSignatureRegistration(transaction)) {
+				signedTransaction.multiSignature.publicKeys.push(
+					toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
+				);
+
+				const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
+				const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
+				signedTransaction.signatures.push(signature);
 			} else {
-				const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
-				const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
-				if (isMultiSignatureRegistration(transaction)) {
-					signedTransaction.multiSignature.publicKeys.push(
-						toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
-					);
+				const toSign = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
+				const signed = signWith(toSign, rootKey, signatory.publicKey());
 
-					const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
-					const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
-					signedTransaction.signatures.push(signature);
-				} else {
-					const toSign = bitcoin.Psbt.fromBase64(transaction.psbt, { network: this.#network });
-					const signed = signWith(toSign, rootKey, signatory.publicKey());
-
-					signedTransaction.psbt = signed.toBase64();
-				}
+				signedTransaction.psbt = signed.toBase64();
 			}
 		}
 

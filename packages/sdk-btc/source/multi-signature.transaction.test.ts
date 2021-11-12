@@ -108,9 +108,9 @@ describe("MultiSignatureTransaction", () => {
 	describe("#needsAllSignatures", () => {
 		describe.each([
 			{ tx: unsignedMusigRegistrationTx, expected: true },
-			{ tx: oneSignatureMusigRegistrationTx, expected: false },
-			{ tx: twoSignatureMusigRegistrationTx, expected: false },
-			{ tx: threeSignatureMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureMusigRegistrationTx, expected: true },
+			{ tx: twoSignatureMusigRegistrationTx, expected: true },
+			{ tx: threeSignatureMusigRegistrationTx, expected: true },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -119,7 +119,7 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: true },
+			{ tx: unsignedTransferTx, expected: false },
 			{ tx: oneSignatureTransferTx, expected: false },
 			{ tx: twoSignatureTransferTx, expected: false },
 			{ tx: threeSignatureTransferTx, expected: false },
@@ -140,7 +140,7 @@ describe("MultiSignatureTransaction", () => {
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
-				expect(subject.isMultiSignatureReady({})).toBe(expected);
+				expect(subject.isMultiSignatureReady()).toBe(expected);
 			});
 		});
 
@@ -152,7 +152,7 @@ describe("MultiSignatureTransaction", () => {
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
-				expect(subject.isMultiSignatureReady({})).toBe(expected);
+				expect(subject.isMultiSignatureReady()).toBe(expected);
 			});
 		});
 	});

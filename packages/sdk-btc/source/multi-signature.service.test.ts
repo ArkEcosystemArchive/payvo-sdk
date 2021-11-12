@@ -239,11 +239,14 @@ describe("MultiSignatureService", () => {
 		test("#broadcast", async () => {
 			jest.spyOn(UUID, "random").mockReturnValueOnce("68db1bb0-d747-48e8-b6f6-e347cc01b568");
 
+			const { multiSignature, ...data } = unsignedTransferTx;
 			nock("https://btc-test-musig.payvo.com")
-				.post(
-					"/",
-					`{"jsonrpc":"2.0","id":"68db1bb0-d747-48e8-b6f6-e347cc01b568","method":"store","params":{"data":{"id":"189f015c-2a58-4664-83f4-0b331fa9172a","senderPublicKey":"0277ff9d72486136c7ee68abd46b13d3c1cef1b79f5604cdafafca0d880851bd73","psbt":"${unsignedTransferTx.psbt}","signatures":[]}}}`,
-				)
+				.post("/", {
+					jsonrpc: "2.0",
+					id: "68db1bb0-d747-48e8-b6f6-e347cc01b568",
+					method: "store",
+					params: { data: data as any, multiSignature },
+				})
 				.reply(
 					200,
 					'{"id":"68db1bb0-d747-48e8-b6f6-e347cc01b568","jsonrpc":"2.0","result":{"id":"189f015c-2a58-4664-83f4-0b331fa9172a"}}',

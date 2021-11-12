@@ -67,11 +67,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	public override async broadcast(
 		transaction: Services.MultiSignatureTransaction,
 	): Promise<Services.BroadcastResponse> {
-		let multiSignature = transaction.multiSignature;
-
+		const { multiSignature, ...data } = transaction;
 		try {
 			const { id } = await this.#post("store", {
-				data: transaction,
+				data,
 				multiSignature,
 			});
 
@@ -100,9 +99,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.SignedTransactionData,
 		excludeFinal?: boolean,
 	): boolean {
-		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).isMultiSignatureReady({
-			excludeFinal,
-		});
+		return new PendingMultiSignatureTransaction(transaction.data(), this.#network).isMultiSignatureReady();
 	}
 
 	/** @inheritdoc */

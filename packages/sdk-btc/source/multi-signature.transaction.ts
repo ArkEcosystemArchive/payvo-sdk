@@ -18,16 +18,8 @@ export class PendingMultiSignatureTransaction {
 		return isMultiSignatureRegistration(this.#transaction);
 	}
 
-	public isMultiSignatureReady({ excludeFinal }: { excludeFinal?: boolean }): boolean {
-		if (this.needsSignatures()) {
-			return false;
-		}
-
-		if (!excludeFinal && this.isMultiSignatureRegistration() && this.needsFinalSignature()) {
-			return false;
-		}
-
-		return true;
+	public isMultiSignatureReady(): boolean {
+		return !this.needsSignatures();
 	}
 
 	public needsSignatures(): boolean {
@@ -36,28 +28,13 @@ export class PendingMultiSignatureTransaction {
 		}
 
 		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
-		console.log(prettySerialize(psbt));
-		try {
-			return psbt.validateSignaturesOfAllInputs();
-		} catch (e) {
-			return true;
-		}
-		// return this.getValidMultiSignatures().length < this.#multiSignature.numberOfSignatures;
+		const alreadySignedBy = psbt.data.inputs[0].partialSig?.length || 0;
+
+		return alreadySignedBy < this.#multiSignature.min;
 	}
 
 	public needsAllSignatures(): boolean {
-		if (this.isMultiSignatureRegistration()) {
-			return this.#transaction.signatures.length === 0;
-		}
-
-		const psbt = bitcoin.Psbt.fromBase64(this.#transaction.psbt!, { network: this.#network });
-		try {
-			console.log(this.#transaction, this.#multiSignature);
-			return psbt.validateSignaturesOfAllInputs();
-		} catch (e) {
-			return true;
-		}
-		// return this.getValidMultiSignatures().length < this.#multiSignature.publicKeys.length;
+		return this.isMultiSignatureRegistration();
 	}
 
 	public needsWalletSignature(publicKey: string): boolean {
@@ -65,7 +42,7 @@ export class PendingMultiSignatureTransaction {
 			return false;
 		}
 
-		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady({ excludeFinal: true })) {
+		if (this.isMultiSignatureRegistration() && this.isMultiSignatureReady()) {
 			return this.#transaction.senderPublicKey === publicKey && this.needsFinalSignature();
 		}
 
