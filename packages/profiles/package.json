@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-profiles",
-	"version": "2.1.1",
+	"version": "3.0.0",
 	"description": "Profiles for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],

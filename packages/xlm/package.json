@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-xlm",
-	"version": "2.2.4",
+	"version": "3.0.0",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],

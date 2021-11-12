@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-markets",
-	"version": "1.3.0",
+	"version": "3.0.0",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
