@@ -1,4 +1,4 @@
-import { BigNumber } from "@payvo/helpers";
+import { BigNumber } from "@payvo/sdk-helpers";
 import { RawTransactionData, SignedTransactionData } from "./dto/signed-transaction.contract";
 import {
 	UnspentTransactionData,

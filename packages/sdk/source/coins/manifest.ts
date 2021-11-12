@@ -1,4 +1,4 @@
-import { get } from "dot-prop";
+import { get } from "@payvo/sdk-helpers";
 
 export class Manifest {
 	readonly #manifest: object;

@@ -50,8 +50,8 @@ export abstract class Paginator<T> {
 	}
 
 	public transform(callback: CallableFunction): void {
-		for (let i = 0; i < this.#data.length; i++) {
-			this.#data[i] = callback(this.#data[i]);
+		for (let index = 0; index < this.#data.length; index++) {
+			this.#data[index] = callback(this.#data[index]);
 		}
 	}
 

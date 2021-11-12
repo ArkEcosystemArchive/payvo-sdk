@@ -28,7 +28,8 @@
 		"stripInternal": true,
 		"target": "es2019",
 		"typeRoots": ["./node_modules/@types"],
-		"useDefineForClassFields": true
+		"useDefineForClassFields": true,
+		"useUnknownInCatchVariables": false
 	},
 	"exclude": ["distribution", "**/*.spec.ts", "**/*.test.ts"],
 	"files": ["types/global.d.ts"]

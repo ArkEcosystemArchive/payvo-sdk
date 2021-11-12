@@ -31,109 +31,151 @@
 		},
 		{
 			"packageName": "@payvo/sdk-ada",
-			"projectFolder": "packages/sdk-ada",
+			"projectFolder": "packages/ada",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-ark",
-			"projectFolder": "packages/sdk-ark",
+			"projectFolder": "packages/ark",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-atom",
-			"projectFolder": "packages/sdk-atom",
+			"projectFolder": "packages/atom",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-avax",
-			"projectFolder": "packages/sdk-avax",
+			"projectFolder": "packages/avax",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-btc",
-			"projectFolder": "packages/sdk-btc",
+			"projectFolder": "packages/btc",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-dot",
-			"projectFolder": "packages/sdk-dot",
+			"projectFolder": "packages/dot",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-egld",
-			"projectFolder": "packages/sdk-egld",
+			"projectFolder": "packages/egld",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-eos",
-			"projectFolder": "packages/sdk-eos",
+			"projectFolder": "packages/eos",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-eth",
-			"projectFolder": "packages/sdk-eth",
+			"projectFolder": "packages/eth",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-lsk",
-			"projectFolder": "packages/sdk-lsk",
+			"projectFolder": "packages/lsk",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-nano",
-			"projectFolder": "packages/sdk-nano",
+			"projectFolder": "packages/nano",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-neo",
-			"projectFolder": "packages/sdk-neo",
+			"projectFolder": "packages/neo",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-sol",
-			"projectFolder": "packages/sdk-sol",
+			"projectFolder": "packages/sol",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-luna",
-			"projectFolder": "packages/sdk-luna",
+			"projectFolder": "packages/luna",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-trx",
-			"projectFolder": "packages/sdk-trx",
+			"projectFolder": "packages/trx",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-xlm",
-			"projectFolder": "packages/sdk-xlm",
+			"projectFolder": "packages/xlm",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-xrp",
-			"projectFolder": "packages/sdk-xrp",
+			"projectFolder": "packages/xrp",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		},
 		{
 			"packageName": "@payvo/sdk-zil",
-			"projectFolder": "packages/sdk-zil",
+			"projectFolder": "packages/zil",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-cryptography",
+			"projectFolder": "packages/cryptography",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-helpers",
+			"projectFolder": "packages/helpers",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-http-fetch",
+			"projectFolder": "packages/http-fetch",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-intl",
+			"projectFolder": "packages/intl",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-markets",
+			"projectFolder": "packages/markets",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-news",
+			"projectFolder": "packages/news",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-profiles",
+			"projectFolder": "packages/profiles",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
 		}

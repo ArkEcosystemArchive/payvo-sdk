@@ -51,6 +51,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@hapi/bourne",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@hapi/hapi",
       "allowedCategories": [ "libraries" ]
     },
@@ -127,31 +131,7 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@payvo/cryptography",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/helpers",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/http-fetch",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/http-got",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/intl",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/markets",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/profiles",
+      "name": "@noble/ed25519",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -195,6 +175,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/sdk-cryptography",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/sdk-dot",
       "allowedCategories": [ "libraries" ]
     },
@@ -211,11 +195,11 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@payvo/sdk-http",
+      "name": "@payvo/sdk-helpers",
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@payvo/sdk-http-got",
+      "name": "@payvo/sdk-http-fetch",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -240,10 +224,6 @@
     },
     {
       "name": "@payvo/sdk-sol",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "@payvo/sdk-support",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -387,6 +367,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "benchmark",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "bent",
       "allowedCategories": [ "libraries" ]
     },
@@ -475,6 +459,14 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "deepmerge",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "del-cli",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "delay",
       "allowedCategories": [ "libraries" ]
     },
@@ -488,6 +480,10 @@
     },
     {
       "name": "dpos-ledger-api",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "ecpair",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -527,6 +523,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "eslint-nibble",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "eslint-plugin-import",
       "allowedCategories": [ "libraries" ]
     },
@@ -535,7 +535,19 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "eslint-plugin-jest-formatting",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-jsx-a11y",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "eslint-plugin-prettier",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-promise",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -543,7 +555,27 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "eslint-plugin-sonarjs",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-sort-keys-fix",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-testcafe",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-testing-library",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "eslint-plugin-tsdoc",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "eslint-plugin-unicorn",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -571,7 +603,19 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "fast-copy",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "fast-deep-equal",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "fast-levenshtein",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "fast-sort",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -688,6 +732,10 @@
     },
     {
       "name": "micromatch",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "microtime",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -868,6 +916,10 @@
     },
     {
       "name": "terser",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "tiny-secp256k1",
       "allowedCategories": [ "libraries" ]
     },
     {

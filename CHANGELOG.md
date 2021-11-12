@@ -19,7 +19,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Update `@payvo/cryptography` dependency (#220) ([c24eb96](c24eb96abf1dffa84af368fca620a993a678deed))
+- Update `@payvo/sdk-cryptography` dependency (#220) ([c24eb96](c24eb96abf1dffa84af368fca620a993a678deed))
 
 ## [1.7.4] - 2021-09-15
 
@@ -236,7 +236,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Changed
 
-- Update @payvo/cryptography dependency (#163) ([eeaabcb](eeaabcb1d08aa2d5dd750e7695e0695fd50d707f))
+- Update @payvo/sdk-cryptography dependency (#163) ([eeaabcb](eeaabcb1d08aa2d5dd750e7695e0695fd50d707f))
 
 ## [1.6.19] - 2021-08-20
 

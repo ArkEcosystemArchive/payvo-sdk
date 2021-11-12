@@ -1,7 +1,8 @@
 /* istanbul ignore file */
+/* eslint-disable */
 
-import { BigNumber, Censor } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber, Censor } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 import { inject } from "inversify";
 import emoji from "node-emoji";
 
@@ -25,21 +26,21 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	readonly #meta: Record<string, TransactionDataMeta> = {};
 
 	readonly #types = {
-		transfer: "isTransfer",
-		secondSignature: "isSecondSignature",
 		delegateRegistration: "isDelegateRegistration",
-		voteCombination: "isVoteCombination",
-		vote: "isVote",
-		unvote: "isUnvote",
-		multiSignature: "isMultiSignatureRegistration",
-		ipfs: "isIpfs",
-		multiPayment: "isMultiPayment",
 		delegateResignation: "isDelegateResignation",
-		htlcLock: "isHtlcLock",
 		htlcClaim: "isHtlcClaim",
+		htlcLock: "isHtlcLock",
 		htlcRefund: "isHtlcRefund",
+		ipfs: "isIpfs",
 		magistrate: "isMagistrate",
+		multiPayment: "isMultiPayment",
+		multiSignature: "isMultiSignatureRegistration",
+		secondSignature: "isSecondSignature",
+		transfer: "isTransfer",
 		unlockToken: "isUnlockToken",
+		voteCombination: "isVoteCombination",
+		unvote: "isUnvote",
+		vote: "isVote",
 	};
 
 	protected decimals?: number;
@@ -56,7 +57,7 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public withDecimals(decimals?: number | string): this {
-		this.decimals = typeof decimals === "string" ? parseInt(decimals) : decimals;
+		this.decimals = typeof decimals === "string" ? Number.parseInt(decimals) : decimals;
 
 		return this;
 	}
@@ -266,35 +267,35 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 
 	public toObject(): KeyValuePair {
 		return {
-			id: this.id(),
-			type: this.type(),
-			timestamp: this.timestamp(),
-			confirmations: this.confirmations(),
-			sender: this.sender(),
-			recipient: this.recipient(),
 			amount: this.amount(),
-			fee: this.fee(),
 			asset: this.asset(),
+			confirmations: this.confirmations(),
+			fee: this.fee(),
+			id: this.id(),
+			recipient: this.recipient(),
+			sender: this.sender(),
+			timestamp: this.timestamp(),
+			type: this.type(),
 		};
 	}
 
 	public toJSON(): KeyValuePair {
 		return {
 			...this.toObject(),
-			timestamp: this.timestamp()?.toISOString(),
-			confirmations: this.confirmations().toString(),
 			amount: this.amount().toString(),
+			confirmations: this.confirmations().toString(),
 			fee: this.fee().toString(),
+			timestamp: this.timestamp()?.toISOString(),
 		};
 	}
 
 	public toHuman(): KeyValuePair {
 		return {
 			...this.toObject(),
-			timestamp: this.timestamp()?.toISOString(),
-			confirmations: this.confirmations().toString(),
 			amount: this.amount().toHuman(),
+			confirmations: this.confirmations().toString(),
 			fee: this.fee().toHuman(),
+			timestamp: this.timestamp()?.toISOString(),
 		};
 	}
 

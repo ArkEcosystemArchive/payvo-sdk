@@ -1,0 +1,102 @@
+{
+	"_id": "@payvo/ark-explorer-wallet-plugin",
+	"name": "@payvo/ark-explorer-wallet-plugin",
+	"dist-tags": {
+		"latest": "1.0.0"
+	},
+	"versions": {
+		"1.0.0": {
+			"name": "@payvo/ark-explorer-wallet-plugin",
+			"version": "1.0.0",
+			"description": "Use the ARK Mainnet and Devnet Explorers directly within the Pavyo wallet",
+			"main": "dist/payvo-ark-explorer-wallet-plugin.cjs.js",
+			"author": {
+				"name": "Lúcio Rubens"
+			},
+			"license": "MIT",
+			"private": false,
+			"repository": {
+				"type": "git",
+				"url": "git+https://github.com/PayvoHQ/wallet-plugins.git"
+			},
+			"desktop-wallet": {
+				"title": "ARK Explorer",
+				"logo": "https://raw.githubusercontent.com/PayvoHQ/wallet-plugins/master/ark-explorer/images/logo.png",
+				"categories": ["utility"],
+				"permissions": ["LAUNCH"],
+				"minimumVersion": "1.0.0"
+			},
+			"keywords": ["utility", "explorer", "@payvo", "wallet-plugin"],
+			"homepage": "https://github.com/PayvoHQ/wallet-plugins/tree/master/ark-explorer",
+			"scripts": {
+				"prepublishOnly": "yarn build",
+				"build": "preconstruct build",
+				"watch": "preconstruct watch"
+			},
+			"dependencies": {
+				"react": "^16.13.1"
+			},
+			"devDependencies": {
+				"@babel/preset-react": "^7.14.5",
+				"@preconstruct/cli": "^2.1.0"
+			},
+			"bugs": {
+				"url": "https://github.com/PayvoHQ/wallet-plugins/issues"
+			},
+			"_id": "@payvo/ark-explorer-wallet-plugin@1.0.0",
+			"_nodeVersion": "14.17.0",
+			"_npmVersion": "7.20.0",
+			"dist": {
+				"integrity": "sha512-oxieeU9MUxrrtX04KOtCzCP+4E/Svhr1fcpZjXU33pL3t66VZBoHoJuK7hUItKEeMgEn3L1es6mWMu9c7B/nxw==",
+				"shasum": "ed00467c537029c2666cc10507384e479607ed59",
+				"tarball": "https://registry.npmjs.org/@payvo/ark-explorer-wallet-plugin/-/ark-explorer-wallet-plugin-1.0.0.tgz",
+				"fileCount": 9,
+				"unpackedSize": 22025,
+				"npm-signature": "-----BEGIN PGP SIGNATURE-----\r\nVersion: OpenPGP.js v3.0.13\r\nComment: https://openpgpjs.org\r\n\r\nwsFcBAEBCAAQBQJhA/cdCRA9TVsSAnZWagAApWsP/Ai1t0sidE1vFOtxVb7g\nI1HpKa/4dcCwXnMnkQOiOca0+PqzHy+LjxoOYHTcM4N/j8Iwfp7ThAOjPhTp\n8QWzyuax+pccc3Hl5AZTq89kwGp3l1E7YnM/A4Wy+acOJo/UiuamKp73cg32\nS7txwYsyyThKeqSMhWTYUszw8V8J+5Q0Up8iVizARHAigSZhzXM5amwE9eIO\nkZIdpoKkPm0Y24hd6GM8vZCfqzxFoxF5eF4FveK6ham3j2NI6z5aJFAlliQu\nguKYMOk57NzDiqXpwXfIxpLIDS5QUi9TZuAulYwg9GBlYqFWx5+HEG4MEZOq\nLWmZwJZzmT9rf2/VDZrNTZePxR3XillH64M69tIQLwUd3l7YJWlzjv51DR9S\nOpImlywUScEk4TJuW1bkleihD1qWpfvYdSaRVMIlBEEkjD6EVIgq9NoFNA+k\nbNiWui1u6c2AZJVFb1qKWjSF3gD6pj7blt7ZuQC/jBiM5M9RbHOncEHqIoER\n3l8keNRypt/lPAmCWxdvB2ZnSTDbpFWE2B2CIWp51boZjuGol0MN3A2RbWsz\n09JcXIOrCIETEitO8ev+5sQbvejHvM3Sy9OEfduR5R77B70GUD3nZxFf7fBz\nFR8MKWRQwOt7xka0/MjKwdCrBuQvoMYBXynP9urYnYePHjOuE7q0VJoheD0n\nVup6\r\n=BbJ5\r\n-----END PGP SIGNATURE-----\r\n"
+			},
+			"_npmUser": {
+				"name": "faustbrian",
+				"email": "hello@basecode.sh"
+			},
+			"directories": {},
+			"maintainers": [
+				{
+					"name": "faustbrian",
+					"email": "hello@basecode.sh"
+				}
+			],
+			"_npmOperationalInternal": {
+				"host": "s3://npm-registry-packages",
+				"tmp": "tmp/ark-explorer-wallet-plugin_1.0.0_1627649821152_0.8826446830158463"
+			},
+			"_hasShrinkwrap": false
+		}
+	},
+	"time": {
+		"created": "2021-07-30T12:57:01.070Z",
+		"1.0.0": "2021-07-30T12:57:01.317Z",
+		"modified": "2021-07-30T12:57:03.211Z"
+	},
+	"maintainers": [
+		{
+			"name": "faustbrian",
+			"email": "hello@basecode.sh"
+		}
+	],
+	"description": "Use the ARK Mainnet and Devnet Explorers directly within the Pavyo wallet",
+	"homepage": "https://github.com/PayvoHQ/wallet-plugins/tree/master/ark-explorer",
+	"keywords": ["utility", "explorer", "@payvo", "wallet-plugin"],
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/PayvoHQ/wallet-plugins.git"
+	},
+	"author": {
+		"name": "Lúcio Rubens"
+	},
+	"bugs": {
+		"url": "https://github.com/PayvoHQ/wallet-plugins/issues"
+	},
+	"license": "MIT",
+	"readme": "# ARK Explorer\n\n> Use the ARK Mainnet and Devnet Explorers directly within the Pavyo wallet\n\n## Installation\n\nInstall this plugin directly through the Plugin Manager of the Payvo Wallet. Alternatively you can clone this repository and copy the `ark-explorer` folder into `~/.payvo-wallet/plugins/`.\n\n## Credits\n\n-   [Lúcio Rubens](https://github.com/luciorubeens)\n-   [All Contributors](../../contributors)\n\n## License\n\n[MIT](LICENSE) © [Payvo](https://payvo.com/)\n",
+	"readmeFilename": "README.md"
+}

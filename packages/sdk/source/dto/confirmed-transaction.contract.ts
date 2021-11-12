@@ -1,5 +1,5 @@
-import { BigNumber } from "@payvo/helpers";
-import { DateTime } from "@payvo/intl";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 
 export interface MultiPaymentRecipient {
 	address: string;

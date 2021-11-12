@@ -1,4 +1,4 @@
-import { get } from "dot-prop";
+import { get } from "@payvo/sdk-helpers";
 
 import { randomHost } from "../helpers";
 import {
@@ -197,7 +197,7 @@ export class Network {
 	public allows(feature: string): boolean {
 		const [root, ...child] = feature.split(".");
 
-		const features = get<string[]>(this.#network.featureFlags, root);
+		const features: string[] = get(this.#network.featureFlags, root);
 
 		if (Array.isArray(features)) {
 			return features.includes(child.join("."));

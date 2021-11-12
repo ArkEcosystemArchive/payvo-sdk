@@ -1,0 +1,34 @@
+{
+	"data": [
+		{
+			"summary": {
+				"address": "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr",
+				"balance": "148999716000",
+				"username": "",
+				"publicKey": "414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b",
+				"isDelegate": false,
+				"isMultisignature": false
+			},
+			"token": { "balance": "148999716000" },
+			"sequence": { "nonce": "2" },
+			"keys": { "numberOfSignatures": 0, "mandatoryKeys": [], "optionalKeys": [] },
+			"dpos": {
+				"delegate": {
+					"username": "",
+					"consecutiveMissedBlocks": 0,
+					"lastForgedHeight": 0,
+					"isBanned": false,
+					"totalVotesReceived": "0"
+				},
+				"unlocking": [
+					{
+						"delegateAddress": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+						"amount": "1000000000",
+						"height": { "start": 14216291, "end": 14218291 }
+					}
+				]
+			}
+		}
+	],
+	"meta": { "count": 1, "offset": 0 }
+}
