@@ -29,34 +29,14 @@ export class MultiSignatureSigner {
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<MultiSignatureTransaction> {
-		const pendingMultiSignature = new PendingMultiSignatureTransaction(transaction, this.#network);
-
-		// const isReady = pendingMultiSignature.isMultiSignatureReady({ excludeFinal: true });
-
 		let signedTransaction: Contracts.RawTransactionData = { ...transaction };
 
 		if (signatory.actsWithLedger()) {
-			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
-
 			// TODO figure out all the signing paths and make a single
-			// call to ledger to sign them all
-			// Figure out how to merge the signed transaction back to Psbt
-			// const index: number = this.#publicKeyIndex(
-			// 	transaction,
-			// 	await this.ledgerService.getExtendedPublicKey(signatory.signingKey()),
-			// );
-			//
-			// if (!transaction.signatures) {
-			// 	transaction.signatures = [];
-			// }
-
-			// const signature: string = await this.#signWithLedger(transaction, signatory, true);
-			// const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
-			//
-			// transaction.signatures.push(`${signatureIndex}${signature}`);
+			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 		} else {
 			const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
-			const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO
+			const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO publicKey actually has the path
 			if (isMultiSignatureRegistration(transaction)) {
 				signedTransaction.multiSignature.publicKeys.push(
 					toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
@@ -73,19 +53,6 @@ export class MultiSignatureSigner {
 			}
 		}
 
-		// if (isReady && pendingMultiSignature.needsFinalSignature()) {
-		// 	if (signingKeys) {
-		// 		// TODO Do proper signing with keys here. Beware signing keys could be the ledger account path
-		// 		Transactions.Signer.sign(transaction, signingKeys);
-		// 	}
-		//
-		// 	if (signatory.actsWithLedger()) {
-		// 		transaction.signature = await this.#signWithLedger(transaction, signatory);
-		// 	}
-		//
-		// 	transaction.id = Transactions.Utils.getId(transaction);
-		// }
-
 		return signedTransaction;
 	}
 
@@ -98,40 +65,12 @@ export class MultiSignatureSigner {
 
 		try {
 			// TODO figure out how to sigh Psbt with Ledger
+			// See this for ideas: https://stackoverflow.com/questions/59082832/how-to-sign-bitcoin-psbt-with-ledger
+			// although it will need a lot of changes, as it is it will requestion 2 confirmations for each utxo being spent.
+			// We need to find a way to sign them all at once.
 			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
-			// const signature = await this.ledgerService.signTransaction(
-			// 	signatory.signingKey(),
-			// 	Transactions.Serializer.getBytes(transaction, {
-			// 		excludeSignature: true,
-			// 		excludeSecondSignature: true,
-			// 		excludeMultiSignature,
-			// 	}),
-			// );
-			// return signature;
 		} finally {
 			await this.ledgerService.disconnect();
 		}
 	}
-
-	// #formatKeyPair(keyPair?: Services.KeyPairDataTransferObject): Interfaces.IKeyPair | undefined {
-	// 	if (keyPair) {
-	// 		return {
-	// 			publicKey: keyPair.publicKey,
-	// 			privateKey: keyPair.privateKey,
-	// 			compressed: true,
-	// 		};
-	// 	}
-	//
-	// 	return undefined;
-	// }
-
-	// #publicKeyIndex(transaction: Contracts.RawTransactionData, publicKey: string): number {
-	// 	const index: number = transaction.multiSignature.publicKeys.indexOf(publicKey);
-	//
-	// 	if (index === -1) {
-	// 		throw new Error(`The public key [${publicKey}] is not associated with this transaction.`);
-	// 	}
-	//
-	// 	return index;
-	// }
 }
