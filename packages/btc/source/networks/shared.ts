@@ -53,8 +53,8 @@ export const featureFlags: Networks.NetworkManifestFeatureFlags = {
 	Message: ["sign", "verify"],
 	PrivateKey: ["mnemonic.bip39", "mnemonic.bip44", "mnemonic.bip49", "mnemonic.bip84", "wif"],
 	PublicKey: ["mnemonic.bip39", "mnemonic.bip44", "mnemonic.bip49", "mnemonic.bip84", "wif"],
-	WIF: ["mnemonic.bip39", "mnemonic.bip44", "mnemonic.bip49", "mnemonic.bip84"],
 	Transaction: ["multiSignature", "transfer"],
+	WIF: ["mnemonic.bip39", "mnemonic.bip44", "mnemonic.bip49", "mnemonic.bip84"],
 };
 
 export const explorer: Networks.NetworkManifestExplorer = {

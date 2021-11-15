@@ -29,8 +29,8 @@ const network: Networks.NetworkManifest = {
 			type: "explorer",
 		},
 		{
-			type: "musig",
 			host: process.env.BTC_MUSIG_HOST || "https://btc-test-musig.payvo.com",
+			type: "musig",
 		},
 	],
 	id: "btc.testnet",

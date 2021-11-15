@@ -14,8 +14,7 @@ export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && typeof v === "string") {
 		try {
 			return bitcoin.Psbt.fromBase64(v);
-		}
-		catch (_) {}
+		} catch (_) {}
 	}
 	return v;
 };
@@ -144,10 +143,5 @@ export const signWith = (psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: stri
 	return psbt;
 };
 
-export const signatureValidator = (
-	pubkey: Buffer,
-	msghash: Buffer,
-	signature: Buffer,
-): boolean => ECPair.fromPublicKey(pubkey).verify(msghash, signature);
-
-
+export const signatureValidator = (pubkey: Buffer, msghash: Buffer, signature: Buffer): boolean =>
+	ECPair.fromPublicKey(pubkey).verify(msghash, signature);

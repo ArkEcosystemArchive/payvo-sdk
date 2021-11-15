@@ -158,10 +158,7 @@ export class AddressService extends Services.AbstractAddressService {
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		return this.fromPublicKey(
-			convertBuffer(ECPair.fromPrivateKey(convertString(privateKey)).publicKey),
-			options,
-		);
+		return this.fromPublicKey(convertBuffer(ECPair.fromPrivateKey(convertString(privateKey)).publicKey), options);
 	}
 
 	public override async fromWIF(
