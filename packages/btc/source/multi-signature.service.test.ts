@@ -124,7 +124,9 @@ describe("MultiSignatureService", () => {
 				}),
 			);
 			// Add wallet's public key and sign it
-			transactionData.multiSignature.publicKeys.push("Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN");
+			transactionData.multiSignature.publicKeys.push(
+				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+			);
 			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(
 				oneSignatureMusigRegistrationTx,
 			);
@@ -142,7 +144,9 @@ describe("MultiSignatureService", () => {
 				}),
 			);
 			// Add wallet's public key and sign it
-			transactionData.multiSignature.publicKeys.push("Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1");
+			transactionData.multiSignature.publicKeys.push(
+				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+			);
 			expect((await subject.addSignature(transactionData, signatory2)).data()).toEqual(
 				twoSignatureMusigRegistrationTx,
 			);
@@ -160,7 +164,9 @@ describe("MultiSignatureService", () => {
 				}),
 			);
 			// Add wallet's public key and sign it
-			transactionData.multiSignature.publicKeys.push("Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py");
+			transactionData.multiSignature.publicKeys.push(
+				"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
+			);
 			expect((await subject.addSignature(transactionData, signatory3)).data()).toEqual(
 				threeSignatureMusigRegistrationTx,
 			);
