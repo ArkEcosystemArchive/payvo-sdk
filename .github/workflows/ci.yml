@@ -23,7 +23,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-sdk
             cancel-in-progress: true
@@ -62,7 +62,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-ada
             cancel-in-progress: true
@@ -101,7 +101,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-ark
             cancel-in-progress: true
@@ -140,7 +140,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-atom
             cancel-in-progress: true
@@ -179,7 +179,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-avax
             cancel-in-progress: true
@@ -218,7 +218,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-btc
             cancel-in-progress: true
@@ -257,7 +257,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-dot
             cancel-in-progress: true
@@ -296,7 +296,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-egld
             cancel-in-progress: true
@@ -335,7 +335,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-eos
             cancel-in-progress: true
@@ -374,7 +374,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-eth
             cancel-in-progress: true
@@ -413,7 +413,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-lsk
             cancel-in-progress: true
@@ -452,7 +452,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-nano
             cancel-in-progress: true
@@ -491,7 +491,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-neo
             cancel-in-progress: true
@@ -530,7 +530,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-sol
             cancel-in-progress: true
@@ -569,7 +569,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-trx
             cancel-in-progress: true
@@ -608,7 +608,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-xlm
             cancel-in-progress: true
@@ -647,7 +647,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-xrp
             cancel-in-progress: true
@@ -686,7 +686,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-zil
             cancel-in-progress: true
@@ -725,7 +725,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-cryptography
             cancel-in-progress: true
@@ -764,7 +764,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-helpers
             cancel-in-progress: true
@@ -803,7 +803,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-http-fetch
             cancel-in-progress: true
@@ -842,7 +842,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-intl
             cancel-in-progress: true
@@ -881,7 +881,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-markets
             cancel-in-progress: true
@@ -920,7 +920,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [14.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-news
             cancel-in-progress: true
