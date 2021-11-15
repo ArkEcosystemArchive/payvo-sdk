@@ -6,7 +6,7 @@ import { BIP32 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/sdk-helpers";
-import { signWith } from "../source/helpers";
+import { signWith, signatureValidator } from "../source/helpers";
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -97,8 +97,9 @@ describe("example code using bitcoinjs-lib", () => {
 		psbt.combine(final1, final2);
 
 		// Finalizer needs to check all signatures are valid before finalizing.
-		expect(psbt.validateSignaturesOfInput(0)).toBeTrue();
-		expect(psbt.validateSignaturesOfAllInputs()).toBeTrue();
+		// let validator: ValidateSigFunction = (pubkey: Buffer, msghash: Buffer, signature: Buffer) => true;
+		expect(psbt.validateSignaturesOfInput(0, signatureValidator)).toBeTrue();
+		expect(psbt.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
 
 		// Finilizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();
@@ -185,8 +186,8 @@ describe("example code using bitcoinjs-lib", () => {
 		psbt.combine(final1, final2);
 
 		// Finalizer needs to check all signatures are valid before finalizing.
-		expect(psbt.validateSignaturesOfInput(0)).toBeTrue();
-		expect(psbt.validateSignaturesOfAllInputs()).toBeTrue();
+		expect(psbt.validateSignaturesOfInput(0, signatureValidator)).toBeTrue();
+		expect(psbt.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
 
 		// Finalizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();

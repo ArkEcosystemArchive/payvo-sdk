@@ -14,6 +14,7 @@ import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/sdk-helpers";
 import { keysAndMethod } from "./multi-signature.domain";
 import { MultiSignatureService } from "./multi-signature.service";
+import { signatureValidator } from "./helpers";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -219,17 +220,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 			psbt.signInput(index, ECPair.fromPrivateKey(input.signingKey, { network: this.#network })),
 		);
 
-		if (!psbt.validateSignaturesOfAllInputs(this.#validator)) {
+		if (!psbt.validateSignaturesOfAllInputs(signatureValidator)) {
 			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
 		}
 
 		psbt.finalizeAllInputs();
 
 		return psbt.extractTransaction();
-	}
-
-	#validator(publicKey: Buffer, hash: Buffer, signature: Buffer): boolean {
-		return ECPair.fromPublicKey(publicKey).verify(hash, signature);
 	}
 
 	async #getAccountKey(

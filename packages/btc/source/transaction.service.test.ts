@@ -24,7 +24,7 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/sdk-cryptography";
 import { oneSignatureTransferTx, twoSignatureTransferTx, unsignedTransferTx } from "../test/fixtures/musig-txs";
-import { prettyPrint, prettySerialize } from "./helpers";
+import { prettyPrint, prettySerialize, signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
@@ -598,7 +598,7 @@ describe("native segwit multisignature wallet", () => {
 		expect(signed2.toBroadcast()).toBe(twoSignatureTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs()).toBeTrue();
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
 
 		signedFinal.finalizeAllInputs();
 		expect(signedFinal.extractTransaction().toHex()).toBe(

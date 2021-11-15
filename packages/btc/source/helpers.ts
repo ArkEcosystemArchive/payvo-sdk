@@ -5,6 +5,7 @@ import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bip32";
+import { ECPair } from "ecpair";
 
 export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && v.type === "Buffer") {
@@ -142,3 +143,11 @@ export const signWith = (psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: stri
 	});
 	return psbt;
 };
+
+export const signatureValidator = (
+	pubkey: Buffer,
+	msghash: Buffer,
+	signature: Buffer,
+): boolean => ECPair.fromPublicKey(pubkey).verify(msghash, signature);
+
+
