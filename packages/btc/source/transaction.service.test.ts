@@ -24,6 +24,11 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/sdk-cryptography";
 import { oneSignatureTransferTx, twoSignatureTransferTx, unsignedTransferTx } from "../test/fixtures/musig-txs";
+import {
+	oneSignatureTransferTx as oneSignatureMusigP2shSegwitTransferTx,
+	twoSignatureTransferTx as twoSignatureMusigP2shSegwitTransferTx,
+	unsignedTransferTx as unsignedMusigP2shSegwitTransferTx,
+} from "../test/fixtures/musig-p2sh-segwit-txs";
 import { prettyPrint, prettySerialize, signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
@@ -450,14 +455,84 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58");
+		expect(result.id()).toBe(unsignedMusigP2shSegwitTransferTx.id);
 		expect(result.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			"cHNidP8BAHICAAAAAUkjcbxZ6KPifldHWeSXKdcwu/ioBUwYgiuaQK4jH6jfAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesSWWQEAAAAAABepFHCUjzOEMTdcpeoAe6S6KHcS1FnzhwAAAAAAAQD9fQECAAAAAAEBBtPamc3G2H2JocAZbqEFqmK6CkMfFj7ZgaRWZGo6BnsBAAAAAP////8C8IEBAAAAAAAXqRQfqZPnbXFKa2A6vqI2HCDAx/ADu4fIAAAAAAAAACIAIIEFGgg55njt4l0PqJ+gsdzIpE/Mjwc5uzWz6DxNkw1wBABIMEUCIQDNvXcp+KJRUuLu8uSnNyQN1VMWXGI3DBK57oX2fAxRIwIgOmnhKF4hr/iPde0UT+kKG9GoJsmy8EK5Ng/99UwzBVsBRzBEAiBRUERBB7QMECrhRV/nCZZTIW3i66gwCRBXIuXYeeK+lgIgBEP1hmgEAF4PN9z3s0OtVsE3ucSeqvGeVLXFKlVhtsoBaVIhAxTp7IFOj1x+exbhegqKZe/qZMiPAQhartQeusffm/bhIQMrCZaoT7BEmomWFsp0bI5s/F2PgjEUumvXrtW06QRC4iEDODD6EF7oia6YB0UG6dXxFTqvpk+oKJBIQyBFZPlaSSZTrgAAAAABBSIAIJS/+lf8MYwCwi0MCnOuvg87vw6UP27j9b5p2K9R7sH6IgYCOYz3Fnu6vOw1o00H01l1kqVdDr2OarjJEb+msFGbyCAMJJqwvwAAAAAAAAAAIgYCgG/ypFIo0Rfkcj1ttpQ7f8uHE5caWcfHBR9sEt/bpoAM6BcHPQAAAAAAAAAAIgYDGmn01zXxU6Ocg/FnZfzLDy5mZz7EfGv7w7L6wan8oEcMlDmPywAAAAAAAAAAAAAiAgKoPNzkNO6ZkVg7Va8QPWP+OYMkoyjPQByKVeLRbvGyMwzoFwc9AQAAAAAAAAAiAgLD7uqY3HcSSjV1tCmNRLJ+tnnKI1o6rX8aKKeGJTjUdQyUOY/LAQAAAAAAAAAiAgMt89iCsA8J+ZY83cxrK8YEDCCHJ3W4X8ZeTYz6NXcJ8wwkmrC/AQAAAAAAAAAA",
+		expect(result.toBroadcast()).toBe(unsignedMusigP2shSegwitTransferTx.psbt);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].p2shSegwitMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id(),
+				...result.data(),
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.id()).toBe(oneSignatureMusigP2shSegwitTransferTx.id);
+		expect(signed1.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(330);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(oneSignatureMusigP2shSegwitTransferTx.psbt);
+
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].p2shSegwitMasterPath,
+		};
+		const signatory2 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed2 = await musigService.addSignature(
+			{
+				id: signed1.id(),
+				...signed1.data(),
+				psbt: signed1.toBroadcast(),
+				signatures: [],
+			},
+			signatory2,
+		);
+
+		expect(signed2.id()).toBe(twoSignatureMusigP2shSegwitTransferTx.id);
+		expect(signed2.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed2.amount().toNumber()).toBe(10_000);
+		expect(signed2.fee().toNumber()).toBe(330);
+		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed2.toBroadcast()).toBe(twoSignatureMusigP2shSegwitTransferTx.psbt);
+
+		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+
+		signedFinal.finalizeAllInputs();
+		expect(signedFinal.extractTransaction().toHex()).toBe(
+			"02000000000101492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df000000002322002094bffa57fc318c02c22d0c0a73aebe0f3bbf0e943f6ee3f5be69d8af51eec1faffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f3870400483045022100fbd10b1104d55aeda1e889bee0bb1fc03aab94f7854f816a4fbf0ae838fb34de022008e3df71716593353a53c2afdd39b3d48851b3d98cd1b009ee8e7e0bdd32bb3201483045022100b3da66f4604551b6e5327496cc895ab8cf7354f4b5ac2ffdf9b6452f589ca41402201aa8b331522a525b4734b263958e8cd15e7be6e1c82b473543a94839f906a1e90169522102398cf7167bbabcec35a34d07d3597592a55d0ebd8e6ab8c911bfa6b0519bc8202102806ff2a45228d117e4723d6db6943b7fcb8713971a59c7c7051f6c12dfdba68021031a69f4d735f153a39c83f16765fccb0f2e66673ec47c6bfbc3b2fac1a9fca04753ae00000000",
 		);
 	});
 });

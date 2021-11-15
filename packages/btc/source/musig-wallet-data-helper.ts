@@ -98,6 +98,35 @@ export default class MusigWalletDataHelper {
 		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+
+			let extra;
+			if (this.#method === "legacyMusig") {
+				extra = {
+					nonWitnessUtxo: convertString(utxo.raw),
+				};
+			} else if (this.#method === "p2SHSegwitMusig") {
+				const payment1 = p2SHSegwitMusig(
+					this.#n,
+					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+					this.#network,
+				);
+				extra = {
+					witnessUtxo: {
+						script: convertString(utxo.script),
+						value: utxo.satoshis,
+					},
+					witnessScript: payment1.redeem!.redeem!.output,
+					redeemScript: payment1.redeem!.output,
+				};
+			} else if (this.#method === "nativeSegwitMusig") {
+				extra = {
+					witnessUtxo: {
+						script: convertString(utxo.script),
+						value: utxo.satoshis,
+					},
+				};
+			}
+
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -111,16 +140,7 @@ export default class MusigWalletDataHelper {
 					path: "m/" + address.path,
 					pubkey: pubKey.derivePath(address.path).publicKey,
 				})),
-				nonWitnessUtxo: convertString(utxo.raw), // TODO this should depend on the utxo, whether to use nonWitness or witness
-				// witnessUtxo: {
-				// 	script: convertString(utxo.script),
-				// 	value: utxo.satoshis,
-				// },
-				witnessScript: getDerivationFunction(this.#method)(
-					this.#n,
-					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
-					this.#network,
-				).redeem!.output,
+				...extra,
 			};
 		});
 	}
