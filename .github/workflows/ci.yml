@@ -959,7 +959,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [16.x]
+                node-version: [14.x]
         concurrency:
             group: ${{ github.head_ref }}-profiles
             cancel-in-progress: true
