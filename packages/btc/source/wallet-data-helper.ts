@@ -6,8 +6,7 @@ import { BIP32Interface } from "bip32";
 import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import { getNetworkConfig } from "./config";
-import { convertString } from "@payvo/sdk-helpers";
-import { convertBuffer } from "@payvo/sdk-helpers";
+import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 export default class WalletDataHelper {
 	readonly #levels: Levels;
