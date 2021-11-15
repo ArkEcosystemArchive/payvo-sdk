@@ -175,9 +175,9 @@ describe("#removeEncryption", () => {
 
 		subject.signingKey().set(identity.mnemonic, "password");
 
-		const publicKey = (await subject.coin().publicKey().fromMnemonic(identity.mnemonic)).publicKey;
+		const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-		jest.spyOn(subject, "publicKey").mockReturnValueOnce(publicKey);
+		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(false);
 
 		expect(subject.signingKey().exists()).toBeTrue();
@@ -195,11 +195,9 @@ describe("#removeEncryption", () => {
 		subject.signingKey().set(identity.mnemonic, "password");
 		subject.confirmKey().set(identity.secondMnemonic, "password");
 
-		const publicKey = (await subject.coin().publicKey().fromMnemonic(identity.mnemonic)).publicKey;
-		const secondPublicKey = (await subject.coin().publicKey().fromMnemonic(identity.secondMnemonic)).publicKey;
+		const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-		jest.spyOn(subject, "publicKey").mockReturnValueOnce(publicKey);
-		jest.spyOn(subject, "secondPublicKey").mockReturnValueOnce(secondPublicKey);
+		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(true);
 
 		expect(subject.signingKey().exists()).toBeTrue();
@@ -218,9 +216,9 @@ describe("#removeEncryption", () => {
 
 		subject.signingKey().set("secret", "password");
 
-		const publicKey = (await subject.coin().publicKey().fromSecret("secret")).publicKey;
+		const address = (await subject.coin().address().fromSecret("secret")).address;
 
-		jest.spyOn(subject, "publicKey").mockReturnValueOnce(publicKey);
+		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(false);
 
 		expect(subject.signingKey().exists()).toBeTrue();
@@ -238,11 +236,9 @@ describe("#removeEncryption", () => {
 		subject.signingKey().set("secret", "password");
 		subject.confirmKey().set("second-secret", "password");
 
-		const publicKey = (await subject.coin().publicKey().fromSecret("secret")).publicKey;
-		const secondPublicKey = (await subject.coin().publicKey().fromSecret("second-secret")).publicKey;
+		const address = (await subject.coin().address().fromSecret("secret")).address;
 
-		jest.spyOn(subject, "publicKey").mockReturnValueOnce(publicKey);
-		jest.spyOn(subject, "secondPublicKey").mockReturnValueOnce(secondPublicKey);
+		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(true);
 
 		expect(subject.signingKey().exists()).toBeTrue();
