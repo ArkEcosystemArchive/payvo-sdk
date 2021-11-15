@@ -636,7 +636,8 @@ test("#multiSignature (fake) registration", async () => {
 		data: {
 			min: 2,
 			numberOfSignatures: 3,
-			publicKeys: [],
+			publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
+			derivationMethod: "nativeSegwitMusig",
 		},
 	});
 

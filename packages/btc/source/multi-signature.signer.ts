@@ -32,16 +32,11 @@ export class MultiSignatureSigner {
 		let signedTransaction: Contracts.RawTransactionData = { ...transaction };
 
 		if (signatory.actsWithLedger()) {
-			// TODO figure out all the signing paths and make a single
 			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 		} else {
 			const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
 			const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO publicKey actually has the path
 			if (isMultiSignatureRegistration(transaction)) {
-				signedTransaction.multiSignature.publicKeys.push(
-					toExtPubKey(accountKey, "nativeSegwitMusig", this.#network),
-				);
-
 				const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
 				const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");
 				signedTransaction.signatures.push(signature);

@@ -20,8 +20,6 @@ export interface Bip44AddressWithKeys extends Bip44Address {
 	privateKey?: string;
 }
 
-export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
-
 export interface Levels {
 	purpose: number;
 	coinType: number;

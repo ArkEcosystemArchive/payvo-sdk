@@ -1,14 +1,14 @@
-import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
 import { convertString } from "@payvo/sdk-helpers";
 import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "bip32";
 
-import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { Bip44Address, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
 
 const getDerivationFunction = (
-	method: MusigDerivationMethod,
+	method: Services.MusigDerivationMethod,
 ): ((n: number, pubkeys: Buffer[], network: bitcoin.Network) => bitcoin.Payment) => {
 	return { legacyMusig, p2SHSegwitMusig, nativeSegwitMusig }[method];
 };
@@ -16,7 +16,7 @@ const getDerivationFunction = (
 export default class MusigWalletDataHelper {
 	readonly #n: number;
 	readonly #accountPublicKeys: BIP32Interface[];
-	readonly #method: MusigDerivationMethod;
+	readonly #method: Services.MusigDerivationMethod;
 	readonly #network: bitcoin.networks.Network;
 	readonly #spendAddressGenerator: Generator<Bip44Address[]>;
 	readonly #changeAddressGenerator: Generator<Bip44Address[]>;
@@ -29,7 +29,7 @@ export default class MusigWalletDataHelper {
 	public constructor(
 		n: number,
 		accountPublicKeys: BIP32Interface[],
-		method: MusigDerivationMethod,
+		method: Services.MusigDerivationMethod,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
 		configRepository: Coins.ConfigRepository,

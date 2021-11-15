@@ -12,7 +12,7 @@ import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { convertBuffer } from "@payvo/sdk-helpers";
-import { keysAndMethod } from "./multi-signature.domain";
+import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
 import { MultiSignatureService } from "./multi-signature.service";
 import { signatureValidator } from "./helpers";
 
@@ -174,23 +174,26 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Error("Expected [input.data.min] must be less than or equal to [input.data.numberOfSignatures].");
 		}
 
-		let senderPublicKey: string;
+		if (!input.data.derivationMethod) {
+			throw new Error("Expected [input.data.derivationMethod] must be present.");
+		}
 
 		// if (input.signatory.actsWithMnemonic()) {
 		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
 		const accountKey = rootKey.derivePath(input.signatory.publicKey());
-		senderPublicKey = convertBuffer(accountKey.publicKey);
+		const senderExtendedPublicKey = toExtPubKey(accountKey, input.data.derivationMethod, this.#network);
+
 		// } else {
 		// 	throw new Exceptions.Exception("No other signatory supported");
 		// }
 
 		const transaction: MultiSignatureTransaction = {
-			id: UUID.random(), // TODO We should aim to do this deterministic based on m, n and originator's ext public key
-			senderPublicKey: senderPublicKey,
+			id: UUID.random(), // TODO We should aim to do this deterministically based on m, n and originator's ext public key
+			senderPublicKey: senderExtendedPublicKey,
 			multiSignature: {
 				min: input.data.min, // m
 				numberOfSignatures: input.data.numberOfSignatures, // n
-				publicKeys: [],
+				publicKeys: [senderExtendedPublicKey],
 			},
 			signatures: [],
 		};
