@@ -66,20 +66,3 @@ export const toExtPubKey = (
 
 export const isMultiSignatureRegistration = (transaction: MultiSignatureTransaction): boolean =>
 	transaction.psbt === undefined;
-
-// export const pathToMethod = (
-// 	path: string,
-// 	network: bitcoin.networks.Network,
-// ): Services.MusigDerivationMethod => {
-// 	let prefixes;
-// 	if (network === bitcoin.networks.bitcoin) {
-// 		prefixes = mainnetPrefixes;
-// 	} else if (network === bitcoin.networks.testnet) {
-// 		prefixes = testnetPrefixes;
-// 	} else {
-// 		throw new Exceptions.Exception(`Invalid network.`);
-// 	}
-// 	const prefix = Object.entries(prefixes).find((entry) => entry[1] === method);
-// 	return changeVersionBytes(accountPrivateKey.neutered().toBase58(), prefix![0]);
-// };
-//

@@ -101,7 +101,7 @@ describe("example code using bitcoinjs-lib", () => {
 		expect(psbt.validateSignaturesOfInput(0, signatureValidator)).toBeTrue();
 		expect(psbt.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
 
-		// Finilizing creates the scriptSig and witness stack
+		// Finalizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();
 
 		// Build and check the hex
