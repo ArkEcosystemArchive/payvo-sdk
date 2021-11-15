@@ -9,7 +9,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [12.x]
+                node-version: [16.x]
         concurrency:
             group: ${{ github.head_ref }}-prettier
             cancel-in-progress: true
