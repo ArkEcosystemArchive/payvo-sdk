@@ -54,12 +54,9 @@ describe("connect", () => {
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(BindingType.AssetSerializer, AssetSerializer);
 			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-			container.constant(
-				IoC.BindingType.LedgerTransportFactory,
-				() => {
-					throw new Error("cannot open")
-				},
-			);
+			container.constant(IoC.BindingType.LedgerTransportFactory, () => {
+				throw new Error("cannot open");
+			});
 		});
 
 		await expect(() => transport.connect()).rejects.toThrow();
