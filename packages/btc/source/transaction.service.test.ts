@@ -37,9 +37,12 @@ beforeEach(async () => {
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString("")),
+		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.constant(BindingType.LedgerTransport, await openTransportReplayer(RecordStore.fromString("")));
 	});
 });
 

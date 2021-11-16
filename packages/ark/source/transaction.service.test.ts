@@ -1,7 +1,7 @@
 import "jest-extended";
 
 import { Transactions } from "@arkecosystem/crypto";
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, requireModule } from "../test/mocking";
@@ -38,6 +38,7 @@ beforeAll(async () => {
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);

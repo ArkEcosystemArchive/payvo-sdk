@@ -9,6 +9,7 @@ import {
 	KeyPairService,
 	KnownWalletService,
 	LedgerService,
+	LedgerTransportFactory,
 	LinkService,
 	MessageService,
 	MultiSignatureService,
@@ -31,6 +32,7 @@ export interface CoinOptions {
 	network: string;
 	networks?: Record<string, NetworkManifest>;
 	httpClient: HttpClient;
+	ledgerTransportFactory?: LedgerTransportFactory;
 }
 
 export interface CoinServices {

@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 import { Address } from "@arkecosystem/crypto-identities";
-import { IoC, Services, Test } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
@@ -26,10 +26,13 @@ const createMockService = async (record: string): Promise<LedgerService> => {
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record)),
+		);
 	});
 
-	const fromString = RecordStore.fromString(record);
-	await transport.connect(await openTransportReplayer(fromString));
+	await transport.connect();
 
 	return transport;
 };

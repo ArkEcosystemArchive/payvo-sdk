@@ -1,6 +1,5 @@
 import { Managers, Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
-import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { BindingType } from "./coin.contract";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
@@ -167,7 +166,7 @@ export class MultiSignatureSigner {
 		signatory: Signatories.Signatory,
 		excludeMultiSignature = false,
 	): Promise<string> {
-		await this.ledgerService.connect(LedgerTransportNodeHID);
+		await this.ledgerService.connect();
 
 		const signature = await this.ledgerService.signTransaction(
 			signatory.signingKey(),

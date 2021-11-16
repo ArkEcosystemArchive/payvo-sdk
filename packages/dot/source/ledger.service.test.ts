@@ -23,9 +23,13 @@ const createMockService = async (record: string) => {
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record)),
+		);
 	});
 
-	await transport.connect(await openTransportReplayer(RecordStore.fromString(record)));
+	await transport.connect();
 
 	return transport;
 };

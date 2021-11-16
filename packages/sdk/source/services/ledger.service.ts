@@ -6,14 +6,17 @@ import { WalletData } from "../contracts";
 import { NotImplemented } from "../exceptions";
 import { BindingType } from "../ioc/service-provider.contract";
 import { DataTransferObjectService } from "./data-transfer-object.contract";
-import { LedgerService, LedgerTransport, LedgerWalletList } from "./ledger.contract";
+import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract";
 
 @injectable()
 export class AbstractLedgerService implements LedgerService {
+	@inject(BindingType.LedgerTransportFactory)
+	protected readonly ledgerTransportFactory!: LedgerTransportFactory;
+
 	@inject(BindingType.DataTransferObjectService)
 	private readonly dataTransferObjectService!: DataTransferObjectService;
 
-	public async connect(transport: LedgerTransport): Promise<void> {
+	public async connect(): Promise<void> {
 		throw new NotImplemented(this.constructor.name, this.connect.name);
 	}
 
