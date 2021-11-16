@@ -95,7 +95,6 @@ export default class MusigWalletDataHelper {
 		const addresses = this.allUsedAddresses().map((address) => address.address);
 
 		const utxos = await this.#unspentTransactionOutputs(addresses);
-		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
 
