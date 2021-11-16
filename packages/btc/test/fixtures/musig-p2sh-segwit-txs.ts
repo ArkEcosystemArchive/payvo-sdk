@@ -76,7 +76,7 @@
 // 	},
 // ];
 
-export const unsignedTransferTx = {
+export const unsignedMusigP2shSegwitTransferTx = {
 	id: "0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58",
 	multiSignature: {
 		min: 2,
@@ -92,7 +92,7 @@ export const unsignedTransferTx = {
 	signatures: [],
 };
 
-export const oneSignatureTransferTx = {
+export const oneSignatureMusigP2shSegwitTransferTx = {
 	id: "0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58",
 	multiSignature: {
 		min: 2,
@@ -108,7 +108,7 @@ export const oneSignatureTransferTx = {
 	signatures: [],
 };
 
-export const twoSignatureTransferTx = {
+export const twoSignatureMusigP2shSegwitTransferTx = {
 	id: "0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58",
 	multiSignature: {
 		min: 2,

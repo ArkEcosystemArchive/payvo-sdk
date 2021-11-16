@@ -24,21 +24,21 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/sdk-cryptography";
 import {
+	oneSignatureLegacyMusigTransferTx,
+	twoSignatureLegacyMusigTransferTx,
+	unsignedLegacyMusigTransferTx,
+} from "../test/fixtures/musig-legacy-txs";
+import {
+	oneSignatureMusigP2shSegwitTransferTx,
+	twoSignatureMusigP2shSegwitTransferTx,
+	unsignedMusigP2shSegwitTransferTx,
+} from "../test/fixtures/musig-p2sh-segwit-txs";
+import {
 	oneSignatureNativeSegwitMusigTransferTx,
 	twoSignatureNativeSegwitMusigTransferTx,
 	unsignedNativeSegwitMusigTransferTx,
 } from "../test/fixtures/musig-native-segwit-txs";
-import {
-	oneSignatureTransferTx as oneSignatureLegacyMusigTransferTx,
-	twoSignatureTransferTx as twoSignatureLegacyMusigTransferTx,
-	unsignedTransferTx as unsignedLegacyMusigTransferTx,
-} from "../test/fixtures/musig-legacy-txs";
-import {
-	oneSignatureTransferTx as oneSignatureMusigP2shSegwitTransferTx,
-	twoSignatureTransferTx as twoSignatureMusigP2shSegwitTransferTx,
-	unsignedTransferTx as unsignedMusigP2shSegwitTransferTx,
-} from "../test/fixtures/musig-p2sh-segwit-txs";
-import { prettySerialize, signatureValidator } from "./helpers";
+import { signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 

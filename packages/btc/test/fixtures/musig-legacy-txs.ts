@@ -1,4 +1,4 @@
-export const unsignedTransferTx = {
+export const unsignedLegacyMusigTransferTx = {
 	id: "8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148",
 	multiSignature: {
 		min: 2,
@@ -14,7 +14,7 @@ export const unsignedTransferTx = {
 	signatures: [],
 };
 
-export const oneSignatureTransferTx = {
+export const oneSignatureLegacyMusigTransferTx = {
 	id: "8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148",
 	multiSignature: {
 		min: 2,
@@ -30,7 +30,7 @@ export const oneSignatureTransferTx = {
 	signatures: [],
 };
 
-export const twoSignatureTransferTx = {
+export const twoSignatureLegacyMusigTransferTx = {
 	id: "8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148",
 	multiSignature: {
 		min: 2,
@@ -46,7 +46,7 @@ export const twoSignatureTransferTx = {
 	signatures: [],
 };
 
-export const threeSignatureTransferTx = {
+export const threeSignatureLegacyMusigTransferTx = {
 	id: "8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148",
 	multiSignature: {
 		min: 2,
