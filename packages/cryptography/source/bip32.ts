@@ -1,8 +1,7 @@
 /* eslint-disable import/no-namespace */
 
-// import ecc from "tiny-secp256k1";
-import * as bip32 from "bip32";
-import { BIP32Interface } from "bip32";
+import BIP32Factory, { BIP32Interface } from "bip32";
+import * as ecc from "tiny-secp256k1";
 
 import { BIP39 } from "./bip39";
 
@@ -23,7 +22,7 @@ interface Network {
  * @export
  * @class BIP32
  */
-export class BIP32 {
+class BIP32 {
 	/**
 	 * Derives a BIP32 key from a mnemonic passphrase.
 	 *
@@ -43,7 +42,7 @@ export class BIP32 {
 
 		BIP39.validate(mnemonic);
 
-		return bip32.fromSeed(BIP39.toSeed(mnemonic), network);
+		return BIP32Factory(ecc).fromSeed(BIP39.toSeed(mnemonic), network);
 	}
 
 	/**
@@ -56,7 +55,7 @@ export class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromSeed(seed: string, network?: Network): BIP32Interface {
-		return bip32.fromSeed(Buffer.from(seed, "hex"), network);
+		return BIP32Factory(ecc).fromSeed(Buffer.from(seed, "hex"), network);
 	}
 
 	/**
@@ -69,7 +68,7 @@ export class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromBase58(value: string, network?: Network): BIP32Interface {
-		return bip32.fromBase58(value, network);
+		return BIP32Factory(ecc).fromBase58(value, network);
 	}
 
 	/**
@@ -83,7 +82,7 @@ export class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromPublicKey(publicKey: string, chainCode: string, network?: Network): BIP32Interface {
-		return bip32.fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(chainCode, "hex"), network);
+		return BIP32Factory(ecc).fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(chainCode, "hex"), network);
 	}
 
 	/**
@@ -97,6 +96,10 @@ export class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromPrivateKey(privateKey: string, chainCode: string, network?: Network): BIP32Interface {
-		return bip32.fromPrivateKey(Buffer.from(privateKey, "hex"), Buffer.from(chainCode, "hex"), network);
+		return BIP32Factory(ecc).fromPrivateKey(Buffer.from(privateKey, "hex"), Buffer.from(chainCode, "hex"), network);
 	}
 }
+
+export { BIP32 };
+
+export { BIP32Interface } from "bip32";

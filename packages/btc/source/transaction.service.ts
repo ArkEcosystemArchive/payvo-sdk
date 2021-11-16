@@ -1,7 +1,6 @@
-import { BIP32 } from "@payvo/sdk-cryptography";
+import { BIP32, BIP32Interface } from "@payvo/sdk-cryptography";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
 import { ECPair } from "ecpair";
 import coinSelect from "coinselect";
 import changeVersionBytes from "xpub-converter";
