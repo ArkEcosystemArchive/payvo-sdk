@@ -1,6 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { ECPair, ECPairInterface } from "ecpair";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
@@ -25,8 +26,8 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 	#normalize(keyPair: ECPairInterface): Services.KeyPairDataTransferObject {
 		return {
-			publicKey: keyPair.publicKey.toString("hex"),
-			privateKey: keyPair.privateKey!.toString("hex"),
+			publicKey: convertBuffer(keyPair.publicKey),
+			privateKey: convertBuffer(keyPair.privateKey!),
 		};
 	}
 }
