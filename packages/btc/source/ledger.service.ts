@@ -17,6 +17,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#transport!: Bitcoin;
 	#network!: bitcoin.networks.Network;
 
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
+
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
 
@@ -26,7 +31,9 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
-		await this.#transport.transport.close();
+		if (this.#ledger) {
+			await this.#ledger.close();
+		}
 	}
 
 	public override async getVersion(): Promise<string> {
