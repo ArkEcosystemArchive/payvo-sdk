@@ -2,7 +2,7 @@ import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
 import { convertString } from "@payvo/sdk-helpers";
 import { post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
+import { BIP32Interface } from "@payvo/sdk-cryptography";
 
 import { Bip44Address, UnspentTransaction } from "./contracts";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";

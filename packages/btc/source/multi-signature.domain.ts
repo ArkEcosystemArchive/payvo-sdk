@@ -1,5 +1,5 @@
 import { Exceptions, Services } from "@payvo/sdk";
-import { BIP32Interface } from "bip32";
+import { BIP32Interface } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 import changeVersionBytes from "xpub-converter";
 

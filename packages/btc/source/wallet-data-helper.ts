@@ -1,12 +1,11 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
-import { BIP44 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
 
 import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { getNetworkConfig } from "./config";
-import { convertString } from "@payvo/sdk-helpers";
+import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 export default class WalletDataHelper {
 	readonly #levels: Levels;
@@ -202,8 +201,8 @@ export default class WalletDataHelper {
 					}),
 					address: bip(localNode.publicKey, network),
 					status: "unknown",
-					publicKey: localNode.publicKey.toString("hex"),
-					privateKey: localNode.privateKey?.toString("hex"),
+					publicKey: convertBuffer(localNode.publicKey),
+					privateKey: localNode.privateKey ? convertBuffer(localNode.privateKey) : undefined,
 				});
 				index++;
 			}

@@ -8,6 +8,7 @@ export const Identifiers = {
 	FeeService: Symbol.for("FeeService"),
 	HttpClient: Symbol.for("HttpClient"),
 	KnownWalletService: Symbol.for("KnownWalletService"),
+	LedgerTransportFactory: Symbol.for("LedgerTransportFactory"),
 	MigrationSchemas: Symbol.for("Migration<Schemas>"),
 	MigrationVersion: Symbol.for("Migration<Version>"),
 	PluginRegistry: Symbol.for("PluginRegistry"),

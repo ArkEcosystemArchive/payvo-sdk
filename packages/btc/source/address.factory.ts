@@ -1,7 +1,6 @@
 import { Coins, Exceptions, Http, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
 
 import { getNetworkConfig } from "./config";
 import WalletDataHelper from "./wallet-data-helper";

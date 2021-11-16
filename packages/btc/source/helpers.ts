@@ -1,10 +1,9 @@
-import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
 import { ECPair } from "ecpair";
 
 export const prettyBufferSerializer = (k, v) => {

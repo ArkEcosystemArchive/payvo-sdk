@@ -2,7 +2,6 @@ import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
 import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
-import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { BindingType } from "./coin.contract";
 import { applyCryptoConfiguration } from "./config";
@@ -251,7 +250,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		if (input.signatory.actsWithLedger()) {
-			await this.ledgerService.connect(LedgerTransportNodeHID);
+			await this.ledgerService.connect();
 
 			senderPublicKey = await this.ledgerService.getPublicKey(input.signatory.signingKey());
 			address = (await this.addressService.fromPublicKey(senderPublicKey)).address;

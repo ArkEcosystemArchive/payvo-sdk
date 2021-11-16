@@ -20,6 +20,7 @@ export class DriverFactory {
 			container.constant(Identifiers.Storage, options.storage);
 		}
 
+		container.constant(Identifiers.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(Identifiers.HttpClient, options.httpClient);
 		container.constant(Identifiers.Coins, options.coins);
 

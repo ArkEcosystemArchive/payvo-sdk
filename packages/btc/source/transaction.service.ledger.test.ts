@@ -52,6 +52,7 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);

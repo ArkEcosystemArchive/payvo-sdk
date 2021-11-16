@@ -4,6 +4,7 @@ import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 import * as bitcoin from "bitcoinjs-lib";
 
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { MultiSignatureService } from "./multi-signature.service";
@@ -45,6 +46,10 @@ beforeAll(async () => {
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString("")),
+		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 	});

@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-profiles",
-	"version": "3.0.0",
+	"version": "3.1.2",
 	"description": "Profiles for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],
@@ -12,7 +12,7 @@
 		"/distribution"
 	],
 	"scripts": {
-		"build": "pnpm run clean && tsc && pnpm run bundle:esm && pnpm run bundle:esm:min && pnpm run bundle:umd && pnpm run bundle:umd:min",
+		"build": "pnpm run clean && tsc",
 		"bundle:esm": "rollup distribution/index.js --file distribution/index.mjs --format esm",
 		"bundle:esm:min": "terser --ecma 2019 --compress --mangle --module -o distribution/index.min.mjs -- distribution/index.mjs && gzip -9 -c distribution/index.min.mjs > distribution/index.min.mjs.gz",
 		"bundle:umd": "rollup distribution/index.js --file distribution/index.umd.js --format umd",
@@ -21,7 +21,7 @@
 		"format": "pnpm run lint && pnpm run prettier",
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
-		"prepublishOnly": "pnpm run build",
+		"prepublishOnly": "pnpm run clean && tsc && pnpm run bundle:esm && pnpm run bundle:esm:min && pnpm run bundle:umd && pnpm run bundle:umd:min",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"

@@ -11,6 +11,7 @@ import {
 	rootToAccountKeys,
 } from "./address.domain";
 import { musig } from "../test/fixtures/musig";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 const network = bitcoin.networks.testnet;
 
@@ -20,7 +21,7 @@ describe("multi signature", () => {
 	it("should derive account key for legacy multisig", async () => {
 		const accountKeys = rootToAccountKeys(rootAccountKeys, defaultLegacyMusigAccountKey);
 
-		expect(accountKeys.map((accountKey) => accountKey.publicKey.toString("hex"))).toEqual(
+		expect(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
 			musig.legacyWallet.accountKeys,
 		);
 	});
@@ -28,7 +29,7 @@ describe("multi signature", () => {
 	it("should derive account key for p2sh-segwit multisig", async () => {
 		const accountKeys = rootToAccountKeys(rootAccountKeys, defaultP2SHSegwitMusigAccountKey);
 
-		expect(accountKeys.map((accountKey) => accountKey.publicKey.toString("hex"))).toEqual(
+		expect(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
 			musig.p2shSegwitWallet.accountKeys,
 		);
 	});
@@ -36,7 +37,7 @@ describe("multi signature", () => {
 	it("should derive account key for native segwit multisig", async () => {
 		const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-		expect(accountKeys.map((accountKey) => accountKey.publicKey.toString("hex"))).toEqual(
+		expect(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
 			musig.nativeSegwitWallet.accountKeys,
 		);
 	});

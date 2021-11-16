@@ -6,6 +6,7 @@ import { getNetworkConfig, getNetworkID } from "./config";
 import createXpub from "create-xpub";
 import { maxLevel } from "./helpers";
 import { Bip44Address } from "./contracts";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -14,24 +15,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	#ledger: Services.LedgerTransport;
 	#transport!: Bitcoin;
-
 	#network!: bitcoin.networks.Network;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = getNetworkConfig(this.configRepository);
-	}
-
-	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		try {
-			this.#ledger = await transport.create();
-		} catch (error) {
-			if (transport.constructor.name === "TransportReplayer") {
-				this.#ledger = transport;
-			} else {
-				throw error;
-			}
-		}
+	public override async connect(): Promise<void> {
+		this.#ledger = await this.ledgerTransportFactory();
 
 		// @ts-ignore
 		this.#transport = new Bitcoin.default(this.#ledger);
@@ -69,7 +56,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		const signature = await this.#transport.signMessageNew(path, payload.toString("hex"));
+		const signature = await this.#transport.signMessageNew(path, convertBuffer(payload));
 
 		return JSON.stringify(signature);
 	}
@@ -111,7 +98,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
 		const outLedgerTx = this.#splitTransaction(newTx);
 
-		return await this.#transport.serializeTransactionOutputs(outLedgerTx).toString("hex");
+		return convertBuffer(this.#transport.serializeTransactionOutputs(outLedgerTx));
 	}
 
 	#splitTransaction(tx: bitcoin.Transaction) {

@@ -1,5 +1,4 @@
 import { Coins, Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
-import LedgerTransportNodeHID from "@ledgerhq/hw-transport-node-hid-singleton";
 
 import { MultiSignatureTransaction } from "./multi-signature.contract";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
@@ -56,16 +55,10 @@ export class MultiSignatureSigner {
 		signatory: Signatories.Signatory,
 		excludeMultiSignature = false,
 	): Promise<string> {
-		await this.ledgerService.connect(LedgerTransportNodeHID);
-
-		try {
-			// TODO figure out how to sigh Psbt with Ledger
-			// See this for ideas: https://stackoverflow.com/questions/59082832/how-to-sign-bitcoin-psbt-with-ledger
-			// although it will need a lot of changes, as it is it will requestion 2 confirmations for each utxo being spent.
-			// We need to find a way to sign them all at once.
-			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
-		} finally {
-			await this.ledgerService.disconnect();
-		}
+		// TODO figure out how to sigh Psbt with Ledger
+		// See this for ideas: https://stackoverflow.com/questions/59082832/how-to-sign-bitcoin-psbt-with-ledger
+		// although it will need a lot of changes, as it is it will requestion 2 confirmations for each utxo being spent.
+		// We need to find a way to sign them all at once.
+		throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 	}
 }

@@ -1,7 +1,6 @@
-import { BIP32, UUID } from "@payvo/sdk-cryptography";
+import { BIP32, BIP32Interface, UUID } from "@payvo/sdk-cryptography";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "bip32";
 import { ECPair } from "ecpair";
 import coinSelect from "coinselect";
 
@@ -19,13 +18,13 @@ import { signatureValidator } from "./helpers";
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
 	ledgerService: LedgerService,
-	transport: Services.LedgerTransport,
 	callback: () => Promise<Contracts.SignedTransactionData>,
 ): Promise<Contracts.SignedTransactionData> => {
 	try {
 		if (signatory.actsWithLedger()) {
-			await ledgerService.connect(transport);
+			await ledgerService.connect();
 		}
+
 		return await callback();
 	} finally {
 		if (signatory.actsWithLedger()) {
@@ -44,9 +43,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.FeeService)
 	private readonly feeService!: Services.FeeService;
-
-	@IoC.inject(BindingType.LedgerTransport)
-	private readonly transport!: Services.LedgerTransport;
 
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: MultiSignatureService;
@@ -93,7 +89,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
+		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, async () => {
 			const levels = this.addressFactory.getLevel(identityOptions);
 
 			// Compute the amount to be transferred

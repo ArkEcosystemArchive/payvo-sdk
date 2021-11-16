@@ -148,15 +148,15 @@ export class WalletMutator implements IWalletMutator {
 		try {
 			const wif = this.#wallet.signingKey().get(password);
 
-			let publicKey: string;
+			let address: string;
 
 			if (BIP39.validate(wif)) {
-				publicKey = (await this.#wallet.coin().publicKey().fromMnemonic(wif)).publicKey;
+				address = (await this.#wallet.coin().address().fromMnemonic(wif)).address;
 			} else {
-				publicKey = (await this.#wallet.coin().publicKey().fromSecret(wif)).publicKey;
+				address = (await this.#wallet.coin().address().fromSecret(wif)).address;
 			}
 
-			return this.#wallet.publicKey() === publicKey;
+			return this.#wallet.address() === address;
 		} catch {
 			/* istanbul ignore next */
 			return false;
