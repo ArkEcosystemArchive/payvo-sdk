@@ -16,15 +16,15 @@ import { PublicKeyService } from "./public-key.service";
 import { AddressService } from "./address.service";
 import { BindingType } from "./constants";
 import {
-	oneSignatureMusigRegistrationTx,
-	oneSignatureTransferTx,
-	threeSignatureMusigRegistrationTx,
-	threeSignatureTransferTx,
-	twoSignatureMusigRegistrationTx,
-	twoSignatureTransferTx,
-	unsignedMusigRegistrationTx,
-	unsignedTransferTx,
-} from "../test/fixtures/musig-txs";
+	oneSignatureNativeSegwitMusigRegistrationTx,
+	oneSignatureNativeSegwitMusigTransferTx,
+	threeSignatureNativeSegwitMusigRegistrationTx,
+	threeSignatureNativeSegwitMusigTransferTx,
+	twoSignatureNativeSegwitMusigRegistrationTx,
+	twoSignatureNativeSegwitMusigTransferTx,
+	unsignedNativeSegwitMusigRegistrationTx,
+	unsignedNativeSegwitMusigTransferTx,
+} from "../test/fixtures/musig-native-segwit-txs";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
@@ -60,10 +60,10 @@ afterEach(() => nock.cleanAll());
 describe("MultiSignatureTransaction", () => {
 	describe("#isMultiSignatureRegistration", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: true },
-			{ tx: oneSignatureMusigRegistrationTx, expected: true },
-			{ tx: twoSignatureMusigRegistrationTx, expected: true },
-			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -72,10 +72,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: false },
-			{ tx: oneSignatureTransferTx, expected: false },
-			{ tx: twoSignatureTransferTx, expected: false },
-			{ tx: threeSignatureTransferTx, expected: false },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected: false },
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
@@ -86,10 +86,10 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#needsSignatures", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: true },
-			{ tx: oneSignatureMusigRegistrationTx, expected: true },
-			{ tx: twoSignatureMusigRegistrationTx, expected: true },
-			{ tx: threeSignatureMusigRegistrationTx, expected: false },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: false },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -98,10 +98,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: true },
-			{ tx: oneSignatureTransferTx, expected: true },
-			{ tx: twoSignatureTransferTx, expected: false },
-			{ tx: threeSignatureTransferTx, expected: false },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: true },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected: true },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected: false },
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
@@ -112,10 +112,10 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#needsAllSignatures", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: true },
-			{ tx: oneSignatureMusigRegistrationTx, expected: true },
-			{ tx: twoSignatureMusigRegistrationTx, expected: true },
-			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: true },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -124,10 +124,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: false },
-			{ tx: oneSignatureTransferTx, expected: false },
-			{ tx: twoSignatureTransferTx, expected: false },
-			{ tx: threeSignatureTransferTx, expected: false },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected: false },
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
@@ -138,10 +138,10 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#isMultiSignatureReady", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: false },
-			{ tx: oneSignatureMusigRegistrationTx, expected: false },
-			{ tx: twoSignatureMusigRegistrationTx, expected: false },
-			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -150,10 +150,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: false },
-			{ tx: oneSignatureTransferTx, expected: false },
-			{ tx: twoSignatureTransferTx, expected: true },
-			{ tx: threeSignatureTransferTx, expected: true },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected: true },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected: true },
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
@@ -164,10 +164,10 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#needsWalletSignature", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected1: true, expected2: true, expected3: true },
-			{ tx: oneSignatureMusigRegistrationTx, expected1: false, expected2: true, expected3: true },
-			{ tx: twoSignatureMusigRegistrationTx, expected1: false, expected2: false, expected3: true },
-			{ tx: threeSignatureMusigRegistrationTx, expected1: false, expected2: false, expected3: false },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected1: true, expected2: true, expected3: true },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected1: false, expected2: true, expected3: true },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected1: false, expected2: false, expected3: true },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected1: false, expected2: false, expected3: false },
 		])("for musig registration", ({ tx, expected1, expected2, expected3 }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -190,10 +190,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected1: true, expected2: true, expected3: true },
-			{ tx: oneSignatureTransferTx, expected1: false, expected2: true, expected3: true },
-			{ tx: twoSignatureTransferTx, expected1: false, expected2: false, expected3: false },
-			{ tx: threeSignatureTransferTx, expected1: false, expected2: false, expected3: false },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected1: true, expected2: true, expected3: true },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected1: false, expected2: true, expected3: true },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected1: false, expected2: false, expected3: false },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected1: false, expected2: false, expected3: false },
 		])("for transfer", ({ tx, expected1, expected2, expected3 }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -218,14 +218,14 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#needsFinalSignature", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx },
-			{ tx: oneSignatureMusigRegistrationTx },
-			{ tx: twoSignatureMusigRegistrationTx },
-			{ tx: threeSignatureMusigRegistrationTx },
-			{ tx: unsignedTransferTx },
-			{ tx: oneSignatureTransferTx },
-			{ tx: twoSignatureTransferTx },
-			{ tx: threeSignatureTransferTx },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx },
+			{ tx: unsignedNativeSegwitMusigTransferTx },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx },
 		])("for musig registration", ({ tx }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);
@@ -236,10 +236,10 @@ describe("MultiSignatureTransaction", () => {
 
 	describe("#remainingSignatureCount", () => {
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: 3 },
-			{ tx: oneSignatureMusigRegistrationTx, expected: 2 },
-			{ tx: twoSignatureMusigRegistrationTx, expected: 1 },
-			{ tx: threeSignatureMusigRegistrationTx, expected: 0 },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: 3 },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: 2 },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
 		])("for musig registration", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx, bitcoin.networks.testnet);
@@ -248,10 +248,10 @@ describe("MultiSignatureTransaction", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: 2 },
-			{ tx: oneSignatureTransferTx, expected: 1 },
-			{ tx: twoSignatureTransferTx, expected: 0 },
-			{ tx: threeSignatureTransferTx, expected: 0 },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: 2 },
+			{ tx: oneSignatureNativeSegwitMusigTransferTx, expected: 1 },
+			{ tx: twoSignatureNativeSegwitMusigTransferTx, expected: 0 },
+			{ tx: threeSignatureNativeSegwitMusigTransferTx, expected: 0 },
 		])("for transfer", ({ tx, expected }) => {
 			test(` with ${tx.signatures.length} signatures`, () => {
 				const subject = new PendingMultiSignatureTransaction(tx as any, bitcoin.networks.testnet);

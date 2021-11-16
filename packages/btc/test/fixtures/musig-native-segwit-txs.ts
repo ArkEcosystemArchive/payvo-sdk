@@ -1,4 +1,4 @@
-export const unsignedMusigRegistrationTx = {
+export const unsignedNativeSegwitMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -9,7 +9,7 @@ export const unsignedMusigRegistrationTx = {
 	signatures: [],
 };
 
-export const oneSignatureMusigRegistrationTx = {
+export const oneSignatureNativeSegwitMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -22,7 +22,7 @@ export const oneSignatureMusigRegistrationTx = {
 	signatures: ["H4yJgFpPH6b0ED6OYBm0IJILt5u6h+E37WbKkTNjdAQZG/lS7ShWcyJ713QRNJRoEn3g7JrWcJjV+1hoicCAz6A="],
 };
 
-export const twoSignatureMusigRegistrationTx = {
+export const twoSignatureNativeSegwitMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -39,7 +39,7 @@ export const twoSignatureMusigRegistrationTx = {
 	],
 };
 
-export const threeSignatureMusigRegistrationTx = {
+export const threeSignatureNativeSegwitMusigRegistrationTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -59,7 +59,7 @@ export const threeSignatureMusigRegistrationTx = {
 };
 
 export const manyMusigRegistrationTxs = [
-	oneSignatureMusigRegistrationTx,
+	oneSignatureNativeSegwitMusigRegistrationTx,
 	{
 		id: "ac6bc776-5f46-4a71-86cd-a6a5c094189b",
 		multiSignature: {
@@ -76,7 +76,7 @@ export const manyMusigRegistrationTxs = [
 	},
 ];
 
-export const unsignedTransferTx = {
+export const unsignedNativeSegwitMusigTransferTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -92,7 +92,7 @@ export const unsignedTransferTx = {
 	signatures: [],
 };
 
-export const oneSignatureTransferTx = {
+export const oneSignatureNativeSegwitMusigTransferTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -108,7 +108,7 @@ export const oneSignatureTransferTx = {
 	signatures: [],
 };
 
-export const twoSignatureTransferTx = {
+export const twoSignatureNativeSegwitMusigTransferTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,
@@ -124,7 +124,7 @@ export const twoSignatureTransferTx = {
 	signatures: [],
 };
 
-export const threeSignatureTransferTx = {
+export const threeSignatureNativeSegwitMusigTransferTx = {
 	id: "189f015c-2a58-4664-83f4-0b331fa9172a",
 	multiSignature: {
 		min: 2,

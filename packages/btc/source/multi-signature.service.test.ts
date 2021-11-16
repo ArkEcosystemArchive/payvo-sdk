@@ -15,22 +15,19 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { AddressService } from "./address.service";
 import { BindingType } from "./constants";
-import {
-	manyMusigRegistrationTxs,
-	oneSignatureMusigRegistrationTx,
-	oneSignatureTransferTx,
-	threeSignatureMusigRegistrationTx,
-	threeSignatureTransferTx,
-	twoSignatureMusigRegistrationTx,
-	twoSignatureTransferTx,
-	unsignedMusigRegistrationTx,
-	unsignedTransferTx,
-} from "../test/fixtures/musig-txs";
 import { musig } from "../test/fixtures/musig";
 import { UUID } from "@payvo/sdk-cryptography";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { prettySerialize } from "./helpers";
+import {
+	manyMusigRegistrationTxs,
+	oneSignatureNativeSegwitMusigRegistrationTx,
+	oneSignatureNativeSegwitMusigTransferTx,
+	threeSignatureNativeSegwitMusigRegistrationTx, threeSignatureNativeSegwitMusigTransferTx,
+	twoSignatureNativeSegwitMusigRegistrationTx, twoSignatureNativeSegwitMusigTransferTx,
+	unsignedNativeSegwitMusigRegistrationTx,
+	unsignedNativeSegwitMusigTransferTx,
+} from "../test/fixtures/musig-native-segwit-txs";
 
 let subject: MultiSignatureService;
 
@@ -89,7 +86,7 @@ describe("MultiSignatureService", () => {
 		});
 
 		test("#findById", async () => {
-			nock("https://btc-test-musig.payvo.com").post("/").reply(200, { result: oneSignatureMusigRegistrationTx });
+			nock("https://btc-test-musig.payvo.com").post("/").reply(200, { result: oneSignatureNativeSegwitMusigRegistrationTx });
 
 			await expect(
 				subject.findById(
@@ -115,7 +112,7 @@ describe("MultiSignatureService", () => {
 
 		test("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
-			const transactionData = JSON.parse(JSON.stringify(unsignedMusigRegistrationTx));
+			const transactionData = JSON.parse(JSON.stringify(unsignedNativeSegwitMusigRegistrationTx));
 
 			const wallet1 = {
 				signingKey: musig.accounts[0].mnemonic,
@@ -134,7 +131,7 @@ describe("MultiSignatureService", () => {
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
 			);
 			expect((await subject.addSignature(transactionData, signatory)).data()).toEqual(
-				oneSignatureMusigRegistrationTx,
+				oneSignatureNativeSegwitMusigRegistrationTx,
 			);
 
 			const wallet2 = {
@@ -154,7 +151,7 @@ describe("MultiSignatureService", () => {
 				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 			);
 			expect((await subject.addSignature(transactionData, signatory2)).data()).toEqual(
-				twoSignatureMusigRegistrationTx,
+				twoSignatureNativeSegwitMusigRegistrationTx,
 			);
 
 			const wallet3 = {
@@ -174,15 +171,15 @@ describe("MultiSignatureService", () => {
 				"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
 			);
 			expect((await subject.addSignature(transactionData, signatory3)).data()).toEqual(
-				threeSignatureMusigRegistrationTx,
+				threeSignatureNativeSegwitMusigRegistrationTx,
 			);
 		});
 
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: false },
-			{ tx: oneSignatureMusigRegistrationTx, expected: false },
-			{ tx: twoSignatureMusigRegistrationTx, expected: false },
-			{ tx: threeSignatureMusigRegistrationTx, expected: true },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
 		])("#isMultiSignatureRegistrationReady", ({ tx, expected }) => {
 			test(`when already signed by ${tx.signatures.length} participants`, async () => {
 				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
@@ -214,8 +211,8 @@ describe("MultiSignatureService", () => {
 
 		test("#needsWalletSignature", async () => {
 			const transaction = (await createService(SignedTransactionData)).configure(
-				oneSignatureMusigRegistrationTx.id,
-				oneSignatureMusigRegistrationTx,
+				oneSignatureNativeSegwitMusigRegistrationTx.id,
+				oneSignatureNativeSegwitMusigRegistrationTx,
 			);
 
 			expect(
@@ -240,10 +237,10 @@ describe("MultiSignatureService", () => {
 		});
 
 		describe.each([
-			{ tx: unsignedMusigRegistrationTx, expected: 3 },
-			{ tx: oneSignatureMusigRegistrationTx, expected: 2 },
-			{ tx: twoSignatureMusigRegistrationTx, expected: 1 },
-			{ tx: threeSignatureMusigRegistrationTx, expected: 0 },
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: 3 },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: 2 },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
 		])("#remainingSignatureCount", ({ tx, expected }) => {
 			test(`when already signed by ${tx.signatures.length} participants`, async () => {
 				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
@@ -257,7 +254,7 @@ describe("MultiSignatureService", () => {
 		test("#broadcast", async () => {
 			jest.spyOn(UUID, "random").mockReturnValueOnce("68db1bb0-d747-48e8-b6f6-e347cc01b568");
 
-			const { multiSignature, ...data } = unsignedTransferTx;
+			const { multiSignature, ...data } = unsignedNativeSegwitMusigTransferTx;
 			nock("https://btc-test-musig.payvo.com")
 				.post("/", {
 					jsonrpc: "2.0",
@@ -270,15 +267,15 @@ describe("MultiSignatureService", () => {
 					'{"id":"68db1bb0-d747-48e8-b6f6-e347cc01b568","jsonrpc":"2.0","result":{"id":"189f015c-2a58-4664-83f4-0b331fa9172a"}}',
 				);
 
-			await expect(subject.broadcast(unsignedTransferTx)).resolves.toEqual({
-				accepted: [unsignedTransferTx.id],
+			await expect(subject.broadcast(unsignedNativeSegwitMusigTransferTx)).resolves.toEqual({
+				accepted: [unsignedNativeSegwitMusigTransferTx.id],
 				errors: {},
 				rejected: [],
 			});
 		});
 
 		describe.each([
-			{ tx: unsignedTransferTx, expected: 2 },
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: 2 },
 			// { tx: twoSignatureMusigRegistrationTx, expected: 1 },
 			// { tx: threeSignatureMusigRegistrationTx, expected: 0 },
 		])("#remainingSignatureCount", ({ tx, expected }) => {
@@ -291,7 +288,7 @@ describe("MultiSignatureService", () => {
 
 		test("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
-			const transactionData = JSON.parse(JSON.stringify(unsignedTransferTx));
+			const transactionData = JSON.parse(JSON.stringify(unsignedNativeSegwitMusigTransferTx));
 
 			const wallet1 = {
 				signingKey: musig.accounts[0].mnemonic,
@@ -307,7 +304,7 @@ describe("MultiSignatureService", () => {
 			);
 
 			const signedTransaction1 = await subject.addSignature(transactionData, signatory1);
-			expect(signedTransaction1.data()).toEqual(oneSignatureTransferTx);
+			expect(signedTransaction1.data()).toEqual(oneSignatureNativeSegwitMusigTransferTx);
 
 			const wallet2 = {
 				signingKey: musig.accounts[1].mnemonic,
@@ -322,7 +319,7 @@ describe("MultiSignatureService", () => {
 				}),
 			);
 			const signedTransaction2 = await subject.addSignature(signedTransaction1.data(), signatory2);
-			expect(signedTransaction2.data()).toEqual(twoSignatureTransferTx);
+			expect(signedTransaction2.data()).toEqual(twoSignatureNativeSegwitMusigTransferTx);
 
 			const wallet3 = {
 				signingKey: musig.accounts[2].mnemonic,
@@ -337,7 +334,7 @@ describe("MultiSignatureService", () => {
 				}),
 			);
 			const signedTransaction3 = await subject.addSignature(signedTransaction2.data(), signatory3);
-			expect(signedTransaction3.data()).toEqual(threeSignatureTransferTx);
+			expect(signedTransaction3.data()).toEqual(threeSignatureNativeSegwitMusigTransferTx);
 		});
 	});
 });

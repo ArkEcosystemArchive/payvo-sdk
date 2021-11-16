@@ -23,7 +23,11 @@ import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/sdk-cryptography";
-import { oneSignatureTransferTx, twoSignatureTransferTx, unsignedTransferTx } from "../test/fixtures/musig-txs";
+import {
+	oneSignatureNativeSegwitMusigTransferTx,
+	twoSignatureNativeSegwitMusigTransferTx,
+	unsignedNativeSegwitMusigTransferTx,
+} from "../test/fixtures/musig-native-segwit-txs";
 import {
 	oneSignatureTransferTx as oneSignatureLegacyMusigTransferTx,
 	twoSignatureTransferTx as twoSignatureLegacyMusigTransferTx,
@@ -689,7 +693,7 @@ describe("native segwit multisignature wallet", () => {
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(374);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedTransferTx.psbt);
+		expect(result.toBroadcast()).toBe(unsignedNativeSegwitMusigTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -722,7 +726,7 @@ describe("native segwit multisignature wallet", () => {
 		expect(signed1.amount().toNumber()).toBe(10_000);
 		expect(signed1.fee().toNumber()).toBe(374);
 		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureTransferTx.psbt);
+		expect(signed1.toBroadcast()).toBe(oneSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -753,7 +757,7 @@ describe("native segwit multisignature wallet", () => {
 		expect(signed2.amount().toNumber()).toBe(10_000);
 		expect(signed2.fee().toNumber()).toBe(374);
 		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureTransferTx.psbt);
+		expect(signed2.toBroadcast()).toBe(twoSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
 		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
