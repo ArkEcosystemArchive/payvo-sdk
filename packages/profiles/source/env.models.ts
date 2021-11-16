@@ -13,7 +13,7 @@ export interface EnvironmentOptions {
 	coins: CoinList;
 	storage: string | Storage;
 	httpClient: Http.HttpClient;
-	ledgerTransport?: Services.LedgerTransport;
+	ledgerTransportFactory?: Services.LedgerTransportFactory;
 	migrations?: Record<string, any>;
 }
 
