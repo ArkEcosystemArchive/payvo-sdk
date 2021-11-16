@@ -1,6 +1,6 @@
 import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
+import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-browser";
 
 import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers";
 import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain";

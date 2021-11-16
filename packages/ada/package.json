@@ -30,7 +30,7 @@
 		"preset": "../../jest.config.js"
 	},
 	"dependencies": {
-		"@emurgo/cardano-serialization-lib-nodejs": "^8.0.0",
+		"@emurgo/cardano-serialization-lib-browser": "^8.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",

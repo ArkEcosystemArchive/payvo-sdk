@@ -3,7 +3,7 @@ importers:
     specifiers: {}
   ../../packages/ada:
     dependencies:
-      '@emurgo/cardano-serialization-lib-nodejs': 8.1.0
+      '@emurgo/cardano-serialization-lib-browser': 8.1.0
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -52,7 +52,7 @@ importers:
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
-      '@emurgo/cardano-serialization-lib-nodejs': ^8.0.0
+      '@emurgo/cardano-serialization-lib-browser': ^8.0.0
       '@jest/globals': ^27.3.1
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -104,7 +104,6 @@ importers:
       '@arkecosystem/crypto': 3.0.5
       '@arkecosystem/crypto-identities': 1.2.0
       '@arkecosystem/ledger-transport': 2.0.0
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -164,7 +163,6 @@ importers:
       '@arkecosystem/ledger-transport': ^2.0.0
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-helpers': workspace:*
@@ -428,7 +426,6 @@ importers:
   ../../packages/btc:
     dependencies:
       '@ledgerhq/hw-app-btc': 6.12.1
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -488,7 +485,6 @@ importers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-app-btc': ^6.12.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@ledgerhq/logs': ^6.10.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -1375,7 +1371,6 @@ importers:
       typescript: ^4.4.4
   ../../packages/lsk:
     dependencies:
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@liskhq/lisk-cryptography': 3.2.0
       '@liskhq/lisk-transactions': 5.2.0
       '@payvo/sdk': link:../sdk
@@ -1428,7 +1423,6 @@ importers:
     specifiers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@liskhq/lisk-cryptography': ^3.2
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/sdk': workspace:*
@@ -3215,10 +3209,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-amDVVV4demxQdcvL8xEZNrPDDXve3d1sO3/1Tk5UglG2S2RTW3nnmC2UccKYUROEaQaH6YAyZwYhzyTKQilz4g==
-  /@emurgo/cardano-serialization-lib-nodejs/8.1.0:
+  /@emurgo/cardano-serialization-lib-browser/8.1.0:
     dev: false
     resolution:
-      integrity: sha512-BH8MhQQt+BDqWM4Yqa9Asn/vhJJLxi43pp7Crq6bdQuj2NOT2F6e3nhdLS2KJhvb47YGFdg0pnvGaH+TCmUoIA==
+      integrity: sha512-WvcVBJO1+YLMEymoYf/Y7Hqp7WTVDvqROwS4smcXYeJiGlTlTJRtiXEymOXBc29LrtOT+BE3cZogQdIwUWTpyA==
   /@eslint/eslintrc/1.0.4:
     dependencies:
       ajv: 6.12.6
@@ -3932,29 +3926,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-23vjrwzXDpnP0C1JA6540vYpOMFMtVeHc8+iNDltHFhx0kIuAq70lzk7OV6z8TNGpTSrf5DCnKagOha2FIS0yQ==
-  /@ledgerhq/hw-transport-node-hid-noevents/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      node-hid: 2.1.1
-    dev: false
-    resolution:
-      integrity: sha512-LxdGIzo/Z1sPH8iDoGAP5dV/ZzPcaTLfkZ0o65cwBAkehrSdVxbYCiBxVK1l9Rh1oh8MrnvGPZxqM0zcyqdVHA==
-  /@ledgerhq/hw-transport-node-hid-singleton/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/hw-transport-node-hid-noevents': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      lodash: 4.17.21
-      node-hid: 2.1.1
-      usb-detection: 4.13.0
-    dev: false
-    resolution:
-      integrity: sha512-3k2q/L8wNWdAiisFv7vSA3EBISDJ1spStRDas+8DBmJzbJvZWb2hl47Y2E0YoBWt0iN0S78wfEk2L9Ur/yA+gA==
   /@ledgerhq/hw-transport-node-hid/5.50.0:
     dependencies:
       '@ledgerhq/devices': 5.50.0
@@ -8464,10 +8435,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-  /eventemitter2/5.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-YZegldX7a1folC9v1+qtY6CclFI=
   /eventemitter3/3.1.2:
     dev: false
     resolution:
@@ -14620,18 +14587,6 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha1-FQWgOiiaSMvXpDTvuu7FBV9WM6k=
-  /usb-detection/4.13.0:
-    dependencies:
-      bindings: 1.5.0
-      eventemitter2: 5.0.1
-      nan: 2.15.0
-      prebuild-install: 6.1.4
-    dev: false
-    engines:
-      node: '>=4'
-    requiresBuild: true
-    resolution:
-      integrity: sha512-5b0P+IYSN6Qv29hZ/m8P+iJyBDFYQR1UD8n4bWwPWbCIG6c2erQ9F8Owp69OSK0cwqf/InxYjIBuTVvl97bpZA==
   /usb/1.7.0:
     dependencies:
       bindings: 1.5.0
