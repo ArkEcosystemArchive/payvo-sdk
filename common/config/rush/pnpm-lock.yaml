@@ -434,7 +434,7 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
       bignumber.js: 9.0.1
-      bip32: 2.0.6
+      bip32: 3.0.0
       bitcoinjs-lib: 6.0.0
       bitcoinjs-message: 2.2.0
       coinselect: 3.1.12
@@ -505,7 +505,7 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.3.1
       '@typescript-eslint/parser': ^5.3.1
       bignumber.js: ^9.0.1
-      bip32: ^2.0.0
+      bip32: ^3.0.0
       bitcoinjs-lib: ^6.0.0
       bitcoinjs-message: ^2.2.0
       coinselect: ^3.1.12
@@ -546,7 +546,7 @@ importers:
       argon2-browser: 1.18.0
       bcryptjs: 2.4.3
       bcrypto: 5.4.0
-      bip32: 2.0.6
+      bip32: 3.0.0
       bip38: 3.1.1
       bip39: 3.0.4
       bstring: 0.3.9
@@ -624,7 +624,7 @@ importers:
       bcryptjs: ^2.4.3
       bcrypto: ^5.4.0
       benchmark: ^2.1.4
-      bip32: ^2.0.0
+      bip32: ^3.0.0
       bip38: ^3.1.1
       bip39: ^3.0.4
       bstring: ^0.3.9
@@ -2080,7 +2080,7 @@ importers:
       bad-words: 3.0.4
       bent: 7.3.12
       bignumber.js: 9.0.1
-      bip32: 2.0.6
+      bip32: 3.0.0
       bip39: 3.0.4
       censorify-it: 3.0.2
       dayjs: 1.10.7
@@ -2149,7 +2149,7 @@ importers:
       bad-words: ^3.0.4
       bent: ^7.3
       bignumber.js: ^9.0.1
-      bip32: ^2.0.0
+      bip32: ^3.0.0
       bip39: ^3.0.4
       censorify-it: ^3.0.2
       cross-env: ^7.0.3
@@ -6082,6 +6082,19 @@ packages:
       node: '>=6.0.0'
     resolution:
       integrity: sha512-HpV5OMLLGTjSVblmrtYRfFFKuQB+GArM0+XP8HGWfJ5vxYBqo+DesvJwOdC2WJ3bCkZShGf0QIfoIpeomVzVdA==
+  /bip32/3.0.0:
+    dependencies:
+      '@types/node': 10.12.18
+      bs58check: 2.1.2
+      create-hash: 1.2.0
+      create-hmac: 1.1.7
+      typeforce: 1.18.0
+      wif: 2.0.6
+    dev: false
+    engines:
+      node: '>=6.0.0'
+    resolution:
+      integrity: sha512-lcIPU2oY8Lvc9lPN66aCwqgDC0kZmzTHrU2Ka1KhJnmujIBpF7igfpBmZRXAwGMiFuhGm0avdVrZre9o7OdpsQ==
   /bip38/3.1.1:
     dependencies:
       bigi: 1.4.2
