@@ -23,7 +23,7 @@ interface Network {
  * @export
  * @class BIP32
  */
-export class BIP32 {
+class BIP32 {
 	/**
 	 * Derives a BIP32 key from a mnemonic passphrase.
 	 *
@@ -100,3 +100,5 @@ export class BIP32 {
 		return BIP32Factory(ecc).fromPrivateKey(Buffer.from(privateKey, "hex"), Buffer.from(chainCode, "hex"), network);
 	}
 }
+
+export { BIP32, BIP32Interface };
