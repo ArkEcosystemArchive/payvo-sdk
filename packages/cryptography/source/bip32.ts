@@ -1,8 +1,8 @@
 /* eslint-disable import/no-namespace */
 
-// import ecc from "tiny-secp256k1";
-import * as bip32 from "bip32";
-import { BIP32Interface } from "bip32";
+import BIP32Factory from 'bip32';
+import * as ecc from 'tiny-secp256k1';
+import { BIP32Interface } from 'bip32';
 
 import { BIP39 } from "./bip39";
 
