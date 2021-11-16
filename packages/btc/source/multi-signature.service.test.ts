@@ -23,8 +23,10 @@ import {
 	manyMusigRegistrationTxs,
 	oneSignatureNativeSegwitMusigRegistrationTx,
 	oneSignatureNativeSegwitMusigTransferTx,
-	threeSignatureNativeSegwitMusigRegistrationTx, threeSignatureNativeSegwitMusigTransferTx,
-	twoSignatureNativeSegwitMusigRegistrationTx, twoSignatureNativeSegwitMusigTransferTx,
+	threeSignatureNativeSegwitMusigRegistrationTx,
+	threeSignatureNativeSegwitMusigTransferTx,
+	twoSignatureNativeSegwitMusigRegistrationTx,
+	twoSignatureNativeSegwitMusigTransferTx,
 	unsignedNativeSegwitMusigRegistrationTx,
 	unsignedNativeSegwitMusigTransferTx,
 } from "../test/fixtures/musig-native-segwit-txs";
@@ -86,7 +88,9 @@ describe("MultiSignatureService", () => {
 		});
 
 		test("#findById", async () => {
-			nock("https://btc-test-musig.payvo.com").post("/").reply(200, { result: oneSignatureNativeSegwitMusigRegistrationTx });
+			nock("https://btc-test-musig.payvo.com")
+				.post("/")
+				.reply(200, { result: oneSignatureNativeSegwitMusigRegistrationTx });
 
 			await expect(
 				subject.findById(
