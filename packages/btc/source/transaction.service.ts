@@ -286,13 +286,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const network = getNetworkConfig(this.configRepository);
-
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
-		const { accountExtendedPublicKeys, method } = keysAndMethod(multiSignatureAsset, network);
+		const { accountExtendedPublicKeys, method } = keysAndMethod(multiSignatureAsset, this.#network);
 		const accountPublicKeys = accountExtendedPublicKeys.map((extendedPublicKey) =>
-			BIP32.fromBase58(extendedPublicKey, network),
+			BIP32.fromBase58(extendedPublicKey, this.#network),
 		);
 
 		// create a musig wallet data helper and find all used addresses
@@ -335,7 +333,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 		});
 
-		const psbt = new bitcoin.Psbt({ network });
+		const psbt = new bitcoin.Psbt({ network: this.#network });
 		inputs.forEach((input) =>
 			psbt.addInput({
 				hash: input.txId,

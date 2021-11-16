@@ -30,6 +30,7 @@ import { musig } from "../test/fixtures/musig";
 import { UUID } from "@payvo/sdk-cryptography";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { prettySerialize } from "./helpers";
 
 let subject: MultiSignatureService;
 

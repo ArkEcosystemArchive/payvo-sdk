@@ -101,11 +101,17 @@ export default class MusigWalletDataHelper {
 
 			let extra;
 			if (this.#method === "legacyMusig") {
+				const payment = legacyMusig(
+					this.#n,
+					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+					this.#network,
+				);
 				extra = {
 					nonWitnessUtxo: convertString(utxo.raw),
+					redeemScript: payment.redeem!.output,
 				};
 			} else if (this.#method === "p2SHSegwitMusig") {
-				const payment1 = p2SHSegwitMusig(
+				const payment = p2SHSegwitMusig(
 					this.#n,
 					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
 					this.#network,
@@ -115,15 +121,21 @@ export default class MusigWalletDataHelper {
 						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
-					witnessScript: payment1.redeem!.redeem!.output,
-					redeemScript: payment1.redeem!.output,
+					witnessScript: payment.redeem!.redeem!.output,
+					redeemScript: payment.redeem!.output,
 				};
 			} else if (this.#method === "nativeSegwitMusig") {
+				const payment = nativeSegwitMusig(
+					this.#n,
+					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+					this.#network,
+				);
 				extra = {
 					witnessUtxo: {
 						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
+					witnessScript: payment.redeem!.output,
 				};
 			}
 

@@ -25,14 +25,20 @@ import { WalletData } from "./wallet.dto";
 import { UUID } from "@payvo/sdk-cryptography";
 import { oneSignatureTransferTx, twoSignatureTransferTx, unsignedTransferTx } from "../test/fixtures/musig-txs";
 import {
+	oneSignatureTransferTx as oneSignatureLegacyMusigTransferTx,
+	twoSignatureTransferTx as twoSignatureLegacyMusigTransferTx,
+	unsignedTransferTx as unsignedLegacyMusigTransferTx,
+} from "../test/fixtures/musig-legacy-txs";
+import {
 	oneSignatureTransferTx as oneSignatureMusigP2shSegwitTransferTx,
 	twoSignatureTransferTx as twoSignatureMusigP2shSegwitTransferTx,
 	unsignedTransferTx as unsignedMusigP2shSegwitTransferTx,
 } from "../test/fixtures/musig-p2sh-segwit-txs";
-import { prettyPrint, prettySerialize, signatureValidator } from "./helpers";
+import { prettySerialize, signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
+jest.setTimeout(60_000);
 let subject: TransactionService;
 let musigService: MultiSignatureService;
 
@@ -390,14 +396,84 @@ describe("legacy multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148");
+		expect(result.id()).toBe(unsignedLegacyMusigTransferTx.id);
 		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			"cHNidP8BAHICAAAAAQQpoaBkPdFJO7j4lRXTiHK092Av3cqrMapO37ME1y0AAAAAAAD/////AhAnAAAAAAAAFgAU8+nfdtXMv7TinAR6lCgVoypHesRGXgEAAAAAABepFIN8oUi2qVWb0XDNmWUPw/EQfE68hwAAAAAAAQDgAgAAAAABATJmg9VH12//SHlYvXPw3K2QuYKNKcNz+Rdx3qJ0oz/OAAAAAAD+////AqCGAQAAAAAAF6kUUy09+hxsQTo4XyFu0sK1Het67d2H+rhrAAAAAAAXqRRcoJLGrTPRuOVueNY0eRrIQ3CDgIcCRzBEAiA8bVYgMMOAlSEwqBMoxjz5aUiDIBlACdwwwnNAY/UL1QIgOJpzJLRFOPHml4CLYj2xuzQzjaS+FgVnFimUBIJoXnkBIQOCPv/T3dLuLhIO3Ac8S8nnzbhJjG9xe+EDbdIyA3ZFv0kEIAABBWlSIQJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5ViECkBWvIBZNcxthKZC+56mVwDKruoP6GGo645GPmW8hc0AhA5cPLGFhgQY+Jv2XC5vBMIp4mG8/WQU+VUsfKXvejj1QU64iBgJoXC2ed0OyeNV7jenIHER4c36zRT/lnlGx4gAgxYM5Vgwj/PIxAAAAAAAAAAAiBgKQFa8gFk1zG2EpkL7nqZXAMqu6g/oYajrjkY+ZbyFzQAwpdhjSAAAAAAAAAAAiBgOXDyxhYYEGPib9lwubwTCKeJhvP1kFPlVLHyl73o49UAz6ukcjAAAAAAAAAAAAACICAiB9HMDuorlegpW6k1d8dpDSPx4rhwG75ix/VXqM1ctEDCl2GNIBAAAAAAAAACICAyA0bO8i+ssRrJcIl7eyeS5BLNclagsQp6Lwruw+mrlPDCP88jEBAAAAAAAAACICAyc/qQ+Y4nKNKn5W2GS4/5qmdicWkVU4KOPLNNdbwhLzDPq6RyMBAAAAAAAAAAA=",
+		expect(result.toBroadcast()).toBe(unsignedLegacyMusigTransferTx.psbt);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].legacyMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id(),
+				...result.data(),
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.id()).toBe(oneSignatureLegacyMusigTransferTx.id);
+		expect(signed1.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(330);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(oneSignatureLegacyMusigTransferTx.psbt);
+
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].legacyMasterPath,
+		};
+		const signatory2 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed2 = await musigService.addSignature(
+			{
+				id: signed1.id(),
+				...signed1.data(),
+				psbt: signed1.toBroadcast(),
+				signatures: [],
+			},
+			signatory2,
+		);
+
+		expect(signed2.id()).toBe(twoSignatureLegacyMusigTransferTx.id);
+		expect(signed2.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed2.amount().toNumber()).toBe(10_000);
+		expect(signed2.fee().toNumber()).toBe(330);
+		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed2.toBroadcast()).toBe(twoSignatureLegacyMusigTransferTx.psbt);
+
+		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+
+		signedFinal.finalizeAllInputs();
+		expect(signedFinal.extractTransaction().toHex()).toBe(
+			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d0000000000fdfe00004830450221008e49b68e58a819e5e7199f69ca7aea8a0e83c137aa5d63334167f46263d13fa302203bbc8490e10e91a66cbef8dee64e41f46436caf5815702109211d3a37fa651fd01483045022100a1dcf290034f8f177b6069bf0b10b11c0d37c5dbdc6d9ff189cfb69d06026dd702200db05bcc907117d506af47a5648bfc81fc5a58e0766c1076401e5b4debfbb565014c69522102685c2d9e7743b278d57b8de9c81c4478737eb3453fe59e51b1e20020c583395621029015af20164d731b612990bee7a995c032abba83fa186a3ae3918f996f2173402103970f2c616181063e26fd970b9bc1308a78986f3f59053e554b1f297bde8e3d5053aeffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
 	});
 });
@@ -545,6 +621,7 @@ describe("p2sh segwit multisignature wallet", () => {
 
 describe("native segwit multisignature wallet", () => {
 	beforeAll(() => {
+		// nock.recorder.rec();
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
