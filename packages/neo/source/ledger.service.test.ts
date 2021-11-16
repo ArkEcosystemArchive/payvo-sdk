@@ -4,7 +4,7 @@ import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore, RecordStoreOptions } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
@@ -23,9 +23,13 @@ const createMockService = async (record: string, opts?: RecordStoreOptions) => {
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record, opts)),
+		);
 	});
 
-	await transport.connect(await openTransportReplayer(RecordStore.fromString(record, opts)));
+	await transport.connect();
 
 	return transport;
 };

@@ -36,6 +36,7 @@ export class CoinFactory {
 		container.constant(BindingType.DataTransferObjects, bundle.dataTransferObjects);
 		container.constant(BindingType.Container, container);
 		container.constant(BindingType.HttpClient, options.httpClient);
+		container.constant(BindingType.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(BindingType.Manifest, new Manifest(bundle.manifest));
 		container.constant(BindingType.Network, CoinFactory.#createNetwork(bundle.manifest, configRepository));
 		container.constant(BindingType.NetworkRepository, networkRepository);

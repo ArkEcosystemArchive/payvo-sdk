@@ -1,16 +1,12 @@
 import { WalletData } from "../contracts";
 
-export interface LedgerOptions {
-	transport: LedgerTransport;
-}
-
-// TODO: create a proper contract for this
 export type LedgerTransport = any;
+export type LedgerTransportFactory = () => Promise<LedgerTransport>;
 
 export type LedgerWalletList = Record<string, WalletData>;
 
 export interface LedgerService {
-	connect(transport: LedgerTransport): Promise<void>;
+	connect(): Promise<void>;
 
 	disconnect(): Promise<void>;
 

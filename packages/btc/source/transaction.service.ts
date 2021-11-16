@@ -15,13 +15,13 @@ import { LedgerService } from "./ledger.service";
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
 	ledgerService: LedgerService,
-	transport: Services.LedgerTransport,
 	callback: () => Promise<Contracts.SignedTransactionData>,
 ): Promise<Contracts.SignedTransactionData> => {
 	try {
 		if (signatory.actsWithLedger()) {
-			await ledgerService.connect(transport);
+			await ledgerService.connect();
 		}
+
 		return await callback();
 	} finally {
 		if (signatory.actsWithLedger()) {
@@ -40,9 +40,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.FeeService)
 	private readonly feeService!: Services.FeeService;
-
-	@IoC.inject(BindingType.LedgerTransport)
-	private readonly transport!: Services.LedgerTransport;
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (!input.signatory.actsWithMultiSignature() && input.signatory.signingKey() === undefined) {
@@ -79,7 +76,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, this.transport, async () => {
+		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, async () => {
 			const levels = this.addressFactory.getLevel(identityOptions);
 
 			const network = getNetworkConfig(this.configRepository);

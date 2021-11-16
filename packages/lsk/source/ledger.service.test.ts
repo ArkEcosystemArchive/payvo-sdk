@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { IoC, Services, Test } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
@@ -29,9 +29,13 @@ const createMockService = async (record: string) => {
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(BindingType.AssetSerializer, AssetSerializer);
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record)),
+		);
 	});
 
-	await transport.connect(await openTransportReplayer(RecordStore.fromString(record)));
+	await transport.connect();
 
 	return transport;
 };
@@ -50,15 +54,15 @@ describe("connect", () => {
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(BindingType.AssetSerializer, AssetSerializer);
 			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+			container.constant(
+				IoC.BindingType.LedgerTransportFactory,
+				() => {
+					throw new Error("cannot open")
+				},
+			);
 		});
 
-		await expect(() =>
-			transport.connect({
-				open: () => {
-					throw new Error("cannot open");
-				},
-			}),
-		).rejects.toThrow();
+		await expect(() => transport.connect()).rejects.toThrow();
 	});
 });
 

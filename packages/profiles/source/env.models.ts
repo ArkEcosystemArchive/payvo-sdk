@@ -1,4 +1,4 @@
-import { Coins, Http } from "@payvo/sdk";
+import { Coins, Http, Services } from "@payvo/sdk";
 
 export type CoinList = Record<string, Coins.CoinBundle>;
 
@@ -13,6 +13,7 @@ export interface EnvironmentOptions {
 	coins: CoinList;
 	storage: string | Storage;
 	httpClient: Http.HttpClient;
+	ledgerTransport?: Services.LedgerTransport;
 	migrations?: Record<string, any>;
 }
 
