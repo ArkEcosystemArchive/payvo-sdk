@@ -67,6 +67,7 @@ export class CoinService implements ICoinService {
 			container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()],
 			{
 				httpClient: container.get(Identifiers.HttpClient),
+				ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
 				network,
 				...options,
 			},

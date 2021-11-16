@@ -8,6 +8,7 @@ export class ConfigRepository {
 			httpClient: ValidatorSchema.object(),
 			network: ValidatorSchema.string(),
 			networks: ValidatorSchema.object().optional(),
+			ledgerTransportFactory: ValidatorSchema.function().optional(),
 		}).validate(config);
 
 		if (error !== undefined) {
