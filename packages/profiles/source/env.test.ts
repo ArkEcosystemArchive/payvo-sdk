@@ -34,7 +34,7 @@ const makeSubject = async (): Promise<void> => {
 		coins: { ARK, BTC, ETH },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => { },
+		ledgerTransportFactory: async () => {},
 	});
 	await subject.verify();
 	await subject.boot();
@@ -189,7 +189,12 @@ it("should create a profile with data and persist it when instructed to do so", 
 
 	container.flush();
 
-	const newEnv = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const newEnv = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 	await newEnv.verify();
 	await newEnv.boot();
 
@@ -232,7 +237,12 @@ it("should create a profile with data and persist it when instructed to do so", 
 });
 
 it("should boot the environment from fixed data", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 	await env.verify(storageData);
 	await env.boot();
 
@@ -278,21 +288,36 @@ it("should boot the environment from fixed data", async () => {
 });
 
 it("should boot with empty storage data", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 
 	await expect(env.verify({ profiles: storageData.profiles, data: {} })).resolves.toBeUndefined();
 	await expect(env.boot()).resolves.toBeUndefined();
 });
 
 it("should boot with empty storage profiles", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 
 	await expect(env.verify({ profiles: {}, data: { key: "value" } })).resolves.toBeUndefined();
 	await expect(env.boot()).resolves.toBeUndefined();
 });
 
 it("should boot with exchange service data", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 
 	await container.get<Storage>(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", {});
 
@@ -306,7 +331,12 @@ it("should create preselected storage given storage option as string", async () 
 });
 
 it("should throw error when calling boot without verify first", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 	await expect(env.boot()).rejects.toThrowError("Please call [verify] before booting the environment.");
 });
 
@@ -344,7 +374,12 @@ it("#wallets", async () => {
 });
 
 it("should register a coin and deregister it", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 	await env.verify(storageData);
 	await env.boot();
 
@@ -354,7 +389,12 @@ it("should register a coin and deregister it", async () => {
 });
 
 it("should fail verification", async () => {
-	const env = new Environment({ coins: { ARK }, httpClient: new Request(), storage: new StubStorage(), ledgerTransportFactory: async () => { } });
+	const env = new Environment({
+		coins: { ARK },
+		httpClient: new Request(),
+		storage: new StubStorage(),
+		ledgerTransportFactory: async () => {},
+	});
 
 	// @ts-ignore
 	await expect(env.verify({ profiles: [], data: {} })).rejects.toThrowError(
