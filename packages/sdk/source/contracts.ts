@@ -72,9 +72,12 @@ export interface WalletData {
 	hasFailed(): boolean;
 }
 
+type LedgerTransport = any;
+
 // @TODO: export those directly from the files and get rid of this whole file
 export {
 	ConfirmedTransactionData,
+	LedgerTransport,
 	MultiPaymentRecipient,
 	RawTransactionData,
 	SignedTransactionData,

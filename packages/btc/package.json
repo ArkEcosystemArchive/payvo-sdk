@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-btc",
-	"version": "3.0.0",
+	"version": "3.1.2",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -31,7 +31,6 @@
 	},
 	"dependencies": {
 		"@ledgerhq/hw-app-btc": "^6.12.1",
-		"@ledgerhq/hw-transport-node-hid-singleton": "^6.11.2",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",

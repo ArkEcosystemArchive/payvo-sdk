@@ -1,6 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { ECPair } from "ecpair";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
@@ -9,10 +10,9 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
 		return {
-			privateKey: BIP32.fromMnemonic(
-				mnemonic,
-				this.configRepository.get("network.constants"),
-			).privateKey!.toString("hex"),
+			privateKey: convertBuffer(
+				BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).privateKey!,
+			),
 		};
 	}
 
@@ -23,6 +23,6 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 			throw new Error(`Failed to derive private key for [${wif}].`);
 		}
 
-		return { privateKey: privateKey.toString("hex") };
+		return { privateKey: convertBuffer(privateKey) };
 	}
 }

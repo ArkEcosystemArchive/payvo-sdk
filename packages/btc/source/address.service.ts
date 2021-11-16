@@ -1,6 +1,7 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { ECPair } from "ecpair";
+import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
@@ -52,7 +53,7 @@ export class AddressService extends Services.AbstractAddressService {
 			result = bitcoin.payments.p2sh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+					pubkeys: publicKeys.map(convertString),
 				}),
 				network: this.#network,
 			});
@@ -63,7 +64,7 @@ export class AddressService extends Services.AbstractAddressService {
 				redeem: bitcoin.payments.p2wsh({
 					redeem: bitcoin.payments.p2ms({
 						m: min,
-						pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+						pubkeys: publicKeys.map(convertString),
 					}),
 				}),
 				network: this.#network,
@@ -74,7 +75,7 @@ export class AddressService extends Services.AbstractAddressService {
 			result = bitcoin.payments.p2wsh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map((publicKey: string) => Buffer.from(publicKey, "hex")),
+					pubkeys: publicKeys.map(convertString),
 				}),
 				network: this.#network,
 			});
@@ -100,7 +101,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		let result;
 
-		let publicKeyBuffer: Buffer = Buffer.from(publicKey, "hex");
+		let publicKeyBuffer: Buffer = convertString(publicKey);
 
 		if (publicKey.startsWith("xpub")) {
 			if (getNetworkID(this.configRepository) !== "livenet") {
@@ -157,10 +158,7 @@ export class AddressService extends Services.AbstractAddressService {
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		return this.fromPublicKey(
-			ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")).publicKey.toString("hex"),
-			options,
-		);
+		return this.fromPublicKey(convertBuffer(ECPair.fromPrivateKey(convertString(privateKey)).publicKey), options);
 	}
 
 	public override async fromWIF(

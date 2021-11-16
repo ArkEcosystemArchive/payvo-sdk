@@ -6,17 +6,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport;
 
-	public override async connect(transport: Services.LedgerTransport): Promise<void> {
-		try {
-			this.#ledger = await transport.create();
-		} catch (error) {
-			if (transport.constructor.name === "TransportReplayer") {
-				this.#ledger = transport;
-			} else {
-				throw error;
-			}
-		}
-
+	public override async connect(): Promise<void> {
+		this.#ledger = await this.ledgerTransportFactory();
 		this.#transport = newPolkadotApp(this.#ledger);
 	}
 

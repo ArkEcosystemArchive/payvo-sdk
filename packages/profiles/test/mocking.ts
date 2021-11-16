@@ -21,6 +21,7 @@ export const bootContainer = (): void => {
 		coins: { ADA, ARK, BTC, ETH, LSK },
 		storage: new StubStorage(),
 		httpClient: new Request(),
+		ledgerTransportFactory: async () => {},
 	});
 };
 

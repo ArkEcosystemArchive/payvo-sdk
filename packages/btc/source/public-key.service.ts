@@ -1,6 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { ECPair } from "ecpair";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
@@ -17,7 +18,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 
 	public override async fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
 		return {
-			publicKey: ECPair.fromWIF(wif).publicKey.toString("hex"),
+			publicKey: convertBuffer(ECPair.fromWIF(wif).publicKey),
 		};
 	}
 }
