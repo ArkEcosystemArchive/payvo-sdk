@@ -280,10 +280,10 @@ describe("MultiSignatureService", () => {
 
 		describe.each([
 			{ tx: unsignedNativeSegwitMusigTransferTx, expected: 2 },
-			// { tx: twoSignatureMusigRegistrationTx, expected: 1 },
-			// { tx: threeSignatureMusigRegistrationTx, expected: 0 },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
 		])("#remainingSignatureCount", ({ tx, expected }) => {
-			test.skip(`when already signed by ${tx.signatures.length} participants`, async () => {
+			test(`when already signed by ${tx.signatures.length} participants`, async () => {
 				const transaction = (await createService(SignedTransactionData)).configure(tx.id, tx);
 
 				expect(subject.remainingSignatureCount(transaction)).toBe(expected);
