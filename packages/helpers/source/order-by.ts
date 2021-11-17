@@ -1,4 +1,4 @@
-import { sort } from "fast-sort";
+import fast from "fast-sort";
 
 import { FunctionReturning, Iteratee } from "./types";
 import { isFunction } from "./is-function";
@@ -16,7 +16,7 @@ export const orderBy = <T>(values: T[], iteratees: Iteratee | Iteratee[], orders
 		orders = [orders];
 	}
 
-	return sort(values).by(
-		map(iteratees as any, (_: string, index: number) => ({ [orders[index]]: iteratees[index] })),
-	);
+	return fast
+		.sort(values)
+		.by(map(iteratees as any, (_: string, index: number) => ({ [orders[index]]: iteratees[index] })));
 };

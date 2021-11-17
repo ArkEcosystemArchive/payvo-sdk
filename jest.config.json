@@ -1,0 +1,29 @@
+{
+	"bail": false,
+	"collectCoverage": false,
+	"collectCoverageFrom": [
+		"source/**/*.ts",
+		"!source/**/index.ts",
+		"!**/node_modules/**",
+		"!source/(container|contracts|manifest|schema|service-provider|dto|repositories).ts",
+		"!source/coin.provider.ts",
+		"!source/coin.services.ts"
+	],
+	"coverageDirectory": "<rootDir>/.coverage",
+	"coverageReporters": ["json", "lcov", "text", "clover", "html"],
+	"extensionsToTreatAsEsm": [".ts"],
+	"globals": {
+		"ts-jest": {
+			"useESM": true
+		}
+	},
+	"moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
+	"preset": "ts-jest/presets/default-esm",
+	"setupFilesAfterEnv": ["jest-extended/all", "jest-localstorage-mock"],
+	"testEnvironment": "node",
+	"testMatch": ["**/*.test.ts"],
+	"transform": {
+		"^.+\\.tsx?$": "ts-jest"
+	},
+	"verbose": true
+}

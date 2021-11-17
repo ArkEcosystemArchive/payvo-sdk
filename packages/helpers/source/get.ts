@@ -1,4 +1,4 @@
-import { get as base } from "dot-prop";
+import dot from "dot-prop";
 import { isObject } from "./is-object";
 import { isString } from "./is-string";
 
@@ -7,5 +7,5 @@ export const get = <T, V>(object: T, path: string | string[], defaultValue?: V):
 		return defaultValue as V;
 	}
 
-	return base(object, path, defaultValue) as V;
+	return dot.get(object, path, defaultValue) as V;
 };

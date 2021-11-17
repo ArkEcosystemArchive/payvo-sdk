@@ -1,4 +1,4 @@
-import { delete as base } from "dot-prop";
+import dot from "dot-prop";
 import { isObject } from "./is-object";
 import { isString } from "./is-string";
 
@@ -7,5 +7,5 @@ export const unset = <T>(object: T, path: string | string[]): boolean => {
 		return false;
 	}
 
-	return base(object, path);
+	return dot.delete(object, path);
 };
