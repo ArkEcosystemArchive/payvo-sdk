@@ -3,7 +3,7 @@ import { CURRENCIES, Money, Numeral } from "@payvo/sdk-intl";
 
 interface CurrencyFormatOptions {
 	locale?: string;
-	withTicker?: boolean
+	withTicker?: boolean;
 }
 
 const DEFAULT_DECIMALS = 8;
@@ -26,7 +26,6 @@ export class Currency {
 				.formatAsCurrency(Math.abs(value), "BTC")
 				.replace("BTC", withTicker ? ticker.toUpperCase() : "")
 				.trim();
-
 		}
 
 		let money = Money.make(
@@ -38,6 +37,9 @@ export class Currency {
 			money = money.setLocale(options.locale);
 		}
 
-		return money.format().substr(withTicker ? 0 : 1).trim();
+		return money
+			.format()
+			.slice(withTicker ? 0 : 1)
+			.trim();
 	}
 }
