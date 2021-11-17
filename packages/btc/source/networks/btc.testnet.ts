@@ -25,7 +25,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://blockstream.info/testnet",
+			host: "https://blockstream.info/testnet/",
 			type: "explorer",
 		},
 	],
