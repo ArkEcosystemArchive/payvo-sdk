@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 
 import { PBKDF2 } from "@payvo/sdk-cryptography";

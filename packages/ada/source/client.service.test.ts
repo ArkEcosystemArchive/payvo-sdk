@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { DTO, IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";

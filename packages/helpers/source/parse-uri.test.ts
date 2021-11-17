@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { parseURI } from "./parse-uri.js";
 
 describe("#parseURI", () => {

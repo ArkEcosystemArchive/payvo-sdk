@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { keysIn } from "./keys-in.js";
 
 describe("#keysIn", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isSyncFunction } from "./is-sync-function.js";
 
 describe("#isSyncFunction", () => {

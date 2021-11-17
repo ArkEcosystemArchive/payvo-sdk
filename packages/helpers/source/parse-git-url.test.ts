@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { parseGitUrl } from "./parse-git-url.js";
 
 describe("#parseGitUrl", () => {

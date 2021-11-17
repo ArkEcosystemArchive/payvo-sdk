@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { numberToHex } from "./number-to-hex.js";
 
 describe("#numberToHex", () => {

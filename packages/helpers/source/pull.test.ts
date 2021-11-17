@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pull } from "./pull.js";
 
 describe("#pull", () => {

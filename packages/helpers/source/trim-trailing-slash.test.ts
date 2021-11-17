@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { trimTrailingSlash } from "./trim-trailing-slash.js";
 
 describe("#trimTrailingSlash", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isEnumerable } from "./is-enumerable.js";
 
 const object1 = {};

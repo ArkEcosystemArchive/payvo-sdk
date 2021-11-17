@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import Joi from "joi";
 
 import { Validator } from "./validator.js";

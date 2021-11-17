@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { flatten } from "./flatten.js";
 
 describe("#flatten", () => {

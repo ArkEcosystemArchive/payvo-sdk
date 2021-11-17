@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { stringify } from "./stringify.js";
 
 describe("#stringify", () => {

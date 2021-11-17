@@ -1,4 +1,3 @@
-import "jest-extended";
 import { uniqBy } from "./uniq-by.js";
 
 describe("#uniqBy", () => {

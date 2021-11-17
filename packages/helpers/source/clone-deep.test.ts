@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { cloneDeep } from "./clone-deep.js";
 
 describe("#cloneDeep", () => {

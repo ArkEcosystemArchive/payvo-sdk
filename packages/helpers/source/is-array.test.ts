@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isArray } from "./is-array.js";
 
 describe("#isArray", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { last } from "./last.js";
 
 describe("#last", () => {

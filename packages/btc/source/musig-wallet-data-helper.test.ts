@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import nock from "nock";
 import { IoC } from "@payvo/sdk";
 import { createService, requireModule } from "../test/mocking.js";

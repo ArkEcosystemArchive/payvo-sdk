@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isDate } from "./is-date.js";
 
 describe("#isDate", () => {

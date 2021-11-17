@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { minBy } from "./min-by.js";
 
 describe("#minBy", () => {

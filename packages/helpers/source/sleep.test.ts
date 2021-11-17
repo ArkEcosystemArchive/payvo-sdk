@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { sleep } from "./sleep.js";
 
 describe("#sleep", () => {

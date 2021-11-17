@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isNumber } from "./is-number.js";
 import { omitBy } from "./omit-by.js";
 

@@ -1,6 +1,5 @@
 /* eslint-disable sonarjs/no-identical-expressions */
 
-import "jest-extended";
 import "reflect-metadata";
 
 import nock from "nock";

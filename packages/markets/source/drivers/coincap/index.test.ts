@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";

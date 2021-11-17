@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { BigNumber } from "./bignumber.js";
 
 let subject: BigNumber;

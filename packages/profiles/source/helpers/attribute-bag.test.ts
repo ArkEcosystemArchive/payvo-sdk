@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { AttributeBag } from "./attribute-bag.js";
 
 interface Attributes {

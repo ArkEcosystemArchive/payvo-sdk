@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { QRCode } from "./qrcode.js";
 
 test("#fromString", () => {

@@ -1,5 +1,4 @@
 /* eslint-disable jest/expect-expect */
-import "jest-extended";
 import "reflect-metadata";
 
 import { bootContainer } from "../mocking";

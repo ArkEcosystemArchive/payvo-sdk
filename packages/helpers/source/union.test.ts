@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { union } from "./union.js";
 
 describe("#union", () => {

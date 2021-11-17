@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { mapValues } from "./map-values.js";
 
 describe("#mapValues", () => {

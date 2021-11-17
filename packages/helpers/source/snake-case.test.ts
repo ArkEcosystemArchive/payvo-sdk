@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { snakeCase } from "./snake-case.js";
 
 describe("#snakeCase", () => {

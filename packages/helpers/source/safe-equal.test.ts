@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { safeEqual } from "./safe-equal.js";
 
 describe("#safeEqual", () => {

@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 import nock from "nock";
 import { bootContainer } from "../test/mocking.js";

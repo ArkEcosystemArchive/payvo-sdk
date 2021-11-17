@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { TransactionTypeService } from "./transaction-type.service.js";
 
 describe("TransactionTypeService", () => {

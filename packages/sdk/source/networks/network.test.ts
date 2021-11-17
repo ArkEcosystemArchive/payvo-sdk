@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { jest } from "@jest/globals";
 
 import { manifest } from "../../../ark/distribution/manifest.js";

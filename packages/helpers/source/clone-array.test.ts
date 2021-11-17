@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { cloneArray } from "./clone-array.js";
 
 describe("#cloneArray", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { at } from "./at.js";
 
 describe("#at", () => {

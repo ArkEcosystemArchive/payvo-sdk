@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Manifest } from "./manifest.js";
 
 test("#all", () => {

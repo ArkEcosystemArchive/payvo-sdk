@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { camelCase } from "./camel-case.js";
 
 describe("#camelCase", () => {

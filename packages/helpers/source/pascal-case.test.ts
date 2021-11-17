@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pascalCase } from "./pascal-case.js";
 
 describe("#pascalCase", () => {

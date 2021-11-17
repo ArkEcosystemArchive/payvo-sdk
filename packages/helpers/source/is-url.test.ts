@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isURL } from "./is-url.js";
 import { URL } from "url";
 

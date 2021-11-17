@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { some } from "./some.js";
 
 describe("#some", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { mapObject } from "./map-object.js";
 
 describe("#mapObject", () => {

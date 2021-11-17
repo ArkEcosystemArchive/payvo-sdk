@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Avatar } from "./avatar.js";
 
 test("Helpers.Avatar", () => {

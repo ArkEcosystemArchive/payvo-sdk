@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 
 import { RegistryPlugin } from "./plugin-registry.dto.js";

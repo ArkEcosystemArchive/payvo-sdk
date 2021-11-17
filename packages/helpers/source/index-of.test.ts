@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { indexOf } from "./index-of.js";
 
 describe("#indexOf", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity.js";

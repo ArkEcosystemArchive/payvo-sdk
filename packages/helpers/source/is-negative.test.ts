@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isNegative } from "./is-negative.js";
 
 describe("#isNegative", () => {

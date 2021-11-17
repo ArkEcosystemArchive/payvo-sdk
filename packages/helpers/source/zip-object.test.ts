@@ -1,4 +1,3 @@
-import "jest-extended";
 import { zipObject } from "./zip-object.js";
 
 describe("#zipObject", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Currency } from "./currency.js";
 
 describe("Helpers.Currency", () => {

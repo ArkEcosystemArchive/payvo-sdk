@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { reject } from "./reject.js";
 
 describe("#reject", () => {

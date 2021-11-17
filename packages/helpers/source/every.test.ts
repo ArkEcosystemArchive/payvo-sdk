@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { every } from "./every.js";
 import { isBoolean } from "./is-boolean.js";
 

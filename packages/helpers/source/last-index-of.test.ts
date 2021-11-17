@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { lastIndexOf } from "./last-index-of.js";
 
 describe("#lastIndexOf", () => {

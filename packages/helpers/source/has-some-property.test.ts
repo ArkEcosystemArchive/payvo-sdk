@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { hasSomeProperty } from "./has-some-property.js";
 
 let object;

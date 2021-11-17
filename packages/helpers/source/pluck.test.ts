@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pluck } from "./pluck.js";
 
 describe("#pluck", () => {

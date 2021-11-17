@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { FeatureFlag } from "./enums.js";
 
 test("FeatureFlag", () => {

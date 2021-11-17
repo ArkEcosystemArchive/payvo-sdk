@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 
 import { BIP44 } from "@payvo/sdk-cryptography";

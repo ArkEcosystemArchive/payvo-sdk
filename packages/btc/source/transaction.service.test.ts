@@ -1,4 +1,3 @@
-import "jest-extended";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";

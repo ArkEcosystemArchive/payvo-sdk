@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { take } from "./take.js";
 
 describe("#take", () => {

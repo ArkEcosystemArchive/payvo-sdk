@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { headerCase } from "./header-case.js";
 
 describe("#headerCase", () => {

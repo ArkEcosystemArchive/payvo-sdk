@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { truncate } from "./truncate.js";
 
 describe("#truncate", () => {

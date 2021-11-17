@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { LocalStorage } from "./local.storage";

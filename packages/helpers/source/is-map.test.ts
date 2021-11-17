@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isMap } from "./is-map.js";
 
 describe("#isMap", () => {

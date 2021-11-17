@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { findKey } from "./find-key.js";
 
 describe("#findKey", () => {

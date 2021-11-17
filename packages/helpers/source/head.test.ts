@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { head } from "./head.js";
 
 describe("#head", () => {

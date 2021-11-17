@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pullAllBy } from "./pull-all-by.js";
 
 describe("#pullAllBy", () => {

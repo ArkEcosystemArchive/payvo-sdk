@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Coins } from "@payvo/sdk";
 import { ADA } from "@payvo/sdk-ada";
 import { ARK } from "@payvo/sdk-ark";

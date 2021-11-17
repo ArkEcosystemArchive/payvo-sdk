@@ -59,10 +59,6 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "@jest/globals",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
       "name": "@kodekeep/foreman",
       "allowedCategories": [ "libraries" ]
     },
@@ -531,14 +527,6 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "eslint-plugin-jest",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "eslint-plugin-jest-formatting",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
       "name": "eslint-plugin-jsx-a11y",
       "allowedCategories": [ "libraries" ]
     },
@@ -656,22 +644,6 @@
     },
     {
       "name": "isomorphic-dompurify",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "jest",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "jest-extended",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "jest-localstorage-mock",
-      "allowedCategories": [ "libraries" ]
-    },
-    {
-      "name": "jest-mock-extended",
       "allowedCategories": [ "libraries" ]
     },
     {
@@ -927,7 +899,7 @@
       "allowedCategories": [ "libraries" ]
     },
     {
-      "name": "ts-jest",
+      "name": "tsm",
       "allowedCategories": [ "libraries" ]
     },
     {

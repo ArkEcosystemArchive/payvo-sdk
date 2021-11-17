@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { lastMapValue } from "./last-map-value.js";
 
 describe("#lastMapValue", () => {

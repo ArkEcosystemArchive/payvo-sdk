@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { reduceRight } from "./reduce-right.js";
 
 describe("#reduceRight", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Container } from "./container.js";
 import { BindingType } from "./service-provider.contract.js";
 

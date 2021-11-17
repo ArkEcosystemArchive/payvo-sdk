@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { tail } from "./tail.js";
 
 describe("#tail", () => {
