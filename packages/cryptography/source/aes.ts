@@ -1,11 +1,5 @@
 import forge from "node-forge";
 
-/**
- *
- *
- * @export
- * @class AES
- */
 export class AES {
 	public static encrypt(message: string, password: string, salt: string, iv: string): string {
 		const derivedKey = forge.pkcs5.pbkdf2(password, salt, 5000, 32);
@@ -18,17 +12,6 @@ export class AES {
 		return forge.util.encode64(cipher.output.getBytes());
 	}
 
-	/**
-	 *
-	 *
-	 * @static
-	 * @param {string} cipherText
-	 * @param {string} password
-	 * @param {string} salt
-	 * @param {string} iv
-	 * @returns {string}
-	 * @memberof AES
-	 */
 	public static decrypt(cipherText: string, password: string, salt: string, iv: string): string {
 		const derivedKey = forge.pkcs5.pbkdf2(password, salt, 5000, 32);
 

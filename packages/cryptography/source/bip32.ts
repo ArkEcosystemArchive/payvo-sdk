@@ -14,7 +14,7 @@ interface Network {
 }
 
 // @ts-ignore
-const bip32 = BIP32Factory.default(ecc);
+const bip32 = BIP32Factory(ecc);
 
 /**
  * Implements all functionality that is required to work with BIP32 to create

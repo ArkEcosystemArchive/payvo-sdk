@@ -1,12 +1,17 @@
-import { Argon2 } from "./argon2.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { Argon2 } from "./argon2";
 
 test("#hash", async () => {
-	await expect(Argon2.hash("password")).resolves.toBeString();
+	assert.type(await Argon2.hash("password"), "string");
 });
 
 test("#verify", async () => {
 	const hash = await Argon2.hash("password");
 
-	await expect(Argon2.verify(hash, "password")).resolves.toBeTrue();
-	await expect(Argon2.verify(hash, "invalid")).resolves.toBeFalse();
+	assert.is(await Argon2.verify(hash, "password"), true);
+	assert.is(await Argon2.verify(hash, "invalid"), false);
 });
+
+test.run();

@@ -1,175 +1,26 @@
-import { Hash } from "./hash.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { Hash } from "./hash";
 
 test("#ripemd160", () => {
-	expect(Hash.ripemd160("Hello World")).toMatchInlineSnapshot(`
-		Object {
-		  "data": Array [
-		    168,
-		    48,
-		    215,
-		    190,
-		    176,
-		    78,
-		    183,
-		    84,
-		    156,
-		    233,
-		    144,
-		    251,
-		    125,
-		    201,
-		    98,
-		    228,
-		    153,
-		    162,
-		    114,
-		    48,
-		  ],
-		  "type": "Buffer",
-		}
-	`);
+	assert.is(Hash.ripemd160("Hello World").toString("hex"), "a830d7beb04eb7549ce990fb7dc962e499a27230");
 });
 
 test("#sha1", () => {
-	expect(Hash.sha1("Hello World")).toMatchInlineSnapshot(`
-		Object {
-		  "data": Array [
-		    10,
-		    77,
-		    85,
-		    168,
-		    215,
-		    120,
-		    229,
-		    2,
-		    47,
-		    171,
-		    112,
-		    25,
-		    119,
-		    197,
-		    216,
-		    64,
-		    187,
-		    196,
-		    134,
-		    208,
-		  ],
-		  "type": "Buffer",
-		}
-	`);
+	assert.is(Hash.sha1("Hello World").toString("hex"), "0a4d55a8d778e5022fab701977c5d840bbc486d0");
 });
 
 test("#sha256", () => {
-	expect(Hash.sha256("Hello World")).toMatchInlineSnapshot(`
-		Object {
-		  "data": Array [
-		    165,
-		    145,
-		    166,
-		    212,
-		    11,
-		    244,
-		    32,
-		    64,
-		    74,
-		    1,
-		    23,
-		    51,
-		    207,
-		    183,
-		    177,
-		    144,
-		    214,
-		    44,
-		    101,
-		    191,
-		    11,
-		    205,
-		    163,
-		    43,
-		    87,
-		    178,
-		    119,
-		    217,
-		    173,
-		    159,
-		    20,
-		    110,
-		  ],
-		  "type": "Buffer",
-		}
-	`);
+	assert.is(Hash.sha256("Hello World").toString("hex"), "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e");
 });
 
 test("#hash160", () => {
-	expect(Hash.hash160("Hello World")).toMatchInlineSnapshot(`
-		Object {
-		  "data": Array [
-		    189,
-		    251,
-		    105,
-		    85,
-		    121,
-		    102,
-		    208,
-		    38,
-		    151,
-		    91,
-		    235,
-		    233,
-		    20,
-		    105,
-		    43,
-		    240,
-		    132,
-		    144,
-		    216,
-		    202,
-		  ],
-		  "type": "Buffer",
-		}
-	`);
+	assert.is(Hash.hash160("Hello World").toString("hex"), "bdfb69557966d026975bebe914692bf08490d8ca");
 });
 
 test("#hash256", () => {
-	expect(Hash.hash256("Hello World")).toMatchInlineSnapshot(`
-		Object {
-		  "data": Array [
-		    66,
-		    168,
-		    115,
-		    172,
-		    58,
-		    189,
-		    2,
-		    18,
-		    45,
-		    39,
-		    232,
-		    4,
-		    134,
-		    198,
-		    250,
-		    30,
-		    247,
-		    134,
-		    148,
-		    232,
-		    80,
-		    95,
-		    206,
-		    201,
-		    203,
-		    204,
-		    138,
-		    119,
-		    40,
-		    186,
-		    137,
-		    73,
-		  ],
-		  "type": "Buffer",
-		}
-	`);
+	assert.is(Hash.hash256("Hello World").toString("hex"), "42a873ac3abd02122d27e80486c6fa1ef78694e8505fcec9cbcc8a7728ba8949");
 });
+
+test.run();

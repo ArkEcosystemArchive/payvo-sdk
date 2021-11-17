@@ -1,16 +1,21 @@
-import { Base64 } from "./base64.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { Base64 } from "./base64";
 
 const message = "Hello World";
 
 test("#encode", async () => {
-	expect(Base64.encode(message)).toMatchInlineSnapshot(`"SGVsbG8gV29ybGQ="`);
+	assert.is(Base64.encode(message), "SGVsbG8gV29ybGQ=");
 });
 
 test("#decode", async () => {
-	expect(Base64.decode(Base64.encode(message))).toBe(message);
+	assert.is(Base64.decode(Base64.encode(message)), message);
 });
 
 test("#validate", () => {
-	expect(Base64.validate(Base64.encode("Hello"))).toBeTrue();
-	expect(Base64.validate("!#$%*#$%*")).toBeFalse();
+	assert.is(Base64.validate(Base64.encode("Hello")), true);
+	assert.is(Base64.validate("!#$%*#$%*"), false);
 });
+
+test.run();

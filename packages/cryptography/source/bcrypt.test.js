@@ -1,12 +1,17 @@
-import { Bcrypt } from "./bcrypt.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { Bcrypt } from "./bcrypt";
 
 test("#hash", () => {
-	expect(Bcrypt.hash("password")).toBeString();
+	assert.type(Bcrypt.hash("password"), "string");
 });
 
 test("#verify", () => {
 	const hash = Bcrypt.hash("password");
 
-	expect(Bcrypt.verify(hash, "password")).toBeTrue();
-	expect(Bcrypt.verify(hash, "invalid")).toBeFalse();
+	assert.is(Bcrypt.verify(hash, "password"), true);
+	assert.is(Bcrypt.verify(hash, "invalid"), false);
 });
+
+test.run();

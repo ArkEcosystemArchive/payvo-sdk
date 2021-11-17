@@ -1,10 +1,15 @@
-import { Base58Check } from "./base58-check.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { Base58Check } from "./base58-check";
 
 test("#encode", () => {
-	expect(Base58Check.encode("Hello")).toBeString();
-	expect(Base58Check.encode(Buffer.from("Hello"))).toBeString();
+	assert.type(Base58Check.encode("Hello"), "string");
+	assert.type(Base58Check.encode(Buffer.from("Hello")), "string");
 });
 
 test("#decode", () => {
-	expect(Base58Check.decode(Base58Check.encode("Hello")).toString("utf8")).toBe("Hello");
+	assert.is(Base58Check.decode(Base58Check.encode("Hello")).toString("utf8"), "Hello");
 });
+
+test.run();

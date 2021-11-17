@@ -1,4 +1,7 @@
-import { BIP39 } from "./bip39.js";
+import { test } from "uvu";
+import * as assert from 'uvu/assert';
+
+import { BIP39 } from "./bip39";
 
 const english = "slogan miracle truck skate erosion huge bright where aspect rural average almost cram glide gown";
 const japanese =
@@ -12,63 +15,65 @@ const french =
 const random = "@!#$^$%^&*&^(";
 
 test("#generate", async () => {
-	expect(BIP39.generate("chinese_simplified")).toBeString();
-	expect(BIP39.generate("chinese_traditional")).toBeString();
-	expect(BIP39.generate("english")).toBeString();
-	expect(BIP39.generate("french")).toBeString();
-	expect(BIP39.generate("italian")).toBeString();
-	expect(BIP39.generate("japanese")).toBeString();
-	expect(BIP39.generate("korean")).toBeString();
-	expect(BIP39.generate("spanish")).toBeString();
+	assert.type(BIP39.generate("chinese_simplified"), "string");
+	assert.type(BIP39.generate("chinese_traditional"), "string");
+	assert.type(BIP39.generate("english"), "string");
+	assert.type(BIP39.generate("french"), "string");
+	assert.type(BIP39.generate("italian"), "string");
+	assert.type(BIP39.generate("japanese"), "string");
+	assert.type(BIP39.generate("korean"), "string");
+	assert.type(BIP39.generate("spanish"), "string");
 });
 
 test("#generate with number of words", async () => {
-	expect(BIP39.generate("english").split(" ")).toHaveLength(12);
-	expect(BIP39.generate("english", 12).split(" ")).toHaveLength(12);
-	expect(BIP39.generate("english", 24).split(" ")).toHaveLength(24);
-	expect(BIP39.generate("english", 36).split(" ")).toHaveLength(12);
+	assert.is(BIP39.generate("english").split(" ").length, 12);
+	assert.is(BIP39.generate("english", 12).split(" ").length, 12);
+	assert.is(BIP39.generate("english", 24).split(" ").length, 24);
+	assert.is(BIP39.generate("english", 36).split(" ").length, 12);
 });
 
 test("#validate", async () => {
-	expect(BIP39.validate(english, "english")).toBeTrue();
-	expect(BIP39.validate(japanese, "japanese")).toBeTrue();
-	expect(BIP39.validate(korean, "korean")).toBeTrue();
-	expect(BIP39.validate(chinese_simplified, "chinese_simplified")).toBeTrue();
-	expect(BIP39.validate(chinese_traditional, "chinese_traditional")).toBeTrue();
-	expect(BIP39.validate(french, "french")).toBeTrue();
-	expect(BIP39.validate(random, "english")).toBeFalse();
+	assert.is(BIP39.validate(english, "english"), true);
+	assert.is(BIP39.validate(japanese, "japanese"), true);
+	assert.is(BIP39.validate(korean, "korean"), true);
+	assert.is(BIP39.validate(chinese_simplified, "chinese_simplified"), true);
+	assert.is(BIP39.validate(chinese_traditional, "chinese_traditional"), true);
+	assert.is(BIP39.validate(french, "french"), true);
+	assert.is(BIP39.validate(random, "english"), false);
 });
 
 test("#compatible", async () => {
-	expect(BIP39.compatible(english)).toBeTrue();
-	expect(BIP39.compatible(japanese)).toBeTrue();
-	expect(BIP39.compatible(korean)).toBeTrue();
-	expect(BIP39.compatible(chinese_simplified)).toBeTrue();
-	expect(BIP39.compatible(chinese_traditional)).toBeTrue();
-	expect(BIP39.compatible(french)).toBeTrue();
-	expect(BIP39.compatible(random)).toBeFalse();
+	assert.is(BIP39.compatible(english), true);
+	assert.is(BIP39.compatible(japanese), true);
+	assert.is(BIP39.compatible(korean), true);
+	assert.is(BIP39.compatible(chinese_simplified), true);
+	assert.is(BIP39.compatible(chinese_traditional), true);
+	assert.is(BIP39.compatible(french), true);
+	assert.is(BIP39.compatible(random), false);
 });
 
 test("#toSeed", async () => {
-	expect(BIP39.toSeed(english)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(japanese)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(korean)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(chinese_simplified)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(chinese_traditional)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(french)).toBeInstanceOf(Buffer);
-	expect(BIP39.toSeed(random)).toBeInstanceOf(Buffer);
+	assert.type(BIP39.toSeed(english), "object");
+	assert.type(BIP39.toSeed(japanese), "object");
+	assert.type(BIP39.toSeed(korean), "object");
+	assert.type(BIP39.toSeed(chinese_simplified), "object");
+	assert.type(BIP39.toSeed(chinese_traditional), "object");
+	assert.type(BIP39.toSeed(french), "object");
+	assert.type(BIP39.toSeed(random), "object");
 });
 
 test("#toEntropy", async () => {
-	expect(BIP39.toEntropy(english)).toBeString();
+	assert.type(BIP39.toEntropy(english), "string");
 });
 
 test("#normalize", async () => {
-	expect(BIP39.normalize(english)).toBe(english);
-	expect(BIP39.normalize(japanese)).toBe(japanese);
-	expect(BIP39.normalize(korean)).toBe(korean);
-	expect(BIP39.normalize(chinese_simplified)).toBe(chinese_simplified);
-	expect(BIP39.normalize(chinese_traditional)).toBe(chinese_traditional);
-	expect(BIP39.normalize(french)).toBe(french);
-	expect(BIP39.normalize(random)).toBe(random);
+	assert.is(BIP39.normalize(english), english);
+	assert.is(BIP39.normalize(japanese), japanese);
+	assert.is(BIP39.normalize(korean), korean);
+	assert.is(BIP39.normalize(chinese_simplified), chinese_simplified);
+	assert.is(BIP39.normalize(chinese_traditional), chinese_traditional);
+	assert.is(BIP39.normalize(french), french);
+	assert.is(BIP39.normalize(random), random);
 });
+
+test.run();
