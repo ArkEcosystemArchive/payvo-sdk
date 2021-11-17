@@ -25,13 +25,3 @@ export const createServiceAsync = <T = any>(
 		service,
 	});
 };
-
-// @ts-ignore
-export const requireModule = (path: string): any => {
-	if (path.startsWith("../test")) {
-		path = path.replace("../test", "./test");
-	}
-
-	// @ts-ignore
-	return require(resolve(path));
-};

@@ -4,7 +4,7 @@ import { IoC, Services, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -13,119 +13,119 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 let subject: ClientService;
 
 beforeAll(async () => {
-	nock.disableNetConnect();
+    nock.disableNetConnect();
 
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
+    subject = await createService(ClientService, undefined, (container) => {
+        container.constant(IoC.BindingType.Container, container);
+        container.constant(IoC.BindingType.DataTransferObjects, {
+            SignedTransactionData,
+            ConfirmedTransactionData,
+            WalletData,
+        });
+        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+    });
 });
 
 afterEach(() => nock.cleanAll());
 
 beforeAll(async () => {
-	nock.disableNetConnect();
+    nock.disableNetConnect();
 });
 
 describe("ClientService", () => {
-	describe("#transaction", () => {
-		it("should succeed", async () => {
-			nock("https://platform.ark.io/api/eth")
-				.get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
-				.reply(200, requireModule(`../test/fixtures/client/transaction.json`));
+    describe("#transaction", () => {
+        it("should succeed", async () => {
+            nock("https://platform.ark.io/api/eth")
+                .get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
+                .reply(200, require(`../test/fixtures/client/transaction.json`));
 
-			const result = await subject.transaction(
-				"0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae",
-			);
+            const result = await subject.transaction(
+                "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae",
+            );
 
-			expect(result).toBeInstanceOf(ConfirmedTransactionData);
-			expect(result.id()).toBe("0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
-			expect(result.type()).toBe("transfer");
-			expect(result.timestamp()).toBeUndefined();
-			expect(result.confirmations()).toEqual(BigNumber.ZERO);
-			expect(result.sender()).toBe("0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
-			expect(result.recipient()).toBe("0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
-			expect(result.amount().toString()).toBe("10000000000000000000");
-			expect(result.fee().toString()).toBe("28000");
-			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
-			expect(result.memo()).toBeUndefined();
-		});
-	});
+            expect(result).toBeInstanceOf(ConfirmedTransactionData);
+            expect(result.id()).toBe("0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+            expect(result.type()).toBe("transfer");
+            expect(result.timestamp()).toBeUndefined();
+            expect(result.confirmations()).toEqual(BigNumber.ZERO);
+            expect(result.sender()).toBe("0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
+            expect(result.recipient()).toBe("0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
+            expect(result.amount().toString()).toBe("10000000000000000000");
+            expect(result.fee().toString()).toBe("28000");
+            // @ts-ignore - Better types so that memo gets detected on TransactionDataType
+            expect(result.memo()).toBeUndefined();
+        });
+    });
 
-	describe("#transactions", () => {
-		it("should succeed", async () => {
-			nock("https://platform.ark.io/api/eth")
-				.get("/wallets/0x8e5231be3b71afdd0c417164986573fecddbae59/transactions")
-				.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+    describe("#transactions", () => {
+        it("should succeed", async () => {
+            nock("https://platform.ark.io/api/eth")
+                .get("/wallets/0x8e5231be3b71afdd0c417164986573fecddbae59/transactions")
+                .reply(200, require(`../test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
-				limit: 1,
-			});
+            const result = await subject.transactions({
+                identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
+                limit: 1,
+            });
 
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-		});
-	});
+            expect(result).toBeObject();
+            expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
+        });
+    });
 
-	describe("#wallet", () => {
-		it("should succeed", async () => {
-			nock("https://platform.ark.io/api/eth")
-				.get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
-				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+    describe("#wallet", () => {
+        it("should succeed", async () => {
+            nock("https://platform.ark.io/api/eth")
+                .get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
+                .reply(200, require(`../test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet({
-				type: "address",
-				value: "0x4581a610f96878266008993475f1476ca9997081",
-			});
+            const result = await subject.wallet({
+                type: "address",
+                value: "0x4581a610f96878266008993475f1476ca9997081",
+            });
 
-			expect(result).toBeInstanceOf(WalletData);
-			expect(result.address()).toBe("0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
-			expect(result.publicKey()).toBeUndefined();
-			expect(result.balance()).toBeObject();
-			expect(result.nonce().toString()).toEqual("665");
-		});
-	});
+            expect(result).toBeInstanceOf(WalletData);
+            expect(result.address()).toBe("0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
+            expect(result.publicKey()).toBeUndefined();
+            expect(result.balance()).toBeObject();
+            expect(result.nonce().toString()).toEqual("665");
+        });
+    });
 
-	describe("#broadcast", () => {
-		it("should pass", async () => {
-			nock("https://platform.ark.io/api/eth")
-				.post("/transactions")
-				.reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
+    describe("#broadcast", () => {
+        it("should pass", async () => {
+            nock("https://platform.ark.io/api/eth")
+                .post("/transactions")
+                .reply(200, require(`../test/fixtures/client/broadcast.json`));
 
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
-			]);
+            const result = await subject.broadcast([
+                createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
+            ]);
 
-			expect(result).toEqual({
-				accepted: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
-				rejected: [],
-				errors: {},
-			});
-		});
+            expect(result).toEqual({
+                accepted: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
+                rejected: [],
+                errors: {},
+            });
+        });
 
-		it("should fail", async () => {
-			nock("https://platform.ark.io/api/eth")
-				.post("/transactions")
-				.reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
+        it("should fail", async () => {
+            nock("https://platform.ark.io/api/eth")
+                .post("/transactions")
+                .reply(200, require(`../test/fixtures/client/broadcast-failure.json`));
 
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
-			]);
+            const result = await subject.broadcast([
+                createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
+            ]);
 
-			expect(result).toEqual({
-				accepted: [],
-				rejected: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
-				errors: {
-					"0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172":
-						"insufficient funds for gas * price + value",
-				},
-			});
-		});
-	});
+            expect(result).toEqual({
+                accepted: [],
+                rejected: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
+                errors: {
+                    "0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172":
+                        "insufficient funds for gas * price + value",
+                },
+            });
+        });
+    });
 });

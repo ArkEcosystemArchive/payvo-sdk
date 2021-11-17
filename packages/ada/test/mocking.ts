@@ -12,12 +12,3 @@ export const createService = <T = any>(service: any, network: string = "ada.test
 		service,
 	});
 };
-
-// @ts-ignore
-export const requireModule = (path: string): any => {
-	if (path.startsWith("../test")) {
-		path = path.replace("../test", "./test");
-	}
-
-	return require(resolve(path));
-};

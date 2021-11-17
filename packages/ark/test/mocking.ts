@@ -17,14 +17,14 @@ export const createService = async <T = any>(
 			if (container.missing(BindingType.Crypto)) {
 				container.constant(
 					BindingType.Crypto,
-					requireModule(`./test/fixtures/client/cryptoConfiguration.json`).data,
+					require(`./test/fixtures/client/cryptoConfiguration.json`).data,
 				);
 			}
 
 			if (container.missing(BindingType.Height)) {
 				container.constant(
 					BindingType.Height,
-					requireModule(`./test/fixtures/client/syncing.json`).data.height,
+					require(`./test/fixtures/client/syncing.json`).data.height,
 				);
 			}
 
@@ -34,14 +34,4 @@ export const createService = async <T = any>(
 		},
 		service,
 	});
-};
-
-// @ts-ignore
-export const requireModule = (path: string): any => {
-	if (path.startsWith("../test")) {
-		path = path.replace("../test", "./test");
-	}
-
-	// @ts-ignore
-	return require(resolve(path));
 };
