@@ -1,3 +1,3 @@
-export * from "./network";
-export * from "./network.models";
-export * from "./network-repository";
+export * from "./network.js";
+export * from "./network.models.js";
+export * from "./network-repository.js";

@@ -5,55 +5,55 @@ import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { WalletBalance } from "../contracts";
-import { AbstractWalletData } from "./wallet";
+import { WalletBalance } from "../contracts.js";
+import { AbstractWalletData } from "./wallet.js";
 
 test("#address", () => {
-	expect(new Wallet({ key: "value" }).address()).toBe("address");
+    expect(new Wallet({ key: "value" }).address()).toBe("address");
 });
 
 test("#publicKey", () => {
-	expect(new Wallet({ key: "value" }).publicKey()).toBe("publicKey");
+    expect(new Wallet({ key: "value" }).publicKey()).toBe("publicKey");
 });
 
 test("#balance", () => {
-	expect(new Wallet({ key: "value" }).balance()).toBeObject();
+    expect(new Wallet({ key: "value" }).balance()).toBeObject();
 });
 
 test("#nonce", () => {
-	expect(new Wallet({ key: "value" }).nonce()).toBe(BigNumber.ZERO);
+    expect(new Wallet({ key: "value" }).nonce()).toBe(BigNumber.ZERO);
 });
 
 test("#secondPublicKey", () => {
-	expect(new Wallet({ key: "value" }).secondPublicKey()).toBe("secondPublicKey");
+    expect(new Wallet({ key: "value" }).secondPublicKey()).toBe("secondPublicKey");
 });
 
 test("#username", () => {
-	expect(new Wallet({ key: "value" }).username()).toBe("username");
+    expect(new Wallet({ key: "value" }).username()).toBe("username");
 });
 
 test("#rank", () => {
-	expect(new Wallet({ key: "value" }).rank()).toBe(5);
+    expect(new Wallet({ key: "value" }).rank()).toBe(5);
 });
 
 test("#votes", () => {
-	expect(new Wallet({ key: "value" }).votes()).toBe(BigNumber.ZERO);
+    expect(new Wallet({ key: "value" }).votes()).toBe(BigNumber.ZERO);
 });
 
 test("#isDelegate", () => {
-	expect(new Wallet({ key: "value" }).isDelegate()).toBeFalse();
+    expect(new Wallet({ key: "value" }).isDelegate()).toBeFalse();
 });
 
 test("#isMultiSignature", () => {
-	expect(new Wallet({ key: "value" }).isMultiSignature()).toBeFalse();
+    expect(new Wallet({ key: "value" }).isMultiSignature()).toBeFalse();
 });
 
 test("#isSecondSignature", () => {
-	expect(new Wallet({ key: "value" }).isSecondSignature()).toBeFalse();
+    expect(new Wallet({ key: "value" }).isSecondSignature()).toBeFalse();
 });
 
 test("#toObject", () => {
-	expect(new Wallet({ key: "value" }).toObject()).toMatchInlineSnapshot(`
+    expect(new Wallet({ key: "value" }).toObject()).toMatchInlineSnapshot(`
 		Object {
 		  "address": "address",
 		  "balance": Object {
@@ -75,7 +75,7 @@ test("#toObject", () => {
 });
 
 test("#raw", () => {
-	expect(new Wallet({ key: "value" }).raw()).toMatchInlineSnapshot(`
+    expect(new Wallet({ key: "value" }).raw()).toMatchInlineSnapshot(`
 		Object {
 		  "key": "value",
 		}
@@ -83,82 +83,82 @@ test("#raw", () => {
 });
 
 test("#hasPassed", () => {
-	expect(new Wallet({ key: "value" }).hasPassed()).toBeTrue();
-	expect(new Wallet({}).hasPassed()).toBeFalse();
+    expect(new Wallet({ key: "value" }).hasPassed()).toBeTrue();
+    expect(new Wallet({}).hasPassed()).toBeFalse();
 });
 
 test("#hasFailed", () => {
-	expect(new Wallet({}).hasFailed()).toBeTrue();
-	expect(new Wallet({ key: "value" }).hasFailed()).toBeFalse();
+    expect(new Wallet({}).hasFailed()).toBeTrue();
+    expect(new Wallet({ key: "value" }).hasFailed()).toBeFalse();
 });
 
 class Wallet extends AbstractWalletData {
-	// @ts-ignore
-	public primaryKey(): string {
-		return "address";
-	}
+    // @ts-ignore
+    public primaryKey(): string {
+        return "address";
+    }
 
-	// @ts-ignore
-	public address(): string {
-		return "address";
-	}
+    // @ts-ignore
+    public address(): string {
+        return "address";
+    }
 
-	// @ts-ignore
-	public publicKey(): string | undefined {
-		return "publicKey";
-	}
+    // @ts-ignore
+    public publicKey(): string | undefined {
+        return "publicKey";
+    }
 
-	// @ts-ignore
-	public balance(): WalletBalance {
-		return {
-			total: BigNumber.ZERO,
-			available: BigNumber.ZERO,
-			fees: BigNumber.ZERO,
-		};
-	}
+    // @ts-ignore
+    public balance(): WalletBalance {
+        return {
+            total: BigNumber.ZERO,
+            available: BigNumber.ZERO,
+            fees: BigNumber.ZERO,
+        };
+    }
 
-	// @ts-ignore
-	public nonce(): BigNumber {
-		return BigNumber.ZERO;
-	}
+    // @ts-ignore
+    public nonce(): BigNumber {
+        return BigNumber.ZERO;
+    }
 
-	// @ts-ignore
-	public secondPublicKey(): string | undefined {
-		return "secondPublicKey";
-	}
+    // @ts-ignore
+    public secondPublicKey(): string | undefined {
+        return "secondPublicKey";
+    }
 
-	// @ts-ignore
-	public username(): string | undefined {
-		return "username";
-	}
+    // @ts-ignore
+    public username(): string | undefined {
+        return "username";
+    }
 
-	// @ts-ignore
-	public rank(): number | undefined {
-		return 5;
-	}
+    // @ts-ignore
+    public rank(): number | undefined {
+        return 5;
+    }
 
-	// @ts-ignore
-	public votes(): BigNumber | undefined {
-		return BigNumber.ZERO;
-	}
+    // @ts-ignore
+    public votes(): BigNumber | undefined {
+        return BigNumber.ZERO;
+    }
 
-	// @ts-ignore
-	public isDelegate(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isDelegate(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isResignedDelegate(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isResignedDelegate(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isMultiSignature(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isMultiSignature(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isSecondSignature(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isSecondSignature(): boolean {
+        return false;
+    }
 }

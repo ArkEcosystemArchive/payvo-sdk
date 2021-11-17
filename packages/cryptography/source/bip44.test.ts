@@ -1,27 +1,27 @@
 import "jest-extended";
 
-import { BIP44 } from "./bip44";
+import { BIP44 } from "./bip44.js";
 
 test("#deriveChild", async () => {
-	expect(
-		BIP44.deriveChild("praise you muffin lion enable neck grocery crumble super myself license ghost", {
-			coinType: 1,
-		}).toBase58(),
-	).toBe(
-		"xprvA2hdDq2Hzo9LTv8NN925UXHToL1WbiGHkC7x64AUtoHQ5K7T1ZYkdXs5WFRKX7fx3vzVi4bTcAtpHqdpfVd1cVHuPU2bo1W3ozBJk1j9JXf",
-	);
+    expect(
+        BIP44.deriveChild("praise you muffin lion enable neck grocery crumble super myself license ghost", {
+            coinType: 1,
+        }).toBase58(),
+    ).toBe(
+        "xprvA2hdDq2Hzo9LTv8NN925UXHToL1WbiGHkC7x64AUtoHQ5K7T1ZYkdXs5WFRKX7fx3vzVi4bTcAtpHqdpfVd1cVHuPU2bo1W3ozBJk1j9JXf",
+    );
 });
 
 test("#deriveChildWithPath", async () => {
-	expect(
-		BIP44.deriveChildWithPath("praise you muffin lion enable neck grocery crumble super myself license ghost", {
-			account: 3,
-			change: 4,
-			coinType: 2,
-			index: 5,
-			purpose: 1,
-		}),
-	).toMatchInlineSnapshot(`
+    expect(
+        BIP44.deriveChildWithPath("praise you muffin lion enable neck grocery crumble super myself license ghost", {
+            account: 3,
+            change: 4,
+            coinType: 2,
+            index: 5,
+            purpose: 1,
+        }),
+    ).toMatchInlineSnapshot(`
 		Object {
 		  "child": BIP32 {
 		    "__D": Object {
@@ -122,60 +122,60 @@ test("#deriveChildWithPath", async () => {
 });
 
 test("#deriveChildFromPath", async () => {
-	expect(
-		BIP44.deriveChildFromPath(
-			"praise you muffin lion enable neck grocery crumble super myself license ghost",
-			"m/0/0",
-		).toBase58(),
-	).toBe(
-		"xprv9wMjT6HUeJy2LQqk1GRdSkiJRBxxurasRZ8aU2wBktamDQ282PM9t1cmxCf5bhUoz19KNJAwAYeTEExUkxzinFSb7bRDdnWcytMGj53aKcH",
-	);
+    expect(
+        BIP44.deriveChildFromPath(
+            "praise you muffin lion enable neck grocery crumble super myself license ghost",
+            "m/0/0",
+        ).toBase58(),
+    ).toBe(
+        "xprv9wMjT6HUeJy2LQqk1GRdSkiJRBxxurasRZ8aU2wBktamDQ282PM9t1cmxCf5bhUoz19KNJAwAYeTEExUkxzinFSb7bRDdnWcytMGj53aKcH",
+    );
 });
 
 test("#stringify", async () => {
-	expect(
-		BIP44.stringify({
-			account: 3,
-			change: 4,
-			coinType: 2,
-			index: 5,
-			purpose: 1,
-		}),
-	).toMatchInlineSnapshot(`"m/1'/2'/3'/4/5"`);
+    expect(
+        BIP44.stringify({
+            account: 3,
+            change: 4,
+            coinType: 2,
+            index: 5,
+            purpose: 1,
+        }),
+    ).toMatchInlineSnapshot(`"m/1'/2'/3'/4/5"`);
 });
 
 describe("#parse", function () {
-	test("bip44 address", async () => {
-		const bip44Levels = BIP44.parse("m/44'/1'/2'/3/4");
+    test("bip44 address", async () => {
+        const bip44Levels = BIP44.parse("m/44'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(44);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
-	});
+        expect(bip44Levels.purpose).toBe(44);
+        expect(bip44Levels.coinType).toBe(1);
+        expect(bip44Levels.account).toBe(2);
+        expect(bip44Levels.change).toBe(3);
+        expect(bip44Levels.addressIndex).toBe(4);
+    });
 
-	test("bip49 address", async () => {
-		const bip44Levels = BIP44.parse("m/49'/1'/2'/3/4");
+    test("bip49 address", async () => {
+        const bip44Levels = BIP44.parse("m/49'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(49);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
-	});
+        expect(bip44Levels.purpose).toBe(49);
+        expect(bip44Levels.coinType).toBe(1);
+        expect(bip44Levels.account).toBe(2);
+        expect(bip44Levels.change).toBe(3);
+        expect(bip44Levels.addressIndex).toBe(4);
+    });
 
-	test("bip84 address", async () => {
-		const bip44Levels = BIP44.parse("m/84'/1'/2'/3/4");
+    test("bip84 address", async () => {
+        const bip44Levels = BIP44.parse("m/84'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(84);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
-	});
+        expect(bip44Levels.purpose).toBe(84);
+        expect(bip44Levels.coinType).toBe(1);
+        expect(bip44Levels.account).toBe(2);
+        expect(bip44Levels.change).toBe(3);
+        expect(bip44Levels.addressIndex).toBe(4);
+    });
 
-	test("invalid bip", async () => {
-		expect(() => BIP44.parse("m/1'/1'/2'/3/4")).toThrow();
-	});
+    test("invalid bip", async () => {
+        expect(() => BIP44.parse("m/1'/1'/2'/3/4")).toThrow();
+    });
 });

@@ -1,11 +1,11 @@
-import { abort_if, abort_unless } from "./abort";
+import { abort_if, abort_unless } from "./abort.js";
 
 test("#abort_if", () => {
-	expect(() => abort_if(false, "Hello")).not.toThrow();
-	expect(() => abort_if(true, "Hello")).toThrow(/Hello/);
+    expect(() => abort_if(false, "Hello")).not.toThrow();
+    expect(() => abort_if(true, "Hello")).toThrow(/Hello/);
 });
 
 test("#abort_unless", () => {
-	expect(() => abort_unless(true, "Hello")).not.toThrow();
-	expect(() => abort_unless(false, "Hello")).toThrow(/Hello/);
+    expect(() => abort_unless(true, "Hello")).not.toThrow();
+    expect(() => abort_unless(false, "Hello")).toThrow(/Hello/);
 });

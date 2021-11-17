@@ -4,12 +4,12 @@ import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
-import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { ledger } from "../test/fixtures/ledger.js";
+import { createService, requireModule } from "../test/mocking.js";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { AssetSerializer } from "./asset.serializer";
 import { TransactionSerializer } from "./transaction.serializer";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -17,137 +17,137 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
 const createMockService = async (record: string) => {
-	const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-		container.constant(
-			IoC.BindingType.LedgerTransportFactory,
-			async () => await openTransportReplayer(RecordStore.fromString(record)),
-		);
-	});
+    const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
+        container.constant(IoC.BindingType.Container, container);
+        container.singleton(IoC.BindingType.AddressService, AddressService);
+        container.singleton(IoC.BindingType.ClientService, ClientService);
+        container.constant(IoC.BindingType.DataTransferObjects, {
+            SignedTransactionData,
+            ConfirmedTransactionData,
+            WalletData,
+        });
+        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+        container.singleton(BindingType.AssetSerializer, AssetSerializer);
+        container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+        container.constant(
+            IoC.BindingType.LedgerTransportFactory,
+            async () => await openTransportReplayer(RecordStore.fromString(record)),
+        );
+    });
 
-	await transport.connect();
+    await transport.connect();
 
-	return transport;
+    return transport;
 };
 
 describe("connect", () => {
-	it("should throw error with unexpected input", async () => {
-		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
-			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
-				ConfirmedTransactionData,
-				WalletData,
-			});
-			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.singleton(BindingType.AssetSerializer, AssetSerializer);
-			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-			container.constant(IoC.BindingType.LedgerTransportFactory, () => {
-				throw new Error("cannot open");
-			});
-		});
+    it("should throw error with unexpected input", async () => {
+        const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
+            container.constant(IoC.BindingType.Container, container);
+            container.singleton(IoC.BindingType.AddressService, AddressService);
+            container.singleton(IoC.BindingType.ClientService, ClientService);
+            container.constant(IoC.BindingType.DataTransferObjects, {
+                SignedTransactionData,
+                ConfirmedTransactionData,
+                WalletData,
+            });
+            container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+            container.singleton(BindingType.AssetSerializer, AssetSerializer);
+            container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+            container.constant(IoC.BindingType.LedgerTransportFactory, () => {
+                throw new Error("cannot open");
+            });
+        });
 
-		await expect(() => transport.connect()).rejects.toThrow();
-	});
+        await expect(() => transport.connect()).rejects.toThrow();
+    });
 });
 
 describe("disconnect", () => {
-	it("should pass with a resolved transport closure", async () => {
-		const lsk = await createMockService("");
+    it("should pass with a resolved transport closure", async () => {
+        const lsk = await createMockService("");
 
-		await expect(lsk.disconnect()).resolves.toBeUndefined();
-	});
+        await expect(lsk.disconnect()).resolves.toBeUndefined();
+    });
 });
 
 describe("getVersion", () => {
-	it("should pass with an app version", async () => {
-		const lsk = await createMockService(ledger.appVersion.record);
+    it("should pass with an app version", async () => {
+        const lsk = await createMockService(ledger.appVersion.record);
 
-		await expect(lsk.getVersion()).resolves.toEqual(ledger.appVersion.result);
-	});
+        await expect(lsk.getVersion()).resolves.toEqual(ledger.appVersion.result);
+    });
 });
 
 describe("getPublicKey", () => {
-	it("should pass with a compressed publicKey", async () => {
-		const lsk = await createMockService(ledger.publicKey.record);
+    it("should pass with a compressed publicKey", async () => {
+        const lsk = await createMockService(ledger.publicKey.record);
 
-		await expect(lsk.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
-	});
+        await expect(lsk.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+    });
 });
 
 describe("signTransaction", () => {
-	it("should pass with a signature", async () => {
-		const lsk = await createMockService(ledger.transaction.record);
+    it("should pass with a signature", async () => {
+        const lsk = await createMockService(ledger.transaction.record);
 
-		await expect(
-			lsk.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
-		).resolves.toEqual(ledger.transaction.result);
-	});
+        await expect(
+            lsk.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
+        ).resolves.toEqual(ledger.transaction.result);
+    });
 });
 
 describe("signMessage", () => {
-	it("should pass with a signature", async () => {
-		const lsk = await createMockService(ledger.message.record);
+    it("should pass with a signature", async () => {
+        const lsk = await createMockService(ledger.message.record);
 
-		await expect(lsk.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"))).resolves.toEqual(
-			ledger.message.result,
-		);
-	});
+        await expect(lsk.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"))).resolves.toEqual(
+            ledger.message.result,
+        );
+    });
 });
 
 describe("scan", () => {
-	afterEach(() => nock.cleanAll());
+    afterEach(() => nock.cleanAll());
 
-	beforeAll(() => nock.disableNetConnect());
+    beforeAll(() => nock.disableNetConnect());
 
-	it("should return scanned wallet", async () => {
-		nock(/.+/)
-			.get("/api/v2/accounts")
-			.query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
-			.reply(200, requireModule("../test/fixtures/client/wallet-0.json"))
-			.get("/api/v2/accounts")
-			.query({ address: "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s" })
-			.reply(200, requireModule("../test/fixtures/client/wallet-1.json"))
-			.get("/api/v2/accounts")
-			.query({ address: "lskksmfa2q2evtwmfneaon79u9hv7a3saokuy9tv9" })
-			.reply(200, requireModule("../test/fixtures/client/wallet-2.json"));
+    it("should return scanned wallet", async () => {
+        nock(/.+/)
+            .get("/api/v2/accounts")
+            .query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
+            .reply(200, requireModule("../test/fixtures/client/wallet-0.json"))
+            .get("/api/v2/accounts")
+            .query({ address: "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s" })
+            .reply(200, requireModule("../test/fixtures/client/wallet-1.json"))
+            .get("/api/v2/accounts")
+            .query({ address: "lskksmfa2q2evtwmfneaon79u9hv7a3saokuy9tv9" })
+            .reply(200, requireModule("../test/fixtures/client/wallet-2.json"));
 
-		const lsk = await createMockService(ledger.wallets.record);
+        const lsk = await createMockService(ledger.wallets.record);
 
-		const walletData = await lsk.scan();
+        const walletData = await lsk.scan();
 
-		expect(Object.keys(walletData)).toHaveLength(4); // 3 + 1 cold wallet
-		expect(walletData).toMatchSnapshot();
-	});
+        expect(Object.keys(walletData)).toHaveLength(4); // 3 + 1 cold wallet
+        expect(walletData).toMatchSnapshot();
+    });
 
-	it("should allow to pass a startPath", async () => {
-		const lsk = await createMockService(ledger.wallets.record2);
+    it("should allow to pass a startPath", async () => {
+        const lsk = await createMockService(ledger.wallets.record2);
 
-		const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
+        const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
 
-		expect(Object.keys(walletData)).toHaveLength(1);
-		expect(walletData).toMatchSnapshot();
-	});
+        expect(Object.keys(walletData)).toHaveLength(1);
+        expect(walletData).toMatchSnapshot();
+    });
 
-	it("should support legacy", async () => {
-		const lsk = await createMockService(ledger.wallets.record);
+    it("should support legacy", async () => {
+        const lsk = await createMockService(ledger.wallets.record);
 
-		const walletData = await lsk.scan({ useLegacy: true });
+        const walletData = await lsk.scan({ useLegacy: true });
 
-		expect(Object.keys(walletData)).toHaveLength(1);
-		expect((Object.values(walletData) as any[])[0].data.address).not.toStartWith("lsk");
-		expect(walletData).toMatchSnapshot();
-	});
+        expect(Object.keys(walletData)).toHaveLength(1);
+        expect((Object.values(walletData) as any[])[0].data.address).not.toStartWith("lsk");
+        expect(walletData).toMatchSnapshot();
+    });
 });

@@ -1,29 +1,29 @@
-import { IPasswordManager } from "./contracts";
+import { IPasswordManager } from "./contracts.js";
 
 export class PasswordManager implements IPasswordManager {
-	#password: string | undefined;
+    #password: string | undefined;
 
-	/** {@inheritDoc IPasswordManager.get} */
-	public get(): string {
-		if (this.#password === undefined) {
-			throw new Error("Failed to find a password for the given profile.");
-		}
+    /** {@inheritDoc IPasswordManager.get} */
+    public get(): string {
+        if (this.#password === undefined) {
+            throw new Error("Failed to find a password for the given profile.");
+        }
 
-		return this.#password;
-	}
+        return this.#password;
+    }
 
-	/** {@inheritDoc IPasswordManager.set} */
-	public set(password: string): void {
-		this.#password = password;
-	}
+    /** {@inheritDoc IPasswordManager.set} */
+    public set(password: string): void {
+        this.#password = password;
+    }
 
-	/** {@inheritDoc IPasswordManager.exists} */
-	public exists(): boolean {
-		return this.#password !== undefined;
-	}
+    /** {@inheritDoc IPasswordManager.exists} */
+    public exists(): boolean {
+        return this.#password !== undefined;
+    }
 
-	/** {@inheritDoc IPasswordManager.forget} */
-	public forget(): void {
-		this.#password = undefined;
-	}
+    /** {@inheritDoc IPasswordManager.forget} */
+    public forget(): void {
+        this.#password = undefined;
+    }
 }

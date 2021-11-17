@@ -2,140 +2,140 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { manifest } from "../../../ark/distribution/manifest";
-import { FeatureFlag } from "../enums";
-import { Network } from "./network";
+import { manifest } from "../../../ark/distribution/manifest.js";
+import { FeatureFlag } from "../enums.js";
+import { Network } from "./network.js";
 
 let subject: Network;
 
 beforeEach(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
 
 it("should have an coin", () => {
-	expect(subject.coin()).toBe("ARK");
+    expect(subject.coin()).toBe("ARK");
 });
 
 it("should have an coin name", () => {
-	expect(subject.coinName()).toBe("ARK");
+    expect(subject.coinName()).toBe("ARK");
 });
 
 it("should have an id", () => {
-	expect(subject.id()).toBe("ark.devnet");
+    expect(subject.id()).toBe("ark.devnet");
 });
 
 it("should have a name", () => {
-	expect(subject.name()).toBe("Devnet");
+    expect(subject.name()).toBe("Devnet");
 });
 
 it("should have a display name", () => {
-	expect(subject.displayName()).toBe("ARK Devnet");
+    expect(subject.displayName()).toBe("ARK Devnet");
 
-	jest.spyOn(subject, "isLive").mockReturnValueOnce(true);
+    jest.spyOn(subject, "isLive").mockReturnValueOnce(true);
 
-	expect(subject.displayName()).toBe("ARK");
+    expect(subject.displayName()).toBe("ARK");
 });
 
 it("should have an explorer", () => {
-	expect(subject.explorer()).toBe("https://dexplorer.ark.io");
+    expect(subject.explorer()).toBe("https://dexplorer.ark.io");
 });
 
 it("should have a ticker", () => {
-	expect(subject.ticker()).toBe("DARK");
+    expect(subject.ticker()).toBe("DARK");
 });
 
 it("should have a symbol", () => {
-	expect(subject.symbol()).toBe("DѦ");
+    expect(subject.symbol()).toBe("DѦ");
 });
 
 it("should determine if the network is a live environment", () => {
-	expect(subject.isLive()).toBeFalse();
+    expect(subject.isLive()).toBeFalse();
 });
 
 it("should determine if the network is a test environment", () => {
-	expect(subject.isTest()).toBeTrue();
+    expect(subject.isTest()).toBeTrue();
 });
 
 it("should get the expiration type", () => {
-	expect(subject.expirationType()).toBe("height");
+    expect(subject.expirationType()).toBe("height");
 });
 
 it("should allows voting", () => {
-	expect(subject.allowsVoting()).toBeTrue();
+    expect(subject.allowsVoting()).toBeTrue();
 
-	subject = new Network(manifest, {
-		// @ts-ignore
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
-			governance: {},
-		},
-	});
+    subject = new Network(manifest, {
+        // @ts-ignore
+        "ark.devnet": {
+            ...manifest.networks["ark.devnet"],
+            governance: {},
+        },
+    });
 
-	expect(subject.allowsVoting()).toBeFalse();
+    expect(subject.allowsVoting()).toBeFalse();
 });
 
 test("#votesAmountStep", () => {
-	expect(subject.votesAmountStep()).toBeNumber();
+    expect(subject.votesAmountStep()).toBeNumber();
 });
 
 test("#votesAmountMinimum", () => {
-	expect(subject.votesAmountMinimum()).toBeNumber();
+    expect(subject.votesAmountMinimum()).toBeNumber();
 });
 
 test("#votesAmountMaximum", () => {
-	expect(subject.votesAmountMaximum()).toBeNumber();
+    expect(subject.votesAmountMaximum()).toBeNumber();
 });
 
 it("should get the delegate count", () => {
-	expect(subject.delegateCount()).toBe(51);
+    expect(subject.delegateCount()).toBe(51);
 
-	subject = new Network(manifest, {
-		// @ts-ignore
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
-			governance: {},
-		},
-	});
+    subject = new Network(manifest, {
+        // @ts-ignore
+        "ark.devnet": {
+            ...manifest.networks["ark.devnet"],
+            governance: {},
+        },
+    });
 
-	expect(subject.delegateCount()).toBe(0);
+    expect(subject.delegateCount()).toBe(0);
 });
 
 it("should get maximum votes per wallet", () => {
-	expect(subject.maximumVotesPerWallet()).toBe(1);
+    expect(subject.maximumVotesPerWallet()).toBe(1);
 
-	subject = new Network(manifest, {
-		// @ts-ignore
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
-			governance: {},
-		},
-	});
+    subject = new Network(manifest, {
+        // @ts-ignore
+        "ark.devnet": {
+            ...manifest.networks["ark.devnet"],
+            governance: {},
+        },
+    });
 
-	expect(subject.maximumVotesPerWallet()).toBe(0);
+    expect(subject.maximumVotesPerWallet()).toBe(0);
 });
 
 it("should get maximum votes per transaction", () => {
-	expect(subject.maximumVotesPerTransaction()).toBe(1);
+    expect(subject.maximumVotesPerTransaction()).toBe(1);
 
-	subject = new Network(manifest, {
-		// @ts-ignore
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
-			governance: {},
-		},
-	});
+    subject = new Network(manifest, {
+        // @ts-ignore
+        "ark.devnet": {
+            ...manifest.networks["ark.devnet"],
+            governance: {},
+        },
+    });
 
-	expect(subject.maximumVotesPerTransaction()).toBe(0);
+    expect(subject.maximumVotesPerTransaction()).toBe(0);
 });
 
 it("should get the delegate identifier", () => {
-	expect(subject.delegateIdentifier()).toBeString();
+    expect(subject.delegateIdentifier()).toBeString();
 });
 
 it("should determine if the network uses extended public keys", () => {
-	expect(subject.usesExtendedPublicKey()).toBeFalse();
+    expect(subject.usesExtendedPublicKey()).toBeFalse();
 });
 
 it("should have an object representation", () => {
-	expect(subject.toObject()).toMatchInlineSnapshot(`
+    expect(subject.toObject()).toMatchInlineSnapshot(`
 		Object {
 		  "coin": "ARK",
 		  "constants": Object {
@@ -312,91 +312,91 @@ it("should have an object representation", () => {
 });
 
 it("should have an string representation", () => {
-	expect(subject.toJson()).toMatchInlineSnapshot(
-		`"{\\"coin\\":\\"ARK\\",\\"constants\\":{\\"slip44\\":1},\\"currency\\":{\\"decimals\\":8,\\"symbol\\":\\"DѦ\\",\\"ticker\\":\\"DARK\\"},\\"explorer\\":{\\"block\\":\\"block/{0}\\",\\"transaction\\":\\"transaction/{0}\\",\\"wallet\\":\\"wallets/{0}\\"},\\"featureFlags\\":{\\"Address\\":[\\"mnemonic.bip39\\",\\"multiSignature\\",\\"privateKey\\",\\"publicKey\\",\\"validate\\",\\"wif\\"],\\"Client\\":[\\"transaction\\",\\"transactions\\",\\"wallet\\",\\"wallets\\",\\"delegate\\",\\"delegates\\",\\"votes\\",\\"voters\\",\\"broadcast\\"],\\"Fee\\":[\\"all\\",\\"calculate\\"],\\"KeyPair\\":[\\"mnemonic.bip39\\",\\"privateKey\\",\\"wif\\"],\\"Ledger\\":[\\"getVersion\\",\\"getPublicKey\\",\\"signTransaction\\",\\"signMessage\\"],\\"Message\\":[\\"sign\\",\\"verify\\"],\\"PrivateKey\\":[\\"mnemonic.bip39\\",\\"wif\\"],\\"PublicKey\\":[\\"mnemonic.bip39\\",\\"multiSignature\\",\\"wif\\"],\\"Transaction\\":[\\"delegateRegistration\\",\\"delegateResignation\\",\\"estimateExpiration\\",\\"htlcClaim\\",\\"htlcLock\\",\\"htlcRefund\\",\\"ipfs.ledgerS\\",\\"ipfs.ledgerX\\",\\"ipfs.musig\\",\\"ipfs\\",\\"multiPayment.musig\\",\\"multiPayment\\",\\"multiSignature.ledgerX\\",\\"multiSignature.musig\\",\\"multiSignature\\",\\"secondSignature\\",\\"transfer.ledgerS\\",\\"transfer.ledgerX\\",\\"transfer.musig\\",\\"transfer\\",\\"vote.ledgerS\\",\\"vote.ledgerX\\",\\"vote.musig\\",\\"vote\\"],\\"WIF\\":[\\"mnemonic.bip39\\"]},\\"governance\\":{\\"delegateCount\\":51,\\"votesPerTransaction\\":1,\\"votesPerWallet\\":1},\\"hosts\\":[{\\"host\\":\\"https://ark-test.payvo.com/api\\",\\"type\\":\\"full\\"},{\\"host\\":\\"https://ark-test-musig.payvo.com\\",\\"type\\":\\"musig\\"},{\\"host\\":\\"https://dexplorer.ark.io\\",\\"type\\":\\"explorer\\"}],\\"id\\":\\"ark.devnet\\",\\"importMethods\\":{\\"address\\":{\\"default\\":false,\\"permissions\\":[\\"read\\"]},\\"bip39\\":{\\"canBeEncrypted\\":true,\\"default\\":true,\\"permissions\\":[\\"read\\",\\"write\\"]},\\"publicKey\\":{\\"default\\":false,\\"permissions\\":[\\"read\\"]},\\"secret\\":{\\"canBeEncrypted\\":true,\\"default\\":false,\\"permissions\\":[\\"read\\",\\"write\\"]}},\\"knownWallets\\":\\"https://raw.githubusercontent.com/ArkEcosystem/common/master/devnet/known-wallets-extended.json\\",\\"meta\\":{\\"fastDelegateSync\\":true},\\"name\\":\\"Devnet\\",\\"transactions\\":{\\"expirationType\\":\\"height\\",\\"fees\\":{\\"ticker\\":\\"DARK\\",\\"type\\":\\"dynamic\\"},\\"memo\\":true,\\"multiPaymentRecipients\\":128,\\"types\\":[\\"delegateRegistration\\",\\"delegateResignation\\",\\"htlcClaim\\",\\"htlcLock\\",\\"htlcRefund\\",\\"ipfs\\",\\"multiPayment\\",\\"multiSignature\\",\\"secondSignature\\",\\"transfer\\",\\"vote\\"]},\\"type\\":\\"test\\"}"`,
-	);
+    expect(subject.toJson()).toMatchInlineSnapshot(
+        `"{\\"coin\\":\\"ARK\\",\\"constants\\":{\\"slip44\\":1},\\"currency\\":{\\"decimals\\":8,\\"symbol\\":\\"DѦ\\",\\"ticker\\":\\"DARK\\"},\\"explorer\\":{\\"block\\":\\"block/{0}\\",\\"transaction\\":\\"transaction/{0}\\",\\"wallet\\":\\"wallets/{0}\\"},\\"featureFlags\\":{\\"Address\\":[\\"mnemonic.bip39\\",\\"multiSignature\\",\\"privateKey\\",\\"publicKey\\",\\"validate\\",\\"wif\\"],\\"Client\\":[\\"transaction\\",\\"transactions\\",\\"wallet\\",\\"wallets\\",\\"delegate\\",\\"delegates\\",\\"votes\\",\\"voters\\",\\"broadcast\\"],\\"Fee\\":[\\"all\\",\\"calculate\\"],\\"KeyPair\\":[\\"mnemonic.bip39\\",\\"privateKey\\",\\"wif\\"],\\"Ledger\\":[\\"getVersion\\",\\"getPublicKey\\",\\"signTransaction\\",\\"signMessage\\"],\\"Message\\":[\\"sign\\",\\"verify\\"],\\"PrivateKey\\":[\\"mnemonic.bip39\\",\\"wif\\"],\\"PublicKey\\":[\\"mnemonic.bip39\\",\\"multiSignature\\",\\"wif\\"],\\"Transaction\\":[\\"delegateRegistration\\",\\"delegateResignation\\",\\"estimateExpiration\\",\\"htlcClaim\\",\\"htlcLock\\",\\"htlcRefund\\",\\"ipfs.ledgerS\\",\\"ipfs.ledgerX\\",\\"ipfs.musig\\",\\"ipfs\\",\\"multiPayment.musig\\",\\"multiPayment\\",\\"multiSignature.ledgerX\\",\\"multiSignature.musig\\",\\"multiSignature\\",\\"secondSignature\\",\\"transfer.ledgerS\\",\\"transfer.ledgerX\\",\\"transfer.musig\\",\\"transfer\\",\\"vote.ledgerS\\",\\"vote.ledgerX\\",\\"vote.musig\\",\\"vote\\"],\\"WIF\\":[\\"mnemonic.bip39\\"]},\\"governance\\":{\\"delegateCount\\":51,\\"votesPerTransaction\\":1,\\"votesPerWallet\\":1},\\"hosts\\":[{\\"host\\":\\"https://ark-test.payvo.com/api\\",\\"type\\":\\"full\\"},{\\"host\\":\\"https://ark-test-musig.payvo.com\\",\\"type\\":\\"musig\\"},{\\"host\\":\\"https://dexplorer.ark.io\\",\\"type\\":\\"explorer\\"}],\\"id\\":\\"ark.devnet\\",\\"importMethods\\":{\\"address\\":{\\"default\\":false,\\"permissions\\":[\\"read\\"]},\\"bip39\\":{\\"canBeEncrypted\\":true,\\"default\\":true,\\"permissions\\":[\\"read\\",\\"write\\"]},\\"publicKey\\":{\\"default\\":false,\\"permissions\\":[\\"read\\"]},\\"secret\\":{\\"canBeEncrypted\\":true,\\"default\\":false,\\"permissions\\":[\\"read\\",\\"write\\"]}},\\"knownWallets\\":\\"https://raw.githubusercontent.com/ArkEcosystem/common/master/devnet/known-wallets-extended.json\\",\\"meta\\":{\\"fastDelegateSync\\":true},\\"name\\":\\"Devnet\\",\\"transactions\\":{\\"expirationType\\":\\"height\\",\\"fees\\":{\\"ticker\\":\\"DARK\\",\\"type\\":\\"dynamic\\"},\\"memo\\":true,\\"multiPaymentRecipients\\":128,\\"types\\":[\\"delegateRegistration\\",\\"delegateResignation\\",\\"htlcClaim\\",\\"htlcLock\\",\\"htlcRefund\\",\\"ipfs\\",\\"multiPayment\\",\\"multiSignature\\",\\"secondSignature\\",\\"transfer\\",\\"vote\\"]},\\"type\\":\\"test\\"}"`,
+    );
 });
 
 it("#allows", () => {
-	expect(subject.allows(FeatureFlag.ClientBroadcast)).toBeTrue();
-	expect(subject.allows(FeatureFlag.AddressMnemonicBip84)).toBeFalse();
+    expect(subject.allows(FeatureFlag.ClientBroadcast)).toBeTrue();
+    expect(subject.allows(FeatureFlag.AddressMnemonicBip84)).toBeFalse();
 
-	expect(subject.allows(FeatureFlag.TransactionDelegateRegistration)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionDelegateResignation)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionHtlcClaim)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionHtlcLock)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionHtlcRefund)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionIpfs)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionMultiPayment)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionMultiSignature)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionSecondSignature)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionTransfer)).toBeTrue();
-	expect(subject.allows(FeatureFlag.TransactionVote)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionDelegateRegistration)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionDelegateResignation)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionHtlcClaim)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionHtlcLock)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionHtlcRefund)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionIpfs)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionMultiPayment)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionMultiSignature)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionSecondSignature)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionTransfer)).toBeTrue();
+    expect(subject.allows(FeatureFlag.TransactionVote)).toBeTrue();
 
-	expect(subject.allows("randomKey")).toBeFalse();
+    expect(subject.allows("randomKey")).toBeFalse();
 });
 
 it("#denies", () => {
-	expect(subject.denies(FeatureFlag.AddressMnemonicBip84)).toBeTrue();
-	expect(subject.denies(FeatureFlag.ClientBroadcast)).toBeFalse();
+    expect(subject.denies(FeatureFlag.AddressMnemonicBip84)).toBeTrue();
+    expect(subject.denies(FeatureFlag.ClientBroadcast)).toBeFalse();
 });
 
 it("#chargesStaticFees", () => {
-	expect(subject.chargesStaticFees()).toBeBoolean();
+    expect(subject.chargesStaticFees()).toBeBoolean();
 });
 
 it("#chargesDynamicFees", () => {
-	expect(subject.chargesDynamicFees()).toBeBoolean();
+    expect(subject.chargesDynamicFees()).toBeBoolean();
 });
 
 it("#chargesGasFees", () => {
-	expect(subject.chargesGasFees()).toBeBoolean();
+    expect(subject.chargesGasFees()).toBeBoolean();
 });
 
 it("#chargesWeightFees", () => {
-	expect(subject.chargesWeightFees()).toBeBoolean();
+    expect(subject.chargesWeightFees()).toBeBoolean();
 });
 
 it("#chargesZeroFees", () => {
-	expect(subject.chargesZeroFees()).toBeBoolean();
+    expect(subject.chargesZeroFees()).toBeBoolean();
 });
 
 it("#importMethods", () => {
-	expect(subject.importMethods()).toBeObject();
+    expect(subject.importMethods()).toBeObject();
 });
 
 it("#meta", () => {
-	expect(subject.meta()).toBeObject();
+    expect(subject.meta()).toBeObject();
 });
 
 it("#feeType", () => {
-	expect(subject.feeType()).toBe("dynamic");
+    expect(subject.feeType()).toBe("dynamic");
 });
 
 it("#usesMemo", () => {
-	expect(subject.usesMemo()).toBeBoolean();
+    expect(subject.usesMemo()).toBeBoolean();
 });
 
 it("#usesUTXO", () => {
-	expect(subject.usesUTXO()).toBeBoolean();
+    expect(subject.usesUTXO()).toBeBoolean();
 });
 
 it("#usesLockedBalance", () => {
-	expect(subject.usesLockedBalance()).toBeBoolean();
+    expect(subject.usesLockedBalance()).toBeBoolean();
 });
 
 it("#tokens", () => {
-	expect(subject.tokens()).toBeArray();
+    expect(subject.tokens()).toBeArray();
 });
 
 it("#multiPaymentRecipients", () => {
-	expect(subject.multiPaymentRecipients()).toBeNumber();
+    expect(subject.multiPaymentRecipients()).toBeNumber();
 });
 
 it("#multiSignatureType", () => {
-	expect(subject.multiSignatureType()).toBeString();
+    expect(subject.multiSignatureType()).toBeString();
 });
 
 it("#wordCount", () => {
-	expect(subject.wordCount()).toBe(24);
+    expect(subject.wordCount()).toBe(24);
 });

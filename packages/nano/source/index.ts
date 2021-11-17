@@ -11,23 +11,23 @@ import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { manifest } from "./manifest";
+import { manifest } from "./manifest.js";
 
 export const NANO: Coins.CoinBundle = bundle({
-	dataTransferObjects: {
-		SignedTransactionData,
-		ConfirmedTransactionData,
-		WalletData,
-	},
-	manifest,
-	services: {
-		AddressService,
-		ClientService,
-		KeyPairService,
-		MessageService,
-		PrivateKeyService,
-		PublicKeyService,
-		TransactionService,
-		WalletDiscoveryService,
-	},
+    dataTransferObjects: {
+        SignedTransactionData,
+        ConfirmedTransactionData,
+        WalletData,
+    },
+    manifest,
+    services: {
+        AddressService,
+        ClientService,
+        KeyPairService,
+        MessageService,
+        PrivateKeyService,
+        PublicKeyService,
+        TransactionService,
+        WalletDiscoveryService,
+    },
 });

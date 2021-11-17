@@ -1,4 +1,4 @@
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the wallet service.
@@ -7,12 +7,12 @@ import { IProfile } from "./contracts";
  * @interface IWalletService
  */
 export interface IWalletService {
-	/**
-	 * Synchronise all wallets for the given profile.
-	 *
-	 * @param {IProfile} profile
-	 * @return {Promise<void>}
-	 * @memberof IWalletService
-	 */
-	syncByProfile(profile: IProfile): Promise<void>;
+    /**
+     * Synchronise all wallets for the given profile.
+     *
+     * @param {IProfile} profile
+     * @return {Promise<void>}
+     * @memberof IWalletService
+     */
+    syncByProfile(profile: IProfile): Promise<void>;
 }

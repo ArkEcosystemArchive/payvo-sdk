@@ -1,11 +1,11 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const partition = <T>(iterable: T[], iteratee: FunctionReturning): [T[], T[]] =>
-	iterable.reduce(
-		(result: [T[], T[]], value: T) => {
-			result[iteratee(value) ? 0 : 1].push(value);
+    iterable.reduce(
+        (result: [T[], T[]], value: T) => {
+            result[iteratee(value) ? 0 : 1].push(value);
 
-			return result;
-		},
-		[[], []],
-	);
+            return result;
+        },
+        [[], []],
+    );

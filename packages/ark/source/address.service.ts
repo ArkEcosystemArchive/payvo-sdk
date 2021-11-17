@@ -5,7 +5,7 @@ import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 import { strict as assert } from "assert";
 
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {

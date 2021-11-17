@@ -1,22 +1,22 @@
 import {
-	CurrentPriceOptions,
-	DailyAverageOptions,
-	HistoricalData,
-	HistoricalPriceOptions,
-	HistoricalVolumeOptions,
+    CurrentPriceOptions,
+    DailyAverageOptions,
+    HistoricalData,
+    HistoricalPriceOptions,
+    HistoricalVolumeOptions,
 } from "./historical";
-import { MarketDataCollection } from "./market";
+import { MarketDataCollection } from "./market.js";
 
 export interface PriceTracker {
-	verifyToken(token: string): Promise<boolean>;
+    verifyToken(token: string): Promise<boolean>;
 
-	marketData(token: string): Promise<MarketDataCollection>;
+    marketData(token: string): Promise<MarketDataCollection>;
 
-	historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData>;
+    historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData>;
 
-	historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData>;
+    historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData>;
 
-	dailyAverage(options: DailyAverageOptions): Promise<number>;
+    dailyAverage(options: DailyAverageOptions): Promise<number>;
 
-	currentPrice(options: CurrentPriceOptions): Promise<number>;
+    currentPrice(options: CurrentPriceOptions): Promise<number>;
 }

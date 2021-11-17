@@ -1,5 +1,5 @@
-import { compoundWords } from "./compound-words";
-import { upperFirst } from "./upper-first";
+import { compoundWords } from "./compound-words.js";
+import { upperFirst } from "./upper-first.js";
 
 export const pascalCase = (value: string): string | undefined =>
-	compoundWords(value, (result: string, word: string) => result + upperFirst(word));
+    compoundWords(value, (result: string, word: string) => result + upperFirst(word));

@@ -1,8 +1,8 @@
 import "jest-extended";
-import { zipObject } from "./zip-object";
+import { zipObject } from "./zip-object.js";
 
 describe("#zipObject", () => {
-	it("should create an object from the keys and values", () => {
-		expect(zipObject(["a", "b"], [1, 2])).toEqual({ a: 1, b: 2 });
-	});
+    it("should create an object from the keys and values", () => {
+        expect(zipObject(["a", "b"], [1, 2])).toEqual({ a: 1, b: 2 });
+    });
 });

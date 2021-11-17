@@ -1,95 +1,95 @@
 import { Contracts } from "@payvo/sdk";
 
-import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts";
+import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts.js";
 
 type SerializedBalance = {
-	available: string;
-	fees: string;
-	locked?: string;
-	lockedVotes?: string;
-	lockedUnvotes?: string;
-	tokens?: Record<string, string>;
+    available: string;
+    fees: string;
+    locked?: string;
+    lockedVotes?: string;
+    lockedUnvotes?: string;
+    tokens?: Record<string, string>;
 };
 
 export class WalletSerialiser {
-	readonly #wallet: IReadWriteWallet;
+    readonly #wallet: IReadWriteWallet;
 
-	public constructor(wallet: IReadWriteWallet) {
-		this.#wallet = wallet;
-	}
+    public constructor(wallet: IReadWriteWallet) {
+        this.#wallet = wallet;
+    }
 
-	/** {@inheritDoc IWalletSerialiser.toJSON} */
-	public toJSON(): IWalletData {
-		if (this.#wallet.hasBeenPartiallyRestored()) {
-			return this.#wallet.getAttributes().get<IWalletData>("initialState");
-		}
+    /** {@inheritDoc IWalletSerialiser.toJSON} */
+    public toJSON(): IWalletData {
+        if (this.#wallet.hasBeenPartiallyRestored()) {
+            return this.#wallet.getAttributes().get<IWalletData>("initialState");
+        }
 
-		this.#wallet.transaction().dump();
+        this.#wallet.transaction().dump();
 
-		return {
-			id: this.#wallet.id(),
-			data: {
-				[WalletData.Coin]: this.#wallet.coin().manifest().get<string>("name"),
-				[WalletData.Network]: this.#wallet.networkId(),
-				[WalletData.Address]: this.#wallet.address(),
-				[WalletData.PublicKey]: this.#wallet.publicKey(),
-				[WalletData.Balance]: this.#serializeBalance(),
-				[WalletData.BroadcastedTransactions]: this.#wallet.data().get(WalletData.BroadcastedTransactions, []),
-				[WalletData.DerivationPath]: this.#wallet.data().get(WalletData.DerivationPath),
-				[WalletData.DerivationType]: this.#wallet.data().get(WalletData.DerivationType),
-				[WalletData.ImportMethod]: this.#wallet.data().get(WalletData.ImportMethod),
-				[WalletData.Sequence]: this.#wallet.nonce().toFixed(),
-				[WalletData.SignedTransactions]: this.#wallet.data().get(WalletData.SignedTransactions, []),
-				[WalletData.PendingMultiSignatures]: this.#wallet.data().get(WalletData.PendingMultiSignatures, []),
-				[WalletData.Votes]: this.#wallet.data().get(WalletData.Votes, []),
-				[WalletData.VotesAvailable]: this.#wallet.data().get(WalletData.VotesAvailable, 0),
-				[WalletData.VotesUsed]: this.#wallet.data().get(WalletData.VotesUsed, 0),
-				[WalletData.EncryptedSigningKey]: this.#wallet.data().get(WalletData.EncryptedSigningKey),
-				[WalletData.EncryptedConfirmKey]: this.#wallet.data().get(WalletData.EncryptedConfirmKey),
-				[WalletFlag.Starred]: this.#wallet.isStarred(),
-				[WalletData.LedgerModel]: this.#wallet.data().get(WalletData.LedgerModel),
-				[WalletData.Status]: this.#wallet.data().get(WalletData.Status),
-			},
-			settings: this.#wallet.settings().all(),
-		};
-	}
+        return {
+            id: this.#wallet.id(),
+            data: {
+                [WalletData.Coin]: this.#wallet.coin().manifest().get<string>("name"),
+                [WalletData.Network]: this.#wallet.networkId(),
+                [WalletData.Address]: this.#wallet.address(),
+                [WalletData.PublicKey]: this.#wallet.publicKey(),
+                [WalletData.Balance]: this.#serializeBalance(),
+                [WalletData.BroadcastedTransactions]: this.#wallet.data().get(WalletData.BroadcastedTransactions, []),
+                [WalletData.DerivationPath]: this.#wallet.data().get(WalletData.DerivationPath),
+                [WalletData.DerivationType]: this.#wallet.data().get(WalletData.DerivationType),
+                [WalletData.ImportMethod]: this.#wallet.data().get(WalletData.ImportMethod),
+                [WalletData.Sequence]: this.#wallet.nonce().toFixed(),
+                [WalletData.SignedTransactions]: this.#wallet.data().get(WalletData.SignedTransactions, []),
+                [WalletData.PendingMultiSignatures]: this.#wallet.data().get(WalletData.PendingMultiSignatures, []),
+                [WalletData.Votes]: this.#wallet.data().get(WalletData.Votes, []),
+                [WalletData.VotesAvailable]: this.#wallet.data().get(WalletData.VotesAvailable, 0),
+                [WalletData.VotesUsed]: this.#wallet.data().get(WalletData.VotesUsed, 0),
+                [WalletData.EncryptedSigningKey]: this.#wallet.data().get(WalletData.EncryptedSigningKey),
+                [WalletData.EncryptedConfirmKey]: this.#wallet.data().get(WalletData.EncryptedConfirmKey),
+                [WalletFlag.Starred]: this.#wallet.isStarred(),
+                [WalletData.LedgerModel]: this.#wallet.data().get(WalletData.LedgerModel),
+                [WalletData.Status]: this.#wallet.data().get(WalletData.Status),
+            },
+            settings: this.#wallet.settings().all(),
+        };
+    }
 
-	#serializeBalance(): SerializedBalance {
-		const balance = this.#wallet.data().get<Contracts.WalletBalance>(WalletData.Balance);
+    #serializeBalance(): SerializedBalance {
+        const balance = this.#wallet.data().get<Contracts.WalletBalance>(WalletData.Balance);
 
-		const serializedBalance: SerializedBalance = {
-			available: this.#wallet
-				.coin()
-				.bigNumber()
-				.make(balance?.available || 0)
-				.toString(),
-			fees: this.#wallet
-				.coin()
-				.bigNumber()
-				.make(balance?.fees || 0)
-				.toString(),
-		};
+        const serializedBalance: SerializedBalance = {
+            available: this.#wallet
+                .coin()
+                .bigNumber()
+                .make(balance?.available || 0)
+                .toString(),
+            fees: this.#wallet
+                .coin()
+                .bigNumber()
+                .make(balance?.fees || 0)
+                .toString(),
+        };
 
-		if (balance?.locked) {
-			serializedBalance.locked = balance.locked.toString();
-		}
+        if (balance?.locked) {
+            serializedBalance.locked = balance.locked.toString();
+        }
 
-		if (balance?.lockedVotes) {
-			serializedBalance.lockedVotes = balance.lockedVotes.toString();
-		}
+        if (balance?.lockedVotes) {
+            serializedBalance.lockedVotes = balance.lockedVotes.toString();
+        }
 
-		if (balance?.lockedUnvotes) {
-			serializedBalance.lockedUnvotes = balance.lockedUnvotes.toString();
-		}
+        if (balance?.lockedUnvotes) {
+            serializedBalance.lockedUnvotes = balance.lockedUnvotes.toString();
+        }
 
-		if (balance?.tokens) {
-			serializedBalance.tokens = {};
+        if (balance?.tokens) {
+            serializedBalance.tokens = {};
 
-			for (const [key, value] of Object.entries(balance.tokens)) {
-				serializedBalance.tokens[key] = value.toString();
-			}
-		}
+            for (const [key, value] of Object.entries(balance.tokens)) {
+                serializedBalance.tokens[key] = value.toString();
+            }
+        }
 
-		return serializedBalance;
-	}
+        return serializedBalance;
+    }
 }

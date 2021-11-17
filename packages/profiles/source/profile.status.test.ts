@@ -2,40 +2,40 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile } from "./contracts";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { IProfile } from "./contracts.js";
 
 let profile: IProfile;
 
 beforeAll(() => bootContainer());
 
 beforeEach(async () => {
-	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
+    profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
 });
 
 it("should mark the profile as dirty", async () => {
-	expect(profile.status().isDirty()).toBeFalse();
-	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
+    expect(profile.status().isDirty()).toBeFalse();
+    profile.status().markAsDirty();
+    expect(profile.status().isDirty()).toBeTrue();
 });
 
 it("should mark the profile as restored", async () => {
-	expect(profile.status().isRestored()).toBeFalse();
-	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
+    expect(profile.status().isRestored()).toBeFalse();
+    profile.status().markAsRestored();
+    expect(profile.status().isRestored()).toBeTrue();
 });
 
 it("should reset the status of the profile to the default values", async () => {
-	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
-	profile.status().reset();
-	expect(profile.status().isRestored()).toBeFalse();
+    profile.status().markAsRestored();
+    expect(profile.status().isRestored()).toBeTrue();
+    profile.status().reset();
+    expect(profile.status().isRestored()).toBeFalse();
 });
 
 it("should reset dirty status", async () => {
-	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
-	profile.status().markAsClean();
-	expect(profile.status().isDirty()).toBeFalse();
+    profile.status().markAsDirty();
+    expect(profile.status().isDirty()).toBeTrue();
+    profile.status().markAsClean();
+    expect(profile.status().isDirty()).toBeFalse();
 });

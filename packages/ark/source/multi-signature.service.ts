@@ -4,11 +4,12 @@ import { UUID } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
-import { BindingType } from "./coin.contract";
-import { applyCryptoConfiguration } from "./config";
-import { MultiSignatureSigner } from "./multi-signature.signer";
 
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { BindingType } from "./coin.contract.js";
+import { applyCryptoConfiguration } from "./config.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 
 @IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {

@@ -1,17 +1,17 @@
 import { Exceptions, Services } from "@payvo/sdk";
 
-import { deriveKey } from "./helpers";
+import { deriveKey } from "./helpers.js";
 
 export class KeyPairService extends Services.AbstractKeyPairService {
-	public override async fromMnemonic(
-		mnemonic: string,
-		options?: Services.IdentityOptions,
-	): Promise<Services.KeyPairDataTransferObject> {
-		const accountKey = deriveKey(mnemonic);
+    public override async fromMnemonic(
+        mnemonic: string,
+        options?: Services.IdentityOptions,
+    ): Promise<Services.KeyPairDataTransferObject> {
+        const accountKey = deriveKey(mnemonic);
 
-		return {
-			publicKey: accountKey.publicKey!.toString("hex"),
-			privateKey: accountKey.privateKey.toString("hex"),
-		};
-	}
+        return {
+            publicKey: accountKey.publicKey!.toString("hex"),
+            privateKey: accountKey.privateKey.toString("hex"),
+        };
+    }
 }

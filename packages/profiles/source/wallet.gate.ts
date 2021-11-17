@@ -1,42 +1,42 @@
-import { IReadWriteWallet } from "./contracts";
-import { IWalletGate } from "./contracts";
+import { IReadWriteWallet } from "./contracts.js";
+import { IWalletGate } from "./contracts.js";
 
 export class WalletGate implements IWalletGate {
-	readonly #wallet: IReadWriteWallet;
+    readonly #wallet: IReadWriteWallet;
 
-	public constructor(wallet: IReadWriteWallet) {
-		this.#wallet = wallet;
-	}
+    public constructor(wallet: IReadWriteWallet) {
+        this.#wallet = wallet;
+    }
 
-	/** {@inheritDoc IWalletGate.allows} */
-	public allows(feature: string): boolean {
-		return this.#wallet.network().allows(feature);
-	}
+    /** {@inheritDoc IWalletGate.allows} */
+    public allows(feature: string): boolean {
+        return this.#wallet.network().allows(feature);
+    }
 
-	/** {@inheritDoc IWalletGate.denies} */
-	public denies(feature: string): boolean {
-		return this.#wallet.network().denies(feature);
-	}
+    /** {@inheritDoc IWalletGate.denies} */
+    public denies(feature: string): boolean {
+        return this.#wallet.network().denies(feature);
+    }
 
-	/** {@inheritDoc IWalletGate.any} */
-	public any(features: string[]): boolean {
-		for (const feature of features) {
-			if (this.allows(feature)) {
-				return true;
-			}
-		}
+    /** {@inheritDoc IWalletGate.any} */
+    public any(features: string[]): boolean {
+        for (const feature of features) {
+            if (this.allows(feature)) {
+                return true;
+            }
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/** {@inheritDoc IWalletGate.all} */
-	public all(features: string[]): boolean {
-		for (const feature of features) {
-			if (this.denies(feature)) {
-				return false;
-			}
-		}
+    /** {@inheritDoc IWalletGate.all} */
+    public all(features: string[]): boolean {
+        for (const feature of features) {
+            if (this.denies(feature)) {
+                return false;
+            }
+        }
 
-		return true;
-	}
+        return true;
+    }
 }

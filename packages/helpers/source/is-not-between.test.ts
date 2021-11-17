@@ -1,13 +1,13 @@
 import "jest-extended";
 
-import { isNotBetween } from "./is-not-between";
+import { isNotBetween } from "./is-not-between.js";
 
 describe("#isNotBetween", () => {
-	it("should pass", () => {
-		expect(isNotBetween(1, 2, 3)).toBeTrue();
-	});
+    it("should pass", () => {
+        expect(isNotBetween(1, 2, 3)).toBeTrue();
+    });
 
-	it("should fail", () => {
-		expect(isNotBetween(2, 1, 3)).toBeFalse();
-	});
+    it("should fail", () => {
+        expect(isNotBetween(2, 1, 3)).toBeFalse();
+    });
 });

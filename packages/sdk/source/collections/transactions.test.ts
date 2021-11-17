@@ -1,31 +1,31 @@
 import "jest-extended";
 
-import { ConfirmedTransactionDataCollection } from "./transactions";
+import { ConfirmedTransactionDataCollection } from "./transactions.js";
 
 let subject: ConfirmedTransactionDataCollection;
 
 beforeEach(
-	() =>
-		(subject = new ConfirmedTransactionDataCollection(
-			[
-				// @ts-ignore
-				{
-					id: () => "id",
+    () =>
+    (subject = new ConfirmedTransactionDataCollection(
+        [
+            // @ts-ignore
+            {
+                id: () => "id",
 
-					recipient: () => "recipient",
+                recipient: () => "recipient",
 
-					sender: () => "sender",
-					// @ts-ignore
-					timestamp: () => "timestamp",
-					type: () => "type",
-				},
-			],
-			{ next: "", prev: "", self: "" },
-		)),
+                sender: () => "sender",
+                // @ts-ignore
+                timestamp: () => "timestamp",
+                type: () => "type",
+            },
+        ],
+        { next: "", prev: "", self: "" },
+    )),
 );
 
 test("#findById", () => {
-	expect(subject.findById("id")).toMatchInlineSnapshot(`
+    expect(subject.findById("id")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -37,7 +37,7 @@ test("#findById", () => {
 });
 
 test("#findByType", () => {
-	expect(subject.findByType("type")).toMatchInlineSnapshot(`
+    expect(subject.findByType("type")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -49,7 +49,7 @@ test("#findByType", () => {
 });
 
 test("#findByTimestamp", () => {
-	expect(subject.findByTimestamp("timestamp")).toMatchInlineSnapshot(`
+    expect(subject.findByTimestamp("timestamp")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -61,7 +61,7 @@ test("#findByTimestamp", () => {
 });
 
 test("#findBySender", () => {
-	expect(subject.findBySender("sender")).toMatchInlineSnapshot(`
+    expect(subject.findBySender("sender")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -73,7 +73,7 @@ test("#findBySender", () => {
 });
 
 test("#findByRecipient", () => {
-	expect(subject.findByRecipient("recipient")).toMatchInlineSnapshot(`
+    expect(subject.findByRecipient("recipient")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],

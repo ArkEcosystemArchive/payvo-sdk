@@ -6,8 +6,8 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { FeeService } from "./fee.service";
@@ -17,7 +17,7 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureService } from "./multi-signature.service";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { AssetSerializer } from "./asset.serializer";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -27,73 +27,73 @@ let subject: TransactionService;
 let musig: MultiSignatureService;
 
 beforeAll(async () => {
-	nock.disableNetConnect();
+    nock.disableNetConnect();
 
-	nock(/.+/).get("/api/v2/fees").reply(200, requireModule(`../test/fixtures/client/fees.json`)).persist();
+    nock(/.+/).get("/api/v2/fees").reply(200, requireModule(`../test/fixtures/client/fees.json`)).persist();
 
-	subject = await createService(TransactionService, "lsk.testnet", (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-	});
+    subject = await createService(TransactionService, "lsk.testnet", (container) => {
+        container.constant(IoC.BindingType.Container, container);
+        container.singleton(IoC.BindingType.AddressService, AddressService);
+        container.singleton(IoC.BindingType.ClientService, ClientService);
+        container.constant(IoC.BindingType.DataTransferObjects, {
+            SignedTransactionData,
+            ConfirmedTransactionData,
+            WalletData,
+        });
+        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+        container.singleton(IoC.BindingType.FeeService, FeeService);
+        container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+        container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+        container.singleton(IoC.BindingType.LedgerService, LedgerService);
+        container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+        container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+        container.singleton(BindingType.AssetSerializer, AssetSerializer);
+        container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+    });
 
-	musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-	});
+    musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
+        container.constant(IoC.BindingType.Container, container);
+        container.singleton(IoC.BindingType.AddressService, AddressService);
+        container.singleton(IoC.BindingType.ClientService, ClientService);
+        container.constant(IoC.BindingType.DataTransferObjects, {
+            SignedTransactionData,
+            ConfirmedTransactionData,
+            WalletData,
+        });
+        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+        container.singleton(IoC.BindingType.FeeService, FeeService);
+        container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+        container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+        container.singleton(IoC.BindingType.LedgerService, LedgerService);
+        container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+        container.singleton(BindingType.AssetSerializer, AssetSerializer);
+        container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+    });
 
-	jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
+    jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
 });
 
 describe("TransactionService", () => {
-	describe("#transfer", () => {
-		it("should sign with an mnemonic", async () => {
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 1,
-					to: identity.address,
-				},
-			});
+    describe("#transfer", () => {
+        it("should sign with an mnemonic", async () => {
+            const result = await subject.transfer({
+                signatory: new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: identity.mnemonic,
+                        address: identity.address,
+                        publicKey: identity.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+                data: {
+                    amount: 1,
+                    to: identity.address,
+                },
+            });
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.timestamp()).toBeInstanceOf(DateTime);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+            expect(result).toBeInstanceOf(SignedTransactionData);
+            expect(result.timestamp()).toBeInstanceOf(DateTime);
+            expect(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "amount": "100000000",
@@ -112,28 +112,28 @@ describe("TransactionService", () => {
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
-		});
-	});
+        });
+    });
 
-	describe("#delegateRegistration", () => {
-		it("should verify", async () => {
-			const result = await subject.delegateRegistration({
-				fee: 10,
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					username: "johndoe",
-				},
-			});
+    describe("#delegateRegistration", () => {
+        it("should verify", async () => {
+            const result = await subject.delegateRegistration({
+                fee: 10,
+                signatory: new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: identity.mnemonic,
+                        address: identity.address,
+                        publicKey: identity.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+                data: {
+                    username: "johndoe",
+                },
+            });
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+            expect(result).toBeInstanceOf(SignedTransactionData);
+            expect(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "username": "johndoe",
@@ -150,39 +150,39 @@ describe("TransactionService", () => {
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
-		});
-	});
+        });
+    });
 
-	describe("#vote", () => {
-		it("should verify", async () => {
-			const result = await subject.vote({
-				fee: 10,
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					votes: [
-						{
-							id: identity.address,
-							amount: 100,
-						},
-					],
-					unvotes: [
-						{
-							id: "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr",
-							amount: 20,
-						},
-					],
-				},
-			});
+    describe("#vote", () => {
+        it("should verify", async () => {
+            const result = await subject.vote({
+                fee: 10,
+                signatory: new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: identity.mnemonic,
+                        address: identity.address,
+                        publicKey: identity.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+                data: {
+                    votes: [
+                        {
+                            id: identity.address,
+                            amount: 100,
+                        },
+                    ],
+                    unvotes: [
+                        {
+                            id: "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr",
+                            amount: 20,
+                        },
+                    ],
+                },
+            });
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+            expect(result).toBeInstanceOf(SignedTransactionData);
+            expect(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "votes": Array [
@@ -208,164 +208,164 @@ describe("TransactionService", () => {
 			  "timestamp": "2021-01-01T12:00:00.000Z",
 			}
 		`);
-		});
+        });
 
-		it("should fail to vote with a number that is not a multiple of 10", async () => {
-			await expect(
-				subject.vote({
-					fee: 10,
-					signatory: new Signatories.Signatory(
-						new Signatories.MnemonicSignatory({
-							signingKey: identity.mnemonic,
-							address: identity.address,
-							publicKey: identity.publicKey,
-							privateKey: identity.privateKey,
-						}),
-					),
-					data: {
-						votes: [
-							{
-								id: identity.address,
-								amount: 1,
-							},
-						],
-						unvotes: [],
-					},
-				}),
-			).rejects.toThrow(/not a multiple of 10/);
-		});
-	});
+        it("should fail to vote with a number that is not a multiple of 10", async () => {
+            await expect(
+                subject.vote({
+                    fee: 10,
+                    signatory: new Signatories.Signatory(
+                        new Signatories.MnemonicSignatory({
+                            signingKey: identity.mnemonic,
+                            address: identity.address,
+                            publicKey: identity.publicKey,
+                            privateKey: identity.privateKey,
+                        }),
+                    ),
+                    data: {
+                        votes: [
+                            {
+                                id: identity.address,
+                                amount: 1,
+                            },
+                        ],
+                        unvotes: [],
+                    },
+                }),
+            ).rejects.toThrow(/not a multiple of 10/);
+        });
+    });
 
-	describe("#multiSignature", () => {
-		const wallet1 = {
-			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-			address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-			publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-		};
+    describe("#multiSignature", () => {
+        const wallet1 = {
+            signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
+            address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+            publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+        };
 
-		const wallet2 = {
-			signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-		};
+        const wallet2 = {
+            signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
+            address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+            publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+        };
 
-		it.each(["mandatoryKeys", "optionalKeys"])(
-			"should throw error when %s is not a string list",
-			async (parameter) => {
-				await expect(() =>
-					subject.multiSignature({
-						fee: 10,
-						signatory: new Signatories.Signatory(
-							new Signatories.MnemonicSignatory({
-								signingKey: wallet1.signingKey,
-								address: wallet1.address,
-								publicKey: wallet1.publicKey,
-								privateKey: identity.privateKey,
-							}),
-						),
-						data: {
-							numberOfSignatures: 2,
-							mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-							optionalKeys: [],
-							[parameter]: "",
-						},
-					}),
-				).rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
-			},
-		);
+        it.each(["mandatoryKeys", "optionalKeys"])(
+            "should throw error when %s is not a string list",
+            async (parameter) => {
+                await expect(() =>
+                    subject.multiSignature({
+                        fee: 10,
+                        signatory: new Signatories.Signatory(
+                            new Signatories.MnemonicSignatory({
+                                signingKey: wallet1.signingKey,
+                                address: wallet1.address,
+                                publicKey: wallet1.publicKey,
+                                privateKey: identity.privateKey,
+                            }),
+                        ),
+                        data: {
+                            numberOfSignatures: 2,
+                            mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+                            optionalKeys: [],
+                            [parameter]: "",
+                        },
+                    }),
+                ).rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
+            },
+        );
 
-		it("should verify", async () => {
-			nock.disableNetConnect();
+        it("should verify", async () => {
+            nock.disableNetConnect();
 
-			nock(/.+/)
-				.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
-				.reply(200, requireModule(`../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
-				.persist();
+            nock(/.+/)
+                .get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
+                .reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+                .get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
+                .reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+                .get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
+                .reply(200, requireModule(`../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
+                .persist();
 
-			const transaction1 = await subject.multiSignature({
-				fee: 10,
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					numberOfSignatures: 2,
-					mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-					optionalKeys: [],
-				},
-			});
+            const transaction1 = await subject.multiSignature({
+                fee: 10,
+                signatory: new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: wallet1.signingKey,
+                        address: wallet1.address,
+                        publicKey: wallet1.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+                data: {
+                    numberOfSignatures: 2,
+                    mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+                    optionalKeys: [],
+                },
+            });
 
-			expect(transaction1).toBeInstanceOf(SignedTransactionData);
-			expect(transaction1).toMatchSnapshot();
+            expect(transaction1).toBeInstanceOf(SignedTransactionData);
+            expect(transaction1).toMatchSnapshot();
 
-			const transaction2 = await musig.addSignature(
-				transaction1.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet2.signingKey,
-						address: wallet2.address,
-						publicKey: wallet2.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
+            const transaction2 = await musig.addSignature(
+                transaction1.data(),
+                new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: wallet2.signingKey,
+                        address: wallet2.address,
+                        publicKey: wallet2.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+            );
 
-			expect(transaction2).toBeInstanceOf(SignedTransactionData);
-			expect(transaction2).toMatchSnapshot();
+            expect(transaction2).toBeInstanceOf(SignedTransactionData);
+            expect(transaction2).toMatchSnapshot();
 
-			const transaction3 = await musig.addSignature(
-				transaction2.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
+            const transaction3 = await musig.addSignature(
+                transaction2.data(),
+                new Signatories.Signatory(
+                    new Signatories.MnemonicSignatory({
+                        signingKey: wallet1.signingKey,
+                        address: wallet1.address,
+                        publicKey: wallet1.publicKey,
+                        privateKey: identity.privateKey,
+                    }),
+                ),
+            );
 
-			expect(transaction3).toBeInstanceOf(SignedTransactionData);
-			expect(transaction3).toMatchSnapshot();
+            expect(transaction3).toBeInstanceOf(SignedTransactionData);
+            expect(transaction3).toMatchSnapshot();
 
-			nock.enableNetConnect();
-		});
-	});
+            nock.enableNetConnect();
+        });
+    });
 
-	test("#unlockToken", async () => {
-		const result = await subject.unlockToken({
-			fee: 10,
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: identity.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
-			data: {
-				objects: [
-					{
-						address: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
-						amount: BigNumber.make(10e8),
-						height: "14216291",
-						isReady: true,
-						timestamp: DateTime.make("2021-07-28T06:26:40.000Z"),
-					},
-				],
-			},
-		});
+    test("#unlockToken", async () => {
+        const result = await subject.unlockToken({
+            fee: 10,
+            signatory: new Signatories.Signatory(
+                new Signatories.MnemonicSignatory({
+                    signingKey: identity.mnemonic,
+                    address: identity.address,
+                    publicKey: identity.publicKey,
+                    privateKey: identity.privateKey,
+                }),
+            ),
+            data: {
+                objects: [
+                    {
+                        address: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+                        amount: BigNumber.make(10e8),
+                        height: "14216291",
+                        isReady: true,
+                        timestamp: DateTime.make("2021-07-28T06:26:40.000Z"),
+                    },
+                ],
+            },
+        });
 
-		expect(result).toBeInstanceOf(SignedTransactionData);
-		expect(result.toBroadcast()).toMatchInlineSnapshot(`
+        expect(result).toBeInstanceOf(SignedTransactionData);
+        expect(result.toBroadcast()).toMatchInlineSnapshot(`
 		Object {
 		  "asset": Object {
 		    "unlockObjects": Array [
@@ -388,5 +388,5 @@ describe("TransactionService", () => {
 		  "timestamp": "2021-01-01T12:00:00.000Z",
 		}
 	`);
-	});
+    });
 });

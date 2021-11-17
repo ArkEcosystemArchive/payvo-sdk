@@ -1,98 +1,98 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
-import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";
+import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections/index.js";
+import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts.js";
 import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
-import { TransactionType } from "../networks";
+import { TransactionType } from "../networks/index.js";
 
 export type ClientPaginatorCursor = string | number | undefined;
 
 export interface MetaPagination {
-	prev: ClientPaginatorCursor;
-	self: ClientPaginatorCursor;
-	next: ClientPaginatorCursor;
-	last: ClientPaginatorCursor;
+    prev: ClientPaginatorCursor;
+    self: ClientPaginatorCursor;
+    next: ClientPaginatorCursor;
+    last: ClientPaginatorCursor;
 }
 
 export interface BroadcastResponse {
-	accepted: string[];
-	rejected: string[];
-	errors: Record<string, string>;
+    accepted: string[];
+    rejected: string[];
+    errors: Record<string, string>;
 }
 
 export interface WalletIdentifier {
-	type: "address" | "publicKey" | "extendedPublicKey" | "username";
-	value: string;
-	method?: "bip39" | "bip44" | "bip49" | "bip84";
+    type: "address" | "publicKey" | "extendedPublicKey" | "username";
+    value: string;
+    method?: "bip39" | "bip44" | "bip49" | "bip84";
 }
 
 export interface ClientService {
-	transaction(id: string): Promise<ConfirmedTransactionData>;
-	transactions(query: ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
+    transaction(id: string): Promise<ConfirmedTransactionData>;
+    transactions(query: ClientTransactionsInput): Promise<ConfirmedTransactionDataCollection>;
 
-	wallet(id: WalletIdentifier): Promise<WalletData>;
-	wallets(query: ClientWalletsInput): Promise<WalletDataCollection>;
+    wallet(id: WalletIdentifier): Promise<WalletData>;
+    wallets(query: ClientWalletsInput): Promise<WalletDataCollection>;
 
-	delegate(id: string): Promise<WalletData>;
-	delegates(query?: ClientWalletsInput): Promise<WalletDataCollection>;
+    delegate(id: string): Promise<WalletData>;
+    delegates(query?: ClientWalletsInput): Promise<WalletDataCollection>;
 
-	votes(id: string): Promise<VoteReport>;
-	// TODO: return struct like VoteReport
-	voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
+    votes(id: string): Promise<VoteReport>;
+    // TODO: return struct like VoteReport
+    voters(id: string, query?: KeyValuePair): Promise<WalletDataCollection>;
 
-	unlockableBalances(id: string): Promise<UnlockTokenResponse>;
+    unlockableBalances(id: string): Promise<UnlockTokenResponse>;
 
-	broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
+    broadcast(transactions: SignedTransactionData[]): Promise<BroadcastResponse>;
 }
 
 export interface ClientPagination {
-	cursor?: string | number;
-	limit?: number;
-	orderBy?: string;
+    cursor?: string | number;
+    limit?: number;
+    orderBy?: string;
 }
 
 export interface ClientTransactionsInput extends ClientPagination {
-	// Addresses
-	identifiers?: WalletIdentifier[];
-	senderId?: string;
-	recipientId?: string;
-	// Public Keys
-	senderPublicKey?: string;
-	recipientPublicKey?: string;
-	// Meta
-	asset?: Record<string, any>;
-	memo?: string;
-	// Transaction Types
-	type?: TransactionType;
+    // Addresses
+    identifiers?: WalletIdentifier[];
+    senderId?: string;
+    recipientId?: string;
+    // Public Keys
+    senderPublicKey?: string;
+    recipientPublicKey?: string;
+    // Meta
+    asset?: Record<string, any>;
+    memo?: string;
+    // Transaction Types
+    type?: TransactionType;
 }
 
 export interface ClientWalletsInput extends ClientPagination {
-	identifiers?: WalletIdentifier[];
+    identifiers?: WalletIdentifier[];
 }
 
 // TODO: move
 export interface VoteReport {
-	used: number;
-	available: number;
-	votes: { id: string; amount: number }[];
+    used: number;
+    available: number;
+    votes: { id: string; amount: number }[];
 }
 
 export interface TransactionDetailInput {
-	walletId?: string;
+    walletId?: string;
 }
 
 // Only supported by Lisk at the moment
 export interface UnlockableBalance {
-	address: string;
-	amount: BigNumber;
-	height: string;
-	timestamp: DateTime;
-	isReady: boolean;
+    address: string;
+    amount: BigNumber;
+    height: string;
+    timestamp: DateTime;
+    isReady: boolean;
 }
 
 export interface UnlockTokenResponse {
-	objects: UnlockableBalance[];
-	current: BigNumber;
-	pending: BigNumber;
+    objects: UnlockableBalance[];
+    current: BigNumber;
+    pending: BigNumber;
 }

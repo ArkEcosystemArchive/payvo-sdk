@@ -1,69 +1,69 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { Profile } from "./profile";
-import { IProfile, ProfileSetting, ProfileData } from "./contracts";
+import { Profile } from "./profile.js";
+import { IProfile, ProfileSetting, ProfileData } from "./contracts.js";
 import { ProfileInitialiser } from "./profile.initialiser";
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import nock from "nock";
 
 beforeAll(() => {
-	bootContainer();
+    bootContainer();
 
-	nock.disableNetConnect();
+    nock.disableNetConnect();
 
-	nock(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.persist();
+    nock(/.+/)
+        .get("/api/node/configuration/crypto")
+        .reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+        .get("/api/peers")
+        .reply(200, require("../test/fixtures/client/peers.json"))
+        .get("/api/node/syncing")
+        .reply(200, require("../test/fixtures/client/syncing.json"))
+        .get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+        .reply(200, require("../test/fixtures/client/wallet.json"))
+        .get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+        .reply(200, require("../test/fixtures/client/wallet-2.json"))
+        .persist();
 });
 
 describe("ProfileInitialiser", () => {
-	let profile: IProfile;
+    let profile: IProfile;
 
-	beforeEach(() => {
-		profile = new Profile({ id: "uuid", name: "name", data: "" });
-	});
+    beforeEach(() => {
+        profile = new Profile({ id: "uuid", name: "name", data: "" });
+    });
 
-	it("should flush service data", () => {
-		profile.contacts().create("test", [
-			{
-				coin: "ARK",
-				network: "ark.devnet",
-				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-			},
-		]);
-		profile.data().set(ProfileData.HasCompletedIntroductoryTutorial, true);
-		profile.settings().set(ProfileSetting.Theme, "dark");
+    it("should flush service data", () => {
+        profile.contacts().create("test", [
+            {
+                coin: "ARK",
+                network: "ark.devnet",
+                address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+            },
+        ]);
+        profile.data().set(ProfileData.HasCompletedIntroductoryTutorial, true);
+        profile.settings().set(ProfileSetting.Theme, "dark");
 
-		expect(profile.contacts().count()).toBe(1);
-		expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeTrue();
-		expect(profile.settings().get(ProfileSetting.Theme)).toBe("dark");
+        expect(profile.contacts().count()).toBe(1);
+        expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeTrue();
+        expect(profile.settings().get(ProfileSetting.Theme)).toBe("dark");
 
-		new ProfileInitialiser(profile).initialise("name");
+        new ProfileInitialiser(profile).initialise("name");
 
-		expect(profile.contacts().count()).toBe(0);
-		expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeUndefined();
-		expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
-	});
+        expect(profile.contacts().count()).toBe(0);
+        expect(profile.data().get(ProfileData.HasCompletedIntroductoryTutorial)).toBeUndefined();
+        expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
+    });
 
-	it("should initialise the default settings", () => {
-		expect(profile.settings().get(ProfileSetting.Name)).toBeUndefined();
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toBeUndefined();
-		expect(profile.settings().get(ProfileSetting.Theme)).toBeUndefined();
+    it("should initialise the default settings", () => {
+        expect(profile.settings().get(ProfileSetting.Name)).toBeUndefined();
+        expect(profile.settings().get(ProfileSetting.AccentColor)).toBeUndefined();
+        expect(profile.settings().get(ProfileSetting.Theme)).toBeUndefined();
 
-		new ProfileInitialiser(profile).initialiseSettings("name");
+        new ProfileInitialiser(profile).initialiseSettings("name");
 
-		expect(profile.settings().get(ProfileSetting.Name)).toBe("name");
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toBe("green");
-		expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
-	});
+        expect(profile.settings().get(ProfileSetting.Name)).toBe("name");
+        expect(profile.settings().get(ProfileSetting.AccentColor)).toBe("green");
+        expect(profile.settings().get(ProfileSetting.Theme)).toBe("light");
+    });
 });

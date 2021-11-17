@@ -4,350 +4,350 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { HttpResponse } from "./contracts";
-import { AbstractRequest } from "./request";
-import { Response } from "./response";
+import { HttpResponse } from "./contracts.js";
+import { AbstractRequest } from "./request.js";
+import { Response } from "./response.js";
 
 let subject: Stub;
 let spy;
 
 class Stub extends AbstractRequest {
-	public constructor(protected readonly spy) {
-		super();
-	}
+    public constructor(protected readonly spy) {
+        super();
+    }
 
-	protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<HttpResponse> {
-		this.spy({ method, url, data, options: this._options, bodyFormat: this._bodyFormat });
+    protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<HttpResponse> {
+        this.spy({ method, url, data, options: this._options, bodyFormat: this._bodyFormat });
 
-		return new Response({
-			body: "{}",
-			headers: { Accept: "something" },
-			statusCode: 200,
-		});
-	}
+        return new Response({
+            body: "{}",
+            headers: { Accept: "something" },
+            statusCode: 200,
+        });
+    }
 }
 
 beforeEach(async () => {
-	spy = jest.fn();
-	subject = new Stub(spy);
+    spy = jest.fn();
+    subject = new Stub(spy);
 });
 
 test("#baseUrl", () => {
-	subject.baseUrl("https://base.com");
+    subject.baseUrl("https://base.com");
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			query: undefined,
-		},
-		method: "GET",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			prefixUrl: "https://base.com/",
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            query: undefined,
+        },
+        method: "GET",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            prefixUrl: "https://base.com/",
+        },
+        url: "/",
+    });
 });
 
 test("#asJson", () => {
-	subject.asJson();
+    subject.asJson();
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/json" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/json" } },
+        url: "/",
+    });
 });
 
 test("#asForm", () => {
-	subject.asForm();
+    subject.asForm();
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "form_params",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "form_params",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/x-www-form-urlencoded" } },
+        url: "/",
+    });
 });
 
 test("#asOctet", () => {
-	subject.asOctet();
+    subject.asOctet();
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "octet",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/octet-stream" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "octet",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/octet-stream" } },
+        url: "/",
+    });
 });
 
 test("#bodyFormat", () => {
-	subject.bodyFormat("bodyFormat");
+    subject.bodyFormat("bodyFormat");
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "bodyFormat",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/json" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "bodyFormat",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/json" } },
+        url: "/",
+    });
 });
 
 test("#contentType", () => {
-	subject.contentType("contentType");
+    subject.contentType("contentType");
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "contentType" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "contentType" } },
+        url: "/",
+    });
 });
 
 test("#acceptJson", () => {
-	subject.acceptJson();
+    subject.acceptJson();
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { Accept: "application/json", "Content-Type": "application/json" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { Accept: "application/json", "Content-Type": "application/json" } },
+        url: "/",
+    });
 });
 
 test("#accept", () => {
-	subject.accept("contentType");
+    subject.accept("contentType");
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { Accept: "contentType", "Content-Type": "application/json" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { Accept: "contentType", "Content-Type": "application/json" } },
+        url: "/",
+    });
 });
 
 test("#withHeaders", () => {
-	subject.withHeaders({ key: "value" });
+    subject.withHeaders({ key: "value" });
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/json", key: "value" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/json", key: "value" } },
+        url: "/",
+    });
 });
 
 test("#withCacheStore", () => {
-	subject.withCacheStore({ cache: "store" });
+    subject.withCacheStore({ cache: "store" });
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { cache: { cache: "store" }, headers: { "Content-Type": "application/json" } },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { cache: { cache: "store" }, headers: { "Content-Type": "application/json" } },
+        url: "/",
+    });
 });
 
 test("#timeout", () => {
-	subject.timeout(5);
+    subject.timeout(5);
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: { query: undefined },
-		method: "GET",
-		options: { headers: { "Content-Type": "application/json" }, timeout: 5 },
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: { query: undefined },
+        method: "GET",
+        options: { headers: { "Content-Type": "application/json" }, timeout: 5 },
+        url: "/",
+    });
 });
 
 test("#retry", () => {
-	subject.retry(3, 100);
+    subject.retry(3, 100);
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			query: undefined,
-		},
-		method: "GET",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			retry: {
-				limit: 3,
-				maxRetryAfter: 100,
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            query: undefined,
+        },
+        method: "GET",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            retry: {
+                limit: 3,
+                maxRetryAfter: 100,
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#withOptions", () => {
-	subject.withOptions({ option: "thing" });
+    subject.withOptions({ option: "thing" });
 
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			query: undefined,
-		},
-		method: "GET",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-			option: "thing",
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            query: undefined,
+        },
+        method: "GET",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            option: "thing",
+        },
+        url: "/",
+    });
 });
 
 test("#get", () => {
-	subject.get("/");
+    subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "GET",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "GET",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#head", () => {
-	subject.head("/");
+    subject.head("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "HEAD",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "HEAD",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#post", () => {
-	subject.post("/");
+    subject.post("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "POST",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "POST",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#patch", () => {
-	subject.patch("/");
+    subject.patch("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "PATCH",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "PATCH",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#put", () => {
-	subject.put("/");
+    subject.put("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "PUT",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "PUT",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });
 
 test("#delete", () => {
-	subject.delete("/");
+    subject.delete("/");
 
-	expect(spy).toHaveBeenCalledWith({
-		bodyFormat: "json",
-		data: {
-			data: undefined,
-			query: undefined,
-		},
-		method: "DELETE",
-		options: {
-			headers: {
-				"Content-Type": "application/json",
-			},
-		},
-		url: "/",
-	});
+    expect(spy).toHaveBeenCalledWith({
+        bodyFormat: "json",
+        data: {
+            data: undefined,
+            query: undefined,
+        },
+        method: "DELETE",
+        options: {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        },
+        url: "/",
+    });
 });

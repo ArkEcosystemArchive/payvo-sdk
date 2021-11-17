@@ -1,97 +1,97 @@
 import { get, set, has, unset } from "@payvo/sdk-helpers";
 import { injectable } from "inversify";
 
-import { IDataRepository } from "./contracts";
+import { IDataRepository } from "./contracts.js";
 
 @injectable()
 export class DataRepository implements IDataRepository {
-	#storage: object = {};
-	#snapshot: object | undefined;
+    #storage: object = {};
+    #snapshot: object | undefined;
 
-	public all(): object {
-		return this.#storage;
-	}
+    public all(): object {
+        return this.#storage;
+    }
 
-	public first<T>(): T {
-		return this.values()[0] as T;
-	}
+    public first<T>(): T {
+        return this.values()[0] as T;
+    }
 
-	public last<T>(): T {
-		return this.values()[this.count() - 1] as T;
-	}
+    public last<T>(): T {
+        return this.values()[this.count() - 1] as T;
+    }
 
-	public keys(): string[] {
-		return Object.keys(this.#storage);
-	}
+    public keys(): string[] {
+        return Object.keys(this.#storage);
+    }
 
-	public values<T>(): T[] {
-		return Object.values(this.#storage);
-	}
+    public values<T>(): T[] {
+        return Object.values(this.#storage);
+    }
 
-	public get<T>(key: string, defaultValue?: T | undefined): T | undefined {
-		return get(this.#storage, key, defaultValue);
-	}
+    public get<T>(key: string, defaultValue?: T | undefined): T | undefined {
+        return get(this.#storage, key, defaultValue);
+    }
 
-	public set(key: string, value: unknown): void {
-		set(this.#storage, key, value);
-	}
+    public set(key: string, value: unknown): void {
+        set(this.#storage, key, value);
+    }
 
-	public fill(entries: object): void {
-		for (const [key, value] of Object.entries(entries)) {
-			this.set(key, value);
-		}
-	}
+    public fill(entries: object): void {
+        for (const [key, value] of Object.entries(entries)) {
+            this.set(key, value);
+        }
+    }
 
-	public has(key: string): boolean {
-		return has(this.#storage, key);
-	}
+    public has(key: string): boolean {
+        return has(this.#storage, key);
+    }
 
-	public missing(key: string): boolean {
-		return !this.has(key);
-	}
+    public missing(key: string): boolean {
+        return !this.has(key);
+    }
 
-	public forget(key: string): void {
-		unset(this.#storage, key);
-	}
+    public forget(key: string): void {
+        unset(this.#storage, key);
+    }
 
-	public forgetIndex(key: string, index: number): void {
-		const value: any[] | undefined = this.get(key);
+    public forgetIndex(key: string, index: number): void {
+        const value: any[] | undefined = this.get(key);
 
-		if (value !== undefined) {
-			this.set(
-				key,
-				value.filter((_, i) => i !== index),
-			);
-		}
-	}
+        if (value !== undefined) {
+            this.set(
+                key,
+                value.filter((_, i) => i !== index),
+            );
+        }
+    }
 
-	public flush(): void {
-		this.#storage = {};
-	}
+    public flush(): void {
+        this.#storage = {};
+    }
 
-	public count(): number {
-		return this.keys().length;
-	}
+    public count(): number {
+        return this.keys().length;
+    }
 
-	public snapshot(): void {
-		this.#snapshot = { ...this.all() };
-	}
+    public snapshot(): void {
+        this.#snapshot = { ...this.all() };
+    }
 
-	public restore(): void {
-		if (!this.#snapshot) {
-			throw new Error("There is no snapshot to restore.");
-		}
+    public restore(): void {
+        if (!this.#snapshot) {
+            throw new Error("There is no snapshot to restore.");
+        }
 
-		this.flush();
+        this.flush();
 
-		for (const [key, value] of Object.entries(this.#snapshot)) {
-			this.set(key, value);
-		}
+        for (const [key, value] of Object.entries(this.#snapshot)) {
+            this.set(key, value);
+        }
 
-		this.#snapshot = undefined;
-	}
+        this.#snapshot = undefined;
+    }
 
-	public toJSON(): string {
-		return JSON.stringify(this.#storage);
-	}
+    public toJSON(): string {
+        return JSON.stringify(this.#storage);
+    }
 }

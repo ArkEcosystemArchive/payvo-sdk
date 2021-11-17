@@ -1,40 +1,40 @@
 import "jest-extended";
 
-import { Paginator } from "./paginator";
+import { Paginator } from "./paginator.js";
 
 let subject: Stub;
 
 beforeEach(
-	() =>
-		(subject = new Stub(
-			[
-				{
-					id: () => "id1",
+    () =>
+    (subject = new Stub(
+        [
+            {
+                id: () => "id1",
 
-					recipient: () => "recipient1",
+                recipient: () => "recipient1",
 
-					sender: () => "sender1",
-					// @ts-ignore
-					timestamp: () => "timestamp1",
-					type: () => "type1",
-				},
-				{
-					id: () => "id2",
+                sender: () => "sender1",
+                // @ts-ignore
+                timestamp: () => "timestamp1",
+                type: () => "type1",
+            },
+            {
+                id: () => "id2",
 
-					recipient: () => "recipient2",
+                recipient: () => "recipient2",
 
-					sender: () => "sender2",
-					// @ts-ignore
-					timestamp: () => "timestamp2",
-					type: () => "type2",
-				},
-			],
-			{ last: 4, next: 4, prev: 1, self: 2 },
-		)),
+                sender: () => "sender2",
+                // @ts-ignore
+                timestamp: () => "timestamp2",
+                type: () => "type2",
+            },
+        ],
+        { last: 4, next: 4, prev: 1, self: 2 },
+    )),
 );
 
 test("#items", () => {
-	expect(subject.items()).toMatchInlineSnapshot(`
+    expect(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": [Function],
@@ -55,7 +55,7 @@ test("#items", () => {
 });
 
 test("#first", () => {
-	expect(subject.first()).toMatchInlineSnapshot(`
+    expect(subject.first()).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -67,7 +67,7 @@ test("#first", () => {
 });
 
 test("#last", () => {
-	expect(subject.last()).toMatchInlineSnapshot(`
+    expect(subject.last()).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -79,35 +79,35 @@ test("#last", () => {
 });
 
 test("#previousPage", () => {
-	expect(subject.previousPage()).toBe(1);
+    expect(subject.previousPage()).toBe(1);
 });
 
 test("#currentPage", () => {
-	expect(subject.currentPage()).toBe(2);
+    expect(subject.currentPage()).toBe(2);
 });
 
 test("#nextPage", () => {
-	expect(subject.nextPage()).toBe(4);
+    expect(subject.nextPage()).toBe(4);
 });
 
 test("#lastPage", () => {
-	expect(subject.lastPage()).toBe(4);
+    expect(subject.lastPage()).toBe(4);
 });
 
 test("#hasMorePages", () => {
-	expect(subject.hasMorePages()).toBeTrue();
+    expect(subject.hasMorePages()).toBeTrue();
 });
 
 test("#isEmpty", () => {
-	expect(subject.isEmpty()).toBeFalse();
+    expect(subject.isEmpty()).toBeFalse();
 });
 
 test("#isNotEmpty", () => {
-	expect(subject.isNotEmpty()).toBeTrue();
+    expect(subject.isNotEmpty()).toBeTrue();
 });
 
 test("#transform", () => {
-	expect(subject.items()).toMatchInlineSnapshot(`
+    expect(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": [Function],
@@ -126,13 +126,13 @@ test("#transform", () => {
 		]
 	`);
 
-	subject.transform((data) => {
-		data.id = `${data.id}-transformed`;
+    subject.transform((data) => {
+        data.id = `${data.id}-transformed`;
 
-		return data;
-	});
+        return data;
+    });
 
-	expect(subject.items()).toMatchInlineSnapshot(`
+    expect(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": "() => \\"id1\\"-transformed",
@@ -153,7 +153,7 @@ test("#transform", () => {
 });
 
 test("#getPagination", () => {
-	expect(subject.getPagination()).toMatchInlineSnapshot(`
+    expect(subject.getPagination()).toMatchInlineSnapshot(`
 		Object {
 		  "last": 4,
 		  "next": 4,
@@ -163,4 +163,4 @@ test("#getPagination", () => {
 	`);
 });
 
-class Stub extends Paginator<any> {}
+class Stub extends Paginator<any> { }

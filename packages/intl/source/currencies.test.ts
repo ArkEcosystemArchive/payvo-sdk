@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { CURRENCIES } from "./currencies";
+import { CURRENCIES } from "./currencies.js";
 
 test("CURRENCIES", () => {
-	expect(CURRENCIES).toMatchInlineSnapshot(`
+    expect(CURRENCIES).toMatchInlineSnapshot(`
 		Object {
 		  "AUD": Object {
 		    "decimals": 2,

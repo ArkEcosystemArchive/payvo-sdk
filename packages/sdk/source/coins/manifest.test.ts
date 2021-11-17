@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { Manifest } from "./manifest";
+import { Manifest } from "./manifest.js";
 
 test("#all", () => {
-	expect(new Manifest({ key: "value" }).all()).toMatchInlineSnapshot(`
+    expect(new Manifest({ key: "value" }).all()).toMatchInlineSnapshot(`
 		Object {
 		  "key": "value",
 		}
@@ -11,8 +11,8 @@ test("#all", () => {
 });
 
 test("#get", () => {
-	expect(new Manifest({ key: "value" }).get("key")).toBe("value");
-	expect(() => new Manifest({ key: "value" }).get("keykey")).toThrow(
-		"The [keykey] key does not exist in the manifest.",
-	);
+    expect(new Manifest({ key: "value" }).get("key")).toBe("value");
+    expect(() => new Manifest({ key: "value" }).get("keykey")).toThrow(
+        "The [keykey] key does not exist in the manifest.",
+    );
 });

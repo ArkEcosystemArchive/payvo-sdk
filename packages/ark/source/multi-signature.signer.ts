@@ -1,10 +1,10 @@
 import { Managers, Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
-
-import { BindingType } from "./coin.contract";
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { uniq } from "@payvo/sdk-helpers";
+
+import { BindingType } from "./coin.contract.js";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 
 @IoC.injectable()
 export class MultiSignatureSigner {

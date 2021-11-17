@@ -1,14 +1,14 @@
 import { IoC } from "@payvo/sdk";
 
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
 
 export class ServiceProvider extends IoC.AbstractServiceProvider {
-	public override async make(container: IoC.Container): Promise<void> {
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+    public override async make(container: IoC.Container): Promise<void> {
+        container.singleton(BindingType.AssetSerializer, AssetSerializer);
+        container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 
-		return this.compose(container);
-	}
+        return this.compose(container);
+    }
 }

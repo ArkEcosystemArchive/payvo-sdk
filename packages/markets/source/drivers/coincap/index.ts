@@ -2,16 +2,16 @@ import { Http } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 
 import {
-	CurrentPriceOptions,
-	DailyAverageOptions,
-	HistoricalData,
-	HistoricalPriceOptions,
-	HistoricalVolumeOptions,
-	MarketDataCollection,
-	PriceTracker,
+    CurrentPriceOptions,
+    DailyAverageOptions,
+    HistoricalData,
+    HistoricalPriceOptions,
+    HistoricalVolumeOptions,
+    MarketDataCollection,
+    PriceTracker,
 } from "../../contracts";
-import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer";
-import { MarketTransformer } from "./transformers/market-transformer";
+import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer.js";
+import { MarketTransformer } from "./transformers/market-transformer.js";
 
 /**
  * Implements a price tracker through the CoinCap API.
@@ -23,204 +23,204 @@ import { MarketTransformer } from "./transformers/market-transformer";
  * @implements {PriceTracker}
  */
 export class CoinCap implements PriceTracker {
-	/**
-	 * The cache that holds the remote token identifiers.
-	 *
-	 * @private
-	 * @type {Record<string, any>}
-	 * @memberof PriceTracker
-	 */
-	private readonly tokenLookup: Record<string, any> = {};
+    /**
+     * The cache that holds the remote token identifiers.
+     *
+     * @private
+     * @type {Record<string, any>}
+     * @memberof PriceTracker
+     */
+    private readonly tokenLookup: Record<string, any> = {};
 
-	/**
-	 * The HTTP client instance.
-	 *
-	 * @type {HttpClient}
-	 * @memberof PriceTracker
-	 */
-	readonly #httpClient: Http.HttpClient;
+    /**
+     * The HTTP client instance.
+     *
+     * @type {HttpClient}
+     * @memberof PriceTracker
+     */
+    readonly #httpClient: Http.HttpClient;
 
-	/**
-	 * The host of the CoinCap API.
-	 *
-	 * @type {string}
-	 * @memberof PriceTracker
-	 */
-	readonly #host: string = "https://api.coincap.io/v2";
+    /**
+     * The host of the CoinCap API.
+     *
+     * @type {string}
+     * @memberof PriceTracker
+     */
+    readonly #host: string = "https://api.coincap.io/v2";
 
-	/**
-	 * Creates an instance of PriceTracker.
-	 *
-	 * @param {HttpClient} httpClient
-	 * @memberof PriceTracker
-	 */
-	public constructor(httpClient: Http.HttpClient) {
-		this.#httpClient = httpClient;
-	}
+    /**
+     * Creates an instance of PriceTracker.
+     *
+     * @param {HttpClient} httpClient
+     * @memberof PriceTracker
+     */
+    public constructor(httpClient: Http.HttpClient) {
+        this.#httpClient = httpClient;
+    }
 
-	/** {@inheritDoc PriceTracker.verifyToken} */
-	public async verifyToken(token: string): Promise<boolean> {
-		try {
-			const tokenData = await this.#fetchTokenData(token);
+    /** {@inheritDoc PriceTracker.verifyToken} */
+    public async verifyToken(token: string): Promise<boolean> {
+        try {
+            const tokenData = await this.#fetchTokenData(token);
 
-			return !!tokenData.id;
-		} catch {
-			return false;
-		}
-	}
+            return !!tokenData.id;
+        } catch {
+            return false;
+        }
+    }
 
-	/** {@inheritDoc PriceTracker.marketData} */
-	public async marketData(token: string): Promise<MarketDataCollection> {
-		const tokenId = await this.#getTokenId(token);
+    /** {@inheritDoc PriceTracker.marketData} */
+    public async marketData(token: string): Promise<MarketDataCollection> {
+        const tokenId = await this.#getTokenId(token);
 
-		if (!tokenId) {
-			throw new Error("Failed to determine the token.");
-		}
+        if (!tokenId) {
+            throw new Error("Failed to determine the token.");
+        }
 
-		const response = await this.#getCurrencyData(token);
+        const response = await this.#getCurrencyData(token);
 
-		return new MarketTransformer(response).transform({ token: tokenId });
-	}
+        return new MarketTransformer(response).transform({ token: tokenId });
+    }
 
-	/** {@inheritDoc PriceTracker.historicalPrice} */
-	public async historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.historicalPrice} */
+    public async historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const { rates } = await this.#getCurrencyData(options.token);
-		const daysSubtract = options.days === 24 ? 1 : options.days;
-		const timeInterval = options.days === 24 ? "h1" : "h12";
-		const startDate = DateTime.make().subDays(daysSubtract).valueOf();
-		const endDate = DateTime.make().valueOf();
-		const body = await this.#get(`assets/${tokenId}/history`, {
-			interval: timeInterval,
-			start: startDate,
-			end: endDate,
-		});
+        const { rates } = await this.#getCurrencyData(options.token);
+        const daysSubtract = options.days === 24 ? 1 : options.days;
+        const timeInterval = options.days === 24 ? "h1" : "h12";
+        const startDate = DateTime.make().subDays(daysSubtract).valueOf();
+        const endDate = DateTime.make().valueOf();
+        const body = await this.#get(`assets/${tokenId}/history`, {
+            interval: timeInterval,
+            start: startDate,
+            end: endDate,
+        });
 
-		return new HistoricalPriceTransformer(body.data).transform({
-			token: tokenId,
-			currency: options.currency,
-			rates,
-			dateFormat: options.dateFormat,
-		});
-	}
+        return new HistoricalPriceTransformer(body.data).transform({
+            token: tokenId,
+            currency: options.currency,
+            rates,
+            dateFormat: options.dateFormat,
+        });
+    }
 
-	/** {@inheritDoc PriceTracker.historicalVolume} */
-	public async historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData> {
-		throw new Error(`Method ${this.constructor.name}#${this.historicalVolume.name} is not implemented.`);
-	}
+    /** {@inheritDoc PriceTracker.historicalVolume} */
+    public async historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData> {
+        throw new Error(`Method ${this.constructor.name}#${this.historicalVolume.name} is not implemented.`);
+    }
 
-	/** {@inheritDoc PriceTracker.dailyAverage} */
-	public async dailyAverage(options: DailyAverageOptions): Promise<number> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.dailyAverage} */
+    public async dailyAverage(options: DailyAverageOptions): Promise<number> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const start = DateTime.make(options.timestamp).startOf("day").valueOf();
-		const end = DateTime.make(start).addDay().valueOf();
+        const start = DateTime.make(options.timestamp).startOf("day").valueOf();
+        const end = DateTime.make(start).addDay().valueOf();
 
-		const response = await this.#get(`assets/${tokenId}/history`, {
-			interval: "h1",
-			start,
-			end,
-		});
+        const response = await this.#get(`assets/${tokenId}/history`, {
+            interval: "h1",
+            start,
+            end,
+        });
 
-		if (!response.data.length) {
-			return 0;
-		}
+        if (!response.data.length) {
+            return 0;
+        }
 
-		const priceUsd = response.data.reduce((acc, data) => acc + Number(data.priceUsd), 0) / response.data.length;
+        const priceUsd = response.data.reduce((acc, data) => acc + Number(data.priceUsd), 0) / response.data.length;
 
-		const { data } = await this.#get("rates");
+        const { data } = await this.#get("rates");
 
-		return priceUsd / Number(data.find((rate: any) => rate.symbol === options.currency.toUpperCase()).rateUsd);
-	}
+        return priceUsd / Number(data.find((rate: any) => rate.symbol === options.currency.toUpperCase()).rateUsd);
+    }
 
-	/** {@inheritDoc PriceTracker.currentPrice} */
-	public async currentPrice(options: CurrentPriceOptions): Promise<number> {
-		return this.dailyAverage({
-			...options,
-			timestamp: Date.now(),
-		});
-	}
+    /** {@inheritDoc PriceTracker.currentPrice} */
+    public async currentPrice(options: CurrentPriceOptions): Promise<number> {
+        return this.dailyAverage({
+            ...options,
+            timestamp: Date.now(),
+        });
+    }
 
-	/**
-	 * Returns and/or caches the remote token identifier.
-	 *
-	 * @private
-	 * @param {string} token
-	 * @param {number} [limit=1000]
-	 * @returns {Promise<string>}
-	 * @memberof PriceTracker
-	 */
-	async #getTokenId(token: string, limit = 1000): Promise<string> {
-		if (Object.keys(this.tokenLookup).length > 0) {
-			return this.tokenLookup[token.toUpperCase()];
-		}
+    /**
+     * Returns and/or caches the remote token identifier.
+     *
+     * @private
+     * @param {string} token
+     * @param {number} [limit=1000]
+     * @returns {Promise<string>}
+     * @memberof PriceTracker
+     */
+    async #getTokenId(token: string, limit = 1000): Promise<string> {
+        if (Object.keys(this.tokenLookup).length > 0) {
+            return this.tokenLookup[token.toUpperCase()];
+        }
 
-		const body = await this.#get("assets", { limit });
+        const body = await this.#get("assets", { limit });
 
-		for (const value of Object.values(body.data)) {
-			// @ts-ignore
-			this.tokenLookup[value.symbol.toUpperCase()] = value.id;
-		}
+        for (const value of Object.values(body.data)) {
+            // @ts-ignore
+            this.tokenLookup[value.symbol.toUpperCase()] = value.id;
+        }
 
-		return this.tokenLookup[token.toUpperCase()];
-	}
+        return this.tokenLookup[token.toUpperCase()];
+    }
 
-	/**
-	 * Returns information about the given token.
-	 *
-	 * @private
-	 * @param {string} token
-	 * @returns {Promise<Record<string, any>>}
-	 * @memberof PriceTracker
-	 */
-	async #fetchTokenData(token: string): Promise<Record<string, any>> {
-		const tokenId = await this.#getTokenId(token);
+    /**
+     * Returns information about the given token.
+     *
+     * @private
+     * @param {string} token
+     * @returns {Promise<Record<string, any>>}
+     * @memberof PriceTracker
+     */
+    async #fetchTokenData(token: string): Promise<Record<string, any>> {
+        const tokenId = await this.#getTokenId(token);
 
-		const body = await this.#get(`assets/${tokenId}`);
+        const body = await this.#get(`assets/${tokenId}`);
 
-		return body.data;
-	}
+        return body.data;
+    }
 
-	/**
-	 * Returns information about the available rates for the given token.
-	 *
-	 * @private
-	 * @param {string} token
-	 * @returns {Promise<Record<string, any>>}
-	 * @memberof PriceTracker
-	 */
-	async #getCurrencyData(token: string): Promise<Record<string, any>> {
-		const body = await this.#get("rates");
-		const { data, timestamp } = body;
-		const tokenData = await this.#fetchTokenData(token);
+    /**
+     * Returns information about the available rates for the given token.
+     *
+     * @private
+     * @param {string} token
+     * @returns {Promise<Record<string, any>>}
+     * @memberof PriceTracker
+     */
+    async #getCurrencyData(token: string): Promise<Record<string, any>> {
+        const body = await this.#get("rates");
+        const { data, timestamp } = body;
+        const tokenData = await this.#fetchTokenData(token);
 
-		const response = {
-			assets: { [tokenData.symbol.toUpperCase()]: tokenData },
-			rates: { [tokenData.symbol.toUpperCase()]: tokenData.priceUsd },
-			timestamp,
-		};
+        const response = {
+            assets: { [tokenData.symbol.toUpperCase()]: tokenData },
+            rates: { [tokenData.symbol.toUpperCase()]: tokenData.priceUsd },
+            timestamp,
+        };
 
-		for (const value of data) {
-			response.assets[value.symbol.toUpperCase()] = value;
-			response.rates[value.symbol.toUpperCase()] = value.rateUsd;
-		}
+        for (const value of data) {
+            response.assets[value.symbol.toUpperCase()] = value;
+            response.rates[value.symbol.toUpperCase()] = value.rateUsd;
+        }
 
-		return response;
-	}
+        return response;
+    }
 
-	/**
-	 * Sends an HTTP GET request to the CoinCap API.
-	 *
-	 * @private
-	 * @param {string} path
-	 * @param {*} [query={}]
-	 * @returns {Promise<any>}
-	 * @memberof PriceTracker
-	 */
-	async #get(path: string, query = {}): Promise<any> {
-		const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
+    /**
+     * Sends an HTTP GET request to the CoinCap API.
+     *
+     * @private
+     * @param {string} path
+     * @param {*} [query={}]
+     * @returns {Promise<any>}
+     * @memberof PriceTracker
+     */
+    async #get(path: string, query = {}): Promise<any> {
+        const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
 
-		return response.json();
-	}
+        return response.json();
+    }
 }

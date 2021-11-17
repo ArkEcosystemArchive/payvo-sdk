@@ -1,13 +1,13 @@
 import "jest-extended";
 
-import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion";
+import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion.js";
 
 test("#convertBuffer", () => {
-	expect(convertBuffer(Buffer.from("Hello World"))).toMatchInlineSnapshot(`"48656c6c6f20576f726c64"`);
+    expect(convertBuffer(Buffer.from("Hello World"))).toMatchInlineSnapshot(`"48656c6c6f20576f726c64"`);
 });
 
 test("#convertBufferList", () => {
-	expect(convertBufferList([Buffer.from("Hello"), Buffer.from("World")])).toMatchInlineSnapshot(`
+    expect(convertBufferList([Buffer.from("Hello"), Buffer.from("World")])).toMatchInlineSnapshot(`
 		Array [
 		  "48656c6c6f",
 		  "576f726c64",
@@ -16,7 +16,7 @@ test("#convertBufferList", () => {
 });
 
 test("#convertString", () => {
-	expect(convertString("48656c6c6f20576f726c64")).toMatchInlineSnapshot(`
+    expect(convertString("48656c6c6f20576f726c64")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    72,
@@ -37,7 +37,7 @@ test("#convertString", () => {
 });
 
 test("#convertStringList", () => {
-	expect(convertStringList(["48656c6c6f", "576f726c64"])).toMatchInlineSnapshot(`
+    expect(convertStringList(["48656c6c6f", "576f726c64"])).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "data": Array [

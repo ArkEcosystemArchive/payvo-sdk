@@ -9,23 +9,23 @@ import { TransactionService } from "./transaction.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
-import { manifest } from "./manifest";
+import { manifest } from "./manifest.js";
 import { ServiceProvider } from "./coin.provider";
 
 export const ZIL: Coins.CoinBundle = bundle({
-	dataTransferObjects: {
-		SignedTransactionData,
-		ConfirmedTransactionData,
-		WalletData,
-	},
-	manifest,
-	serviceProvider: ServiceProvider,
-	services: {
-		AddressService,
-		ClientService,
-		KeyPairService,
-		PrivateKeyService,
-		PublicKeyService,
-		TransactionService,
-	},
+    dataTransferObjects: {
+        SignedTransactionData,
+        ConfirmedTransactionData,
+        WalletData,
+    },
+    manifest,
+    serviceProvider: ServiceProvider,
+    services: {
+        AddressService,
+        ClientService,
+        KeyPairService,
+        PrivateKeyService,
+        PublicKeyService,
+        TransactionService,
+    },
 });

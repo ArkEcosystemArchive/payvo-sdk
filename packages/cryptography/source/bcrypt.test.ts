@@ -1,14 +1,14 @@
 import "jest-extended";
 
-import { Bcrypt } from "./bcrypt";
+import { Bcrypt } from "./bcrypt.js";
 
 test("#hash", () => {
-	expect(Bcrypt.hash("password")).toBeString();
+    expect(Bcrypt.hash("password")).toBeString();
 });
 
 test("#verify", () => {
-	const hash = Bcrypt.hash("password");
+    const hash = Bcrypt.hash("password");
 
-	expect(Bcrypt.verify(hash, "password")).toBeTrue();
-	expect(Bcrypt.verify(hash, "invalid")).toBeFalse();
+    expect(Bcrypt.verify(hash, "password")).toBeTrue();
+    expect(Bcrypt.verify(hash, "invalid")).toBeFalse();
 });

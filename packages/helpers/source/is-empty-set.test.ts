@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { isEmptySet } from "./is-empty-set";
+import { isEmptySet } from "./is-empty-set.js";
 
 describe("#isEmptySet", () => {
-	it("should return true for an empty set", () => {
-		expect(isEmptySet(new Set())).toBeTrue();
-	});
+    it("should return true for an empty set", () => {
+        expect(isEmptySet(new Set())).toBeTrue();
+    });
 });

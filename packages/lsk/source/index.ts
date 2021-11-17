@@ -14,28 +14,28 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { WIFService } from "./wif.service";
-import { manifest } from "./manifest";
+import { manifest } from "./manifest.js";
 import { ServiceProvider } from "./coin.provider";
 
 export const LSK: Coins.CoinBundle = bundle({
-	dataTransferObjects: {
-		SignedTransactionData,
-		ConfirmedTransactionData,
-		WalletData,
-	},
-	manifest,
-	serviceProvider: ServiceProvider,
-	services: {
-		AddressService,
-		ClientService,
-		FeeService,
-		KeyPairService,
-		LedgerService,
-		MessageService,
-		MultiSignatureService,
-		PrivateKeyService,
-		PublicKeyService,
-		TransactionService,
-		WIFService,
-	},
+    dataTransferObjects: {
+        SignedTransactionData,
+        ConfirmedTransactionData,
+        WalletData,
+    },
+    manifest,
+    serviceProvider: ServiceProvider,
+    services: {
+        AddressService,
+        ClientService,
+        FeeService,
+        KeyPairService,
+        LedgerService,
+        MessageService,
+        MultiSignatureService,
+        PrivateKeyService,
+        PublicKeyService,
+        TransactionService,
+        WIFService,
+    },
 });

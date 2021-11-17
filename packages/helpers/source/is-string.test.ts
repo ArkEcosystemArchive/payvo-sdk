@@ -1,13 +1,13 @@
 import "jest-extended";
 
-import { isString } from "./is-string";
+import { isString } from "./is-string.js";
 
 describe("#isString", () => {
-	it("should pass", () => {
-		expect(isString("string")).toBeTrue();
-	});
+    it("should pass", () => {
+        expect(isString("string")).toBeTrue();
+    });
 
-	it("should fail", () => {
-		expect(isString(1)).toBeFalse();
-	});
+    it("should fail", () => {
+        expect(isString(1)).toBeFalse();
+    });
 });

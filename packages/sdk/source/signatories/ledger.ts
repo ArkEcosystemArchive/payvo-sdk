@@ -1,21 +1,21 @@
 /* istanbul ignore file */
 
-import { IdentityOptions } from "../services";
+import { IdentityOptions } from "../services/index.js";
 
 export class LedgerSignatory {
-	readonly #signingKey: string;
-	readonly #options?: IdentityOptions;
+    readonly #signingKey: string;
+    readonly #options?: IdentityOptions;
 
-	public constructor({ signingKey, options }: { signingKey: string; options?: IdentityOptions }) {
-		this.#signingKey = signingKey;
-		this.#options = options;
-	}
+    public constructor({ signingKey, options }: { signingKey: string; options?: IdentityOptions }) {
+        this.#signingKey = signingKey;
+        this.#options = options;
+    }
 
-	public signingKey(): string {
-		return this.#signingKey;
-	}
+    public signingKey(): string {
+        return this.#signingKey;
+    }
 
-	public options(): IdentityOptions | undefined {
-		return this.#options;
-	}
+    public options(): IdentityOptions | undefined {
+        return this.#options;
+    }
 }

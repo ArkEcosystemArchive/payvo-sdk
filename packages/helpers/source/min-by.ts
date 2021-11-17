@@ -1,18 +1,18 @@
-import { FunctionReturning } from "./types";
-import { mapArray } from "./map-array";
+import { FunctionReturning } from "./types.js";
+import { mapArray } from "./map-array.js";
 
 export const minBy = <T>(iterable: T[], iteratee: FunctionReturning): T => {
-	const values: number[] = mapArray<T, number>(iterable, iteratee);
+    const values: number[] = mapArray<T, number>(iterable, iteratee);
 
-	let index: number = 0;
-	let smallest: number = values[index];
+    let index: number = 0;
+    let smallest: number = values[index];
 
-	for (let i = 0; i < values.length; i++) {
-		if (values[i] < smallest) {
-			smallest = values[i];
-			index = i;
-		}
-	}
+    for (let i = 0; i < values.length; i++) {
+        if (values[i] < smallest) {
+            smallest = values[i];
+            index = i;
+        }
+    }
 
-	return iterable[index];
+    return iterable[index];
 };

@@ -4,37 +4,37 @@
 import { formatString } from "@payvo/sdk-helpers";
 import { URL } from "url";
 
-import { ConfigRepository } from "../coins";
-import { randomNetworkHostFromConfig } from "../helpers";
-import { inject, injectable } from "../ioc";
+import { ConfigRepository } from "../coins/index.js";
+import { randomNetworkHostFromConfig } from "../helpers.js";
+import { inject, injectable } from "../ioc/index.js";
 import { BindingType } from "../ioc/service-provider.contract";
 import { LinkService } from "./link.contract";
 
 @injectable()
 export class AbstractLinkService implements LinkService {
-	@inject(BindingType.ConfigRepository)
-	private readonly configRepository!: ConfigRepository;
+    @inject(BindingType.ConfigRepository)
+    private readonly configRepository!: ConfigRepository;
 
-	public block(id: string): string {
-		return this.#buildURL(this.configRepository.get("network.explorer.block"), id);
-	}
+    public block(id: string): string {
+        return this.#buildURL(this.configRepository.get("network.explorer.block"), id);
+    }
 
-	public transaction(id: string): string {
-		return this.#buildURL(this.configRepository.get("network.explorer.transaction"), id);
-	}
+    public transaction(id: string): string {
+        return this.#buildURL(this.configRepository.get("network.explorer.transaction"), id);
+    }
 
-	public wallet(id: string): string {
-		return this.#buildURL(this.configRepository.get("network.explorer.wallet"), id);
-	}
+    public wallet(id: string): string {
+        return this.#buildURL(this.configRepository.get("network.explorer.wallet"), id);
+    }
 
-	#buildURL(schema: string, id: string): string {
-		const { host, query } = randomNetworkHostFromConfig(this.configRepository, "explorer");
-		const url: URL = new URL(formatString(schema, id), host);
+    #buildURL(schema: string, id: string): string {
+        const { host, query } = randomNetworkHostFromConfig(this.configRepository, "explorer");
+        const url: URL = new URL(formatString(schema, id), host);
 
-		if (query) {
-			url.search = new URLSearchParams(query).toString();
-		}
+        if (query) {
+            url.search = new URLSearchParams(query).toString();
+        }
 
-		return url.toString();
-	}
+        return url.toString();
+    }
 }

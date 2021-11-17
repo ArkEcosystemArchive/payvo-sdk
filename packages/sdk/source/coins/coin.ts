@@ -1,191 +1,191 @@
-import { Container, injectable } from "../ioc";
+import { Container, injectable } from "../ioc/index.js";
 import { BindingType } from "../ioc/service-provider.contract";
-import { Network, NetworkRepository } from "../networks";
+import { Network, NetworkRepository } from "../networks/index.js";
 import {
-	AddressService,
-	BigNumberService,
-	ClientService,
-	DataTransferObjectService,
-	ExtendedAddressService,
-	FeeService,
-	KeyPairService,
-	KnownWalletService,
-	LedgerService,
-	LinkService,
-	MessageService,
-	MultiSignatureService,
-	PrivateKeyService,
-	PublicKeyService,
-	SignatoryService,
-	TransactionService,
-	WalletDiscoveryService,
-	WIFService,
+    AddressService,
+    BigNumberService,
+    ClientService,
+    DataTransferObjectService,
+    ExtendedAddressService,
+    FeeService,
+    KeyPairService,
+    KnownWalletService,
+    LedgerService,
+    LinkService,
+    MessageService,
+    MultiSignatureService,
+    PrivateKeyService,
+    PublicKeyService,
+    SignatoryService,
+    TransactionService,
+    WalletDiscoveryService,
+    WIFService,
 } from "../services";
 import { ExtendedPublicKeyService } from "../services/extended-public-key.contract";
-import { ConfigRepository } from "./config";
-import { Manifest } from "./manifest";
+import { ConfigRepository } from "./config.js";
+import { Manifest } from "./manifest.js";
 
 @injectable()
 export class Coin {
-	readonly #container: Container;
-	#isSyncing = false;
+    readonly #container: Container;
+    #isSyncing = false;
 
-	public constructor(container: Container) {
-		this.#container = container;
-	}
+    public constructor(container: Container) {
+        this.#container = container;
+    }
 
-	public async __construct(): Promise<void> {
-		/* istanbul ignore next */
-		if (this.hasBeenSynchronized()) {
-			/* istanbul ignore next */
-			return;
-		}
+    public async __construct(): Promise<void> {
+        /* istanbul ignore next */
+        if (this.hasBeenSynchronized()) {
+            /* istanbul ignore next */
+            return;
+        }
 
-		/* istanbul ignore next */
-		if (this.#isSyncing) {
-			/* istanbul ignore next */
-			return;
-		}
+        /* istanbul ignore next */
+        if (this.#isSyncing) {
+            /* istanbul ignore next */
+            return;
+        }
 
-		try {
-			this.#isSyncing = true;
+        try {
+            this.#isSyncing = true;
 
-			await this.#container.resolve<any>(this.#container.get(BindingType.ServiceProvider)).make(this.#container);
+            await this.#container.resolve<any>(this.#container.get(BindingType.ServiceProvider)).make(this.#container);
 
-			this.#isSyncing = false;
-			/* istanbul ignore next */
-		} catch (error) {
-			console.log(error);
+            this.#isSyncing = false;
+            /* istanbul ignore next */
+        } catch (error) {
+            console.log(error);
 
-			/* istanbul ignore next */
-			this.#isSyncing = false;
+            /* istanbul ignore next */
+            this.#isSyncing = false;
 
-			/* istanbul ignore next */
-			throw error;
-		}
-	}
+            /* istanbul ignore next */
+            throw error;
+        }
+    }
 
-	public async __destruct(): Promise<void> {
-		/* istanbul ignore next */
-		if (!this.hasBeenSynchronized()) {
-			/* istanbul ignore next */
-			return;
-		}
+    public async __destruct(): Promise<void> {
+        /* istanbul ignore next */
+        if (!this.hasBeenSynchronized()) {
+            /* istanbul ignore next */
+            return;
+        }
 
-		await this.#container.unbindAsync(BindingType.AddressService);
-		await this.#container.unbindAsync(BindingType.BigNumberService);
-		await this.#container.unbindAsync(BindingType.ClientService);
-		await this.#container.unbindAsync(BindingType.DataTransferObjectService);
-		await this.#container.unbindAsync(BindingType.ExtendedAddressService);
-		await this.#container.unbindAsync(BindingType.ExtendedPublicKeyService);
-		await this.#container.unbindAsync(BindingType.FeeService);
-		await this.#container.unbindAsync(BindingType.KeyPairService);
-		await this.#container.unbindAsync(BindingType.KnownWalletService);
-		await this.#container.unbindAsync(BindingType.LedgerService);
-		await this.#container.unbindAsync(BindingType.LinkService);
-		await this.#container.unbindAsync(BindingType.MessageService);
-		await this.#container.unbindAsync(BindingType.MultiSignatureService);
-		await this.#container.unbindAsync(BindingType.PrivateKeyService);
-		await this.#container.unbindAsync(BindingType.PublicKeyService);
-		await this.#container.unbindAsync(BindingType.SignatoryService);
-		await this.#container.unbindAsync(BindingType.TransactionService);
-		await this.#container.unbindAsync(BindingType.WalletDiscoveryService);
-		await this.#container.unbindAsync(BindingType.WIFService);
-	}
+        await this.#container.unbindAsync(BindingType.AddressService);
+        await this.#container.unbindAsync(BindingType.BigNumberService);
+        await this.#container.unbindAsync(BindingType.ClientService);
+        await this.#container.unbindAsync(BindingType.DataTransferObjectService);
+        await this.#container.unbindAsync(BindingType.ExtendedAddressService);
+        await this.#container.unbindAsync(BindingType.ExtendedPublicKeyService);
+        await this.#container.unbindAsync(BindingType.FeeService);
+        await this.#container.unbindAsync(BindingType.KeyPairService);
+        await this.#container.unbindAsync(BindingType.KnownWalletService);
+        await this.#container.unbindAsync(BindingType.LedgerService);
+        await this.#container.unbindAsync(BindingType.LinkService);
+        await this.#container.unbindAsync(BindingType.MessageService);
+        await this.#container.unbindAsync(BindingType.MultiSignatureService);
+        await this.#container.unbindAsync(BindingType.PrivateKeyService);
+        await this.#container.unbindAsync(BindingType.PublicKeyService);
+        await this.#container.unbindAsync(BindingType.SignatoryService);
+        await this.#container.unbindAsync(BindingType.TransactionService);
+        await this.#container.unbindAsync(BindingType.WalletDiscoveryService);
+        await this.#container.unbindAsync(BindingType.WIFService);
+    }
 
-	public hasBeenSynchronized(): boolean {
-		return this.#container.has(BindingType.AddressService);
-	}
+    public hasBeenSynchronized(): boolean {
+        return this.#container.has(BindingType.AddressService);
+    }
 
-	public network(): Network {
-		return this.#container.get(BindingType.Network);
-	}
+    public network(): Network {
+        return this.#container.get(BindingType.Network);
+    }
 
-	public networks(): NetworkRepository {
-		return this.#container.get(BindingType.NetworkRepository);
-	}
+    public networks(): NetworkRepository {
+        return this.#container.get(BindingType.NetworkRepository);
+    }
 
-	public manifest(): Manifest {
-		return this.#container.get(BindingType.Manifest);
-	}
+    public manifest(): Manifest {
+        return this.#container.get(BindingType.Manifest);
+    }
 
-	public config(): ConfigRepository {
-		return this.#container.get(BindingType.ConfigRepository);
-	}
+    public config(): ConfigRepository {
+        return this.#container.get(BindingType.ConfigRepository);
+    }
 
-	public address(): AddressService {
-		return this.#container.get(BindingType.AddressService);
-	}
+    public address(): AddressService {
+        return this.#container.get(BindingType.AddressService);
+    }
 
-	public bigNumber(): BigNumberService {
-		return this.#container.get(BindingType.BigNumberService);
-	}
+    public bigNumber(): BigNumberService {
+        return this.#container.get(BindingType.BigNumberService);
+    }
 
-	public client(): ClientService {
-		return this.#container.get(BindingType.ClientService);
-	}
+    public client(): ClientService {
+        return this.#container.get(BindingType.ClientService);
+    }
 
-	public dataTransferObject(): DataTransferObjectService {
-		return this.#container.get(BindingType.DataTransferObjectService);
-	}
+    public dataTransferObject(): DataTransferObjectService {
+        return this.#container.get(BindingType.DataTransferObjectService);
+    }
 
-	public extendedAddress(): ExtendedAddressService {
-		return this.#container.get(BindingType.ExtendedAddressService);
-	}
+    public extendedAddress(): ExtendedAddressService {
+        return this.#container.get(BindingType.ExtendedAddressService);
+    }
 
-	public extendedPublicKey(): ExtendedPublicKeyService {
-		return this.#container.get(BindingType.ExtendedPublicKeyService);
-	}
+    public extendedPublicKey(): ExtendedPublicKeyService {
+        return this.#container.get(BindingType.ExtendedPublicKeyService);
+    }
 
-	public fee(): FeeService {
-		return this.#container.get(BindingType.FeeService);
-	}
+    public fee(): FeeService {
+        return this.#container.get(BindingType.FeeService);
+    }
 
-	public keyPair(): KeyPairService {
-		return this.#container.get(BindingType.KeyPairService);
-	}
+    public keyPair(): KeyPairService {
+        return this.#container.get(BindingType.KeyPairService);
+    }
 
-	public knownWallet(): KnownWalletService {
-		return this.#container.get(BindingType.KnownWalletService);
-	}
+    public knownWallet(): KnownWalletService {
+        return this.#container.get(BindingType.KnownWalletService);
+    }
 
-	public ledger(): LedgerService {
-		return this.#container.get(BindingType.LedgerService);
-	}
+    public ledger(): LedgerService {
+        return this.#container.get(BindingType.LedgerService);
+    }
 
-	public link(): LinkService {
-		return this.#container.get(BindingType.LinkService);
-	}
+    public link(): LinkService {
+        return this.#container.get(BindingType.LinkService);
+    }
 
-	public message(): MessageService {
-		return this.#container.get(BindingType.MessageService);
-	}
+    public message(): MessageService {
+        return this.#container.get(BindingType.MessageService);
+    }
 
-	public multiSignature(): MultiSignatureService {
-		return this.#container.get(BindingType.MultiSignatureService);
-	}
+    public multiSignature(): MultiSignatureService {
+        return this.#container.get(BindingType.MultiSignatureService);
+    }
 
-	public privateKey(): PrivateKeyService {
-		return this.#container.get(BindingType.PrivateKeyService);
-	}
+    public privateKey(): PrivateKeyService {
+        return this.#container.get(BindingType.PrivateKeyService);
+    }
 
-	public publicKey(): PublicKeyService {
-		return this.#container.get(BindingType.PublicKeyService);
-	}
+    public publicKey(): PublicKeyService {
+        return this.#container.get(BindingType.PublicKeyService);
+    }
 
-	public signatory(): SignatoryService {
-		return this.#container.get(BindingType.SignatoryService);
-	}
+    public signatory(): SignatoryService {
+        return this.#container.get(BindingType.SignatoryService);
+    }
 
-	public transaction(): TransactionService {
-		return this.#container.get(BindingType.TransactionService);
-	}
+    public transaction(): TransactionService {
+        return this.#container.get(BindingType.TransactionService);
+    }
 
-	public walletDiscovery(): WalletDiscoveryService {
-		return this.#container.get(BindingType.WalletDiscoveryService);
-	}
+    public walletDiscovery(): WalletDiscoveryService {
+        return this.#container.get(BindingType.WalletDiscoveryService);
+    }
 
-	public wif(): WIFService {
-		return this.#container.get(BindingType.WIFService);
-	}
+    public wif(): WIFService {
+        return this.#container.get(BindingType.WIFService);
+    }
 }

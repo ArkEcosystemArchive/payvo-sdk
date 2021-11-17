@@ -1,13 +1,13 @@
 import "jest-extended";
 
-import { isSymbol } from "./is-symbol";
+import { isSymbol } from "./is-symbol.js";
 
 describe("#isSymbol", () => {
-	it("should pass", () => {
-		expect(isSymbol(Symbol.for("string"))).toBeTrue();
-	});
+    it("should pass", () => {
+        expect(isSymbol(Symbol.for("string"))).toBeTrue();
+    });
 
-	it("should fail", () => {
-		expect(isSymbol("string")).toBeFalse();
-	});
+    it("should fail", () => {
+        expect(isSymbol("string")).toBeFalse();
+    });
 });

@@ -1,14 +1,14 @@
 import "jest-extended";
 
-import { manifest } from "../../../ark/distribution/manifest";
-import { NetworkRepository } from "./network-repository";
+import { manifest } from "../../../ark/distribution/manifest.js";
+import { NetworkRepository } from "./network-repository.js";
 
 let subject: NetworkRepository;
 
 beforeEach(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
-	expect(subject.all()).toMatchInlineSnapshot(`
+    expect(subject.all()).toMatchInlineSnapshot(`
 Object {
   "ark.devnet": Object {
     "coin": "ARK",
@@ -1133,13 +1133,13 @@ Object {
 });
 
 test("#get | #push | #forget", () => {
-	expect(subject.get("ark.devnet")).toBeObject();
+    expect(subject.get("ark.devnet")).toBeObject();
 
-	subject.push("ark.devnet", manifest.networks["ark.devnet"]);
+    subject.push("ark.devnet", manifest.networks["ark.devnet"]);
 
-	expect(subject.get("ark.devnet")).toBeObject();
+    expect(subject.get("ark.devnet")).toBeObject();
 
-	subject.forget("ark.devnet");
+    subject.forget("ark.devnet");
 
-	expect(() => subject.get("ark.devnet")).toThrow("The [ark.devnet] network is not supported.");
+    expect(() => subject.get("ark.devnet")).toThrow("The [ark.devnet] network is not supported.");
 });

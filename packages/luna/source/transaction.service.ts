@@ -2,30 +2,30 @@ import { Contracts, Helpers, Services } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 import { LCDClient, MnemonicKey, MsgSend } from "@terra-money/terra.js";
 
-import { useClient } from "./helpers";
+import { useClient } from "./helpers.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
-	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const amount = this.toSatoshi(input.data.amount).toString();
+    public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
+        const amount = this.toSatoshi(input.data.amount).toString();
 
-		const transaction = await this.#useClient()
-			.wallet(new MnemonicKey({ mnemonic: input.signatory.signingKey() }))
-			.createAndSignTx({
-				msgs: [new MsgSend(input.signatory.address(), input.data.to, { uluna: amount })],
-				memo: input.data.memo,
-			});
+        const transaction = await this.#useClient()
+            .wallet(new MnemonicKey({ mnemonic: input.signatory.signingKey() }))
+            .createAndSignTx({
+                msgs: [new MsgSend(input.signatory.address(), input.data.to, { uluna: amount })],
+                memo: input.data.memo,
+            });
 
-		return this.dataTransferObjectService.signedTransaction(
-			UUID.random(),
-			transaction.toData(),
-			transaction.toJSON(),
-		);
-	}
+        return this.dataTransferObjectService.signedTransaction(
+            UUID.random(),
+            transaction.toData(),
+            transaction.toJSON(),
+        );
+    }
 
-	#useClient(): LCDClient {
-		return useClient(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/api`,
-			this.configRepository.get("network.meta.networkId"),
-		);
-	}
+    #useClient(): LCDClient {
+        return useClient(
+            `${Helpers.randomHostFromConfig(this.configRepository)}/api`,
+            this.configRepository.get("network.meta.networkId"),
+        );
+    }
 }

@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { Hash } from "./hash";
+import { Hash } from "./hash.js";
 
 test("#ripemd160", () => {
-	expect(Hash.ripemd160("Hello World")).toMatchInlineSnapshot(`
+    expect(Hash.ripemd160("Hello World")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    168,
@@ -33,7 +33,7 @@ test("#ripemd160", () => {
 });
 
 test("#sha1", () => {
-	expect(Hash.sha1("Hello World")).toMatchInlineSnapshot(`
+    expect(Hash.sha1("Hello World")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    10,
@@ -63,7 +63,7 @@ test("#sha1", () => {
 });
 
 test("#sha256", () => {
-	expect(Hash.sha256("Hello World")).toMatchInlineSnapshot(`
+    expect(Hash.sha256("Hello World")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    165,
@@ -105,7 +105,7 @@ test("#sha256", () => {
 });
 
 test("#hash160", () => {
-	expect(Hash.hash160("Hello World")).toMatchInlineSnapshot(`
+    expect(Hash.hash160("Hello World")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    189,
@@ -135,7 +135,7 @@ test("#hash160", () => {
 });
 
 test("#hash256", () => {
-	expect(Hash.hash256("Hello World")).toMatchInlineSnapshot(`
+    expect(Hash.hash256("Hello World")).toMatchInlineSnapshot(`
 		Object {
 		  "data": Array [
 		    66,

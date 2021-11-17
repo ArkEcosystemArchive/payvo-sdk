@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { Arr } from "./arr";
+import { Arr } from "./arr.js";
 
 test("#randomElement", () => {
-	const data = [...Array(1000).keys()];
+    const data = [...Array(1000).keys()];
 
-	expect(Arr.randomElement(data)).not.toBe(Arr.randomElement(data));
+    expect(Arr.randomElement(data)).not.toBe(Arr.randomElement(data));
 });

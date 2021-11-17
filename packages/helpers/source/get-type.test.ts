@@ -1,10 +1,10 @@
-import { getType } from "./get-type";
+import { getType } from "./get-type.js";
 
 describe("#getType", () => {
-	it("should return the type of the given value", () => {
-		expect(getType([])).toBe("[object Array]");
-		expect(getType(1)).toBe("[object Number]");
-		expect(getType({})).toBe("[object Object]");
-		expect(getType("hello")).toBe("[object String]");
-	});
+    it("should return the type of the given value", () => {
+        expect(getType([])).toBe("[object Array]");
+        expect(getType(1)).toBe("[object Number]");
+        expect(getType({})).toBe("[object Object]");
+        expect(getType("hello")).toBe("[object String]");
+    });
 });

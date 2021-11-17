@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { FeatureFlag } from "./enums";
+import { FeatureFlag } from "./enums.js";
 
 test("FeatureFlag", () => {
-	expect(FeatureFlag).toMatchInlineSnapshot(`
+    expect(FeatureFlag).toMatchInlineSnapshot(`
 		Object {
 		  "AddressMnemonicBip39": "Address.mnemonic.bip39",
 		  "AddressMnemonicBip44": "Address.mnemonic.bip44",

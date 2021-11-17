@@ -1,188 +1,188 @@
 /* istanbul ignore file */
 
-import { ForbiddenMethodCallException } from "../exceptions";
-import { IdentityOptions, MultiSignatureAsset } from "../services";
-import { AbstractDoubleSignatory } from "./abstract-double-signatory";
-import { AbstractSignatory } from "./abstract-signatory";
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
-import { WIFSignatory } from "./wif";
+import { ForbiddenMethodCallException } from "../exceptions.js";
+import { IdentityOptions, MultiSignatureAsset } from "../services/index.js";
+import { AbstractDoubleSignatory } from "./abstract-double-signatory.js";
+import { AbstractSignatory } from "./abstract-signatory.js";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.js";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.js";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.js";
+import { LedgerSignatory } from "./ledger.js";
+import { MnemonicSignatory } from "./mnemonic.js";
+import { MultiSignatureSignatory } from "./multi-signature.js";
+import { PrivateKeySignatory } from "./private-key.js";
+import { SecretSignatory } from "./secret.js";
+import { WIFSignatory } from "./wif.js";
 
 type SignatoryType =
-	| ConfirmationMnemonicSignatory
-	| ConfirmationSecretSignatory
-	| ConfirmationWIFSignatory
-	| LedgerSignatory
-	| MnemonicSignatory
-	| MultiSignatureSignatory
-	| PrivateKeySignatory
-	| SecretSignatory
-	| WIFSignatory;
+    | ConfirmationMnemonicSignatory
+    | ConfirmationSecretSignatory
+    | ConfirmationWIFSignatory
+    | LedgerSignatory
+    | MnemonicSignatory
+    | MultiSignatureSignatory
+    | PrivateKeySignatory
+    | SecretSignatory
+    | WIFSignatory;
 
 export class Signatory {
-	readonly #signatory: SignatoryType;
-	readonly #multiSignature: MultiSignatureAsset | undefined;
+    readonly #signatory: SignatoryType;
+    readonly #multiSignature: MultiSignatureAsset | undefined;
 
-	public constructor(signatory: SignatoryType, multiSignature?: MultiSignatureAsset) {
-		this.#signatory = signatory;
-		this.#multiSignature = multiSignature;
-	}
+    public constructor(signatory: SignatoryType, multiSignature?: MultiSignatureAsset) {
+        this.#signatory = signatory;
+        this.#multiSignature = multiSignature;
+    }
 
-	public signingKey(): string {
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
-		}
+    public signingKey(): string {
+        if (this.#signatory instanceof MultiSignatureSignatory) {
+            throw new ForbiddenMethodCallException(this.constructor.name, this.signingKey.name);
+        }
 
-		return this.#signatory.signingKey();
-	}
+        return this.#signatory.signingKey();
+    }
 
-	public confirmKey(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
-			return this.#signatory.confirmKey();
-		}
+    public confirmKey(): string {
+        // @TODO: deduplicate this
+        if (this.#signatory instanceof ConfirmationMnemonicSignatory) {
+            return this.#signatory.confirmKey();
+        }
 
-		if (this.#signatory instanceof ConfirmationSecretSignatory) {
-			return this.#signatory.confirmKey();
-		}
+        if (this.#signatory instanceof ConfirmationSecretSignatory) {
+            return this.#signatory.confirmKey();
+        }
 
-		if (this.#signatory instanceof ConfirmationWIFSignatory) {
-			return this.#signatory.confirmKey();
-		}
+        if (this.#signatory instanceof ConfirmationWIFSignatory) {
+            return this.#signatory.confirmKey();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.confirmKey.name);
+    }
 
-	public address(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.address();
-		}
+    public address(): string {
+        // @TODO: deduplicate this
+        if (this.#signatory instanceof AbstractSignatory) {
+            return this.#signatory.address();
+        }
 
-		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.address();
-		}
+        if (this.#signatory instanceof AbstractDoubleSignatory) {
+            return this.#signatory.address();
+        }
 
-		if (this.#signatory instanceof PrivateKeySignatory) {
-			return this.#signatory.address();
-		}
+        if (this.#signatory instanceof PrivateKeySignatory) {
+            return this.#signatory.address();
+        }
 
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			return this.#signatory.address();
-		}
+        if (this.#signatory instanceof MultiSignatureSignatory) {
+            return this.#signatory.address();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.address.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.address.name);
+    }
 
-	public publicKey(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.publicKey();
-		}
+    public publicKey(): string {
+        // @TODO: deduplicate this
+        if (this.#signatory instanceof AbstractSignatory) {
+            return this.#signatory.publicKey();
+        }
 
-		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.publicKey();
-		}
+        if (this.#signatory instanceof AbstractDoubleSignatory) {
+            return this.#signatory.publicKey();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.publicKey.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.publicKey.name);
+    }
 
-	public privateKey(): string {
-		// @TODO: deduplicate this
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.privateKey();
-		}
+    public privateKey(): string {
+        // @TODO: deduplicate this
+        if (this.#signatory instanceof AbstractSignatory) {
+            return this.#signatory.privateKey();
+        }
 
-		if (this.#signatory instanceof AbstractDoubleSignatory) {
-			return this.#signatory.privateKey();
-		}
+        if (this.#signatory instanceof AbstractDoubleSignatory) {
+            return this.#signatory.privateKey();
+        }
 
-		if (this.#signatory instanceof PrivateKeySignatory) {
-			return this.#signatory.privateKey();
-		}
+        if (this.#signatory instanceof PrivateKeySignatory) {
+            return this.#signatory.privateKey();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.privateKey.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.privateKey.name);
+    }
 
-	public path(): string {
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.signingKey();
-		}
+    public path(): string {
+        if (this.#signatory instanceof LedgerSignatory) {
+            return this.#signatory.signingKey();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.path.name);
+    }
 
-	public asset(): MultiSignatureAsset {
-		if (this.#signatory instanceof MultiSignatureSignatory) {
-			return this.#signatory.asset();
-		}
+    public asset(): MultiSignatureAsset {
+        if (this.#signatory instanceof MultiSignatureSignatory) {
+            return this.#signatory.asset();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
+    }
 
-	public options(): IdentityOptions | undefined {
-		if (this.#signatory instanceof AbstractSignatory) {
-			return this.#signatory.options();
-		}
+    public options(): IdentityOptions | undefined {
+        if (this.#signatory instanceof AbstractSignatory) {
+            return this.#signatory.options();
+        }
 
-		if (this.#signatory instanceof PrivateKeySignatory) {
-			return this.#signatory.options();
-		}
+        if (this.#signatory instanceof PrivateKeySignatory) {
+            return this.#signatory.options();
+        }
 
-		if (this.#signatory instanceof LedgerSignatory) {
-			return this.#signatory.options();
-		}
+        if (this.#signatory instanceof LedgerSignatory) {
+            return this.#signatory.options();
+        }
 
-		throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
-	}
+        throw new ForbiddenMethodCallException(this.constructor.name, this.asset.name);
+    }
 
-	public multiSignature(): MultiSignatureAsset | undefined {
-		return this.#multiSignature;
-	}
+    public multiSignature(): MultiSignatureAsset | undefined {
+        return this.#multiSignature;
+    }
 
-	public hasMultiSignature(): boolean {
-		return this.#multiSignature !== undefined;
-	}
+    public hasMultiSignature(): boolean {
+        return this.#multiSignature !== undefined;
+    }
 
-	public actsWithMnemonic(): boolean {
-		return this.#signatory instanceof MnemonicSignatory;
-	}
+    public actsWithMnemonic(): boolean {
+        return this.#signatory instanceof MnemonicSignatory;
+    }
 
-	public actsWithConfirmationMnemonic(): boolean {
-		return this.#signatory instanceof ConfirmationMnemonicSignatory;
-	}
+    public actsWithConfirmationMnemonic(): boolean {
+        return this.#signatory instanceof ConfirmationMnemonicSignatory;
+    }
 
-	public actsWithWIF(): boolean {
-		return this.#signatory instanceof WIFSignatory;
-	}
+    public actsWithWIF(): boolean {
+        return this.#signatory instanceof WIFSignatory;
+    }
 
-	public actsWithConfirmationWIF(): boolean {
-		return this.#signatory instanceof ConfirmationWIFSignatory;
-	}
+    public actsWithConfirmationWIF(): boolean {
+        return this.#signatory instanceof ConfirmationWIFSignatory;
+    }
 
-	public actsWithPrivateKey(): boolean {
-		return this.#signatory instanceof PrivateKeySignatory;
-	}
+    public actsWithPrivateKey(): boolean {
+        return this.#signatory instanceof PrivateKeySignatory;
+    }
 
-	public actsWithMultiSignature(): boolean {
-		return this.#signatory instanceof MultiSignatureSignatory;
-	}
+    public actsWithMultiSignature(): boolean {
+        return this.#signatory instanceof MultiSignatureSignatory;
+    }
 
-	public actsWithLedger(): boolean {
-		return this.#signatory instanceof LedgerSignatory;
-	}
+    public actsWithLedger(): boolean {
+        return this.#signatory instanceof LedgerSignatory;
+    }
 
-	public actsWithSecret(): boolean {
-		return this.#signatory instanceof SecretSignatory;
-	}
+    public actsWithSecret(): boolean {
+        return this.#signatory instanceof SecretSignatory;
+    }
 
-	public actsWithConfirmationSecret(): boolean {
-		return this.#signatory instanceof ConfirmationSecretSignatory;
-	}
+    public actsWithConfirmationSecret(): boolean {
+        return this.#signatory instanceof ConfirmationSecretSignatory;
+    }
 }

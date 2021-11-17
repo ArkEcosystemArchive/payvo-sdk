@@ -2,17 +2,17 @@ import { Http } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 
 import {
-	CurrentPriceOptions,
-	DailyAverageOptions,
-	HistoricalData,
-	HistoricalPriceOptions,
-	HistoricalVolumeOptions,
-	MarketDataCollection,
-	PriceTracker,
+    CurrentPriceOptions,
+    DailyAverageOptions,
+    HistoricalData,
+    HistoricalPriceOptions,
+    HistoricalVolumeOptions,
+    MarketDataCollection,
+    PriceTracker,
 } from "../../contracts";
-import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer";
-import { HistoricalVolumeTransformer } from "./transformers/historical-volume-transformer";
-import { MarketTransformer } from "./transformers/market-transformer";
+import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer.js";
+import { HistoricalVolumeTransformer } from "./transformers/historical-volume-transformer.js";
+import { MarketTransformer } from "./transformers/market-transformer.js";
 
 /**
  * Implements a price tracker through the CoinGecko API.
@@ -24,151 +24,151 @@ import { MarketTransformer } from "./transformers/market-transformer";
  * @implements {PriceTracker}
  */
 export class CoinGecko implements PriceTracker {
-	/**
-	 * The cache that holds the remote token identifiers.
-	 *
-	 * @private
-	 * @type {Record<string, any>}
-	 * @memberof PriceTracker
-	 */
-	private readonly tokenLookup: Record<string, any> = {};
+    /**
+     * The cache that holds the remote token identifiers.
+     *
+     * @private
+     * @type {Record<string, any>}
+     * @memberof PriceTracker
+     */
+    private readonly tokenLookup: Record<string, any> = {};
 
-	/**
-	 * The HTTP client instance.
-	 *
-	 * @type {HttpClient}
-	 * @memberof PriceTracker
-	 */
-	readonly #httpClient: Http.HttpClient;
+    /**
+     * The HTTP client instance.
+     *
+     * @type {HttpClient}
+     * @memberof PriceTracker
+     */
+    readonly #httpClient: Http.HttpClient;
 
-	/**
-	 * The host of the CoinGecko API.
-	 *
-	 * @type {string}
-	 * @memberof PriceTracker
-	 */
-	readonly #host: string = "https://api.coingecko.com/api/v3";
+    /**
+     * The host of the CoinGecko API.
+     *
+     * @type {string}
+     * @memberof PriceTracker
+     */
+    readonly #host: string = "https://api.coingecko.com/api/v3";
 
-	/**
-	 * Creates an instance of PriceTracker.
-	 *
-	 * @param {HttpClient} httpClient
-	 * @memberof PriceTracker
-	 */
-	public constructor(httpClient: Http.HttpClient) {
-		this.#httpClient = httpClient;
-	}
+    /**
+     * Creates an instance of PriceTracker.
+     *
+     * @param {HttpClient} httpClient
+     * @memberof PriceTracker
+     */
+    public constructor(httpClient: Http.HttpClient) {
+        this.#httpClient = httpClient;
+    }
 
-	/** {@inheritDoc PriceTracker.verifyToken} */
-	public async verifyToken(token: string): Promise<boolean> {
-		const tokenId = await this.#getTokenId(token);
+    /** {@inheritDoc PriceTracker.verifyToken} */
+    public async verifyToken(token: string): Promise<boolean> {
+        const tokenId = await this.#getTokenId(token);
 
-		try {
-			const body = await this.#get(`simple/price`, {
-				ids: tokenId,
-				vs_currencies: "BTC",
-			});
+        try {
+            const body = await this.#get(`simple/price`, {
+                ids: tokenId,
+                vs_currencies: "BTC",
+            });
 
-			return !!body[tokenId];
-		} catch {
-			return false;
-		}
-	}
+            return !!body[tokenId];
+        } catch {
+            return false;
+        }
+    }
 
-	/** {@inheritDoc PriceTracker.marketData} */
-	public async marketData(token: string): Promise<MarketDataCollection> {
-		const tokenId = await this.#getTokenId(token);
+    /** {@inheritDoc PriceTracker.marketData} */
+    public async marketData(token: string): Promise<MarketDataCollection> {
+        const tokenId = await this.#getTokenId(token);
 
-		const body = await this.#get(`coins/${tokenId}`);
+        const body = await this.#get(`coins/${tokenId}`);
 
-		return new MarketTransformer(body.market_data).transform({});
-	}
+        return new MarketTransformer(body.market_data).transform({});
+    }
 
-	/** {@inheritDoc PriceTracker.historicalPrice} */
-	public async historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.historicalPrice} */
+    public async historicalPrice(options: HistoricalPriceOptions): Promise<HistoricalData> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const body = await this.#get(`coins/${tokenId}/market_chart`, {
-			vs_currency: options.currency,
-			days: options.days,
-		});
+        const body = await this.#get(`coins/${tokenId}/market_chart`, {
+            vs_currency: options.currency,
+            days: options.days,
+        });
 
-		return new HistoricalPriceTransformer(body).transform(options);
-	}
+        return new HistoricalPriceTransformer(body).transform(options);
+    }
 
-	/** {@inheritDoc PriceTracker.historicalVolume} */
-	public async historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.historicalVolume} */
+    public async historicalVolume(options: HistoricalVolumeOptions): Promise<HistoricalData> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const body = await this.#get(`coins/${tokenId}/market_chart/range`, {
-			id: options.token,
-			vs_currency: options.currency,
-			from: DateTime.make().subDays(options.days).toUNIX(),
-			to: DateTime.make().toUNIX(),
-		});
+        const body = await this.#get(`coins/${tokenId}/market_chart/range`, {
+            id: options.token,
+            vs_currency: options.currency,
+            from: DateTime.make().subDays(options.days).toUNIX(),
+            to: DateTime.make().toUNIX(),
+        });
 
-		return new HistoricalVolumeTransformer(body).transform(options);
-	}
+        return new HistoricalVolumeTransformer(body).transform(options);
+    }
 
-	/** {@inheritDoc PriceTracker.dailyAverage} */
-	public async dailyAverage(options: DailyAverageOptions): Promise<number> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.dailyAverage} */
+    public async dailyAverage(options: DailyAverageOptions): Promise<number> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const response = await this.#get(`coins/${tokenId}/history`, {
-			date: DateTime.make(options.timestamp).format("DD-MM-YYYY"),
-		});
+        const response = await this.#get(`coins/${tokenId}/history`, {
+            date: DateTime.make(options.timestamp).format("DD-MM-YYYY"),
+        });
 
-		return response.market_data?.current_price[options.currency.toLowerCase()];
-	}
+        return response.market_data?.current_price[options.currency.toLowerCase()];
+    }
 
-	/** {@inheritDoc PriceTracker.currentPrice} */
-	public async currentPrice(options: CurrentPriceOptions): Promise<number> {
-		const tokenId = await this.#getTokenId(options.token);
+    /** {@inheritDoc PriceTracker.currentPrice} */
+    public async currentPrice(options: CurrentPriceOptions): Promise<number> {
+        const tokenId = await this.#getTokenId(options.token);
 
-		const body = await this.#get("simple/price", {
-			ids: tokenId,
-			vs_currencies: options.currency,
-		});
+        const body = await this.#get("simple/price", {
+            ids: tokenId,
+            vs_currencies: options.currency,
+        });
 
-		return body[tokenId][options.currency.toLowerCase()];
-	}
+        return body[tokenId][options.currency.toLowerCase()];
+    }
 
-	/**
-	 * Returns and/or caches the remote token identifier.
-	 *
-	 * @private
-	 * @param {*} token
-	 * @returns {Promise<string>}
-	 * @memberof PriceTracker
-	 */
-	async #getTokenId(token): Promise<string> {
-		if (Object.keys(this.tokenLookup).length > 0) {
-			return this.tokenLookup[token.toUpperCase()];
-		}
+    /**
+     * Returns and/or caches the remote token identifier.
+     *
+     * @private
+     * @param {*} token
+     * @returns {Promise<string>}
+     * @memberof PriceTracker
+     */
+    async #getTokenId(token): Promise<string> {
+        if (Object.keys(this.tokenLookup).length > 0) {
+            return this.tokenLookup[token.toUpperCase()];
+        }
 
-		const uri = `coins/list`;
-		const body = await this.#get(uri);
+        const uri = `coins/list`;
+        const body = await this.#get(uri);
 
-		for (const value of Object.values(body)) {
-			// @ts-ignore
-			this.tokenLookup[value.symbol.toUpperCase()] = value.id;
-		}
+        for (const value of Object.values(body)) {
+            // @ts-ignore
+            this.tokenLookup[value.symbol.toUpperCase()] = value.id;
+        }
 
-		return this.tokenLookup[token.toUpperCase()];
-	}
+        return this.tokenLookup[token.toUpperCase()];
+    }
 
-	/**
-	 * Sends an HTTP GET request to the CoinGecko API.
-	 *
-	 * @private
-	 * @param {string} path
-	 * @param {*} [query={}]
-	 * @returns {Promise<any>}
-	 * @memberof PriceTracker
-	 */
-	async #get(path: string, query = {}): Promise<any> {
-		const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
+    /**
+     * Sends an HTTP GET request to the CoinGecko API.
+     *
+     * @private
+     * @param {string} path
+     * @param {*} [query={}]
+     * @returns {Promise<any>}
+     * @memberof PriceTracker
+     */
+    async #get(path: string, query = {}): Promise<any> {
+        const response = await this.#httpClient.get(`${this.#host}/${path}`, query);
 
-		return response.json();
-	}
+        return response.json();
+    }
 }

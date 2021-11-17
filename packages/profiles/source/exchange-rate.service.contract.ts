@@ -1,7 +1,7 @@
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the exchange rate service.
@@ -10,41 +10,41 @@ import { IProfile } from "./contracts";
  * @interface IExchangeRateService
  */
 export interface IExchangeRateService {
-	/**
-	 * Synchronise the exchange rates for all wallets.
-	 *
-	 * @param {IProfile} profile
-	 * @param {string} currency
-	 * @return {Promise<void>}
-	 * @memberof IExchangeRateService
-	 */
-	syncAll(profile: IProfile, currency: string): Promise<void>;
+    /**
+     * Synchronise the exchange rates for all wallets.
+     *
+     * @param {IProfile} profile
+     * @param {string} currency
+     * @return {Promise<void>}
+     * @memberof IExchangeRateService
+     */
+    syncAll(profile: IProfile, currency: string): Promise<void>;
 
-	/**
-	 * Exchange the source currency to the target currency for the given date.
-	 *
-	 * @param {string} currency
-	 * @param {string} exchangeCurrency
-	 * @param {DateTime} date
-	 * @param {NumberLike} value
-	 * @return {number}
-	 * @memberof IExchangeRateService
-	 */
-	exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): number;
+    /**
+     * Exchange the source currency to the target currency for the given date.
+     *
+     * @param {string} currency
+     * @param {string} exchangeCurrency
+     * @param {DateTime} date
+     * @param {NumberLike} value
+     * @return {number}
+     * @memberof IExchangeRateService
+     */
+    exchange(currency: string, exchangeCurrency: string, date: DateTime, value: NumberLike): number;
 
-	/**
-	 * Take a snapshot of the current data.
-	 *
-	 * @return {Promise<void>}
-	 * @memberof IExchangeRateService
-	 */
-	snapshot(): Promise<void>;
+    /**
+     * Take a snapshot of the current data.
+     *
+     * @return {Promise<void>}
+     * @memberof IExchangeRateService
+     */
+    snapshot(): Promise<void>;
 
-	/**
-	 * Restore data from a snapshot.
-	 *
-	 * @return {Promise<void>}
-	 * @memberof IExchangeRateService
-	 */
-	restore(): Promise<void>;
+    /**
+     * Restore data from a snapshot.
+     *
+     * @return {Promise<void>}
+     * @memberof IExchangeRateService
+     */
+    restore(): Promise<void>;
 }

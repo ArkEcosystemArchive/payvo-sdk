@@ -12,24 +12,24 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { WIFService } from "./wif.service";
-import { manifest } from "./manifest";
+import { manifest } from "./manifest.js";
 
 export const XRP: Coins.CoinBundle = bundle({
-	dataTransferObjects: {
-		SignedTransactionData,
-		ConfirmedTransactionData,
-		WalletData,
-	},
-	manifest,
-	services: {
-		AddressService,
-		ClientService,
-		KeyPairService,
-		LedgerService,
-		MessageService,
-		PrivateKeyService,
-		PublicKeyService,
-		TransactionService,
-		WIFService,
-	},
+    dataTransferObjects: {
+        SignedTransactionData,
+        ConfirmedTransactionData,
+        WalletData,
+    },
+    manifest,
+    services: {
+        AddressService,
+        ClientService,
+        KeyPairService,
+        LedgerService,
+        MessageService,
+        PrivateKeyService,
+        PublicKeyService,
+        TransactionService,
+        WIFService,
+    },
 });

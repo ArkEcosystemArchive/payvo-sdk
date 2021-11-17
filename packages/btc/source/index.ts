@@ -15,29 +15,29 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { WIFService } from "./wif.service";
-import { manifest } from "./manifest";
+import { manifest } from "./manifest.js";
 import { ServiceProvider } from "./coin.provider";
 
 export const BTC: Coins.CoinBundle = bundle({
-	dataTransferObjects: {
-		SignedTransactionData,
-		ConfirmedTransactionData,
-		WalletData,
-	},
-	manifest,
-	serviceProvider: ServiceProvider,
-	services: {
-		AddressService,
-		ClientService,
-		ExtendedPublicKeyService,
-		FeeService,
-		KeyPairService,
-		LedgerService,
-		MessageService,
-		PrivateKeyService,
-		PublicKeyService,
-		TransactionService,
-		WalletDiscoveryService,
-		WIFService,
-	},
+    dataTransferObjects: {
+        SignedTransactionData,
+        ConfirmedTransactionData,
+        WalletData,
+    },
+    manifest,
+    serviceProvider: ServiceProvider,
+    services: {
+        AddressService,
+        ClientService,
+        ExtendedPublicKeyService,
+        FeeService,
+        KeyPairService,
+        LedgerService,
+        MessageService,
+        PrivateKeyService,
+        PublicKeyService,
+        TransactionService,
+        WalletDiscoveryService,
+        WIFService,
+    },
 });

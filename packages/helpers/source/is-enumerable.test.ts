@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isEnumerable } from "./is-enumerable";
+import { isEnumerable } from "./is-enumerable.js";
 
 const object1 = {};
 const array1 = [];
@@ -10,9 +10,9 @@ object1.property1 = 42;
 array1[0] = 42;
 
 describe("#isEnumerable", () => {
-	it("should work with objects and arrays", () => {
-		expect(isEnumerable(object1, "property1")).toBeTrue();
-		expect(isEnumerable(array1, 0)).toBeTrue();
-		expect(isEnumerable(array1, "length")).toBeFalse();
-	});
+    it("should work with objects and arrays", () => {
+        expect(isEnumerable(object1, "property1")).toBeTrue();
+        expect(isEnumerable(array1, 0)).toBeTrue();
+        expect(isEnumerable(array1, "length")).toBeFalse();
+    });
 });

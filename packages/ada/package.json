@@ -5,8 +5,8 @@
 	"license": "MIT",
 	"contributors": [],
 	"type": "module",
-	"exports": "distribution/index.js",
-	"types": "distribution/index.d.ts",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
 	"files": [
 		"/distribution"
 	],

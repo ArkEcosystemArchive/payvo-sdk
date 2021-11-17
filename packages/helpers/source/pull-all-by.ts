@@ -1,16 +1,16 @@
-import { filter } from "./filter";
-import { FunctionReturning } from "./types";
+import { filter } from "./filter.js";
+import { FunctionReturning } from "./types.js";
 
 export const pullAllBy = <T>(iterable: T[], values: T[], iteratee: FunctionReturning): T[] => {
-	const iterateeValues = {};
+    const iterateeValues = {};
 
-	return filter(iterable, (iterableItem) => {
-		const itemValue = iteratee(iterableItem);
+    return filter(iterable, (iterableItem) => {
+        const itemValue = iteratee(iterableItem);
 
-		if (!iterateeValues[itemValue]) {
-			iterateeValues[itemValue] = values.map((value) => iteratee(value));
-		}
+        if (!iterateeValues[itemValue]) {
+            iterateeValues[itemValue] = values.map((value) => iteratee(value));
+        }
 
-		return !iterateeValues[itemValue].includes(itemValue);
-	}) as T[];
+        return !iterateeValues[itemValue].includes(itemValue);
+    }) as T[];
 };
