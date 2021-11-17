@@ -1,5 +1,5 @@
 import { test } from "uvu";
-import * as assert from 'uvu/assert';
+import * as assert from "uvu/assert";
 
 import { BIP44 } from "./bip44";
 
@@ -13,13 +13,16 @@ test("#deriveChild", async () => {
 });
 
 test("#deriveChildWithPath", async () => {
-	const { child, path } = BIP44.deriveChildWithPath("praise you muffin lion enable neck grocery crumble super myself license ghost", {
-		account: 3,
-		change: 4,
-		coinType: 2,
-		index: 5,
-		purpose: 1,
-	});
+	const { child, path } = BIP44.deriveChildWithPath(
+		"praise you muffin lion enable neck grocery crumble super myself license ghost",
+		{
+			account: 3,
+			change: 4,
+			coinType: 2,
+			index: 5,
+			purpose: 1,
+		},
+	);
 
 	assert.type(child, "object");
 	assert.type(path, "string");

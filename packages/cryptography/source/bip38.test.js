@@ -1,5 +1,5 @@
 import { test } from "uvu";
-import * as assert from 'uvu/assert';
+import * as assert from "uvu/assert";
 
 import { BIP38 } from "./bip38";
 import { WIF } from "./wif";
@@ -9,7 +9,8 @@ const mnemonic = "TestingOneTwoThree";
 test("#encrypt", async () => {
 	const { compressed, privateKey } = WIF.decode("5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR");
 
-	assert.is(BIP38.encrypt(privateKey, mnemonic, compressed),
+	assert.is(
+		BIP38.encrypt(privateKey, mnemonic, compressed),
 		"6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg",
 	);
 });

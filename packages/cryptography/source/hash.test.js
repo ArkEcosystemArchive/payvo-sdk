@@ -1,5 +1,5 @@
 import { test } from "uvu";
-import * as assert from 'uvu/assert';
+import * as assert from "uvu/assert";
 
 import { Hash } from "./hash";
 
@@ -12,7 +12,10 @@ test("#sha1", () => {
 });
 
 test("#sha256", () => {
-	assert.is(Hash.sha256("Hello World").toString("hex"), "a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e");
+	assert.is(
+		Hash.sha256("Hello World").toString("hex"),
+		"a591a6d40bf420404a011733cfb7b190d62c65bf0bcda32b57b277d9ad9f146e",
+	);
 });
 
 test("#hash160", () => {
@@ -20,7 +23,10 @@ test("#hash160", () => {
 });
 
 test("#hash256", () => {
-	assert.is(Hash.hash256("Hello World").toString("hex"), "42a873ac3abd02122d27e80486c6fa1ef78694e8505fcec9cbcc8a7728ba8949");
+	assert.is(
+		Hash.hash256("Hello World").toString("hex"),
+		"42a873ac3abd02122d27e80486c6fa1ef78694e8505fcec9cbcc8a7728ba8949",
+	);
 });
 
 test.run();

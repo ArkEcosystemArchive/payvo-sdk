@@ -1,5 +1,5 @@
 import { test } from "uvu";
-import * as assert from 'uvu/assert';
+import * as assert from "uvu/assert";
 
 import { Argon2 } from "./argon2";
 
