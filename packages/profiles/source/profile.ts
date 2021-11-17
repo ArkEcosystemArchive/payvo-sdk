@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AppearanceService } from "./appearance.service";
-import { Authenticator } from "./authenticator";
-import { CoinService } from "./coin.service";
+import { AppearanceService } from "./appearance.service.js";
+import { Authenticator } from "./authenticator.js";
+import { CoinService } from "./coin.service.js";
 import { ContactRepository } from "./contact.repository";
 import {
 	IAppearanceService,
@@ -30,13 +30,13 @@ import {
 import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { Avatar } from "./helpers";
-import { AttributeBag } from "./helpers/attribute-bag";
-import { IProfileNotificationService } from "./notification.repository.contract";
-import { ProfileNotificationService } from "./notification.service";
-import { PasswordManager } from "./password";
+import { Avatar } from "./helpers/avatar.js";
+import { AttributeBag } from "./helpers/attribute-bag.js";
+import { IProfileNotificationService } from "./notification.repository.contract.js";
+import { ProfileNotificationService } from "./notification.service.js";
+import { PasswordManager } from "./password.js";
 import { PluginRepository } from "./plugin.repository";
-import { Portfolio } from "./portfolio";
+import { Portfolio } from "./portfolio.js";
 import { ProfileInitialiser } from "./profile.initialiser";
 import { ProfileStatus } from "./profile.status";
 import { RegistrationAggregate } from "./registration.aggregate";

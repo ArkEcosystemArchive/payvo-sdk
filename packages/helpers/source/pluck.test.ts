@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { pluck } from "./pluck";
+import { pluck } from "./pluck.js";
 
 describe("#pluck", () => {
 	it("should return the names of the users", () => {

@@ -1,8 +1,8 @@
 import { Managers } from "@arkecosystem/crypto";
 import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
-import { BindingType } from "./coin.contract";
-import { MultiSignatureSigner } from "./multi-signature.signer";
+import { BindingType } from "./coin.contract.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
 @IoC.injectable()
 export class ServiceProvider extends IoC.AbstractServiceProvider {

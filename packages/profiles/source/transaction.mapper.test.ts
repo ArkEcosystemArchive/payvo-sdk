@@ -4,12 +4,12 @@ import { Collections } from "@payvo/sdk";
 import nock from "nock";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
-import { Wallet } from "./wallet";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
+import { Profile } from "./profile.js";
+import { Wallet } from "./wallet.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 import { transformTransactionData, transformConfirmedTransactionDataCollection } from "./transaction.mapper";
 

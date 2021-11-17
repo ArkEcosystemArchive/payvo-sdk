@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { max } from "./max";
+import { max } from "./max.js";
 
 describe("#max", () => {
 	it("should return the largest number", () => {

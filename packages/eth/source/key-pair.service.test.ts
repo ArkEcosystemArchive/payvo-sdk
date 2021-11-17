@@ -1,8 +1,8 @@
 import "jest-extended";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { KeyPairService } from "./key-pair.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { KeyPairService } from "./key-pair.service.js";
 
 let subject: KeyPairService;
 

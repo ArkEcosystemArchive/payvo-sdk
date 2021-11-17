@@ -1,4 +1,4 @@
-import { getPathSegments } from "./get-path-segments";
+import { getPathSegments } from "./get-path-segments.js";
 
 describe("#getPathSegments", () => {
 	it("should return an array as is", () => {

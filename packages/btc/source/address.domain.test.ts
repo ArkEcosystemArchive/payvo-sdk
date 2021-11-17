@@ -10,7 +10,7 @@ import {
 	defaultP2SHSegwitMusigAccountKey,
 	rootToAccountKeys,
 } from "./address.domain";
-import { musig } from "../test/fixtures/musig";
+import { musig } from "../test/fixtures/musig.js";
 import { convertBuffer } from "@payvo/sdk-helpers";
 
 const network = bitcoin.networks.testnet;

@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { MultiPaymentRecipient } from "./confirmed-transaction.contract";
+import { MultiPaymentRecipient } from "./confirmed-transaction.contract.js";
 
 export type RawTransactionData = any;
 

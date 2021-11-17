@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isFunction } from "./is-function";
+import { isFunction } from "./is-function.js";
 
 describe("#isFunction", () => {
 	it("should pass", () => {

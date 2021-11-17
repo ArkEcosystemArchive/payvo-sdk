@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { stringify } from "./stringify";
+import { stringify } from "./stringify.js";
 
 describe("#stringify", () => {
 	it("should return the given value as JSON", () => {

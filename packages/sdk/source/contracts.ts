@@ -1,11 +1,11 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { RawTransactionData, SignedTransactionData } from "./dto/signed-transaction.contract";
+import { RawTransactionData, SignedTransactionData } from "./dto/signed-transaction.contract.js";
 import {
 	UnspentTransactionData,
 	ConfirmedTransactionData,
 	MultiPaymentRecipient,
 	TransactionDataMeta,
-} from "./dto/confirmed-transaction.contract";
+} from "./dto/confirmed-transaction.contract.js";
 
 export type KeyValuePair = Record<string, any>;
 

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts";
+import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts.js";
 
 export class ProfileValidator implements IProfileValidator {
 	/**

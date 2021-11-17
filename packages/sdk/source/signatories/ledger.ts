@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { IdentityOptions } from "../services";
+import { IdentityOptions } from "../services/index.js";
 
 export class LedgerSignatory {
 	readonly #signingKey: string;

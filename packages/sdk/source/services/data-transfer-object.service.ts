@@ -3,16 +3,16 @@
 
 import { get } from "@payvo/sdk-helpers";
 
-import { ConfigKey, ConfigRepository } from "../coins";
-import { ConfirmedTransactionDataCollection } from "../collections";
-import { WalletData } from "../contracts";
-import * as DataTransferObjects from "../dto";
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
-import { SignedTransactionData } from "../dto/signed-transaction.contract";
-import { Container, inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { MetaPagination } from "./client.contract";
-import { DataTransferObjectService } from "./data-transfer-object.contract";
+import { ConfigKey, ConfigRepository } from "../coins/index.js";
+import { ConfirmedTransactionDataCollection } from "../collections/index.js";
+import { WalletData } from "../contracts.js";
+import * as DataTransferObjects from "../dto/index.js";
+import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
+import { SignedTransactionData } from "../dto/signed-transaction.contract.js";
+import { Container, inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { MetaPagination } from "./client.contract.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 
 @injectable()
 export class AbstractDataTransferObjectService implements DataTransferObjectService {

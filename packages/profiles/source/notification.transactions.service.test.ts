@@ -2,16 +2,16 @@ import "jest-extended";
 import "reflect-metadata";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { Profile } from "./profile";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { Profile } from "./profile.js";
 
 import { NotificationRepository } from "./notification.repository";
-import { ProfileTransactionNotificationService } from "./notification.transactions.service";
-import { INotificationTypes, IProfileTransactionNotificationService } from "./notification.repository.contract";
-import { IProfile } from "./profile.contract";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
-import { ProfileSetting } from "./profile.enum.contract";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service.js";
+import { INotificationTypes, IProfileTransactionNotificationService } from "./notification.repository.contract.js";
+import { IProfile } from "./profile.contract.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { ProfileSetting } from "./profile.enum.contract.js";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 
 const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;

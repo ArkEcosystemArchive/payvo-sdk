@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { reduce } from "./reduce";
+import { reduce } from "./reduce.js";
 
 describe("#reduce", () => {
 	it("should work with an array", () => {

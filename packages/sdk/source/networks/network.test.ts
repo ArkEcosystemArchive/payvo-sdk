@@ -2,9 +2,9 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { manifest } from "../../../ark/distribution/manifest";
-import { FeatureFlag } from "../enums";
-import { Network } from "./network";
+import { manifest } from "../../../ark/distribution/manifest.js";
+import { FeatureFlag } from "../enums.js";
+import { Network } from "./network.js";
 
 let subject: Network;
 

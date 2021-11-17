@@ -1,4 +1,4 @@
-import { IContactAddressData, IContactAddressInput, IContactAddressRepository } from "./contracts";
+import { IContactAddressData, IContactAddressInput, IContactAddressRepository } from "./contracts.js";
 
 /**
  * Defines the structure that represents a contact.

@@ -2,7 +2,7 @@ import { Hash } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import NodeCache from "node-cache";
 
-import { ICache } from "./contracts";
+import { ICache } from "./contracts.js";
 
 type CacheStore = Record<string, { expires_at: DateTime; value: unknown }>;
 

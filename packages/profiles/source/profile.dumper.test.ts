@@ -3,12 +3,12 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile, IProfileRepository } from "./contracts";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { IProfile, IProfileRepository } from "./contracts.js";
 import { ProfileDumper } from "./profile.dumper";
 import { Identifiers } from "./container.models";
-import { container } from "./container";
+import { container } from "./container.js";
 
 let subject: ProfileDumper;
 let profile: IProfile;

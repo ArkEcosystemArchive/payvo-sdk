@@ -3,13 +3,13 @@ import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
 
-import { bootContainer } from "../test/mocking";
-import { Migrator } from "./migrator";
-import { Profile } from "./profile";
-import { IProfile, ProfileData, ProfileSetting } from "./contracts";
+import { bootContainer } from "../test/mocking.js";
+import { Migrator } from "./migrator.js";
+import { Profile } from "./profile.js";
+import { IProfile, ProfileData, ProfileSetting } from "./contracts.js";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { IProfileData } from "./profile.contract";
+import { IProfileData } from "./profile.contract.js";
 
 let subject: Migrator;
 let profile: IProfile;

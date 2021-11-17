@@ -1,6 +1,6 @@
 import { Contracts, Signatories, Services } from "@payvo/sdk";
 
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
 
 export type SignedTransactionDataDictionary = Record<string, ExtendedSignedTransactionData>;
 

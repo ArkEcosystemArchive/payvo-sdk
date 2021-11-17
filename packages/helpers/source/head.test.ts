@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { head } from "./head";
+import { head } from "./head.js";
 
 describe("#head", () => {
 	it("should return the first item", () => {

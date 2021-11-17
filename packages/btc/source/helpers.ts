@@ -1,8 +1,8 @@
 import { BIP44 } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
-import { getNetworkConfig } from "./config";
-import { BipLevel } from "./contracts";
+import { getNetworkConfig } from "./config.js";
+import { BipLevel } from "./contracts.js";
 
 export const post = async (
 	path: string,

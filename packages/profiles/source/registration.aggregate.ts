@@ -1,4 +1,4 @@
-import { IProfile, IReadWriteWallet } from "./contracts";
+import { IProfile, IReadWriteWallet } from "./contracts.js";
 
 export class RegistrationAggregate implements RegistrationAggregate {
 	readonly #profile: IProfile;

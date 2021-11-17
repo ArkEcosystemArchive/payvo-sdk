@@ -4,12 +4,12 @@ import { DTO, IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { TransactionService } from "./transaction.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { createService, requireModule } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ClientService;
 

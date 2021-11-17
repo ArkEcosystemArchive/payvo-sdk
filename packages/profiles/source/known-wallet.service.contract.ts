@@ -1,4 +1,4 @@
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the known wallet service.

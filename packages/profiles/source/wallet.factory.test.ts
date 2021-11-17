@@ -6,9 +6,9 @@ import { encrypt } from "bip38";
 import nock from "nock";
 import { decode } from "wif";
 
-import { bootContainer } from "../test/mocking";
-import { WalletData } from "./contracts";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { WalletData } from "./contracts.js";
+import { Profile } from "./profile.js";
 import { WalletFactory } from "./wallet.factory";
 
 jest.setTimeout(60000);

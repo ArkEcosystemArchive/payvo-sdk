@@ -1,5 +1,5 @@
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
-import { Paginator } from "./paginator";
+import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
+import { Paginator } from "./paginator.js";
 
 export class ConfirmedTransactionDataCollection extends Paginator<ConfirmedTransactionData> {
 	public findById(id: string): ConfirmedTransactionData | undefined {

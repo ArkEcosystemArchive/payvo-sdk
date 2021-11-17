@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { convertToCurrency } from "./utils";
+import { convertToCurrency } from "./utils.js";
 
 test("If `from` equals `base`, return the basic exchange rate for the `to` currency", async () => {
 	expect(convertToCurrency(10, { from: "USD", to: "BTC", base: "USD", rates: { BTC: 0.5 } })).toBe(5);

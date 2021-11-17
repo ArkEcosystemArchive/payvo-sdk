@@ -1,6 +1,6 @@
 import { Services } from "@payvo/sdk";
 
-import { IReadWriteWallet } from "./contracts";
+import { IReadWriteWallet } from "./contracts.js";
 
 /**
  * Defines the options needed to generate a wallet.

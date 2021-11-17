@@ -5,11 +5,11 @@ import { mock } from "jest-mock-extended";
 import { Coins } from "@payvo/sdk";
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import NodeFeesFixture from "../test/fixtures/client/node-fees.json";
-import { Profile } from "./profile";
-import { ICoinService, IDataRepository } from "./contracts";
-import { CoinService } from "./coin.service";
+import { Profile } from "./profile.js";
+import { ICoinService, IDataRepository } from "./contracts.js";
+import { CoinService } from "./coin.service.js";
 
 let subject: ICoinService;
 

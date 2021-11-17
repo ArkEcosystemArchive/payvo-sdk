@@ -3,8 +3,8 @@ import "jest-extended";
 import { Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { createService, requireModule } from "../test/mocking.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ConfirmedTransactionData;
 

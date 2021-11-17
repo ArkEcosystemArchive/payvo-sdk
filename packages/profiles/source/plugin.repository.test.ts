@@ -1,8 +1,8 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { PluginRegistry } from "./plugin-registry.service";
+import { bootContainer } from "../test/mocking.js";
+import { PluginRegistry } from "./plugin-registry.service.js";
 import { PluginRepository } from "./plugin.repository";
 
 const stubPlugin = {

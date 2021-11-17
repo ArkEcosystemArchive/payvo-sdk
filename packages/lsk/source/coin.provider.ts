@@ -1,6 +1,6 @@
 import { IoC } from "@payvo/sdk";
 
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { TransactionSerializer } from "./transaction.serializer";
 import { AssetSerializer } from "./asset.serializer";
 

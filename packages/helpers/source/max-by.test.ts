@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { maxBy } from "./max-by";
+import { maxBy } from "./max-by.js";
 
 describe("#maxBy", () => {
 	it("should work with a function", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { CappedSet } from "./capped-set";
+import { CappedSet } from "./capped-set.js";
 
 describe("CappedSet", () => {
 	it("basic", () => {

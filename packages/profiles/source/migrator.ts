@@ -1,7 +1,7 @@
 import semver from "semver";
 
-import { IMigrator, IProfile, ProfileData } from "./contracts";
-import { IProfileData } from "./profile.contract";
+import { IMigrator, IProfile, ProfileData } from "./contracts.js";
+import { IProfileData } from "./profile.contract.js";
 
 export class Migrator implements IMigrator {
 	readonly #profile: IProfile;

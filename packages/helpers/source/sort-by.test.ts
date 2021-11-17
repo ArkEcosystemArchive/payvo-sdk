@@ -1,4 +1,4 @@
-import { sortBy } from "./sort-by";
+import { sortBy } from "./sort-by.js";
 
 const dummies = [
 	{ name: "John", age: 30 },

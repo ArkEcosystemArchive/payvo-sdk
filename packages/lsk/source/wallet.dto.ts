@@ -1,6 +1,6 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
-import { calculateBalanceLockedInUnvotes, calculateBalanceLockedInVotes } from "./helpers";
+import { calculateBalanceLockedInUnvotes, calculateBalanceLockedInVotes } from "./helpers.js";
 
 @IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {

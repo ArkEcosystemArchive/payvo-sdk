@@ -1,7 +1,7 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { createSignedTransactionData } from "./crypto";
+import { createSignedTransactionData } from "./crypto.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

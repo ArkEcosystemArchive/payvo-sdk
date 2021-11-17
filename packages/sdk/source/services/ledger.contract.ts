@@ -1,4 +1,4 @@
-import { WalletData } from "../contracts";
+import { WalletData } from "../contracts.js";
 
 export type LedgerTransport = any;
 export type LedgerTransportFactory = () => Promise<LedgerTransport>;

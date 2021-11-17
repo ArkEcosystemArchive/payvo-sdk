@@ -3,14 +3,14 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { IProfileInput, IProfileRepository } from "./contracts";
-import { Profile } from "./profile";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { IProfileInput, IProfileRepository } from "./contracts.js";
+import { Profile } from "./profile.js";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 
 let subject: IProfileRepository;

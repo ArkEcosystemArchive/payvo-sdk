@@ -7,8 +7,8 @@ import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts";
-import { AbstractConfirmedTransactionData } from "./confirmed-transaction";
+import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts.js";
+import { AbstractConfirmedTransactionData } from "./confirmed-transaction.js";
 
 test("#withDecimals", () => {
 	expect(new Transaction().configure({ key: "value" }).withDecimals(2)).toBeInstanceOf(Transaction);

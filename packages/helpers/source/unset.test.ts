@@ -1,5 +1,5 @@
 import "jest-extended";
-import { unset } from "./unset";
+import { unset } from "./unset.js";
 
 describe("#unset", () => {
 	it("should return false if the target is not an object", () => {

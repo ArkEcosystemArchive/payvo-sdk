@@ -1,4 +1,4 @@
-import { IAppearanceService, IProfile, IProfileAppearance, ProfileSetting } from "./contracts";
+import { IAppearanceService, IProfile, IProfileAppearance, ProfileSetting } from "./contracts.js";
 
 export class AppearanceService implements IAppearanceService {
 	readonly #profile: IProfile;

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { last } from "./last";
+import { last } from "./last.js";
 
 describe("#last", () => {
 	it("should return the last item", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { assign } from "./assign";
+import { assign } from "./assign.js";
 
 function Foo() {
 	// @ts-ignore

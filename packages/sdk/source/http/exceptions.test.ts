@@ -1,5 +1,5 @@
-import { BadResponseException, RequestException } from "./exceptions";
-import { Response } from "./response";
+import { BadResponseException, RequestException } from "./exceptions.js";
+import { Response } from "./response.js";
 
 test("RequestException", () => {
 	expect(

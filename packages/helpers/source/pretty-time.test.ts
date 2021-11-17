@@ -1,4 +1,4 @@
-import { prettyTime } from "./pretty-time";
+import { prettyTime } from "./pretty-time.js";
 
 describe("#prettyTime", () => {
 	it("should turn the given milliseconds into a human readable format", () => {

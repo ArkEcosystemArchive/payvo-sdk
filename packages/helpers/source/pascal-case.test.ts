@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { pascalCase } from "./pascal-case";
+import { pascalCase } from "./pascal-case.js";
 
 describe("#pascalCase", () => {
 	it("should turn any string into pascal case", () => {

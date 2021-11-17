@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isEmptySet } from "./is-empty-set";
+import { isEmptySet } from "./is-empty-set.js";
 
 describe("#isEmptySet", () => {
 	it("should return true for an empty set", () => {

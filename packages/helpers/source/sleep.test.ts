@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { sleep } from "./sleep";
+import { sleep } from "./sleep.js";
 
 describe("#sleep", () => {
 	it("should sleep for 1 second", async () => {

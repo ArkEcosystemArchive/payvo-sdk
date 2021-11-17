@@ -1,4 +1,4 @@
-import { IdentityOptions } from "./shared.contract";
+import { IdentityOptions } from "./shared.contract.js";
 
 export interface KeyPairDataTransferObject {
 	publicKey: string;

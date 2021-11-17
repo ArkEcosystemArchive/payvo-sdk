@@ -1,4 +1,4 @@
-import { IRegistryPlugin, IRegistryPluginAuthor } from "./contracts";
+import { IRegistryPlugin, IRegistryPluginAuthor } from "./contracts.js";
 
 export class RegistryPlugin implements IRegistryPlugin {
 	readonly #data: Record<string, any>;

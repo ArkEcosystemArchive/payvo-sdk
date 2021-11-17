@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Currency } from "./currency";
+import { Currency } from "./currency.js";
 
 describe("Helpers.Currency", () => {
 	it("should format fiat", () => {

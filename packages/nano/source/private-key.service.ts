@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 
-import { deriveAccount, deriveLegacyAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account.js";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {

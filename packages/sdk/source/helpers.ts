@@ -1,7 +1,7 @@
 import { Arr } from "@payvo/sdk-helpers";
-import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
-import { ConfigRepository } from "./coins";
-import { NetworkHost, NetworkHostType } from "./networks";
+
+import { ConfigRepository } from "./coins/index.js";
+import { NetworkHost, NetworkHostType } from "./networks/index.js";
 
 export const filterHosts = (hosts: NetworkHost[], type: NetworkHostType): NetworkHost[] =>
 	hosts.filter((host: NetworkHost) => host.type === type);

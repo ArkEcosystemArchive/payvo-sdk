@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isURL } from "./is-url";
+import { isURL } from "./is-url.js";
 import { URL } from "url";
 
 describe("#isURL", () => {

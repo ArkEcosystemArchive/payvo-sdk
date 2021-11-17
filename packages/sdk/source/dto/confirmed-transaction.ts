@@ -6,15 +6,15 @@ import { DateTime } from "@payvo/sdk-intl";
 import { inject } from "inversify";
 import emoji from "node-emoji";
 
-import { KeyValuePair } from "../contracts";
-import { NotImplemented } from "../exceptions";
-import { BindingType } from "../ioc/service-provider.contract";
+import { KeyValuePair } from "../contracts.js";
+import { NotImplemented } from "../exceptions.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
 import {
 	ConfirmedTransactionData,
 	MultiPaymentRecipient,
 	TransactionDataMeta,
 	UnspentTransactionData,
-} from "./confirmed-transaction.contract";
+} from "./confirmed-transaction.contract.js";
 
 export abstract class AbstractConfirmedTransactionData implements ConfirmedTransactionData {
 	/**

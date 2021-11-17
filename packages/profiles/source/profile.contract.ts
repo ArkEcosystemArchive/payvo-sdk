@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AttributeBag } from "./helpers/attribute-bag";
+import { AttributeBag } from "./helpers/attribute-bag.js";
 import {
 	IAppearanceService,
 	IAuthenticator,

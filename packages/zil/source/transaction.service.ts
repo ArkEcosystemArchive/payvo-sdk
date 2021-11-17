@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BN, Long, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { convertZilToQa, getZilliqaVersion } from "./zilliqa";
+import { convertZilToQa, getZilliqaVersion } from "./zilliqa.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

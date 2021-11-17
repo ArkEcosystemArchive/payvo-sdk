@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { toString } from "./to-string";
+import { toString } from "./to-string.js";
 
 describe("#toString", () => {
 	it("should work with a string", () => {

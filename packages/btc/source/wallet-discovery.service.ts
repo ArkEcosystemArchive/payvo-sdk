@@ -1,7 +1,7 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 
 import { AddressFactory } from "./address.factory";
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 @IoC.injectable()
 export class WalletDiscoveryService extends Services.AbstractWalletDiscoveryService {

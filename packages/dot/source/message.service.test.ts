@@ -3,11 +3,11 @@ import "jest-extended";
 import { IoC, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { BindingType } from "./constants";
-import { createKeyring } from "./factories";
-import { MessageService } from "./message.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
+import { createKeyring } from "./factories.js";
+import { MessageService } from "./message.service.js";
 
 let subject: MessageService;
 

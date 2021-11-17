@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { concat } from "./concat";
+import { concat } from "./concat.js";
 
 describe("#concat", () => {
 	it("should concatenate all values", () => {

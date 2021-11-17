@@ -4,19 +4,19 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";
 
-import { createServiceAsync } from "../test/mocking";
-import { TransactionService } from "./transaction.service";
-import { BindingType } from "./constants";
+import { createServiceAsync } from "../test/mocking.js";
+import { TransactionService } from "./transaction.service.js";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
-import { FeeService } from "./fee.service";
-import { LedgerService } from "./ledger.service";
-import { musig } from "../test/fixtures/musig";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
+import { FeeService } from "./fee.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { musig } from "../test/fixtures/musig.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 

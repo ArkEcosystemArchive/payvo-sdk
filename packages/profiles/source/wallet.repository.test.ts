@@ -3,11 +3,11 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, IWalletData, ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
-import { Wallet } from "./wallet";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { IProfile, IReadWriteWallet, IWalletData, ProfileSetting } from "./contracts.js";
+import { Profile } from "./profile.js";
+import { Wallet } from "./wallet.js";
 import { WalletData } from "./wallet.enum";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";

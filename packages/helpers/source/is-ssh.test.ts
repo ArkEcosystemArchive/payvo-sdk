@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isSSH } from "./is-ssh";
+import { isSSH } from "./is-ssh.js";
 
 describe("#isSSH", () => {
 	it("should pass for SSH URLs", () => {

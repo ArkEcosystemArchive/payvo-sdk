@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { constantCase } from "./constant-case";
+import { constantCase } from "./constant-case.js";
 
 describe("#constantCase", () => {
 	it("should turn any string into constant case", () => {

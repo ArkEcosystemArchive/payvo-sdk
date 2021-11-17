@@ -1,6 +1,6 @@
 import { Base64, PBKDF2 } from "@payvo/sdk-cryptography";
-import { IProfile, IProfileData } from "./contracts";
-import { IProfileEncrypter } from "./contracts";
+import { IProfile, IProfileData } from "./contracts.js";
+import { IProfileEncrypter } from "./contracts.js";
 
 export class ProfileEncrypter implements IProfileEncrypter {
 	readonly #profile: IProfile;

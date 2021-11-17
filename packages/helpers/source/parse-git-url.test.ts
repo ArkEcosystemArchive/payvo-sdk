@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { parseGitUrl } from "./parse-git-url";
+import { parseGitUrl } from "./parse-git-url.js";
 
 describe("#parseGitUrl", () => {
 	it("should throw if it cannot find a host", () => {

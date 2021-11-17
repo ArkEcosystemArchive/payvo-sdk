@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const findIndex = <T>(iterable: T[], iteratee: FunctionReturning): number => {
 	for (let i = 0; i < iterable.length; i++) {

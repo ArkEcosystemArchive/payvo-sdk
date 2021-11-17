@@ -2,12 +2,12 @@
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { SignedTransactionData } from "../dto";
-import { NotImplemented } from "../exceptions";
-import { HttpClient } from "../http";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { FeeService, TransactionFeeOptions, TransactionFees } from "./fee.contract";
+import { SignedTransactionData } from "../dto/index.js";
+import { NotImplemented } from "../exceptions.js";
+import { HttpClient } from "../http/index.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { FeeService, TransactionFeeOptions, TransactionFees } from "./fee.contract.js";
 
 @injectable()
 export class AbstractFeeService implements FeeService {

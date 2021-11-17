@@ -1,4 +1,4 @@
-import { binary } from "./binary";
+import { binary } from "./binary.js";
 
 describe("#binary", () => {
 	it("should encode the given string", () => {

@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const groupBy = <T>(iterable: T[], iteratee: FunctionReturning): object => {
 	const groupedValues: object = {};

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { keys } from "./keys";
+import { keys } from "./keys.js";
 
 describe("#keys", () => {
 	it("should work with an object", () => {

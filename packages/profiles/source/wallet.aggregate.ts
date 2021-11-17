@@ -1,5 +1,5 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { IProfile, IReadWriteWallet, IWalletAggregate } from "./contracts";
+import { IProfile, IReadWriteWallet, IWalletAggregate } from "./contracts.js";
 
 type NetworkType = "live" | "test";
 

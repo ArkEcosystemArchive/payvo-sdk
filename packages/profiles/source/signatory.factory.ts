@@ -1,7 +1,7 @@
 import { Services, Signatories } from "@payvo/sdk";
 
-import { IReadWriteWallet, WalletData } from "./contracts";
-import { ISignatoryFactory, SignatoryInput } from "./signatory.factory.contract";
+import { IReadWriteWallet, WalletData } from "./contracts.js";
+import { ISignatoryFactory, SignatoryInput } from "./signatory.factory.contract.js";
 
 export class SignatoryFactory implements ISignatoryFactory {
 	readonly #wallet: IReadWriteWallet;

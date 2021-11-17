@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isMatch } from "./is-match";
+import { isMatch } from "./is-match.js";
 
 describe("#isMatch", () => {
 	it("should pass", () => {

@@ -5,11 +5,11 @@ import { ECPair } from "ecpair";
 import coinSelect from "coinselect";
 import changeVersionBytes from "xpub-converter";
 
-import { getNetworkConfig } from "./config";
-import { BindingType } from "./constants";
+import { getNetworkConfig } from "./config.js";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
-import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
-import { LedgerService } from "./ledger.service";
+import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts.js";
+import { LedgerService } from "./ledger.service.js";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,

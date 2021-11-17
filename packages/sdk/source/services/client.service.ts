@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 
-import { ConfigRepository } from "../coins";
-import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections";
-import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts";
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract";
-import { NotImplemented } from "../exceptions";
-import { HttpClient } from "../http";
-import { inject } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
+import { ConfigRepository } from "../coins/index.js";
+import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections/index.js";
+import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts.js";
+import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
+import { NotImplemented } from "../exceptions.js";
+import { HttpClient } from "../http/index.js";
+import { inject } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
 import {
 	BroadcastResponse,
 	ClientService,
@@ -17,8 +17,8 @@ import {
 	UnlockTokenResponse,
 	VoteReport,
 	WalletIdentifier,
-} from "./client.contract";
-import { DataTransferObjectService } from "./data-transfer-object.contract";
+} from "./client.contract.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 
 export class AbstractClientService implements ClientService {
 	@inject(BindingType.ConfigRepository)

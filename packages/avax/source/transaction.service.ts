@@ -7,7 +7,7 @@ import { AVMAPI } from "avalanche/dist/apis/avm";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers";
+import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

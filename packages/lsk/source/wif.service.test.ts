@@ -1,8 +1,8 @@
 import "jest-extended";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { WIFService } from "./wif.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { WIFService } from "./wif.service.js";
 import { WIF } from "@payvo/sdk-cryptography";
 
 let subject: WIFService;

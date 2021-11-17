@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { includes } from "./includes";
+import { includes } from "./includes.js";
 
 describe("#includes", () => {
 	it("should work with a function", () => {

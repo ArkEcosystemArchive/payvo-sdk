@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { partition } from "./partition";
+import { partition } from "./partition.js";
 
 describe("#partition", () => {
 	const users = [

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { hasProperty } from "./has-property";
+import { hasProperty } from "./has-property.js";
 
 describe("#hasProperty", () => {
 	it("should return true if the object has a given property", () => {

@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { IProfile, ProfileSetting } from "./contracts";
-import { Authenticator } from "./authenticator";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { IProfile, ProfileSetting } from "./contracts.js";
+import { Authenticator } from "./authenticator.js";
+import { Profile } from "./profile.js";
 import { ProfileExporter } from "./profile.exporter";
 
 let subject: Authenticator;

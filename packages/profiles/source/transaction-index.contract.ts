@@ -1,6 +1,6 @@
 import { Services } from "@payvo/sdk";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 export interface ITransactionIndex {

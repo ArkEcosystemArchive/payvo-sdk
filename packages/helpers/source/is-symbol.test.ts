@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isSymbol } from "./is-symbol";
+import { isSymbol } from "./is-symbol.js";
 
 describe("#isSymbol", () => {
 	it("should pass", () => {

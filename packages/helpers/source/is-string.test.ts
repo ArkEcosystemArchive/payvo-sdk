@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isString } from "./is-string";
+import { isString } from "./is-string.js";
 
 describe("#isString", () => {
 	it("should pass", () => {

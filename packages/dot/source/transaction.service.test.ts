@@ -3,17 +3,17 @@ import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
-import { identity } from "../test/fixtures/identity";
-import { createServiceAsync } from "../test/mocking";
-import { BindingType } from "./constants";
-import { createApiPromise, createKeyring } from "./factories";
-import { AddressService } from "./address.service";
-import { KeyPairService } from "./key-pair.service";
-import { PublicKeyService } from "./public-key.service";
-import { TransactionService } from "./transaction.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { identity } from "../test/fixtures/identity.js";
+import { createServiceAsync } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
+import { createApiPromise, createKeyring } from "./factories.js";
+import { AddressService } from "./address.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 let subject: TransactionService;
 

@@ -1,4 +1,4 @@
-import { IdentityOptions } from "../services";
+import { IdentityOptions } from "../services/index.js";
 
 export abstract class AbstractSignatory {
 	readonly #signingKey: string;

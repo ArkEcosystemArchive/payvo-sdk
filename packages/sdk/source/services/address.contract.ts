@@ -1,4 +1,4 @@
-import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract";
+import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract.js";
 
 export interface AddressDataTransferObject {
 	type: "bip39" | "bip44" | "bip49" | "bip84" | "ss58" | "rfc6979" | "bip44.legacy" | "lip17";

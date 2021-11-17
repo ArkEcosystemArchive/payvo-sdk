@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { castArray } from "./cast-array";
+import { castArray } from "./cast-array.js";
 
 describe("#castArray", () => {
 	it("should work with any value", () => {

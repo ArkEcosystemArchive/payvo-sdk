@@ -1,4 +1,4 @@
-import { getType } from "./get-type";
+import { getType } from "./get-type.js";
 
 describe("#getType", () => {
 	it("should return the type of the given value", () => {

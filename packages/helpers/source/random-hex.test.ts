@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { randomHex } from "./random-hex";
+import { randomHex } from "./random-hex.js";
 
 describe("#randomHex", () => {
 	it("should return a random hex string", () => {

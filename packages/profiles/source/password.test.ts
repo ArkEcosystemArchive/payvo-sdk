@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { PasswordManager } from "./password";
+import { bootContainer } from "../test/mocking.js";
+import { PasswordManager } from "./password.js";
 
 beforeAll(() => bootContainer());
 

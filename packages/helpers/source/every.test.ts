@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { every } from "./every";
-import { isBoolean } from "./is-boolean";
+import { every } from "./every.js";
+import { isBoolean } from "./is-boolean.js";
 
 describe("#every", () => {
 	it("should work with a functions", () => {

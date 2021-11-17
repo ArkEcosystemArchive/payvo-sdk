@@ -1,4 +1,4 @@
-import { fill } from "./fill";
+import { fill } from "./fill.js";
 
 describe("#fill", () => {
 	it("should work with an array", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Bcrypt } from "./bcrypt";
+import { Bcrypt } from "./bcrypt.js";
 
 test("#hash", () => {
 	expect(Bcrypt.hash("password")).toBeString();

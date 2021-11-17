@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { CappedMap } from "./capped-map";
+import { CappedMap } from "./capped-map.js";
 
 describe("Capped Map", () => {
 	it("should set and get an entry", () => {

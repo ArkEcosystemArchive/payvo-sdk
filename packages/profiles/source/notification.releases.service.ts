@@ -1,5 +1,5 @@
-import { IWalletReleaseNotificationService, INotificationTypes, INotification } from "./contracts";
-import { INotificationRepository } from "./notification.repository.contract";
+import { IWalletReleaseNotificationService, INotificationTypes, INotification } from "./contracts.js";
+import { INotificationRepository } from "./notification.repository.contract.js";
 
 export class WalletReleaseNotificationService implements IWalletReleaseNotificationService {
 	readonly #notifications: INotificationRepository;

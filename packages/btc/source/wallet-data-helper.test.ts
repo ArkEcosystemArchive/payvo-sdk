@@ -3,8 +3,8 @@ import "jest-extended";
 import nock from "nock";
 import { IoC } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
-import { createService } from "../test/mocking";
-import { BindingType } from "./constants";
+import { createService } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
 import * as bitcoin from "bitcoinjs-lib";
 

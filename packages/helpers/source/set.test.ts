@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { set } from "./set";
+import { set } from "./set.js";
 
 describe("#set", () => {
 	it("should not do anything if the target is not an object", () => {

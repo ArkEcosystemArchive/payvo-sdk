@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { safeEqual } from "./safe-equal";
+import { safeEqual } from "./safe-equal.js";
 
 describe("#safeEqual", () => {
 	it("should determine if values are equal in a safe manner", () => {

@@ -4,7 +4,7 @@
  * Based on https://github.com/Dobby89/promise-all-settled-by-key/blob/master/source/__tests__/index.test.js.
  */
 
-import { promiseAllSettledByKey } from "./promise";
+import { promiseAllSettledByKey } from "./promise.js";
 
 const promise1 = Promise.resolve(3);
 const promise2 = new Promise((resolve, reject) => setTimeout(reject, 100, "foo error"));

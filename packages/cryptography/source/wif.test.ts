@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { WIF } from "./wif";
+import { WIF } from "./wif.js";
 
 test("#encode", () => {
 	expect(

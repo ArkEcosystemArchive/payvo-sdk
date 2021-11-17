@@ -1,6 +1,6 @@
 import { BIP32Interface } from "bip32";
 
-import { BIP32 } from "./bip32";
+import { BIP32 } from "./bip32.js";
 
 interface BIP44Levels {
 	purpose: number;

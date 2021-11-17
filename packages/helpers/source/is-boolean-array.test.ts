@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isBooleanArray } from "./is-boolean-array";
+import { isBooleanArray } from "./is-boolean-array.js";
 
 describe("#isBooleanArray", () => {
 	it("should pass", () => {

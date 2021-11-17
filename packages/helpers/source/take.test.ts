@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { take } from "./take";
+import { take } from "./take.js";
 
 describe("#take", () => {
 	it("should take the given number of items", () => {

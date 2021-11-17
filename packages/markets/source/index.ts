@@ -5,10 +5,10 @@ import {
 	HistoricalVolumeOptions,
 	MarketDataCollection,
 	PriceTracker,
-} from "./contracts";
-import { CoinCap } from "./drivers/coincap";
-import { CoinGecko } from "./drivers/coingecko";
-import { CryptoCompare } from "./drivers/cryptocompare";
+} from "./contracts/index.js";
+import { CoinCap } from "./drivers/coincap/index.js";
+import { CoinGecko } from "./drivers/coingecko/index.js";
+import { CryptoCompare } from "./drivers/cryptocompare/index.js";
 
 /**
  * Normalises the communication with Market Data Providers.

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isNil } from "./is-nil";
+import { isNil } from "./is-nil.js";
 
 describe("#isNil", () => {
 	it("should pass", () => {

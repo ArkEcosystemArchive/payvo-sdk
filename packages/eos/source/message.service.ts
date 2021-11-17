@@ -1,6 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { privateToPublic, sign, verify } from "./crypto";
+import { privateToPublic, sign, verify } from "./crypto.js";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {

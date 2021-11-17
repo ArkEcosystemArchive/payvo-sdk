@@ -1,6 +1,6 @@
 import { Services } from "@payvo/sdk";
 
-import { IReadWriteWallet } from "./wallet.contract";
+import { IReadWriteWallet } from "./wallet.contract.js";
 
 export class WalletIdentifierFactory {
 	public static async make(wallet: IReadWriteWallet): Promise<Services.WalletIdentifier> {

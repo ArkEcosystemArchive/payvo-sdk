@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isNegative } from "./is-negative";
+import { isNegative } from "./is-negative.js";
 
 describe("#isNegative", () => {
 	it("should pass", () => {

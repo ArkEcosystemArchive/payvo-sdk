@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { randomBits } from "./random-bits";
+import { randomBits } from "./random-bits.js";
 
 describe("#randomBits", () => {
 	it.each([

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isEqual } from "./is-equal";
+import { isEqual } from "./is-equal.js";
 
 describe("#isEqual", () => {
 	it("should return true for the same strings", () => {

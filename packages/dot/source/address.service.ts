@@ -4,7 +4,7 @@ import { hexToU8a, isHex } from "@polkadot/util";
 import { createKeyMulti } from "@polkadot/util-crypto";
 import { strict as assert } from "assert";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {

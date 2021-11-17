@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { ConfigKey, ConfigRepository } from "../coins/config";
-import { Container } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { BigNumberService } from "./big-number.service";
+import { ConfigKey, ConfigRepository } from "../coins/config.js";
+import { Container } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { BigNumberService } from "./big-number.service.js";
 
 test.each([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])("#make(%s)", async (power) => {
 	const container = new Container();

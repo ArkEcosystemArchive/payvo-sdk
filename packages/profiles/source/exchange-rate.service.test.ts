@@ -3,14 +3,14 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { StubStorage } from "../test/stubs/storage";
-import { IProfile, IReadWriteWallet, ProfileSetting, WalletData } from "./contracts";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { StubStorage } from "../test/stubs/storage.js";
+import { IProfile, IReadWriteWallet, ProfileSetting, WalletData } from "./contracts.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
-import { ExchangeRateService } from "./exchange-rate.service";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 
 let profile: IProfile;
 let wallet: IReadWriteWallet;

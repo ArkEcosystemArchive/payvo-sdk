@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isUndefined } from "./is-undefined";
+import { isUndefined } from "./is-undefined.js";
 
 describe("#isUndefined", () => {
 	it("should pass", () => {

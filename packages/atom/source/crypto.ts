@@ -2,7 +2,7 @@ import { Buffoon } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { secp256k1 } from "bcrypto";
 
-import { HashAlgorithms } from "./hash";
+import { HashAlgorithms } from "./hash.js";
 
 const sortObject = (obj) => {
 	if (obj === null) {

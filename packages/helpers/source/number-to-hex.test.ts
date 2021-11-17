@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { numberToHex } from "./number-to-hex";
+import { numberToHex } from "./number-to-hex.js";
 
 describe("#numberToHex", () => {
 	it("should return the number as hex", () => {

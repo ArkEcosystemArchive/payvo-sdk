@@ -1,4 +1,4 @@
-import { MarketDataCollection } from "../../../contracts";
+import { MarketDataCollection } from "../../../contracts/index.js";
 
 /**
  * Implements a transformer for historical market data.

@@ -1,10 +1,10 @@
 import { Coins, Services } from "@payvo/sdk";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { transformTransactionData, transformConfirmedTransactionDataCollection } from "./transaction.mapper";
-import { IReadWriteWallet, WalletData } from "./contracts";
+import { IReadWriteWallet, WalletData } from "./contracts.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import { ITransactionIndex } from "./contracts";
+import { ITransactionIndex } from "./contracts.js";
 import { WalletFlag } from "./wallet.enum";
 
 export class TransactionIndex implements ITransactionIndex {

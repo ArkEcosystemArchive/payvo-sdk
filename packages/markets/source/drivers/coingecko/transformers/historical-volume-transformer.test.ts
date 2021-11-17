@@ -1,4 +1,4 @@
-import { HistoricalVolumeTransformer } from "./historical-volume-transformer";
+import { HistoricalVolumeTransformer } from "./historical-volume-transformer.js";
 
 const stubOptions = { type: "day", dateFormat: "DD.MM" };
 

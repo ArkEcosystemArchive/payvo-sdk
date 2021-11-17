@@ -18,9 +18,9 @@ import {
 	WalletData,
 	WalletImportMethod,
 } from "./contracts";
-import { Wallet } from "./wallet";
+import { Wallet } from "./wallet.js";
 import { WalletFlag } from "./wallet.enum";
-import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract";
+import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract.js";
 
 export class WalletFactory implements IWalletFactory {
 	readonly #profile: IProfile;

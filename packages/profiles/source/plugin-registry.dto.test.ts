@@ -1,7 +1,7 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { RegistryPlugin } from "./plugin-registry.dto";
+import { RegistryPlugin } from "./plugin-registry.dto.js";
 
 describe("RegistryPlugin", () => {
 	describe("sourceProvider", () => {

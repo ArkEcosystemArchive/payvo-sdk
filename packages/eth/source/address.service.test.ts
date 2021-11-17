@@ -1,8 +1,8 @@
 import "jest-extended";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { AddressService } from "./address.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 

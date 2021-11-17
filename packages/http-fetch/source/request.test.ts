@@ -1,7 +1,7 @@
 import { Http } from "@payvo/sdk";
 import nock from "nock";
 
-import { Request } from "./request";
+import { Request } from "./request.js";
 
 let subject: Request;
 

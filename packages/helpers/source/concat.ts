@@ -1,4 +1,4 @@
-import { isArray } from "./is-array";
+import { isArray } from "./is-array.js";
 
 export const concat = <T>(...values: any[]): T[] => {
 	const result: T[] = [];

@@ -1,4 +1,4 @@
-import { intersection } from "./intersection";
+import { intersection } from "./intersection.js";
 
 describe("#intersection", () => {
 	it("should return the common values", () => {

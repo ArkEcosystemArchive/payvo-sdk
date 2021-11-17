@@ -4,13 +4,13 @@ import { IoC, Services, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, mockWallet, requireModule } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { BindingType } from "./constants";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, mockWallet, requireModule } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { BindingType } from "./constants.js";
 
 const fixtures = `../test/fixtures/client`;
 

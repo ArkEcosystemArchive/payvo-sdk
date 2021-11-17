@@ -1,9 +1,9 @@
-import { IProfileTransactionNotificationService, IProfile, INotificationTypes, ProfileSetting } from "./contracts";
+import { IProfileTransactionNotificationService, IProfile, INotificationTypes, ProfileSetting } from "./contracts.js";
 import { sortByDesc } from "@payvo/sdk-helpers";
 import { Services } from "@payvo/sdk";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
-import { AggregateQuery } from "./transaction.aggregate.contract";
-import { INotification, INotificationRepository } from "./notification.repository.contract";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
+import { INotification, INotificationRepository } from "./notification.repository.contract.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 export class ProfileTransactionNotificationService implements IProfileTransactionNotificationService {

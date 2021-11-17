@@ -2,11 +2,11 @@
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { KeyValuePair, WalletBalance } from "../contracts";
-import { NotImplemented } from "../exceptions";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { BigNumberService } from "../services/big-number.service";
+import { KeyValuePair, WalletBalance } from "../contracts.js";
+import { NotImplemented } from "../exceptions.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { BigNumberService } from "../services/big-number.service.js";
 
 @injectable()
 export class AbstractWalletData {

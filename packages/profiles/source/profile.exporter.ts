@@ -1,6 +1,6 @@
 import { Base64 } from "@payvo/sdk-cryptography";
-import { IProfileExportOptions, IProfile } from "./contracts";
-import { IProfileExporter } from "./contracts";
+import { IProfileExportOptions, IProfile } from "./contracts.js";
+import { IProfileExporter } from "./contracts.js";
 
 import { ProfileEncrypter } from "./profile.encrypter";
 import { ProfileSerialiser } from "./profile.serialiser";

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { randomBase64 } from "./random-base64";
+import { randomBase64 } from "./random-base64.js";
 
 describe("#randomBase64", () => {
 	it("should return a random base64 string", () => {

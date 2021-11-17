@@ -4,11 +4,11 @@
 import { formatString } from "@payvo/sdk-helpers";
 import { URL } from "url";
 
-import { ConfigRepository } from "../coins";
-import { randomNetworkHostFromConfig } from "../helpers";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { LinkService } from "./link.contract";
+import { ConfigRepository } from "../coins/index.js";
+import { randomNetworkHostFromConfig } from "../helpers.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { LinkService } from "./link.contract.js";
 
 @injectable()
 export class AbstractLinkService implements LinkService {

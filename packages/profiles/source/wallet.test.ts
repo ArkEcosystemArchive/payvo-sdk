@@ -6,9 +6,9 @@ import { Coins } from "@payvo/sdk";
 import nock from "nock";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import {
 	IExchangeRateService,
@@ -21,10 +21,10 @@ import {
 	WalletLedgerModel,
 	WalletSetting,
 } from "./contracts";
-import { ExchangeRateService } from "./exchange-rate.service";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 import { SignatoryFactory } from "./signatory.factory";
-import { Wallet } from "./wallet";
-import { WalletImportFormat } from "./wif";
+import { Wallet } from "./wallet.js";
+import { WalletImportFormat } from "./wif.js";
 
 let profile: IProfile;
 let subject: IReadWriteWallet;

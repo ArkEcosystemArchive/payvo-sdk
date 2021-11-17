@@ -1,6 +1,6 @@
 import { get } from "@payvo/sdk-helpers";
 
-import { randomHost } from "../helpers";
+import { randomHost } from "../helpers.js";
 import {
 	CoinManifest,
 	ExpirationType,

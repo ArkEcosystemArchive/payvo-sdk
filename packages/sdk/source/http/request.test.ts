@@ -4,9 +4,9 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { HttpResponse } from "./contracts";
-import { AbstractRequest } from "./request";
-import { Response } from "./response";
+import { HttpResponse } from "./contracts.js";
+import { AbstractRequest } from "./request.js";
+import { Response } from "./response.js";
 
 let subject: Stub;
 let spy;

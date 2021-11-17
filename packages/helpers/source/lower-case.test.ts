@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { lowerCase } from "./lower-case";
+import { lowerCase } from "./lower-case.js";
 
 describe("#lowerCase", () => {
 	it("should turn any string into lower case", () => {

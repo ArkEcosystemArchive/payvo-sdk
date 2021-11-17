@@ -1,6 +1,6 @@
 import fast from "fast-sort";
 
-import { sortBy as baseSortBy } from "../sort-by";
+import { sortBy as baseSortBy } from "../sort-by.js";
 
 export const sortBy = <T>(
 	values: T[],

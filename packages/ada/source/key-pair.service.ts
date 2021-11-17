@@ -1,6 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { deriveAccountKey, deriveRootKey } from "./shelley";
+import { deriveAccountKey, deriveRootKey } from "./shelley.js";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {

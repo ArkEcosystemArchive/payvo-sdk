@@ -3,9 +3,9 @@ import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@pay
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { BindingType } from "./coin.contract";
-import { applyCryptoConfiguration } from "./config";
-import { MultiSignatureSigner } from "./multi-signature.signer";
+import { BindingType } from "./coin.contract.js";
+import { applyCryptoConfiguration } from "./config.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

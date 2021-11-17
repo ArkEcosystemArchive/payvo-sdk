@@ -2,7 +2,7 @@ import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { BN } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {

@@ -1,6 +1,6 @@
 import { Crypto, Transactions } from "@arkecosystem/crypto";
 
-import { MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;

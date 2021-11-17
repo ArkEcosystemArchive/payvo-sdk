@@ -3,10 +3,10 @@ import "reflect-metadata";
 
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { bootContainer } from "../test/mocking";
-import { IContactAddressInput } from "./contact-address.contract";
+import { bootContainer } from "../test/mocking.js";
+import { IContactAddressInput } from "./contact-address.contract.js";
 import { ContactAddressRepository } from "./contact-address.repository";
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 
 let subject: ContactAddressRepository;
 let profile: Profile;

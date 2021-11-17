@@ -3,7 +3,7 @@ import "jest-extended";
 import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";
 
-import { Blockfolio } from "./blockfolio";
+import { Blockfolio } from "./blockfolio.js";
 
 let subject: Blockfolio;
 

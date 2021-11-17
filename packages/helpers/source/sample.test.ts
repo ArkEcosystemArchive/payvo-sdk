@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { sample } from "./sample";
+import { sample } from "./sample.js";
 
 describe("#sample", () => {
 	it("should return a random item", () => {

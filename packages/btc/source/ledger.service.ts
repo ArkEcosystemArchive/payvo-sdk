@@ -2,10 +2,10 @@ import { Coins, IoC, Services } from "@payvo/sdk";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
-import { getNetworkID } from "./config";
+import { getNetworkID } from "./config.js";
 import createXpub from "create-xpub";
-import { maxLevel } from "./helpers";
-import { Bip44Address } from "./contracts";
+import { maxLevel } from "./helpers.js";
+import { Bip44Address } from "./contracts.js";
 import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()

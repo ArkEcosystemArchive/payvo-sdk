@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking.js";
 import { TransactionSerializer } from "./transaction.serializer";
 
 const clone = (data: any[]): any[] => JSON.parse(JSON.stringify(data));

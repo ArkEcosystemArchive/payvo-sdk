@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { pullAll } from "./pull-all";
+import { pullAll } from "./pull-all.js";
 
 describe("#pullAll", () => {
 	it("should work with a property", () => {

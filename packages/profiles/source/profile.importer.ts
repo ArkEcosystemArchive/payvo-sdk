@@ -1,14 +1,14 @@
 import { Base64 } from "@payvo/sdk-cryptography";
 import { Coins } from "@payvo/sdk";
-import { IProfileData, IProfile, WalletData } from "./contracts";
+import { IProfileData, IProfile, WalletData } from "./contracts.js";
 
 import { ProfileEncrypter } from "./profile.encrypter";
-import { IProfileImporter } from "./contracts";
-import { IProfileValidator } from "./contracts";
+import { IProfileImporter } from "./contracts.js";
+import { IProfileValidator } from "./contracts.js";
 import { ProfileValidator } from "./profile.validator";
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { Migrator } from "./migrator";
+import { Migrator } from "./migrator.js";
 
 export class ProfileImporter implements IProfileImporter {
 	readonly #profile: IProfile;

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { toUpper } from "./to-upper";
+import { toUpper } from "./to-upper.js";
 
 describe("#toUpper", () => {
 	it("should turn everything into upper case", () => {

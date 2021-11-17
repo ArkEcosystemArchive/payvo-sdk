@@ -4,13 +4,13 @@ import { jest } from "@jest/globals";
 import { IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { createService, requireModule } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { DateTime } from "@payvo/sdk-intl";
 
 let subject: ClientService;

@@ -1,7 +1,7 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { bech32 } from "bech32";
 
-import { addressFromAccountExtPublicKey, addressFromMnemonic } from "./shelley";
+import { addressFromAccountExtPublicKey, addressFromMnemonic } from "./shelley.js";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {

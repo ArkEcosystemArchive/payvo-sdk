@@ -1,15 +1,15 @@
 import "jest-extended";
 
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
-import { Signatory } from "./signatory";
-import { WIFSignatory } from "./wif";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.js";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.js";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.js";
+import { LedgerSignatory } from "./ledger.js";
+import { MnemonicSignatory } from "./mnemonic.js";
+import { MultiSignatureSignatory } from "./multi-signature.js";
+import { PrivateKeySignatory } from "./private-key.js";
+import { SecretSignatory } from "./secret.js";
+import { Signatory } from "./signatory.js";
+import { WIFSignatory } from "./wif.js";
 
 describe("MnemonicSignatory", () => {
 	test("#signingKey", () => {

@@ -1,6 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 
-import { createWallet } from "./utils";
+import { createWallet } from "./utils.js";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {

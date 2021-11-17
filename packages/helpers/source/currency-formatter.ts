@@ -1,4 +1,4 @@
-import { BigNumber, NumberLike } from "./bignumber";
+import { BigNumber, NumberLike } from "./bignumber.js";
 
 export class CurrencyFormatter {
 	// todo: implement generic formatting method

@@ -4,11 +4,11 @@ import "reflect-metadata";
 import { Base64 } from "@payvo/sdk-cryptography";
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
-import { container } from "./container";
+import { bootContainer } from "../test/mocking.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
+import { IProfile, IProfileRepository, ProfileSetting } from "./contracts.js";
+import { Profile } from "./profile.js";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileValidator } from "./profile.validator";

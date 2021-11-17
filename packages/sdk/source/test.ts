@@ -2,10 +2,10 @@
 
 import { randomUUID } from "crypto";
 
-import { ConfigKey, ConfigRepository } from "./coins";
-import { Container, BindingType } from "./ioc";
-import { NetworkManifest } from "./networks";
-import { BigNumberService } from "./services";
+import { ConfigKey, ConfigRepository } from "./coins/index.js";
+import { Container, BindingType } from "./ioc/index.js";
+import { NetworkManifest } from "./networks/index.js";
+import { BigNumberService } from "./services/index.js";
 
 const createContainer = ({
 	config,

@@ -3,8 +3,8 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { bootContainer, makeCoin } from "../test/mocking";
-import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service";
+import { bootContainer, makeCoin } from "../test/mocking.js";
+import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service.js";
 
 let coin;
 

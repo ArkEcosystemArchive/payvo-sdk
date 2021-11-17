@@ -1,6 +1,6 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { SignedTransactionData } from "../dto";
+import { SignedTransactionData } from "../dto/index.js";
 
 export interface TransactionFee {
 	static: BigNumber;

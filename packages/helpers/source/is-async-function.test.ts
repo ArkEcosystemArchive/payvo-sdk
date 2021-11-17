@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isAsyncFunction } from "./is-async-function";
+import { isAsyncFunction } from "./is-async-function.js";
 
 describe("#isAsyncFunction", () => {
 	it("should pass", () => {

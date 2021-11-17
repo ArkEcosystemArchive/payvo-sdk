@@ -1,5 +1,5 @@
 import { IoC } from "@payvo/sdk";
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 import { AddressFactory } from "./address.factory";
 

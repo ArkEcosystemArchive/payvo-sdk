@@ -1,10 +1,10 @@
 import { Collections, Services } from "@payvo/sdk";
-import { IProfile, IReadWriteWallet, ITransactionAggregate } from "./contracts";
+import { IProfile, IReadWriteWallet, ITransactionAggregate } from "./contracts.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
-import { promiseAllSettledByKey } from "./helpers/promise";
-import { AggregateQuery } from "./transaction.aggregate.contract";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { promiseAllSettledByKey } from "./helpers/promise.js";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
 
 type HistoryMethod = string;
 type HistoryWallet = ExtendedConfirmedTransactionDataCollection;

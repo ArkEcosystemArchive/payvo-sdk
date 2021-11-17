@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { reduceObject } from "./reduce-object";
+import { reduceObject } from "./reduce-object.js";
 
 describe("#reduceObject", () => {
 	it("should work with a function", () => {

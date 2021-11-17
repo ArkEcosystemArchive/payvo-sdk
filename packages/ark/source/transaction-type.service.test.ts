@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { TransactionTypeService } from "./transaction-type.service";
+import { TransactionTypeService } from "./transaction-type.service.js";
 
 describe("TransactionTypeService", () => {
 	test("#isTransfer", () => {

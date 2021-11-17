@@ -1,4 +1,4 @@
-import { HttpClient } from "../http";
+import { HttpClient } from "../http/index.js";
 import { CoinManifest, NetworkManifest } from "../networks/network.models";
 import {
 	AddressService,

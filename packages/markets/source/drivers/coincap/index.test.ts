@@ -4,7 +4,7 @@ import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";
 
-import { CoinCap } from "./index";
+import { CoinCap } from "./index.js";
 
 const BASE_URL_COINCAP = "https://api.coincap.io/v2";
 const token = "ARK";

@@ -1,4 +1,4 @@
-import { extension } from "./extension";
+import { extension } from "./extension.js";
 
 describe("#extension", () => {
 	it("should return the file extension", () => {

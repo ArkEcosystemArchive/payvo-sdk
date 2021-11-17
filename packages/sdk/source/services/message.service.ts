@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 
-import { NotImplemented } from "../exceptions";
-import { injectable } from "../ioc";
-import { MessageInput, MessageService, SignedMessage } from "./message.contract";
+import { NotImplemented } from "../exceptions.js";
+import { injectable } from "../ioc/index.js";
+import { MessageInput, MessageService, SignedMessage } from "./message.contract.js";
 
 @injectable()
 export class AbstractMessageService implements MessageService {

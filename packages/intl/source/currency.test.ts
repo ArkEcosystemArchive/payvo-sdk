@@ -1,4 +1,4 @@
-import { Currency } from "./currency";
+import { Currency } from "./currency.js";
 
 test("#fromString", () => {
 	expect(Currency.fromString("")).toEqual({ display: "", value: undefined });

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isSet } from "./is-set";
+import { isSet } from "./is-set.js";
 
 describe("#isSet", () => {
 	it("should pass", () => {

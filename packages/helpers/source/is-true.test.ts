@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isTrue } from "./is-true";
+import { isTrue } from "./is-true.js";
 
 describe("#isTrue", () => {
 	it("should pass", () => {

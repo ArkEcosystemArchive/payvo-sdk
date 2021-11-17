@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Hash } from "./hash";
+import { Hash } from "./hash.js";
 
 test("#ripemd160", () => {
 	expect(Hash.ripemd160("Hello World")).toMatchInlineSnapshot(`

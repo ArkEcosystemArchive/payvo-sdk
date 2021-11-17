@@ -4,7 +4,7 @@ import { KeyPair } from "avalanche/dist/apis/avm";
 import { getPreferredHRP } from "avalanche/dist/utils";
 import { createHash } from "crypto";
 
-import { cb58Decode, cb58Encode, keyPairFromMnemonic } from "./helpers";
+import { cb58Decode, cb58Encode, keyPairFromMnemonic } from "./helpers.js";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {

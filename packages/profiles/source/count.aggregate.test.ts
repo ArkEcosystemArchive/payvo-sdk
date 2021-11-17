@@ -1,8 +1,8 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
 import { CountAggregate } from "./count.aggregate";
 
 let subject: CountAggregate;

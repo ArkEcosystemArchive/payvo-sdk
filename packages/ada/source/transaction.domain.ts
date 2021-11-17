@@ -9,8 +9,8 @@ import CardanoWasm, {
 } from "@emurgo/cardano-serialization-lib-nodejs";
 import { Buffer } from "buffer";
 
-import { fetchUsedAddressesData } from "./graphql-helpers";
-import { addressFromAccountExtPublicKey, deriveAddress, deriveChangeKey, deriveSpendKey } from "./shelley";
+import { fetchUsedAddressesData } from "./graphql-helpers.js";
+import { addressFromAccountExtPublicKey, deriveAddress, deriveChangeKey, deriveSpendKey } from "./shelley.js";
 import { createValue } from "./transaction.factory";
 import { UnspentTransaction } from "./transaction.models";
 

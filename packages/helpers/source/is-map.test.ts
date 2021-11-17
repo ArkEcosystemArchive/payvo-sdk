@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isMap } from "./is-map";
+import { isMap } from "./is-map.js";
 
 describe("#isMap", () => {
 	it("should pass", () => {

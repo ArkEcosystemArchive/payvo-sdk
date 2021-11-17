@@ -190,8 +190,6 @@ export * from "./uri";
 export * from "./validator";
 export * from "./words";
 export * from "./zip-object";
-
-// Public - Namespaces
-import * as immutable from "./immutable";
+import * as immutable from "./immutable/index.js";
 
 export { immutable };

@@ -3,8 +3,8 @@ import "reflect-metadata";
 import { mock, MockProxy } from "jest-mock-extended";
 
 import { ProfileEncrypter } from "./profile.encrypter";
-import { IAuthenticator, IProfile, IProfileInput } from "./contracts";
-import { AttributeBag } from "./helpers/attribute-bag";
+import { IAuthenticator, IProfile, IProfileInput } from "./contracts.js";
+import { AttributeBag } from "./helpers/attribute-bag.js";
 
 describe("ProfileEncrypter", () => {
 	describe("encrypt", () => {

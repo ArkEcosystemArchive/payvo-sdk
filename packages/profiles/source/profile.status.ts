@@ -1,4 +1,4 @@
-import { IProfileStatus } from "./contracts";
+import { IProfileStatus } from "./contracts.js";
 
 export class ProfileStatus implements IProfileStatus {
 	#isRestored: boolean;

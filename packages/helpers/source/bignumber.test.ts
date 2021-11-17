@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { BigNumber } from "./bignumber";
+import { BigNumber } from "./bignumber.js";
 
 let subject: BigNumber;
 beforeEach(() => (subject = BigNumber.make(1)));

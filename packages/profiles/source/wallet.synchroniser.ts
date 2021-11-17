@@ -1,6 +1,6 @@
 import { Coins, Contracts, Services } from "@payvo/sdk";
 
-import { IReadWriteWallet, IWalletSynchroniser, WalletData } from "./contracts";
+import { IReadWriteWallet, IWalletSynchroniser, WalletData } from "./contracts.js";
 import { WalletIdentifierFactory } from "./wallet.identifier.factory";
 
 export class WalletSynchroniser implements IWalletSynchroniser {

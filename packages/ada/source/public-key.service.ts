@@ -1,6 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { KeyPairService } from "./key-pair.service";
+import { KeyPairService } from "./key-pair.service.js";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {

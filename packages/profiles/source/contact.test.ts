@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { Contact } from "./contact";
+import { bootContainer } from "../test/mocking.js";
+import { Contact } from "./contact.js";
 import { ContactAddressRepository } from "./contact-address.repository";
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 
 beforeAll(() => bootContainer());
 

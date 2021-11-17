@@ -5,13 +5,13 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { strict as assert } from "assert";
 
-import { RawTransactionData, SignedTransactionData } from "../contracts";
-import { NotImplemented } from "../exceptions";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { BigNumberService } from "../services";
-import { MultiPaymentRecipient } from "./confirmed-transaction.contract";
-import { SignedTransactionObject } from "./signed-transaction.contract";
+import { RawTransactionData, SignedTransactionData } from "../contracts.js";
+import { NotImplemented } from "../exceptions.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { BigNumberService } from "../services/index.js";
+import { MultiPaymentRecipient } from "./confirmed-transaction.contract.js";
+import { SignedTransactionObject } from "./signed-transaction.contract.js";
 
 @injectable()
 export class AbstractSignedTransactionData implements SignedTransactionData {

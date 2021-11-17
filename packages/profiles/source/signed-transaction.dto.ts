@@ -4,10 +4,10 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { Contracts, DTO } from "@payvo/sdk";
 
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IExchangeRateService, IReadWriteWallet } from "./contracts";
-import { ExtendedTransactionRecipient } from "./transaction.dto";
+import { IExchangeRateService, IReadWriteWallet } from "./contracts.js";
+import { ExtendedTransactionRecipient } from "./transaction.dto.js";
 
 export class ExtendedSignedTransactionData {
 	readonly #data: Contracts.SignedTransactionData;

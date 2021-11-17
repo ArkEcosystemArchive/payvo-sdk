@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { cloneDeep } from "./clone-deep";
+import { cloneDeep } from "./clone-deep.js";
 
 describe("#cloneDeep", () => {
 	it("should work with objects", () => {

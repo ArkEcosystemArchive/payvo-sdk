@@ -2,7 +2,7 @@ import "jest-extended";
 
 import Joi from "joi";
 
-import { Validator } from "./validator";
+import { Validator } from "./validator.js";
 
 let subject: Validator;
 beforeEach(() => (subject = new Validator()));

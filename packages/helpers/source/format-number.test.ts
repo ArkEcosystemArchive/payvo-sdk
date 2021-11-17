@@ -1,4 +1,4 @@
-import { formatNumber } from "./format-number";
+import { formatNumber } from "./format-number.js";
 
 describe("#formatNumber", () => {
 	it("should format the given number", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isEnumerable } from "./is-enumerable";
+import { isEnumerable } from "./is-enumerable.js";
 
 const object1 = {};
 const array1 = [];

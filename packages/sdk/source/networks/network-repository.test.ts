@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { manifest } from "../../../ark/distribution/manifest";
-import { NetworkRepository } from "./network-repository";
+import { manifest } from "../../../ark/distribution/manifest.js";
+import { NetworkRepository } from "./network-repository.js";
 
 let subject: NetworkRepository;
 

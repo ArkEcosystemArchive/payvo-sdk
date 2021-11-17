@@ -1,6 +1,6 @@
 import dot from "dot-prop";
-import { isObject } from "./is-object";
-import { isString } from "./is-string";
+import { isObject } from "./is-object.js";
+import { isString } from "./is-string.js";
 
 export const set = <T>(object: T, path: string | string[], value: unknown): boolean => {
 	if (!isObject(object) || !isString(path)) {

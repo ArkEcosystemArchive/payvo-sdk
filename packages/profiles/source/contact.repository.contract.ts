@@ -1,4 +1,4 @@
-import { IContact, IContactAddressInput, IContactData } from "./contracts";
+import { IContact, IContactAddressInput, IContactData } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the contact repository.

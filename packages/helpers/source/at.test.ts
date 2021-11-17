@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { at } from "./at";
+import { at } from "./at.js";
 
 describe("#at", () => {
 	it("should work like lodash", () => {

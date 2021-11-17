@@ -2,15 +2,15 @@ import "jest-extended";
 
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, mockWallet } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { KeyPairService } from "./key-pair.service";
-import { PublicKeyService } from "./public-key.service";
-import { TransactionService } from "./transaction.service";
-import { BindingType } from "./constants";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, mockWallet } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { BindingType } from "./constants.js";
 
 let subject: TransactionService;
 

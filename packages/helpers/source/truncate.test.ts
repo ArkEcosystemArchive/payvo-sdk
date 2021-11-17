@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { truncate } from "./truncate";
+import { truncate } from "./truncate.js";
 
 describe("#truncate", () => {
 	it("should truncate strings if they are above the specified length", () => {

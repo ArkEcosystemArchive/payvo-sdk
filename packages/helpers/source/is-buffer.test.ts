@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isBuffer } from "./is-buffer";
+import { isBuffer } from "./is-buffer.js";
 
 describe("#isBuffer", () => {
 	it("should pass", () => {

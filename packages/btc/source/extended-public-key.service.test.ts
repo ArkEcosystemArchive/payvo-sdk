@@ -1,8 +1,8 @@
 import "jest-extended";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
 
 let subject: ExtendedPublicKeyService;
 

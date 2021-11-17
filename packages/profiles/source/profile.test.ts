@@ -1,7 +1,7 @@
 import "jest-extended";
 import "reflect-metadata";
 import nock from "nock";
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import { PluginRepository } from "./plugin.repository";
 import { ContactRepository } from "./contact.repository";
 import { DataRepository } from "./data.repository";
@@ -12,12 +12,12 @@ import { CountAggregate } from "./count.aggregate";
 import { RegistrationAggregate } from "./registration.aggregate";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
-import { Authenticator } from "./authenticator";
-import { Profile } from "./profile";
-import { IProfile, IReadWriteWallet, ProfileData, ProfileSetting } from "./contracts";
+import { Authenticator } from "./authenticator.js";
+import { Profile } from "./profile.js";
+import { IProfile, IReadWriteWallet, ProfileData, ProfileSetting } from "./contracts.js";
 import { WalletFactory } from "./wallet.factory";
 import { mock, MockProxy } from "jest-mock-extended";
-import { ProfileNotificationService } from "./notification.service";
+import { ProfileNotificationService } from "./notification.service.js";
 
 let subject: IProfile;
 

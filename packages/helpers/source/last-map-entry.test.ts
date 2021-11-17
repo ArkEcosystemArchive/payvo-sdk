@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { lastMapEntry } from "./last-map-entry";
+import { lastMapEntry } from "./last-map-entry.js";
 
 describe("#lastMapEntry", () => {
 	it("should return the last entry", () => {

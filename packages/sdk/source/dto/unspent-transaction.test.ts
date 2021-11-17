@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { UnspentTransactionData } from "./unspent-transaction";
+import { UnspentTransactionData } from "./unspent-transaction.js";
 
 test("#id", () => {
 	expect(new UnspentTransactionData({ id: "value" }).id()).toBeString();

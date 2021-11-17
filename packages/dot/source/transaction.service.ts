@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { ApiPromise } from "@polkadot/api";
 import { Keyring } from "@polkadot/keyring";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

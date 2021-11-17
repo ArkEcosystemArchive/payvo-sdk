@@ -1,4 +1,4 @@
-import { IPasswordManager } from "./contracts";
+import { IPasswordManager } from "./contracts.js";
 
 export class PasswordManager implements IPasswordManager {
 	#password: string | undefined;

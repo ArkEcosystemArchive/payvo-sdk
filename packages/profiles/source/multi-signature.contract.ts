@@ -1,6 +1,6 @@
 import { Contracts } from "@payvo/sdk";
 
-import { IReadOnlyWallet } from "./contracts";
+import { IReadOnlyWallet } from "./contracts.js";
 
 export interface IMultiSignature {
 	/**

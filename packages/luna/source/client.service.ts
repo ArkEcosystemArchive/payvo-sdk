@@ -1,7 +1,7 @@
 import { Contracts, Helpers, Services } from "@payvo/sdk";
 import { LCDClient } from "@terra-money/terra.js";
 
-import { useClient } from "./helpers";
+import { useClient } from "./helpers.js";
 
 export class ClientService extends Services.AbstractClientService {
 	public override async broadcast(

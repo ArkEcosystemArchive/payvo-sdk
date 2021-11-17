@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService, requireModule } from "../test/mocking.js";
 import { AssetSerializer } from "./asset.serializer";
 
 describe("AssetSerializer #toMachine", () => {
