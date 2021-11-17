@@ -100,9 +100,9 @@ describe("BTC", () => {
 			// All participant wallets should see when calling wallet.transaction.sync()
 			mockServerResponse("store", { id: uuid });
 			const result = await first
-			// const result = await profile1
-			// 	.coins()
-			// 	.get("BTC", "btc.testnet")
+				// const result = await profile1
+				// 	.coins()
+				// 	.get("BTC", "btc.testnet")
 				.transaction()
 				.broadcast(uuid);
 
