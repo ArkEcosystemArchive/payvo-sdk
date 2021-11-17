@@ -17,7 +17,11 @@ const network: Networks.NetworkManifest = {
 		symbol: "Ƀ",
 		ticker: "BTC",
 	},
-	explorer,
+	explorer: {
+		block: "testnet/block/{0}",
+		transaction: "testnet/tx/{0}",
+		wallet: "testnet/address/{0}",
+	},
 	featureFlags,
 	hosts: [
 		{
@@ -25,7 +29,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://blockstream.info/testnet",
+			host: "https://blockstream.info",
 			type: "explorer",
 		},
 	],
