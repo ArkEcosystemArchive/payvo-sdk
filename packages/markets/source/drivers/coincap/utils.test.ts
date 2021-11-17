@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { convertToCurrency } from "./utils.js";
 
 test("If `from` equals `base`, return the basic exchange rate for the `to` currency", async () => {

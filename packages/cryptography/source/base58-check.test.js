@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Base58Check } from "./base58-check.js";
 
 test("#encode", () => {

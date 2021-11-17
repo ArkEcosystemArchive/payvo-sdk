@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { cloneObject } from "./clone-object.js";
 
 describe("#cloneObject", () => {

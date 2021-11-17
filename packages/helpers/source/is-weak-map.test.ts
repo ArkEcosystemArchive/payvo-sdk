@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isWeakMap } from "./is-weak-map.js";
 
 describe("#isWeakMap", () => {

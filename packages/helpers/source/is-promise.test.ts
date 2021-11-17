@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isPromise } from "./is-promise.js";
 
 describe("#isPromise", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { AES } from "./aes.js";
 
 const message = "Hello World";

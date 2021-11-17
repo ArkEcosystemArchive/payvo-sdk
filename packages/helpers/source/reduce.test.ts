@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { reduce } from "./reduce.js";
 
 describe("#reduce", () => {

@@ -1,4 +1,3 @@
-import "jest-extended";
 import * as bitcoin from "bitcoinjs-lib";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import {

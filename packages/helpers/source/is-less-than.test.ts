@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isLessThan } from "./is-less-than.js";
 
 describe("#isLessThan", () => {

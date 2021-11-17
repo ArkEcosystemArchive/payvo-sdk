@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { merge } from "./merge.js";
 
 describe("#merge", () => {

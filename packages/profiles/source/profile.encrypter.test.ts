@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 import { mock, MockProxy } from "jest-mock-extended";
 

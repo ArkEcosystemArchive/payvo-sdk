@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isObject } from "./is-object.js";
 
 describe("#isObject", () => {

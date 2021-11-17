@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { dotCase } from "./dot-case.js";
 
 describe("#dotCase", () => {

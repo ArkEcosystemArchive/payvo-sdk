@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { chunk } from "./chunk.js";
 
 describe("#chunk", () => {

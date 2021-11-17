@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Cache } from "./cache.service.js";
 
 let subject: Cache;

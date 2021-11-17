@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isGreaterThan } from "./is-greater-than.js";
 
 describe("#isGreaterThan", () => {

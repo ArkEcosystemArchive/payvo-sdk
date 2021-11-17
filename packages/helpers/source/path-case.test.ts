@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pathCase } from "./path-case.js";
 
 describe("#pathCase", () => {

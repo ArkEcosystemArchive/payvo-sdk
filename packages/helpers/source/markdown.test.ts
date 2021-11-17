@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Markdown } from "./markdown.js";
 
 test("#parse", () => {

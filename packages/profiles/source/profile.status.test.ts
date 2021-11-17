@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";

@@ -1,4 +1,3 @@
-import "jest-extended";
 import { readFileSync } from "fs";
 
 import { URI } from "./uri.js";

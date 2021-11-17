@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.js";
 import { ConfirmationSecretSignatory } from "./confirmation-secret.js";
 import { ConfirmationWIFSignatory } from "./confirmation-wif.js";

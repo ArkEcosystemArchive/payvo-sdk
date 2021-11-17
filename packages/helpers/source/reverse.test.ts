@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { reverse } from "./reverse.js";
 
 describe("#reverse", () => {

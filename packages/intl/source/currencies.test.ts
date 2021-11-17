@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { CURRENCIES } from "./currencies.js";
 
 test("CURRENCIES", () => {

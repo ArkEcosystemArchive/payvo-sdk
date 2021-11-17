@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { semver } from "./semver.js";
 
 describe("#semver", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { constantCase } from "./constant-case.js";
 
 describe("#constantCase", () => {

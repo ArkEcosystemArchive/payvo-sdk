@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { pick } from "./pick.js";
 
 describe("#pick", () => {

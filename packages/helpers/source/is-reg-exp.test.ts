@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isRegExp } from "./is-reg-exp.js";
 
 describe("#isRegExp", () => {

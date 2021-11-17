@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { identity } from "../test/fixtures/identity.js";
 import { ReadOnlyWallet } from "./read-only-wallet.js";
 

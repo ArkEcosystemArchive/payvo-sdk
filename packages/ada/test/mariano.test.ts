@@ -1,4 +1,3 @@
-import "jest-extended";
 import { createService } from "./mocking";
 import { ClientService } from "../source/client.service";
 import { PrivateKeyService } from "../source/private-key.service";

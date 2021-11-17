@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { createService, requireModule } from "../test/mocking";
 import { ClientService } from "../source/client.service";
 import { TransactionService } from "../source/transaction.service";

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { startCase } from "./start-case.js";
 
 describe("#startCase", () => {

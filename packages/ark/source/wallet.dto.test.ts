@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { WalletData } from "./wallet.dto.js";

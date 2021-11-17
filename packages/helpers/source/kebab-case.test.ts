@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { kebabCase } from "./kebab-case.js";
 
 describe("#kebabCase", () => {

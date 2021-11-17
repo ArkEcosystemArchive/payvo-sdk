@@ -1,4 +1,3 @@
-import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";

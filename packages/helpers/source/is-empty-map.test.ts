@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isEmptyMap } from "./is-empty-map.js";
 
 describe("#isEmptyMap", () => {

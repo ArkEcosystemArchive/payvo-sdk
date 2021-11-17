@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { identity } from "../test/fixtures/identity.js";
 import { createService, requireModule } from "../test/mocking.js";
 import { PrivateKeyService } from "./private-key.service.js";

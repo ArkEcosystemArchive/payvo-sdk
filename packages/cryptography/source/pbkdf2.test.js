@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { PBKDF2 } from "./pbkdf2.js";
 
 const message = "Hello World";

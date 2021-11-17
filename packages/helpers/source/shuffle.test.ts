@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { numberArray } from "./number-array.js";
 import { shuffle } from "./shuffle.js";
 

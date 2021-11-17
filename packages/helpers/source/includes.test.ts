@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { includes } from "./includes.js";
 
 describe("#includes", () => {

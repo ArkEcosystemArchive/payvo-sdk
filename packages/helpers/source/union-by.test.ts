@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { unionBy } from "./union-by.js";
 
 describe("#unionBy", () => {

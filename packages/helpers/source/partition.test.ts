@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { partition } from "./partition.js";
 
 describe("#partition", () => {

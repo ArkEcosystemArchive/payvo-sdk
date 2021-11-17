@@ -1,7 +1,5 @@
 /* eslint-disable import/order */
 
-import "jest-extended";
-
 import fs from "fs-extra";
 import nock from "nock";
 import { resolve } from "path";

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { randomHex } from "./random-hex.js";
 
 describe("#randomHex", () => {

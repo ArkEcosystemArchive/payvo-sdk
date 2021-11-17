@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion.js";
 
 test("#convertBuffer", () => {

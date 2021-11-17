@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { keyBy } from "./key-by.js";
 
 const array = [

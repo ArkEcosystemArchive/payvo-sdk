@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isSSH } from "./is-ssh.js";
 
 describe("#isSSH", () => {

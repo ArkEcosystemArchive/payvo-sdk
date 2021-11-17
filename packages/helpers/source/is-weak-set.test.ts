@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isWeakSet } from "./is-weak-set.js";
 
 describe("#isWeakSet", () => {

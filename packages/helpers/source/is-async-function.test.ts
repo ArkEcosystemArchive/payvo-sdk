@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isAsyncFunction } from "./is-async-function.js";
 
 describe("#isAsyncFunction", () => {

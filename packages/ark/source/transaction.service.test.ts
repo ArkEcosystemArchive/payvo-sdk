@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Transactions } from "@arkecosystem/crypto";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";

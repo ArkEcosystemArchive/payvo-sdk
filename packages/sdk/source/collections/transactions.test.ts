@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { ConfirmedTransactionDataCollection } from "./transactions.js";
 
 let subject: ConfirmedTransactionDataCollection;

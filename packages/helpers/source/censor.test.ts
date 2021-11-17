@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Censor } from "./censor.js";
 
 let subject: Censor;

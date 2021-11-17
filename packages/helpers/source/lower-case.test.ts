@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { lowerCase } from "./lower-case.js";
 
 describe("#lowerCase", () => {

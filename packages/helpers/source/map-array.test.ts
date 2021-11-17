@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { mapArray } from "./map-array.js";
 
 describe("#mapArray", () => {

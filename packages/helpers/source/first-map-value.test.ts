@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { firstMapValue } from "./first-map-value.js";
 
 describe("#firstMapValue", () => {

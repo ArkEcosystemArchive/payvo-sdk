@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { firstMapEntry } from "./first-map-entry.js";
 
 describe("#firstMapEntry", () => {

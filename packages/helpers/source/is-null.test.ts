@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isNull } from "./is-null.js";
 
 describe("#isNull", () => {

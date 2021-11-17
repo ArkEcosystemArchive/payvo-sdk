@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isConstructor } from "./is-constructor.js";
 
 describe("#isConstructor", () => {

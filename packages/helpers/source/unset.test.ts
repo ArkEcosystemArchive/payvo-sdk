@@ -1,4 +1,3 @@
-import "jest-extended";
 import { unset } from "./unset.js";
 
 describe("#unset", () => {

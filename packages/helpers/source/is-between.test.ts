@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isBetween } from "./is-between.js";
 
 describe("#isBetween", () => {

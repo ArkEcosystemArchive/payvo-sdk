@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { upperCase } from "./upper-case.js";
 
 describe("#upperCase", () => {

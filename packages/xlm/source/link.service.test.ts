@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Services } from "@payvo/sdk";
 
 import { createService, requireModule } from "../test/mocking.js";

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { CappedMap } from "./capped-map.js";
 
 describe("Capped Map", () => {

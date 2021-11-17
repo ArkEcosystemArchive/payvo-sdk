@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isError } from "./is-error.js";
 
 describe("#isError", () => {

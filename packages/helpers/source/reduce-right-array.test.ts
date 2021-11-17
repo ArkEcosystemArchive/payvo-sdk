@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { reduceRightArray } from "./reduce-right-array.js";
 
 describe("#reduceRightArray", () => {

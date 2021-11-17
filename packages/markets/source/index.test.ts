@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Request } from "@payvo/sdk-http-fetch";
 import { jest } from "@jest/globals";
 

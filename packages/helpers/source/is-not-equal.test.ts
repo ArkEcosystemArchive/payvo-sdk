@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isNotEqual } from "./is-not-equal.js";
 
 describe("#isNotEqual", () => {

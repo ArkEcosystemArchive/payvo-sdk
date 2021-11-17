@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { manifest } from "../../../ark/distribution/manifest.js";
 import { NetworkRepository } from "./network-repository.js";
 

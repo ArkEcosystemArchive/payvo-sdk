@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Hash } from "./hash.js";
 
 test("#ripemd160", () => {

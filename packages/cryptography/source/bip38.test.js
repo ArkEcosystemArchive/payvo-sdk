@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { BIP38 } from "./bip38.js";
 import { WIF } from "./wif.js";
 

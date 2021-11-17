@@ -1,4 +1,3 @@
-import "jest-extended";
 import { ConfStorage } from "./conf.storage";
 
 import { StorageFactory } from "./factory.storage";

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Argon2 } from "./argon2.js";
 
 test("#hash", async () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isUndefined } from "./is-undefined.js";
 
 describe("#isUndefined", () => {

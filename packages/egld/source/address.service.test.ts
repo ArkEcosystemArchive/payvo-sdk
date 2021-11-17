@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { identity } from "../test/fixtures/identity.js";
 import { AddressService } from "./address.service.js";
 

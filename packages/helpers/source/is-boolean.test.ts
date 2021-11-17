@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isBoolean } from "./is-boolean.js";
 
 describe("#isBoolean", () => {

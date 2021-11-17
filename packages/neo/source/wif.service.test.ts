@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { identity } from "../test/fixtures/identity.js";
 import { createService, requireModule } from "../test/mocking.js";
 import { WIFService } from "./wif.service.js";

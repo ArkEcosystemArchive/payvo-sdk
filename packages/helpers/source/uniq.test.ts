@@ -1,4 +1,3 @@
-import "jest-extended";
 import { uniq } from "./uniq.js";
 
 describe("#uniq", () => {

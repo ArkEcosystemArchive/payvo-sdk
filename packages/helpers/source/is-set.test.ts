@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isSet } from "./is-set.js";
 
 describe("#isSet", () => {

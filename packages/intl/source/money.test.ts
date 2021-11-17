@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Money } from "./money.js";
 
 let subject: Money;

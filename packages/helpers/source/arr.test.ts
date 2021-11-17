@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Arr } from "./arr.js";
 
 test("#randomElement", () => {

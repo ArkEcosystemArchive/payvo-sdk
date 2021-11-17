@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isArrayOfType } from "./is-array-of-type.js";
 
 describe("#isArrayOfType", () => {

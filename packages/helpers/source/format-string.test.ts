@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { formatString } from "./format-string.js";
 
 describe("#formatString", () => {

@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { Base64 } from "./base64.js";
 
 const message = "Hello World";

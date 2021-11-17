@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isBigInt } from "./is-bigint.js";
 
 describe("#isBigInt", () => {

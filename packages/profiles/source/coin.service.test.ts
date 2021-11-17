@@ -1,4 +1,3 @@
-import "jest-extended";
 import "reflect-metadata";
 import { mock } from "jest-mock-extended";
 

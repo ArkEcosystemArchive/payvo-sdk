@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { toString } from "./to-string.js";
 
 describe("#toString", () => {

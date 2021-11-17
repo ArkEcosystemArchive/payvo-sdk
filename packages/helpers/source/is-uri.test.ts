@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isURI } from "./is-uri.js";
 
 describe("#isURI", () => {

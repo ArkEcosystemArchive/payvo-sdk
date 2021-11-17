@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { IoC } from "@payvo/sdk";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 

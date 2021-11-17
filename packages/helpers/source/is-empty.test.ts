@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isEmpty } from "./is-empty.js";
 
 describe("#isEmpty", () => {

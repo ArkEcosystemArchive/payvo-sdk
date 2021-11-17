@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isStringArray } from "./is-string-array.js";
 
 describe("#isStringArray", () => {

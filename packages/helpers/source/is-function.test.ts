@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isFunction } from "./is-function.js";
 
 describe("#isFunction", () => {

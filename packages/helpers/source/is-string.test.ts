@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isString } from "./is-string.js";
 
 describe("#isString", () => {

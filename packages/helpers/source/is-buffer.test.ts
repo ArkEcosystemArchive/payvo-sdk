@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { isBuffer } from "./is-buffer.js";
 
 describe("#isBuffer", () => {

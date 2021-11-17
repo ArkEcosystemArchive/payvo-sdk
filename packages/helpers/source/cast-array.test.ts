@@ -1,5 +1,3 @@
-import "jest-extended";
-
 import { castArray } from "./cast-array.js";
 
 describe("#castArray", () => {
