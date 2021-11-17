@@ -6,33 +6,33 @@ import { resolve } from "path";
 import { manifest } from "../source/manifest";
 
 export const createService = <T = any>(service: any, network: string = "btc.livenet", predicate?: Function): T => {
-	return Test.createService({
-		httpClient: new Request(),
-		manifest: manifest.networks[network],
-		predicate,
-		service,
-	});
+    return Test.createService({
+        httpClient: new Request(),
+        manifest: manifest.networks[network],
+        predicate,
+        service,
+    });
 };
 
 export const createServiceAsync = <T = any>(
-	service: any,
-	network: string = "btc.livenet",
-	predicate?: Function,
+    service: any,
+    network: string = "btc.livenet",
+    predicate?: Function,
 ): Promise<T> => {
-	return Test.createServiceAsync({
-		httpClient: new Request(),
-		manifest: manifest.networks[network],
-		predicate,
-		service,
-	});
+    return Test.createServiceAsync({
+        httpClient: new Request(),
+        manifest: manifest.networks[network],
+        predicate,
+        service,
+    });
 };
 
 // @ts-ignore
 export const requireModule = (path: string): any => {
-	if (path.startsWith("../test")) {
-		path = path.replace("../test", "./test");
-	}
+    if (path.startsWith("../test")) {
+        path = path.replace("../test", "./test");
+    }
 
-	// @ts-ignore
-	return createRequire(import.meta.url)(resolve(path));
+    // @ts-ignore
+    return require(resolve(path));
 };

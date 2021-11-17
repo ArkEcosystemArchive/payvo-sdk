@@ -20,6 +20,5 @@ export const requireModule = (path: string): any => {
 		path = path.replace("../test", "./test");
 	}
 
-	// @ts-ignore
-	return createRequire(import.meta.url)(resolve(path));
+	return require(resolve(path));
 };
