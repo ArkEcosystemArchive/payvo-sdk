@@ -39,7 +39,9 @@ beforeEach(async () => {
 			},
 		});
 
-	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, (await import("../../../test/fixtures/coingecko/market.json")).default);
+	nock(BASE_URL_COINGECKO)
+		.get("/coins/ark")
+		.reply(200, (await import("../../../test/fixtures/coingecko/market.json")).default);
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/market_chart")

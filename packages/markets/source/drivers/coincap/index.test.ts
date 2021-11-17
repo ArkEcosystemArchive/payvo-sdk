@@ -15,7 +15,10 @@ let subject: CoinCap;
 beforeEach(async () => {
 	subject = new CoinCap(new Request());
 
-	nock(BASE_URL_COINCAP).get("/assets").query(true).reply(200, (await import("../../../test/fixtures/coincap/assets.json")).default);
+	nock(BASE_URL_COINCAP)
+		.get("/assets")
+		.query(true)
+		.reply(200, (await import("../../../test/fixtures/coincap/assets.json")).default);
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark")
@@ -36,7 +39,9 @@ beforeEach(async () => {
 			timestamp: 1581339180902,
 		});
 
-	nock(BASE_URL_COINCAP).get("/rates").reply(200, (await import("../../../test/fixtures/coincap/rates.json")).default);
+	nock(BASE_URL_COINCAP)
+		.get("/rates")
+		.reply(200, (await import("../../../test/fixtures/coincap/rates.json")).default);
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")
