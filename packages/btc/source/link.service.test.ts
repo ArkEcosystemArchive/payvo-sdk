@@ -6,7 +6,7 @@ import { createService, requireModule } from "../test/mocking";
 
 let subject: Services.AbstractLinkService;
 
-describe("livenet", function() {
+describe("livenet", function () {
 	beforeAll(async () => {
 		subject = await createService(Services.AbstractLinkService, "btc.livenet");
 	});
@@ -22,9 +22,8 @@ describe("livenet", function() {
 	it("should generate a link for a wallet", async () => {
 		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://blockstream.info/address/id"`);
 	});
-
 });
-describe("testnet", function() {
+describe("testnet", function () {
 	beforeAll(async () => {
 		subject = await createService(Services.AbstractLinkService, "btc.testnet");
 	});
