@@ -2,11 +2,15 @@
 	"name": "platform-sdk",
 	"private": true,
 	"description": "Cross-Platform Utilities for ARK Applications",
+	"scripts": {
+		"prettier": "prettier --write \"./packages/**/*.{ts,js,json,md}\""
+	},
 	"dependencies": {
+		"prettier": "^2.4.1",
 		"ts-morph": "^12.0.0"
 	},
 	"engines": {
-		"node": "^12 || ^14"
+		"node": ">=14.16"
 	},
 	"engineStrict": true
 }

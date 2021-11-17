@@ -19,11 +19,9 @@
 		"build:esm": "tsc -p tsconfig.esm.json",
 		"build:npm": "pnpm run clean && pnpm run build:cjs && pnpm run build:esm",
 		"clean": "rimraf .coverage distribution tmp",
-		"format": "pnpm run lint && pnpm run prettier",
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build:npm",
-		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"
 	},
@@ -106,6 +104,6 @@
 		"wif": "^2.0.6"
 	},
 	"engines": {
-		"node": ">=12.x"
+		"node": ">=14.16"
 	}
 }

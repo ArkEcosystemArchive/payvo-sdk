@@ -1,9 +1,11 @@
 lockfileVersion: 5.3
 
 specifiers:
+  prettier: ^2.4.1
   ts-morph: ^12.0.0
 
 dependencies:
+  prettier: 2.4.1
   ts-morph: 12.0.0
 
 packages:
@@ -144,6 +146,12 @@ packages:
   /picomatch/2.3.0:
     resolution: {integrity: sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==}
     engines: {node: '>=8.6'}
+    dev: false
+
+  /prettier/2.4.1:
+    resolution: {integrity: sha512-9fbDAXSBcc6Bs1mZrDYb3XKzDLm4EXXL9sC1LqKP5rZkT6KRr/rf9amVUcODVXgguK/isJz0d0hP72WeaKWsvA==}
+    engines: {node: '>=10.13.0'}
+    hasBin: true
     dev: false
 
   /queue-microtask/1.2.3:
