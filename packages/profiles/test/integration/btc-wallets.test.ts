@@ -2,7 +2,7 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { BIP44 } from "@payvo/sdk-cryptography";
-import { AddressDataTransferObject } from "@payvo/sdk/distribution/services/address.contract";
+import { AddressDataTransferObject } from "@payvo/sdk/distribution/cjs/services/address.contract";
 import nock from "nock";
 
 import { Profile } from "../../source";

@@ -11,10 +11,27 @@
 		},
 		{
 			"commandKind": "bulk",
-			"name": "format",
+			"name": "build:npm",
 			"summary": "...",
 			"description": "...",
-			"enableParallelism": true
+			"enableParallelism": true,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "build:cjs",
+			"summary": "...",
+			"description": "...",
+			"enableParallelism": true,
+			"allowWarningsInSuccessfulBuild": true
+		},
+		{
+			"commandKind": "bulk",
+			"name": "build:esm",
+			"summary": "...",
+			"description": "...",
+			"enableParallelism": true,
+			"allowWarningsInSuccessfulBuild": true
 		},
 		{
 			"commandKind": "bulk",
@@ -26,13 +43,6 @@
 		{
 			"commandKind": "bulk",
 			"name": "lint:tests",
-			"summary": "...",
-			"description": "...",
-			"enableParallelism": true
-		},
-		{
-			"commandKind": "bulk",
-			"name": "prettier",
 			"summary": "...",
 			"description": "...",
 			"enableParallelism": true

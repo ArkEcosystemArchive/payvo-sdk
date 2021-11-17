@@ -45,7 +45,7 @@ jobs:
             - name: Lint
               run: rush lint || true
             - name: Format
-              run: rush prettier
+              run: pnpm run prettier
             - uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: "style: resolve style guide violations"
