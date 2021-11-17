@@ -1,4 +1,4 @@
-import { set as base } from "dot-prop";
+import dot from "dot-prop";
 import { isObject } from "./is-object";
 import { isString } from "./is-string";
 
@@ -7,7 +7,7 @@ export const set = <T>(object: T, path: string | string[], value: unknown): bool
 		return false;
 	}
 
-	base(object, path, value);
+	dot.set(object, path, value);
 
 	return true;
 };

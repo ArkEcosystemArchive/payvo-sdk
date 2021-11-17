@@ -2,13 +2,13 @@
 
 import "jest-extended";
 
-import { readFileSync } from "fs-extra";
+import fs from "fs-extra";
 import nock from "nock";
 import { resolve } from "path";
 
 import { FeedService } from "./feed";
 
-const fixture = readFileSync(resolve(__dirname, "../test/fixtures/feed.xml")).toString();
+const fixture = fs.readFileSync(resolve("test/fixtures/feed.xml")).toString();
 
 let subject: FeedService;
 

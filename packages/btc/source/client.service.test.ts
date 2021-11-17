@@ -9,7 +9,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/cjs/collections";
+import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";
 
 let subject: ClientService;
 

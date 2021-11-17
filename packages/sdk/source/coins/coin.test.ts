@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution/cjs";
+import { ARK } from "../../../ark/distribution";
 import { Request } from "../../../http-fetch";
 import { requireModule } from "../../test/mocking";
 import { Network, NetworkRepository } from "../networks";

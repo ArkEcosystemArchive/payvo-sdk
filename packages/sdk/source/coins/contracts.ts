@@ -2,6 +2,7 @@ import { HttpClient } from "../http";
 import { CoinManifest, NetworkManifest } from "../networks/network.models";
 import {
 	AddressService,
+	BigNumberService,
 	ClientService,
 	DataTransferObjectService,
 	ExtendedAddressService,
@@ -20,7 +21,6 @@ import {
 	WalletDiscoveryService,
 	WIFService,
 } from "../services";
-import { BigNumberService } from "../services/big-number.service";
 
 export interface CoinSpec {
 	manifest: CoinManifest;
@@ -36,29 +36,29 @@ export interface CoinOptions {
 }
 
 export interface CoinServices {
-	bigNumber: BigNumberService;
-	client: ClientService;
-	dataTransferObject: DataTransferObjectService;
-	fee: FeeService;
-	address: AddressService;
-	extendedAddress: ExtendedAddressService;
-	keyPair: KeyPairService;
-	privateKey: PrivateKeyService;
-	publicKey: PublicKeyService;
-	wif: WIFService;
-	knownWallets: KnownWalletService;
-	ledger: LedgerService;
-	link: LinkService;
-	message: MessageService;
-	multiSignature: MultiSignatureService;
-	signatory: SignatoryService;
-	transaction: TransactionService;
-	walletDiscovery: WalletDiscoveryService;
+	AddressService?: AddressService;
+	BigNumberService?: BigNumberService;
+	ClientService?: ClientService;
+	DataTransferObjectService?: DataTransferObjectService;
+	ExtendedAddressService?: ExtendedAddressService;
+	FeeService?: FeeService;
+	KeyPairService?: KeyPairService;
+	KnownWalletService?: KnownWalletService;
+	LedgerService?: LedgerService;
+	LinkService?: LinkService;
+	MessageService?: MessageService;
+	MultiSignatureService?: MultiSignatureService;
+	PrivateKeyService?: PrivateKeyService;
+	PublicKeyService?: PublicKeyService;
+	SignatoryService?: SignatoryService;
+	TransactionService?: TransactionService;
+	WalletDiscoveryService?: WalletDiscoveryService;
+	WIFService?: WIFService;
 }
 
 export interface CoinBundle {
-	services: CoinManifest;
+	services: Record<string, object>; // @TODO: use CoinServices
 	dataTransferObjects: object; // @TODO
 	manifest: CoinManifest;
-	serviceProvider: CoinServices;
+	serviceProvider?: any; // @TODO: use IServiceProvider
 }

@@ -10,9 +10,9 @@ Keep the directory tree as flat as possible to reduce cognitive load which is in
 
 ### Why?
 
-- Ensure quick navigation through the terminal or file explorer.
-- Make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
-- Remove the need to think about where to put a file. Give it a type suffix and you're good to go.
+-   Ensure quick navigation through the terminal or file explorer.
+-   Make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
+-   Remove the need to think about where to put a file. Give it a type suffix and you're good to go.
 
 ### Type Suffixes
 
@@ -20,10 +20,10 @@ Do use conventional type names including `.service`, `.factory`, `.dto`, `.mutat
 
 #### Why?
 
-- Type names provide a consistent way to quickly identify what is in the file.
-- Type names make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
-- Unabbreviated type names such as `.service` are descriptive and unambiguous. Abbreviations such as `.srv`, `.svc`, and `.serv` can be confusing.
-- Type names provide pattern matching for any automated tasks.
+-   Type names provide a consistent way to quickly identify what is in the file.
+-   Type names make it easy to find a specific file type using an editor or IDE's fuzzy search techniques.
+-   Unabbreviated type names such as `.service` are descriptive and unambiguous. Abbreviations such as `.srv`, `.svc`, and `.serv` can be confusing.
+-   Type names provide pattern matching for any automated tasks.
 
 ## Code
 

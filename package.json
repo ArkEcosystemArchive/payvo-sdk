@@ -3,14 +3,14 @@
 	"private": true,
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"scripts": {
-		"prettier": "prettier --write \"./packages/**/*.{ts,js,json,md}\""
+		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./packages/**/*.{ts,js,json,md}\""
 	},
 	"dependencies": {
 		"prettier": "^2.4.1",
 		"ts-morph": "^12.0.0"
 	},
 	"engines": {
-		"node": ">=14.16"
+		"node": "^14.13.1 || >=16.0.0"
 	},
 	"engineStrict": true
 }

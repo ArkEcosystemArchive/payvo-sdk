@@ -6,7 +6,7 @@ import { Request } from "@payvo/sdk-http-fetch";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
-import { removeSync } from "fs-extra";
+import fs from "fs-extra";
 import nock from "nock";
 
 import storageData from "../test/fixtures/env-storage.json";
@@ -92,7 +92,7 @@ beforeAll(() => {
 });
 
 beforeEach(async () => {
-	removeSync(resolve(__dirname, "../test/stubs/env.json"));
+	fs.removeSync(resolve(__dirname, "../test/stubs/env.json"));
 
 	container.flush();
 });

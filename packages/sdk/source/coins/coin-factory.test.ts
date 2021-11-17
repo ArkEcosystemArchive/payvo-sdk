@@ -5,7 +5,7 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution/cjs";
+import { ARK } from "../../../ark/distribution";
 import { Request } from "../../../http-fetch";
 import { requireModule } from "../../test/mocking";
 import { Coin } from "./coin";
@@ -78,8 +78,8 @@ it("should create an instance with a custom network", async () => {
 	const coin: Coin = CoinFactory.make(ARK, {
 		httpClient: new Request(),
 		network: "coin.network",
-		// @ts-ignore
 		networks: {
+			// @ts-ignore
 			"coin.network": {
 				id: "coin.network",
 				name: "Mainnet",

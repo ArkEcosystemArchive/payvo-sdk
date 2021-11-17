@@ -161,7 +161,7 @@ describe.each([
 		},
 		"lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
 		"lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-	]
+	],
 ])(() => {
 	it("should create a transfer for %s", async (coin: string, input: object, sender: string, recipient: string): Promise<void> => {
 		const id: string = await subject.signTransfer(input);

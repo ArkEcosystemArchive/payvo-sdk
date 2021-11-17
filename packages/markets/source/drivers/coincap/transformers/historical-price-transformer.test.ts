@@ -1,7 +1,5 @@
 import { HistoricalPriceTransformer } from "./historical-price-transformer";
 
-const stubResponse = require("../../../../test/fixtures/coincap/historical.json");
-
 const stubOptions = {
 	token: "ark",
 	currency: "BTC",
@@ -194,6 +192,8 @@ const stubOptions = {
 describe("CoinCap", () => {
 	describe("HistoricalPriceTransformer", () => {
 		it("should transform the given data", async () => {
+			const stubResponse = (await import("../../../../test/fixtures/coincap/historical.json")).default;
+
 			const subject = new HistoricalPriceTransformer(stubResponse.data);
 
 			expect(subject.transform(stubOptions)).toMatchSnapshot();

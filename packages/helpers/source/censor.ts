@@ -738,6 +738,6 @@ export class Censor {
 	 * @memberof Censor
 	 */
 	#removeSpam(value: string): string {
-		return new Censorify().process(value);
+		return new Censorify.default().process(value);
 	}
 }

@@ -4,29 +4,29 @@
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
-	"main": "distribution/cjs/index.js",
-	"types": "distribution/cjs/index.d.ts",
+	"type": "module",
+	"exports": "distribution/index.js",
+	"types": "distribution/index.d.ts",
 	"files": [
 		"/distribution"
 	],
 	"scripts": {
-		"build": "pnpm run build:cjs",
-		"build:cjs": "tsc -p tsconfig.json",
-		"build:esm": "tsc -p tsconfig.esm.json",
-		"build:npm": "pnpm run clean && pnpm run build:cjs && pnpm run build:esm",
+		"build": "pnpm run clean && tsc",
+		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
-		"prepublishOnly": "pnpm run build:npm",
+		"prepublishOnly": "pnpm run build",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --detectOpenHandles",
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"
 	},
 	"jest": {
-		"preset": "../../jest.config.fallback.js"
+		"preset": "../../jest.config.json"
 	},
 	"dependencies": {
 		"dayjs": "^1.10.7",
-		"dinero.js": "^1.9.1"
+		"dinero.js": "^1.9.1",
+		"@jest/globals": "^27.3.1"
 	},
 	"devDependencies": {
 		"@types/dinero.js": "1.9.0",
@@ -66,6 +66,7 @@
 		"typescript": "^4.4.4"
 	},
 	"engines": {
-		"node": ">=14.16"
-	}
+		"node": "^14.13.1 || >=16.0.0"
+	},
+	"engineStrict": true
 }
