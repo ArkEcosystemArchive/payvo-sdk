@@ -55,7 +55,7 @@ export class Coin {
 			this.#isSyncing = false;
 			/* istanbul ignore next */
 		} catch (error) {
-			console.log(error)
+			console.log(error);
 
 			/* istanbul ignore next */
 			this.#isSyncing = false;
