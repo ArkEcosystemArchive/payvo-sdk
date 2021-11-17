@@ -12,7 +12,7 @@ const currency = "USD";
 
 let subject: CoinGecko;
 
-beforeEach(() => {
+beforeEach(async () => {
 	subject = new CoinGecko(new Request());
 
 	nock(BASE_URL_COINGECKO)
@@ -39,17 +39,17 @@ beforeEach(() => {
 			},
 		});
 
-	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, require("../../../test/fixtures/coingecko/market.json"));
+	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, (await import("../../../test/fixtures/coingecko/market.json")).default);
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/market_chart")
 		.query(true)
-		.reply(200, require("../../../test/fixtures/coingecko/historical.json"));
+		.reply(200, (await import("../../../test/fixtures/coingecko/historical.json")).default);
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/history")
 		.query(true)
-		.reply(200, require("../../../test/fixtures/coingecko/daily-average.json"));
+		.reply(200, (await import("../../../test/fixtures/coingecko/daily-average.json")).default);
 });
 
 describe("CoinGecko", () => {

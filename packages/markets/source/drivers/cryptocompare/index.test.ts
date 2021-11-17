@@ -11,17 +11,17 @@ const currency = "USD";
 
 let subject: CryptoCompare;
 
-beforeEach(() => {
+beforeEach(async () => {
 	subject = new CryptoCompare(new Request());
 
 	nock(BASE_URL_CRYPTOCOMPARE)
 		.get("/data/pricemultifull")
 		.query(true)
-		.reply(200, require("../../../test/fixtures/cryptocompare/market.json"));
+		.reply(200, (await import("../../../test/fixtures/cryptocompare/market.json")).default);
 
 	nock(BASE_URL_CRYPTOCOMPARE)
 		.get(/\/data\/histo.+/)
-		.reply(200, require("../../../test/fixtures/cryptocompare/historical.json"));
+		.reply(200, (await import("../../../test/fixtures/cryptocompare/historical.json")).default);
 });
 
 describe("CryptoCompare", () => {
@@ -86,7 +86,7 @@ describe("CryptoCompare", () => {
 		nock(BASE_URL_CRYPTOCOMPARE)
 			.get("/data/price")
 			.query(true)
-			.reply(200, require("../../../test/fixtures/cryptocompare/price.json"));
+			.reply(200, (await import("../../../test/fixtures/cryptocompare/price.json")).default);
 
 		const response = await subject.currentPrice({
 			token,

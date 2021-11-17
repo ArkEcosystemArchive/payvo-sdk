@@ -1507,6 +1507,7 @@ importers:
       typescript: ^4.4.4
   ../../packages/markets:
     dependencies:
+      '@jest/globals': 27.3.1
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
@@ -1548,6 +1549,7 @@ importers:
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
+      '@jest/globals': ^27.3.1
       '@payvo/sdk': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*

@@ -12,10 +12,10 @@ const currency = "USD";
 
 let subject: CoinCap;
 
-beforeEach(() => {
+beforeEach(async () => {
 	subject = new CoinCap(new Request());
 
-	nock(BASE_URL_COINCAP).get("/assets").query(true).reply(200, require("../../../test/fixtures/coincap/assets.json"));
+	nock(BASE_URL_COINCAP).get("/assets").query(true).reply(200, (await import("../../../test/fixtures/coincap/assets.json")).default);
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark")
@@ -36,18 +36,18 @@ beforeEach(() => {
 			timestamp: 1581339180902,
 		});
 
-	nock(BASE_URL_COINCAP).get("/rates").reply(200, require("../../../test/fixtures/coincap/rates.json"));
+	nock(BASE_URL_COINCAP).get("/rates").reply(200, (await import("../../../test/fixtures/coincap/rates.json")).default);
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")
 		.query(true)
-		.reply(200, require("../../../test/fixtures/coincap/historical.json"))
+		.reply(200, (await import("../../../test/fixtures/coincap/historical.json")).default)
 		.persist();
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")
 		.query((queryObject: any) => queryObject.interval === "h1")
-		.reply(200, require("../../../test/fixtures/coincap/daily-average.json"))
+		.reply(200, (await import("../../../test/fixtures/coincap/daily-average.json")).default)
 		.persist();
 });
 

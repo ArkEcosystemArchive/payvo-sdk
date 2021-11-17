@@ -19,7 +19,7 @@ describe("Blockfolio", () => {
 			nock("https://news.payvo.com")
 				.get("/api")
 				.query(true)
-				.reply(200, require("../test/fixtures/blockfolio.json"));
+				.reply(200, (await import("../test/fixtures/blockfolio.json")).default);
 
 			const result = await subject.findByCoin({ coins: ["ARK"] });
 

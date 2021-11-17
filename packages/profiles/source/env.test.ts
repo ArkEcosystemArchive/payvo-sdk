@@ -6,7 +6,7 @@ import { Request } from "@payvo/sdk-http-fetch";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
-import { removeSync } from "fs-extra";
+import fs from "fs-extra";
 import nock from "nock";
 
 import storageData from "../test/fixtures/env-storage.json";
@@ -34,7 +34,7 @@ const makeSubject = async (): Promise<void> => {
 		coins: { ARK, BTC, ETH },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 	await subject.verify();
 	await subject.boot();
@@ -92,7 +92,7 @@ beforeAll(() => {
 });
 
 beforeEach(async () => {
-	removeSync(resolve(__dirname, "../test/stubs/env.json"));
+	fs.removeSync(resolve(__dirname, "../test/stubs/env.json"));
 
 	container.flush();
 });
@@ -193,7 +193,7 @@ it("should create a profile with data and persist it when instructed to do so", 
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 	await newEnv.verify();
 	await newEnv.boot();
@@ -241,7 +241,7 @@ it("should boot the environment from fixed data", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 	await env.verify(storageData);
 	await env.boot();
@@ -292,7 +292,7 @@ it("should boot with empty storage data", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 
 	await expect(env.verify({ profiles: storageData.profiles, data: {} })).resolves.toBeUndefined();
@@ -304,7 +304,7 @@ it("should boot with empty storage profiles", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 
 	await expect(env.verify({ profiles: {}, data: { key: "value" } })).resolves.toBeUndefined();
@@ -316,7 +316,7 @@ it("should boot with exchange service data", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 
 	await container.get<Storage>(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", {});
@@ -335,7 +335,7 @@ it("should throw error when calling boot without verify first", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 	await expect(env.boot()).rejects.toThrowError("Please call [verify] before booting the environment.");
 });
@@ -378,7 +378,7 @@ it("should register a coin and deregister it", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 	await env.verify(storageData);
 	await env.boot();
@@ -393,7 +393,7 @@ it("should fail verification", async () => {
 		coins: { ARK },
 		httpClient: new Request(),
 		storage: new StubStorage(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 
 	// @ts-ignore
