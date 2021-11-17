@@ -2,13 +2,18 @@
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "../../tsconfig.eslint.json",
-		"extraFileExtensions": [".json"],
-		"projectFolderIgnoreList": ["build", "coverage", "node_modules", "public"]
+		"extraFileExtensions": [
+			".json"
+		],
+		"projectFolderIgnoreList": [
+			"build",
+			"coverage",
+			"node_modules",
+			"public"
+		]
 	},
 	"plugins": [
 		"@typescript-eslint",
-		"jest-formatting",
-		"jest",
 		"prettier",
 		"promise",
 		"simple-import-sort",
@@ -26,8 +31,6 @@
 		"plugin:import/errors",
 		"plugin:import/typescript",
 		"plugin:import/warnings",
-		"plugin:jest-formatting/strict",
-		"plugin:jest/recommended",
 		"plugin:prettier/recommended",
 		"plugin:promise/recommended",
 		"plugin:sonarjs/recommended",
@@ -55,7 +58,10 @@
 		"@typescript-eslint/require-await": "off",
 		"@typescript-eslint/restrict-plus-operands": "off",
 		"@typescript-eslint/restrict-template-expressions": "off",
-		"arrow-body-style": ["error", "as-needed"],
+		"arrow-body-style": [
+			"error",
+			"as-needed"
+		],
 		"curly": "error",
 		"import/default": "error",
 		"import/export": "error",
@@ -80,11 +86,6 @@
 		"import/no-useless-path-segments": "error",
 		"import/no-webpack-loader-syntax": "error",
 		"import/order": "error",
-		"jest/no-conditional-expect": "off",
-		"jest/no-done-callback": "off",
-		"jest/no-identical-title": "off",
-		"jest/valid-expect": "off",
-		"jest/valid-expect-in-promise": "off",
 		"no-async-promise-executor": "off",
 		"no-prototype-builtins": "off",
 		"no-nested-ternary": "error",
@@ -115,7 +116,13 @@
 		"sonarjs/no-redundant-jump": "error",
 		"sonarjs/no-small-switch": "error",
 		"sonarjs/no-use-of-empty-return-value": "error",
-		"sort-keys-fix/sort-keys-fix": ["error", "asc", { "caseSensitive": true }],
+		"sort-keys-fix/sort-keys-fix": [
+			"error",
+			"asc",
+			{
+				"caseSensitive": true
+			}
+		],
 		"unicorn/consistent-destructuring": "warn",
 		"unicorn/consistent-function-scoping": "warn",
 		"unicorn/error-message": "warn",

@@ -17,11 +17,7 @@
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
-		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"
-	},
-	"jest": {
-		"preset": "../../jest.config.json"
+		"test": "uvu source"
 	},
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",
@@ -57,7 +53,6 @@
 		"@types/eslint": "^7.28.2",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@types/fs-extra": "^9.0.13",
-		"@types/jest": "^27.0.2",
 		"@types/mersenne-twister": "1.1.2",
 		"@types/node": "^16.11.7",
 		"@types/prettier": "^2.4.1",
@@ -72,8 +67,6 @@
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-nibble": "^7.0.0",
 		"eslint-plugin-import": "^2.25.3",
-		"eslint-plugin-jest": "^25.2.4",
-		"eslint-plugin-jest-formatting": "^3.0.0",
 		"eslint-plugin-jsx-a11y": "^6.5.1",
 		"eslint-plugin-prettier": "^4.0.0",
 		"eslint-plugin-promise": "^5.1.1",
@@ -86,18 +79,13 @@
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"fs-extra": "^10.0.0",
 		"got": "^11.8.2",
-		"jest": "^27.3.1",
-		"jest-extended": "^1.1.0",
-		"jest-localstorage-mock": "^2.4.18",
-		"jest-mock-extended": "^2.0.4",
+		"uvu": "^0.5.2",
 		"nock": "^13.2.0",
 		"npm-check-updates": "^12.0.2",
 		"prettier": "^2.4.1",
 		"rimraf": "^3.0.2",
-		"ts-jest": "^27.0.7",
 		"typescript": "^4.4.4",
-		"wif": "^2.0.6",
-		"uvu": "~0.5.2"
+		"wif": "^2.0.6"
 	},
 	"engines": {
 		"node": "^14.13.1 || >=16.0.0"
