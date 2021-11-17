@@ -1,5 +1,4 @@
 import { HttpClient } from "../http";
-import { IServiceProvider } from "../ioc";
 import { CoinManifest, NetworkManifest } from "../networks/network.models";
 import {
 	AddressService,
