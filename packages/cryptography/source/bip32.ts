@@ -1,6 +1,7 @@
 /* eslint-disable import/no-namespace */
 
-import BIP32Factory, { BIP32Interface } from "bip32";
+import BIP32Factory from "bip32";
+import { BIP32Interface } from "bip32";
 import * as ecc from "tiny-secp256k1";
 
 import { BIP39 } from "./bip39";
@@ -12,6 +13,9 @@ interface Network {
 	};
 	wif: number;
 }
+
+// @ts-ignore
+const bip32 = BIP32Factory.default(ecc);
 
 /**
  * Implements all functionality that is required to work with BIP32 to create
@@ -42,7 +46,7 @@ class BIP32 {
 
 		BIP39.validate(mnemonic);
 
-		return BIP32Factory(ecc).fromSeed(BIP39.toSeed(mnemonic), network);
+		return bip32.fromSeed(BIP39.toSeed(mnemonic), network);
 	}
 
 	/**
@@ -55,7 +59,7 @@ class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromSeed(seed: string, network?: Network): BIP32Interface {
-		return BIP32Factory(ecc).fromSeed(Buffer.from(seed, "hex"), network);
+		return bip32.fromSeed(Buffer.from(seed, "hex"), network);
 	}
 
 	/**
@@ -68,7 +72,7 @@ class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromBase58(value: string, network?: Network): BIP32Interface {
-		return BIP32Factory(ecc).fromBase58(value, network);
+		return bip32.fromBase58(value, network);
 	}
 
 	/**
@@ -82,7 +86,7 @@ class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromPublicKey(publicKey: string, chainCode: string, network?: Network): BIP32Interface {
-		return BIP32Factory(ecc).fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(chainCode, "hex"), network);
+		return bip32.fromPublicKey(Buffer.from(publicKey, "hex"), Buffer.from(chainCode, "hex"), network);
 	}
 
 	/**
@@ -96,7 +100,7 @@ class BIP32 {
 	 * @memberOf BIP32
 	 */
 	public static fromPrivateKey(privateKey: string, chainCode: string, network?: Network): BIP32Interface {
-		return BIP32Factory(ecc).fromPrivateKey(Buffer.from(privateKey, "hex"), Buffer.from(chainCode, "hex"), network);
+		return bip32.fromPrivateKey(Buffer.from(privateKey, "hex"), Buffer.from(chainCode, "hex"), network);
 	}
 }
 
