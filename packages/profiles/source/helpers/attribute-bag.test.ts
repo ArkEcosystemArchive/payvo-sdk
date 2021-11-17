@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { AttributeBag } from "./attribute-bag";
+import { AttributeBag } from "./attribute-bag.js";
 
 interface Attributes {
 	a: string;

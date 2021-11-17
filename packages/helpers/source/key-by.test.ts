@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { keyBy } from "./key-by";
+import { keyBy } from "./key-by.js";
 
 const array = [
 	{ dir: "left", code: 97 },

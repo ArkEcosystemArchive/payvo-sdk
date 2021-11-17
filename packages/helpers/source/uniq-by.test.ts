@@ -1,5 +1,5 @@
 import "jest-extended";
-import { uniqBy } from "./uniq-by";
+import { uniqBy } from "./uniq-by.js";
 
 describe("#uniqBy", () => {
 	it("should work with a function", () => {

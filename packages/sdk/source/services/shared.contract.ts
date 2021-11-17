@@ -1,4 +1,4 @@
-import { MultiSignatureAsset } from "./multi-signature.contract";
+import { MultiSignatureAsset } from "./multi-signature.contract.js";
 
 export interface IdentityLevels {
 	account: number;

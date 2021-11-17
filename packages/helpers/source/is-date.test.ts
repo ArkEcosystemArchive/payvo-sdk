@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isDate } from "./is-date";
+import { isDate } from "./is-date.js";
 
 describe("#isDate", () => {
 	it("should pass", () => {

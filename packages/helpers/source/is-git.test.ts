@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isGit } from "./is-git";
+import { isGit } from "./is-git.js";
 
 describe("#isGit", () => {
 	it("should pass for Git URLs", () => {

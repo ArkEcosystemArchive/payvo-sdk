@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { Profile } from "./profile";
-import { IProfile, ProfileSetting, ProfileData } from "./contracts";
+import { Profile } from "./profile.js";
+import { IProfile, ProfileSetting, ProfileData } from "./contracts.js";
 import { ProfileInitialiser } from "./profile.initialiser";
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import nock from "nock";
 
 beforeAll(() => {

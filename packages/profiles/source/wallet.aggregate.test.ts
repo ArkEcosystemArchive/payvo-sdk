@@ -4,11 +4,11 @@ import "reflect-metadata";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { Profile } from "./profile";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { Profile } from "./profile.js";
 import { WalletAggregate } from "./wallet.aggregate";
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 let subject: WalletAggregate;
 let profile: IProfile;

@@ -3,7 +3,7 @@
 import BIP32Factory, { BIP32Interface } from "bip32";
 import * as ecc from "tiny-secp256k1";
 
-import { BIP39 } from "./bip39";
+import { BIP39 } from "./bip39.js";
 
 interface Network {
 	bip32: {

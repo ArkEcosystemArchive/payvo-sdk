@@ -2,9 +2,9 @@ import "jest-extended";
 
 import { IoC } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
-import { identity } from "../test/fixtures/identity";
-import { AddressService } from "./address.service";
+import { createService, requireModule } from "../test/mocking.js";
+import { identity } from "../test/fixtures/identity.js";
+import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 

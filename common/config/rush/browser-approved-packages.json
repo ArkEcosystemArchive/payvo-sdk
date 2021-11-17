@@ -951,6 +951,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "uvu",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "web3",
       "allowedCategories": [ "libraries" ]
     },

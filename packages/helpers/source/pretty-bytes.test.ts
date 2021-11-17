@@ -1,4 +1,4 @@
-import { prettyBytes } from "./pretty-bytes";
+import { prettyBytes } from "./pretty-bytes.js";
 
 describe("#prettyBytes", () => {
 	it("should format the given number", () => {

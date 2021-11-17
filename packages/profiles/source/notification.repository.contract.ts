@@ -1,6 +1,6 @@
-import { AggregateQuery } from "./transaction.aggregate.contract";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
 import { Except } from "type-fest";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 /**
  * Defines the structure that represents the type of a notification

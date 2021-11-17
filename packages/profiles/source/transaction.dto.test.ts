@@ -7,13 +7,13 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
 import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
+import { Profile } from "./profile.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 const createSubject = (wallet, properties, klass) => {
 	let meta: Contracts.TransactionDataMeta = "some meta";

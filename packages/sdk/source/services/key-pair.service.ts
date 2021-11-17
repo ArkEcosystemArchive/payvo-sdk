@@ -1,11 +1,11 @@
 /* istanbul ignore file */
 
-import { ConfigRepository } from "../coins";
-import { NotImplemented } from "../exceptions";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { KeyPairDataTransferObject, KeyPairService } from "./key-pair.contract";
-import { IdentityOptions } from "./shared.contract";
+import { ConfigRepository } from "../coins/index.js";
+import { NotImplemented } from "../exceptions.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { KeyPairDataTransferObject, KeyPairService } from "./key-pair.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
 
 @injectable()
 export class AbstractKeyPairService implements KeyPairService {

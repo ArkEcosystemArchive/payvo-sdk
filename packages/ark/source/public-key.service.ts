@@ -4,7 +4,7 @@ import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {

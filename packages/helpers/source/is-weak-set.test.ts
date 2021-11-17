@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isWeakSet } from "./is-weak-set";
+import { isWeakSet } from "./is-weak-set.js";
 
 describe("#isWeakSet", () => {
 	it("should pass", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { FeatureFlag } from "./enums";
+import { FeatureFlag } from "./enums.js";
 
 test("FeatureFlag", () => {
 	expect(FeatureFlag).toMatchInlineSnapshot(`

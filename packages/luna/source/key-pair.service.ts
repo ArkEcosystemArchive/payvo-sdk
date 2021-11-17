@@ -1,6 +1,6 @@
 import { Exceptions, Services } from "@payvo/sdk";
 
-import { deriveKey } from "./helpers";
+import { deriveKey } from "./helpers.js";
 
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(

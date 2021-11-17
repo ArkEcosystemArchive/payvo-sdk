@@ -6,7 +6,7 @@ import {
 	IExchangeTransactionRepository,
 	IProfile,
 } from "./contracts";
-import { Avatar } from "./helpers/avatar";
+import { Avatar } from "./helpers/avatar.js";
 
 export class ExchangeTransaction implements IExchangeTransaction {
 	readonly #profile: IProfile;

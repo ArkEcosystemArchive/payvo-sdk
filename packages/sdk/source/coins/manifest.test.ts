@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Manifest } from "./manifest";
+import { Manifest } from "./manifest.js";
 
 test("#all", () => {
 	expect(new Manifest({ key: "value" }).all()).toMatchInlineSnapshot(`

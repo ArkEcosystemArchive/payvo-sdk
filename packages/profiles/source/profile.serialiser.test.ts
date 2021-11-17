@@ -3,10 +3,10 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByAddressWithDerivationPath, importByMnemonic, generateWallet } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile, ProfileSetting } from "./contracts";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByAddressWithDerivationPath, importByMnemonic, generateWallet } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { IProfile, ProfileSetting } from "./contracts.js";
 import { ProfileSerialiser } from "./profile.serialiser";
 
 let subject: ProfileSerialiser;

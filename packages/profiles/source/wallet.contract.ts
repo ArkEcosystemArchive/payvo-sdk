@@ -15,7 +15,7 @@ import {
 	IWalletMutator,
 	IWalletSynchroniser,
 } from "./contracts";
-import { AttributeBag } from "./helpers/attribute-bag";
+import { AttributeBag } from "./helpers/attribute-bag.js";
 
 export type WalletBalanceType = keyof Contracts.WalletBalance;
 

@@ -1,4 +1,4 @@
-import { sortByDesc } from "./sort-by-desc";
+import { sortByDesc } from "./sort-by-desc.js";
 
 const dummies = [
 	{ age: 18, name: "Andrew" },

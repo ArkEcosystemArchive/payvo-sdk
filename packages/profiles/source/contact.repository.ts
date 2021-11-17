@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { Contact } from "./contact";
+import { Contact } from "./contact.js";
 import {
 	IContact,
 	IContactAddress,

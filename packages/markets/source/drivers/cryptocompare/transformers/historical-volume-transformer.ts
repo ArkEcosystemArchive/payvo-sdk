@@ -1,6 +1,6 @@
 import { DateTime } from "@payvo/sdk-intl";
 
-import { HistoricalData, HistoricalTransformer } from "../../../contracts";
+import { HistoricalData, HistoricalTransformer } from "../../../contracts/index.js";
 
 /**
  *  Implements a transformer for historical volume data.

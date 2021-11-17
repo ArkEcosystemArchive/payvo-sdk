@@ -1,4 +1,4 @@
-import { IProfileInput } from "./contracts";
+import { IProfileInput } from "./contracts.js";
 
 export interface IProfileDumper {
 	/**

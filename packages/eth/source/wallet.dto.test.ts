@@ -2,8 +2,8 @@ import "jest-extended";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { WalletData } from "./wallet.dto";
-import { createService, requireModule } from "../test/mocking";
+import { WalletData } from "./wallet.dto.js";
+import { createService, requireModule } from "../test/mocking.js";
 
 let subject: WalletData;
 

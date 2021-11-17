@@ -1,4 +1,4 @@
-import { compoundWords } from "./compound-words";
+import { compoundWords } from "./compound-words.js";
 
 describe("#compoundWords", () => {
 	it("should return undefined if the given string is empty", () => {

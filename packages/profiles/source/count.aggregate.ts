@@ -1,4 +1,4 @@
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 export class CountAggregate implements CountAggregate {
 	readonly #profile: IProfile;

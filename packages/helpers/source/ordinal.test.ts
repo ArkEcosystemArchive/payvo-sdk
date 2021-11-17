@@ -1,4 +1,4 @@
-import { ordinal } from "./ordinal";
+import { ordinal } from "./ordinal.js";
 
 describe("#ordinal", () => {
 	it("should return the number with the correct suffix", () => {

@@ -1,4 +1,4 @@
-import { orderBy } from "./order-by";
+import { orderBy } from "./order-by.js";
 
 const dummies = [
 	{ name: "Andrew", age: 18 },

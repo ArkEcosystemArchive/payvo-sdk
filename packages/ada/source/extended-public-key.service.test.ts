@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { createService, requireModule } from "../test/mocking";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
+import { createService, requireModule } from "../test/mocking.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
 
 let subject: ExtendedPublicKeyService;
 

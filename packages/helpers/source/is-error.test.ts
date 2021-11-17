@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isError } from "./is-error";
+import { isError } from "./is-error.js";
 
 describe("#isError", () => {
 	it("should pass", () => {

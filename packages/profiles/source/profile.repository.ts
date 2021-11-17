@@ -1,8 +1,8 @@
 import { UUID } from "@payvo/sdk-cryptography";
 import { injectable } from "inversify";
-import { IProfileRepository, IProfileExportOptions, IProfile, IProfileInput, ProfileData } from "./contracts";
+import { IProfileRepository, IProfileExportOptions, IProfile, IProfileInput, ProfileData } from "./contracts.js";
 
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 import { ProfileFactory } from "./profile.factory";
 import { DataRepository } from "./data.repository";
 import { ProfileExporter } from "./profile.exporter";

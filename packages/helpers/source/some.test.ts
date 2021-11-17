@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { some } from "./some";
+import { some } from "./some.js";
 
 describe("#some", () => {
 	it("should work with any function", () => {

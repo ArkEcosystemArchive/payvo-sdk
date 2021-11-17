@@ -1,5 +1,5 @@
-import { WalletData } from "../contracts";
-import { Paginator } from "./paginator";
+import { WalletData } from "../contracts.js";
+import { Paginator } from "./paginator.js";
 
 export class WalletDataCollection extends Paginator<WalletData> {
 	public findByAddress(address: string): WalletData | undefined {

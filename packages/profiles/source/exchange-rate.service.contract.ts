@@ -1,7 +1,7 @@
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the exchange rate service.

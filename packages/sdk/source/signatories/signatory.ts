@@ -1,18 +1,18 @@
 /* istanbul ignore file */
 
-import { ForbiddenMethodCallException } from "../exceptions";
-import { IdentityOptions, MultiSignatureAsset } from "../services";
-import { AbstractDoubleSignatory } from "./abstract-double-signatory";
-import { AbstractSignatory } from "./abstract-signatory";
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
-import { WIFSignatory } from "./wif";
+import { ForbiddenMethodCallException } from "../exceptions.js";
+import { IdentityOptions, MultiSignatureAsset } from "../services/index.js";
+import { AbstractDoubleSignatory } from "./abstract-double-signatory.js";
+import { AbstractSignatory } from "./abstract-signatory.js";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.js";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.js";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.js";
+import { LedgerSignatory } from "./ledger.js";
+import { MnemonicSignatory } from "./mnemonic.js";
+import { MultiSignatureSignatory } from "./multi-signature.js";
+import { PrivateKeySignatory } from "./private-key.js";
+import { SecretSignatory } from "./secret.js";
+import { WIFSignatory } from "./wif.js";
 
 type SignatoryType =
 	| ConfirmationMnemonicSignatory

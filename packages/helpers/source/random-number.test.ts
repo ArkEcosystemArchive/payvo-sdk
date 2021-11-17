@@ -1,4 +1,4 @@
-import { randomNumber } from "./random-number";
+import { randomNumber } from "./random-number.js";
 
 describe("#randomNumber", () => {
 	it("should return a random number within the given range", () => {

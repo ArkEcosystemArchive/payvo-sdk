@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { parseURI } from "./parse-uri";
+import { parseURI } from "./parse-uri.js";
 
 describe("#parseURI", () => {
 	it("should return all values", () => {

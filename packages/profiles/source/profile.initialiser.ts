@@ -1,4 +1,4 @@
-import { IProfile, IProfileInitialiser, ProfileSetting } from "./contracts";
+import { IProfile, IProfileInitialiser, ProfileSetting } from "./contracts.js";
 
 export class ProfileInitialiser implements IProfileInitialiser {
 	readonly #profile: IProfile;

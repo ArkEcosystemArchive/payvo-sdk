@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { minBy } from "./min-by";
+import { minBy } from "./min-by.js";
 
 describe("#minBy", () => {
 	it("should work with a function", () => {

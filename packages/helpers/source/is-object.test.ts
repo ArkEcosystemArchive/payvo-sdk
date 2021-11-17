@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isObject } from "./is-object";
+import { isObject } from "./is-object.js";
 
 describe("#isObject", () => {
 	it("should pass", () => {

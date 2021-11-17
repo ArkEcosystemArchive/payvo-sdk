@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { BIP44 } from "./bip44";
+import { BIP44 } from "./bip44.js";
 
 test("#deriveChild", async () => {
 	expect(

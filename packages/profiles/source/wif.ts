@@ -1,6 +1,6 @@
 import { PBKDF2 } from "@payvo/sdk-cryptography";
 
-import { IReadWriteWallet, IWalletImportFormat, WalletData } from "./contracts";
+import { IReadWriteWallet, IWalletImportFormat, WalletData } from "./contracts.js";
 
 // @TODO: rename to something better
 export class WalletImportFormat implements IWalletImportFormat {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { findKey } from "./find-key";
+import { findKey } from "./find-key.js";
 
 describe("#findKey", () => {
 	it("should work with a function", () => {

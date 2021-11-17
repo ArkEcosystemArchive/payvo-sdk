@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { toLower } from "./to-lower";
+import { toLower } from "./to-lower.js";
 
 describe("#toLower", () => {
 	it("should turn everything into lower case", () => {

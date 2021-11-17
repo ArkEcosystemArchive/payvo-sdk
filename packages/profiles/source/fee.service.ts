@@ -1,8 +1,8 @@
 import { Coins, Services } from "@payvo/sdk";
 
-import { pqueueSettled } from "./helpers/queue";
+import { pqueueSettled } from "./helpers/queue.js";
 import { DataRepository } from "./data.repository";
-import { IFeeService, IProfile } from "./contracts";
+import { IFeeService, IProfile } from "./contracts.js";
 import { injectable } from "inversify";
 
 @injectable()

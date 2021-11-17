@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
 import {
 	ConfirmationMnemonicSignatory,
 	ConfirmationSecretSignatory,
@@ -14,15 +14,15 @@ import {
 	Signatory,
 	WIFSignatory,
 } from "../signatories";
-import { AddressService } from "./address.contract";
-import { ExtendedAddressService } from "./extended-address.contract";
-import { KeyPairService } from "./key-pair.contract";
-import { MultiSignatureAsset } from "./multi-signature.contract";
-import { PrivateKeyService } from "./private-key.contract";
-import { PublicKeyService } from "./public-key.contract";
-import { IdentityOptions } from "./shared.contract";
-import { SignatoryService } from "./signatory.contract";
-import { WIFService } from "./wif.contract";
+import { AddressService } from "./address.contract.js";
+import { ExtendedAddressService } from "./extended-address.contract.js";
+import { KeyPairService } from "./key-pair.contract.js";
+import { MultiSignatureAsset } from "./multi-signature.contract.js";
+import { PrivateKeyService } from "./private-key.contract.js";
+import { PublicKeyService } from "./public-key.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
+import { SignatoryService } from "./signatory.contract.js";
+import { WIFService } from "./wif.contract.js";
 
 @injectable()
 export class AbstractSignatoryService implements SignatoryService {

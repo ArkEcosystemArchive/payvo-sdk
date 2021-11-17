@@ -1,4 +1,4 @@
-import { findIndex } from "./find-index";
+import { findIndex } from "./find-index.js";
 
 describe("#findIndex", () => {
 	it("should work with a function", () => {

@@ -1,7 +1,7 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { ApiPromise } from "@polkadot/api";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {

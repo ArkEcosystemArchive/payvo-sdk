@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isNumber } from "./is-number";
+import { isNumber } from "./is-number.js";
 
 describe("#isNumber", () => {
 	it("should pass", () => {

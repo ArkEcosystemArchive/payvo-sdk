@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isURI } from "./is-uri";
+import { isURI } from "./is-uri.js";
 
 describe("#isURI", () => {
 	it("should pass", () => {

@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const mapArray = <T, R>(iterable: T[], iteratee: FunctionReturning): R[] => {
 	const result: R[] = new Array(iterable.length);

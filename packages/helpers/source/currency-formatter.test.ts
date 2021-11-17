@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { BigNumber } from "./bignumber";
-import { CurrencyFormatter } from "./currency-formatter";
+import { BigNumber } from "./bignumber.js";
+import { CurrencyFormatter } from "./currency-formatter.js";
 
 test("#simpleFormatCrypto", () => {
 	expect(CurrencyFormatter.simpleFormatCrypto(10, "ETH")).toBe("10 ETH");

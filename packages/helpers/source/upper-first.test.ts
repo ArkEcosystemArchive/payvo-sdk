@@ -1,4 +1,4 @@
-import { upperFirst } from "./upper-first";
+import { upperFirst } from "./upper-first.js";
 
 const dummies = {
 	fred: "Fred",

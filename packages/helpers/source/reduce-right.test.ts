@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { reduceRight } from "./reduce-right";
+import { reduceRight } from "./reduce-right.js";
 
 describe("#reduceRight", () => {
 	it("should work with an array", () => {

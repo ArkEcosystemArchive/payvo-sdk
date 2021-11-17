@@ -5,11 +5,11 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
-import { requireModule } from "../../test/mocking";
-import { Coin } from "./coin";
-import { CoinFactory } from "./coin-factory";
+import { ARK } from "../../../ark/distribution.js";
+import { Request } from "../../../http-fetch.js";
+import { requireModule } from "../../test/mocking.js";
+import { Coin } from "./coin.js";
+import { CoinFactory } from "./coin-factory.js";
 
 const options = { httpClient: new Request(), network: "ark.mainnet" };
 

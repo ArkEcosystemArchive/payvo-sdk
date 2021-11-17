@@ -1,5 +1,5 @@
 import "jest-extended";
-import { uniq } from "./uniq";
+import { uniq } from "./uniq.js";
 
 describe("#uniq", () => {
 	it("should remove duplicate items", () => {

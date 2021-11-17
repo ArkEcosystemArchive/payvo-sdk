@@ -1,6 +1,6 @@
-import { SignedTransactionData } from "../contracts";
-import { Signatory } from "../signatories";
-import { BroadcastResponse } from "./client.contract";
+import { SignedTransactionData } from "../contracts.js";
+import { Signatory } from "../signatories/index.js";
+import { BroadcastResponse } from "./client.contract.js";
 
 export type MultiSignatureTransaction = Record<string, any>;
 

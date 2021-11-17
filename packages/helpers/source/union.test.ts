@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { union } from "./union";
+import { union } from "./union.js";
 
 describe("#union", () => {
 	it("should work with any value", () => {

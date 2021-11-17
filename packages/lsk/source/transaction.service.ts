@@ -3,7 +3,7 @@ import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } f
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { AssetSerializer } from "./asset.serializer";
 
 @IoC.injectable()

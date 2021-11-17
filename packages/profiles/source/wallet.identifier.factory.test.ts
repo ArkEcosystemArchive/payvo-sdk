@@ -3,11 +3,11 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, IReadWriteWallet } from "./contracts";
+import { IProfile, IProfileRepository, IReadWriteWallet } from "./contracts.js";
 import { WalletIdentifierFactory } from "./wallet.identifier.factory";
 
 jest.setTimeout(30_000);

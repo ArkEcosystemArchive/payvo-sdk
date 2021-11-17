@@ -1,6 +1,6 @@
-import { SignedTransactionData } from "../contracts";
-import { Signatory } from "../signatories";
-import { UnlockableBalance } from "./client.contract";
+import { SignedTransactionData } from "../contracts.js";
+import { Signatory } from "../signatories/index.js";
+import { UnlockableBalance } from "./client.contract.js";
 
 export interface TransactionService {
 	// Core

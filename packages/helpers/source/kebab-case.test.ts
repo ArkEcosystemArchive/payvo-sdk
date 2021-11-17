@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { kebabCase } from "./kebab-case";
+import { kebabCase } from "./kebab-case.js";
 
 describe("#kebabCase", () => {
 	it("should turn any string into kebab case", () => {

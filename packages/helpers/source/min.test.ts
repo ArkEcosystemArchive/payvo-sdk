@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { min } from "./min";
+import { min } from "./min.js";
 
 describe("#min", () => {
 	it("should return the smallest number", () => {

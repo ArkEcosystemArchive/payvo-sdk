@@ -6,14 +6,14 @@ import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import nock from "nock";
 
-import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { LedgerService } from "./ledger.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ledger } from "../test/fixtures/ledger.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 const createMockService = async (record: string): Promise<LedgerService> => {
 	const transport = await createService(LedgerService, undefined, (container) => {

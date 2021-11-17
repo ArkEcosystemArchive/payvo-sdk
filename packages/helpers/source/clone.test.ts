@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { clone } from "./clone";
+import { clone } from "./clone.js";
 
 describe("#clone", () => {
 	it("should work with an array", () => {

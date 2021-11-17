@@ -10,22 +10,22 @@ import fs from "fs-extra";
 import nock from "nock";
 
 import storageData from "../test/fixtures/env-storage.json";
-import { identity } from "../test/fixtures/identity";
-import { importByMnemonic } from "../test/mocking";
-import { StubStorage } from "../test/stubs/storage";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { importByMnemonic } from "../test/mocking.js";
+import { StubStorage } from "../test/stubs/storage.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { ProfileData } from "./contracts";
+import { ProfileData } from "./contracts.js";
 import { DataRepository } from "./data.repository";
-import { Environment } from "./env";
-import { ExchangeRateService } from "./exchange-rate.service";
+import { Environment } from "./env.js";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 import { MemoryStorage } from "./memory.storage";
-import { PluginRegistry } from "./plugin-registry.service";
-import { Profile } from "./profile";
+import { PluginRegistry } from "./plugin-registry.service.js";
+import { Profile } from "./profile.js";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { WalletService } from "./wallet.service";
+import { WalletService } from "./wallet.service.js";
 
 let subject: Environment;
 

@@ -1,4 +1,4 @@
-import { IProfileData } from "./contracts";
+import { IProfileData } from "./contracts.js";
 
 export interface IProfileEncrypter {
 	/**

@@ -1,6 +1,6 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { deriveWallet } from "./utils";
+import { deriveWallet } from "./utils.js";
 
 @IoC.injectable()
 export class WIFService extends Services.AbstractWIFService {

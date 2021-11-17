@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { indexOf } from "./index-of";
+import { indexOf } from "./index-of.js";
 
 describe("#indexOf", () => {
 	it("should return the expected index", () => {

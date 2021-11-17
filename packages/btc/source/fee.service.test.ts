@@ -2,8 +2,8 @@ import "jest-extended";
 
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { FeeService } from "./fee.service";
+import { createService, requireModule } from "../test/mocking.js";
+import { FeeService } from "./fee.service.js";
 
 const matchSnapshot = (transaction): void =>
 	expect({

@@ -1,7 +1,7 @@
 import { Services } from "@payvo/sdk";
 import { bech32 } from "bech32";
 
-import { makeAccount } from "./factories";
+import { makeAccount } from "./factories.js";
 
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(

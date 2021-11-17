@@ -1,5 +1,5 @@
-import { CoinBundle } from "./coins";
-import { AbstractServiceProvider, IServiceProvider } from "./ioc";
+import { CoinBundle } from "./coins/index.js";
+import { AbstractServiceProvider, IServiceProvider } from "./ioc/index.js";
 
 export const bundle = (data: CoinBundle): CoinBundle => {
 	let serviceProvider: IServiceProvider;

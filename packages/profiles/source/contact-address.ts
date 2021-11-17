@@ -1,5 +1,5 @@
-import { IContactAddress, IContactAddressData, IProfile } from "./contracts";
-import { Avatar } from "./helpers/avatar";
+import { IContactAddress, IContactAddressData, IProfile } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
 
 export class ContactAddress implements IContactAddress {
 	readonly #profile: IProfile;

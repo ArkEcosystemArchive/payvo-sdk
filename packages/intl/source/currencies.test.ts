@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { CURRENCIES } from "./currencies";
+import { CURRENCIES } from "./currencies.js";
 
 test("CURRENCIES", () => {
 	expect(CURRENCIES).toMatchInlineSnapshot(`

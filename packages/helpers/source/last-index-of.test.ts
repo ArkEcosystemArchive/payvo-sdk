@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { lastIndexOf } from "./last-index-of";
+import { lastIndexOf } from "./last-index-of.js";
 
 describe("#lastIndexOf", () => {
 	it("should return the expected index", () => {

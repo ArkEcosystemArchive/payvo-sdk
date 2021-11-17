@@ -1,4 +1,4 @@
-import { IProfileData, IProfileExportOptions } from "./contracts";
+import { IProfileData, IProfileExportOptions } from "./contracts.js";
 
 export interface IProfileSerialiser {
 	/**

@@ -2,9 +2,9 @@ import "jest-extended";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile } from "./contracts";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { IProfile } from "./contracts.js";
 
 let profile: IProfile;
 

@@ -2,8 +2,8 @@ import { DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber, convertString } from "@payvo/sdk-helpers";
 
-import { normalizeTimestamp } from "./timestamps";
-import { TransactionTypeService } from "./transaction-type.service";
+import { normalizeTimestamp } from "./timestamps.js";
+import { TransactionTypeService } from "./transaction-type.service.js";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { reduceRightObject } from "./reduce-right-object";
+import { reduceRightObject } from "./reduce-right-object.js";
 
 describe("#reduceRightObject", () => {
 	it("should work with a function", () => {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { startCase } from "./start-case";
+import { startCase } from "./start-case.js";
 
 describe("#startCase", () => {
 	it("should turn any string into start case", () => {

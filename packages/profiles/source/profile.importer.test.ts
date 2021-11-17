@@ -5,14 +5,14 @@ import "reflect-metadata";
 import { Base64 } from "@payvo/sdk-cryptography";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { IProfile, IProfileRepository, ProfileSetting } from "./contracts.js";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
 

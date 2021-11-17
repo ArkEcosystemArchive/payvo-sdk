@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { tail } from "./tail";
+import { tail } from "./tail.js";
 
 describe("#tail", () => {
 	it("should return the array without the first item", () => {

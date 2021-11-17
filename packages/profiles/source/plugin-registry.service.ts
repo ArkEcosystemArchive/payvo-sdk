@@ -4,10 +4,10 @@ import { Http } from "@payvo/sdk";
 import { injectable } from "inversify";
 import semver from "semver";
 
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IPluginRegistry, IRegistryPlugin } from "./contracts";
-import { RegistryPlugin } from "./plugin-registry.dto";
+import { IPluginRegistry, IRegistryPlugin } from "./contracts.js";
+import { RegistryPlugin } from "./plugin-registry.dto.js";
 
 @injectable()
 export class PluginRegistry implements IPluginRegistry {

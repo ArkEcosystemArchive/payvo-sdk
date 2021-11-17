@@ -3,10 +3,10 @@ import { MarketService } from "@payvo/sdk-markets";
 import { NumberLike } from "@payvo/sdk-helpers";
 
 import { DataRepository } from "./data.repository";
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import { Storage } from "./env.models";
-import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
+import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 import { injectable } from "inversify";
 
 @injectable()

@@ -1,7 +1,7 @@
 import { injectable } from "inversify";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { ExchangeTransaction } from "./exchange-transaction";
+import { ExchangeTransaction } from "./exchange-transaction.js";
 import {
 	ExchangeTransactionDetail,
 	ExchangeTransactionStatus,

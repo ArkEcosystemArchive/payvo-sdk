@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Base58 } from "./base58";
+import { Base58 } from "./base58.js";
 
 test("#encode", () => {
 	expect(Base58.encode("Hello")).toBeString();

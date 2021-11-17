@@ -1,5 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { getAddresses } from "./helpers";
+import { getAddresses } from "./helpers.js";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {

@@ -2,9 +2,9 @@ import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { BIP32Interface } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
-import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts.js";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
-import { post, walletUsedAddresses } from "./helpers";
+import { post, walletUsedAddresses } from "./helpers.js";
 
 const getDerivationFunction = (
 	method: MusigDerivationMethod,

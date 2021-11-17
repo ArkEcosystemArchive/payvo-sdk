@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { chunk } from "./chunk";
+import { chunk } from "./chunk.js";
 
 describe("#chunk", () => {
 	it("should chunk the given array", () => {

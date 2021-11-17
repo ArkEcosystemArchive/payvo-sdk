@@ -1,4 +1,4 @@
-import { IReadWriteWallet, IWalletData, IWalletExportOptions } from "./contracts";
+import { IReadWriteWallet, IWalletData, IWalletExportOptions } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the wallet repository.

@@ -2,10 +2,10 @@ import { Coins, Exceptions, Http, IoC, Services } from "@payvo/sdk";
 import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
-import { getNetworkConfig } from "./config";
-import WalletDataHelper from "./wallet-data-helper";
-import MusigWalletDataHelper from "./musig-wallet-data-helper";
-import { BipLevel, Levels, MusigDerivationMethod } from "./contracts";
+import { getNetworkConfig } from "./config.js";
+import WalletDataHelper from "./wallet-data-helper.js";
+import MusigWalletDataHelper from "./musig-wallet-data-helper.js";
+import { BipLevel, Levels, MusigDerivationMethod } from "./contracts.js";
 
 @IoC.injectable()
 export class AddressFactory {

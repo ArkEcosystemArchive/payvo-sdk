@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { pick } from "./pick";
+import { pick } from "./pick.js";
 
 describe("#pick", () => {
 	it("should return an object with only the given properties", () => {

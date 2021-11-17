@@ -2,14 +2,14 @@ import "jest-extended";
 
 import nock from "nock";
 import { IoC } from "@payvo/sdk";
-import { createService, requireModule } from "../test/mocking";
-import { BindingType } from "./constants";
+import { createService, requireModule } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
-import MusigWalletDataHelper from "./musig-wallet-data-helper";
+import MusigWalletDataHelper from "./musig-wallet-data-helper.js";
 import { defaultNativeSegwitMusigAccountKey, rootToAccountKeys } from "./address.domain";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { musig } from "../test/fixtures/musig";
+import { musig } from "../test/fixtures/musig.js";
 
 let subject: AddressFactory;
 

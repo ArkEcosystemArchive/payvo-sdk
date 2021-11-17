@@ -1,4 +1,4 @@
-import { lowerFirst } from "./lower-first";
+import { lowerFirst } from "./lower-first.js";
 
 const dummies = {
 	Fred: "fred",

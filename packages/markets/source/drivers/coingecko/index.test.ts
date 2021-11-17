@@ -4,7 +4,7 @@ import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";
 
-import { CoinGecko } from "./index";
+import { CoinGecko } from "./index.js";
 
 const BASE_URL_COINGECKO = "https://api.coingecko.com/api/v3";
 const token = "ARK";

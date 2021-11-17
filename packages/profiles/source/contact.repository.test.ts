@@ -1,9 +1,9 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import { ContactRepository } from "./contact.repository";
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 
 let subject: ContactRepository;
 

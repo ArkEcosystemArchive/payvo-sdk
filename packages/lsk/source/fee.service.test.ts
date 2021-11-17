@@ -3,23 +3,23 @@ import "jest-extended";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { identity } from "../test/fixtures/identity";
-import { FeeService } from "./fee.service";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { MultiSignatureService } from "./multi-signature.service";
+import { createService, requireModule } from "../test/mocking.js";
+import { identity } from "../test/fixtures/identity.js";
+import { FeeService } from "./fee.service.js";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 import { AssetSerializer } from "./asset.serializer";
-import { TransactionService } from "./transaction.service";
+import { TransactionService } from "./transaction.service.js";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 let subject: FeeService;
 

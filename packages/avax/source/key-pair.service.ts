@@ -1,7 +1,7 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { BinTools } from "avalanche";
 
-import { cb58Encode, keyPairFromMnemonic, useKeychain } from "./helpers";
+import { cb58Encode, keyPairFromMnemonic, useKeychain } from "./helpers.js";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {

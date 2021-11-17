@@ -10,8 +10,8 @@ import {
 	MarketDataCollection,
 	PriceTracker,
 } from "../../contracts";
-import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer";
-import { MarketTransformer } from "./transformers/market-transformer";
+import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer.js";
+import { MarketTransformer } from "./transformers/market-transformer.js";
 
 /**
  * Implements a price tracker through the CoinCap API.

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { firstMapEntry } from "./first-map-entry";
+import { firstMapEntry } from "./first-map-entry.js";
 
 describe("#firstMapEntry", () => {
 	it("should return the first entry", () => {

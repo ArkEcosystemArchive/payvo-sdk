@@ -1,4 +1,4 @@
-import { IPortfolio, IPortfolioEntry, IProfile } from "./contracts";
+import { IPortfolio, IPortfolioEntry, IProfile } from "./contracts.js";
 
 export class Portfolio implements IPortfolio {
 	readonly #profile: IProfile;

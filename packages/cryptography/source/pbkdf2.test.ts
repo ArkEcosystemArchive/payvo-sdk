@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { PBKDF2 } from "./pbkdf2";
+import { PBKDF2 } from "./pbkdf2.js";
 
 const message = "Hello World";
 const password = "password";

@@ -3,11 +3,11 @@ import "jest-extended";
 import { IoC } from "@payvo/sdk";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { BindingType } from "./constants";
-import { createKeyring } from "./factories";
-import { AddressService } from "./address.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
+import { createKeyring } from "./factories.js";
+import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 

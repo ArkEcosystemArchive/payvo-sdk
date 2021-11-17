@@ -3,7 +3,7 @@ import { Coins } from "@payvo/sdk";
 import { injectable } from "inversify";
 import retry from "p-retry";
 
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import {
 	IDataRepository,
@@ -15,8 +15,8 @@ import {
 	WalletData,
 } from "./contracts";
 import { DataRepository } from "./data.repository";
-import { pqueue } from "./helpers";
-import { Wallet } from "./wallet";
+import { pqueue } from "./helpers/queue.js";
+import { Wallet } from "./wallet.js";
 
 @injectable()
 export class WalletRepository implements IWalletRepository {

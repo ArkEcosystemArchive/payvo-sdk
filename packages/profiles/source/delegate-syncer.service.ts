@@ -1,5 +1,5 @@
 import { Contracts, Services } from "@payvo/sdk";
-import { pqueueSettled } from "./helpers";
+import { pqueueSettled } from "./helpers/queue.js";
 
 export interface IDelegateSyncer {
 	sync(): Promise<Contracts.WalletData[]>;

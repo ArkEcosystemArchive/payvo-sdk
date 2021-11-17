@@ -1,5 +1,5 @@
-import { identity } from "../test/fixtures/identity";
-import { ExtendedAddressService } from "./address-list.service";
+import { identity } from "../test/fixtures/identity.js";
+import { ExtendedAddressService } from "./address-list.service.js";
 
 describe("ExtendedAddressService", function () {
 	test("#fromMnemonic", async () => {

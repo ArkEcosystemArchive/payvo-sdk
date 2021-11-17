@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { headerCase } from "./header-case";
+import { headerCase } from "./header-case.js";
 
 describe("#headerCase", () => {
 	it("should turn any string into header case", () => {

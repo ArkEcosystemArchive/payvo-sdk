@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { QRCode } from "./qrcode";
+import { QRCode } from "./qrcode.js";
 
 test("#fromString", () => {
 	expect(QRCode.fromString("https://google.com")).toBeInstanceOf(QRCode);

@@ -2,10 +2,10 @@ import "jest-extended";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
-import { WalletDiscoveryService } from "./wallet-discovery.service";
-import { BindingType } from "./constants";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, requireModule } from "../test/mocking.js";
+import { WalletDiscoveryService } from "./wallet-discovery.service.js";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
 
 let subject;

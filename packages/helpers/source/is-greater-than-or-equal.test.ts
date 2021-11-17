@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isGreaterThanOrEqual } from "./is-greater-than-or-equal";
+import { isGreaterThanOrEqual } from "./is-greater-than-or-equal.js";
 
 describe("#isGreaterThanOrEqual", () => {
 	it("should pass", () => {

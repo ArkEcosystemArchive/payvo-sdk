@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isEmpty } from "./is-empty";
+import { isEmpty } from "./is-empty.js";
 
 describe("#isEmpty", () => {
 	it("should return true for an empty array", () => {

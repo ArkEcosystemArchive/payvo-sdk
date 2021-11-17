@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { BIP32 } from "./bip32";
+import { BIP32 } from "./bip32.js";
 
 const mnemonic = "praise you muffin lion enable neck grocery crumble super myself license ghost";
 

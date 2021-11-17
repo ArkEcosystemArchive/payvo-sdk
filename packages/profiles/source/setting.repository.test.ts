@@ -1,9 +1,9 @@
 import "jest-extended";
 import "reflect-metadata";
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 
-import { ProfileSetting, WalletSetting } from "./contracts";
-import { Profile } from "./profile";
+import { ProfileSetting, WalletSetting } from "./contracts.js";
+import { Profile } from "./profile.js";
 
 import { SettingRepository } from "./setting.repository";
 

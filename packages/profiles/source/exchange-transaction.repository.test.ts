@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
+import { bootContainer } from "../test/mocking.js";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { ExchangeTransactionStatus } from "./contracts";
-import { Profile } from "./profile";
+import { ExchangeTransactionStatus } from "./contracts.js";
+import { Profile } from "./profile.js";
 
 beforeAll(() => bootContainer());
 

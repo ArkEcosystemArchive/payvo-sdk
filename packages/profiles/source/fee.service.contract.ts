@@ -1,5 +1,5 @@
 import { Services } from "@payvo/sdk";
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the fee service.

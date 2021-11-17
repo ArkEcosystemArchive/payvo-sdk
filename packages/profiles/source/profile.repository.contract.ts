@@ -1,4 +1,4 @@
-import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts";
+import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the profile repository.

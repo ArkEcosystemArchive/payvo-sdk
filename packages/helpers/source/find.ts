@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const find = <T>(iterable: T[], iteratee: FunctionReturning): T | undefined => {
 	for (let i = 0; i < iterable.length; i++) {

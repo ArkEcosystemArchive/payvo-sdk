@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { constants, explorer, featureFlags, importMethods, transactions } from "./shared";
+import { constants, explorer, featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Cardano",

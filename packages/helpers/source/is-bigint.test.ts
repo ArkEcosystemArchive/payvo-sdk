@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isBigInt } from "./is-bigint";
+import { isBigInt } from "./is-bigint.js";
 
 describe("#isBigInt", () => {
 	it("should pass", () => {

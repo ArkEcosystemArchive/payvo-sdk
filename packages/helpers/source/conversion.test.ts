@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion";
+import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion.js";
 
 test("#convertBuffer", () => {
 	expect(convertBuffer(Buffer.from("Hello World"))).toMatchInlineSnapshot(`"48656c6c6f20576f726c64"`);

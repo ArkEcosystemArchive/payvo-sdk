@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { cloneArray } from "./clone-array";
+import { cloneArray } from "./clone-array.js";
 
 describe("#cloneArray", () => {
 	it("should work like lodash", () => {

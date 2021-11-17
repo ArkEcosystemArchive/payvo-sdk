@@ -3,7 +3,7 @@ import "jest-extended";
 import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";
 
-import { CryptoCompare } from "./index";
+import { CryptoCompare } from "./index.js";
 
 const BASE_URL_CRYPTOCOMPARE = "https://min-api.cryptocompare.com";
 const token = "ARK";

@@ -3,8 +3,8 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
-import { PluginRegistry } from "./plugin-registry.service";
+import { bootContainer } from "../test/mocking.js";
+import { PluginRegistry } from "./plugin-registry.service.js";
 
 const createNetworkMocks = () => {
 	nock("https://raw.githubusercontent.com")

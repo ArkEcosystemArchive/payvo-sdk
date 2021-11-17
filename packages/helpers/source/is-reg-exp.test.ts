@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isRegExp } from "./is-reg-exp";
+import { isRegExp } from "./is-reg-exp.js";
 
 describe("#isRegExp", () => {
 	it("should pass", () => {

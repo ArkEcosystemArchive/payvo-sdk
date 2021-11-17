@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { unionBy } from "./union-by";
+import { unionBy } from "./union-by.js";
 
 describe("#unionBy", () => {
 	it("should work with a function", () => {

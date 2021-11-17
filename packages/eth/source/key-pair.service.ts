@@ -1,7 +1,7 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { ethers } from "ethers";
 
-import { createWallet } from "./utils";
+import { createWallet } from "./utils.js";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {

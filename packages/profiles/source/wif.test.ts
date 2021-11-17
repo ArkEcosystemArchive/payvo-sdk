@@ -4,11 +4,11 @@ import "reflect-metadata";
 import { PBKDF2 } from "@payvo/sdk-cryptography";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
+import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts.js";
 
 let profile: IProfile;
 let subject: IReadWriteWallet;

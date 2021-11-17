@@ -2,7 +2,7 @@ import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import { secp256k1 } from "bcrypto";
 
-import { HashAlgorithms } from "./hash";
+import { HashAlgorithms } from "./hash.js";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { parse } from "./parse";
+import { parse } from "./parse.js";
 
 describe("#parse", () => {
 	it("should parse valid json", () => {

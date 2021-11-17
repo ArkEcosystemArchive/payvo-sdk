@@ -1,11 +1,11 @@
-import { Container } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { CoinManifest, Network, NetworkManifest } from "../networks";
-import { NetworkRepository } from "../networks/network-repository";
-import { Coin } from "./coin";
-import { ConfigKey, ConfigRepository } from "./config";
-import { CoinBundle, CoinOptions } from "./contracts";
-import { Manifest } from "./manifest";
+import { Container } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { CoinManifest, Network, NetworkManifest } from "../networks/index.js";
+import { NetworkRepository } from "../networks/network-repository.js";
+import { Coin } from "./coin.js";
+import { ConfigKey, ConfigRepository } from "./config.js";
+import { CoinBundle, CoinOptions } from "./contracts.js";
+import { Manifest } from "./manifest.js";
 
 export class CoinFactory {
 	public static make(bundle: CoinBundle, options: CoinOptions): Coin {

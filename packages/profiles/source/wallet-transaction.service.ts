@@ -2,10 +2,10 @@
 
 import { Contracts, Services, Signatories } from "@payvo/sdk";
 
-import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts";
-import { pqueueSettled } from "./helpers/queue";
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
-import { SignedTransactionDataDictionary } from "./wallet-transaction.service.contract";
+import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts.js";
+import { pqueueSettled } from "./helpers/queue.js";
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
+import { SignedTransactionDataDictionary } from "./wallet-transaction.service.contract.js";
 
 export class TransactionService implements ITransactionService {
 	/**

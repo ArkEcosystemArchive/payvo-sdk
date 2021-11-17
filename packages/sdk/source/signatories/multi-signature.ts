@@ -1,4 +1,4 @@
-import { MultiSignatureAsset } from "../services";
+import { MultiSignatureAsset } from "../services/index.js";
 
 export class MultiSignatureSignatory {
 	readonly #asset: MultiSignatureAsset;

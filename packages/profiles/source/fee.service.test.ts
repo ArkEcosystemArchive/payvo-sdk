@@ -3,12 +3,12 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
-import { FeeService } from "./fee.service";
+import { bootContainer } from "../test/mocking.js";
+import { FeeService } from "./fee.service.js";
 
 let subject: FeeService;
 import NodeFeesFixture from "../test/fixtures/client/node-fees.json";
-import { Profile } from "./profile";
+import { Profile } from "./profile.js";
 
 let profile: Profile;
 

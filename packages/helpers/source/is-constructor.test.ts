@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isConstructor } from "./is-constructor";
+import { isConstructor } from "./is-constructor.js";
 
 describe("#isConstructor", () => {
 	it("should pass", () => {

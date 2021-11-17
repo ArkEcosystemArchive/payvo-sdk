@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { isSyncFunction } from "./is-sync-function";
+import { isSyncFunction } from "./is-sync-function.js";
 
 describe("#isSyncFunction", () => {
 	it("should pass", () => {

@@ -1,6 +1,6 @@
-import { Signatory } from "../signatories";
-import { MultiSignatureAsset } from "./multi-signature.contract";
-import { IdentityOptions } from "./shared.contract";
+import { Signatory } from "../signatories/index.js";
+import { MultiSignatureAsset } from "./multi-signature.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
 
 export interface SignatoryService {
 	mnemonic(mnemonic: string, options?: IdentityOptions): Promise<Signatory>;

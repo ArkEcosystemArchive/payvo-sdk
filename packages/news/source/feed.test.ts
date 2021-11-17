@@ -6,7 +6,7 @@ import fs from "fs-extra";
 import nock from "nock";
 import { resolve } from "path";
 
-import { FeedService } from "./feed";
+import { FeedService } from "./feed.js";
 
 const fixture = fs.readFileSync(resolve("test/fixtures/feed.xml")).toString();
 

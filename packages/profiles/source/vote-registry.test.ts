@@ -4,13 +4,13 @@ import "reflect-metadata";
 import nock from "nock";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { container } from "./container";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { Wallet } from "./wallet";
-import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
-import { IDelegateService } from "./delegate.service.contract";
+import { Wallet } from "./wallet.js";
+import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts.js";
+import { IDelegateService } from "./delegate.service.contract.js";
 
 let profile: IProfile;
 let subject: IReadWriteWallet;

@@ -2,7 +2,7 @@ import { sortBy } from "@payvo/sdk-helpers";
 import { Coins, Networks } from "@payvo/sdk";
 import Joi from "joi";
 
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import {
 	IDataRepository,
@@ -14,7 +14,7 @@ import {
 	IProfileRepository,
 	IWalletService,
 } from "./contracts";
-import { DriverFactory } from "./driver";
+import { DriverFactory } from "./driver.js";
 import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models";
 
 export class Environment {

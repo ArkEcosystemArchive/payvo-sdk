@@ -1,5 +1,5 @@
-import { IProfileData, IProfileExportOptions, IProfile } from "./contracts";
-import { IProfileSerialiser } from "./contracts";
+import { IProfileData, IProfileExportOptions, IProfile } from "./contracts.js";
+import { IProfileSerialiser } from "./contracts.js";
 
 export class ProfileSerialiser implements IProfileSerialiser {
 	readonly #profile: IProfile;

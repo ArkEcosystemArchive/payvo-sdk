@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { map } from "./map";
+import { map } from "./map.js";
 
 describe("#map", () => {
 	it("should work like lodash", () => {

@@ -1,8 +1,8 @@
 import { Collections, Contracts } from "@payvo/sdk";
 
-import { IReadWriteWallet } from "./contracts";
+import { IReadWriteWallet } from "./contracts.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 export const transformTransactionData = (
 	wallet: IReadWriteWallet,

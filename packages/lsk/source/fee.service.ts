@@ -2,8 +2,8 @@ import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
 
-import { isMultiSignatureRegistration } from "./helpers";
-import { BindingType } from "./coin.contract";
+import { isMultiSignatureRegistration } from "./helpers.js";
+import { BindingType } from "./coin.contract.js";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 

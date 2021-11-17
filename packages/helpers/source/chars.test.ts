@@ -1,4 +1,4 @@
-import { chars } from "./chars";
+import { chars } from "./chars.js";
 
 describe("#chars", () => {
 	it("should return all characters of the string as an array", () => {

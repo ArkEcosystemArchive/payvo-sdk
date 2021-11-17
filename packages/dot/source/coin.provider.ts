@@ -1,8 +1,8 @@
 import { IoC } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
-import { BindingType } from "./constants";
-import { createApiPromise, createKeyring } from "./factories";
+import { BindingType } from "./constants.js";
+import { createApiPromise, createKeyring } from "./factories.js";
 
 export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public override async make(container: IoC.Container): Promise<void> {

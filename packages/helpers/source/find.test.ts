@@ -1,4 +1,4 @@
-import { find } from "./find";
+import { find } from "./find.js";
 
 const users = [
 	{ user: "barney", age: 36, active: true },

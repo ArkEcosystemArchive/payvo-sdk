@@ -2,11 +2,11 @@
 
 import { inject, injectable, preDestroy } from "inversify";
 
-import { WalletData } from "../contracts";
-import { NotImplemented } from "../exceptions";
-import { BindingType } from "../ioc/service-provider.contract";
-import { DataTransferObjectService } from "./data-transfer-object.contract";
-import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract";
+import { WalletData } from "../contracts.js";
+import { NotImplemented } from "../exceptions.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract.js";
 
 @injectable()
 export class AbstractLedgerService implements LedgerService {

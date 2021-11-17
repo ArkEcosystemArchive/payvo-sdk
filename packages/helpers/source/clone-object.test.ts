@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { cloneObject } from "./clone-object";
+import { cloneObject } from "./clone-object.js";
 
 describe("#cloneObject", () => {
 	it("should work like lodash", () => {

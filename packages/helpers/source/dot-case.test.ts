@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { dotCase } from "./dot-case";
+import { dotCase } from "./dot-case.js";
 
 describe("#dotCase", () => {
 	it("should turn any string into dot case", () => {

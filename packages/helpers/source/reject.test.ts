@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { reject } from "./reject";
+import { reject } from "./reject.js";
 
 describe("#reject", () => {
 	const users = [

@@ -3,9 +3,9 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { bootContainer } from "../test/mocking";
-import { KnownWalletService } from "./known-wallet.service";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { KnownWalletService } from "./known-wallet.service.js";
+import { Profile } from "./profile.js";
 
 let subject: KnownWalletService;
 

@@ -3,9 +3,9 @@ import * as bitcoin from "bitcoinjs-lib";
 import { ECPair } from "ecpair";
 import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
-import { getNetworkConfig, getNetworkID } from "./config";
+import { getNetworkConfig, getNetworkID } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { strict as assert } from "assert";
 

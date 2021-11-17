@@ -2,10 +2,10 @@ import "jest-extended";
 
 import { IoC } from "@payvo/sdk";
 
-import { identity } from "../test/fixtures/identity";
-import { createService, mockWallet } from "../test/mocking";
-import { BindingType } from "./constants";
-import { KeyPairService } from "./key-pair.service";
+import { identity } from "../test/fixtures/identity.js";
+import { createService, mockWallet } from "../test/mocking.js";
+import { BindingType } from "./constants.js";
+import { KeyPairService } from "./key-pair.service.js";
 
 let subject: KeyPairService;
 

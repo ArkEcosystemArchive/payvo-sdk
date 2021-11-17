@@ -4,12 +4,12 @@ import "reflect-metadata";
 
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { Wallet } from "./wallet";
-import { TransactionService } from "./wallet-transaction.service";
-import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
+import { Wallet } from "./wallet.js";
+import { TransactionService } from "./wallet-transaction.service.js";
+import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 import { BIP39 } from "@payvo/sdk-cryptography";
 
 let profile: IProfile;

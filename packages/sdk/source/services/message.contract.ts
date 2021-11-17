@@ -1,4 +1,4 @@
-import { Signatory } from "../signatories";
+import { Signatory } from "../signatories/index.js";
 
 export interface MessageService {
 	sign(input: MessageInput): Promise<SignedMessage>;

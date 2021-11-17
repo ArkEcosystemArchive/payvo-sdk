@@ -1,6 +1,6 @@
 import { Contracts } from "@payvo/sdk";
 
-import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts";
+import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts.js";
 
 type SerializedBalance = {
 	available: string;

@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { featureFlags, importMethods, transactions } from "./shared";
+import { featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Qredit",

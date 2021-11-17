@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { get } from "./get";
+import { get } from "./get.js";
 
 describe("#get", () => {
 	it("should return the default value if the target is not an object", () => {

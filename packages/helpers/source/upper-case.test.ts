@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { upperCase } from "./upper-case";
+import { upperCase } from "./upper-case.js";
 
 describe("#upperCase", () => {
 	it("should turn any string into upper case", () => {

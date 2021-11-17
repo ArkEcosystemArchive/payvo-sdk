@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { flatten } from "./flatten";
+import { flatten } from "./flatten.js";
 
 describe("#flatten", () => {
 	it("should return a flattened array", () => {

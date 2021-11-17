@@ -3,11 +3,11 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer, importByMnemonic } from "../test/mocking";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer, importByMnemonic } from "../test/mocking.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import * as promiseHelpers from "./helpers/promise";
-import { Profile } from "./profile";
+import * as promiseHelpers from "./helpers/promise.js";
+import { Profile } from "./profile.js";
 import { TransactionAggregate } from "./transaction.aggregate";
 
 let subject: TransactionAggregate;

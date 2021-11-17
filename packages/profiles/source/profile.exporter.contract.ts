@@ -1,4 +1,4 @@
-import { IProfileExportOptions } from "./contracts";
+import { IProfileExportOptions } from "./contracts.js";
 
 export interface IProfileExporter {
 	/**

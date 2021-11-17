@@ -1,4 +1,4 @@
-import { HistoricalPriceTransformer } from "./historical-price-transformer";
+import { HistoricalPriceTransformer } from "./historical-price-transformer.js";
 
 const stubOptions = { type: "day", dateFormat: "DD.MM" };
 

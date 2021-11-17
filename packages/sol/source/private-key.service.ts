@@ -1,7 +1,7 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 
-import { derivePrivateKey } from "./keys";
+import { derivePrivateKey } from "./keys.js";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {

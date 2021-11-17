@@ -2,10 +2,10 @@ import "jest-extended";
 
 import { Signatories } from "@payvo/sdk";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, ISignatoryFactory } from "./contracts";
-import { Profile } from "./profile";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { IProfile, IReadWriteWallet, ISignatoryFactory } from "./contracts.js";
+import { Profile } from "./profile.js";
 import { SignatoryFactory } from "./signatory.factory";
 
 let profile: IProfile;

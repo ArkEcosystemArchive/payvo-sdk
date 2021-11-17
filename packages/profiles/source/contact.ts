@@ -1,8 +1,8 @@
 import Joi from "joi";
 
 import { ContactAddressRepository } from "./contact-address.repository";
-import { IContact, IContactAddressInput, IContactAddressRepository, IContactData, IProfile } from "./contracts";
-import { Avatar } from "./helpers/avatar";
+import { IContact, IContactAddressInput, IContactAddressRepository, IContactData, IProfile } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
 
 export class Contact implements IContact {
 	readonly #profile: IProfile;

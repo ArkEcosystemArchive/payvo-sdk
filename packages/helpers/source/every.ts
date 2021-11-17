@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const every = <T>(subject: T[], iterator: FunctionReturning): boolean => {
 	for (let i = 0; i < subject.length; i++) {

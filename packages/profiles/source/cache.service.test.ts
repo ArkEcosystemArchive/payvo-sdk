@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Cache } from "./cache.service";
+import { Cache } from "./cache.service.js";
 
 let subject: Cache;
 beforeEach(() => (subject = new Cache("wallet-ABC")));

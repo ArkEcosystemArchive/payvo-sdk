@@ -2,9 +2,9 @@ import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
-import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers";
+import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers.js";
 import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain";
-import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley";
+import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
 import { createValue } from "./transaction.factory";
 import { UnspentTransaction } from "./transaction.models";
 

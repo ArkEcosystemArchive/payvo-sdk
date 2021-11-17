@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { merge } from "./merge";
+import { merge } from "./merge.js";
 
 describe("#merge", () => {
 	it("should merge the given objects", () => {

@@ -5,7 +5,7 @@ import {
 	HistoricalPriceOptions,
 	HistoricalVolumeOptions,
 } from "./historical";
-import { MarketDataCollection } from "./market";
+import { MarketDataCollection } from "./market.js";
 
 export interface PriceTracker {
 	verifyToken(token: string): Promise<boolean>;

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { has } from "./has";
+import { has } from "./has.js";
 
 describe("#has", () => {
 	it("should return false if the target is not an object", () => {

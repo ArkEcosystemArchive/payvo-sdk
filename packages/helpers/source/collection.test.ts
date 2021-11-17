@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Collection } from "./collection";
+import { Collection } from "./collection.js";
 
 let collection: Collection<string>;
 

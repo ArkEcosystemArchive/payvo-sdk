@@ -2,7 +2,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { Coins, Contracts, Exceptions, Networks, Services } from "@payvo/sdk";
 
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
 import {
 	IDataRepository,
@@ -29,21 +29,21 @@ import {
 	WalletSetting,
 } from "./contracts";
 import { DataRepository } from "./data.repository";
-import { AttributeBag } from "./helpers/attribute-bag";
-import { KnownWalletService } from "./known-wallet.service";
-import { MultiSignature } from "./multi-signature";
-import { WalletSerialiser } from "./serialiser";
+import { AttributeBag } from "./helpers/attribute-bag.js";
+import { KnownWalletService } from "./known-wallet.service.js";
+import { MultiSignature } from "./multi-signature.js";
+import { WalletSerialiser } from "./serialiser.js";
 import { SettingRepository } from "./setting.repository";
 import { SignatoryFactory } from "./signatory.factory";
-import { TransactionIndex } from "./transaction-index";
-import { VoteRegistry } from "./vote-registry";
-import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract";
+import { TransactionIndex } from "./transaction-index.js";
+import { VoteRegistry } from "./vote-registry.js";
+import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract.js";
 import { WalletLedgerModel } from "./wallet.enum";
 import { WalletGate } from "./wallet.gate";
 import { WalletMutator } from "./wallet.mutator";
 import { WalletSynchroniser } from "./wallet.synchroniser";
-import { TransactionService } from "./wallet-transaction.service";
-import { WalletImportFormat } from "./wif";
+import { TransactionService } from "./wallet-transaction.service.js";
+import { WalletImportFormat } from "./wif.js";
 
 const ERR_NOT_SYNCED =
 	"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.";

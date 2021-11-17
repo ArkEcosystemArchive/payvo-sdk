@@ -1,7 +1,7 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
-import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers";
+import { BindingType } from "./coin.contract.js";
+import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 
 @IoC.injectable()

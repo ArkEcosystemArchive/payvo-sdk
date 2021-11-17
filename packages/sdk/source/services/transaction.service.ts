@@ -2,15 +2,15 @@
 
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
-import { ConfigRepository } from "../coins";
-import { SignedTransactionData } from "../contracts";
-import { NotImplemented } from "../exceptions";
-import { HttpClient } from "../http";
-import { inject, injectable } from "../ioc";
-import { BindingType } from "../ioc/service-provider.contract";
-import { BigNumberService } from "./big-number.service";
-import { ClientService } from "./client.contract";
-import { DataTransferObjectService } from "./data-transfer-object.contract";
+import { ConfigRepository } from "../coins/index.js";
+import { SignedTransactionData } from "../contracts.js";
+import { NotImplemented } from "../exceptions.js";
+import { HttpClient } from "../http/index.js";
+import { inject, injectable } from "../ioc/index.js";
+import { BindingType } from "../ioc/service-provider.contract.js";
+import { BigNumberService } from "./big-number.service.js";
+import { ClientService } from "./client.contract.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 import {
 	DelegateRegistrationInput,
 	DelegateResignationInput,
@@ -25,7 +25,7 @@ import {
 	TransferInput,
 	UnlockTokenInput,
 	VoteInput,
-} from "./transaction.contract";
+} from "./transaction.contract.js";
 
 @injectable()
 export class AbstractTransactionService implements Contract {

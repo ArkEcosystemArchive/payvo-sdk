@@ -1,11 +1,11 @@
 import { Coins, Contracts } from "@payvo/sdk";
 
-import { pqueueSettled } from "./helpers/queue";
-import { ReadOnlyWallet } from "./read-only-wallet";
-import { IDataRepository, IDelegateService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts";
+import { pqueueSettled } from "./helpers/queue.js";
+import { ReadOnlyWallet } from "./read-only-wallet.js";
+import { IDataRepository, IDelegateService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
 import { injectable } from "inversify";
 import { DataRepository } from "./data.repository";
-import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service";
+import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service.js";
 
 @injectable()
 export class DelegateService implements IDelegateService {

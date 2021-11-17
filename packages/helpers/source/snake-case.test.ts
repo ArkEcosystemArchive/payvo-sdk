@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { snakeCase } from "./snake-case";
+import { snakeCase } from "./snake-case.js";
 
 describe("#snakeCase", () => {
 	it("should turn any string into snake case", () => {

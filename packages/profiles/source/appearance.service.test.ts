@@ -1,11 +1,11 @@
 import "jest-extended";
 import "reflect-metadata";
 
-import { bootContainer } from "../test/mocking";
-import { AppearanceService } from "./appearance.service";
-import { Profile } from "./profile";
-import { IProfile } from "./profile.contract";
-import { ProfileSetting } from "./profile.enum.contract";
+import { bootContainer } from "../test/mocking.js";
+import { AppearanceService } from "./appearance.service.js";
+import { Profile } from "./profile.js";
+import { IProfile } from "./profile.contract.js";
+import { ProfileSetting } from "./profile.enum.contract.js";
 
 beforeAll(() => {
 	bootContainer();

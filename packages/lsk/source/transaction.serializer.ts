@@ -2,7 +2,7 @@ import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskh
 import { getBytes } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
 @IoC.injectable()

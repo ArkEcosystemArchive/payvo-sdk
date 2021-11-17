@@ -1,5 +1,5 @@
 import "jest-extended";
-import { zipObject } from "./zip-object";
+import { zipObject } from "./zip-object.js";
 
 describe("#zipObject", () => {
 	it("should create an object from the keys and values", () => {

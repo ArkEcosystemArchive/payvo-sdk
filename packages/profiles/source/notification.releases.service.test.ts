@@ -1,11 +1,11 @@
 import "jest-extended";
 import "reflect-metadata";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
 
 import { NotificationRepository } from "./notification.repository";
-import { WalletReleaseNotificationService } from "./notification.releases.service";
-import { INotificationTypes, IWalletReleaseNotificationService } from "./notification.repository.contract";
+import { WalletReleaseNotificationService } from "./notification.releases.service.js";
+import { INotificationTypes, IWalletReleaseNotificationService } from "./notification.repository.contract.js";
 
 let notificationsRepository: NotificationRepository;
 let subject: IWalletReleaseNotificationService;

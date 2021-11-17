@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { BIP38 } from "./bip38";
-import { WIF } from "./wif";
+import { BIP38 } from "./bip38.js";
+import { WIF } from "./wif.js";
 
 const mnemonic = "TestingOneTwoThree";
 

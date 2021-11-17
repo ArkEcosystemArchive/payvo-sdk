@@ -3,7 +3,7 @@ import { Buffoon } from "@payvo/sdk-cryptography";
 import { ethers } from "ethers";
 import web3 from "web3";
 
-import { createWallet } from "./utils";
+import { createWallet } from "./utils.js";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {

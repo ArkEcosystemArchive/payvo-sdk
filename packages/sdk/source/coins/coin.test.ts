@@ -3,14 +3,14 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
-import { requireModule } from "../../test/mocking";
-import { Network, NetworkRepository } from "../networks";
-import { Coin } from "./coin";
-import { CoinFactory } from "./coin-factory";
-import { ConfigRepository } from "./config";
-import { Manifest } from "./manifest";
+import { ARK } from "../../../ark/distribution.js";
+import { Request } from "../../../http-fetch.js";
+import { requireModule } from "../../test/mocking.js";
+import { Network, NetworkRepository } from "../networks/index.js";
+import { Coin } from "./coin.js";
+import { CoinFactory } from "./coin-factory.js";
+import { ConfigRepository } from "./config.js";
+import { Manifest } from "./manifest.js";
 
 let subject: Coin;
 

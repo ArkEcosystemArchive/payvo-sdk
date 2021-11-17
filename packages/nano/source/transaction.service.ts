@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { computeWork } from "nanocurrency";
 import { block, tools } from "nanocurrency-web";
 
-import { NanoClient } from "./rpc";
+import { NanoClient } from "./rpc.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

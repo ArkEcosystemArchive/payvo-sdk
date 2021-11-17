@@ -3,8 +3,8 @@ import "jest-extended";
 import { Request } from "@payvo/sdk-http-fetch";
 import { jest } from "@jest/globals";
 
-import { PriceTracker } from "../test/stubs/tracker";
-import { MarketService } from "./index";
+import { PriceTracker } from "../test/stubs/tracker.js";
+import { MarketService } from "./index.js";
 
 let subject: MarketService;
 

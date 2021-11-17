@@ -1,5 +1,5 @@
-import { pqueueSettled } from "./helpers/queue";
-import { IProfile, IWalletService } from "./contracts";
+import { pqueueSettled } from "./helpers/queue.js";
+import { IProfile, IWalletService } from "./contracts.js";
 import { injectable } from "inversify";
 
 @injectable()

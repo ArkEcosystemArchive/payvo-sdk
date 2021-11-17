@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 
-import { makeAccount } from "./factories";
+import { makeAccount } from "./factories.js";
 
 @IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {

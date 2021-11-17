@@ -1,6 +1,6 @@
 import { CURRENCIES } from "@payvo/sdk-intl";
 
-import { convertToCurrency } from "../utils";
+import { convertToCurrency } from "../utils.js";
 import {
 	DailyAverageOptions,
 	HistoricalData,

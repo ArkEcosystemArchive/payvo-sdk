@@ -1,6 +1,6 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 @IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {

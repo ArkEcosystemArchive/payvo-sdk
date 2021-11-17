@@ -1,4 +1,4 @@
-import { hex } from "./hex";
+import { hex } from "./hex.js";
 
 describe("#hex", () => {
 	it("should encode the given string", () => {

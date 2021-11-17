@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { groupBy } from "./group-by";
+import { groupBy } from "./group-by.js";
 
 describe("#groupBy", () => {
 	it("should work with a function", () => {

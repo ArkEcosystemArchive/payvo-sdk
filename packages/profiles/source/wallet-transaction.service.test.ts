@@ -4,12 +4,12 @@ import "reflect-metadata";
 import { Signatories } from "@payvo/sdk";
 import nock from "nock";
 
-import { identity } from "../test/fixtures/identity";
-import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, ProfileSetting, WalletData } from "./contracts";
-import { Profile } from "./profile";
-import { TransactionService } from "./wallet-transaction.service";
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
+import { identity } from "../test/fixtures/identity.js";
+import { bootContainer } from "../test/mocking.js";
+import { IProfile, IReadWriteWallet, ProfileSetting, WalletData } from "./contracts.js";
+import { Profile } from "./profile.js";
+import { TransactionService } from "./wallet-transaction.service.js";
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
 
 const deriveIdentity = async (
 	signingKey: string,

@@ -1,7 +1,7 @@
-import { container } from "./container";
+import { container } from "./container.js";
 import { Identifiers } from "./container.models";
-import { IDelegateService, IReadWriteWallet, IVoteRegistry, WalletData } from "./contracts";
-import { VoteRegistryItem } from "./vote-registry.contract";
+import { IDelegateService, IReadWriteWallet, IVoteRegistry, WalletData } from "./contracts.js";
+import { VoteRegistryItem } from "./vote-registry.contract.js";
 
 export class VoteRegistry implements IVoteRegistry {
 	readonly #wallet: IReadWriteWallet;

@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 
-import { NotImplemented } from "../exceptions";
-import { injectable } from "../ioc";
-import { ExtendedAddressDataTransferObject, ExtendedAddressService } from "./extended-address.contract";
+import { NotImplemented } from "../exceptions.js";
+import { injectable } from "../ioc/index.js";
+import { ExtendedAddressDataTransferObject, ExtendedAddressService } from "./extended-address.contract.js";
 
 @injectable()
 export class AbstractExtendedAddressService implements ExtendedAddressService {

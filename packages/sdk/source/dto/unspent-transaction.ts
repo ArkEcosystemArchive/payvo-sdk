@@ -3,9 +3,9 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { KeyValuePair } from "../contracts";
-import { injectable } from "../ioc";
-import { UnspentTransactionData as Contract } from "./confirmed-transaction.contract";
+import { KeyValuePair } from "../contracts.js";
+import { injectable } from "../ioc/index.js";
+import { UnspentTransactionData as Contract } from "./confirmed-transaction.contract.js";
 
 @injectable()
 export class UnspentTransactionData implements Contract {

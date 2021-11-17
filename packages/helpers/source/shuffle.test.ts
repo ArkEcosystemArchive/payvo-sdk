@@ -1,7 +1,7 @@
 import "jest-extended";
 
-import { numberArray } from "./number-array";
-import { shuffle } from "./shuffle";
+import { numberArray } from "./number-array.js";
+import { shuffle } from "./shuffle.js";
 
 describe("#shuffle", () => {
 	it("should return a new array with items in random order", () => {

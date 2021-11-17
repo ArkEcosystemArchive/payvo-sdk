@@ -1,6 +1,6 @@
 import { Services } from "@payvo/sdk";
 
-import { deriveKey } from "./helpers";
+import { deriveKey } from "./helpers.js";
 
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(

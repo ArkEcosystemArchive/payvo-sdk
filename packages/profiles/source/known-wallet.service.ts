@@ -1,7 +1,7 @@
 import { Services } from "@payvo/sdk";
 
-import { pqueue } from "./helpers/queue";
-import { IKnownWalletService, IProfile } from "./contracts";
+import { pqueue } from "./helpers/queue.js";
+import { IKnownWalletService, IProfile } from "./contracts.js";
 import { injectable } from "inversify";
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;

@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { pullAllBy } from "./pull-all-by";
+import { pullAllBy } from "./pull-all-by.js";
 
 describe("#pullAllBy", () => {
 	it("should work with a function", () => {

@@ -1,4 +1,4 @@
-import { base64 } from "./base64";
+import { base64 } from "./base64.js";
 
 describe("#base64", () => {
 	it("should encode the given string", () => {

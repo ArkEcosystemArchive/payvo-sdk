@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Arr } from "./arr";
+import { Arr } from "./arr.js";
 
 test("#randomElement", () => {
 	const data = [...Array(1000).keys()];

@@ -3,18 +3,18 @@ import "jest-extended";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
-import { MultiSignatureService } from "./multi-signature.service";
-import { ClientService } from "./client.service";
-import { BindingType } from "./coin.contract";
-import { MultiSignatureSigner } from "./multi-signature.signer";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { AddressService } from "./address.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { createService, requireModule } from "../test/mocking.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { ClientService } from "./client.service.js";
+import { BindingType } from "./coin.contract.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { AddressService } from "./address.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 let subject: MultiSignatureService;
 

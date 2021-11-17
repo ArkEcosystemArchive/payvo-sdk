@@ -5,8 +5,8 @@ import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { WalletBalance } from "../contracts";
-import { AbstractWalletData } from "./wallet";
+import { WalletBalance } from "../contracts.js";
+import { AbstractWalletData } from "./wallet.js";
 
 test("#address", () => {
 	expect(new Wallet({ key: "value" }).address()).toBe("address");

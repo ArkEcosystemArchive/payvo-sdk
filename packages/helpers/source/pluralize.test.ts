@@ -1,4 +1,4 @@
-import { pluralize } from "./pluralize";
+import { pluralize } from "./pluralize.js";
 
 describe("#pluralize", () => {
 	it("should plural words when the count is above 1", () => {

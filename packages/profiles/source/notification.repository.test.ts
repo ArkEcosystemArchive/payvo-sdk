@@ -1,10 +1,10 @@
 import "jest-extended";
 import "reflect-metadata";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
+import { bootContainer } from "../test/mocking.js";
+import { Profile } from "./profile.js";
 
 import { NotificationRepository } from "./notification.repository";
-import { INotificationTypes } from "./notification.repository.contract";
+import { INotificationTypes } from "./notification.repository.contract.js";
 
 let subject: NotificationRepository;
 

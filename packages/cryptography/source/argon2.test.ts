@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { Argon2 } from "./argon2";
+import { Argon2 } from "./argon2.js";
 
 test("#hash", async () => {
 	await expect(Argon2.hash("password")).resolves.toBeString();

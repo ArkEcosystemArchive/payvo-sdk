@@ -1,8 +1,8 @@
 import { IoC, Services } from "@payvo/sdk";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { BindingType } from "./constants";
-import { accountFromMnemonic } from "./zilliqa";
+import { BindingType } from "./constants.js";
+import { accountFromMnemonic } from "./zilliqa.js";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
