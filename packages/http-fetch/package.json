@@ -4,10 +4,6 @@
 	"description": "HTTP Client for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],
-	"exports": {
-		"import": "./distribution/esm/index.js",
-		"require": "./distribution/cjs/index.js"
-	},
 	"main": "distribution/cjs/index.js",
 	"types": "distribution/cjs/index.d.ts",
 	"files": [
