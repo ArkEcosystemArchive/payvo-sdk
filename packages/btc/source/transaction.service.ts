@@ -10,7 +10,6 @@ import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
 import { MultiSignatureTransaction } from "./multi-signature.contract";
-import { convertBuffer } from "@payvo/sdk-helpers";
 import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
 import { MultiSignatureService } from "./multi-signature.service";
 import { signatureValidator } from "./helpers";
