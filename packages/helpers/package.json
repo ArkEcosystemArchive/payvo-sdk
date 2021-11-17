@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-helpers",
-	"version": "3.1.2",
+	"version": "3.2.0",
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -22,7 +22,7 @@
 		"format": "pnpm run lint && pnpm run prettier",
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
-		"prepublishOnly": "pnpm run clean && tsc && pnpm run bundle:esm && pnpm run bundle:esm:min && pnpm run bundle:umd && pnpm run bundle:umd:min",
+		"prepublishOnly": "pnpm run build:npm",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./**/*.{ts,js,json,md}\"",
 		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit",
 		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"
