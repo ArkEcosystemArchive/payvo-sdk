@@ -10,7 +10,7 @@ import { Request } from "@payvo/sdk-http-fetch";
 import nock from "nock";
 
 import { container } from "../source/container";
-import { Profile } from "../source/profile";
+import { Profile } from "../source";
 import { StubStorage } from "./stubs/storage";
 import { IProfile, IReadWriteWallet } from "../source/contracts";
 import { WalletFactory } from "../source/wallet.factory";
