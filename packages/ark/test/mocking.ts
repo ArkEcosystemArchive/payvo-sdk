@@ -15,11 +15,11 @@ export const createService = async <T = any>(
 		manifest: manifest.networks[network],
 		predicate: async (container: IoC.Container) => {
 			if (container.missing(BindingType.Crypto)) {
-				container.constant(BindingType.Crypto, require(`./test/fixtures/client/cryptoConfiguration.json`).data);
+				container.constant(BindingType.Crypto, require("./fixtures/client/cryptoConfiguration.json").data);
 			}
 
 			if (container.missing(BindingType.Height)) {
-				container.constant(BindingType.Height, require(`./test/fixtures/client/syncing.json`).data.height);
+				container.constant(BindingType.Height, require("./fixtures/client/syncing.json").data.height);
 			}
 
 			if (predicate) {
