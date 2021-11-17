@@ -2,7 +2,7 @@ import "jest-extended";
 
 import { jest } from "@jest/globals";
 
-import { manifest } from "../../../ark/distribution/manifest";
+import { manifest } from "../../../ark/distribution/cjs/manifest";
 import { FeatureFlag } from "../enums";
 import { Network } from "./network";
 

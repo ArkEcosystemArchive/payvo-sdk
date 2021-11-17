@@ -4,7 +4,6 @@ import { AVMAPI, Tx } from "avalanche/dist/apis/avm";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 
 import { cb58Decode, usePChain, useXChain } from "./helpers";
-import { WalletIdentifier } from "@payvo/sdk/distribution/services";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
@@ -34,7 +33,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const identifier: WalletIdentifier = query.identifiers![0];
+		const identifier: Services.WalletIdentifier = query.identifiers![0];
 
 		const { transactions } = await this.#get("v2/transactions", {
 			chainID: this.configRepository.get("network.meta.blockchainId"),
