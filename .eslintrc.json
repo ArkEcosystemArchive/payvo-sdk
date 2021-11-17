@@ -2,15 +2,8 @@
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"project": "../../tsconfig.eslint.json",
-		"extraFileExtensions": [
-			".json"
-		],
-		"projectFolderIgnoreList": [
-			"build",
-			"coverage",
-			"node_modules",
-			"public"
-		]
+		"extraFileExtensions": [".json"],
+		"projectFolderIgnoreList": ["build", "coverage", "node_modules", "public"]
 	},
 	"plugins": [
 		"@typescript-eslint",
@@ -58,10 +51,7 @@
 		"@typescript-eslint/require-await": "off",
 		"@typescript-eslint/restrict-plus-operands": "off",
 		"@typescript-eslint/restrict-template-expressions": "off",
-		"arrow-body-style": [
-			"error",
-			"as-needed"
-		],
+		"arrow-body-style": ["error", "as-needed"],
 		"curly": "error",
 		"import/default": "error",
 		"import/export": "error",
