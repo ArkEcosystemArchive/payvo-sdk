@@ -1,6 +1,5 @@
 import { IoC, Test } from "@payvo/sdk";
 import { Request } from "@payvo/sdk-http-fetch";
-import { createRequire } from "module";
 import { resolve } from "path";
 
 import { BindingType } from "../source/coin.contract";
