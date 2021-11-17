@@ -1,7 +1,7 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import Common from "@ethereumjs/common";
-import { Transaction } from "@ethereumjs/tx";
+import eth from "@ethereumjs/tx";
 import Web3 from "web3";
 
 @IoC.injectable()
@@ -63,7 +63,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 		}
 
-		const transaction: Transaction = new Transaction(data, {
+		const transaction: eth.Transaction = new eth.Transaction(data, {
 			common: Common.forCustomChain(this.#chain, {}),
 		});
 
