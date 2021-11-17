@@ -50,12 +50,12 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 
 		// @ts-ignore Uncomment for using real device
-		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
+		// container.constant(BindingType.LedgerTransport, TransportNodeHid);
 		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 

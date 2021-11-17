@@ -8,8 +8,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Ripple.default(this.#ledger);
+		this.#transport = new Ripple(this.#ledger);
 	}
 
 	@IoC.preDestroy()

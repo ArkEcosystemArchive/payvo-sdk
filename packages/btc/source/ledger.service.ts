@@ -1,12 +1,13 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
+import { convertBuffer } from "@payvo/sdk-helpers";
 import Bitcoin from "@ledgerhq/hw-app-btc";
-import * as bitcoin from "bitcoinjs-lib";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
-import { getNetworkID } from "./config";
+import * as bitcoin from "bitcoinjs-lib";
 import createXpub from "create-xpub";
+
+import { getNetworkID } from "./config";
 import { maxLevel } from "./helpers";
 import { Bip44Address } from "./contracts";
-import { convertBuffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -19,7 +20,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
 		// @ts-ignore
-		this.#transport = new Bitcoin.default(this.#ledger);
+		this.#transport = new Bitcoin(this.#ledger);
 	}
 
 	@IoC.preDestroy()

@@ -8,8 +8,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Stellar.default(this.#ledger);
+		this.#transport = new Stellar(this.#ledger);
 	}
 
 	@IoC.preDestroy()

@@ -9,7 +9,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		this.#transport = new Cosmos.default(this.#ledger);
+		this.#transport = new Cosmos(this.#ledger);
 	}
 
 	@IoC.preDestroy()
