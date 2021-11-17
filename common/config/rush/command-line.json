@@ -35,13 +35,6 @@
 		},
 		{
 			"commandKind": "bulk",
-			"name": "format",
-			"summary": "...",
-			"description": "...",
-			"enableParallelism": true
-		},
-		{
-			"commandKind": "bulk",
 			"name": "lint",
 			"summary": "...",
 			"description": "...",
@@ -50,13 +43,6 @@
 		{
 			"commandKind": "bulk",
 			"name": "lint:tests",
-			"summary": "...",
-			"description": "...",
-			"enableParallelism": true
-		},
-		{
-			"commandKind": "bulk",
-			"name": "prettier",
 			"summary": "...",
 			"description": "...",
 			"enableParallelism": true
