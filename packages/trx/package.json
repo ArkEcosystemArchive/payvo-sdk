@@ -5,8 +5,8 @@
 	"license": "MIT",
 	"contributors": [],
 	"exports": {
-		"import": "./src/esm/index.js",
-		"require": "./src/cjs/index.js"
+		"import": "./distribution/esm/index.js",
+		"require": "./distribution/cjs/index.js"
 	},
 	"main": "distribution/cjs/index.js",
 	"types": "distribution/cjs/index.d.ts",
