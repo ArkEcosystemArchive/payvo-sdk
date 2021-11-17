@@ -36,24 +36,24 @@ export interface CoinOptions {
 }
 
 export interface CoinServices {
-	address: AddressService;
-	bigNumber: BigNumberService;
-	client: ClientService;
-	dataTransferObject: DataTransferObjectService;
-	extendedAddress: ExtendedAddressService;
-	fee: FeeService;
-	keyPair: KeyPairService;
-	knownWallets: KnownWalletService;
-	ledger: LedgerService;
-	link: LinkService;
-	message: MessageService;
-	multiSignature: MultiSignatureService;
-	privateKey: PrivateKeyService;
-	publicKey: PublicKeyService;
-	signatory: SignatoryService;
-	transaction: TransactionService;
-	walletDiscovery: WalletDiscoveryService;
-	wif: WIFService;
+	AddressService?: AddressService;
+	BigNumberService?: BigNumberService;
+	ClientService?: ClientService;
+	DataTransferObjectService?: DataTransferObjectService;
+	ExtendedAddressService?: ExtendedAddressService;
+	FeeService?: FeeService;
+	KeyPairService?: KeyPairService;
+	KnownWalletService?: KnownWalletService;
+	LedgerService?: LedgerService;
+	LinkService?: LinkService;
+	MessageService?: MessageService;
+	MultiSignatureService?: MultiSignatureService;
+	PrivateKeyService?: PrivateKeyService;
+	PublicKeyService?: PublicKeyService;
+	SignatoryService?: SignatoryService;
+	TransactionService?: TransactionService;
+	WalletDiscoveryService?: WalletDiscoveryService;
+	WIFService?: WIFService;
 }
 
 export interface CoinBundle {

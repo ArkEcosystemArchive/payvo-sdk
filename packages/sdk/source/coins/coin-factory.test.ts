@@ -78,8 +78,8 @@ it("should create an instance with a custom network", async () => {
 	const coin: Coin = CoinFactory.make(ARK, {
 		httpClient: new Request(),
 		network: "coin.network",
-		// @ts-ignore
 		networks: {
+			// @ts-ignore
 			"coin.network": {
 				id: "coin.network",
 				name: "Mainnet",

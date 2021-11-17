@@ -19,11 +19,11 @@ export const NEO: Coins.CoinBundle = bundle({
 	},
 	manifest,
 	services: {
-		address: AddressService,
-		client: ClientService,
-		keyPair: KeyPairService,
-		privateKey: PrivateKeyService,
-		publicKey: PublicKeyService,
-		transaction: TransactionService,
+		AddressService,
+		ClientService,
+		KeyPairService,
+		PrivateKeyService,
+		PublicKeyService,
+		TransactionService,
 	},
 });
