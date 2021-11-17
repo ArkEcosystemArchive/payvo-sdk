@@ -47,8 +47,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -95,8 +93,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/ark:
@@ -104,7 +100,6 @@ importers:
       '@arkecosystem/crypto': 3.0.5
       '@arkecosystem/crypto-identities': 1.2.0
       '@arkecosystem/ledger-transport': 2.0.0
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -154,8 +149,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -164,7 +157,6 @@ importers:
       '@arkecosystem/ledger-transport': ^2.0.0
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-helpers': workspace:*
@@ -210,9 +202,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       semver: ^7.3.5
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/atom:
@@ -263,8 +253,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -313,8 +301,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/avax:
@@ -368,8 +354,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -421,14 +405,11 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/btc:
     dependencies:
       '@ledgerhq/hw-app-btc': 6.12.1
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -479,15 +460,12 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-app-btc': ^6.12.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@ledgerhq/logs': ^6.10.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -534,8 +512,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       xpub-converter: ^1.0.2
@@ -597,8 +573,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
       wif: 2.0.6
@@ -654,10 +628,8 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       safe-buffer: ^5.2.1
       string-crypto: ^2.0.2
-      terser: ^5.9.0
       tiny-secp256k1: ^1.0.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
@@ -717,8 +689,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -773,8 +743,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/egld:
@@ -824,8 +792,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -873,8 +839,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/eos:
@@ -924,8 +888,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -973,8 +935,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/eth:
@@ -1027,8 +987,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1078,8 +1036,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       web3: ^1.6.0
@@ -1140,8 +1096,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1198,8 +1152,6 @@ importers:
       qrcode: ^1.4.4
       remarkable: ^2.0.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -1243,8 +1195,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1285,12 +1235,11 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/intl:
     dependencies:
+      '@jest/globals': 27.3.1
       dayjs: 1.10.7
       dinero.js: 1.9.1
     devDependencies:
@@ -1327,11 +1276,10 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
+      '@jest/globals': ^27.3.1
       '@types/dinero.js': 1.9.0
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1367,13 +1315,10 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/lsk:
     dependencies:
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@liskhq/lisk-cryptography': 3.2.0
       '@liskhq/lisk-transactions': 5.2.0
       '@payvo/sdk': link:../sdk
@@ -1419,14 +1364,11 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@liskhq/lisk-cryptography': ^3.2
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/sdk': workspace:*
@@ -1469,8 +1411,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/luna:
@@ -1518,8 +1458,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1565,8 +1503,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/markets:
@@ -1609,8 +1545,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1651,8 +1585,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/nano:
@@ -1702,8 +1634,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1751,8 +1681,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/neo:
@@ -1792,8 +1720,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1831,8 +1757,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/news:
@@ -1875,8 +1799,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1916,9 +1838,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       rss-parser: ^3.12.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/profiles:
@@ -1992,8 +1912,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
       wif: 2.0.6
@@ -2064,9 +1982,7 @@ importers:
       prettier: ^2.4.1
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       semver: ^7.3.5
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -2081,7 +1997,6 @@ importers:
       bip39: 3.0.4
       censorify-it: 3.0.2
       dayjs: 1.10.7
-      import-fresh: 3.3.0
       inversify: 6.0.1
       joi: 17.4.2
       node-emoji: 1.11.0
@@ -2124,8 +2039,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2166,7 +2079,6 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
-      import-fresh: ^3.3.0
       inversify: ^6.0.1
       jest: ^27.3.1
       jest-extended: ^1.1.0
@@ -2178,8 +2090,6 @@ importers:
       prettier: ^2.4.1
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -2230,8 +2140,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2279,8 +2187,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/trx:
@@ -2329,8 +2235,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2376,8 +2280,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       tronweb: ^4.0.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
@@ -2427,8 +2329,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2474,9 +2374,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       stellar-sdk: ^9.0.1
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/xrp:
@@ -2530,8 +2428,6 @@ importers:
       prettier: 2.4.1
       rimraf: 3.0.2
       ripple-binary-codec: 1.1.3
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2583,8 +2479,6 @@ importers:
       ripple-binary-codec: ^1.1.3
       ripple-keypairs: ^1.0.3
       ripple-lib: ^1.10.0
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/zil:
@@ -2634,8 +2528,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2683,8 +2575,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
 lockfileVersion: 5.2
@@ -3687,7 +3577,6 @@ packages:
       '@jest/types': 27.2.5
       '@types/node': 16.11.7
       jest-mock: 27.3.0
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -3700,7 +3589,6 @@ packages:
       jest-message-util: 27.3.1
       jest-mock: 27.3.0
       jest-util: 27.3.1
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -3710,7 +3598,6 @@ packages:
       '@jest/environment': 27.3.1
       '@jest/types': 27.2.5
       expect: 27.3.1
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -3825,7 +3712,6 @@ packages:
       '@types/node': 16.11.7
       '@types/yargs': 16.0.4
       chalk: 4.1.2
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -3928,29 +3814,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-23vjrwzXDpnP0C1JA6540vYpOMFMtVeHc8+iNDltHFhx0kIuAq70lzk7OV6z8TNGpTSrf5DCnKagOha2FIS0yQ==
-  /@ledgerhq/hw-transport-node-hid-noevents/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      node-hid: 2.1.1
-    dev: false
-    resolution:
-      integrity: sha512-LxdGIzo/Z1sPH8iDoGAP5dV/ZzPcaTLfkZ0o65cwBAkehrSdVxbYCiBxVK1l9Rh1oh8MrnvGPZxqM0zcyqdVHA==
-  /@ledgerhq/hw-transport-node-hid-singleton/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/hw-transport-node-hid-noevents': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      lodash: 4.17.21
-      node-hid: 2.1.1
-      usb-detection: 4.13.0
-    dev: false
-    resolution:
-      integrity: sha512-3k2q/L8wNWdAiisFv7vSA3EBISDJ1spStRDas+8DBmJzbJvZWb2hl47Y2E0YoBWt0iN0S78wfEk2L9Ur/yA+gA==
   /@ledgerhq/hw-transport-node-hid/5.50.0:
     dependencies:
       '@ledgerhq/devices': 5.50.0
@@ -4585,13 +4448,11 @@ packages:
   /@sinonjs/commons/1.8.3:
     dependencies:
       type-detect: 4.0.8
-    dev: true
     resolution:
       integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==
   /@sinonjs/fake-timers/8.1.0:
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: true
     resolution:
       integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==
   /@solana/buffer-layout/3.0.0:
@@ -4850,19 +4711,16 @@ packages:
     resolution:
       integrity: sha512-c3Xy026kOF7QOTn00hbIllV1dLR9hG9NkSrLQgCVs8NF6sBU+VGWjD3wLPhmh1TYAc7ugCFsvHYMN4VcBN1U1A==
   /@types/istanbul-lib-coverage/2.0.3:
-    dev: true
     resolution:
       integrity: sha512-sz7iLqvVUg1gIedBOvlkxPlc8/uVzyS5OwGz1cKjXzkl3FpL3al0crU8YGU1WoHkxn0Wxbw5tyi6hvzJKNzFsw==
   /@types/istanbul-lib-report/3.0.0:
     dependencies:
       '@types/istanbul-lib-coverage': 2.0.3
-    dev: true
     resolution:
       integrity: sha512-plGgXAPfVKFoYfa9NpYDAkseG+g6Jr294RqeqcqDixSbU34MZVJRi/P+7Y8GDpzkEwLaGZZOpKIEmeVZNtKsrg==
   /@types/istanbul-reports/3.0.0:
     dependencies:
       '@types/istanbul-lib-report': 3.0.0
-    dev: true
     resolution:
       integrity: sha512-nwKNbvnwJ2/mndE9ItP/zc2TCzw6uuodnF4EHYWD+gCQDVBuRQL5UzbZD0/ezy1iKsFU2ZQiDqg4M9dN4+wZgA==
   /@types/jest/27.0.2:
@@ -5016,7 +4874,6 @@ packages:
     resolution:
       integrity: sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==
   /@types/stack-utils/2.0.0:
-    dev: true
     resolution:
       integrity: sha512-RJJrrySY7A8havqpGObOB4W92QXKJo63/jFLLgpvOtsGUqbQZ9Sbgl35KMm1DjC6j7AvmmU2bIno+3IyEaemaw==
   /@types/trusted-types/2.0.2:
@@ -5049,7 +4906,6 @@ packages:
     resolution:
       integrity: sha512-Y29uQ3Uy+58bZrFLhX36hcI3Np37nqWE7ky5tjiDoy1GDZnIwVxS0CgF+s+1bXMzjKBFy+fqaRfb708iNzdinw==
   /@types/yargs-parser/20.2.0:
-    dev: true
     resolution:
       integrity: sha512-37RSHht+gzzgYeobbG+KWryeAW8J33Nhr69cjTqSYymXVZEN9NbRYWoYlRtDhHKPVT1FyNKwaTPC1NynKZpzRA==
   /@types/yargs/15.0.14:
@@ -5061,7 +4917,6 @@ packages:
   /@types/yargs/16.0.4:
     dependencies:
       '@types/yargs-parser': 20.2.0
-    dev: true
     resolution:
       integrity: sha512-T8Yc9wt/5LbJyCaLiHPReJa0kApcIgJ7Bn735GjItUfh08Z1pJvu8QZqb9s+mMvKV6WUQRV7K2R46YbjMXTTJw==
   /@typescript-eslint/eslint-plugin/5.3.1_4653b7803b7453f5f37717b7e1448517:
@@ -5634,7 +5489,6 @@ packages:
     resolution:
       integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==
   /ansi-styles/5.2.0:
-    dev: true
     engines:
       node: '>=10'
     resolution:
@@ -6650,6 +6504,7 @@ packages:
     resolution:
       integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==
   /callsites/3.1.0:
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -6740,7 +6595,6 @@ packages:
     dependencies:
       ansi-styles: 4.3.0
       supports-color: 7.2.0
-    dev: true
     engines:
       node: '>=10'
     resolution:
@@ -6790,7 +6644,6 @@ packages:
     resolution:
       integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==
   /ci-info/3.2.0:
-    dev: true
     resolution:
       integrity: sha512-dVqRX7fLUm8J6FgHJ418XuIgDLZDkYcDFTeL6TA2gt5WlIZUQrrH6EZrNClwT/H0FateUsZkGIOPRrLbP+PR9A==
   /cids/0.7.5:
@@ -7532,7 +7385,6 @@ packages:
     resolution:
       integrity: sha512-Mv/TDa3nZ9sbc5soK+OoA74BsS3mL37yixCvUAQkiuA4Wz6YtwP/K47n2rv2ovzHZvoiQeA5FTQOschKkEwB0Q==
   /diff-sequences/27.0.6:
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -7879,7 +7731,6 @@ packages:
     resolution:
       integrity: sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
   /escape-string-regexp/2.0.0:
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -8473,10 +8324,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-  /eventemitter2/5.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-YZegldX7a1folC9v1+qtY6CclFI=
   /eventemitter3/3.1.2:
     dev: false
     resolution:
@@ -8578,7 +8425,6 @@ packages:
       jest-matcher-utils: 27.3.1
       jest-message-util: 27.3.1
       jest-regex-util: 27.0.6
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -9268,7 +9114,6 @@ packages:
     resolution:
       integrity: sha1-tdRU3CGZriJWmfNGfloH87lVuv0=
   /has-flag/4.0.0:
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -9555,6 +9400,7 @@ packages:
     dependencies:
       parent-module: 1.0.1
       resolve-from: 4.0.0
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -10217,7 +10063,6 @@ packages:
       diff-sequences: 27.0.6
       jest-get-type: 27.3.1
       pretty-format: 27.3.1
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10293,7 +10138,6 @@ packages:
     resolution:
       integrity: sha512-XTkK5exIeUbbveehcSR8w0bhH+c0yloW/Wpl+9vZrjzztCPWrxhHwkIFpZzCt71oRBsgxmuUfxEqOYoZI2macg==
   /jest-get-type/27.3.1:
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10376,7 +10220,6 @@ packages:
       jest-diff: 27.3.1
       jest-get-type: 27.3.1
       pretty-format: 27.3.1
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10408,7 +10251,6 @@ packages:
       pretty-format: 27.3.1
       slash: 3.0.0
       stack-utils: 2.0.3
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10428,7 +10270,6 @@ packages:
     dependencies:
       '@jest/types': 27.2.5
       '@types/node': 16.11.7
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10453,7 +10294,6 @@ packages:
     resolution:
       integrity: sha512-Gv3ZIs/nA48/Zvjrl34bf+oD76JHiGDUxNOVgUjh3j890sblXryjY4rss71fPtD/njchl6PSE2hIhvyWa1eT0A==
   /jest-regex-util/27.0.6:
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -10608,7 +10448,6 @@ packages:
       ci-info: 3.2.0
       graceful-fs: 4.2.6
       picomatch: 2.2.3
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -11352,7 +11191,6 @@ packages:
     dependencies:
       braces: 3.0.2
       picomatch: 2.2.3
-    dev: true
     engines:
       node: '>=8.6'
     resolution:
@@ -12377,6 +12215,7 @@ packages:
   /parent-module/1.0.1:
     dependencies:
       callsites: 3.1.0
+    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -12644,7 +12483,6 @@ packages:
       ansi-regex: 5.0.1
       ansi-styles: 5.2.0
       react-is: 17.0.2
-    dev: true
     engines:
       node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0
     resolution:
@@ -12910,7 +12748,6 @@ packages:
     resolution:
       integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==
   /react-is/17.0.2:
-    dev: true
     resolution:
       integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==
   /read-package-json-fast/2.0.2:
@@ -13130,6 +12967,7 @@ packages:
     resolution:
       integrity: sha512-OrZaX2Mb+rJCpH/6CpSqt9xFVpN++x01XnN2ie9g6P5/3xelLAkXWVADpdz1IHD/KFfEXyE6V0U01OQ3UO2rEg==
   /resolve-from/4.0.0:
+    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -13282,15 +13120,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HAfAmL6SDYNWPUOJNrM500x4Thn4PZsEy5pijPh40U9WfNk0z15hUYzO9xVIMAdIHdFtD8CBDHd75Td1g36Mjg==
-  /rollup/2.59.0:
-    dev: true
-    engines:
-      node: '>=10.0.0'
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    resolution:
-      integrity: sha512-l7s90JQhCQ6JyZjKgo7Lq1dKh2RxatOM+Jr6a9F7WbS9WgKbocyUSeLmZl8evAse7y96Ae98L2k1cBOwWD8nHw==
   /rpc-websockets/7.4.11:
     dependencies:
       '@babel/runtime': 7.16.3
@@ -13573,7 +13402,6 @@ packages:
     resolution:
       integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
   /slash/3.0.0:
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -13727,7 +13555,6 @@ packages:
   /stack-utils/2.0.3:
     dependencies:
       escape-string-regexp: 2.0.0
-    dev: true
     engines:
       node: '>=10'
     resolution:
@@ -13959,7 +13786,6 @@ packages:
   /supports-color/7.2.0:
     dependencies:
       has-flag: 4.0.0
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -14097,6 +13923,7 @@ packages:
       commander: 2.20.3
       source-map: 0.7.3
       source-map-support: 0.5.20
+    dev: false
     engines:
       node: '>=10'
     hasBin: true
@@ -14376,7 +14203,6 @@ packages:
     resolution:
       integrity: sha1-C6XsKohWQORw6k6FBZcZANrFiCI=
   /type-detect/4.0.8:
-    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -14615,18 +14441,6 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha1-FQWgOiiaSMvXpDTvuu7FBV9WM6k=
-  /usb-detection/4.13.0:
-    dependencies:
-      bindings: 1.5.0
-      eventemitter2: 5.0.1
-      nan: 2.15.0
-      prebuild-install: 6.1.4
-    dev: false
-    engines:
-      node: '>=4'
-    requiresBuild: true
-    resolution:
-      integrity: sha512-5b0P+IYSN6Qv29hZ/m8P+iJyBDFYQR1UD8n4bWwPWbCIG6c2erQ9F8Owp69OSK0cwqf/InxYjIBuTVvl97bpZA==
   /usb/1.7.0:
     dependencies:
       bindings: 1.5.0

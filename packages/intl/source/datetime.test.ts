@@ -1,5 +1,7 @@
 import "jest-extended";
 
+import { jest } from "@jest/globals";
+
 import { DateTime } from "./datetime";
 
 let subject: DateTime;
