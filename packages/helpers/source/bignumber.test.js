@@ -2,7 +2,7 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { BigNumber } from "./bignumber";
 
-let subject: BigNumber;
+let subject;
 test.before.each(() => (subject = BigNumber.make(1)));
 
 test("#decimalPlaces", () => {
@@ -40,28 +40,28 @@ test("#powerOfTen", () => {
 });
 
 test("#isNaN", () => {
-    assert.is(BigNumber.make(NaN).isNaN(), true);
-    assert.is(subject.isNaN(), false);
+    assert.true(BigNumber.make(NaN).isNaN());
+    assert.false(subject.isNaN());
 });
 
 test("#isPositive", () => {
-    assert.is(subject.isPositive(), true);
-    assert.is(subject.minus(10).isPositive(), false);
+    assert.true(subject.isPositive());
+    assert.false(subject.minus(10).isPositive());
 });
 
 test("#isNegative", () => {
-    assert.is(subject.isNegative(), false);
-    assert.is(subject.minus(10).isNegative(), true);
+    assert.false(subject.isNegative());
+    assert.true(subject.minus(10).isNegative());
 });
 
 test("#isFinite", () => {
-    assert.is(subject.isFinite(), true);
-    assert.is(BigNumber.make(Infinity).isFinite(), false);
+    assert.true(subject.isFinite());
+    assert.false(BigNumber.make(Infinity).isFinite());
 });
 
 test("#isZero", () => {
-    assert.is(subject.isZero(), false);
-    assert.is(BigNumber.make(0).isZero(), true);
+    assert.false(subject.isZero());
+    assert.true(BigNumber.make(0).isZero());
 });
 
 test("#comparedTo", () => {
@@ -72,46 +72,46 @@ test("#comparedTo", () => {
 });
 
 test("#isEqualTo", () => {
-    assert.is(subject.isEqualTo(BigNumber.make(1)), true);
-    assert.is(subject.isEqualTo(BigNumber.make(2)), false);
+    assert.true(subject.isEqualTo(BigNumber.make(1)));
+    assert.false(subject.isEqualTo(BigNumber.make(2)));
 });
 
 test("#isGreaterThan", () => {
-    assert.is(subject.isGreaterThan(BigNumber.make(0)), true);
-    assert.is(subject.isGreaterThan(BigNumber.make(2)), false);
+    assert.true(subject.isGreaterThan(BigNumber.make(0)));
+    assert.false(subject.isGreaterThan(BigNumber.make(2)));
 });
 
 test("#isGreaterThanOrEqualTo", () => {
-    assert.is(subject.isGreaterThanOrEqualTo(BigNumber.make(0)), true);
-    assert.is(subject.isGreaterThanOrEqualTo(BigNumber.make(1)), true);
-    assert.is(subject.isGreaterThanOrEqualTo(BigNumber.make(0)), true);
-    assert.is(subject.isGreaterThanOrEqualTo(BigNumber.make(3)), false);
+    assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
+    assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(1)));
+    assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
+    assert.false(subject.isGreaterThanOrEqualTo(BigNumber.make(3)));
 });
 
 test("#isLessThan", () => {
-    assert.is(subject.isLessThan(BigNumber.make(2)), true);
-    assert.is(subject.isLessThan(BigNumber.make(1)), false);
+    assert.true(subject.isLessThan(BigNumber.make(2)));
+    assert.false(subject.isLessThan(BigNumber.make(1)));
 });
 
 test("#isLessThanOrEqualTo", () => {
-    assert.is(subject.isLessThanOrEqualTo(BigNumber.make(1)), true);
-    assert.is(subject.isLessThanOrEqualTo(BigNumber.make(1)), true);
-    assert.is(subject.isLessThanOrEqualTo(BigNumber.make(2)), true);
-    assert.is(subject.isLessThanOrEqualTo(BigNumber.make(0)), false);
+    assert.true(subject.isLessThanOrEqualTo(BigNumber.make(1)));
+    assert.true(subject.isLessThanOrEqualTo(BigNumber.make(1)));
+    assert.true(subject.isLessThanOrEqualTo(BigNumber.make(2)));
+    assert.false(subject.isLessThanOrEqualTo(BigNumber.make(0)));
 });
 
 test("#denominated", () => {
-    assert.is(BigNumber.make(100).denominated().isEqualTo(BigNumber.make(100)), true);
-    assert.is(
+    assert.true(BigNumber.make(100).denominated().isEqualTo(BigNumber.make(100)));
+    assert.true(
         BigNumber.make(100 * 1e8, 8)
             .denominated()
             .isEqualTo(BigNumber.make(100)),
-    , true);
-    assert.is(
+	);
+    assert.true(
         BigNumber.make(100 * 1e8)
             .denominated(8)
             .isEqualTo(BigNumber.make(100)),
-    , true);
+	);
 });
 
 test("#toSatoshi", () => {

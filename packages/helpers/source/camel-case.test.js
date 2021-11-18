@@ -2,7 +2,6 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { camelCase } from "./camel-case";
 
-test("#camelCase", () => {
 	test("should turn any string into camel case", () => {
 		assert.is(camelCase("string"), "string");
 		assert.is(camelCase("camelCase"), "camelCase");
