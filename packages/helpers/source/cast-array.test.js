@@ -11,3 +11,5 @@ test("should work with any value", () => {
 	assert.equal(castArray(undefined), []);
 	assert.equal(castArray(new Map([["key", "value"]]).keys()), ["key"]);
 });
+
+test.run();

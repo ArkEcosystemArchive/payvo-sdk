@@ -1,4 +1,4 @@
-[
+export const fixtures = [
 	[
 		"payvo:transfer?coin=ark&network=ark.mainnet&recipient=AePNZAAtWhLsGFLXtztGLAPnKm98VVC8tJ",
 		{

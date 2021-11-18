@@ -10,3 +10,5 @@ test("should pass", () => {
 test("should fail", () => {
 	assert.false(isLessThanOrEqual(10, 5));
 });
+
+test.run();

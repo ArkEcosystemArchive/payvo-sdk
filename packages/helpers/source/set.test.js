@@ -17,3 +17,5 @@ test("should work with a string or array as path", () => {
 
 	assert.is(object.x.y.z, 5);
 });
+
+test.run();

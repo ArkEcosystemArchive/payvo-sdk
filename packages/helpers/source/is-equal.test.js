@@ -25,3 +25,5 @@ test("should return true for the same arrays", () => {
 test("should return true for the same nulls", () => {
 	assert.true(isEqual(null, null));
 });
+
+test.run();

@@ -26,3 +26,5 @@ test("#cryptoToCurrency with fromSubUnit:true", () => {
 test("#cryptoToCurrency with fromSubUnit:false", () => {
 	assert.is(CurrencyFormatter.cryptoToCurrency(10, 5, { fromSubUnit: false, decimals: 8 }), "50");
 });
+
+test.run();

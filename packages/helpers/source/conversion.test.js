@@ -62,3 +62,5 @@ test("#convertStringList", () => {
 		]
 	`);
 });
+
+test.run();

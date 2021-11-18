@@ -24,16 +24,18 @@ test("#toDataURL with options", async () => {
 	assert.is(actual).toMatchSnapshot();
 });
 
-describe.each(["utf8", "svg", "terminal"])("%s", (type) => {
-	test("should turn into a data URL", async () => {
-		await assert.is(QRCode.fromString("https://google.com").toDataURL()).resolves.toMatchSnapshot();
-	});
+// describe.each(["utf8", "svg", "terminal"])("%s", (type) => {
+test("should turn into a data URL", async () => {
+	await assert.is(QRCode.fromString("https://google.com").toDataURL()).resolves.toMatchSnapshot();
+});
 
-	test("should turn into a string", async () => {
-		// @ts-ignore
-		await assert.is(QRCode.fromString("https://google.com").toString(type)).resolves.toMatchSnapshot();
-	});
+test("should turn into a string", async () => {
+	// @ts-ignore
+	await assert.is(QRCode.fromString("https://google.com").toString(type)).resolves.toMatchSnapshot();
+});
 
 test("should turn into a utf-8 string if no argument is given", async () => {
 	await assert.is(QRCode.fromString("https://google.com").toString()).resolves.toMatchSnapshot();
 });
+
+test.run();

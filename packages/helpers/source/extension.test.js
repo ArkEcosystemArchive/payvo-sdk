@@ -11,3 +11,5 @@ test("should return the file extension", () => {
 	assert.is(extension("file.ext"), "ext");
 	assert.is(extension(""), "undefined");
 });
+
+test.run();

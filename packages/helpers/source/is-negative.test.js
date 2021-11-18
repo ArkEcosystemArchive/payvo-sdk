@@ -9,3 +9,5 @@ test("should pass", () => {
 test("should fail", () => {
 	assert.false(isNegative(1));
 });
+
+test.run();

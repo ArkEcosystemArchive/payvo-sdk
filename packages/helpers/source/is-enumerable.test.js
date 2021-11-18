@@ -14,3 +14,5 @@ test("should work with objects and arrays", () => {
 	assert.true(isEnumerable(array1, 0));
 	assert.false(isEnumerable(array1, "length"));
 });
+
+test.run();

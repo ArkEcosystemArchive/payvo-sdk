@@ -11,3 +11,5 @@ test("should fail", () => {
 	assert.false(isNil("undefined"));
 	assert.false(isNil("null"));
 });
+
+test.run();

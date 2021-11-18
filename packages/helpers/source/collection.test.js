@@ -113,3 +113,5 @@ test("should return a random item", () => {
 test("should turn the items into JSON", () => {
 	assert.is(collection.toJson(), JSON.stringify({ ["key"]: "value" }));
 });
+
+test.run();

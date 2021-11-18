@@ -8,78 +8,78 @@ let subject;
 test.before.each(() => (subject = new Validator()));
 
 test("#validate", () => {
-    const actual = subject.validate(
-        {
-            name: "jimmy",
-            age: "24",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	const actual = subject.validate(
+		{
+			name: "jimmy",
+			age: "24",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(actual, { age: 24, name: "jimmy" });
+	assert.is(actual, { age: 24, name: "jimmy" });
 });
 
 test("#passes", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: 24,
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: 24,
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.true(subject.passes());
+	assert.true(subject.passes());
 
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.true(subject.passes());
+	assert.true(subject.passes());
 });
 
 test("#fails", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.true(subject.fails());
+	assert.true(subject.fails());
 
-    subject.validate(
-        {
-            name: "jimmy",
-            age: 24,
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: 24,
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.true(subject.fails());
+	assert.true(subject.fails());
 });
 
 test("#errors", () => {
-    assert.is(subject.errors(), "undefined");
+	assert.is(subject.errors(), "undefined");
 
 	subject.validate(
 		{
@@ -96,16 +96,18 @@ test("#errors", () => {
 });
 
 test("#error", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.error() instanceof Joi.ValidationError);
+	assert.is(subject.error() instanceof Joi.ValidationError);
 });
+
+test.run();

@@ -11,3 +11,5 @@ test("should fail", () => {
 	assert.false(isNegativeZero(0));
 	assert.false(isNegativeZero(-1));
 });
+
+test.run();

@@ -8,8 +8,10 @@ const dummies = {
 	"test space": "Test space",
 };
 
-	test("should capitalize the given input", () => {
-		Object.keys(dummies).forEach((key) => {
-			assert.is(upperFirst(key), dummies[key]);
-		});
+test("should capitalize the given input", () => {
+	Object.keys(dummies).forEach((key) => {
+		assert.is(upperFirst(key), dummies[key]);
 	});
+});
+
+test.run();

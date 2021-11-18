@@ -33,3 +33,5 @@ test("should return true for an empty set", () => {
 test("should return false if the value contains something", () => {
 	assert.false(isEmpty([1]));
 });
+
+test.run();

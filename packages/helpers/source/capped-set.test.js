@@ -27,3 +27,5 @@ test("overflow", () => {
 		assert.true(cappedSet.has(i));
 	}
 });
+
+test.run();

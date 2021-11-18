@@ -29,3 +29,5 @@ test("should exit early if it encounters a non-object value", () => {
 
 	assert.false(has(object, "a.b.c"));
 });
+
+test.run();

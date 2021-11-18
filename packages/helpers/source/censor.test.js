@@ -26,3 +26,5 @@ test("#process", () => {
 	assert.is(subject.process("tree"), "tree");
 	assert.is(subject.process(""), "");
 });
+
+test.run();
