@@ -18,4 +18,3 @@ test("#chunk", () => {
 	test("should not chunk if a negative number is passed in", () => {
 		assert.is(chunk(["a", "b", "c", "d"], -1), []);
 	});
-});

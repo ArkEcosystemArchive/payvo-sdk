@@ -11,4 +11,3 @@ test("#at", () => {
 
 		assert.is(at(object, ["a.b.c", "x.y.z"]), [3, 4]);
 	});
-});

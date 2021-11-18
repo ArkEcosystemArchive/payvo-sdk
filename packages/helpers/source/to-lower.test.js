@@ -6,4 +6,3 @@ test("#toLower", () => {
 		assert.is(toLower("fooBar"), "foobar");
 		assert.is(toLower("__foo_bar__"), "__foo_bar__");
 	});
-});

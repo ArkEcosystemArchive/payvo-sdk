@@ -16,4 +16,3 @@ test("#reduceRightArray", () => {
 			)
 			.toEqual([4, 5, 2, 3, 0, 1]);
 	});
-});

@@ -8,4 +8,3 @@ test("#isWeakSet", () => {
 	test("should fail", () => {
 		assert.is(isWeakSet(1), false);
 	});
-});

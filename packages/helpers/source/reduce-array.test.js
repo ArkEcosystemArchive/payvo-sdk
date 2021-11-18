@@ -7,4 +7,3 @@ test("#reduceArray", () => {
 			3,
 		);
 	});
-});

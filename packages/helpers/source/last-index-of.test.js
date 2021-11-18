@@ -8,4 +8,3 @@ test("#lastIndexOf", () => {
 		assert.is(lastIndexOf([1, 2, 1, 2], 3), -1);
 		assert.is(lastIndexOf([], 0, -1), -1);
 	});
-});

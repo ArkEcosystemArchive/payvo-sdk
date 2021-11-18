@@ -14,4 +14,3 @@ test("#constantCase", () => {
 		assert.is(constantCase("Title Case"), "TITLE_CASE");
 		assert.is(constantCase("dot.case"), "DOT_CASE");
 	});
-});

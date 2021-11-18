@@ -8,4 +8,3 @@ test("#isNull", () => {
 	test("should fail", () => {
 		assert.is(isNull("null"), false);
 	});
-});

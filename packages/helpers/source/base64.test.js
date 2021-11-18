@@ -10,4 +10,3 @@ test("#base64", () => {
 	test("should decode the given string", () => {
 		assert.is(base64.decode("SGVsbG8gV29ybGQ="), "Hello World");
 	});
-});

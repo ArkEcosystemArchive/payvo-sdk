@@ -8,4 +8,3 @@ test("#trimTrailingSlash", () => {
 		assert.is(trimTrailingSlash("/owner/path//"), "/owner/path");
 		assert.is(trimTrailingSlash("/owner/path///"), "/owner/path");
 	});
-});

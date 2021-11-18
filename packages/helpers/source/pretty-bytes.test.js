@@ -13,4 +13,3 @@ test("#prettyBytes", () => {
 		assert.is(prettyBytes(1e16), "10 PB");
 		assert.is(prettyBytes(1e30), "1,000,000 YB");
 	});
-});

@@ -13,4 +13,3 @@ test("#keysIn", () => {
 
 		assert.is(keysIn(new Foo())).toIncludeAllMembers(["a", "b", "c"]);
 	});
-});

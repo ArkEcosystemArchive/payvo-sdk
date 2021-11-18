@@ -12,4 +12,3 @@ test("#pathCase", () => {
 		assert.is(pathCase("Title Case"), "title/case");
 		assert.is(pathCase("dot.case"), "dot/case");
 	});
-});

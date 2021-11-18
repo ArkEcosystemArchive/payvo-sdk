@@ -8,4 +8,3 @@ test("#isSymbol", () => {
 	test("should fail", () => {
 		assert.is(isSymbol("string"), false);
 	});
-});

@@ -12,4 +12,3 @@ test("#mapValues", () => {
 			{ fred: 40, pebbles: 1 },
 		);
 	});
-});

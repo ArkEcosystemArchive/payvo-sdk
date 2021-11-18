@@ -12,4 +12,3 @@ test("#isSyncFunction", () => {
 		);
 		assert.is(isSyncFunction([]), false);
 	});
-});

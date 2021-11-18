@@ -8,4 +8,3 @@ test("#isURI", () => {
 	test("should fail", () => {
 		assert.is(isURI("random string"), true);
 	});
-});

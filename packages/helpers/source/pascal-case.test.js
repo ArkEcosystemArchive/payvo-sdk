@@ -12,4 +12,3 @@ test("#pascalCase", () => {
 		assert.is(pascalCase("Title Case"), "TitleCase");
 		assert.is(pascalCase("dot.case"), "DotCase");
 	});
-});

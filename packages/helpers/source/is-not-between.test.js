@@ -8,4 +8,3 @@ test("#isNotBetween", () => {
 	test("should fail", () => {
 		assert.is(isNotBetween(2, 1, 3), false);
 	});
-});

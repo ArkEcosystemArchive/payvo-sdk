@@ -13,4 +13,3 @@ test("#randomBits", () => {
 	])("should take %i bits and return a random hex string with a length of %i", (bits, expected) => {
 		assert.is(randomBits(bits).toString("hex")).toHaveLength(expected);
 	});
-});

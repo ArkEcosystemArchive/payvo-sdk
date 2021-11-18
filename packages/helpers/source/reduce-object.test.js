@@ -16,4 +16,3 @@ test("#reduceObject", () => {
 			)
 			.toEqual({ 1: ["a", "c"], 2: ["b"] });
 	});
-});

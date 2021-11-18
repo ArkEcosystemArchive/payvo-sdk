@@ -8,4 +8,3 @@ test("#prettyTime", () => {
 		assert.is(prettyTime(100), "100ms");
 		assert.is(prettyTime(100.1001), "100ms 100µs 100ns");
 	});
-});

@@ -8,4 +8,3 @@ test("#isNumber", () => {
 	test("should fail", () => {
 		assert.is(isNumber("1"), false);
 	});
-});

@@ -10,4 +10,3 @@ test("#isPositiveZero", () => {
 		assert.is(isPositiveZero(-0), false);
 		assert.is(isPositiveZero(-1), false);
 	});
-});

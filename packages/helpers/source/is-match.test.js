@@ -1,11 +1,9 @@
 import { isMatch } from "./is-match";
 
-test("#isMatch", () => {
 	test("should pass", () => {
-		assert.is(isMatch("a", /a/), true);
+		assert.true(isMatch("a", /a/));
 	});
 
 	test("should fail", () => {
-		assert.is(isMatch(1, /a/), false);
+		assert.false(isMatch(1, /a/));
 	});
-});

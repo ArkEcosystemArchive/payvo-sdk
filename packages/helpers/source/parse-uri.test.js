@@ -50,4 +50,3 @@ test("#parseURI", () => {
 			scheme: "https",
 		});
 	});
-});

@@ -1,11 +1,9 @@
 import { isArrayOfType } from "./is-array-of-type";
 
-test("#isArrayOfType", () => {
-	test("should pass", () => {
-		assert.is(isArrayOfType < number > ([1], "number"), true);
-	});
+test("should pass", () => {
+	assert.true(isArrayOfType<number>([1], "number"));
+});
 
-	test("should fail", () => {
-		assert.is(isArrayOfType < number > (["string"], "number"), false);
-	});
+test("should fail", () => {
+	assert.false(isArrayOfType<number>(["string"], "number"));
 });

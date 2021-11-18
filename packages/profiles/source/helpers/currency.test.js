@@ -13,4 +13,3 @@ test("Helpers.Currency", () => {
 	test("should support passing the locale", () => {
 		assert.is(Currency.format(1, "BTC", { locale: "en-US" }), "1 BTC");
 	});
-});

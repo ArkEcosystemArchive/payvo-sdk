@@ -21,4 +21,3 @@ test("#keys", () => {
 	test("should work with an array", () => {
 		assert.is(keys([1, 2, 3, 4]), ["0", "1", "2", "3"]);
 	});
-});

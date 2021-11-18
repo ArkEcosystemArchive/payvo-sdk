@@ -12,4 +12,3 @@ test("#lowerCase", () => {
 		assert.is(lowerCase("Title Case"), "title case");
 		assert.is(lowerCase("dot.case"), "dot case");
 	});
-});

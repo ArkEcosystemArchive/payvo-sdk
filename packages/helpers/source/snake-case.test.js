@@ -12,4 +12,3 @@ test("#snakeCase", () => {
 		assert.is(snakeCase("Title Case"), "title_case");
 		assert.is(snakeCase("dot.case"), "dot_case");
 	});
-});

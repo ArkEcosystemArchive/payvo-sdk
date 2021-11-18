@@ -34,4 +34,3 @@ test("#sortByDesc", () => {
 			{ name: "Bob", age: 18 },
 		]);
 	});
-});

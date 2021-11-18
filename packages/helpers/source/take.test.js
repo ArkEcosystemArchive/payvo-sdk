@@ -7,4 +7,3 @@ test("#take", () => {
 		assert.is(take([1, 2, 3], 5), [1, 2, 3]);
 		assert.is(take([1, 2, 3], 0), []);
 	});
-});

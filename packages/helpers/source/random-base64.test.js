@@ -6,4 +6,3 @@ test("#randomBase64", () => {
 		assert.is(randomBase64(16)).toHaveLength(16);
 		assert.is(randomBase64(32)).toHaveLength(32);
 	});
-});

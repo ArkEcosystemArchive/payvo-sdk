@@ -19,4 +19,3 @@ test("#assign", () => {
 	test("should return the names of the users", () => {
 		assert.is(assign({ a: 0 }, new Foo(), new Bar()), { a: 1, c: 3 });
 	});
-});

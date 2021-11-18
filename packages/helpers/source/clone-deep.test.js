@@ -30,4 +30,3 @@ test("#cloneDeep", () => {
 		assert.is(clone.isDelegate(), true);
 		assert.is(clone.address, "address");
 	});
-});

@@ -8,4 +8,3 @@ test("#isNotEqual", () => {
 	test("should fail", () => {
 		assert.is(isNotEqual(1, 1), false);
 	});
-});

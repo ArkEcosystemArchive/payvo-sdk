@@ -12,4 +12,3 @@ test("#startCase", () => {
 		assert.is(startCase("Title Case"), "Title Case");
 		assert.is(startCase("dot.case"), "Dot Case");
 	});
-});

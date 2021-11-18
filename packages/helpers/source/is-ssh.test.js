@@ -23,4 +23,3 @@ test("#isSSH", () => {
 		assert.is(isSSH("file:///owner/repo.git/"), false);
 		assert.is(isSSH("file://~/owner/repo.git/"), false);
 	});
-});

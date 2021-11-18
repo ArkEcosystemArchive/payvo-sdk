@@ -12,4 +12,3 @@ test("#upperCase", () => {
 		assert.is(upperCase("Title Case"), "TITLE CASE");
 		assert.is(upperCase("dot.case"), "DOT CASE");
 	});
-});

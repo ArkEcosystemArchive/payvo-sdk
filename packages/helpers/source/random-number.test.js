@@ -7,4 +7,3 @@ test("#randomNumber", () => {
 		assert.is(actual).toBeGreaterThanOrEqual(1);
 		assert.is(actual).toBeLessThanOrEqual(5);
 	});
-});

@@ -12,4 +12,3 @@ test("#reject", () => {
 			[{ user: "fred", age: 40, active: true }],
 		);
 	});
-});

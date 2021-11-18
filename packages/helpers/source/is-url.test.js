@@ -9,4 +9,3 @@ test("#isURL", () => {
 	test("should fail", () => {
 		assert.is(isURL(1), false);
 	});
-});

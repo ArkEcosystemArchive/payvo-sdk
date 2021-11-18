@@ -8,4 +8,3 @@ test("#isStringArray", () => {
 	test("should fail", () => {
 		assert.is(isStringArray([1]), false);
 	});
-});

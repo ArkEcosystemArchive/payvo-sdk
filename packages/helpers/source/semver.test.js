@@ -116,4 +116,3 @@ test("#semver", () => {
 			assert.is(semver.isLessThanOrEqual("2.0.0-beta.1", "2.0.0-alpha.8"), false);
 		});
 	});
-});

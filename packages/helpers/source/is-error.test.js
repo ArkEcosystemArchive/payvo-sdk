@@ -1,11 +1,9 @@
 import { isError } from "./is-error";
 
-test("#isError", () => {
 	test("should pass", () => {
-		assert.is(isError(new Error()), true);
+		assert.true(isError(new Error()));
 	});
 
 	test("should fail", () => {
-		assert.is(isError(1), false);
+		assert.false(isError(1));
 	});
-});

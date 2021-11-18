@@ -14,4 +14,3 @@ test("#camelCase", () => {
 		assert.is(camelCase("Title Case"), "titleCase");
 		assert.is(camelCase("dot.case"), "dotCase");
 	});
-});

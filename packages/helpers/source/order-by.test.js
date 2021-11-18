@@ -67,4 +67,3 @@ test("#orderBy", () => {
 			{ name: "John", age: 30 },
 		]);
 	});
-});

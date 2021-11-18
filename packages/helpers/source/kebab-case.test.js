@@ -12,4 +12,3 @@ test("#kebabCase", () => {
 		assert.is(kebabCase("Title Case"), "title-case");
 		assert.is(kebabCase("dot.case"), "dot-case");
 	});
-});

@@ -17,4 +17,3 @@ description: Nothing to see here
 			},
 			content: "<h1>Remarkable rulezz!</h1>",
 		});
-});

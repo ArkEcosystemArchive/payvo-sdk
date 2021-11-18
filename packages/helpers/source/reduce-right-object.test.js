@@ -16,4 +16,3 @@ test("#reduceRightObject", () => {
 			)
 			.toEqual({ 1: ["c", "a"], 2: ["b"] });
 	});
-});

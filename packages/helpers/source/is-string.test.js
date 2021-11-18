@@ -8,4 +8,3 @@ test("#isString", () => {
 	test("should fail", () => {
 		assert.is(isString(1), false);
 	});
-});

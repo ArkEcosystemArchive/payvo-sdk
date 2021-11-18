@@ -10,4 +10,3 @@ test("#shuffle", () => {
 		assert.is(shuffledValues).toIncludeAllMembers(possibleValues);
 		assert.is(shuffledValues).not.toEqual(possibleValues);
 	});
-});

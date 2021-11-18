@@ -12,4 +12,3 @@ test("#upperFirst", () => {
 			assert.is(upperFirst(key), dummies[key]);
 		});
 	});
-});

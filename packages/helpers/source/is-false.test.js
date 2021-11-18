@@ -1,11 +1,9 @@
 import { isFalse } from "./is-false";
 
-test("#isFalse", () => {
 	test("should pass", () => {
-		assert.is(isFalse(false), true);
+		assert.true(isFalse(false));
 	});
 
 	test("should fail", () => {
-		assert.is(isFalse(true), false);
+		assert.false(isFalse(true));
 	});
-});

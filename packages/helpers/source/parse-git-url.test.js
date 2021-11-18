@@ -50,4 +50,3 @@ test("#parseGitUrl", () => {
 			branch: "develop",
 		});
 	});
-});

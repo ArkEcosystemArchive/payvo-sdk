@@ -8,4 +8,3 @@ test("#isWeakMap", () => {
 	test("should fail", () => {
 		assert.is(isWeakMap(1), false);
 	});
-});

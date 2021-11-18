@@ -20,4 +20,3 @@ test("#toString", () => {
 	test("should work with an array", () => {
 		assert.is(toString([1, 2, 3]), "1,2,3");
 	});
-});

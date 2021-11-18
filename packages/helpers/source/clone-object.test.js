@@ -8,4 +8,3 @@ test("#cloneObject", () => {
 
 		assert.is(cloneObject(objects), objects);
 	});
-});

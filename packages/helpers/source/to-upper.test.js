@@ -6,4 +6,3 @@ test("#toUpper", () => {
 		assert.is(toUpper("fooBar"), "FOOBAR");
 		assert.is(toUpper("__foo_bar__"), "__FOO_BAR__");
 	});
-});

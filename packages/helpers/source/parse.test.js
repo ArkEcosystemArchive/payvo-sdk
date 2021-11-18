@@ -8,4 +8,3 @@ test("#parse", () => {
 	test("should fail to parse invalid json", () => {
 		assert.is(() => parse("{")).toThrow("Unexpected end of JSON input");
 	});
-});

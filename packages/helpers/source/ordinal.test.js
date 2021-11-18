@@ -14,4 +14,3 @@ test("#ordinal", () => {
 		assert.is(ordinal(1000000), "1000000th");
 		assert.is(ordinal(10000000), "10000000th");
 	});
-});

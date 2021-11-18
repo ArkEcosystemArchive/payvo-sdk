@@ -14,4 +14,3 @@ test("#safeEqual", () => {
 		assert.is(safeEqual(Buffer.alloc(1), Buffer.alloc(1)), true);
 		assert.is(safeEqual(Buffer.alloc(1), Buffer.alloc(2)), false);
 	});
-});

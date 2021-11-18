@@ -31,7 +31,6 @@ describe.each(["utf8", "svg", "terminal"])("%s", (type) => {
 		// @ts-ignore
 		await assert.is(QRCode.fromString("https://google.com").toString(type)).resolves.toMatchSnapshot();
 	});
-});
 
 test("should turn into a utf-8 string if no argument is given", async () => {
 	await assert.is(QRCode.fromString("https://google.com").toString()).resolves.toMatchSnapshot();

@@ -10,4 +10,3 @@ test("#sleep", () => {
 
 		assert.is(Math.round((end - start) / 1000), 1);
 	});
-});

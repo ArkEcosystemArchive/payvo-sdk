@@ -1,11 +1,9 @@
 import { isDate } from "./is-date";
 
-test("#isDate", () => {
 	test("should pass", () => {
-		assert.is(isDate(new Date()), true);
+		assert.true(isDate(new Date()));
 	});
 
 	test("should fail", () => {
-		assert.is(isDate(1), false);
+		assert.false(isDate(1));
 	});
-});

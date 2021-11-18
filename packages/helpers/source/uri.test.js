@@ -54,4 +54,3 @@ test("URI", () => {
 			)
 			.toThrowError("The given method is unknown: unknown");
 	});
-});

@@ -114,4 +114,3 @@ test("Collection", () => {
 	test("should turn the items into JSON", () => {
 		assert.is(collection.toJson(), JSON.stringify({ ["key"]: "value" }));
 	});
-});

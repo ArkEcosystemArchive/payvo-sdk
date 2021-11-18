@@ -1,15 +1,10 @@
 import { isFunction } from "./is-function";
 
-test("#isFunction", () => {
 	test("should pass", () => {
-		assert.is(isFunction(new Function()), true);
-		assert.is(
-			isFunction(async () => ({})),
-			true,
-		);
+		assert.true(isFunction(new Function()));
+		assert.true(isFunction(async () => ({})));
 	});
 
 	test("should fail", () => {
-		assert.is(isFunction([]), false);
+		assert.false(isFunction([]));
 	});
-});

@@ -1,12 +1,10 @@
 import { isLessThanOrEqual } from "./is-less-than-or-equal";
 
-test("#isLessThanOrEqual", () => {
-	test("should pass", () => {
-		assert.is(isLessThanOrEqual(1, 2), true);
-		assert.is(isLessThanOrEqual(1, 1), true);
-	});
+test("should pass", () => {
+	assert.true(isLessThanOrEqual(1, 2));
+	assert.true(isLessThanOrEqual(1, 1));
+});
 
-	test("should fail", () => {
-		assert.is(isLessThanOrEqual(10, 5), false);
-	});
+test("should fail", () => {
+	assert.false(isLessThanOrEqual(10, 5));
 });

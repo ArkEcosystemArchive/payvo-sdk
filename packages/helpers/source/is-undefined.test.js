@@ -8,4 +8,3 @@ test("#isUndefined", () => {
 	test("should fail", () => {
 		assert.is(isUndefined("undefined"), false);
 	});
-});

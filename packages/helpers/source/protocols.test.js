@@ -6,4 +6,3 @@ test("#protocols", () => {
 		assert.is(protocols("http://google.com/"), ["http"]);
 		assert.is(protocols("https://google.com/"), ["https"]);
 	});
-});

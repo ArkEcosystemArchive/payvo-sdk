@@ -12,4 +12,3 @@ test("#castArray", () => {
 		assert.is(castArray(undefined), []);
 		assert.is(castArray(new Map([["key", "value"]]).keys()), ["key"]);
 	});
-});

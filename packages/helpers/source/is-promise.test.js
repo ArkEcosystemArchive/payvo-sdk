@@ -8,4 +8,3 @@ test("#isPromise", () => {
 	test("should fail", () => {
 		assert.is(isPromise(1), false);
 	});
-});

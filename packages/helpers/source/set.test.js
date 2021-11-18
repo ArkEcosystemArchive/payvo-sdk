@@ -16,4 +16,3 @@ test("#set", () => {
 
 		assert.is(object.x.y.z, 5);
 	});
-});

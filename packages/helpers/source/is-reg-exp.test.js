@@ -8,4 +8,3 @@ test("#isRegExp", () => {
 	test("should fail", () => {
 		assert.is(isRegExp([]), false);
 	});
-});

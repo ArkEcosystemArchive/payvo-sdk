@@ -1,11 +1,9 @@
 import { isMap } from "./is-map";
 
-test("#isMap", () => {
 	test("should pass", () => {
-		assert.is(isMap(new Map()), true);
+		assert.true(isMap(new Map()));
 	});
 
 	test("should fail", () => {
-		assert.is(isMap(1), false);
+		assert.false(isMap(1));
 	});
-});

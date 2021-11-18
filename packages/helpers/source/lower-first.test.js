@@ -12,4 +12,3 @@ test("#lowerFirst", () => {
 			assert.is(lowerFirst(key), dummies[key]);
 		});
 	});
-});

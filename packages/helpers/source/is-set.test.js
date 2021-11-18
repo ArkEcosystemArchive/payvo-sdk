@@ -8,4 +8,3 @@ test("#isSet", () => {
 	test("should fail", () => {
 		assert.is(isSet(1), false);
 	});
-});

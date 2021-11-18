@@ -13,4 +13,3 @@ test("#lastMapEntry", () => {
 			)
 			.toEqual(["Another", "Planet"]);
 	});
-});

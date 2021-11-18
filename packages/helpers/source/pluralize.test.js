@@ -44,4 +44,3 @@ test("#pluralize", () => {
 		assert.is(pluralize("inactive delegate", 2), "inactive delegates");
 		assert.is(pluralize("inactive delegate", 2, true), "2 inactive delegates");
 	});
-});

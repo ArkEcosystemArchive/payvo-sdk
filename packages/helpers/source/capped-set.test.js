@@ -28,4 +28,3 @@ test("CappedSet", () => {
 			assert.is(cappedSet.has(i), true);
 		}
 	});
-});

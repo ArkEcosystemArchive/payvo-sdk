@@ -32,4 +32,3 @@ test("#reduceRight", () => {
 			)
 			.toEqual({ 1: ["c", "a"], 2: ["b"] });
 	});
-});
