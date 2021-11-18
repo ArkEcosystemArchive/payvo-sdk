@@ -1,11 +1,11 @@
 import { parseGitUrl } from "./parse-git-url";
 
 	test("should throw if it cannot find a host", () => {
-		assert.throw(() => parseGitUrl("owner/repo.git"), "Failed to find a host.");
+		assert.throws(() => parseGitUrl("owner/repo.git"), "Failed to find a host.");
 	});
 
 	test("should throw if it cannot find a name", () => {
-		assert.throw(() => parseGitUrl("git@github.com"), "Failed to find a name.");
+		assert.throws(() => parseGitUrl("git@github.com"), "Failed to find a name.");
 	});
 
 	test("should return the expected fields", () => {
