@@ -8,7 +8,7 @@ const users = [
 
 describe("#find", () => {
     it("should work with a function", () => {
-        assert.is(find(users, (o) => o.age < 40)).toEqual(users[0]);
+        assert.is(find(users, (o) => o.age < 40), users[0]);
 
         assert.is(find(users, (o) => o.name === "john")), "undefined");
 });

@@ -1,10 +1,8 @@
-import { jest } from "@jest/globals";
-
 import { Response } from "./response.js";
 
 let subject: Response;
 
-beforeEach(
+test.before.each(
 	() =>
 		(subject = new Response({
 			body: "{}",
@@ -51,7 +49,7 @@ test("#body", () => {
 });
 
 test("#json", () => {
-	assert.is(subject.json()).toEqual({});
+	assert.is(subject.json(), {});
 });
 
 test("#header", () => {

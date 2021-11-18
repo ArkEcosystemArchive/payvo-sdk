@@ -8,7 +8,7 @@ import { AddressFactory } from "./address.factory";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(AddressService, undefined, async (container: IoC.Container) => {
         container.singleton(BindingType.AddressFactory, AddressFactory);
     });

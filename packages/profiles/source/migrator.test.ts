@@ -15,7 +15,7 @@ let profile: IProfile;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
 
 	subject = new Migrator(profile, {} as IProfileData);
@@ -37,7 +37,7 @@ it("should save the project version when a migration occurs", async () => {
 
 	await subject.migrate(migrations, "0.0.4");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.4");
-	assert.is(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get("key"), "value");
 });
 
 it("should not run the migration when the version does not change", async () => {
@@ -76,7 +76,7 @@ it("should run the migration when the version changes", async () => {
 	await subject.migrate(migrations, "1.1.0");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.1.0");
 	assert.is(profile.data().has("key"), true);
-	assert.is(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get("key"), "value");
 });
 
 it("should run the migration when the version uses semver comparisons", async () => {
@@ -86,7 +86,7 @@ it("should run the migration when the version uses semver comparisons", async ()
 
 	await subject.migrate(migrations, "1.0.2");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.2");
-	assert.is(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get("key"), "value");
 });
 
 it("should run the migration when the version uses multiple semver comparisons", async () => {
@@ -97,11 +97,11 @@ it("should run the migration when the version uses multiple semver comparisons",
 
 	await subject.migrate(migrations, "1.0.2");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.2");
-	assert.is(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get("key"), "value");
 
 	await subject.migrate(migrations, "2.0.1");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "2.0.1");
-	assert.is(profile.data().get("key")).toEqual("new value");
+	assert.is(profile.data().get("key"), "new value");
 });
 
 it("should run all valid migrations when the version uses multiple semver comparisons", async () => {
@@ -119,11 +119,11 @@ it("should run all valid migrations when the version uses multiple semver compar
 
 	await subject.migrate(migrations, "2.4.0");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "2.4.0");
-	assert.is(profile.data().get("key1")).toEqual("value1");
-	assert.is(profile.data().get("key2")).toEqual("value2");
-	assert.is(profile.data().get("key3")).toEqual("value3");
-	assert.is(profile.data().get("key4")).toEqual("value4");
-	assert.is(profile.data().get("key5")).toEqual("value5");
+	assert.is(profile.data().get("key1"), "value1");
+	assert.is(profile.data().get("key2"), "value2");
+	assert.is(profile.data().get("key3"), "value3");
+	assert.is(profile.data().get("key4"), "value4");
+	assert.is(profile.data().get("key5"), "value5");
 });
 
 it("should cleanup migrations with non-numeric values", async () => {
@@ -141,11 +141,11 @@ it("should cleanup migrations with non-numeric values", async () => {
 
 	await subject.migrate(migrations, "2.4.0");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "2.4.0");
-	assert.is(profile.data().get("key1")).toEqual("value1");
-	assert.is(profile.data().get("key2")).toEqual("value2");
-	assert.is(profile.data().get("key3")).toEqual("value3");
-	assert.is(profile.data().get("key4")).toEqual("value4");
-	assert.is(profile.data().get("key5")).toEqual("value5");
+	assert.is(profile.data().get("key1"), "value1");
+	assert.is(profile.data().get("key2"), "value2");
+	assert.is(profile.data().get("key3"), "value3");
+	assert.is(profile.data().get("key4"), "value4");
+	assert.is(profile.data().get("key5"), "value5");
 });
 
 it("should rollback changes if a migration failed", async () => {
@@ -171,7 +171,7 @@ it("should rollback changes if a migration failed", async () => {
 		.rejects.toThrowError(/throw the migration and rollback/);
 
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.0");
-	assert.is(profile.data().get("key")).toEqual("initial update");
+	assert.is(profile.data().get("key"), "initial update");
 });
 
 it("should migrate profiles from JSON to Base64", async () => {

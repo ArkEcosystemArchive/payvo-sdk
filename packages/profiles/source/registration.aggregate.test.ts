@@ -26,7 +26,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
@@ -39,6 +39,6 @@ describe("RegistrationAggregate", () => {
 		const delegates = subject.delegates();
 
 		assert.is(delegates).toHaveLength(1);
-		assert.is(delegates[0].address()).toEqual("D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+		assert.is(delegates[0].address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
 	});
 });

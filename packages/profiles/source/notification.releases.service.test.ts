@@ -34,7 +34,7 @@ beforeAll(() => {
     bootContainer();
 });
 
-beforeEach(() => {
+test.before.each(() => {
     notificationsRepository = new NotificationRepository(
         new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
     );
@@ -75,14 +75,14 @@ test("#has", () => {
 
 test("#findByVersion", () => {
     releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(subject.findByVersion("3.0.0")?.name).toEqual(releaseNotifications[1].name);
+    assert.is(subject.findByVersion("3.0.0")?.name, releaseNotifications[1].name);
     assert.is(subject.findByVersion("3.10.0")), "undefined");
 });
 
 test("#markAsRead", () => {
     releaseNotifications.forEach((notification) => subject.push(notification));
     const notification = subject.findByVersion("3.0.0");
-    assert.is(notification?.name).toEqual(releaseNotifications[1].name);
+    assert.is(notification?.name, releaseNotifications[1].name);
     assert.is(notification?.read_at), "undefined");
 
 subject.markAsRead("3.11.0");
@@ -94,7 +94,7 @@ assert.is(notification?.read_at).toBeTruthy();
 test("#forget", () => {
     releaseNotifications.forEach((notification) => subject.push(notification));
     const notification = subject.findByVersion("3.0.0");
-    assert.is(notification?.name).toEqual(releaseNotifications[1].name);
+    assert.is(notification?.name, releaseNotifications[1].name);
     assert.is(notification?.read_at), "undefined");
 
 subject.forget("3.11.0");

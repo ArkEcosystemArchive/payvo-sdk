@@ -7,6 +7,9 @@ describe("#mapValues", () => {
 	};
 
 	it("should work with a function", () => {
-		assert.is(mapValues(users, (o) => o.age)).toEqual({ fred: 40, pebbles: 1 });
+		assert.is(
+			mapValues(users, (o) => o.age),
+			{ fred: 40, pebbles: 1 },
+		);
 	});
 });

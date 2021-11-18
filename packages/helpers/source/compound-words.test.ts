@@ -8,6 +8,6 @@ describe("#compoundWords", () => {
 it("should return a list of words", () => {
     assert.is(
         compoundWords("fred, barney, & pebbles", (result: string, word: string) => `${result} ${word}`.trim()),
-    ).toEqual("fred barney pebbles");
+    , "fred barney pebbles");
 });
 });

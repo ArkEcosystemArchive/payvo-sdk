@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 describe("WalletData", () => {
 	it("#address", () => {
-		assert.is(subject.address()).toEqual("98c83431e94407bc0889e09953461fe5cecfdf18");
+		assert.is(subject.address(), "98c83431e94407bc0889e09953461fe5cecfdf18");
 	});
 
 	it("#publicKey", () => {
@@ -18,8 +18,8 @@ describe("WalletData", () => {
 	});
 
 	it("#balance", () => {
-		assert.is(subject.balance().available.toString()).toEqual("2000000000");
-		assert.is(subject.balance().fees.toString()).toEqual("0");
+		assert.is(subject.balance().available.toString(), "2000000000");
+		assert.is(subject.balance().fees.toString(), "0");
 	});
 
 	it("#nonce", () => {

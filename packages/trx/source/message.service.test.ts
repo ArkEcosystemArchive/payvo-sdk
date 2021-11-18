@@ -8,7 +8,7 @@ import { MessageService } from "./message.service.js";
 
 let subject: MessageService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(MessageService, undefined, (container) => {
         container.singleton(IoC.BindingType.AddressService, AddressService);
         container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

@@ -37,12 +37,12 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("MultiSignatureService", () => {
     let fixtures;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         fixtures = requireModule(`../test/fixtures/client/multisig-transactions.json`);
     });
 
@@ -122,11 +122,11 @@ test("#addSignature", async () => {
         },
     };
 
-    assert.is((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+    assert.is((await subject.addSignature(transactionData, signatory)).data().signatures, [
         "00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
     ]);
 
-    assert.is((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+    assert.is((await subject.addSignature(transactionData, signatory)).data().signatures, [
         "00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
     ]);
 });

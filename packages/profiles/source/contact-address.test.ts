@@ -8,7 +8,7 @@ let subject: ContactAddress;
 
 beforeAll(() => bootContainer());
 
-beforeEach(() => {
+test.before.each(() => {
 	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
 	subject = new ContactAddress(
@@ -47,7 +47,7 @@ it("should have an avatar", () => {
 });
 
 it("should turn into an object", () => {
-	assert.is(subject.toObject()).toEqual({
+	assert.is(subject.toObject(), {
 		address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		coin: "ARK",
 		id: "uuid",

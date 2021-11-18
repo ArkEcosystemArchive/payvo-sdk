@@ -21,7 +21,7 @@ beforeAll(() => {
 	bootContainer();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 	profile.settings().set(ProfileSetting.Name, "John Doe");
 

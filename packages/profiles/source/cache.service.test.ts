@@ -1,7 +1,7 @@
 import { Cache } from "./cache.service.js";
 
 let subject: Cache;
-beforeEach(() => (subject = new Cache("wallet-ABC")));
+test.before.each(() => (subject = new Cache("wallet-ABC")));
 
 it("should return a list of all key-value pairs", async () => {
     assert.is(subject.all()).toBeEmpty();

@@ -25,7 +25,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
     nock.disableNetConnect();
@@ -128,7 +128,7 @@ const inputs = result.inputs();
 assert.is(inputs).toBeArrayOfSize(1);
 assert.is(inputs[0] instanceof DTO.UnspentTransactionData);
 assert.is(inputs[0].id(), "6bf76f4380da8a389ae0a7ecccf1922b74ae11d773ba8b1b761d84a1b4474a4f");
-assert.is(inputs[0].amount()).toEqual(BigNumber.make(30000000));
+assert.is(inputs[0].amount(), BigNumber.make(30000000));
 assert.is(inputs[0].address(),
     "addr_test1qrhvwtn8sa3duzkm93v5kjjxlv5lvg67j530wyeumngu23lk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33s4s8xvh",
 );

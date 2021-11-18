@@ -6,7 +6,7 @@ import { MessageService } from "./message.service.js";
 
 let subject: MessageService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(MessageService);
 });
 

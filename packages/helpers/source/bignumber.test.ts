@@ -1,7 +1,7 @@
 import { BigNumber } from "./bignumber.js";
 
 let subject: BigNumber;
-beforeEach(() => (subject = BigNumber.make(1)));
+test.before.each(() => (subject = BigNumber.make(1)));
 
 test("#decimalPlaces", () => {
     assert.is(BigNumber.make("12.3456789").decimalPlaces(0).valueOf(), "12");
@@ -113,8 +113,8 @@ test("#denominated", () => {
 });
 
 test("#toSatoshi", () => {
-    assert.is(BigNumber.make(100).toSatoshi().toString()).toEqual("100");
-    assert.is(BigNumber.make(100).toSatoshi(10).toString()).toEqual("1000000000000");
+    assert.is(BigNumber.make(100).toSatoshi().toString(), "100");
+    assert.is(BigNumber.make(100).toSatoshi(10).toString(), "1000000000000");
 });
 
 test("#toHuman", () => {
@@ -129,18 +129,18 @@ test("#toHuman", () => {
 });
 
 test("#toFixed", () => {
-    assert.is(subject.toFixed()).toEqual("1");
-    assert.is(subject.toFixed(2)).toEqual("1.00");
+    assert.is(subject.toFixed(), "1");
+    assert.is(subject.toFixed(2), "1.00");
 });
 
 test("#toNumber", () => {
-    assert.is(subject.toNumber()).toEqual(1);
+    assert.is(subject.toNumber(), 1);
 });
 
 test("#toString", () => {
-    assert.is(subject.toString()).toEqual("1");
+    assert.is(subject.toString(), "1");
 });
 
 test("#valueOf", () => {
-    assert.is(subject.valueOf()).toEqual("1");
+    assert.is(subject.valueOf(), "1");
 });

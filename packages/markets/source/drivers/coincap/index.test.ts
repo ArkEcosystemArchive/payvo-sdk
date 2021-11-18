@@ -10,7 +10,7 @@ const currency = "USD";
 
 let subject: CoinCap;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = new CoinCap(new Request());
 
     nock(BASE_URL_COINCAP)

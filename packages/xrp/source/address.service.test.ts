@@ -4,7 +4,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(AddressService);
 });
 
@@ -12,13 +12,13 @@ describe("Address", () => {
     it("should generate an output from a publicKey", async () => {
         const result = await subject.fromPublicKey(identity.publicKey);
 
-        assert.is(result).toEqual({ type: "rfc6979", address: identity.address });
+        assert.is(result, { type: "rfc6979", address: identity.address });
     });
 
     it("should generate an output from a secret", async () => {
         const result = await subject.fromSecret(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "rfc6979", address: identity.address });
+        assert.is(result, { type: "rfc6979", address: identity.address });
     });
 
     it("should validate an address", async () => {

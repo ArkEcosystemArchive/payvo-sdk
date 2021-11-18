@@ -6,7 +6,7 @@ import { Exceptions } from "@payvo/sdk";
 
 let subject: SignedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(

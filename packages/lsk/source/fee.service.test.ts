@@ -25,7 +25,7 @@ beforeAll(async () => {
     nock.disableNetConnect();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(FeeService, "lsk.testnet", (container) => {
         container.constant(IoC.BindingType.Container, container);
         container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -75,7 +75,7 @@ describe("FeeService", () => {
     describe("#calculate", () => {
         let service;
 
-        beforeEach(async () => {
+        test.before.each(async () => {
             nock(/.+/).get("/api/v2/fees").reply(200, requireModule(`../test/fixtures/client/fees.json`)).persist();
 
             service = await createService(TransactionService, "lsk.testnet", (container) => {

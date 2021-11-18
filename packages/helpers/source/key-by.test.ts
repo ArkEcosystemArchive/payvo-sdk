@@ -7,9 +7,12 @@ const array = [
 
 describe("#keyBy", () => {
 	it("should work with a function", () => {
-		assert.is(keyBy(array, (o) => String.fromCharCode(o.code))).toEqual({
-			a: { dir: "left", code: 97 },
-			d: { dir: "right", code: 100 },
-		});
+		assert.is(
+			keyBy(array, (o) => String.fromCharCode(o.code)),
+			{
+				a: { dir: "left", code: 97 },
+				d: { dir: "right", code: 100 },
+			},
+		);
 	});
 });

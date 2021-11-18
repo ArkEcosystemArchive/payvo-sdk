@@ -1,9 +1,7 @@
-import { jest } from "@jest/globals";
-
 import { ConfigRepository } from "./coins/index.js";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers.js";
 
-afterEach(() => jest.restoreAllMocks());
+test.after.each(() => jest.restoreAllMocks());
 
 const configMock = {
 	get: () => [
@@ -23,7 +21,7 @@ const configMock = {
 } as unknown as ConfigRepository;
 
 test("filterHostsFromConfig", () => {
-	assert.is(filterHostsFromConfig(configMock, "explorer")).toEqual([
+	assert.is(filterHostsFromConfig(configMock, "explorer"), [
 		{
 			type: "explorer",
 			host: "https://explorer.ark.io",
@@ -32,14 +30,14 @@ test("filterHostsFromConfig", () => {
 });
 
 test("randomNetworkHostFromConfig", () => {
-	assert.is(randomNetworkHostFromConfig(configMock, "explorer")).toEqual({
+	assert.is(randomNetworkHostFromConfig(configMock, "explorer"), {
 		type: "explorer",
 		host: "https://explorer.ark.io",
 	});
 });
 
 test("randomNetworkHostFromConfig default", () => {
-	assert.is(randomNetworkHostFromConfig(configMock)).toEqual({
+	assert.is(randomNetworkHostFromConfig(configMock), {
 		type: "full",
 		host: "https://wallets.ark.io",
 	});

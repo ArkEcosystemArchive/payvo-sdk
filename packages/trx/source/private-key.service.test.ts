@@ -4,7 +4,7 @@ import { PrivateKeyService } from "./private-key.service.js";
 
 let subject: PrivateKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(PrivateKeyService);
 });
 

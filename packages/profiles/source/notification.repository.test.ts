@@ -73,7 +73,7 @@ beforeAll(() => {
     bootContainer();
 });
 
-beforeEach(
+test.before.each(
     () => (subject = new NotificationRepository(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }))),
 );
 
@@ -90,7 +90,7 @@ test("#first", () => {
     stubNotifications.forEach((n) => subject.push(n));
 
     assert.is(subject.keys()).toHaveLength(stubNotifications.length);
-    assert.is(subject.first().name).toEqual(stubNotification.name);
+    assert.is(subject.first().name, stubNotification.name);
 });
 
 test("#last", () => {
@@ -99,7 +99,7 @@ test("#last", () => {
     stubNotifications.forEach((n) => subject.push(n));
 
     assert.is(subject.keys()).toHaveLength(stubNotifications.length);
-    assert.is(subject.last().name).toEqual(stubNotifications[stubNotifications.length - 1].name);
+    assert.is(subject.last().name, stubNotifications[stubNotifications.length - 1].name);
 });
 
 test("#keys", () => {
@@ -108,7 +108,7 @@ test("#keys", () => {
     stubNotifications.forEach((n) => subject.push(n));
     const keys = Object.keys(subject.all());
 
-    assert.is(subject.keys()).toEqual(keys);
+    assert.is(subject.keys(), keys);
 });
 
 test("#values", () => {
@@ -117,7 +117,7 @@ test("#values", () => {
     stubNotifications.forEach((n) => subject.push(n));
     const values = Object.keys(subject.all()).map((id) => subject.get(id));
 
-    assert.is(subject.values()).toEqual(values);
+    assert.is(subject.values(), values);
 });
 
 test("#get", () => {
@@ -147,7 +147,7 @@ test("#fill", () => {
     const first = subject.first();
     subject.fill(Object.assign(first, { name: "updated name" }));
 
-    assert.is(subject.first().name).toEqual("updated name");
+    assert.is(subject.first().name, "updated name");
 });
 
 test("#has", () => {
@@ -186,7 +186,7 @@ test("#count", () => {
 
     stubNotifications.forEach((n) => subject.push(n));
 
-    assert.is(subject.count()).toEqual(stubNotifications.length);
+    assert.is(subject.count(), stubNotifications.length);
 });
 
 test("marks notifications as read and filters them", () => {
@@ -236,7 +236,7 @@ test("#findByTransactionId", () => {
 
 transactionNotifications.forEach((n) => subject.push(n));
 
-assert.is(subject.findByTransactionId("1")?.meta?.transactionId).toEqual(
+assert.is(subject.findByTransactionId("1")?.meta?.transactionId,
     transactionNotifications[0]?.meta.transactionId,
 );
 assert.is(subject.findByTransactionId("10")?.meta?.transactionId), "undefined");
@@ -260,7 +260,7 @@ subject.push({
     type: INotificationTypes.Release,
 });
 
-assert.is(subject.findByVersion("3.0.0")?.meta?.version).toEqual(releaseNotifications[0]?.meta.version);
+assert.is(subject.findByVersion("3.0.0")?.meta?.version, releaseNotifications[0]?.meta.version);
 assert.is(subject.findByVersion("3.0.1")?.meta?.version), "undefined");
 });
 
@@ -271,7 +271,7 @@ it("should have meta info", () => {
 
     const last = stubNotifications[stubNotifications.length - 1];
     assert.is(subject.last().meta), "object");
-assert.is(subject.last().meta).toEqual(last.meta);
+assert.is(subject.last().meta, last.meta);
 });
 
 it("should have a type", () => {
@@ -280,5 +280,5 @@ it("should have a type", () => {
     stubNotifications.forEach((n) => subject.push(n));
 
     const last = stubNotifications[stubNotifications.length - 1];
-    assert.is(subject.last().type).toEqual(last.type);
+    assert.is(subject.last().type, last.type);
 });

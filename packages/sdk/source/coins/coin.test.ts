@@ -13,7 +13,7 @@ import { Manifest } from "./manifest.js";
 
 let subject: Coin;
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.disableNetConnect();
 
     nock(/.+/)
@@ -34,7 +34,7 @@ beforeEach(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 test("#construct", async () => {
     assert.is(() => subject.address()).toThrow(/No matching bindings found for serviceIdentifier/);

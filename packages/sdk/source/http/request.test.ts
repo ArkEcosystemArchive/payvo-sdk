@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-import { jest } from "@jest/globals";
-
 import { HttpResponse } from "./contracts.js";
 import { AbstractRequest } from "./request.js";
 import { Response } from "./response.js";
@@ -25,7 +23,7 @@ class Stub extends AbstractRequest {
 	}
 }
 
-beforeEach(async () => {
+test.before.each(async () => {
 	spy = jest.fn();
 	subject = new Stub(spy);
 });

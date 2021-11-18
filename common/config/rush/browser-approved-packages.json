@@ -871,6 +871,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "sinon",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "stellar-hd-wallet",
       "allowedCategories": [ "libraries" ]
     },

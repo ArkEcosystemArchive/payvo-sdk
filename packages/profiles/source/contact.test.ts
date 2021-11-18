@@ -10,7 +10,7 @@ beforeAll(() => bootContainer());
 describe("contact", () => {
 	let subject: Contact;
 
-	beforeEach(() => {
+	test.before.each(() => {
 		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 		profile.coins().set("ARK", "ark.devnet");
 
@@ -78,6 +78,6 @@ describe("contact", () => {
 			},
 		]);
 
-		assert.is(subject.addresses().count()).toEqual(1);
+		assert.is(subject.addresses().count(), 1);
 	});
 });

@@ -3,7 +3,7 @@ import { ReadOnlyWallet } from "./read-only-wallet.js";
 
 let subject: ReadOnlyWallet;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = new ReadOnlyWallet({
 		address: identity.address,
 		publicKey: identity.publicKey,
@@ -17,15 +17,15 @@ beforeEach(async () => {
 });
 
 it("should have an address", () => {
-	assert.is(subject.address()).toEqual(identity.address);
+	assert.is(subject.address(), identity.address);
 });
 
 it("should have a publicKey", () => {
-	assert.is(subject.publicKey()).toEqual(identity.publicKey);
+	assert.is(subject.publicKey(), identity.publicKey);
 });
 
 it("should have an username", () => {
-	assert.is(subject.username()).toEqual("arkx");
+	assert.is(subject.username(), "arkx");
 });
 
 it("should have an avatar", () => {
@@ -37,11 +37,11 @@ it("should have an avatar", () => {
 });
 
 it("should have an explorer link", () => {
-	assert.is(subject.explorerLink()).toEqual("https://google.com");
+	assert.is(subject.explorerLink(), "https://google.com");
 });
 
 it("should have an address as governance identifier", () => {
-	assert.is(subject.governanceIdentifier()).toEqual(identity.address);
+	assert.is(subject.governanceIdentifier(), identity.address);
 });
 
 it("should have an publicKey as governance identifier", () => {
@@ -56,5 +56,5 @@ it("should have an publicKey as governance identifier", () => {
 		governanceIdentifier: "publicKey",
 	});
 
-	assert.is(subject.governanceIdentifier()).toEqual(identity.publicKey);
+	assert.is(subject.governanceIdentifier(), identity.publicKey);
 });

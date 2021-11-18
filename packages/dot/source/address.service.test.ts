@@ -9,7 +9,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     await cryptoWaitReady();
 
     subject = await createService(AddressService, undefined, async (container: IoC.Container) => {
@@ -21,7 +21,7 @@ describe("Address", () => {
     it("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "ss58", address: identity.address });
+        assert.is(result, { type: "ss58", address: identity.address });
     });
 
     it("should generate an output from a multiSignature", async () => {
@@ -30,7 +30,7 @@ describe("Address", () => {
             publicKeys: identity.multiSignature.publicKeys,
         });
 
-        assert.is(result).toEqual({ type: "ss58", address: identity.multiSignatureAddress });
+        assert.is(result, { type: "ss58", address: identity.multiSignatureAddress });
     });
 
     it("should validate an address", async () => {

@@ -17,7 +17,7 @@
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source"
+		"test": "uvu -r tsm source .test.js"
 	},
 	"dependencies": {
 		"@emurgo/cardano-serialization-lib-nodejs": "^8.0.0",

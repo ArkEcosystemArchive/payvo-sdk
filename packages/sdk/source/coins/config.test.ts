@@ -2,7 +2,7 @@ import { ConfigKey, ConfigRepository } from "./config.js";
 
 let subject: ConfigRepository;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = new ConfigRepository({
 		network: "ark.mainnet",
 	});

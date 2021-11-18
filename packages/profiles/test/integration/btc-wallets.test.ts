@@ -31,7 +31,7 @@ beforeAll(() => {
 	nock.disableNetConnect();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	profile = new Profile({ id: "uuid", name: "John Doe", avatar: "avatar", data: "" });
@@ -143,7 +143,10 @@ it("should import btc wallets and retrieve balance", async () => {
 	jest.spyOn(wallets[1].network(), "isLive").mockReturnValue(true);
 	jest.spyOn(wallets[2].network(), "isLive").mockReturnValue(true);
 
-	assert.is(wallets.map((wallet) => wallet.balance())).toEqual([0.03, 0.03, 0.03]);
+	assert.is(
+		wallets.map((wallet) => wallet.balance()),
+		[0.03, 0.03, 0.03],
+	);
 	assert.is(profile.balance(), 0.09);
 });
 

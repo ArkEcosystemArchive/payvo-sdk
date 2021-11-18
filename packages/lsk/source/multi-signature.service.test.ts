@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
@@ -145,7 +145,7 @@ describe("MultiSignatureService", () => {
     describe("#broadcast", () => {
         let transaction;
 
-        beforeEach(async () => {
+        test.before.each(async () => {
             transaction = await musig.addSignature(
                 (
                     await subject.transfer({

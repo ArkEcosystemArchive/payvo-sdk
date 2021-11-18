@@ -5,7 +5,7 @@ import { Signatories } from "@payvo/sdk";
 
 let subject: TransactionService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = createService(TransactionService);
 });
 

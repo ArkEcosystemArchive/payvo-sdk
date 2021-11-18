@@ -1,17 +1,19 @@
-import { jest } from "@jest/globals";
+import { test } from "uvu";
+import * as assert from "uvu/assert";
+import sinon from "sinon";
 
-import { DateTime } from "./datetime.js";
+import { DateTime } from "./datetime";
 
-let subject: DateTime;
+let subject;
 
-beforeEach(() => (subject = DateTime.make("2020-01-01")));
+test.before.each(() => (subject = DateTime.make("2020-01-01")));
 
 test("#make", () => {
-	const consoleSpy = jest.spyOn(console, "debug").mockReturnValue();
+	const consoleSpy = sinon.stub(console, "debug");
 
 	DateTime.make("2020-01-01 12:00:00", "invalid");
 
-	assert.is(consoleSpy).toHaveBeenCalledWith("Failed to load data for the [invalid] locale.");
+	assert.ok(consoleSpy.calledWith("Failed to load data for the [invalid] locale."));
 });
 
 test("#setLocale", () => {
@@ -50,219 +52,219 @@ test("#isAfter", () => {
 });
 
 test("#getMillisecond", () => {
-	assert.is(subject.getMillisecond()).toEqual(0);
+	assert.is(subject.getMillisecond(), 0);
 });
 
 test("#getSecond", () => {
-	assert.is(subject.getSecond()).toEqual(0);
+	assert.is(subject.getSecond(), 0);
 });
 
 test("#getMinute", () => {
-	assert.is(subject.getMinute()).toEqual(0);
+	assert.is(subject.getMinute(), 0);
 });
 
 test("#getHour", () => {
-	assert.is(subject.getHour()).toEqual(0);
+	assert.is(subject.getHour(), 0);
 });
 
 test("#getDayOfMonth", () => {
-	assert.is(subject.getDayOfMonth()).toEqual(1);
+	assert.is(subject.getDayOfMonth(), 1);
 });
 
 test("#getDay", () => {
-	assert.is(subject.getDay()).toEqual(1);
+	assert.is(subject.getDay(), 1);
 });
 
 test("#getWeek", () => {
-	assert.is(subject.getWeek()).toEqual(1);
+	assert.is(subject.getWeek(), 1);
 });
 
 test("#getMonth", () => {
-	assert.is(subject.getMonth()).toEqual(0);
+	assert.is(subject.getMonth(), 0);
 });
 
 test("#getQuarter", () => {
-	assert.is(subject.getQuarter()).toEqual(1);
+	assert.is(subject.getQuarter(), 1);
 });
 
 test("#getYear", () => {
-	assert.is(subject.getYear()).toEqual(2020);
+	assert.is(subject.getYear(), 2020);
 });
 
 test("#setMillisecond", () => {
-	assert.is(subject.setMillisecond(500).getMillisecond()).toEqual(500);
+	assert.is(subject.setMillisecond(500).getMillisecond(), 500);
 });
 
 test("#setSecond", () => {
-	assert.is(subject.setSecond(30).getSecond()).toEqual(30);
+	assert.is(subject.setSecond(30).getSecond(), 30);
 });
 
 test("#setMinute", () => {
-	assert.is(subject.setMinute(30).getMinute()).toEqual(30);
+	assert.is(subject.setMinute(30).getMinute(), 30);
 });
 
 test("#setHour", () => {
-	assert.is(subject.setHour(12).getHour()).toEqual(12);
+	assert.is(subject.setHour(12).getHour(), 12);
 });
 
 test("#setDayOfMonth", () => {
-	assert.is(subject.setDayOfMonth(15).getDayOfMonth()).toEqual(15);
+	assert.is(subject.setDayOfMonth(15).getDayOfMonth(), 15);
 });
 
 test("#setDay", () => {
-	assert.is(subject.setDay(123).getDay()).toEqual(123);
+	assert.is(subject.setDay(123).getDay(), 123);
 });
 
 test("#setWeek", () => {
-	assert.is(subject.setWeek(26).getWeek()).toEqual(26);
+	assert.is(subject.setWeek(26).getWeek(), 26);
 });
 
 test("#setMonth", () => {
-	assert.is(subject.setMonth(3).getMonth()).toEqual(3);
+	assert.is(subject.setMonth(3).getMonth(), 3);
 });
 
 test("#setQuarter", () => {
-	assert.is(subject.setQuarter(2).getQuarter()).toEqual(2);
+	assert.is(subject.setQuarter(2).getQuarter(), 2);
 });
 
 test("#setYear", () => {
-	assert.is(subject.setYear(123).getYear()).toEqual(123);
+	assert.is(subject.setYear(123).getYear(), 123);
 });
 
 test("#addMillisecond", () => {
-	assert.is(subject.addMillisecond()).not.toEqual(subject.toString());
+	assert.is.not(subject.addMillisecond().toISOString(), subject.toISOString());
 });
 
 test("#addMilliseconds", () => {
-	assert.is(subject.addMilliseconds(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addMilliseconds(5).toISOString(), subject.toISOString());
 });
 
 test("#addSecond", () => {
-	assert.is(subject.addSecond()).not.toEqual(subject.toString());
+	assert.is.not(subject.addSecond().toString(), subject.toString());
 });
 
 test("#addSeconds", () => {
-	assert.is(subject.addSeconds(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addSeconds(5).toString(), subject.toString());
 });
 
 test("#addMinute", () => {
-	assert.is(subject.addMinute()).not.toEqual(subject.toString());
+	assert.is.not(subject.addMinute().toString(), subject.toString());
 });
 
 test("#addMinutes", () => {
-	assert.is(subject.addMinutes(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addMinutes(5).toString(), subject.toString());
 });
 
 test("#addHour", () => {
-	assert.is(subject.addHour()).not.toEqual(subject.toString());
+	assert.is.not(subject.addHour().toString(), subject.toString());
 });
 
 test("#addHours", () => {
-	assert.is(subject.addHours(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addHours(5).toString(), subject.toString());
 });
 
 test("#addDay", () => {
-	assert.is(subject.addDay()).not.toEqual(subject.toString());
+	assert.is.not(subject.addDay().toString(), subject.toString());
 });
 
 test("#addDays", () => {
-	assert.is(subject.addDays(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addDays(5).toString(), subject.toString());
 });
 
 test("#addWeek", () => {
-	assert.is(subject.addWeek()).not.toEqual(subject.toString());
+	assert.is.not(subject.addWeek().toString(), subject.toString());
 });
 
 test("#addWeeks", () => {
-	assert.is(subject.addWeeks(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addWeeks(5).toString(), subject.toString());
 });
 
 test("#addMonth", () => {
-	assert.is(subject.addMonth()).not.toEqual(subject.toString());
+	assert.is.not(subject.addMonth().toString(), subject.toString());
 });
 
 test("#addMonths", () => {
-	assert.is(subject.addMonths(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addMonths(5).toString(), subject.toString());
 });
 
 test("#addYear", () => {
-	assert.is(subject.addYear()).not.toEqual(subject.toString());
+	assert.is.not(subject.addYear().toString(), subject.toString());
 });
 
 test("#addYears", () => {
-	assert.is(subject.addYears(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.addYears(5).toString(), subject.toString());
 });
 
 test("#subMillisecond", () => {
-	assert.is(subject.subMillisecond()).not.toEqual(subject.toString());
+	assert.is.not(subject.subMillisecond().toString(), subject.toString());
 });
 
 test("#subMilliseconds", () => {
-	assert.is(subject.subMilliseconds(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subMilliseconds(5).toString(), subject.toString());
 });
 
 test("#subSecond", () => {
-	assert.is(subject.subSecond()).not.toEqual(subject.toString());
+	assert.is.not(subject.subSecond().toString(), subject.toString());
 });
 
 test("#subSeconds", () => {
-	assert.is(subject.subSeconds(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subSeconds(5).toString(), subject.toString());
 });
 
 test("#subMinute", () => {
-	assert.is(subject.subMinute()).not.toEqual(subject.toString());
+	assert.is.not(subject.subMinute().toString(), subject.toString());
 });
 
 test("#subMinutes", () => {
-	assert.is(subject.subMinutes(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subMinutes(5).toString(), subject.toString());
 });
 
 test("#subHour", () => {
-	assert.is(subject.subHour()).not.toEqual(subject.toString());
+	assert.is.not(subject.subHour().toString(), subject.toString());
 });
 
 test("#subHours", () => {
-	assert.is(subject.subHours(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subHours(5).toString(), subject.toString());
 });
 
 test("#subDay", () => {
-	assert.is(subject.subDay()).not.toEqual(subject.toString());
+	assert.is.not(subject.subDay().toString(), subject.toString());
 });
 
 test("#subDays", () => {
-	assert.is(subject.subDays(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subDays(5).toString(), subject.toString());
 });
 
 test("#subWeek", () => {
-	assert.is(subject.subWeek()).not.toEqual(subject.toString());
+	assert.is.not(subject.subWeek().toString(), subject.toString());
 });
 
 test("#subWeeks", () => {
-	assert.is(subject.subWeeks(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subWeeks(5).toString(), subject.toString());
 });
 
 test("#subMonth", () => {
-	assert.is(subject.subMonth()).not.toEqual(subject.toString());
+	assert.is.not(subject.subMonth().toString(), subject.toString());
 });
 
 test("#subMonths", () => {
-	assert.is(subject.subMonths(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subMonths(5).toString(), subject.toString());
 });
 
 test("#subQuarter", () => {
-	assert.is(subject.subQuarter()).not.toEqual(subject.toString());
+	assert.is.not(subject.subQuarter().toString(), subject.toString());
 });
 
 test("#subQuarters", () => {
-	assert.is(subject.subQuarters(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subQuarters(5).toString(), subject.toString());
 });
 
 test("#subYear", () => {
-	assert.is(subject.subYear()).not.toEqual(subject.toString());
+	assert.is.not(subject.subYear().toString(), subject.toString());
 });
 
 test("#subYears", () => {
-	assert.is(subject.subYears(5)).not.toEqual(subject.toString());
+	assert.is.not(subject.subYears(5).toString(), subject.toString());
 });
 
 test("#diffInMilliseconds", () => {
@@ -310,7 +312,7 @@ test("#format", () => {
 });
 
 test("#toObject", () => {
-	assert.is(subject.toObject()).toEqual({
+	assert.equal(subject.toObject(), {
 		date: 1,
 		hours: 0,
 		milliseconds: 0,
@@ -342,7 +344,7 @@ test("#valueOf", () => {
 });
 
 test("#toDate", () => {
-	assert.is(subject.toDate()).toBeDate();
+	assert.instance(subject.toDate(), Date);
 });
 
 test("#startOf", () => {
@@ -377,3 +379,5 @@ test("#isValid", () => {
 
 	assert.is(invalidDate.isValid(), false);
 });
+
+test.run();

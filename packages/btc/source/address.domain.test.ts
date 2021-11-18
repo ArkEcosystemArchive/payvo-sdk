@@ -20,7 +20,7 @@ describe("multi signature", () => {
     it("should derive account key for legacy multisig", async () => {
         const accountKeys = rootToAccountKeys(rootAccountKeys, defaultLegacyMusigAccountKey);
 
-        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
+        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
             musig.legacyWallet.accountKeys,
         );
     });
@@ -28,7 +28,7 @@ describe("multi signature", () => {
     it("should derive account key for p2sh-segwit multisig", async () => {
         const accountKeys = rootToAccountKeys(rootAccountKeys, defaultP2SHSegwitMusigAccountKey);
 
-        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
+        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
             musig.p2shSegwitWallet.accountKeys,
         );
     });
@@ -36,7 +36,7 @@ describe("multi signature", () => {
     it("should derive account key for native segwit multisig", async () => {
         const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey))).toEqual(
+        assert.is(accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
             musig.nativeSegwitWallet.accountKeys,
         );
     });

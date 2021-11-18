@@ -28,7 +28,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
     nock.disableNetConnect();
@@ -53,11 +53,11 @@ describe("ClientService", () => {
             assert.is(result.id(), "264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
-            // assert.is(result.confirmations()).toEqual(BigNumber.make(159414));
+            // assert.is(result.confirmations(), BigNumber.make(159414));
             assert.is(result.sender(), "GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO");
             assert.is(result.recipient(), "GB2V4J7WTTKLIN5O3QPUAQCOLLIIULJM3FHHAQ7GEQ5EH53BXXQ47HU3");
-            assert.is(result.amount()).toEqual(BigNumber.make("100000000"));
-            assert.is(result.fee()).toEqual(BigNumber.make("10000000000"));
+            assert.is(result.amount(), BigNumber.make("100000000"));
+            assert.is(result.fee(), BigNumber.make("10000000000"));
             // @ts-ignore - Better types so that memo gets detected on TransactionDataType
             assert.is(result.memo()), "undefined");
     });
@@ -79,11 +79,11 @@ describe("#transactions", () => {
     assert.is(response.items()[0].id(), "7cea6abe90654578b42ee696e823187d89d91daa157a1077b542ee7c77413ce3");
     assert.is(response.items()[0].type(), "transfer");
     assert.is(response.items()[0].timestamp() instanceof DateTime);
-    // assert.is(response.items()[0].confirmations()).toEqual(BigNumber.make(159414));
+    // assert.is(response.items()[0].confirmations(), BigNumber.make(159414));
     assert.is(response.items()[0].sender(), "GAGLYFZJMN5HEULSTH5CIGPOPAVUYPG5YSWIYDJMAPIECYEBPM2TA3QR");
     assert.is(response.items()[0].recipient(), "GBYUUJHG6F4EPJGNLERINATVQLNDOFRUD7SGJZ26YZLG5PAYLG7XUSGF");
-    assert.is(response.items()[0].amount()).toEqual(BigNumber.make("100000000000000"));
-    // assert.is(response.items()[0].fee()).toEqual(BigNumber.make("10000000000"));
+    assert.is(response.items()[0].amount(), BigNumber.make("100000000000000"));
+    // assert.is(response.items()[0].fee(), BigNumber.make("10000000000"));
     // @ts-ignore - Better types so that memo gets detected on TransactionDataType
     assert.is(response.items()[0].memo()), "undefined");
     });
@@ -104,8 +104,8 @@ describe("#wallet", () => {
         assert.is(result instanceof WalletData);
         assert.is(result.address(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
         assert.is(result.publicKey(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
-        assert.is(result.balance().available).toEqual(BigNumber.make("100000000000000"));
-        assert.is(result.nonce()).toEqual(BigNumber.make("7275146318446606"));
+        assert.is(result.balance().available, BigNumber.make("100000000000000"));
+        assert.is(result.nonce(), BigNumber.make("7275146318446606"));
     });
 });
 
@@ -153,7 +153,7 @@ describe("#broadcast", () => {
             }),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["54600f7b16c2c061ff2d3c96fad6e719039eba94618346717d7dc912c40466e0"],
             rejected: [],
             errors: {},

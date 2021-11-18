@@ -25,7 +25,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
     nock.disableNetConnect();
@@ -47,11 +47,11 @@ describe("ClientService", () => {
         assert.is(result.items()[0].id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
         assert.is(result.items()[0].type(), "transfer");
         assert.is(result.items()[0].timestamp() instanceof DateTime);
-        assert.is(result.items()[0].confirmations()).toEqual(BigNumber.ZERO);
+        assert.is(result.items()[0].confirmations(), BigNumber.ZERO);
         assert.is(result.items()[0].sender(), "AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
         assert.is(result.items()[0].recipient(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-        assert.is(result.items()[0].amount()).toEqual(BigNumber.make(1));
-        assert.is(result.items()[0].fee()).toEqual(BigNumber.ZERO);
+        assert.is(result.items()[0].amount(), BigNumber.make(1));
+        assert.is(result.items()[0].fee(), BigNumber.ZERO);
         // @ts-ignore - Better types so that memo gets detected on TransactionDataType
         assert.is(result.items()[0].memo()), "undefined");
 });
@@ -70,7 +70,7 @@ describe("#wallet", () => {
 
         assert.is(result), "object");
     assert.is(result.address(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-    assert.is(result.balance().available).toEqual(BigNumber.make(9).times(1e8));
+    assert.is(result.balance().available, BigNumber.make(9).times(1e8));
 });
     });
 
@@ -86,7 +86,7 @@ describe.skip("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
             rejected: [],
             errors: {},
@@ -102,7 +102,7 @@ describe.skip("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
             errors: {

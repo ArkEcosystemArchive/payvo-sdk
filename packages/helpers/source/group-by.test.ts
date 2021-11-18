@@ -23,6 +23,6 @@ describe("#groupBy", () => {
 	});
 
 	it("should with a native function", () => {
-		assert.is(groupBy([6.1, 4.2, 6.3], Math.floor)).toEqual({ "4": [4.2], "6": [6.1, 6.3] });
+		assert.is(groupBy([6.1, 4.2, 6.3], Math.floor), { "4": [4.2], "6": [6.1, 6.3] });
 	});
 });

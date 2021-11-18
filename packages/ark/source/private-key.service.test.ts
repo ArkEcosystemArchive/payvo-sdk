@@ -4,7 +4,7 @@ import { PrivateKeyService } from "./private-key.service.js";
 
 let subject: PrivateKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(PrivateKeyService);
 });
 
@@ -12,13 +12,13 @@ describe("PrivateKey", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 	it("should fail to generate an output from an invalid mnemonic", async () => {
 		await assert.is(subject.fromMnemonic(undefined!)).rejects.toThrow();
@@ -27,7 +27,7 @@ describe("PrivateKey", () => {
 	it("should generate an output from a wif", async () => {
 		const result = await subject.fromWIF(identity.wif);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 
 	it("should fail to generate an output from an invalid wif", async () => {
@@ -41,7 +41,7 @@ describe("PrivateKey", () => {
 
 		const result = await subject.fromSecret("abc");
 
-		assert.is(result).toEqual({ privateKey: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" });
+		assert.is(result, { privateKey: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad" });
 	});
 
 	it("should fail to generate an output from an invalid secret", async () => {

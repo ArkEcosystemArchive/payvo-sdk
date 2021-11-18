@@ -16,19 +16,19 @@ describe("Address", () => {
     it("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a mnemonic given a custom locale", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a publicKey", async () => {
         const result = await subject.fromPublicKey(identity.publicKey);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a secret", async () => {
@@ -52,6 +52,6 @@ it("should return sender public key as an output from a multiSignature", async (
         senderPublicKey: identity.publicKey,
     });
 
-    assert.is(result).toEqual({ type: "lip17", address: identity.address });
+    assert.is(result, { type: "lip17", address: identity.address });
 });
 });

@@ -14,7 +14,7 @@ import { SignedTransactionData } from "./signed-transaction.dto.js";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { jest } from "@jest/globals";
+
 import { ledger } from "../test/fixtures/ledger.js";
 // import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 // import logger from "@ledgerhq/logs";
@@ -31,7 +31,7 @@ class TransportWrapper {
 	}
 }
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.disableNetConnect();
 	// logger.listen((log) => console.info(log.type + ": " + log.message));
 });

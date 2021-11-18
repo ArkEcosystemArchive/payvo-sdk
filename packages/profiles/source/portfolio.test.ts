@@ -15,7 +15,7 @@ let subject: IReadWriteWallet;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	nock(/.+/)
@@ -125,5 +125,5 @@ it("should ignore test network wallets", async () => {
 		),
 	]);
 
-	assert.is(profile.portfolio().breakdown()).toEqual([]);
+	assert.is(profile.portfolio().breakdown(), []);
 });

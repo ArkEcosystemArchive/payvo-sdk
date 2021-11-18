@@ -34,7 +34,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 	profile.coins().set("ARK", "ark.devnet");
 
@@ -64,9 +64,9 @@ describe("FeeService", () => {
 
 		const fees = subject.findByType("ARK", "ark.devnet", "transfer");
 
-		assert.is(fees.min.toHuman()).toEqual(0.00357);
-		assert.is(fees.avg.toHuman()).toEqual(0.1);
-		assert.is(fees.max.toHuman()).toEqual(0.1);
-		assert.is(fees.static.toHuman()).toEqual(0.1);
+		assert.is(fees.min.toHuman(), 0.00357);
+		assert.is(fees.avg.toHuman(), 0.1);
+		assert.is(fees.max.toHuman(), 0.1);
+		assert.is(fees.static.toHuman(), 0.1);
 	});
 });

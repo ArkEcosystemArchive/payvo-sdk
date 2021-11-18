@@ -20,7 +20,7 @@ beforeAll(() => {
     nock.disableNetConnect();
 });
 
-beforeEach(() => {
+test.before.each(() => {
     nock.cleanAll();
 
     nock(/.+/)
@@ -175,8 +175,8 @@ describe("ProfileRepository", () => {
         const john = subject.create("John");
         const jane = subject.create("Jane");
 
-        assert.is(subject.first()).toEqual(john);
-        assert.is(subject.last()).toEqual(jane);
+        assert.is(subject.first(), john);
+        assert.is(subject.last(), jane);
     });
 
     it("should fail to push a profile with a duplicate name", async () => {
@@ -202,7 +202,7 @@ describe("ProfileRepository", () => {
         await new ProfileImporter(restoredJohn).import();
         await restoredJohn.sync();
 
-        assert.is(new ProfileSerialiser(restoredJohn).toJSON()).toEqual(new ProfileSerialiser(john).toJSON());
+        assert.is(new ProfileSerialiser(restoredJohn).toJSON(), new ProfileSerialiser(john).toJSON());
     });
 
     it("should dump profiles with a password", async () => {
@@ -221,7 +221,7 @@ describe("ProfileRepository", () => {
         await new ProfileImporter(restoredJane).import("password");
         await restoredJane.sync();
 
-        assert.is(new ProfileSerialiser(restoredJane).toJSON()).toEqual(new ProfileSerialiser(jane).toJSON());
+        assert.is(new ProfileSerialiser(restoredJane).toJSON(), new ProfileSerialiser(jane).toJSON());
     });
 
     it("should export ok", async () => {

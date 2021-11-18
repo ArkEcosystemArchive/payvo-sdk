@@ -1,7 +1,7 @@
 import { Censor } from "./censor.js";
 
 let subject: Censor;
-beforeEach(() => (subject = new Censor()));
+test.before.each(() => (subject = new Censor()));
 
 test("#isBad", () => {
 	assert.is(subject.isBad("onion"), true);

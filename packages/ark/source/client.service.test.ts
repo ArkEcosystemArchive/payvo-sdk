@@ -23,7 +23,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("ClientService", () => {
     describe("#transaction", () => {
@@ -42,7 +42,7 @@ describe("ClientService", () => {
 
     describe("#transactions", () => {
         describe("should work with Core 2.0", () => {
-            beforeEach(async () => {
+            test.before.each(async () => {
                 subject = await createService(ClientService, "ark.mainnet", (container) => {
                     container.constant(IoC.BindingType.Container, container);
                     container.constant(IoC.BindingType.DataTransferObjects, {
@@ -94,7 +94,7 @@ describe("ClientService", () => {
 });
 
 describe("should work with Core 3.0", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject = await createService(ClientService, "ark.devnet", (container) => {
             container.constant(IoC.BindingType.Container, container);
             container.constant(IoC.BindingType.DataTransferObjects, {
@@ -259,7 +259,7 @@ describe("#delegates", () => {
 describe("#votes", () => {
     let fixture;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         fixture = requireModule(`../test/fixtures/client/wallet.json`);
     });
 
@@ -364,7 +364,7 @@ describe("#voters", () => {
 describe("#broadcast", () => {
     let fixture;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         fixture = requireModule(`../test/fixtures/client/broadcast.json`);
     });
 
@@ -374,7 +374,7 @@ describe("#broadcast", () => {
         const mock = { toBroadcast: () => "" } as SignedTransactionData;
         const result = await subject.broadcast([mock]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
             rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
             errors: {
@@ -395,7 +395,7 @@ describe("#broadcast", () => {
         const mock = { toBroadcast: () => "" } as SignedTransactionData;
         const result = await subject.broadcast([mock]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
             rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
             errors: {

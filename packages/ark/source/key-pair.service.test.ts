@@ -4,7 +4,7 @@ import { KeyPairService } from "./key-pair.service.js";
 
 let subject: KeyPairService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(KeyPairService);
 });
 
@@ -12,7 +12,7 @@ describe("Keys", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
@@ -21,7 +21,7 @@ describe("Keys", () => {
 	it("should generate an output from a mnemonic given a custom locale", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
@@ -34,7 +34,7 @@ describe("Keys", () => {
 	it("should generate an output from a wif", async () => {
 		const result = await subject.fromWIF(identity.wif);
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
@@ -51,7 +51,7 @@ describe("Keys", () => {
 
 		const result = await subject.fromSecret("abc");
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
 			publicKey: "0223542d61708e3fc48ba78fbe8fcc983ba94a520bc33f82b8e45e51dbc47af272",
 		});

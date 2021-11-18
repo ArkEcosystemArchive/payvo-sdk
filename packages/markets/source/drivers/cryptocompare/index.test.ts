@@ -9,7 +9,7 @@ const currency = "USD";
 
 let subject: CryptoCompare;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = new CryptoCompare(new Request());
 
     nock(BASE_URL_CRYPTOCOMPARE)

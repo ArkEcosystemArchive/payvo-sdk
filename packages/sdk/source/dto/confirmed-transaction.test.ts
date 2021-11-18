@@ -2,7 +2,7 @@
 
 import "reflect-metadata";
 
-import { jest } from "@jest/globals";
+
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -49,7 +49,7 @@ test("#recipient", () => {
 });
 
 test("#recipients", () => {
-    assert.is(new Transaction().configure({ key: "value" }).recipients()).toEqual([]);
+    assert.is(new Transaction().configure({ key: "value" }).recipients(), []);
 });
 
 test("#amount", () => {
@@ -69,7 +69,7 @@ assert.is(new Transaction().configure({ memo: "zyva.org" }).memo()), "undefined"
 });
 
 test("#asset", () => {
-    assert.is(new Transaction().configure({ key: "value" }).asset()).toEqual({});
+    assert.is(new Transaction().configure({ key: "value" }).asset(), {});
 });
 
 test("#isConfirmed", () => {

@@ -82,7 +82,7 @@ beforeAll(async () => {
         .persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
     profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
     profile.settings().set(ProfileSetting.Name, "John Doe");
@@ -95,13 +95,13 @@ beforeEach(async () => {
     testSpy = jest.spyOn(wallet.network(), "isTest").mockReturnValue(false);
 });
 
-afterEach(() => {
+test.after.each(() => {
     liveSpy.mockRestore();
     testSpy.mockRestore();
 });
 
 describe("Transaction", () => {
-    beforeEach(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
     it("should have an explorer link", () => {
         assert.is(subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
@@ -441,7 +441,7 @@ it.each(data)(`should delegate %p correctly`, (functionName) => {
 });
 
 describe("DelegateRegistrationData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -457,7 +457,7 @@ describe("DelegateRegistrationData", () => {
 });
 
 describe("DelegateResignationData", () => {
-    beforeEach(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
     test("#id", () => {
         assert.is(subject.id(), "transactionId");
@@ -465,7 +465,7 @@ describe("DelegateResignationData", () => {
 });
 
 describe("HtlcClaimData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -486,7 +486,7 @@ describe("HtlcClaimData", () => {
 });
 
 describe("HtlcLockData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -512,7 +512,7 @@ describe("HtlcLockData", () => {
 });
 
 describe("HtlcRefundData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -528,7 +528,7 @@ describe("HtlcRefundData", () => {
 });
 
 describe("IpfsData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -544,7 +544,7 @@ describe("IpfsData", () => {
 });
 
 describe("MultiPaymentData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -555,12 +555,12 @@ describe("MultiPaymentData", () => {
     });
 
     test("#payments", () => {
-        assert.is(subject.payments()).toEqual([{ recipientId: "recipientId", amount: 1000 }]);
+        assert.is(subject.payments(), [{ recipientId: "recipientId", amount: 1000 }]);
     });
 });
 
 describe("MultiSignatureData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -572,7 +572,7 @@ describe("MultiSignatureData", () => {
     });
 
     test("#publicKeys", () => {
-        assert.is(subject.publicKeys()).toEqual(["1", "2", "3"]);
+        assert.is(subject.publicKeys(), ["1", "2", "3"]);
     });
 
     test("#min", () => {
@@ -581,7 +581,7 @@ describe("MultiSignatureData", () => {
 });
 
 describe("SecondSignatureData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -597,7 +597,7 @@ describe("SecondSignatureData", () => {
 });
 
 describe("TransferData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -613,7 +613,7 @@ describe("TransferData", () => {
 });
 
 describe("VoteData", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -625,16 +625,16 @@ describe("VoteData", () => {
     });
 
     test("#votes", () => {
-        assert.is(subject.votes()).toEqual(["vote"]);
+        assert.is(subject.votes(), ["vote"]);
     });
 
     test("#unvotes", () => {
-        assert.is(subject.unvotes()).toEqual(["unvote"]);
+        assert.is(subject.unvotes(), ["unvote"]);
     });
 });
 
 describe("Type Specific", () => {
-    beforeEach(() => {
+    test.before.each(() => {
         subject = createSubject(
             wallet,
             {
@@ -645,6 +645,6 @@ describe("Type Specific", () => {
     });
 
     it("should return the asset", () => {
-        assert.is(subject.asset()).toEqual({ key: "value" });
+        assert.is(subject.asset(), { key: "value" });
     });
 });

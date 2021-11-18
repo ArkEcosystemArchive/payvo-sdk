@@ -30,7 +30,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
@@ -38,7 +38,7 @@ beforeEach(async () => {
 	subject = new TransactionAggregate(profile);
 });
 
-afterAll(() => nock.enableNetConnect());
+test.after(() => nock.enableNetConnect());
 
 describe("TransactionAggregate", () => {
 	describe.each(["all", "sent", "received"])("%s", (method: string) => {

@@ -31,7 +31,7 @@ beforeAll(() => {
         .persist();
 });
 
-beforeEach(() => {
+test.before.each(() => {
     container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
 
     profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");

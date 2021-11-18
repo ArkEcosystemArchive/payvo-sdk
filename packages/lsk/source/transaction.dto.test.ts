@@ -8,7 +8,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 let subject: ConfirmedTransactionData;
 
 describe("ConfirmedTransactionData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject = await createService(ConfirmedTransactionData).configure(Fixture.data[0]);
     });
 
@@ -69,7 +69,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#confirmations", () => {
-        assert.is(subject.confirmations()).toEqual(BigNumber.make(35754));
+        assert.is(subject.confirmations(), BigNumber.make(35754));
     });
 
     test("#sender", () => {
@@ -86,7 +86,7 @@ describe("ConfirmedTransactionData", () => {
 
     describe("#amount", () => {
         it("returns transaction amount", () => {
-            assert.is(subject.amount()).toEqual(BigNumber.make("1"));
+            assert.is(subject.amount(), BigNumber.make("1"));
         });
 
         it("returns sum of unlock objects amounts if type is unlockToken", async () => {
@@ -115,7 +115,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#fee", () => {
-        assert.is(subject.fee()).toEqual(BigNumber.make("10000000"));
+        assert.is(subject.fee(), BigNumber.make("10000000"));
     });
 
     test("#memo", () => {
@@ -131,11 +131,11 @@ describe("ConfirmedTransactionData", () => {
 });
 
 test("#raw", () => {
-    assert.is(subject.raw()).toEqual(Fixture.data[0]);
+    assert.is(subject.raw(), Fixture.data[0]);
 });
 
 test("#votes", () => {
-    assert.is(subject.votes()).toEqual(["lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"]);
+    assert.is(subject.votes(), ["lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"]);
 });
 
 test("#unvotes", async () => {
@@ -153,6 +153,6 @@ test("#unvotes", async () => {
                 },
             })
         ).unvotes(),
-    ).toEqual(["lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"]);
+    , ["lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"]);
 });
 });

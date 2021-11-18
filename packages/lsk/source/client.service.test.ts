@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 import { IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
@@ -404,7 +404,7 @@ describe("#unlockableBalances", () => {
 describe("#broadcast", () => {
     let transactionPayload;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         const transactionSigned = {
             moduleID: 2,
             assetID: 0,
@@ -430,7 +430,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["5961193224963457718"],
             rejected: [],
             errors: {},
@@ -444,7 +444,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: ["5961193224963457718"],
             errors: {
@@ -458,7 +458,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: ["5961193224963457718"],
             errors: {

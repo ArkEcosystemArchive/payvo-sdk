@@ -13,6 +13,6 @@ describe("#pluck", () => {
 				),
 			)
 			.toEqual(["barney", "fred"]);
-		assert.is(pluck([{ age: 36 }, { age: 40 }], "user")).toEqual([]);
+		assert.is(pluck([{ age: 36 }, { age: 40 }], "user"), []);
 	});
 });

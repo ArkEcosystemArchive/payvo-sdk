@@ -9,7 +9,7 @@ let profile: IProfile;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
 });
 

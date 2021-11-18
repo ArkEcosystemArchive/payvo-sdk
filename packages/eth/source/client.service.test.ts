@@ -24,7 +24,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
     nock.disableNetConnect();
@@ -45,7 +45,7 @@ describe("ClientService", () => {
             assert.is(result.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp()), "undefined");
-        assert.is(result.confirmations()).toEqual(BigNumber.ZERO);
+        assert.is(result.confirmations(), BigNumber.ZERO);
         assert.is(result.sender(), "0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
         assert.is(result.recipient(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
         assert.is(result.amount().toString(), "10000000000000000000");
@@ -86,7 +86,7 @@ describe("#wallet", () => {
         assert.is(result.address(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
         assert.is(result.publicKey()), "undefined");
     assert.is(result.balance()), "object");
-assert.is(result.nonce().toString()).toEqual("665");
+assert.is(result.nonce().toString(), "665");
 });
     });
 
@@ -100,7 +100,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
             rejected: [],
             errors: {},
@@ -116,7 +116,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
             errors: {

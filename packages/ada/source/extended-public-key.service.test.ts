@@ -3,7 +3,7 @@ import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
 
 let subject: ExtendedPublicKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(ExtendedPublicKeyService);
 });
 

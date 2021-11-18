@@ -4,7 +4,7 @@ import { KeyPairService } from "./key-pair.service.js";
 
 let subject: KeyPairService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(KeyPairService);
 });
 
@@ -12,7 +12,7 @@ describe("Keys", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
@@ -21,7 +21,7 @@ describe("Keys", () => {
 	it("should generate an output from a mnemonic given a custom locale", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({
+		assert.is(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

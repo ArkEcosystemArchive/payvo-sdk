@@ -5,7 +5,7 @@ import { ConfStorage as ConfigStorage } from "./conf.storage";
 let subject: ConfigStorage;
 let key: string;
 
-beforeEach(() => {
+test.before.each(() => {
     subject = new ConfigStorage();
     key = UUID.random();
 });

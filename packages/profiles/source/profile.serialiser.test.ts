@@ -30,7 +30,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(() => {
+test.before.each(() => {
 	profile = new Profile({ id: "uuid", name: "name", data: "" });
 	subject = new ProfileSerialiser(profile);
 
@@ -57,7 +57,7 @@ it("should turn into an object", () => {
 describe("should turn into an object with options", () => {
 	let profile: IProfile;
 
-	beforeEach(() => {
+	test.before.each(() => {
 		profile = new Profile({ id: "uuid", name: "name", data: "" });
 		profile.settings().set(ProfileSetting.Name, "John Doe");
 

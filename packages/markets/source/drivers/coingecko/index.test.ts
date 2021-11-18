@@ -10,7 +10,7 @@ const currency = "USD";
 
 let subject: CoinGecko;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = new CoinGecko(new Request());
 
     nock(BASE_URL_COINGECKO)

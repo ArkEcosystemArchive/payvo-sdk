@@ -5,7 +5,7 @@ import { MemoryStorage } from "./memory.storage";
 let subject: MemoryStorage;
 let key: string;
 
-beforeEach(() => {
+test.before.each(() => {
     subject = new MemoryStorage();
     key = UUID.random();
 });

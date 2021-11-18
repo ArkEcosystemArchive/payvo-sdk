@@ -2,7 +2,7 @@ import { WalletDataCollection } from "./wallets.js";
 
 let subject: WalletDataCollection;
 
-beforeEach(
+test.before.each(
 	() =>
 		(subject = new WalletDataCollection(
 			[

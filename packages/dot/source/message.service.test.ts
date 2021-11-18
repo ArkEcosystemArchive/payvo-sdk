@@ -9,7 +9,7 @@ import { MessageService } from "./message.service.js";
 
 let subject: MessageService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     await waitReady();
 
     subject = await createService(MessageService, undefined, async (container: IoC.Container) => {

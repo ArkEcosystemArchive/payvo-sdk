@@ -34,7 +34,7 @@ beforeAll(() => {
     bootContainer();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.cleanAll();
 
     nock(/.+/)
@@ -107,7 +107,7 @@ beforeEach(async () => {
     });
 });
 
-afterEach(() => jest.restoreAllMocks());
+test.after.each(() => jest.restoreAllMocks());
 
 it("should have a coin", () => {
     assert.is(subject.coin() instanceof Coins.Coin);
@@ -118,19 +118,19 @@ it("should have a network", () => {
 });
 
 it("should have an address", () => {
-    assert.is(subject.address()).toEqual(identity.address);
+    assert.is(subject.address(), identity.address);
 });
 
 it("should have a publicKey", () => {
-    assert.is(subject.publicKey()).toEqual(identity.publicKey);
+    assert.is(subject.publicKey(), identity.publicKey);
 });
 
 it("should have an import method", () => {
-    assert.is(subject.importMethod()).toEqual(WalletImportMethod.BIP39.MNEMONIC);
+    assert.is(subject.importMethod(), WalletImportMethod.BIP39.MNEMONIC);
 });
 
 it("should have a derivation method", () => {
-    assert.is(subject.derivationMethod()).toEqual("bip39");
+    assert.is(subject.derivationMethod(), "bip39");
 });
 
 it("should have a balance", () => {
@@ -186,7 +186,7 @@ it("should not have a converted balance if it is a test wallet", async () => {
 });
 
 it("should have a nonce", () => {
-    assert.is(subject.nonce()).toEqual(BigNumber.make("111932"));
+    assert.is(subject.nonce(), BigNumber.make("111932"));
 
     subject.data().set(WalletData.Sequence, undefined);
 
@@ -450,7 +450,7 @@ assert.is(actual.data[WalletData.Network], "ark.devnet");
 assert.is(actual.data[WalletData.PublicKey],
     "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 );
-assert.is(actual.data).toEqual({
+assert.is(actual.data, {
     ADDRESS: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
     BALANCE: {
         available: "55827093444556",

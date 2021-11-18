@@ -21,7 +21,7 @@ beforeAll(() => {
 let wallet: IReadWriteWallet;
 let profile: Profile;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))

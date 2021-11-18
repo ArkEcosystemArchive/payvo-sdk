@@ -1,5 +1,4 @@
 import { Request } from "@payvo/sdk-http-fetch";
-import { jest } from "@jest/globals";
 
 import { PriceTracker } from "../test/stubs/tracker.js";
 import { MarketService } from "./index.js";
@@ -20,7 +19,7 @@ describe("MarketService", () => {
 	const currency = "USD";
 
 	describe.each(["cryptocompare", "coingecko", "coincap"])("%s", (adapter) => {
-		beforeEach(() => (subject = MarketService.make(adapter, new Request())));
+		test.before.each(() => (subject = MarketService.make(adapter, new Request())));
 
 		it("should call #verifyToken on the adapter instance", async () => {
 			const spy = createSpyAdapter("verifyToken");

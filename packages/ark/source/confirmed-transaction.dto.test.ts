@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -11,7 +11,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(ConfirmedTransactionData);
     subject.configure(Fixture.data);
 });
@@ -32,7 +32,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#confirmations", () => {
-        assert.is(subject.confirmations()).toEqual(BigNumber.make(4636121));
+        assert.is(subject.confirmations(), BigNumber.make(4636121));
     });
 
     test("#sender", () => {
@@ -44,7 +44,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#recipients", async () => {
-        assert.is(subject.recipients()).toEqual([]);
+        assert.is(subject.recipients(), []);
 
         subject = await createService(ConfirmedTransactionData);
         subject.configure(MultipaymentFixtures.data[0]);
@@ -52,27 +52,27 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#amount", async () => {
-        assert.is(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+        assert.is(subject.amount(), BigNumber.make("12500000000000000"));
 
         subject = await createService(ConfirmedTransactionData);
         subject.configure(MultipaymentFixtures.data[0]);
-        assert.is(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+        assert.is(subject.amount(), BigNumber.make("12500000000000000"));
     });
 
     test("#fee", () => {
-        assert.is(subject.fee()).toEqual(BigNumber.ZERO);
+        assert.is(subject.fee(), BigNumber.ZERO);
     });
 
     test("#asset", () => {
-        assert.is(subject.asset()).toEqual({});
+        assert.is(subject.asset(), {});
     });
 
     test("#inputs", () => {
-        assert.is(subject.inputs()).toEqual([]);
+        assert.is(subject.inputs(), []);
     });
 
     test("#outputs", () => {
-        assert.is(subject.outputs()).toEqual([]);
+        assert.is(subject.outputs(), []);
     });
 
     test("#isConfirmed", () => {
@@ -199,7 +199,7 @@ describe("ConfirmedTransactionData", () => {
 });
 
 test("#raw", () => {
-    assert.is(subject.raw()).toEqual(Fixture.data);
+    assert.is(subject.raw(), Fixture.data);
 });
 
 test("#type", () => {
@@ -207,7 +207,7 @@ test("#type", () => {
 });
 
 describe("DelegateRegistrationData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
     });
 
@@ -221,7 +221,7 @@ describe("DelegateRegistrationData", () => {
 });
 
 describe("DelegateResignationData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
         subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
     });
@@ -232,7 +232,7 @@ describe("DelegateResignationData", () => {
 });
 
 describe("HtlcClaimData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
     });
 
@@ -250,7 +250,7 @@ describe("HtlcClaimData", () => {
 });
 
 describe("HtlcLockData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({
             type: 8,
             asset: {
@@ -285,7 +285,7 @@ describe("HtlcLockData", () => {
 });
 
 describe("HtlcRefundData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
     });
 
@@ -299,7 +299,7 @@ describe("HtlcRefundData", () => {
 });
 
 describe("IpfsData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ type: 5, asset: { ipfs: "123456789" } });
     });
 
@@ -313,7 +313,7 @@ describe("IpfsData", () => {
 });
 
 describe("MultiPaymentData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({
             type: 6,
             asset: {
@@ -340,7 +340,7 @@ test("#type", () => {
 });
 
 describe("MultiSignatureData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({
             type: 4,
             asset: {
@@ -357,7 +357,7 @@ describe("MultiSignatureData", () => {
     });
 
     test("#min", () => {
-        assert.is(subject.min()).toEqual(1);
+        assert.is(subject.min(), 1);
     });
 
     test("#type", () => {
@@ -366,12 +366,12 @@ describe("MultiSignatureData", () => {
 });
 
 describe("SecondSignatureData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
     });
 
     test("#publicKeys", () => {
-        assert.is(subject.secondPublicKey()).toEqual("1");
+        assert.is(subject.secondPublicKey(), "1");
     });
 
     test("#type", () => {
@@ -380,12 +380,12 @@ describe("SecondSignatureData", () => {
 });
 
 describe("TransferData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ vendorField: "X" });
     });
 
     test("#memo", () => {
-        assert.is(subject.memo()).toEqual("X");
+        assert.is(subject.memo(), "X");
     });
 
     test("#type", () => {
@@ -394,18 +394,18 @@ describe("TransferData", () => {
 });
 
 describe("VoteData", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
     });
 
     test("#votes", () => {
         assert.is(subject.votes()).toBeArrayOfSize(1);
-        assert.is(subject.votes()[0]).toEqual("A");
+        assert.is(subject.votes()[0], "A");
     });
 
     test("#unvotes", () => {
         assert.is(subject.unvotes()).toBeArrayOfSize(1);
-        assert.is(subject.unvotes()[0]).toEqual("B");
+        assert.is(subject.unvotes()[0], "B");
     });
 
     test.only("#type", () => {

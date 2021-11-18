@@ -34,7 +34,7 @@ beforeAll(() => {
     nock.disableNetConnect();
 });
 
-beforeEach(() => {
+test.before.each(() => {
     nock("https://ark-test.payvo.com:443")
         .get("/api/blockchain")
         .reply(200, require("../test/fixtures/client/blockchain.json"))
@@ -101,12 +101,12 @@ beforeEach(() => {
     profile.settings().set(ProfileSetting.Name, "John Doe");
 });
 
-afterEach(() => {
+test.after.each(() => {
     nock.cleanAll();
 });
 
 describe("ARK", () => {
-    beforeEach(async () => {
+    test.before.each(async () => {
         wallet = await profile.walletFactory().fromMnemonicWithBIP39({
             coin: "ARK",
             network: "ark.devnet",

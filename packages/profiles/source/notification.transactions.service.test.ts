@@ -40,7 +40,7 @@ describe("ProfileTransactionNotificationService", () => {
             .persist();
     });
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
         await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 

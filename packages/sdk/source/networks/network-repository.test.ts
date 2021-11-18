@@ -3,7 +3,7 @@ import { NetworkRepository } from "./network-repository.js";
 
 let subject: NetworkRepository;
 
-beforeEach(() => (subject = new NetworkRepository(manifest.networks)));
+test.before.each(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
     assert.is(subject.all()).toMatchInlineSnapshot(`

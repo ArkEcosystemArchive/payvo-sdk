@@ -42,11 +42,11 @@ beforeAll(() => {
     bootContainer();
 });
 
-beforeEach(() => {
+test.before.each(() => {
     subject = new PluginRegistry();
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("PluginRegistry", () => {
     it("should list all plugins", async () => {

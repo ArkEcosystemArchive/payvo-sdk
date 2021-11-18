@@ -3,7 +3,7 @@ import Joi from "joi";
 import { Validator } from "./validator.js";
 
 let subject: Validator;
-beforeEach(() => (subject = new Validator()));
+test.before.each(() => (subject = new Validator()));
 
 test("#validate", () => {
     const actual = subject.validate(
@@ -17,7 +17,7 @@ test("#validate", () => {
         }),
     );
 
-    assert.is(actual).toEqual({ age: 24, name: "jimmy" });
+    assert.is(actual, { age: 24, name: "jimmy" });
 });
 
 test("#passes", () => {

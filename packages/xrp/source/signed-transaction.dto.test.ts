@@ -6,7 +6,7 @@ import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 let subject: SignedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(

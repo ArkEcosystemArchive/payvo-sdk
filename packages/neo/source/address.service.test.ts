@@ -4,7 +4,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(AddressService);
 });
 

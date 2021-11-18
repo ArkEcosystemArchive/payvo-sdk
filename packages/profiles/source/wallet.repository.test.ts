@@ -51,7 +51,7 @@ let factory: WalletFactory;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.cleanAll();
 
     nock("https://ark-test.payvo.com:443", { encodedQueryParams: true })
@@ -181,11 +181,11 @@ test("#update", async () => {
 
     subject.update(wallet.id(), { alias: "My New Wallet" });
 
-    assert.is(subject.findById(wallet.id()).alias()).toEqual("My New Wallet");
+    assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
 
     subject.update(wallet.id(), {});
 
-    assert.is(subject.findById(wallet.id()).alias()).toEqual("My New Wallet");
+    assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
 
     const newWallet = await generate("ARK", "ark.devnet");
 
@@ -279,7 +279,7 @@ describe("#sortBy", () => {
     let walletBTC: IReadWriteWallet;
     let walletLSK: IReadWriteWallet;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject.flush();
 
         walletARK = await importByMnemonic(
@@ -355,7 +355,7 @@ describe("#sortBy", () => {
         let profile: IProfile;
         let wallet: IReadWriteWallet;
 
-        beforeEach(async () => {
+        test.before.each(async () => {
             profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
             profile.settings().set(ProfileSetting.Name, "John Doe");
 

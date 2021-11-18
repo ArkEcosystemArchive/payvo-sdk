@@ -17,8 +17,8 @@ describe("#get", () => {
 it("should work with nested objects", () => {
     const object = { a: { b: { c: 3 } } };
 
-    assert.is(get(object, "a.b.c")).toEqual(3);
-    assert.is(get(object, "a.b.c.d", "default")).toEqual("default");
+    assert.is(get(object, "a.b.c"), 3);
+    assert.is(get(object, "a.b.c.d", "default"), "default");
 });
 
 it("should exit early if it encounters an undefined value", () => {

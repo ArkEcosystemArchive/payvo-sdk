@@ -37,7 +37,7 @@ describe("SignedTransactionData", () => {
     });
 
     test("#amount", () => {
-        assert.is(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+        assert.is(subject.amount(), BigNumber.make("12500000000000000"));
     });
 
     test("#amount for MultiPayment", () => {
@@ -66,11 +66,11 @@ describe("SignedTransactionData", () => {
             "",
         );
 
-        assert.is(subject.amount()).toEqual(BigNumber.make("25000000000000000"));
+        assert.is(subject.amount(), BigNumber.make("25000000000000000"));
     });
 
     test("#fee", () => {
-        assert.is(subject.fee()).toEqual(BigNumber.ZERO);
+        assert.is(subject.fee(), BigNumber.ZERO);
     });
 
     test("#timestamp", () => {

@@ -1,7 +1,7 @@
 import { hasSomeProperty } from "./has-some-property.js";
 
 let object;
-beforeEach(() => (object = { property: undefined }));
+test.before.each(() => (object = { property: undefined }));
 
 describe("#hasSomeProperty", () => {
 	it("should return true if the object has a given property", () => {

@@ -23,7 +23,7 @@ describe("Request", () => {
 
 		const response = await subject.get("http://httpbin.org/get", { key: "value" });
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should get without params", async () => {
@@ -37,7 +37,7 @@ describe("Request", () => {
 
 		const response = await subject.get("http://httpbin.org/get");
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should post with body", async () => {
@@ -57,7 +57,7 @@ describe("Request", () => {
 
 		const response = await subject.post("http://httpbin.org/post", { key: "value" });
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should post with headers", async () => {
@@ -81,7 +81,7 @@ describe("Request", () => {
 			.withHeaders({ Authorization: "Bearer TOKEN" })
 			.post("http://httpbin.org/post", { key: "value" });
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should post with form_params", async () => {
@@ -101,7 +101,7 @@ describe("Request", () => {
 
 		const response = await subject.asForm().post("http://httpbin.org/post", { key: "value" });
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should post with octet", async () => {
@@ -123,7 +123,7 @@ describe("Request", () => {
 			.bodyFormat("octet")
 			.post("http://httpbin.org/post", Buffer.from(JSON.stringify({ key: "value" })));
 
-		assert.is(response.json()).toEqual(responseBody);
+		assert.is(response.json(), responseBody);
 	});
 
 	it("should handle 404s", async () => {

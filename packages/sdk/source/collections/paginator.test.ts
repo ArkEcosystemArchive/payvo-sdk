@@ -2,7 +2,7 @@ import { Paginator } from "./paginator.js";
 
 let subject: Stub;
 
-beforeEach(
+test.before.each(
 	() =>
 		(subject = new Stub(
 			[

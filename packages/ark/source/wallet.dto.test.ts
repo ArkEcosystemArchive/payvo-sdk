@@ -77,7 +77,7 @@ describe("WalletData", () => {
     };
 
     describe.each(["mainnet", "devnet"])("%s", (network) => {
-        beforeEach(async () => {
+        test.before.each(async () => {
             subject = (await createService(WalletData)).fill(WalletDataFixture[network]);
         });
 
@@ -94,11 +94,11 @@ describe("WalletData", () => {
         });
 
         test("#balance", () => {
-            assert.is(subject.balance().available).toEqual(BigNumber.make("55827093444556"));
+            assert.is(subject.balance().available, BigNumber.make("55827093444556"));
         });
 
         test("#nonce", () => {
-            assert.is(subject.nonce()).toEqual(BigNumber.make("111932"));
+            assert.is(subject.nonce(), BigNumber.make("111932"));
         });
 
         test("#secondPublicKey", () => {
@@ -114,7 +114,7 @@ describe("WalletData", () => {
 });
 
 test("#votes", () => {
-    assert.is(subject.votes()).toEqual(network === "devnet" ? BigNumber.make(0) : undefined);
+    assert.is(subject.votes(), network === "devnet" ? BigNumber.make(0) : undefined);
 });
 
 test("#isDelegate", async () => {
@@ -129,7 +129,7 @@ test("#isResignedDelegate", () => {
 });
 
 test("#isMultiSignature", () => {
-    assert.is(subject.isMultiSignature()).toEqual(network === "devnet");
+    assert.is(subject.isMultiSignature(), network === "devnet");
 });
 
 test("#isSecondSignature", () => {
@@ -146,6 +146,6 @@ test("#multiSignature", async () => {
     const mainnetSubject = (await createService(WalletData)).fill(WalletDataFixture.mainnet);
 
     assert.is(() => mainnetSubject.multiSignature()).toThrow(/does not have/);
-    assert.is(devnetSubject.multiSignature()).toEqual(WalletDataFixture.devnet.attributes.multiSignature);
+    assert.is(devnetSubject.multiSignature(), WalletDataFixture.devnet.attributes.multiSignature);
 });
 });

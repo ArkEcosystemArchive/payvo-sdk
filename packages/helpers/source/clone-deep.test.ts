@@ -4,7 +4,7 @@ describe("#cloneDeep", () => {
 	it("should work with objects", () => {
 		const object = { a: 1 };
 
-		assert.is(cloneDeep(object)).toEqual(object);
+		assert.is(cloneDeep(object), object);
 	});
 
 	it("should work with class instances", () => {
@@ -18,13 +18,13 @@ describe("#cloneDeep", () => {
 
 		const original = new Wallet("address");
 
-		assert.is(original).toEqual(original);
+		assert.is(original, original);
 		assert.is(original.isDelegate(), true);
 		assert.is(original.address, "address");
 
 		const clone = cloneDeep(original);
 
-		assert.is(clone).toEqual(original);
+		assert.is(clone, original);
 		assert.is(clone.isDelegate(), true);
 		assert.is(clone.address, "address");
 	});

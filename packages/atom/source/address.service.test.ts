@@ -7,7 +7,7 @@ import { KeyPairService } from "./key-pair.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(AddressService, undefined, (container: IoC.Container) => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 	});

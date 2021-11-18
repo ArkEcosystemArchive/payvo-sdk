@@ -4,7 +4,7 @@ import { DataRepository } from "./data.repository";
 
 let subject: DataRepository;
 
-beforeEach(() => (subject = new DataRepository()));
+test.before.each(() => (subject = new DataRepository()));
 
 test("#all", () => {
     subject.set("key1", "value1");
@@ -99,15 +99,15 @@ assert.is(subject.missing("key"), true);
 test("#forgetIndex", () => {
     subject.set("key", [1, 2, 3]);
 
-    assert.is(subject.get("key")).toEqual([1, 2, 3]);
+    assert.is(subject.get("key"), [1, 2, 3]);
 
     subject.forgetIndex("key", 1);
 
-    assert.is(subject.get("key")).toEqual([1, 3]);
+    assert.is(subject.get("key"), [1, 3]);
 
     subject.forgetIndex("key", 10);
 
-    assert.is(subject.get("key")).toEqual([1, 3]);
+    assert.is(subject.get("key"), [1, 3]);
 
     subject.forgetIndex("xkey", 10);
 

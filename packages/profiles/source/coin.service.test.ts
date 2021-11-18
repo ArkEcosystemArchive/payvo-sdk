@@ -35,7 +35,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 
 	subject = new CoinService(profile.data());
@@ -45,7 +45,7 @@ describe("CoinService", () => {
 	it("#push", () => {
 		subject.set("ARK", "ark.devnet");
 		const coin = subject.get("ARK", "ark.devnet");
-		assert.is(coin.network().id()).toEqual("ark.devnet");
+		assert.is(coin.network().id(), "ark.devnet");
 	});
 
 	it("#has", async () => {
@@ -58,7 +58,7 @@ describe("CoinService", () => {
 	it("#get", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		assert.is(subject.get("ARK", "ark.devnet").network().id()).toEqual("ark.devnet");
+		assert.is(subject.get("ARK", "ark.devnet").network().id(), "ark.devnet");
 		assert.is(() => subject.get("ARK", "unknown")).toThrow(/does not exist/);
 	});
 
@@ -66,7 +66,7 @@ describe("CoinService", () => {
 		subject.set("ARK", "ark.devnet");
 
 		const values = subject.values();
-		assert.is(values).toEqual([{ ark: { devnet: expect.anything() } }]);
+		assert.is(values, [{ ark: { devnet: expect.anything() } }]);
 		//@ts-ignore
 		assert.is(values[0].ark.devnet instanceof Coins.Coin);
 	});
@@ -74,20 +74,20 @@ describe("CoinService", () => {
 	it("#all", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		assert.is(Object.keys(subject.all())).toEqual(["ARK"]);
+		assert.is(Object.keys(subject.all()), ["ARK"]);
 	});
 
 	it("#entries", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		assert.is(subject.entries()).toEqual([["ARK", ["ark.devnet"]]]);
+		assert.is(subject.entries(), [["ARK", ["ark.devnet"]]]);
 
 		const mockUndefinedNetwork = jest
 			.spyOn(subject, "all")
 			// @ts-ignore
 			.mockReturnValue({ ARK: { ark: undefined } });
 
-		assert.is(subject.entries()).toEqual([["ARK", ["ark"]]]);
+		assert.is(subject.entries(), [["ARK", ["ark"]]]);
 
 		mockUndefinedNetwork.mockRestore();
 	});

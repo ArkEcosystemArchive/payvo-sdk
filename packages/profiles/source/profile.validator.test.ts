@@ -36,7 +36,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(() => {
+test.before.each(() => {
 	container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
 
 	profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");
@@ -101,7 +101,7 @@ describe("#validate", () => {
 
 		validator = new ProfileValidator();
 
-		assert.is(validator.validate(validProfileData).settings).toEqual(validProfileData.settings);
+		assert.is(validator.validate(validProfileData).settings, validProfileData.settings);
 	});
 
 	it("should fail to validate", async () => {

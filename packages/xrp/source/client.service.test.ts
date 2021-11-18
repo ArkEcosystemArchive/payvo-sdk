@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -26,7 +26,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("ClientService", () => {
     describe("#transaction", () => {
@@ -41,11 +41,11 @@ describe("ClientService", () => {
             assert.is(result.id(), "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
-            assert.is(result.confirmations()).toEqual(BigNumber.ZERO);
+            assert.is(result.confirmations(), BigNumber.ZERO);
             assert.is(result.sender(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
             assert.is(result.recipient(), "r3PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH");
-            assert.is(result.amount()).toEqual(BigNumber.make(100000));
-            assert.is(result.fee()).toEqual(BigNumber.make(1000));
+            assert.is(result.amount(), BigNumber.make(100000));
+            assert.is(result.fee(), BigNumber.make(1000));
             // @ts-ignore - Better types so that memo gets detected on TransactionDataType
             assert.is(result.memo()), "undefined");
     });
@@ -65,11 +65,11 @@ describe("#transactions", () => {
     assert.is(result.items()[0].id(), "08EF5BDA2825D7A28099219621CDBECCDECB828FEA202DEB6C7ACD5222D36C2C");
     assert.is(result.items()[0].type(), "transfer");
     assert.is(result.items()[0].timestamp() instanceof DateTime);
-    assert.is(result.items()[0].confirmations()).toEqual(BigNumber.ZERO);
+    assert.is(result.items()[0].confirmations(), BigNumber.ZERO);
     assert.is(result.items()[0].sender(), "rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w");
     assert.is(result.items()[0].recipient(), "raLPjTYeGezfdb6crXZzcC8RkLBEwbBHJ5");
-    assert.is(result.items()[0].amount()).toEqual(BigNumber.make(100000));
-    assert.is(result.items()[0].fee()).toEqual(BigNumber.make(1000));
+    assert.is(result.items()[0].amount(), BigNumber.make(100000));
+    assert.is(result.items()[0].fee(), BigNumber.make(1000));
 });
 });
 
@@ -83,9 +83,9 @@ describe("#wallet", () => {
         });
 
         assert.is(result instanceof WalletData);
-        assert.is(result.address()).toEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
+        assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
         assert.is(result.publicKey()), "undefined");
-    assert.is(result.balance().available).toEqual(BigNumber.make("92291324300"));
+    assert.is(result.balance().available, BigNumber.make("92291324300"));
 });
 });
 
@@ -101,7 +101,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["2B6928A583A9D14D359E471EB8D8F961CBC1A054EF86845A39790A7912147CD2"],
             rejected: [],
             errors: {},
@@ -113,7 +113,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: [transactionPayload.id()],
             errors: {

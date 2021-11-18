@@ -6,7 +6,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 let subject: SignedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(
@@ -25,22 +25,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		assert.is(subject.sender()).toEqual("0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4");
+		assert.is(subject.sender(), "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4");
 	});
 
 	test("#recipient", () => {
-		assert.is(subject.recipient()).toEqual("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
+		assert.is(subject.recipient(), "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
 	test("#amount", () => {
-		assert.is(subject.amount().toHuman()).toEqual(125);
+		assert.is(subject.amount().toHuman(), 125);
 	});
 
 	test("#fee", () => {
-		assert.is(subject.fee()).toEqual(BigNumber.ZERO);
+		assert.is(subject.fee(), BigNumber.ZERO);
 	});
 
 	test("#timestamp", () => {
-		assert.is(subject.timestamp()).toEqual(DateTime.make(0));
+		assert.is(subject.timestamp(), DateTime.make(0));
 	});
 });

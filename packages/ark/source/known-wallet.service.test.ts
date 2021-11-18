@@ -8,11 +8,11 @@ let subject: KnownWalletService;
 
 beforeAll(() => nock.disableNetConnect());
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(KnownWalletService);
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("KnownWalletService", () => {
 	it("should return a list of known wallets if the request succeeds", async () => {
