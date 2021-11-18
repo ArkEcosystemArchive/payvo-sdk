@@ -1,6 +1,6 @@
 import { Collections, IoC, Services } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";

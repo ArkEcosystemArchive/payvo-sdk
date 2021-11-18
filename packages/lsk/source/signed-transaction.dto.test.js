@@ -1,7 +1,7 @@
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;

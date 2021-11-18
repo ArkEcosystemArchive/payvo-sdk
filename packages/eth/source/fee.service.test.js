@@ -1,7 +1,7 @@
 import { Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
 let subject: FeeService;
@@ -16,7 +16,7 @@ test.before(() => nock.disableNetConnect());
 
 describe("FeeService", () => {
 	test("should fetch all available fees", async () => {
-		nock("https://ethgas.watch").get("/api/gas").reply(200, requireModule(`../test/fixtures/client/fees.json`));
+		nock("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
 
 		const result = await subject.all();
 

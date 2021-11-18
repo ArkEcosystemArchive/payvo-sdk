@@ -1,4 +1,4 @@
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AssetSerializer } from "./asset.serializer";
 
 describe("AssetSerializer #toMachine", () => {

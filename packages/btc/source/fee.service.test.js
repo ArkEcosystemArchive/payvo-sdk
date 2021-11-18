@@ -1,6 +1,6 @@
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
 const matchSnapshot = (transaction): void =>

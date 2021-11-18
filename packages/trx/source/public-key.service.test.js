@@ -1,5 +1,5 @@
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
 let subject: PublicKeyService;

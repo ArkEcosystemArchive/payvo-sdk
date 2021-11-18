@@ -1,7 +1,7 @@
 import { IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -34,7 +34,7 @@ describe("ClientService", () => {
         test("should succeed", async () => {
             nock("https://api.testnet.eos.io")
                 .post("/v1/chain/get_account")
-                .reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+                .reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
             const result = await subject.wallet({
                 type: "address",

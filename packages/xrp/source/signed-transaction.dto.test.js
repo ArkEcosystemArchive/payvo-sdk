@@ -1,7 +1,7 @@
 import { DateTime } from "@payvo/sdk-intl";
 import { Exceptions } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject: SignedTransactionData;

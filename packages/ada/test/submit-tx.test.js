@@ -1,4 +1,4 @@
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "../source/client.service";
 import { TransactionService } from "../source/transaction.service";
 import { Signatories } from "@payvo/sdk";

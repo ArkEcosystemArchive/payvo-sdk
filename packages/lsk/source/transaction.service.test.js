@@ -4,7 +4,7 @@ import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { FeeService } from "./fee.service";
@@ -26,7 +26,7 @@ let musig: MultiSignatureService;
 test.before(async () => {
 	nock.disableNetConnect();
 
-	nock(/.+/).get("/api/v2/fees").reply(200, requireModule(`../test/fixtures/client/fees.json`)).persist();
+	nock(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
 	subject = await createService(TransactionService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
@@ -280,11 +280,11 @@ describe("TransactionService", () => {
 
 			nock(/.+/)
 				.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
 				.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
 				.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
-				.reply(200, requireModule(`../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
+				.reply(200, loader.json(`test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
 				.persist();
 
 			const transaction1 = await subject.multiSignature({

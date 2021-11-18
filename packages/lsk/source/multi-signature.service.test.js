@@ -4,7 +4,7 @@ import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { FeeService } from "./fee.service";
@@ -85,10 +85,10 @@ describe("MultiSignatureService", () => {
         nock(/.+/)
             .get("/api/v2/accounts")
             .query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
-            .reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+            .reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
             .get("/api/v2/accounts")
             .query({ publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed" })
-            .reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+            .reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
             .persist();
     });
 

@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -36,7 +36,7 @@ describe("ClientService", () => {
         test("should succeed", async () => {
             nock("https://neoscan-testnet.io/api/test_net/v1/")
                 .get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
-                .reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+                .reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
             const result = await subject.transactions({
                 identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
@@ -61,7 +61,7 @@ describe("#wallet", () => {
     test("should succeed", async () => {
         nock("https://neoscan-testnet.io/api/test_net/v1/")
             .get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
-            .reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+            .reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
         const result = await subject.wallet({
             type: "address",
@@ -78,9 +78,9 @@ describe.skip("#broadcast", () => {
     test("should pass", async () => {
         nock("https://neoscan-testnet.io/api/test_net/v1/")
             .get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
-            .reply(200, requireModule(`../test/fixtures/client/balance.json`))
+            .reply(200, loader.json(`test/fixtures/client/balance.json`))
             .post("/api/transactions")
-            .reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
+            .reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
         const result = await subject.broadcast([
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
@@ -96,7 +96,7 @@ describe.skip("#broadcast", () => {
     test("should fail", async () => {
         nock("https://neoscan-testnet.io/api/test_net/v1/")
             .post("/api/transactions")
-            .reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
+            .reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
         const result = await subject.broadcast([
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),

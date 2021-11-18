@@ -3,7 +3,7 @@ import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocke
 import nock from "nock";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
@@ -114,13 +114,13 @@ describe("scan", () => {
         nock(/.+/)
             .get("/api/v2/accounts")
             .query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
-            .reply(200, requireModule("../test/fixtures/client/wallet-0.json"))
+            .reply(200, loader.json("test/fixtures/client/wallet-0.json"))
             .get("/api/v2/accounts")
             .query({ address: "lskbh47p4ts33c6c5pjvwa32424qr8px8pwfx8e4s" })
-            .reply(200, requireModule("../test/fixtures/client/wallet-1.json"))
+            .reply(200, loader.json("test/fixtures/client/wallet-1.json"))
             .get("/api/v2/accounts")
             .query({ address: "lskksmfa2q2evtwmfneaon79u9hv7a3saokuy9tv9" })
-            .reply(200, requireModule("../test/fixtures/client/wallet-2.json"));
+            .reply(200, loader.json("test/fixtures/client/wallet-2.json"));
 
         const lsk = await createMockService(ledger.wallets.record);
 
