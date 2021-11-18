@@ -46,7 +46,6 @@ describe("SignedTransactionData", () => {
 
 	describe("multiSignature", function() {
 		test("#isMultiSignatureRegistration for regular, non-musig transfer", () => {
-
 			expect(subject.isMultiSignatureRegistration()).toBeFalse();
 		});
 
