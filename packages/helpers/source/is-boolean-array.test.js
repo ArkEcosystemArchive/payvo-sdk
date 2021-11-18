@@ -1,11 +1,11 @@
 import { isBooleanArray } from "./is-boolean-array";
 
 describe("#isBooleanArray", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isBooleanArray([true]), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isBooleanArray([1]), false);
 	});
 });

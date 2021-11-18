@@ -1,7 +1,7 @@
 import { reduceRight } from "./reduce-right";
 
 describe("#reduceRight", () => {
-	it("should work with an array", () => {
+	test("should work with an array", () => {
 		assert
 			.is(
 				reduceRight(
@@ -17,7 +17,7 @@ describe("#reduceRight", () => {
 			.toEqual([4, 5, 2, 3, 0, 1]);
 	});
 
-	it("should work with an object", () => {
+	test("should work with an object", () => {
 		assert
 			.is(
 				reduceRight(

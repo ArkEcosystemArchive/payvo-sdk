@@ -1,7 +1,7 @@
 import { prettyBytes } from "./pretty-bytes";
 
 describe("#prettyBytes", () => {
-	it("should format the given number", () => {
+	test("should format the given number", () => {
 		assert.is(prettyBytes(0), "0 B");
 		assert.is(prettyBytes(0.4), "0.4 B");
 		assert.is(prettyBytes(0.7), "0.7 B");

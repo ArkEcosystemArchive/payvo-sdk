@@ -1,11 +1,11 @@
 import { isObject } from "./is-object";
 
 describe("#isObject", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isObject({ key: "value" }), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isObject(1), false);
 	});
 });

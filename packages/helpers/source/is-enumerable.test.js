@@ -8,7 +8,7 @@ object1.property1 = 42;
 array1[0] = 42;
 
 describe("#isEnumerable", () => {
-	it("should work with objects and arrays", () => {
+	test("should work with objects and arrays", () => {
 		assert.is(isEnumerable(object1, "property1"), true);
 		assert.is(isEnumerable(array1, 0), true);
 		assert.is(isEnumerable(array1, "length"), false);

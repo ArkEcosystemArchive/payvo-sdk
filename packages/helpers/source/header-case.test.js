@@ -1,7 +1,7 @@
 import { headerCase } from "./header-case";
 
 describe("#headerCase", () => {
-	it("should turn any string into header case", () => {
+	test("should turn any string into header case", () => {
 		assert.is(headerCase("string"), "String");
 		assert.is(headerCase("camelCase"), "Camel-Case");
 		assert.is(headerCase("param-case"), "Param-Case");

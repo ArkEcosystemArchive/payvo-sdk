@@ -12,7 +12,7 @@ import { BindingType } from "./constants";
 
 let subject: TransactionService;
 
-beforeAll(async () => {
+test.before(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(BindingType.Zilliqa, mockWallet());
 		container.constant(IoC.BindingType.Container, container);
@@ -29,7 +29,7 @@ beforeAll(async () => {
 
 describe("TransactionService", () => {
 	describe("#transfer", () => {
-		it("should sign transaction", async () => {
+		test("should sign transaction", async () => {
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({

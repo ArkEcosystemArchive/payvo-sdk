@@ -1,7 +1,7 @@
 import { findIndex } from "./find-index";
 
 describe("#findIndex", () => {
-    it("should work with a function", () => {
+    test("should work with a function", () => {
         assert.is(
             findIndex(
                 [

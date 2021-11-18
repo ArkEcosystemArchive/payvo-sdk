@@ -47,13 +47,13 @@ describe("AssetSerializer #toMachine", () => {
 		assert.is(createService(AssetSerializer).toMachine(moduleID, assetID, asset)).toMatchSnapshot();
 	});
 
-	it("should throw error when transaction type cannot be recognized", () => {
+	test("should throw error when transaction type cannot be recognized", () => {
 		assert
 			.is(() => createService(AssetSerializer).toMachine(10, 10, {}))
 			.toThrow("Failed to determine transaction type for asset serialization.");
 	});
 
-	it("should throw error when serializing vote asset with amount not multiple of 10", () => {
+	test("should throw error when serializing vote asset with amount not multiple of 10", () => {
 		assert
 			.is(() =>
 				createService(AssetSerializer).toMachine(5, 1, {

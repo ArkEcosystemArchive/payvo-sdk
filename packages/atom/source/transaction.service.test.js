@@ -13,7 +13,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
-beforeAll(async () => {
+test.before(async () => {
     subject = await createService(TransactionService, undefined, (container) => {
         container.constant(IoC.BindingType.Container, container);
         container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -29,11 +29,11 @@ beforeAll(async () => {
     });
 });
 
-beforeAll(() => nock.disableNetConnect());
+test.before(() => nock.disableNetConnect());
 
 describe("TransactionService", () => {
     describe("#transfer", () => {
-        it("should verify", async () => {
+        test("should verify", async () => {
             nock("https://stargate.cosmos.network")
                 .get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
                 .reply(200, requireModule(`../test/fixtures/client/wallet.json`))
@@ -55,7 +55,7 @@ describe("TransactionService", () => {
                 },
             });
 
-            assert.is(result), "object");
+            assert.is(result, "object");
     });
 });
 });

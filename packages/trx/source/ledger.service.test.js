@@ -33,7 +33,7 @@ const createMockService = async (record: string) => {
 };
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const trx = await createMockService("");
 
         await assert.is(trx.disconnect()).resolves, "undefined");
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 });
 
 describe("getVersion", () => {
-    it("should pass with an app version", async () => {
+    test("should pass with an app version", async () => {
         const trx = await createMockService(ledger.appVersion.record);
 
         await assert.is(trx.getVersion()).resolves.toEqual(ledger.appVersion.result);
@@ -49,7 +49,7 @@ describe("getVersion", () => {
 });
 
 describe("getPublicKey", () => {
-    it("should pass with a compressed publicKey", async () => {
+    test("should pass with a compressed publicKey", async () => {
         const trx = await createMockService(ledger.publicKey.record);
 
         await assert.is(trx.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
@@ -57,7 +57,7 @@ describe("getPublicKey", () => {
 });
 
 describe("signTransaction", () => {
-    it("should pass with a signature", async () => {
+    test("should pass with a signature", async () => {
         const trx = await createMockService(ledger.transaction.record);
 
         await assert.is(
@@ -67,7 +67,7 @@ describe("signTransaction", () => {
 });
 
 describe("signMessage", () => {
-    it("should fail with a 'NotImplemented' error", async () => {
+    test("should fail with a 'NotImplemented' error", async () => {
         const trx = await createMockService("");
 
         await assert.is(trx.signMessage("", Buffer.alloc(0))).rejects.toThrow();

@@ -15,7 +15,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
-beforeAll(async () => {
+test.before(async () => {
     subject = await createService(TransactionService, undefined, (container) => {
         container.constant(IoC.BindingType.Container, container);
         container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -32,7 +32,7 @@ beforeAll(async () => {
     });
 });
 
-beforeAll(async () => {
+test.before(async () => {
     nock.disableNetConnect();
 });
 
@@ -59,7 +59,7 @@ describe("TransactionService", () => {
             },
         });
 
-        assert.is(result), "object");
+        assert.is(result, "object");
     assert.is(result.amount().toNumber(), 1_000_000);
 });
 });

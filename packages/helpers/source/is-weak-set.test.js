@@ -1,11 +1,11 @@
 import { isWeakSet } from "./is-weak-set";
 
 describe("#isWeakSet", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isWeakSet(new WeakSet()), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isWeakSet(1), false);
 	});
 });

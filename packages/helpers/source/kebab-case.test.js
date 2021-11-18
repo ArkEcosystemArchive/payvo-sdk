@@ -1,7 +1,7 @@
 import { kebabCase } from "./kebab-case";
 
 describe("#kebabCase", () => {
-	it("should turn any string into kebab case", () => {
+	test("should turn any string into kebab case", () => {
 		assert.is(kebabCase("string"), "string");
 		assert.is(kebabCase("camelCase"), "camel-case");
 		assert.is(kebabCase("param-case"), "param-case");

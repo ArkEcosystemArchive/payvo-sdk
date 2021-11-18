@@ -33,7 +33,7 @@ const createMockService = async (record: string) => {
 };
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.disconnect()).resolves, "undefined");
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 });
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.disconnect()).resolves, "undefined");
@@ -49,7 +49,7 @@ describe("disconnect", () => {
 });
 
 describe("getVersion", () => {
-    it("should pass with an app version", async () => {
+    test("should pass with an app version", async () => {
         const subject = await createMockService(ledger.appVersion.record);
 
         await assert.is(subject.getVersion()).resolves, ledger.appVersion.result);
@@ -57,7 +57,7 @@ describe("getVersion", () => {
 });
 
 describe.skip("getPublicKey", () => {
-    it("should pass with a compressed publicKey", async () => {
+    test("should pass with a compressed publicKey", async () => {
         const subject = await createMockService(ledger.publicKey.record);
 
         await assert.is(subject.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
@@ -65,7 +65,7 @@ describe.skip("getPublicKey", () => {
 });
 
 describe.skip("getExtendedPublicKey", () => {
-    it("should pass with for a given path", async () => {
+    test("should pass with for a given path", async () => {
         const subject = await createMockService(ledger.extendedPublicKey.record);
 
         await assert.is(subject.getExtendedPublicKey(ledger.extendedPublicKey.path)).resolves.toEqual(
@@ -75,7 +75,7 @@ describe.skip("getExtendedPublicKey", () => {
 });
 
 describe("signMessage", () => {
-    it("should pass with an ecdsa signature", async () => {
+    test("should pass with an ecdsa signature", async () => {
         const subject = await createMockService(ledger.message.record);
 
         await assert.is(

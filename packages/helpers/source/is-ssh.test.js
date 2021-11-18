@@ -1,7 +1,7 @@
 import { isSSH } from "./is-ssh";
 
 describe("#isSSH", () => {
-	it("should pass for SSH URLs", () => {
+	test("should pass for SSH URLs", () => {
 		assert.is(isSSH("ssh://user@github.com:port/owner/repo.git"), true);
 		assert.is(isSSH("user@github.com:/owner/repo.git"), true);
 		assert.is(isSSH("user@github.com:~user/owner/repo.git"), true);
@@ -10,7 +10,7 @@ describe("#isSSH", () => {
 		assert.is(isSSH("git://github.com/owner/repo.git"), true);
 	});
 
-	it("should fail for URLs other than SSH", () => {
+	test("should fail for URLs other than SSH", () => {
 		assert.is(isSSH("ssh://user@github.com:port/owner/repo.git"), true);
 		assert.is(isSSH("user@github.com:/owner/repo.git"), true);
 		assert.is(isSSH("user@github.com:~user/owner/repo.git"), true);

@@ -1,7 +1,7 @@
 import { CappedSet } from "./capped-set";
 
 describe("CappedSet", () => {
-	it("basic", () => {
+	test("basic", () => {
 		const cappedSet = new CappedSet<number>();
 
 		cappedSet.add(20);
@@ -10,7 +10,7 @@ describe("CappedSet", () => {
 		assert.is(cappedSet.has(21), false);
 	});
 
-	it("overflow", () => {
+	test("overflow", () => {
 		const maxSize = 10;
 		const cappedSet = new CappedSet<number>(maxSize);
 

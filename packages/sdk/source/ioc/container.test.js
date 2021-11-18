@@ -1,7 +1,7 @@
 import { Container } from "./container";
 import { BindingType } from "./service-provider.contract";
 
-it("should prevent multiple bindings of the same key", () => {
+test("should prevent multiple bindings of the same key", () => {
 	const container = new Container();
 
 	assert.is(() => container.constant(BindingType.AddressService, "value")).not.toThrow(/Duplicate binding attempted/);
@@ -9,7 +9,7 @@ it("should prevent multiple bindings of the same key", () => {
 	assert.is(() => container.constant(BindingType.AddressService, "value")).toThrow(/Duplicate binding attempted/);
 });
 
-it("should bind values independent from container instances", () => {
+test("should bind values independent from container instances", () => {
 	const container1 = new Container();
 
 	assert
@@ -23,7 +23,7 @@ it("should bind values independent from container instances", () => {
 		.not.toThrow(/Duplicate binding attempted/);
 });
 
-it("should bind a value and be able to retrieve it", () => {
+test("should bind a value and be able to retrieve it", () => {
 	const container = new Container();
 
 	assert.is(container.missing("key"), true);
@@ -35,7 +35,7 @@ it("should bind a value and be able to retrieve it", () => {
 	assert.is(container.get("key"), "value");
 });
 
-it("should forget a value", () => {
+test("should forget a value", () => {
 	const container = new Container();
 
 	assert.is(() => container.unbind("key")).toThrow();
@@ -45,7 +45,7 @@ it("should forget a value", () => {
 	assert.is(() => container.unbind("key")).not.toThrow();
 });
 
-it("should flush all bindings", () => {
+test("should flush all bindings", () => {
 	const container = new Container();
 
 	assert.is(() => container.unbind("key")).toThrow();

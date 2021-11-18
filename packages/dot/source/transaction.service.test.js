@@ -15,7 +15,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
-beforeAll(async () => {
+test.before(async () => {
 	await waitReady();
 
 	subject = await createServiceAsync(TransactionService, undefined, async (container: IoC.Container) => {

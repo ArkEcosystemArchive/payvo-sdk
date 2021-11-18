@@ -1,7 +1,7 @@
 import { pluralize } from "./pluralize";
 
 describe("#pluralize", () => {
-	it("should plural words when the count is above 1", () => {
+	test("should plural words when the count is above 1", () => {
 		assert.is(pluralize("block"), "block");
 		assert.is(pluralize("block", 0), "blocks");
 		assert.is(pluralize("block", 1), "block");

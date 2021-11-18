@@ -1,11 +1,11 @@
 import { set } from "./set";
 
 describe("#set", () => {
-	it("should not do anything if the target is not an object", () => {
+	test("should not do anything if the target is not an object", () => {
 		assert.is(set(undefined, "a.b.c", 4), false);
 	});
 
-	it("should work with a string or array as path", () => {
+	test("should work with a string or array as path", () => {
 		const object = { a: { b: { c: 3 } } };
 
 		set(object, "a.b.c", 4);

@@ -1,7 +1,7 @@
 import { snakeCase } from "./snake-case";
 
 describe("#snakeCase", () => {
-	it("should turn any string into snake case", () => {
+	test("should turn any string into snake case", () => {
 		assert.is(snakeCase("string"), "string");
 		assert.is(snakeCase("camelCase"), "camel_case");
 		assert.is(snakeCase("param-case"), "param_case");

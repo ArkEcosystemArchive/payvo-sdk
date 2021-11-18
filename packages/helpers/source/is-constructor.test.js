@@ -1,11 +1,11 @@
 import { isConstructor } from "./is-constructor";
 
 describe("#isConstructor", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isConstructor(Date), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isConstructor([]), false);
 	});
 });

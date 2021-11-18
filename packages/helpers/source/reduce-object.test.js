@@ -1,7 +1,7 @@
 import { reduceObject } from "./reduce-object";
 
 describe("#reduceObject", () => {
-	it("should work with a function", () => {
+	test("should work with a function", () => {
 		assert
 			.is(
 				reduceObject(

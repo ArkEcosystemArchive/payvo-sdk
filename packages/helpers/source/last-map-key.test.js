@@ -1,7 +1,7 @@
 import { lastMapKey } from "./last-map-key";
 
 describe("#lastMapKey", () => {
-    it("should return the last key", () => {
+    test("should return the last key", () => {
         assert.is(
             lastMapKey(
                 new Map([

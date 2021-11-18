@@ -1,7 +1,7 @@
 import { reduceRightObject } from "./reduce-right-object";
 
 describe("#reduceRightObject", () => {
-	it("should work with a function", () => {
+	test("should work with a function", () => {
 		assert
 			.is(
 				reduceRightObject(

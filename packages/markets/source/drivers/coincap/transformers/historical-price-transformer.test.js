@@ -191,7 +191,7 @@ const stubOptions = {
 
 describe("CoinCap", () => {
 	describe("HistoricalPriceTransformer", () => {
-		it("should transform the given data", async () => {
+		test("should transform the given data", async () => {
 			const stubResponse = (await import("../../../../test/fixtures/coincap/historical.json")).default;
 
 			const subject = new HistoricalPriceTransformer(stubResponse.data);

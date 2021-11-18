@@ -1,11 +1,11 @@
 import { isTrue } from "./is-true";
 
 describe("#isTrue", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isTrue(true), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isTrue(false), false);
 	});
 });

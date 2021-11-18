@@ -1,11 +1,11 @@
 import { isStringArray } from "./is-string-array";
 
 describe("#isStringArray", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isStringArray(["string"]), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isStringArray([1]), false);
 	});
 });

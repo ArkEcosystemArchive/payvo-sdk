@@ -1,11 +1,11 @@
 import { isURI } from "./is-uri";
 
 describe("#isURI", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isURI("https://domain.com/"), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isURI("random string"), true);
 	});
 });

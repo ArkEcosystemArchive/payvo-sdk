@@ -1,11 +1,11 @@
 import { isBigInt } from "./is-bigint";
 
 describe("#isBigInt", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isBigInt(BigInt(1)), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isBigInt("1"), false);
 		assert.is(isBigInt(1), false);
 	});

@@ -1,7 +1,7 @@
 import { keysIn } from "./keys-in";
 
 describe("#keysIn", () => {
-	it("should work with an object", () => {
+	test("should work with an object", () => {
 		function Foo() {
 			// @ts-ignore
 			this.a = 1;

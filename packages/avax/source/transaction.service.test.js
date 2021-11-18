@@ -12,7 +12,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
 
-beforeAll(async () => {
+test.before(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
