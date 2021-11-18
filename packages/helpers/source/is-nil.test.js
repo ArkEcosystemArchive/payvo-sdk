@@ -1,13 +1,15 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isNil } from "./is-nil";
 
-describe("#isNil", () => {
-	test("should pass", () => {
-		assert.is(isNil(undefined), true);
-		assert.is(isNil(null), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isNil("undefined"), false);
-		assert.is(isNil("null"), false);
-	});
+test("should pass", () => {
+	assert.true(isNil(undefined));
+	assert.true(isNil(null));
 });
+
+test("should fail", () => {
+	assert.false(isNil("undefined"));
+	assert.false(isNil("null"));
+});
+
+test.run();

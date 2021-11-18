@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isGreaterThan } from "./is-greater-than";
 
-describe("#isGreaterThan", () => {
-	test("should pass", () => {
-		assert.is(isGreaterThan(2, 1), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isGreaterThan(1, 2), false);
-	});
+test("should pass", () => {
+	assert.true(isGreaterThan(2, 1));
 });
+
+test("should fail", () => {
+	assert.false(isGreaterThan(1, 2));
+});
+
+test.run();

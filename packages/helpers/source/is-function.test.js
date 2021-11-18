@@ -1,15 +1,14 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isFunction } from "./is-function";
 
-describe("#isFunction", () => {
-	test("should pass", () => {
-		assert.is(isFunction(new Function()), true);
-		assert.is(
-			isFunction(async () => ({})),
-			true,
-		);
-	});
-
-	test("should fail", () => {
-		assert.is(isFunction([]), false);
-	});
+test("should pass", () => {
+	assert.true(isFunction(new Function()));
+	assert.true(isFunction(async () => ({})));
 });
+
+test("should fail", () => {
+	assert.false(isFunction([]));
+});
+
+test.run();

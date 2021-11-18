@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isNumber } from "./is-number";
 
-describe("#isNumber", () => {
-	test("should pass", () => {
-		assert.is(isNumber(1), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isNumber("1"), false);
-	});
+test("should pass", () => {
+	assert.true(isNumber(1));
 });
+
+test("should fail", () => {
+	assert.false(isNumber("1"));
+});
+
+test.run();

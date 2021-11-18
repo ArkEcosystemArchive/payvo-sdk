@@ -1,109 +1,113 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import Joi from "joi";
 
 import { Validator } from "./validator";
 
-let subject: Validator;
+let subject;
 test.before.each(() => (subject = new Validator()));
 
 test("#validate", () => {
-    const actual = subject.validate(
-        {
-            name: "jimmy",
-            age: "24",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	const actual = subject.validate(
+		{
+			name: "jimmy",
+			age: "24",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(actual, { age: 24, name: "jimmy" });
+	assert.equal(actual, { age: 24, name: "jimmy" });
 });
 
 test("#passes", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: 24,
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: 24,
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.passes(), true);
+	assert.true(subject.passes());
 
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.passes(), false);
+	assert.false(subject.passes());
 });
 
 test("#fails", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.fails(), true);
+	assert.true(subject.fails());
 
-    subject.validate(
-        {
-            name: "jimmy",
-            age: 24,
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: 24,
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.fails(), false);
+	assert.false(subject.fails());
 });
 
 test("#errors", () => {
-    assert.is(subject.errors()), "undefined");
+	assert.undefined(subject.errors());
 
-subject.validate(
-    {
-        name: "jimmy",
-        age: "invalid number",
-    },
-    Joi.object({
-        name: Joi.string().required(),
-        age: Joi.number().positive().integer().required(),
-    }),
-);
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().positive().integer().required(),
+		}),
+	);
 
-assert.is(subject.errors()).toHaveLength(1);
+	assert.length(subject.errors(), 1);
 });
 
 test("#error", () => {
-    subject.validate(
-        {
-            name: "jimmy",
-            age: "invalid number",
-        },
-        Joi.object({
-            name: Joi.string().required(),
-            age: Joi.number().required().positive().integer(),
-        }),
-    );
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().required().positive().integer(),
+		}),
+	);
 
-    assert.is(subject.error() instanceof Joi.ValidationError);
+	assert.instance(subject.error(), Joi.ValidationError);
 });
+
+test.run();

@@ -1,17 +1,19 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { some } from "./some";
 
-describe("#some", () => {
-    test("should work with any function", () => {
-        assert.is(some([null, 0, "yes", false], Boolean), true);
+test("should work with any function", () => {
+	assert.true(some([null, 0, "yes", false], Boolean));
 
-        assert.is(
-            some(
-                [
-                    { user: "barney", active: true },
-                    { user: "fred", active: false },
-                ],
-                (currentValue) => currentValue.active,
-            ),
-		, true);
-    });
+	assert.true(
+		some(
+			[
+				{ user: "barney", active: true },
+				{ user: "fred", active: false },
+			],
+			(currentValue) => currentValue.active,
+		),
+	);
 });
+
+test.run();

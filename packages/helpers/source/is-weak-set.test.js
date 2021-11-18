@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isWeakSet } from "./is-weak-set";
 
-describe("#isWeakSet", () => {
-	test("should pass", () => {
-		assert.is(isWeakSet(new WeakSet()), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isWeakSet(1), false);
-	});
+test("should pass", () => {
+	assert.true(isWeakSet(new WeakSet()));
 });
+
+test("should fail", () => {
+	assert.false(isWeakSet(1));
+});
+
+test.run();

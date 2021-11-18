@@ -1,57 +1,59 @@
-import { readFileSync } from "fs";
+import { assert, test } from "@payvo/sdk-test";
 
 import { URI } from "./uri";
+import { fixtures } from "../test/uri";
 
-let subject: URI;
+let subject;
 
 test.before.each(async () => (subject = new URI()));
 
-describe("URI", () => {
-	test("should serialize", () => {
-		const result = subject.serialize({
-			method: "transfer",
-			coin: "ark",
-			network: "ark.mainnet",
-			recipient: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-			amount: 1.2,
-			memo: "ARK",
-		});
-
-		assert
-			.is(result)
-			.toEqual(
-				"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=1.2&memo=ARK",
-			);
+test("should serialize", () => {
+	const result = subject.serialize({
+		method: "transfer",
+		coin: "ark",
+		network: "ark.mainnet",
+		recipient: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+		amount: 1.2,
+		memo: "ARK",
 	});
 
-	// @ts-ignore
-	it.each(JSON.parse(readFileSync("./test/uri.json")))("should deserialize (%s)", (input, output) => {
-		assert.is(subject.deserialize(input), output);
-	});
-
-	test("should fail to deserialize with an invalid protocol", () => {
-		assert
-			.is(() => subject.deserialize("mailto:DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9"))
-			.toThrowError("The given data is malformed.");
-	});
-
-	test("should fail to deserialize with invalid data", () => {
-		assert
-			.is(() =>
-				subject.deserialize(
-					"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
-				),
-			)
-			.toThrowError('The given data is malformed: ValidationError: "amount" must be a number');
-	});
-
-	test("should fail to deserialize with an invalid method", () => {
-		assert
-			.is(() =>
-				subject.deserialize(
-					"payvo:unknown?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
-				),
-			)
-			.toThrowError("The given method is unknown: unknown");
-	});
+	assert.is(
+		result,
+		"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=1.2&memo=ARK",
+	);
 });
+
+for (const fixture of fixtures) {
+	test(`should deserialize ${fixture[0]}`, () => {
+		assert.equal(subject.deserialize(fixture[0]), fixture[1]);
+	});
+}
+
+test("should fail to deserialize with an invalid protocol", () => {
+	assert.throws(
+		() => subject.deserialize("mailto:DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9"),
+		"The given data is malformed.",
+	);
+});
+
+test("should fail to deserialize with invalid data", () => {
+	assert.throws(
+		() =>
+			subject.deserialize(
+				"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
+			),
+		'The given data is malformed: ValidationError: "amount" must be a number',
+	);
+});
+
+test("should fail to deserialize with an invalid method", () => {
+	assert.throws(
+		() =>
+			subject.deserialize(
+				"payvo:unknown?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
+			),
+		"The given method is unknown: unknown",
+	);
+});
+
+test.run();

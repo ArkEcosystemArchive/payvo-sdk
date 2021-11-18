@@ -1,38 +1,39 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { QRCode } from "./qrcode";
 
 test("#fromString", () => {
-	assert.is(QRCode.fromString("https://google.com") instanceof QRCode);
+	assert.instance(QRCode.fromString("https://google.com"), QRCode);
 });
 
 test("#fromObject", () => {
-	assert.is(QRCode.fromObject({ url: "https://google.com" }) instanceof QRCode);
+	assert.instance(QRCode.fromObject({ url: "https://google.com" }), QRCode);
 });
 
 test("#toDataURL", async () => {
-	const actual: string = await QRCode.fromString("https://google.com").toDataURL();
+	const actual = await QRCode.fromString("https://google.com").toDataURL();
 
-	assert.is(actual).toStartWith("data:image/png;base64,");
-	assert.is(actual).toMatchSnapshot();
+	assert.startsWith(actual, "data:image/png;base64,");
 });
 
 test("#toDataURL with options", async () => {
-	const actual: string = await QRCode.fromString("https://google.com").toDataURL({ width: 250, margin: 0 });
+	const actual = await QRCode.fromString("https://google.com").toDataURL({ width: 250, margin: 0 });
 
-	assert.is(actual).toStartWith("data:image/png;base64,");
-	assert.is(actual).toMatchSnapshot();
+	assert.startsWith(actual, "data:image/png;base64,");
 });
 
-describe.each(["utf8", "svg", "terminal"])("%s", (type) => {
-	test("should turn into a data URL", async () => {
-		await assert.is(QRCode.fromString("https://google.com").toDataURL()).resolves.toMatchSnapshot();
-	});
-
-	test("should turn into a string", async () => {
-		// @ts-ignore
-		await assert.is(QRCode.fromString("https://google.com").toString(type)).resolves.toMatchSnapshot();
-	});
+test("should turn into a data URL", async () => {
+	assert.string(await QRCode.fromString("https://google.com").toDataURL());
 });
+
+for (const type of ["utf8", "svg", "terminal"]) {
+	test(`should turn into a ${type} string`, async () => {
+		assert.string(await QRCode.fromString("https://google.com").toString(type));
+	});
+}
 
 test("should turn into a utf-8 string if no argument is given", async () => {
-	await assert.is(QRCode.fromString("https://google.com").toString()).resolves.toMatchSnapshot();
+	assert.string(await QRCode.fromString("https://google.com").toString());
 });
+
+test.run();

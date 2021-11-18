@@ -1,13 +1,14 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { numberArray } from "./number-array";
 import { shuffle } from "./shuffle";
 
-describe("#shuffle", () => {
-	test("should return a new array with items in random order", () => {
-		const possibleValues: number[] = numberArray(100);
+test("should return a new array with items in random order", () => {
+	const possibleValues = numberArray(100);
+	const shuffledValues = shuffle(possibleValues);
 
-		const shuffledValues: number[] = shuffle(possibleValues);
-
-		assert.is(shuffledValues).toIncludeAllMembers(possibleValues);
-		assert.is(shuffledValues).not.toEqual(possibleValues);
-	});
+	assert.includeAllMembers(shuffledValues, possibleValues);
+	assert.not.equal(shuffledValues, possibleValues);
 });
+
+test.run();

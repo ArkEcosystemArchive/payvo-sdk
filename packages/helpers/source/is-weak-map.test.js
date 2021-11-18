@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isWeakMap } from "./is-weak-map";
 
-describe("#isWeakMap", () => {
-	test("should pass", () => {
-		assert.is(isWeakMap(new WeakMap()), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isWeakMap(1), false);
-	});
+test("should pass", () => {
+	assert.true(isWeakMap(new WeakMap()));
 });
+
+test("should fail", () => {
+	assert.false(isWeakMap(1));
+});
+
+test.run();

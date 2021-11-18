@@ -1,9 +1,11 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { randomBase64 } from "./random-base64";
 
-describe("#randomBase64", () => {
-	test("should return a random base64 string", () => {
-		assert.is(randomBase64(8)).toHaveLength(8);
-		assert.is(randomBase64(16)).toHaveLength(16);
-		assert.is(randomBase64(32)).toHaveLength(32);
-	});
+test("should return a random base64 string", () => {
+	assert.length(randomBase64(8), 8);
+	assert.length(randomBase64(16), 16);
+	assert.length(randomBase64(32), 32);
 });
+
+test.run();

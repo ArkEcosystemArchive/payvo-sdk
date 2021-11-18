@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isNull } from "./is-null";
 
-describe("#isNull", () => {
-	test("should pass", () => {
-		assert.is(isNull(null), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isNull("null"), false);
-	});
+test("should pass", () => {
+	assert.true(isNull(null));
 });
+
+test("should fail", () => {
+	assert.false(isNull("null"));
+});
+
+test.run();

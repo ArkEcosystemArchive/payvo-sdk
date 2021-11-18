@@ -1,20 +1,22 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isGit } from "./is-git";
 
-describe("#isGit", () => {
-	test("should pass for Git URLs", () => {
-		assert.is(isGtest("ssh://user@github.com:port/owner/repo.git"), true);
-		assert.is(isGtest("git://github.com/owner/repo.git"), true);
-		assert.is(isGtest("git@github.com:owner/repo.git"), true);
-		assert.is(isGtest("git@bitbucket.com:owner/repo.git"), true);
-		assert.is(isGtest("git@gitlab.com:owner/repo.git"), true);
-		assert.is(isGtest("https://github.com/owner/repo.git"), true);
-	});
-
-	test("should fail for URLs other than Git", () => {
-		assert.is(isGtest("http://github.com/owner/repo"), false);
-		assert.is(isGtest("https://github.com/owner/repo"), false);
-		assert.is(isGtest("/owner/repo.git/"), false);
-		assert.is(isGtest("file:///owner/repo.git/"), false);
-		assert.is(isGtest("file://~/owner/repo.git/"), false);
-	});
+test("should pass for Git URLs", () => {
+	assert.true(isGit("ssh://user@github.com:port/owner/repo.git"));
+	assert.true(isGit("git://github.com/owner/repo.git"));
+	assert.true(isGit("git@github.com:owner/repo.git"));
+	assert.true(isGit("git@bitbucket.com:owner/repo.git"));
+	assert.true(isGit("git@gitlab.com:owner/repo.git"));
+	assert.true(isGit("https://github.com/owner/repo.git"));
 });
+
+test("should fail for URLs other than Git", () => {
+	assert.false(isGit("http://github.com/owner/repo"));
+	assert.false(isGit("https://github.com/owner/repo"));
+	assert.false(isGit("/owner/repo.git/"));
+	assert.false(isGit("file:///owner/repo.git/"));
+	assert.false(isGit("file://~/owner/repo.git/"));
+});
+
+test.run();

@@ -1,31 +1,35 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { cloneDeep } from "./clone-deep";
 
-describe("#cloneDeep", () => {
-	test("should work with objects", () => {
-		const object = { a: 1 };
+test("should work with objects", () => {
+	const object = { a: 1 };
 
-		assert.is(cloneDeep(object), object);
-	});
+	assert.equal(cloneDeep(object), object);
+});
 
-	test("should work with class instances", () => {
-		class Wallet {
-			constructor(readonly address) {}
-
-			public isDelegate() {
-				return true;
-			}
+test("should work with class instances", () => {
+	class Wallet {
+		constructor(address) {
+			this.address = address;
 		}
 
-		const original = new Wallet("address");
+		isDelegate() {
+			return true;
+		}
+	}
 
-		assert.is(original, original);
-		assert.is(original.isDelegate(), true);
-		assert.is(original.address, "address");
+	const original = new Wallet("address");
 
-		const clone = cloneDeep(original);
+	assert.equal(original, original);
+	assert.true(original.isDelegate());
+	assert.is(original.address, "address");
 
-		assert.is(clone, original);
-		assert.is(clone.isDelegate(), true);
-		assert.is(clone.address, "address");
-	});
+	const clone = cloneDeep(original);
+
+	assert.equal(clone, original);
+	assert.true(clone.isDelegate());
+	assert.is(clone.address, "address");
 });
+
+test.run();

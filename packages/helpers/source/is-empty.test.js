@@ -1,35 +1,37 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEmpty } from "./is-empty";
 
-describe("#isEmpty", () => {
-	test("should return true for an empty array", () => {
-		assert.is(isEmpty([]), true);
-	});
-
-	test("should return true for an empty object", () => {
-		assert.is(isEmpty({}), true);
-	});
-
-	test("should return true for a false boolean", () => {
-		assert.is(isEmpty(false), true);
-	});
-
-	test("should return true for null", () => {
-		assert.is(isEmpty(null), true);
-	});
-
-	test("should return true for undefined", () => {
-		assert.is(isEmpty(undefined), true);
-	});
-
-	test("should return true for an empty map", () => {
-		assert.is(isEmpty(new Map()), true);
-	});
-
-	test("should return true for an empty set", () => {
-		assert.is(isEmpty(new Set()), true);
-	});
-
-	test("should return false if the value contains something", () => {
-		assert.is(isEmpty([1]), false);
-	});
+test("should return true for an empty array", () => {
+	assert.true(isEmpty([]));
 });
+
+test("should return true for an empty object", () => {
+	assert.true(isEmpty({}));
+});
+
+test("should return true for a false boolean", () => {
+	assert.true(isEmpty(false));
+});
+
+test("should return true for null", () => {
+	assert.true(isEmpty(null));
+});
+
+test("should return true for undefined", () => {
+	assert.true(isEmpty(undefined));
+});
+
+test("should return true for an empty map", () => {
+	assert.true(isEmpty(new Map()));
+});
+
+test("should return true for an empty set", () => {
+	assert.true(isEmpty(new Set()));
+});
+
+test("should return false if the value contains something", () => {
+	assert.false(isEmpty([1]));
+});
+
+test.run();

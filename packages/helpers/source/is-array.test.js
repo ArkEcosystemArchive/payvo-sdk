@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isArray } from "./is-array";
 
-describe("#isArray", () => {
-	test("should pass", () => {
-		assert.is(isArray([1]), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isArray(1), false);
-	});
+test("should pass", () => {
+	assert.true(isArray([1]));
 });
+
+test("should fail", () => {
+	assert.false(isArray(1));
+});
+
+test.run();

@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isBuffer } from "./is-buffer";
 
-describe("#isBuffer", () => {
-	test("should pass", () => {
-		assert.is(isBuffer(Buffer.alloc(1)), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isBuffer(1), false);
-	});
+test("should pass", () => {
+	assert.true(isBuffer(Buffer.alloc(1)));
 });
+
+test("should fail", () => {
+	assert.false(isBuffer(1));
+});
+
+test.run();

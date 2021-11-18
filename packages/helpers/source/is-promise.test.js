@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isPromise } from "./is-promise";
 
-describe("#isPromise", () => {
-	test("should pass", () => {
-		assert.is(isPromise(new Promise(() => {})), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isPromise(1), false);
-	});
+test("should pass", () => {
+	assert.true(isPromise(new Promise(() => {})));
 });
+
+test("should fail", () => {
+	assert.false(isPromise(1));
+});
+
+test.run();

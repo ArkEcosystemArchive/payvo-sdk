@@ -1,7 +1,9 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEmptySet } from "./is-empty-set";
 
-describe("#isEmptySet", () => {
-	test("should return true for an empty set", () => {
-		assert.is(isEmptySet(new Set()), true);
-	});
+test("should return true for an empty set", () => {
+	assert.true(isEmptySet(new Set()));
 });
+
+test.run();

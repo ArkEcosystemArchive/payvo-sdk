@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isRegExp } from "./is-reg-exp";
 
-describe("#isRegExp", () => {
-	test("should pass", () => {
-		assert.is(isRegExp(/a/), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isRegExp([]), false);
-	});
+test("should pass", () => {
+	assert.true(isRegExp(/a/));
 });
+
+test("should fail", () => {
+	assert.false(isRegExp([]));
+});
+
+test.run();

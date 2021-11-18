@@ -1,7 +1,9 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEmptyObject } from "./is-empty-object";
 
-describe("#isEmptyObject", () => {
-	test("should return true for an empty object", () => {
-		assert.is(isEmptyObject({}), true);
-	});
+test("should return true for an empty object", () => {
+	assert.true(isEmptyObject({}));
 });
+
+test.run();

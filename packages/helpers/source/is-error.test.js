@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isError } from "./is-error";
 
-describe("#isError", () => {
-	test("should pass", () => {
-		assert.is(isError(new Error()), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isError(1), false);
-	});
+test("should pass", () => {
+	assert.true(isError(new Error()));
 });
+
+test("should fail", () => {
+	assert.false(isError(1));
+});
+
+test.run();

@@ -1,15 +1,17 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { reject } from "./reject";
 
-describe("#reject", () => {
-	const users = [
-		{ user: "barney", age: 36, active: false },
-		{ user: "fred", age: 40, active: true },
-	];
+const users = [
+	{ user: "barney", age: 36, active: false },
+	{ user: "fred", age: 40, active: true },
+];
 
-	test("should work with a function", () => {
-		assert.is(
-			reject(users, (o) => !o.active),
-			[{ user: "fred", age: 40, active: true }],
-		);
-	});
+test("should work with a function", () => {
+	assert.equal(
+		reject(users, (o) => !o.active),
+		[{ user: "fred", age: 40, active: true }],
+	);
 });
+
+test.run();

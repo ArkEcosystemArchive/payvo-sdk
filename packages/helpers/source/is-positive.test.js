@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isPositive } from "./is-positive";
 
-describe("#isPositive", () => {
-	test("should pass", () => {
-		assert.is(isPositive(1), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isPositive(-1), false);
-	});
+test("should pass", () => {
+	assert.true(isPositive(1));
 });
+
+test("should fail", () => {
+	assert.false(isPositive(-1));
+});
+
+test.run();

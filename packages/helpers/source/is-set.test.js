@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isSet } from "./is-set";
 
-describe("#isSet", () => {
-	test("should pass", () => {
-		assert.is(isSet(new Set()), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isSet(1), false);
-	});
+test("should pass", () => {
+	assert.true(isSet(new Set()));
 });
+
+test("should fail", () => {
+	assert.false(isSet(1));
+});
+
+test.run();

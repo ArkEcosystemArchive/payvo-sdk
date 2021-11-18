@@ -1,7 +1,9 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEmptyMap } from "./is-empty-map";
 
-describe("#isEmptyMap", () => {
-	test("should return true for an empty map", () => {
-		assert.is(isEmptyMap(new Map()), true);
-	});
+test("should return true for an empty map", () => {
+	assert.true(isEmptyMap(new Map()));
 });
+
+test.run();

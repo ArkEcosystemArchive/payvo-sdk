@@ -1,9 +1,11 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { randomHex } from "./random-hex";
 
-describe("#randomHex", () => {
-	test("should return a random hex string", () => {
-		assert.is(randomHex(8)).toHaveLength(8);
-		assert.is(randomHex(16)).toHaveLength(16);
-		assert.is(randomHex(32)).toHaveLength(32);
-	});
+test("should return a random hex string", () => {
+	assert.length(randomHex(8), 8);
+	assert.length(randomHex(16), 16);
+	assert.length(randomHex(32), 32);
 });
+
+test.run();

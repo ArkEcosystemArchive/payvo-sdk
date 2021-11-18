@@ -1,7 +1,9 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pullAll } from "./pull-all";
 
-describe("#pullAll", () => {
-	test("should work with a property", () => {
-		assert.is(pullAll(["a", "b", "c", "a", "b", "c"], ["a", "c"]), ["b", "b"]);
-	});
+test("should work with a property", () => {
+	assert.equal(pullAll(["a", "b", "c", "a", "b", "c"], ["a", "c"]), ["b", "b"]);
 });
+
+test.run();

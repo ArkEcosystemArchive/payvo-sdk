@@ -1,11 +1,13 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isURI } from "./is-uri";
 
-describe("#isURI", () => {
-	test("should pass", () => {
-		assert.is(isURI("https://domain.com/"), true);
-	});
-
-	test("should fail", () => {
-		assert.is(isURI("random string"), true);
-	});
+test("should pass", () => {
+	assert.true(isURI("https://domain.com/"));
 });
+
+test("should fail", () => {
+	assert.true(isURI("random string"));
+});
+
+test.run();

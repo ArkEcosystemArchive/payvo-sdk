@@ -1,7 +1,9 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEmptyArray } from "./is-empty-array";
 
-describe("#isEmptyArray", () => {
-	test("should return true for an empty array", () => {
-		assert.is(isEmptyArray([]), true);
-	});
+test("should return true for an empty array", () => {
+	assert.true(isEmptyArray([]));
 });
+
+test.run();
