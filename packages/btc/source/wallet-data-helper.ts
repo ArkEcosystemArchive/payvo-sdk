@@ -4,7 +4,6 @@ import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
-import { getNetworkConfig } from "./config";
 import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 export default class WalletDataHelper {
@@ -99,14 +98,12 @@ export default class WalletDataHelper {
 					nonWitnessUtxo: convertString(utxo.raw),
 				};
 			} else if (this.isBip49()) {
-				let network = getNetworkConfig(this.#configRepository);
-
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
 						pubkey: convertString(addressWithKeys.publicKey),
-						network,
+						network: this.#network,
 					}),
-					network,
+					network: this.#network,
 				});
 
 				if (!payment.redeem) {

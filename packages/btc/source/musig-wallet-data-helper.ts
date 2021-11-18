@@ -98,23 +98,19 @@ export default class MusigWalletDataHelper {
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
 
+			const payment = getDerivationFunction(this.#method)(
+				this.#n,
+				this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+				this.#network,
+			);
+
 			let extra;
 			if (this.#method === "legacyMusig") {
-				const payment = legacyMusig(
-					this.#n,
-					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
-					this.#network,
-				);
 				extra = {
 					nonWitnessUtxo: convertString(utxo.raw),
 					redeemScript: payment.redeem!.output,
 				};
 			} else if (this.#method === "p2SHSegwitMusig") {
-				const payment = p2SHSegwitMusig(
-					this.#n,
-					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
-					this.#network,
-				);
 				extra = {
 					witnessUtxo: {
 						script: convertString(utxo.script),
@@ -124,11 +120,6 @@ export default class MusigWalletDataHelper {
 					redeemScript: payment.redeem!.output,
 				};
 			} else if (this.#method === "nativeSegwitMusig") {
-				const payment = nativeSegwitMusig(
-					this.#n,
-					this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
-					this.#network,
-				);
 				extra = {
 					witnessUtxo: {
 						script: convertString(utxo.script),
