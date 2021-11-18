@@ -17,21 +17,21 @@ beforeEach(() => {
 });
 
 test("#findById", () => {
-	expect(subject.findById("id")).toEqual(dummy);
+	assert.is(subject.findById("id")).toEqual(dummy);
 });
 
 test("#findByType", () => {
-	expect(subject.findByType("type")).toEqual(dummy);
+	assert.is(subject.findByType("type")).toEqual(dummy);
 });
 
 test("#findByTimestamp", () => {
-	expect(subject.findByTimestamp("timestamp")).toEqual(dummy);
+	assert.is(subject.findByTimestamp("timestamp")).toEqual(dummy);
 });
 
 test("#findBySender", () => {
-	expect(subject.findBySender("sender")).toEqual(dummy);
+	assert.is(subject.findBySender("sender")).toEqual(dummy);
 });
 
 test("#findByRecipient", () => {
-	expect(subject.findByRecipient("recipient")).toEqual(dummy);
+	assert.is(subject.findByRecipient("recipient")).toEqual(dummy);
 });

@@ -6,32 +6,32 @@ let subject: AddressService;
 beforeEach(async () => (subject = new AddressService()));
 
 describe("Address", () => {
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+    it("should generate an output from a mnemonic", async () => {
+        const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toMatchInlineSnapshot(`
+        assert.is(result).toMatchInlineSnapshot(`
 		Object {
 		  "address": "GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC",
 		  "path": "m/44'/148'/0'",
 		  "type": "bip44",
 		}
 	`);
-	});
+    });
 
-	it("should generate an output from a private key", async () => {
-		const result = await subject.fromPrivateKey(identity.privateKey);
+    it("should generate an output from a private key", async () => {
+        const result = await subject.fromPrivateKey(identity.privateKey);
 
-		expect(result).toMatchInlineSnapshot(`
+        assert.is(result).toMatchInlineSnapshot(`
 		Object {
 		  "address": "GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC",
 		  "path": "m/44'/148'/0'",
 		  "type": "bip44",
 		}
 	`);
-	});
+    });
 
-	it("should validate an address", async () => {
-		await expect(subject.validate(identity.address)).resolves.toBeTrue();
-		await expect(subject.validate("invalid")).resolves.toBeFalse();
-	});
+    it("should validate an address", async () => {
+        await assert.is(subject.validate(identity.address)).resolves, true);
+    await assert.is(subject.validate("invalid")).resolves, false);
+});
 });

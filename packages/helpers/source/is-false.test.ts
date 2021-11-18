@@ -2,10 +2,10 @@ import { isFalse } from "./is-false.js";
 
 describe("#isFalse", () => {
 	it("should pass", () => {
-		expect(isFalse(false)).toBeTrue();
+		assert.is(isFalse(false), true);
 	});
 
 	it("should fail", () => {
-		expect(isFalse(true)).toBeFalse();
+		assert.is(isFalse(true), false);
 	});
 });

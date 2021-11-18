@@ -6,104 +6,104 @@ let subject: Validator;
 beforeEach(() => (subject = new Validator()));
 
 test("#validate", () => {
-	const actual = subject.validate(
-		{
-			name: "jimmy",
-			age: "24",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    const actual = subject.validate(
+        {
+            name: "jimmy",
+            age: "24",
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(actual).toEqual({ age: 24, name: "jimmy" });
+    assert.is(actual).toEqual({ age: 24, name: "jimmy" });
 });
 
 test("#passes", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: 24,
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    subject.validate(
+        {
+            name: "jimmy",
+            age: 24,
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(subject.passes()).toBeTrue();
+    assert.is(subject.passes(), true);
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    subject.validate(
+        {
+            name: "jimmy",
+            age: "invalid number",
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(subject.passes()).toBeFalse();
+    assert.is(subject.passes(), false);
 });
 
 test("#fails", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    subject.validate(
+        {
+            name: "jimmy",
+            age: "invalid number",
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(subject.fails()).toBeTrue();
+    assert.is(subject.fails(), true);
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: 24,
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    subject.validate(
+        {
+            name: "jimmy",
+            age: 24,
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(subject.fails()).toBeFalse();
+    assert.is(subject.fails(), false);
 });
 
 test("#errors", () => {
-	expect(subject.errors()).toBeUndefined();
+    assert.is(subject.errors()), "undefined");
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().positive().integer().required(),
-		}),
-	);
+subject.validate(
+    {
+        name: "jimmy",
+        age: "invalid number",
+    },
+    Joi.object({
+        name: Joi.string().required(),
+        age: Joi.number().positive().integer().required(),
+    }),
+);
 
-	expect(subject.errors()).toHaveLength(1);
+assert.is(subject.errors()).toHaveLength(1);
 });
 
 test("#error", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+    subject.validate(
+        {
+            name: "jimmy",
+            age: "invalid number",
+        },
+        Joi.object({
+            name: Joi.string().required(),
+            age: Joi.number().required().positive().integer(),
+        }),
+    );
 
-	expect(subject.error()).toBeInstanceOf(Joi.ValidationError);
+    assert.is(subject.error() instanceof Joi.ValidationError);
 });

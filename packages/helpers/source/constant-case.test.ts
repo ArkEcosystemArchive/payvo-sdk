@@ -2,14 +2,14 @@ import { constantCase } from "./constant-case.js";
 
 describe("#constantCase", () => {
 	it("should turn any string into constant case", () => {
-		expect(constantCase("string")).toBe("STRING");
-		expect(constantCase("camelCase")).toBe("CAMEL_CASE");
-		expect(constantCase("param-case")).toBe("PARAM_CASE");
-		expect(constantCase("PascalCase")).toBe("PASCAL_CASE");
-		expect(constantCase("UPPER_CASE")).toBe("UPPER_CASE");
-		expect(constantCase("snake_case")).toBe("SNAKE_CASE");
-		expect(constantCase("sentence case")).toBe("SENTENCE_CASE");
-		expect(constantCase("Title Case")).toBe("TITLE_CASE");
-		expect(constantCase("dot.case")).toBe("DOT_CASE");
+		assert.is(constantCase("string"), "STRING");
+		assert.is(constantCase("camelCase"), "CAMEL_CASE");
+		assert.is(constantCase("param-case"), "PARAM_CASE");
+		assert.is(constantCase("PascalCase"), "PASCAL_CASE");
+		assert.is(constantCase("UPPER_CASE"), "UPPER_CASE");
+		assert.is(constantCase("snake_case"), "SNAKE_CASE");
+		assert.is(constantCase("sentence case"), "SENTENCE_CASE");
+		assert.is(constantCase("Title Case"), "TITLE_CASE");
+		assert.is(constantCase("dot.case"), "DOT_CASE");
 	});
 });

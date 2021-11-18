@@ -9,7 +9,7 @@ const dummies = {
 describe("#upperFirst", () => {
 	it("should capitalize the given input", () => {
 		Object.keys(dummies).forEach((key) => {
-			expect(upperFirst(key)).toEqual(dummies[key]);
+			assert.is(upperFirst(key)).toEqual(dummies[key]);
 		});
 	});
 });

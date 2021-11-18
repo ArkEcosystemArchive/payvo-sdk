@@ -88,17 +88,17 @@ describe("#setCoin", () => {
 	it("should mark the wallet as partially restored if the coin construction fails", async () => {
 		subject = new Wallet(UUID.random(), {}, profile);
 
-		expect(subject.hasBeenPartiallyRestored()).toBeFalse();
+		assert.is(subject.hasBeenPartiallyRestored(), false);
 
 		await subject.mutator().coin("FAKE", "fake.network");
 
-		expect(subject.hasBeenPartiallyRestored()).toBeTrue();
+		assert.is(subject.hasBeenPartiallyRestored(), true);
 	});
 
 	it("should use the default peer if no custom one is available", async () => {
 		await subject.mutator().coin("ARK", "ark.devnet");
 
-		expect(() => subject.coin().config().get("peer")).toThrow("unknown");
+		assert.is(() => subject.coin().config().get("peer")).toThrow("unknown");
 	});
 });
 
@@ -112,13 +112,13 @@ describe("#identity", () => {
 			type,
 		}));
 
-		expect(subject.data().has(WalletData.DerivationType)).toBeFalse();
-		expect(subject.data().has(WalletData.DerivationPath)).toBeFalse();
+		assert.is(subject.data().has(WalletData.DerivationType), false);
+		assert.is(subject.data().has(WalletData.DerivationPath), false);
 
 		await subject.mutator().identity(identity.mnemonic);
 
-		expect(subject.data().has(WalletData.DerivationType)).toBeTrue();
-		expect(subject.data().has(WalletData.DerivationPath)).toBeTrue();
+		assert.is(subject.data().has(WalletData.DerivationType), true);
+		assert.is(subject.data().has(WalletData.DerivationPath), true);
 	});
 
 	it.each(["bip39", "bip44", "bip49", "bip84"])(
@@ -139,13 +139,13 @@ describe("#identity", () => {
 					"tpubDDtBpveGs7uW1X715ZzEHtH1KinDUTW71E3u1ourxCameEdmWrQMLdFGAAYmgTWbLxWw8Dcb6PAV37eNCZDSUu3s2uc2ZTvXRodnUcTLJ8u",
 			);
 
-			expect(subject.data().has(WalletData.DerivationType)).toBeFalse();
-			expect(subject.data().has(WalletData.DerivationPath)).toBeFalse();
+			assert.is(subject.data().has(WalletData.DerivationType), false);
+			assert.is(subject.data().has(WalletData.DerivationPath), false);
 
 			await subject.mutator().identity(identity.mnemonic);
 
-			expect(subject.data().has(WalletData.DerivationType)).toBeTrue();
-			expect(subject.data().has(WalletData.DerivationPath)).toBeTrue();
+			assert.is(subject.data().has(WalletData.DerivationType), true);
+			assert.is(subject.data().has(WalletData.DerivationPath), true);
 		},
 	);
 });
@@ -154,8 +154,8 @@ describe("#address", () => {
 	it("should mutate the address with a path", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
-		expect(subject.data().has(WalletData.DerivationType)).toBeFalse();
-		expect(subject.data().has(WalletData.DerivationPath)).toBeFalse();
+		assert.is(subject.data().has(WalletData.DerivationType), false);
+		assert.is(subject.data().has(WalletData.DerivationPath), false);
 
 		await subject.mutator().address({
 			address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
@@ -163,8 +163,8 @@ describe("#address", () => {
 			type: "bip39",
 		});
 
-		expect(subject.data().has(WalletData.DerivationType)).toBeTrue();
-		expect(subject.data().has(WalletData.DerivationPath)).toBeTrue();
+		assert.is(subject.data().has(WalletData.DerivationType), true);
+		assert.is(subject.data().has(WalletData.DerivationPath), true);
 	});
 });
 
@@ -179,13 +179,13 @@ describe("#removeEncryption", () => {
 		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(false);
 
-		expect(subject.signingKey().exists()).toBeTrue();
+		assert.is(subject.signingKey().exists(), true);
 
 		await subject.mutator().removeEncryption("password");
 
-		expect(subject.signingKey().exists()).toBeFalse();
+		assert.is(subject.signingKey().exists(), false);
 
-		expect(subject.data().get(WalletData.ImportMethod)).toBe(WalletImportMethod.BIP39.MNEMONIC);
+		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
 	});
 
 	it("should remove the encryption password of a wallet imported by mnemonic with second signature", async () => {
@@ -199,15 +199,15 @@ describe("#removeEncryption", () => {
 		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(true);
 
-		expect(subject.signingKey().exists()).toBeTrue();
-		expect(subject.confirmKey().exists()).toBeTrue();
+		assert.is(subject.signingKey().exists(), true);
+		assert.is(subject.confirmKey().exists(), true);
 
 		await subject.mutator().removeEncryption("password");
 
-		expect(subject.signingKey().exists()).toBeFalse();
-		expect(subject.confirmKey().exists()).toBeFalse();
+		assert.is(subject.signingKey().exists(), false);
+		assert.is(subject.confirmKey().exists(), false);
 
-		expect(subject.data().get(WalletData.ImportMethod)).toBe(WalletImportMethod.BIP39.MNEMONIC);
+		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
 	});
 
 	it("should remove the encryption password of a wallet imported by secret", async () => {
@@ -220,13 +220,13 @@ describe("#removeEncryption", () => {
 		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(false);
 
-		expect(subject.signingKey().exists()).toBeTrue();
+		assert.is(subject.signingKey().exists(), true);
 
 		await subject.mutator().removeEncryption("password");
 
-		expect(subject.signingKey().exists()).toBeFalse();
+		assert.is(subject.signingKey().exists(), false);
 
-		expect(subject.data().get(WalletData.ImportMethod)).toBe(WalletImportMethod.SECRET);
+		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
 	});
 
 	it("should remove the encryption password of a wallet imported by secret with second signature", async () => {
@@ -240,23 +240,23 @@ describe("#removeEncryption", () => {
 		jest.spyOn(subject, "address").mockReturnValueOnce(address);
 		jest.spyOn(subject, "isSecondSignature").mockReturnValueOnce(true);
 
-		expect(subject.signingKey().exists()).toBeTrue();
-		expect(subject.confirmKey().exists()).toBeTrue();
+		assert.is(subject.signingKey().exists(), true);
+		assert.is(subject.confirmKey().exists(), true);
 
 		await subject.mutator().removeEncryption("password");
 
-		expect(subject.signingKey().exists()).toBeFalse();
-		expect(subject.confirmKey().exists()).toBeFalse();
+		assert.is(subject.signingKey().exists(), false);
+		assert.is(subject.confirmKey().exists(), false);
 
-		expect(subject.data().get(WalletData.ImportMethod)).toBe(WalletImportMethod.SECRET);
+		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
 	});
 
 	it("should throw if the wallet has an unsupported import method", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
-		await expect(() => subject.mutator().removeEncryption("wrong-password")).rejects.toThrow(
-			`Import method [${WalletImportMethod.Address}] is not supported.`,
-		);
+		await assert
+			.is(() => subject.mutator().removeEncryption("wrong-password"))
+			.rejects.toThrow(`Import method [${WalletImportMethod.Address}] is not supported.`);
 	});
 
 	it("should throw if the provided password does not match the wallet", async () => {
@@ -264,8 +264,8 @@ describe("#removeEncryption", () => {
 
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		await expect(() => subject.mutator().removeEncryption("wrong-password")).rejects.toThrow(
-			"The provided password does not match the wallet.",
-		);
+		await assert
+			.is(() => subject.mutator().removeEncryption("wrong-password"))
+			.rejects.toThrow("The provided password does not match the wallet.");
 	});
 });

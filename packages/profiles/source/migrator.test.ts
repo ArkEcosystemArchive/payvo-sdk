@@ -24,7 +24,7 @@ beforeEach(async () => {
 it("should save the project version as the initial migrated version", async () => {
 	await subject.migrate({}, "0.0.2");
 
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
 });
 
 it("should save the project version when a migration occurs", async () => {
@@ -33,11 +33,11 @@ it("should save the project version when a migration occurs", async () => {
 	};
 
 	await subject.migrate(migrations, "0.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
 
 	await subject.migrate(migrations, "0.0.4");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.4");
-	expect(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.4");
+	assert.is(profile.data().get("key")).toEqual("value");
 });
 
 it("should not run the migration when the version does not change", async () => {
@@ -46,12 +46,12 @@ it("should not run the migration when the version does not change", async () => 
 	};
 
 	await subject.migrate(migrations, "0.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
-	expect(profile.data().has("key")).toBeFalse();
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
+	assert.is(profile.data().has("key"), false);
 
 	await subject.migrate(migrations, "0.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
-	expect(profile.data().has("key")).toBeFalse();
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
+	assert.is(profile.data().has("key"), false);
 });
 
 it("should run migration when previous version is less but not zero", async () => {
@@ -61,7 +61,7 @@ it("should run migration when previous version is less but not zero", async () =
 
 	profile.data().get(ProfileData.LatestMigration, "0.0.1");
 	await subject.migrate(migrations, "0.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
 });
 
 it("should run the migration when the version changes", async () => {
@@ -70,13 +70,13 @@ it("should run the migration when the version changes", async () => {
 	};
 
 	await subject.migrate(migrations, "0.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("0.0.2");
-	expect(profile.data().has("key")).toBeFalse();
+	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
+	assert.is(profile.data().has("key"), false);
 
 	await subject.migrate(migrations, "1.1.0");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("1.1.0");
-	expect(profile.data().has("key")).toBeTrue();
-	expect(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "1.1.0");
+	assert.is(profile.data().has("key"), true);
+	assert.is(profile.data().get("key")).toEqual("value");
 });
 
 it("should run the migration when the version uses semver comparisons", async () => {
@@ -85,8 +85,8 @@ it("should run the migration when the version uses semver comparisons", async ()
 	};
 
 	await subject.migrate(migrations, "1.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("1.0.2");
-	expect(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.2");
+	assert.is(profile.data().get("key")).toEqual("value");
 });
 
 it("should run the migration when the version uses multiple semver comparisons", async () => {
@@ -96,12 +96,12 @@ it("should run the migration when the version uses multiple semver comparisons",
 	};
 
 	await subject.migrate(migrations, "1.0.2");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("1.0.2");
-	expect(profile.data().get("key")).toEqual("value");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.2");
+	assert.is(profile.data().get("key")).toEqual("value");
 
 	await subject.migrate(migrations, "2.0.1");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("2.0.1");
-	expect(profile.data().get("key")).toEqual("new value");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "2.0.1");
+	assert.is(profile.data().get("key")).toEqual("new value");
 });
 
 it("should run all valid migrations when the version uses multiple semver comparisons", async () => {
@@ -118,12 +118,12 @@ it("should run all valid migrations when the version uses multiple semver compar
 	};
 
 	await subject.migrate(migrations, "2.4.0");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("2.4.0");
-	expect(profile.data().get("key1")).toEqual("value1");
-	expect(profile.data().get("key2")).toEqual("value2");
-	expect(profile.data().get("key3")).toEqual("value3");
-	expect(profile.data().get("key4")).toEqual("value4");
-	expect(profile.data().get("key5")).toEqual("value5");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "2.4.0");
+	assert.is(profile.data().get("key1")).toEqual("value1");
+	assert.is(profile.data().get("key2")).toEqual("value2");
+	assert.is(profile.data().get("key3")).toEqual("value3");
+	assert.is(profile.data().get("key4")).toEqual("value4");
+	assert.is(profile.data().get("key5")).toEqual("value5");
 });
 
 it("should cleanup migrations with non-numeric values", async () => {
@@ -140,12 +140,12 @@ it("should cleanup migrations with non-numeric values", async () => {
 	};
 
 	await subject.migrate(migrations, "2.4.0");
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("2.4.0");
-	expect(profile.data().get("key1")).toEqual("value1");
-	expect(profile.data().get("key2")).toEqual("value2");
-	expect(profile.data().get("key3")).toEqual("value3");
-	expect(profile.data().get("key4")).toEqual("value4");
-	expect(profile.data().get("key5")).toEqual("value5");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "2.4.0");
+	assert.is(profile.data().get("key1")).toEqual("value1");
+	assert.is(profile.data().get("key2")).toEqual("value2");
+	assert.is(profile.data().get("key3")).toEqual("value3");
+	assert.is(profile.data().get("key4")).toEqual("value4");
+	assert.is(profile.data().get("key5")).toEqual("value5");
 });
 
 it("should rollback changes if a migration failed", async () => {
@@ -166,10 +166,12 @@ it("should rollback changes if a migration failed", async () => {
 
 	await subject.migrate(passingMigrations, "1.0.0");
 
-	await expect(subject.migrate(failingMigrations, "1.0.2")).rejects.toThrowError(/throw the migration and rollback/);
+	await assert
+		.is(subject.migrate(failingMigrations, "1.0.2"))
+		.rejects.toThrowError(/throw the migration and rollback/);
 
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("1.0.0");
-	expect(profile.data().get("key")).toEqual("initial update");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.0");
+	assert.is(profile.data().get("key")).toEqual("initial update");
 });
 
 it("should migrate profiles from JSON to Base64", async () => {
@@ -263,14 +265,14 @@ it("should migrate profiles from JSON to Base64", async () => {
 		"2.0.0",
 	);
 
-	expect(profile.data().get(ProfileData.LatestMigration)).toBe("2.0.0");
+	assert.is(profile.data().get(ProfileData.LatestMigration), "2.0.0");
 
 	await new ProfileImporter(profile).import();
 
-	expect(profile.id()).toBe("b999d134-7a24-481e-a95d-bc47c543bfc9");
-	expect(profile.usesPassword()).toBeTrue();
-	expect(profile.contacts().findById("0e147f96-049f-4d89-bad4-ad3341109907").name()).toBe("John Doe");
-	expect(new ProfileSerialiser(profile).toJSON()).toMatchInlineSnapshot(`
+	assert.is(profile.id(), "b999d134-7a24-481e-a95d-bc47c543bfc9");
+	assert.is(profile.usesPassword(), true);
+	assert.is(profile.contacts().findById("0e147f96-049f-4d89-bad4-ad3341109907").name(), "John Doe");
+	assert.is(new ProfileSerialiser(profile).toJSON()).toMatchInlineSnapshot(`
 		Object {
 		  "contacts": Object {
 		    "0e147f96-049f-4d89-bad4-ad3341109907": Object {

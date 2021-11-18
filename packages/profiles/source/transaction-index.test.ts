@@ -86,23 +86,27 @@ beforeEach(async () => {
 beforeAll(() => nock.disableNetConnect());
 
 it("all", async () => {
-	await expect(subject.transactionIndex().all()).resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+	await assert
+		.is(subject.transactionIndex().all())
+		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
 });
 
 it("sent", async () => {
-	await expect(subject.transactionIndex().sent()).resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+	await assert
+		.is(subject.transactionIndex().sent())
+		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
 });
 
 it("received", async () => {
-	await expect(subject.transactionIndex().received()).resolves.toBeInstanceOf(
-		ExtendedConfirmedTransactionDataCollection,
-	);
+	await assert
+		.is(subject.transactionIndex().received())
+		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
 });
 
 it("should fetch transaction by id", async () => {
 	const transactionId = "3e0b2e5ed00b34975abd6dee0ca5bd5560b5bd619b26cf6d8f70030408ec5be3";
 	const transaction = await subject.transactionIndex().findById(transactionId);
-	expect(transaction.id()).toEqual(transactionId);
+	assert.is(transaction.id()).toEqual(transactionId);
 });
 
 it("should fetch transactions by id", async () => {
@@ -110,9 +114,9 @@ it("should fetch transactions by id", async () => {
 	const secondaryTransactionId = "bb9004fa874b534905f9eff201150f7f982622015f33e076c52f1e945ef184ed";
 	const transactions = await subject.transactionIndex().findByIds([transactionId, secondaryTransactionId]);
 
-	expect(transactions.length).toEqual(2);
+	assert.is(transactions.length).toEqual(2);
 
 	const fetchedIds = transactions.map((transaction) => transaction.id());
-	expect(fetchedIds.includes(transactionId)).toBeTrue();
-	expect(fetchedIds.includes(secondaryTransactionId)).toBeTrue();
+	assert.is(fetchedIds.includes(transactionId), true);
+	assert.is(fetchedIds.includes(secondaryTransactionId), true);
 });

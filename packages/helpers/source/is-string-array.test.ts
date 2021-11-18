@@ -2,10 +2,10 @@ import { isStringArray } from "./is-string-array.js";
 
 describe("#isStringArray", () => {
 	it("should pass", () => {
-		expect(isStringArray(["string"])).toBeTrue();
+		assert.is(isStringArray(["string"]), true);
 	});
 
 	it("should fail", () => {
-		expect(isStringArray([1])).toBeFalse();
+		assert.is(isStringArray([1]), false);
 	});
 });

@@ -2,7 +2,7 @@ import { min } from "./min.js";
 
 describe("#min", () => {
 	it("should return the smallest number", () => {
-		expect(min([1, 0])).toBe(0);
-		expect(min([1, 2, 3, 4, 5])).toBe(1);
+		assert.is(min([1, 0]), 0);
+		assert.is(min([1, 2, 3, 4, 5]), 1);
 	});
 });

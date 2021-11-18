@@ -2,10 +2,10 @@ import { isNull } from "./is-null.js";
 
 describe("#isNull", () => {
 	it("should pass", () => {
-		expect(isNull(null)).toBeTrue();
+		assert.is(isNull(null), true);
 	});
 
 	it("should fail", () => {
-		expect(isNull("null")).toBeFalse();
+		assert.is(isNull("null"), false);
 	});
 });

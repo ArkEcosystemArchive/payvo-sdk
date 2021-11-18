@@ -2,74 +2,74 @@ import { TransactionTypeService } from "./transaction-type.service.js";
 
 describe("TransactionTypeService", () => {
 	test("#isTransfer", () => {
-		expect(TransactionTypeService.isTransfer({ type: 0 })).toBeTrue();
-		expect(TransactionTypeService.isTransfer({ type: 1 })).toBeFalse();
+		assert.is(TransactionTypeService.isTransfer({ type: 0 }), true);
+		assert.is(TransactionTypeService.isTransfer({ type: 1 }), false);
 	});
 
 	test("#isSecondSignature", () => {
-		expect(TransactionTypeService.isSecondSignature({ type: 1 })).toBeTrue();
-		expect(TransactionTypeService.isSecondSignature({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isSecondSignature({ type: 1 }), true);
+		assert.is(TransactionTypeService.isSecondSignature({ type: 0 }), false);
 	});
 
 	test("#isDelegateRegistration", () => {
-		expect(TransactionTypeService.isDelegateRegistration({ type: 2 })).toBeTrue();
-		expect(TransactionTypeService.isDelegateRegistration({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isDelegateRegistration({ type: 2 }), true);
+		assert.is(TransactionTypeService.isDelegateRegistration({ type: 0 }), false);
 	});
 
 	test("#isVoteCombination", () => {
-		expect(TransactionTypeService.isVoteCombination({ type: 3, asset: { votes: ["+a", "-a"] } })).toBeTrue();
-		expect(TransactionTypeService.isVoteCombination({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isVoteCombination({ type: 3, asset: { votes: ["+a", "-a"] } }), true);
+		assert.is(TransactionTypeService.isVoteCombination({ type: 0 }), false);
 	});
 
 	test("#isVote", () => {
-		expect(TransactionTypeService.isVote({ type: 3, asset: { votes: ["+a"] } })).toBeTrue();
-		expect(TransactionTypeService.isVote({ type: 3 })).toBeFalse();
-		expect(TransactionTypeService.isVote({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isVote({ type: 3, asset: { votes: ["+a"] } }), true);
+		assert.is(TransactionTypeService.isVote({ type: 3 }), false);
+		assert.is(TransactionTypeService.isVote({ type: 0 }), false);
 	});
 
 	test("#isUnvote", () => {
-		expect(TransactionTypeService.isUnvote({ type: 3, asset: { votes: ["-a"] } })).toBeTrue();
-		expect(TransactionTypeService.isUnvote({ type: 3 })).toBeFalse();
-		expect(TransactionTypeService.isUnvote({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isUnvote({ type: 3, asset: { votes: ["-a"] } }), true);
+		assert.is(TransactionTypeService.isUnvote({ type: 3 }), false);
+		assert.is(TransactionTypeService.isUnvote({ type: 0 }), false);
 	});
 
 	test("#isMultiSignatureRegistration", () => {
-		expect(TransactionTypeService.isMultiSignatureRegistration({ type: 4 })).toBeTrue();
-		expect(TransactionTypeService.isMultiSignatureRegistration({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isMultiSignatureRegistration({ type: 4 }), true);
+		assert.is(TransactionTypeService.isMultiSignatureRegistration({ type: 0 }), false);
 	});
 
 	test("#isIpfs", () => {
-		expect(TransactionTypeService.isIpfs({ type: 5 })).toBeTrue();
-		expect(TransactionTypeService.isIpfs({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isIpfs({ type: 5 }), true);
+		assert.is(TransactionTypeService.isIpfs({ type: 0 }), false);
 	});
 
 	test("#isMultiPayment", () => {
-		expect(TransactionTypeService.isMultiPayment({ type: 6 })).toBeTrue();
-		expect(TransactionTypeService.isMultiPayment({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isMultiPayment({ type: 6 }), true);
+		assert.is(TransactionTypeService.isMultiPayment({ type: 0 }), false);
 	});
 
 	test("#isDelegateResignation", () => {
-		expect(TransactionTypeService.isDelegateResignation({ type: 7 })).toBeTrue();
-		expect(TransactionTypeService.isDelegateResignation({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isDelegateResignation({ type: 7 }), true);
+		assert.is(TransactionTypeService.isDelegateResignation({ type: 0 }), false);
 	});
 
 	test("#isHtlcLock", () => {
-		expect(TransactionTypeService.isHtlcLock({ type: 8 })).toBeTrue();
-		expect(TransactionTypeService.isHtlcLock({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isHtlcLock({ type: 8 }), true);
+		assert.is(TransactionTypeService.isHtlcLock({ type: 0 }), false);
 	});
 
 	test("#isHtlcClaim", () => {
-		expect(TransactionTypeService.isHtlcClaim({ type: 9 })).toBeTrue();
-		expect(TransactionTypeService.isHtlcClaim({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isHtlcClaim({ type: 9 }), true);
+		assert.is(TransactionTypeService.isHtlcClaim({ type: 0 }), false);
 	});
 
 	test("#isHtlcRefund", () => {
-		expect(TransactionTypeService.isHtlcRefund({ type: 10 })).toBeTrue();
-		expect(TransactionTypeService.isHtlcRefund({ type: 0 })).toBeFalse();
+		assert.is(TransactionTypeService.isHtlcRefund({ type: 10 }), true);
+		assert.is(TransactionTypeService.isHtlcRefund({ type: 0 }), false);
 	});
 
 	test("#isMagistrate", () => {
-		expect(TransactionTypeService.isMagistrate({ typeGroup: 2 })).toBeTrue();
-		expect(TransactionTypeService.isMagistrate({ typeGroup: 1 })).toBeFalse();
+		assert.is(TransactionTypeService.isMagistrate({ typeGroup: 2 }), true);
+		assert.is(TransactionTypeService.isMagistrate({ typeGroup: 1 }), false);
 	});
 });

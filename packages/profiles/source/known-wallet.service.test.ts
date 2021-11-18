@@ -64,24 +64,24 @@ afterEach(() => nock.cleanAll());
 
 describe("KnownWalletService", () => {
 	test("#name", async () => {
-		expect(subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toEqual("ACF Hot Wallet");
-		expect(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR")).toEqual("ACF Hot Wallet (old)");
-		expect(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa")).toEqual(undefined);
+		assert.is(subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toEqual("ACF Hot Wallet");
+		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR")).toEqual("ACF Hot Wallet (old)");
+		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa")).toEqual(undefined);
 	});
 
 	test("#is", async () => {
-		expect(subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V")).toBeTrue();
-		expect(subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s")).toBeFalse();
+		assert.is(subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), true);
+		assert.is(subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s"), false);
 	});
 
 	test("#isExchange", async () => {
-		expect(subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V")).toBeTrue();
-		expect(subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toBeFalse();
-		expect(subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toBeFalse();
+		assert.is(subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), true);
+		assert.is(subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), false);
+		assert.is(subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), false);
 	});
 
 	test("#isTeam", async () => {
-		expect(subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toBeTrue();
-		expect(subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V")).toBeFalse();
+		assert.is(subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), true);
+		assert.is(subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), false);
 	});
 });

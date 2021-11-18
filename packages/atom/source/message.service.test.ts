@@ -8,25 +8,25 @@ import { MessageService } from "./message.service.js";
 let subject: MessageService;
 
 beforeEach(async () => {
-	subject = await createService(MessageService, undefined, (container: IoC.Container) => {
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-	});
+    subject = await createService(MessageService, undefined, (container: IoC.Container) => {
+        container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+    });
 });
 
 describe("MessageService", () => {
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
-			message: "Hello World",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: identity.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
-		});
+    it("should sign and verify a message", async () => {
+        const result = await subject.sign({
+            message: "Hello World",
+            signatory: new Signatories.Signatory(
+                new Signatories.MnemonicSignatory({
+                    signingKey: identity.mnemonic,
+                    address: identity.address,
+                    publicKey: identity.publicKey,
+                    privateKey: identity.privateKey,
+                }),
+            ),
+        });
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
-	});
+        await assert.is(subject.verify(result)).resolves, true);
+});
 });

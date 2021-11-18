@@ -20,21 +20,23 @@ describe("FeeService", () => {
 
 		const result = await subject.all();
 
-		expect(result).toContainAllKeys([
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+		assert
+			.is(result)
+			.toContainAllKeys([
+				"transfer",
+				"secondSignature",
+				"delegateRegistration",
+				"vote",
+				"multiSignature",
+				"ipfs",
+				"multiPayment",
+				"delegateResignation",
+				"htlcLock",
+				"htlcClaim",
+				"htlcRefund",
+			]);
 
-		expect(result.transfer).toEqual({
+		assert.is(result.transfer).toEqual({
 			min: "148",
 			avg: "175",
 			max: "199",

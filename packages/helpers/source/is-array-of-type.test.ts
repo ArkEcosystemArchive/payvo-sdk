@@ -2,10 +2,10 @@ import { isArrayOfType } from "./is-array-of-type.js";
 
 describe("#isArrayOfType", () => {
 	it("should pass", () => {
-		expect(isArrayOfType<number>([1], "number")).toBeTrue();
+		assert.is(isArrayOfType<number>([1], "number"), true);
 	});
 
 	it("should fail", () => {
-		expect(isArrayOfType<number>(["string"], "number")).toBeFalse();
+		assert.is(isArrayOfType<number>(["string"], "number"), false);
 	});
 });

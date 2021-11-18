@@ -12,54 +12,54 @@ beforeAll(async () => {
 
 describe("WalletData", () => {
 	it("#address", () => {
-		expect(subject.address()).toEqual("AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
+		assert.is(subject.address()).toEqual("AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
 	});
 
 	it("#publicKey", () => {
-		expect(() => subject.publicKey()).toThrow(/not implemented/);
+		assert.is(() => subject.publicKey()).toThrow(/not implemented/);
 	});
 
 	it("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make(3050000));
+		assert.is(subject.balance().available).toEqual(BigNumber.make(3050000));
 	});
 
 	it("#nonce", () => {
-		expect(subject.nonce()).toEqual(BigNumber.make(24242));
+		assert.is(subject.nonce()).toEqual(BigNumber.make(24242));
 	});
 
 	it("#secondPublicKey", () => {
-		expect(() => subject.secondPublicKey()).toThrow(/not implemented/);
+		assert.is(() => subject.secondPublicKey()).toThrow(/not implemented/);
 	});
 
 	it("#username", () => {
-		expect(() => subject.username()).toThrow(/not implemented/);
+		assert.is(() => subject.username()).toThrow(/not implemented/);
 	});
 
 	it("#rank", () => {
-		expect(() => subject.rank()).toThrow(/not implemented/);
+		assert.is(() => subject.rank()).toThrow(/not implemented/);
 	});
 
 	it("#votes", () => {
-		expect(() => subject.votes()).toThrow(/not implemented/);
+		assert.is(() => subject.votes()).toThrow(/not implemented/);
 	});
 
 	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/not implemented/);
+		assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
 	});
 
 	it("#isMultiSignature", () => {
-		expect(subject.isMultiSignature()).toBeFalse();
+		assert.is(subject.isMultiSignature(), false);
 	});
 
 	it("#isDelegate", () => {
-		expect(subject.isDelegate()).toBeFalse();
+		assert.is(subject.isDelegate(), false);
 	});
 
 	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
+		assert.is(subject.isSecondSignature(), false);
 	});
 
 	it("#isResignedDelegate", () => {
-		expect(subject.isResignedDelegate()).toBeFalse();
+		assert.is(subject.isResignedDelegate(), false);
 	});
 });

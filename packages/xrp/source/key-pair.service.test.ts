@@ -12,7 +12,7 @@ describe("Keys", () => {
 	it("should generate an output from a secret", async () => {
 		const result = await subject.fromSecret(identity.mnemonic);
 
-		expect(result).toEqual({
+		assert.is(result).toEqual({
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

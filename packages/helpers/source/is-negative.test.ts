@@ -2,10 +2,10 @@ import { isNegative } from "./is-negative.js";
 
 describe("#isNegative", () => {
 	it("should pass", () => {
-		expect(isNegative(-1)).toBeTrue();
+		assert.is(isNegative(-1), true);
 	});
 
 	it("should fail", () => {
-		expect(isNegative(1)).toBeFalse();
+		assert.is(isNegative(1), false);
 	});
 });

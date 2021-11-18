@@ -2,11 +2,11 @@ import { isBigInt } from "./is-bigint.js";
 
 describe("#isBigInt", () => {
 	it("should pass", () => {
-		expect(isBigInt(BigInt(1))).toBeTrue();
+		assert.is(isBigInt(BigInt(1)), true);
 	});
 
 	it("should fail", () => {
-		expect(isBigInt("1")).toBeFalse();
-		expect(isBigInt(1)).toBeFalse();
+		assert.is(isBigInt("1"), false);
+		assert.is(isBigInt(1), false);
 	});
 });

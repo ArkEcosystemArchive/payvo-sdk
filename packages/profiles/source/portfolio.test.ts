@@ -98,9 +98,9 @@ it("should aggregate the balances of all wallets", async () => {
 
 	await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 
-	expect(profile.portfolio().breakdown()[0].source).toBe(3);
-	expect(profile.portfolio().breakdown()[0].target).toBe(0.00015144);
-	expect(profile.portfolio().breakdown()[0].shares).toBe(100);
+	assert.is(profile.portfolio().breakdown()[0].source, 3);
+	assert.is(profile.portfolio().breakdown()[0].target, 0.00015144);
+	assert.is(profile.portfolio().breakdown()[0].shares, 100);
 });
 
 it("should ignore test network wallets", async () => {
@@ -125,5 +125,5 @@ it("should ignore test network wallets", async () => {
 		),
 	]);
 
-	expect(profile.portfolio().breakdown()).toEqual([]);
+	assert.is(profile.portfolio().breakdown()).toEqual([]);
 });

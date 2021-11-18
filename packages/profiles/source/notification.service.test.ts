@@ -44,18 +44,18 @@ beforeEach(async () => {
 });
 
 test("#transactions", async () => {
-	expect(subject.transactions()).toBeInstanceOf(ProfileTransactionNotificationService);
+	assert.is(subject.transactions() instanceof ProfileTransactionNotificationService);
 });
 
 test("#releases", async () => {
-	expect(subject.releases()).toBeInstanceOf(WalletReleaseNotificationService);
+	assert.is(subject.releases() instanceof WalletReleaseNotificationService);
 });
 
 test("#markAsRead", async () => {
-	expect(subject.hasUnread()).toBeFalse();
+	assert.is(subject.hasUnread(), false);
 	await subject.transactions().sync({});
 
-	expect(subject.hasUnread()).toBeTrue();
+	assert.is(subject.hasUnread(), true);
 
 	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 	subject.markAsRead(notification?.id as string);
@@ -63,46 +63,46 @@ test("#markAsRead", async () => {
 	const notification2 = subject.transactions().findByTransactionId(NotificationTransactionFixtures.data[2].id);
 	subject.markAsRead(notification2?.id as string);
 
-	expect(subject.hasUnread()).toBeFalse();
+	assert.is(subject.hasUnread(), false);
 });
 
 test("#get", async () => {
-	expect(subject.hasUnread()).toBeFalse();
+	assert.is(subject.hasUnread(), false);
 	await subject.transactions().sync({});
 
 	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 
-	expect(subject.get(notification?.id!).meta).toEqual(notification?.meta!);
+	assert.is(subject.get(notification?.id!).meta).toEqual(notification?.meta!);
 });
 
 test("#filterByType", async () => {
 	await subject.transactions().sync({});
 
-	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(2);
+	assert.is(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(2);
 });
 
 test("#hasUnread", async () => {
-	expect(subject.hasUnread()).toBeFalse();
+	assert.is(subject.hasUnread(), false);
 	await subject.transactions().sync({});
-	expect(subject.hasUnread()).toBeTrue();
+	assert.is(subject.hasUnread(), true);
 });
 
 test("#all", async () => {
 	await subject.transactions().sync({});
-	expect(subject.all()).toBeInstanceOf(Object);
-	expect(Object.values(subject.all())).toHaveLength(2);
+	assert.is(subject.all() instanceof Object);
+	assert.is(Object.values(subject.all())).toHaveLength(2);
 });
 
 test("#count", async () => {
 	await subject.transactions().sync({});
-	expect(subject.count()).toBe(2);
+	assert.is(subject.count(), 2);
 });
 
 test("#flush", async () => {
 	await subject.transactions().sync({});
-	expect(subject.count()).toBe(2);
+	assert.is(subject.count(), 2);
 	subject.flush();
-	expect(subject.count()).toBe(0);
+	assert.is(subject.count(), 0);
 });
 
 test("#fill", async () => {
@@ -118,7 +118,7 @@ test("#fill", async () => {
 		},
 	};
 
-	expect(subject.count()).toBe(0);
+	assert.is(subject.count(), 0);
 	subject.fill(notifications);
-	expect(subject.count()).toBe(1);
+	assert.is(subject.count(), 1);
 });

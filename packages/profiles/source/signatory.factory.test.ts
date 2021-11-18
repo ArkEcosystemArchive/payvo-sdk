@@ -31,13 +31,13 @@ describe("SignatoryFactory", () => {
 	});
 
 	it("returns signatory when mnemonic is provided", async () => {
-		await expect(subject.make({ mnemonic })).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({ mnemonic })).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("returns signatory when mnemonic and 2nd mnemonic are provided", async () => {
-		await expect(subject.make({ mnemonic, secondMnemonic: "second mnemonic" })).resolves.toBeInstanceOf(
-			Signatories.Signatory,
-		);
+		await assert
+			.is(subject.make({ mnemonic, secondMnemonic: "second mnemonic" }))
+			.resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	describe("when encryption password is provided", () => {
@@ -45,9 +45,9 @@ describe("SignatoryFactory", () => {
 			jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(false);
 			wallet.signingKey().set(mnemonic, "password");
 
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
+			await assert
+				.is(subject.make({ encryptionPassword: "password" }))
+				.resolves.toBeInstanceOf(Signatories.Signatory);
 		});
 
 		it("returns signatory when wallet and acts with mnemonic and has 2nd signature", async () => {
@@ -55,9 +55,9 @@ describe("SignatoryFactory", () => {
 			wallet.signingKey().set(mnemonic, "password");
 			wallet.confirmKey().set("second mnemonic", "password");
 
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
+			await assert
+				.is(subject.make({ encryptionPassword: "password" }))
+				.resolves.toBeInstanceOf(Signatories.Signatory);
 		});
 
 		it("returns signatory when wallet acts with secret", async () => {
@@ -72,9 +72,9 @@ describe("SignatoryFactory", () => {
 
 			subject = new SignatoryFactory(wallet);
 
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
+			await assert
+				.is(subject.make({ encryptionPassword: "password" }))
+				.resolves.toBeInstanceOf(Signatories.Signatory);
 		});
 
 		it("returns signatory when wallet acts with secret and has 2nd signature", async () => {
@@ -91,9 +91,9 @@ describe("SignatoryFactory", () => {
 
 			subject = new SignatoryFactory(wallet);
 
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
+			await assert
+				.is(subject.make({ encryptionPassword: "password" }))
+				.resolves.toBeInstanceOf(Signatories.Signatory);
 		});
 	});
 
@@ -104,7 +104,7 @@ describe("SignatoryFactory", () => {
 			publicKeys: [wallet.publicKey()!],
 		});
 
-		await expect(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("returns signatory when wallet is Ledger", async () => {
@@ -112,14 +112,14 @@ describe("SignatoryFactory", () => {
 		jest.spyOn(wallet, "isLedger").mockReturnValueOnce(true);
 		jest.spyOn(wallet.data(), "get").mockReturnValueOnce("m/44'/111'/0'/0/0");
 
-		await expect(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("throw error when wallet is Ledger but no derivation path exists", async () => {
 		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
 		jest.spyOn(wallet, "isLedger").mockReturnValueOnce(true);
 
-		expect(() => subject.make({})).toThrow("[derivationPath] must be string.");
+		assert.is(() => subject.make({})).toThrow("[derivationPath] must be string.");
 	});
 
 	it("returns signatory when wif is provided", async () => {
@@ -127,7 +127,7 @@ describe("SignatoryFactory", () => {
 
 		const { wif } = await wallet.wifService().fromMnemonic(mnemonic);
 
-		await expect(subject.make({ wif })).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({ wif })).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("returns signatory when private key is provided", async () => {
@@ -135,7 +135,7 @@ describe("SignatoryFactory", () => {
 
 		const { privateKey } = await wallet.privateKeyService().fromMnemonic(mnemonic);
 
-		await expect(subject.make({ privateKey })).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({ privateKey })).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("returns signatory when secret is provided", async () => {
@@ -149,7 +149,7 @@ describe("SignatoryFactory", () => {
 
 		subject = new SignatoryFactory(wallet);
 
-		await expect(subject.make({ secret: "secret" })).resolves.toBeInstanceOf(Signatories.Signatory);
+		await assert.is(subject.make({ secret: "secret" })).resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("returns signatory when secret and 2nd secret are provided", async () => {
@@ -164,14 +164,14 @@ describe("SignatoryFactory", () => {
 
 		subject = new SignatoryFactory(wallet);
 
-		await expect(subject.make({ secret: "secret", secondSecret: "second secret" })).resolves.toBeInstanceOf(
-			Signatories.Signatory,
-		);
+		await assert
+			.is(subject.make({ secret: "secret", secondSecret: "second secret" }))
+			.resolves.toBeInstanceOf(Signatories.Signatory);
 	});
 
 	it("throws error when no signing key is provided", () => {
 		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
 
-		expect(() => subject.make({})).toThrow("No signing key provided.");
+		assert.is(() => subject.make({})).toThrow("No signing key provided.");
 	});
 });

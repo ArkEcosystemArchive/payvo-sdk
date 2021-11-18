@@ -2,10 +2,10 @@ import { isError } from "./is-error.js";
 
 describe("#isError", () => {
 	it("should pass", () => {
-		expect(isError(new Error())).toBeTrue();
+		assert.is(isError(new Error()), true);
 	});
 
 	it("should fail", () => {
-		expect(isError(1)).toBeFalse();
+		assert.is(isError(1), false);
 	});
 });

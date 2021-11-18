@@ -2,10 +2,10 @@ import { isObject } from "./is-object.js";
 
 describe("#isObject", () => {
 	it("should pass", () => {
-		expect(isObject({ key: "value" })).toBeTrue();
+		assert.is(isObject({ key: "value" }), true);
 	});
 
 	it("should fail", () => {
-		expect(isObject(1)).toBeFalse();
+		assert.is(isObject(1), false);
 	});
 });

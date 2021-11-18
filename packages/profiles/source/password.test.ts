@@ -9,33 +9,33 @@ describe("PasswordManager", () => {
 	it("should set and get password", () => {
 		const subject = new PasswordManager();
 
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
 
 		subject.set("password");
 
-		expect(subject.get()).toBe("password");
+		assert.is(subject.get(), "password");
 	});
 
 	it("#exists", () => {
 		const subject = new PasswordManager();
 
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
 
-		expect(subject.exists()).toBe(false);
+		assert.is(subject.exists(), false);
 		subject.set("password");
 
-		expect(subject.exists()).toBe(true);
+		assert.is(subject.exists(), true);
 	});
 
 	it("#forget", () => {
 		const subject = new PasswordManager();
 
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
 
 		subject.set("password");
-		expect(subject.exists()).toBe(true);
+		assert.is(subject.exists(), true);
 		subject.forget();
 
-		expect(subject.exists()).toBe(false);
+		assert.is(subject.exists(), false);
 	});
 });

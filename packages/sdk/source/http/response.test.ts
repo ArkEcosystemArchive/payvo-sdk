@@ -14,46 +14,52 @@ beforeEach(
 );
 
 test("#constructor", () => {
-	expect(
-		() =>
-			new Response({
-				body: "{}",
-				headers: { Accept: "something" },
-				statusCode: 500,
-			}),
-	).toThrow("HTTP request returned status code 500.");
+	assert
+		.is(
+			() =>
+				new Response({
+					body: "{}",
+					headers: { Accept: "something" },
+					statusCode: 500,
+				}),
+		)
+		.toThrow("HTTP request returned status code 500.");
 });
 
 test("#body", () => {
-	expect(subject.body()).toBe("{}");
+	assert.is(subject.body(), "{}");
 
-	expect(() =>
-		new Response({
-			body: undefined,
-			headers: { Accept: "something" },
-			statusCode: 200,
-		}).body(),
-	).toThrow("The response body is empty.");
+	assert
+		.is(() =>
+			new Response({
+				body: undefined,
+				headers: { Accept: "something" },
+				statusCode: 200,
+			}).body(),
+		)
+		.toThrow("The response body is empty.");
 
-	expect(() =>
-		new Response({
-			body: "",
-			headers: { Accept: "something" },
-			statusCode: 200,
-		}).body(),
-	).toThrow("The response body is empty.");
+	assert
+		.is(() =>
+			new Response({
+				body: "",
+				headers: { Accept: "something" },
+				statusCode: 200,
+			}).body(),
+		)
+		.toThrow("The response body is empty.");
 });
 
 test("#json", () => {
-	expect(subject.json()).toEqual({});
+	assert.is(subject.json()).toEqual({});
 });
 
 test("#header", () => {
-	expect(subject.header("Accept")).toBe("something");
+	assert.is(subject.header("Accept"), "something");
 });
 
 test("#headers", () => {
-	expect(subject.headers()).toMatchInlineSnapshot(`
+	assert.is(subject.headers()).toMatchInlineSnapshot(`
 		Object {
 		  "Accept": "something",
 		}
@@ -61,57 +67,57 @@ test("#headers", () => {
 });
 
 test("#status", () => {
-	expect(subject.status()).toBe(200);
+	assert.is(subject.status(), 200);
 });
 
 test("#successful", () => {
-	expect(subject.successful()).toBeTrue();
+	assert.is(subject.successful(), true);
 
 	jest.spyOn(subject, "status").mockReturnValue(400);
 
-	expect(subject.successful()).toBeFalse();
+	assert.is(subject.successful(), false);
 });
 
 test("#ok", () => {
-	expect(subject.ok()).toBeTrue();
+	assert.is(subject.ok(), true);
 
 	jest.spyOn(subject, "status").mockReturnValue(400);
 
-	expect(subject.ok()).toBeFalse();
+	assert.is(subject.ok(), false);
 });
 
 test("#redirect", () => {
-	expect(subject.redirect()).toBeFalse();
+	assert.is(subject.redirect(), false);
 
 	jest.spyOn(subject, "status").mockReturnValue(300);
 
-	expect(subject.redirect()).toBeTrue();
+	assert.is(subject.redirect(), true);
 });
 
 test("#failed", () => {
-	expect(subject.failed()).toBeFalse();
+	assert.is(subject.failed(), false);
 
 	jest.spyOn(subject, "status").mockReturnValue(400);
 
-	expect(subject.failed()).toBeTrue();
+	assert.is(subject.failed(), true);
 
 	jest.spyOn(subject, "status").mockReturnValue(500);
 
-	expect(subject.failed()).toBeTrue();
+	assert.is(subject.failed(), true);
 });
 
 test("#clientError", () => {
-	expect(subject.clientError()).toBeFalse();
+	assert.is(subject.clientError(), false);
 
 	jest.spyOn(subject, "status").mockReturnValue(400);
 
-	expect(subject.clientError()).toBeTrue();
+	assert.is(subject.clientError(), true);
 });
 
 test("#serverError", () => {
-	expect(subject.serverError()).toBeFalse();
+	assert.is(subject.serverError(), false);
 
 	jest.spyOn(subject, "status").mockReturnValue(500);
 
-	expect(subject.serverError()).toBeTrue();
+	assert.is(subject.serverError(), true);
 });

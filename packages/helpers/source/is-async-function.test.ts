@@ -2,11 +2,14 @@ import { isAsyncFunction } from "./is-async-function.js";
 
 describe("#isAsyncFunction", () => {
 	it("should pass", () => {
-		expect(isAsyncFunction(async () => ({}))).toBeTrue();
+		assert.is(
+			isAsyncFunction(async () => ({})),
+			true,
+		);
 	});
 
 	it("should fail", () => {
-		expect(isAsyncFunction(new Function())).toBeFalse();
-		expect(isAsyncFunction([])).toBeFalse();
+		assert.is(isAsyncFunction(new Function()), false);
+		assert.is(isAsyncFunction([]), false);
 	});
 });

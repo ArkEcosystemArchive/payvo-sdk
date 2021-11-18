@@ -44,7 +44,7 @@ describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
 	});
 
 	it("should sync", async () => {
-		expect(await subject.sync()).toHaveLength(200);
+		assert.is(await subject.sync()).toHaveLength(200);
 	});
 
 	it("should sync single page", async () => {
@@ -54,6 +54,6 @@ describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
 			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
 			.persist();
 
-		expect(await subject.sync()).toHaveLength(10);
+		assert.is(await subject.sync()).toHaveLength(10);
 	});
 });

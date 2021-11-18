@@ -2,8 +2,8 @@ import { randomBase64 } from "./random-base64.js";
 
 describe("#randomBase64", () => {
 	it("should return a random base64 string", () => {
-		expect(randomBase64(8)).toHaveLength(8);
-		expect(randomBase64(16)).toHaveLength(16);
-		expect(randomBase64(32)).toHaveLength(32);
+		assert.is(randomBase64(8)).toHaveLength(8);
+		assert.is(randomBase64(16)).toHaveLength(16);
+		assert.is(randomBase64(32)).toHaveLength(32);
 	});
 });

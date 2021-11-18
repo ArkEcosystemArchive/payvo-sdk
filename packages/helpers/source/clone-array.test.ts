@@ -4,6 +4,6 @@ describe("#cloneArray", () => {
 	it("should work like lodash", () => {
 		const objects = [{ a: 1 }, { b: 2 }];
 
-		expect(cloneArray(objects)).toEqual(objects);
+		assert.is(cloneArray(objects)).toEqual(objects);
 	});
 });

@@ -9,7 +9,7 @@ const dummies = [
 
 describe("#sortBy", () => {
 	it("should sort records without iteratees", () => {
-		expect(sortBy(dummies)).toEqual([
+		assert.is(sortBy(dummies)).toEqual([
 			{ age: 30, name: "John" },
 			{ age: 40, name: "Jane" },
 			{ age: 18, name: "Andrew" },
@@ -18,7 +18,7 @@ describe("#sortBy", () => {
 	});
 
 	it("should sort records by string", () => {
-		expect(sortBy(dummies, "age")).toEqual([
+		assert.is(sortBy(dummies, "age")).toEqual([
 			{ age: 18, name: "Andrew" },
 			{ age: 18, name: "Bob" },
 			{ age: 30, name: "John" },
@@ -27,7 +27,7 @@ describe("#sortBy", () => {
 	});
 
 	it("should sort records by array", () => {
-		expect(sortBy(dummies, ["age"])).toEqual([
+		assert.is(sortBy(dummies, ["age"])).toEqual([
 			{ age: 18, name: "Andrew" },
 			{ age: 18, name: "Bob" },
 			{ age: 30, name: "John" },

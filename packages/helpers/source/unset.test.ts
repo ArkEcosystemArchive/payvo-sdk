@@ -2,16 +2,16 @@ import { unset } from "./unset.js";
 
 describe("#unset", () => {
 	it("should return false if the target is not an object", () => {
-		expect(unset([], "a.b.c")).toBeFalse();
+		assert.is(unset([], "a.b.c"), false);
 	});
 
 	it("should return false if the path is not a string", () => {
 		// @ts-ignore
-		expect(unset({}, 123)).toBeFalse();
+		assert.is(unset({}, 123), false);
 	});
 
 	it("should not do anything if the object is not an object", () => {
-		expect(unset([], "a.b.c")).toBeFalse();
+		assert.is(unset([], "a.b.c"), false);
 	});
 
 	it("should work with a string or array as path", () => {
@@ -19,10 +19,10 @@ describe("#unset", () => {
 
 		unset(object, "a.b.c");
 
-		expect(object).toEqual({ a: { b: {} } });
+		assert.is(object).toEqual({ a: { b: {} } });
 
 		unset(object, "a.b.c");
 
-		expect(object).toEqual({ a: { b: {} } });
+		assert.is(object).toEqual({ a: { b: {} } });
 	});
 });

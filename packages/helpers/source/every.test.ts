@@ -3,7 +3,7 @@ import { isBoolean } from "./is-boolean.js";
 
 describe("#every", () => {
 	it("should work with a functions", () => {
-		expect(every([true, false], isBoolean)).toBeTrue();
-		expect(every([true, false, "yes"], isBoolean)).toBeFalse();
+		assert.is(every([true, false], isBoolean), true);
+		assert.is(every([true, false, "yes"], isBoolean), false);
 	});
 });

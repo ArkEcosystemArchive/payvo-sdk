@@ -17,7 +17,7 @@ describe("Address", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toMatchInlineSnapshot(`
+		assert.is(result).toMatchInlineSnapshot(`
 		Object {
 		  "address": "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
 		  "path": "m/44'/118'/0'/0/0",

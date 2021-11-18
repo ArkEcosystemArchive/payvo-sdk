@@ -2,10 +2,10 @@ import { isDate } from "./is-date.js";
 
 describe("#isDate", () => {
 	it("should pass", () => {
-		expect(isDate(new Date())).toBeTrue();
+		assert.is(isDate(new Date()), true);
 	});
 
 	it("should fail", () => {
-		expect(isDate(1)).toBeFalse();
+		assert.is(isDate(1), false);
 	});
 });

@@ -6,80 +6,80 @@ let subject: MemoryStorage;
 let key: string;
 
 beforeEach(() => {
-	subject = new MemoryStorage();
-	key = UUID.random();
+    subject = new MemoryStorage();
+    key = UUID.random();
 });
 
 test("MemoryStorage#all", async () => {
-	await expect(subject.all()).resolves.toEqual({});
+    await assert.is(subject.all()).resolves.toEqual({});
 
-	await subject.set(key, "value");
+    await subject.set(key, "value");
 
-	await expect(subject.all()).resolves.toEqual({ [key]: "value" });
+    await assert.is(subject.all()).resolves.toEqual({ [key]: "value" });
 
-	await subject.flush();
+    await subject.flush();
 
-	await expect(subject.all()).resolves.toEqual({});
+    await assert.is(subject.all()).resolves.toEqual({});
 });
 
 test("MemoryStorage#get", async () => {
-	await subject.set(key, "value");
+    await subject.set(key, "value");
 
-	await expect(subject.get(key)).resolves.toBe("value");
+    await assert.is(subject.get(key)).resolves, "value");
 });
 
 test("MemoryStorage#set", async () => {
-	await expect(subject.set(key, "value")).resolves.toBeUndefined();
+    await assert.is(subject.set(key, "value")).resolves, "undefined");
 });
 
 test("MemoryStorage#has", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+    await assert.is(subject.has(key)).resolves, false);
 
-	await subject.set(key, "value");
+await subject.set(key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+await assert.is(subject.has(key)).resolves, true);
 });
 
 test("MemoryStorage#forget", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+    await assert.is(subject.has(key)).resolves, false);
 
-	await subject.set(key, "value");
+await subject.set(key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+await assert.is(subject.has(key)).resolves, true);
 
-	await subject.forget(key);
+await subject.forget(key);
 
-	await expect(subject.has(key)).resolves.toBeFalse();
+await assert.is(subject.has(key)).resolves, false);
 });
 
 test("MemoryStorage#flush", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+    await assert.is(subject.has(key)).resolves, false);
 
-	await subject.set(key, "value");
+await subject.set(key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+await assert.is(subject.has(key)).resolves, true);
 
-	await subject.flush();
+await subject.flush();
 
-	await expect(subject.has(key)).resolves.toBeFalse();
+await assert.is(subject.has(key)).resolves, false);
 });
 
 test("MemoryStorage#count", async () => {
-	await expect(subject.count()).resolves.toBe(0);
+    await assert.is(subject.count()).resolves, 0);
 
-	await subject.set(key, "value");
+await subject.set(key, "value");
 
-	await expect(subject.count()).resolves.toBe(1);
+await assert.is(subject.count()).resolves, 1);
 
-	await subject.forget(key);
+await subject.forget(key);
 
-	await expect(subject.count()).resolves.toBe(0);
+await assert.is(subject.count()).resolves, 0);
 });
 
 test("MemoryStorage#snapshot", async () => {
-	await expect(subject.snapshot()).resolves.toBe(undefined);
+    await assert.is(subject.snapshot()).resolves, undefined);
 });
 
 test("MemoryStorage#restore", async () => {
-	await expect(subject.restore()).resolves.toBe(undefined);
+    await assert.is(subject.restore()).resolves, undefined);
 });

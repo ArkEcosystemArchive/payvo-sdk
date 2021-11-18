@@ -2,10 +2,10 @@ import { isUndefined } from "./is-undefined.js";
 
 describe("#isUndefined", () => {
 	it("should pass", () => {
-		expect(isUndefined(undefined)).toBeTrue();
+		assert.is(isUndefined(undefined), true);
 	});
 
 	it("should fail", () => {
-		expect(isUndefined("undefined")).toBeFalse();
+		assert.is(isUndefined("undefined"), false);
 	});
 });

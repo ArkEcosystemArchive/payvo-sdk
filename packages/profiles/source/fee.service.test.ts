@@ -43,30 +43,30 @@ beforeEach(async () => {
 
 describe("FeeService", () => {
 	it("should sync fees", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
-		expect(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		assert.is(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
 	});
 
 	it("should sync fees of all coins", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
-		expect(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		assert.is(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
 	});
 
 	it("#findByType", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
 		const fees = subject.findByType("ARK", "ark.devnet", "transfer");
 
-		expect(fees.min.toHuman()).toEqual(0.00357);
-		expect(fees.avg.toHuman()).toEqual(0.1);
-		expect(fees.max.toHuman()).toEqual(0.1);
-		expect(fees.static.toHuman()).toEqual(0.1);
+		assert.is(fees.min.toHuman()).toEqual(0.00357);
+		assert.is(fees.avg.toHuman()).toEqual(0.1);
+		assert.is(fees.max.toHuman()).toEqual(0.1);
+		assert.is(fees.static.toHuman()).toEqual(0.1);
 	});
 });

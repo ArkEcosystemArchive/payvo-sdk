@@ -2,14 +2,14 @@ import { includes } from "./includes.js";
 
 describe("#includes", () => {
 	it("should work with a function", () => {
-		expect(includes([1, 2, 3], 1)).toBeTrue();
+		assert.is(includes([1, 2, 3], 1), true);
 
-		expect(includes([1, 2, 3], 4)).toBeFalse();
+		assert.is(includes([1, 2, 3], 4), false);
 
-		expect(includes({ a: 1, b: 2 }, 1)).toBeTrue();
+		assert.is(includes({ a: 1, b: 2 }, 1), true);
 
-		expect(includes("abcd", "bc")).toBeTrue();
+		assert.is(includes("abcd", "bc"), true);
 
-		expect(includes(1, 2)).toBeFalse();
+		assert.is(includes(1, 2), false);
 	});
 });

@@ -38,7 +38,7 @@ describe("RegistrationAggregate", () => {
 	it("#delegates", async () => {
 		const delegates = subject.delegates();
 
-		expect(delegates).toHaveLength(1);
-		expect(delegates[0].address()).toEqual("D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+		assert.is(delegates).toHaveLength(1);
+		assert.is(delegates[0].address()).toEqual("D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
 	});
 });

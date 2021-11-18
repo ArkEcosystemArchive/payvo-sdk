@@ -2,10 +2,10 @@ import { isBooleanArray } from "./is-boolean-array.js";
 
 describe("#isBooleanArray", () => {
 	it("should pass", () => {
-		expect(isBooleanArray([true])).toBeTrue();
+		assert.is(isBooleanArray([true]), true);
 	});
 
 	it("should fail", () => {
-		expect(isBooleanArray([1])).toBeFalse();
+		assert.is(isBooleanArray([1]), false);
 	});
 });

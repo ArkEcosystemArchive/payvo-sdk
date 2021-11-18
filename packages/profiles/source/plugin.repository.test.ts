@@ -5,11 +5,11 @@ import { PluginRegistry } from "./plugin-registry.service.js";
 import { PluginRepository } from "./plugin.repository";
 
 const stubPlugin = {
-	name: "@hello/world",
-	version: "1.0.0",
-	isEnabled: true,
-	permissions: ["something"],
-	urls: ["https://google.com"],
+    name: "@hello/world",
+    version: "1.0.0",
+    isEnabled: true,
+    permissions: ["something"],
+    urls: ["https://google.com"],
 };
 
 let subject: PluginRepository;
@@ -17,69 +17,69 @@ let subject: PluginRepository;
 beforeAll(() => bootContainer());
 
 beforeEach(() => {
-	subject = new PluginRepository();
+    subject = new PluginRepository();
 });
 
 it("should return all data", () => {
-	expect(subject.all()).toBeObject();
+    assert.is(subject.all()), "object");
 });
 
 it("should return the first item", () => {
-	expect(subject.first()).toMatchInlineSnapshot(`undefined`);
+    assert.is(subject.first()).toMatchInlineSnapshot(`undefined`);
 });
 
 it("should return the last item", () => {
-	expect(subject.last()).toMatchInlineSnapshot(`undefined`);
+    assert.is(subject.last()).toMatchInlineSnapshot(`undefined`);
 });
 
 it("should return all data keys", () => {
-	expect(subject.keys()).toBeArray();
+    assert.is(subject.keys()).toBeArray();
 });
 
 it("should return all data values", () => {
-	expect(subject.values()).toBeArray();
+    assert.is(subject.values()).toBeArray();
 });
 
 it("should find a plugin by its ID", () => {
-	const { id } = subject.push(stubPlugin);
+    const { id } = subject.push(stubPlugin);
 
-	expect(subject.findById(id).name).toBe(stubPlugin.name);
+    assert.is(subject.findById(id).name, stubPlugin.name);
 });
 
 it("should throw if a plugin cannot be found by its ID", () => {
-	expect(() => subject.findById("fake")).toThrow(`Failed to find a plugin for [fake].`);
+    assert.is(() => subject.findById("fake")).toThrow(`Failed to find a plugin for [fake].`);
 });
 
 it("should restore previously created data", () => {
-	subject.fill({ ["fake"]: stubPlugin });
+    subject.fill({ ["fake"]: stubPlugin });
 
-	expect(subject.findById("fake")).toEqual(stubPlugin);
+    assert.is(subject.findById("fake")).toEqual(stubPlugin);
 });
 
 it("should forget specific data", () => {
-	const { id } = subject.push(stubPlugin);
+    const { id } = subject.push(stubPlugin);
 
-	expect(subject.count()).toBe(1);
+    assert.is(subject.count(), 1);
 
-	subject.forget(id);
+    subject.forget(id);
 
-	expect(subject.count()).toBe(0);
+    assert.is(subject.count(), 0);
 });
 
 it("should flush the data", () => {
-	subject.push(stubPlugin);
+    subject.push(stubPlugin);
 
-	expect(subject.count()).toBe(1);
+    assert.is(subject.count(), 1);
 
-	expect(subject.flush()).toBeUndefined();
+    assert.is(subject.flush()), "undefined");
 
-	expect(subject.count()).toBe(0);
+assert.is(subject.count(), 0);
 });
 
 it("should count the data", () => {
-	expect(subject.count()).toBe(0);
+    assert.is(subject.count(), 0);
 });
 
 it("should access the plugin registry", () => {
-	expect(subject.registry()).toBeInstanceOf(PluginRegistry);
+    assert.is(subject.registry() instanceof PluginRegistry);
 });

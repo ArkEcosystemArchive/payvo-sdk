@@ -6,7 +6,7 @@ let subject: NetworkRepository;
 beforeEach(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
-	expect(subject.all()).toMatchInlineSnapshot(`
+    assert.is(subject.all()).toMatchInlineSnapshot(`
 Object {
   "ark.devnet": Object {
     "coin": "ARK",
@@ -1131,13 +1131,13 @@ Object {
 });
 
 test("#get | #push | #forget", () => {
-	expect(subject.get("ark.devnet")).toBeObject();
+    assert.is(subject.get("ark.devnet")), "object");
 
-	subject.push("ark.devnet", manifest.networks["ark.devnet"]);
+subject.push("ark.devnet", manifest.networks["ark.devnet"]);
 
-	expect(subject.get("ark.devnet")).toBeObject();
+assert.is(subject.get("ark.devnet")), "object");
 
-	subject.forget("ark.devnet");
+subject.forget("ark.devnet");
 
-	expect(() => subject.get("ark.devnet")).toThrow("The [ark.devnet] network is not supported.");
+assert.is(() => subject.get("ark.devnet")).toThrow("The [ark.devnet] network is not supported.");
 });

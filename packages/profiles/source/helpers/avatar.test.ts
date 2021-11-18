@@ -1,5 +1,5 @@
 import { Avatar } from "./avatar.js";
 
 test("Helpers.Avatar", () => {
-	expect(Avatar.make("Hello World")).toMatchSnapshot();
+	assert.is(Avatar.make("Hello World")).toMatchSnapshot();
 });

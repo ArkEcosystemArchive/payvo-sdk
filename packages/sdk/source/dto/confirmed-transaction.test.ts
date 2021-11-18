@@ -10,142 +10,142 @@ import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts.js";
 import { AbstractConfirmedTransactionData } from "./confirmed-transaction.js";
 
 test("#withDecimals", () => {
-	expect(new Transaction().configure({ key: "value" }).withDecimals(2)).toBeInstanceOf(Transaction);
-	expect(new Transaction().configure({ key: "value" }).withDecimals("2")).toBeInstanceOf(Transaction);
+    assert.is(new Transaction().configure({ key: "value" }).withDecimals(2) instanceof Transaction);
+    assert.is(new Transaction().configure({ key: "value" }).withDecimals("2") instanceof Transaction);
 });
 
 test("#id", () => {
-	expect(new Transaction().configure({ key: "value" }).id()).toBe("id");
+    assert.is(new Transaction().configure({ key: "value" }).id(), "id");
 });
 
 test("#blockId", () => {
-	expect(new Transaction().configure({ key: "value" }).blockId()).toBe("blockId");
+    assert.is(new Transaction().configure({ key: "value" }).blockId(), "blockId");
 });
 
 test("#type", () => {
-	const subject = new Transaction().configure({ key: "value" });
+    const subject = new Transaction().configure({ key: "value" });
 
-	expect(subject.type()).toBe("transfer");
+    assert.is(subject.type(), "transfer");
 
-	jest.spyOn(subject, "isMagistrate").mockReturnValue(true);
+    jest.spyOn(subject, "isMagistrate").mockReturnValue(true);
 
-	expect(subject.type()).toBe("magistrate");
+    assert.is(subject.type(), "magistrate");
 });
 
 test("#timestamp", () => {
-	expect(new Transaction().configure({ key: "value" }).timestamp()).toBeUndefined();
+    assert.is(new Transaction().configure({ key: "value" }).timestamp()), "undefined");
 });
 
 test("#confirmations", () => {
-	expect(new Transaction().configure({ key: "value" }).confirmations()).toBe(BigNumber.ZERO);
+    assert.is(new Transaction().configure({ key: "value" }).confirmations(), BigNumber.ZERO);
 });
 
 test("#sender", () => {
-	expect(new Transaction().configure({ key: "value" }).sender()).toBe("sender");
+    assert.is(new Transaction().configure({ key: "value" }).sender(), "sender");
 });
 
 test("#recipient", () => {
-	expect(new Transaction().configure({ key: "value" }).recipient()).toBe("recipient");
+    assert.is(new Transaction().configure({ key: "value" }).recipient(), "recipient");
 });
 
 test("#recipients", () => {
-	expect(new Transaction().configure({ key: "value" }).recipients()).toEqual([]);
+    assert.is(new Transaction().configure({ key: "value" }).recipients()).toEqual([]);
 });
 
 test("#amount", () => {
-	expect(new Transaction().configure({ key: "value" }).amount()).toBe(BigNumber.ZERO);
+    assert.is(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
 });
 
 test("#fee", () => {
-	expect(new Transaction().configure({ key: "value" }).fee()).toBe(BigNumber.ZERO);
+    assert.is(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
 });
 
 test("#memo", () => {
-	expect(new Transaction().configure({ key: "value" }).memo()).toBe("memo");
-	expect(new Transaction().configure({ memo: "" }).memo()).toBeUndefined();
-	expect(new Transaction().configure({ memo: "pedo" }).memo()).toBe("****");
-	expect(new Transaction().configure({ memo: "pedophile" }).memo()).toBe("*********");
-	expect(new Transaction().configure({ memo: "zyva.org" }).memo()).toBeUndefined();
+    assert.is(new Transaction().configure({ key: "value" }).memo(), "memo");
+    assert.is(new Transaction().configure({ memo: "" }).memo()), "undefined");
+assert.is(new Transaction().configure({ memo: "pedo" }).memo(), "****");
+assert.is(new Transaction().configure({ memo: "pedophile" }).memo(), "*********");
+assert.is(new Transaction().configure({ memo: "zyva.org" }).memo()), "undefined");
 });
 
 test("#asset", () => {
-	expect(new Transaction().configure({ key: "value" }).asset()).toEqual({});
+    assert.is(new Transaction().configure({ key: "value" }).asset()).toEqual({});
 });
 
 test("#isConfirmed", () => {
-	expect(new Transaction().configure({ key: "value" }).isConfirmed()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isConfirmed(), false);
 });
 
 test("#isSent", () => {
-	expect(new Transaction().configure({ key: "value" }).isSent()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isSent(), false);
 });
 
 test("#isReceived", () => {
-	expect(new Transaction().configure({ key: "value" }).isReceived()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isReceived(), false);
 });
 
 test("#isTransfer", () => {
-	expect(new Transaction().configure({ key: "value" }).isTransfer()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isTransfer(), false);
 });
 
 test("#isSecondSignature", () => {
-	expect(new Transaction().configure({ key: "value" }).isSecondSignature()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isSecondSignature(), false);
 });
 
 test("#isDelegateRegistration", () => {
-	expect(new Transaction().configure({ key: "value" }).isDelegateRegistration()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isDelegateRegistration(), false);
 });
 
 test("#isVoteCombination", () => {
-	expect(new Transaction().configure({ key: "value" }).isVoteCombination()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isVoteCombination(), false);
 });
 
 test("#isVote", () => {
-	expect(new Transaction().configure({ key: "value" }).isVote()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isVote(), false);
 });
 
 test("#isUnvote", () => {
-	expect(new Transaction().configure({ key: "value" }).isUnvote()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isUnvote(), false);
 });
 
 test("#isMultiSignatureRegistration", () => {
-	expect(new Transaction().configure({ key: "value" }).isMultiSignatureRegistration()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isMultiSignatureRegistration(), false);
 });
 
 test("#isIpfs", () => {
-	expect(new Transaction().configure({ key: "value" }).isIpfs()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isIpfs(), false);
 });
 
 test("#isMultiPayment", () => {
-	expect(new Transaction().configure({ key: "value" }).isMultiPayment()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isMultiPayment(), false);
 });
 
 test("#isDelegateResignation", () => {
-	expect(new Transaction().configure({ key: "value" }).isDelegateResignation()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isDelegateResignation(), false);
 });
 
 test("#isHtlcLock", () => {
-	expect(new Transaction().configure({ key: "value" }).isHtlcLock()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isHtlcLock(), false);
 });
 
 test("#isHtlcClaim", () => {
-	expect(new Transaction().configure({ key: "value" }).isHtlcClaim()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isHtlcClaim(), false);
 });
 
 test("#isHtlcRefund", () => {
-	expect(new Transaction().configure({ key: "value" }).isHtlcRefund()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isHtlcRefund(), false);
 });
 
 test("#isMagistrate", () => {
-	expect(new Transaction().configure({ key: "value" }).isMagistrate()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isMagistrate(), false);
 });
 
 test("#isUnlockToken", () => {
-	expect(new Transaction().configure({ key: "value" }).isUnlockToken()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).isUnlockToken(), false);
 });
 
 test("#toObject", () => {
-	expect(new Transaction().configure({ key: "value" }).toObject()).toMatchInlineSnapshot(`
+    assert.is(new Transaction().configure({ key: "value" }).toObject()).toMatchInlineSnapshot(`
 		Object {
 		  "amount": BigNumber {},
 		  "asset": Object {},
@@ -161,7 +161,7 @@ test("#toObject", () => {
 });
 
 test("#raw", () => {
-	expect(new Transaction().configure({ key: "value" }).raw()).toMatchInlineSnapshot(`
+    assert.is(new Transaction().configure({ key: "value" }).raw()).toMatchInlineSnapshot(`
 		Object {
 		  "key": "value",
 		}
@@ -169,112 +169,112 @@ test("#raw", () => {
 });
 
 test("#hasPassed", () => {
-	expect(new Transaction().configure({ key: "value" }).hasPassed()).toBeTrue();
-	expect(new Transaction().configure({}).hasPassed()).toBeFalse();
+    assert.is(new Transaction().configure({ key: "value" }).hasPassed(), true);
+    assert.is(new Transaction().configure({}).hasPassed(), false);
 });
 
 test("#hasFailed", () => {
-	expect(new Transaction().configure({}).hasFailed()).toBeTrue();
-	expect(new Transaction().configure({ key: "value" }).hasFailed()).toBeFalse();
+    assert.is(new Transaction().configure({}).hasFailed(), true);
+    assert.is(new Transaction().configure({ key: "value" }).hasFailed(), false);
 });
 
 test("#getMeta | #setMeta", () => {
-	const subject = new Transaction().configure({});
+    const subject = new Transaction().configure({});
 
-	expect(subject.getMeta("key")).toBeUndefined();
+    assert.is(subject.getMeta("key")), "undefined");
 
-	subject.setMeta("key", "value");
+subject.setMeta("key", "value");
 
-	expect(subject.getMeta("key")).toBe("value");
+assert.is(subject.getMeta("key"), "value");
 });
 
 class Transaction extends AbstractConfirmedTransactionData {
-	// @ts-ignore
-	public id(): string {
-		return "id";
-	}
+    // @ts-ignore
+    public id(): string {
+        return "id";
+    }
 
-	// @ts-ignore
-	public blockId(): string | undefined {
-		return "blockId";
-	}
+    // @ts-ignore
+    public blockId(): string | undefined {
+        return "blockId";
+    }
 
-	// @ts-ignore
-	public timestamp(): DateTime | undefined {
-		return undefined;
-	}
+    // @ts-ignore
+    public timestamp(): DateTime | undefined {
+        return undefined;
+    }
 
-	// @ts-ignore
-	public confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
+    // @ts-ignore
+    public confirmations(): BigNumber {
+        return BigNumber.ZERO;
+    }
 
-	// @ts-ignore
-	public sender(): string {
-		return "sender";
-	}
+    // @ts-ignore
+    public sender(): string {
+        return "sender";
+    }
 
-	// @ts-ignore
-	public recipient(): string {
-		return "recipient";
-	}
+    // @ts-ignore
+    public recipient(): string {
+        return "recipient";
+    }
 
-	// @ts-ignore
-	public recipients(): MultiPaymentRecipient[] {
-		return [];
-	}
+    // @ts-ignore
+    public recipients(): MultiPaymentRecipient[] {
+        return [];
+    }
 
-	// @ts-ignore
-	public amount(): BigNumber {
-		return BigNumber.ZERO;
-	}
+    // @ts-ignore
+    public amount(): BigNumber {
+        return BigNumber.ZERO;
+    }
 
-	// @ts-ignore
-	public fee(): BigNumber {
-		return BigNumber.ZERO;
-	}
+    // @ts-ignore
+    public fee(): BigNumber {
+        return BigNumber.ZERO;
+    }
 
-	// @ts-ignore
-	public memo(): string | undefined {
-		if (this.data.hasOwnProperty("memo")) {
-			return this.censorMemo(this.data.memo);
-		}
+    // @ts-ignore
+    public memo(): string | undefined {
+        if (this.data.hasOwnProperty("memo")) {
+            return this.censorMemo(this.data.memo);
+        }
 
-		return this.censorMemo("memo");
-	}
+        return this.censorMemo("memo");
+    }
 
-	// @ts-ignore
-	public asset(): Record<string, unknown> {
-		return {};
-	}
+    // @ts-ignore
+    public asset(): Record<string, unknown> {
+        return {};
+    }
 
-	// @ts-ignore
-	public inputs(): UnspentTransactionData[] {
-		return [];
-	}
+    // @ts-ignore
+    public inputs(): UnspentTransactionData[] {
+        return [];
+    }
 
-	// @ts-ignore
-	public outputs(): UnspentTransactionData[] {
-		return [];
-	}
+    // @ts-ignore
+    public outputs(): UnspentTransactionData[] {
+        return [];
+    }
 
-	// @ts-ignore
-	public isConfirmed(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isConfirmed(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isSent(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isSent(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isReceived(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isReceived(): boolean {
+        return false;
+    }
 
-	// @ts-ignore
-	public isTransfer(): boolean {
-		return false;
-	}
+    // @ts-ignore
+    public isTransfer(): boolean {
+        return false;
+    }
 }

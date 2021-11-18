@@ -11,7 +11,7 @@ beforeEach(async () => {
 describe("WIF", () => {
 	describe("#fromMnemonic", () => {
 		it("should generate an output from a mnemonic", async () => {
-			await expect(subject.fromMnemonic(identity.mnemonic)).resolves.toMatchInlineSnapshot(`
+			await assert.is(subject.fromMnemonic(identity.mnemonic)).resolves.toMatchInlineSnapshot(`
 						Object {
 						  "path": "m/44'/195'/0'/0/0",
 						  "wif": "L2M8fs13JtFto4VZVN9fh3vVB2bFmEs3ykJmwuxTSpkA7yTCSUf8",

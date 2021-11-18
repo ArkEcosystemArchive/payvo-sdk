@@ -128,15 +128,16 @@ describe.skip("bip44 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"0100000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006b4830450221009a5f6bec6bade72cfc8abb260d5f36504de840b8397821ef666f32b32676d54b02203d8975cbe5c0b5eecbcfabca2b803c1f879a12652d4a437786b7ff2e4a2ed641012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8bffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
 		);
-		expect(result.id()).toBe("22555462e2877f6799ca7fa9887d44093bba9686fac0ebe15aa5445374abd5a5");
-		expect(result.sender()).toBe("mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(1_690);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "22555462e2877f6799ca7fa9887d44093bba9686fac0ebe15aa5445374abd5a5");
+		assert.is(result.sender(), "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 1_690);
+		assert.is(result.timestamp() instanceof DateTime);
 	});
 });
 
@@ -208,15 +209,16 @@ describe.skip("bip49 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"01000000000102adc5416aa292d604b0c1001d05d018168e5cb97280b4710ac54693d3c6875d1e01000000171600148eb5fdd59771c49650cf7808784fe080d532b307ffffffffca0e01751f86f3ec608cbd33f0825cfa3915ff721f7829f503c278a9ed8f14de01000000171600140f49ae97db28cee136efb9c15fbd9fa87df6cca5ffffffff027011010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4c09100000000000017a914cd7c51c3f3a5ad8533215c499e55fef1d07f852d87024730440220624fca06ae5bf584e37f0a252c0d9a56fbf6d672153a5e5305cfcbb0c4a255c90220589a693fe06609cfb35177962f31b5d1fd492a402041e9283118a0d5b79a4a36012103de2db824354a86e663d615af1982e9ddf9a16565175961670f32091600ec1b2802473044022061219ee1d48659620c33e0482912ea03cdc730fba3c4f1a4807d4f8bb921dd3402200553d1aa9a19d9604df6304e12ce288ad4a1b764ad5166df68afa3af9095dcbe0121021e723637da0432ff9e9de6fdac2a070daaeaf6d6cb795ae42a965b81941e59ac00000000",
 		);
-		expect(result.id()).toBe("6b4e9e2051f1617ef1fa0a712e5b5b4d660fabddac8351077a62ffb439ca1813");
-		expect(result.sender()).toBe("2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(70_000);
-		expect(result.fee().toNumber()).toBe(2_520);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "6b4e9e2051f1617ef1fa0a712e5b5b4d660fabddac8351077a62ffb439ca1813");
+		assert.is(result.sender(), "2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 70_000);
+		assert.is(result.fee().toNumber(), 2_520);
+		assert.is(result.timestamp() instanceof DateTime);
 	});
 });
 
@@ -288,14 +290,15 @@ describe.skip("bip84 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"0100000000010294b3cd394e3a4daa30701aebe7c9326483fb6e488465088d17f5c794e811cea80100000000ffffffffadc5416aa292d604b0c1001d05d018168e5cb97280b4710ac54693d3c6875d1e0000000000ffffffff0240960100000000001976a914a43362c51b5ab6b2476c55e0a88452533e1a155a88ac2e0d00000000000016001451e0980b22e2b672fae3e15beab6fe26f9c4822002483045022100a6a44bf6f2ecbdb22e092003db0f092653cf62864bccbe5d47a32aa576f9157102206602bce2f2363dc7479b6456a90085becb8d65c262df97f7054958bc840dd2bd0121023764fe32c78a9dea4cfdcf4682f0992d2724d65507dfe840d9f63a39dbe767c402483045022100f8c9162c3eaceb5298370cb218e959920e7bb2efe0e84615cc5714843dfbd50302205b2d0122c0c1a6cb6021827b69b35fa6b2ba6c72e2daf784eec6e326617c6d86012103ef85b0f883dbcfe5af7620703d5c3b810eb0ebf462102cd33ecd2f610dec6ede00000000",
 		);
-		expect(result.id()).toBe("9eb92ee5952182e1c9a4602d72792024e9324220ed21344d55052fb01e3a0f19");
-		expect(result.sender()).toBe("tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3");
-		expect(result.recipient()).toBe("mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
-		expect(result.amount().toNumber()).toBe(104_000);
-		expect(result.fee().toNumber()).toBe(2_480);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "9eb92ee5952182e1c9a4602d72792024e9324220ed21344d55052fb01e3a0f19");
+		assert.is(result.sender(), "tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3");
+		assert.is(result.recipient(), "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
+		assert.is(result.amount().toNumber(), 104_000);
+		assert.is(result.fee().toNumber(), 2_480);
+		assert.is(result.timestamp() instanceof DateTime);
 	});
 });

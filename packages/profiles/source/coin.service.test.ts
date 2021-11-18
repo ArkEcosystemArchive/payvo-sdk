@@ -45,49 +45,49 @@ describe("CoinService", () => {
 	it("#push", () => {
 		subject.set("ARK", "ark.devnet");
 		const coin = subject.get("ARK", "ark.devnet");
-		expect(coin.network().id()).toEqual("ark.devnet");
+		assert.is(coin.network().id()).toEqual("ark.devnet");
 	});
 
 	it("#has", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		expect(subject.has("ARK", "ark.devnet")).toBeTrue();
-		expect(subject.has("UNKNOWN", "ark.devnet")).toBeFalse();
+		assert.is(subject.has("ARK", "ark.devnet"), true);
+		assert.is(subject.has("UNKNOWN", "ark.devnet"), false);
 	});
 
 	it("#get", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		expect(subject.get("ARK", "ark.devnet").network().id()).toEqual("ark.devnet");
-		expect(() => subject.get("ARK", "unknown")).toThrow(/does not exist/);
+		assert.is(subject.get("ARK", "ark.devnet").network().id()).toEqual("ark.devnet");
+		assert.is(() => subject.get("ARK", "unknown")).toThrow(/does not exist/);
 	});
 
 	it("#values", async () => {
 		subject.set("ARK", "ark.devnet");
 
 		const values = subject.values();
-		expect(values).toEqual([{ ark: { devnet: expect.anything() } }]);
+		assert.is(values).toEqual([{ ark: { devnet: expect.anything() } }]);
 		//@ts-ignore
-		expect(values[0].ark.devnet).toBeInstanceOf(Coins.Coin);
+		assert.is(values[0].ark.devnet instanceof Coins.Coin);
 	});
 
 	it("#all", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		expect(Object.keys(subject.all())).toEqual(["ARK"]);
+		assert.is(Object.keys(subject.all())).toEqual(["ARK"]);
 	});
 
 	it("#entries", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		expect(subject.entries()).toEqual([["ARK", ["ark.devnet"]]]);
+		assert.is(subject.entries()).toEqual([["ARK", ["ark.devnet"]]]);
 
 		const mockUndefinedNetwork = jest
 			.spyOn(subject, "all")
 			// @ts-ignore
 			.mockReturnValue({ ARK: { ark: undefined } });
 
-		expect(subject.entries()).toEqual([["ARK", ["ark"]]]);
+		assert.is(subject.entries()).toEqual([["ARK", ["ark"]]]);
 
 		mockUndefinedNetwork.mockRestore();
 	});
@@ -98,6 +98,6 @@ describe("CoinService", () => {
 
 		subject.flush();
 
-		expect(dataRepository.flush).toHaveBeenCalled();
+		assert.is(dataRepository.flush).toHaveBeenCalled();
 	});
 });

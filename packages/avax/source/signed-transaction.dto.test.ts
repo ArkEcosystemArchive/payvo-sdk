@@ -25,22 +25,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		expect(subject.sender()).toEqual("0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4");
+		assert.is(subject.sender()).toEqual("0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4");
 	});
 
 	test("#recipient", () => {
-		expect(subject.recipient()).toEqual("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
+		assert.is(subject.recipient()).toEqual("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
 	test("#amount", () => {
-		expect(subject.amount().toHuman()).toEqual(125);
+		assert.is(subject.amount().toHuman()).toEqual(125);
 	});
 
 	test("#fee", () => {
-		expect(subject.fee()).toEqual(BigNumber.ZERO);
+		assert.is(subject.fee()).toEqual(BigNumber.ZERO);
 	});
 
 	test("#timestamp", () => {
-		expect(subject.timestamp()).toEqual(DateTime.make(0));
+		assert.is(subject.timestamp()).toEqual(DateTime.make(0));
 	});
 });

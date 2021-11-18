@@ -10,15 +10,15 @@ describe("ark.mainnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/wallets/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.ark.io/wallets/id"`);
 	});
 });
 
@@ -28,15 +28,15 @@ describe("ark.devnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/wallets/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://dexplorer.ark.io/wallets/id"`);
 	});
 });
 
@@ -46,15 +46,15 @@ describe("bind.mainnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://bindscan.io/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://bindscan.io/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://bindscan.io/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://bindscan.io/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://bindscan.io/wallets/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://bindscan.io/wallets/id"`);
 	});
 });
 
@@ -64,15 +64,15 @@ describe("bind.testnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/wallets/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://testnet.bindscan.io/wallets/id"`);
 	});
 });
 
@@ -82,15 +82,15 @@ describe("xqr.mainnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/wallet/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit/wallet/id"`);
 	});
 });
 
@@ -100,15 +100,17 @@ describe("xqr.testnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/transaction/id"`);
+		assert
+			.is(subject.transaction("id"))
+			.toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/wallet/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.sh/qredit-testnet/wallet/id"`);
 	});
 });
 
@@ -118,14 +120,14 @@ describe("bpl.mainnet", () => {
 	});
 
 	it("should generate a link for a block", async () => {
-		expect(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/block/id"`);
+		assert.is(subject.block("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/block/id"`);
 	});
 
 	it("should generate a link for a transaction", async () => {
-		expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/transaction/id"`);
+		assert.is(subject.transaction("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/transaction/id"`);
 	});
 
 	it("should generate a link for a wallet", async () => {
-		expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/wallets/id"`);
+		assert.is(subject.wallet("id")).toMatchInlineSnapshot(`"https://explorer.blockpool.io/#/wallets/id"`);
 	});
 });

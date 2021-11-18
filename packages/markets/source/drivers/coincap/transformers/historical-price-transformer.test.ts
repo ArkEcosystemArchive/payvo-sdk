@@ -196,7 +196,7 @@ describe("CoinCap", () => {
 
 			const subject = new HistoricalPriceTransformer(stubResponse.data);
 
-			expect(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 		});
 	});
 });

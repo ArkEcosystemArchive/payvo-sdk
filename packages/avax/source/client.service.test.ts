@@ -25,7 +25,7 @@ describe("ClientService", () => {
 		it("should succeed", async () => {
 			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
-			expect(result).toBeInstanceOf(ConfirmedTransactionData);
+			assert.is(result instanceof ConfirmedTransactionData);
 		});
 	});
 
@@ -40,7 +40,7 @@ describe("ClientService", () => {
 				],
 			});
 
-			expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
+			assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
 		});
 	});
 
@@ -51,13 +51,13 @@ describe("ClientService", () => {
 				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
 			});
 
-			expect(result).toBeInstanceOf(WalletData);
+			assert.is(result instanceof WalletData);
 		});
 	});
 
 	describe("#delegates", () => {
 		it("should succeed", async () => {
-			await expect(subject.delegates()).resolves.toBeInstanceOf(Collections.WalletDataCollection);
+			await assert.is(subject.delegates()).resolves.toBeInstanceOf(Collections.WalletDataCollection);
 		});
 	});
 });

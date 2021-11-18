@@ -71,39 +71,39 @@ it.skip("should perform a transfer", async () => {
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), true);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 
 	// Add the second signature and re-broadcast the transaction.
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), true);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PA));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), true);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 
 	// Add the third signature and re-broadcast the transaction.
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PB));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), false);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 
 	// Add the final signature by signing the whole transaction with the signatures of all participants.
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PC));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), false);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 
 	// Broadcast the multi signature.
 	for (const signedID of Object.keys(wallet.transaction().signed())) {
@@ -151,39 +151,39 @@ it.skip("should perform a registration", async () => {
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), true);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), true);
 
 	// Add the second signature and re-broadcast the transaction.
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), true);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), true);
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PB));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), false);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), true);
 
 	// Add the third signature and re-broadcast the transaction.
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PC));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), false);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), true);
 
 	// Add the final signature by signing the whole transaction with the signatures of all participants.
 	await wallet.transaction().addSignature(uuid, await wallet.coin().signatory().mnemonic(PA));
 
 	// Sync all of the transactions from the Multi-Signature Server and check the state of each.
 	await wallet.transaction().sync();
-	expect(wallet.transaction().isAwaitingOurSignature(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
-	expect(wallet.transaction().isAwaitingFinalSignature(uuid)).toBeFalse();
+	assert.is(wallet.transaction().isAwaitingOurSignature(uuid), false);
+	assert.is(wallet.transaction().isAwaitingOtherSignatures(uuid), false);
+	assert.is(wallet.transaction().isAwaitingFinalSignature(uuid), false);
 
 	// Broadcast the multi signature.
 	for (const signedID of Object.keys(wallet.transaction().signed())) {

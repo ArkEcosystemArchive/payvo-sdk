@@ -9,16 +9,18 @@ beforeEach(async () => {
 });
 
 test("#constructor", () => {
-	expect(
-		() =>
-			new ConfigRepository({
-				network: 123,
-			}),
-	).toThrow('Failed to validate the configuration: "network" must be a string');
+	assert
+		.is(
+			() =>
+				new ConfigRepository({
+					network: 123,
+				}),
+		)
+		.toThrow('Failed to validate the configuration: "network" must be a string');
 });
 
 test("#all", () => {
-	expect(subject.all()).toMatchInlineSnapshot(`
+	assert.is(subject.all()).toMatchInlineSnapshot(`
 		Object {
 		  "network": "ark.mainnet",
 		}
@@ -26,49 +28,49 @@ test("#all", () => {
 });
 
 test("#get | #set", () => {
-	expect(subject.get("network")).toBe("ark.mainnet");
+	assert.is(subject.get("network"), "ark.mainnet");
 
 	subject.set("network", "ark.devnet");
 
-	expect(subject.get("network")).toBe("ark.devnet");
+	assert.is(subject.get("network"), "ark.devnet");
 
-	expect(() => subject.get("key")).toThrow("The [key] is an unknown configuration value.");
+	assert.is(() => subject.get("key")).toThrow("The [key] is an unknown configuration value.");
 });
 
 test("#getLoose", () => {
-	expect(() => subject.getLoose("hello.world")).not.toThrow("The [key] is an unknown configuration value.");
+	assert.is(() => subject.getLoose("hello.world")).not.toThrow("The [key] is an unknown configuration value.");
 });
 
 test("#has", () => {
-	expect(subject.has("key")).toBeFalse();
+	assert.is(subject.has("key"), false);
 
 	subject.set("key", "value");
 
-	expect(subject.has("key")).toBeTrue();
+	assert.is(subject.has("key"), true);
 });
 
 test("#missing", () => {
-	expect(subject.missing("key")).toBeTrue();
+	assert.is(subject.missing("key"), true);
 
 	subject.set("key", "value");
 
-	expect(subject.missing("key")).toBeFalse();
+	assert.is(subject.missing("key"), false);
 });
 
 test("#forget", () => {
-	expect(subject.missing("key")).toBeTrue();
+	assert.is(subject.missing("key"), true);
 
 	subject.set("key", "value");
 
-	expect(subject.missing("key")).toBeFalse();
+	assert.is(subject.missing("key"), false);
 
 	subject.forget("key");
 
-	expect(subject.missing("key")).toBeTrue();
+	assert.is(subject.missing("key"), true);
 });
 
 test("ConfigKey", () => {
-	expect(ConfigKey).toMatchInlineSnapshot(`
+	assert.is(ConfigKey).toMatchInlineSnapshot(`
 		Object {
 		  "Bech32": "network.constants.bech32",
 		  "CurrencyDecimals": "network.currency.decimals",

@@ -50,9 +50,9 @@ describe("TransactionAggregate", () => {
 
 			const result = await subject[method]();
 
-			expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(result.items()).toHaveLength(100);
-			expect(result.items()[0].amount()).toBe(7.99999999);
+			assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(result.items()).toHaveLength(100);
+			assert.is(result.items()[0].amount(), 7.99999999);
 		});
 
 		it("should not have more transactions", async () => {
@@ -63,9 +63,9 @@ describe("TransactionAggregate", () => {
 
 			const result = await subject[method]();
 
-			expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(result.items()).toHaveLength(100);
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(result.items()).toHaveLength(100);
+			assert.is(subject.hasMore(method), false);
 		});
 
 		it("should skip error responses for processing", async () => {
@@ -73,9 +73,9 @@ describe("TransactionAggregate", () => {
 
 			const result = await subject[method]();
 
-			expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(result.items()).toHaveLength(0);
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(result.items()).toHaveLength(0);
+			assert.is(subject.hasMore(method), false);
 		});
 
 		it("should skip empty responses for processing", async () => {
@@ -86,9 +86,9 @@ describe("TransactionAggregate", () => {
 
 			const result = await subject[method]();
 
-			expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(result.items()).toHaveLength(0);
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(result.items()).toHaveLength(0);
+			assert.is(subject.hasMore(method), false);
 		});
 
 		it("should fetch transactions twice and then stop because no more are available", async () => {
@@ -103,23 +103,23 @@ describe("TransactionAggregate", () => {
 			// We receive a response that does contain a "next" cursor
 			const firstRequest = await subject[method]();
 
-			expect(firstRequest).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(firstRequest.items()).toHaveLength(100);
-			expect(subject.hasMore(method)).toBeTrue();
+			assert.is(firstRequest instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(firstRequest.items()).toHaveLength(100);
+			assert.is(subject.hasMore(method), true);
 
 			// We receive a response that does not contain a "next" cursor
 			const secondRequest = await subject[method]();
 
-			expect(secondRequest).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(secondRequest.items()).toHaveLength(100);
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(secondRequest instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(secondRequest.items()).toHaveLength(100);
+			assert.is(subject.hasMore(method), false);
 
 			// We do not send any requests because no more data is available
 			const thirdRequest = await subject[method]();
 
-			expect(thirdRequest).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-			expect(thirdRequest.items()).toHaveLength(0);
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(thirdRequest instanceof ExtendedConfirmedTransactionDataCollection);
+			assert.is(thirdRequest.items()).toHaveLength(0);
+			assert.is(subject.hasMore(method), false);
 		});
 
 		it("should determine if it has more transactions to be requested", async () => {
@@ -128,11 +128,11 @@ describe("TransactionAggregate", () => {
 				.query(true)
 				.reply(200, require("../test/fixtures/client/transactions.json"));
 
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(subject.hasMore(method), false);
 
 			await subject[method]();
 
-			expect(subject.hasMore(method)).toBeTrue();
+			assert.is(subject.hasMore(method), true);
 		});
 
 		it("should flush the history", async () => {
@@ -141,11 +141,11 @@ describe("TransactionAggregate", () => {
 				.query(true)
 				.reply(200, require("../test/fixtures/client/transactions.json"));
 
-			expect(subject.hasMore(method)).toBeFalse();
+			assert.is(subject.hasMore(method), false);
 
 			await subject[method]();
 
-			expect(subject.hasMore(method)).toBeTrue();
+			assert.is(subject.hasMore(method), true);
 
 			subject.flush(method);
 		});
@@ -157,11 +157,11 @@ describe("TransactionAggregate", () => {
 			.query(true)
 			.reply(200, require("../test/fixtures/client/transactions.json"));
 
-		expect(subject.hasMore("transactions")).toBeFalse();
+		assert.is(subject.hasMore("transactions"), false);
 
 		await subject.all();
 
-		expect(subject.hasMore("all")).toBeTrue();
+		assert.is(subject.hasMore("all"), true);
 
 		subject.flush();
 	});
@@ -180,7 +180,7 @@ describe("TransactionAggregate", () => {
 			});
 
 		const results = await subject.all();
-		expect(results).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+		assert.is(results instanceof ExtendedConfirmedTransactionDataCollection);
 		promiseAllSettledByKeyMock.mockRestore();
 	});
 
@@ -194,8 +194,8 @@ describe("TransactionAggregate", () => {
 			identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
 		});
 
-		expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-		expect(result.items()).toHaveLength(100);
+		assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+		assert.is(result.items()).toHaveLength(100);
 
 		subject.flush();
 	});
@@ -215,8 +215,8 @@ describe("TransactionAggregate", () => {
 			],
 		});
 
-		expect(result).toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
-		expect(result.items()).toHaveLength(100);
+		assert.is(result instanceof ExtendedConfirmedTransactionDataCollection);
+		assert.is(result.items()).toHaveLength(100);
 
 		subject.flush();
 	});

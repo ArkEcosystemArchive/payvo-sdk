@@ -4,7 +4,7 @@ describe("#cloneDeep", () => {
 	it("should work with objects", () => {
 		const object = { a: 1 };
 
-		expect(cloneDeep(object)).toEqual(object);
+		assert.is(cloneDeep(object)).toEqual(object);
 	});
 
 	it("should work with class instances", () => {
@@ -18,14 +18,14 @@ describe("#cloneDeep", () => {
 
 		const original = new Wallet("address");
 
-		expect(original).toEqual(original);
-		expect(original.isDelegate()).toBeTrue();
-		expect(original.address).toBe("address");
+		assert.is(original).toEqual(original);
+		assert.is(original.isDelegate(), true);
+		assert.is(original.address, "address");
 
 		const clone = cloneDeep(original);
 
-		expect(clone).toEqual(original);
-		expect(clone.isDelegate()).toBeTrue();
-		expect(clone.address).toBe("address");
+		assert.is(clone).toEqual(original);
+		assert.is(clone.isDelegate(), true);
+		assert.is(clone.address, "address");
 	});
 });

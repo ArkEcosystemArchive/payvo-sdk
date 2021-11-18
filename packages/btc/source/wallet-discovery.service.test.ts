@@ -22,7 +22,7 @@ describe("testnet", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "n2qGdjfjmFyvAXqbErrtXpfypXhtbNWruM",
 				path: "m/44'/1'/0'/0/0",
@@ -60,7 +60,7 @@ describe("testnet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "mjS2VkYDn9ZxB4pVTgQGy5wYiPPwTnQHij",
 				path: "m/44'/1'/7'/0/3",
@@ -98,7 +98,7 @@ describe("testnet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "mnaedh1YpvPsgybYyoyUjtnYaq91DjSXi4",
 				path: "m/44'/1'/5'/1/2",
@@ -128,7 +128,7 @@ describe("livenet", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa",
 				path: "m/44'/0'/0'/0/0",
@@ -166,7 +166,7 @@ describe("livenet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "1DFirytnzyKwMBA2T8JNhjzwEoEimKTCKd",
 				path: "m/44'/0'/7'/0/3",
@@ -204,7 +204,7 @@ describe("livenet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.is(result).toEqual([
 			{
 				address: "1PSddm78a9UnGWvL5xVCAcV7HddY16Vgjv",
 				path: "m/44'/0'/5'/1/2",

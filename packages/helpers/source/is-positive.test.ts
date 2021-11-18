@@ -2,10 +2,10 @@ import { isPositive } from "./is-positive.js";
 
 describe("#isPositive", () => {
 	it("should pass", () => {
-		expect(isPositive(1)).toBeTrue();
+		assert.is(isPositive(1), true);
 	});
 
 	it("should fail", () => {
-		expect(isPositive(-1)).toBeFalse();
+		assert.is(isPositive(-1), false);
 	});
 });

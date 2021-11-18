@@ -37,31 +37,31 @@ beforeEach(async () => {
 
 describe("WalletAggregate", () => {
 	it("#balance", async () => {
-		expect(subject.balance("test")).toEqual(558270.93444556);
-		expect(subject.balance("live")).toEqual(0);
-		expect(subject.balance()).toEqual(0);
+		assert.is(subject.balance("test")).toEqual(558270.93444556);
+		assert.is(subject.balance("live")).toEqual(0);
+		assert.is(subject.balance()).toEqual(0);
 
 		const mockWalletLive = jest.spyOn(profile.wallets().first().network(), "isLive").mockReturnValue(true);
-		expect(subject.balance("live")).toEqual(558270.93444556);
+		assert.is(subject.balance("live")).toEqual(558270.93444556);
 		mockWalletLive.mockRestore();
 	});
 
 	it("#convertedBalance", async () => {
-		expect(subject.convertedBalance()).toEqual(0);
+		assert.is(subject.convertedBalance()).toEqual(0);
 	});
 
 	it("#balancesByNetworkType", async () => {
-		expect(subject.balancesByNetworkType()).toEqual({
+		assert.is(subject.balancesByNetworkType()).toEqual({
 			live: BigNumber.ZERO,
 			test: BigNumber.make("55827093444556"),
 		});
 	});
 
 	it("#balancePerCoin", async () => {
-		expect(subject.balancePerCoin()).toEqual({});
-		expect(subject.balancePerCoin("live")).toEqual({});
+		assert.is(subject.balancePerCoin()).toEqual({});
+		assert.is(subject.balancePerCoin("live")).toEqual({});
 
-		expect(subject.balancePerCoin("test")).toEqual({
+		assert.is(subject.balancePerCoin("test")).toEqual({
 			DARK: {
 				percentage: "100.00",
 				total: "558270.93444556",
@@ -70,7 +70,7 @@ describe("WalletAggregate", () => {
 
 		const mockWalletLive = jest.spyOn(profile.wallets().first(), "balance").mockReturnValue(0);
 
-		expect(subject.balancePerCoin("test")).toEqual({ DARK: { percentage: "0.00", total: "0" } });
+		assert.is(subject.balancePerCoin("test")).toEqual({ DARK: { percentage: "0.00", total: "0" } });
 		mockWalletLive.mockRestore();
 	});
 });

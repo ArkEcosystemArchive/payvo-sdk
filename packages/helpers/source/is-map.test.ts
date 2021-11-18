@@ -2,10 +2,10 @@ import { isMap } from "./is-map.js";
 
 describe("#isMap", () => {
 	it("should pass", () => {
-		expect(isMap(new Map())).toBeTrue();
+		assert.is(isMap(new Map()), true);
 	});
 
 	it("should fail", () => {
-		expect(isMap(1)).toBeFalse();
+		assert.is(isMap(1), false);
 	});
 });

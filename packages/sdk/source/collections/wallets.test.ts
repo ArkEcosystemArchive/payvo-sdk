@@ -18,7 +18,7 @@ beforeEach(
 );
 
 test("#findByAddress", () => {
-	expect(subject.findByAddress("address")).toMatchInlineSnapshot(`
+	assert.is(subject.findByAddress("address")).toMatchInlineSnapshot(`
 		Object {
 		  "address": [Function],
 		  "publicKey": [Function],
@@ -28,7 +28,7 @@ test("#findByAddress", () => {
 });
 
 test("#findByPublicKey", () => {
-	expect(subject.findByPublicKey("publicKey")).toMatchInlineSnapshot(`
+	assert.is(subject.findByPublicKey("publicKey")).toMatchInlineSnapshot(`
 		Object {
 		  "address": [Function],
 		  "publicKey": [Function],
@@ -38,7 +38,7 @@ test("#findByPublicKey", () => {
 });
 
 test("#findByUsername", () => {
-	expect(subject.findByUsername("username")).toMatchInlineSnapshot(`
+	assert.is(subject.findByUsername("username")).toMatchInlineSnapshot(`
 		Object {
 		  "address": [Function],
 		  "publicKey": [Function],

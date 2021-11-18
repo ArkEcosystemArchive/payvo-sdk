@@ -11,54 +11,54 @@ describe("WalletData", () => {
 	beforeEach(async () => (subject = (await createService(WalletData)).fill(Fixture.data[0])));
 
 	test("#address", () => {
-		expect(subject.address()).toBe("lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");
+		assert.is(subject.address(), "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");
 	});
 
 	test("#publicKey", () => {
-		expect(subject.publicKey()).toBe("414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b");
+		assert.is(subject.publicKey(), "414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b");
 	});
 
 	test("#balance", () => {
-		expect(subject.balance().total).toBeInstanceOf(BigNumber);
-		expect(subject.balance().total.toHuman()).toBe(1509.94716);
+		assert.is(subject.balance().total instanceof BigNumber);
+		assert.is(subject.balance().total.toHuman(), 1509.94716);
 
-		expect(subject.balance().available).toBeInstanceOf(BigNumber);
-		expect(subject.balance().available.toHuman()).toBe(1489.94716);
+		assert.is(subject.balance().available instanceof BigNumber);
+		assert.is(subject.balance().available.toHuman(), 1489.94716);
 
-		expect(subject.balance().fees).toBeInstanceOf(BigNumber);
-		expect(subject.balance().fees.toHuman()).toBe(1489.94716);
+		assert.is(subject.balance().fees instanceof BigNumber);
+		assert.is(subject.balance().fees.toHuman(), 1489.94716);
 
-		expect(subject.balance().locked).toBeInstanceOf(BigNumber);
-		expect(subject.balance().locked?.toHuman()).toBe(20);
+		assert.is(subject.balance().locked instanceof BigNumber);
+		assert.is(subject.balance().locked?.toHuman(), 20);
 
-		expect(subject.balance().lockedVotes).toBeInstanceOf(BigNumber);
-		expect(subject.balance().lockedVotes?.toHuman()).toBe(10);
+		assert.is(subject.balance().lockedVotes instanceof BigNumber);
+		assert.is(subject.balance().lockedVotes?.toHuman(), 10);
 
-		expect(subject.balance().lockedUnvotes).toBeInstanceOf(BigNumber);
-		expect(subject.balance().lockedUnvotes?.toHuman()).toBe(10);
+		assert.is(subject.balance().lockedUnvotes instanceof BigNumber);
+		assert.is(subject.balance().lockedUnvotes?.toHuman(), 10);
 	});
 
 	test("#isDelegate", () => {
-		expect(subject.isDelegate()).toBe(true);
+		assert.is(subject.isDelegate(), true);
 	});
 
 	describe("#multiSignature", () => {
 		it("should throw error if wallet has not registered multi-signature", () => {
-			expect(() => subject.multiSignature()).toThrowError(
-				"This wallet does not have a multi-signature registered.",
-			);
+			assert
+				.is(() => subject.multiSignature())
+				.toThrowError("This wallet does not have a multi-signature registered.");
 		});
 	});
 
 	describe("#votes", () => {
 		it("should return number of votes received", () => {
-			expect(subject.votes().toHuman()).toBe(0);
+			assert.is(subject.votes().toHuman(), 0);
 		});
 
 		it("should default to 0", async () => {
 			const votes = (await createService(WalletData)).fill({}).votes().toHuman();
 
-			expect(votes).toBe(0);
+			assert.is(votes, 0);
 		});
 	});
 });

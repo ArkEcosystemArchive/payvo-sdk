@@ -35,7 +35,7 @@ test("#baseUrl", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -56,7 +56,7 @@ test("#asJson", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -70,7 +70,7 @@ test("#asForm", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "form_params",
 		data: { query: undefined },
 		method: "GET",
@@ -84,7 +84,7 @@ test("#asOctet", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "octet",
 		data: { query: undefined },
 		method: "GET",
@@ -98,7 +98,7 @@ test("#bodyFormat", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "bodyFormat",
 		data: { query: undefined },
 		method: "GET",
@@ -112,7 +112,7 @@ test("#contentType", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -126,7 +126,7 @@ test("#acceptJson", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -140,7 +140,7 @@ test("#accept", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -154,7 +154,7 @@ test("#withHeaders", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -168,7 +168,7 @@ test("#withCacheStore", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -182,7 +182,7 @@ test("#timeout", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -196,7 +196,7 @@ test("#retry", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -220,7 +220,7 @@ test("#withOptions", () => {
 
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -239,7 +239,7 @@ test("#withOptions", () => {
 test("#get", () => {
 	subject.get("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -258,7 +258,7 @@ test("#get", () => {
 test("#head", () => {
 	subject.head("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -277,7 +277,7 @@ test("#head", () => {
 test("#post", () => {
 	subject.post("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -296,7 +296,7 @@ test("#post", () => {
 test("#patch", () => {
 	subject.patch("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -315,7 +315,7 @@ test("#patch", () => {
 test("#put", () => {
 	subject.put("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -334,7 +334,7 @@ test("#put", () => {
 test("#delete", () => {
 	subject.delete("/");
 
-	expect(spy).toHaveBeenCalledWith({
+	assert.is(spy).toHaveBeenCalledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,

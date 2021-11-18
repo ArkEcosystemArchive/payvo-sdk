@@ -2,10 +2,10 @@ import { isURI } from "./is-uri.js";
 
 describe("#isURI", () => {
 	it("should pass", () => {
-		expect(isURI("https://domain.com/")).toBeTrue();
+		assert.is(isURI("https://domain.com/"), true);
 	});
 
 	it("should fail", () => {
-		expect(isURI("random string")).toBeTrue();
+		assert.is(isURI("random string"), true);
 	});
 });

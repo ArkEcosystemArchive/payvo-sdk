@@ -268,20 +268,20 @@ const baseAddressFromXpub = (spendXpub: Buffer, stakeXpub: Buffer, networkId: st
 describe.each(data)("Addresses from", (wallet) => {
 	it.skip(`Identity Service ${wallet.from}'s Wallet`, async function () {
 		const privateKey = createService(PrivateKeyService).fromMnemonic(wallet.mnemonic);
-		expect(privateKey).toBe(wallet.rootPrivateKey);
+		assert.is(privateKey, wallet.rootPrivateKey);
 
 		const publicKey = createService(PublicKeyService).fromMnemonic(wallet.mnemonic);
-		expect(publicKey).toBe(wallet.rootPublicKey);
+		assert.is(publicKey, wallet.rootPublicKey);
 
 		const keys = createService(KeyPairService).fromMnemonic(wallet.mnemonic);
-		expect(keys).toStrictEqual({ publicKey: wallet.rootPublicKey, privateKey: wallet.rootPrivateKey });
+		assert.is(keys).toStrictEqual({ publicKey: wallet.rootPublicKey, privateKey: wallet.rootPrivateKey });
 	});
 
 	it.skip(`Client Service ${wallet.from}'s Wallet`, async function () {
 		const client = createService(ClientService);
 
 		const walletData = await client.wallet(wallet.walletId);
-		expect(walletData).toBe(wallet.address);
+		assert.is(walletData, wallet.address);
 	});
 
 	it.skip(`${wallet.from}'s Private Key`, async () => {
@@ -292,8 +292,8 @@ describe.each(data)("Addresses from", (wallet) => {
 			addresses.testnet.push(await addressFromMnemonic(mnemonic, 0, false, i, "0"));
 			addresses.mainnet.push(await addressFromMnemonic(mnemonic, 0, false, i, "1"));
 		}
-		expect(addresses.testnet).toEqual(wallet.addresses.testnet.spend);
-		expect(addresses.mainnet).toEqual(wallet.addresses.mainnet.spend);
+		assert.is(addresses.testnet).toEqual(wallet.addresses.testnet.spend);
+		assert.is(addresses.mainnet).toEqual(wallet.addresses.mainnet.spend);
 	});
 
 	it.skip(`${wallet.from}'s Public Key`, async () => {
@@ -308,10 +308,10 @@ describe.each(data)("Addresses from", (wallet) => {
 			addresses.testnet.change.push(await addressFromAccountExtPublicKey(publicKey, true, i, "0"));
 			addresses.mainnet.change.push(await addressFromAccountExtPublicKey(publicKey, true, i, "1"));
 		}
-		expect(addresses.testnet.spend).toEqual(wallet.addresses.testnet.spend);
-		expect(addresses.mainnet.spend).toEqual(wallet.addresses.mainnet.spend);
-		expect(addresses.testnet.change).toEqual(wallet.addresses.testnet.change);
-		expect(addresses.mainnet.change).toEqual(wallet.addresses.mainnet.change);
+		assert.is(addresses.testnet.spend).toEqual(wallet.addresses.testnet.spend);
+		assert.is(addresses.mainnet.spend).toEqual(wallet.addresses.mainnet.spend);
+		assert.is(addresses.testnet.change).toEqual(wallet.addresses.testnet.change);
+		assert.is(addresses.mainnet.change).toEqual(wallet.addresses.mainnet.change);
 	});
 });
 
@@ -325,14 +325,14 @@ it.skip(`spend addresses ${data[1].from}'s Wallet`, async () => {
 		expectedStakeAddress: string,
 	) {
 		let stakeAddressPublicKey = lib.derivePublic(stakeChainPublicKey, stakeAddressIndex, SHELLEY_DERIVATION_SCHEME);
-		expect(stakeAddressPublicKey.toString("hex")).toBe(expectedStakeAddress);
+		assert.is(stakeAddressPublicKey.toString("hex"), expectedStakeAddress);
 
 		let spendAddressExtPublicKey = lib.derivePublic(
 			spendChangeExtPublicKey,
 			addressIndex,
 			SHELLEY_DERIVATION_SCHEME,
 		);
-		expect(baseAddressFromXpub(spendAddressExtPublicKey, stakeAddressPublicKey, "0")).toBe(expectedSpendAddress);
+		assert.is(baseAddressFromXpub(spendAddressExtPublicKey, stakeAddressPublicKey, "0"), expectedSpendAddress);
 		console.log(`Change: m/1852"/1815"/0"/0/${addressIndex}`, expectedSpendAddress);
 	}
 
@@ -340,9 +340,9 @@ it.skip(`spend addresses ${data[1].from}'s Wallet`, async () => {
 	const mnemonic = wallet.mnemonic;
 
 	const walletKeyPair = await lib.mnemonicToRootKeypair(mnemonic, 2);
-	expect(walletKeyPair.toString("hex").slice(0, 128)).toBe(wallet.rootPrivateKey);
-	expect(walletKeyPair.toString("hex").slice(128, 256)).toBe(wallet.rootPublicKey);
-	expect(walletKeyPair.toString("hex")).toBe(wallet.rootPrivateKey + wallet.rootPublicKey);
+	assert.is(walletKeyPair.toString("hex").slice(0, 128), wallet.rootPrivateKey);
+	assert.is(walletKeyPair.toString("hex").slice(128, 256), wallet.rootPublicKey);
+	assert.is(walletKeyPair.toString("hex"), wallet.rootPrivateKey + wallet.rootPublicKey);
 	// console.log(walletKeyPair.toString("hex"));
 
 	/*
@@ -355,7 +355,7 @@ it.skip(`spend addresses ${data[1].from}'s Wallet`, async () => {
 		HARDENED_THRESHOLD + SHELLEY_COIN_PURPOSE,
 		SHELLEY_DERIVATION_SCHEME,
 	);
-	expect(purposeKeyPair.toString("hex")).toBe(wallet.purposeKey);
+	assert.is(purposeKeyPair.toString("hex"), wallet.purposeKey);
 	// console.log(purposeKeyPair.toString("hex"));
 
 	// depth = 2 (0x80000000 + 1815) Coin Type ADA: m/1852"/1815" (SHELLEY_COIN_TYPE)
@@ -364,32 +364,34 @@ it.skip(`spend addresses ${data[1].from}'s Wallet`, async () => {
 		HARDENED_THRESHOLD + SHELLEY_COIN_TYPE,
 		SHELLEY_DERIVATION_SCHEME,
 	);
-	expect(coinTypeKeyPair.toString("hex")).toBe(wallet.coinTypeKey);
+	assert.is(coinTypeKeyPair.toString("hex"), wallet.coinTypeKey);
 	// console.log(coinTypeKeyPair.toString("hex"));
 
 	// depth = 3 (0x80000000 + 0) Account: m/1852"/1815"/0"
 	const accountKeyPair = lib.derivePrivate(coinTypeKeyPair, HARDENED_THRESHOLD + 0, SHELLEY_DERIVATION_SCHEME);
-	expect(accountKeyPair.toString("hex")).toBe(wallet.accountKeyPair);
+	assert.is(accountKeyPair.toString("hex"), wallet.accountKeyPair);
 	const accountPublicKey = accountKeyPair.slice(64, 128);
-	expect(accountPublicKey.toString("hex")).toBe(wallet.accountPublicKey);
+	assert.is(accountPublicKey.toString("hex"), wallet.accountPublicKey);
 	// console.log(accountKeyPair.toString("hex"));
 
 	// depth = 4  Change: m/1852"/1815"/0"/0 -> is not change
 	const spendPublicKey: Buffer = lib.derivePublic(accountPublicKey, 0, SHELLEY_DERIVATION_SCHEME);
-	expect(spendPublicKey.toString("hex")).toBe(
+	assert.is(
+		spendPublicKey.toString("hex"),
 		"64962ed96961290241bccfaef04099f9d515f5592225db2c82d7ddd810883a024e6ff09bb2a11a4d2be26011fec47c955b44187331429316672568e73d0c46cf",
 	);
 	console.log(accountKeyPair.toString("hex"));
 
 	// depth = 4  Change: m/1852"/1815"/0"/1 -> is change
 	const changeSpendPublicKey: Buffer = lib.derivePublic(accountPublicKey, 1, SHELLEY_DERIVATION_SCHEME);
-	expect(changeSpendPublicKey.toString("hex")).toBe(
+	assert.is(
+		changeSpendPublicKey.toString("hex"),
 		"7d1c569689a9941cbf1037dd92b5b5288979f19b99596d3cd20a6457030196c29d4bf45d10d88c9c28d8bbe2d7761d1932ec64642779488289e1822f637e6bfe",
 	);
 
 	// depth = 4  Stake: m/1852"/1815"/0"/2
 	const stakeChainPublicKey = lib.derivePublic(accountPublicKey, 2, SHELLEY_DERIVATION_SCHEME);
-	expect(stakeChainPublicKey.toString("hex")).toBe(wallet.stakeAccountPublicKey);
+	assert.is(stakeChainPublicKey.toString("hex"), wallet.stakeAccountPublicKey);
 
 	const baseAddressForAccount = baseAddressFromXpub(spendPublicKey, stakeChainPublicKey, "0");
 	console.log("baseAddressForAccount", baseAddressForAccount);

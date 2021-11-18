@@ -48,9 +48,9 @@ describe("TransactionService", () => {
 				nonce: "1",
 			});
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(typeof result.toBroadcast()).toBe("string");
-			expect(result.amount().toNumber()).toBe(100_000_000_000_000);
+			assert.is(result instanceof SignedTransactionData);
+			assert.is(typeof result.toBroadcast(), "string");
+			assert.is(result.amount().toNumber(), 100_000_000_000_000);
 		});
 	});
 });

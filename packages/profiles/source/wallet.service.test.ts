@@ -100,11 +100,11 @@ beforeAll(() => nock.disableNetConnect());
 
 describe("WalletService", () => {
 	it("#syncByProfile", async () => {
-		expect(() => wallet.voting().current()).toThrowError(/has not been synced/);
+		assert.is(() => wallet.voting().current()).toThrowError(/has not been synced/);
 
 		await subject.syncByProfile(profile);
 
-		expect(() => wallet.voting().current()).not.toThrowError(/has not been synced/);
+		assert.is(() => wallet.voting().current()).not.toThrowError(/has not been synced/);
 
 		// @ts-ignore
 		const mockUndefinedWallets = jest.spyOn(profile.wallets(), "values").mockReturnValue([undefined]);

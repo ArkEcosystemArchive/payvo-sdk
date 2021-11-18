@@ -2,10 +2,10 @@ import { isWeakSet } from "./is-weak-set.js";
 
 describe("#isWeakSet", () => {
 	it("should pass", () => {
-		expect(isWeakSet(new WeakSet())).toBeTrue();
+		assert.is(isWeakSet(new WeakSet()), true);
 	});
 
 	it("should fail", () => {
-		expect(isWeakSet(1)).toBeFalse();
+		assert.is(isWeakSet(1), false);
 	});
 });

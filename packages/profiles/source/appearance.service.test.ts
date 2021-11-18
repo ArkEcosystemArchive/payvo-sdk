@@ -33,7 +33,7 @@ describe("AppearanceService", () => {
 	});
 
 	test("#defaults", async () => {
-		expect(subject.defaults()).toEqual({
+		assert.is(subject.defaults()).toEqual({
 			accentColor: "green",
 			dashboardTransactionHistory: true,
 			theme: "light",
@@ -43,7 +43,7 @@ describe("AppearanceService", () => {
 	});
 
 	test("#all", async () => {
-		expect(subject.all()).toEqual({
+		assert.is(subject.all()).toEqual({
 			accentColor: "blue",
 			dashboardTransactionHistory: false,
 			theme: "dark",
@@ -54,29 +54,31 @@ describe("AppearanceService", () => {
 
 	describe("#get", () => {
 		test("should throw error if an unknown key is provided", () => {
-			expect(() => subject.get("unknownKey" as any)).toThrow(
-				'Parameter "key" must be one of: accentColor, dashboardTransactionHistory, theme, useExpandedTables, useNetworkWalletNames',
-			);
+			assert
+				.is(() => subject.get("unknownKey" as any))
+				.toThrow(
+					'Parameter "key" must be one of: accentColor, dashboardTransactionHistory, theme, useExpandedTables, useNetworkWalletNames',
+				);
 		});
 
 		test("should get setting value by key", () => {
-			expect(subject.get("accentColor")).toBe("blue");
-			expect(subject.get("dashboardTransactionHistory")).toBe(false);
-			expect(subject.get("theme")).toBe("dark");
-			expect(subject.get("useExpandedTables")).toBe(true);
-			expect(subject.get("useNetworkWalletNames")).toBe(true);
+			assert.is(subject.get("accentColor"), "blue");
+			assert.is(subject.get("dashboardTransactionHistory"), false);
+			assert.is(subject.get("theme"), "dark");
+			assert.is(subject.get("useExpandedTables"), true);
+			assert.is(subject.get("useNetworkWalletNames"), true);
 		});
 
 		test("should prioritize settings over attributes", () => {
 			profile.settings().set(ProfileSetting.Theme, "light");
-			expect(subject.get("theme")).toBe("light");
+			assert.is(subject.get("theme"), "light");
 		});
 
 		test("should return default value if both settings and attributes are missing", () => {
 			profile.settings().forget(ProfileSetting.Theme);
 			delete profile.getAttributes().get("appearance").theme;
 
-			expect(subject.get("theme")).toBe(subject.defaults().theme);
+			assert.is(subject.get("theme"), subject.defaults().theme);
 		});
 	});
 });

@@ -1,7 +1,7 @@
 import { CURRENCIES } from "./currencies.js";
 
 test("CURRENCIES", () => {
-	expect(CURRENCIES).toMatchInlineSnapshot(`
+	assert.is(CURRENCIES).toMatchInlineSnapshot(`
 		Object {
 		  "AUD": Object {
 		    "decimals": 2,

@@ -23,7 +23,7 @@ describe("Request", () => {
 
 		const response = await subject.get("http://httpbin.org/get", { key: "value" });
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should get without params", async () => {
@@ -37,7 +37,7 @@ describe("Request", () => {
 
 		const response = await subject.get("http://httpbin.org/get");
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should post with body", async () => {
@@ -57,7 +57,7 @@ describe("Request", () => {
 
 		const response = await subject.post("http://httpbin.org/post", { key: "value" });
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should post with headers", async () => {
@@ -81,7 +81,7 @@ describe("Request", () => {
 			.withHeaders({ Authorization: "Bearer TOKEN" })
 			.post("http://httpbin.org/post", { key: "value" });
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should post with form_params", async () => {
@@ -101,7 +101,7 @@ describe("Request", () => {
 
 		const response = await subject.asForm().post("http://httpbin.org/post", { key: "value" });
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should post with octet", async () => {
@@ -123,12 +123,12 @@ describe("Request", () => {
 			.bodyFormat("octet")
 			.post("http://httpbin.org/post", Buffer.from(JSON.stringify({ key: "value" })));
 
-		expect(response.json()).toEqual(responseBody);
+		assert.is(response.json()).toEqual(responseBody);
 	});
 
 	it("should handle 404s", async () => {
 		nock("http://httpbin.org/").get("/get").reply(404);
 
-		await expect(subject.get("http://httpbin.org/get")).rejects.toThrow(Http.RequestException);
+		await assert.is(subject.get("http://httpbin.org/get")).rejects.toThrow(Http.RequestException);
 	});
 });

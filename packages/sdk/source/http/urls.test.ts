@@ -1,6 +1,6 @@
 import { ensureTrailingSlash } from "./urls.js";
 
 test("#ensureTrailingSlash", () => {
-	expect(ensureTrailingSlash("#")).toBe("#/");
-	expect(ensureTrailingSlash("/")).toBe("/");
+	assert.is(ensureTrailingSlash("#"), "#/");
+	assert.is(ensureTrailingSlash("/"), "/");
 });

@@ -2,11 +2,14 @@ import { isSyncFunction } from "./is-sync-function.js";
 
 describe("#isSyncFunction", () => {
 	it("should pass", () => {
-		expect(isSyncFunction(new Function())).toBeTrue();
+		assert.is(isSyncFunction(new Function()), true);
 	});
 
 	it("should fail", () => {
-		expect(isSyncFunction(async () => ({}))).toBeFalse();
-		expect(isSyncFunction([])).toBeFalse();
+		assert.is(
+			isSyncFunction(async () => ({})),
+			false,
+		);
+		assert.is(isSyncFunction([]), false);
 	});
 });

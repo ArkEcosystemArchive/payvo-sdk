@@ -2,12 +2,12 @@ import { isNegativeZero } from "./is-negative-zero.js";
 
 describe("#isNegativeZero", () => {
 	it("should pass", () => {
-		expect(isNegativeZero(-0)).toBeTrue();
+		assert.is(isNegativeZero(-0), true);
 	});
 
 	it("should fail", () => {
-		expect(isNegativeZero(+0)).toBeFalse();
-		expect(isNegativeZero(0)).toBeFalse();
-		expect(isNegativeZero(-1)).toBeFalse();
+		assert.is(isNegativeZero(+0), false);
+		assert.is(isNegativeZero(0), false);
+		assert.is(isNegativeZero(-1), false);
 	});
 });

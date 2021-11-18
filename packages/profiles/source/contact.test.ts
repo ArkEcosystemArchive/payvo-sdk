@@ -25,35 +25,37 @@ describe("contact", () => {
 	});
 
 	it("should have an id", () => {
-		expect(subject.id()).toBe("uuid");
+		assert.is(subject.id(), "uuid");
 	});
 
 	it("should have a name", () => {
-		expect(subject.name()).toBe("John Doe");
+		assert.is(subject.name(), "John Doe");
 	});
 
 	it("should be able to change name", () => {
 		subject.setName("Jane Doe");
-		expect(subject.name()).toBe("Jane Doe");
+		assert.is(subject.name(), "Jane Doe");
 	});
 
 	it("should have starred state", () => {
-		expect(subject.isStarred()).toBeTrue();
+		assert.is(subject.isStarred(), true);
 	});
 
 	it("should be able to toggle starred state", () => {
 		subject.toggleStarred();
-		expect(subject.isStarred()).toBeFalse();
+		assert.is(subject.isStarred(), false);
 	});
 
 	it("should have an avatar", () => {
-		expect(subject.avatar()).toMatchInlineSnapshot(
-			`"<svg version=\\"1.1\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"picasso\\" width=\\"100\\" height=\\"100\\" viewBox=\\"0 0 100 100\\"><style>.picasso circle{mix-blend-mode:soft-light;}</style><rect fill=\\"rgb(233, 30, 99)\\" width=\\"100\\" height=\\"100\\"/><circle r=\\"45\\" cx=\\"80\\" cy=\\"30\\" fill=\\"rgb(76, 175, 80)\\"/><circle r=\\"55\\" cx=\\"0\\" cy=\\"60\\" fill=\\"rgb(255, 152, 0)\\"/><circle r=\\"40\\" cx=\\"50\\" cy=\\"50\\" fill=\\"rgb(3, 169, 244)\\"/></svg>"`,
-		);
+		assert
+			.is(subject.avatar())
+			.toMatchInlineSnapshot(
+				`"<svg version=\\"1.1\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"picasso\\" width=\\"100\\" height=\\"100\\" viewBox=\\"0 0 100 100\\"><style>.picasso circle{mix-blend-mode:soft-light;}</style><rect fill=\\"rgb(233, 30, 99)\\" width=\\"100\\" height=\\"100\\"/><circle r=\\"45\\" cx=\\"80\\" cy=\\"30\\" fill=\\"rgb(76, 175, 80)\\"/><circle r=\\"55\\" cx=\\"0\\" cy=\\"60\\" fill=\\"rgb(255, 152, 0)\\"/><circle r=\\"40\\" cx=\\"50\\" cy=\\"50\\" fill=\\"rgb(3, 169, 244)\\"/></svg>"`,
+			);
 	});
 
 	it("should map to object", () => {
-		expect(subject.toObject()).toStrictEqual({
+		assert.is(subject.toObject()).toStrictEqual({
 			addresses: [],
 			id: "uuid",
 			name: "John Doe",
@@ -62,11 +64,11 @@ describe("contact", () => {
 	});
 
 	it("should return addresses", () => {
-		expect(subject.addresses()).toBeInstanceOf(ContactAddressRepository);
+		assert.is(subject.addresses() instanceof ContactAddressRepository);
 	});
 
 	it("should be able to set addresses", () => {
-		expect(() => subject.setAddresses([])).toThrowError('"addresses" must contain at least 1 items');
+		assert.is(() => subject.setAddresses([])).toThrowError('"addresses" must contain at least 1 items');
 
 		subject.setAddresses([
 			{
@@ -76,6 +78,6 @@ describe("contact", () => {
 			},
 		]);
 
-		expect(subject.addresses().count()).toEqual(1);
+		assert.is(subject.addresses().count()).toEqual(1);
 	});
 });

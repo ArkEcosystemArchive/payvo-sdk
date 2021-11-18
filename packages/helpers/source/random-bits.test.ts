@@ -11,6 +11,6 @@ describe("#randomBits", () => {
 		[2048, 512],
 		[4096, 1024],
 	])("should take %i bits and return a random hex string with a length of %i", (bits, expected) => {
-		expect(randomBits(bits).toString("hex")).toHaveLength(expected);
+		assert.is(randomBits(bits).toString("hex")).toHaveLength(expected);
 	});
 });

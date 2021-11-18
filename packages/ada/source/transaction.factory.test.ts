@@ -6,6 +6,6 @@ describe("createValue", () => {
 	it("should work", () => {
 		const result: Value = createValue("2");
 
-		expect(result.coin().to_str()).toBe("2");
+		assert.is(result.coin().to_str(), "2");
 	});
 });

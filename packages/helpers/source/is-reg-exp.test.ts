@@ -2,10 +2,10 @@ import { isRegExp } from "./is-reg-exp.js";
 
 describe("#isRegExp", () => {
 	it("should pass", () => {
-		expect(isRegExp(/a/)).toBeTrue();
+		assert.is(isRegExp(/a/), true);
 	});
 
 	it("should fail", () => {
-		expect(isRegExp([])).toBeFalse();
+		assert.is(isRegExp([]), false);
 	});
 });

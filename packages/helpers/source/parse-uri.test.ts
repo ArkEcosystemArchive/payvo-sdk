@@ -2,7 +2,7 @@ import { parseURI } from "./parse-uri.js";
 
 describe("#parseURI", () => {
 	it("should return all values", () => {
-		expect(parseURI("https://domain.com/path?query=value#fragment")).toEqual({
+		assert.is(parseURI("https://domain.com/path?query=value#fragment")).toEqual({
 			authority: "domain.com",
 			fragment: "fragment",
 			path: "/path",
@@ -12,7 +12,7 @@ describe("#parseURI", () => {
 	});
 
 	it("should work just the domain", () => {
-		expect(parseURI("https://domain.com/")).toEqual({
+		assert.is(parseURI("https://domain.com/")).toEqual({
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/",
@@ -22,7 +22,7 @@ describe("#parseURI", () => {
 	});
 
 	it("should work just the domain and path", () => {
-		expect(parseURI("https://domain.com/path")).toEqual({
+		assert.is(parseURI("https://domain.com/path")).toEqual({
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/path",
@@ -32,7 +32,7 @@ describe("#parseURI", () => {
 	});
 
 	it("should work just the domain and query", () => {
-		expect(parseURI("https://domain.com/?query=value")).toEqual({
+		assert.is(parseURI("https://domain.com/?query=value")).toEqual({
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/",
@@ -42,7 +42,7 @@ describe("#parseURI", () => {
 	});
 
 	it("should work just the domain and fragment", () => {
-		expect(parseURI("https://domain.com/#fragment")).toEqual({
+		assert.is(parseURI("https://domain.com/#fragment")).toEqual({
 			authority: "domain.com",
 			fragment: "fragment",
 			path: "/",

@@ -9,7 +9,7 @@ describe("CryptoCompare", () => {
 
 			const subject = new HistoricalVolumeTransformer(stubResponse.Data);
 
-			expect(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 		});
 	});
 });

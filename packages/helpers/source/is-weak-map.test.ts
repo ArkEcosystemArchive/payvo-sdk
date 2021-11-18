@@ -2,10 +2,10 @@ import { isWeakMap } from "./is-weak-map.js";
 
 describe("#isWeakMap", () => {
 	it("should pass", () => {
-		expect(isWeakMap(new WeakMap())).toBeTrue();
+		assert.is(isWeakMap(new WeakMap()), true);
 	});
 
 	it("should fail", () => {
-		expect(isWeakMap(1)).toBeFalse();
+		assert.is(isWeakMap(1), false);
 	});
 });

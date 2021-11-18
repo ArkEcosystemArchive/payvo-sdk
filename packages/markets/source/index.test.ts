@@ -27,7 +27,7 @@ describe("MarketService", () => {
 
 			await subject.verifyToken("ark");
 
-			expect(spy).toHaveBeenCalledWith("ark");
+			assert.is(spy).toHaveBeenCalledWith("ark");
 		});
 
 		it("should call #marketData on the adapter instance", async () => {
@@ -35,7 +35,7 @@ describe("MarketService", () => {
 
 			await subject.marketData(token);
 
-			expect(spy).toHaveBeenCalledWith("ARK");
+			assert.is(spy).toHaveBeenCalledWith("ARK");
 		});
 
 		it("should call #historicalPrice for day values on the adapter instance", async () => {
@@ -43,7 +43,7 @@ describe("MarketService", () => {
 
 			await subject.historicalPriceForDay(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "HH:mm",
 				days: 24,
@@ -57,7 +57,7 @@ describe("MarketService", () => {
 
 			await subject.historicalPriceForWeek(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "ddd",
 				days: 7,
@@ -71,7 +71,7 @@ describe("MarketService", () => {
 
 			await subject.historicalPriceForMonth(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD",
 				days: 30,
@@ -85,7 +85,7 @@ describe("MarketService", () => {
 
 			await subject.historicalPriceForQuarter(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD.MM",
 				days: 120,
@@ -99,7 +99,7 @@ describe("MarketService", () => {
 
 			await subject.historicalPriceForYear(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD.MM",
 				days: 365,
@@ -113,7 +113,7 @@ describe("MarketService", () => {
 
 			await subject.historicalVolumeForDay(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "HH:mm",
 				days: 24,
@@ -127,7 +127,7 @@ describe("MarketService", () => {
 
 			await subject.historicalVolumeForWeek(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "ddd",
 				days: 7,
@@ -141,7 +141,7 @@ describe("MarketService", () => {
 
 			await subject.historicalVolumeForMonth(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD",
 				days: 30,
@@ -155,7 +155,7 @@ describe("MarketService", () => {
 
 			await subject.historicalVolumeForQuarter(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD.MM",
 				days: 120,
@@ -169,7 +169,7 @@ describe("MarketService", () => {
 
 			await subject.historicalVolumeForYear(token, currency);
 
-			expect(spy).toHaveBeenCalledWith({
+			assert.is(spy).toHaveBeenCalledWith({
 				currency: "USD",
 				dateFormat: "DD.MM",
 				days: 365,
@@ -185,7 +185,7 @@ describe("MarketService", () => {
 
 			await subject.dailyAverage(token, currency, timestamp);
 
-			expect(spy).toHaveBeenCalledWith({ currency: "USD", timestamp: timestamp, token: "ARK" });
+			assert.is(spy).toHaveBeenCalledWith({ currency: "USD", timestamp: timestamp, token: "ARK" });
 		});
 	});
 });

@@ -2,10 +2,10 @@ import { isNumberArray } from "./is-number-array.js";
 
 describe("#isNumberArray", () => {
 	it("should pass", () => {
-		expect(isNumberArray([1])).toBeTrue();
+		assert.is(isNumberArray([1]), true);
 	});
 
 	it("should fail", () => {
-		expect(isNumberArray(["string"])).toBeFalse();
+		assert.is(isNumberArray(["string"]), false);
 	});
 });
