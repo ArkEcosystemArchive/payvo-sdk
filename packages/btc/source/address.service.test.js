@@ -245,7 +245,7 @@ describe("Address", () => {
     });
 
     test("should validate an address", async () => {
-        await assert.is(subject.validate(identity.address)).resolves, true);
+        assert.true(await subject.validate(identity.address)));
     await assert.is(subject.validate(identity.addressBIP44)).resolves, true);
 await assert.is(subject.validate(identity.addressBIP49)).resolves, true);
 await assert.is(subject.validate(identity.addressBIP84)).resolves, true);
