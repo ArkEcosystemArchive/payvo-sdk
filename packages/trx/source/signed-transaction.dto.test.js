@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import { createService } from "../test/mocking";
@@ -42,24 +43,24 @@ test.before.each(async () => {
 	);
 });
 
-describe("SignedTransactionData", () => {
-	test("#sender", () => {
-		assert.is(subject.sender(), "410971d4dec6c12a9b4df09cbad2e42c063084860a");
-	});
-
-	test("#recipient", () => {
-		assert.is(subject.recipient(), "41359a9ff5b9cd7c752e56194586e85f2fe24401fa");
-	});
-
-	test("#amount", () => {
-		assert.is(subject.amount().toNumber(), 1_000_000);
-	});
-
-	test("#fee", () => {
-		assert.is(subject.fee().toNumber(), 0);
-	});
-
-	test("#timestamp", () => {
-		assert.is(DateTime.make(1620877822246).isSame(subject.timestamp()), true);
-	});
+test("#sender", () => {
+	assert.is(subject.sender(), "410971d4dec6c12a9b4df09cbad2e42c063084860a");
 });
+
+test("#recipient", () => {
+	assert.is(subject.recipient(), "41359a9ff5b9cd7c752e56194586e85f2fe24401fa");
+});
+
+test("#amount", () => {
+	assert.is(subject.amount().toNumber(), 1_000_000);
+});
+
+test("#fee", () => {
+	assert.is(subject.fee().toNumber(), 0);
+});
+
+test("#timestamp", () => {
+	assert.true(DateTime.make(1620877822246).isSame(subject.timestamp()));
+});
+
+test.run();

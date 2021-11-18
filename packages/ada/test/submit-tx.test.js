@@ -3,7 +3,7 @@ import { ClientService } from "../source/client.service";
 import { TransactionService } from "../source/transaction.service";
 import { Signatories } from "@payvo/sdk";
 
-let subject: TransactionService;
+let subject;
 
 test.before.each(async () => {
 	subject = createService(TransactionService);

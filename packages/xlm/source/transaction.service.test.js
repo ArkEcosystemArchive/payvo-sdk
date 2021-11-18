@@ -12,7 +12,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: TransactionService;
+let subject;
 
 test.before(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {

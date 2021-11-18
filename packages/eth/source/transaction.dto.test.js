@@ -4,7 +4,7 @@ import Fixture from "../test/fixtures/client/transaction.json";
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ConfirmedTransactionData;
+let subject;
 
 test.before.each(async () => {
     subject = await createService(ConfirmedTransactionData);

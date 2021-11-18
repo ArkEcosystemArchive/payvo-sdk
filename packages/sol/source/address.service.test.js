@@ -6,7 +6,7 @@ import { AddressService } from "./address.service";
 let subject;
 
 test.before.each(async () => {
-    subject = await createService(AddressService);
+	subject = await createService(AddressService);
 });
 
 test("should generate an output from a mnemonic", async () => {

@@ -1,4 +1,6 @@
-import { Collections, IoC, Services, Test } from "@payvo/sdk";
+import { assert, loader, test } from "@payvo/sdk-test";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { Collections, IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
@@ -27,103 +29,82 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-describe("ClientService", () => {
-	describe("#transaction", () => {
-		test("should succeed", async () => {
-			nock("https://api.shasta.trongrid.io")
-				.post("/wallet/gettransactionbyid")
-				.reply(200, loader.json(`test/fixtures/client/transaction.json`));
+test("#transaction", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.post("/wallet/gettransactionbyid")
+		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-			const result = await subject.transaction(
-				"0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
-			);
+	const result = await subject.transaction("0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2");
 
-			assert.instance(result, ConfirmedTransactionData);
-		});
+	assert.instance(result, ConfirmedTransactionData);
+});
+
+test("#transactions", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.get("/v1/accounts/TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq/transactions")
+		.query(true)
+		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
+
+	const result = await subject.transactions({
+		identifiers: [{ type: "address", value: "TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq" }],
 	});
 
-	describe("#transactions", () => {
-		test("should succeed", async () => {
-			nock("https://api.shasta.trongrid.io")
-				.get("/v1/accounts/TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq/transactions")
-				.query(true)
-				.reply(200, loader.json(`test/fixtures/client/transactions.json`));
+	assert.instance(result, Collections.ConfirmedTransactionDataCollection);
+});
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq" }],
-			});
+test("#wallet", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.get("/v1/accounts/TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ")
+		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-			assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
-		});
+	const result = await subject.wallet({
+		type: "address",
+		value: "TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ",
 	});
 
-	describe("#wallet", () => {
-		test("should succeed", async () => {
-			nock("https://api.shasta.trongrid.io")
-				.get("/v1/accounts/TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ")
-				.reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	assert.instance(result, WalletData);
+});
 
-			const result = await subject.wallet({
-				type: "address",
-				value: "TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ",
-			});
+test("broadcast should pass", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.post("/wallet/broadcasttransaction")
+		.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-			assert.instance(result, WalletData);
-			assert.is(result.balance(),
-			Object {
-			  "available": BigNumber {},
-			  "fees": BigNumber {},
-			  "locked": BigNumber {},
-			  "tokens": Object {
-			    "TLa2f6VPqDgRE67v1736s7bJ8Ray5wYjU7": BigNumber {},
-			  },
-			  "total": BigNumber {},
-			}
-		`);
-		});
-	});
+	const result = await subject.broadcast([
+		createService(SignedTransactionData).configure(
+			loader.json(`test/fixtures/crypto/transferSigned.json`).txID,
+			loader.json(`test/fixtures/crypto/transferSigned.json`),
+			loader.json(`test/fixtures/crypto/transferSigned.json`),
+		),
+	]);
 
-	describe("#broadcast", () => {
-		test("should pass", async () => {
-			nock("https://api.shasta.trongrid.io")
-				.post("/wallet/broadcasttransaction")
-				.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
-
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure(
-					loader.json(`test/fixtures/crypto/transferSigned.json`).txID,
-					loader.json(`test/fixtures/crypto/transferSigned.json`),
-					loader.json(`test/fixtures/crypto/transferSigned.json`),
-				),
-			]);
-
-			assert.equal(result, {
-				accepted: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
-				rejected: [],
-				errors: {},
-			});
-		});
-
-		test("should fail", async () => {
-			nock("https://api.shasta.trongrid.io")
-				.post("/wallet/broadcasttransaction")
-				.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
-
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure(
-					loader.json(`test/fixtures/crypto/transferSigned.json`).txID,
-					loader.json(`test/fixtures/crypto/transferSigned.json`),
-					loader.json(`test/fixtures/crypto/transferSigned.json`),
-				),
-			]);
-
-			assert.equal(result, {
-				accepted: [],
-				rejected: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
-				errors: {
-					"8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3": "SIGERROR",
-				},
-			});
-		});
+	assert.equal(result, {
+		accepted: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
+		rejected: [],
+		errors: {},
 	});
 });
+
+test("broadcast should fail", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.post("/wallet/broadcasttransaction")
+		.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+
+	const result = await subject.broadcast([
+		createService(SignedTransactionData).configure(
+			loader.json(`test/fixtures/crypto/transferSigned.json`).txID,
+			loader.json(`test/fixtures/crypto/transferSigned.json`),
+			loader.json(`test/fixtures/crypto/transferSigned.json`),
+		),
+	]);
+
+	assert.equal(result, {
+		accepted: [],
+		rejected: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
+		errors: {
+			"8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3": "SIGERROR",
+		},
+	});
+});
+
+test.run();

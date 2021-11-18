@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import fixture from "../test/fixtures/client/wallet.json";
@@ -7,59 +8,59 @@ import { createService } from "../test/mocking";
 let subject;
 
 test.before.each(async () => {
-    subject = (await createService(WalletData)).fill(fixture.data[0]);
+	subject = (await createService(WalletData)).fill(fixture.data[0]);
 });
 
-describe("WalletData", () => {
-    test("#address", () => {
-        assert.is(subject.address(), loader.data[0].address);
-    });
+test("#address", () => {
+	assert.is(subject.address(), fixture.data[0].address);
+});
 
-    test("#publicKey", () => {
-        assert.is(subject.publicKey()), "undefined");
+test("#publicKey", () => {
+	assert.undefined(subject.publicKey());
 });
 
 test("#balance", () => {
-    assert.is(subject.balance().available, BigNumber.make("17491629"));
+	assert.equal(subject.balance().available, BigNumber.make("17491629"));
 });
 
 test("#nonce", () => {
-    assert.is(subject.nonce(), BigNumber.make(24242));
+	assert.equal(subject.nonce(), BigNumber.make(24242));
 });
 
 test("#secondPublicKey", () => {
-    assert.is(() => subject.secondPublicKey()).toThrow(/not implemented/);
+	assert.throws(() => subject.secondPublicKey(), "not implemented");
 });
 
 test("#username", () => {
-    assert.is(() => subject.username()).toThrow(/not implemented/);
+	assert.throws(() => subject.username(), "not implemented");
 });
 
 test("#rank", () => {
-    assert.is(() => subject.rank()).toThrow(/not implemented/);
+	assert.throws(() => subject.rank(), "not implemented");
 });
 
 test("#votes", () => {
-    assert.is(() => subject.votes()).toThrow(/not implemented/);
+	assert.throws(() => subject.votes(), "not implemented");
 });
 
 test("#multiSignature", () => {
-    assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
+	assert.throws(() => subject.multiSignature(), "not implemented");
 });
 
 test("#isMultiSignature", () => {
-    assert.is(subject.isMultiSignature(), false);
+	assert.false(subject.isMultiSignature());
 });
 
 test("#isDelegate", () => {
-    assert.is(subject.isDelegate(), false);
+	assert.false(subject.isDelegate());
 });
 
 test("#isSecondSignature", () => {
-    assert.is(subject.isSecondSignature(), false);
+	assert.false(subject.isSecondSignature());
 });
 
 test("#isResignedDelegate", () => {
-    assert.is(subject.isResignedDelegate(), false);
+	assert.false(subject.isResignedDelegate());
 });
-});
+
+test.run();

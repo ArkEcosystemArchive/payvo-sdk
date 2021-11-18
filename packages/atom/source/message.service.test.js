@@ -5,7 +5,7 @@ import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+let subject;
 
 test.before.each(async () => {
     subject = await createService(MessageService, undefined, (container) => {

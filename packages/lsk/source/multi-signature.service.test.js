@@ -20,7 +20,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: TransactionService;
+let subject;
 let musig: MultiSignatureService;
 
 test.before(async () => {

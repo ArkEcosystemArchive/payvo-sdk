@@ -13,7 +13,7 @@ import { BIP39 } from "@payvo/sdk-cryptography";
 
 let profile: IProfile;
 let wallet: IReadWriteWallet;
-let subject: TransactionService;
+let subject;
 
 jest.setTimeout(30000);
 

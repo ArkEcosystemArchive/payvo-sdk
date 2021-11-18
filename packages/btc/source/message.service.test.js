@@ -7,7 +7,7 @@ import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+let subject;
 
 test.before.each(async () => {
     subject = await createService(MessageService, undefined, (container) => {

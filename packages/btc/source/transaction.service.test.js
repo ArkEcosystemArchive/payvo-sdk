@@ -19,7 +19,7 @@ import { WalletData } from "./wallet.dto";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
-let subject: TransactionService;
+let subject;
 
 test.before.each(async () => {
 	nock.disableNetConnect();

@@ -26,7 +26,7 @@ const deriveIdentity = async (
 
 let profile: IProfile;
 let wallet: IReadWriteWallet;
-let subject: TransactionService;
+let subject;
 
 test.before(() => {
     bootContainer();
