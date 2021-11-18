@@ -1,10 +1,9 @@
 import { isSet } from "./is-set";
 
-test("#isSet", () => {
 	test("should pass", () => {
-		assert.is(isSet(new Set()), true);
+		assert.true(isSet(new Set()));
 	});
 
 	test("should fail", () => {
-		assert.is(isSet(1), false);
+		assert.false(isSet(1));
 	});

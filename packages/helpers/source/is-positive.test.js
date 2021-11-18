@@ -1,10 +1,9 @@
 import { isPositive } from "./is-positive";
 
-test("#isPositive", () => {
 	test("should pass", () => {
-		assert.is(isPositive(1), true);
+		assert.true(isPositive(1));
 	});
 
 	test("should fail", () => {
-		assert.is(isPositive(-1), false);
+		assert.false(isPositive(-1));
 	});

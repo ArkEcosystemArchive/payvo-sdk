@@ -1,6 +1,5 @@
 import { keysIn } from "./keys-in";
 
-test("#keysIn", () => {
 	test("should work with an object", () => {
 		function Foo() {
 			// @ts-ignore

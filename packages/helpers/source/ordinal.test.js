@@ -1,6 +1,5 @@
 import { ordinal } from "./ordinal";
 
-test("#ordinal", () => {
 	test("should return the number with the correct suffix", () => {
 		assert.is(ordinal(1), "1st");
 		assert.is(ordinal(2), "2nd");

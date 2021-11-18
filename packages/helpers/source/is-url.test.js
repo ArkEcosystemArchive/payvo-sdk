@@ -1,11 +1,10 @@
 import { isURL } from "./is-url";
 import { URL } from "url";
 
-test("#isURL", () => {
 	test("should pass", () => {
-		assert.is(isURL(new URL("https://google.com")), true);
+		assert.true(isURL(new URL("https://google.com")));
 	});
 
 	test("should fail", () => {
-		assert.is(isURL(1), false);
+		assert.false(isURL(1));
 	});

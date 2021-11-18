@@ -1,9 +1,8 @@
 import { reduceObject } from "./reduce-object";
 
-test("#reduceObject", () => {
 	test("should work with a function", () => {
 		assert
-			.is(
+			.equal(
 				reduceObject(
 					{ a: 1, b: 2, c: 1 },
 					(result, value, key) => {
@@ -12,7 +11,5 @@ test("#reduceObject", () => {
 						return result;
 					},
 					{},
-				),
-			)
-			.toEqual({ 1: ["a", "c"], 2: ["b"] });
+				), { 1: ["a", "c"], 2: ["b"] });
 	});

@@ -2,7 +2,6 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { constantCase } from "./constant-case";
 
-test("#constantCase", () => {
 	test("should turn any string into constant case", () => {
 		assert.is(constantCase("string"), "STRING");
 		assert.is(constantCase("camelCase"), "CAMEL_CASE");

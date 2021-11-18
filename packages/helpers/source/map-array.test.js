@@ -1,8 +1,7 @@
 import { mapArray } from "./map-array";
 
-test("#mapArray", () => {
 	test("should work like lodash", () => {
-		assert.is(
+		assert.equal(
 			mapArray([4, 8], (n) => n * n),
 			[16, 64],
 		);

@@ -1,6 +1,5 @@
 import { keys } from "./keys";
 
-test("#keys", () => {
 	test("should work with an object", () => {
 		function Foo() {
 			// @ts-ignore
@@ -11,13 +10,13 @@ test("#keys", () => {
 
 		Foo.prototype.c = 3;
 
-		assert.is(keys(new Foo()), ["a", "b"]);
+		assert.equal(keys(new Foo()), ["a", "b"]);
 	});
 
 	test("should work with a string", () => {
-		assert.is(keys("hi"), ["0", "1"]);
+		assert.equal(keys("hi"), ["0", "1"]);
 	});
 
 	test("should work with an array", () => {
-		assert.is(keys([1, 2, 3, 4]), ["0", "1", "2", "3"]);
+		assert.equal(keys([1, 2, 3, 4]), ["0", "1", "2", "3"]);
 	});

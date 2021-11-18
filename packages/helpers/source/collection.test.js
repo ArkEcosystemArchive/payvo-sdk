@@ -2,10 +2,10 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { Collection } from "./collection";
 
-let collection: Collection<string>;
+let collection;
 
 test.before.each(() => {
-	collection = new Collection<string>();
+	collection = new Collection();
 	collection.set("key", "value");
 });
 

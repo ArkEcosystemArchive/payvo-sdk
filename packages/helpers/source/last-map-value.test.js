@@ -1,6 +1,5 @@
 import { lastMapValue } from "./last-map-value";
 
-test("#lastMapValue", () => {
     test("should return the last value", () => {
         assert.is(
             lastMapValue(
@@ -9,6 +8,5 @@ test("#lastMapValue", () => {
                     ["Another", "Planet"],
                 ]),
             ),
-		, "Planet");
+		 "Planet");
     });
-});

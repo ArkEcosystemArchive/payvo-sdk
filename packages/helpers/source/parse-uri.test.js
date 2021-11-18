@@ -1,8 +1,7 @@
 import { parseURI } from "./parse-uri";
 
-test("#parseURI", () => {
 	test("should return all values", () => {
-		assert.is(parseURI("https://domain.com/path?query=value#fragment"), {
+		assert.equal(parseURI("https://domain.com/path?query=value#fragment"), {
 			authority: "domain.com",
 			fragment: "fragment",
 			path: "/path",
@@ -12,7 +11,7 @@ test("#parseURI", () => {
 	});
 
 	test("should work just the domain", () => {
-		assert.is(parseURI("https://domain.com/"), {
+		assert.equal(parseURI("https://domain.com/"), {
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/",
@@ -22,7 +21,7 @@ test("#parseURI", () => {
 	});
 
 	test("should work just the domain and path", () => {
-		assert.is(parseURI("https://domain.com/path"), {
+		assert.equal(parseURI("https://domain.com/path"), {
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/path",
@@ -32,7 +31,7 @@ test("#parseURI", () => {
 	});
 
 	test("should work just the domain and query", () => {
-		assert.is(parseURI("https://domain.com/?query=value"), {
+		assert.equal(parseURI("https://domain.com/?query=value"), {
 			authority: "domain.com",
 			fragment: undefined,
 			path: "/",
@@ -42,7 +41,7 @@ test("#parseURI", () => {
 	});
 
 	test("should work just the domain and fragment", () => {
-		assert.is(parseURI("https://domain.com/#fragment"), {
+		assert.equal(parseURI("https://domain.com/#fragment"), {
 			authority: "domain.com",
 			fragment: "fragment",
 			path: "/",

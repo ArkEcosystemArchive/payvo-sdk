@@ -6,7 +6,6 @@ let subject: URI;
 
 test.before.each(async () => (subject = new URI()));
 
-test("URI", () => {
 	test("should serialize", () => {
 		const result = subject.serialize({
 			method: "transfer",

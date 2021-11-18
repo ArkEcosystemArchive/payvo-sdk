@@ -1,15 +1,12 @@
 import { randomBits } from "./random-bits";
 
-test("#randomBits", () => {
-	it.each([
-		[32, 8],
-		[64, 16],
-		[128, 32],
-		[256, 64],
-		[512, 128],
-		[1024, 256],
-		[2048, 512],
-		[4096, 1024],
-	])("should take %i bits and return a random hex string with a length of %i", (bits, expected) => {
-		assert.is(randomBits(bits).toString("hex")).toHaveLength(expected);
+	test("should take bits and return a random hex string with a fixed length", () => {
+		assert.length(randomBits(32).toString("hex"), 8);
+		assert.length(randomBits(64).toString("hex"), 16);
+		assert.length(randomBits(128).toString("hex"), 32);
+		assert.length(randomBits(256).toString("hex"), 64);
+		assert.length(randomBits(512).toString("hex"), 128);
+		assert.length(randomBits(1024).toString("hex"), 256);
+		assert.length(randomBits(2048).toString("hex"), 512);
+		assert.length(randomBits(4096).toString("hex"), 1024);
 	});

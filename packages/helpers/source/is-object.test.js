@@ -1,10 +1,9 @@
 import { isObject } from "./is-object";
 
-test("#isObject", () => {
 	test("should pass", () => {
-		assert.is(isObject({ key: "value" }), true);
+		assert.true(isObject({ key: "value" }));
 	});
 
 	test("should fail", () => {
-		assert.is(isObject(1), false);
+		assert.false(isObject(1));
 	});

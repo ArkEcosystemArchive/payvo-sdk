@@ -1,10 +1,9 @@
 import { isNumber } from "./is-number";
 
-test("#isNumber", () => {
 	test("should pass", () => {
-		assert.is(isNumber(1), true);
+		assert.true(isNumber(1));
 	});
 
 	test("should fail", () => {
-		assert.is(isNumber("1"), false);
+		assert.false(isNumber("1"));
 	});

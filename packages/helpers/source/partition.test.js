@@ -1,6 +1,5 @@
 import { partition } from "./partition";
 
-test("#partition", () => {
 	const users = [
 		{ user: "barney", age: 36, active: false },
 		{ user: "fred", age: 40, active: true },
@@ -8,7 +7,7 @@ test("#partition", () => {
 	];
 
 	test("should work with a function", () => {
-		assert.is(
+		assert.equal(
 			partition(users, ({ active }) => active),
 			[
 				[{ user: "fred", age: 40, active: true }],

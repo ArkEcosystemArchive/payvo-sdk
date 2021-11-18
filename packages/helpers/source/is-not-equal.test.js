@@ -1,10 +1,9 @@
 import { isNotEqual } from "./is-not-equal";
 
-test("#isNotEqual", () => {
 	test("should pass", () => {
-		assert.is(isNotEqual < any > (1, "1"), true);
+		assert.true(isNotEqual < any > (1, "1"));
 	});
 
 	test("should fail", () => {
-		assert.is(isNotEqual(1, 1), false);
+		assert.false(isNotEqual(1, 1));
 	});

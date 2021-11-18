@@ -1,6 +1,5 @@
 import { reduce } from "./reduce";
 
-test("#reduce", () => {
 	test("should work with an array", () => {
 		assert.is(
 			reduce([1, 2], (sum, n) => sum + n, 0),
@@ -10,7 +9,7 @@ test("#reduce", () => {
 
 	test("should work with an object", () => {
 		assert
-			.is(
+			.equal(
 				reduce(
 					{ a: 1, b: 2, c: 1 },
 					(result, value, key) => {
@@ -19,7 +18,5 @@ test("#reduce", () => {
 						return result;
 					},
 					{},
-				),
-			)
-			.toEqual({ 1: ["a", "c"], 2: ["b"] });
+				), { 1: ["a", "c"], 2: ["b"] });
 	});

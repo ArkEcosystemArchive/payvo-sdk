@@ -1,10 +1,9 @@
 import { some } from "./some";
 
-test("#some", () => {
     test("should work with any function", () => {
-        assert.is(some([null, 0, "yes", false], Boolean), true);
+        assert.true(some([null, 0, "yes", false], Boolean));
 
-        assert.is(
+        assert.true(
             some(
                 [
                     { user: "barney", active: true },
@@ -12,6 +11,5 @@ test("#some", () => {
                 ],
                 (currentValue) => currentValue.active,
             ),
-		, true);
+		);
     });
-});

@@ -1,6 +1,5 @@
 import { lastMapKey } from "./last-map-key";
 
-test("#lastMapKey", () => {
     test("should return the last key", () => {
         assert.is(
             lastMapKey(
@@ -9,6 +8,5 @@ test("#lastMapKey", () => {
                     ["Another", "Planet"],
                 ]),
             ),
-		, "Another");
+		 "Another");
     });
-});

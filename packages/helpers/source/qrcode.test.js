@@ -9,14 +9,14 @@ test("#fromObject", () => {
 });
 
 test("#toDataURL", async () => {
-	const actual: string = await QRCode.fromString("https://google.com").toDataURL();
+	const actual = await QRCode.fromString("https://google.com").toDataURL();
 
 	assert.is(actual).toStartWith("data:image/png;base64,");
 	assert.is(actual).toMatchSnapshot();
 });
 
 test("#toDataURL with options", async () => {
-	const actual: string = await QRCode.fromString("https://google.com").toDataURL({ width: 250, margin: 0 });
+	const actual = await QRCode.fromString("https://google.com").toDataURL({ width: 250, margin: 0 });
 
 	assert.is(actual).toStartWith("data:image/png;base64,");
 	assert.is(actual).toMatchSnapshot();

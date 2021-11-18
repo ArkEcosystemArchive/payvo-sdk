@@ -7,9 +7,8 @@ const dummies = [
 	{ age: 40, name: "Jane" },
 ];
 
-test("#sortByDesc", () => {
 	test("should sort records without iteratees", () => {
-		assert.is(sortByDesc(dummies), [
+		assert.equal(sortByDesc(dummies), [
 			{ age: 40, name: "Jane" },
 			{ age: 30, name: "John" },
 			{ age: 18, name: "Bob" },
@@ -18,7 +17,7 @@ test("#sortByDesc", () => {
 	});
 
 	test("should sort records by string", () => {
-		assert.is(sortByDesc(dummies, "age"), [
+		assert.equal(sortByDesc(dummies, "age"), [
 			{ age: 40, name: "Jane" },
 			{ age: 30, name: "John" },
 			{ age: 18, name: "Andrew" },
@@ -27,7 +26,7 @@ test("#sortByDesc", () => {
 	});
 
 	test("should sort records by array", () => {
-		assert.is(sortByDesc(dummies, ["age"]), [
+		assert.equal(sortByDesc(dummies, ["age"]), [
 			{ age: 40, name: "Jane" },
 			{ age: 30, name: "John" },
 			{ age: 18, name: "Andrew" },

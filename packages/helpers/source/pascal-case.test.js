@@ -1,6 +1,5 @@
 import { pascalCase } from "./pascal-case";
 
-test("#pascalCase", () => {
 	test("should turn any string into pascal case", () => {
 		assert.is(pascalCase("string"), "String");
 		assert.is(pascalCase("camelCase"), "CamelCase");

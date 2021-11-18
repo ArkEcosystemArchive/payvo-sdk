@@ -1,12 +1,11 @@
 import { isPositiveZero } from "./is-positive-zero";
 
-test("#isPositiveZero", () => {
 	test("should pass", () => {
-		assert.is(isPositiveZero(+0), true);
-		assert.is(isPositiveZero(0), true);
+		assert.true(isPositiveZero(+0));
+		assert.true(isPositiveZero(0));
 	});
 
 	test("should fail", () => {
-		assert.is(isPositiveZero(-0), false);
-		assert.is(isPositiveZero(-1), false);
+		assert.false(isPositiveZero(-0));
+		assert.false(isPositiveZero(-1));
 	});

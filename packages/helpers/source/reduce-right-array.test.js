@@ -1,9 +1,8 @@
 import { reduceRightArray } from "./reduce-right-array";
 
-test("#reduceRightArray", () => {
 	test("should work with a function", () => {
 		assert
-			.is(
+			.equal(
 				reduceRightArray(
 					[
 						[0, 1],
@@ -12,7 +11,5 @@ test("#reduceRightArray", () => {
 					],
 					(flattened, other) => flattened.concat(other),
 					[],
-				),
-			)
-			.toEqual([4, 5, 2, 3, 0, 1]);
+				), [4, 5, 2, 3, 0, 1]);
 	});

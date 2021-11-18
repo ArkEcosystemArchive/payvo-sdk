@@ -1,10 +1,9 @@
 import { isStringArray } from "./is-string-array";
 
-test("#isStringArray", () => {
 	test("should pass", () => {
-		assert.is(isStringArray(["string"]), true);
+		assert.true(isStringArray(["string"]));
 	});
 
 	test("should fail", () => {
-		assert.is(isStringArray([1]), false);
+		assert.false(isStringArray([1]));
 	});
