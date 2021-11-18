@@ -27,8 +27,8 @@ export class Portfolio implements IPortfolio {
 				};
 			}
 
-			result[ticker].source += wallet.balance();
-			result[ticker].target += wallet.convertedBalance();
+			result[ticker].source += wallet.balance("total");
+			result[ticker].target += wallet.convertedBalance("total");
 		}
 
 		let totalValue = 0;
