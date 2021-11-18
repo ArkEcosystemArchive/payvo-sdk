@@ -44,27 +44,19 @@ describe("SignedTransactionData", () => {
 		expect(subject.timestamp().toISOString()).toBe("1970-01-01T00:00:00.000Z");
 	});
 
-	describe("multiSignature", function() {
+	describe("multiSignature", function () {
 		test("#isMultiSignatureRegistration for regular, non-musig transfer", () => {
 			expect(subject.isMultiSignatureRegistration()).toBeFalse();
 		});
 
 		test("#isMultiSignatureRegistration for musig registration", () => {
-			subject.configure(
-				unsignedNativeSegwitMusigRegistrationTx.id,
-				unsignedNativeSegwitMusigRegistrationTx,
-				"",
-			);
+			subject.configure(unsignedNativeSegwitMusigRegistrationTx.id, unsignedNativeSegwitMusigRegistrationTx, "");
 
 			expect(subject.isMultiSignatureRegistration()).toBeTrue();
 		});
 
 		test("#isMultiSignatureRegistration for transfer", () => {
-			subject.configure(
-				oneSignatureMusigP2shSegwitTransferTx.id,
-				oneSignatureMusigP2shSegwitTransferTx,
-				"",
-			);
+			subject.configure(oneSignatureMusigP2shSegwitTransferTx.id, oneSignatureMusigP2shSegwitTransferTx, "");
 
 			expect(subject.isMultiSignatureRegistration()).toBeFalse();
 		});

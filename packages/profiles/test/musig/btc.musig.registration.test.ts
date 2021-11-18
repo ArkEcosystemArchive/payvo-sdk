@@ -133,8 +133,22 @@ describe("BTC", () => {
 			expect(first.transaction().isAwaitingOtherSignatures(uuid)).toBeTrue();
 			expect(first.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
 
-			expect(first.transaction().isAwaitingSignatureByPublicKey(uuid, "Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN")).toBeFalse();
-			expect(first.transaction().isAwaitingSignatureByPublicKey(uuid, "Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1")).toBeTrue();
+			expect(
+				first
+					.transaction()
+					.isAwaitingSignatureByPublicKey(
+						uuid,
+						"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+					),
+			).toBeFalse();
+			expect(
+				first
+					.transaction()
+					.isAwaitingSignatureByPublicKey(
+						uuid,
+						"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+					),
+			).toBeTrue();
 
 			expect(first.transaction().canBeSigned(uuid)).toBeFalse();
 			expect(first.transaction().canBeBroadcasted(uuid)).toBeFalse();
@@ -154,8 +168,22 @@ describe("BTC", () => {
 			expect(second.transaction().isAwaitingOtherSignatures(uuid)).toBeFalse();
 			expect(second.transaction().isAwaitingFinalSignature(uuid)).toBeTrue();
 
-			expect(second.transaction().isAwaitingSignatureByPublicKey(uuid, "Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN")).toBeFalse();
-			expect(second.transaction().isAwaitingSignatureByPublicKey(uuid, "Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1")).toBeTrue();
+			expect(
+				second
+					.transaction()
+					.isAwaitingSignatureByPublicKey(
+						uuid,
+						"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
+					),
+			).toBeFalse();
+			expect(
+				second
+					.transaction()
+					.isAwaitingSignatureByPublicKey(
+						uuid,
+						"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
+					),
+			).toBeTrue();
 
 			expect(second.transaction().canBeSigned(uuid)).toBeTrue();
 			expect(second.transaction().canBeBroadcasted(uuid)).toBeFalse();
