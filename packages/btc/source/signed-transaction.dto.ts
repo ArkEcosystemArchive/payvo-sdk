@@ -1,4 +1,4 @@
-import { Contracts, DTO, Exceptions, IoC } from "@payvo/sdk";
+import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -25,5 +25,13 @@ export class SignedTransactionData
 
 	public override timestamp(): DateTime {
 		return DateTime.make(this.signedData.timestamp);
+	}
+
+	public override isMultiSignatureRegistration(): boolean {
+		return this.signedData.multiSignature !== undefined && this.signedData.psbt === undefined;
+	}
+
+	public override usesMultiSignature(): boolean {
+		return this.signedData.multiSignature !== undefined;
 	}
 }
