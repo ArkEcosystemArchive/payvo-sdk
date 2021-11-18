@@ -12,25 +12,25 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
 const createMockService = async (record) => {
-    const transport = await createService(LedgerService, undefined, (container) => {
-        container.constant(IoC.BindingType.Container, container);
-        container.singleton(IoC.BindingType.AddressService, AddressService);
-        container.singleton(IoC.BindingType.ClientService, ClientService);
-        container.constant(IoC.BindingType.DataTransferObjects, {
-            SignedTransactionData,
-            ConfirmedTransactionData,
-            WalletData,
-        });
-        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-        container.constant(
-            IoC.BindingType.LedgerTransportFactory,
-            async () => await openTransportReplayer(RecordStore.fromString(record)),
-        );
-    });
+	const transport = await createService(LedgerService, undefined, (container) => {
+		container.constant(IoC.BindingType.Container, container);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record)),
+		);
+	});
 
-    await transport.connect();
+	await transport.connect();
 
-    return transport;
+	return transport;
 };
 
 test("#disconnect", async () => {
@@ -65,6 +65,5 @@ test("#signMessage", async () => {
 
 	await assert.rejects(() => trx.signMessage("", Buffer.alloc(0)));
 });
-
 
 test.run();

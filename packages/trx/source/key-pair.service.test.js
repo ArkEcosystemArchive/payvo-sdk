@@ -13,5 +13,4 @@ test("should generate an output from a mnemonic", async () => {
 	assert.object(await subject.fromMnemonic(identity.mnemonic));
 });
 
-
 test.run();

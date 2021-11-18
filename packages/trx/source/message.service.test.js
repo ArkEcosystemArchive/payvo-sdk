@@ -10,10 +10,10 @@ import { MessageService } from "./message.service";
 let subject;
 
 test.before.each(async () => {
-    subject = await createService(MessageService, undefined, (container) => {
-        container.singleton(IoC.BindingType.AddressService, AddressService);
-        container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-    });
+	subject = await createService(MessageService, undefined, (container) => {
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+	});
 });
 
 test("should sign and verify a message", async () => {
@@ -38,6 +38,5 @@ test("should sign and verify a message", async () => {
 
 	assert.true(await subject.verify(result));
 });
-
 
 test.run();

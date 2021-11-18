@@ -63,5 +63,4 @@ test("#timestamp", () => {
 	assert.true(DateTime.make(1620877822246).isSame(subject.timestamp()));
 });
 
-
 test.run();

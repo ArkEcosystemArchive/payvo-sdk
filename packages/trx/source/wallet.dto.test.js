@@ -8,7 +8,7 @@ import { createService } from "../test/mocking";
 let subject;
 
 test.before.each(async () => {
-    subject = (await createService(WalletData)).fill(fixture.data[0]);
+	subject = (await createService(WalletData)).fill(fixture.data[0]);
 });
 
 test("#address", () => {
@@ -20,48 +20,47 @@ test("#publicKey", () => {
 });
 
 test("#balance", () => {
-    assert.equal(subject.balance().available, BigNumber.make("17491629"));
+	assert.equal(subject.balance().available, BigNumber.make("17491629"));
 });
 
 test("#nonce", () => {
-    assert.equal(subject.nonce(), BigNumber.make(24242));
+	assert.equal(subject.nonce(), BigNumber.make(24242));
 });
 
 test("#secondPublicKey", () => {
-    assert.throws(() => subject.secondPublicKey(), "not implemented");
+	assert.throws(() => subject.secondPublicKey(), "not implemented");
 });
 
 test("#username", () => {
-    assert.throws(() => subject.username(), "not implemented");
+	assert.throws(() => subject.username(), "not implemented");
 });
 
 test("#rank", () => {
-    assert.throws(() => subject.rank(), "not implemented");
+	assert.throws(() => subject.rank(), "not implemented");
 });
 
 test("#votes", () => {
-    assert.throws(() => subject.votes(), "not implemented");
+	assert.throws(() => subject.votes(), "not implemented");
 });
 
 test("#multiSignature", () => {
-    assert.throws(() => subject.multiSignature(), "not implemented");
+	assert.throws(() => subject.multiSignature(), "not implemented");
 });
 
 test("#isMultiSignature", () => {
-    assert.false(subject.isMultiSignature());
+	assert.false(subject.isMultiSignature());
 });
 
 test("#isDelegate", () => {
-    assert.false(subject.isDelegate());
+	assert.false(subject.isDelegate());
 });
 
 test("#isSecondSignature", () => {
-    assert.false(subject.isSecondSignature());
+	assert.false(subject.isSecondSignature());
 });
 
 test("#isResignedDelegate", () => {
-    assert.false(subject.isResignedDelegate());
+	assert.false(subject.isResignedDelegate());
 });
-
 
 test.run();

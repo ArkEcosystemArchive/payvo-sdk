@@ -32,5 +32,4 @@ test("should parse missing memo correctly", async () => {
 	assert.undefined(subject.memo());
 });
 
-
 test.run();
