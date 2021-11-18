@@ -5,7 +5,7 @@ import sinon from "sinon";
 
 const assert = {
 	...uvu,
-	rejects: async (fn: Function): Promise<void> => {
+	rejects: async (fn: Function, expected?: uvu.Message): Promise<void> => {
 		try {
 			await fn();
 
@@ -13,6 +13,10 @@ const assert = {
 		} catch (error) {
 			if (error instanceof uvu.Assertion) {
 				throw error;
+			}
+
+			if (expected instanceof Error) {
+				uvu.instance(error, expected);
 			}
 
 			uvu.ok(true);
