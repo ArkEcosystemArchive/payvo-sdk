@@ -1,11 +1,11 @@
-import { assert, fixture, test } from "@payvo/sdk-test";
+import { assert, loader, test } from "@payvo/sdk-test";
 
 import { MarketTransformer } from "./market-transformer";
 
 const stubOptions = { type: "day", dateFormat: "DD.MM" };
 
 test("should transform the given data", async () => {
-	const stubResponse = fixture.load("test/fixtures/coingecko/market.json");
+	const stubResponse = loader.json("test/fixtures/coingecko/market.json");
 
 	const subject = new MarketTransformer(stubResponse.market_data);
 
@@ -13,7 +13,7 @@ test("should transform the given data", async () => {
 });
 
 test("should skip unknown currencies", async () => {
-	const stubResponse = fixture.load("test/fixtures/coingecko/market.json");
+	const stubResponse = loader.json("test/fixtures/coingecko/market.json");
 
 	const subject = new MarketTransformer(stubResponse.market_data);
 

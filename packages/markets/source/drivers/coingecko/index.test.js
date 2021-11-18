@@ -1,4 +1,4 @@
-import { assert, fixture, nock, test } from "@payvo/sdk-test";
+import { assert, loader, nock, test } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 
@@ -37,17 +37,17 @@ test.before.each(async () => {
 			},
 		});
 
-	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, fixture.load("test/fixtures/coingecko/market.json"));
+	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/market_chart")
 		.query(true)
-		.reply(200, fixture.load("test/fixtures/coingecko/historical.json"));
+		.reply(200, loader.json("test/fixtures/coingecko/historical.json"));
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/history")
 		.query(true)
-		.reply(200, fixture.load("test/fixtures/coingecko/daily-average.json"));
+		.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
 });
 
 test("should return ticker values", async () => {

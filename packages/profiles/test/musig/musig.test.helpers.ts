@@ -228,7 +228,7 @@ export const mockMusigServer = ({ url }: { url: string }) => {
 		.reply(200, () => mockResponse.ready)
 		.persist();
 
-	const mockServerResponse = (key: string, fixture: any) => {
+	const mockServerResponse = (key: string, loader: any) => {
 		mockResponse[key].result = fixture;
 	};
 

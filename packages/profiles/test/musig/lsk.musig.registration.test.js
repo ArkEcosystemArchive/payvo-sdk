@@ -147,7 +147,7 @@ describe("LSK", () => {
 				assert.is(second.wallet.transaction().canBeSigned(uuid), true);
 				assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
 
-				mockServerResponse("show", fixtures.withFirstSignature);
+				mockServerResponse("show", loaders.withFirstSignature);
 				mockServerResponse("pending", []);
 				mockServerResponse("ready", [fixtures.withSecondSignature]);
 
@@ -341,7 +341,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
 			mockServerResponse("pending", [fixtures.withSecondSignature]);
 
@@ -398,7 +398,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withSecondSignature);
+			mockServerResponse("show", loaders.withSecondSignature);
 
 			// 2. Add the third (final) signature from the third participant, and re-broadcast the transaction.
 			await third.wallet
@@ -610,7 +610,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
 			mockServerResponse("pending", [fixtures.withSecondSignature]);
 
@@ -667,7 +667,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withSecondSignature);
+			mockServerResponse("show", loaders.withSecondSignature);
 
 			// 2. Add the third (final) signature from the third participant, and re-broadcast the transaction.
 			await third.wallet
@@ -879,7 +879,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
 			mockServerResponse("pending", [fixtures.withSecondSignature]);
 
@@ -936,7 +936,7 @@ describe("LSK", () => {
 			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withSecondSignature);
+			mockServerResponse("show", loaders.withSecondSignature);
 
 			// 2. Add the third (final) signature from the third participant, and re-broadcast the transaction.
 			await third.wallet

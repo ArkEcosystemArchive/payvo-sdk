@@ -1,4 +1,4 @@
-import { assert, fixture, test } from "@payvo/sdk-test";
+import { assert, loader, test } from "@payvo/sdk-test";
 
 import { HistoricalPriceTransformer } from "./historical-price-transformer";
 
@@ -192,7 +192,7 @@ const stubOptions = {
 };
 
 test("should transform the given data", async () => {
-	const stubResponse = fixture.load("test/fixtures/coincap/historical.json");
+	const stubResponse = loader.json("test/fixtures/coincap/historical.json");
 
 	const subject = new HistoricalPriceTransformer(stubResponse.data);
 

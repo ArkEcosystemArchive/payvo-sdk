@@ -25,6 +25,9 @@
 		"tsm": "^2.1.4",
 		"uvu": "^0.5.2"
 	},
+	"devDependencies": {
+		"@types/node": "^16.11.7"
+	},
 	"engines": {
 		"node": "^14.13.1 || >=16.0.0"
 	},
