@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
+import { featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Luna",
@@ -12,7 +12,11 @@ const network: Networks.NetworkManifest = {
 		symbol: "LUNA",
 		ticker: "LUNA",
 	},
-	explorer,
+	explorer: {
+		block: "tequila-0004/blocks/{0}",
+		transaction: "tequila-0004/txs/{0}",
+		wallet: "tequila-0004/address/{0}",
+	},
 	featureFlags,
 	hosts: [
 		{
@@ -20,7 +24,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://finder.terra.money/tequila-0004",
+			host: "https://finder.terra.money",
 			type: "explorer",
 		},
 	],
