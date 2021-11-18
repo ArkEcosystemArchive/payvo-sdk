@@ -4,7 +4,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -31,7 +31,7 @@ test.after.each(() => nock.cleanAll());
 describe("ClientService", () => {
     describe("#transaction", () => {
         test("should succeed", async () => {
-            nock(/.+/).post("/").reply(200, requireModule(`../test/fixtures/client/transaction.json`));
+            nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
             const result = await subject.transaction(
                 "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
@@ -53,7 +53,7 @@ describe("ClientService", () => {
 
 describe("#transactions", () => {
     test("should succeed", async () => {
-        nock(/.+/).post("/").reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+        nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
         const result = await subject.transactions({
             identifiers: [{ type: "address", value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59" }],
@@ -75,7 +75,7 @@ describe("#transactions", () => {
 
 describe("#wallet", () => {
     test("should succeed", async () => {
-        nock(/.+/).post("/").reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+        nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
         const result = await subject.wallet({
             type: "address",
@@ -97,7 +97,7 @@ describe("#broadcast", () => {
     );
 
     test("should pass", async () => {
-        nock(/.+/).post("/").reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
+        nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
         const result = await subject.broadcast([transactionPayload]);
 
@@ -109,7 +109,7 @@ describe("#broadcast", () => {
     });
 
     test("should fail", async () => {
-        nock(/.+/).post("/").reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
+        nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
         const result = await subject.broadcast([transactionPayload]);
 

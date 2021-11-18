@@ -1,7 +1,7 @@
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
@@ -40,13 +40,13 @@ describe("TransactionService", () => {
 		test("is correct", async () => {
 			nock(/.+/)
 				.post("/")
-				.reply(200, requireModule(`../test/fixtures/transaction/transactions-page-1.json`))
+				.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
 				.post("/")
-				.reply(200, requireModule(`../test/fixtures/transaction/transactions-page-2.json`))
+				.reply(200, loader.json(`test/fixtures/transaction/transactions-page-2.json`))
 				.post("/")
-				.reply(200, requireModule(`../test/fixtures/transaction/utxos.json`))
+				.reply(200, loader.json(`test/fixtures/transaction/utxos.json`))
 				.post("/")
-				.reply(200, requireModule(`../test/fixtures/transaction/expiration.json`));
+				.reply(200, loader.json(`test/fixtures/transaction/expiration.json`));
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(

@@ -1,6 +1,6 @@
 import nock from "nock";
 import { IoC } from "@payvo/sdk";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import MusigWalletDataHelper from "./musig-wallet-data-helper";

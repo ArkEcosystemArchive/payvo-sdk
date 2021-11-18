@@ -1,6 +1,6 @@
 import { DateTime } from "@payvo/sdk-intl";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { BigNumber } from "@payvo/sdk-helpers";
 

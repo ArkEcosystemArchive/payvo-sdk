@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { WalletData } from "./wallet.dto";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 
 let subject: WalletData;
 

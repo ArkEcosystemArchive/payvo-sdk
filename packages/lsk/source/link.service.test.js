@@ -1,6 +1,6 @@
 import { Services } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 
 let subject: Services.AbstractLinkService;
 

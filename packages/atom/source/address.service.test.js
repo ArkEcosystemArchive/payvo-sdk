@@ -1,7 +1,7 @@
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { KeyPairService } from "./key-pair.service";
 

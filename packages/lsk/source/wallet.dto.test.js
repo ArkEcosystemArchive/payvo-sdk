@@ -2,7 +2,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { expect } from "@jest/globals";
 
 let subject: WalletData;

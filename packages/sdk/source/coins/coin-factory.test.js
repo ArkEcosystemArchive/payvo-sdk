@@ -6,7 +6,6 @@ import nock from "nock";
 
 import { ARK } from "../../../ark/distribution";
 import { Request } from "../../../http-fetch";
-import { requireModule } from "../../test/mocking";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
@@ -17,24 +16,24 @@ test.before(async () => {
 
 	nock("https://ark-live.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, requireModule("../test/livenet/blockchain.json"))
+		.reply(200, loader.json("test/livenet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, requireModule("../test/livenet/configuration.json"))
+		.reply(200, loader.json("test/livenet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, requireModule("../test/livenet/configuration-crypto.json"))
+		.reply(200, loader.json("test/livenet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, requireModule("../test/livenet/syncing.json"))
+		.reply(200, loader.json("test/livenet/syncing.json"))
 		.persist();
 
 	nock("https://ark-test.payvo.com")
 		.get("/api/blockchain")
-		.reply(200, requireModule("../test/testnet/blockchain.json"))
+		.reply(200, loader.json("test/testnet/blockchain.json"))
 		.get("/api/node/configuration")
-		.reply(200, requireModule("../test/testnet/configuration.json"))
+		.reply(200, loader.json("test/testnet/configuration.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, requireModule("../test/testnet/configuration-crypto.json"))
+		.reply(200, loader.json("test/testnet/configuration-crypto.json"))
 		.get("/api/node/syncing")
-		.reply(200, requireModule("../test/testnet/syncing.json"))
+		.reply(200, loader.json("test/testnet/syncing.json"))
 		.persist();
 });
 

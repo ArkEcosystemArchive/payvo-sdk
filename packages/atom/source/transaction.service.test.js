@@ -1,7 +1,7 @@
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
@@ -36,9 +36,9 @@ describe("TransactionService", () => {
 		test("should verify", async () => {
 			nock("https://stargate.cosmos.network")
 				.get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
-				.reply(200, requireModule(`../test/fixtures/client/wallet.json`))
+				.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 				.get("/bank/balances/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
-				.reply(200, requireModule(`../test/fixtures/client/wallet-balance.json`));
+				.reply(200, loader.json(`test/fixtures/client/wallet-balance.json`));
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(

@@ -2,7 +2,7 @@ import { DTO, IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -35,11 +35,11 @@ describe("ClientService", () => {
     test("#wallet should succeed", async () => {
         nock(/.+/)
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/transactions-0.json`))
+            .reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/transactions-20.json`))
+            .reply(200, loader.json(`test/fixtures/client/transactions-20.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/utxos-aggregate.json`));
+            .reply(200, loader.json(`test/fixtures/client/utxos-aggregate.json`));
 
         const result = await subject.wallet({
             type: "address",
@@ -57,11 +57,11 @@ describe("#transactions", () => {
     test("returns ok", async () => {
         nock(/.+/)
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/transactions-0.json`))
+            .reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/transactions-20.json`))
+            .reply(200, loader.json(`test/fixtures/client/transactions-20.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+            .reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
         const result = await subject.transactions({
             senderPublicKey:
@@ -94,7 +94,7 @@ test("missing query", async () => {
     });
 
 test("#transaction", async () => {
-    nock(/.+/).post(/.*/).reply(200, requireModule(`../test/fixtures/client/transaction.json`));
+    nock(/.+/).post(/.*/).reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
     const result = await subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
     assert.is(result instanceof ConfirmedTransactionData);
@@ -155,15 +155,15 @@ describe("#broadcast", () => {
     test("#accepted", async () => {
         nock(/.+/)
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/transaction/transactions-page-1.json`))
+            .reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/transaction/transactions-page-2.json`))
+            .reply(200, loader.json(`test/fixtures/transaction/transactions-page-2.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/transaction/utxos.json`))
+            .reply(200, loader.json(`test/fixtures/transaction/utxos.json`))
             .post("/")
-            .reply(200, requireModule(`../test/fixtures/transaction/expiration.json`))
+            .reply(200, loader.json(`test/fixtures/transaction/expiration.json`))
             .post("/")
-            .reply(201, requireModule(`../test/fixtures/transaction/submit-tx.json`));
+            .reply(201, loader.json(`test/fixtures/transaction/submit-tx.json`));
 
         const txService = createService(TransactionService, undefined, (container) => {
             container.constant(IoC.BindingType.Container, container);
@@ -205,7 +205,7 @@ describe("#broadcast", () => {
         });
     });
     test("#rejected", async () => {
-        nock(/.+/).post("/").reply(201, requireModule(`../test/fixtures/transaction/submit-tx-failed.json`));
+        nock(/.+/).post("/").reply(201, loader.json(`test/fixtures/transaction/submit-tx-failed.json`));
 
         const transactions = [
             createService(SignedTransactionData).configure(

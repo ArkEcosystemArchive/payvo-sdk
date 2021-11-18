@@ -2,7 +2,7 @@ import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
@@ -41,7 +41,7 @@ describe("TransactionService", () => {
 		test("should sign transaction", async () => {
 			nock("https://proxy.nanos.cc/")
 				.post("/proxy")
-				.reply(200, requireModule(`../test/fixtures/client/account-info.json`));
+				.reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
 			const result = await subject.transfer({
 				signatory: new Signatories.Signatory(

@@ -1,7 +1,7 @@
 import { Collections, IoC, Services, Test } from "@payvo/sdk";
 import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -33,7 +33,7 @@ describe("ClientService", () => {
 	test("#transactions", async () => {
 		nock("https://proxy.nanos.cc/")
 			.post("/proxy")
-			.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 		const result = await subject.transactions({
 			identifiers: [
@@ -54,7 +54,7 @@ describe("ClientService", () => {
 	});
 
 	test("#wallet", async () => {
-		nock("https://proxy.nanos.cc/").post("/proxy").reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+		nock("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
 		const result = await subject.wallet({
 			type: "address",

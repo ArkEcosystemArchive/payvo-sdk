@@ -2,7 +2,7 @@ import { IoC, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";

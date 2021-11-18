@@ -2,7 +2,7 @@ import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
@@ -32,7 +32,7 @@ describe("ClientService", () => {
         test("should succeed", async () => {
             nock("https://btc-test.payvo.com")
                 .get("/api/transactions/68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32")
-                .reply(200, requireModule(`../test/fixtures/client/transaction.json`));
+                .reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
             const result = await subject.transaction(
                 "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
@@ -56,7 +56,7 @@ describe("#transactions", () => {
     test("should succeed", async () => {
         nock("https://btc-test.payvo.com")
             .post("/api/wallets/transactions", { addresses: ["12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w"] })
-            .reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+            .reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
         const result = await subject.transactions({
             identifiers: [{ type: "address", value: "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w" }],
@@ -227,7 +227,7 @@ describe("#broadcast", () => {
     test("should pass", async () => {
         nock("https://btc-test.payvo.com")
             .post("/api/transactions")
-            .reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
+            .reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
         const result = await subject.broadcast([
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
@@ -243,7 +243,7 @@ describe("#broadcast", () => {
     test("should fail", async () => {
         nock("https://btc-test.payvo.com")
             .post("/api/transactions")
-            .reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
+            .reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
         const result = await subject.broadcast([
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),

@@ -1,4 +1,4 @@
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
 
 let subject: ExtendedPublicKeyService;
