@@ -1,8 +1,11 @@
-import { Money } from "./money.js";
+import { test } from "uvu";
+import * as assert from "uvu/assert";
 
-let subject: Money;
+import { Money } from "./money";
 
-beforeEach(() => (subject = Money.make(5000, "EUR")));
+let subject;
+
+test.before.each(() => (subject = Money.make(5000, "EUR")));
 
 test("#getAmount", () => {
 	assert.is(subject.getAmount(), 5000);
@@ -78,3 +81,5 @@ test("#format", () => {
 test("#toUnit", () => {
 	assert.is(subject.toUnit(), 50);
 });
+
+test.run();

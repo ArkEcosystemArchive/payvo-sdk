@@ -8,7 +8,7 @@ let subject: CountAggregate;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = new CountAggregate(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }));
 });
 

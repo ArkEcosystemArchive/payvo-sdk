@@ -11,27 +11,27 @@ const dummy = {
 	recipient: () => "recipient",
 };
 
-beforeEach(() => {
+test.before.each(() => {
 	// @ts-ignore
 	subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
 });
 
 test("#findById", () => {
-	assert.is(subject.findById("id")).toEqual(dummy);
+	assert.is(subject.findById("id"), dummy);
 });
 
 test("#findByType", () => {
-	assert.is(subject.findByType("type")).toEqual(dummy);
+	assert.is(subject.findByType("type"), dummy);
 });
 
 test("#findByTimestamp", () => {
-	assert.is(subject.findByTimestamp("timestamp")).toEqual(dummy);
+	assert.is(subject.findByTimestamp("timestamp"), dummy);
 });
 
 test("#findBySender", () => {
-	assert.is(subject.findBySender("sender")).toEqual(dummy);
+	assert.is(subject.findBySender("sender"), dummy);
 });
 
 test("#findByRecipient", () => {
-	assert.is(subject.findByRecipient("recipient")).toEqual(dummy);
+	assert.is(subject.findByRecipient("recipient"), dummy);
 });

@@ -9,8 +9,8 @@ describe("WalletData", () => {
         const result = createService(WalletData).fill(fixture.result.account_data);
 
         assert.is(result instanceof WalletData);
-        assert.is(result.address()).toEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
+        assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
         assert.is(result.publicKey()), "undefined");
-    assert.is(result.balance().available).toEqual(BigNumber.make("92291324300"));
+    assert.is(result.balance().available, BigNumber.make("92291324300"));
 });
 });

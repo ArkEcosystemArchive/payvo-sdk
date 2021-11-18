@@ -4,7 +4,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(AddressService);
 });
 
@@ -12,13 +12,13 @@ describe("Address", () => {
     it("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a mnemonic given a custom locale", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a multiSignature", async () => {
@@ -27,19 +27,19 @@ describe("Address", () => {
             publicKeys: identity.multiSignature.publicKeys,
         });
 
-        assert.is(result).toEqual({ type: "bip39", address: "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi" });
+        assert.is(result, { type: "bip39", address: "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi" });
     });
 
     it("should generate an output from a publicKey", async () => {
         const result = await subject.fromPublicKey(identity.publicKey);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a privateKey", async () => {
         const result = await subject.fromPrivateKey(identity.privateKey);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should generate an output from a secret", async () => {
@@ -49,13 +49,13 @@ describe("Address", () => {
 
         const result = await subject.fromSecret("abc");
 
-        assert.is(result).toEqual({ type: "bip39", address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN" });
+        assert.is(result, { type: "bip39", address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN" });
     });
 
     it("should generate an output from a wif", async () => {
         const result = await subject.fromWIF(identity.wif);
 
-        assert.is(result).toEqual({ type: "bip39", address: identity.address });
+        assert.is(result, { type: "bip39", address: identity.address });
     });
 
     it("should validate an address", async () => {

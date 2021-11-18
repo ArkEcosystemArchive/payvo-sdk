@@ -10,12 +10,12 @@ const values = { a: "a", b: "b", c: "c" };
 
 let subject: AttributeBag<Attributes>;
 
-beforeEach(() => (subject = new AttributeBag<Attributes>()));
+test.before.each(() => (subject = new AttributeBag<Attributes>()));
 
 test("#all", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.all()).toEqual(values);
+	assert.is(subject.all(), values);
 });
 
 test("#get", async () => {
@@ -81,11 +81,11 @@ test("#flush", async () => {
 test("#only", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.only(["a", "b"])).toEqual({ a: "a", b: "b" });
+	assert.is(subject.only(["a", "b"]), { a: "a", b: "b" });
 });
 
 test("#except", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.except(["a", "b"])).toEqual({ c: "c" });
+	assert.is(subject.except(["a", "b"]), { c: "c" });
 });

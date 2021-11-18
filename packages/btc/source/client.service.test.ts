@@ -25,7 +25,7 @@ beforeAll(async () => {
     });
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("ClientService", () => {
     describe("#transaction", () => {
@@ -42,11 +42,11 @@ describe("ClientService", () => {
             assert.is(result.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
-            assert.is(result.confirmations()).toEqual(BigNumber.make(159414));
+            assert.is(result.confirmations(), BigNumber.make(159414));
             // assert.is(result.sender(), "...");
             // assert.is(result.recipient(), "...");
-            assert.is(result.amount()).toEqual(BigNumber.make(3050000));
-            assert.is(result.fee()).toEqual(BigNumber.make(10000));
+            assert.is(result.amount(), BigNumber.make(3050000));
+            assert.is(result.fee(), BigNumber.make(10000));
             // @ts-ignore - Better types so that memo gets detected on TransactionDataType
             assert.is(result.memo()), "undefined");
     });
@@ -73,11 +73,11 @@ assert.is(transaction instanceof ConfirmedTransactionData);
 assert.is(transaction.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
 assert.is(transaction.type(), "transfer");
 assert.is(transaction.timestamp() instanceof DateTime);
-assert.is(transaction.confirmations()).toEqual(BigNumber.make(159414));
+assert.is(transaction.confirmations(), BigNumber.make(159414));
 // assert.is(transaction.sender(), "...");
 // assert.is(transaction.recipient(), "...");
-assert.is(transaction.amount()).toEqual(BigNumber.make(3050000));
-assert.is(transaction.fee()).toEqual(BigNumber.make(10000));
+assert.is(transaction.amount(), BigNumber.make(3050000));
+assert.is(transaction.fee(), BigNumber.make(10000));
 // @ts-ignore - Better types so that memo gets detected on TransactionDataType
 assert.is(transaction.memo()), "undefined");
         });
@@ -121,7 +121,7 @@ describe("#wallet", () => {
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip44" });
 
         assert.is(result instanceof WalletData);
-        assert.is(result.address()).toEqual(["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);
+        assert.is(result.address(), ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);
         assert.is(result.publicKey(), "figure this out");
         assert.is(result.balance().available.toNumber(), 100000);
     });
@@ -166,7 +166,7 @@ describe("#wallet", () => {
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip49" });
 
         assert.is(result instanceof WalletData);
-        assert.is(result.address()).toEqual([
+        assert.is(result.address(), [
             "2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT",
             "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x",
         ]);
@@ -214,7 +214,7 @@ describe("#wallet", () => {
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip84" });
 
         assert.is(result instanceof WalletData);
-        assert.is(result.address()).toEqual([
+        assert.is(result.address(), [
             "tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3",
             "tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62",
         ]);
@@ -233,7 +233,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: ["id"],
             rejected: [],
             errors: {},
@@ -249,7 +249,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result).toEqual({
+        assert.is(result, {
             accepted: [],
             rejected: ["id"],
             errors: {

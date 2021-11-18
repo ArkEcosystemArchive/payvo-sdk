@@ -9,7 +9,7 @@ const dummies = {
 describe("#lowerFirst", () => {
 	it("should uncapitalize the given input", () => {
 		Object.keys(dummies).forEach((key) => {
-			assert.is(lowerFirst(key)).toEqual(dummies[key]);
+			assert.is(lowerFirst(key), dummies[key]);
 		});
 	});
 });

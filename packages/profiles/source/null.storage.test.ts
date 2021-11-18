@@ -2,7 +2,7 @@ import { NullStorage } from "./null.storage";
 
 let subject: NullStorage;
 
-beforeEach(() => (subject = new NullStorage()));
+test.before.each(() => (subject = new NullStorage()));
 
 test("#all", async () => {
     await assert.is(subject.all()).resolves.toEqual({});

@@ -13,7 +13,7 @@ const matchSnapshot = (transaction): void =>
 		})
 		.toMatchSnapshot();
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(() => nock.disableNetConnect());
 

@@ -20,7 +20,7 @@ describe("SignatoryFactory", () => {
 		profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 	});
 
-	beforeEach(async () => {
+	test.before.each(async () => {
 		wallet = await profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
 			mnemonic,

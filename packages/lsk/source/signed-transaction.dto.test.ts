@@ -21,7 +21,7 @@ describe("SignedTransactionData", () => {
         id: "3279be353158ae19d47191605c82b6e112980c888e98e75d6185c858359428e4",
     };
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         subject = await createService(SignedTransactionData);
         subject.configure(transaction.id, transaction, transaction);
     });

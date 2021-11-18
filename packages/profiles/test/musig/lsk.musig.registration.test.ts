@@ -35,7 +35,7 @@ describe("LSK", () => {
 		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 	});
 
-	afterEach(() => {
+	test.after.each(() => {
 		resetServerResponseMocks();
 	});
 
@@ -95,17 +95,17 @@ describe("LSK", () => {
 				mockServerResponse("store", { id: uuid });
 				const result = await first.wallet.transaction().broadcast(uuid);
 
-				assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+				assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 				// Validate multi-signature registration data.
 				assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 				assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-				assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-				assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+				assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+				assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 				assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 				assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 				assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature")).toEqual({
+				assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
 					mandatoryKeys: expect.toContainValues(transactionData.data.mandatoryKeys),
 					optionalKeys: expect.toContainValues(transactionData.data.optionalKeys),
 					numberOfSignatures: 2,
@@ -267,13 +267,13 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
@@ -288,7 +288,7 @@ describe("LSK", () => {
 
 			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
 			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
-			assert.is(signedMultiSignatureData.numberOfSignatures).toEqual(2);
+			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
 			mockServerResponse("ready", []);
@@ -536,13 +536,13 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
@@ -557,7 +557,7 @@ describe("LSK", () => {
 
 			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
 			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
-			assert.is(signedMultiSignatureData.numberOfSignatures).toEqual(2);
+			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
 			mockServerResponse("ready", []);
@@ -805,13 +805,13 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
@@ -826,7 +826,7 @@ describe("LSK", () => {
 
 			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
 			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
-			assert.is(signedMultiSignatureData.numberOfSignatures).toEqual(2);
+			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
 			mockServerResponse("ready", []);
@@ -1020,13 +1020,13 @@ describe("LSK", () => {
 
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			const { address } = await first.wallet.coin().address().fromMultiSignature({
 				senderPublicKey: first.wallet.publicKey(),
 			});
 
-			assert.is(address).toEqual(first.wallet.address());
+			assert.is(address, first.wallet.address());
 		});
 	});
 });

@@ -8,12 +8,15 @@ describe("#partition", () => {
 	];
 
 	it("should work with a function", () => {
-		assert.is(partition(users, ({ active }) => active)).toEqual([
-			[{ user: "fred", age: 40, active: true }],
+		assert.is(
+			partition(users, ({ active }) => active),
 			[
-				{ user: "barney", age: 36, active: false },
-				{ user: "pebbles", age: 1, active: false },
+				[{ user: "fred", age: 40, active: true }],
+				[
+					{ user: "barney", age: 36, active: false },
+					{ user: "pebbles", age: 1, active: false },
+				],
 			],
-		]);
+		);
 	});
 });

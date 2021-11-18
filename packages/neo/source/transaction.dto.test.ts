@@ -6,7 +6,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(ConfirmedTransactionData);
     subject.configure({
         txid: "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
@@ -25,11 +25,11 @@ describe("ConfirmedTransactionData", () => {
         assert.is(subject.id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
         assert.is(subject.type(), "transfer");
         assert.is(subject.timestamp() instanceof DateTime);
-        assert.is(subject.confirmations()).toEqual(BigNumber.ZERO);
+        assert.is(subject.confirmations(), BigNumber.ZERO);
         assert.is(subject.sender(), "AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
         assert.is(subject.recipient(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-        assert.is(subject.amount()).toEqual(BigNumber.make(1));
-        assert.is(subject.fee()).toEqual(BigNumber.ZERO);
+        assert.is(subject.amount(), BigNumber.make(1));
+        assert.is(subject.fee(), BigNumber.ZERO);
         assert.is(subject.memo()), "undefined");
 });
 });

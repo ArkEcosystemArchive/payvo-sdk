@@ -7,7 +7,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(AddressService, undefined, (container: IoC.Container) => {
         container.constant(BindingType.Zilliqa, mockWallet());
     });
@@ -17,13 +17,13 @@ describe("Address", () => {
     it("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toEqual({ type: "bip44", address: identity.bech32Address });
+        assert.is(result, { type: "bip44", address: identity.bech32Address });
     });
 
     it("should generate an output from a privateKey", async () => {
         const result = await subject.fromPrivateKey(identity.privateKey);
 
-        assert.is(result).toEqual({ type: "bip44", address: identity.bech32Address });
+        assert.is(result, { type: "bip44", address: identity.bech32Address });
     });
 
     it("should validate an address", async () => {

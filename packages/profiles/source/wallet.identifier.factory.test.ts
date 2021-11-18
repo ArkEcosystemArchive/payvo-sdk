@@ -18,7 +18,7 @@ beforeAll(() => {
 	nock.disableNetConnect();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	nock(/.+/)
@@ -45,7 +45,7 @@ it("should not create wallet identifier when unknown method", async () => {
 		address: "DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w",
 		method: undefined,
@@ -59,7 +59,7 @@ it("should create wallet identifier for address", async () => {
 		address: "DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w",
 		method: undefined,
@@ -74,7 +74,7 @@ describe("should create wallet identifier with mnenonic", () => {
 			mnemonic: identity.mnemonic,
 		});
 
-		assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+		assert.is(await WalletIdentifierFactory.make(wallet), {
 			type: "address",
 			value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 			method: "bip39",
@@ -89,7 +89,7 @@ describe("should create wallet identifier with mnenonic", () => {
 			levels: { account: 0 },
 		});
 
-		assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+		assert.is(await WalletIdentifierFactory.make(wallet), {
 			type: "extendedPublicKey",
 			value: "xpub6CVZnKBTDKtVdkizs2fwFrb5WDjsc4MzCqmFSHEU1jYvuugQaQBzVzF5A7E9AVr793Lj5KPtFdyNcmA42RtFeko8JDZ2nUpciHRQFMGdcvM",
 			method: "bip44",
@@ -106,7 +106,7 @@ describe("should create wallet identifier with mnenonic with password", () => {
 			password: "password",
 		});
 
-		assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+		assert.is(await WalletIdentifierFactory.make(wallet), {
 			type: "address",
 			value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 			method: "bip39",
@@ -122,7 +122,7 @@ describe("should create wallet identifier with mnenonic with password", () => {
 			levels: { account: 0 },
 		});
 
-		assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+		assert.is(await WalletIdentifierFactory.make(wallet), {
 			type: "extendedPublicKey",
 			value: "xpub6CVZnKBTDKtVdkizs2fwFrb5WDjsc4MzCqmFSHEU1jYvuugQaQBzVzF5A7E9AVr793Lj5KPtFdyNcmA42RtFeko8JDZ2nUpciHRQFMGdcvM",
 			method: "bip44",
@@ -137,7 +137,7 @@ it("should create wallet identifier with public key", async () => {
 		publicKey: identity.publicKey,
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		method: "bip39",
@@ -151,7 +151,7 @@ it("should create wallet identifier with private key", async () => {
 		privateKey: identity.privateKey,
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		method: "bip39",
@@ -165,7 +165,7 @@ it("should create wallet identifier with secret", async () => {
 		secret: "secret",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D7seWn8JLVwX4nHd9hh2Lf7gvZNiRJ7qLk",
 		method: "bip39",
@@ -180,7 +180,7 @@ it("should create wallet identifier with secret with encryption", async () => {
 		password: "password",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D7seWn8JLVwX4nHd9hh2Lf7gvZNiRJ7qLk",
 		method: "bip39",
@@ -194,7 +194,7 @@ it("should create wallet identifier with wif", async () => {
 		wif: "SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5esJPm1NiG3",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		method: "bip39",
@@ -209,7 +209,7 @@ it("should create wallet identifier with wif with encryption", async () => {
 		password: "password",
 	});
 
-	assert.is(await WalletIdentifierFactory.make(wallet)).toEqual({
+	assert.is(await WalletIdentifierFactory.make(wallet), {
 		type: "address",
 		value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		method: "bip39",

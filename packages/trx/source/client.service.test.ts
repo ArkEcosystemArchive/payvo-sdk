@@ -97,7 +97,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			assert.is(result).toEqual({
+			assert.is(result, {
 				accepted: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				rejected: [],
 				errors: {},
@@ -117,7 +117,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			assert.is(result).toEqual({
+			assert.is(result, {
 				accepted: [],
 				rejected: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				errors: {

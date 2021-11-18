@@ -22,7 +22,7 @@ beforeAll(() => {
     subject = new WalletFactory(new Profile({ id: "id", name: "name", avatar: "avatar", data: "" }));
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.cleanAll();
 
     nock("https://ark-test.payvo.com")

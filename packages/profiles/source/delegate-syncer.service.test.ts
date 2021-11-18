@@ -13,7 +13,7 @@ beforeAll(() => {
 	nock.disableNetConnect();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	nock(/.+/)
@@ -36,7 +36,7 @@ beforeEach(async () => {
 describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
 	let subject: IDelegateSyncer;
 
-	beforeEach(async () => {
+	test.before.each(async () => {
 		const clientService = coin.client();
 
 		subject =

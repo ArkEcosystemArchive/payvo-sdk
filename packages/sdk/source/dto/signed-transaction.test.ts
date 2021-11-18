@@ -42,7 +42,7 @@ test("#fee", () => {
 });
 
 test("#timestamp", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").timestamp()).toEqual(DateTime.make(0));
+	assert.is(new Transaction().configure("id", { key: "value" }, "").timestamp(), DateTime.make(0));
 });
 
 test("#get", () => {

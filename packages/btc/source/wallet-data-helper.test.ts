@@ -8,7 +8,7 @@ import * as bitcoin from "bitcoinjs-lib";
 
 let subject: AddressFactory;
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.disableNetConnect();
 
     subject = await createService(AddressFactory, "btc.testnet", async (container: IoC.Container) => {
@@ -64,7 +64,7 @@ beforeAll(() => {
 describe("cache wallet data", () => {
     let walletDataHelper;
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         walletDataHelper = subject.walletDataHelper(
             {
                 purpose: 44,
@@ -91,7 +91,7 @@ describe("cache wallet data", () => {
 it("should return the next change address", async () => {
     await assert.is(walletDataHelper.discoverAllUsed()).resolves, "undefined");
 
-assert.is(walletDataHelper.firstUnusedChangeAddress()).toEqual({
+assert.is(walletDataHelper.firstUnusedChangeAddress(), {
     address: "mya5ZRZi3epftGxvMP5trEfkpCFhPzMPqA",
     path: "m/44'/1'/0'/1/0",
     status: "unused",

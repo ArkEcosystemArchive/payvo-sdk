@@ -4,7 +4,7 @@ import { URI } from "./uri.js";
 
 let subject: URI;
 
-beforeEach(async () => (subject = new URI()));
+test.before.each(async () => (subject = new URI()));
 
 describe("URI", () => {
 	it("should serialize", () => {
@@ -26,7 +26,7 @@ describe("URI", () => {
 
 	// @ts-ignore
 	it.each(JSON.parse(readFileSync("./test/uri.json")))("should deserialize (%s)", (input, output) => {
-		assert.is(subject.deserialize(input)).toEqual(output);
+		assert.is(subject.deserialize(input), output);
 	});
 
 	it("should fail to deserialize with an invalid protocol", () => {

@@ -29,7 +29,7 @@ beforeAll(async () => {
 	});
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
 	nock.disableNetConnect();

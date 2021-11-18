@@ -6,11 +6,11 @@ import { FeeService } from "./fee.service.js";
 
 let subject: FeeService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(FeeService);
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(() => nock.disableNetConnect());
 
@@ -36,7 +36,7 @@ describe("FeeService", () => {
 				"htlcRefund",
 			]);
 
-		assert.is(result.transfer).toEqual({
+		assert.is(result.transfer, {
 			min: "148",
 			avg: "175",
 			max: "199",

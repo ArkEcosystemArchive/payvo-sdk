@@ -4,7 +4,7 @@ import { KeyPairService } from "./key-pair.service.js";
 
 let subject: KeyPairService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(KeyPairService);
 });
 

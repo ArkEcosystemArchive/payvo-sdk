@@ -4,7 +4,7 @@ import { PublicKeyService } from "./public-key.service.js";
 
 let subject: PublicKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(PublicKeyService);
 });
 
@@ -12,13 +12,13 @@ describe("PublicKey", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ publicKey: identity.publicKey });
+		assert.is(result, { publicKey: identity.publicKey });
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ publicKey: identity.publicKey });
+		assert.is(result, { publicKey: identity.publicKey });
 	});
 
 	it("should fail to generate an output from an invalid mnemonic", async () => {
@@ -31,7 +31,7 @@ describe("PublicKey", () => {
 			identity.multiSignature.publicKeys,
 		);
 
-		assert.is(result).toEqual({ publicKey: "0279f05076556da7173610a7676399c3620276ebbf8c67552ad3b1f26ec7627794" });
+		assert.is(result, { publicKey: "0279f05076556da7173610a7676399c3620276ebbf8c67552ad3b1f26ec7627794" });
 	});
 
 	it("should fail to generate an output from a multiSignature", async () => {
@@ -41,7 +41,7 @@ describe("PublicKey", () => {
 	it("should generate an output from a wif", async () => {
 		const result = await subject.fromWIF(identity.wif);
 
-		assert.is(result).toEqual({ publicKey: identity.publicKey });
+		assert.is(result, { publicKey: identity.publicKey });
 	});
 
 	it("should fail to generate an output from a wif", async () => {
@@ -55,7 +55,7 @@ describe("PublicKey", () => {
 
 		const result = await subject.fromSecret("abc");
 
-		assert.is(result).toEqual({ publicKey: "0223542d61708e3fc48ba78fbe8fcc983ba94a520bc33f82b8e45e51dbc47af272" });
+		assert.is(result, { publicKey: "0223542d61708e3fc48ba78fbe8fcc983ba94a520bc33f82b8e45e51dbc47af272" });
 	});
 
 	it("should fail to generate an output from a secret", async () => {

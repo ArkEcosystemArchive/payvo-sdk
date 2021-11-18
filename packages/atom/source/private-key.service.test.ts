@@ -7,7 +7,7 @@ import { PrivateKeyService } from "./private-key.service.js";
 
 let subject: PrivateKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(PrivateKeyService, undefined, (container: IoC.Container) => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 	});
@@ -17,6 +17,6 @@ describe("PrivateKey", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 });

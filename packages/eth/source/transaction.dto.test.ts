@@ -6,7 +6,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(ConfirmedTransactionData);
     subject.configure(Fixture);
 });
@@ -25,7 +25,7 @@ describe("ConfirmedTransactionData", () => {
 });
 
 test("#confirmations", () => {
-    assert.is(subject.confirmations()).toEqual(BigNumber.ZERO);
+    assert.is(subject.confirmations(), BigNumber.ZERO);
 });
 
 test("#sender", () => {
@@ -53,6 +53,6 @@ test("#toObject", () => {
 });
 
 test("#raw", () => {
-    assert.is(subject.raw()).toEqual(Fixture);
+    assert.is(subject.raw(), Fixture);
 });
 });

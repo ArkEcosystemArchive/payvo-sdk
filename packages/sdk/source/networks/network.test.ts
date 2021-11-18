@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 
 import { manifest } from "../../../ark/distribution/manifest.js";
 import { FeatureFlag } from "../enums.js";
@@ -6,7 +6,7 @@ import { Network } from "./network.js";
 
 let subject: Network;
 
-beforeEach(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
+test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
 
 it("should have an coin", () => {
     assert.is(subject.coin(), "ARK");

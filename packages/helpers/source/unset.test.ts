@@ -19,10 +19,10 @@ describe("#unset", () => {
 
 		unset(object, "a.b.c");
 
-		assert.is(object).toEqual({ a: { b: {} } });
+		assert.is(object, { a: { b: {} } });
 
 		unset(object, "a.b.c");
 
-		assert.is(object).toEqual({ a: { b: {} } });
+		assert.is(object, { a: { b: {} } });
 	});
 });

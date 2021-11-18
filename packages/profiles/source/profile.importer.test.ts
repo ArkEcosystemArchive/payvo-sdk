@@ -116,7 +116,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(() => {
+test.before.each(() => {
 	container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
 
 	profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");
@@ -187,7 +187,7 @@ describe("#restore", () => {
 
 		await subject.import();
 
-		assert.is(new ProfileSerialiser(profile).toJSON()).toEqual(new ProfileSerialiser(profileCopy).toJSON());
+		assert.is(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
 	});
 
 	it("should fail to restore if profile is not using password but password is passed", async () => {
@@ -237,12 +237,12 @@ describe("#restore", () => {
 		subject = new ProfileImporter(profile);
 		await subject.import();
 
-		assert.is(profile.wallets().values().length).toEqual(2);
-		assert.is(profile.wallets().valuesWithCoin().length).toEqual(2);
-		assert.is(profile.contacts().count()).toEqual(1);
-		assert.is(profile.contacts().first().addresses().count()).toEqual(1);
-		assert.is(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
-		assert.is(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
+		assert.is(profile.wallets().values().length, 2);
+		assert.is(profile.wallets().valuesWithCoin().length, 2);
+		assert.is(profile.contacts().count(), 1);
+		assert.is(profile.contacts().first().addresses().count(), 1);
+		assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
+		assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
 	});
 
 	it("should restore a profile with wallets of unavailable coins", async () => {
@@ -261,13 +261,13 @@ describe("#restore", () => {
 		subject = new ProfileImporter(profile);
 		await subject.import();
 
-		assert.is(profile.wallets().values().length).toEqual(2);
-		assert.is(profile.wallets().valuesWithCoin().length).toEqual(0);
+		assert.is(profile.wallets().values().length, 2);
+		assert.is(profile.wallets().valuesWithCoin().length, 0);
 
-		assert.is(profile.contacts().count()).toEqual(1);
-		assert.is(profile.contacts().first().addresses().count()).toEqual(1);
-		assert.is(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
-		assert.is(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
+		assert.is(profile.contacts().count(), 1);
+		assert.is(profile.contacts().first().addresses().count(), 1);
+		assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
+		assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
 
 		container.get<Coins.CoinBundle>(Identifiers.Coins)["ARK"] = coin;
 	});

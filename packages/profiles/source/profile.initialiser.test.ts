@@ -28,7 +28,7 @@ beforeAll(() => {
 describe("ProfileInitialiser", () => {
     let profile: IProfile;
 
-    beforeEach(() => {
+    test.before.each(() => {
         profile = new Profile({ id: "uuid", name: "name", data: "" });
     });
 

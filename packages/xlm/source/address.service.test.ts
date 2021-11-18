@@ -3,7 +3,7 @@ import { AddressService } from "./address.service.js";
 
 let subject: AddressService;
 
-beforeEach(async () => (subject = new AddressService()));
+test.before.each(async () => (subject = new AddressService()));
 
 describe("Address", () => {
     it("should generate an output from a mnemonic", async () => {

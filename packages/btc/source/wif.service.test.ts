@@ -4,7 +4,7 @@ import { WIFService } from "./wif.service.js";
 
 let subject: WIFService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(WIFService);
 });
 
@@ -12,6 +12,6 @@ describe("WIF", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ wif: identity.wif });
+		assert.is(result, { wif: identity.wif });
 	});
 });

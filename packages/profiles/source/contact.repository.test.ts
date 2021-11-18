@@ -12,7 +12,7 @@ const addr2 = { coin: "ARK", network: "ark.devnet", address: "DAWdHfDFEvvu57cHjA
 
 beforeAll(() => bootContainer());
 
-beforeEach(() => {
+test.before.each(() => {
     const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
     subject = new ContactRepository(profile);
@@ -24,8 +24,8 @@ test("#first | #last", () => {
     const john = subject.create("John", [addr]);
     const jane = subject.create("Jane", [addr]);
 
-    assert.is(subject.first()).toEqual(john);
-    assert.is(subject.last()).toEqual(jane);
+    assert.is(subject.first(), john);
+    assert.is(subject.last(), jane);
 });
 
 test("#create", () => {
@@ -44,7 +44,7 @@ test("#create", () => {
 
     assert.is(() => subject.create(name, [addr])).toThrowError(`The contact [${name}] already exists.`);
     assert.is(() => subject.create("Jane Doe", [])).toThrowError('"addresses" must contain at least 1 items');
-    assert.is(subject.count()).toEqual(1);
+    assert.is(subject.count(), 1);
 
     assert.is(() =>
         subject.create("InvalidAddress", [
@@ -57,7 +57,7 @@ test("#create", () => {
         ]),
     ).toThrowError('addresses[0].address" is required');
 
-    assert.is(subject.count()).toEqual(1);
+    assert.is(subject.count(), 1);
 
     assert.is(() =>
         subject.create("InvalidAddress", [
@@ -70,7 +70,7 @@ test("#create", () => {
         ]),
     ).toThrowError('addresses[0].coin" is required');
 
-    assert.is(subject.count()).toEqual(1);
+    assert.is(subject.count(), 1);
 
     assert.is(() =>
         subject.create("InvalidAddress", [
@@ -83,7 +83,7 @@ test("#create", () => {
         ]),
     ).toThrowError('addresses[0].network" is required');
 
-    assert.is(subject.count()).toEqual(1);
+    assert.is(subject.count(), 1);
 });
 
 test("#find", () => {
@@ -101,7 +101,7 @@ test("#update", () => {
 
     subject.update(contact.id(), { name: "Jane Doe" });
 
-    assert.is(subject.findById(contact.id()).name()).toEqual("Jane Doe");
+    assert.is(subject.findById(contact.id()).name(), "Jane Doe");
 
     const anotherContact = subject.create("Another name", [addr]);
 
@@ -125,7 +125,7 @@ test("#update with addresses", () => {
 
     subject.update(contact.id(), { addresses: [addr2] });
 
-    assert.is(contact.toObject().addresses).toEqual([{ id: expect.any(String), ...addr2 }]);
+    assert.is(contact.toObject().addresses, [{ id: expect.any(String), ...addr2 }]);
 });
 
 test("#forget", () => {

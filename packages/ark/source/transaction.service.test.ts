@@ -19,7 +19,7 @@ import { WalletData } from "./wallet.dto.js";
 
 let subject: TransactionService;
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
     nock.disableNetConnect();

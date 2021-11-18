@@ -16,7 +16,7 @@ let subject: PluginRepository;
 
 beforeAll(() => bootContainer());
 
-beforeEach(() => {
+test.before.each(() => {
     subject = new PluginRepository();
 });
 
@@ -53,7 +53,7 @@ it("should throw if a plugin cannot be found by its ID", () => {
 it("should restore previously created data", () => {
     subject.fill({ ["fake"]: stubPlugin });
 
-    assert.is(subject.findById("fake")).toEqual(stubPlugin);
+    assert.is(subject.findById("fake"), stubPlugin);
 });
 
 it("should forget specific data", () => {

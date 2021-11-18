@@ -36,7 +36,7 @@ beforeAll(async () => {
 	nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
@@ -72,7 +72,7 @@ test("#get", async () => {
 
 	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 
-	assert.is(subject.get(notification?.id!).meta).toEqual(notification?.meta!);
+	assert.is(subject.get(notification?.id!).meta, notification?.meta!);
 });
 
 test("#filterByType", async () => {

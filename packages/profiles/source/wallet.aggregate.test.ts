@@ -27,7 +27,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 
 	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
@@ -37,31 +37,31 @@ beforeEach(async () => {
 
 describe("WalletAggregate", () => {
 	it("#balance", async () => {
-		assert.is(subject.balance("test")).toEqual(558270.93444556);
-		assert.is(subject.balance("live")).toEqual(0);
-		assert.is(subject.balance()).toEqual(0);
+		assert.is(subject.balance("test"), 558270.93444556);
+		assert.is(subject.balance("live"), 0);
+		assert.is(subject.balance(), 0);
 
 		const mockWalletLive = jest.spyOn(profile.wallets().first().network(), "isLive").mockReturnValue(true);
-		assert.is(subject.balance("live")).toEqual(558270.93444556);
+		assert.is(subject.balance("live"), 558270.93444556);
 		mockWalletLive.mockRestore();
 	});
 
 	it("#convertedBalance", async () => {
-		assert.is(subject.convertedBalance()).toEqual(0);
+		assert.is(subject.convertedBalance(), 0);
 	});
 
 	it("#balancesByNetworkType", async () => {
-		assert.is(subject.balancesByNetworkType()).toEqual({
+		assert.is(subject.balancesByNetworkType(), {
 			live: BigNumber.ZERO,
 			test: BigNumber.make("55827093444556"),
 		});
 	});
 
 	it("#balancePerCoin", async () => {
-		assert.is(subject.balancePerCoin()).toEqual({});
-		assert.is(subject.balancePerCoin("live")).toEqual({});
+		assert.is(subject.balancePerCoin(), {});
+		assert.is(subject.balancePerCoin("live"), {});
 
-		assert.is(subject.balancePerCoin("test")).toEqual({
+		assert.is(subject.balancePerCoin("test"), {
 			DARK: {
 				percentage: "100.00",
 				total: "558270.93444556",
@@ -70,7 +70,7 @@ describe("WalletAggregate", () => {
 
 		const mockWalletLive = jest.spyOn(profile.wallets().first(), "balance").mockReturnValue(0);
 
-		assert.is(subject.balancePerCoin("test")).toEqual({ DARK: { percentage: "0.00", total: "0" } });
+		assert.is(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
 		mockWalletLive.mockRestore();
 	});
 });

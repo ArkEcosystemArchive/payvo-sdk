@@ -4,7 +4,7 @@ import { WIFService } from "./wif.service.js";
 
 let subject: WIFService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(WIFService);
 });
 

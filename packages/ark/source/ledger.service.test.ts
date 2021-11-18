@@ -1,4 +1,4 @@
-import { jest } from "@jest/globals";
+
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
@@ -88,7 +88,7 @@ describe("signMessage", () => {
 });
 
 describe("scan", () => {
-    afterEach(() => nock.cleanAll());
+    test.after.each(() => nock.cleanAll());
 
     beforeAll(() => nock.disableNetConnect());
 

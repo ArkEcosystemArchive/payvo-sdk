@@ -2,7 +2,7 @@ import { ConfirmedTransactionDataCollection } from "./transactions.js";
 
 let subject: ConfirmedTransactionDataCollection;
 
-beforeEach(
+test.before.each(
 	() =>
 		(subject = new ConfirmedTransactionDataCollection(
 			[

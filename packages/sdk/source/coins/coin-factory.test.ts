@@ -38,7 +38,7 @@ beforeAll(async () => {
 		.persist();
 });
 
-afterAll(() => nock.cleanAll());
+test.after(() => nock.cleanAll());
 
 it("should create an instance", async () => {
 	// @ts-ignore

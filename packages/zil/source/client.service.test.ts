@@ -29,7 +29,7 @@ beforeAll(async () => {
 	});
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 beforeAll(async () => {
 	nock.disableNetConnect();
@@ -48,8 +48,8 @@ describe("ClientService", () => {
 		assert.is(result.isConfirmed(), true);
 		assert.is(result.sender(), "0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
 		assert.is(result.recipient(), "0xA54E49719267E8312510D7b78598ceF16ff127CE");
-		assert.is(result.amount()).toEqual(BigNumber.make(1));
-		assert.is(result.fee()).toEqual(BigNumber.make("0.1"));
+		assert.is(result.amount(), BigNumber.make(1));
+		assert.is(result.fee(), BigNumber.make("0.1"));
 	});
 
 	test("#wallet", async () => {
@@ -64,8 +64,8 @@ describe("ClientService", () => {
 
 		assert.is(result instanceof WalletData);
 		assert.is(result.address(), identity.address);
-		assert.is(result.balance().available).toEqual(BigNumber.make(499890000000));
-		assert.is(result.nonce()).toEqual(BigNumber.make(1));
+		assert.is(result.balance().available, BigNumber.make(499890000000));
+		assert.is(result.nonce(), BigNumber.make(1));
 	});
 
 	describe("#broadcast", () => {
@@ -89,7 +89,7 @@ describe("ClientService", () => {
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 
-			assert.is(result).toEqual({
+			assert.is(result, {
 				accepted: ["id"],
 				rejected: [],
 				errors: {},
@@ -114,7 +114,7 @@ describe("ClientService", () => {
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 
-			assert.is(result).toEqual({
+			assert.is(result, {
 				accepted: [],
 				rejected: ["id"],
 				errors: {

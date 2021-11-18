@@ -7,9 +7,9 @@ let subject: Blockfolio;
 
 beforeAll(() => nock.disableNetConnect());
 
-beforeEach(() => (subject = new Blockfolio(new Request())));
+test.before.each(() => (subject = new Blockfolio(new Request())));
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("Blockfolio", () => {
     describe("#findByCoin", () => {

@@ -12,7 +12,7 @@ beforeAll(async () => {
 
 describe("WalletData", () => {
     it("#address", () => {
-        assert.is(subject.address()).toEqual("bdfkbzietxos");
+        assert.is(subject.address(), "bdfkbzietxos");
     });
 
     it("#publicKey", () => {
@@ -20,11 +20,11 @@ describe("WalletData", () => {
 });
 
 it("#balance", () => {
-    assert.is(subject.balance().available).toEqual(BigNumber.make(3050000));
+    assert.is(subject.balance().available, BigNumber.make(3050000));
 });
 
 it("#nonce", () => {
-    assert.is(subject.nonce()).toEqual(BigNumber.make(24242));
+    assert.is(subject.nonce(), BigNumber.make(24242));
 });
 
 it("#secondPublicKey", () => {

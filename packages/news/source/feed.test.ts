@@ -10,7 +10,7 @@ const fixture = fs.readFileSync(resolve("test/fixtures/feed.xml")).toString();
 
 let subject: FeedService;
 
-beforeEach(() => (subject = new FeedService()));
+test.before.each(() => (subject = new FeedService()));
 
 describe("FeedService", () => {
     describe("#parse", () => {

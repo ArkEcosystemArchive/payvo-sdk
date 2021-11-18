@@ -16,7 +16,7 @@ const stubData: IContactAddressInput = {
     network: "ark.devnet",
 };
 
-beforeEach(() => {
+test.before.each(() => {
     profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
     subject = new ContactAddressRepository(profile);
 });
@@ -32,7 +32,7 @@ test("#create", () => {
 
     assert.is(subject.keys()).toHaveLength(1);
 
-    assert.is(subject.first().toObject()).toEqual({
+    assert.is(subject.first().toObject(), {
         id: expect.any(String),
         ...stubData,
     });
@@ -91,7 +91,7 @@ test("#update address", () => {
 
     subject.update(address.id(), { address: "new address" });
 
-    assert.is(subject.findByAddress("new address")[0].address()).toEqual("new address");
+    assert.is(subject.findByAddress("new address")[0].address(), "new address");
     assert.is(profile.status().isDirty(), true);
 });
 
@@ -100,7 +100,7 @@ test("#update without address", () => {
 
     subject.update(address.id(), {});
 
-    assert.is(subject.findByAddress("new address")).toEqual([]);
+    assert.is(subject.findByAddress("new address"), []);
 });
 
 test("#forget", () => {

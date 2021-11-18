@@ -46,7 +46,7 @@ describe("ARK", () => {
 		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 	});
 
-	afterEach(() => {
+	test.after.each(() => {
 		resetServerResponseMocks();
 	});
 
@@ -116,17 +116,17 @@ describe("ARK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature")).toEqual({
+			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
 				min: 2,
 				publicKeys,
 			});
@@ -325,17 +325,17 @@ describe("ARK", () => {
 			// Broadcast the transaction to musig server with first's signature.
 			// All participant wallets should see when calling wallet.transaction.sync()
 			const result = await first.wallet.transaction().broadcast(uuid);
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature")).toEqual({
+			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
 				min: 2,
 				publicKeys,
 			});
@@ -591,14 +591,14 @@ describe("ARK", () => {
 
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			const { address } = await first.wallet.coin().address().fromMultiSignature({
 				min: fixtures.withFirstSignature.data.multiSignature.min,
 				publicKeys: fixtures.withFirstSignature.data.multiSignature.publicKeys,
 			});
 
-			assert.is(address).toEqual(fixtures.generatedAddress);
+			assert.is(address, fixtures.generatedAddress);
 		});
 
 		it("should avoid adding duplicate signatures", async () => {
@@ -651,17 +651,17 @@ describe("ARK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result).toEqual({ accepted: [uuid], errors: {}, rejected: [] });
+			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
 			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().transaction(uuid).fee()).toEqual(fee.toNumber());
-			assert.is(first.wallet.transaction().transaction(uuid).amount()).toEqual(0);
+			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
 			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
 			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature")).toEqual({
+			assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
 				min: 2,
 				publicKeys,
 			});
@@ -704,7 +704,7 @@ describe("ARK", () => {
 
 			const transactionWithUniqueSignatures = second.wallet.transaction().transaction(uuid).data().data();
 			assert.is(transactionWithUniqueSignatures.signatures).toHaveLength(2);
-			assert.is(transactionWithUniqueSignatures.signatures).toEqual(fixtures.withSecondSignature.data.signatures);
+			assert.is(transactionWithUniqueSignatures.signatures, fixtures.withSecondSignature.data.signatures);
 		});
 	});
 });

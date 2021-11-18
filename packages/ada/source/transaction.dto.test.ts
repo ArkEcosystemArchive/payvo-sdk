@@ -6,14 +6,14 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 let subject: ConfirmedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = await createService(ConfirmedTransactionData);
     subject.configure(Fixture.data.transactions[0]);
 });
 
 describe("ConfirmedTransactionData", () => {
     it("#id", () => {
-        assert.is(subject.id()).toEqual("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
+        assert.is(subject.id(), "35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
     });
 
     it("#blockId", () => {
@@ -87,7 +87,7 @@ it("#fee", () => {
 });
 
 it("#asset", () => {
-    assert.is(subject.asset()).toEqual({});
+    assert.is(subject.asset(), {});
 });
 
 it("#isConfirmed", () => {

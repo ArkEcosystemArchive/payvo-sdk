@@ -11,14 +11,14 @@ describe("#keys", () => {
 
 		Foo.prototype.c = 3;
 
-		assert.is(keys(new Foo())).toEqual(["a", "b"]);
+		assert.is(keys(new Foo()), ["a", "b"]);
 	});
 
 	it("should work with a string", () => {
-		assert.is(keys("hi")).toEqual(["0", "1"]);
+		assert.is(keys("hi"), ["0", "1"]);
 	});
 
 	it("should work with an array", () => {
-		assert.is(keys([1, 2, 3, 4])).toEqual(["0", "1", "2", "3"]);
+		assert.is(keys([1, 2, 3, 4]), ["0", "1", "2", "3"]);
 	});
 });

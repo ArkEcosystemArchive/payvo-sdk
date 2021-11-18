@@ -14,7 +14,7 @@ beforeAll(() => {
 	nock.disableNetConnect();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	nock(/.+/)
@@ -60,13 +60,13 @@ beforeEach(async () => {
 	await subject.syncAll(profile);
 });
 
-afterEach(() => nock.cleanAll());
+test.after.each(() => nock.cleanAll());
 
 describe("KnownWalletService", () => {
 	test("#name", async () => {
-		assert.is(subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67")).toEqual("ACF Hot Wallet");
-		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR")).toEqual("ACF Hot Wallet (old)");
-		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa")).toEqual(undefined);
+		assert.is(subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), "ACF Hot Wallet");
+		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR"), "ACF Hot Wallet (old)");
+		assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa"), undefined);
 	});
 
 	test("#is", async () => {

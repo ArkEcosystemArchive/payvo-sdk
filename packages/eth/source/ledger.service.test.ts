@@ -62,7 +62,7 @@ describe("signTransaction", () => {
 
         const result = await trx.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex"));
 
-        assert.is(JSON.parse(result)).toEqual(ledger.transaction.result);
+        assert.is(JSON.parse(result), ledger.transaction.result);
     });
 });
 
@@ -72,6 +72,6 @@ describe("signMessage", () => {
 
         const result = await trx.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"));
 
-        assert.is(JSON.parse(result)).toEqual(ledger.message.result);
+        assert.is(JSON.parse(result), ledger.message.result);
     });
 });

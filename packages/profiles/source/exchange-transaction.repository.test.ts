@@ -30,11 +30,11 @@ describe("ExchangeTransactionRepository", () => {
         dateNowSpy = jest.spyOn(Date, "now").mockImplementation(() => 123456789);
     });
 
-    afterAll(() => {
+    test.after(() => {
         dateNowSpy.mockRestore();
     });
 
-    beforeEach(() => {
+    test.before.each(() => {
         const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
         subject = new ExchangeTransactionRepository(profile);
@@ -63,7 +63,7 @@ test("#create", () => {
     assert.is(() => subject.create(stubData)).toThrowError(
         `The exchange transaction [${stubData.provider} / ${stubData.orderId}] already exists.`,
     );
-    assert.is(subject.count()).toEqual(1);
+    assert.is(subject.count(), 1);
 });
 
 test("#find", () => {
@@ -83,15 +83,15 @@ test("#update", () => {
 
     subject.update(exchangeTransaction.id(), { status: ExchangeTransactionStatus.Finished });
 
-    assert.is(subject.findById(exchangeTransaction.id()).status()).toEqual(ExchangeTransactionStatus.Finished);
+    assert.is(subject.findById(exchangeTransaction.id()).status(), ExchangeTransactionStatus.Finished);
 
     subject.update(exchangeTransaction.id(), { output: { ...stubData.output, amount: 1000 } });
 
-    assert.is(subject.findById(exchangeTransaction.id()).output().amount).toEqual(1000);
+    assert.is(subject.findById(exchangeTransaction.id()).output().amount, 1000);
 
     subject.update(exchangeTransaction.id(), { input: { ...stubData.input, hash: "hash" } });
 
-    assert.is(subject.findById(exchangeTransaction.id()).input().hash).toEqual("hash");
+    assert.is(subject.findById(exchangeTransaction.id()).input().hash, "hash");
 });
 
 test("#forget", () => {

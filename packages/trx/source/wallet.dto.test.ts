@@ -6,13 +6,13 @@ import { createService, requireModule } from "../test/mocking.js";
 
 let subject;
 
-beforeEach(async () => {
+test.before.each(async () => {
     subject = (await createService(WalletData)).fill(fixture.data[0]);
 });
 
 describe("WalletData", () => {
     it("#address", () => {
-        assert.is(subject.address()).toEqual(fixture.data[0].address);
+        assert.is(subject.address(), fixture.data[0].address);
     });
 
     it("#publicKey", () => {
@@ -20,11 +20,11 @@ describe("WalletData", () => {
 });
 
 it("#balance", () => {
-    assert.is(subject.balance().available).toEqual(BigNumber.make("17491629"));
+    assert.is(subject.balance().available, BigNumber.make("17491629"));
 });
 
 it("#nonce", () => {
-    assert.is(subject.nonce()).toEqual(BigNumber.make(24242));
+    assert.is(subject.nonce(), BigNumber.make(24242));
 });
 
 it("#secondPublicKey", () => {

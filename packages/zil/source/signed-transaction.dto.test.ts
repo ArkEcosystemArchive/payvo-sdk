@@ -5,7 +5,7 @@ import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 let subject: SignedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(
@@ -23,19 +23,19 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		assert.is(subject.sender()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
+		assert.is(subject.sender(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
 	});
 
 	test("#recipient", () => {
-		assert.is(subject.recipient()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
+		assert.is(subject.recipient(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
 	});
 
 	test("#amount", () => {
-		assert.is(subject.amount().toHuman()).toEqual(120);
+		assert.is(subject.amount().toHuman(), 120);
 	});
 
 	test("#fee", () => {
-		assert.is(subject.fee().toString()).toEqual("25");
+		assert.is(subject.fee().toString(), "25");
 	});
 
 	test("#timestamp", () => {

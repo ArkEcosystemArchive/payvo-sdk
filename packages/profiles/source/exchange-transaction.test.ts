@@ -30,11 +30,11 @@ describe("ExchangeTransaction", () => {
 		dateNowSpy = jest.spyOn(Date, "now").mockImplementation(() => 123456789);
 	});
 
-	afterAll(() => {
+	test.after(() => {
 		dateNowSpy.mockRestore();
 	});
 
-	beforeEach(() => {
+	test.before.each(() => {
 		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 
 		subject = new ExchangeTransaction(

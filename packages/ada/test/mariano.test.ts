@@ -292,8 +292,8 @@ describe.each(data)("Addresses from", (wallet) => {
 			addresses.testnet.push(await addressFromMnemonic(mnemonic, 0, false, i, "0"));
 			addresses.mainnet.push(await addressFromMnemonic(mnemonic, 0, false, i, "1"));
 		}
-		assert.is(addresses.testnet).toEqual(wallet.addresses.testnet.spend);
-		assert.is(addresses.mainnet).toEqual(wallet.addresses.mainnet.spend);
+		assert.is(addresses.testnet, wallet.addresses.testnet.spend);
+		assert.is(addresses.mainnet, wallet.addresses.mainnet.spend);
 	});
 
 	it.skip(`${wallet.from}'s Public Key`, async () => {
@@ -308,10 +308,10 @@ describe.each(data)("Addresses from", (wallet) => {
 			addresses.testnet.change.push(await addressFromAccountExtPublicKey(publicKey, true, i, "0"));
 			addresses.mainnet.change.push(await addressFromAccountExtPublicKey(publicKey, true, i, "1"));
 		}
-		assert.is(addresses.testnet.spend).toEqual(wallet.addresses.testnet.spend);
-		assert.is(addresses.mainnet.spend).toEqual(wallet.addresses.mainnet.spend);
-		assert.is(addresses.testnet.change).toEqual(wallet.addresses.testnet.change);
-		assert.is(addresses.mainnet.change).toEqual(wallet.addresses.mainnet.change);
+		assert.is(addresses.testnet.spend, wallet.addresses.testnet.spend);
+		assert.is(addresses.mainnet.spend, wallet.addresses.mainnet.spend);
+		assert.is(addresses.testnet.change, wallet.addresses.testnet.change);
+		assert.is(addresses.mainnet.change, wallet.addresses.mainnet.change);
 	});
 });
 

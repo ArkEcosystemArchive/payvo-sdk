@@ -16,7 +16,7 @@ let subject: IReadWriteWallet;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.cleanAll();
 
     nock(/.+/)
@@ -158,7 +158,7 @@ it("should turn into an object with initial state for partially restored wallet"
 
     const actual = subject.toObject();
 
-    assert.is(actual).toEqual({});
+    assert.is(actual, {});
     partiallyRestoredMock.mockRestore();
 });
 });

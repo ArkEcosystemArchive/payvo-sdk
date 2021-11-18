@@ -5,7 +5,7 @@ import { createService, requireModule } from "../test/mocking.js";
 
 let subject: WalletData;
 
-beforeEach(
+test.before.each(
     async () =>
     (subject = (await createService(WalletData)).fill({
         address: "0x4581a610f96878266008993475f1476ca9997081",
@@ -16,7 +16,7 @@ beforeEach(
 
 describe("WalletData", () => {
     it("#address", () => {
-        assert.is(subject.address()).toEqual("0x4581a610f96878266008993475f1476ca9997081");
+        assert.is(subject.address(), "0x4581a610f96878266008993475f1476ca9997081");
     });
 
     it("#publicKey", () => {
@@ -24,11 +24,11 @@ describe("WalletData", () => {
 });
 
 it("#balance", () => {
-    assert.is(subject.balance().available).toEqual(BigNumber.make("10"));
+    assert.is(subject.balance().available, BigNumber.make("10"));
 });
 
 it("#nonce", () => {
-    assert.is(subject.nonce()).toEqual(BigNumber.ZERO);
+    assert.is(subject.nonce(), BigNumber.ZERO);
 });
 
 it("#secondPublicKey", () => {

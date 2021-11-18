@@ -21,7 +21,7 @@ const mnemonic = "skin fortune security mom coin hurdle click emotion heart bris
 
 let subject: TransactionService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.disableNetConnect();
 
 	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
@@ -45,12 +45,12 @@ beforeEach(async () => {
 	});
 });
 
-afterEach(async () => {
+test.after.each(async () => {
 	nock.cleanAll();
 });
 
 describe("bip44 wallet", () => {
-	beforeEach(() => {
+	test.before.each(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -131,7 +131,7 @@ describe("bip44 wallet", () => {
 });
 
 describe("bip49 wallet", () => {
-	beforeEach(() => {
+	test.before.each(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -213,7 +213,7 @@ describe("bip49 wallet", () => {
 });
 
 describe("bip84 wallet", () => {
-	beforeEach(() => {
+	test.before.each(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -295,7 +295,7 @@ describe("bip84 wallet", () => {
 });
 
 describe("legacy multisignature wallet", () => {
-	beforeEach(() => {
+	test.before.each(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",

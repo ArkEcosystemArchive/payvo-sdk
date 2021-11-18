@@ -11,7 +11,7 @@ import { musig } from "../test/fixtures/musig.js";
 
 let subject: AddressFactory;
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.disableNetConnect();
 
     subject = await createService(AddressFactory, "btc.testnet", async (container: IoC.Container) => {
@@ -49,7 +49,7 @@ describe("cache wallet data", () => {
 
     const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-    beforeEach(async () => {
+    test.before.each(async () => {
         walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
     });
 
@@ -65,7 +65,7 @@ describe("cache wallet data", () => {
 it("should return the next change address", async () => {
     await assert.is(walletDataHelper.discoverAllUsed()).resolves, "undefined");
 
-assert.is(walletDataHelper.firstUnusedChangeAddress()).toEqual({
+assert.is(walletDataHelper.firstUnusedChangeAddress(), {
     address: "tb1qes5lcckv97t0umnyvwxcjh7y4lemad0utwjl4lcg54yhxkdtlgyq35hlw3",
     path: "1/3",
     status: "unused",

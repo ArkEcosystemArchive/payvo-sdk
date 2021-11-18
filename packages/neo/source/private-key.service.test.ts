@@ -4,7 +4,7 @@ import { PrivateKeyService } from "./private-key.service.js";
 
 let subject: PrivateKeyService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(PrivateKeyService);
 });
 
@@ -12,12 +12,12 @@ describe("PrivateKey", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 
 	it("should generate an output from a wif", async () => {
 		const result = await subject.fromWIF(identity.wif);
 
-		assert.is(result).toEqual({ privateKey: identity.privateKey });
+		assert.is(result, { privateKey: identity.privateKey });
 	});
 });

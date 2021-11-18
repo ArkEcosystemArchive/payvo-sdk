@@ -90,7 +90,7 @@ beforeAll(() => {
         .persist();
 });
 
-beforeEach(async () => {
+test.before.each(async () => {
     fs.removeSync(resolve(__dirname, "../test/stubs/env.json"));
 
     container.flush();
@@ -258,7 +258,7 @@ it("should boot the environment from fixed data", async () => {
 		  "LATEST_MIGRATION": "0.0.0",
 		}
 	`);
-    assert.is(newProfile.settings().all()).toEqual({
+    assert.is(newProfile.settings().all(), {
         ACCENT_COLOR: "green",
         ADVANCED_MODE: false,
         AUTOMATIC_SIGN_OUT_PERIOD: 15,
@@ -279,7 +279,7 @@ it("should boot the environment from fixed data", async () => {
     });
 
     const restoredWallet = newProfile.wallets().first();
-    assert.is(restoredWallet.settings().all()).toEqual({
+    assert.is(restoredWallet.settings().all(), {
         AVATAR: '<svg version="1.1" xmlns="http://www.w3.org/2000/svg" class="picasso" width="100" height="100" viewBox="0 0 100 100"><style>.picasso circle{mix-blend-mode:soft-light;}</style><rect fill="rgb(233, 30, 99)" width="100" height="100"/><circle r="50" cx="60" cy="40" fill="rgb(139, 195, 74)"/><circle r="45" cx="0" cy="30" fill="rgb(0, 188, 212)"/><circle r="40" cx="90" cy="50" fill="rgb(255, 193, 7)"/></svg>',
     });
 
@@ -461,7 +461,7 @@ it("should persist the env and restore it", async () => {
     await new ProfileImporter(restoredJack).import("password");
     await restoredJack.sync();
 
-    assert.is(new ProfileSerialiser(restoredJohn).toJSON()).toEqual(new ProfileSerialiser(john).toJSON());
-    assert.is(new ProfileSerialiser(restoredJane).toJSON()).toEqual(new ProfileSerialiser(jane).toJSON());
-    assert.is(new ProfileSerialiser(restoredJack).toJSON()).toEqual(new ProfileSerialiser(jack).toJSON());
+    assert.is(new ProfileSerialiser(restoredJohn).toJSON(), new ProfileSerialiser(john).toJSON());
+    assert.is(new ProfileSerialiser(restoredJane).toJSON(), new ProfileSerialiser(jane).toJSON());
+    assert.is(new ProfileSerialiser(restoredJack).toJSON(), new ProfileSerialiser(jack).toJSON());
 });

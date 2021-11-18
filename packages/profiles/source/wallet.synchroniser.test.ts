@@ -14,7 +14,7 @@ let wallet: IReadWriteWallet;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
 	nock.cleanAll();
 
 	nock(/.+/)

@@ -39,7 +39,7 @@ beforeAll(() => {
 		.persist();
 });
 
-beforeEach(() => {
+test.before.each(() => {
 	subject = new Profile({ id: "uuid", name: "name", data: "" });
 
 	subject.settings().set(ProfileSetting.Name, "John Doe");

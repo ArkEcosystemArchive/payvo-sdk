@@ -11,7 +11,7 @@ let profile: IProfile;
 
 beforeAll(() => bootContainer());
 
-beforeEach(() => {
+test.before.each(() => {
     profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
     subject = new Authenticator(profile);
 });
@@ -58,7 +58,7 @@ it("should fail to change the password if the old password is invalid", () => {
 it("should set password in memory", () => {
     subject.setPassword("password");
 
-    assert.is(profile.password().get()).toEqual("password");
+    assert.is(profile.password().get(), "password");
 });
 
 it("should forget the password", () => {

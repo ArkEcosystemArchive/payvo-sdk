@@ -8,6 +8,6 @@ describe("#sleep", () => {
 
 		const end: number = +new Date();
 
-		assert.is(Math.round((end - start) / 1000)).toEqual(1);
+		assert.is(Math.round((end - start) / 1000), 1);
 	});
 });

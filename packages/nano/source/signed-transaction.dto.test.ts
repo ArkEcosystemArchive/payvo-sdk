@@ -6,7 +6,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 let subject: SignedTransactionData;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(
@@ -23,19 +23,19 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		assert.is(subject.sender()).toEqual("123456");
+		assert.is(subject.sender(), "123456");
 	});
 
 	test("#recipient", () => {
-		assert.is(subject.recipient()).toEqual("456789");
+		assert.is(subject.recipient(), "456789");
 	});
 
 	test("#amount", () => {
-		assert.is(subject.amount().toHuman()).toEqual(120);
+		assert.is(subject.amount().toHuman(), 120);
 	});
 
 	test("#fee", () => {
-		assert.is(subject.fee()).toEqual(BigNumber.ZERO);
+		assert.is(subject.fee(), BigNumber.ZERO);
 	});
 
 	test("#timestamp", () => {

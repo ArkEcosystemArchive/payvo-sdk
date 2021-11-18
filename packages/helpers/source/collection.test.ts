@@ -2,36 +2,36 @@ import { Collection } from "./collection.js";
 
 let collection: Collection<string>;
 
-beforeEach(() => {
+test.before.each(() => {
 	collection = new Collection<string>();
 	collection.set("key", "value");
 });
 
 describe("Collection", () => {
 	it("should return the underlying collection", () => {
-		assert.is(collection.all()).toEqual({ key: "value" });
+		assert.is(collection.all(), { key: "value" });
 	});
 
 	it("should return all entries", () => {
-		assert.is(collection.entries()).toEqual([["key", "value"]]);
+		assert.is(collection.entries(), [["key", "value"]]);
 	});
 
 	it("should return all keys", () => {
-		assert.is(collection.keys()).toEqual(["key"]);
+		assert.is(collection.keys(), ["key"]);
 	});
 
 	it("should return all values", () => {
-		assert.is(collection.values()).toEqual(["value"]);
+		assert.is(collection.values(), ["value"]);
 	});
 
 	it("should get an item and remove it", () => {
-		assert.is(collection.pull("key")).toEqual("value");
+		assert.is(collection.pull("key"), "value");
 
 		assert.is(collection.isEmpty(), true);
 	});
 
 	it("should get an item", () => {
-		assert.is(collection.get("key")).toEqual("value");
+		assert.is(collection.get("key"), "value");
 	});
 	it("should set an item", () => {
 		assert.is(collection.has("key"), true);
@@ -106,10 +106,10 @@ describe("Collection", () => {
 	});
 
 	it("should return a random item", () => {
-		assert.is(collection.random()).toEqual("value");
+		assert.is(collection.random(), "value");
 	});
 
 	it("should turn the items into JSON", () => {
-		assert.is(collection.toJson()).toEqual(JSON.stringify({ ["key"]: "value" }));
+		assert.is(collection.toJson(), JSON.stringify({ ["key"]: "value" }));
 	});
 });

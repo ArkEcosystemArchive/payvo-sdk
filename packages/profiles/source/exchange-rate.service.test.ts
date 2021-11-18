@@ -20,7 +20,7 @@ let testSpy: jest.SpyInstance;
 
 beforeAll(() => bootContainer());
 
-beforeEach(async () => {
+test.before.each(async () => {
     nock.cleanAll();
 
     nock(/.+/)
@@ -71,7 +71,7 @@ beforeEach(async () => {
     testSpy = jest.spyOn(wallet.network(), "isTest").mockReturnValue(false);
 });
 
-afterEach(() => {
+test.after.each(() => {
     liveSpy.mockRestore();
     testSpy.mockRestore();
 });

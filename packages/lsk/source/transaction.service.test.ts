@@ -1,4 +1,3 @@
-import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";

@@ -10,7 +10,7 @@ describe("#parseGitUrl", () => {
 	});
 
 	it("should return the expected fields", () => {
-		assert.is(parseGitUrl("git@github.com:owner/repo.git")).toEqual({
+		assert.is(parseGitUrl("git@github.com:owner/repo.git"), {
 			host: "github.com",
 			owner: "owner",
 			name: "repo",
@@ -18,7 +18,7 @@ describe("#parseGitUrl", () => {
 			branch: "master",
 		});
 
-		assert.is(parseGitUrl("https://github.com/owner/repo.git")).toEqual({
+		assert.is(parseGitUrl("https://github.com/owner/repo.git"), {
 			host: "github.com",
 			owner: "owner",
 			name: "repo",
@@ -26,7 +26,7 @@ describe("#parseGitUrl", () => {
 			branch: "master",
 		});
 
-		assert.is(parseGitUrl("https://github.com/owner/repo.git#develop")).toEqual({
+		assert.is(parseGitUrl("https://github.com/owner/repo.git#develop"), {
 			host: "github.com",
 			owner: "owner",
 			name: "repo",
@@ -34,7 +34,7 @@ describe("#parseGitUrl", () => {
 			branch: "develop",
 		});
 
-		assert.is(parseGitUrl("https://github.com/owner/repo.git#f4991348ca779b68b8e7139cfcbc601e6d496612")).toEqual({
+		assert.is(parseGitUrl("https://github.com/owner/repo.git#f4991348ca779b68b8e7139cfcbc601e6d496612"), {
 			host: "github.com",
 			owner: "owner",
 			name: "repo",
@@ -42,7 +42,7 @@ describe("#parseGitUrl", () => {
 			branch: "f4991348ca779b68b8e7139cfcbc601e6d496612",
 		});
 
-		assert.is(parseGitUrl("https://github.com/owner/repo.git#develop#develop")).toEqual({
+		assert.is(parseGitUrl("https://github.com/owner/repo.git#develop#develop"), {
 			host: "github.com",
 			owner: "owner",
 			name: "repo",

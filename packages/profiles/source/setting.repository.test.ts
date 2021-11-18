@@ -14,7 +14,7 @@ describe.each([["profile", "wallet"]])("SettingRepository(%s)", (type) => {
     let subject: SettingRepository;
     let key: string;
 
-    beforeEach(() => {
+    test.before.each(() => {
         subject = new SettingRepository(
             new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
             Object.values(type === "profile" ? ProfileSetting : WalletSetting),
@@ -25,17 +25,17 @@ describe.each([["profile", "wallet"]])("SettingRepository(%s)", (type) => {
     });
 
     test("#all", async () => {
-        assert.is(subject.all()).toEqual({});
+        assert.is(subject.all(), {});
 
         subject.set(key, "value");
 
-        assert.is(subject.all()).toEqual({ [key]: "value" });
-        assert.is(subject.keys()).toEqual([key]);
+        assert.is(subject.all(), { [key]: "value" });
+        assert.is(subject.keys(), [key]);
 
         subject.flush();
 
-        assert.is(subject.all()).toEqual({});
-        assert.is(subject.keys()).toEqual([]);
+        assert.is(subject.all(), {});
+        assert.is(subject.keys(), []);
     });
 
     test("#get", async () => {

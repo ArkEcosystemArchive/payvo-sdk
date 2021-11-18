@@ -14,7 +14,7 @@ describe("AppearanceService", () => {
 	let profile: IProfile;
 	let subject: AppearanceService;
 
-	beforeEach(() => {
+	test.before.each(() => {
 		profile = new Profile({
 			id: "uuid",
 			name: "name",
@@ -33,7 +33,7 @@ describe("AppearanceService", () => {
 	});
 
 	test("#defaults", async () => {
-		assert.is(subject.defaults()).toEqual({
+		assert.is(subject.defaults(), {
 			accentColor: "green",
 			dashboardTransactionHistory: true,
 			theme: "light",
@@ -43,7 +43,7 @@ describe("AppearanceService", () => {
 	});
 
 	test("#all", async () => {
-		assert.is(subject.all()).toEqual({
+		assert.is(subject.all(), {
 			accentColor: "blue",
 			dashboardTransactionHistory: false,
 			theme: "dark",

@@ -5,7 +5,7 @@ import { WIF } from "@payvo/sdk-cryptography";
 
 let subject: WIFService;
 
-beforeEach(async () => {
+test.before.each(async () => {
 	subject = await createService(WIFService);
 });
 
@@ -13,14 +13,14 @@ describe("WIF", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ wif: identity.wif });
+		assert.is(result, { wif: identity.wif });
 		assert.is(WIF.decode(result.wif).privateKey, identity.privateKey);
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toEqual({ wif: identity.wif });
+		assert.is(result, { wif: identity.wif });
 	});
 
 	it("should fail to generate an output from an invalid mnemonic", async () => {
@@ -30,7 +30,7 @@ describe("WIF", () => {
 	it("should generate an output from a private key", async () => {
 		const result = await subject.fromPrivateKey(identity.privateKey);
 
-		assert.is(result).toEqual({ wif: identity.wif });
+		assert.is(result, { wif: identity.wif });
 		assert.is(WIF.decode(result.wif).privateKey, identity.privateKey);
 	});
 
@@ -41,7 +41,7 @@ describe("WIF", () => {
 
 		const result = await subject.fromSecret("abc");
 
-		assert.is(result).toEqual({ wif: "LvwxxwvWMU7BNF6VBo3vmUbHRZfsjyfrQJtDRTP5UMmtuhLWW4WU" });
+		assert.is(result, { wif: "LvwxxwvWMU7BNF6VBo3vmUbHRZfsjyfrQJtDRTP5UMmtuhLWW4WU" });
 	});
 
 	it("should fail to generate an output from an invalid private key", async () => {

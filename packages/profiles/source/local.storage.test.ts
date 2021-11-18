@@ -5,7 +5,7 @@ import { LocalStorage } from "./local.storage";
 let subject: LocalStorage;
 let key: string;
 
-beforeEach(() => {
+test.before.each(() => {
     subject = new LocalStorage("localstorage");
     key = UUID.random();
 });

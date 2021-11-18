@@ -17,19 +17,19 @@ beforeAll(async () => {
 
 describe("WalletData", () => {
     it("#address", () => {
-        assert.is(subject.address()).toEqual("cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+        assert.is(subject.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
     });
 
     it("#publicKey", () => {
-        assert.is(subject.publicKey()).toEqual("Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
+        assert.is(subject.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
     });
 
     it("#balance", () => {
-        assert.is(subject.balance().available).toEqual(BigNumber.make(22019458509));
+        assert.is(subject.balance().available, BigNumber.make(22019458509));
     });
 
     it("#nonce", () => {
-        assert.is(subject.nonce()).toEqual(BigNumber.make(24242));
+        assert.is(subject.nonce(), BigNumber.make(24242));
     });
 
     it("#secondPublicKey", () => {
