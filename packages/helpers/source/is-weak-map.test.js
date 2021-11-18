@@ -1,6 +1,6 @@
 import { isWeakMap } from "./is-weak-map";
 
-describe("#isWeakMap", () => {
+test("#isWeakMap", () => {
 	test("should pass", () => {
 		assert.is(isWeakMap(new WeakMap()), true);
 	});

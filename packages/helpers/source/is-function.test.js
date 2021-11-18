@@ -1,6 +1,6 @@
 import { isFunction } from "./is-function";
 
-describe("#isFunction", () => {
+test("#isFunction", () => {
 	test("should pass", () => {
 		assert.is(isFunction(new Function()), true);
 		assert.is(

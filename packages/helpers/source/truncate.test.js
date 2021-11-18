@@ -1,6 +1,6 @@
 import { truncate } from "./truncate";
 
-describe("#truncate", () => {
+test("#truncate", () => {
     test("should truncate strings if they are above the specified length", () => {
         assert.is(truncate("Hello World"), "Hello World");
 

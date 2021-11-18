@@ -1,6 +1,6 @@
 import { isPositiveZero } from "./is-positive-zero";
 
-describe("#isPositiveZero", () => {
+test("#isPositiveZero", () => {
 	test("should pass", () => {
 		assert.is(isPositiveZero(+0), true);
 		assert.is(isPositiveZero(0), true);

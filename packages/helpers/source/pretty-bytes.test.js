@@ -1,6 +1,6 @@
 import { prettyBytes } from "./pretty-bytes";
 
-describe("#prettyBytes", () => {
+test("#prettyBytes", () => {
 	test("should format the given number", () => {
 		assert.is(prettyBytes(0), "0 B");
 		assert.is(prettyBytes(0.4), "0.4 B");

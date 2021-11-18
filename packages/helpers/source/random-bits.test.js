@@ -1,6 +1,6 @@
 import { randomBits } from "./random-bits";
 
-describe("#randomBits", () => {
+test("#randomBits", () => {
 	it.each([
 		[32, 8],
 		[64, 16],

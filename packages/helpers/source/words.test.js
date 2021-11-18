@@ -1,7 +1,7 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { words } from "./words";
 
-describe("#words", () => {
 	test("should work with words", () => {
-		assert.is(words("fred, barney, & pebbles"), ["fred", "barney", "pebbles"]);
+		assert.equal(words("fred, barney, & pebbles"), ["fred", "barney", "pebbles"]);
 	});
-});

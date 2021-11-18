@@ -1,6 +1,6 @@
 import { isNil } from "./is-nil";
 
-describe("#isNil", () => {
+test("#isNil", () => {
 	test("should pass", () => {
 		assert.is(isNil(undefined), true);
 		assert.is(isNil(null), true);

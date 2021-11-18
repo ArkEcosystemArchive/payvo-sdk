@@ -1,6 +1,6 @@
 import { isNumberArray } from "./is-number-array";
 
-describe("#isNumberArray", () => {
+test("#isNumberArray", () => {
 	test("should pass", () => {
 		assert.is(isNumberArray([1]), true);
 	});

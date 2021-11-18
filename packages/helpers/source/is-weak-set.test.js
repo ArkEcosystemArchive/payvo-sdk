@@ -1,6 +1,6 @@
 import { isWeakSet } from "./is-weak-set";
 
-describe("#isWeakSet", () => {
+test("#isWeakSet", () => {
 	test("should pass", () => {
 		assert.is(isWeakSet(new WeakSet()), true);
 	});

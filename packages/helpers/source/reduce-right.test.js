@@ -1,6 +1,6 @@
 import { reduceRight } from "./reduce-right";
 
-describe("#reduceRight", () => {
+test("#reduceRight", () => {
 	test("should work with an array", () => {
 		assert
 			.is(

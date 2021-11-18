@@ -1,7 +1,7 @@
 import { semver } from "./semver";
 
-describe("#semver", () => {
-	describe("#isEqual", () => {
+test("#semver", () => {
+	test("#isEqual", () => {
 		test("should return true", () => {
 			assert.is(semver.isEqual("0.0.0", "0.0.0"), true);
 			assert.is(semver.isEqual("1.2.3", "1.2.3"), true);
@@ -25,7 +25,7 @@ describe("#semver", () => {
 		});
 	});
 
-	describe("#isGreaterThan", () => {
+	test("#isGreaterThan", () => {
 		test("should return true", () => {
 			assert.is(semver.isGreaterThan("2.1.0", "1.9.0"), true);
 			assert.is(semver.isGreaterThan("1.9.1", "1.9.0"), true);
@@ -47,7 +47,7 @@ describe("#semver", () => {
 		});
 	});
 
-	describe("#isGreaterThanOrEqual", () => {
+	test("#isGreaterThanOrEqual", () => {
 		test("should return true", () => {
 			assert.is(semver.isGreaterThanOrEqual("0.0.0", "0.0.0"), true);
 			assert.is(semver.isGreaterThanOrEqual("1.2.3", "1.2.3"), true);
@@ -71,7 +71,7 @@ describe("#semver", () => {
 		});
 	});
 
-	describe("#isLessThan", () => {
+	test("#isLessThan", () => {
 		test("should return true", () => {
 			assert.is(semver.isLessThan("1.9.0", "2.1.0"), true);
 			assert.is(semver.isLessThan("1.9.0", "1.9.1"), true);
@@ -93,7 +93,7 @@ describe("#semver", () => {
 		});
 	});
 
-	describe("#isLessThanOrEqual", () => {
+	test("#isLessThanOrEqual", () => {
 		test("should return true", () => {
 			assert.is(semver.isLessThanOrEqual("0.0.0", "0.0.0"), true);
 			assert.is(semver.isLessThanOrEqual("1.2.3", "1.2.3"), true);

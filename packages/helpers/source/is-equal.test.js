@@ -1,6 +1,6 @@
 import { isEqual } from "./is-equal";
 
-describe("#isEqual", () => {
+test("#isEqual", () => {
 	test("should return true for the same strings", () => {
 		assert.is(isEqual("true", "true"), true);
 	});

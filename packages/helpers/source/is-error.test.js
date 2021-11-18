@@ -1,6 +1,6 @@
 import { isError } from "./is-error";
 
-describe("#isError", () => {
+test("#isError", () => {
 	test("should pass", () => {
 		assert.is(isError(new Error()), true);
 	});

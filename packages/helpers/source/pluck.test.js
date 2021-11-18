@@ -1,6 +1,6 @@
 import { pluck } from "./pluck";
 
-describe("#pluck", () => {
+test("#pluck", () => {
 	test("should return the names of the users", () => {
 		assert
 			.is(

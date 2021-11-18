@@ -1,6 +1,6 @@
 import { isNegative } from "./is-negative";
 
-describe("#isNegative", () => {
+test("#isNegative", () => {
 	test("should pass", () => {
 		assert.is(isNegative(-1), true);
 	});

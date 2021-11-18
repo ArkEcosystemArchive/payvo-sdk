@@ -1,6 +1,6 @@
 import { toUpper } from "./to-upper";
 
-describe("#toUpper", () => {
+test("#toUpper", () => {
 	test("should turn everything into upper case", () => {
 		assert.is(toUpper("--foo-bar--"), "--FOO-BAR--");
 		assert.is(toUpper("fooBar"), "FOOBAR");

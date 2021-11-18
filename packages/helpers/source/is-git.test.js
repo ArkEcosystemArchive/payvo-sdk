@@ -1,6 +1,6 @@
 import { isGit } from "./is-git";
 
-describe("#isGit", () => {
+test("#isGit", () => {
 	test("should pass for Git URLs", () => {
 		assert.is(isGtest("ssh://user@github.com:port/owner/repo.git"), true);
 		assert.is(isGtest("git://github.com/owner/repo.git"), true);

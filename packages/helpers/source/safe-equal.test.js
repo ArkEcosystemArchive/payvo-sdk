@@ -1,6 +1,6 @@
 import { safeEqual } from "./safe-equal";
 
-describe("#safeEqual", () => {
+test("#safeEqual", () => {
 	test("should determine if values are equal in a safe manner", () => {
 		assert.is(safeEqual(new Uint8Array(1), new Uint8Array(1)), true);
 		assert.is(safeEqual(new Uint8Array(1), new Uint8Array(2)), false);

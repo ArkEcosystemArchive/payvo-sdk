@@ -6,7 +6,7 @@ const dummies = {
 	"Test Space": "test Space",
 };
 
-describe("#lowerFirst", () => {
+test("#lowerFirst", () => {
 	test("should uncapitalize the given input", () => {
 		Object.keys(dummies).forEach((key) => {
 			assert.is(lowerFirst(key), dummies[key]);

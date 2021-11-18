@@ -1,6 +1,6 @@
 import { mapValues } from "./map-values";
 
-describe("#mapValues", () => {
+test("#mapValues", () => {
 	const users = {
 		fred: { user: "fred", age: 40 },
 		pebbles: { user: "pebbles", age: 1 },

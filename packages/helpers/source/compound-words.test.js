@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { compoundWords } from "./compound-words";
 
-describe("#compoundWords", () => {
+test("#compoundWords", () => {
     test("should return undefined if the given string is empty", () => {
         assert.is(compoundWords("", (word) => word)), "undefined");
 });

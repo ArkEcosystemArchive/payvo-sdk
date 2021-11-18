@@ -1,6 +1,6 @@
 import { reduceObject } from "./reduce-object";
 
-describe("#reduceObject", () => {
+test("#reduceObject", () => {
 	test("should work with a function", () => {
 		assert
 			.is(

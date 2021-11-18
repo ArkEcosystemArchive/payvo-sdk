@@ -1,6 +1,6 @@
 import { parseURI } from "./parse-uri";
 
-describe("#parseURI", () => {
+test("#parseURI", () => {
 	test("should return all values", () => {
 		assert.is(parseURI("https://domain.com/path?query=value#fragment"), {
 			authority: "domain.com",

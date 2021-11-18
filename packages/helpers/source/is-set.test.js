@@ -1,6 +1,6 @@
 import { isSet } from "./is-set";
 
-describe("#isSet", () => {
+test("#isSet", () => {
 	test("should pass", () => {
 		assert.is(isSet(new Set()), true);
 	});

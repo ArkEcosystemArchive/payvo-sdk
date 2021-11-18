@@ -1,6 +1,6 @@
 import { take } from "./take";
 
-describe("#take", () => {
+test("#take", () => {
 	test("should take the given number of items", () => {
 		assert.is(take([1, 2, 3]), [1]);
 		assert.is(take([1, 2, 3], 2), [1, 2]);

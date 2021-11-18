@@ -1,8 +1,8 @@
 import { set } from "./set";
 
-describe("#set", () => {
+test("#set", () => {
 	test("should not do anything if the target is not an object", () => {
-		assert.is(set(undefined, "a.b.c", 4), false);
+		assert.false(set(undefined, "a.b.c", 4));
 	});
 
 	test("should work with a string or array as path", () => {
@@ -14,7 +14,6 @@ describe("#set", () => {
 
 		set(object, "x.y.z", 5);
 
-		// @ts-ignore
 		assert.is(object.x.y.z, 5);
 	});
 });

@@ -1,6 +1,6 @@
 import { partition } from "./partition";
 
-describe("#partition", () => {
+test("#partition", () => {
 	const users = [
 		{ user: "barney", age: 36, active: false },
 		{ user: "fred", age: 40, active: true },

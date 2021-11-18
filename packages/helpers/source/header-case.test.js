@@ -1,6 +1,7 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { headerCase } from "./header-case";
 
-describe("#headerCase", () => {
 	test("should turn any string into header case", () => {
 		assert.is(headerCase("string"), "String");
 		assert.is(headerCase("camelCase"), "Camel-Case");
@@ -12,4 +13,3 @@ describe("#headerCase", () => {
 		assert.is(headerCase("Title Case"), "Title-Case");
 		assert.is(headerCase("dot.case"), "Dot-Case");
 	});
-});

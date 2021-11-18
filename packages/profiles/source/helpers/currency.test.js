@@ -1,6 +1,6 @@
 import { Currency } from "./currency";
 
-describe("Helpers.Currency", () => {
+test("Helpers.Currency", () => {
 	test("should format fiat", () => {
 		assert.is(Currency.format(10, "USD"), "$10.00");
 	});

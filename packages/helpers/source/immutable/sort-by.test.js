@@ -7,7 +7,7 @@ const dummies = [
 	{ age: 18, name: "Bob" },
 ];
 
-describe("#sortBy", () => {
+test("#sortBy", () => {
 	test("should sort records without iteratees", () => {
 		assert.is(sortBy(dummies), [
 			{ age: 30, name: "John" },

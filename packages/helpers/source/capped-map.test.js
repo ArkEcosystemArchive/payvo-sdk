@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { CappedMap } from "./capped-map";
 
-describe("Capped Map", () => {
+test("Capped Map", () => {
     test("should set and get an entry", () => {
         const store = new CappedMap<string, number>(100);
         store.set("foo", 1);

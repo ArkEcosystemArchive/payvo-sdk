@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { cloneObject } from "./clone-object";
 
-describe("#cloneObject", () => {
+test("#cloneObject", () => {
 	test("should work like lodash", () => {
 		const objects = { a: 1 };
 

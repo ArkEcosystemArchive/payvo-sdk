@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { castArray } from "./cast-array";
 
-describe("#castArray", () => {
+test("#castArray", () => {
 	test("should work with any value", () => {
 		assert.is(castArray(1), [1]);
 		assert.is(castArray([1]), [1]);

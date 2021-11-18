@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { CappedSet } from "./capped-set";
 
-describe("CappedSet", () => {
+test("CappedSet", () => {
 	test("basic", () => {
 		const cappedSet = new CappedSet<number>();
 

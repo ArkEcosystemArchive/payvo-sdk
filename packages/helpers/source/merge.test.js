@@ -1,6 +1,6 @@
 import { merge } from "./merge";
 
-describe("#merge", () => {
+test("#merge", () => {
 	test("should merge the given objects", () => {
 		assert
 			.is(

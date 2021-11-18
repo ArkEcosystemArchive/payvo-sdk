@@ -1,6 +1,6 @@
 import { isBooleanArray } from "./is-boolean-array";
 
-describe("#isBooleanArray", () => {
+test("#isBooleanArray", () => {
 	test("should pass", () => {
 		assert.is(isBooleanArray([true]), true);
 	});

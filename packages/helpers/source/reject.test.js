@@ -1,6 +1,6 @@
 import { reject } from "./reject";
 
-describe("#reject", () => {
+test("#reject", () => {
 	const users = [
 		{ user: "barney", age: 36, active: false },
 		{ user: "fred", age: 40, active: true },

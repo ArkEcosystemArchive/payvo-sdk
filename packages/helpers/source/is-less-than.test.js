@@ -1,6 +1,6 @@
 import { isLessThan } from "./is-less-than";
 
-describe("#isLessThan", () => {
+test("#isLessThan", () => {
 	test("should pass", () => {
 		assert.is(isLessThan(5, 10), true);
 	});

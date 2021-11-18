@@ -1,11 +1,11 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { hasProperty } from "./has-property";
 
-describe("#hasProperty", () => {
 	test("should return true if the object has a given property", () => {
-		assert.is(hasProperty({ property: undefined }, "property"), true);
+		assert.true(hasProperty({ property: undefined }, "property"));
 	});
 
 	test("should return false if the object doesn't have a given property", () => {
-		assert.is(hasProperty({ property: undefined }, "not-present"), false);
+		assert.false(hasProperty({ property: undefined }, "not-present"));
 	});
-});

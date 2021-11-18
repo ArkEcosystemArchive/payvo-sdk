@@ -1,6 +1,6 @@
 import { isNull } from "./is-null";
 
-describe("#isNull", () => {
+test("#isNull", () => {
 	test("should pass", () => {
 		assert.is(isNull(null), true);
 	});

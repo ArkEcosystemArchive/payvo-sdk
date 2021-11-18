@@ -10,7 +10,7 @@ const promise1 = Promise.resolve(3);
 const promise2 = new Promise((resolve, reject) => setTimeout(reject, 100, "foo error"));
 const promise3 = new Promise((resolve, reject) => setTimeout(reject, 100));
 
-describe("promiseAllSettledByKey", () => {
+test("promiseAllSettledByKey", () => {
     test("should return all resolved and rejected promises by their key", () =>
         promiseAllSettledByKey({
             getFoo: promise2,

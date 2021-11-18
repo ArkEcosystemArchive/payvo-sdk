@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { chunk } from "./chunk";
 
-describe("#chunk", () => {
+test("#chunk", () => {
 	test("should chunk the given array", () => {
 		assert.is(chunk(["a", "b", "c", "d"], 2), [
 			["a", "b"],

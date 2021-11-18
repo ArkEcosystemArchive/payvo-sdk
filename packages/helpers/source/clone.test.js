@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { clone } from "./clone";
 
-describe("#clone", () => {
+test("#clone", () => {
 	test("should work with an array", () => {
 		const objects = [{ a: 1 }, { b: 2 }];
 

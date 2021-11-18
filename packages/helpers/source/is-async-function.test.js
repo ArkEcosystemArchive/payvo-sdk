@@ -1,15 +1,12 @@
 import { isAsyncFunction } from "./is-async-function";
 
-describe("#isAsyncFunction", () => {
 	test("should pass", () => {
-		assert.is(
+		assert.true(
 			isAsyncFunction(async () => ({})),
-			true,
 		);
 	});
 
 	test("should fail", () => {
-		assert.is(isAsyncFunction(new Function()), false);
-		assert.is(isAsyncFunction([]), false);
+		assert.false(isAsyncFunction(new Function()));
+		assert.false(isAsyncFunction([]));
 	});
-});

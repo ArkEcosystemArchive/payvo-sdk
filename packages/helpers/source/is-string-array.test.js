@@ -1,6 +1,6 @@
 import { isStringArray } from "./is-string-array";
 
-describe("#isStringArray", () => {
+test("#isStringArray", () => {
 	test("should pass", () => {
 		assert.is(isStringArray(["string"]), true);
 	});

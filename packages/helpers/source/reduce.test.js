@@ -1,6 +1,6 @@
 import { reduce } from "./reduce";
 
-describe("#reduce", () => {
+test("#reduce", () => {
 	test("should work with an array", () => {
 		assert.is(
 			reduce([1, 2], (sum, n) => sum + n, 0),

@@ -1,6 +1,6 @@
 import { isArrayOfType } from "./is-array-of-type";
 
-describe("#isArrayOfType", () => {
+test("#isArrayOfType", () => {
 	test("should pass", () => {
 		assert.is(isArrayOfType < number > ([1], "number"), true);
 	});

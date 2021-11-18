@@ -1,6 +1,6 @@
 import { pathCase } from "./path-case";
 
-describe("#pathCase", () => {
+test("#pathCase", () => {
 	test("should turn any string into path case", () => {
 		assert.is(pathCase("string"), "string");
 		assert.is(pathCase("camelCase"), "camel/case");

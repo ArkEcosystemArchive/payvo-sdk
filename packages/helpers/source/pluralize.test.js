@@ -1,6 +1,6 @@
 import { pluralize } from "./pluralize";
 
-describe("#pluralize", () => {
+test("#pluralize", () => {
 	test("should plural words when the count is above 1", () => {
 		assert.is(pluralize("block"), "block");
 		assert.is(pluralize("block", 0), "blocks");

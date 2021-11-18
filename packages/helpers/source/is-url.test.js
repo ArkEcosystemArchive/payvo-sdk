@@ -1,7 +1,7 @@
 import { isURL } from "./is-url";
 import { URL } from "url";
 
-describe("#isURL", () => {
+test("#isURL", () => {
 	test("should pass", () => {
 		assert.is(isURL(new URL("https://google.com")), true);
 	});

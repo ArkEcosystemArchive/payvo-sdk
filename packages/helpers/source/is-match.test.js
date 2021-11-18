@@ -1,6 +1,6 @@
 import { isMatch } from "./is-match";
 
-describe("#isMatch", () => {
+test("#isMatch", () => {
 	test("should pass", () => {
 		assert.is(isMatch("a", /a/), true);
 	});

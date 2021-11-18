@@ -1,6 +1,7 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { findKey } from "./find-key";
 
-describe("#findKey", () => {
     test("should work with a function", () => {
         assert.is(
             findKey(
@@ -10,7 +11,6 @@ describe("#findKey", () => {
                     pebbles: { age: 1, active: true },
                 },
                 (o) => o.age < 40,
-            ),
+            )
 		, "barney");
     });
-});

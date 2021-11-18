@@ -1,6 +1,6 @@
 import { sleep } from "./sleep";
 
-describe("#sleep", () => {
+test("#sleep", () => {
 	test("should sleep for 1 second", async () => {
 		const start: number = +new Date();
 

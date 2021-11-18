@@ -1,6 +1,6 @@
 import { toString } from "./to-string";
 
-describe("#toString", () => {
+test("#toString", () => {
 	test("should work with a string", () => {
 		assert.is(toString("hi"), "hi");
 	});

@@ -1,6 +1,6 @@
 import { isBigInt } from "./is-bigint";
 
-describe("#isBigInt", () => {
+test("#isBigInt", () => {
 	test("should pass", () => {
 		assert.is(isBigInt(BigInt(1)), true);
 	});

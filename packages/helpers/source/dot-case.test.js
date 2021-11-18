@@ -1,6 +1,7 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { dotCase } from "./dot-case";
 
-describe("#dotCase", () => {
 	test("should turn any string into dot case", () => {
 		assert.is(dotCase("string"), "string");
 		assert.is(dotCase("camelCase"), "camel.case");
@@ -12,4 +13,3 @@ describe("#dotCase", () => {
 		assert.is(dotCase("Title Case"), "title.case");
 		assert.is(dotCase("dot.case"), "dot.case");
 	});
-});

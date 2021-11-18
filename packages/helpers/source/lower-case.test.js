@@ -1,6 +1,6 @@
 import { lowerCase } from "./lower-case";
 
-describe("#lowerCase", () => {
+test("#lowerCase", () => {
 	test("should turn any string into lower case", () => {
 		assert.is(lowerCase("string"), "string");
 		assert.is(lowerCase("camelCase"), "camel case");

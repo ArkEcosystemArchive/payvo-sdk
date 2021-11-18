@@ -1,6 +1,6 @@
 import { isRegExp } from "./is-reg-exp";
 
-describe("#isRegExp", () => {
+test("#isRegExp", () => {
 	test("should pass", () => {
 		assert.is(isRegExp(/a/), true);
 	});

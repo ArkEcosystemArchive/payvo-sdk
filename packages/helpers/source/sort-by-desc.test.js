@@ -7,7 +7,7 @@ const dummies = [
 	{ name: "Jane", age: 40 },
 ];
 
-describe("#sortByDesc", () => {
+test("#sortByDesc", () => {
 	test("should sort records without iteratees", () => {
 		assert.is(sortByDesc([...dummies]), [
 			{ name: "Jane", age: 40 },

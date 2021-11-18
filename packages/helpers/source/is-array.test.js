@@ -1,11 +1,9 @@
 import { isArray } from "./is-array";
 
-describe("#isArray", () => {
 	test("should pass", () => {
-		assert.is(isArray([1]), true);
+		assert.true(isArray([1]));
 	});
 
 	test("should fail", () => {
-		assert.is(isArray(1), false);
+		assert.false(isArray(1));
 	});
-});

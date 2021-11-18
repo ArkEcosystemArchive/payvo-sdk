@@ -7,7 +7,7 @@ const dummies = [
 	{ age: 40, name: "Jane" },
 ];
 
-describe("#orderBy", () => {
+test("#orderBy", () => {
 	test("should sort records by youngest age (with string params)", () => {
 		assert.is(orderBy(dummies, "age", "asc"), [
 			{ age: 18, name: "Andrew" },

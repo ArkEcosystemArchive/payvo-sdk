@@ -1,6 +1,6 @@
 import { isGreaterThan } from "./is-greater-than";
 
-describe("#isGreaterThan", () => {
+test("#isGreaterThan", () => {
 	test("should pass", () => {
 		assert.is(isGreaterThan(2, 1), true);
 	});

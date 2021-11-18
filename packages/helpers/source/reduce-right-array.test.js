@@ -1,6 +1,6 @@
 import { reduceRightArray } from "./reduce-right-array";
 
-describe("#reduceRightArray", () => {
+test("#reduceRightArray", () => {
 	test("should work with a function", () => {
 		assert
 			.is(

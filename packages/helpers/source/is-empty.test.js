@@ -1,6 +1,6 @@
 import { isEmpty } from "./is-empty";
 
-describe("#isEmpty", () => {
+test("#isEmpty", () => {
 	test("should return true for an empty array", () => {
 		assert.is(isEmpty([]), true);
 	});

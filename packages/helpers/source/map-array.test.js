@@ -1,6 +1,6 @@
 import { mapArray } from "./map-array";
 
-describe("#mapArray", () => {
+test("#mapArray", () => {
 	test("should work like lodash", () => {
 		assert.is(
 			mapArray([4, 8], (n) => n * n),

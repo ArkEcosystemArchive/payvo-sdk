@@ -1,6 +1,6 @@
 import { isDate } from "./is-date";
 
-describe("#isDate", () => {
+test("#isDate", () => {
 	test("should pass", () => {
 		assert.is(isDate(new Date()), true);
 	});

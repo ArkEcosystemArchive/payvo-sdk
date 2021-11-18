@@ -1,6 +1,6 @@
 import { isSyncFunction } from "./is-sync-function";
 
-describe("#isSyncFunction", () => {
+test("#isSyncFunction", () => {
 	test("should pass", () => {
 		assert.is(isSyncFunction(new Function()), true);
 	});

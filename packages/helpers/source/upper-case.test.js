@@ -1,6 +1,6 @@
 import { upperCase } from "./upper-case";
 
-describe("#upperCase", () => {
+test("#upperCase", () => {
 	test("should turn any string into upper case", () => {
 		assert.is(upperCase("string"), "STRING");
 		assert.is(upperCase("camelCase"), "CAMEL CASE");

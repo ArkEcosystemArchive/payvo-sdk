@@ -1,6 +1,6 @@
 import { isFalse } from "./is-false";
 
-describe("#isFalse", () => {
+test("#isFalse", () => {
 	test("should pass", () => {
 		assert.is(isFalse(false), true);
 	});

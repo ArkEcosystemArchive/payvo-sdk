@@ -1,6 +1,6 @@
 import { isConstructor } from "./is-constructor";
 
-describe("#isConstructor", () => {
+test("#isConstructor", () => {
 	test("should pass", () => {
 		assert.is(isConstructor(Date), true);
 	});

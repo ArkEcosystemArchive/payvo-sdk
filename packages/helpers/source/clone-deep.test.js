@@ -1,6 +1,8 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { cloneDeep } from "./clone-deep";
 
-describe("#cloneDeep", () => {
+test("#cloneDeep", () => {
 	test("should work with objects", () => {
 		const object = { a: 1 };
 

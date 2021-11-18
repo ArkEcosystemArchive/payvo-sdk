@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { Censor } from "./censor";
 
 let subject: Censor;

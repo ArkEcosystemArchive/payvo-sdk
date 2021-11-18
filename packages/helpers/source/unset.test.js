@@ -1,6 +1,6 @@
 import { unset } from "./unset";
 
-describe("#unset", () => {
+test("#unset", () => {
 	test("should return false if the target is not an object", () => {
 		assert.is(unset([], "a.b.c"), false);
 	});

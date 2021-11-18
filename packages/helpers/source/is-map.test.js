@@ -1,6 +1,6 @@
 import { isMap } from "./is-map";
 
-describe("#isMap", () => {
+test("#isMap", () => {
 	test("should pass", () => {
 		assert.is(isMap(new Map()), true);
 	});

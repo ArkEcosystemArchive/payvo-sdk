@@ -1,6 +1,6 @@
 import { keysIn } from "./keys-in";
 
-describe("#keysIn", () => {
+test("#keysIn", () => {
 	test("should work with an object", () => {
 		function Foo() {
 			// @ts-ignore

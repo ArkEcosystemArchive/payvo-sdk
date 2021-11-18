@@ -1,6 +1,6 @@
 import { startCase } from "./start-case";
 
-describe("#startCase", () => {
+test("#startCase", () => {
 	test("should turn any string into start case", () => {
 		assert.is(startCase("string"), "String");
 		assert.is(startCase("camelCase"), "Camel Case");

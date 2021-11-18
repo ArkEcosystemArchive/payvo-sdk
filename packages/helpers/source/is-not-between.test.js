@@ -1,6 +1,6 @@
 import { isNotBetween } from "./is-not-between";
 
-describe("#isNotBetween", () => {
+test("#isNotBetween", () => {
 	test("should pass", () => {
 		assert.is(isNotBetween(1, 2, 3), true);
 	});

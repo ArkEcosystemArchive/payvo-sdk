@@ -1,6 +1,6 @@
 import { parseGitUrl } from "./parse-git-url";
 
-describe("#parseGitUrl", () => {
+test("#parseGitUrl", () => {
 	test("should throw if it cannot find a host", () => {
 		assert.is(() => parseGitUrl("owner/repo.git")).toThrow("Failed to find a host.");
 	});

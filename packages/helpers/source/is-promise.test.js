@@ -1,6 +1,6 @@
 import { isPromise } from "./is-promise";
 
-describe("#isPromise", () => {
+test("#isPromise", () => {
 	test("should pass", () => {
 		assert.is(isPromise(new Promise(() => {})), true);
 	});

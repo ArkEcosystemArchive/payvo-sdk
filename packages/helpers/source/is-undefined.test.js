@@ -1,6 +1,6 @@
 import { isUndefined } from "./is-undefined";
 
-describe("#isUndefined", () => {
+test("#isUndefined", () => {
 	test("should pass", () => {
 		assert.is(isUndefined(undefined), true);
 	});

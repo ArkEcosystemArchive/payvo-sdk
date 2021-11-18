@@ -1,6 +1,6 @@
 import { parse } from "./parse";
 
-describe("#parse", () => {
+test("#parse", () => {
 	test("should parse valid json", () => {
 		assert.is(parse("{}"), {});
 	});

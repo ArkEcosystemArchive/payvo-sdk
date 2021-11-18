@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { BigNumber } from "./bignumber";
 import { CurrencyFormatter } from "./currency-formatter";
 
@@ -6,7 +8,7 @@ test("#simpleFormatCrypto", () => {
 });
 
 test("#toBuilder", () => {
-	assert.is(CurrencyFormatter.toBuilder(10) instanceof BigNumber);
+	assert.instance(CurrencyFormatter.toBuilder(10), BigNumber);
 });
 
 test("#subToUnit", () => {

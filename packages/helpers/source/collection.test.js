@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { Collection } from "./collection";
 
 let collection: Collection<string>;
@@ -7,7 +9,7 @@ test.before.each(() => {
 	collection.set("key", "value");
 });
 
-describe("Collection", () => {
+test("Collection", () => {
 	test("should return the underlying collection", () => {
 		assert.is(collection.all(), { key: "value" });
 	});
@@ -53,7 +55,7 @@ describe("Collection", () => {
 		assert.is(collection.isEmpty(), true);
 	});
 
-	describe("has", () => {
+	test("has", () => {
 		test("should return true if an item exists", () => {
 			assert.is(collection.has("key"), true);
 		});
@@ -65,7 +67,7 @@ describe("Collection", () => {
 		});
 	});
 
-	describe("missing", () => {
+	test("missing", () => {
 		test("should return false if an item isn't missing", () => {
 			assert.is(collection.missing("key"), false);
 		});
@@ -81,7 +83,7 @@ describe("Collection", () => {
 		assert.is(collection.count(), 1);
 	});
 
-	describe("isEmpty", () => {
+	test("isEmpty", () => {
 		test("should return false if there are items", () => {
 			assert.is(collection.isEmpty(), false);
 		});
@@ -93,7 +95,7 @@ describe("Collection", () => {
 		});
 	});
 
-	describe("isNotEmpty", () => {
+	test("isNotEmpty", () => {
 		test("should return true if there are items", () => {
 			assert.is(collection.isNotEmpty(), true);
 		});

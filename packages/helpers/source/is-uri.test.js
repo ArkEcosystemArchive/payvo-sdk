@@ -1,6 +1,6 @@
 import { isURI } from "./is-uri";
 
-describe("#isURI", () => {
+test("#isURI", () => {
 	test("should pass", () => {
 		assert.is(isURI("https://domain.com/"), true);
 	});

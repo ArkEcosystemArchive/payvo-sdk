@@ -1,6 +1,6 @@
 import { isNumber } from "./is-number";
 
-describe("#isNumber", () => {
+test("#isNumber", () => {
 	test("should pass", () => {
 		assert.is(isNumber(1), true);
 	});
