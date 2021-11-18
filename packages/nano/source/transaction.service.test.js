@@ -1,4 +1,5 @@
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
+import { assert, loader, test } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
@@ -36,30 +37,28 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-describe("TransactionService", () => {
-	describe("#transfer", () => {
-		test("should sign transaction", async () => {
-			nock("https://proxy.nanos.cc/")
-				.post("/proxy")
-				.reply(200, loader.json(`test/fixtures/client/account-info.json`));
+test("should sign transaction", async () => {
+	nock("https://proxy.nanos.cc/")
+		.post("/proxy")
+		.reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 100,
-					to: identity.address,
-				},
-			});
-
-			assert.is(result instanceof SignedTransactionData);
-			assert.is(result.amount().toString(), "100000000000000000000000000000000");
-		});
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+		data: {
+			amount: 100,
+			to: identity.address,
+		},
 	});
+
+	assert.is(result instanceof SignedTransactionData);
+	assert.is(result.amount().toString(), "100000000000000000000000000000000");
 });
+
+test.run();

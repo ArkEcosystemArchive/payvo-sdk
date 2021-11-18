@@ -40,6 +40,6 @@ describe("SignedTransactionData", () => {
 	});
 
 	test("#timestamp", () => {
-		assert.is(DateTime.make(0).isSame(subject.timestamp()), true);
+		assert.true(DateTime.make(0).isSame(subject.timestamp()));
 	});
 });
