@@ -1,5 +1,5 @@
 import { Http } from "@payvo/sdk";
-import { assert, test } from "@payvo/sdk-test";
+import { assert, nock, test } from "@payvo/sdk-test";
 
 import { Request } from "./request";
 
@@ -22,7 +22,7 @@ test("should get with params", async () => {
 
 	const response = await subject.get("http://httpbin.org/get", { key: "value" });
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should get without params", async () => {
@@ -36,7 +36,7 @@ test("should get without params", async () => {
 
 	const response = await subject.get("http://httpbin.org/get");
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should post with body", async () => {
@@ -56,7 +56,7 @@ test("should post with body", async () => {
 
 	const response = await subject.post("http://httpbin.org/post", { key: "value" });
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should post with headers", async () => {
@@ -80,7 +80,7 @@ test("should post with headers", async () => {
 		.withHeaders({ Authorization: "Bearer TOKEN" })
 		.post("http://httpbin.org/post", { key: "value" });
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should post with form_params", async () => {
@@ -100,7 +100,7 @@ test("should post with form_params", async () => {
 
 	const response = await subject.asForm().post("http://httpbin.org/post", { key: "value" });
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should post with octet", async () => {
@@ -122,7 +122,7 @@ test("should post with octet", async () => {
 		.bodyFormat("octet")
 		.post("http://httpbin.org/post", Buffer.from(JSON.stringify({ key: "value" })));
 
-	assert.is(response.json(), responseBody);
+	assert.equal(response.json(), responseBody);
 });
 
 test("should handle 404s", async () => {

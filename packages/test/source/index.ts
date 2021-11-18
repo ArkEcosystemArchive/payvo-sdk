@@ -14,7 +14,7 @@ const assert = {
 			if (error instanceof uvu.Assertion) {
 				throw error;
 			}
-
+			console.log({ expected, error })
 			if (expected instanceof Error) {
 				uvu.instance(error, expected);
 			}
