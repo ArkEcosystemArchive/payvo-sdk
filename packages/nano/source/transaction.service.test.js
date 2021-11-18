@@ -55,7 +55,7 @@ test("should sign transaction", async () => {
 		},
 	});
 
-	assert.is(result instanceof SignedTransactionData);
+	assert.instance(result, SignedTransactionData);
 	assert.is(result.amount().toString(), "100000000000000000000000000000000");
 });
 
