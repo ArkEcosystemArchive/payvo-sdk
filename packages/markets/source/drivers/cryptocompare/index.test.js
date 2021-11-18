@@ -26,42 +26,41 @@ test("should return ticker values", async () => {
 	const response = await subject.marketData(token);
 	const entries = Object.keys(response);
 	assert.notEmpty(entries);
-	assert
-		.includeAllMembers(entries, [
-			"BTC",
-			"ETH",
-			"LTC",
-			"AUD",
-			"BRL",
-			"CAD",
-			"CHF",
-			"CNY",
-			"EUR",
-			"GBP",
-			"HKD",
-			"IDR",
-			"INR",
-			"JPY",
-			"KRW",
-			"MXN",
-			"RUB",
-			"USD",
-		]);
+	assert.includeAllMembers(entries, [
+		"BTC",
+		"ETH",
+		"LTC",
+		"AUD",
+		"BRL",
+		"CAD",
+		"CHF",
+		"CNY",
+		"EUR",
+		"GBP",
+		"HKD",
+		"IDR",
+		"INR",
+		"JPY",
+		"KRW",
+		"MXN",
+		"RUB",
+		"USD",
+	]);
 	assert.is(response.USD.price, 0.178045896);
 });
 
 test("verifyToken", async () => {
-		nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
-			BTC: 0.00002073,
-		});
+	nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+		BTC: 0.00002073,
+	});
 
-		assert.true(await subject.verifyToken("ark"));
+	assert.true(await subject.verifyToken("ark"));
 
-		nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
-			Response: "Error",
-		});
+	nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+		Response: "Error",
+	});
 
-		assert.false(await subject.verifyToken("not-ark"));
+	assert.false(await subject.verifyToken("not-ark"));
 });
 
 test("should return historic day values", async () => {

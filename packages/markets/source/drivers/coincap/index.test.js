@@ -13,10 +13,7 @@ let subject;
 test.before.each(async () => {
 	subject = new CoinCap(new Request());
 
-	nock(BASE_URL_COINCAP)
-		.get("/assets")
-		.query(true)
-		.reply(200, fixture.load("test/fixtures/coincap/assets.json"));
+	nock(BASE_URL_COINCAP).get("/assets").query(true).reply(200, fixture.load("test/fixtures/coincap/assets.json"));
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark")
@@ -37,9 +34,7 @@ test.before.each(async () => {
 			timestamp: 1581339180902,
 		});
 
-	nock(BASE_URL_COINCAP)
-		.get("/rates")
-		.reply(200, fixture.load("test/fixtures/coincap/rates.json"));
+	nock(BASE_URL_COINCAP).get("/rates").reply(200, fixture.load("test/fixtures/coincap/rates.json"));
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")

@@ -37,9 +37,7 @@ test.before.each(async () => {
 			},
 		});
 
-	nock(BASE_URL_COINGECKO)
-		.get("/coins/ark")
-		.reply(200, fixture.load("test/fixtures/coingecko/market.json"));
+	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, fixture.load("test/fixtures/coingecko/market.json"));
 
 	nock(BASE_URL_COINGECKO)
 		.get("/coins/ark/market_chart")
@@ -61,8 +59,8 @@ test("should return ticker values", async () => {
 });
 
 test("verifyToken", async () => {
-		assert.true(await subject.verifyToken("ark"));
-		assert.false(await subject.verifyToken("not-ark"));
+	assert.true(await subject.verifyToken("ark"));
+	assert.false(await subject.verifyToken("not-ark"));
 });
 
 test("should return historic day values", async () => {

@@ -15,13 +15,17 @@ test("Otherwise, return the `to` rate multipled by the inverse of the `from` rat
 });
 
 test("`rates` object does not contain either `from` or `to` currency!", async () => {
-	assert
-		.throws(() => convertToCurrency(10, { from: "ARK", to: "BTC", base: null, rates: { BTC: 0.1 } }), "`rates` object does not contain either `from` or `to` currency!");
+	assert.throws(
+		() => convertToCurrency(10, { from: "ARK", to: "BTC", base: null, rates: { BTC: 0.1 } }),
+		"`rates` object does not contain either `from` or `to` currency!",
+	);
 });
 
 test("Please specify the `from` and/or `to` currency or use parsing!", async () => {
-	assert
-		.throws(() => convertToCurrency(10, { from: null, to: null, base: null, rates: [] }), "Please specify the `from` and/or `to` currency or use parsing!");
+	assert.throws(
+		() => convertToCurrency(10, { from: null, to: null, base: null, rates: [] }),
+		"Please specify the `from` and/or `to` currency or use parsing!",
+	);
 });
 
 test.run();

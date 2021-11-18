@@ -46,7 +46,7 @@ export const assert = {
 	notEmpty: (value: unknown[]): void => uvu.ok(value.length > 0),
 	containKeys: (value: object, keys: string[]): void => {
 		for (const key of keys) {
-			uvu.ok(value[key] !== undefined)
+			uvu.ok(value[key] !== undefined);
 		}
 	},
 };
