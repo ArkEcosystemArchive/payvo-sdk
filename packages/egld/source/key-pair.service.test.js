@@ -2,7 +2,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 
-let subject: KeyPairService;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(KeyPairService);
@@ -19,7 +19,7 @@ describe("Keys", () => {
 	});
 
 	test("should fail from an invalid mnemonic", async () => {
-		await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10));
+		await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
 	});
 
 	test("should generate an output from a privateKey", async () => {
