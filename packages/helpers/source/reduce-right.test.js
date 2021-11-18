@@ -1,9 +1,8 @@
 import { reduceRight } from "./reduce-right";
 
-test("#reduceRight", () => {
 	test("should work with an array", () => {
 		assert
-			.is(
+			.equal(
 				reduceRight(
 					[
 						[0, 1],
@@ -12,14 +11,12 @@ test("#reduceRight", () => {
 					],
 					(flattened, other) => flattened.concat(other),
 					[],
-				),
-			)
-			.toEqual([4, 5, 2, 3, 0, 1]);
+				), [4, 5, 2, 3, 0, 1]);
 	});
 
 	test("should work with an object", () => {
 		assert
-			.is(
+			.equal(
 				reduceRight(
 					{ a: 1, b: 2, c: 1 },
 					(result, value, key) => {
@@ -28,7 +25,5 @@ test("#reduceRight", () => {
 						return result;
 					},
 					{},
-				),
-			)
-			.toEqual({ 1: ["c", "a"], 2: ["b"] });
+				), { 1: ["c", "a"], 2: ["b"] });
 	});

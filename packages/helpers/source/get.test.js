@@ -11,7 +11,7 @@ test("should return the default value if the path is not a string", () => {
 });
 
 test("should not do anything if the object is not an object", () => {
-	assert.is(get([], "a.b.c"), "undefined");
+	assert.is(get([], "a.b.c", "undefined");
 });
 
 test("should work with nested objects", () => {
@@ -22,6 +22,6 @@ test("should work with nested objects", () => {
 });
 
 test("should exit early if it encounters an undefined value", () => {
-    assert.is(get({ a: undefined }, "a.b"), "undefined");
-	assert.is(get({ a: null }, "a.b"), "undefined");
+    assert.is(get({ a: undefined }, "a.b", "undefined");
+	assert.is(get({ a: null }, "a.b", "undefined");
 });

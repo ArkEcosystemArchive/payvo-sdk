@@ -8,5 +8,5 @@ import { stringify } from "./stringify";
         const o = { b: 1, a: 0 };
         o.o = o;
 
-        assert.is(stringify(o), "undefined");
+        assert.is(stringify(o, "undefined");
 });

@@ -2,7 +2,7 @@ import Joi from "joi";
 
 import { Validator } from "./validator";
 
-let subject: Validator;
+let subject;
 test.before.each(() => (subject = new Validator()));
 
 test("#validate", () => {
@@ -32,7 +32,7 @@ test("#passes", () => {
         }),
     );
 
-    assert.is(subject.passes(), true);
+    assert.true(subject.passes());
 
     subject.validate(
         {
@@ -45,7 +45,7 @@ test("#passes", () => {
         }),
     );
 
-    assert.is(subject.passes(), false);
+    assert.true(subject.passes());
 });
 
 test("#fails", () => {
@@ -60,7 +60,7 @@ test("#fails", () => {
         }),
     );
 
-    assert.is(subject.fails(), true);
+    assert.true(subject.fails());
 
     subject.validate(
         {
@@ -73,24 +73,24 @@ test("#fails", () => {
         }),
     );
 
-    assert.is(subject.fails(), false);
+    assert.true(subject.fails());
 });
 
 test("#errors", () => {
-    assert.is(subject.errors()), "undefined");
+    assert.is(subject.errors(), "undefined");
 
-subject.validate(
-    {
-        name: "jimmy",
-        age: "invalid number",
-    },
-    Joi.object({
-        name: Joi.string().required(),
-        age: Joi.number().positive().integer().required(),
-    }),
-);
+	subject.validate(
+		{
+			name: "jimmy",
+			age: "invalid number",
+		},
+		Joi.object({
+			name: Joi.string().required(),
+			age: Joi.number().positive().integer().required(),
+		}),
+	);
 
-assert.is(subject.errors()).toHaveLength(1);
+	assert.length(subject.errors(), 1);
 });
 
 test("#error", () => {
