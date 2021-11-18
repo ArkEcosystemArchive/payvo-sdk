@@ -1,4 +1,5 @@
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
+import { assert, loader, test } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
@@ -31,31 +32,29 @@ test.before(async () => {
 
 test.before(() => nock.disableNetConnect());
 
-describe("TransactionService", () => {
-	describe("#transfer", () => {
-		test("should verify", async () => {
-			nock("https://stargate.cosmos.network")
-				.get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
-				.reply(200, loader.json(`test/fixtures/client/wallet.json`))
-				.get("/bank/balances/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
-				.reply(200, loader.json(`test/fixtures/client/wallet-balance.json`));
+test("#transfer", async () => {
+	nock("https://stargate.cosmos.network")
+		.get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
+		.reply(200, loader.json(`test/fixtures/client/wallet.json`))
+		.get("/bank/balances/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
+		.reply(200, loader.json(`test/fixtures/client/wallet-balance.json`));
 
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					amount: 1,
-					to: "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
-				},
-			});
-
-			assert.is(result, "object");
-		});
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+				address: "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
+				publicKey: "publicKey",
+				privateKey: "privateKey",
+			}),
+		),
+		data: {
+			amount: 1,
+			to: "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
+		},
 	});
+
+	assert.object(result);
 });
+
+test.run();

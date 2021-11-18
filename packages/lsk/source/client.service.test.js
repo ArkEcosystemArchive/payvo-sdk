@@ -87,7 +87,7 @@ describe("ClientService", () => {
 			});
 			const transaction = result.items()[0];
 
-			assert.is(result, "object");
+			assert.object(result);
 			assert.is(transaction instanceof ConfirmedTransactionData);
 			assert
 				.is(transaction.id())
@@ -167,7 +167,7 @@ describe("ClientService", () => {
 			});
 			const wallet = result.items()[0];
 
-			assert.is(result, "object");
+			assert.object(result);
 			assert.is(wallet instanceof WalletData);
 			assert.is(wallet.primaryKey(), "lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
 			assert.is(wallet.address(), "lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
@@ -224,7 +224,7 @@ describe("ClientService", () => {
 			const result = await subject.delegates();
 			const wallet = result.items()[0];
 
-			assert.is(result, "object");
+			assert.object(result);
 			assert.is(wallet instanceof WalletData);
 			assert.is(wallet.primaryKey(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
 			assert.is(wallet.address(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
@@ -253,7 +253,7 @@ describe("ClientService", () => {
 
 			const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
-			assert.is(result, "object");
+			assert.object(result);
 			assert.is(result.used, 1);
 			assert.is(result.available, 19);
 			assert.is(result.votes,

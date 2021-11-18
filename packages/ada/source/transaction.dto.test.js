@@ -107,7 +107,7 @@ test("#isTransfer", () => {
 });
 
 test("#isSecondSignature", () => {
-    assert.is(subject.isSecondSignature(), false);
+    assert.false(subject.isSecondSignature());
 });
 
 test("#isDelegateRegistration", () => {

@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
@@ -13,10 +14,10 @@ test.before.each(async () => {
 	});
 });
 
-describe("PrivateKey", () => {
-	test("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+test("should generate an output from a mnemonic", async () => {
+	const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.equal(result, { privateKey: identity.privateKey });
-	});
+	assert.equal(result, { privateKey: identity.privateKey });
 });
+
+test.run();

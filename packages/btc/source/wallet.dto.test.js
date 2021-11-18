@@ -20,11 +20,11 @@ describe("WalletData", () => {
     });
 
     test("#balance", () => {
-        assert.is(subject.balance().available, BigNumber.make(3000001));
+        assert.equal(subject.balance().available, BigNumber.make(3000001));
     });
 
     test("#nonce", () => {
-        assert.is(subject.nonce(), BigNumber.make(0));
+        assert.equal(subject.nonce(), BigNumber.make(0));
     });
 
     test("#secondPublicKey", () => {
@@ -48,18 +48,18 @@ test("#multiSignature", () => {
 });
 
 test("#isMultiSignature", () => {
-    assert.is(subject.isMultiSignature(), false);
+    assert.false(subject.isMultiSignature());
 });
 
 test("#isDelegate", () => {
-    assert.is(subject.isDelegate(), false);
+    assert.false(subject.isDelegate());
 });
 
 test("#isSecondSignature", () => {
-    assert.is(subject.isSecondSignature(), false);
+    assert.false(subject.isSecondSignature());
 });
 
 test("#isResignedDelegate", () => {
-    assert.is(subject.isResignedDelegate(), false);
+    assert.false(subject.isResignedDelegate());
 });
 });
