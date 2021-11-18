@@ -24,8 +24,8 @@ test("should serialize", () => {
 });
 
 for (const fixture of fixtures) {
-	test("should deserialize", () => {
-		assert.is(subject.deserialize(fixture[0]), fixture[1]);
+	test(`should deserialize ${fixture[0]}`, () => {
+		assert.equal(subject.deserialize(fixture[0]), fixture[1]);
 	});
 }
 

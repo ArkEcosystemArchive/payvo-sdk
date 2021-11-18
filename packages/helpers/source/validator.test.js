@@ -19,7 +19,7 @@ test("#validate", () => {
 		}),
 	);
 
-	assert.is(actual, { age: 24, name: "jimmy" });
+	assert.equal(actual, { age: 24, name: "jimmy" });
 });
 
 test("#passes", () => {
@@ -47,7 +47,7 @@ test("#passes", () => {
 		}),
 	);
 
-	assert.true(subject.passes());
+	assert.false(subject.passes());
 });
 
 test("#fails", () => {
@@ -75,11 +75,11 @@ test("#fails", () => {
 		}),
 	);
 
-	assert.true(subject.fails());
+	assert.false(subject.fails());
 });
 
 test("#errors", () => {
-	assert.is(subject.errors(), "undefined");
+	assert.undefined(subject.errors());
 
 	subject.validate(
 		{
@@ -107,7 +107,7 @@ test("#error", () => {
 		}),
 	);
 
-	assert.is(subject.error() instanceof Joi.ValidationError);
+	assert.instance(subject.error(), Joi.ValidationError);
 });
 
 test.run();

@@ -7,7 +7,6 @@ test("should return false if the target is not an object", () => {
 });
 
 test("should return false if the path is not a string", () => {
-	// @ts-ignore
 	assert.false(unset({}, 123));
 });
 
@@ -20,11 +19,11 @@ test("should work with a string or array as path", () => {
 
 	unset(object, "a.b.c");
 
-	assert.is(object, { a: { b: {} } });
+	assert.equal(object, { a: { b: {} } });
 
 	unset(object, "a.b.c");
 
-	assert.is(object, { a: { b: {} } });
+	assert.equal(object, { a: { b: {} } });
 });
 
 test.run();
