@@ -95,7 +95,7 @@ describe("LSK", () => {
 				mockServerResponse("store", { id: uuid });
 				const result = await first.wallet.transaction().broadcast(uuid);
 
-				assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+				assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 				// Validate multi-signature registration data.
 				assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -267,7 +267,7 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -536,7 +536,7 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -805,7 +805,7 @@ describe("LSK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -1020,7 +1020,7 @@ describe("LSK", () => {
 
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			const { address } = await first.wallet.coin().address().fromMultiSignature({
 				senderPublicKey: first.wallet.publicKey(),

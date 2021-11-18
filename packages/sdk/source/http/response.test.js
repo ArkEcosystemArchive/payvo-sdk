@@ -57,7 +57,7 @@ test("#header", () => {
 });
 
 test("#headers", () => {
-	assert.is(subject.headers()).toMatchInlineSnapshot(`
+	assert.is(subject.headers(),
 		Object {
 		  "Accept": "something",
 		}

@@ -190,7 +190,7 @@ describe("ARK", () => {
             });
 
             await subject.sync();
-            await subject.addSignature(id, new Signatories.Signatory(new Signatories.MnemonicSignatory(identity2)));
+            await subject.addSignature(id, new Signatories.Signatory(new Signatories.MnemonicSignatory(identity2));
 
             assert.is(subject.transaction(id)).toBeDefined();
         });

@@ -8,7 +8,7 @@ import { MessageService } from "./message.service";
 let subject: MessageService;
 
 test.before.each(async () => {
-    subject = await createService(MessageService, undefined, (container: IoC.Container) => {
+    subject = await createService(MessageService, undefined, (container) => {
         container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
     });
 });

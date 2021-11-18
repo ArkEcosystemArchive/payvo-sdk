@@ -38,7 +38,7 @@ test.before.each(() => {
 });
 
 test("should turn into an object", () => {
-	assert.is(subject.toJSON()).toMatchInlineSnapshot(`
+	assert.is(subject.toJSON(),
 		Object {
 		  "contacts": Object {},
 		  "data": Object {},

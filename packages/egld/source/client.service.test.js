@@ -7,7 +7,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
 	nock.disableNetConnect();
@@ -37,7 +37,7 @@ describe("ClientService", () => {
 
 		const result = await subject.transaction("c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66");
 
-		assert.is(result instanceof ConfirmedTransactionData);
+		assert.instance(result, ConfirmedTransactionData);
 	});
 
 	test("#transactions", async () => {
@@ -63,6 +63,6 @@ describe("ClientService", () => {
 			value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7",
 		});
 
-		assert.is(result instanceof WalletData);
+		assert.instance(result, WalletData);
 	});
 });

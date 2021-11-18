@@ -55,7 +55,7 @@ describe("PluginRegistry", () => {
         const result = await subject.all();
 
         assert.is(result).toHaveLength(2);
-        assert.is(result[1].toObject()).toMatchInlineSnapshot(`
+        assert.is(result[1].toObject(),
 		Object {
 		  "alias": "ARK Explorer",
 		  "archiveUrl": "https://registry.npmjs.org/@payvo/ark-explorer-wallet-plugin/-/ark-explorer-wallet-plugin-1.0.0.tgz",

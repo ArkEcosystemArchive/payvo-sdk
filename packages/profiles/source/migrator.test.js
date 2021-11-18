@@ -272,7 +272,7 @@ test("should migrate profiles from JSON to Base64", async () => {
 	assert.is(profile.id(), "b999d134-7a24-481e-a95d-bc47c543bfc9");
 	assert.is(profile.usesPassword(), true);
 	assert.is(profile.contacts().findById("0e147f96-049f-4d89-bad4-ad3341109907").name(), "John Doe");
-	assert.is(new ProfileSerialiser(profile).toJSON()).toMatchInlineSnapshot(`
+	assert.is(new ProfileSerialiser(profile).toJSON(),
 		Object {
 		  "contacts": Object {
 		    "0e147f96-049f-4d89-bad4-ad3341109907": Object {

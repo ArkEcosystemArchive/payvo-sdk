@@ -137,7 +137,7 @@ describe("#validate", () => {
 		container.constant(Identifiers.MigrationSchemas, migrations);
 		container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-		subject = new ProfileImporter(new Profile(dumper.dump()));
+		subject = new ProfileImporter(new Profile(dumper.dump());
 
 		await subject.import();
 

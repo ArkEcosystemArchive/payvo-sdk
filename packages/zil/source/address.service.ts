@@ -31,10 +31,14 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		if (validation.isBech32(address)) {
-			return true;
-		}
+		try {
+			if (validation.isBech32(address)) {
+				return true;
+			}
 
-		return validation.isAddress(address);
+			return validation.isAddress(address);
+		} catch {
+			return false;
+		}
 	}
 }

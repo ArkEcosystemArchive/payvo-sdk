@@ -4,13 +4,13 @@ import { DataRepository } from "./data.repository";
 
 let subject: DataRepository;
 
-test.before.each(() => (subject = new DataRepository()));
+test.before.each(() => (subject = new DataRepository());
 
 test("#all", () => {
     subject.set("key1", "value1");
     subject.set("key2", "value2");
 
-    assert.is(subject.all()).toMatchInlineSnapshot(`
+    assert.is(subject.all(),
 		Object {
 		  "key1": "value1",
 		  "key2": "value2",
@@ -36,7 +36,7 @@ test("#keys", () => {
     subject.set("key1", "value1");
     subject.set("key2", "value2");
 
-    assert.is(subject.keys()).toMatchInlineSnapshot(`
+    assert.is(subject.keys(),
 		Array [
 		  "key1",
 		  "key2",
@@ -48,7 +48,7 @@ test("#values", () => {
     subject.set("key1", "value1");
     subject.set("key2", "value2");
 
-    assert.is(subject.values()).toMatchInlineSnapshot(`
+    assert.is(subject.values(),
 		Array [
 		  "value1",
 		  "value2",
@@ -158,5 +158,5 @@ test("#snapshot | #restore", () => {
 test("#toJSON", () => {
     subject.set("key", "value");
 
-    assert.is(subject.toJSON()).toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
+    assert.is(subject.toJSON(), "{\\"key\\":\\"value\\"}"`);
 });

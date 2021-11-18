@@ -10,7 +10,7 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 import { DateTime } from "@payvo/sdk-intl";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
 	nock.disableNetConnect();
@@ -39,38 +39,38 @@ describe("ClientService", () => {
 				"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
 			);
 
-			assert.is(result instanceof ConfirmedTransactionData);
+			assert.instance(result, ConfirmedTransactionData);
 			assert
 				.is(result.id())
 				.toMatchInlineSnapshot(`"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5"`);
 			assert
 				.is(result.blockId())
 				.toMatchInlineSnapshot(`"52bb109394008afc59fae3bc288c0c52e4f50ad1e173afb164c7df40d44ff0ec"`);
-			assert.is(result.timestamp()).toMatchInlineSnapshot(`"2021-07-04T14:38:10.000Z"`);
-			assert.is(result.confirmations().toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(result.sender()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
-			assert.is(result.recipient()).toMatchInlineSnapshot(`"lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
-			assert.is(result.amount().toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(result.fee().toString()).toMatchInlineSnapshot(`"144000"`);
-			assert.is(result.memo()).toMatchInlineSnapshot(`"Account initialization"`);
-			assert.is(result.isTransfer()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isVoteCombination()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isVote()).toMatchInlineSnapshot(`true`);
-			assert.is(result.isUnvote()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isUnlockToken()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
-			assert.is(result.username()).toMatchInlineSnapshot(`undefined`);
-			assert.is(result.votes()).toMatchInlineSnapshot(`
+			assert.is(result.timestamp(), "2021-07-04T14:38:10.000Z"`);
+			assert.is(result.confirmations().toString(), "0"`);
+			assert.is(result.sender(), "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
+			assert.is(result.recipient(), "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3"`);
+			assert.is(result.amount().toString(), "0"`);
+			assert.is(result.fee().toString(), "144000"`);
+			assert.is(result.memo(), "Account initialization"`);
+			assert.is(result.isTransfer(), false`);
+			assert.is(result.isSecondSignature(), false`);
+			assert.is(result.isDelegateRegistration(), false`);
+			assert.is(result.isVoteCombination(), false`);
+			assert.is(result.isVote(), true`);
+			assert.is(result.isUnvote(), false`);
+			assert.is(result.isUnlockToken(), false`);
+			assert.is(result.isMultiSignatureRegistration(), false`);
+			assert.is(result.username(), undefined`);
+			assert.is(result.votes(),
 			Array [
 			  "lskoh8tctdfpdaf8utmtevbd2f9b8vj2tmazeq8e3",
 			]
 		`);
-			assert.is(result.unvotes()).toMatchInlineSnapshot(`Array []`);
-			assert.is(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(result.publicKeys()).toMatchInlineSnapshot(`Array []`);
-			assert.is(result.min()).toMatchInlineSnapshot(`undefined`);
+			assert.is(result.unvotes(), Array []`);
+			assert.is(result.secondPublicKey(), undefined`);
+			assert.is(result.publicKeys(), Array []`);
+			assert.is(result.min(), undefined`);
 		});
 	});
 
@@ -95,27 +95,27 @@ describe("ClientService", () => {
 			assert
 				.is(transaction.blockId())
 				.toMatchInlineSnapshot(`"34750351b180d0698ffc777d89bcf6d79a3e2447b05ff1df353b47790f51aa68"`);
-			assert.is(transaction.timestamp()).toMatchInlineSnapshot(`"2021-07-02T11:22:20.000Z"`);
-			assert.is(transaction.confirmations().toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(transaction.sender()).toMatchInlineSnapshot(`"lskzrja9we9f2hvtc6uoxtbwutb9b8cqmde8vnfro"`);
-			assert.is(transaction.recipient()).toMatchInlineSnapshot(`"lskpadb4stdcswz9cof7423bwvkwxvcowvq8gexob"`);
-			assert.is(transaction.amount().toString()).toMatchInlineSnapshot(`"2000000000000"`);
-			assert.is(transaction.fee().toString()).toMatchInlineSnapshot(`"100000000"`);
-			assert.is(transaction.memo()).toMatchInlineSnapshot(`"helping"`);
-			assert.is(transaction.isTransfer()).toMatchInlineSnapshot(`true`);
-			assert.is(transaction.isSecondSignature()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isDelegateRegistration()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isVoteCombination()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isVote()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isUnvote()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isUnlockToken()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.isMultiSignatureRegistration()).toMatchInlineSnapshot(`false`);
-			assert.is(transaction.username()).toMatchInlineSnapshot(`undefined`);
-			assert.is(transaction.votes()).toMatchInlineSnapshot(`Array []`);
-			assert.is(transaction.unvotes()).toMatchInlineSnapshot(`Array []`);
-			assert.is(transaction.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(transaction.publicKeys()).toMatchInlineSnapshot(`Array []`);
-			assert.is(transaction.min()).toMatchInlineSnapshot(`undefined`);
+			assert.is(transaction.timestamp(), "2021-07-02T11:22:20.000Z"`);
+			assert.is(transaction.confirmations().toString(), "0"`);
+			assert.is(transaction.sender(), "lskzrja9we9f2hvtc6uoxtbwutb9b8cqmde8vnfro"`);
+			assert.is(transaction.recipient(), "lskpadb4stdcswz9cof7423bwvkwxvcowvq8gexob"`);
+			assert.is(transaction.amount().toString(), "2000000000000"`);
+			assert.is(transaction.fee().toString(), "100000000"`);
+			assert.is(transaction.memo(), "helping"`);
+			assert.is(transaction.isTransfer(), true`);
+			assert.is(transaction.isSecondSignature(), false`);
+			assert.is(transaction.isDelegateRegistration(), false`);
+			assert.is(transaction.isVoteCombination(), false`);
+			assert.is(transaction.isVote(), false`);
+			assert.is(transaction.isUnvote(), false`);
+			assert.is(transaction.isUnlockToken(), false`);
+			assert.is(transaction.isMultiSignatureRegistration(), false`);
+			assert.is(transaction.username(), undefined`);
+			assert.is(transaction.votes(), Array []`);
+			assert.is(transaction.unvotes(), Array []`);
+			assert.is(transaction.secondPublicKey(), undefined`);
+			assert.is(transaction.publicKeys(), Array []`);
+			assert.is(transaction.min(), undefined`);
 		});
 	});
 
@@ -131,27 +131,27 @@ describe("ClientService", () => {
 				value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m",
 			});
 
-			assert.is(result instanceof WalletData);
-			assert.is(result.primaryKey()).toMatchInlineSnapshot(`"lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
-			assert.is(result.address()).toMatchInlineSnapshot(`"lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
+			assert.instance(result, WalletData);
+			assert.is(result.primaryKey(), "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
+			assert.is(result.address(), "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr"`);
 			assert
 				.is(result.publicKey())
 				.toMatchInlineSnapshot(`"414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b"`);
-			assert.is(result.balance().total.toString()).toMatchInlineSnapshot(`"150994716000"`);
-			assert.is(result.balance().available.toString()).toMatchInlineSnapshot(`"148994716000"`);
-			assert.is(result.balance().fees.toString()).toMatchInlineSnapshot(`"148994716000"`);
-			assert.is(result.balance().locked?.toString()).toMatchInlineSnapshot(`"2000000000"`);
-			assert.is(result.balance().lockedVotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
-			assert.is(result.balance().lockedUnvotes?.toString()).toMatchInlineSnapshot(`"1000000000"`);
-			assert.is(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
-			assert.is(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(result.username()).toMatchInlineSnapshot(`"username"`);
-			assert.is(result.rank()).toMatchInlineSnapshot(`undefined`);
-			assert.is(result.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(result.isDelegate()).toMatchInlineSnapshot(`true`);
-			assert.is(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isMultiSignature()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			assert.is(result.balance().total.toString(), "150994716000"`);
+			assert.is(result.balance().available.toString(), "148994716000"`);
+			assert.is(result.balance().fees.toString(), "148994716000"`);
+			assert.is(result.balance().locked?.toString(), "2000000000"`);
+			assert.is(result.balance().lockedVotes?.toString(), "1000000000"`);
+			assert.is(result.balance().lockedUnvotes?.toString(), "1000000000"`);
+			assert.is(result.nonce().toString(), "2"`);
+			assert.is(result.secondPublicKey(), undefined`);
+			assert.is(result.username(), "username"`);
+			assert.is(result.rank(), undefined`);
+			assert.is(result.votes()?.toString(), "0"`);
+			assert.is(result.isDelegate(), true`);
+			assert.is(result.isResignedDelegate(), false`);
+			assert.is(result.isMultiSignature(), false`);
+			assert.is(result.isSecondSignature(), false`);
 		});
 	});
 
@@ -169,19 +169,19 @@ describe("ClientService", () => {
 
 			assert.is(result, "object");
 			assert.is(wallet instanceof WalletData);
-			assert.is(wallet.primaryKey()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
-			assert.is(wallet.address()).toMatchInlineSnapshot(`"lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
-			assert.is(wallet.publicKey()).toMatchInlineSnapshot(`null`);
-			assert.is(wallet.balance().toString()).toMatchInlineSnapshot(`"[object Object]"`);
-			assert.is(wallet.nonce().toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(wallet.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(wallet.username()).toMatchInlineSnapshot(`""`);
-			assert.is(wallet.rank()).toMatchInlineSnapshot(`undefined`);
-			assert.is(wallet.votes()?.toString()).toMatchInlineSnapshot(`"0"`);
-			assert.is(wallet.isDelegate()).toMatchInlineSnapshot(`false`);
-			assert.is(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
-			assert.is(wallet.isMultiSignature()).toMatchInlineSnapshot(`false`);
-			assert.is(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			assert.is(wallet.primaryKey(), "lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			assert.is(wallet.address(), "lskckzngagcs4d5gvsgxmgnabyfyj8pz266gv8s8t"`);
+			assert.is(wallet.publicKey(), null`);
+			assert.is(wallet.balance().toString(), "[object Object]"`);
+			assert.is(wallet.nonce().toString(), "0"`);
+			assert.is(wallet.secondPublicKey(), undefined`);
+			assert.is(wallet.username(), ""`);
+			assert.is(wallet.rank(), undefined`);
+			assert.is(wallet.votes()?.toString(), "0"`);
+			assert.is(wallet.isDelegate(), false`);
+			assert.is(wallet.isResignedDelegate(), false`);
+			assert.is(wallet.isMultiSignature(), false`);
+			assert.is(wallet.isSecondSignature(), false`);
 		});
 	});
 
@@ -194,23 +194,23 @@ describe("ClientService", () => {
 
 			const result = await subject.delegate("punkrock");
 
-			assert.is(result instanceof WalletData);
-			assert.is(result.primaryKey()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
-			assert.is(result.address()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			assert.instance(result, WalletData);
+			assert.is(result.primaryKey(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			assert.is(result.address(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
 			assert
 				.is(result.publicKey())
 				.toMatchInlineSnapshot(`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`);
-			assert.is(result.balance().available.toString()).toMatchInlineSnapshot(`"20110467794"`);
-			assert.is(result.balance().fees.toString()).toMatchInlineSnapshot(`"20110467794"`);
-			assert.is(result.nonce().toString()).toMatchInlineSnapshot(`"2"`);
-			assert.is(result.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(result.username()).toMatchInlineSnapshot(`"punkrock"`);
-			assert.is(result.rank()).toMatchInlineSnapshot(`1`);
-			assert.is(result.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			assert.is(result.isDelegate()).toMatchInlineSnapshot(`true`);
-			assert.is(result.isResignedDelegate()).toMatchInlineSnapshot(`false`);
-			assert.is(result.isMultiSignature()).toMatchInlineSnapshot(`true`);
-			assert.is(result.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			assert.is(result.balance().available.toString(), "20110467794"`);
+			assert.is(result.balance().fees.toString(), "20110467794"`);
+			assert.is(result.nonce().toString(), "2"`);
+			assert.is(result.secondPublicKey(), undefined`);
+			assert.is(result.username(), "punkrock"`);
+			assert.is(result.rank(), 1`);
+			assert.is(result.votes()?.toString(), "307554000000000"`);
+			assert.is(result.isDelegate(), true`);
+			assert.is(result.isResignedDelegate(), false`);
+			assert.is(result.isMultiSignature(), true`);
+			assert.is(result.isSecondSignature(), false`);
 		});
 	});
 
@@ -226,21 +226,21 @@ describe("ClientService", () => {
 
 			assert.is(result, "object");
 			assert.is(wallet instanceof WalletData);
-			assert.is(wallet.primaryKey()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
-			assert.is(wallet.address()).toMatchInlineSnapshot(`"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			assert.is(wallet.primaryKey(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
+			assert.is(wallet.address(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp"`);
 			assert
 				.is(wallet.publicKey())
 				.toMatchInlineSnapshot(`"3193057832bb1c9782a8e4a32e543b535ed9d750b1b10383f8b6f50853569609"`);
-			assert.is(wallet.balance().toString()).toMatchInlineSnapshot(`"[object Object]"`);
-			assert.is(wallet.nonce().toString()).toMatchInlineSnapshot(`"2"`);
-			assert.is(wallet.secondPublicKey()).toMatchInlineSnapshot(`undefined`);
-			assert.is(wallet.username()).toMatchInlineSnapshot(`"punkrock"`);
-			assert.is(wallet.rank()).toMatchInlineSnapshot(`1`);
-			assert.is(wallet.votes()?.toString()).toMatchInlineSnapshot(`"307554000000000"`);
-			assert.is(wallet.isDelegate()).toMatchInlineSnapshot(`true`);
-			assert.is(wallet.isResignedDelegate()).toMatchInlineSnapshot(`false`);
-			assert.is(wallet.isMultiSignature()).toMatchInlineSnapshot(`true`);
-			assert.is(wallet.isSecondSignature()).toMatchInlineSnapshot(`false`);
+			assert.is(wallet.balance().toString(), "[object Object]"`);
+			assert.is(wallet.nonce().toString(), "2"`);
+			assert.is(wallet.secondPublicKey(), undefined`);
+			assert.is(wallet.username(), "punkrock"`);
+			assert.is(wallet.rank(), 1`);
+			assert.is(wallet.votes()?.toString(), "307554000000000"`);
+			assert.is(wallet.isDelegate(), true`);
+			assert.is(wallet.isResignedDelegate(), false`);
+			assert.is(wallet.isMultiSignature(), true`);
+			assert.is(wallet.isSecondSignature(), false`);
 		});
 	});
 
@@ -256,7 +256,7 @@ describe("ClientService", () => {
 			assert.is(result, "object");
 			assert.is(result.used, 1);
 			assert.is(result.available, 19);
-			assert.is(result.votes).toMatchInlineSnapshot(`
+			assert.is(result.votes,
 			Array [
 			  Object {
 			    "amount": 3075540,
@@ -334,7 +334,7 @@ describe("ClientService", () => {
 
 			assert.is(current.toHuman(), 0);
 			assert.is(pending.toHuman(), 10);
-			assert.is(objects).toMatchInlineSnapshot(`
+			assert.is(objects,
 			Array [
 			  Object {
 			    "address": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
@@ -386,7 +386,7 @@ describe("ClientService", () => {
 			assert.is(current.toHuman(), 10);
 			assert.is(pending.toHuman(), 0);
 			assert.is(objects[0].amount.toHuman(), 10);
-			assert.is(objects).toMatchInlineSnapshot(`
+			assert.is(objects,
 			Array [
 			  Object {
 			    "address": "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
@@ -429,7 +429,7 @@ describe("ClientService", () => {
 
 			const result = await subject.broadcast([transactionPayload]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: ["5961193224963457718"],
 				rejected: [],
 				errors: {},
@@ -443,7 +443,7 @@ describe("ClientService", () => {
 
 			const result = await subject.broadcast([transactionPayload]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: [],
 				rejected: ["5961193224963457718"],
 				errors: {
@@ -457,7 +457,7 @@ describe("ClientService", () => {
 
 			const result = await subject.broadcast([transactionPayload]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: [],
 				rejected: ["5961193224963457718"],
 				errors: {

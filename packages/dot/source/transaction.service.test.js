@@ -18,7 +18,7 @@ let subject: TransactionService;
 test.before(async () => {
 	await waitReady();
 
-	subject = await createServiceAsync(TransactionService, undefined, async (container: IoC.Container) => {
+	subject = await createServiceAsync(TransactionService, undefined, async (container) => {
 		const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
 		const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
 

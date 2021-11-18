@@ -20,7 +20,7 @@ test("#constructor", () => {
 });
 
 test("#all", () => {
-	assert.is(subject.all()).toMatchInlineSnapshot(`
+	assert.is(subject.all(),
 		Object {
 		  "network": "ark.mainnet",
 		}
@@ -70,7 +70,7 @@ test("#forget", () => {
 });
 
 test("ConfigKey", () => {
-	assert.is(ConfigKey).toMatchInlineSnapshot(`
+	assert.is(ConfigKey,
 		Object {
 		  "Bech32": "network.constants.bech32",
 		  "CurrencyDecimals": "network.currency.decimals",

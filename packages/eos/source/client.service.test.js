@@ -7,7 +7,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -41,7 +41,7 @@ describe("ClientService", () => {
                 value: "bdfkbzietxos",
             });
 
-            assert.is(result instanceof WalletData);
+            assert.instance(result, WalletData);
         });
     });
 

@@ -10,7 +10,7 @@ const values = { a: "a", b: "b", c: "c" };
 
 let subject: AttributeBag<Attributes>;
 
-test.before.each(() => (subject = new AttributeBag<Attributes>()));
+test.before.each(() => (subject = new AttributeBag<Attributes>());
 
 test("#all", async () => {
 	subject.setMany(values);

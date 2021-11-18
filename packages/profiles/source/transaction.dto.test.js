@@ -101,7 +101,7 @@ test.after.each(() => {
 });
 
 describe("Transaction", () => {
-    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData));
 
     test("should have an explorer link", () => {
         assert.is(subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
@@ -206,7 +206,7 @@ test("#toObject", () => {
         ExtendedConfirmedTransactionData,
     );
 
-    assert.is(subject.toObject()).toMatchInlineSnapshot(`
+    assert.is(subject.toObject(),
 		Object {
 		  "key": "value",
 		}
@@ -457,7 +457,7 @@ describe("DelegateRegistrationData", () => {
 });
 
 describe("DelegateResignationData", () => {
-    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+    test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData));
 
     test("#id", () => {
         assert.is(subject.id(), "transactionId");

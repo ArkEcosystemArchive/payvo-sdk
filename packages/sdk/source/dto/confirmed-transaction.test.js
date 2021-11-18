@@ -145,7 +145,7 @@ test("#isUnlockToken", () => {
 });
 
 test("#toObject", () => {
-    assert.is(new Transaction().configure({ key: "value" }).toObject()).toMatchInlineSnapshot(`
+    assert.is(new Transaction().configure({ key: "value" }).toObject(),
 		Object {
 		  "amount": BigNumber {},
 		  "asset": Object {},
@@ -161,7 +161,7 @@ test("#toObject", () => {
 });
 
 test("#raw", () => {
-    assert.is(new Transaction().configure({ key: "value" }).raw()).toMatchInlineSnapshot(`
+    assert.is(new Transaction().configure({ key: "value" }).raw(),
 		Object {
 		  "key": "value",
 		}

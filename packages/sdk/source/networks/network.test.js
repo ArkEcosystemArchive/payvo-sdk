@@ -6,7 +6,7 @@ import { Network } from "./network";
 
 let subject: Network;
 
-test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
+test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"]));
 
 test("should have an coin", () => {
     assert.is(subject.coin(), "ARK");
@@ -133,7 +133,7 @@ test("should determine if the network uses extended public keys", () => {
 });
 
 test("should have an object representation", () => {
-    assert.is(subject.toObject()).toMatchInlineSnapshot(`
+    assert.is(subject.toObject(),
 		Object {
 		  "coin": "ARK",
 		  "constants": Object {

@@ -2,7 +2,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
-let subject: PublicKeyService;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(PublicKeyService);

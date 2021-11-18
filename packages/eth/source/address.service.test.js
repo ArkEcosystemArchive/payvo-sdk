@@ -2,7 +2,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 
-let subject: AddressService;
+let subject;
 
 test.before.each(async () => {
     subject = await createService(AddressService);
@@ -12,7 +12,7 @@ describe("Address", () => {
     test("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result).toMatchInlineSnapshot(`
+        assert.is(result,
 		Object {
 		  "address": "0x986a007a43D65ff18D040AcdAd844cfE7c349135",
 		  "type": "bip44",
@@ -23,7 +23,7 @@ describe("Address", () => {
     test("should generate an output from a privateKey", async () => {
         const result = await subject.fromPrivateKey(identity.privateKey);
 
-        assert.is(result).toMatchInlineSnapshot(`
+        assert.is(result,
 		Object {
 		  "address": "0x986a007a43D65ff18D040AcdAd844cfE7c349135",
 		  "type": "bip44",

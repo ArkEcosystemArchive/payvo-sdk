@@ -52,7 +52,7 @@ test("#isSecondSignature", () => {
 });
 
 test("#toObject", () => {
-    assert.is(new Wallet({ key: "value" }).toObject()).toMatchInlineSnapshot(`
+    assert.is(new Wallet({ key: "value" }).toObject(),
 		Object {
 		  "address": "address",
 		  "balance": Object {
@@ -74,7 +74,7 @@ test("#toObject", () => {
 });
 
 test("#raw", () => {
-    assert.is(new Wallet({ key: "value" }).raw()).toMatchInlineSnapshot(`
+    assert.is(new Wallet({ key: "value" }).raw(),
 		Object {
 		  "key": "value",
 		}

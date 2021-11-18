@@ -1,9 +1,10 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject: SignedTransactionData;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(SignedTransactionData);
@@ -21,24 +22,24 @@ test.before.each(async () => {
 	);
 });
 
-describe("SignedTransactionData", () => {
-	test("#sender", () => {
-		assert.is(subject.sender(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
-	});
-
-	test("#recipient", () => {
-		assert.is(subject.recipient(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
-	});
-
-	test("#amount", () => {
-		assert.is(subject.amount().toHuman(), 120);
-	});
-
-	test("#fee", () => {
-		assert.is(subject.fee().toString(), "25");
-	});
-
-	test("#timestamp", () => {
-		assert.is(DateTime.make(0).isSame(subject.timestamp()), true);
-	});
+test("#sender", () => {
+	assert.is(subject.sender(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
 });
+
+test("#recipient", () => {
+	assert.is(subject.recipient(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
+});
+
+test("#amount", () => {
+	assert.is(subject.amount().toHuman(), 120);
+});
+
+test("#fee", () => {
+	assert.is(subject.fee().toString(), "25");
+});
+
+test("#timestamp", () => {
+	assert.true(DateTime.make(0).isSame(subject.timestamp()));
+});
+
+test.run();

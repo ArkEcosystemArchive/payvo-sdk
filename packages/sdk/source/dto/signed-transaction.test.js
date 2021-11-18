@@ -59,7 +59,7 @@ test("#toString", () => {
 });
 
 test("#toObject", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").toObject()).toMatchInlineSnapshot(`
+	assert.is(new Transaction().configure("id", { key: "value" }, "").toObject(),
 		Object {
 		  "amount": "0",
 		  "broadcast": "",

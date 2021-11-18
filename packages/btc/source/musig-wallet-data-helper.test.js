@@ -14,7 +14,7 @@ let subject: AddressFactory;
 test.before.each(async () => {
     nock.disableNetConnect();
 
-    subject = await createService(AddressFactory, "btc.testnet", async (container: IoC.Container) => {
+    subject = await createService(AddressFactory, "btc.testnet", async (container) => {
         container.singleton(BindingType.AddressFactory, AddressFactory);
     });
 });

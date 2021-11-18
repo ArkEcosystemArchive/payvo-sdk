@@ -151,7 +151,7 @@ test("should list all participants with a standard multi signature", async () =>
 		publicKeys: ["a", "b"],
 	});
 
-	assert.is(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
+	assert.is(subject.multiSignature().publicKeys(),
 		Array [
 		  "a",
 		  "b",
@@ -166,7 +166,7 @@ test("should list all participants with an advanced multi signature", async () =
 		optionalKeys: ["c", "d"],
 	});
 
-	assert.is(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
+	assert.is(subject.multiSignature().publicKeys(),
 		Array [
 		  "a",
 		  "b",

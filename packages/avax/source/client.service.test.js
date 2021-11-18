@@ -6,7 +6,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
 	subject = await createService(ClientService, undefined, (container) => {
@@ -25,7 +25,7 @@ describe("ClientService", () => {
 		test("should succeed", async () => {
 			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
-			assert.is(result instanceof ConfirmedTransactionData);
+			assert.instance(result, ConfirmedTransactionData);
 		});
 	});
 
@@ -51,7 +51,7 @@ describe("ClientService", () => {
 				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
 			});
 
-			assert.is(result instanceof WalletData);
+			assert.instance(result, WalletData);
 		});
 	});
 

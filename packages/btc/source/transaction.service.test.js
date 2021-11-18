@@ -24,7 +24,7 @@ let subject: TransactionService;
 test.before.each(async () => {
 	nock.disableNetConnect();
 
-	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);

@@ -12,6 +12,6 @@ describe("WIF", () => {
 	test("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result, { wif: identity.wif });
+		assert.equal(result, { wif: identity.wif });
 	});
 });
