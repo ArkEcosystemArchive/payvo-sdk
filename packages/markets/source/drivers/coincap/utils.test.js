@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { convertToCurrency } from "./utils";
 
 test("If `from` equals `base`, return the basic exchange rate for the `to` currency", async () => {
@@ -14,12 +16,12 @@ test("Otherwise, return the `to` rate multipled by the inverse of the `from` rat
 
 test("`rates` object does not contain either `from` or `to` currency!", async () => {
 	assert
-		.is(() => convertToCurrency(10, { from: "ARK", to: "BTC", base: null, rates: { BTC: 0.1 } }))
-		.toThrow("`rates` object does not contain either `from` or `to` currency!");
+		.throws(() => convertToCurrency(10, { from: "ARK", to: "BTC", base: null, rates: { BTC: 0.1 } }), "`rates` object does not contain either `from` or `to` currency!");
 });
 
 test("Please specify the `from` and/or `to` currency or use parsing!", async () => {
 	assert
-		.is(() => convertToCurrency(10, { from: null, to: null, base: null, rates: [] }))
-		.toThrow("Please specify the `from` and/or `to` currency or use parsing!");
+		.throws(() => convertToCurrency(10, { from: null, to: null, base: null, rates: [] }), "Please specify the `from` and/or `to` currency or use parsing!");
 });
+
+test.run();

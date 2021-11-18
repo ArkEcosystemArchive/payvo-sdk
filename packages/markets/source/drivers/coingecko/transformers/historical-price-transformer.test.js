@@ -1,14 +1,14 @@
+import { assert, fixture, test } from "@payvo/sdk-test";
+
 import { HistoricalPriceTransformer } from "./historical-price-transformer";
 
-describe("CoinGecko", () => {
-	describe("HistoricalPriceTransformer", () => {
 		test("should transform the given data", async () => {
-			const stubResponse = (await import("../../../../test/fixtures/coingecko/historical.json")).default;
+			const stubResponse = fixture.load("test/fixtures/coingecko/historical.json");
 			const stubOptions = { type: "day", dateFormat: "DD.MM" };
 
 			const subject = new HistoricalPriceTransformer(stubResponse);
 
-			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.object(subject.transform(stubOptions));
 		});
-	});
-});
+
+		test.run();

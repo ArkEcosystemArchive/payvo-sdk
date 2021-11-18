@@ -1,15 +1,15 @@
+import { assert, fixture, test } from "@payvo/sdk-test";
+
 import { MarketTransformer } from "./market-transformer";
 
 const stubOptions = { type: "day", dateFormat: "DD.MM", token: "ARK" };
 
-describe("CryptoCompare", () => {
-	describe("MarketTransformer", () => {
 		test("should transform the given data", async () => {
-			const stubResponse = (await import("../../../../test/fixtures/cryptocompare/market.json")).default;
+			const stubResponse = fixture.load("test/fixtures/cryptocompare/market.json");
 
 			const subject = new MarketTransformer(stubResponse.RAW.ARK);
 
-			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.object(subject.transform(stubOptions));
 		});
-	});
-});
+
+		test.run();

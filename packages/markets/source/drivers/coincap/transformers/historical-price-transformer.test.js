@@ -1,3 +1,5 @@
+import { assert, fixture, test } from "@payvo/sdk-test";
+
 import { HistoricalPriceTransformer } from "./historical-price-transformer";
 
 const stubOptions = {
@@ -189,14 +191,12 @@ const stubOptions = {
 	dateFormat: "DD.MM",
 };
 
-describe("CoinCap", () => {
-	describe("HistoricalPriceTransformer", () => {
-		test("should transform the given data", async () => {
-			const stubResponse = (await import("../../../../test/fixtures/coincap/historical.json")).default;
+test("should transform the given data", async () => {
+	const stubResponse = fixture.load("test/fixtures/coincap/historical.json");
 
-			const subject = new HistoricalPriceTransformer(stubResponse.data);
+	const subject = new HistoricalPriceTransformer(stubResponse.data);
 
-			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
-		});
-	});
+	assert.object(subject.transform(stubOptions));
 });
+
+test.run();
