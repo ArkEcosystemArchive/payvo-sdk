@@ -173,6 +173,12 @@
 			"projectFolder": "packages/profiles",
 			"reviewCategory": "libraries",
 			"shouldPublish": true
+		},
+		{
+			"packageName": "@payvo/sdk-test",
+			"projectFolder": "packages/test",
+			"reviewCategory": "libraries",
+			"shouldPublish": true
 		}
 	]
 }

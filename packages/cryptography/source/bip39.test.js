@@ -1,5 +1,4 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { assert, test } from "@payvo/sdk-test";
 
 import { BIP39 } from "./bip39";
 
@@ -15,55 +14,55 @@ const french =
 const random = "@!#$^$%^&*&^(";
 
 test("#generate", async () => {
-	assert.type(BIP39.generate("chinese_simplified"), "string");
-	assert.type(BIP39.generate("chinese_traditional"), "string");
-	assert.type(BIP39.generate("english"), "string");
-	assert.type(BIP39.generate("french"), "string");
-	assert.type(BIP39.generate("italian"), "string");
-	assert.type(BIP39.generate("japanese"), "string");
-	assert.type(BIP39.generate("korean"), "string");
-	assert.type(BIP39.generate("spanish"), "string");
+	assert.string(BIP39.generate("chinese_simplified"));
+	assert.string(BIP39.generate("chinese_traditional"));
+	assert.string(BIP39.generate("english"));
+	assert.string(BIP39.generate("french"));
+	assert.string(BIP39.generate("italian"));
+	assert.string(BIP39.generate("japanese"));
+	assert.string(BIP39.generate("korean"));
+	assert.string(BIP39.generate("spanish"));
 });
 
 test("#generate with number of words", async () => {
-	assert.is(BIP39.generate("english").spltest(" ").length, 12);
-	assert.is(BIP39.generate("english", 12).spltest(" ").length, 12);
-	assert.is(BIP39.generate("english", 24).spltest(" ").length, 24);
-	assert.is(BIP39.generate("english", 36).spltest(" ").length, 12);
+	assert.length(BIP39.generate("english").split(" "), 12);
+	assert.length(BIP39.generate("english", 12).split(" "), 12);
+	assert.length(BIP39.generate("english", 24).split(" "), 24);
+	assert.length(BIP39.generate("english", 36).split(" "), 12);
 });
 
 test("#validate", async () => {
-	assert.is(BIP39.validate(english, "english"), true);
-	assert.is(BIP39.validate(japanese, "japanese"), true);
-	assert.is(BIP39.validate(korean, "korean"), true);
-	assert.is(BIP39.validate(chinese_simplified, "chinese_simplified"), true);
-	assert.is(BIP39.validate(chinese_traditional, "chinese_traditional"), true);
-	assert.is(BIP39.validate(french, "french"), true);
-	assert.is(BIP39.validate(random, "english"), false);
+	assert.true(BIP39.validate(english, "english"));
+	assert.true(BIP39.validate(japanese, "japanese"));
+	assert.true(BIP39.validate(korean, "korean"));
+	assert.true(BIP39.validate(chinese_simplified, "chinese_simplified"));
+	assert.true(BIP39.validate(chinese_traditional, "chinese_traditional"));
+	assert.true(BIP39.validate(french, "french"));
+	assert.false(BIP39.validate(random, "english"));
 });
 
 test("#compatible", async () => {
-	assert.is(BIP39.compatible(english), true);
-	assert.is(BIP39.compatible(japanese), true);
-	assert.is(BIP39.compatible(korean), true);
-	assert.is(BIP39.compatible(chinese_simplified), true);
-	assert.is(BIP39.compatible(chinese_traditional), true);
-	assert.is(BIP39.compatible(french), true);
-	assert.is(BIP39.compatible(random), false);
+	assert.true(BIP39.compatible(english));
+	assert.true(BIP39.compatible(japanese));
+	assert.true(BIP39.compatible(korean));
+	assert.true(BIP39.compatible(chinese_simplified));
+	assert.true(BIP39.compatible(chinese_traditional));
+	assert.true(BIP39.compatible(french));
+	assert.false(BIP39.compatible(random));
 });
 
 test("#toSeed", async () => {
-	assert.type(BIP39.toSeed(english, "object");
-	assert.type(BIP39.toSeed(japanese, "object");
-	assert.type(BIP39.toSeed(korean, "object");
-	assert.type(BIP39.toSeed(chinese_simplified, "object");
-	assert.type(BIP39.toSeed(chinese_traditional, "object");
-	assert.type(BIP39.toSeed(french, "object");
-	assert.type(BIP39.toSeed(random, "object");
+	assert.object(BIP39.toSeed(english));
+	assert.object(BIP39.toSeed(japanese));
+	assert.object(BIP39.toSeed(korean));
+	assert.object(BIP39.toSeed(chinese_simplified));
+	assert.object(BIP39.toSeed(chinese_traditional));
+	assert.object(BIP39.toSeed(french));
+	assert.object(BIP39.toSeed(random));
 });
 
 test("#toEntropy", async () => {
-	assert.type(BIP39.toEntropy(english), "string");
+	assert.string(BIP39.toEntropy(english));
 });
 
 test("#normalize", async () => {

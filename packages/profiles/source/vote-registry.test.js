@@ -72,7 +72,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get<IProfileRepository>(Identifiers.ProfileRepository);
+	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -90,7 +90,7 @@ test("should return current votes", async () => {
 		.is(() => subject.voting().available())
 		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
 
-	await container.get<IDelegateService>(Identifiers.DelegateService).sync(profile, "ARK", "ark.devnet");
+	(await container.get) < IDelegateService > Identifiers.DelegateService.sync(profile, "ARK", "ark.devnet");
 	await subject.synchroniser().votes();
 
 	assert.is(subject.voting().current()).toHaveLength(1);

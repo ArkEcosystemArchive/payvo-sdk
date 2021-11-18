@@ -54,9 +54,9 @@ describe("KnownWalletService", () => {
 
 	test("should return an empty list if the source is empty", async () => {
 		subject = await createService(KnownWalletService, undefined, async (container: IoC.Container) => {
-			container
-				.get<Coins.ConfigRepository>(IoC.BindingType.ConfigRepository)
-				.forget(Coins.ConfigKey.KnownWallets);
+			container.get <
+				Coins.ConfigRepository >
+				IoC.BindingType.ConfigRepository.forget(Coins.ConfigKey.KnownWallets);
 		});
 
 		await assert.is(subject.all()).resolves.toEqual([]);

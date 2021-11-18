@@ -1847,6 +1847,17 @@ importers:
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
+  ../../packages/test:
+    dependencies:
+      nock: 13.2.0
+      sinon: 12.0.1
+      tsm: 2.1.4
+      uvu: 0.5.2
+    specifiers:
+      nock: ^13.2.0
+      sinon: ^12.0.1
+      tsm: ^2.1.4
+      uvu: ^0.5.2
   ../../packages/trx:
     dependencies:
       '@ledgerhq/hw-app-trx': 6.11.2
@@ -3621,19 +3632,16 @@ packages:
   /@sinonjs/commons/1.8.3:
     dependencies:
       type-detect: 4.0.8
-    dev: true
     resolution:
       integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==
   /@sinonjs/fake-timers/7.1.2:
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: true
     resolution:
       integrity: sha512-iQADsW4LBMISqZ6Ci1dupJL9pprqwcVFTcOsEmQOEhW+KLCVn/Y4Jrvg2k19fIHCp+iFprriYPTdRcQR8NbUPg==
   /@sinonjs/fake-timers/8.1.0:
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: true
     resolution:
       integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==
   /@sinonjs/samsam/6.0.2:
@@ -3641,11 +3649,9 @@ packages:
       '@sinonjs/commons': 1.8.3
       lodash.get: 4.4.2
       type-detect: 4.0.8
-    dev: true
     resolution:
       integrity: sha512-jxPRPp9n93ci7b8hMfJOFDPRLFYadN6FSpeROFTR4UNF4i5b+EK6m4QXPO46BDhFgRy1JuS87zAnFOzCUwMJcQ==
   /@sinonjs/text-encoding/0.7.1:
-    dev: true
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
   /@solana/buffer-layout/3.0.0:
@@ -6027,6 +6033,7 @@ packages:
   /debug/4.3.1:
     dependencies:
       ms: 2.1.2
+    dev: false
     engines:
       node: '>=6.0'
     peerDependencies:
@@ -6196,7 +6203,6 @@ packages:
     resolution:
       integrity: sha512-xmHIy4F3scKVwMsQ4WnVaS8bHOx0DmVwRywosKhaILI0ywMDWPtBSku2HNxRvF7jtwDRsoEwYQSfbxj8b7RlJQ==
   /dequal/2.0.2:
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -6228,7 +6234,6 @@ packages:
     resolution:
       integrity: sha512-qi86tE6hRcFHy8jI1m2VG+LaPUR1LhqDa5G8tVjuUXmOrpuAgqsA1pN0+ldgr3aKUH+QLI9hCY/OcRYisERejw==
   /diff/5.0.0:
-    dev: true
     engines:
       node: '>=0.3.1'
     resolution:
@@ -6536,7 +6541,6 @@ packages:
   /esbuild-android-arm64/0.13.14:
     cpu:
       - arm64
-    dev: true
     optional: true
     os:
       - android
@@ -6545,7 +6549,6 @@ packages:
   /esbuild-darwin-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - darwin
@@ -6554,7 +6557,6 @@ packages:
   /esbuild-darwin-arm64/0.13.14:
     cpu:
       - arm64
-    dev: true
     optional: true
     os:
       - darwin
@@ -6563,7 +6565,6 @@ packages:
   /esbuild-freebsd-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - freebsd
@@ -6572,7 +6573,6 @@ packages:
   /esbuild-freebsd-arm64/0.13.14:
     cpu:
       - arm64
-    dev: true
     optional: true
     os:
       - freebsd
@@ -6581,7 +6581,6 @@ packages:
   /esbuild-linux-32/0.13.14:
     cpu:
       - ia32
-    dev: true
     optional: true
     os:
       - linux
@@ -6590,7 +6589,6 @@ packages:
   /esbuild-linux-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - linux
@@ -6599,7 +6597,6 @@ packages:
   /esbuild-linux-arm/0.13.14:
     cpu:
       - arm
-    dev: true
     optional: true
     os:
       - linux
@@ -6608,7 +6605,6 @@ packages:
   /esbuild-linux-arm64/0.13.14:
     cpu:
       - arm64
-    dev: true
     optional: true
     os:
       - linux
@@ -6617,7 +6613,6 @@ packages:
   /esbuild-linux-mips64le/0.13.14:
     cpu:
       - mips64el
-    dev: true
     optional: true
     os:
       - linux
@@ -6626,7 +6621,6 @@ packages:
   /esbuild-linux-ppc64le/0.13.14:
     cpu:
       - ppc64
-    dev: true
     optional: true
     os:
       - linux
@@ -6635,7 +6629,6 @@ packages:
   /esbuild-netbsd-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - netbsd
@@ -6644,7 +6637,6 @@ packages:
   /esbuild-openbsd-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - openbsd
@@ -6653,7 +6645,6 @@ packages:
   /esbuild-sunos-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - sunos
@@ -6662,7 +6653,6 @@ packages:
   /esbuild-windows-32/0.13.14:
     cpu:
       - ia32
-    dev: true
     optional: true
     os:
       - win32
@@ -6671,7 +6661,6 @@ packages:
   /esbuild-windows-64/0.13.14:
     cpu:
       - x64
-    dev: true
     optional: true
     os:
       - win32
@@ -6680,14 +6669,12 @@ packages:
   /esbuild-windows-arm64/0.13.14:
     cpu:
       - arm64
-    dev: true
     optional: true
     os:
       - win32
     resolution:
       integrity: sha512-KP8FHVlWGhM7nzYtURsGnskXb/cBCPTfj0gOKfjKq2tHtYnhDZywsUG57nk7TKhhK0fL11LcejHG3LRW9RF/9A==
   /esbuild/0.13.14:
-    dev: true
     hasBin: true
     optionalDependencies:
       esbuild-android-arm64: 0.13.14
@@ -7912,7 +7899,6 @@ packages:
     resolution:
       integrity: sha1-tdRU3CGZriJWmfNGfloH87lVuv0=
   /has-flag/4.0.0:
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -8494,7 +8480,6 @@ packages:
     resolution:
       integrity: sha512-b2jKc2pQZjaeFYWEf7ScFj+Be1I+PXmlu572Q8coTXZ+LD/QQZ7ShPMst8h16riVgyXTQwUsFEl74mDvc/3MHQ==
   /isarray/0.0.1:
-    dev: true
     resolution:
       integrity: sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
   /isarray/1.0.0:
@@ -8840,7 +8825,6 @@ packages:
     resolution:
       integrity: sha512-uP5vu8xfy2F9A6LGC22KO7e2/vGTS1MhP+18f++ZNlf0Ohaxbc9nIEwHAsejlJKyzfZzU5UIhe5ItYkitcZnZA==
   /just-extend/4.2.1:
-    dev: true
     resolution:
       integrity: sha512-g3UB796vUFIY90VIv/WX3L2c8CS2MdWUww3CNrYmqza1Fg0DURc2K/O4YrnklBdQarSJ/y8JnJYDGc+1iumQjg==
   /keccak/3.0.1:
@@ -8885,7 +8869,6 @@ packages:
     resolution:
       integrity: sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
   /kleur/4.1.4:
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -9365,7 +9348,6 @@ packages:
     resolution:
       integrity: sha512-qYvlv/exQ4+svI3UOvPUpLDF0OMX5euvUH0Ny4N5QyRyhNdgAgUrVH3iUINSzEPLvx0kbo/Bp28GJKIqvE7URw==
   /mri/1.2.0:
-    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -9501,7 +9483,6 @@ packages:
       '@sinonjs/text-encoding': 0.7.1
       just-extend: 4.2.1
       path-to-regexp: 1.8.0
-    dev: true
     resolution:
       integrity: sha512-W5WlHu+wvo3PaKLsJJkgPup2LrsXCcm7AWwyNZkUnn5rwPkuPBi3Iwk5SQtN0mv+K65k7nKKjwNQ30wg3wLAQQ==
   /no-case/3.0.4:
@@ -9513,11 +9494,10 @@ packages:
       integrity: sha512-fgAN3jGAh+RoxUGZHTSOLJIqUc2wmoBwGR4tbpNAKmmovFoWq0OdRkb0VkldReO2a2iBT/OEulG9XSUc10r3zg==
   /nock/13.2.0:
     dependencies:
-      debug: 4.3.1
+      debug: 4.3.2
       json-stringify-safe: 5.0.1
       lodash.set: 4.3.2
       propagate: 2.0.1
-    dev: true
     engines:
       node: '>= 10.13'
     resolution:
@@ -10049,7 +10029,6 @@ packages:
   /path-to-regexp/1.8.0:
     dependencies:
       isarray: 0.0.1
-    dev: true
     resolution:
       integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
   /path-type/4.0.0:
@@ -10226,7 +10205,6 @@ packages:
     resolution:
       integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
   /propagate/2.0.1:
-    dev: true
     engines:
       node: '>= 8'
     resolution:
@@ -10777,7 +10755,6 @@ packages:
   /sade/1.7.4:
     dependencies:
       mri: 1.2.0
-    dev: true
     engines:
       node: '>= 6'
     resolution:
@@ -11013,7 +10990,6 @@ packages:
       diff: 5.0.0
       nise: 5.1.0
       supports-color: 7.2.0
-    dev: true
     resolution:
       integrity: sha512-iGu29Xhym33ydkAT+aNQFBINakjq69kKO6ByPvTsm3yyIACfyQttRTP03aBP/I8GfhFmLzrnKwNNkr0ORb1udg==
   /slash/3.0.0:
@@ -11331,7 +11307,6 @@ packages:
   /supports-color/7.2.0:
     dependencies:
       has-flag: 4.0.0
-    dev: true
     engines:
       node: '>=8'
     resolution:
@@ -11499,7 +11474,6 @@ packages:
     resolution:
       integrity: sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ==
   /totalist/2.0.0:
-    dev: true
     engines:
       node: '>=6'
     resolution:
@@ -11596,7 +11570,6 @@ packages:
   /tsm/2.1.4:
     dependencies:
       esbuild: 0.13.14
-    dev: true
     engines:
       node: '>=12'
     hasBin: true
@@ -11652,7 +11625,6 @@ packages:
     resolution:
       integrity: sha1-C6XsKohWQORw6k6FBZcZANrFiCI=
   /type-detect/4.0.8:
-    dev: true
     engines:
       node: '>=4'
     resolution:
@@ -11924,7 +11896,6 @@ packages:
       kleur: 4.1.4
       sade: 1.7.4
       totalist: 2.0.0
-    dev: true
     engines:
       node: '>=8'
     hasBin: true

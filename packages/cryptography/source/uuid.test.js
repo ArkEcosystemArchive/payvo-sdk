@@ -1,12 +1,11 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { assert, test } from "@payvo/sdk-test";
 
 import { UUID } from "./uuid";
 
 const dummy = "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b";
 
 test("#timestamp", () => {
-	assert.type(UUID.timestamp(), "string");
+	assert.string(UUID.timestamp());
 });
 
 test("#md5", () => {
@@ -14,7 +13,7 @@ test("#md5", () => {
 });
 
 test("#random", () => {
-	assert.type(UUID.random(), "string");
+	assert.string(UUID.random());
 });
 
 test("#sha1", () => {
@@ -22,7 +21,7 @@ test("#sha1", () => {
 });
 
 test("#parse", () => {
-	assert.type(UUID.parse(dummy, "object");
+	assert.object(UUID.parse(dummy));
 });
 
 test("#stringify", () => {
@@ -30,8 +29,8 @@ test("#stringify", () => {
 });
 
 test("#validate", () => {
-	assert.is(UUID.validate(dummy), true);
-	assert.is(UUID.validate("invalid"), false);
+	assert.true(UUID.validate(dummy));
+	assert.false(UUID.validate("invalid"));
 });
 
 test.run();

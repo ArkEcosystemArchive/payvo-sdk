@@ -1,6 +1,4 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
-import sinon from "sinon";
+import { assert, sinon, test } from "@payvo/sdk-test";
 
 import { DateTime } from "./datetime";
 
@@ -37,18 +35,18 @@ test("#fromUnix", () => {
 });
 
 test("#isBefore", () => {
-	assert.is(subject.isBefore(DateTime.make("2020-01-01").addDay()), true);
-	assert.is(subject.isBefore(DateTime.make("2020-01-01").subDay()), false);
+	assert.true(subject.isBefore(DateTime.make("2020-01-01").addDay()));
+	assert.false(subject.isBefore(DateTime.make("2020-01-01").subDay()));
 });
 
 test("#isSame", () => {
-	assert.is(subject.isSame(subject), true);
-	assert.is(subject.isSame(DateTime.make("2020-01-01").addDay()), false);
+	assert.true(subject.isSame(subject));
+	assert.false(subject.isSame(DateTime.make("2020-01-01").addDay()));
 });
 
 test("#isAfter", () => {
-	assert.is(subject.isAfter(DateTime.make("2020-01-01").subDay()), true);
-	assert.is(subject.isAfter(DateTime.make("2020-01-01").addDay()), false);
+	assert.true(subject.isAfter(DateTime.make("2020-01-01").subDay()));
+	assert.false(subject.isAfter(DateTime.make("2020-01-01").addDay()));
 });
 
 test("#getMillisecond", () => {
@@ -373,11 +371,11 @@ test("#fromNow", () => {
 });
 
 test("#isValid", () => {
-	assert.is(subject.isValid(), true);
+	assert.true(subject.isValid());
 
 	const invalidDate = DateTime.make("abc");
 
-	assert.is(invalidDate.isValid(), false);
+	assert.false(invalidDate.isValid());
 });
 
 test.run();

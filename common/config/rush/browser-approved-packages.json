@@ -223,6 +223,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "@payvo/sdk-test",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "@payvo/sdk-trx",
       "allowedCategories": [ "libraries" ]
     },

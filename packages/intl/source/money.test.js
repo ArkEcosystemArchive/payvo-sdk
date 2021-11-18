@@ -1,5 +1,4 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { assert, test } from "@payvo/sdk-test";
 
 import { Money } from "./money";
 
@@ -32,42 +31,42 @@ test("#divide", () => {
 });
 
 test("#isEqualTo", () => {
-	assert.is(subject.isEqualTo(Money.make(5000, "EUR")), true);
-	assert.is(subject.isEqualTo(Money.make(1000, "EUR")), false);
+	assert.true(subject.isEqualTo(Money.make(5000, "EUR")));
+	assert.false(subject.isEqualTo(Money.make(1000, "EUR")));
 });
 
 test("#isLessThan", () => {
-	assert.is(subject.isLessThan(Money.make(6000, "EUR")), true);
-	assert.is(subject.isLessThan(Money.make(5000, "EUR")), false);
-	assert.is(subject.isLessThan(Money.make(4000, "EUR")), false);
+	assert.true(subject.isLessThan(Money.make(6000, "EUR")));
+	assert.false(subject.isLessThan(Money.make(5000, "EUR")));
+	assert.false(subject.isLessThan(Money.make(4000, "EUR")));
 });
 
 test("#isLessThanOrEqual", () => {
-	assert.is(subject.isLessThanOrEqual(Money.make(5000, "EUR")), true);
-	assert.is(subject.isLessThanOrEqual(Money.make(6000, "EUR")), true);
-	assert.is(subject.isLessThanOrEqual(Money.make(4000, "EUR")), false);
+	assert.true(subject.isLessThanOrEqual(Money.make(5000, "EUR")));
+	assert.true(subject.isLessThanOrEqual(Money.make(6000, "EUR")));
+	assert.false(subject.isLessThanOrEqual(Money.make(4000, "EUR")));
 });
 
 test("#isGreaterThan", () => {
-	assert.is(subject.isGreaterThan(Money.make(1000, "EUR")), true);
-	assert.is(subject.isGreaterThan(Money.make(1000, "EUR")), true);
-	assert.is(subject.isGreaterThan(Money.make(6000, "EUR")), false);
+	assert.true(subject.isGreaterThan(Money.make(1000, "EUR")));
+	assert.true(subject.isGreaterThan(Money.make(1000, "EUR")));
+	assert.false(subject.isGreaterThan(Money.make(6000, "EUR")));
 });
 
 test("#isGreaterThanOrEqual", () => {
-	assert.is(subject.isGreaterThanOrEqual(Money.make(1000, "EUR")), true);
-	assert.is(subject.isGreaterThanOrEqual(Money.make(1000, "EUR")), true);
-	assert.is(subject.isGreaterThanOrEqual(Money.make(6000, "EUR")), false);
+	assert.true(subject.isGreaterThanOrEqual(Money.make(1000, "EUR")));
+	assert.true(subject.isGreaterThanOrEqual(Money.make(1000, "EUR")));
+	assert.false(subject.isGreaterThanOrEqual(Money.make(6000, "EUR")));
 });
 
 test("#isPositive", () => {
-	assert.is(Money.make(1, "EUR").isPositive(), true);
-	assert.is(Money.make(-1, "EUR").isPositive(), false);
+	assert.true(Money.make(1, "EUR").isPositive());
+	assert.false(Money.make(-1, "EUR").isPositive());
 });
 
 test("#isNegative", () => {
-	assert.is(Money.make(-1, "EUR").isNegative(), true);
-	assert.is(Money.make(1, "EUR").isNegative(), false);
+	assert.true(Money.make(-1, "EUR").isNegative());
+	assert.false(Money.make(1, "EUR").isNegative());
 });
 
 test("#getCurrency", () => {

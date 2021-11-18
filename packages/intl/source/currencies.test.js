@@ -1,10 +1,9 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { assert, test } from "@payvo/sdk-test";
 
 import { CURRENCIES } from "./currencies";
 
 test("CURRENCIES", () => {
-	assert.type(CURRENCIES, "object");
+	assert.object(CURRENCIES);
 });
 
 test.run();

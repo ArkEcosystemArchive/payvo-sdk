@@ -40,7 +40,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get<IProfileRepository>(Identifiers.ProfileRepository);
+	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -96,7 +96,7 @@ test("should aggregate the balances of all wallets", async () => {
 	jest.spyOn(c.network(), "isTest").mockReturnValue(false);
 	jest.spyOn(c.network(), "ticker").mockReturnValue("ARK");
 
-	await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
+	(await container.get) < IExchangeRateService > Identifiers.ExchangeRateService.syncAll(profile, "ARK");
 
 	assert.is(profile.portfolio().breakdown()[0].source, 3);
 	assert.is(profile.portfolio().breakdown()[0].target, 0.00015144);
