@@ -11,6 +11,7 @@ importers:
       bech32: 2.0.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -34,7 +35,6 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
       tsm: 2.1.4
@@ -47,6 +47,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -71,7 +72,6 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
       tsm: ^2.1.4
@@ -93,6 +93,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@sindresorhus/tsconfig': 2.0.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -118,10 +119,8 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -135,6 +134,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -162,12 +162,10 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       is-url-superb: ^6.1.0
       lodash.orderby: ^4.6.0
-      nock: ^13.2.0
       node-dotify: ^1.1.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
       semver: ^7.3.5
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -183,6 +181,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -206,10 +205,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -220,6 +217,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -246,10 +244,8 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
       ledger-cosmos-js: ^2.1.8
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -265,6 +261,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -291,10 +288,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -305,6 +300,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -334,10 +330,8 @@ importers:
       got: ^11.8.2
       hdkey: ^2.0.1
       isomorphic-dompurify: ^0.16.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -359,6 +353,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@ledgerhq/logs': 6.10.0
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -381,10 +376,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -397,6 +390,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -425,10 +419,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -450,6 +442,7 @@ importers:
       tiny-secp256k1: 1.1.6
       uuid: 8.3.2
     devDependencies:
+      '@payvo/sdk-test': link:../test
       '@sindresorhus/tsconfig': 2.0.0
       '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
@@ -479,7 +472,6 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       microtime: 3.0.0
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
       tsm: 2.1.4
@@ -487,6 +479,7 @@ importers:
       uvu: 0.5.2
       wif: 2.0.6
     specifiers:
+      '@payvo/sdk-test': workspace:*
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
@@ -525,7 +518,6 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       hdkey: ^2.0.1
       microtime: ^3.0.0
-      nock: ^13.2.0
       node-forge: ^0.10.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
@@ -555,6 +547,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -578,10 +571,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -592,6 +583,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@polkadot/api': ^6.8.1
       '@polkadot/keyring': ^7.8.2
       '@polkadot/rpc-provider': ^6.8.1
@@ -624,10 +616,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -643,6 +633,7 @@ importers:
       bech32: 2.0.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -665,10 +656,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -681,6 +670,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -704,10 +694,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -723,6 +711,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/elliptic': 6.4.14
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -745,10 +734,8 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -759,6 +746,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/elliptic': 6.4.14
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -784,10 +772,8 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -806,6 +792,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -828,10 +815,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -845,6 +830,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -869,10 +855,8 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       ethers: ^5.5.1
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -894,6 +878,7 @@ importers:
       remarkable: 2.0.1
       type-fest: 2.5.3
     devDependencies:
+      '@payvo/sdk-test': link:../test
       '@sindresorhus/tsconfig': 2.0.0
       '@types/bent': 7.3.2
       '@types/eslint': 7.28.2
@@ -922,15 +907,14 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       lodash: 4.17.21
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
     specifiers:
       '@hapi/bourne': ^2.0.0
+      '@payvo/sdk-test': workspace:*
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/bent': ^7.3.2
       '@types/eslint': ^7.28.2
@@ -969,12 +953,10 @@ importers:
       front-matter: ^4.0.2
       joi: ^17.4.2
       lodash: ^4.17.21
-      nock: ^13.2.0
       prettier: ^2.4.1
       qrcode: ^1.4.4
       remarkable: ^2.0.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -984,6 +966,7 @@ importers:
       '@payvo/sdk': link:../sdk
       cross-fetch: 3.1.4
     devDependencies:
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/fs-extra': 9.0.13
@@ -1007,15 +990,14 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       fs-extra: 10.0.0
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
     specifiers:
       '@payvo/sdk': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.13
@@ -1040,10 +1022,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       fs-extra: ^10.0.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1052,6 +1032,7 @@ importers:
       dayjs: 1.10.7
       dinero.js: 1.9.1
     devDependencies:
+      '@payvo/sdk-test': link:../test
       '@types/dinero.js': 1.9.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1073,14 +1054,13 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
     specifiers:
+      '@payvo/sdk-test': workspace:*
       '@types/dinero.js': 1.9.0
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1104,10 +1084,8 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1123,6 +1101,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1145,10 +1124,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1161,6 +1138,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1184,10 +1162,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1200,6 +1176,7 @@ importers:
       '@terra-money/terra.js': 2.0.16
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1223,10 +1200,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1236,6 +1211,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@terra-money/terra.js': ^2.0.16
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1260,10 +1236,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1274,6 +1248,7 @@ importers:
       '@payvo/sdk-intl': link:../intl
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/node': 16.11.7
@@ -1295,10 +1270,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1307,6 +1280,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/node': ^16.11.7
@@ -1328,10 +1302,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1346,6 +1318,7 @@ importers:
       nanocurrency-web: 1.3.5
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1369,10 +1342,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1383,6 +1354,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1408,10 +1380,8 @@ importers:
       got: ^11.8.2
       nanocurrency: ^2.5.0
       nanocurrency-web: ^1.3.5
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1425,6 +1395,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1441,10 +1412,8 @@ importers:
       eslint-plugin-simple-import-sort: 7.0.0_eslint@8.2.0
       eslint-plugin-tsdoc: 0.2.14
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1456,6 +1425,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1472,10 +1442,8 @@ importers:
       eslint-plugin-simple-import-sort: ^7.0.0
       eslint-plugin-tsdoc: ^0.2.14
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1485,6 +1453,7 @@ importers:
       rss-parser: 3.12.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/fs-extra': 9.0.13
@@ -1507,16 +1476,15 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       fs-extra: 10.0.0
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
     specifiers:
       '@payvo/sdk': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/fs-extra': ^9.0.13
@@ -1539,11 +1507,9 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       fs-extra: ^10.0.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
       rss-parser: ^3.12.0
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1575,6 +1541,7 @@ importers:
       '@payvo/sdk-eth': link:../eth
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-lsk': link:../lsk
+      '@payvo/sdk-test': link:../test
       '@sindresorhus/tsconfig': 2.0.0
       '@types/async': 3.2.9
       '@types/bip38': 2.0.1
@@ -1605,10 +1572,8 @@ importers:
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       fs-extra: 10.0.0
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1625,6 +1590,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-lsk': workspace:*
       '@payvo/sdk-markets': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@sindresorhus/slugify': ^2.1.0
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/async': 3.2.9
@@ -1663,7 +1629,6 @@ importers:
       joi: ^17.4.2
       localforage: ^1.10.0
       mem: ^9.0.1
-      nock: ^13.2.0
       node-cache: ^5.1.2
       p-queue: ^6.6.2
       p-retry: ^4.3.0
@@ -1671,7 +1636,6 @@ importers:
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
       semver: ^7.3.5
-      sinon: ^12.0.1
       tsm: ^2.1.4
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -1693,6 +1657,7 @@ importers:
       reflect-metadata: 0.1.13
       type-fest: 2.5.3
     devDependencies:
+      '@payvo/sdk-test': link:../test
       '@sindresorhus/tsconfig': 2.0.0
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
@@ -1716,16 +1681,15 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
     specifiers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@sindresorhus/tsconfig': ^2.0.0
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1757,12 +1721,10 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       inversify: ^6.0.1
       joi: ^17.4.2
-      nock: ^13.2.0
       node-emoji: ^1.11.0
       prettier: ^2.4.1
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -1778,6 +1740,7 @@ importers:
       ed25519-hd-key: 1.2.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1801,10 +1764,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1814,6 +1775,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@solana/web3.js': ^1.30.2
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
@@ -1840,10 +1802,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -1853,7 +1813,10 @@ importers:
       sinon: 12.0.1
       tsm: 2.1.4
       uvu: 0.5.2
+    devDependencies:
+      '@types/node': 16.11.7
     specifiers:
+      '@types/node': ^16.11.7
       nock: ^13.2.0
       sinon: ^12.0.1
       tsm: ^2.1.4
@@ -1870,6 +1833,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1891,10 +1855,8 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1906,6 +1868,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1928,10 +1891,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       multicoin-address-validator: ^0.5.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tronweb: ^4.0.0
       tsm: ^2.1.4
       typescript: ^4.4.4
@@ -1948,6 +1909,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -1969,10 +1931,8 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.2.0+typescript@4.4.4
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -1984,6 +1944,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -2006,10 +1967,8 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       stellar-sdk: ^9.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
@@ -2028,6 +1987,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -2051,11 +2011,9 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       lodash: 4.17.21
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
       ripple-binary-codec: 1.1.3
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -2067,6 +2025,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -2092,13 +2051,11 @@ importers:
       eslint-plugin-unused-imports: ^2.0.0
       lodash: ^4.17.21
       multicoin-address-validator: ^0.5.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
       ripple-binary-codec: ^1.1.3
       ripple-keypairs: ^1.0.3
       ripple-lib: ^1.10.0
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -2113,6 +2070,7 @@ importers:
       '@zilliqa-js/zilliqa': 3.3.3
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-test': link:../test
       '@types/eslint': 7.28.2
       '@types/eslint-plugin-prettier': 3.1.0
       '@types/hapi__joi': 17.1.7
@@ -2136,10 +2094,8 @@ importers:
       eslint-plugin-unicorn: 38.0.1_eslint@8.2.0
       eslint-plugin-unused-imports: 2.0.0_06c3fc5333d6cf5a441ffe37db6b055b
       got: 11.8.2
-      nock: 13.2.0
       prettier: 2.4.1
       rimraf: 3.0.2
-      sinon: 12.0.1
       tsm: 2.1.4
       typescript: 4.4.4
       uvu: 0.5.2
@@ -2149,6 +2105,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
+      '@payvo/sdk-test': workspace:*
       '@types/eslint': ^7.28.2
       '@types/eslint-plugin-prettier': ^3.1.0
       '@types/hapi__joi': 17.1.7
@@ -2175,10 +2132,8 @@ importers:
       eslint-plugin-unicorn: ^38.0.1
       eslint-plugin-unused-imports: ^2.0.0
       got: ^11.8.2
-      nock: ^13.2.0
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      sinon: ^12.0.1
       tsm: ^2.1.4
       typescript: ^4.4.4
       uvu: ^0.5.2
@@ -3632,16 +3587,19 @@ packages:
   /@sinonjs/commons/1.8.3:
     dependencies:
       type-detect: 4.0.8
+    dev: false
     resolution:
       integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==
   /@sinonjs/fake-timers/7.1.2:
     dependencies:
       '@sinonjs/commons': 1.8.3
+    dev: false
     resolution:
       integrity: sha512-iQADsW4LBMISqZ6Ci1dupJL9pprqwcVFTcOsEmQOEhW+KLCVn/Y4Jrvg2k19fIHCp+iFprriYPTdRcQR8NbUPg==
   /@sinonjs/fake-timers/8.1.0:
     dependencies:
       '@sinonjs/commons': 1.8.3
+    dev: false
     resolution:
       integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==
   /@sinonjs/samsam/6.0.2:
@@ -3649,9 +3607,11 @@ packages:
       '@sinonjs/commons': 1.8.3
       lodash.get: 4.4.2
       type-detect: 4.0.8
+    dev: false
     resolution:
       integrity: sha512-jxPRPp9n93ci7b8hMfJOFDPRLFYadN6FSpeROFTR4UNF4i5b+EK6m4QXPO46BDhFgRy1JuS87zAnFOzCUwMJcQ==
   /@sinonjs/text-encoding/0.7.1:
+    dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
   /@solana/buffer-layout/3.0.0:
@@ -8480,6 +8440,7 @@ packages:
     resolution:
       integrity: sha512-b2jKc2pQZjaeFYWEf7ScFj+Be1I+PXmlu572Q8coTXZ+LD/QQZ7ShPMst8h16riVgyXTQwUsFEl74mDvc/3MHQ==
   /isarray/0.0.1:
+    dev: false
     resolution:
       integrity: sha1-ihis/Kmo9Bd+Cav8YDiTmwXR7t8=
   /isarray/1.0.0:
@@ -8751,6 +8712,7 @@ packages:
     resolution:
       integrity: sha1-nbe1lJatPzz+8wp1FC0tkwrXJlE=
   /json-stringify-safe/5.0.1:
+    dev: false
     resolution:
       integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
   /json-text-sequence/0.1.1:
@@ -8825,6 +8787,7 @@ packages:
     resolution:
       integrity: sha512-uP5vu8xfy2F9A6LGC22KO7e2/vGTS1MhP+18f++ZNlf0Ohaxbc9nIEwHAsejlJKyzfZzU5UIhe5ItYkitcZnZA==
   /just-extend/4.2.1:
+    dev: false
     resolution:
       integrity: sha512-g3UB796vUFIY90VIv/WX3L2c8CS2MdWUww3CNrYmqza1Fg0DURc2K/O4YrnklBdQarSJ/y8JnJYDGc+1iumQjg==
   /keccak/3.0.1:
@@ -8984,6 +8947,7 @@ packages:
     resolution:
       integrity: sha1-3bG7s+8HRYwBd7oH3hRCLLAz/5s=
   /lodash.get/4.4.2:
+    dev: false
     resolution:
       integrity: sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
   /lodash.isequal/4.5.0:
@@ -8999,6 +8963,7 @@ packages:
     resolution:
       integrity: sha1-5pfwTOXXhSL1TZM4syuBozk+TrM=
   /lodash.set/4.3.2:
+    dev: false
     resolution:
       integrity: sha1-2HV7HagH3eJIFrDWqEvqGnYjCyM=
   /lodash.uniq/4.5.0:
@@ -9483,6 +9448,7 @@ packages:
       '@sinonjs/text-encoding': 0.7.1
       just-extend: 4.2.1
       path-to-regexp: 1.8.0
+    dev: false
     resolution:
       integrity: sha512-W5WlHu+wvo3PaKLsJJkgPup2LrsXCcm7AWwyNZkUnn5rwPkuPBi3Iwk5SQtN0mv+K65k7nKKjwNQ30wg3wLAQQ==
   /no-case/3.0.4:
@@ -9498,6 +9464,7 @@ packages:
       json-stringify-safe: 5.0.1
       lodash.set: 4.3.2
       propagate: 2.0.1
+    dev: false
     engines:
       node: '>= 10.13'
     resolution:
@@ -10029,6 +9996,7 @@ packages:
   /path-to-regexp/1.8.0:
     dependencies:
       isarray: 0.0.1
+    dev: false
     resolution:
       integrity: sha512-n43JRhlUKUAlibEJhPeir1ncUID16QnEjNpwzNdO3Lm4ywrBpBZ5oLD0I6br9evr1Y9JTqwRtAh7JLoOzAQdVA==
   /path-type/4.0.0:
@@ -10205,6 +10173,7 @@ packages:
     resolution:
       integrity: sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
   /propagate/2.0.1:
+    dev: false
     engines:
       node: '>= 8'
     resolution:
@@ -10990,6 +10959,7 @@ packages:
       diff: 5.0.0
       nise: 5.1.0
       supports-color: 7.2.0
+    dev: false
     resolution:
       integrity: sha512-iGu29Xhym33ydkAT+aNQFBINakjq69kKO6ByPvTsm3yyIACfyQttRTP03aBP/I8GfhFmLzrnKwNNkr0ORb1udg==
   /slash/3.0.0:
@@ -11625,6 +11595,7 @@ packages:
     resolution:
       integrity: sha1-C6XsKohWQORw6k6FBZcZANrFiCI=
   /type-detect/4.0.8:
+    dev: false
     engines:
       node: '>=4'
     resolution:

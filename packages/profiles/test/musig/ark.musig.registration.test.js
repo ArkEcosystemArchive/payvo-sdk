@@ -164,7 +164,7 @@ describe("ARK", () => {
 			assert.is(second.wallet.transaction().canBeSigned(uuid), true);
 			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("pending", []);
 			mockServerResponse("ready", [fixtures.withSecondSignature]);
 
@@ -201,7 +201,7 @@ describe("ARK", () => {
 			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), true);
 			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
 
-			mockServerResponse("show", fixtures.withSecondSignature);
+			mockServerResponse("show", loaders.withSecondSignature);
 
 			// 4. Add the final signature by signing the whole transaction with the signatures of all participants.
 			await first.wallet
@@ -367,7 +367,7 @@ describe("ARK", () => {
 			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
 			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
 			mockServerResponse("pending", [fixtures.withSecondSignature]);
 
@@ -390,7 +390,7 @@ describe("ARK", () => {
 			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
 
 			// 3. Add the third signature and re-broadcast the transaction.
-			mockServerResponse("show", fixtures.withSecondSignature);
+			mockServerResponse("show", loaders.withSecondSignature);
 
 			await third.wallet
 				.transaction()
@@ -438,7 +438,7 @@ describe("ARK", () => {
 			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
 			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
 
-			mockServerResponse("show", fixtures.withThirdSignature);
+			mockServerResponse("show", loaders.withThirdSignature);
 
 			// 4. Add the final signature by signing the whole transaction with the signatures of all participants.
 			await first.wallet
@@ -598,7 +598,7 @@ describe("ARK", () => {
 				publicKeys: fixtures.withFirstSignature.data.multiSignature.publicKeys,
 			});
 
-			assert.is(address, fixtures.generatedAddress);
+			assert.is(address, loaders.generatedAddress);
 		});
 
 		test("should avoid adding duplicate signatures", async () => {
@@ -680,7 +680,7 @@ describe("ARK", () => {
 
 			await second.wallet.transaction().sync();
 
-			mockServerResponse("show", fixtures.withFirstSignature);
+			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("pending", []);
 			mockServerResponse("ready", [fixtures.withSecondSignature]);
 
@@ -704,7 +704,7 @@ describe("ARK", () => {
 
 			const transactionWithUniqueSignatures = second.wallet.transaction().transaction(uuid).data().data();
 			assert.is(transactionWithUniqueSignatures.signatures).toHaveLength(2);
-			assert.is(transactionWithUniqueSignatures.signatures, fixtures.withSecondSignature.data.signatures);
+			assert.is(transactionWithUniqueSignatures.signatures, loaders.withSecondSignature.data.signatures);
 		});
 	});
 });

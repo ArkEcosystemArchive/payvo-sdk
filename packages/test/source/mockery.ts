@@ -15,6 +15,14 @@ export class Mockery {
 	public calledWith(message: string | object): void {
 		assert.ok(this.#stub.calledWith(message));
 	}
+
+	public mockResolvedValue(value: unknown): void {
+		this.#stub.resolves(value);
+	}
+
+	public mockReturnValueOnce(value: unknown): void {
+		this.#stub.onFirstCall().returns(value);
+	}
 }
 
 export const mockery = (owner: object, method: string): Mockery => Mockery.stub(owner, method);

@@ -1,4 +1,4 @@
-import { assert, fixture, nock, test } from "@payvo/sdk-test";
+import { assert, loader, nock, test } from "@payvo/sdk-test";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { CryptoCompare } from "./index";
@@ -15,11 +15,11 @@ test.before.each(async () => {
 	nock(BASE_URL_CRYPTOCOMPARE)
 		.get("/data/pricemultifull")
 		.query(true)
-		.reply(200, fixture.load("test/fixtures/cryptocompare/market.json"));
+		.reply(200, loader.json("test/fixtures/cryptocompare/market.json"));
 
 	nock(BASE_URL_CRYPTOCOMPARE)
 		.get(/\/data\/histo.+/)
-		.reply(200, fixture.load("test/fixtures/cryptocompare/historical.json"));
+		.reply(200, loader.json("test/fixtures/cryptocompare/historical.json"));
 });
 
 test("should return ticker values", async () => {
@@ -79,7 +79,7 @@ test("should return the current price", async () => {
 	nock(BASE_URL_CRYPTOCOMPARE)
 		.get("/data/price")
 		.query(true)
-		.reply(200, fixture.load("test/fixtures/cryptocompare/price.json"));
+		.reply(200, loader.json("test/fixtures/cryptocompare/price.json"));
 
 	const response = await subject.currentPrice({
 		token,

@@ -12,7 +12,7 @@ test.before.each(async () => {
 
 describe("WalletData", () => {
     test("#address", () => {
-        assert.is(subject.address(), fixture.data[0].address);
+        assert.is(subject.address(), loader.data[0].address);
     });
 
     test("#publicKey", () => {
