@@ -1,4 +1,5 @@
-import { IoC, Services, Test } from "@payvo/sdk";
+import { assert, loader, test } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
@@ -10,46 +11,36 @@ import { WalletData } from "./wallet.dto";
 let subject;
 
 test.before(async () => {
-    nock.disableNetConnect();
+	nock.disableNetConnect();
 
-    subject = await createService(ClientService, undefined, (container) => {
-        container.constant(IoC.BindingType.Container, container);
-        container.constant(IoC.BindingType.DataTransferObjects, {
-            SignedTransactionData,
-            ConfirmedTransactionData,
-            WalletData,
-        });
-        container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-    });
+	subject = await createService(ClientService, undefined, (container) => {
+		container.constant(IoC.BindingType.Container, container);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+	});
 });
 
 test.after.each(() => nock.cleanAll());
 
 test.before(async () => {
-    nock.disableNetConnect();
+	nock.disableNetConnect();
 });
 
-describe("ClientService", () => {
-    describe("#wallet", () => {
-        test("should succeed", async () => {
-            nock("https://api.testnet.eos.io")
-                .post("/v1/chain/get_account")
-                .reply(200, loader.json(`test/fixtures/client/wallet.json`));
+test("#wallet", async () => {
+	nock("https://api.testnet.eos.io")
+		.post("/v1/chain/get_account")
+		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-            const result = await subject.wallet({
-                type: "address",
-                value: "bdfkbzietxos",
-            });
+	const result = await subject.wallet({
+		type: "address",
+		value: "bdfkbzietxos",
+	});
 
-            assert.instance(result, WalletData);
-        });
-    });
-
-    describe.skip("#broadcast", () => {
-        test("should succeed", async () => {
-            const result = await subject.broadcast([]);
-
-            assert.is(result), "undefined");
-    });
+	assert.instance(result, WalletData);
 });
-});
+
+test.run();

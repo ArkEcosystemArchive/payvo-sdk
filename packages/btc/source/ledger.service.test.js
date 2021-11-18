@@ -36,7 +36,7 @@ describe("disconnect", () => {
     test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
-        await assert.is(subject.disconnect()).resolves, "undefined");
+        assert.undefined(await subject.disconnect());
 });
 });
 
@@ -44,7 +44,7 @@ describe("disconnect", () => {
     test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
-        await assert.is(subject.disconnect()).resolves, "undefined");
+        assert.undefined(await subject.disconnect());
 });
 });
 

@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
@@ -9,13 +10,15 @@ test.before(async () => {
 });
 
 test("should generate a link for a block", async () => {
-	assert.is(subject.block("id"), "https://eos-test.bloks.io/block/id"`);
+	assert.is(subject.block("id"), "https://eos-test.bloks.io/block/id");
 });
 
 test("should generate a link for a transaction", async () => {
-	assert.is(subject.transaction("id"), "https://eos-test.bloks.io/transaction/id"`);
+	assert.is(subject.transaction("id"), "https://eos-test.bloks.io/transaction/id");
 });
 
 test("should generate a link for a wallet", async () => {
-	assert.is(subject.wallet("id"), "https://eos-test.bloks.io/account/id"`);
+	assert.is(subject.wallet("id"), "https://eos-test.bloks.io/account/id");
 });
+
+test.run();
