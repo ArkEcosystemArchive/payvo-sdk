@@ -51,7 +51,7 @@ test("#transactions", async () => {
 		identifiers: [{ type: "address", value: "TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq" }],
 	});
 
-	assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
+	assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 });
 
 test("#wallet", async () => {
@@ -65,7 +65,6 @@ test("#wallet", async () => {
 	});
 
 	assert.instance(result, WalletData);
-	assert.is(result.balance(), BigNumber);
 });
 
 test("broadcast should pass", async () => {

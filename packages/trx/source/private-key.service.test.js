@@ -10,7 +10,10 @@ test.before.each(async () => {
 });
 
 test("should generate an output from a mnemonic", async () => {
-	assert.is(await subject.fromMnemonic(identity.mnemonic));
+	assert.equal(await subject.fromMnemonic(identity.mnemonic), {
+			"privateKey": "990156e4859ff56f433306d71b858b222372dea7c6b7af64f487059bcc97e159",
+			"path": "m/44'/195'/0'/0/0"
+	});
 });
 
 
