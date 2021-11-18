@@ -13,10 +13,10 @@ test.before.each(async () => {
 
 describe("ConfirmedTransactionData", () => {
 	test("should succeed", async () => {
-		assert.is(subject instanceof ConfirmedTransactionData);
+		assert.instance(subject, ConfirmedTransactionData);
 		assert.is(subject.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
 		assert.is(subject.type(), "transfer");
-		assert.is(subject.timestamp() instanceof DateTime);
+		assert.instance(subject.timestamp(), DateTime);
 		assert.is(subject.confirmations().toNumber(), 123456);
 
 		assert.is(subject.sender(), "1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");

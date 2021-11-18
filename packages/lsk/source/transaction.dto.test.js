@@ -63,7 +63,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#timestamp", () => {
-        assert.is(subject.timestamp() instanceof DateTime);
+        assert.instance(subject.timestamp(), DateTime);
         assert.is(subject.timestamp()?.toUNIX(), 1625409490);
         assert.is(subject.timestamp()?.toISOString(), "2021-07-04T14:38:10.000Z");
     });
@@ -86,7 +86,7 @@ describe("ConfirmedTransactionData", () => {
 
     describe("#amount", () => {
         test("returns transaction amount", () => {
-            assert.is(subject.amount(), BigNumber.make("1"));
+            assert.equal(subject.amount(), BigNumber.make("1"));
         });
 
         test("returns sum of unlock objects amounts if type is unlockToken", async () => {
@@ -115,7 +115,7 @@ describe("ConfirmedTransactionData", () => {
     });
 
     test("#fee", () => {
-        assert.is(subject.fee(), BigNumber.make("10000000"));
+        assert.equal(subject.fee(), BigNumber.make("10000000"));
     });
 
     test("#memo", () => {

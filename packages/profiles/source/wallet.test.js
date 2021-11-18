@@ -186,7 +186,7 @@ test("should not have a converted balance if it is a test wallet", async () => {
 });
 
 test("should have a nonce", () => {
-    assert.is(subject.nonce(), BigNumber.make("111932"));
+    assert.equal(subject.nonce(), BigNumber.make("111932"));
 
     subject.data().set(WalletData.Sequence, undefined);
 
@@ -345,7 +345,7 @@ test("should respond on whether it is a delegate or not", async () => {
 });
 
 test("should respond on whether it is a resigned delegate or not", async () => {
-    assert.is(subject.isResignedDelegate(), false);
+    assert.false(subject.isResignedDelegate());
 
     subject = new Wallet(UUID.random(), {}, profile);
 
@@ -395,7 +395,7 @@ test("should respond on whether it is ledger", () => {
 });
 
 test("should respond on whether it is multi signature or not", async () => {
-    assert.is(subject.isMultiSignature(), false);
+    assert.false(subject.isMultiSignature());
 
     subject = new Wallet(UUID.random(), {}, profile);
 
@@ -405,7 +405,7 @@ test("should respond on whether it is multi signature or not", async () => {
 });
 
 test("should respond on whether it is second signature or not", async () => {
-    assert.is(subject.isSecondSignature(), false);
+    assert.false(subject.isSecondSignature());
 
     subject = new Wallet(UUID.random(), {}, profile);
 

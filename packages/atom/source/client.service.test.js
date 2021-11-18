@@ -1,4 +1,5 @@
-import { IoC, Services, Test } from "@payvo/sdk";
+import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
@@ -30,76 +31,66 @@ test.before(async () => {
 });
 
 describe("ClientService", () => {
-	describe("#transaction", () => {
-		test("should succeed", async () => {
-			nock("https://stargate.cosmos.network")
-				.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
-				.reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	describe("#transaction", async () => {
+		nock("https://stargate.cosmos.network")
+			.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
+			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-			const result = await subject.transaction(
-				"B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11",
-			);
+		const result = await subject.transaction("B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
 
-			assert.instance(result, ConfirmedTransactionData);
-			assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
-			assert.is(result.type(), "transfer");
-			assert.instance(result.timestamp(), DateTime);
-			assert.equal(result.confirmations(), BigNumber.ZERO);
-			assert.is(result.sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
-			assert.is(result.recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
-			assert.is(result.amount(), BigNumber.make(10680));
-			assert.is(result.fee(), BigNumber.make(36875));
-			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
-			assert.is(result.memo(), "Hello World");
-		});
+		assert.instance(result, ConfirmedTransactionData);
+		assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
+		assert.is(result.type(), "transfer");
+		assert.instance(result.timestamp(), DateTime);
+		assert.equal(result.confirmations(), BigNumber.ZERO);
+		assert.is(result.sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+		assert.is(result.recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
+		assert.instance(result.amount(), BigNumber.make(10680));
+		assert.instance(result.fee(), BigNumber.make(36875));
+		assert.is(result.memo(), "Hello World");
 	});
 
-	describe("#transactions", () => {
-		test("should succeed", async () => {
-			nock("https://stargate.cosmos.network")
-				.get(
-					"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
-				)
-				.reply(200, loader.json(`test/fixtures/client/transactions.json`));
+	test("#transactions", async () => {
+		nock("https://stargate.cosmos.network")
+			.get(
+				"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
+			)
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0" }],
-			});
-
-			assert.is(result, "object");
-			assert.is(result.items()[0] instanceof ConfirmedTransactionData);
-			assert.is(result.items()[0].id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
-			assert.is(result.items()[0].type(), "transfer");
-			assert.is(result.items()[0].timestamp() instanceof DateTime);
-			assert.is(result.items()[0].confirmations(), BigNumber.ZERO);
-			assert.is(result.items()[0].sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
-			assert.is(result.items()[0].recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
-			assert.is(result.items()[0].amount(), BigNumber.make(10680));
-			assert.is(result.items()[0].fee(), BigNumber.make(36875));
-			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
-			assert.is(result.items()[0].memo(), "Hello World");
+		const result = await subject.transactions({
+			identifiers: [{ type: "address", value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0" }],
 		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
+		assert.is(result.items()[0].id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
+		assert.is(result.items()[0].type(), "transfer");
+		assert.instance(result.items()[0].timestamp(), DateTime);
+		assert.equal(result.items()[0].confirmations(), BigNumber.ZERO);
+		assert.is(result.items()[0].sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+		assert.is(result.items()[0].recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
+		assert.equal(result.items()[0].amount(), BigNumber.make(10680));
+		assert.equal(result.items()[0].fee(), BigNumber.make(36875));
+		assert.is(result.items()[0].memo(), "Hello World");
 	});
 
-	describe("#wallet", () => {
-		test("should succeed", async () => {
-			nock("https://stargate.cosmos.network")
-				.get("/auth/accounts/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
-				.reply(200, loader.json(`test/fixtures/client/wallet.json`))
-				.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
-				.reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	test("#wallet", async () => {
+		nock("https://stargate.cosmos.network")
+			.get("/auth/accounts/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`))
+			.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-			const result = await subject.wallet({
-				type: "address",
-				value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0",
-			});
-
-			assert.instance(result, WalletData);
-			assert.is(result.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
-			assert.is(result.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
-			assert.is(result.balance().available, BigNumber.make(22019458509));
-			assert.equal(result.nonce(), BigNumber.make(24242));
+		const result = await subject.wallet({
+			type: "address",
+			value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0",
 		});
+
+		assert.instance(result, WalletData);
+		assert.is(result.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+		assert.is(result.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
+		assert.equal(result.balance().available, BigNumber.make(22019458509));
+		assert.equal(result.nonce(), BigNumber.make(24242));
 	});
 
 	describe("#broadcast", () => {
@@ -166,3 +157,5 @@ describe("ClientService", () => {
 		});
 	});
 });
+
+test.run();

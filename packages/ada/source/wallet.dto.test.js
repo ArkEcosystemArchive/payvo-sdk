@@ -47,18 +47,18 @@ describe("WalletData", () => {
 	});
 
 	test("#isMultiSignature", () => {
-		assert.is(subject.isMultiSignature(), false);
+		assert.false(subject.isMultiSignature());
 	});
 
 	test("#isDelegate", () => {
-		assert.is(subject.isDelegate(), false);
+		assert.false(subject.isDelegate());
 	});
 
 	test("#isSecondSignature", () => {
-		assert.is(subject.isSecondSignature(), false);
+		assert.false(subject.isSecondSignature());
 	});
 
 	test("#isResignedDelegate", () => {
-		assert.is(subject.isResignedDelegate(), false);
+		assert.false(subject.isResignedDelegate());
 	});
 });

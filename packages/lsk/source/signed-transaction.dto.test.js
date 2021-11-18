@@ -99,7 +99,7 @@ describe("SignedTransactionData", () => {
     });
 
     test("#timestamp", () => {
-        assert.is(subject.timestamp() instanceof DateTime);
+        assert.instance(subject.timestamp(), DateTime);
         assert.is(subject.timestamp().toString(), "Invalid Date"`);
     });
 
@@ -120,7 +120,7 @@ describe("SignedTransactionData", () => {
     });
 
     test("#isSecondSignature", () => {
-        assert.is(subject.isSecondSignature(), false);
+        assert.false(subject.isSecondSignature());
     });
 
     test("#isDelegateRegistration", async () => {

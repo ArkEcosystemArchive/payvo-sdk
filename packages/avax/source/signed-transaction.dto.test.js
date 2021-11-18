@@ -37,7 +37,7 @@ describe("SignedTransactionData", () => {
 	});
 
 	test("#fee", () => {
-		assert.is(subject.fee(), BigNumber.ZERO);
+		assert.equal(subject.fee(), BigNumber.ZERO);
 	});
 
 	test("#timestamp", () => {

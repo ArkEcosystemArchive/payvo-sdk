@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
@@ -7,64 +8,44 @@ import { createService } from "../test/mocking";
 let subject;
 
 test.before(async () => {
-    subject = (await createService(WalletData)).fill({
-        address: Fixture.result.value.address,
-        publicKey: Fixture.result.value.public_key.value,
-        balance: 22019458509,
-        sequence: Fixture.result.value.sequence,
-    });
+	subject = (await createService(WalletData)).fill({
+		address: Fixture.result.value.address,
+		publicKey: Fixture.result.value.public_key.value,
+		balance: 22019458509,
+		sequence: Fixture.result.value.sequence,
+	});
 });
 
-describe("WalletData", () => {
-    test("#address", () => {
-        assert.is(subject.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
-    });
-
-    test("#publicKey", () => {
-        assert.is(subject.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
-    });
-
-    test("#balance", () => {
-        assert.is(subject.balance().available, BigNumber.make(22019458509));
-    });
-
-    test("#nonce", () => {
-        assert.is(subject.nonce(), BigNumber.make(24242));
-    });
-
-    test("#secondPublicKey", () => {
-        assert.is(subject.secondPublicKey()), "undefined");
+test("#address", () => {
+	assert.is(subject.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 });
 
-test("#username", () => {
-    assert.is(subject.username()), "undefined");
-    });
+test("#publicKey", () => {
+	assert.is(subject.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
+});
 
-test("#rank", () => {
-    assert.is(subject.rank()), "undefined");
-    });
+test("#balance", () => {
+	assert.equal(subject.balance().available, BigNumber.make(22019458509));
+});
 
-test("#votes", () => {
-    assert.is(subject.votes()), "undefined");
-    });
-
-test("#multiSignature", () => {
-    assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
+test("#nonce", () => {
+	assert.equal(subject.nonce(), BigNumber.make(24242));
 });
 
 test("#isMultiSignature", () => {
-    assert.is(subject.isMultiSignature(), false);
+	assert.false(subject.isMultiSignature());
 });
 
 test("#isDelegate", () => {
-    assert.is(subject.isDelegate(), false);
+	assert.false(subject.isDelegate());
 });
 
 test("#isSecondSignature", () => {
-    assert.is(subject.isSecondSignature(), false);
+	assert.false(subject.isSecondSignature());
 });
 
 test("#isResignedDelegate", () => {
-    assert.is(subject.isResignedDelegate(), false);
+	assert.false(subject.isResignedDelegate());
 });
-});
+
+test.run();
