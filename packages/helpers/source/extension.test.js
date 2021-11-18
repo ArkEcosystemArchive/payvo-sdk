@@ -9,7 +9,7 @@ test("should return the file extension", () => {
 	assert.is(extension("file.php"), "php");
 	assert.is(extension("file.rb"), "rb");
 	assert.is(extension("file.ext"), "ext");
-	assert.is(extension(""), "undefined");
+	assert.undefined(extension(""));
 });
 
 test.run();

@@ -19,19 +19,20 @@ const assert = {
 		}
 	},
 	array: (value: unknown): void => uvu.ok(Array.isArray(value)),
-	string: (value: unknown): void => uvu.type(value, "string"),
-	number: (value: unknown): void => uvu.type(value, "number"),
 	boolean: (value: unknown): void => uvu.type(value, "boolean"),
-	object: (value: unknown): void => uvu.type(value, "object"),
-	undefined: (value: unknown): void => uvu.type(value, "undefined"),
-	function: (value: unknown): void => uvu.type(value, "function"),
-	true: (value: unknown): void => uvu.is(value, true),
+	buffer: (value: unknown): void => uvu.instance(value, Buffer),
 	false: (value: unknown): void => uvu.is(value, false),
-	length: (value: string | unknown[], length: number): void => uvu.is(value.length, length),
+	function: (value: unknown): void => uvu.type(value, "function"),
 	gt: (a: number, b: number): void => uvu.ok(a > b),
 	gte: (a: number, b: number): void => uvu.ok(a >= b),
+	length: (value: string | unknown[], length: number): void => uvu.is(value.length, length),
 	lt: (a: number, b: number): void => uvu.ok(a < b),
 	lte: (a: number, b: number): void => uvu.ok(a <= b),
+	number: (value: unknown): void => uvu.type(value, "number"),
+	object: (value: unknown): void => uvu.type(value, "object"),
+	string: (value: unknown): void => uvu.type(value, "string"),
+	true: (value: unknown): void => uvu.is(value, true),
+	undefined: (value: unknown): void => uvu.type(value, "undefined"),
 };
 
 export { assert, nock, sinon, test };

@@ -10,7 +10,7 @@ test("should return undefined if there are circular references", () => {
 	const o = { b: 1, a: 0 };
 	o.o = o;
 
-	assert.is(stringify(o), "undefined");
+	assert.undefined(stringify(o));
 });
 
 test.run();

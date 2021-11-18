@@ -17,7 +17,7 @@ test("should get an entry", () => {
 	store.set("2", 2);
 
 	assert.is(store.get("1"), 1);
-	assert.is(store.get("3"), "undefined");
+	assert.undefined(store.get("3"));
 
 	store.set("3", 3);
 

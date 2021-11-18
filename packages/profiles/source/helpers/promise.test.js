@@ -52,7 +52,7 @@ test("promiseAllSettledByKey", () => {
 			},
 			{ onlyResolved: true },
 		).then((results) => {
-			assert.is(results, "undefined");
+			assert.undefined(results);
 		}));
 
 	test("should return ONLY rejected promises", () =>
@@ -78,6 +78,6 @@ test("promiseAllSettledByKey", () => {
 			},
 			{ onlyRejected: true },
 		).then((results) => {
-			assert.is(results, "undefined");
+			assert.undefined(results);
 		}));
 });
