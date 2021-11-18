@@ -33,6 +33,8 @@ const assert = {
 	string: (value: unknown): void => uvu.type(value, "string"),
 	true: (value: unknown): void => uvu.is(value, true),
 	undefined: (value: unknown): void => uvu.type(value, "undefined"),
+	includeAllMembers: (value: unknown[], items: unknown[]): void => uvu.ok(value.every(item => items.includes(item))),
+	startsWith: (value: string, prefix: string): void => uvu.ok(value.startsWith(prefix)),
 };
 
 export { assert, nock, sinon, test };
