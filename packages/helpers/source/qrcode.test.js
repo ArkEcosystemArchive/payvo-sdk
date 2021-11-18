@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { QRCode } from "./qrcode";
 
 test("#fromString", () => {

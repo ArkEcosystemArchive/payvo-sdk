@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isBigInt } from "./is-bigint";
 
 	test("should pass", () => {

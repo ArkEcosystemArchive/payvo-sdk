@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pathCase } from "./path-case";
 
 	test("should turn any string into path case", () => {

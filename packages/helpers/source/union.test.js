@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { union } from "./union";
 
 	test("should work with any value", () => {

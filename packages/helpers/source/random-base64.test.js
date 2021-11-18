@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { randomBase64 } from "./random-base64";
 
 	test("should return a random base64 string", () => {

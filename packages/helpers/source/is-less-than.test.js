@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isLessThan } from "./is-less-than";
 
 	test("should pass", () => {

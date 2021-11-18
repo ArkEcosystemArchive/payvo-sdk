@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { numberToHex } from "./number-to-hex";
 
 	test("should return the number as hex", () => {

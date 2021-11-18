@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { some } from "./some";
 
     test("should work with any function", () => {

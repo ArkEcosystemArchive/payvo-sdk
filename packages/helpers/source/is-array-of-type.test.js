@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isArrayOfType } from "./is-array-of-type";
 
 test("should pass", () => {

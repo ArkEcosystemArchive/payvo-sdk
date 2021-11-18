@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pick } from "./pick";
 
 	test("should return an object with only the given properties", () => {

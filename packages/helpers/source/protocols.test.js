@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { protocols } from "./protocols";
 
 	test("should return all protocols of the given URL", () => {

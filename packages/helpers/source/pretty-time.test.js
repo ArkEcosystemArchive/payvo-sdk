@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { prettyTime } from "./pretty-time";
 
 	test("should turn the given milliseconds into a human readable format", () => {

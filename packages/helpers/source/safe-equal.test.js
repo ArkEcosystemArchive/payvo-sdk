@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { safeEqual } from "./safe-equal";
 
 	test("should determine if values are equal in a safe manner", () => {

@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { prettyBytes } from "./pretty-bytes";
 
 	test("should format the given number", () => {

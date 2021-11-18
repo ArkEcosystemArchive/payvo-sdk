@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { trimTrailingSlash } from "./trim-trailing-slash";
 
 	test("should remove all trailing slashes", () => {

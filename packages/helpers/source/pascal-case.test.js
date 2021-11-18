@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pascalCase } from "./pascal-case";
 
 	test("should turn any string into pascal case", () => {

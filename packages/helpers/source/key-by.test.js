@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { keyBy } from "./key-by";
 
 const array = [

@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isSSH } from "./is-ssh";
 
 	test("should pass for SSH URLs", () => {

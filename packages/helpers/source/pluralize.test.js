@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pluralize } from "./pluralize";
 
 	test("should plural words when the count is above 1", () => {

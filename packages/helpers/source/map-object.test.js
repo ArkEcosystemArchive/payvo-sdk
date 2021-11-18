@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { mapObject } from "./map-object";
 
 	test("should work like lodash", () => {

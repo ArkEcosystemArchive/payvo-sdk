@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { lastIndexOf } from "./last-index-of";
 
 	test("should return the expected index", () => {

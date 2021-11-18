@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { uniqBy } from "./uniq-by";
 
 	test("should work with a function", () => {

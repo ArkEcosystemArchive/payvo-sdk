@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { numberArray } from "./number-array";
 
 	test("should contain 5 numbers stating from 0", () => {

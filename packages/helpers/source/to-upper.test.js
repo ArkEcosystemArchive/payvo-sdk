@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { toUpper } from "./to-upper";
 
 	test("should turn everything into upper case", () => {

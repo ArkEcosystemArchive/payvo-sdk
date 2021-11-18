@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { numberArray } from "./number-array";
 import { shuffle } from "./shuffle";
 

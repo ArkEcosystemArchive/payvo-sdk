@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { sortBy } from "./sort-by";
 
 const dummies = [

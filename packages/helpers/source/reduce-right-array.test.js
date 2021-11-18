@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { reduceRightArray } from "./reduce-right-array";
 
 	test("should work with a function", () => {

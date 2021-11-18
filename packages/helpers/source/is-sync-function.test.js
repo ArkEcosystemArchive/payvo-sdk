@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isSyncFunction } from "./is-sync-function";
 
 	test("should pass", () => {

@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { parseURI } from "./parse-uri";
 
 	test("should return all values", () => {

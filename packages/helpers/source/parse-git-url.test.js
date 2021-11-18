@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { parseGitUrl } from "./parse-git-url";
 
 	test("should throw if it cannot find a host", () => {

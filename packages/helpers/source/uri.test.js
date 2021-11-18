@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { readFileSync } from "fs";
 
 import { URI } from "./uri";

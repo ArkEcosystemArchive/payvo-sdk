@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isURI } from "./is-uri";
 
 	test("should pass", () => {

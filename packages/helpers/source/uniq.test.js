@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { uniq } from "./uniq";
 
 	test("should remove duplicate items", () => {

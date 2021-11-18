@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { mapValues } from "./map-values";
 
 	const users = {

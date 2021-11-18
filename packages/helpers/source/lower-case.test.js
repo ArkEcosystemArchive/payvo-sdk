@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { lowerCase } from "./lower-case";
 
 	test("should turn any string into lower case", () => {

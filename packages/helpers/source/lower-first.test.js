@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { lowerFirst } from "./lower-first";
 
 const dummies = {

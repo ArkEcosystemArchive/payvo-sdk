@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { sleep } from "./sleep";
 
 	test("should sleep for 1 second", async () => {

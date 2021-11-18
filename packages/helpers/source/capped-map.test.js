@@ -17,7 +17,7 @@ test("should get an entry", () => {
 	store.set("2", 2);
 
 	assert.is(store.get("1"), 1);
-	assert.is(store.get("3", "undefined");
+	assert.is(store.get("3"), "undefined");
 
     store.set("3", 3);
 
@@ -185,5 +185,4 @@ test("should resize the map", () => {
     assert.false(store.has("3"));
     assert.true(store.has("4"));
     assert.true(store.has("5"));
-});
 });

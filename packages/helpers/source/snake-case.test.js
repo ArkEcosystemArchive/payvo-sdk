@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { snakeCase } from "./snake-case";
 
 	test("should turn any string into snake case", () => {

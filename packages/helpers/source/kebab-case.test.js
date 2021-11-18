@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { kebabCase } from "./kebab-case";
 
 	test("should turn any string into kebab case", () => {

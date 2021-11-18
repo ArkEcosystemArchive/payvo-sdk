@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { sample } from "./sample";
 
 test("should return a random item", () => {

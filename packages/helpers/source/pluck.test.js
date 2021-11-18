@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pluck } from "./pluck";
 
 	test("should return the names of the users", () => {

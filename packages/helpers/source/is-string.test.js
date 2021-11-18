@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isString } from "./is-string";
 
 	test("should pass", () => {

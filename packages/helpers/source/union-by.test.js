@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { unionBy } from "./union-by";
 
 	test("should work with a function", () => {

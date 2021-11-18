@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { toLower } from "./to-lower";
 
 	test("should turn everything into lower case", () => {

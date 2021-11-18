@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { last } from "./last";
 
 	test("should return the last item", () => {

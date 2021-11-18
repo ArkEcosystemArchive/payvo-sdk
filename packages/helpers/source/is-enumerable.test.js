@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEnumerable } from "./is-enumerable";
 
 const object1 = {};

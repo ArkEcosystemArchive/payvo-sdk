@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isGit } from "./is-git";
 
 	test("should pass for Git URLs", () => {

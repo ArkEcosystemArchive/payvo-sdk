@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { pull } from "./pull";
 
 	test("should work with a property", () => {

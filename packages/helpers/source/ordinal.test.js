@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { ordinal } from "./ordinal";
 
 	test("should return the number with the correct suffix", () => {

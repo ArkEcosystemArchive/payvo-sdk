@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { semver } from "./semver";
 
 test("#semver", () => {

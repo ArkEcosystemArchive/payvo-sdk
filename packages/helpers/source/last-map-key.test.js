@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { lastMapKey } from "./last-map-key";
 
     test("should return the last key", () => {

@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { toString } from "./to-string";
 
 	test("should work with a string", () => {

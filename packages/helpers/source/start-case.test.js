@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { startCase } from "./start-case";
 
 	test("should turn any string into start case", () => {

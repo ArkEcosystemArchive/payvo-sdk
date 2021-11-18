@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { min } from "./min";
 
 	test("should return the smallest number", () => {

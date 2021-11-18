@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { orderBy } from "./order-by";
 
 const dummies = [

@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isEqual } from "./is-equal";
 
 test("should return true for the same strings", () => {

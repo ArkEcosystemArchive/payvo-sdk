@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { truncate } from "./truncate";
 
     test("should truncate strings if they are above the specified length", () => {

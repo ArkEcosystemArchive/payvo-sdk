@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { set } from "./set";
 
 test("should not do anything if the target is not an object", () => {

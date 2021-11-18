@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { merge } from "./merge";
 
 	test("should merge the given objects", () => {

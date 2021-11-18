@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { randomNumber } from "./random-number";
 
 	test("should return a random number within the given range", () => {

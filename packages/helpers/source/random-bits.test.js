@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { randomBits } from "./random-bits";
 
 	test("should take bits and return a random hex string with a fixed length", () => {

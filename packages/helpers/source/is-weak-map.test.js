@@ -1,3 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
+
 import { isWeakMap } from "./is-weak-map";
 
 	test("should pass", () => {
