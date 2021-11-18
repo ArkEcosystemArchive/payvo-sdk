@@ -1,3 +1,4 @@
+import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import nock from "nock";
 
@@ -36,31 +37,28 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-describe("TransactionService", () => {
-	describe("#transfer", () => {
-		test("should verify", async () => {
-			nock("https://horizon-testnet.stellar.org")
-				.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
-				.query(true)
-				.reply(200, loader.json(`test/fixtures/client/wallet.json`));
+test("#transfer", async () => {
+	nock("https://horizon-testnet.stellar.org")
+		.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
+		.query(true)
+		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 1,
-					to: identity.address,
-				},
-			});
-
-			assert.is(result, "object");
-			assert.is(result.amount().toNumber(), 10_000_000);
-		});
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+		data: {
+			amount: 1,
+			to: identity.address,
+		},
 	});
+
+	assert.is(result.amount().toNumber(), 10_000_000);
 });
+
+test.run();

@@ -27,6 +27,6 @@ describe("Address", () => {
     });
 
     test("should fail to validate an address", async () => {
-        await assert.is(subject.validate(identity.address)).resolves, true);
+        assert.true(await subject.validate(identity.address)));
 });
 });
