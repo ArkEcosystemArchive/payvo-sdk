@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
@@ -7,59 +8,39 @@ import { createService } from "../test/mocking";
 let subject;
 
 test.before(async () => {
-    subject = (await createService(WalletData)).fill(Fixture);
+	subject = (await createService(WalletData)).fill(Fixture);
 });
 
-describe("WalletData", () => {
-    test("#address", () => {
-        assert.is(subject.address(), "bdfkbzietxos");
-    });
+test("#address", () => {
+	assert.is(subject.address(), "bdfkbzietxos");
+});
 
-    test("#publicKey", () => {
-        assert.is(subject.publicKey()), "undefined");
+test("#publicKey", () => {
+	assert.undefined(subject.publicKey());
 });
 
 test("#balance", () => {
-    assert.is(subject.balance().available, BigNumber.make(3050000));
+	assert.equal(subject.balance().available, BigNumber.make(3050000));
 });
 
 test("#nonce", () => {
-    assert.is(subject.nonce(), BigNumber.make(24242));
-});
-
-test("#secondPublicKey", () => {
-    assert.is(() => subject.secondPublicKey()).toThrow(/not implemented/);
-});
-
-test("#username", () => {
-    assert.is(() => subject.username()).toThrow(/not implemented/);
-});
-
-test("#rank", () => {
-    assert.is(() => subject.rank()).toThrow(/not implemented/);
-});
-
-test("#votes", () => {
-    assert.is(() => subject.votes()).toThrow(/not implemented/);
-});
-
-test("#multiSignature", () => {
-    assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
+	assert.equal(subject.nonce(), BigNumber.make(24242));
 });
 
 test("#isMultiSignature", () => {
-    assert.is(subject.isMultiSignature(), false);
+	assert.false(subject.isMultiSignature());
 });
 
 test("#isDelegate", () => {
-    assert.is(subject.isDelegate(), false);
+	assert.false(subject.isDelegate());
 });
 
 test("#isSecondSignature", () => {
-    assert.is(subject.isSecondSignature(), false);
+	assert.false(subject.isSecondSignature());
 });
 
 test("#isResignedDelegate", () => {
-    assert.is(subject.isResignedDelegate(), false);
+	assert.false(subject.isResignedDelegate());
 });
-});
+
+test.run();
