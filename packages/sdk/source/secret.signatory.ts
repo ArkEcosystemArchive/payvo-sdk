@@ -1,5 +1,5 @@
-import { AbstractSignatory } from "./abstract-signatory.js";
+import { AbstractSignatory } from "./abstract.signatory.js";
 
 export class SecretSignatory extends AbstractSignatory {
-	//
+    //
 }

@@ -1,4 +1,4 @@
-import { Response } from "./response.js";
+import { Response } from "./http-response.js";
 
 export class Exception extends Error {
 	public constructor(message: string) {

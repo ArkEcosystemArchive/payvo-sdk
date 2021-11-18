@@ -1,6 +1,6 @@
-import { Container, injectable } from "../ioc/index.js";
-import { BindingType } from "../ioc/service-provider.contract.js";
-import { Network, NetworkRepository } from "../networks/index.js";
+import { Container, injectable } from "./ioc.js";
+import { BindingType } from "./service-provider.contract.js";
+import { Network, NetworkRepository } from "./networks.js";
 import {
 	AddressService,
 	BigNumberService,
@@ -20,8 +20,8 @@ import {
 	TransactionService,
 	WalletDiscoveryService,
 	WIFService,
-} from "../services";
-import { ExtendedPublicKeyService } from "../services/extended-public-key.contract.js";
+} from "./services";
+import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
 import { ConfigRepository } from "./config.js";
 import { Manifest } from "./manifest.js";
 

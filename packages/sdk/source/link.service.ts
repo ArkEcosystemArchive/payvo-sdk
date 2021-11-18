@@ -4,10 +4,10 @@
 import { formatString } from "@payvo/sdk-helpers";
 import { URL } from "url";
 
-import { ConfigRepository } from "../coins/index.js";
-import { randomNetworkHostFromConfig } from "../helpers.js";
-import { inject, injectable } from "../ioc/index.js";
-import { BindingType } from "../ioc/service-provider.contract.js";
+import { ConfigRepository } from "./coins.js";
+import { randomNetworkHostFromConfig } from "./helpers.js";
+import { inject, injectable } from "./ioc.js";
+import { BindingType } from "./service-provider.contract.js";
 import { LinkService } from "./link.contract.js";
 
 @injectable()

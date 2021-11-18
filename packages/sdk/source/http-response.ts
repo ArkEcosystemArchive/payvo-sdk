@@ -1,5 +1,5 @@
-import { HttpResponse } from "./contracts.js";
-import { RequestException } from "./exceptions.js";
+import { HttpResponse } from "./http-contracts.js";
+import { RequestException } from "./http-exceptions.js";
 
 interface ResponseInput {
 	body: string | undefined;

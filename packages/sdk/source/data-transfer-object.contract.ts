@@ -1,6 +1,6 @@
-import { ConfirmedTransactionDataCollection } from "../collections/index.js";
-import { SignedTransactionData, WalletData } from "../contracts.js";
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
+import { ConfirmedTransactionDataCollection } from "./collections.js";
+import { SignedTransactionData, WalletData } from "./contracts.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
 import { MetaPagination } from "./client.contract.js";
 
 export interface DataTransferObjectService {

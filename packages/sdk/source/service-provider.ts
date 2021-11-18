@@ -2,7 +2,7 @@
 
 import { inject, injectable } from "inversify";
 
-import { ConfigRepository } from "../coins/index.js";
+import { ConfigRepository } from "./coins.js";
 import {
 	AbstractAddressService,
 	AbstractClientService,
@@ -22,8 +22,8 @@ import {
 	AbstractWalletDiscoveryService,
 	AbstractWIFService,
 	BigNumberService,
-} from "../services";
-import { AbstractExtendedPublicKeyService } from "../services/extended-public-key.service.js";
+} from "./services";
+import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
 import { Container } from "./container.js";
 import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";
 

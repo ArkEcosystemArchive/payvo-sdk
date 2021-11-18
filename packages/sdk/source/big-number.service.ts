@@ -2,9 +2,9 @@ import "reflect-metadata";
 
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
-import { ConfigKey, ConfigRepository } from "../coins/config.js";
-import { inject, injectable } from "../ioc/index.js";
-import { BindingType } from "../ioc/service-provider.contract.js";
+import { ConfigKey, ConfigRepository } from "./config.js";
+import { inject, injectable } from "./ioc.js";
+import { BindingType } from "./service-provider.contract.js";
 
 @injectable()
 export class BigNumberService {

@@ -1,10 +1,10 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { ConfirmedTransactionDataCollection, WalletDataCollection } from "../collections/index.js";
-import { KeyValuePair, SignedTransactionData, WalletData } from "../contracts.js";
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
-import { TransactionType } from "../networks/index.js";
+import { ConfirmedTransactionDataCollection, WalletDataCollection } from "./collections.js";
+import { KeyValuePair, SignedTransactionData, WalletData } from "./contracts.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
+import { TransactionType } from "./networks.js";
 
 export type ClientPaginatorCursor = string | number | undefined;
 

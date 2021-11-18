@@ -1,6 +1,6 @@
-import { HttpClient, HttpResponse } from "./contracts.js";
-import { RequestOptions } from "./request.models";
-import { ensureTrailingSlash } from "./urls.js";
+import { HttpClient, HttpResponse } from "./http-contracts.js";
+import { RequestOptions } from "./http-request.models.js";
+import { ensureTrailingSlash } from "./http-urls.js";
 
 export abstract class AbstractRequest implements HttpClient {
 	protected _bodyFormat!: string;

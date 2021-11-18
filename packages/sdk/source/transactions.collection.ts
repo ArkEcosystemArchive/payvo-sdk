@@ -1,4 +1,4 @@
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
 import { Paginator } from "./paginator.js";
 
 export class ConfirmedTransactionDataCollection extends Paginator<ConfirmedTransactionData> {

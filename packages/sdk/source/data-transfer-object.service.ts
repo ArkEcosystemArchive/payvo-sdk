@@ -3,14 +3,14 @@
 
 import { get } from "@payvo/sdk-helpers";
 
-import { ConfigKey, ConfigRepository } from "../coins/index.js";
-import { ConfirmedTransactionDataCollection } from "../collections/index.js";
-import { WalletData } from "../contracts.js";
-import { ConfirmedTransactionData } from "../dto/confirmed-transaction.contract.js";
-import * as DataTransferObjects from "../dto/index.js";
-import { SignedTransactionData } from "../dto/signed-transaction.contract.js";
-import { Container, inject, injectable } from "../ioc/index.js";
-import { BindingType } from "../ioc/service-provider.contract.js";
+import { ConfigKey, ConfigRepository } from "./coins.js";
+import { ConfirmedTransactionDataCollection } from "./collections.js";
+import { WalletData } from "./contracts.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
+import * as DataTransferObjects from "./dto.js";
+import { SignedTransactionData } from "./signed-transaction.dto.contract.js";
+import { Container, inject, injectable } from "./ioc.js";
+import { BindingType } from "./service-provider.contract.js";
 import { MetaPagination } from "./client.contract.js";
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 

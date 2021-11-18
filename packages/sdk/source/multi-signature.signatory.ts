@@ -1,19 +1,19 @@
-import { MultiSignatureAsset } from "../services/index.js";
+import { MultiSignatureAsset } from "./services.js";
 
 export class MultiSignatureSignatory {
-	readonly #asset: MultiSignatureAsset;
-	readonly #address: string;
+    readonly #asset: MultiSignatureAsset;
+    readonly #address: string;
 
-	public constructor(asset: MultiSignatureAsset, address: string) {
-		this.#asset = asset;
-		this.#address = address;
-	}
+    public constructor(asset: MultiSignatureAsset, address: string) {
+        this.#asset = asset;
+        this.#address = address;
+    }
 
-	public asset(): MultiSignatureAsset {
-		return this.#asset;
-	}
+    public asset(): MultiSignatureAsset {
+        return this.#asset;
+    }
 
-	public address(): string {
-		return this.#address;
-	}
+    public address(): string {
+        return this.#address;
+    }
 }

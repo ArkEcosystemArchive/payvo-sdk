@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 
-import { inject, injectable } from "../ioc/index.js";
-import { BindingType } from "../ioc/service-provider.contract.js";
+import { inject, injectable } from "./ioc.js";
+import { BindingType } from "./service-provider.contract.js";
 import {
 	ConfirmationMnemonicSignatory,
 	ConfirmationSecretSignatory,
@@ -13,7 +13,7 @@ import {
 	SecretSignatory,
 	Signatory,
 	WIFSignatory,
-} from "../signatories";
+} from "./signatories";
 import { AddressService } from "./address.contract.js";
 import { ExtendedAddressService } from "./extended-address.contract.js";
 import { KeyPairService } from "./key-pair.contract.js";
