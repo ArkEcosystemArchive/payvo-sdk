@@ -993,3 +993,42 @@ jobs:
                   command: node common/scripts/install-run-rush.js build --verbose
             - name: Test
               run: cd packages/profiles/ && pnpm run test -- --coverage
+    luna:
+        needs: [conflicts]
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [14.x]
+        concurrency:
+            group: ${{ github.head_ref }}-luna
+            cancel-in-progress: true
+        steps:
+            - uses: actions/checkout@v2
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Cache pnpm modules
+              uses: actions/cache@v2
+              env:
+                  cache-name: cache-pnpm-modules
+              with:
+                  path: ~/.pnpm-store
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+                  restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: 6.20.4
+            - name: Install rimraf
+              run: pnpm install rimraf -g
+            - name: Install dependencies
+              run: node common/scripts/install-run-rush.js install
+            - uses: nick-invision/retry@v2
+              name: Build
+              with:
+                  timeout_seconds: 300
+                  max_attempts: 3
+                  command: node common/scripts/install-run-rush.js build --verbose
+            - name: Test
+              run: cd packages/luna/ && pnpm run test -- --coverage
