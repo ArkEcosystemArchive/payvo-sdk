@@ -128,7 +128,7 @@ test("should post with octet", async () => {
 test("should handle 404s", async () => {
 	nock("http://httpbin.org/").get("/get").reply(404);
 
-	await assert.rejects(subject.get("http://httpbin.org/get"), Http.RequestException);
+	await assert.rejects(() => subject.get("http://httpbin.org/get"), "HTTP request returned status code 404");
 });
 
 test.run();

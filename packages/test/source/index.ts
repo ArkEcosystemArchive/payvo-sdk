@@ -14,9 +14,13 @@ const assert = {
 			if (error instanceof uvu.Assertion) {
 				throw error;
 			}
-			console.log({ expected, error })
+
 			if (expected instanceof Error) {
 				uvu.instance(error, expected);
+			}
+
+			if (typeof expected === "string") {
+				uvu.ok(error.message.includes(expected));
 			}
 
 			uvu.ok(true);
