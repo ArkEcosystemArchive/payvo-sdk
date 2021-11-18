@@ -1,15 +1,15 @@
+import { assert, fixture, test } from "@payvo/sdk-test";
+
 import { HistoricalVolumeTransformer } from "./historical-volume-transformer";
 
 const stubOptions = { type: "day", dateFormat: "DD.MM" };
 
-describe("CryptoCompare", () => {
-	describe("HistoricalVolumeTransformer", () => {
-		test("should transform the given data", async () => {
-			const stubResponse = (await import("../../../../test/fixtures/cryptocompare/historical.json")).default;
+test("should transform the given data", async () => {
+	const stubResponse = fixture.load("test/fixtures/cryptocompare/historical.json");
 
-			const subject = new HistoricalVolumeTransformer(stubResponse.Data);
+	const subject = new HistoricalVolumeTransformer(stubResponse.Data);
 
-			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
-		});
-	});
+	assert.object(subject.transform(stubOptions));
 });
+
+test.run();

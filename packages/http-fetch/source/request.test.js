@@ -1,4 +1,3 @@
-import { Http } from "@payvo/sdk";
 import { assert, nock, test } from "@payvo/sdk-test";
 
 import { Request } from "./request";

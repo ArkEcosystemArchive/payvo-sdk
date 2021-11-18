@@ -1,6 +1,6 @@
+import { assert, fixture, nock, test } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
-import nock from "nock";
 
 import { CoinCap } from "./index";
 
@@ -8,15 +8,12 @@ const BASE_URL_COINCAP = "https://api.coincap.io/v2";
 const token = "ARK";
 const currency = "USD";
 
-let subject: CoinCap;
+let subject;
 
 test.before.each(async () => {
 	subject = new CoinCap(new Request());
 
-	nock(BASE_URL_COINCAP)
-		.get("/assets")
-		.query(true)
-		.reply(200, (await import("../../../test/fixtures/coincap/assets.json")).default);
+	nock(BASE_URL_COINCAP).get("/assets").query(true).reply(200, fixture.load("test/fixtures/coincap/assets.json"));
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark")
@@ -37,69 +34,62 @@ test.before.each(async () => {
 			timestamp: 1581339180902,
 		});
 
-	nock(BASE_URL_COINCAP)
-		.get("/rates")
-		.reply(200, (await import("../../../test/fixtures/coincap/rates.json")).default);
+	nock(BASE_URL_COINCAP).get("/rates").reply(200, fixture.load("test/fixtures/coincap/rates.json"));
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")
 		.query(true)
-		.reply(200, (await import("../../../test/fixtures/coincap/historical.json")).default)
+		.reply(200, fixture.load("test/fixtures/coincap/historical.json"))
 		.persist();
 
 	nock(BASE_URL_COINCAP)
 		.get("/assets/ark/history")
-		.query((queryObject: any) => queryObject.interval === "h1")
-		.reply(200, (await import("../../../test/fixtures/coincap/daily-average.json")).default)
+		.query((queryObject) => queryObject.interval === "h1")
+		.reply(200, fixture.load("test/fixtures/coincap/daily-average.json"))
 		.persist();
 });
 
-describe("CoinCap", () => {
-	test("should return ticker values", async () => {
-		const response = await subject.marketData(token);
-		const entries = Object.keys(response);
-		assert.is(entries).not.toBeEmpty();
-		assert.is(entries).toIncludeAllMembers(Object.keys(CURRENCIES));
+test("should return ticker values", async () => {
+	const response = await subject.marketData(token);
+	const entries = Object.keys(response);
+	assert.notEmpty(entries);
+	assert.includeAllMembers(entries, Object.keys(CURRENCIES));
 
-		assert.is(response.USD.price, 0.2169020395525734);
-	});
-
-	describe("verifyToken", () => {
-		test("should return true if found", async () => {
-			assert.is(await subject.verifyToken("ark"), true);
-		});
-
-		test("should return false if not found", async () => {
-			assert.is(await subject.verifyToken("not-ark"), false);
-		});
-	});
-
-	test("should return historic day values", async () => {
-		const response = await subject.historicalPrice({
-			token,
-			currency,
-			days: 24,
-			type: "hour",
-			dateFormat: "HH:mm",
-		});
-		assert.is(response, "object");
-		assert.is(response).toContainKeys(["labels", "datasets"]);
-	});
-
-	test("should return daily average", async () => {
-		const response = await subject.dailyAverage({
-			token,
-			currency,
-			timestamp: Date.now(),
-		});
-		assert.is(response, 0.21617083497138478);
-	});
-
-	test("should return the current price", async () => {
-		const response = await subject.currentPrice({
-			token,
-			currency,
-		});
-		assert.is(response, 0.21617083497138478);
-	});
+	assert.is(response.USD.price, 0.2169020395525734);
 });
+
+test("#verifyToken", async () => {
+	assert.true(await subject.verifyToken("ark"));
+	assert.false(await subject.verifyToken("not-ark"));
+});
+
+test("should return historic day values", async () => {
+	const response = await subject.historicalPrice({
+		token,
+		currency,
+		days: 24,
+		type: "hour",
+		dateFormat: "HH:mm",
+	});
+	assert.object(response);
+	assert.containKeys(response, ["labels", "datasets"]);
+});
+
+test("should return daily average", async () => {
+	const response = await subject.dailyAverage({
+		token,
+		currency,
+		timestamp: Date.now(),
+	});
+	assert.is(response, 0.21617083497138478);
+});
+
+test("should return the current price", async () => {
+	const response = await subject.currentPrice({
+		token,
+		currency,
+	});
+	assert.is(response, 0.21617083497138478);
+});
+
+test.run();
