@@ -7,7 +7,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 
 describe("ProfileEncrypter", () => {
     describe("encrypt", () => {
-        it("should work with provided password", () => {
+        test("should work with provided password", () => {
             const auth: MockProxy<IAuthenticator> = mock<IAuthenticator>();
             auth.verifyPassword.calledWith("some-pass").mockReturnValue(true);
 
@@ -19,7 +19,7 @@ describe("ProfileEncrypter", () => {
             assert.is(subject.encrypt("blah", "some-pass")), "string");
     });
 
-    it("should not work with invalid pasword", () => {
+    test("should not work with invalid pasword", () => {
         const auth: MockProxy<IAuthenticator> = mock<IAuthenticator>();
         auth.verifyPassword.calledWith("some-pass").mockReturnValue(false);
 
@@ -31,7 +31,7 @@ describe("ProfileEncrypter", () => {
         assert.is(() => subject.encrypt("blah", "some-pass")).toThrowError();
     });
 
-    it("should use provided password if available", () => {
+    test("should use provided password if available", () => {
         const auth: MockProxy<IAuthenticator> = mock<IAuthenticator>();
         auth.verifyPassword.calledWith("some-pass").mockReturnValue(true);
 
@@ -51,7 +51,7 @@ describe("ProfileEncrypter", () => {
     });
 
 describe("decrypt", () => {
-    it("should work with provided pasword", () => {
+    test("should work with provided pasword", () => {
         const attributes: AttributeBag<IProfileInput> = new AttributeBag<IProfileInput>();
         attributes.set(
             "data",
@@ -68,7 +68,7 @@ describe("decrypt", () => {
         assert.is(decrypted.id, "5108f38f-5000-4043-bc25-fd9e7fb323d8");
     });
 
-    it("should failed if profile is not encrypted", () => {
+    test("should failed if profile is not encrypted", () => {
         const profile: MockProxy<IProfile> = mock<IProfile>();
         profile.usesPassword.mockReturnValue(false);
 

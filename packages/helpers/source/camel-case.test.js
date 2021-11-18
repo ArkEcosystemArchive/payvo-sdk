@@ -1,7 +1,7 @@
 import { camelCase } from "./camel-case";
 
 describe("#camelCase", () => {
-	it("should turn any string into camel case", () => {
+	test("should turn any string into camel case", () => {
 		assert.is(camelCase("string"), "string");
 		assert.is(camelCase("camelCase"), "camelCase");
 		assert.is(camelCase("param-case"), "paramCase");

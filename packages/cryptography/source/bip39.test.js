@@ -26,10 +26,10 @@ test("#generate", async () => {
 });
 
 test("#generate with number of words", async () => {
-	assert.is(BIP39.generate("english").split(" ").length, 12);
-	assert.is(BIP39.generate("english", 12).split(" ").length, 12);
-	assert.is(BIP39.generate("english", 24).split(" ").length, 24);
-	assert.is(BIP39.generate("english", 36).split(" ").length, 12);
+	assert.is(BIP39.generate("english").spltest(" ").length, 12);
+	assert.is(BIP39.generate("english", 12).spltest(" ").length, 12);
+	assert.is(BIP39.generate("english", 24).spltest(" ").length, 24);
+	assert.is(BIP39.generate("english", 36).spltest(" ").length, 12);
 });
 
 test("#validate", async () => {
@@ -53,13 +53,13 @@ test("#compatible", async () => {
 });
 
 test("#toSeed", async () => {
-	assert.type(BIP39.toSeed(english), "object");
-	assert.type(BIP39.toSeed(japanese), "object");
-	assert.type(BIP39.toSeed(korean), "object");
-	assert.type(BIP39.toSeed(chinese_simplified), "object");
-	assert.type(BIP39.toSeed(chinese_traditional), "object");
-	assert.type(BIP39.toSeed(french), "object");
-	assert.type(BIP39.toSeed(random), "object");
+	assert.type(BIP39.toSeed(english, "object");
+	assert.type(BIP39.toSeed(japanese, "object");
+	assert.type(BIP39.toSeed(korean, "object");
+	assert.type(BIP39.toSeed(chinese_simplified, "object");
+	assert.type(BIP39.toSeed(chinese_traditional, "object");
+	assert.type(BIP39.toSeed(french, "object");
+	assert.type(BIP39.toSeed(random, "object");
 });
 
 test("#toEntropy", async () => {

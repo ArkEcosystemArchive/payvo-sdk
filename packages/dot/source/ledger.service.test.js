@@ -33,7 +33,7 @@ const createMockService = async (record: string) => {
 };
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.disconnect()).resolves, "undefined");
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 });
 
 describe("getVersion", () => {
-    it("should generate an app version", async () => {
+    test("should generate an app version", async () => {
         const polkadot = await createMockService(ledger.appVersion.record);
 
         await assert.is(polkadot.getVersion()).resolves.toEqual(ledger.appVersion.result);
@@ -49,7 +49,7 @@ describe("getVersion", () => {
 });
 
 describe("getPublicKey", () => {
-    it("should generate a publicKey", async () => {
+    test("should generate a publicKey", async () => {
         const polkadot = await createMockService(ledger.publicKey.record);
 
         await assert.is(polkadot.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
@@ -57,7 +57,7 @@ describe("getPublicKey", () => {
 });
 
 describe("signTransaction", () => {
-    it("should generate output from a transaction", async () => {
+    test("should generate output from a transaction", async () => {
         const polkadot = await createMockService(ledger.transaction.record);
 
         await assert.is(
@@ -67,7 +67,7 @@ describe("signTransaction", () => {
 });
 
 describe("signMessage", () => {
-    it("should fail to generate an output from a message", async () => {
+    test("should fail to generate an output from a message", async () => {
         const polkadot = await createMockService("");
 
         await assert.is(polkadot.signMessage("", Buffer.alloc(0))).rejects.toThrow();

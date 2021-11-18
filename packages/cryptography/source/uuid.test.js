@@ -22,7 +22,7 @@ test("#sha1", () => {
 });
 
 test("#parse", () => {
-	assert.type(UUID.parse(dummy), "object");
+	assert.type(UUID.parse(dummy, "object");
 });
 
 test("#stringify", () => {

@@ -1,11 +1,11 @@
 import { isBoolean } from "./is-boolean";
 
 describe("#isBoolean", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isBoolean(true), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isBoolean("false"), false);
 	});
 });

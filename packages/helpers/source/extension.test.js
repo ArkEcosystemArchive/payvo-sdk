@@ -1,7 +1,7 @@
 import { extension } from "./extension";
 
 describe("#extension", () => {
-    it("should return the file extension", () => {
+    test("should return the file extension", () => {
         assert.is(extension("file.html"), "html");
         assert.is(extension("file.js"), "js");
         assert.is(extension("file.ts"), "ts");

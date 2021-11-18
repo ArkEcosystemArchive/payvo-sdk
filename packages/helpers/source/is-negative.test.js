@@ -1,11 +1,11 @@
 import { isNegative } from "./is-negative";
 
 describe("#isNegative", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isNegative(-1), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isNegative(1), false);
 	});
 });

@@ -8,7 +8,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject: ClientService;
 
-beforeAll(async () => {
+test.before(async () => {
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, {
@@ -22,7 +22,7 @@ beforeAll(async () => {
 
 describe("ClientService", () => {
 	describe("#transaction", () => {
-		it("should succeed", async () => {
+		test("should succeed", async () => {
 			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
 			assert.is(result instanceof ConfirmedTransactionData);
@@ -30,7 +30,7 @@ describe("ClientService", () => {
 	});
 
 	describe.skip("#transactions", () => {
-		it("should succeed", async () => {
+		test("should succeed", async () => {
 			const result = await subject.transactions({
 				identifiers: [
 					{
@@ -45,7 +45,7 @@ describe("ClientService", () => {
 	});
 
 	describe("#wallet", () => {
-		it("should succeed", async () => {
+		test("should succeed", async () => {
 			const result = await subject.wallet({
 				type: "address",
 				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
@@ -56,7 +56,7 @@ describe("ClientService", () => {
 	});
 
 	describe("#delegates", () => {
-		it("should succeed", async () => {
+		test("should succeed", async () => {
 			await assert.is(subject.delegates()).resolves.toBeInstanceOf(Collections.WalletDataCollection);
 		});
 	});

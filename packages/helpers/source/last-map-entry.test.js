@@ -1,7 +1,7 @@
 import { lastMapEntry } from "./last-map-entry";
 
 describe("#lastMapEntry", () => {
-	it("should return the last entry", () => {
+	test("should return the last entry", () => {
 		assert
 			.is(
 				lastMapEntry(

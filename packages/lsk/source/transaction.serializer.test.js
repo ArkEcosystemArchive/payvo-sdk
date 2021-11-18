@@ -95,7 +95,7 @@ describe("TransactionSerializer", () => {
 			assert.is(subject.toHuman(subject.toMachine(transaction))).toMatchSnapshot();
 		});
 
-		it("should default transfer data to empty string when not present", async () => {
+		test("should default transfer data to empty string when not present", async () => {
 			const subject = await createService(TransactionSerializer);
 
 			const transaction = subject.toMachine({
@@ -120,7 +120,7 @@ describe("TransactionSerializer", () => {
 			assert.is(subject.toString(subject.toHuman(transaction))).toMatchSnapshot();
 		});
 
-		it("should throw error for unrecognized transaction types", async () => {
+		test("should throw error for unrecognized transaction types", async () => {
 			const subject = await createService(TransactionSerializer);
 
 			assert

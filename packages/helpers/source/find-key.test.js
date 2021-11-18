@@ -1,7 +1,7 @@
 import { findKey } from "./find-key";
 
 describe("#findKey", () => {
-    it("should work with a function", () => {
+    test("should work with a function", () => {
         assert.is(
             findKey(
                 {

@@ -1,11 +1,11 @@
 import { isSet } from "./is-set";
 
 describe("#isSet", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isSet(new Set()), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isSet(1), false);
 	});
 });

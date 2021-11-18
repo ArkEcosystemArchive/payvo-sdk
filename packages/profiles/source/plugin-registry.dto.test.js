@@ -52,7 +52,7 @@ describe("RegistryPlugin", () => {
             assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
         });
 
-        it("should handle unknown source provider", async () => {
+        test("should handle unknown source provider", async () => {
             const subject = new RegistryPlugin(
                 {
                     links: {
@@ -67,7 +67,7 @@ describe("RegistryPlugin", () => {
     });
 
     describe("getMetadata", () => {
-        it("should find the requested key", async () => {
+        test("should find the requested key", async () => {
             const subject = new RegistryPlugin(
                 {},
                 {
@@ -78,7 +78,7 @@ describe("RegistryPlugin", () => {
             assert.is(subject.alias(), "someValue");
         });
 
-        it("should find the requested desktop-wallet key", async () => {
+        test("should find the requested desktop-wallet key", async () => {
             const subject = new RegistryPlugin(
                 {},
                 {
@@ -91,7 +91,7 @@ describe("RegistryPlugin", () => {
             assert.is(subject.logo(), "someValue");
         });
 
-        it("should miss the requested desktop-wallet key", async () => {
+        test("should miss the requested desktop-wallet key", async () => {
             const subject = new RegistryPlugin(
                 {},
                 {
@@ -104,7 +104,7 @@ describe("RegistryPlugin", () => {
             assert.is(subject.logo()), "undefined");
     });
 
-    it("should miss the requested key", async () => {
+    test("should miss the requested key", async () => {
         const subject = new RegistryPlugin(
             {},
             {

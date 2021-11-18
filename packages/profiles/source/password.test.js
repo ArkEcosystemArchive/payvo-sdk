@@ -3,10 +3,10 @@ import "reflect-metadata";
 import { bootContainer } from "../test/mocking";
 import { PasswordManager } from "./password";
 
-beforeAll(() => bootContainer());
+test.before(() => bootContainer());
 
 describe("PasswordManager", () => {
-	it("should set and get password", () => {
+	test("should set and get password", () => {
 		const subject = new PasswordManager();
 
 		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
@@ -16,7 +16,7 @@ describe("PasswordManager", () => {
 		assert.is(subject.get(), "password");
 	});
 
-	it("#exists", () => {
+	test("#exists", () => {
 		const subject = new PasswordManager();
 
 		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
@@ -27,7 +27,7 @@ describe("PasswordManager", () => {
 		assert.is(subject.exists(), true);
 	});
 
-	it("#forget", () => {
+	test("#forget", () => {
 		const subject = new PasswordManager();
 
 		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");

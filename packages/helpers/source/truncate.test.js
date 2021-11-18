@@ -1,7 +1,7 @@
 import { truncate } from "./truncate";
 
 describe("#truncate", () => {
-    it("should truncate strings if they are above the specified length", () => {
+    test("should truncate strings if they are above the specified length", () => {
         assert.is(truncate("Hello World"), "Hello World");
 
         assert.is(

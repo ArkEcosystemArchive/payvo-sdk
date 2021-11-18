@@ -1,14 +1,14 @@
 import { reduce } from "./reduce";
 
 describe("#reduce", () => {
-	it("should work with an array", () => {
+	test("should work with an array", () => {
 		assert.is(
 			reduce([1, 2], (sum, n) => sum + n, 0),
 			3,
 		);
 	});
 
-	it("should work with an object", () => {
+	test("should work with an object", () => {
 		assert
 			.is(
 				reduce(

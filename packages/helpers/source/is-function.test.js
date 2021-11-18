@@ -1,7 +1,7 @@
 import { isFunction } from "./is-function";
 
 describe("#isFunction", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isFunction(new Function()), true);
 		assert.is(
 			isFunction(async () => ({})),
@@ -9,7 +9,7 @@ describe("#isFunction", () => {
 		);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isFunction([]), false);
 	});
 });

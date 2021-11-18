@@ -1,11 +1,11 @@
 import { isSyncFunction } from "./is-sync-function";
 
 describe("#isSyncFunction", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isSyncFunction(new Function()), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(
 			isSyncFunction(async () => ({})),
 			false,

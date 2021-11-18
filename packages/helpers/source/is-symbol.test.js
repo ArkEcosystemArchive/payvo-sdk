@@ -1,11 +1,11 @@
 import { isSymbol } from "./is-symbol";
 
 describe("#isSymbol", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isSymbol(Symbol.for("string")), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isSymbol("string"), false);
 	});
 });

@@ -29,7 +29,7 @@ const data = [
     [ExtendedConfirmedTransactionData, "isOther"],
 ];
 
-beforeAll(() => bootContainer());
+test.before(() => bootContainer());
 
 describe("transaction-mapper", () => {
     let profile: IProfile;
@@ -51,7 +51,7 @@ describe("transaction-mapper", () => {
         isUnvote: () => false,
     };
 
-    beforeAll(async () => {
+    test.before(async () => {
         nock.disableNetConnect();
 
         nock(/.+/)
@@ -84,7 +84,7 @@ describe("transaction-mapper", () => {
          instanceof className);
     });
 
-    it("should map collection correctly", () => {
+    test("should map collection correctly", () => {
         const pagination = {
             prev: "before",
             self: "now",

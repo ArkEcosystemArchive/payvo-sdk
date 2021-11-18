@@ -1,11 +1,11 @@
 import { isNumberArray } from "./is-number-array";
 
 describe("#isNumberArray", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isNumberArray([1]), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isNumberArray(["string"]), false);
 	});
 });

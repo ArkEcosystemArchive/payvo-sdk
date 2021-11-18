@@ -1,11 +1,11 @@
 import { isBuffer } from "./is-buffer";
 
 describe("#isBuffer", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isBuffer(Buffer.alloc(1)), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isBuffer(1), false);
 	});
 });

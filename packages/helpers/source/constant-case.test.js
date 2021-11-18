@@ -1,7 +1,7 @@
 import { constantCase } from "./constant-case";
 
 describe("#constantCase", () => {
-	it("should turn any string into constant case", () => {
+	test("should turn any string into constant case", () => {
 		assert.is(constantCase("string"), "STRING");
 		assert.is(constantCase("camelCase"), "CAMEL_CASE");
 		assert.is(constantCase("param-case"), "PARAM_CASE");

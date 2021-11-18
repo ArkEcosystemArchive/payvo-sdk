@@ -1,7 +1,7 @@
 import { includes } from "./includes";
 
 describe("#includes", () => {
-	it("should work with a function", () => {
+	test("should work with a function", () => {
 		assert.is(includes([1, 2, 3], 1), true);
 
 		assert.is(includes([1, 2, 3], 4), false);

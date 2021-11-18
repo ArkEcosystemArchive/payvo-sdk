@@ -33,7 +33,7 @@ const createMockService = async (record: string, opts?: RecordStoreOptions) => {
 };
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.disconnect()).resolves, "undefined");
@@ -41,14 +41,14 @@ describe("disconnect", () => {
 });
 
 describe("disconnect", () => {
-    it("should pass with a resolved transport closure", async () => {
+    test("should pass with a resolved transport closure", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.disconnect()).resolves, "undefined");
 });
 });
 describe("getVersion", () => {
-    it("should pass with an app version", async () => {
+    test("should pass with an app version", async () => {
         const subject = await createMockService(ledger.appVersion.record);
 
         await assert.is(subject.getVersion()).resolves, ledger.appVersion.result);
@@ -56,7 +56,7 @@ describe("getVersion", () => {
 });
 
 describe("getPublicKey", () => {
-    it("should pass with a compressed publicKey", async () => {
+    test("should pass with a compressed publicKey", async () => {
         const subject = await createMockService(ledger.publicKey.record);
 
         await assert.is(subject.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
@@ -64,7 +64,7 @@ describe("getPublicKey", () => {
 });
 
 describe("signTransaction", () => {
-    it("should pass with a signature", async () => {
+    test("should pass with a signature", async () => {
         const subject = await createMockService(ledger.publicKey.record + ledger.transaction.record, {
             autoSkipUnknownApdu: true,
             warning: (log) => console.warn(log),
@@ -76,7 +76,7 @@ describe("signTransaction", () => {
         ).resolves.toEqual(ledger.transaction.result);
     });
 
-    it("should fail with an incorrectly-set path", async () => {
+    test("should fail with an incorrectly-set path", async () => {
         const subject = await createMockService(ledger.transaction.record);
 
         await assert.is(
@@ -86,7 +86,7 @@ describe("signTransaction", () => {
 });
 
 describe("signMessage", () => {
-    it("should pass with an ecdsa signature", async () => {
+    test("should pass with an ecdsa signature", async () => {
         const subject = await createMockService("");
 
         await assert.is(subject.signMessage("", Buffer.alloc(0))).rejects.toThrow();

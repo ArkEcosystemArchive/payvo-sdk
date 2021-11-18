@@ -1,11 +1,11 @@
 import { isNotEqual } from "./is-not-equal";
 
 describe("#isNotEqual", () => {
-	it("should pass", () => {
+	test("should pass", () => {
 		assert.is(isNotEqual<any>(1, "1"), true);
 	});
 
-	it("should fail", () => {
+	test("should fail", () => {
 		assert.is(isNotEqual(1, 1), false);
 	});
 });
