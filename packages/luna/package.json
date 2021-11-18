@@ -4,9 +4,8 @@
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
-	"main": "distribution/index.js",
-	"unpkg": "distribution/index.umd.min.js",
-	"module": "distribution/index.min.mjs",
+	"type": "module",
+	"exports": "./distribution/index.js",
 	"types": "./distribution/index.d.ts",
 	"files": [
 		"/distribution"

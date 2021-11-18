@@ -12,7 +12,11 @@ const network: Networks.NetworkManifest = {
 		symbol: "SOJU",
 		ticker: "SOJU",
 	},
-	explorer,
+	explorer: {
+		block: "columbus-4/blocks/{0}",
+		transaction: "columbus-4/txs/{0}",
+		wallet: "columbus-4/address/{0}",
+	},
 	featureFlags,
 	hosts: [
 		{
@@ -20,7 +24,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://finder.terra.money/columbus-4",
+			host: "https://finder.terra.money",
 			type: "explorer",
 		},
 	],
