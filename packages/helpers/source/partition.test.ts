@@ -8,7 +8,7 @@ describe("#partition", () => {
 	];
 
 	it("should work with a function", () => {
-		expect(partition(users, ({ active }) => active)).toEqual([
+		assert.is(partition(users, ({ active }) => active)).toEqual([
 			[{ user: "fred", age: 40, active: true }],
 			[
 				{ user: "barney", age: 36, active: false },

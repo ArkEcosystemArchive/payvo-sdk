@@ -1,7 +1,7 @@
 import { Arr } from "./arr.js";
 
 test("#randomElement", () => {
-	const data = [...Array(1000).keys()];
+    const data = [...Array(1000).keys()];
 
-	expect(Arr.randomElement(data)).not.toBe(Arr.randomElement(data));
+    assert.is(Arr.randomElement(data)).not, Arr.randomElement(data));
 });

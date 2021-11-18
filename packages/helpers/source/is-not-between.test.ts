@@ -2,10 +2,10 @@ import { isNotBetween } from "./is-not-between.js";
 
 describe("#isNotBetween", () => {
 	it("should pass", () => {
-		expect(isNotBetween(1, 2, 3)).toBeTrue();
+		assert.is(isNotBetween(1, 2, 3), true);
 	});
 
 	it("should fail", () => {
-		expect(isNotBetween(2, 1, 3)).toBeFalse();
+		assert.is(isNotBetween(2, 1, 3), false);
 	});
 });

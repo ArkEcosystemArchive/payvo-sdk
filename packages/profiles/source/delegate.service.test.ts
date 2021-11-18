@@ -49,28 +49,28 @@ beforeEach(async () => {
 
 describe("DelegateService", () => {
 	it("should sync the delegates", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		expect(subject.all("ARK", "ark.devnet")).toBeArray();
-		expect(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
+		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
 	});
 
 	it("should sync the delegates only one page", async () => {
 		nock.cleanAll();
 		nock(/.+/).get("/api/delegates").reply(200, require("../test/fixtures/client/delegates-single-page.json"));
 
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		expect(subject.all("ARK", "ark.devnet")).toBeArray();
-		expect(subject.all("ARK", "ark.devnet")).toHaveLength(10);
+		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
+		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(10);
 	});
 
 	it("should sync the delegates when network does not support FastDelegateSync", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		jest.spyOn(profile.coins().set("ARK", "ark.devnet").network(), "meta").mockReturnValue({
 			fastDelegateSync: false,
@@ -78,49 +78,51 @@ describe("DelegateService", () => {
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		expect(subject.all("ARK", "ark.devnet")).toBeArray();
-		expect(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
+		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
 	});
 
 	it("should sync the delegates of all coins", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
-		expect(subject.all("ARK", "ark.devnet")).toBeArray();
-		expect(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
+		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
 	});
 
 	it("#findByAddress", async () => {
 		await subject.syncAll(profile);
-		expect(subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve")).toBeTruthy();
-		expect(() => subject.findByAddress("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert.is(subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve")).toBeTruthy();
+		assert.is(() => subject.findByAddress("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
 	});
 
 	it("#findByPublicKey", async () => {
 		await subject.syncAll(profile);
-		expect(
-			subject.findByPublicKey(
-				"ARK",
-				"ark.devnet",
-				"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
-			),
-		).toBeTruthy();
-		expect(() => subject.findByPublicKey("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert
+			.is(
+				subject.findByPublicKey(
+					"ARK",
+					"ark.devnet",
+					"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
+				),
+			)
+			.toBeTruthy();
+		assert.is(() => subject.findByPublicKey("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
 	});
 
 	it("#findByUsername", async () => {
 		await subject.syncAll(profile);
-		expect(subject.findByUsername("ARK", "ark.devnet", "alessio")).toBeTruthy();
-		expect(() => subject.findByUsername("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert.is(subject.findByUsername("ARK", "ark.devnet", "alessio")).toBeTruthy();
+		assert.is(() => subject.findByUsername("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
 	});
 
 	describe("#map", () => {
 		it("should return an empty array if there are no public keys", async () => {
 			const mappedDelegates = subject.map(wallet, []);
 
-			expect(mappedDelegates).toBeArray();
-			expect(mappedDelegates).toHaveLength(0);
+			assert.is(mappedDelegates).toBeArray();
+			assert.is(mappedDelegates).toHaveLength(0);
 		});
 
 		it("should map the public keys to read-only wallets", async () => {
@@ -133,13 +135,13 @@ describe("DelegateService", () => {
 
 			const mappedDelegates = subject.map(wallet, publicKeys);
 
-			expect(mappedDelegates).toBeArray();
-			expect(mappedDelegates).toHaveLength(100);
+			assert.is(mappedDelegates).toBeArray();
+			assert.is(mappedDelegates).toHaveLength(100);
 
 			for (let i = 0; i < delegates.length; i++) {
-				expect(mappedDelegates[i].address()).toBe(addresses[i]);
-				expect(mappedDelegates[i].publicKey()).toBe(publicKeys[i]);
-				expect(mappedDelegates[i].username()).toBe(usernames[i]);
+				assert.is(mappedDelegates[i].address(), addresses[i]);
+				assert.is(mappedDelegates[i].publicKey(), publicKeys[i]);
+				assert.is(mappedDelegates[i].username(), usernames[i]);
 			}
 		});
 
@@ -153,13 +155,13 @@ describe("DelegateService", () => {
 
 			const mappedDelegates = subject.map(wallet, publicKeys.concat(["pubkey"]));
 
-			expect(mappedDelegates).toBeArray();
-			expect(mappedDelegates).toHaveLength(100);
+			assert.is(mappedDelegates).toBeArray();
+			assert.is(mappedDelegates).toHaveLength(100);
 
 			for (let i = 0; i < delegates.length; i++) {
-				expect(mappedDelegates[i].address()).toBe(addresses[i]);
-				expect(mappedDelegates[i].publicKey()).toBe(publicKeys[i]);
-				expect(mappedDelegates[i].username()).toBe(usernames[i]);
+				assert.is(mappedDelegates[i].address(), addresses[i]);
+				assert.is(mappedDelegates[i].publicKey(), publicKeys[i]);
+				assert.is(mappedDelegates[i].username(), usernames[i]);
 			}
 		});
 	});

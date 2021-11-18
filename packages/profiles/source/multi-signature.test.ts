@@ -86,13 +86,13 @@ beforeEach(async () => {
 beforeAll(() => nock.disableNetConnect());
 
 it("should return multi signature", async () => {
-	expect(() => subject.multiSignature().all()).toThrow("This wallet does not have a multi-signature registered.");
+	assert.is(() => subject.multiSignature().all()).toThrow("This wallet does not have a multi-signature registered.");
 
 	subject = new Wallet(UUID.random(), {}, profile);
 
-	expect(() => subject.multiSignature().all()).toThrow(
-		"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.",
-	);
+	assert
+		.is(() => subject.multiSignature().all())
+		.toThrow("This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.");
 });
 
 it("should return multi-signature participants", async () => {
@@ -108,9 +108,9 @@ it("should return multi-signature participants", async () => {
 	await subject.synchroniser().identity();
 	await subject.synchroniser().multiSignature();
 
-	expect(subject.multiSignature().participants()).toHaveLength(2);
-	expect(subject.multiSignature().participants()[0]).toBeInstanceOf(ReadOnlyWallet);
-	expect(subject.multiSignature().participants()[1]).toBeInstanceOf(ReadOnlyWallet);
+	assert.is(subject.multiSignature().participants()).toHaveLength(2);
+	assert.is(subject.multiSignature().participants()[0] instanceof ReadOnlyWallet);
+	assert.is(subject.multiSignature().participants()[1] instanceof ReadOnlyWallet);
 
 	isMultiSignature.mockRestore();
 	multiSignature.mockRestore();
@@ -128,9 +128,9 @@ it("should throw if the wallet does not have a multi-signature registered", asyn
 	await subject.synchroniser().identity();
 	await subject.synchroniser().multiSignature();
 
-	expect(() => subject.multiSignature().participants()).toThrow(
-		"This wallet does not have a multi-signature registered.",
-	);
+	assert
+		.is(() => subject.multiSignature().participants())
+		.toThrow("This wallet does not have a multi-signature registered.");
 });
 
 it("should throw if the multi-signature has not been synchronized yet", async () => {
@@ -138,9 +138,11 @@ it("should throw if the multi-signature has not been synchronized yet", async ()
 
 	await subject.synchroniser().identity();
 
-	expect(() => subject.multiSignature().participants()).toThrow(
-		"This Multi-Signature has not been synchronized yet. Please call [synchroniser().multiSignature()] before using it.",
-	);
+	assert
+		.is(() => subject.multiSignature().participants())
+		.toThrow(
+			"This Multi-Signature has not been synchronized yet. Please call [synchroniser().multiSignature()] before using it.",
+		);
 });
 
 it("should list all participants with a standard multi signature", async () => {
@@ -149,7 +151,7 @@ it("should list all participants with a standard multi signature", async () => {
 		publicKeys: ["a", "b"],
 	});
 
-	expect(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
+	assert.is(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
 		Array [
 		  "a",
 		  "b",
@@ -164,7 +166,7 @@ it("should list all participants with an advanced multi signature", async () => 
 		optionalKeys: ["c", "d"],
 	});
 
-	expect(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
+	assert.is(subject.multiSignature().publicKeys()).toMatchInlineSnapshot(`
 		Array [
 		  "a",
 		  "b",

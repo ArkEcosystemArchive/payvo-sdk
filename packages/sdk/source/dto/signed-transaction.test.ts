@@ -9,57 +9,57 @@ import { AbstractSignedTransactionData } from "./signed-transaction.js";
 
 test("#setAttributes", () => {
 	let transaction = new Transaction().configure("id", { key: "value" }, "");
-	expect(transaction.id()).toBe("id");
+	assert.is(transaction.id(), "id");
 
 	transaction.setAttributes({ identifier: "new" });
-	expect(transaction.id()).toBe("new");
+	assert.is(transaction.id(), "new");
 
 	transaction = new Transaction().configure("id", { key: "value" }, "", 2);
-	expect(transaction).toBeInstanceOf(Transaction);
+	assert.is(transaction instanceof Transaction);
 
 	transaction = new Transaction().configure("id", { key: "value" }, "", "2");
-	expect(transaction).toBeInstanceOf(Transaction);
+	assert.is(transaction instanceof Transaction);
 });
 
 test("#id", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").id()).toBe("id");
+	assert.is(new Transaction().configure("id", { key: "value" }, "").id(), "id");
 });
 
 test("#sender", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").sender()).toBe("sender");
+	assert.is(new Transaction().configure("id", { key: "value" }, "").sender(), "sender");
 });
 
 test("#recipient", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").recipient()).toBe("recipient");
+	assert.is(new Transaction().configure("id", { key: "value" }, "").recipient(), "recipient");
 });
 
 test("#amount", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").amount()).toBe(BigNumber.ZERO);
+	assert.is(new Transaction().configure("id", { key: "value" }, "").amount(), BigNumber.ZERO);
 });
 
 test("#fee", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").fee()).toBe(BigNumber.ZERO);
+	assert.is(new Transaction().configure("id", { key: "value" }, "").fee(), BigNumber.ZERO);
 });
 
 test("#timestamp", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").timestamp()).toEqual(DateTime.make(0));
+	assert.is(new Transaction().configure("id", { key: "value" }, "").timestamp()).toEqual(DateTime.make(0));
 });
 
 test("#get", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").get("key")).toBe("value");
+	assert.is(new Transaction().configure("id", { key: "value" }, "").get("key"), "value");
 });
 
 test("#toString", () => {
-	expect(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString()).toMatchInlineSnapshot(
-		`"{\\"key\\":\\"value\\"}"`,
-	);
-	expect(new Transaction().configure("id", { key: "value" }, "").toString()).toMatchInlineSnapshot(
-		`"{\\"key\\":\\"value\\"}"`,
-	);
+	assert
+		.is(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString())
+		.toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
+	assert
+		.is(new Transaction().configure("id", { key: "value" }, "").toString())
+		.toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
 });
 
 test("#toObject", () => {
-	expect(new Transaction().configure("id", { key: "value" }, "").toObject()).toMatchInlineSnapshot(`
+	assert.is(new Transaction().configure("id", { key: "value" }, "").toObject()).toMatchInlineSnapshot(`
 		Object {
 		  "amount": "0",
 		  "broadcast": "",

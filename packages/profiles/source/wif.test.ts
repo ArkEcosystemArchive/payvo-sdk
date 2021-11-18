@@ -86,25 +86,25 @@ beforeAll(() => nock.disableNetConnect());
 it("should decrypt the WIF", () => {
 	subject.data().set(WalletData.EncryptedSigningKey, PBKDF2.encrypt(identity.mnemonic, "password"));
 
-	expect(subject.signingKey().get("password")).toBe(identity.mnemonic);
+	assert.is(subject.signingKey().get("password"), identity.mnemonic);
 });
 
 it("should encrypt the WIF and add it to the wallet", () => {
 	subject.signingKey().set(identity.mnemonic, "password");
 
-	expect(subject.signingKey().get("password")).toBe(identity.mnemonic);
+	assert.is(subject.signingKey().get("password"), identity.mnemonic);
 });
 
 it("should throw if the WIF is tried to be decrypted without one being set", () => {
-	expect(() => subject.signingKey().get("password")).toThrow("This wallet does not use PBKDF2 encryption.");
+	assert.is(() => subject.signingKey().get("password")).toThrow("This wallet does not use PBKDF2 encryption.");
 });
 
 it("should determine if the wallet uses a WIF", () => {
-	expect(subject.signingKey().exists()).toBeFalse();
+	assert.is(subject.signingKey().exists(), false);
 
 	subject.data().set(WalletData.EncryptedSigningKey, "...");
 
-	expect(subject.signingKey().exists()).toBeTrue();
+	assert.is(subject.signingKey().exists(), true);
 });
 
 it.each([
@@ -112,23 +112,23 @@ it.each([
 	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
 	"secret",
 ])("should set the WIF", (mnemonic) => {
-	expect(subject.signingKey().exists()).toBeFalse();
+	assert.is(subject.signingKey().exists(), false);
 
 	subject.signingKey().set(mnemonic, "password");
 
-	expect(subject.signingKey().exists()).toBeTrue();
+	assert.is(subject.signingKey().exists(), true);
 });
 
 it("should remove the WIF", async () => {
 	subject.signingKey().set(identity.mnemonic, "password");
 
-	expect(subject.signingKey().exists()).toBeTrue();
+	assert.is(subject.signingKey().exists(), true);
 
 	await subject.signingKey().forget("password");
 
-	expect(subject.signingKey().exists()).toBeFalse();
+	assert.is(subject.signingKey().exists(), false);
 });
 
 it("should throw if the WIF is tried to be removed without one being set", () => {
-	expect(() => subject.signingKey().forget("password")).toThrow("This wallet does not use PBKDF2 encryption.");
+	assert.is(() => subject.signingKey().forget("password")).toThrow("This wallet does not use PBKDF2 encryption.");
 });

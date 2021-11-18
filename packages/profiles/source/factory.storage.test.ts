@@ -5,21 +5,21 @@ import { LocalStorage } from "./local.storage";
 import { NullStorage } from "./null.storage";
 
 test("StorageFactory#conf", () => {
-	expect(StorageFactory.make("conf")).toBeInstanceOf(ConfStorage);
+	assert.is(StorageFactory.make("conf") instanceof ConfStorage);
 });
 
 test("StorageFactory#null", () => {
-	expect(StorageFactory.make("null")).toBeInstanceOf(NullStorage);
+	assert.is(StorageFactory.make("null") instanceof NullStorage);
 });
 
 test("StorageFactory#indexeddb", () => {
-	expect(StorageFactory.make("indexeddb")).toBeInstanceOf(LocalStorage);
+	assert.is(StorageFactory.make("indexeddb") instanceof LocalStorage);
 });
 
 test("StorageFactory#websql", () => {
-	expect(StorageFactory.make("websql")).toBeInstanceOf(LocalStorage);
+	assert.is(StorageFactory.make("websql") instanceof LocalStorage);
 });
 
 test("StorageFactory#localstorage", () => {
-	expect(StorageFactory.make("localstorage")).toBeInstanceOf(LocalStorage);
+	assert.is(StorageFactory.make("localstorage") instanceof LocalStorage);
 });

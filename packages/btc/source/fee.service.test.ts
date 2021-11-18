@@ -4,12 +4,14 @@ import { createService, requireModule } from "../test/mocking.js";
 import { FeeService } from "./fee.service.js";
 
 const matchSnapshot = (transaction): void =>
-	expect({
-		min: transaction.min.toString(),
-		avg: transaction.avg.toString(),
-		max: transaction.max.toString(),
-		static: transaction.static.toString(),
-	}).toMatchSnapshot();
+	assert
+		.is({
+			min: transaction.min.toString(),
+			avg: transaction.avg.toString(),
+			max: transaction.max.toString(),
+			static: transaction.static.toString(),
+		})
+		.toMatchSnapshot();
 
 afterEach(() => nock.cleanAll());
 
@@ -29,19 +31,21 @@ describe("FeeService", () => {
 
 		const result = await (await createService(FeeService, "btc.testnet")).all();
 
-		expect(result).toContainAllKeys([
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+		assert
+			.is(result)
+			.toContainAllKeys([
+				"transfer",
+				"secondSignature",
+				"delegateRegistration",
+				"vote",
+				"multiSignature",
+				"ipfs",
+				"multiPayment",
+				"delegateResignation",
+				"htlcLock",
+				"htlcClaim",
+				"htlcRefund",
+			]);
 
 		matchSnapshot(result.transfer);
 		matchSnapshot(result.secondSignature);

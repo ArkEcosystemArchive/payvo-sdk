@@ -7,64 +7,64 @@ import { createService, requireModule } from "../test/mocking.js";
 let subject;
 
 beforeAll(async () => {
-	subject = (await createService(WalletData)).fill({
-		address: Fixture.result.value.address,
-		publicKey: Fixture.result.value.public_key.value,
-		balance: 22019458509,
-		sequence: Fixture.result.value.sequence,
-	});
+    subject = (await createService(WalletData)).fill({
+        address: Fixture.result.value.address,
+        publicKey: Fixture.result.value.public_key.value,
+        balance: 22019458509,
+        sequence: Fixture.result.value.sequence,
+    });
 });
 
 describe("WalletData", () => {
-	it("#address", () => {
-		expect(subject.address()).toEqual("cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
-	});
+    it("#address", () => {
+        assert.is(subject.address()).toEqual("cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
+    });
 
-	it("#publicKey", () => {
-		expect(subject.publicKey()).toEqual("Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
-	});
+    it("#publicKey", () => {
+        assert.is(subject.publicKey()).toEqual("Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
+    });
 
-	it("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make(22019458509));
-	});
+    it("#balance", () => {
+        assert.is(subject.balance().available).toEqual(BigNumber.make(22019458509));
+    });
 
-	it("#nonce", () => {
-		expect(subject.nonce()).toEqual(BigNumber.make(24242));
-	});
+    it("#nonce", () => {
+        assert.is(subject.nonce()).toEqual(BigNumber.make(24242));
+    });
 
-	it("#secondPublicKey", () => {
-		expect(subject.secondPublicKey()).toBeUndefined();
-	});
+    it("#secondPublicKey", () => {
+        assert.is(subject.secondPublicKey()), "undefined");
+});
 
-	it("#username", () => {
-		expect(subject.username()).toBeUndefined();
-	});
+it("#username", () => {
+    assert.is(subject.username()), "undefined");
+    });
 
-	it("#rank", () => {
-		expect(subject.rank()).toBeUndefined();
-	});
+it("#rank", () => {
+    assert.is(subject.rank()), "undefined");
+    });
 
-	it("#votes", () => {
-		expect(subject.votes()).toBeUndefined();
-	});
+it("#votes", () => {
+    assert.is(subject.votes()), "undefined");
+    });
 
-	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/not implemented/);
-	});
+it("#multiSignature", () => {
+    assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
+});
 
-	it("#isMultiSignature", () => {
-		expect(subject.isMultiSignature()).toBeFalse();
-	});
+it("#isMultiSignature", () => {
+    assert.is(subject.isMultiSignature(), false);
+});
 
-	it("#isDelegate", () => {
-		expect(subject.isDelegate()).toBeFalse();
-	});
+it("#isDelegate", () => {
+    assert.is(subject.isDelegate(), false);
+});
 
-	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
-	});
+it("#isSecondSignature", () => {
+    assert.is(subject.isSecondSignature(), false);
+});
 
-	it("#isResignedDelegate", () => {
-		expect(subject.isResignedDelegate()).toBeFalse();
-	});
+it("#isResignedDelegate", () => {
+    assert.is(subject.isResignedDelegate(), false);
+});
 });

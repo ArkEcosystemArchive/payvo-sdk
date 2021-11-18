@@ -9,8 +9,8 @@ array1[0] = 42;
 
 describe("#isEnumerable", () => {
 	it("should work with objects and arrays", () => {
-		expect(isEnumerable(object1, "property1")).toBeTrue();
-		expect(isEnumerable(array1, 0)).toBeTrue();
-		expect(isEnumerable(array1, "length")).toBeFalse();
+		assert.is(isEnumerable(object1, "property1"), true);
+		assert.is(isEnumerable(array1, 0), true);
+		assert.is(isEnumerable(array1, "length"), false);
 	});
 });

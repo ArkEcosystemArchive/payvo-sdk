@@ -38,7 +38,7 @@ beforeEach(() => {
 });
 
 it("should turn into an object", () => {
-	expect(subject.toJSON()).toMatchInlineSnapshot(`
+	assert.is(subject.toJSON()).toMatchInlineSnapshot(`
 		Object {
 		  "contacts": Object {},
 		  "data": Object {},
@@ -74,7 +74,7 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		expect(Object.keys(filtered.wallets)).toHaveLength(1);
+		assert.is(Object.keys(filtered.wallets)).toHaveLength(1);
 	});
 
 	it("should exclude empty wallets", async () => {
@@ -86,7 +86,7 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		expect(Object.keys(filtered.wallets)).toHaveLength(0);
+		assert.is(Object.keys(filtered.wallets)).toHaveLength(0);
 	});
 
 	it("should exclude ledger wallets", async () => {
@@ -99,30 +99,34 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		expect(Object.keys(filtered.wallets)).toHaveLength(0);
+		assert.is(Object.keys(filtered.wallets)).toHaveLength(0);
 	});
 
 	it("should not include network information", async () => {
 		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-		expect(() =>
-			subject.toJSON({
-				excludeEmptyWallets: false,
-				excludeLedgerWallets: false,
-				addNetworkInformation: false,
-				saveGeneralSettings: true,
-			}),
-		).toThrow("This is not implemented yet");
+		assert
+			.is(() =>
+				subject.toJSON({
+					excludeEmptyWallets: false,
+					excludeLedgerWallets: false,
+					addNetworkInformation: false,
+					saveGeneralSettings: true,
+				}),
+			)
+			.toThrow("This is not implemented yet");
 	});
 
 	it("should not include general settings", async () => {
-		expect(() =>
-			subject.toJSON({
-				excludeEmptyWallets: false,
-				excludeLedgerWallets: false,
-				addNetworkInformation: true,
-				saveGeneralSettings: false,
-			}),
-		).toThrow("This is not implemented yet");
+		assert
+			.is(() =>
+				subject.toJSON({
+					excludeEmptyWallets: false,
+					excludeLedgerWallets: false,
+					addNetworkInformation: true,
+					saveGeneralSettings: false,
+				}),
+			)
+			.toThrow("This is not implemented yet");
 	});
 });

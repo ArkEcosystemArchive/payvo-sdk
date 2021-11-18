@@ -27,22 +27,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		expect(subject.sender()).toEqual("0xdeadbeef");
+		assert.is(subject.sender()).toEqual("0xdeadbeef");
 	});
 
 	test("#recipient", () => {
-		expect(subject.recipient()).toEqual("0xfoobar");
+		assert.is(subject.recipient()).toEqual("0xfoobar");
 	});
 
 	test("#amount", () => {
-		expect(subject.amount().toHuman()).toEqual(120);
+		assert.is(subject.amount().toHuman()).toEqual(120);
 	});
 
 	test("#fee", () => {
-		expect(subject.fee().toNumber()).toEqual(6);
+		assert.is(subject.fee().toNumber()).toEqual(6);
 	});
 
 	test("#timestamp", () => {
-		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+		assert.is(DateTime.make(0).isSame(subject.timestamp()), true);
 	});
 });

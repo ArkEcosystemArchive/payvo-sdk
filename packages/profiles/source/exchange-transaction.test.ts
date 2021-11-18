@@ -58,81 +58,81 @@ describe("ExchangeTransaction", () => {
 	});
 
 	it("should have an id", () => {
-		expect(subject.id()).toBe("uuid");
+		assert.is(subject.id(), "uuid");
 	});
 
 	it("should have an orderId", () => {
-		expect(subject.orderId()).toBe("orderId");
+		assert.is(subject.orderId(), "orderId");
 	});
 
 	it("should have an input object", () => {
-		expect(subject.input().amount).toBe(1);
+		assert.is(subject.input().amount, 1);
 	});
 
 	it("should have an output amount", () => {
-		expect(subject.output().amount).toBe(100);
+		assert.is(subject.output().amount, 100);
 	});
 
 	it("should be able to change output", () => {
 		subject.setOutput({ ...subject.output(), amount: 1000 });
-		expect(subject.output().amount).toBe(1000);
+		assert.is(subject.output().amount, 1000);
 	});
 
 	it("should have a timestamp", () => {
-		expect(subject.createdAt()).toBe(123456789);
+		assert.is(subject.createdAt(), 123456789);
 	});
 
 	it("should have a status", () => {
-		expect(subject.status()).toBe(ExchangeTransactionStatus.New);
+		assert.is(subject.status(), ExchangeTransactionStatus.New);
 	});
 
 	it("should be able to change status", () => {
 		subject.setStatus(ExchangeTransactionStatus.Finished);
-		expect(subject.status()).toBe(ExchangeTransactionStatus.Finished);
+		assert.is(subject.status(), ExchangeTransactionStatus.Finished);
 	});
 
 	it("should check if the transaction is expired", () => {
-		expect(subject.isExpired()).toBe(false);
+		assert.is(subject.isExpired(), false);
 
 		subject.setStatus(ExchangeTransactionStatus.Expired);
 
-		expect(subject.isExpired()).toBe(true);
+		assert.is(subject.isExpired(), true);
 	});
 
 	it("should check if the transaction is failed", () => {
-		expect(subject.isFailed()).toBe(false);
+		assert.is(subject.isFailed(), false);
 
 		subject.setStatus(ExchangeTransactionStatus.Failed);
 
-		expect(subject.isFailed()).toBe(true);
+		assert.is(subject.isFailed(), true);
 	});
 
 	it("should check if the transaction is finished", () => {
-		expect(subject.isFinished()).toBe(false);
+		assert.is(subject.isFinished(), false);
 
 		subject.setStatus(ExchangeTransactionStatus.Finished);
 
-		expect(subject.isFinished()).toBe(true);
+		assert.is(subject.isFinished(), true);
 	});
 
 	it("should check if the transaction is pending", () => {
-		expect(subject.isPending()).toBe(true);
+		assert.is(subject.isPending(), true);
 
 		subject.setStatus(ExchangeTransactionStatus.Failed);
 
-		expect(subject.isPending()).toBe(false);
+		assert.is(subject.isPending(), false);
 	});
 
 	it("should check if the transaction is refunded", () => {
-		expect(subject.isRefunded()).toBe(false);
+		assert.is(subject.isRefunded(), false);
 
 		subject.setStatus(ExchangeTransactionStatus.Refunded);
 
-		expect(subject.isRefunded()).toBe(true);
+		assert.is(subject.isRefunded(), true);
 	});
 
 	it("should map to object", () => {
-		expect(subject.toObject()).toStrictEqual({
+		assert.is(subject.toObject()).toStrictEqual({
 			id: "uuid",
 			createdAt: 123456789,
 			status: ExchangeTransactionStatus.New,

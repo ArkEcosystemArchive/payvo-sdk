@@ -23,22 +23,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		expect(subject.sender()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
+		assert.is(subject.sender()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
 	});
 
 	test("#recipient", () => {
-		expect(subject.recipient()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
+		assert.is(subject.recipient()).toEqual("zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
 	});
 
 	test("#amount", () => {
-		expect(subject.amount().toHuman()).toEqual(120);
+		assert.is(subject.amount().toHuman()).toEqual(120);
 	});
 
 	test("#fee", () => {
-		expect(subject.fee().toString()).toEqual("25");
+		assert.is(subject.fee().toString()).toEqual("25");
 	});
 
 	test("#timestamp", () => {
-		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+		assert.is(DateTime.make(0).isSame(subject.timestamp()), true);
 	});
 });

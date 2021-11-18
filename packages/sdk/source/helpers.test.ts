@@ -23,7 +23,7 @@ const configMock = {
 } as unknown as ConfigRepository;
 
 test("filterHostsFromConfig", () => {
-	expect(filterHostsFromConfig(configMock, "explorer")).toEqual([
+	assert.is(filterHostsFromConfig(configMock, "explorer")).toEqual([
 		{
 			type: "explorer",
 			host: "https://explorer.ark.io",
@@ -32,37 +32,37 @@ test("filterHostsFromConfig", () => {
 });
 
 test("randomNetworkHostFromConfig", () => {
-	expect(randomNetworkHostFromConfig(configMock, "explorer")).toEqual({
+	assert.is(randomNetworkHostFromConfig(configMock, "explorer")).toEqual({
 		type: "explorer",
 		host: "https://explorer.ark.io",
 	});
 });
 
 test("randomNetworkHostFromConfig default", () => {
-	expect(randomNetworkHostFromConfig(configMock)).toEqual({
+	assert.is(randomNetworkHostFromConfig(configMock)).toEqual({
 		type: "full",
 		host: "https://wallets.ark.io",
 	});
 });
 
 test("randomHostFromConfig default", () => {
-	expect(randomHostFromConfig(configMock)).toBe("https://wallets.ark.io");
+	assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
 });
 
 describe("pluckAddress", () => {
 	test("senderId", () => {
-		expect(pluckAddress({ senderId: "senderId" })).toBe("senderId");
+		assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
 	});
 
 	test("recipientId", () => {
-		expect(pluckAddress({ recipientId: "recipientId" })).toBe("recipientId");
+		assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
 	});
 
 	test("addresses", () => {
-		expect(pluckAddress({ identifiers: [{ value: "addresses" }] })).toBe("addresses");
+		assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
 	});
 
 	test("addresses", () => {
-		expect(() => pluckAddress({ key: "value" })).toThrow("Failed to pluck any address.");
+		assert.is(() => pluckAddress({ key: "value" })).toThrow("Failed to pluck any address.");
 	});
 });

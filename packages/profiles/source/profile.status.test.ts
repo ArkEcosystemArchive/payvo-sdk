@@ -14,27 +14,27 @@ beforeEach(async () => {
 });
 
 it("should mark the profile as dirty", async () => {
-	expect(profile.status().isDirty()).toBeFalse();
+	assert.is(profile.status().isDirty(), false);
 	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
+	assert.is(profile.status().isDirty(), true);
 });
 
 it("should mark the profile as restored", async () => {
-	expect(profile.status().isRestored()).toBeFalse();
+	assert.is(profile.status().isRestored(), false);
 	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
+	assert.is(profile.status().isRestored(), true);
 });
 
 it("should reset the status of the profile to the default values", async () => {
 	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
+	assert.is(profile.status().isRestored(), true);
 	profile.status().reset();
-	expect(profile.status().isRestored()).toBeFalse();
+	assert.is(profile.status().isRestored(), false);
 });
 
 it("should reset dirty status", async () => {
 	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
+	assert.is(profile.status().isDirty(), true);
 	profile.status().markAsClean();
-	expect(profile.status().isDirty()).toBeFalse();
+	assert.is(profile.status().isDirty(), false);
 });

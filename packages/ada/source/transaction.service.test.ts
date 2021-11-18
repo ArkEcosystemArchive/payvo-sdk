@@ -65,9 +65,9 @@ describe("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.id()).toBe("e2e75b04c4b1dc4d4b3db14166fb02cb26f5b9ed3c49b1e1c8379a21502dc77c");
-			expect(result.amount().toString()).toBe("1000000");
+			assert.is(result instanceof SignedTransactionData);
+			assert.is(result.id(), "e2e75b04c4b1dc4d4b3db14166fb02cb26f5b9ed3c49b1e1c8379a21502dc77c");
+			assert.is(result.amount().toString(), "1000000");
 		});
 	});
 });

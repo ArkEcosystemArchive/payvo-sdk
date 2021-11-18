@@ -7,59 +7,59 @@ import { createService, requireModule } from "../test/mocking.js";
 let subject;
 
 beforeAll(async () => {
-	subject = (await createService(WalletData)).fill(Fixture.data);
+    subject = (await createService(WalletData)).fill(Fixture.data);
 });
 
 describe("WalletData", () => {
-	it("#address", () => {
-		expect(subject.address()).toEqual("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
-	});
+    it("#address", () => {
+        assert.is(subject.address()).toEqual("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
+    });
 
-	it("#publicKey", () => {
-		expect(subject.publicKey()).toEqual("76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac");
-	});
+    it("#publicKey", () => {
+        assert.is(subject.publicKey()).toEqual("76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac");
+    });
 
-	it("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make(3000001));
-	});
+    it("#balance", () => {
+        assert.is(subject.balance().available).toEqual(BigNumber.make(3000001));
+    });
 
-	it("#nonce", () => {
-		expect(subject.nonce()).toEqual(BigNumber.make(0));
-	});
+    it("#nonce", () => {
+        assert.is(subject.nonce()).toEqual(BigNumber.make(0));
+    });
 
-	it("#secondPublicKey", () => {
-		expect(subject.secondPublicKey()).toBeUndefined();
-	});
+    it("#secondPublicKey", () => {
+        assert.is(subject.secondPublicKey()), "undefined");
+});
 
-	it("#username", () => {
-		expect(subject.username()).toBeUndefined();
-	});
+it("#username", () => {
+    assert.is(subject.username()), "undefined");
+    });
 
-	it("#rank", () => {
-		expect(subject.rank()).toBeUndefined();
-	});
+it("#rank", () => {
+    assert.is(subject.rank()), "undefined");
+    });
 
-	it("#votes", () => {
-		expect(subject.votes()).toBeUndefined();
-	});
+it("#votes", () => {
+    assert.is(subject.votes()), "undefined");
+    });
 
-	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/does not have/);
-	});
+it("#multiSignature", () => {
+    assert.is(() => subject.multiSignature()).toThrow(/does not have/);
+});
 
-	it("#isMultiSignature", () => {
-		expect(subject.isMultiSignature()).toBeFalse();
-	});
+it("#isMultiSignature", () => {
+    assert.is(subject.isMultiSignature(), false);
+});
 
-	it("#isDelegate", () => {
-		expect(subject.isDelegate()).toBeFalse();
-	});
+it("#isDelegate", () => {
+    assert.is(subject.isDelegate(), false);
+});
 
-	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
-	});
+it("#isSecondSignature", () => {
+    assert.is(subject.isSecondSignature(), false);
+});
 
-	it("#isResignedDelegate", () => {
-		expect(subject.isResignedDelegate()).toBeFalse();
-	});
+it("#isResignedDelegate", () => {
+    assert.is(subject.isResignedDelegate(), false);
+});
 });

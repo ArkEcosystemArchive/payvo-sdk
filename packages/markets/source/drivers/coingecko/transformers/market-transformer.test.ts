@@ -8,7 +8,7 @@ describe("MarketTransformer", () => {
 
 		const subject = new MarketTransformer(stubResponse.market_data);
 
-		expect(subject.transform(stubOptions)).toMatchSnapshot();
+		assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 	});
 
 	it("should skip unknown currencies", async () => {
@@ -16,6 +16,6 @@ describe("MarketTransformer", () => {
 
 		const subject = new MarketTransformer(stubResponse.market_data);
 
-		expect(subject.transform({ ...stubOptions, currencies: { invalid: {} } })).toMatchSnapshot();
+		assert.is(subject.transform({ ...stubOptions, currencies: { invalid: {} } })).toMatchSnapshot();
 	});
 });

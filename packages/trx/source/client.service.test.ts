@@ -38,7 +38,7 @@ describe("ClientService", () => {
 				"0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
 			);
 
-			expect(result).toBeInstanceOf(ConfirmedTransactionData);
+			assert.is(result instanceof ConfirmedTransactionData);
 		});
 	});
 
@@ -53,7 +53,7 @@ describe("ClientService", () => {
 				identifiers: [{ type: "address", value: "TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq" }],
 			});
 
-			expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
+			assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
 		});
 	});
 
@@ -68,8 +68,8 @@ describe("ClientService", () => {
 				value: "TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ",
 			});
 
-			expect(result).toBeInstanceOf(WalletData);
-			expect(result.balance()).toMatchInlineSnapshot(`
+			assert.is(result instanceof WalletData);
+			assert.is(result.balance()).toMatchInlineSnapshot(`
 			Object {
 			  "available": BigNumber {},
 			  "fees": BigNumber {},
@@ -97,7 +97,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			expect(result).toEqual({
+			assert.is(result).toEqual({
 				accepted: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				rejected: [],
 				errors: {},
@@ -117,7 +117,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			expect(result).toEqual({
+			assert.is(result).toEqual({
 				accepted: [],
 				rejected: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				errors: {

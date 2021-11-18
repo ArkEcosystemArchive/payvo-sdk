@@ -141,16 +141,18 @@ describe("#restore", () => {
 		await subject.import("password");
 		await profileCopy.sync();
 
-		expect(serialiser.toJSON()).toContainAllKeys([
-			"contacts",
-			"data",
-			"exchangeTransactions",
-			"notifications",
-			"plugins",
-			"data",
-			"settings",
-			"wallets",
-		]);
+		assert
+			.is(serialiser.toJSON())
+			.toContainAllKeys([
+				"contacts",
+				"data",
+				"exchangeTransactions",
+				"notifications",
+				"plugins",
+				"data",
+				"settings",
+				"wallets",
+			]);
 	});
 
 	it("should fail to restore a profile with corrupted data", async () => {
@@ -175,7 +177,7 @@ describe("#restore", () => {
 
 		subject = new ProfileImporter(profile);
 
-		await expect(subject.import()).rejects.toThrow();
+		await assert.is(subject.import()).rejects.toThrow();
 	});
 
 	it("should restore a profile without a password", async () => {
@@ -185,7 +187,7 @@ describe("#restore", () => {
 
 		await subject.import();
 
-		expect(new ProfileSerialiser(profile).toJSON()).toEqual(new ProfileSerialiser(profileCopy).toJSON());
+		assert.is(new ProfileSerialiser(profile).toJSON()).toEqual(new ProfileSerialiser(profileCopy).toJSON());
 	});
 
 	it("should fail to restore if profile is not using password but password is passed", async () => {
@@ -193,9 +195,11 @@ describe("#restore", () => {
 
 		subject = new ProfileImporter(profileCopy);
 
-		await expect(subject.import("password")).rejects.toThrow(
-			"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
-		);
+		await assert
+			.is(subject.import("password"))
+			.rejects.toThrow(
+				"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
+			);
 	});
 
 	it("should fail to restore a profile with a password if no password was provided", async () => {
@@ -207,7 +211,7 @@ describe("#restore", () => {
 
 		subject = new ProfileImporter(profileCopy);
 
-		await expect(subject.import()).rejects.toThrow("Failed to decode or decrypt the profile.");
+		await assert.is(subject.import()).rejects.toThrow("Failed to decode or decrypt the profile.");
 	});
 
 	it("should fail to restore a profile with a password if an invalid password was provided", async () => {
@@ -217,7 +221,7 @@ describe("#restore", () => {
 
 		subject = new ProfileImporter(profileCopy);
 
-		await expect(subject.import("invalid-password")).rejects.toThrow("Failed to decode or decrypt the profile.");
+		await assert.is(subject.import("invalid-password")).rejects.toThrow("Failed to decode or decrypt the profile.");
 	});
 
 	it("should restore a profile with wallets and contacts", async () => {
@@ -233,12 +237,12 @@ describe("#restore", () => {
 		subject = new ProfileImporter(profile);
 		await subject.import();
 
-		expect(profile.wallets().values().length).toEqual(2);
-		expect(profile.wallets().valuesWithCoin().length).toEqual(2);
-		expect(profile.contacts().count()).toEqual(1);
-		expect(profile.contacts().first().addresses().count()).toEqual(1);
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
-		expect(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
+		assert.is(profile.wallets().values().length).toEqual(2);
+		assert.is(profile.wallets().valuesWithCoin().length).toEqual(2);
+		assert.is(profile.contacts().count()).toEqual(1);
+		assert.is(profile.contacts().first().addresses().count()).toEqual(1);
+		assert.is(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
+		assert.is(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
 	});
 
 	it("should restore a profile with wallets of unavailable coins", async () => {
@@ -257,13 +261,13 @@ describe("#restore", () => {
 		subject = new ProfileImporter(profile);
 		await subject.import();
 
-		expect(profile.wallets().values().length).toEqual(2);
-		expect(profile.wallets().valuesWithCoin().length).toEqual(0);
+		assert.is(profile.wallets().values().length).toEqual(2);
+		assert.is(profile.wallets().valuesWithCoin().length).toEqual(0);
 
-		expect(profile.contacts().count()).toEqual(1);
-		expect(profile.contacts().first().addresses().count()).toEqual(1);
-		expect(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
-		expect(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
+		assert.is(profile.contacts().count()).toEqual(1);
+		assert.is(profile.contacts().first().addresses().count()).toEqual(1);
+		assert.is(profile.settings().get(ProfileSetting.AccentColor)).toEqual("blue");
+		assert.is(profile.settings().get(ProfileSetting.Theme)).toEqual("dark");
 
 		container.get<Coins.CoinBundle>(Identifiers.Coins)["ARK"] = coin;
 	});
@@ -279,6 +283,6 @@ describe("#restore", () => {
 
 		await subject.import();
 
-		expect(migrationFunction).toHaveBeenCalled();
+		assert.is(migrationFunction).toHaveBeenCalled();
 	});
 });

@@ -44,20 +44,22 @@ describe("AssetSerializer #toMachine", () => {
 			},
 		},
 	])("should serialize asset of transaction type (%s)", ({ moduleID, assetID, asset }) => {
-		expect(createService(AssetSerializer).toMachine(moduleID, assetID, asset)).toMatchSnapshot();
+		assert.is(createService(AssetSerializer).toMachine(moduleID, assetID, asset)).toMatchSnapshot();
 	});
 
 	it("should throw error when transaction type cannot be recognized", () => {
-		expect(() => createService(AssetSerializer).toMachine(10, 10, {})).toThrow(
-			"Failed to determine transaction type for asset serialization.",
-		);
+		assert
+			.is(() => createService(AssetSerializer).toMachine(10, 10, {}))
+			.toThrow("Failed to determine transaction type for asset serialization.");
 	});
 
 	it("should throw error when serializing vote asset with amount not multiple of 10", () => {
-		expect(() =>
-			createService(AssetSerializer).toMachine(5, 1, {
-				votes: [{ delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: `${7 * 1e8}` }],
-			}),
-		).toThrow("The value [700000000] is not a multiple of 10.");
+		assert
+			.is(() =>
+				createService(AssetSerializer).toMachine(5, 1, {
+					votes: [{ delegateAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: `${7 * 1e8}` }],
+				}),
+			)
+			.toThrow("The value [700000000] is not a multiple of 10.");
 	});
 });

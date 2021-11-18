@@ -12,7 +12,7 @@ describe("PublicKey", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toMatchInlineSnapshot(`
+		assert.is(result).toMatchInlineSnapshot(`
 		Object {
 		  "path": "m/44'/148'/0'",
 		  "publicKey": "GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC",

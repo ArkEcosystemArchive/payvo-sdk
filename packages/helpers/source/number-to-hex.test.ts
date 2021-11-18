@@ -2,6 +2,6 @@ import { numberToHex } from "./number-to-hex.js";
 
 describe("#numberToHex", () => {
 	it("should return the number as hex", () => {
-		expect(numberToHex(1)).toBe("01");
+		assert.is(numberToHex(1), "01");
 	});
 });

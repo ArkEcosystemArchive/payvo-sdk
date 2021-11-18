@@ -11,6 +11,6 @@ describe("#keysIn", () => {
 
 		Foo.prototype.c = 3;
 
-		expect(keysIn(new Foo())).toIncludeAllMembers(["a", "b", "c"]);
+		assert.is(keysIn(new Foo())).toIncludeAllMembers(["a", "b", "c"]);
 	});
 });

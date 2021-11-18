@@ -1,13 +1,13 @@
 import { extension } from "./extension.js";
 
 describe("#extension", () => {
-	it("should return the file extension", () => {
-		expect(extension("file.html")).toBe("html");
-		expect(extension("file.js")).toBe("js");
-		expect(extension("file.ts")).toBe("ts");
-		expect(extension("file.php")).toBe("php");
-		expect(extension("file.rb")).toBe("rb");
-		expect(extension("file.ext")).toBe("ext");
-		expect(extension("")).toBeUndefined();
-	});
+    it("should return the file extension", () => {
+        assert.is(extension("file.html"), "html");
+        assert.is(extension("file.js"), "js");
+        assert.is(extension("file.ts"), "ts");
+        assert.is(extension("file.php"), "php");
+        assert.is(extension("file.rb"), "rb");
+        assert.is(extension("file.ext"), "ext");
+        assert.is(extension("")), "undefined");
+});
 });

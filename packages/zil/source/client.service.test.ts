@@ -43,13 +43,13 @@ describe("ClientService", () => {
 
 		const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
 
-		expect(result).toBeInstanceOf(ConfirmedTransactionData);
-		expect(result.id()).toBe("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
-		expect(result.isConfirmed()).toBe(true);
-		expect(result.sender()).toBe("0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
-		expect(result.recipient()).toBe("0xA54E49719267E8312510D7b78598ceF16ff127CE");
-		expect(result.amount()).toEqual(BigNumber.make(1));
-		expect(result.fee()).toEqual(BigNumber.make("0.1"));
+		assert.is(result instanceof ConfirmedTransactionData);
+		assert.is(result.id(), "b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
+		assert.is(result.isConfirmed(), true);
+		assert.is(result.sender(), "0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
+		assert.is(result.recipient(), "0xA54E49719267E8312510D7b78598ceF16ff127CE");
+		assert.is(result.amount()).toEqual(BigNumber.make(1));
+		assert.is(result.fee()).toEqual(BigNumber.make("0.1"));
 	});
 
 	test("#wallet", async () => {
@@ -62,10 +62,10 @@ describe("ClientService", () => {
 			value: identity.address,
 		});
 
-		expect(result).toBeInstanceOf(WalletData);
-		expect(result.address()).toBe(identity.address);
-		expect(result.balance().available).toEqual(BigNumber.make(499890000000));
-		expect(result.nonce()).toEqual(BigNumber.make(1));
+		assert.is(result instanceof WalletData);
+		assert.is(result.address(), identity.address);
+		assert.is(result.balance().available).toEqual(BigNumber.make(499890000000));
+		assert.is(result.nonce()).toEqual(BigNumber.make(1));
 	});
 
 	describe("#broadcast", () => {
@@ -89,7 +89,7 @@ describe("ClientService", () => {
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 
-			expect(result).toEqual({
+			assert.is(result).toEqual({
 				accepted: ["id"],
 				rejected: [],
 				errors: {},
@@ -114,7 +114,7 @@ describe("ClientService", () => {
 			const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
 			const result = await subject.broadcast([transaction]);
 
-			expect(result).toEqual({
+			assert.is(result).toEqual({
 				accepted: [],
 				rejected: ["id"],
 				errors: {

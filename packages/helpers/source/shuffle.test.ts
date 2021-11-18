@@ -7,7 +7,7 @@ describe("#shuffle", () => {
 
 		const shuffledValues: number[] = shuffle(possibleValues);
 
-		expect(shuffledValues).toIncludeAllMembers(possibleValues);
-		expect(shuffledValues).not.toEqual(possibleValues);
+		assert.is(shuffledValues).toIncludeAllMembers(possibleValues);
+		assert.is(shuffledValues).not.toEqual(possibleValues);
 	});
 });

@@ -2,34 +2,34 @@ import { isEmpty } from "./is-empty.js";
 
 describe("#isEmpty", () => {
 	it("should return true for an empty array", () => {
-		expect(isEmpty([])).toBeTrue();
+		assert.is(isEmpty([]), true);
 	});
 
 	it("should return true for an empty object", () => {
-		expect(isEmpty({})).toBeTrue();
+		assert.is(isEmpty({}), true);
 	});
 
 	it("should return true for a false boolean", () => {
-		expect(isEmpty(false)).toBeTrue();
+		assert.is(isEmpty(false), true);
 	});
 
 	it("should return true for null", () => {
-		expect(isEmpty(null)).toBeTrue();
+		assert.is(isEmpty(null), true);
 	});
 
 	it("should return true for undefined", () => {
-		expect(isEmpty(undefined)).toBeTrue();
+		assert.is(isEmpty(undefined), true);
 	});
 
 	it("should return true for an empty map", () => {
-		expect(isEmpty(new Map())).toBeTrue();
+		assert.is(isEmpty(new Map()), true);
 	});
 
 	it("should return true for an empty set", () => {
-		expect(isEmpty(new Set())).toBeTrue();
+		assert.is(isEmpty(new Set()), true);
 	});
 
 	it("should return false if the value contains something", () => {
-		expect(isEmpty([1])).toBeFalse();
+		assert.is(isEmpty([1]), false);
 	});
 });

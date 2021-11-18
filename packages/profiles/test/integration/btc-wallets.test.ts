@@ -127,12 +127,14 @@ it("should import btc wallets and retrieve balance", async () => {
 		.walletDiscovery()
 		.fromMnemonic(mnemonic);
 
-	expect(addresses).toBeArrayOfSize(3);
-	expect(addresses.map((address) => address.address)).toEqual([
-		"mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
-		"2N789HT3aXABch6TqknX2TCekPEUGLMfurn",
-		"tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
-	]);
+	assert.is(addresses).toBeArrayOfSize(3);
+	assert
+		.is(addresses.map((address) => address.address))
+		.toEqual([
+			"mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
+			"2N789HT3aXABch6TqknX2TCekPEUGLMfurn",
+			"tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
+		]);
 
 	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic)));
 	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity()));
@@ -141,8 +143,8 @@ it("should import btc wallets and retrieve balance", async () => {
 	jest.spyOn(wallets[1].network(), "isLive").mockReturnValue(true);
 	jest.spyOn(wallets[2].network(), "isLive").mockReturnValue(true);
 
-	expect(wallets.map((wallet) => wallet.balance())).toEqual([0.03, 0.03, 0.03]);
-	expect(profile.balance()).toBe(0.09);
+	assert.is(wallets.map((wallet) => wallet.balance())).toEqual([0.03, 0.03, 0.03]);
+	assert.is(profile.balance(), 0.09);
 });
 
 it("should import btc wallet by extended public key and retrieve balance", async () => {
@@ -153,11 +155,11 @@ it("should import btc wallet by extended public key and retrieve balance", async
 			"tpubDDVP3DS6MLMUwxsGKzPLjcwY38BmKpZT3USFmjWycwi441G3Mi6j7FhiHLpv2TzQLaAQ1iAun9Q1inpWB37pWEWPc5sZZNfLKoeRtR1ZANL",
 		bip84: { account: 0 },
 	});
-	expect(wallet.address()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+	assert.is(wallet.address(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 
 	await wallet.synchroniser().identity();
 
-	expect(wallet.balance()).toBe(0.03);
+	assert.is(wallet.balance(), 0.03);
 });
 
 it("should import btc wallet by address and retrieve balance", async () => {
@@ -170,15 +172,15 @@ it("should import btc wallet by address and retrieve balance", async () => {
 	await wallet.synchroniser().identity();
 
 	const transactions = await wallet.transactionIndex().all();
-	expect(transactions.items()).toBeArrayOfSize(1);
+	assert.is(transactions.items()).toBeArrayOfSize(1);
 
 	const transaction = transactions.items()[0];
-	expect(transaction.amount()).toBe(0.0342105);
-	expect(transaction.fee()).toBe(0.00000891);
-	expect(transaction.id()).toBe("3b182fedfbf8dca089b5ff97004e53081c6610a2eb08dd9bd8c3243a64216649");
-	expect(transaction.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-	expect(transaction.sender()).toBe("tb1q47x636my5s6j2htedwmawgnra5p3p7yy3jxygw");
-	expect(transaction.timestamp()!.toJSON()).toBe("2021-08-20T14:22:04.000Z");
-	expect(transaction.isTransfer()).toBeTrue();
-	expect(transaction.confirmations().toString()).toBe("393");
+	assert.is(transaction.amount(), 0.0342105);
+	assert.is(transaction.fee(), 0.00000891);
+	assert.is(transaction.id(), "3b182fedfbf8dca089b5ff97004e53081c6610a2eb08dd9bd8c3243a64216649");
+	assert.is(transaction.recipient(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+	assert.is(transaction.sender(), "tb1q47x636my5s6j2htedwmawgnra5p3p7yy3jxygw");
+	assert.is(transaction.timestamp()!.toJSON(), "2021-08-20T14:22:04.000Z");
+	assert.is(transaction.isTransfer(), true);
+	assert.is(transaction.confirmations().toString(), "393");
 });

@@ -9,7 +9,7 @@ describe("CoinGecko", () => {
 
 			const subject = new HistoricalVolumeTransformer(stubResponse);
 
-			expect(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 		});
 	});
 });

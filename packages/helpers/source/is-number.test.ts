@@ -2,10 +2,10 @@ import { isNumber } from "./is-number.js";
 
 describe("#isNumber", () => {
 	it("should pass", () => {
-		expect(isNumber(1)).toBeTrue();
+		assert.is(isNumber(1), true);
 	});
 
 	it("should fail", () => {
-		expect(isNumber("1")).toBeFalse();
+		assert.is(isNumber("1"), false);
 	});
 });

@@ -2,10 +2,10 @@ import { isMatch } from "./is-match.js";
 
 describe("#isMatch", () => {
 	it("should pass", () => {
-		expect(isMatch("a", /a/)).toBeTrue();
+		assert.is(isMatch("a", /a/), true);
 	});
 
 	it("should fail", () => {
-		expect(isMatch(1, /a/)).toBeFalse();
+		assert.is(isMatch(1, /a/), false);
 	});
 });

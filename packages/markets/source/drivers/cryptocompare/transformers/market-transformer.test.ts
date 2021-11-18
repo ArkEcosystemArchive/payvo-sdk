@@ -9,7 +9,7 @@ describe("CryptoCompare", () => {
 
 			const subject = new MarketTransformer(stubResponse.RAW.ARK);
 
-			expect(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 		});
 	});
 });

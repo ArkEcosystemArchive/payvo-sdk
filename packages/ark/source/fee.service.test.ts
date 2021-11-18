@@ -18,13 +18,15 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 
 const matchSnapshot = (transaction): void =>
-	expect({
-		min: transaction.min.toString(),
-		avg: transaction.avg.toString(),
-		max: transaction.max.toString(),
-		static: transaction.static.toString(),
-		isDynamic: transaction.isDynamic,
-	}).toMatchSnapshot();
+	assert
+		.is({
+			min: transaction.min.toString(),
+			avg: transaction.avg.toString(),
+			max: transaction.max.toString(),
+			static: transaction.static.toString(),
+			isDynamic: transaction.isDynamic,
+		})
+		.toMatchSnapshot();
 
 afterEach(() => nock.cleanAll());
 
@@ -40,19 +42,21 @@ describe("FeeService", () => {
 
 		const result = await (await createService(FeeService, "ark.devnet")).all();
 
-		expect(result).toContainAllKeys([
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+		assert
+			.is(result)
+			.toContainAllKeys([
+				"transfer",
+				"secondSignature",
+				"delegateRegistration",
+				"vote",
+				"multiSignature",
+				"ipfs",
+				"multiPayment",
+				"delegateResignation",
+				"htlcLock",
+				"htlcClaim",
+				"htlcRefund",
+			]);
 
 		matchSnapshot(result.transfer);
 		matchSnapshot(result.secondSignature);
@@ -76,19 +80,21 @@ describe("FeeService", () => {
 
 		const result = await (await createService(FeeService, "bind.testnet")).all();
 
-		expect(result).toContainAllKeys([
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+		assert
+			.is(result)
+			.toContainAllKeys([
+				"transfer",
+				"secondSignature",
+				"delegateRegistration",
+				"vote",
+				"multiSignature",
+				"ipfs",
+				"multiPayment",
+				"delegateResignation",
+				"htlcLock",
+				"htlcClaim",
+				"htlcRefund",
+			]);
 
 		matchSnapshot(result.transfer);
 		matchSnapshot(result.secondSignature);
@@ -166,7 +172,7 @@ describe("FeeService", () => {
 
 		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1 });
 
-		expect(a.toHuman()).toBe(50); // Signatures + Base 5
-		expect(b.toHuman()).toBe(0);
+		assert.is(a.toHuman(), 50); // Signatures + Base 5
+		assert.is(b.toHuman(), 0);
 	});
 });

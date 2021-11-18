@@ -15,6 +15,6 @@ Bar.prototype.d = 4;
 
 describe("#assign", () => {
 	it("should return the names of the users", () => {
-		expect(assign({ a: 0 }, new Foo(), new Bar())).toEqual({ a: 1, c: 3 });
+		assert.is(assign({ a: 0 }, new Foo(), new Bar())).toEqual({ a: 1, c: 3 });
 	});
 });

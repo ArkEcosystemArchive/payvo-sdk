@@ -175,7 +175,7 @@ it.skip(`can send a transfer`, async function () {
 
 	const result = await client.broadcast([tx]);
 	console.log(result);
-	expect(result.accepted).toBeArrayOfSize(1);
-	expect(result.rejected).toBeEmpty();
-	expect(result.errors).toBeEmpty();
+	assert.is(result.accepted).toBeArrayOfSize(1);
+	assert.is(result.rejected).toBeEmpty();
+	assert.is(result.errors).toBeEmpty();
 });

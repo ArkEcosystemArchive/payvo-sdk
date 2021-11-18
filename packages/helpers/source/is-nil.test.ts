@@ -2,12 +2,12 @@ import { isNil } from "./is-nil.js";
 
 describe("#isNil", () => {
 	it("should pass", () => {
-		expect(isNil(undefined)).toBeTrue();
-		expect(isNil(null)).toBeTrue();
+		assert.is(isNil(undefined), true);
+		assert.is(isNil(null), true);
 	});
 
 	it("should fail", () => {
-		expect(isNil("undefined")).toBeFalse();
-		expect(isNil("null")).toBeFalse();
+		assert.is(isNil("undefined"), false);
+		assert.is(isNil("null"), false);
 	});
 });

@@ -2,10 +2,10 @@ import { hasProperty } from "./has-property.js";
 
 describe("#hasProperty", () => {
 	it("should return true if the object has a given property", () => {
-		expect(hasProperty({ property: undefined }, "property")).toBeTrue();
+		assert.is(hasProperty({ property: undefined }, "property"), true);
 	});
 
 	it("should return false if the object doesn't have a given property", () => {
-		expect(hasProperty({ property: undefined }, "not-present")).toBeFalse();
+		assert.is(hasProperty({ property: undefined }, "not-present"), false);
 	});
 });

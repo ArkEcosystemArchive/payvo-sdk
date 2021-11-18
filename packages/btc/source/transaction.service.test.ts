@@ -117,13 +117,14 @@ describe("bip44 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("a24184f69af2af696a07e3a70c468339654904bbc254ea908e28e0c049200504");
-		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(169_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "a24184f69af2af696a07e3a70c468339654904bbc254ea908e28e0c049200504");
+		assert.is(result.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 169_000);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006b483045022100fea3dfdd9e2afeb1d594c2020334a06fdb660d40238d6b2c45fb33fd90b5357102202297135d22b0d45d6638af023dfa3cc06f6d4cac1073a101a66d5acc5073b155012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac478270b00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",
 		);
 	});
@@ -198,13 +199,14 @@ describe("bip49 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("e0d736fd2f5774b7499fc557d22e6f99303b8b592d32481206f99d54de5df5de");
-		expect(result.sender()).toBe("2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(165_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "e0d736fd2f5774b7499fc557d22e6f99303b8b592d32481206f99d54de5df5de");
+		assert.is(result.sender(), "2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 165_000);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac418370b000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100f10c644094fec83dba98f5ea346e5df441f76ba2250edbe1fe8d19646edb4e1d0220675e13b257c973902f8289692a3f7ef661f3610a1867aa8505b3d7538ad8dc74012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
 		);
 	});
@@ -279,13 +281,14 @@ describe("bip84 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("1fbed27b452d2cc130234774e81e92e7b3f84a5e8e0a977cd82587a8a43a98d8");
-		expect(result.sender()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(163_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "1fbed27b452d2cc130234774e81e92e7b3f84a5e8e0a977cd82587a8a43a98d8");
+		assert.is(result.sender(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.recipient(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 163_000);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ace83e0b00000000001600146a101086f0b693211782261f13bf4bbbd516f2b60247304402204e38c7afe2318a8d5e7d26cc6a5205ef6b9155582e741255457438d6d84e444602206d76110a3a788d3863e926fdeac6952392e46898f31803f5093a7660975d626b0121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
 		);
 	});
@@ -343,13 +346,14 @@ describe("legacy multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148");
-		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148");
+		assert.is(result.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)
 			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d000000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
@@ -408,13 +412,14 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58");
-		expect(result.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58");
+		assert.is(result.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)
 			"0200000001492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df0000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f38700000000",
 		);
@@ -484,13 +489,14 @@ describe("native segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(result.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(374);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(result.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 374);
+		assert.is(result.timestamp() instanceof DateTime);
+		assert.is(
+			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)
 			"0200000001fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa0800000000",
 		);

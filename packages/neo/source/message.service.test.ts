@@ -7,21 +7,21 @@ import { MessageService } from "./message.service.js";
 let subject: MessageService;
 
 beforeEach(async () => {
-	subject = await createService(MessageService);
+    subject = await createService(MessageService);
 });
 
 describe("MessageService", () => {
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
-			message: "Hello World",
-			signatory: new Signatories.Signatory(
-				new Signatories.PrivateKeySignatory({
-					signingKey: identity.privateKey,
-					address: identity.address,
-				}),
-			),
-		});
+    it("should sign and verify a message", async () => {
+        const result = await subject.sign({
+            message: "Hello World",
+            signatory: new Signatories.Signatory(
+                new Signatories.PrivateKeySignatory({
+                    signingKey: identity.privateKey,
+                    address: identity.address,
+                }),
+            ),
+        });
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
-	});
+        await assert.is(subject.verify(result)).resolves, true);
+});
 });

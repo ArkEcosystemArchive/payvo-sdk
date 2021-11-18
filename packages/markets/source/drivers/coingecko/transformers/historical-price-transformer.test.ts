@@ -8,7 +8,7 @@ describe("CoinGecko", () => {
 
 			const subject = new HistoricalPriceTransformer(stubResponse);
 
-			expect(subject.transform(stubOptions)).toMatchSnapshot();
+			assert.is(subject.transform(stubOptions)).toMatchSnapshot();
 		});
 	});
 });

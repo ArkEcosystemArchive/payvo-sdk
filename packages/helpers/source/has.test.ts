@@ -2,30 +2,30 @@ import { has } from "./has.js";
 
 describe("#has", () => {
 	it("should return false if the target is not an object", () => {
-		expect(has([], "a.b.c")).toBeFalse();
+		assert.is(has([], "a.b.c"), false);
 	});
 
 	it("should return false if the path is not a string", () => {
 		// @ts-ignore
-		expect(has({}, 123)).toBeFalse();
+		assert.is(has({}, 123), false);
 	});
 
 	it("should not do anything if the object is not an object", () => {
-		expect(has([], "a.b.c")).toBeFalse();
+		assert.is(has([], "a.b.c"), false);
 	});
 
 	it("should work like lodash", () => {
 		const object = { a: { b: 2 } };
 
-		expect(has(object, "a")).toBeTrue();
-		expect(has(object, "a.b")).toBeTrue();
-		expect(has(object, "c")).toBeFalse();
-		expect(has({ a: undefined }, "a")).toBeTrue();
+		assert.is(has(object, "a"), true);
+		assert.is(has(object, "a.b"), true);
+		assert.is(has(object, "c"), false);
+		assert.is(has({ a: undefined }, "a"), true);
 	});
 
 	it("should exit early if it encounters a non-object value", () => {
 		const object = { a: { b: 2 } };
 
-		expect(has(object, "a.b.c")).toBeFalse();
+		assert.is(has(object, "a.b.c"), false);
 	});
 });

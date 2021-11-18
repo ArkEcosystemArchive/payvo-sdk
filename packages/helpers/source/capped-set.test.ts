@@ -6,8 +6,8 @@ describe("CappedSet", () => {
 
 		cappedSet.add(20);
 
-		expect(cappedSet.has(20)).toBeTrue();
-		expect(cappedSet.has(21)).toBeFalse();
+		assert.is(cappedSet.has(20), true);
+		assert.is(cappedSet.has(21), false);
 	});
 
 	it("overflow", () => {
@@ -19,11 +19,11 @@ describe("CappedSet", () => {
 		}
 
 		for (let i = 0; i < 5; i++) {
-			expect(cappedSet.has(i)).toBeFalse();
+			assert.is(cappedSet.has(i), false);
 		}
 
 		for (let i = 5; i < 15; i++) {
-			expect(cappedSet.has(i)).toBeTrue();
+			assert.is(cappedSet.has(i), true);
 		}
 	});
 });

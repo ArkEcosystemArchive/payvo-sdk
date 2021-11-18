@@ -7,6 +7,6 @@ describe("#reject", () => {
 	];
 
 	it("should work with a function", () => {
-		expect(reject(users, (o) => !o.active)).toEqual([{ user: "fred", age: 40, active: true }]);
+		assert.is(reject(users, (o) => !o.active)).toEqual([{ user: "fred", age: 40, active: true }]);
 	});
 });

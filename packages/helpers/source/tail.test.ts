@@ -2,6 +2,6 @@ import { tail } from "./tail.js";
 
 describe("#tail", () => {
 	it("should return the array without the first item", () => {
-		expect(tail([1, 2, 3, 4, 5])).toEqual([2, 3, 4, 5]);
+		assert.is(tail([1, 2, 3, 4, 5])).toEqual([2, 3, 4, 5]);
 	});
 });

@@ -13,31 +13,31 @@ let subject: FeedService;
 beforeEach(() => (subject = new FeedService()));
 
 describe("FeedService", () => {
-	describe("#parse", () => {
-		it("should retrieve the feed and parse it", async () => {
-			nock("https://blog.ark.io/").get("/feed").reply(200, fixture);
+    describe("#parse", () => {
+        it("should retrieve the feed and parse it", async () => {
+            nock("https://blog.ark.io/").get("/feed").reply(200, fixture);
 
-			await expect(subject.parse("https://blog.ark.io/feed")).resolves.toBeObject();
-		});
+            await assert.is(subject.parse("https://blog.ark.io/feed")).resolves, "object");
+    });
 
-		it("should throw an error when the request or parsing fails", async () => {
-			nock("https://blog.ark.io/").get("/feed").reply(200, "malformed");
+    it("should throw an error when the request or parsing fails", async () => {
+        nock("https://blog.ark.io/").get("/feed").reply(200, "malformed");
 
-			await expect(subject.parse("https://blog.ark.io/feed")).rejects.toThrowError();
-		});
-	});
+        await assert.is(subject.parse("https://blog.ark.io/feed")).rejects.toThrowError();
+    });
+});
 
-	describe("#items", () => {
-		it("should retrieve the items of the feed", async () => {
-			nock("https://blog.ark.io/").get("/feed").reply(200, fixture);
+describe("#items", () => {
+    it("should retrieve the items of the feed", async () => {
+        nock("https://blog.ark.io/").get("/feed").reply(200, fixture);
 
-			await expect(subject.items("https://blog.ark.io/feed")).resolves.toBeArray();
-		});
+        await assert.is(subject.items("https://blog.ark.io/feed")).resolves.toBeArray();
+    });
 
-		it("should throw an error when the request or parsing fails", async () => {
-			nock("https://blog.ark.io/").get("/feed").reply(200, "malformed");
+    it("should throw an error when the request or parsing fails", async () => {
+        nock("https://blog.ark.io/").get("/feed").reply(200, "malformed");
 
-			await expect(subject.items("https://blog.ark.io/feed")).rejects.toThrowError();
-		});
-	});
+        await assert.is(subject.items("https://blog.ark.io/feed")).rejects.toThrowError();
+    });
+});
 });

@@ -2,11 +2,14 @@ import { isFunction } from "./is-function.js";
 
 describe("#isFunction", () => {
 	it("should pass", () => {
-		expect(isFunction(new Function())).toBeTrue();
-		expect(isFunction(async () => ({}))).toBeTrue();
+		assert.is(isFunction(new Function()), true);
+		assert.is(
+			isFunction(async () => ({})),
+			true,
+		);
 	});
 
 	it("should fail", () => {
-		expect(isFunction([])).toBeFalse();
+		assert.is(isFunction([]), false);
 	});
 });

@@ -3,10 +3,10 @@ import { URL } from "url";
 
 describe("#isURL", () => {
 	it("should pass", () => {
-		expect(isURL(new URL("https://google.com"))).toBeTrue();
+		assert.is(isURL(new URL("https://google.com")), true);
 	});
 
 	it("should fail", () => {
-		expect(isURL(1)).toBeFalse();
+		assert.is(isURL(1), false);
 	});
 });

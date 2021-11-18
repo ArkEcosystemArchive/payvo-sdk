@@ -2,10 +2,10 @@ import { isArray } from "./is-array.js";
 
 describe("#isArray", () => {
 	it("should pass", () => {
-		expect(isArray([1])).toBeTrue();
+		assert.is(isArray([1]), true);
 	});
 
 	it("should fail", () => {
-		expect(isArray(1)).toBeFalse();
+		assert.is(isArray(1), false);
 	});
 });

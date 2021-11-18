@@ -20,22 +20,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		expect(() => subject.sender()).toThrowError(Exceptions.NotImplemented);
+		assert.is(() => subject.sender()).toThrowError(Exceptions.NotImplemented);
 	});
 
 	test("#recipient", () => {
-		expect(() => subject.recipient()).toThrowError(Exceptions.NotImplemented);
+		assert.is(() => subject.recipient()).toThrowError(Exceptions.NotImplemented);
 	});
 
 	test("#amount", () => {
-		expect(() => subject.amount()).toThrowError(Exceptions.NotImplemented);
+		assert.is(() => subject.amount()).toThrowError(Exceptions.NotImplemented);
 	});
 
 	test("#fee", () => {
-		expect(() => subject.fee()).toThrowError(Exceptions.NotImplemented);
+		assert.is(() => subject.fee()).toThrowError(Exceptions.NotImplemented);
 	});
 
 	test("#timestamp", () => {
-		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+		assert.is(DateTime.make(0).isSame(subject.timestamp()), true);
 	});
 });

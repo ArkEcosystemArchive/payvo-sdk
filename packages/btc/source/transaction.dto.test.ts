@@ -13,22 +13,22 @@ beforeEach(async () => {
 
 describe("ConfirmedTransactionData", () => {
 	it("should succeed", async () => {
-		expect(subject).toBeInstanceOf(ConfirmedTransactionData);
-		expect(subject.id()).toBe("21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
-		expect(subject.type()).toBe("transfer");
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.confirmations().toNumber()).toEqual(123456);
+		assert.is(subject instanceof ConfirmedTransactionData);
+		assert.is(subject.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
+		assert.is(subject.type(), "transfer");
+		assert.is(subject.timestamp() instanceof DateTime);
+		assert.is(subject.confirmations().toNumber()).toEqual(123456);
 
-		expect(subject.sender()).toBe("1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
-		expect(subject.senders()).toMatchSnapshot();
+		assert.is(subject.sender(), "1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
+		assert.is(subject.senders()).toMatchSnapshot();
 
-		expect(subject.recipient()).toBe("1DVGtxX1ox92cQ5uMrXBL8snE3Agkt9zPr");
-		expect(subject.recipients()).toMatchSnapshot();
+		assert.is(subject.recipient(), "1DVGtxX1ox92cQ5uMrXBL8snE3Agkt9zPr");
+		assert.is(subject.recipients()).toMatchSnapshot();
 
-		expect(subject.amount().toNumber()).toEqual(62550000);
-		expect(subject.fee().toNumber()).toEqual(50000);
+		assert.is(subject.amount().toNumber()).toEqual(62550000);
+		assert.is(subject.fee().toNumber()).toEqual(50000);
 
-		expect(subject.inputs()).toMatchSnapshot();
-		expect(subject.outputs()).toMatchSnapshot();
+		assert.is(subject.inputs()).toMatchSnapshot();
+		assert.is(subject.outputs()).toMatchSnapshot();
 	});
 });

@@ -2,12 +2,12 @@ import { castArray } from "./cast-array.js";
 
 describe("#castArray", () => {
 	it("should work with any value", () => {
-		expect(castArray(1)).toEqual([1]);
-		expect(castArray([1])).toEqual([1]);
-		expect(castArray({ a: 1 })).toEqual([{ a: 1 }]);
-		expect(castArray("abc")).toEqual(["abc"]);
-		expect(castArray(null)).toEqual([]);
-		expect(castArray(undefined)).toEqual([]);
-		expect(castArray(new Map([["key", "value"]]).keys())).toEqual(["key"]);
+		assert.is(castArray(1)).toEqual([1]);
+		assert.is(castArray([1])).toEqual([1]);
+		assert.is(castArray({ a: 1 })).toEqual([{ a: 1 }]);
+		assert.is(castArray("abc")).toEqual(["abc"]);
+		assert.is(castArray(null)).toEqual([]);
+		assert.is(castArray(undefined)).toEqual([]);
+		assert.is(castArray(new Map([["key", "value"]]).keys())).toEqual(["key"]);
 	});
 });

@@ -32,7 +32,7 @@ beforeEach(
 );
 
 test("#items", () => {
-	expect(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": [Function],
@@ -53,7 +53,7 @@ test("#items", () => {
 });
 
 test("#first", () => {
-	expect(subject.first()).toMatchInlineSnapshot(`
+	assert.is(subject.first()).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -65,7 +65,7 @@ test("#first", () => {
 });
 
 test("#last", () => {
-	expect(subject.last()).toMatchInlineSnapshot(`
+	assert.is(subject.last()).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -77,35 +77,35 @@ test("#last", () => {
 });
 
 test("#previousPage", () => {
-	expect(subject.previousPage()).toBe(1);
+	assert.is(subject.previousPage(), 1);
 });
 
 test("#currentPage", () => {
-	expect(subject.currentPage()).toBe(2);
+	assert.is(subject.currentPage(), 2);
 });
 
 test("#nextPage", () => {
-	expect(subject.nextPage()).toBe(4);
+	assert.is(subject.nextPage(), 4);
 });
 
 test("#lastPage", () => {
-	expect(subject.lastPage()).toBe(4);
+	assert.is(subject.lastPage(), 4);
 });
 
 test("#hasMorePages", () => {
-	expect(subject.hasMorePages()).toBeTrue();
+	assert.is(subject.hasMorePages(), true);
 });
 
 test("#isEmpty", () => {
-	expect(subject.isEmpty()).toBeFalse();
+	assert.is(subject.isEmpty(), false);
 });
 
 test("#isNotEmpty", () => {
-	expect(subject.isNotEmpty()).toBeTrue();
+	assert.is(subject.isNotEmpty(), true);
 });
 
 test("#transform", () => {
-	expect(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": [Function],
@@ -130,7 +130,7 @@ test("#transform", () => {
 		return data;
 	});
 
-	expect(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items()).toMatchInlineSnapshot(`
 		Array [
 		  Object {
 		    "id": "() => \\"id1\\"-transformed",
@@ -151,7 +151,7 @@ test("#transform", () => {
 });
 
 test("#getPagination", () => {
-	expect(subject.getPagination()).toMatchInlineSnapshot(`
+	assert.is(subject.getPagination()).toMatchInlineSnapshot(`
 		Object {
 		  "last": 4,
 		  "next": 4,

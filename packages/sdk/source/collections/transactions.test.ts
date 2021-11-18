@@ -23,7 +23,7 @@ beforeEach(
 );
 
 test("#findById", () => {
-	expect(subject.findById("id")).toMatchInlineSnapshot(`
+	assert.is(subject.findById("id")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -35,7 +35,7 @@ test("#findById", () => {
 });
 
 test("#findByType", () => {
-	expect(subject.findByType("type")).toMatchInlineSnapshot(`
+	assert.is(subject.findByType("type")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -47,7 +47,7 @@ test("#findByType", () => {
 });
 
 test("#findByTimestamp", () => {
-	expect(subject.findByTimestamp("timestamp")).toMatchInlineSnapshot(`
+	assert.is(subject.findByTimestamp("timestamp")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -59,7 +59,7 @@ test("#findByTimestamp", () => {
 });
 
 test("#findBySender", () => {
-	expect(subject.findBySender("sender")).toMatchInlineSnapshot(`
+	assert.is(subject.findBySender("sender")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -71,7 +71,7 @@ test("#findBySender", () => {
 });
 
 test("#findByRecipient", () => {
-	expect(subject.findByRecipient("recipient")).toMatchInlineSnapshot(`
+	assert.is(subject.findByRecipient("recipient")).toMatchInlineSnapshot(`
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],

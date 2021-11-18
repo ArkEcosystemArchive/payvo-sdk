@@ -2,25 +2,25 @@ import { BigNumber } from "./bignumber.js";
 import { CurrencyFormatter } from "./currency-formatter.js";
 
 test("#simpleFormatCrypto", () => {
-	expect(CurrencyFormatter.simpleFormatCrypto(10, "ETH")).toBe("10 ETH");
+	assert.is(CurrencyFormatter.simpleFormatCrypto(10, "ETH"), "10 ETH");
 });
 
 test("#toBuilder", () => {
-	expect(CurrencyFormatter.toBuilder(10)).toBeInstanceOf(BigNumber);
+	assert.is(CurrencyFormatter.toBuilder(10) instanceof BigNumber);
 });
 
 test("#subToUnit", () => {
-	expect(CurrencyFormatter.subToUnit(10e8).toString()).toBe("10");
+	assert.is(CurrencyFormatter.subToUnit(10e8).toString(), "10");
 });
 
 test("#unitToSub", () => {
-	expect(CurrencyFormatter.unitToSub(10).toString()).toBe("1000000000");
+	assert.is(CurrencyFormatter.unitToSub(10).toString(), "1000000000");
 });
 
 test("#cryptoToCurrency with fromSubUnit:true", () => {
-	expect(CurrencyFormatter.cryptoToCurrency(10e8, 5)).toBe("50");
+	assert.is(CurrencyFormatter.cryptoToCurrency(10e8, 5), "50");
 });
 
 test("#cryptoToCurrency with fromSubUnit:false", () => {
-	expect(CurrencyFormatter.cryptoToCurrency(10, 5, { fromSubUnit: false, decimals: 8 })).toBe("50");
+	assert.is(CurrencyFormatter.cryptoToCurrency(10, 5, { fromSubUnit: false, decimals: 8 }), "50");
 });

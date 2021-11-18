@@ -12,7 +12,7 @@ describe("Keys", () => {
 	it("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toMatchInlineSnapshot(`
+		assert.is(result).toMatchInlineSnapshot(`
 		Object {
 		  "path": "m/44'/148'/0'",
 		  "privateKey": "SCVPKP4VG6NDJHHGQ7OLDGWO6TZMZTUCKRMKUQ3KDGHCAJ7J5RG3L7WC",
@@ -24,7 +24,7 @@ describe("Keys", () => {
 	it("should generate an output from a private key", async () => {
 		const result = await subject.fromPrivateKey(identity.privateKey);
 
-		expect(result).toEqual({
+		assert.is(result).toEqual({
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

@@ -2,10 +2,10 @@ import { isGreaterThan } from "./is-greater-than.js";
 
 describe("#isGreaterThan", () => {
 	it("should pass", () => {
-		expect(isGreaterThan(2, 1)).toBeTrue();
+		assert.is(isGreaterThan(2, 1), true);
 	});
 
 	it("should fail", () => {
-		expect(isGreaterThan(1, 2)).toBeFalse();
+		assert.is(isGreaterThan(1, 2), false);
 	});
 });

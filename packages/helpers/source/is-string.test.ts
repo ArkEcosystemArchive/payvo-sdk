@@ -2,10 +2,10 @@ import { isString } from "./is-string.js";
 
 describe("#isString", () => {
 	it("should pass", () => {
-		expect(isString("string")).toBeTrue();
+		assert.is(isString("string"), true);
 	});
 
 	it("should fail", () => {
-		expect(isString(1)).toBeFalse();
+		assert.is(isString(1), false);
 	});
 });

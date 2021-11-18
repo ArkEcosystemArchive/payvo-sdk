@@ -42,7 +42,7 @@ afterAll(() => nock.cleanAll());
 
 it("should create an instance", async () => {
 	// @ts-ignore
-	expect(CoinFactory.make(ARK, options)).toBeInstanceOf(Coin);
+	assert.is(CoinFactory.make(ARK, options) instanceof Coin);
 });
 
 it("should create multiple instances with independent containers", async () => {
@@ -59,17 +59,17 @@ it("should create multiple instances with independent containers", async () => {
 	await third.__construct();
 
 	// A equals A
-	expect(first.address() === first.address()).toBeTrue();
+	assert.is(first.address() === first.address(), true);
 	// B equals B
-	expect(second.address() === second.address()).toBeTrue();
+	assert.is(second.address() === second.address(), true);
 	// C equals C
-	expect(third.address() === third.address()).toBeTrue();
+	assert.is(third.address() === third.address(), true);
 	// A does not equal B
-	expect(first.address() === second.address()).toBeFalse();
+	assert.is(first.address() === second.address(), false);
 	// A does not equal C
-	expect(first.address() === third.address()).toBeFalse();
+	assert.is(first.address() === third.address(), false);
 	// B does not equal C
-	expect(second.address() === third.address()).toBeFalse();
+	assert.is(second.address() === third.address(), false);
 });
 
 it("should create an instance with a custom network", async () => {
@@ -86,6 +86,6 @@ it("should create an instance with a custom network", async () => {
 		},
 	});
 
-	expect(coin.network().id()).toBe("coin.network");
-	expect(coin.network().name()).toBe("Mainnet");
+	assert.is(coin.network().id(), "coin.network");
+	assert.is(coin.network().name(), "Mainnet");
 });

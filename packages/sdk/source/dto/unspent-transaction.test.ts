@@ -6,17 +6,17 @@ import { DateTime } from "@payvo/sdk-intl";
 import { UnspentTransactionData } from "./unspent-transaction.js";
 
 test("#id", () => {
-	expect(new UnspentTransactionData({ id: "value" }).id()).toBeString();
+    assert.is(new UnspentTransactionData({ id: "value" }).id()), "string");
 });
 
 test("#timestamp", () => {
-	expect(new UnspentTransactionData({ timestamp: DateTime.make() }).timestamp()).toBeInstanceOf(DateTime);
+    assert.is(new UnspentTransactionData({ timestamp: DateTime.make() }).timestamp() instanceof DateTime);
 });
 
 test("#amount", () => {
-	expect(new UnspentTransactionData({ amount: BigNumber.make(1) }).amount()).toBeInstanceOf(BigNumber);
+    assert.is(new UnspentTransactionData({ amount: BigNumber.make(1) }).amount() instanceof BigNumber);
 });
 
 test("#addresses", () => {
-	expect(new UnspentTransactionData({ address: "a" }).address()).toBe("a");
+    assert.is(new UnspentTransactionData({ address: "a" }).address(), "a");
 });

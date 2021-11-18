@@ -2,10 +2,10 @@ import { isConstructor } from "./is-constructor.js";
 
 describe("#isConstructor", () => {
 	it("should pass", () => {
-		expect(isConstructor(Date)).toBeTrue();
+		assert.is(isConstructor(Date), true);
 	});
 
 	it("should fail", () => {
-		expect(isConstructor([])).toBeFalse();
+		assert.is(isConstructor([]), false);
 	});
 });

@@ -41,16 +41,16 @@ describe("ClientService", () => {
 			],
 		});
 
-		expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
+		assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
 
 		const transaction = result.items()[0];
 
-		expect(transaction.id()).toBe("85D0745BCE0390DDAE8B8CEA31139BEBD2F2041BB689F5518B65431337EC6532");
-		expect(transaction.blockId()).toBe("85D0745BCE0390DDAE8B8CEA31139BEBD2F2041BB689F5518B65431337EC6532");
-		expect(transaction.timestamp()!.toISOString()).toBe("2021-05-14T04:59:40.000Z");
-		expect(transaction.sender()).toBe("nano_37cyeqb7fwafs499i9k94sthkse1iq3k59efaknb5rpdbysgq8sb9fq46qd8");
-		expect(transaction.recipient()).toBe("nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3");
-		expect(transaction.amount().toString()).toBe("336536650000000000000000000000000");
+		assert.is(transaction.id(), "85D0745BCE0390DDAE8B8CEA31139BEBD2F2041BB689F5518B65431337EC6532");
+		assert.is(transaction.blockId(), "85D0745BCE0390DDAE8B8CEA31139BEBD2F2041BB689F5518B65431337EC6532");
+		assert.is(transaction.timestamp()!.toISOString(), "2021-05-14T04:59:40.000Z");
+		assert.is(transaction.sender(), "nano_37cyeqb7fwafs499i9k94sthkse1iq3k59efaknb5rpdbysgq8sb9fq46qd8");
+		assert.is(transaction.recipient(), "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3");
+		assert.is(transaction.amount().toString(), "336536650000000000000000000000000");
 	});
 
 	test("#wallet", async () => {
@@ -61,7 +61,7 @@ describe("ClientService", () => {
 			value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3",
 		});
 
-		expect(result).toBeInstanceOf(WalletData);
-		expect(result.toObject()).toMatchSnapshot();
+		assert.is(result instanceof WalletData);
+		assert.is(result.toObject()).toMatchSnapshot();
 	});
 });

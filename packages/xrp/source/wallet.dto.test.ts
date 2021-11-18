@@ -5,12 +5,12 @@ import { WalletData } from "./wallet.dto.js";
 import { createService, requireModule } from "../test/mocking.js";
 
 describe("WalletData", () => {
-	it("should succeed", async () => {
-		const result = createService(WalletData).fill(fixture.result.account_data);
+    it("should succeed", async () => {
+        const result = createService(WalletData).fill(fixture.result.account_data);
 
-		expect(result).toBeInstanceOf(WalletData);
-		expect(result.address()).toEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
-		expect(result.publicKey()).toBeUndefined();
-		expect(result.balance().available).toEqual(BigNumber.make("92291324300"));
-	});
+        assert.is(result instanceof WalletData);
+        assert.is(result.address()).toEqual("r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
+        assert.is(result.publicKey()), "undefined");
+    assert.is(result.balance().available).toEqual(BigNumber.make("92291324300"));
+});
 });

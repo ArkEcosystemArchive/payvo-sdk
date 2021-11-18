@@ -2,10 +2,10 @@ import { lastIndexOf } from "./last-index-of.js";
 
 describe("#lastIndexOf", () => {
 	it("should return the expected index", () => {
-		expect(lastIndexOf([1, 2, 1, 2], 2)).toBe(3);
-		expect(lastIndexOf([1, 2, 1, 2], 2, 3)).toBe(3);
-		expect(lastIndexOf([1, 2, 1, 2], 2, 2)).toBe(1);
-		expect(lastIndexOf([1, 2, 1, 2], 3)).toBe(-1);
-		expect(lastIndexOf([], 0, -1)).toBe(-1);
+		assert.is(lastIndexOf([1, 2, 1, 2], 2), 3);
+		assert.is(lastIndexOf([1, 2, 1, 2], 2, 3), 3);
+		assert.is(lastIndexOf([1, 2, 1, 2], 2, 2), 1);
+		assert.is(lastIndexOf([1, 2, 1, 2], 3), -1);
+		assert.is(lastIndexOf([], 0, -1), -1);
 	});
 });

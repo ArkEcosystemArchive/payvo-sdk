@@ -3,6 +3,6 @@ import { omitBy } from "./omit-by.js";
 
 describe("#omitBy", () => {
 	it("should work with a function", () => {
-		expect(omitBy({ a: 1, b: "2", c: 3 }, isNumber)).toEqual({ b: "2" });
+		assert.is(omitBy({ a: 1, b: "2", c: 3 }, isNumber)).toEqual({ b: "2" });
 	});
 });

@@ -84,7 +84,7 @@ beforeEach(async () => {
 beforeAll(() => nock.disableNetConnect());
 
 it("should sync the coin", async () => {
-	await expect(new WalletSynchroniser(wallet).coin()).toResolve();
+	await assert.is(new WalletSynchroniser(wallet).coin()).toResolve();
 });
 
 it("should sync the coin mnemonic and encryption", async () => {
@@ -95,7 +95,7 @@ it("should sync the coin mnemonic and encryption", async () => {
 		password: "password",
 	});
 
-	await expect(new WalletSynchroniser(wallet).coin()).toResolve();
+	await assert.is(new WalletSynchroniser(wallet).coin()).toResolve();
 });
 
 it("should sync multi signature when musig", async () => {
@@ -108,13 +108,13 @@ it("should sync multi signature when musig", async () => {
 
 	await new WalletSynchroniser(wallet).multiSignature();
 
-	expect(wallet.isMultiSignature()).toBeTrue();
+	assert.is(wallet.isMultiSignature(), true);
 });
 
 it("should sync multi signature when not musig", async () => {
 	await new WalletSynchroniser(wallet).multiSignature();
 
-	expect(wallet.isMultiSignature()).toBeFalse();
+	assert.is(wallet.isMultiSignature(), false);
 });
 
 it("should sync the identity with a public key", async () => {
@@ -122,7 +122,7 @@ it("should sync the identity with a public key", async () => {
 	jest.spyOn(wallet, "actsWithPublicKey").mockReturnValue(true);
 	jest.spyOn(wallet.network(), "usesExtendedPublicKey").mockReturnValue(false);
 
-	await expect(new WalletSynchroniser(wallet).identity()).toResolve();
+	await assert.is(new WalletSynchroniser(wallet).identity()).toResolve();
 });
 
 it("should sync the identity with an extended public key", async () => {
@@ -130,7 +130,7 @@ it("should sync the identity with an extended public key", async () => {
 	jest.spyOn(wallet, "actsWithPublicKey").mockReturnValue(true);
 	jest.spyOn(wallet.network(), "usesExtendedPublicKey").mockReturnValue(true);
 
-	await expect(new WalletSynchroniser(wallet).identity()).toResolve();
+	await assert.is(new WalletSynchroniser(wallet).identity()).toResolve();
 });
 
 it("should fail to sync the identity with an unknown import method", async () => {
@@ -142,5 +142,5 @@ it("should fail to sync the identity with an unknown import method", async () =>
 	jest.spyOn(wallet, "actsWithWifWithEncryption").mockReturnValue(false);
 	jest.spyOn(wallet, "actsWithWif").mockReturnValue(false);
 
-	await expect(new WalletSynchroniser(wallet).identity()).toReject();
+	await assert.is(new WalletSynchroniser(wallet).identity()).toReject();
 });

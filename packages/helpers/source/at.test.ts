@@ -7,6 +7,6 @@ describe("#at", () => {
 			x: { y: { z: 4 } },
 		};
 
-		expect(at(object, ["a.b.c", "x.y.z"])).toEqual([3, 4]);
+		assert.is(at(object, ["a.b.c", "x.y.z"])).toEqual([3, 4]);
 	});
 });

@@ -85,14 +85,14 @@ const transactions = [
 
 describe("TransactionSerializer", () => {
 	test.each(clone(transactions))("#toMachine(%s)", (transaction) => {
-		expect(createService(TransactionSerializer).toMachine(transaction)).toMatchSnapshot();
+		assert.is(createService(TransactionSerializer).toMachine(transaction)).toMatchSnapshot();
 	});
 
 	describe("#toHuman", () => {
 		it.each(clone(transactions))("should serialize to human (%s)", async (transaction) => {
 			const subject = await createService(TransactionSerializer);
 
-			expect(subject.toHuman(subject.toMachine(transaction))).toMatchSnapshot();
+			assert.is(subject.toHuman(subject.toMachine(transaction))).toMatchSnapshot();
 		});
 
 		it("should default transfer data to empty string when not present", async () => {
@@ -109,7 +109,7 @@ describe("TransactionSerializer", () => {
 
 			delete transaction.asset.data;
 
-			expect(subject.toHuman(transaction).asset.data).toBe("");
+			assert.is(subject.toHuman(transaction).asset.data, "");
 		});
 	});
 
@@ -117,15 +117,15 @@ describe("TransactionSerializer", () => {
 		it.each(clone(transactions))("should serialize to string (%s)", async (transaction) => {
 			const subject = await createService(TransactionSerializer);
 
-			expect(subject.toString(subject.toHuman(transaction))).toMatchSnapshot();
+			assert.is(subject.toString(subject.toHuman(transaction))).toMatchSnapshot();
 		});
 
 		it("should throw error for unrecognized transaction types", async () => {
 			const subject = await createService(TransactionSerializer);
 
-			expect(() => subject.toString({ moduleID: 10, assetID: 10 })).toThrowError(
-				"Failed to determine the transaction type.",
-			);
+			assert
+				.is(() => subject.toString({ moduleID: 10, assetID: 10 }))
+				.toThrowError("Failed to determine the transaction type.");
 		});
 	});
 });

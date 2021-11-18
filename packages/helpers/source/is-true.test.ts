@@ -2,10 +2,10 @@ import { isTrue } from "./is-true.js";
 
 describe("#isTrue", () => {
 	it("should pass", () => {
-		expect(isTrue(true)).toBeTrue();
+		assert.is(isTrue(true), true);
 	});
 
 	it("should fail", () => {
-		expect(isTrue(false)).toBeFalse();
+		assert.is(isTrue(false), false);
 	});
 });

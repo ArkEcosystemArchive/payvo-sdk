@@ -2,8 +2,8 @@ import { randomHex } from "./random-hex.js";
 
 describe("#randomHex", () => {
 	it("should return a random hex string", () => {
-		expect(randomHex(8)).toHaveLength(8);
-		expect(randomHex(16)).toHaveLength(16);
-		expect(randomHex(32)).toHaveLength(32);
+		assert.is(randomHex(8)).toHaveLength(8);
+		assert.is(randomHex(16)).toHaveLength(16);
+		assert.is(randomHex(32)).toHaveLength(32);
 	});
 });

@@ -10,55 +10,55 @@ beforeAll(async () => {
 
 describe("WalletData", () => {
 	it("#address", () => {
-		expect(subject.address()).toEqual("98c83431e94407bc0889e09953461fe5cecfdf18");
+		assert.is(subject.address()).toEqual("98c83431e94407bc0889e09953461fe5cecfdf18");
 	});
 
 	it("#publicKey", () => {
-		expect(() => subject.publicKey()).toThrow(/not implemented/);
+		assert.is(() => subject.publicKey()).toThrow(/not implemented/);
 	});
 
 	it("#balance", () => {
-		expect(subject.balance().available.toString()).toEqual("2000000000");
-		expect(subject.balance().fees.toString()).toEqual("0");
+		assert.is(subject.balance().available.toString()).toEqual("2000000000");
+		assert.is(subject.balance().fees.toString()).toEqual("0");
 	});
 
 	it("#nonce", () => {
-		expect(() => subject.nonce()).toThrow(/not implemented/);
+		assert.is(() => subject.nonce()).toThrow(/not implemented/);
 	});
 
 	it("#secondPublicKey", () => {
-		expect(() => subject.secondPublicKey()).toThrow(/not implemented/);
+		assert.is(() => subject.secondPublicKey()).toThrow(/not implemented/);
 	});
 
 	it("#username", () => {
-		expect(() => subject.username()).toThrow(/not implemented/);
+		assert.is(() => subject.username()).toThrow(/not implemented/);
 	});
 
 	it("#rank", () => {
-		expect(() => subject.rank()).toThrow(/not implemented/);
+		assert.is(() => subject.rank()).toThrow(/not implemented/);
 	});
 
 	it("#votes", () => {
-		expect(() => subject.votes()).toThrow(/not implemented/);
+		assert.is(() => subject.votes()).toThrow(/not implemented/);
 	});
 
 	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/not implemented/);
+		assert.is(() => subject.multiSignature()).toThrow(/not implemented/);
 	});
 
 	it("#isMultiSignature", () => {
-		expect(subject.isMultiSignature()).toBeFalse();
+		assert.is(subject.isMultiSignature(), false);
 	});
 
 	it("#isDelegate", () => {
-		expect(subject.isDelegate()).toBeFalse();
+		assert.is(subject.isDelegate(), false);
 	});
 
 	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
+		assert.is(subject.isSecondSignature(), false);
 	});
 
 	it("#isResignedDelegate", () => {
-		expect(subject.isResignedDelegate()).toBeFalse();
+		assert.is(subject.isResignedDelegate(), false);
 	});
 });

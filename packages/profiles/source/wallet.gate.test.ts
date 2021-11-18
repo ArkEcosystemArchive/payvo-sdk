@@ -89,19 +89,19 @@ beforeEach(async () => {
 beforeAll(() => nock.disableNetConnect());
 
 test("#allows", () => {
-	expect(subject.allows("some-feature")).toBeFalse();
+	assert.is(subject.allows("some-feature"), false);
 });
 
 test("#denies", () => {
-	expect(subject.denies("some-feature")).toBeTrue();
+	assert.is(subject.denies("some-feature"), true);
 });
 
 test("#any", () => {
-	expect(subject.any(["some-feature"])).toBeFalse();
-	expect(subject.any(["Client.transactions"])).toBeTrue();
+	assert.is(subject.any(["some-feature"]), false);
+	assert.is(subject.any(["Client.transactions"]), true);
 });
 
 test("#all", () => {
-	expect(subject.all(["some-feature"])).toBeFalse();
-	expect(subject.all(["Client.transactions"])).toBeTrue();
+	assert.is(subject.all(["some-feature"]), false);
+	assert.is(subject.all(["Client.transactions"]), true);
 });

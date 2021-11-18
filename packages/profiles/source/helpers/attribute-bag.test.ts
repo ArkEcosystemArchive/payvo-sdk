@@ -15,77 +15,77 @@ beforeEach(() => (subject = new AttributeBag<Attributes>()));
 test("#all", async () => {
 	subject.setMany(values);
 
-	expect(subject.all()).toEqual(values);
+	assert.is(subject.all()).toEqual(values);
 });
 
 test("#get", async () => {
-	expect(subject.get("a", "defaultValue")).toBe("defaultValue");
+	assert.is(subject.get("a", "defaultValue"), "defaultValue");
 
 	subject.set("a", "a");
 
-	expect(subject.get("a")).toBe("a");
+	assert.is(subject.get("a"), "a");
 });
 
 test("#set", async () => {
 	subject.set("a", "a");
 
-	expect(subject.has("a")).toBeTrue();
+	assert.is(subject.has("a"), true);
 });
 
 test("#has", async () => {
-	expect(subject.has("a")).toBeFalse();
+	assert.is(subject.has("a"), false);
 
 	subject.set("a", "a");
 
-	expect(subject.has("a")).toBeTrue();
+	assert.is(subject.has("a"), true);
 });
 
 test("#hasStrict", async () => {
 	subject.set("a", undefined);
 
-	expect(subject.hasStrict("a")).toBeFalse();
+	assert.is(subject.hasStrict("a"), false);
 
 	subject.set("a", "a");
 
-	expect(subject.hasStrict("a")).toBeTrue();
+	assert.is(subject.hasStrict("a"), true);
 });
 
 test("#missing", async () => {
-	expect(subject.missing("a")).toBeTrue();
+	assert.is(subject.missing("a"), true);
 
 	subject.set("a", "a");
 
-	expect(subject.missing("a")).toBeFalse();
+	assert.is(subject.missing("a"), false);
 });
 
 test("#forget", async () => {
 	subject.set("a", "a");
 
-	expect(subject.has("a")).toBeTrue();
+	assert.is(subject.has("a"), true);
 
 	subject.forget("a");
 
-	expect(subject.missing("a")).toBeTrue();
+	assert.is(subject.missing("a"), true);
 });
 
 test("#flush", async () => {
 	subject.set("a", "a");
 
-	expect(subject.has("a")).toBeTrue();
+	assert.is(subject.has("a"), true);
 
 	subject.flush();
 
-	expect(subject.missing("a")).toBeTrue();
+	assert.is(subject.missing("a"), true);
 });
 
 test("#only", async () => {
 	subject.setMany(values);
 
-	expect(subject.only(["a", "b"])).toEqual({ a: "a", b: "b" });
+	assert.is(subject.only(["a", "b"])).toEqual({ a: "a", b: "b" });
 });
 
 test("#except", async () => {
 	subject.setMany(values);
 
-	expect(subject.except(["a", "b"])).toEqual({ c: "c" });
+	assert.is(subject.except(["a", "b"])).toEqual({ c: "c" });
 });

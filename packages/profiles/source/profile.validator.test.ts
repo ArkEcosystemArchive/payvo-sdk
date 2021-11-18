@@ -101,7 +101,7 @@ describe("#validate", () => {
 
 		validator = new ProfileValidator();
 
-		expect(validator.validate(validProfileData).settings).toEqual(validProfileData.settings);
+		assert.is(validator.validate(validProfileData).settings).toEqual(validProfileData.settings);
 	});
 
 	it("should fail to validate", async () => {
@@ -127,7 +127,7 @@ describe("#validate", () => {
 		validator = new ProfileValidator();
 
 		//@ts-ignore
-		expect(() => validator.validate(corruptedProfileData)).toThrow();
+		assert.is(() => validator.validate(corruptedProfileData)).toThrow();
 	});
 
 	it("should apply migrations if any are set", async () => {
@@ -141,6 +141,6 @@ describe("#validate", () => {
 
 		await subject.import();
 
-		expect(migrationFunction).toHaveBeenCalled();
+		assert.is(migrationFunction).toHaveBeenCalled();
 	});
 });

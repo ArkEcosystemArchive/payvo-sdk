@@ -23,22 +23,22 @@ beforeEach(async () => {
 
 describe("SignedTransactionData", () => {
 	test("#sender", () => {
-		expect(subject.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		assert.is(subject.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 	});
 
 	test("#recipient", () => {
-		expect(subject.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(subject.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 	});
 
 	test("#amount", () => {
-		expect(subject.amount().toNumber()).toBe(100_000);
+		assert.is(subject.amount().toNumber(), 100_000);
 	});
 
 	test("#fee", () => {
-		expect(subject.fee().toNumber()).toBe(12_430);
+		assert.is(subject.fee().toNumber(), 12_430);
 	});
 
 	test("#timestamp", () => {
-		expect(subject.timestamp().toISOString()).toBe("1970-01-01T00:00:00.000Z");
+		assert.is(subject.timestamp().toISOString(), "1970-01-01T00:00:00.000Z");
 	});
 });

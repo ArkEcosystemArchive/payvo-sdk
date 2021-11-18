@@ -86,34 +86,34 @@ beforeEach(async () => {
 beforeAll(() => nock.disableNetConnect());
 
 it("should return current votes", async () => {
-	expect(() => subject.voting().available()).toThrow(
-		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
-	);
+	assert
+		.is(() => subject.voting().available())
+		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
 
 	await container.get<IDelegateService>(Identifiers.DelegateService).sync(profile, "ARK", "ark.devnet");
 	await subject.synchroniser().votes();
 
-	expect(subject.voting().current()).toHaveLength(1);
-	expect(subject.voting().current()[0].wallet?.address()).toBe("DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve");
-	expect(subject.voting().current()[0].wallet?.username()).toBe("alessio");
+	assert.is(subject.voting().current()).toHaveLength(1);
+	assert.is(subject.voting().current()[0].wallet?.address(), "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve");
+	assert.is(subject.voting().current()[0].wallet?.username(), "alessio");
 });
 
 it("should return votes available", () => {
-	expect(() => subject.voting().available()).toThrow(
-		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
-	);
+	assert
+		.is(() => subject.voting().available())
+		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
 
 	subject.data().set(WalletData.VotesAvailable, 2);
 
-	expect(subject.voting().available()).toBe(2);
+	assert.is(subject.voting().available(), 2);
 });
 
 it("should return votes used", () => {
-	expect(() => subject.voting().used()).toThrow(
-		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
-	);
+	assert
+		.is(() => subject.voting().used())
+		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
 
 	subject.data().set(WalletData.VotesUsed, 2);
 
-	expect(subject.voting().used()).toBe(2);
+	assert.is(subject.voting().used(), 2);
 });

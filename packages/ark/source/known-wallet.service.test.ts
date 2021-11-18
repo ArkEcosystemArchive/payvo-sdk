@@ -33,7 +33,7 @@ describe("KnownWalletService", () => {
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, wallets);
 
-		await expect(subject.all()).resolves.toEqual(wallets);
+		await assert.is(subject.all()).resolves.toEqual(wallets);
 	});
 
 	it("should return an empty list if the request fails", async () => {
@@ -41,7 +41,7 @@ describe("KnownWalletService", () => {
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(404);
 
-		await expect(subject.all()).resolves.toEqual([]);
+		await assert.is(subject.all()).resolves.toEqual([]);
 	});
 
 	it("should return an empty list if the request response is not an array", async () => {
@@ -49,7 +49,7 @@ describe("KnownWalletService", () => {
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, {});
 
-		await expect(subject.all()).resolves.toEqual([]);
+		await assert.is(subject.all()).resolves.toEqual([]);
 	});
 
 	it("should return an empty list if the source is empty", async () => {
@@ -59,6 +59,6 @@ describe("KnownWalletService", () => {
 				.forget(Coins.ConfigKey.KnownWallets);
 		});
 
-		await expect(subject.all()).resolves.toEqual([]);
+		await assert.is(subject.all()).resolves.toEqual([]);
 	});
 });

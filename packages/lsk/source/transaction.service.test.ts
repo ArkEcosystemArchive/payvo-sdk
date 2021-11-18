@@ -89,9 +89,9 @@ describe("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.timestamp()).toBeInstanceOf(DateTime);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result instanceof SignedTransactionData);
+			assert.is(result.timestamp() instanceof DateTime);
+			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "amount": "100000000",
@@ -130,8 +130,8 @@ describe("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result instanceof SignedTransactionData);
+			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "username": "johndoe",
@@ -179,8 +179,8 @@ describe("TransactionService", () => {
 				},
 			});
 
-			expect(result).toBeInstanceOf(SignedTransactionData);
-			expect(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result instanceof SignedTransactionData);
+			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
 			Object {
 			  "asset": Object {
 			    "votes": Array [
@@ -209,28 +209,30 @@ describe("TransactionService", () => {
 		});
 
 		it("should fail to vote with a number that is not a multiple of 10", async () => {
-			await expect(
-				subject.vote({
-					fee: 10,
-					signatory: new Signatories.Signatory(
-						new Signatories.MnemonicSignatory({
-							signingKey: identity.mnemonic,
-							address: identity.address,
-							publicKey: identity.publicKey,
-							privateKey: identity.privateKey,
-						}),
-					),
-					data: {
-						votes: [
-							{
-								id: identity.address,
-								amount: 1,
-							},
-						],
-						unvotes: [],
-					},
-				}),
-			).rejects.toThrow(/not a multiple of 10/);
+			await assert
+				.is(
+					subject.vote({
+						fee: 10,
+						signatory: new Signatories.Signatory(
+							new Signatories.MnemonicSignatory({
+								signingKey: identity.mnemonic,
+								address: identity.address,
+								publicKey: identity.publicKey,
+								privateKey: identity.privateKey,
+							}),
+						),
+						data: {
+							votes: [
+								{
+									id: identity.address,
+									amount: 1,
+								},
+							],
+							unvotes: [],
+						},
+					}),
+				)
+				.rejects.toThrow(/not a multiple of 10/);
 		});
 	});
 
@@ -250,25 +252,27 @@ describe("TransactionService", () => {
 		it.each(["mandatoryKeys", "optionalKeys"])(
 			"should throw error when %s is not a string list",
 			async (parameter) => {
-				await expect(() =>
-					subject.multiSignature({
-						fee: 10,
-						signatory: new Signatories.Signatory(
-							new Signatories.MnemonicSignatory({
-								signingKey: wallet1.signingKey,
-								address: wallet1.address,
-								publicKey: wallet1.publicKey,
-								privateKey: identity.privateKey,
-							}),
-						),
-						data: {
-							numberOfSignatures: 2,
-							mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-							optionalKeys: [],
-							[parameter]: "",
-						},
-					}),
-				).rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
+				await assert
+					.is(() =>
+						subject.multiSignature({
+							fee: 10,
+							signatory: new Signatories.Signatory(
+								new Signatories.MnemonicSignatory({
+									signingKey: wallet1.signingKey,
+									address: wallet1.address,
+									publicKey: wallet1.publicKey,
+									privateKey: identity.privateKey,
+								}),
+							),
+							data: {
+								numberOfSignatures: 2,
+								mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+								optionalKeys: [],
+								[parameter]: "",
+							},
+						}),
+					)
+					.rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
 			},
 		);
 
@@ -301,8 +305,8 @@ describe("TransactionService", () => {
 				},
 			});
 
-			expect(transaction1).toBeInstanceOf(SignedTransactionData);
-			expect(transaction1).toMatchSnapshot();
+			assert.is(transaction1 instanceof SignedTransactionData);
+			assert.is(transaction1).toMatchSnapshot();
 
 			const transaction2 = await musig.addSignature(
 				transaction1.data(),
@@ -316,8 +320,8 @@ describe("TransactionService", () => {
 				),
 			);
 
-			expect(transaction2).toBeInstanceOf(SignedTransactionData);
-			expect(transaction2).toMatchSnapshot();
+			assert.is(transaction2 instanceof SignedTransactionData);
+			assert.is(transaction2).toMatchSnapshot();
 
 			const transaction3 = await musig.addSignature(
 				transaction2.data(),
@@ -331,8 +335,8 @@ describe("TransactionService", () => {
 				),
 			);
 
-			expect(transaction3).toBeInstanceOf(SignedTransactionData);
-			expect(transaction3).toMatchSnapshot();
+			assert.is(transaction3 instanceof SignedTransactionData);
+			assert.is(transaction3).toMatchSnapshot();
 
 			nock.enableNetConnect();
 		});
@@ -362,8 +366,8 @@ describe("TransactionService", () => {
 			},
 		});
 
-		expect(result).toBeInstanceOf(SignedTransactionData);
-		expect(result.toBroadcast()).toMatchInlineSnapshot(`
+		assert.is(result instanceof SignedTransactionData);
+		assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
 		Object {
 		  "asset": Object {
 		    "unlockObjects": Array [

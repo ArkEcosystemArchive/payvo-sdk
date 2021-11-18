@@ -7,84 +7,84 @@ import { Profile } from "./profile.js";
 import { SettingRepository } from "./setting.repository";
 
 beforeAll(() => {
-	bootContainer();
+    bootContainer();
 });
 
 describe.each([["profile", "wallet"]])("SettingRepository(%s)", (type) => {
-	let subject: SettingRepository;
-	let key: string;
+    let subject: SettingRepository;
+    let key: string;
 
-	beforeEach(() => {
-		subject = new SettingRepository(
-			new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
-			Object.values(type === "profile" ? ProfileSetting : WalletSetting),
-		);
-		subject.flush();
+    beforeEach(() => {
+        subject = new SettingRepository(
+            new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
+            Object.values(type === "profile" ? ProfileSetting : WalletSetting),
+        );
+        subject.flush();
 
-		key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
-	});
+        key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
+    });
 
-	test("#all", async () => {
-		expect(subject.all()).toEqual({});
+    test("#all", async () => {
+        assert.is(subject.all()).toEqual({});
 
-		subject.set(key, "value");
+        subject.set(key, "value");
 
-		expect(subject.all()).toEqual({ [key]: "value" });
-		expect(subject.keys()).toEqual([key]);
+        assert.is(subject.all()).toEqual({ [key]: "value" });
+        assert.is(subject.keys()).toEqual([key]);
 
-		subject.flush();
+        subject.flush();
 
-		expect(subject.all()).toEqual({});
-		expect(subject.keys()).toEqual([]);
-	});
+        assert.is(subject.all()).toEqual({});
+        assert.is(subject.keys()).toEqual([]);
+    });
 
-	test("#get", async () => {
-		subject.set(key, "value");
+    test("#get", async () => {
+        subject.set(key, "value");
 
-		expect(subject.get(key)).toBe("value");
-	});
+        assert.is(subject.get(key), "value");
+    });
 
-	test("#set", async () => {
-		expect(subject.set(key, "value")).toBeUndefined();
-	});
+    test("#set", async () => {
+        assert.is(subject.set(key, "value")), "undefined");
+});
 
-	test("#has", async () => {
-		expect(subject.has(key)).toBeFalse();
+test("#has", async () => {
+    assert.is(subject.has(key), false);
 
-		subject.set(key, "value");
+    subject.set(key, "value");
 
-		expect(subject.has(key)).toBeTrue();
-	});
+    assert.is(subject.has(key), true);
+});
 
-	test("#missing", async () => {
-		expect(subject.missing(key)).toBeTrue();
+test("#missing", async () => {
+    assert.is(subject.missing(key), true);
 
-		subject.set(key, "value");
+    subject.set(key, "value");
 
-		expect(subject.missing(key)).toBeFalse();
-	});
+    assert.is(subject.missing(key), false);
+});
 
-	test("#forget", async () => {
-		expect(subject.has(key)).toBeFalse();
+test("#forget", async () => {
+    assert.is(subject.has(key), false);
 
-		subject.set(key, "value");
+    subject.set(key, "value");
 
-		expect(subject.has(key)).toBeTrue();
+    assert.is(subject.has(key), true);
 
-		subject.forget(key);
+    subject.forget(key);
 
-		expect(subject.has(key)).toBeFalse();
-	});
+    assert.is(subject.has(key), false);
+});
 
-	test("#flush", async () => {
-		expect(subject.has(key)).toBeFalse();
+test("#flush", async () => {
+    assert.is(subject.has(key), false);
 
-		subject.set(key, "value");
+    subject.set(key, "value");
 
-		expect(subject.has(key)).toBeTrue();
+    assert.is(subject.has(key), true);
 
-		subject.flush();
+    subject.flush();
 
-		expect(subject.has(key)).toBeFalse();
-	});
+    assert.is(subject.has(key), false);
+});
 });
