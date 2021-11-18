@@ -5,10 +5,11 @@ import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
 import * as bitcoin from "bitcoinjs-lib";
 import { ECPair } from "ecpair";
+import { convertBuffer } from "@payvo/sdk-helpers";
 
 export const prettyBufferSerializer = (k, v) => {
 	if (v !== null && v.type === "Buffer") {
-		return Buffer.from(v.data).toString("hex");
+		return convertBuffer(v.data);
 	}
 	if (v !== null && typeof v === "string") {
 		try {

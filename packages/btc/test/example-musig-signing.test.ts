@@ -6,7 +6,7 @@ import { BIP32 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/sdk-helpers";
-import { signWith, signatureValidator } from "../source/helpers";
+import { signatureValidator, signWith } from "../source/helpers";
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -43,7 +43,7 @@ describe("example code using bitcoinjs-lib", () => {
 				hash: utxo.txId,
 				index: utxo.outputIndex,
 				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
+					script: convertString(utxo.script),
 					value: utxo.satoshis * 10e8,
 				},
 				witnessScript: payment.redeem?.output,
@@ -133,7 +133,7 @@ describe("example code using bitcoinjs-lib", () => {
 				hash: utxo.txId,
 				index: utxo.outputIndex,
 				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
+					script: convertString(utxo.script),
 					value: utxo.satoshis * 10e8,
 				},
 				witnessScript: payment.redeem?.output,
