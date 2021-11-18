@@ -36,7 +36,7 @@ test.before.each(async () => {
 	// logger.listen((log) => console.info(log.type + ": " + log.message));
 });
 
-const configureMock = (record: string): TransactionService =>
+const configureMock = (record: string) =>
 	createService(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -107,7 +107,7 @@ describe.skip("bip44 wallet", () => {
 	});
 
 	test("should generate a transfer transaction and sign it with ledger nano", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip44.record);
+		let subject = configureMock(ledger.transfers.bip44.record);
 
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -188,7 +188,7 @@ describe.skip("bip49 wallet", () => {
 	});
 
 	test("should generate a transfer transaction and sign it with ledger nano", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip49.record);
+		let subject = configureMock(ledger.transfers.bip49.record);
 
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -269,7 +269,7 @@ describe.skip("bip84 wallet", () => {
 	});
 
 	test("should generate and sign a transfer transaction", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip84.record);
+		let subject = configureMock(ledger.transfers.bip84.record);
 
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({

@@ -1,6 +1,6 @@
 import { ConfirmedTransactionDataCollection } from "./transactions";
 
-let subject: ConfirmedTransactionDataCollection;
+let subjectCollection;
 
 test.before.each(
 	() =>

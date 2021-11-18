@@ -1,4 +1,5 @@
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
+import { assert, loader, test } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
@@ -13,7 +14,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: TransactionService;
+let subject;
 
 test.before(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
@@ -36,30 +37,30 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-describe("TransactionService", () => {
-	test("#transfer", async () => {
-		nock("https://api.shasta.trongrid.io")
-			.post("/wallet/createtransaction")
-			.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
-			.post("/wallet/broadcasttransaction")
-			.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
+test("#transfer", async () => {
+	nock("https://api.shasta.trongrid.io")
+		.post("/wallet/createtransaction")
+		.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
+		.post("/wallet/broadcasttransaction")
+		.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
 
-		const result = await subject.transfer({
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: identity.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
-			data: {
-				to: "TEre3kN6JdPzqCNpiZT8JWM4kt8iGrg1Rm",
-				amount: 1,
-			},
-		});
-
-		assert.is(result, "object");
-		assert.is(result.amount().toNumber(), 1_000_000);
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+		data: {
+			to: "TEre3kN6JdPzqCNpiZT8JWM4kt8iGrg1Rm",
+			amount: 1,
+		},
 	});
+
+	assert.object(result);
+	assert.is(result.amount().toNumber(), 1_000_000);
 });
+
+test.run();

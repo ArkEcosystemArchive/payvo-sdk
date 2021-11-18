@@ -4,7 +4,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+let subject;
 
 test.before.each(async () => {
     subject = await createService(MessageService);

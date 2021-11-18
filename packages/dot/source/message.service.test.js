@@ -7,7 +7,7 @@ import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+let subject;
 
 test.before.each(async () => {
     await waitReady();

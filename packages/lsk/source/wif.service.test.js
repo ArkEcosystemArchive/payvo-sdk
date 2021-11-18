@@ -3,7 +3,7 @@ import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
 import { WIF } from "@payvo/sdk-cryptography";
 
-let subject: WIFService;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(WIFService);
