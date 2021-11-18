@@ -67,8 +67,7 @@ describe("#transactions", () => {
             senderPublicKey:
                 "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
         });
-
-        assert.is(result, "object");
+assert.undefined(result.publicKey());
     assert.is(result.items()).toBeArrayOfSize(5);
     assert.is(result.items()[0] instanceof ConfirmedTransactionData);
 });

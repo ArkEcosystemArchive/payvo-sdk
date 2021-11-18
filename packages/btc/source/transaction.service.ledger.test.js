@@ -137,7 +137,7 @@ describe.skip("bip44 wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 10_000);
 		assert.is(result.fee().toNumber(), 1_690);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });
 
@@ -218,7 +218,7 @@ describe.skip("bip49 wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 70_000);
 		assert.is(result.fee().toNumber(), 2_520);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });
 
@@ -299,6 +299,6 @@ describe.skip("bip84 wallet", () => {
 		assert.is(result.recipient(), "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
 		assert.is(result.amount().toNumber(), 104_000);
 		assert.is(result.fee().toNumber(), 2_480);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });

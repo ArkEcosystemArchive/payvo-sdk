@@ -122,7 +122,7 @@ describe("bip44 wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 100_000);
 		assert.is(result.fee().toNumber(), 169_000);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006b483045022100fea3dfdd9e2afeb1d594c2020334a06fdb660d40238d6b2c45fb33fd90b5357102202297135d22b0d45d6638af023dfa3cc06f6d4cac1073a101a66d5acc5073b155012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac478270b00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",
@@ -204,7 +204,7 @@ describe("bip49 wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 100_000);
 		assert.is(result.fee().toNumber(), 165_000);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac418370b000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100f10c644094fec83dba98f5ea346e5df441f76ba2250edbe1fe8d19646edb4e1d0220675e13b257c973902f8289692a3f7ef661f3610a1867aa8505b3d7538ad8dc74012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
@@ -286,7 +286,7 @@ describe("bip84 wallet", () => {
 		assert.is(result.recipient(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 		assert.is(result.amount().toNumber(), 100_000);
 		assert.is(result.fee().toNumber(), 163_000);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ace83e0b00000000001600146a101086f0b693211782261f13bf4bbbd516f2b60247304402204e38c7afe2318a8d5e7d26cc6a5205ef6b9155582e741255457438d6d84e444602206d76110a3a788d3863e926fdeac6952392e46898f31803f5093a7660975d626b0121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
@@ -351,7 +351,7 @@ describe("legacy multisignature wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 10_000);
 		assert.is(result.fee().toNumber(), 330);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)
@@ -417,7 +417,7 @@ describe("p2sh segwit multisignature wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 10_000);
 		assert.is(result.fee().toNumber(), 330);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)
@@ -494,7 +494,7 @@ describe("native segwit multisignature wallet", () => {
 		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		assert.is(result.amount().toNumber(), 10_000);
 		assert.is(result.fee().toNumber(), 374);
-		assert.is(result.timestamp() instanceof DateTime);
+		assert.instance(result.timestamp(), DateTime);
 		assert.is(
 			result.toBroadcast(),
 			// TODO Something seems to be missing here (apart from the signaures)

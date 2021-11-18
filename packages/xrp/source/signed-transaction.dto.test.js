@@ -1,5 +1,5 @@
+import { assert, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
-import { Exceptions } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -18,24 +18,8 @@ test.before.each(async () => {
 	);
 });
 
-describe("SignedTransactionData", () => {
-	test("#sender", () => {
-		assert.is(() => subject.sender()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#recipient", () => {
-		assert.is(() => subject.recipient()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#amount", () => {
-		assert.is(() => subject.amount()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#fee", () => {
-		assert.is(() => subject.fee()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#timestamp", () => {
-		assert.true(DateTime.make(0).isSame(subject.timestamp()));
-	});
+test("#timestamp", () => {
+	assert.true(DateTime.make(0).isSame(subject.timestamp()));
 });
+
+test.run();

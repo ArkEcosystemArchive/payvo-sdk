@@ -41,14 +41,14 @@ describe("ClientService", () => {
             assert.instance(result, ConfirmedTransactionData);
             assert.is(result.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
             assert.is(result.type(), "transfer");
-            assert.is(result.timestamp() instanceof DateTime);
+            assert.instance(result.timestamp(), DateTime);
             assert.is(result.confirmations(), BigNumber.make(159414));
             // assert.is(result.sender(), "...");
             // assert.is(result.recipient(), "...");
             assert.is(result.amount(), BigNumber.make(3050000));
             assert.is(result.fee(), BigNumber.make(10000));
             // @ts-ignore - Better types so that memo gets detected on TransactionDataType
-            assert.is(result.memo()), "undefined");
+            assert.undefined(result.memo());
     });
 });
 
