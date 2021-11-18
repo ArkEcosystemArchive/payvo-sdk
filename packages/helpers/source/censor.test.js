@@ -2,16 +2,17 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { Censor } from "./censor";
 
-let subject: Censor;
+let subject;
+
 test.before.each(() => (subject = new Censor()));
 
 test("#isBad", () => {
-	assert.is(subject.isBad("onion"), true);
-	assert.is(subject.isBad("zyva.org"), true);
-	assert.is(subject.isBad("tighturl.com"), true); // allow uppercase in code
-	assert.is(subject.isBad("ZYVA.ORG"), true); // allow uppercase in data
-	assert.is(subject.isBad("tree"), false);
-	assert.is(subject.isBad(""), false);
+	assert.true(subject.isBad("onion"));
+	assert.true(subject.isBad("zyva.org"));
+	assert.true(subject.isBad("tighturl.com")); // allow uppercase in code
+	assert.true(subject.isBad("ZYVA.ORG")); // allow uppercase in data
+	assert.false(subject.isBad("tree"));
+	assert.false(subject.isBad(""));
 });
 
 test("#process", () => {

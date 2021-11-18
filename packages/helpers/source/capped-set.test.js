@@ -2,29 +2,28 @@ import { assert, test } from "@payvo/sdk-test";
 
 import { CappedSet } from "./capped-set";
 
-test("CappedSet", () => {
-	test("basic", () => {
-		const cappedSet = new CappedSet<number>();
+test("basic", () => {
+	const cappedSet = new CappedSet();
 
-		cappedSet.add(20);
+	cappedSet.add(20);
 
-		assert.is(cappedSet.has(20), true);
-		assert.is(cappedSet.has(21), false);
-	});
+	assert.true(cappedSet.has(20));
+	assert.false(cappedSet.has(21));
+});
 
-	test("overflow", () => {
-		const maxSize = 10;
-		const cappedSet = new CappedSet<number>(maxSize);
+test("overflow", () => {
+	const maxSize = 10;
+	const cappedSet = new CappedSet(maxSize);
 
-		for (let i = 0; i < 15; i++) {
-			cappedSet.add(i);
-		}
+	for (let i = 0; i < 15; i++) {
+		cappedSet.add(i);
+	}
 
-		for (let i = 0; i < 5; i++) {
-			assert.is(cappedSet.has(i), false);
-		}
+	for (let i = 0; i < 5; i++) {
+		assert.false(cappedSet.has(i));
+	}
 
-		for (let i = 5; i < 15; i++) {
-			assert.is(cappedSet.has(i), true);
-		}
-	});
+	for (let i = 5; i < 15; i++) {
+		assert.true(cappedSet.has(i));
+	}
+});
