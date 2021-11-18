@@ -14,6 +14,6 @@ describe("#reduceRightObject", () => {
 					{},
 				),
 			)
-			.toEqual({ "1": ["c", "a"], "2": ["b"] });
+			.toEqual({ 1: ["c", "a"], 2: ["b"] });
 	});
 });

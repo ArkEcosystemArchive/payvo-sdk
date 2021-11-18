@@ -1,5 +1,4 @@
-import { test } from "uvu";
-import * as assert from "uvu/assert";
+import { assert, test } from "@payvo/sdk-test";
 
 import { Argon2 } from "./argon2";
 

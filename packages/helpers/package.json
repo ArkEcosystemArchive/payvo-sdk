@@ -36,6 +36,7 @@
 		"type-fest": "^2.5.3"
 	},
 	"devDependencies": {
+		"@payvo/sdk-test": "workspace:*",
 		"@sindresorhus/tsconfig": "^2.0.0",
 		"@types/bent": "^7.3.2",
 		"@types/eslint": "^7.28.2",
@@ -64,13 +65,10 @@
 		"eslint-plugin-unicorn": "^38.0.1",
 		"eslint-plugin-unused-imports": "^2.0.0",
 		"lodash": "^4.17.21",
-		"nock": "^13.2.0",
 		"prettier": "^2.4.1",
 		"rimraf": "^3.0.2",
-		"sinon": "^12.0.1",
 		"tsm": "^2.1.4",
-		"typescript": "^4.4.4",
-		"uvu": "^0.5.2"
+		"typescript": "^4.4.4"
 	},
 	"engines": {
 		"node": "^14.13.1 || >=16.0.0"
