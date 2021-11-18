@@ -3,11 +3,11 @@ import { assert, test } from "@payvo/sdk-test";
 import { isArrayOfType } from "./is-array-of-type";
 
 test("should pass", () => {
-	assert.true(isArrayOfType < number > ([1], "number"));
+	assert.true(isArrayOfType([1], "number"));
 });
 
 test("should fail", () => {
-	assert.false(isArrayOfType < number > (["string"], "number"));
+	assert.false(isArrayOfType(["string"], "number"));
 });
 
 test.run();

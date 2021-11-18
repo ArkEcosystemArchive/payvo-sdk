@@ -3,9 +3,8 @@ import { assert, test } from "@payvo/sdk-test";
 import { compoundWords } from "./compound-words";
 
 test("should return undefined if the given string is empty", () => {
-	assert.is(
+	assert.undefined(
 		compoundWords("", (word) => word),
-		"undefined",
 	);
 });
 

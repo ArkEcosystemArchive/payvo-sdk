@@ -10,7 +10,9 @@ test("should work with objects", () => {
 
 test("should work with class instances", () => {
 	class Wallet {
-		constructor(address) {}
+		constructor(address) {
+			this.address = address;
+		}
 
 		isDelegate() {
 			return true;

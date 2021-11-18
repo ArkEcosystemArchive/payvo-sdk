@@ -12,7 +12,7 @@ test("should work with an object", () => {
 
 	Foo.prototype.c = 3;
 
-	assert.is(keysIn(new Foo())).toIncludeAllMembers(["a", "b", "c"]);
+	assert.includeAllMembers(keysIn(new Foo()), ["a", "b", "c"]);
 });
 
 test.run();

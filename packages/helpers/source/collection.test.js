@@ -10,19 +10,19 @@ test.before.each(() => {
 });
 
 test("should return the underlying collection", () => {
-	assert.is(collection.all(), { key: "value" });
+	assert.equal(collection.all(), { key: "value" });
 });
 
 test("should return all entries", () => {
-	assert.is(collection.entries(), [["key", "value"]]);
+	assert.equal(collection.entries(), [["key", "value"]]);
 });
 
 test("should return all keys", () => {
-	assert.is(collection.keys(), ["key"]);
+	assert.equal(collection.keys(), ["key"]);
 });
 
 test("should return all values", () => {
-	assert.is(collection.values(), ["value"]);
+	assert.equal(collection.values(), ["value"]);
 });
 
 test("should get an item and remove it", () => {

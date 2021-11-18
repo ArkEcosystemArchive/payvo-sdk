@@ -14,9 +14,8 @@ test("should work with a function", () => {
 		users[0],
 	);
 
-	assert.is(
+	assert.undefined(
 		find(users, (o) => o.name === "john"),
-		"undefined",
 	);
 });
 

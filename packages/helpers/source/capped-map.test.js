@@ -125,7 +125,7 @@ test("should return the keys", () => {
 	store.set("2", 2);
 	store.set("3", 3);
 
-	assert.is(store.keys(), ["1", "2", "3"]);
+	assert.equal(store.keys(), ["1", "2", "3"]);
 });
 
 test("should return the values", () => {
@@ -134,7 +134,7 @@ test("should return the values", () => {
 	store.set("2", 2);
 	store.set("3", 3);
 
-	assert.is(store.values(), [1, 2, 3]);
+	assert.equal(store.values(), [1, 2, 3]);
 });
 
 test("should return the entry count", () => {
