@@ -207,12 +207,12 @@ test("should create a profile with data and persist it when instructed to do so"
     assert.is(newProfile.wallets().keys()).toHaveLength(1);
     assert.is(newProfile.contacts().keys()).toHaveLength(1);
     assert.is(newProfile.notifications().count(), 1);
-    assert.is(newProfile.data().all()).toMatchInlineSnapshot(`
+    assert.is(newProfile.data().all(),
 		Object {
 		  "LATEST_MIGRATION": "0.0.0",
 		}
 	`);
-    assert.is(newProfile.settings().all()).toMatchInlineSnapshot(`
+    assert.is(newProfile.settings().all(),
 		Object {
 		  "ACCENT_COLOR": "green",
 		  "ADVANCED_MODE": false,
@@ -253,7 +253,7 @@ test("should boot the environment from fixed data", async () => {
     assert.is(newProfile.wallets().keys()).toHaveLength(1);
     assert.is(newProfile.contacts().keys()).toHaveLength(1);
     assert.is(newProfile.notifications().count(), 1);
-    assert.is(newProfile.data().all()).toMatchInlineSnapshot(`
+    assert.is(newProfile.data().all(),
 		Object {
 		  "LATEST_MIGRATION": "0.0.0",
 		}

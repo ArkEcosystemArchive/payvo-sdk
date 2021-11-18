@@ -12,8 +12,8 @@ let subject: MessageService;
 test.before.each(async () => {
     await waitReady();
 
-    subject = await createService(MessageService, undefined, async (container: IoC.Container) => {
-        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
+    subject = await createService(MessageService, undefined, async (container) => {
+        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository));
     });
 });
 

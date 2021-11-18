@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject: SignedTransactionData;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(SignedTransactionData);

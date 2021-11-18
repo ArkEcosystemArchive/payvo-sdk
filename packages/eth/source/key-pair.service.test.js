@@ -12,7 +12,7 @@ describe("Keys", () => {
 	test("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result, {
+		assert.equal(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
@@ -21,7 +21,7 @@ describe("Keys", () => {
 	test("should generate an output from a privateKey", async () => {
 		const result = await subject.fromPrivateKey(identity.privateKey);
 
-		assert.is(result, {
+		assert.equal(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

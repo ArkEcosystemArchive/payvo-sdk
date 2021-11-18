@@ -299,7 +299,7 @@ test("should have an avatar", () => {
 
     subject.data().set(WalletSetting.Avatar, "my-avatar");
 
-    assert.is(subject.avatar()).toMatchInlineSnapshot(`"my-avatar"`);
+    assert.is(subject.avatar(), "my-avatar"`);
 });
 
 test("should have a known name", () => {

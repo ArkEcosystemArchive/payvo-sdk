@@ -6,10 +6,10 @@ import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
 
-let subject: AddressService;
+let subject;
 
 test.before.each(async () => {
-    subject = await createService(AddressService, undefined, async (container: IoC.Container) => {
+    subject = await createService(AddressService, undefined, async (container) => {
         container.singleton(BindingType.AddressFactory, AddressFactory);
     });
 });
@@ -92,7 +92,7 @@ describe("Address", () => {
         });
 
         test("should generate a Native SegWit address from an extended public key for tesnet", async () => {
-            subject = await createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+            subject = await createService(AddressService, "btc.testnet", async (container) => {
                 container.singleton(BindingType.AddressFactory, AddressFactory);
             });
             const result = await subject.fromPublicKey(
@@ -115,7 +115,7 @@ describe("Address", () => {
         });
 
         test("should generate a Native SegWit address from an extended public key for testnet", async () => {
-            subject = await createService(AddressService, "btc.testnet", async (container: IoC.Container) => {
+            subject = await createService(AddressService, "btc.testnet", async (container) => {
                 container.singleton(BindingType.AddressFactory, AddressFactory);
             });
 

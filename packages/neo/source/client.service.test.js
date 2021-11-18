@@ -9,7 +9,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -86,7 +86,7 @@ describe.skip("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
             rejected: [],
             errors: {},
@@ -102,7 +102,7 @@ describe.skip("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: [],
             rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
             errors: {

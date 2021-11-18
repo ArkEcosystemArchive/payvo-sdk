@@ -9,7 +9,7 @@ import { ClientService } from "./client.service";
 import { TransactionService } from "./transaction.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -46,7 +46,7 @@ describe("ClientService", () => {
             value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
         });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(),
             "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
         );
@@ -97,7 +97,7 @@ test("#transaction", async () => {
     nock(/.+/).post(/.*/).reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
     const result = await subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
-    assert.is(result instanceof ConfirmedTransactionData);
+    assert.instance(result, ConfirmedTransactionData);
     assert.is(result.id(), "35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 
     assert.is(result.blockId()), "undefined");

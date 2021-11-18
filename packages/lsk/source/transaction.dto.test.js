@@ -110,7 +110,7 @@ describe("ConfirmedTransactionData", () => {
             });
 
             assert.is(subject.amount() instanceof BigNumber);
-            assert.is(subject.amount().toString()).toMatchInlineSnapshot(`"5000000000"`);
+            assert.is(subject.amount().toString(), "5000000000"`);
         });
     });
 

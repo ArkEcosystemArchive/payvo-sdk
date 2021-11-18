@@ -3,10 +3,10 @@ import { NetworkRepository } from "./network-repository";
 
 let subject: NetworkRepository;
 
-test.before.each(() => (subject = new NetworkRepository(manifest.networks)));
+test.before.each(() => (subject = new NetworkRepository(manifest.networks));
 
 test("#all", () => {
-	assert.is(subject.all()).toMatchInlineSnapshot(`
+	assert.is(subject.all(),
 Object {
   "ark.devnet": Object {
     "coin": "ARK",

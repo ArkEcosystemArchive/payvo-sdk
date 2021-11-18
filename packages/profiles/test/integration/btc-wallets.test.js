@@ -136,8 +136,8 @@ test("should import btc wallets and retrieve balance", async () => {
 			"tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 		]);
 
-	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic)));
-	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity()));
+	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic));
+	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity());
 
 	jest.spyOn(wallets[0].network(), "isLive").mockReturnValue(true);
 	jest.spyOn(wallets[1].network(), "isLive").mockReturnValue(true);

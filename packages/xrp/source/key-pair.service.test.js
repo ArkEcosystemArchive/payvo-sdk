@@ -12,7 +12,7 @@ describe("Keys", () => {
 	test("should generate an output from a secret", async () => {
 		const result = await subject.fromSecret(identity.mnemonic);
 
-		assert.is(result, {
+		assert.equal(result, {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

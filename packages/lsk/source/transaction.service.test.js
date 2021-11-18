@@ -90,7 +90,7 @@ describe("TransactionService", () => {
 
 			assert.is(result instanceof SignedTransactionData);
 			assert.is(result.timestamp() instanceof DateTime);
-			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result.toBroadcast(),
 			Object {
 			  "asset": Object {
 			    "amount": "100000000",
@@ -130,7 +130,7 @@ describe("TransactionService", () => {
 			});
 
 			assert.is(result instanceof SignedTransactionData);
-			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result.toBroadcast(),
 			Object {
 			  "asset": Object {
 			    "username": "johndoe",
@@ -179,7 +179,7 @@ describe("TransactionService", () => {
 			});
 
 			assert.is(result instanceof SignedTransactionData);
-			assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
+			assert.is(result.toBroadcast(),
 			Object {
 			  "asset": Object {
 			    "votes": Array [
@@ -366,7 +366,7 @@ describe("TransactionService", () => {
 		});
 
 		assert.is(result instanceof SignedTransactionData);
-		assert.is(result.toBroadcast()).toMatchInlineSnapshot(`
+		assert.is(result.toBroadcast(),
 		Object {
 		  "asset": Object {
 		    "unlockObjects": Array [

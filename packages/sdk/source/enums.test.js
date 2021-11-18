@@ -1,7 +1,7 @@
 import { FeatureFlag } from "./enums";
 
 test("FeatureFlag", () => {
-	assert.is(FeatureFlag).toMatchInlineSnapshot(`
+	assert.is(FeatureFlag,
 		Object {
 		  "AddressMnemonicBip39": "Address.mnemonic.bip39",
 		  "AddressMnemonicBip44": "Address.mnemonic.bip44",

@@ -10,7 +10,7 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ClientService;
+let subject;
 
 jest.setTimeout(30000);
 
@@ -37,7 +37,7 @@ describe("ClientService", () => {
                 "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
             );
 
-            assert.is(result instanceof ConfirmedTransactionData);
+            assert.instance(result, ConfirmedTransactionData);
             assert.is(result.id(), "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
@@ -82,7 +82,7 @@ describe("#wallet", () => {
             value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
         });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
         assert.is(result.publicKey()), "undefined");
     assert.is(result.balance().available, BigNumber.make("92291324300"));
@@ -101,7 +101,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: ["2B6928A583A9D14D359E471EB8D8F961CBC1A054EF86845A39790A7912147CD2"],
             rejected: [],
             errors: {},
@@ -113,7 +113,7 @@ describe("#broadcast", () => {
 
         const result = await subject.broadcast([transactionPayload]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: [],
             rejected: [transactionPayload.id()],
             errors: {

@@ -8,7 +8,7 @@ import { expect } from "@jest/globals";
 let subject: WalletData;
 
 describe("WalletData", () => {
-	test.before.each(async () => (subject = (await createService(WalletData)).fill(Fixture.data[0])));
+	test.before.each(async () => (subject = (await createService(WalletData)).fill(Fixture.data[0]));
 
 	test("#address", () => {
 		assert.is(subject.address(), "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");

@@ -8,7 +8,7 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -41,7 +41,7 @@ describe("ClientService", () => {
                 "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae",
             );
 
-            assert.is(result instanceof ConfirmedTransactionData);
+            assert.instance(result, ConfirmedTransactionData);
             assert.is(result.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp()), "undefined");
@@ -82,7 +82,7 @@ describe("#wallet", () => {
             value: "0x4581a610f96878266008993475f1476ca9997081",
         });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
         assert.is(result.publicKey()), "undefined");
     assert.is(result.balance(), "object");
@@ -100,7 +100,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
             rejected: [],
             errors: {},
@@ -116,7 +116,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: [],
             rejected: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
             errors: {

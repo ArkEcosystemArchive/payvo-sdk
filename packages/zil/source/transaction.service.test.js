@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
@@ -10,7 +11,7 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 
-let subject: TransactionService;
+let subject;
 
 test.before(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
@@ -27,30 +28,28 @@ test.before(async () => {
 	});
 });
 
-describe("TransactionService", () => {
-	describe("#transfer", () => {
-		test("should sign transaction", async () => {
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.bech32Address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 100,
-					to: identity.bech32Address,
-				},
-				fee: 2000,
-				feeLimit: 50,
-				nonce: "1",
-			});
-
-			assert.is(result instanceof SignedTransactionData);
-			assert.is(typeof result.toBroadcast(), "string");
-			assert.is(result.amount().toNumber(), 100_000_000_000_000);
-		});
+test("#transfer", async () => {
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.bech32Address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+		data: {
+			amount: 100,
+			to: identity.bech32Address,
+		},
+		fee: 2000,
+		feeLimit: 50,
+		nonce: "1",
 	});
+
+	assert.instance(result, SignedTransactionData);
+	assert.string(result.toBroadcast());
+	assert.is(result.amount().toNumber(), 100_000_000_000_000);
 });
+
+test.run();

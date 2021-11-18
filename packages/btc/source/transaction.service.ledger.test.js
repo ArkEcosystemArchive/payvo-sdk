@@ -37,7 +37,7 @@ test.before.each(async () => {
 });
 
 const configureMock = (record: string): TransactionService =>
-	createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+	createService(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);

@@ -32,7 +32,7 @@ test.before.each(
 );
 
 test("#items", () => {
-	assert.is(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items(),
 		Array [
 		  Object {
 		    "id": [Function],
@@ -53,7 +53,7 @@ test("#items", () => {
 });
 
 test("#first", () => {
-	assert.is(subject.first()).toMatchInlineSnapshot(`
+	assert.is(subject.first(),
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -65,7 +65,7 @@ test("#first", () => {
 });
 
 test("#last", () => {
-	assert.is(subject.last()).toMatchInlineSnapshot(`
+	assert.is(subject.last(),
 		Object {
 		  "id": [Function],
 		  "recipient": [Function],
@@ -105,7 +105,7 @@ test("#isNotEmpty", () => {
 });
 
 test("#transform", () => {
-	assert.is(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items(),
 		Array [
 		  Object {
 		    "id": [Function],
@@ -130,7 +130,7 @@ test("#transform", () => {
 		return data;
 	});
 
-	assert.is(subject.items()).toMatchInlineSnapshot(`
+	assert.is(subject.items(),
 		Array [
 		  Object {
 		    "id": "() => \\"id1\\"-transformed",
@@ -151,7 +151,7 @@ test("#transform", () => {
 });
 
 test("#getPagination", () => {
-	assert.is(subject.getPagination()).toMatchInlineSnapshot(`
+	assert.is(subject.getPagination(),
 		Object {
 		  "last": 4,
 		  "next": 4,

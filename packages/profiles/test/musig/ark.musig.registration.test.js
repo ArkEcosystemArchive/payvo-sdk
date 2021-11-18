@@ -116,7 +116,7 @@ describe("ARK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -325,7 +325,7 @@ describe("ARK", () => {
 			// Broadcast the transaction to musig server with first's signature.
 			// All participant wallets should see when calling wallet.transaction.sync()
 			const result = await first.wallet.transaction().broadcast(uuid);
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
@@ -591,7 +591,7 @@ describe("ARK", () => {
 
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			const { address } = await first.wallet.coin().address().fromMultiSignature({
 				min: fixtures.withFirstSignature.data.multiSignature.min,
@@ -651,7 +651,7 @@ describe("ARK", () => {
 			mockServerResponse("store", { id: uuid });
 			const result = await first.wallet.transaction().broadcast(uuid);
 
-			assert.is(result, { accepted: [uuid], errors: {}, rejected: [] });
+			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
 			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);

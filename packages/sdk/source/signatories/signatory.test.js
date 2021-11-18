@@ -20,7 +20,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -46,7 +46,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -59,7 +59,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+        assert.is(subject.publicKey(), "publicKey"`);
     });
 
     test("#privateKey", () => {
@@ -72,7 +72,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+        assert.is(subject.privateKey(), "privateKey"`);
     });
 
     test("#multiSignature", () => {
@@ -96,7 +96,7 @@ describe("MnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [
@@ -137,7 +137,7 @@ describe("MnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.options()).toMatchInlineSnapshot(`
+        assert.is(subject.options(),
 		Object {
 		  "bip44": Object {
 		    "account": 0,
@@ -159,7 +159,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -173,7 +173,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey()).toMatchInlineSnapshot(`"confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey"`);
     });
 
     test("#address", () => {
@@ -187,7 +187,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -201,7 +201,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+        assert.is(subject.publicKey(), "publicKey"`);
     });
 
     test("#privateKey", () => {
@@ -215,7 +215,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+        assert.is(subject.privateKey(), "privateKey"`);
     });
 
     test("#multiSignature", () => {
@@ -240,7 +240,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [
@@ -267,7 +267,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -293,7 +293,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -306,7 +306,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+        assert.is(subject.publicKey(), "publicKey"`);
     });
 
     test("#privateKey", () => {
@@ -319,7 +319,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+        assert.is(subject.privateKey(), "privateKey"`);
     });
 
     test("#multiSignature", () => {
@@ -343,7 +343,7 @@ describe("WIFSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [
@@ -371,7 +371,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -385,7 +385,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey()).toMatchInlineSnapshot(`"confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey"`);
     });
 
     test("#address", () => {
@@ -399,7 +399,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -413,7 +413,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+        assert.is(subject.publicKey(), "publicKey"`);
     });
 
     test("#privateKey", () => {
@@ -427,7 +427,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+        assert.is(subject.privateKey(), "privateKey"`);
     });
 
     test("#multiSignature", () => {
@@ -452,7 +452,7 @@ describe("ConfirmationWIFSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [
@@ -477,7 +477,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -499,7 +499,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -521,7 +521,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.privateKey(), "signingKey"`);
     });
 
     test("#multiSignature", () => {
@@ -543,7 +543,7 @@ describe("PrivateKeySignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [
@@ -582,7 +582,7 @@ describe("PrivateKeySignatory", () => {
             },
         );
 
-        assert.is(subject.options()).toMatchInlineSnapshot(`
+        assert.is(subject.options(),
 		Object {
 		  "bip44": Object {
 		    "account": 0,
@@ -606,7 +606,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(subject.asset()).toMatchInlineSnapshot(`
+        assert.is(subject.asset(),
 		Object {
 		  "min": 5,
 		  "publicKeys": Array [
@@ -629,7 +629,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"identifier"`);
+        assert.is(subject.address(), "identifier"`);
     });
 
     test("#publicKey", () => {
@@ -661,7 +661,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey()).toMatchInlineSnapshot(`"signingKey"`);
+        assert.is(subject.signingKey(), "signingKey"`);
     });
 
     test("#confirmKey", () => {
@@ -675,7 +675,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey()).toMatchInlineSnapshot(`"confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey"`);
     });
 
     test("#address", () => {
@@ -689,7 +689,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.address()).toMatchInlineSnapshot(`"address"`);
+        assert.is(subject.address(), "address"`);
     });
 
     test("#publicKey", () => {
@@ -703,7 +703,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey()).toMatchInlineSnapshot(`"publicKey"`);
+        assert.is(subject.publicKey(), "publicKey"`);
     });
 
     test("#privateKey", () => {
@@ -717,7 +717,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey()).toMatchInlineSnapshot(`"privateKey"`);
+        assert.is(subject.privateKey(), "privateKey"`);
     });
 
     test("#multiSignature", () => {
@@ -742,7 +742,7 @@ describe("ConfirmationSecretSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature()).toMatchInlineSnapshot(`
+        assert.is(subject.multiSignature(),
 		Object {
 		  "min": 4,
 		  "publicKeys": Array [

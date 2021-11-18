@@ -25,11 +25,11 @@ test("should return all data", () => {
 });
 
 test("should return the first item", () => {
-    assert.is(subject.first()).toMatchInlineSnapshot(`undefined`);
+    assert.is(subject.first(), undefined`);
 });
 
 test("should return the last item", () => {
-    assert.is(subject.last()).toMatchInlineSnapshot(`undefined`);
+    assert.is(subject.last(), undefined`);
 });
 
 test("should return all data keys", () => {

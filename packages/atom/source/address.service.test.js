@@ -5,10 +5,10 @@ import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { KeyPairService } from "./key-pair.service";
 
-let subject: AddressService;
+let subject;
 
 test.before.each(async () => {
-	subject = await createService(AddressService, undefined, (container: IoC.Container) => {
+	subject = await createService(AddressService, undefined, (container) => {
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 	});
 });
@@ -17,7 +17,7 @@ describe("Address", () => {
 	test("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result).toMatchInlineSnapshot(`
+		assert.is(result,
 		Object {
 		  "address": "cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0",
 		  "path": "m/44'/118'/0'/0/0",

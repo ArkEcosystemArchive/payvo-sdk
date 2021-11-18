@@ -7,7 +7,7 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
 	nock.disableNetConnect();
@@ -38,7 +38,7 @@ describe("ClientService", () => {
 				"0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
 			);
 
-			assert.is(result instanceof ConfirmedTransactionData);
+			assert.instance(result, ConfirmedTransactionData);
 		});
 	});
 
@@ -68,8 +68,8 @@ describe("ClientService", () => {
 				value: "TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ",
 			});
 
-			assert.is(result instanceof WalletData);
-			assert.is(result.balance()).toMatchInlineSnapshot(`
+			assert.instance(result, WalletData);
+			assert.is(result.balance(),
 			Object {
 			  "available": BigNumber {},
 			  "fees": BigNumber {},
@@ -97,7 +97,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				rejected: [],
 				errors: {},
@@ -117,7 +117,7 @@ describe("ClientService", () => {
 				),
 			]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: [],
 				rejected: ["8768a0f9849e2189fe323d4bb9d7485e7a045273096275f1bcb51b1433f73fc3"],
 				errors: {

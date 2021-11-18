@@ -4,7 +4,7 @@ import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-let subject: SignedTransactionData;
+let subject;
 
 test.before.each(async () => {
 	subject = await createService(SignedTransactionData);

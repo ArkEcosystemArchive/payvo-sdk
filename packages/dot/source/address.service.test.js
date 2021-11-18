@@ -7,13 +7,13 @@ import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { AddressService } from "./address.service";
 
-let subject: AddressService;
+let subject;
 
 test.before.each(async () => {
     await cryptoWaitReady();
 
-    subject = await createService(AddressService, undefined, async (container: IoC.Container) => {
-        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
+    subject = await createService(AddressService, undefined, async (container) => {
+        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository));
     });
 });
 
@@ -21,7 +21,7 @@ describe("Address", () => {
     test("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result, { type: "ss58", address: identity.address });
+        assert.equal(result, { type: "ss58", address: identity.address });
     });
 
     test("should generate an output from a multiSignature", async () => {
@@ -30,7 +30,7 @@ describe("Address", () => {
             publicKeys: identity.multiSignature.publicKeys,
         });
 
-        assert.is(result, { type: "ss58", address: identity.multiSignatureAddress });
+        assert.equal(result, { type: "ss58", address: identity.multiSignatureAddress });
     });
 
     test("should validate an address", async () => {

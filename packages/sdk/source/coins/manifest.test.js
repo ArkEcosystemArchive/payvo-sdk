@@ -1,7 +1,7 @@
 import { Manifest } from "./manifest";
 
 test("#all", () => {
-	assert.is(new Manifest({ key: "value" }).all()).toMatchInlineSnapshot(`
+	assert.is(new Manifest({ key: "value" }).all(),
 		Object {
 		  "key": "value",
 		}

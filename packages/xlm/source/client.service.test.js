@@ -12,7 +12,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -49,7 +49,7 @@ describe("ClientService", () => {
                 "264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c",
             );
 
-            assert.is(result instanceof ConfirmedTransactionData);
+            assert.instance(result, ConfirmedTransactionData);
             assert.is(result.id(), "264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
@@ -101,11 +101,11 @@ describe("#wallet", () => {
             value: "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB",
         });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
         assert.is(result.publicKey(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
         assert.is(result.balance().available, BigNumber.make("100000000000000"));
-        assert.is(result.nonce(), BigNumber.make("7275146318446606"));
+        assert.equal(result.nonce(), BigNumber.make("7275146318446606"));
     });
 });
 
@@ -121,7 +121,7 @@ describe("#broadcast", () => {
             .post("/transactions")
             .reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-        const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
+        const transactionService = createService(TransactionService, undefined, (container) => {
             container.constant(IoC.BindingType.Container, container);
             container.singleton(IoC.BindingType.ClientService, ClientService);
             container.constant(IoC.BindingType.DataTransferObjects, {
@@ -153,7 +153,7 @@ describe("#broadcast", () => {
             }),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: ["54600f7b16c2c061ff2d3c96fad6e719039eba94618346717d7dc912c40466e0"],
             rejected: [],
             errors: {},
@@ -171,7 +171,7 @@ describe("#broadcast", () => {
             .post("/transactions")
             .reply(400, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-        const transactionService = createService(TransactionService, undefined, (container: IoC.Container) => {
+        const transactionService = createService(TransactionService, undefined, (container) => {
             container.constant(IoC.BindingType.Container, container);
             container.singleton(IoC.BindingType.ClientService, ClientService);
             container.constant(IoC.BindingType.DataTransferObjects, {

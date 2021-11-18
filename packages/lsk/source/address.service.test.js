@@ -4,7 +4,7 @@ import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 
-let subject: AddressService;
+let subject;
 
 test.before(async () => {
     subject = await createService(AddressService, undefined, (container) => {
@@ -16,19 +16,19 @@ describe("Address", () => {
     test("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result, { type: "bip39", address: identity.address });
+        assert.equal(result, { type: "bip39", address: identity.address });
     });
 
     test("should generate an output from a mnemonic given a custom locale", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
-        assert.is(result, { type: "bip39", address: identity.address });
+        assert.equal(result, { type: "bip39", address: identity.address });
     });
 
     test("should generate an output from a publicKey", async () => {
         const result = await subject.fromPublicKey(identity.publicKey);
 
-        assert.is(result, { type: "bip39", address: identity.address });
+        assert.equal(result, { type: "bip39", address: identity.address });
     });
 
     test("should generate an output from a secret", async () => {
@@ -52,6 +52,6 @@ test("should return sender public key as an output from a multiSignature", async
         senderPublicKey: identity.publicKey,
     });
 
-    assert.is(result, { type: "lip17", address: identity.address });
+    assert.equal(result, { type: "lip17", address: identity.address });
 });
 });

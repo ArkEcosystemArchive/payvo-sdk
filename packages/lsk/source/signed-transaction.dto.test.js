@@ -4,7 +4,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject: SignedTransactionData;
+let subject;
 
 describe("SignedTransactionData", () => {
     const transaction = {
@@ -60,7 +60,7 @@ describe("SignedTransactionData", () => {
     describe("#amount", () => {
         test("returns transaction amount", () => {
             assert.is(subject.amount() instanceof BigNumber);
-            assert.is(subject.amount().toString()).toMatchInlineSnapshot(`"100000000"`);
+            assert.is(subject.amount().toString(), "100000000"`);
         });
 
         test("returns sum of unlock objects amounts if type is unlockToken", async () => {
@@ -89,18 +89,18 @@ describe("SignedTransactionData", () => {
             );
 
             assert.is(subject.amount() instanceof BigNumber);
-            assert.is(subject.amount().toString()).toMatchInlineSnapshot(`"5000000000"`);
+            assert.is(subject.amount().toString(), "5000000000"`);
         });
     });
 
     test("#fee", () => {
         assert.is(subject.fee() instanceof BigNumber);
-        assert.is(subject.fee().toString()).toMatchInlineSnapshot(`"207000"`);
+        assert.is(subject.fee().toString(), "207000"`);
     });
 
     test("#timestamp", () => {
         assert.is(subject.timestamp() instanceof DateTime);
-        assert.is(subject.timestamp().toString()).toMatchInlineSnapshot(`"Invalid Date"`);
+        assert.is(subject.timestamp().toString(), "Invalid Date"`);
     });
 
     test("#isTransfer", async () => {

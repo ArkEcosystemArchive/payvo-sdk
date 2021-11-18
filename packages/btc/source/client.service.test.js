@@ -9,7 +9,7 @@ import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
     nock.disableNetConnect();
@@ -38,7 +38,7 @@ describe("ClientService", () => {
                 "68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
             );
 
-            assert.is(result instanceof ConfirmedTransactionData);
+            assert.instance(result, ConfirmedTransactionData);
             assert.is(result.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp() instanceof DateTime);
@@ -120,7 +120,7 @@ describe("#wallet", () => {
 
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip44" });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);
         assert.is(result.publicKey(), "figure this out");
         assert.is(result.balance().available.toNumber(), 100000);
@@ -165,7 +165,7 @@ describe("#wallet", () => {
 
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip49" });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), [
             "2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT",
             "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x",
@@ -213,7 +213,7 @@ describe("#wallet", () => {
 
         const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip84" });
 
-        assert.is(result instanceof WalletData);
+        assert.instance(result, WalletData);
         assert.is(result.address(), [
             "tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3",
             "tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62",
@@ -233,7 +233,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: ["id"],
             rejected: [],
             errors: {},
@@ -249,7 +249,7 @@ describe("#broadcast", () => {
             createService(SignedTransactionData).configure("id", "transactionPayload", ""),
         ]);
 
-        assert.is(result, {
+        assert.equal(result, {
             accepted: [],
             rejected: ["id"],
             errors: {

@@ -9,7 +9,7 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ClientService;
+let subject;
 
 test.before(async () => {
 	nock.disableNetConnect();
@@ -40,7 +40,7 @@ describe("ClientService", () => {
 				"B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11",
 			);
 
-			assert.is(result instanceof ConfirmedTransactionData);
+			assert.instance(result, ConfirmedTransactionData);
 			assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
 			assert.is(result.type(), "transfer");
 			assert.is(result.timestamp() instanceof DateTime);
@@ -94,11 +94,11 @@ describe("ClientService", () => {
 				value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0",
 			});
 
-			assert.is(result instanceof WalletData);
+			assert.instance(result, WalletData);
 			assert.is(result.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 			assert.is(result.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
 			assert.is(result.balance().available, BigNumber.make(22019458509));
-			assert.is(result.nonce(), BigNumber.make(24242));
+			assert.equal(result.nonce(), BigNumber.make(24242));
 		});
 	});
 
@@ -141,7 +141,7 @@ describe("ClientService", () => {
 
 			const result = await subject.broadcast([transactionPayload]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: ["25E82BD7E457147DA29FD39E6C155365F07559A7834C7FBB4E9B21DE6A65BFC7"],
 				rejected: [],
 				errors: {},
@@ -155,7 +155,7 @@ describe("ClientService", () => {
 
 			const result = await subject.broadcast([transactionPayload]);
 
-			assert.is(result, {
+			assert.equal(result, {
 				accepted: [],
 				rejected: ["535C0F6E94506C2D579CCAC76A155472394062FD2D712C662745D93E951164FB"],
 				errors: {
