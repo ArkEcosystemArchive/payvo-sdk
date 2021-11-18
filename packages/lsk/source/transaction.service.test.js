@@ -89,7 +89,7 @@ describe("TransactionService", () => {
 			});
 
 			assert.is(result instanceof SignedTransactionData);
-			assert.is(result.timestamp() instanceof DateTime);
+			assert.instance(result.timestamp(), DateTime);
 			assert.is(result.toBroadcast(),
 			Object {
 			  "asset": Object {

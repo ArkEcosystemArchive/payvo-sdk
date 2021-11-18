@@ -45,13 +45,13 @@ describe("ClientService", () => {
             assert.is(result.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
             assert.is(result.type(), "transfer");
             assert.is(result.timestamp()), "undefined");
-        assert.is(result.confirmations(), BigNumber.ZERO);
+        assert.equal(result.confirmations(), BigNumber.ZERO);
         assert.is(result.sender(), "0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
         assert.is(result.recipient(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
         assert.is(result.amount().toString(), "10000000000000000000");
         assert.is(result.fee().toString(), "28000");
         // @ts-ignore - Better types so that memo gets detected on TransactionDataType
-        assert.is(result.memo()), "undefined");
+        assert.undefined(result.memo());
 });
     });
 
@@ -65,8 +65,7 @@ describe("#transactions", () => {
             identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
             limit: 1,
         });
-
-        assert.is(result, "object");
+assert.undefined(result.publicKey());
     assert.is(result.items()[0] instanceof ConfirmedTransactionData);
 });
 });

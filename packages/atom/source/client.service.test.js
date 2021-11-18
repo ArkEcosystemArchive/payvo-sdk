@@ -43,8 +43,8 @@ describe("ClientService", () => {
 			assert.instance(result, ConfirmedTransactionData);
 			assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
 			assert.is(result.type(), "transfer");
-			assert.is(result.timestamp() instanceof DateTime);
-			assert.is(result.confirmations(), BigNumber.ZERO);
+			assert.instance(result.timestamp(), DateTime);
+			assert.equal(result.confirmations(), BigNumber.ZERO);
 			assert.is(result.sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 			assert.is(result.recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
 			assert.is(result.amount(), BigNumber.make(10680));

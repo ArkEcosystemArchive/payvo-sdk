@@ -31,6 +31,6 @@ describe("MessageService", () => {
             ),
         });
 
-        await assert.is(subject.verify(result)).resolves, true);
+        assert.true(await subject.verify(result));
 });
 });
