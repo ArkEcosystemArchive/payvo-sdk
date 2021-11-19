@@ -32,18 +32,18 @@ test("should get the fees", async () => {
 	const result = await (await createService(FeeService, "btc.testnet")).all();
 
 	assert.containKeys(result, [
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+		"transfer",
+		"secondSignature",
+		"delegateRegistration",
+		"vote",
+		"multiSignature",
+		"ipfs",
+		"multiPayment",
+		"delegateResignation",
+		"htlcLock",
+		"htlcClaim",
+		"htlcRefund",
+	]);
 
 	// matchSnapshot(result.transfer);
 	// matchSnapshot(result.secondSignature);
