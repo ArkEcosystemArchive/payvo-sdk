@@ -3,3 +3,4 @@ distribution
 docs
 packages/**/distribution
 packages/**/prisma
+packages/**/coverage

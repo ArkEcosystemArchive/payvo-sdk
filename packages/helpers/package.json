@@ -17,7 +17,8 @@
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source .test.js"
+		"test": "uvu -r tsm source .test.js",
+		"test:coverage": "c8 pnpm run test"
 	},
 	"dependencies": {
 		"@hapi/bourne": "^2.0.0",
@@ -50,6 +51,7 @@
 		"@typescript-eslint/eslint-plugin": "^5.3.1",
 		"@typescript-eslint/parser": "^5.3.1",
 		"benchmark": "^2.1.4",
+		"c8": "~7.10.0",
 		"del-cli": "^4.0.1",
 		"eslint": "^8.2.0",
 		"eslint-config-prettier": "^8.3.0",
