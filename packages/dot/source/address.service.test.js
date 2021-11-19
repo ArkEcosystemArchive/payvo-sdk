@@ -14,7 +14,7 @@ test.before.each(async () => {
     await cryptoWaitReady();
 
     subject = await createService(AddressService, undefined, async (container) => {
-        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository));
+        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
     });
 });
 
