@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { assert, test } from "@payvo/sdk-test";
 import Fixture from "../test/fixtures/client/wallet.json";
 import { createService } from "../test/mocking";
 import { WalletData } from "./wallet.dto";
