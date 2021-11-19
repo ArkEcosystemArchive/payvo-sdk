@@ -9,10 +9,10 @@ import { IdentityOptions } from "./shared.contract.js";
 
 @injectable()
 export class AbstractExtendedPublicKeyService implements ExtendedPublicKeyService {
-    @inject(BindingType.ConfigRepository)
-    protected readonly configRepository!: ConfigRepository;
+	@inject(BindingType.ConfigRepository)
+	protected readonly configRepository!: ConfigRepository;
 
-    public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<string> {
-        throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
-    }
+	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<string> {
+		throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
+	}
 }

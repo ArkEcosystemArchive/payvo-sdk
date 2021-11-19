@@ -12,7 +12,7 @@ describe("livenet", function () {
 	test("should generate a link for a block", async () => {
 		assert.is(
 			subject.block("id"),
-			"https://blockstream.info/block/id"`);
+			"https://blockstream.info/block/id");
 	});
 
 	test("should generate a link for a transaction", async () => {
@@ -23,7 +23,7 @@ describe("livenet", function () {
 	test("should generate a link for a wallet", async () => {
 		assert.is(
 			subject.wallet("id"),
-			"https://blockstream.info/address/id"`);
+			"https://blockstream.info/address/id");
 	});
 });
 describe("testnet", function () {
@@ -39,7 +39,7 @@ describe("testnet", function () {
 	test("should generate a link for a transaction", async () => {
 		assert.is(
 			subject.transaction("id"),
-			"https://blockstream.info/testnet/tx/id"`);
+			"https://blockstream.info/testnet/tx/id");
 	});
 
 	test("should generate a link for a wallet", async () => {

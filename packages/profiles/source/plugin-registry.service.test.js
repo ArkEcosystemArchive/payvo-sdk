@@ -95,7 +95,7 @@ describe("PluginRegistry", () => {
 
         const plugin = (await subject.all())[0];
 
-        await assert.is(subject.size(plugin)).resolves.toMatchInlineSnapshot(`22025`);
+        await assert.is(subject.size(plugin), 22025`);
     });
 
     test("should get the download count of the given plugin", async () => {

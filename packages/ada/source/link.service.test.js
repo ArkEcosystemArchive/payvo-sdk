@@ -9,13 +9,13 @@ test.before(async () => {
 });
 
 test("should generate a link for a block", async () => {
-	assert.is(subject.block("id"), "https://shelleyexplorer.cardano.org/block/id"`);
+	assert.is(subject.block("id"), "https://shelleyexplorer.cardano.org/block/id");
 });
 
 test("should generate a link for a transaction", async () => {
-	assert.is(subject.transaction("id"), "https://shelleyexplorer.cardano.org/tx/id"`);
+	assert.is(subject.transaction("id"), "https://shelleyexplorer.cardano.org/tx/id");
 });
 
 test("should generate a link for a wallet", async () => {
-	assert.is(subject.wallet("id"), "https://shelleyexplorer.cardano.org/address/id"`);
+	assert.is(subject.wallet("id"), "https://shelleyexplorer.cardano.org/address/id");
 });
