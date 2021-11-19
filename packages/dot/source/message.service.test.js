@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { IoC, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
@@ -13,11 +14,10 @@ test.before.each(async () => {
     await waitReady();
 
     subject = await createService(MessageService, undefined, async (container) => {
-        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository));
+        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
     });
 });
 
-describe("MessageService", () => {
     test("should sign a message", async () => {
         const result = await subject.sign({
             message: "Hello World",
@@ -33,4 +33,5 @@ describe("MessageService", () => {
 
         assert.true(await subject.verify(result));
 });
-});
+
+test.run();

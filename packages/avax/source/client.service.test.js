@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { assert, test } from "@payvo/sdk-test";
 import { Collections, IoC, Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";

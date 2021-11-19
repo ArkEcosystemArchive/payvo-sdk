@@ -33,6 +33,6 @@ describe("Address", () => {
 
     test("should validate an address", async () => {
         assert.true(await subject.validate(identity.address)));
-    await assert.is(subject.validate(identity.address.slice(0, 10))).resolves, false);
+		assert.false(await subject.validate(identity.address.slice(0, 10)));
 });
 });

@@ -1,3 +1,4 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import { createService } from "../test/mocking";
@@ -26,24 +27,24 @@ test.before.each(async () => {
 	);
 });
 
-describe("SignedTransactionData", () => {
-	test("#sender", () => {
-		assert.is(subject.sender(), "0xdeadbeef");
-	});
-
-	test("#recipient", () => {
-		assert.is(subject.recipient(), "0xfoobar");
-	});
-
-	test("#amount", () => {
-		assert.is(subject.amount().toHuman(), 120);
-	});
-
-	test("#fee", () => {
-		assert.is(subject.fee().toNumber(), 0);
-	});
-
-	test("#timestamp", () => {
-		assert.true(DateTime.make(0).isSame(subject.timestamp()));
-	});
+test("#sender", () => {
+	assert.is(subject.sender(), "0xdeadbeef");
 });
+
+test("#recipient", () => {
+	assert.is(subject.recipient(), "0xfoobar");
+});
+
+test("#amount", () => {
+	assert.is(subject.amount().toHuman(), 120);
+});
+
+test("#fee", () => {
+	assert.is(subject.fee().toNumber(), 0);
+});
+
+test("#timestamp", () => {
+	assert.true(DateTime.make(0).isSame(subject.timestamp()));
+});
+
+test.run();
