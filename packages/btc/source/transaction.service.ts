@@ -155,9 +155,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	// TODO revert to public override async multiSignature(
-	public async renamedMultiSignature(
-		input: Services.MultiSignatureInput,
-	): Promise<Contracts.SignedTransactionData> {
+	public async renamedMultiSignature(input: Services.MultiSignatureInput): Promise<Contracts.SignedTransactionData> {
 		if (!input.data.min) {
 			throw new Error("Expected [input.data.min] to be defined as an integer.");
 		}
