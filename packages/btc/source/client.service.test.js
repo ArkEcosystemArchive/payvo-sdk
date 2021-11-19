@@ -108,7 +108,7 @@ test("should derive bip44 addresses from xpub", async () => {
 	const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip44" });
 
 	assert.instance(result, WalletData);
-	assert.is(result.address(), ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);
+	assert.equal(result.address(), ["mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz"]);
 	assert.is(result.publicKey(), "figure this out");
 	assert.is(result.balance().available.toNumber(), 100000);
 });
@@ -153,7 +153,7 @@ test("should derive bip49 addresses from xpub", async () => {
 	const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip49" });
 
 	assert.instance(result, WalletData);
-	assert.is(result.address(), ["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT", "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"]);
+	assert.equal(result.address(), ["2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT", "2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x"]);
 	assert.is(result.publicKey(), "figure this out");
 	assert.is(result.balance().available.toNumber(), 59832);
 });
@@ -198,7 +198,7 @@ test("should derive bip84 addresses from xpub", async () => {
 	const result = await subject.wallet({ type: "extendedPublicKey", value: xpub, method: "bip84" });
 
 	assert.instance(result, WalletData);
-	assert.is(result.address(), [
+	assert.equal(result.address(), [
 		"tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3",
 		"tb1qp2c7hrs54lzyhl9725tkyxrwhw4utfucagjk62",
 	]);
