@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { Container } from "./container";
 import { BindingType } from "./service-provider.contract";
 

@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 /* eslint-disable */
 
 import "reflect-metadata";

@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { Manifest } from "./manifest";
 
 test("#all", () => {

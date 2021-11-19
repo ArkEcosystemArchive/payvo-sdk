@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { FeatureFlag } from "./enums";
 
 test("FeatureFlag", () => {

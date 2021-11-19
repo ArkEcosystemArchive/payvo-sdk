@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { manifest } from "../../../ark/distribution/manifest";
 import { NetworkRepository } from "./network-repository";
 

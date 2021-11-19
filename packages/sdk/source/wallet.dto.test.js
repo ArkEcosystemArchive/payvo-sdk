@@ -2,6 +2,7 @@
 
 import "reflect-metadata";
 
+import { assert, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { WalletBalance } from "../contracts";

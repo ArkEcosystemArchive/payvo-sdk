@@ -1,6 +1,7 @@
-import { ConfigKey, ConfigRepository } from "./config";
+import { assert, test } from "@payvo/sdk-test";
+import { ConfigRepository } from "./config";
 
-let subject: ConfigRepository;
+let subject;
 
 test.before.each(async () => {
 	subject = new ConfigRepository({
@@ -9,22 +10,19 @@ test.before.each(async () => {
 });
 
 test("#constructor", () => {
-	assert
-		.is(
-			() =>
-				new ConfigRepository({
-					network: 123,
-				}),
-		)
-		.toThrow('Failed to validate the configuration: "network" must be a string');
+	assert.throws(
+		() =>
+			new ConfigRepository({
+				network: 123,
+			}),
+		'Failed to validate the configuration: "network" must be a string',
+	);
 });
 
 test("#all", () => {
-	assert.is(subject.all(),
-		Object {
-		  "network": "ark.mainnet",
-		}
-	`);
+	assert.equal(subject.all(), {
+		network: "ark.mainnet",
+	});
 });
 
 test("#get | #set", () => {
@@ -34,53 +32,51 @@ test("#get | #set", () => {
 
 	assert.is(subject.get("network"), "ark.devnet");
 
-	assert.is(() => subject.get("key")).toThrow("The [key] is an unknown configuration value.");
+	assert.throws(() => subject.get("key"), "The [key] is an unknown configuration value.");
 });
 
 test("#getLoose", () => {
-	assert.is(() => subject.getLoose("hello.world")).not.toThrow("The [key] is an unknown configuration value.");
+	assert.not.throws(() => subject.getLoose("hello.world"), "The [key] is an unknown configuration value.");
 });
 
 test("#has", () => {
-	assert.is(subject.has("key"), false);
+	assert.false(subject.has("key"));
 
 	subject.set("key", "value");
 
-	assert.is(subject.has("key"), true);
+	assert.true(subject.has("key"));
 });
 
 test("#missing", () => {
-	assert.is(subject.missing("key"), true);
+	assert.true(subject.missing("key"));
 
 	subject.set("key", "value");
 
-	assert.is(subject.missing("key"), false);
+	assert.false(subject.missing("key"));
 });
 
 test("#forget", () => {
-	assert.is(subject.missing("key"), true);
+	assert.true(subject.missing("key"));
 
 	subject.set("key", "value");
 
-	assert.is(subject.missing("key"), false);
+	assert.false(subject.missing("key"));
 
 	subject.forget("key");
 
-	assert.is(subject.missing("key"), true);
+	assert.true(subject.missing("key"));
 });
 
 test("ConfigKey", () => {
-	assert.is(ConfigKey,
-		Object {
-		  "Bech32": "network.constants.bech32",
-		  "CurrencyDecimals": "network.currency.decimals",
-		  "CurrencyTicker": "network.currency.ticker",
-		  "HttpClient": "httpClient",
-		  "KnownWallets": "network.knownWallets",
-		  "Network": "network",
-		  "NetworkId": "network.id",
-		  "NetworkType": "network.type",
-		  "Slip44": "network.constants.slip44",
-		}
-	`);
+	assert.equal(ConfigKey, {
+		Bech32: "network.constants.bech32",
+		CurrencyDecimals: "network.currency.decimals",
+		CurrencyTicker: "network.currency.ticker",
+		HttpClient: "httpClient",
+		KnownWallets: "network.knownWallets",
+		Network: "network",
+		NetworkId: "network.id",
+		NetworkType: "network.type",
+		Slip44: "network.constants.slip44",
+	});
 });

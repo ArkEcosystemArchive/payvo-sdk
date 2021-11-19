@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { ConfigRepository } from "./coins/index";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers";
 
