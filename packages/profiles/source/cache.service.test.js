@@ -1,51 +1,55 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import { Cache } from "./cache.service";
 
-let subject: Cache;
-test.before.each(() => (subject = new Cache("wallet-ABC"));
+let subject;
+
+test.before.each(() => (subject = new Cache("wallet-ABC")));
 
 test("should return a list of all key-value pairs", async () => {
-    assert.is(subject.all()).toBeEmpty();
+	assert.empty(subject.all());
 
-    subject.set("key", "value", 1);
+	subject.set("key", "value", 1);
 
-    assert.is(subject.all()).not.toBeEmpty();
+	assert.not.empty(subject.all());
 });
 
 test("should return a list of all keys", async () => {
-    assert.is(subject.keys()).toBeEmpty();
+	assert.empty(subject.keys());
 
-    subject.set("key", "value", 1);
+	subject.set("key", "value", 1);
 
-    assert.is(subject.keys()).not.toBeEmpty();
-    assert.is(subject.keys()[0]), "string");
+	assert.not.empty(subject.keys());
+	assert.string(subject.keys()[0]);
 });
 
 test("should set, get and forget a value", async () => {
-    assert.is(() => subject.get("key")).toThrow();
-    assert.is(subject.has("key"), false);
+	assert.throws(() => subject.get("key"));
+	assert.false(subject.has("key"));
 
-    subject.set("key", "value", 1);
+	subject.set("key", "value", 1);
 
-    assert.is(subject.get("key"), "value");
-    assert.is(subject.has("key"), true);
+	assert.is(subject.get("key"), "value");
+	assert.true(subject.has("key"));
 
-    subject.forget("key");
+	subject.forget("key");
 
-    assert.is(() => subject.get("key")).toThrow();
-    assert.is(subject.has("key"), false);
+	assert.throws(() => subject.get("key"));
+	assert.false(subject.has("key"));
 });
 
 test("should flush the cache", async () => {
-    assert.is(() => subject.get("key")).toThrow();
-    assert.is(subject.has("key"), false);
+	assert.throws(() => subject.get("key"));
+	assert.false(subject.has("key"));
 
-    subject.set("key", "value", 1);
+	subject.set("key", "value", 1);
 
-    assert.is(subject.get("key"), "value");
-    assert.is(subject.has("key"), true);
+	assert.is(subject.get("key"), "value");
+	assert.true(subject.has("key"));
 
-    subject.flush();
+	subject.flush();
 
-    assert.is(() => subject.get("key")).toThrow();
-    assert.is(subject.has("key"), false);
+	assert.throws(() => subject.get("key"));
+	assert.false(subject.has("key"));
 });
+
+test.run();

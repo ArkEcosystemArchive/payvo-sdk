@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,8 +12,8 @@ import { ReadOnlyWallet } from "./read-only-wallet";
 import { Wallet } from "./wallet";
 import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
 
-let profile: IProfile;
-let subject: IReadWriteWallet;
+let profile;
+let subject;
 
 test.before(() => bootContainer());
 
@@ -86,18 +87,19 @@ test.before.each(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("should return multi signature", async () => {
-	assert.is(() => subject.multiSignature().all()).toThrow("This wallet does not have a multi-signature registered.");
+	assert.throws(() => subject.multiSignature().all(), "This wallet does not have a multi-signature registered.");
 
 	subject = new Wallet(UUID.random(), {}, profile);
 
-	assert
-		.is(() => subject.multiSignature().all())
-		.toThrow("This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.");
+	assert.throws(
+		() => subject.multiSignature().all(),
+		"This wallet has not been synchronized yet. Please call [synchroniser().identity()] before using it.",
+	);
 });
 
 test("should return multi-signature participants", async () => {
-	const isMultiSignature = jest.spyOn(subject, "isMultiSignature").mockReturnValue(true);
-	const multiSignature = jest.spyOn(subject.multiSignature(), "all").mockReturnValue({
+	const isMultiSignature = mockery(subject, "isMultiSignature").mockReturnValue(true);
+	const multiSignature = mockery(subject.multiSignature(), "all").mockReturnValue({
 		min: 2,
 		publicKeys: [
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
@@ -108,9 +110,9 @@ test("should return multi-signature participants", async () => {
 	await subject.synchroniser().identity();
 	await subject.synchroniser().multiSignature();
 
-	assert.is(subject.multiSignature().participants()).toHaveLength(2);
-	assert.is(subject.multiSignature().participants()[0] instanceof ReadOnlyWallet);
-	assert.is(subject.multiSignature().participants()[1] instanceof ReadOnlyWallet);
+	assert.length(subject.multiSignature().participants(), 2);
+	assert.instance(subject.multiSignature().participants()[0], ReadOnlyWallet);
+	assert.instance(subject.multiSignature().participants()[1], ReadOnlyWallet);
 
 	isMultiSignature.mockRestore();
 	multiSignature.mockRestore();
@@ -128,9 +130,10 @@ test("should throw if the wallet does not have a multi-signature registered", as
 	await subject.synchroniser().identity();
 	await subject.synchroniser().multiSignature();
 
-	assert
-		.is(() => subject.multiSignature().participants())
-		.toThrow("This wallet does not have a multi-signature registered.");
+	assert.throws(
+		() => subject.multiSignature().participants(),
+		"This wallet does not have a multi-signature registered.",
+	);
 });
 
 test("should throw if the multi-signature has not been synchronized yet", async () => {
@@ -138,40 +141,29 @@ test("should throw if the multi-signature has not been synchronized yet", async 
 
 	await subject.synchroniser().identity();
 
-	assert
-		.is(() => subject.multiSignature().participants())
-		.toThrow(
-			"This Multi-Signature has not been synchronized yet. Please call [synchroniser().multiSignature()] before using it.",
-		);
+	assert.throws(
+		() => subject.multiSignature().participants(),
+		"This Multi-Signature has not been synchronized yet. Please call [synchroniser().multiSignature()] before using it.",
+	);
 });
 
 test("should list all participants with a standard multi signature", async () => {
-	jest.spyOn(subject.multiSignature(), "all").mockReturnValue({
+	mockery(subject.multiSignature(), "all").mockReturnValue({
 		min: 2,
 		publicKeys: ["a", "b"],
 	});
 
-	assert.is(subject.multiSignature().publicKeys(),
-		Array [
-		  "a",
-		  "b",
-		]
-	`);
+	assert.equal(subject.multiSignature().publicKeys(), ["a", "b"]);
 });
 
 test("should list all participants with an advanced multi signature", async () => {
-	jest.spyOn(subject.multiSignature(), "all").mockReturnValue({
+	mockery(subject.multiSignature(), "all").mockReturnValue({
 		numberOfSignatures: 2,
 		mandatoryKeys: ["a", "b"],
 		optionalKeys: ["c", "d"],
 	});
 
-	assert.is(subject.multiSignature().publicKeys(),
-		Array [
-		  "a",
-		  "b",
-		  "c",
-		  "d",
-		]
-	`);
+	assert.equal(subject.multiSignature().publicKeys(), ["a", "b", "c", "d"]);
 });
+
+test.run();

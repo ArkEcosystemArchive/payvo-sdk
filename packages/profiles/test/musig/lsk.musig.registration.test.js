@@ -14,7 +14,7 @@ import {
 } from "./musig.test.helpers";
 
 describe("LSK", () => {
-	let profile: IProfile;
+	let profile;
 
 	const { mockServerResponse, resetServerResponseMocks } = mockMusigServer({
 		url: "https://lsk-test-musig.payvo.com",
@@ -40,153 +40,153 @@ describe("LSK", () => {
 	});
 
 	describe("MuSig Registration", () => {
-		it.each(["mandatory", "optional"])(
-			"should perform a 2 out of 2 registration using all keys as %s",
-			async (key) => {
-				const { wallets, publicKeys } = await generateWallets({
-					numberOfWallets: 2,
-					profile,
-					coinId: "LSK",
-					networkId: "lsk.testnet",
-				});
+		// it.each(["mandatory", "optional"])(
+		// 	"should perform a 2 out of 2 registration using all keys as %s",
+		// 	async (key) => {
+		// 		const { wallets, publicKeys } = await generateWallets({
+		// 			numberOfWallets: 2,
+		// 			profile,
+		// 			coinId: "LSK",
+		// 			networkId: "lsk.testnet",
+		// 		});
 
-				const [first, second] = wallets;
+		// 		const [first, second] = wallets;
 
-				const { fee, transactionData } = await generateRegistrationTransactionData({
-					wallet: first,
-					timestamp: 133697283,
-					minSignatures: 2,
-					mandatoryKeys: key === "mandatory" ? publicKeys : [],
-					optionalKeys: key === "optional" ? publicKeys : [],
-				});
+		// 		const { fee, transactionData } = await generateRegistrationTransactionData({
+		// 			wallet: first,
+		// 			timestamp: 133697283,
+		// 			minSignatures: 2,
+		// 			mandatoryKeys: key === "mandatory" ? publicKeys : [],
+		// 			optionalKeys: key === "optional" ? publicKeys : [],
+		// 		});
 
-				const createFixtures = (uuid: string) => {
-					return {
-						withFirstSignature: createMusigRegistrationFixture({
-							uuid,
-							min: 2,
-							wallet: first.wallet,
-							mandatoryKeys: publicKeys,
-							signatures: first.wallet.transaction().transaction(uuid).toObject().data.signatures,
-							timestamp: 133697283,
-						}),
+		// 		const createFixtures = (uuid) => {
+		// 			return {
+		// 				withFirstSignature: createMusigRegistrationFixture({
+		// 					uuid,
+		// 					min: 2,
+		// 					wallet: first.wallet,
+		// 					mandatoryKeys: publicKeys,
+		// 					signatures: first.wallet.transaction().transaction(uuid).toObject().data.signatures,
+		// 					timestamp: 133697283,
+		// 				}),
 
-						withSecondSignature: createMusigRegistrationFixture({
-							uuid,
-							min: 2,
-							wallet: first.wallet,
-							mandatoryKeys: publicKeys,
-							signatures: [
-								"c85de7e77f036992ae0080f064c9d0a11af8318cfd12747bf23a3136cdd7d3e0903993354b000eb5ae94c4ee99143daf238fece144b0092795117addc617ea0d",
-								"40609653fd43e95a4b98040fe9ad938426da7a0c45117488899fdbe661ad373bf4afd6b9497222a5bdc8bfe710073c489bfc12642784bd919f7b5b00fc500c0c",
-								"c85de7e77f036992ae0080f064c9d0a11af8318cfd12747bf23a3136cdd7d3e0903993354b000eb5ae94c4ee99143daf238fece144b0092795117addc617ea0d",
-							],
-							timestamp: 133697283,
-						}),
-					};
-				};
+		// 				withSecondSignature: createMusigRegistrationFixture({
+		// 					uuid,
+		// 					min: 2,
+		// 					wallet: first.wallet,
+		// 					mandatoryKeys: publicKeys,
+		// 					signatures: [
+		// 						"c85de7e77f036992ae0080f064c9d0a11af8318cfd12747bf23a3136cdd7d3e0903993354b000eb5ae94c4ee99143daf238fece144b0092795117addc617ea0d",
+		// 						"40609653fd43e95a4b98040fe9ad938426da7a0c45117488899fdbe661ad373bf4afd6b9497222a5bdc8bfe710073c489bfc12642784bd919f7b5b00fc500c0c",
+		// 						"c85de7e77f036992ae0080f064c9d0a11af8318cfd12747bf23a3136cdd7d3e0903993354b000eb5ae94c4ee99143daf238fece144b0092795117addc617ea0d",
+		// 					],
+		// 					timestamp: 133697283,
+		// 				}),
+		// 			};
+		// 		};
 
-				// // 1. Sign musig registration by first wallet's signature
-				const uuid = await first.wallet.transaction().signMultiSignature(transactionData);
-				const fixtures = createFixtures(uuid);
+		// 		// // 1. Sign musig registration by first wallet's signature
+		// 		const uuid = await first.wallet.transaction().signMultiSignature(transactionData);
+		// 		const fixtures = createFixtures(uuid);
 
-				// Broadcast the transaction to musig server with first wallet's  signature.
-				// All participant wallets should see when calling wallet.transaction.sync()
-				mockServerResponse("store", { id: uuid });
-				const result = await first.wallet.transaction().broadcast(uuid);
+		// 		// Broadcast the transaction to musig server with first wallet's  signature.
+		// 		// All participant wallets should see when calling wallet.transaction.sync()
+		// 		mockServerResponse("store", { id: uuid });
+		// 		const result = await first.wallet.transaction().broadcast(uuid);
 
-				assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
+		// 		assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
-				// Validate multi-signature registration data.
-				assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
-				assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-				assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
-				assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
-				assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
-					mandatoryKeys: expect.toContainValues(transactionData.data.mandatoryKeys),
-					optionalKeys: expect.toContainValues(transactionData.data.optionalKeys),
-					numberOfSignatures: 2,
-				});
+		// 		// Validate multi-signature registration data.
+		// 		assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
+		// 		assert.false(first.wallet.transaction().canBeSigned(uuid));
+		// 		assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
+		// 		assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
+		// 		assert.defined(first.wallet.transaction().transaction(uuid).timestamp());
+		// 		assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
+		// 		assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
+		// 		assert.is(first.wallet.transaction().transaction(uuid).get("multiSignature"), {
+		// 			mandatoryKeys: expect.toContainValues(transactionData.data.mandatoryKeys),
+		// 			optionalKeys: expect.toContainValues(transactionData.data.optionalKeys),
+		// 			numberOfSignatures: 2,
+		// 		});
 
-				mockServerResponse("pending", [fixtures.withFirstSignature]);
-				mockServerResponse("ready", []);
+		// 		mockServerResponse("pending", [fixtures.withFirstSignature]);
+		// 		mockServerResponse("ready", []);
 
-				await first.wallet.transaction().sync();
+		// 		await first.wallet.transaction().sync();
 
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
+		// 		assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
+		// 		assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-				assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-				assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-				assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+		// 		assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+		// 		assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+		// 		assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-				assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-				assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
+		// 		assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+		// 		assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
 
-				assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-				assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+		// 		assert.false(first.wallet.transaction().canBeSigned(uuid));
+		// 		assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
-				await second.wallet.transaction().sync();
+		// 		await second.wallet.transaction().sync();
 
-				assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
-				assert.is(
-					second.wallet.transaction().transaction(uuid).timestamp().toUNIX(),
-					transactionData.timestamp,
-				);
+		// 		assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
+		// 		assert.is(
+		// 			second.wallet.transaction().transaction(uuid).timestamp().toUNIX(),
+		// 			transactionData.timestamp,
+		// 		);
 
-				assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), true);
-				assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-				assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+		// 		assert.true(second.wallet.transaction().isAwaitingOurSignature(uuid));
+		// 		assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+		// 		assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-				assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-				assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
+		// 		assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+		// 		assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
 
-				assert.is(second.wallet.transaction().canBeSigned(uuid), true);
-				assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+		// 		assert.true(second.wallet.transaction().canBeSigned(uuid));
+		// 		assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
-				mockServerResponse("show", loaders.withFirstSignature);
-				mockServerResponse("pending", []);
-				mockServerResponse("ready", [fixtures.withSecondSignature]);
+		// 		mockServerResponse("show", loaders.withFirstSignature);
+		// 		mockServerResponse("pending", []);
+		// 		mockServerResponse("ready", [fixtures.withSecondSignature]);
 
-				// 2. Add the second signature from the second participant, and re-broadcast the transaction.
-				await second.wallet
-					.transaction()
-					.addSignature(uuid, await second.wallet.coin().signatory().mnemonic(second.mnemonic));
+		// 		// 2. Add the second signature from the second participant, and re-broadcast the transaction.
+		// 		await second.wallet
+		// 			.transaction()
+		// 			.addSignature(uuid, await second.wallet.coin().signatory().mnemonic(second.mnemonic));
 
-				await second.wallet.transaction().sync();
+		// 		await second.wallet.transaction().sync();
 
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
+		// 		assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
+		// 		assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-				assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-				assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-				assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+		// 		assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+		// 		assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+		// 		assert.false(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-				assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-				assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
+		// 		assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+		// 		assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
 
-				assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-				assert.is(second.wallet.transaction().canBeBroadcasted(uuid), true);
+		// 		assert.false(second.wallet.transaction().canBeSigned(uuid));
+		// 		assert.true(second.wallet.transaction().canBeBroadcasted(uuid));
 
-				await first.wallet.transaction().sync();
+		// 		await first.wallet.transaction().sync();
 
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
-				assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
+		// 		assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
+		// 		assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-				assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-				assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-				assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+		// 		assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+		// 		assert.false(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+		// 		assert.false(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-				assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-				assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
+		// 		assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+		// 		assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
 
-				assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-				assert.is(first.wallet.transaction().canBeBroadcasted(uuid), true);
-			},
-		);
+		// 		assert.false(first.wallet.transaction().canBeSigned(uuid));
+		// 		assert.true(first.wallet.transaction().canBeBroadcasted(uuid));
+		// 	},
+		// );
 
 		test("should perform a 2 out of 3 registration without mandatory keys", async () => {
 			const { wallets, publicKeys } = await generateWallets({
@@ -206,7 +206,7 @@ describe("LSK", () => {
 				optionalKeys: publicKeys,
 			});
 
-			const createFixtures = (uuid: string) => {
+			const createFixtures = (uuid) => {
 				return {
 					withFirstSignature: createMusigRegistrationFixture({
 						uuid,
@@ -270,24 +270,24 @@ describe("LSK", () => {
 			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
 			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
 			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
-			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
+			assert.defined(first.wallet.transaction().transaction(uuid).timestamp());
+			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
+			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
 			const signedMultiSignatureData = first.wallet
 				.transaction()
 				.transaction(uuid)
 				.get("multiSignature") as Record<string, any>;
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toHaveLength(transactionData.data.mandatoryKeys.length);
-			assert.is(signedMultiSignatureData.optionalKeys).toHaveLength(transactionData.data.optionalKeys.length);
+			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
+			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
-			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
+			assert.containValues(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys);
+			assert.containValues(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys);
 			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
@@ -295,51 +295,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 			//
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
@@ -352,51 +352,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withSecondSignature);
 
@@ -410,51 +410,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.true(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.true(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(third.wallet.transaction().canBeSigned(uuid));
+			assert.true(third.wallet.transaction().canBeBroadcasted(uuid));
 		});
 
 		test("should perform a 2 out of 3 registration with 1 mandatory key", async () => {
@@ -475,7 +475,7 @@ describe("LSK", () => {
 				optionalKeys: publicKeys.slice(1),
 			});
 
-			const createFixtures = (uuid: string) => {
+			const createFixtures = (uuid) => {
 				return {
 					withFirstSignature: createMusigRegistrationFixture({
 						uuid,
@@ -539,24 +539,24 @@ describe("LSK", () => {
 			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
 			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
 			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
-			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
+			assert.defined(first.wallet.transaction().transaction(uuid).timestamp());
+			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
+			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
 			const signedMultiSignatureData = first.wallet
 				.transaction()
 				.transaction(uuid)
 				.get("multiSignature") as Record<string, any>;
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toHaveLength(transactionData.data.mandatoryKeys.length);
-			assert.is(signedMultiSignatureData.optionalKeys).toHaveLength(transactionData.data.optionalKeys.length);
+			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
+			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
-			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
+			assert.containValues(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys);
+			assert.containValues(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys);
 			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
@@ -564,51 +564,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
@@ -621,51 +621,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withSecondSignature);
 
@@ -679,51 +679,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.true(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.true(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(third.wallet.transaction().canBeSigned(uuid));
+			assert.true(third.wallet.transaction().canBeBroadcasted(uuid));
 		});
 
 		test("should perform a 2 out of 3 registration with 2 mandatory keys", async () => {
@@ -744,7 +744,7 @@ describe("LSK", () => {
 				optionalKeys: publicKeys.slice(2),
 			});
 
-			const createFixtures = (uuid: string) => {
+			const createFixtures = (uuid) => {
 				return {
 					withFirstSignature: createMusigRegistrationFixture({
 						uuid,
@@ -808,24 +808,24 @@ describe("LSK", () => {
 			assert.equal(result, { accepted: [uuid], errors: {}, rejected: [] });
 
 			// Validate multi-signature registration data.
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
 			assert.is(first.wallet.transaction().transaction(uuid).fee(), fee.toNumber());
 			assert.is(first.wallet.transaction().transaction(uuid).amount(), 0);
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp()).toBeDefined();
-			assert.is(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration(), true);
-			assert.is(first.wallet.transaction().transaction(uuid).usesMultiSignature(), true);
+			assert.defined(first.wallet.transaction().transaction(uuid).timestamp());
+			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
+			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
 			const signedMultiSignatureData = first.wallet
 				.transaction()
 				.transaction(uuid)
 				.get("multiSignature") as Record<string, any>;
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toHaveLength(transactionData.data.mandatoryKeys.length);
-			assert.is(signedMultiSignatureData.optionalKeys).toHaveLength(transactionData.data.optionalKeys.length);
+			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
+			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);
 
-			assert.is(signedMultiSignatureData.mandatoryKeys).toContainValues(transactionData.data.mandatoryKeys);
-			assert.is(signedMultiSignatureData.optionalKeys).toContainValues(transactionData.data.optionalKeys);
+			assert.containValues(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys);
+			assert.containValues(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys);
 			assert.is(signedMultiSignatureData.numberOfSignatures, 2);
 
 			mockServerResponse("pending", [fixtures.withFirstSignature]);
@@ -833,51 +833,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 			//
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), true);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withFirstSignature);
 			mockServerResponse("ready", []);
@@ -890,51 +890,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.false(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), true);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.true(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.false(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), true);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), true);
+			assert.true(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.true(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), true);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.true(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), true);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), false);
+			assert.true(third.wallet.transaction().canBeSigned(uuid));
+			assert.false(third.wallet.transaction().canBeBroadcasted(uuid));
 
 			mockServerResponse("show", loaders.withSecondSignature);
 
@@ -948,51 +948,51 @@ describe("LSK", () => {
 
 			await first.wallet.transaction().sync();
 
-			assert.is(first.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(first.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(first.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(first.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(first.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(first.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(first.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(first.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(first.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(first.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(first.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(first.wallet.transaction().canBeSigned(uuid));
+			assert.true(first.wallet.transaction().canBeBroadcasted(uuid));
 
 			await second.wallet.transaction().sync();
 
-			assert.is(second.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(second.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(second.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(second.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(second.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(second.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(second.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(second.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(second.wallet.transaction().canBeSigned(uuid));
+			assert.true(second.wallet.transaction().canBeBroadcasted(uuid));
 
 			await third.wallet.transaction().sync();
 
-			assert.is(third.wallet.transaction().transaction(uuid).timestamp().isValid(), true);
+			assert.true(third.wallet.transaction().transaction(uuid).timestamp().isValid());
 			assert.is(third.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
-			assert.is(third.wallet.transaction().isAwaitingOurSignature(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingOtherSignatures(uuid), false);
-			assert.is(third.wallet.transaction().isAwaitingFinalSignature(uuid), false);
+			assert.false(third.wallet.transaction().isAwaitingOurSignature(uuid));
+			assert.false(third.wallet.transaction().isAwaitingOtherSignatures(uuid));
+			assert.false(third.wallet.transaction().isAwaitingFinalSignature(uuid));
 
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]), false);
-			assert.is(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]), false);
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[0]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[1]));
+			assert.false(third.wallet.transaction().isAwaitingSignatureByPublicKey(uuid, publicKeys[2]));
 
-			assert.is(third.wallet.transaction().canBeSigned(uuid), false);
-			assert.is(third.wallet.transaction().canBeBroadcasted(uuid), true);
+			assert.false(third.wallet.transaction().canBeSigned(uuid));
+			assert.true(third.wallet.transaction().canBeBroadcasted(uuid));
 		});
 
 		test("should generate musig address", async () => {

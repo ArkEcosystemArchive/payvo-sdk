@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { PBKDF2 } from "@payvo/sdk-cryptography";
@@ -9,8 +10,8 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
 
-let profile: IProfile;
-let subject: IReadWriteWallet;
+let profile;
+let subject;
 
 test.before(() => bootContainer());
 
@@ -96,39 +97,41 @@ test("should encrypt the WIF and add it to the wallet", () => {
 });
 
 test("should throw if the WIF is tried to be decrypted without one being set", () => {
-	assert.is(() => subject.signingKey().get("password")).toThrow("This wallet does not use PBKDF2 encryption.");
+	assert.throws(() => subject.signingKey().get("password"), "This wallet does not use PBKDF2 encryption.");
 });
 
 test("should determine if the wallet uses a WIF", () => {
-	assert.is(subject.signingKey().exists(), false);
+	assert.false(subject.signingKey().exists());
 
 	subject.data().set(WalletData.EncryptedSigningKey, "...");
 
-	assert.is(subject.signingKey().exists(), true);
+	assert.true(subject.signingKey().exists());
 });
 
-it.each([
-	"bomb open frame quit success evolve gain donate prison very rent later",
-	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
-	"secret",
-])("should set the WIF", (mnemonic) => {
-	assert.is(subject.signingKey().exists(), false);
+// it.each([
+// 	"bomb open frame quit success evolve gain donate prison very rent later",
+// 	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
+// 	"secret",
+// ])("should set the WIF", (mnemonic) => {
+// 	assert.false(subject.signingKey().exists());
 
-	subject.signingKey().set(mnemonic, "password");
+// 	subject.signingKey().set(mnemonic, "password");
 
-	assert.is(subject.signingKey().exists(), true);
-});
+// 	assert.true(subject.signingKey().exists());
+// });
 
 test("should remove the WIF", async () => {
 	subject.signingKey().set(identity.mnemonic, "password");
 
-	assert.is(subject.signingKey().exists(), true);
+	assert.true(subject.signingKey().exists());
 
 	await subject.signingKey().forget("password");
 
-	assert.is(subject.signingKey().exists(), false);
+	assert.false(subject.signingKey().exists());
 });
 
 test("should throw if the WIF is tried to be removed without one being set", () => {
-	assert.is(() => subject.signingKey().forget("password")).toThrow("This wallet does not use PBKDF2 encryption.");
+	assert.throws(() => subject.signingKey().forget("password"), "This wallet does not use PBKDF2 encryption.");
 });
+
+test.run();

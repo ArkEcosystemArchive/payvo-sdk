@@ -1,85 +1,88 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { MemoryStorage } from "./memory.storage";
 
-let subject: MemoryStorage;
-let key: string;
+let subject;
+let key;
 
 test.before.each(() => {
-    subject = new MemoryStorage();
-    key = UUID.random();
+	subject = new MemoryStorage();
+	key = UUID.random();
 });
 
 test("MemoryStorage#all", async () => {
-    await assert.is(subject.all()).resolves.toEqual({});
+	assert.equal(await subject.all(), {});
 
-    await subject.set(key, "value");
+	await subject.set(key, "value");
 
-    await assert.is(subject.all()).resolves.toEqual({ [key]: "value" });
+	assert.equal(await subject.all(), { [key]: "value" });
 
-    await subject.flush();
+	await subject.flush();
 
-    await assert.is(subject.all()).resolves.toEqual({});
+	assert.equal(await subject.all(), {});
 });
 
 test("MemoryStorage#get", async () => {
-    await subject.set(key, "value");
+	await subject.set(key, "value");
 
-    await assert.is(subject.get(key)).resolves, "value");
+	assert.is(await subject.get(key), "value");
 });
 
 test("MemoryStorage#set", async () => {
-    await assert.is(subject.set(key, "value")).resolves, "undefined");
+	assert.undefined(await subject.set(key, "value"));
 });
 
 test("MemoryStorage#has", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.is(await subject.has(key), false);
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 });
 
 test("MemoryStorage#forget", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.is(await subject.has(key), false);
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 
-await subject.forget(key);
+	await subject.forget(key);
 
-await assert.is(subject.has(key)).resolves, false);
+	assert.is(await subject.has(key), false);
 });
 
 test("MemoryStorage#flush", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.is(await subject.has(key), false);
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 
-await subject.flush();
+	await subject.flush();
 
-await assert.is(subject.has(key)).resolves, false);
+	assert.is(await subject.has(key), false);
 });
 
 test("MemoryStorage#count", async () => {
-    await assert.is(subject.count()).resolves, 0);
+	assert.is(await subject.count(), 0);
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.count()).resolves, 1);
+	assert.is(await subject.count(), 1);
 
-await subject.forget(key);
+	await subject.forget(key);
 
-await assert.is(subject.count()).resolves, 0);
+	assert.is(await subject.count(), 0);
 });
 
 test("MemoryStorage#snapshot", async () => {
-    await assert.is(subject.snapshot()).resolves, undefined);
+	assert.undefined(await subject.snapshot());
 });
 
 test("MemoryStorage#restore", async () => {
-    await assert.is(subject.restore()).resolves, undefined);
+	assert.undefined(await subject.restore());
 });
+
+test.run();

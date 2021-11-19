@@ -10,13 +10,13 @@ import { bootContainer } from "../mocking";
 
 const importWalletByAddress = async (
 	address: AddressDataTransferObject,
-	mnemonic: string,
+	mnemonic,
 ): Promise<IReadWriteWallet> => {
-	const wallet: IReadWriteWallet = await profile.walletFactory()["fromMnemonicWith" + address.type.toUpperCase()]({
+	const wallet = await profile.walletFactory()["fromMnemonicWith" + address.type.toUpperCase()]({
 		coin: "BTC",
 		network: "btc.testnet",
 		mnemonic,
-		levels: { account: BIP44.parse(address.path!).account },
+		levels: { account: BIP44.parse(address.path).account },
 	});
 
 	profile.wallets().push(wallet);
@@ -24,7 +24,7 @@ const importWalletByAddress = async (
 	return wallet;
 };
 
-let profile: IProfile;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -127,7 +127,8 @@ test("should import btc wallets and retrieve balance", async () => {
 		.walletDiscovery()
 		.fromMnemonic(mnemonic);
 
-	assert.is(addresses).toBeArrayOfSize(3);
+	assert.array(addresses);
+	assert.length(addresses, 3);
 	assert
 		.is(addresses.map((address) => address.address))
 		.toEqual([
@@ -139,9 +140,9 @@ test("should import btc wallets and retrieve balance", async () => {
 	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic));
 	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity());
 
-	jest.spyOn(wallets[0].network(), "isLive").mockReturnValue(true);
-	jest.spyOn(wallets[1].network(), "isLive").mockReturnValue(true);
-	jest.spyOn(wallets[2].network(), "isLive").mockReturnValue(true);
+	mockery(wallets[0].network(), "isLive").mockReturnValue(true);
+	mockery(wallets[1].network(), "isLive").mockReturnValue(true);
+	mockery(wallets[2].network(), "isLive").mockReturnValue(true);
 
 	assert.is(
 		wallets.map((wallet) => wallet.balance()),
@@ -175,7 +176,8 @@ test("should import btc wallet by address and retrieve balance", async () => {
 	await wallet.synchroniser().identity();
 
 	const transactions = await wallet.transactionIndex().all();
-	assert.is(transactions.items()).toBeArrayOfSize(1);
+	assert.array(transactions.items());
+	assert.length(transactions.items(), 1);
 
 	const transaction = transactions.items()[0];
 	assert.is(transaction.amount(), 0.0342105);
@@ -183,7 +185,7 @@ test("should import btc wallet by address and retrieve balance", async () => {
 	assert.is(transaction.id(), "3b182fedfbf8dca089b5ff97004e53081c6610a2eb08dd9bd8c3243a64216649");
 	assert.is(transaction.recipient(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 	assert.is(transaction.sender(), "tb1q47x636my5s6j2htedwmawgnra5p3p7yy3jxygw");
-	assert.is(transaction.timestamp()!.toJSON(), "2021-08-20T14:22:04.000Z");
-	assert.is(transaction.isTransfer(), true);
+	assert.is(transaction.timestamp().toJSON(), "2021-08-20T14:22:04.000Z");
+	assert.true(transaction.isTransfer());
 	assert.is(transaction.confirmations().toString(), "393");
 });

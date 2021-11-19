@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -9,8 +10,8 @@ import { Profile } from "./profile";
 import { WalletAggregate } from "./wallet.aggregate";
 import { IProfile } from "./contracts";
 
-let subject: WalletAggregate;
-let profile: IProfile;
+let subject;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -41,7 +42,7 @@ describe("WalletAggregate", () => {
 		assert.is(subject.balance("live"), 0);
 		assert.is(subject.balance(), 0);
 
-		const mockWalletLive = jest.spyOn(profile.wallets().first().network(), "isLive").mockReturnValue(true);
+		const mockWalletLive = mockery(profile.wallets().first().network(), "isLive").mockReturnValue(true);
 		assert.is(subject.balance("live"), 558270.93444556);
 		mockWalletLive.mockRestore();
 	});
@@ -68,9 +69,11 @@ describe("WalletAggregate", () => {
 			},
 		});
 
-		const mockWalletLive = jest.spyOn(profile.wallets().first(), "balance").mockReturnValue(0);
+		const mockWalletLive = mockery(profile.wallets().first(), "balance").mockReturnValue(0);
 
 		assert.is(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
 		mockWalletLive.mockRestore();
 	});
 });
+
+test.run();

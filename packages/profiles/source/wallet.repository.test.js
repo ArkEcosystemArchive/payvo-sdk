@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,415 +12,416 @@ import { WalletData } from "./wallet.enum";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";
 
-jest.setTimeout(60_000);
+const generate = async (coin, network) => {
+	const { wallet } = await factory.generate({ coin, network });
 
-const generate = async (coin: string, network: string): Promise<IReadWriteWallet> => {
-    const { wallet } = await factory.generate({ coin, network });
+	subject.push(wallet);
 
-    subject.push(wallet);
-
-    return wallet;
+	return wallet;
 };
 
-const importByMnemonic = async (mnemonic: string, coin: string, network: string, bip): Promise<IReadWriteWallet> => {
-    const wallet = await factory[
-        {
-            39: "fromMnemonicWithBIP39",
-            44: "fromMnemonicWithBIP44",
-            49: "fromMnemonicWithBIP49",
-            84: "fromMnemonicWithBIP84",
-        }[bip]
-    ]({
-        coin,
-        levels: {
-            39: {},
-            44: { account: 0 },
-            49: { account: 0 },
-            84: { account: 0 },
-        }[bip],
-        mnemonic,
-        network,
-    });
+const importByMnemonic = async (mnemonic, coin, network, bip) => {
+	const wallet = await factory[
+		{
+			39: "fromMnemonicWithBIP39",
+			44: "fromMnemonicWithBIP44",
+			49: "fromMnemonicWithBIP49",
+			84: "fromMnemonicWithBIP84",
+		}[bip]
+	]({
+		coin,
+		levels: {
+			39: {},
+			44: { account: 0 },
+			49: { account: 0 },
+			84: { account: 0 },
+		}[bip],
+		mnemonic,
+		network,
+	});
 
-    subject.push(wallet);
+	subject.push(wallet);
 
-    return wallet;
+	return wallet;
 };
 
-let subject: WalletRepository;
-let factory: WalletFactory;
+let subject;
+let factory;
 
 test.before(() => bootContainer());
 
 test.before.each(async () => {
-    nock.cleanAll();
+	nock.cleanAll();
 
-    nock("https://ark-test.payvo.com:443", { encodedQueryParams: true })
-        .get("/api/node/configuration")
-        .reply(200, require("../test/fixtures/client/configuration.json"))
-        .get("/api/peers")
-        .reply(200, require("../test/fixtures/client/peers.json"))
-        .get("/api/node/configuration/crypto")
-        .reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-        .get("/api/node/syncing")
-        .reply(200, require("../test/fixtures/client/syncing.json"))
-        .get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-        .reply(200, require("../test/fixtures/client/wallet.json"))
-        .get(/\/api\/wallets\/D.*/)
-        .reply(404, `{"statusCode":404,"error":"Not Found","message":"Wallet not found"}`)
-        .persist();
+	nock("https://ark-test.payvo.com:443", { encodedQueryParams: true })
+		.get("/api/node/configuration")
+		.reply(200, require("../test/fixtures/client/configuration.json"))
+		.get("/api/peers")
+		.reply(200, require("../test/fixtures/client/peers.json"))
+		.get("/api/node/configuration/crypto")
+		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+		.get("/api/node/syncing")
+		.reply(200, require("../test/fixtures/client/syncing.json"))
+		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+		.reply(200, require("../test/fixtures/client/wallet.json"))
+		.get(/\/api\/wallets\/D.*/)
+		.reply(404, `{"statusCode":404,"error":"Not Found","message":"Wallet not found"}`)
+		.persist();
 
-    nock("https://platform.ark.io:443", { encodedQueryParams: true })
-        .get("/api/eth/wallets/0xF3D149CFDAAC1ECA70CFDCE04702F34CCEAD43E2")
-        .reply(200, require("../test/fixtures/client/configuration.json"))
-        .persist();
+	nock("https://platform.ark.io:443", { encodedQueryParams: true })
+		.get("/api/eth/wallets/0xF3D149CFDAAC1ECA70CFDCE04702F34CCEAD43E2")
+		.reply(200, require("../test/fixtures/client/configuration.json"))
+		.persist();
 
-    const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+	const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 
-    profile.settings().set(ProfileSetting.Name, "John Doe");
+	profile.settings().set(ProfileSetting.Name, "John Doe");
 
-    subject = new WalletRepository(profile);
-    factory = new WalletFactory(profile);
+	subject = new WalletRepository(profile);
+	factory = new WalletFactory(profile);
 
-    const wallet = await importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39);
-    subject.update(wallet.id(), { alias: "Alias" });
+	const wallet = await importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39);
+	subject.update(wallet.id(), { alias: "Alias" });
 });
 
 test.before(() => nock.disableNetConnect());
 
 test("#all", () => {
-    assert.is(subject.all(), "object");
+	assert.object(subject.all());
 });
 
 test("#first", () => {
-    assert.is(subject.first(), "object");
+	assert.object(subject.first());
 });
 
 test("#last", () => {
-    assert.is(subject.last(), "object");
+	assert.object(subject.last());
 });
 
 test("#allByCoin", async () => {
-    await importByMnemonic(
-        "upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
-        "ARK",
-        "ark.devnet",
-        39,
-    );
+	await importByMnemonic(
+		"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
+		"ARK",
+		"ark.devnet",
+		39,
+	);
 
-    assert.is(subject.allByCoin(), "object");
-assert.is(subject.allByCoin().DARK, "object");
+	assert.object(subject.allByCoin());
+	assert.object(subject.allByCoin().DARK);
 });
 
 test("#filterByAddress", () => {
-    const wallets = subject.filterByAddress(identity.address);
+	const wallets = subject.filterByAddress(identity.address);
 
-    assert.is(wallets).toBeArray();
+	assert.array(wallets);
 
-    for (const wallet of wallets) {
-        assert.is(wallet instanceof Wallet);
-    }
+	for (const wallet of wallets) {
+		assert.instance(wallet, Wallet);
+	}
 });
 
 test("#findByAddressWithNetwork", () => {
-    assert.is(subject.findByAddressWithNetwork(identity.address, "ark.devnet") instanceof Wallet);
+	assert.instance(subject.findByAddressWithNetwork(identity.address, "ark.devnet"), Wallet);
 });
 
 test("#findByPublicKey", () => {
-    assert.is(subject.findByPublicKey(identity.publicKey) instanceof Wallet);
+	assert.instance(subject.findByPublicKey(identity.publicKey), Wallet);
 });
 
 test("#findByCoin", () => {
-    assert.is(subject.findByCoin("ARK")).toHaveLength(1);
+	assert.length(subject.findByCoin("ARK"), 1);
 });
 
 test("#findByCoinWithNetwork", () => {
-    assert.is(subject.findByCoinWithNetwork("ARK", "ark.devnet")).toHaveLength(1);
+	assert.length(subject.findByCoinWithNetwork("ARK", "ark.devnet"), 1);
 });
 
 test("#has", async () => {
-    const wallet = subject.first();
+	const wallet = subject.first();
 
-    assert.is(subject.has(wallet.id()), true);
-    assert.is(subject.has("whatever"), false);
+	assert.true(subject.has(wallet.id()));
+	assert.false(subject.has("whatever"));
 });
 
 test("#forget", async () => {
-    const wallet = subject.first();
+	const wallet = subject.first();
 
-    assert.is(subject.has(wallet.id()), true);
+	assert.true(subject.has(wallet.id()));
 
-    subject.forget(wallet.id());
+	subject.forget(wallet.id());
 
-    assert.is(subject.has(wallet.id()), false);
+	assert.false(subject.has(wallet.id()));
 });
 
 test("#findByAlias", async () => {
-    await generate("ARK", "ark.devnet");
+	await generate("ARK", "ark.devnet");
 
-    assert.is(subject.findByAlias("Alias") instanceof Wallet);
-    assert.is(subject.findByAlias("Not Exist")), "undefined");
+	assert.instance(subject.findByAlias("Alias"), Wallet);
+	assert.undefined(subject.findByAlias("Not Exist"));
 });
 
 test("#push", async () => {
-    subject.flush();
+	subject.flush();
 
-    await assert.is(importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39)).toResolve();
-    await assert.is(importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39)).toReject();
+	await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
+	await assert.rejects(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
 
-    const wallet = subject.first();
+	const wallet = subject.first();
 
-    jest.spyOn(wallet, "networkId").mockReturnValueOnce("ark.mainnet");
+	mockery(wallet, "networkId").mockReturnValueOnce("ark.mainnet");
 
-    await assert.is(importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39)).toResolve();
+	await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
 });
 
 test("#update", async () => {
-    assert.is(() => subject.update("invalid", { alias: "My Wallet" })).toThrowError("Failed to find");
+	assert.throws(() => subject.update("invalid", { alias: "My Wallet" }), "Failed to find");
 
-    const wallet = await generate("ARK", "ark.devnet");
+	const wallet = await generate("ARK", "ark.devnet");
 
-    subject.update(wallet.id(), { alias: "My New Wallet" });
+	subject.update(wallet.id(), { alias: "My New Wallet" });
 
-    assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
+	assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
 
-    subject.update(wallet.id(), {});
+	subject.update(wallet.id(), {});
 
-    assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
+	assert.is(subject.findById(wallet.id()).alias(), "My New Wallet");
 
-    const newWallet = await generate("ARK", "ark.devnet");
+	const newWallet = await generate("ARK", "ark.devnet");
 
-    assert.is(() => subject.update(newWallet.id(), { alias: "My New Wallet" })).toThrowError(
-        "The wallet with alias [My New Wallet] already exists.",
-    );
+	assert.throws(
+		() => subject.update(newWallet.id(), { alias: "My New Wallet" }),
+		"The wallet with alias [My New Wallet] already exists.",
+	);
 });
 
 describe("#fill", () => {
-    test("should fill the wallet", async () => {
-        const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-        profile.settings().set(ProfileSetting.Name, "John Doe");
+	test("should fill the wallet", async () => {
+		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+		profile.settings().set(ProfileSetting.Name, "John Doe");
 
-        const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
-            coin: "ARK",
-            mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
-            network: "ark.devnet",
-        });
+		const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
+			coin: "ARK",
+			mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
+			network: "ark.devnet",
+		});
 
-        assert.is(
-            // @ts-ignore
-            await subject.fill({
-                [newWallet.id()]: {
-                    data: newWallet.data().all(),
-                    id: newWallet.id(),
-                    settings: newWallet.settings().all(),
-                },
-            }),
-        );
+		assert.is(
+			// @ts-ignore
+			await subject.fill({
+				[newWallet.id()]: {
+					data: newWallet.data().all(),
+					id: newWallet.id(),
+					settings: newWallet.settings().all(),
+				},
+			}),
+		);
 
-        assert.is(subject.findById(newWallet.id())).toStrictEqual(newWallet);
-    });
+		assert.equal(subject.findById(newWallet.id()), newWallet);
+	});
 
-    test("should fail to fill the wallet if the coin doesn't exist", async () => {
-        const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-        profile.settings().set(ProfileSetting.Name, "John Doe");
+	test("should fail to fill the wallet if the coin doesn't exist", async () => {
+		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+		profile.settings().set(ProfileSetting.Name, "John Doe");
 
-        const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
-            coin: "ARK",
-            mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
-            network: "ark.devnet",
-        });
+		const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
+			coin: "ARK",
+			mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
+			network: "ark.devnet",
+		});
 
-        newWallet.data().set(WalletData.Coin, "invalid");
+		newWallet.data().set(WalletData.Coin, "invalid");
 
-        assert.is(
-            // @ts-ignore
-            await subject.fill({
-                [newWallet.id()]: {
-                    data: newWallet.data().all(),
-                    id: newWallet.id(),
-                    settings: newWallet.settings().all(),
-                },
-            }),
-        );
+		assert.is(
+			// @ts-ignore
+			await subject.fill({
+				[newWallet.id()]: {
+					data: newWallet.data().all(),
+					id: newWallet.id(),
+					settings: newWallet.settings().all(),
+				},
+			}),
+		);
 
-        assert.is(subject.findById(newWallet.id()).isMissingCoin(), true);
-        assert.is(subject.findById(newWallet.id()).isMissingNetwork(), true);
-    });
+		assert.true(subject.findById(newWallet.id()).isMissingCoin());
+		assert.true(subject.findById(newWallet.id()).isMissingNetwork());
+	});
 
-    test("should fail to fill the wallet if the network doesn't exist", async () => {
-        const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-        profile.settings().set(ProfileSetting.Name, "John Doe");
+	test("should fail to fill the wallet if the network doesn't exist", async () => {
+		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+		profile.settings().set(ProfileSetting.Name, "John Doe");
 
-        const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
-            coin: "ARK",
-            mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
-            network: "ark.devnet",
-        });
+		const newWallet = await profile.walletFactory().fromMnemonicWithBIP39({
+			coin: "ARK",
+			mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
+			network: "ark.devnet",
+		});
 
-        newWallet.data().set(WalletData.Network, "invalid");
+		newWallet.data().set(WalletData.Network, "invalid");
 
-        assert.is(
-            // @ts-ignore
-            await subject.fill({
-                [newWallet.id()]: {
-                    data: newWallet.data().all(),
-                    id: newWallet.id(),
-                    settings: newWallet.settings().all(),
-                },
-            }),
-        );
+		assert.is(
+			// @ts-ignore
+			await subject.fill({
+				[newWallet.id()]: {
+					data: newWallet.data().all(),
+					id: newWallet.id(),
+					settings: newWallet.settings().all(),
+				},
+			}),
+		);
 
-        assert.is(subject.findById(newWallet.id()).isMissingCoin(), false);
-        assert.is(subject.findById(newWallet.id()).isMissingNetwork(), true);
-    });
+		assert.false(subject.findById(newWallet.id()).isMissingCoin());
+		assert.true(subject.findById(newWallet.id()).isMissingNetwork());
+	});
 });
 
 describe("#sortBy", () => {
-    let walletARK: IReadWriteWallet;
-    let walletBTC: IReadWriteWallet;
-    let walletLSK: IReadWriteWallet;
+	let walletARK;
+	let walletBTC;
+	let walletLSK;
 
-    test.before.each(async () => {
-        subject.flush();
+	test.before.each(async () => {
+		subject.flush();
 
-        walletARK = await importByMnemonic(
-            "wood summer suggest unlock device trust else basket minimum hire lady cute",
-            "ARK",
-            "ark.devnet",
-            39,
-        );
-        walletBTC = await importByMnemonic(
-            "brisk grab cash invite labor frozen scrap endorse fault fence prison brisk",
-            "BTC",
-            "btc.testnet",
-            44,
-        );
-        walletLSK = await importByMnemonic(
-            "print alert reflect tree draw assault mean lift burst pattern rain subway",
-            "LSK",
-            "lsk.mainnet",
-            39,
-        );
-    });
+		walletARK = await importByMnemonic(
+			"wood summer suggest unlock device trust else basket minimum hire lady cute",
+			"ARK",
+			"ark.devnet",
+			39,
+		);
+		walletBTC = await importByMnemonic(
+			"brisk grab cash invite labor frozen scrap endorse fault fence prison brisk",
+			"BTC",
+			"btc.testnet",
+			44,
+		);
+		walletLSK = await importByMnemonic(
+			"print alert reflect tree draw assault mean lift burst pattern rain subway",
+			"LSK",
+			"lsk.mainnet",
+			39,
+		);
+	});
 
-    test("should sort by coin", async () => {
-        const wallets = subject.sortBy("coin");
+	test("should sort by coin", async () => {
+		const wallets = subject.sortBy("coin");
 
-        assert.is(wallets[0].address(), walletBTC.address()); // BTC
-        assert.is(wallets[1].address(), walletARK.address()); // DARK
-        assert.is(wallets[2].address(), walletLSK.address()); // LSK
-    });
+		assert.is(wallets[0].address(), walletBTC.address()); // BTC
+		assert.is(wallets[1].address(), walletARK.address()); // DARK
+		assert.is(wallets[2].address(), walletLSK.address()); // LSK
+	});
 
-    test("should sort by coin desc", async () => {
-        const wallets = subject.sortBy("coin", "desc");
+	test("should sort by coin desc", async () => {
+		const wallets = subject.sortBy("coin", "desc");
 
-        assert.is(wallets[0].address(), walletLSK.address()); // LSK
-        assert.is(wallets[1].address(), walletARK.address()); // DARK
-        assert.is(wallets[2].address(), walletBTC.address()); // BTC
-    });
+		assert.is(wallets[0].address(), walletLSK.address()); // LSK
+		assert.is(wallets[1].address(), walletARK.address()); // DARK
+		assert.is(wallets[2].address(), walletBTC.address()); // BTC
+	});
 
-    test("should sort by address", async () => {
-        const wallets = subject.sortBy("address");
+	test("should sort by address", async () => {
+		const wallets = subject.sortBy("address");
 
-        assert.is(wallets[0].address(), walletARK.address());
-        assert.is(wallets[1].address(), walletLSK.address());
-        assert.is(wallets[2].address(), walletBTC.address());
-    });
+		assert.is(wallets[0].address(), walletARK.address());
+		assert.is(wallets[1].address(), walletLSK.address());
+		assert.is(wallets[2].address(), walletBTC.address());
+	});
 
-    test("should sort by type", async () => {
-        walletARK.toggleStarred();
-        walletLSK.toggleStarred();
+	test("should sort by type", async () => {
+		walletARK.toggleStarred();
+		walletLSK.toggleStarred();
 
-        const wallets = subject.sortBy("type");
+		const wallets = subject.sortBy("type");
 
-        assert.is(wallets[0].address(), walletBTC.address());
-        assert.is(wallets[1].address(), walletARK.address());
-        assert.is(wallets[2].address(), walletLSK.address());
-    });
+		assert.is(wallets[0].address(), walletBTC.address());
+		assert.is(wallets[1].address(), walletARK.address());
+		assert.is(wallets[2].address(), walletLSK.address());
+	});
 
-    test("should sort by balance", async () => {
-        const wallets = subject.sortBy("balance");
+	test("should sort by balance", async () => {
+		const wallets = subject.sortBy("balance");
 
-        assert.is(wallets[0].address(), walletARK.address());
-        assert.is(wallets[1].address(), walletBTC.address());
-        assert.is(wallets[2].address(), walletLSK.address());
-    });
+		assert.is(wallets[0].address(), walletARK.address());
+		assert.is(wallets[1].address(), walletBTC.address());
+		assert.is(wallets[2].address(), walletLSK.address());
+	});
 
-    test("should export toObject", async () => {
-        const wallets: Record<string, IWalletData> = subject.toObject();
+	test("should export toObject", async () => {
+		const wallets = subject.toObject();
 
-        assert.is(wallets instanceof Object);
-    });
+		assert.instance(wallets, Object);
+	});
 
-    describe("restore", function () {
-        let profile: IProfile;
-        let wallet: IReadWriteWallet;
+	describe("restore", function () {
+		let profile;
+		let wallet;
 
-        test.before.each(async () => {
-            profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-            profile.settings().set(ProfileSetting.Name, "John Doe");
+		test.before.each(async () => {
+			profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+			profile.settings().set(ProfileSetting.Name, "John Doe");
 
-            wallet = await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: "ARK",
-                mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
-                network: "ark.devnet",
-            });
+			wallet = await profile.walletFactory().fromMnemonicWithBIP39({
+				coin: "ARK",
+				mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
+				network: "ark.devnet",
+			});
 
-            // @ts-ignore
-            await subject.fill({
-                [wallet.id()]: {
-                    data: wallet.data().all(),
-                    id: wallet.id(),
-                    settings: wallet.settings().all(),
-                },
-            });
-        });
+			// @ts-ignore
+			await subject.fill({
+				[wallet.id()]: {
+					data: wallet.data().all(),
+					id: wallet.id(),
+					settings: wallet.settings().all(),
+				},
+			});
+		});
 
-        test("should restore", async () => {
-            const newWallet2 = await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: "ARK",
-                mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
-                network: "ark.devnet",
-            });
+		test("should restore", async () => {
+			const newWallet2 = await profile.walletFactory().fromMnemonicWithBIP39({
+				coin: "ARK",
+				mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
+				network: "ark.devnet",
+			});
 
-            // @ts-ignore
-            await subject.fill({
-                [wallet.id()]: {
-                    data: wallet.data().all(),
-                    id: wallet.id(),
-                    settings: wallet.settings().all(),
-                },
-                [newWallet2.id()]: {
-                    data: newWallet2.data().all(),
-                    id: newWallet2.id(),
-                    settings: newWallet2.settings().all(),
-                },
-            });
+			// @ts-ignore
+			await subject.fill({
+				[wallet.id()]: {
+					data: wallet.data().all(),
+					id: wallet.id(),
+					settings: wallet.settings().all(),
+				},
+				[newWallet2.id()]: {
+					data: newWallet2.data().all(),
+					id: newWallet2.id(),
+					settings: newWallet2.settings().all(),
+				},
+			});
 
-            await subject.restore();
+			await subject.restore();
 
-            assert.is(subject.findById(wallet.id()).hasBeenFullyRestored(), true);
-            assert.is(subject.findById(newWallet2.id()).hasBeenFullyRestored(), true);
-        });
+			assert.true(subject.findById(wallet.id()).hasBeenFullyRestored());
+			assert.true(subject.findById(newWallet2.id()).hasBeenFullyRestored());
+		});
 
-        test("should do nothing if the wallet has already been fully restored", async () => {
-            subject.findById(wallet.id()).markAsFullyRestored();
+		test("should do nothing if the wallet has already been fully restored", async () => {
+			subject.findById(wallet.id()).markAsFullyRestored();
 
-            await subject.restore();
+			await subject.restore();
 
-            assert.is(subject.findById(wallet.id()).hasBeenFullyRestored(), true);
-            assert.is(subject.findById(wallet.id()).hasBeenPartiallyRestored(), false);
-        });
+			assert.true(subject.findById(wallet.id()).hasBeenFullyRestored());
+			assert.false(subject.findById(wallet.id()).hasBeenPartiallyRestored());
+		});
 
-        test("should retry if it encounters a failure during restoration", async () => {
-            // Nasty: we need to mock a failure on the wallet instance the repository has
-            jest.spyOn(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
-                throw new Error();
-            });
+		test("should retry if it encounters a failure during restoration", async () => {
+			// Nasty: we need to mock a failure on the wallet instance the repository has
+			mockery(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
+				throw new Error();
+			});
 
-            await subject.restore();
+			await subject.restore();
 
-            assert.is(subject.findById(wallet.id()).hasBeenFullyRestored(), true);
-        });
-    });
+			assert.true(subject.findById(wallet.id()).hasBeenFullyRestored());
+		});
+	});
 });
+
+test.run();

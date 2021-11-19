@@ -1,6 +1,7 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-let subject: ExtendedConfirmedTransactionDataCollection;
+let subject;
 
 const dummy = {
 	id: () => "id",
@@ -35,3 +36,5 @@ test("#findBySender", () => {
 test("#findByRecipient", () => {
 	assert.is(subject.findByRecipient("recipient"), dummy);
 });
+
+test.run();

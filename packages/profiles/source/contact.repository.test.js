@@ -1,10 +1,11 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { bootContainer } from "../test/mocking";
 import { ContactRepository } from "./contact.repository";
 import { Profile } from "./profile";
 
-let subject: ContactRepository;
+let subject;
 
 const name = "John Doe";
 const addr = { coin: "ARK", network: "ark.devnet", address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" };
@@ -29,21 +30,21 @@ test("#first | #last", () => {
 });
 
 test("#create", () => {
-	assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
 	const result = subject.create(name, [addr]);
 
-	assert.is(subject.keys()).toHaveLength(1);
+	assert.length(subject.keys(), 1);
 
-	assert.is(result.toObject()).toStrictEqual({
+	assert.equal(result.toObject(), {
 		id: result.id(),
 		name,
 		starred: false,
 		addresses: [{ id: expect.any(String), ...addr }],
 	});
 
-	assert.is(() => subject.create(name, [addr])).toThrowError(`The contact [${name}] already exists.`);
-	assert.is(() => subject.create("Jane Doe", [])).toThrowError('"addresses" must contain at least 1 items');
+	assert.throws(() => subject.create(name, [addr]), `The contact [${name}] already exists.`);
+	assert.throws(() => subject.create("Jane Doe", []), '"addresses" must contain at least 1 items');
 	assert.is(subject.count(), 1);
 
 	assert
@@ -93,15 +94,15 @@ test("#create", () => {
 });
 
 test("#find", () => {
-	assert.is(() => subject.findById("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.findById("invalid"), "Failed to find");
 
 	const contact = subject.create(name, [addr]);
 
-	assert.is(subject.findById(contact.id()), "object");
+	assert.object(subject.findById(contact.id()));
 });
 
 test("#update", () => {
-	assert.is(() => subject.update("invalid", { name: "Jane Doe" })).toThrowError("Failed to find");
+	assert.throws(() => subject.update("invalid", { name: "Jane Doe" }), "Failed to find");
 
 	const contact = subject.create(name, [addr]);
 
@@ -111,7 +112,7 @@ test("#update", () => {
 
 	const anotherContact = subject.create("Another name", [addr]);
 
-	assert.is(() => subject.update(anotherContact.id(), { name: "Dorothy" })).not.toThrow();
+	assert.not.throws(() => subject.update(anotherContact.id(), { name: "Dorothy" }));
 
 	const newContact = subject.create("Another name", [addr]);
 
@@ -127,7 +128,7 @@ test("#update with addresses", () => {
 		.is(() => subject.update(contact.id(), { addresses: [] }))
 		.toThrowError('"addresses" must contain at least 1 items');
 
-	assert.is(subject.findById(contact.id()).addresses().keys()).toHaveLength(1);
+	assert.length(subject.findById(contact.id()).addresses().keys(), 1);
 
 	subject.update(contact.id(), { addresses: [addr2] });
 
@@ -135,42 +136,44 @@ test("#update with addresses", () => {
 });
 
 test("#forget", () => {
-	assert.is(() => subject.forget("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
 	const contact = subject.create(name, [addr]);
 
 	subject.forget(contact.id());
 
-	assert.is(() => subject.findById(contact.id())).toThrowError("Failed to find");
+	assert.throws(() => subject.findById(contact.id()), "Failed to find");
 });
 
 test("#findByAddress", () => {
 	subject.create(name, [addr]);
 
-	assert.is(subject.findByAddress(addr.address)).toHaveLength(1);
-	assert.is(subject.findByAddress("invalid")).toHaveLength(0);
+	assert.length(subject.findByAddress(addr.address), 1);
+	assert.length(subject.findByAddress("invalid"), 0);
 });
 
 test("#findByCoin", () => {
 	subject.create(name, [addr]);
 
-	assert.is(subject.findByCoin(addr.coin)).toHaveLength(1);
-	assert.is(subject.findByCoin("invalid")).toHaveLength(0);
+	assert.length(subject.findByCoin(addr.coin), 1);
+	assert.length(subject.findByCoin("invalid"), 0);
 });
 
 test("#findByNetwork", () => {
 	subject.create(name, [addr]);
 
-	assert.is(subject.findByNetwork(addr.network)).toHaveLength(1);
-	assert.is(subject.findByNetwork("invalid")).toHaveLength(0);
+	assert.length(subject.findByNetwork(addr.network), 1);
+	assert.length(subject.findByNetwork("invalid"), 0);
 });
 
 test("#flush", () => {
 	subject.create(name, [addr]);
 
-	assert.is(subject.keys()).toHaveLength(1);
+	assert.length(subject.keys(), 1);
 
 	subject.flush();
 
-	assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 });
+
+test.run();

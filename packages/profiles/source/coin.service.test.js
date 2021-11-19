@@ -1,5 +1,5 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
-import { mock } from "jest-mock-extended";
 
 import { Coins } from "@payvo/sdk";
 import nock from "nock";
@@ -10,7 +10,7 @@ import { Profile } from "./profile";
 import { ICoinService, IDataRepository } from "./contracts";
 import { CoinService } from "./coin.service";
 
-let subject: ICoinService;
+let subject;
 
 test.before(() => {
 	bootContainer();
@@ -51,15 +51,15 @@ describe("CoinService", () => {
 	test("#has", async () => {
 		subject.set("ARK", "ark.devnet");
 
-		assert.is(subject.has("ARK", "ark.devnet"), true);
-		assert.is(subject.has("UNKNOWN", "ark.devnet"), false);
+		assert.true(subject.has("ARK", "ark.devnet"));
+		assert.false(subject.has("UNKNOWN", "ark.devnet"));
 	});
 
 	test("#get", async () => {
 		subject.set("ARK", "ark.devnet");
 
 		assert.is(subject.get("ARK", "ark.devnet").network().id(), "ark.devnet");
-		assert.is(() => subject.get("ARK", "unknown")).toThrow(/does not exist/);
+		assert.throws(() => subject.get("ARK", "unknown"), /does not exist/);
 	});
 
 	test("#values", async () => {
@@ -67,8 +67,7 @@ describe("CoinService", () => {
 
 		const values = subject.values();
 		assert.is(values, [{ ark: { devnet: expect.anything() } }]);
-		//@ts-ignore
-		assert.is(values[0].ark.devnet instanceof Coins.Coin);
+		assert.instance(values[0].ark.devnet, Coins.Coin);
 	});
 
 	test("#all", async () => {
@@ -93,7 +92,7 @@ describe("CoinService", () => {
 	});
 
 	test("#flush", async () => {
-		const dataRepository: IDataRepository = mock<IDataRepository>();
+		const dataRepository = mock();
 		subject = new CoinService(dataRepository);
 
 		subject.flush();
@@ -101,3 +100,5 @@ describe("CoinService", () => {
 		assert.is(dataRepository.flush).toHaveBeenCalled();
 	});
 });
+
+test.run();

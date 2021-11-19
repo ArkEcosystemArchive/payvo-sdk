@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
@@ -5,280 +6,280 @@ import { Profile } from "./profile";
 import { NotificationRepository } from "./notification.repository";
 import { INotificationTypes } from "./notification.repository.contract";
 
-let subject: NotificationRepository;
+let subject;
 
 const stubNotifications = [
-    {
-        icon: "warning",
-        name: "Ledger Update Available",
-        type: "ledger",
-        body: "...",
-        action: "Read Changelog",
-    },
-    {
-        icon: "warning",
-        name: "Ledger Update Available",
-        type: "plugin",
-        body: "...",
-        action: "Read Changelog",
-    },
-    {
-        icon: "info",
-        name: "Transaction Created",
-        body: "...",
-        type: "transaction",
-        action: "open",
-        meta: {
-            txId: "1",
-        },
-    },
+	{
+		icon: "warning",
+		name: "Ledger Update Available",
+		type: "ledger",
+		body: "...",
+		action: "Read Changelog",
+	},
+	{
+		icon: "warning",
+		name: "Ledger Update Available",
+		type: "plugin",
+		body: "...",
+		action: "Read Changelog",
+	},
+	{
+		icon: "info",
+		name: "Transaction Created",
+		body: "...",
+		type: "transaction",
+		action: "open",
+		meta: {
+			txId: "1",
+		},
+	},
 ];
 
 const transactionNotifications = [
-    {
-        type: INotificationTypes.Transaction,
-        meta: {
-            transactionId: "1",
-        },
-    },
-    {
-        type: INotificationTypes.Transaction,
-        meta: {
-            transactionId: "2",
-        },
-    },
-    {
-        type: INotificationTypes.Transaction,
-        meta: {
-            transactionId: "3",
-        },
-    },
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "1",
+		},
+	},
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "2",
+		},
+	},
+	{
+		type: INotificationTypes.Transaction,
+		meta: {
+			transactionId: "3",
+		},
+	},
 ];
 
 const releaseNotifications = [
-    {
-        icon: "warning",
-        name: "Wallet Update Available",
-        type: INotificationTypes.Release,
-        body: "...",
-        meta: {
-            version: "3.0.0",
-        },
-    },
+	{
+		icon: "warning",
+		name: "Wallet Update Available",
+		type: INotificationTypes.Release,
+		body: "...",
+		meta: {
+			version: "3.0.0",
+		},
+	},
 ];
 
 const stubNotification = stubNotifications[0];
 
 test.before(() => {
-    bootContainer();
+	bootContainer();
 });
 
 test.before.each(
-    () => (subject = new NotificationRepository(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }))),
+	() => (subject = new NotificationRepository(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }))),
 );
 
 test("#all", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    assert.is(Object.keys(subject.all())).toHaveLength(stubNotifications.length);
+	stubNotifications.forEach((n) => subject.push(n));
+	assert.length(Object.keys(subject.all()), stubNotifications.length);
 });
 
 test("#first", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
+	stubNotifications.forEach((n) => subject.push(n));
 
-    assert.is(subject.keys()).toHaveLength(stubNotifications.length);
-    assert.is(subject.first().name, stubNotification.name);
+	assert.length(subject.keys(), stubNotifications.length);
+	assert.is(subject.first().name, stubNotification.name);
 });
 
 test("#last", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
+	stubNotifications.forEach((n) => subject.push(n));
 
-    assert.is(subject.keys()).toHaveLength(stubNotifications.length);
-    assert.is(subject.last().name, stubNotifications[stubNotifications.length - 1].name);
+	assert.length(subject.keys(), stubNotifications.length);
+	assert.is(subject.last().name, stubNotifications[stubNotifications.length - 1].name);
 });
 
 test("#keys", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    const keys = Object.keys(subject.all());
+	stubNotifications.forEach((n) => subject.push(n));
+	const keys = Object.keys(subject.all());
 
-    assert.is(subject.keys(), keys);
+	assert.is(subject.keys(), keys);
 });
 
 test("#values", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    const values = Object.keys(subject.all()).map((id) => subject.get(id));
+	stubNotifications.forEach((n) => subject.push(n));
+	const values = Object.keys(subject.all()).map((id) => subject.get(id));
 
-    assert.is(subject.values(), values);
+	assert.is(subject.values(), values);
 });
 
 test("#get", () => {
-    assert.is(() => subject.get("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.get("invalid"), "Failed to find");
 
-    const notification = subject.push(stubNotification);
+	const notification = subject.push(stubNotification);
 
-    assert.is(subject.get(notification.id), "object");
+	assert.object(subject.get(notification.id));
 });
 
 test("#push", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    subject.push(stubNotification);
+	subject.push(stubNotification);
 
-    assert.is(subject.keys()).toHaveLength(1);
+	assert.length(subject.keys(), 1);
 
-    subject.push(stubNotification);
+	subject.push(stubNotification);
 
-    assert.is(subject.keys()).toHaveLength(2);
+	assert.length(subject.keys(), 2);
 });
 
 test("#fill", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    const first = subject.first();
-    subject.fill(Object.assign(first, { name: "updated name" }));
+	stubNotifications.forEach((n) => subject.push(n));
+	const first = subject.first();
+	subject.fill(Object.assign(first, { name: "updated name" }));
 
-    assert.is(subject.first().name, "updated name");
+	assert.is(subject.first().name, "updated name");
 });
 
 test("#has", () => {
-    const notification = subject.push(stubNotification);
+	const notification = subject.push(stubNotification);
 
-    assert.is(subject.has(notification.id), true);
+	assert.true(subject.has(notification.id));
 
-    subject.forget(notification.id);
+	subject.forget(notification.id);
 
-    assert.is(subject.has(notification.id), false);
+	assert.false(subject.has(notification.id));
 });
 
 test("#forget", () => {
-    assert.is(() => subject.forget("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
-    const notification = subject.push(stubNotification);
+	const notification = subject.push(stubNotification);
 
-    subject.forget(notification.id);
+	subject.forget(notification.id);
 
-    assert.is(() => subject.get(notification.id)).toThrowError("Failed to find");
+	assert.throws(() => subject.get(notification.id), "Failed to find");
 });
 
 test("#flush", () => {
-    subject.push(stubNotification);
-    subject.push(stubNotification);
+	subject.push(stubNotification);
+	subject.push(stubNotification);
 
-    assert.is(subject.keys()).toHaveLength(2);
+	assert.length(subject.keys(), 2);
 
-    subject.flush();
+	subject.flush();
 
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 });
 
 test("#count", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
+	stubNotifications.forEach((n) => subject.push(n));
 
-    assert.is(subject.count(), stubNotifications.length);
+	assert.is(subject.count(), stubNotifications.length);
 });
 
 test("marks notifications as read and filters them", () => {
-    subject.push(stubNotification);
-    subject.markAsRead(subject.push(stubNotification).id);
+	subject.push(stubNotification);
+	subject.markAsRead(subject.push(stubNotification).id);
 
-    assert.is(subject.read()).toHaveLength(1);
-    assert.is(subject.unread()).toHaveLength(1);
+	assert.length(subject.read(), 1);
+	assert.length(subject.unread(), 1);
 });
 
 test("#read", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    subject.markAsRead(subject.first().id);
+	stubNotifications.forEach((n) => subject.push(n));
+	subject.markAsRead(subject.first().id);
 
-    assert.is(subject.unread()).toHaveLength(2);
-    assert.is(subject.first().read_at).toBeTruthy();
+	assert.length(subject.unread(), 2);
+	assert.truthy(subject.first().read_at);
 });
 
 test("#unread", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
-    subject.markAsRead(subject.first().id);
+	stubNotifications.forEach((n) => subject.push(n));
+	subject.markAsRead(subject.first().id);
 
-    assert.is(subject.unread()).toHaveLength(2);
-    assert.is(subject.first().read_at).toBeTruthy();
+	assert.length(subject.unread(), 2);
+	assert.truthy(subject.first().read_at);
 
-    assert.is(subject.last().read_at), "undefined");
+	assert.undefined(subject.last().read_at);
 });
 
 test("#filterByType", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    transactionNotifications.forEach((n) => subject.push(n));
-    releaseNotifications.forEach((n) => subject.push(n));
+	transactionNotifications.forEach((n) => subject.push(n));
+	releaseNotifications.forEach((n) => subject.push(n));
 
-    assert.is(subject.filterByType(INotificationTypes.Release)).toHaveLength(1);
-    assert.is(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(3);
+	assert.length(subject.filterByType(INotificationTypes.Release), 1);
+	assert.length(subject.filterByType(INotificationTypes.Transaction), 3);
 });
 
 test("#findByTransactionId", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    assert.is(subject.findByTransactionId("1")?.meta?.transactionId), "undefined");
+	assert.undefined(subject.findByTransactionId("1")?.meta?.transactionId);
 
-transactionNotifications.forEach((n) => subject.push(n));
+	transactionNotifications.forEach((n) => subject.push(n));
 
-assert.is(subject.findByTransactionId("1")?.meta?.transactionId,
-    transactionNotifications[0]?.meta.transactionId,
-);
-assert.is(subject.findByTransactionId("10")?.meta?.transactionId), "undefined");
+	assert.is(subject.findByTransactionId("1")?.meta?.transactionId, transactionNotifications[0]?.meta.transactionId);
+	assert.undefined(subject.findByTransactionId("10")?.meta?.transactionId);
 
-subject.push({
-    type: INotificationTypes.Transaction,
-});
+	subject.push({
+		type: INotificationTypes.Transaction,
+	});
 
-assert.is(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(4);
-assert.is(subject.findByTransactionId("100")?.meta?.transactionId), "undefined");
+	assert.length(subject.filterByType(INotificationTypes.Transaction), 4);
+	assert.undefined(subject.findByTransactionId("100")?.meta?.transactionId);
 });
 
 test("#findByVersion", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    assert.is(subject.findByVersion("3.0.0")?.meta?.version), "undefined");
+	assert.undefined(subject.findByVersion("3.0.0")?.meta?.version);
 
-releaseNotifications.forEach((n) => subject.push(n));
+	releaseNotifications.forEach((n) => subject.push(n));
 
-subject.push({
-    type: INotificationTypes.Release,
-});
+	subject.push({
+		type: INotificationTypes.Release,
+	});
 
-assert.is(subject.findByVersion("3.0.0")?.meta?.version, releaseNotifications[0]?.meta.version);
-assert.is(subject.findByVersion("3.0.1")?.meta?.version), "undefined");
+	assert.is(subject.findByVersion("3.0.0")?.meta?.version, releaseNotifications[0]?.meta.version);
+	assert.undefined(subject.findByVersion("3.0.1")?.meta?.version);
 });
 
 test("should have meta info", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
+	stubNotifications.forEach((n) => subject.push(n));
 
-    const last = stubNotifications[stubNotifications.length - 1];
-    assert.is(subject.last().meta, "object");
-assert.is(subject.last().meta, last.meta);
+	const last = stubNotifications[stubNotifications.length - 1];
+	assert.object(subject.last().meta);
+	assert.is(subject.last().meta, last.meta);
 });
 
 test("should have a type", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    stubNotifications.forEach((n) => subject.push(n));
+	stubNotifications.forEach((n) => subject.push(n));
 
-    const last = stubNotifications[stubNotifications.length - 1];
-    assert.is(subject.last().type, last.type);
+	const last = stubNotifications[stubNotifications.length - 1];
+	assert.is(subject.last().type, last.type);
 });
+
+test.run();

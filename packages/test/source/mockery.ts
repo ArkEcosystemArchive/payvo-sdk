@@ -16,16 +16,32 @@ export class Mockery {
 		assert.ok(this.#stub.calledWith(message));
 	}
 
-	public mockResolvedValue(value: unknown): void {
+	public mockResolvedValue(value: unknown): Mockery {
 		this.#stub.resolves(value);
+
+		return this;
 	}
 
-	public mockReturnValue(value: unknown): void {
+	public mockReturnValue(value: unknown): Mockery {
 		this.#stub.returns(value);
+
+		return this;
 	}
 
-	public mockReturnValueOnce(value: unknown): void {
+	public mockReturnValueOnce(value: unknown): Mockery {
 		this.#stub.onFirstCall().returns(value);
+
+		return this;
+	}
+
+	public mockImplementation(value: Function): Mockery {
+		this.#stub.callsFake(value);
+
+		return this;
+	}
+
+	public mockRestore(): void {
+		this.#stub.restore();
 	}
 }
 

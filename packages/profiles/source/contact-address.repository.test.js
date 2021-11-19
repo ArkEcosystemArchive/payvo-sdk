@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { UUID } from "@payvo/sdk-cryptography";
@@ -7,153 +8,156 @@ import { IContactAddressInput } from "./contact-address.contract";
 import { ContactAddressRepository } from "./contact-address.repository";
 import { Profile } from "./profile";
 
-let subject: ContactAddressRepository;
-let profile: Profile;
+let subject;
+let profile;
 
-const stubData: IContactAddressInput = {
-    address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-    coin: "ARK",
-    network: "ark.devnet",
+const stubData = {
+	address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+	coin: "ARK",
+	network: "ark.devnet",
 };
 
 test.before.each(() => {
-    profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
-    subject = new ContactAddressRepository(profile);
+	profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+	subject = new ContactAddressRepository(profile);
 });
 
 test.before(() => {
-    bootContainer();
+	bootContainer();
 });
 
 test("#create", () => {
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 
-    subject.create(stubData);
+	subject.create(stubData);
 
-    assert.is(subject.keys()).toHaveLength(1);
+	assert.length(subject.keys(), 1);
 
-    assert.is(subject.first().toObject(), {
-        id: expect.any(String),
-        ...stubData,
-    });
+	assert.equal(subject.first().toObject(), {
+		id: expect.any(String),
+		...stubData,
+	});
 });
 
 test("#all", () => {
-    assert.is(subject.all(), "object");
+	assert.object(subject.all());
 });
 
 test("#first", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.first(), address);
+	assert.is(subject.first(), address);
 });
 
 test("#last", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.last(), address);
+	assert.is(subject.last(), address);
 });
 
 test("#count", () => {
-    subject.create(stubData);
+	subject.create(stubData);
 
-    assert.is(subject.count(), 1);
+	assert.is(subject.count(), 1);
 });
 
 test("#fill", () => {
-    const id: string = UUID.random();
+	const id = UUID.random();
 
-    subject.fill([{ id, ...stubData }]);
+	subject.fill([{ id, ...stubData }]);
 
-    assert.is(subject.findById(id), "object");
+	assert.object(subject.findById(id));
 });
 
 test("#toArray", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.toArray()).toStrictEqual([address.toObject()]);
+	assert.equal(subject.toArray(), [address.toObject()]);
 });
 
 test("#find", () => {
-    assert.is(() => subject.findById("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.findById("invalid"), "Failed to find");
 
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.findById(address.id()), "object");
+	assert.object(subject.findById(address.id()));
 });
 
 test("#update invalid", () => {
-    assert.is(() => subject.update("invalid", { address: stubData.address })).toThrowError("Failed to find");
+	assert.throws(() => subject.update("invalid", { address: stubData.address }), "Failed to find");
 });
 
 test("#update address", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    subject.update(address.id(), { address: "new address" });
+	subject.update(address.id(), { address: "new address" });
 
-    assert.is(subject.findByAddress("new address")[0].address(), "new address");
-    assert.is(profile.status().isDirty(), true);
+	assert.is(subject.findByAddress("new address")[0].address(), "new address");
+	assert.true(profile.status().isDirty());
 });
 
 test("#update without address", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    subject.update(address.id(), {});
+	subject.update(address.id(), {});
 
-    assert.is(subject.findByAddress("new address"), []);
+	assert.is(subject.findByAddress("new address"), []);
 });
 
 test("#forget", () => {
-    assert.is(() => subject.forget("invalid")).toThrowError("Failed to find");
+	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    subject.forget(address.id());
+	subject.forget(address.id());
 
-    assert.is(() => subject.findById(address.id())).toThrowError("Failed to find");
+	assert.throws(() => subject.findById(address.id()), "Failed to find");
 });
 
 test("#findByAddress", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.findByAddress(address.address())).toHaveLength(1);
-    assert.is(subject.findByAddress("invalid")).toHaveLength(0);
+	assert.length(subject.findByAddress(address.address()), 1);
+	assert.length(subject.findByAddress("invalid"), 0);
 });
 
 test("#findByCoin", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.findByCoin(address.coin())).toHaveLength(1);
-    assert.is(subject.findByCoin("invalid")).toHaveLength(0);
+	assert.length(subject.findByCoin(address.coin()), 1);
+	assert.length(subject.findByCoin("invalid"), 0);
 });
 
 test("#findByNetwork", () => {
-    const address = subject.create(stubData);
+	const address = subject.create(stubData);
 
-    assert.is(subject.findByNetwork(address.network())).toHaveLength(1);
-    assert.is(subject.findByNetwork("invalid")).toHaveLength(0);
+	assert.length(subject.findByNetwork(address.network()), 1);
+	assert.length(subject.findByNetwork("invalid"), 0);
 });
 
 test("#flush", () => {
-    subject.create(stubData);
+	subject.create(stubData);
 
-    assert.is(subject.keys()).toHaveLength(1);
+	assert.length(subject.keys(), 1);
 
-    subject.flush();
+	subject.flush();
 
-    assert.is(subject.keys()).toHaveLength(0);
+	assert.length(subject.keys(), 0);
 });
 
 test("#exists", () => {
-    subject.create(stubData);
+	subject.create(stubData);
 
-    assert.is(subject.exists(stubData), true);
+	assert.true(subject.exists(stubData));
 
-    assert.is(
-        subject.exists({
-            address: "DAWdHfDFEvvu57cHjAhs5K5di33B2DdCu1",
-            coin: "ARK",
-            network: "ark.devnet",
-        }),
-    , false);
+	assert.is(
+		subject.exists({
+			address: "DAWdHfDFEvvu57cHjAhs5K5di33B2DdCu1",
+			coin: "ARK",
+			network: "ark.devnet",
+		}),
+		false,
+	);
 });
+
+test.run();

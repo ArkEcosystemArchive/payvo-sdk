@@ -55,55 +55,55 @@ jobs:
                   timeout_seconds: 300
                   max_attempts: 3
                   command: node common/scripts/install-run-rush.js build --verbose
-            - name: Test ADA
-              run: cd "$GITHUB_WORKSPACE/packages/ada/" && pnpm run test
-            - name: Test ARK
-              run: cd "$GITHUB_WORKSPACE/packages/ark/" && pnpm run test
-            - name: Test ATOM
-              run: cd "$GITHUB_WORKSPACE/packages/atom/" && pnpm run test
-            - name: Test AVAX
-              run: cd "$GITHUB_WORKSPACE/packages/avax/" && pnpm run test
-            - name: Test BTC
-              run: cd "$GITHUB_WORKSPACE/packages/btc/" && pnpm run test
-            - name: Test CRYPTOGRAPHY
-              run: cd "$GITHUB_WORKSPACE/packages/cryptography/" && pnpm run test
-            - name: Test DOT
-              run: cd "$GITHUB_WORKSPACE/packages/dot/" && pnpm run test
-            - name: Test EGLD
-              run: cd "$GITHUB_WORKSPACE/packages/egld/" && pnpm run test
-            - name: Test EOS
-              run: cd "$GITHUB_WORKSPACE/packages/eos/" && pnpm run test
-            - name: Test ETH
-              run: cd "$GITHUB_WORKSPACE/packages/eth/" && pnpm run test
-            - name: Test HELPERS
-              run: cd "$GITHUB_WORKSPACE/packages/helpers/" && pnpm run test
-            - name: Test HTTP-FETCH
-              run: cd "$GITHUB_WORKSPACE/packages/http-fetch/" && pnpm run test
-            - name: Test INTL
-              run: cd "$GITHUB_WORKSPACE/packages/intl/" && pnpm run test
-            - name: Test LSK
-              run: cd "$GITHUB_WORKSPACE/packages/lsk/" && pnpm run test
-            - name: Test LUNA
-              run: cd "$GITHUB_WORKSPACE/packages/luna/" && pnpm run test
-            - name: Test MARKETS
-              run: cd "$GITHUB_WORKSPACE/packages/markets/" && pnpm run test
+            # - name: Test ADA
+            #   run: cd "$GITHUB_WORKSPACE/packages/ada/" && pnpm run test
+            # - name: Test ARK
+            #   run: cd "$GITHUB_WORKSPACE/packages/ark/" && pnpm run test
+            # - name: Test ATOM
+            #   run: cd "$GITHUB_WORKSPACE/packages/atom/" && pnpm run test
+            # - name: Test AVAX
+            #   run: cd "$GITHUB_WORKSPACE/packages/avax/" && pnpm run test
+            # - name: Test BTC
+            #   run: cd "$GITHUB_WORKSPACE/packages/btc/" && pnpm run test
+            # - name: Test CRYPTOGRAPHY
+            #   run: cd "$GITHUB_WORKSPACE/packages/cryptography/" && pnpm run test
+            # - name: Test DOT
+            #   run: cd "$GITHUB_WORKSPACE/packages/dot/" && pnpm run test
+            # - name: Test EGLD
+            #   run: cd "$GITHUB_WORKSPACE/packages/egld/" && pnpm run test
+            # - name: Test EOS
+            #   run: cd "$GITHUB_WORKSPACE/packages/eos/" && pnpm run test
+            # - name: Test ETH
+            #   run: cd "$GITHUB_WORKSPACE/packages/eth/" && pnpm run test
+            # - name: Test HELPERS
+            #   run: cd "$GITHUB_WORKSPACE/packages/helpers/" && pnpm run test
+            # - name: Test HTTP-FETCH
+            #   run: cd "$GITHUB_WORKSPACE/packages/http-fetch/" && pnpm run test
+            # - name: Test INTL
+            #   run: cd "$GITHUB_WORKSPACE/packages/intl/" && pnpm run test
+            # - name: Test LSK
+            #   run: cd "$GITHUB_WORKSPACE/packages/lsk/" && pnpm run test
+            # - name: Test LUNA
+            #   run: cd "$GITHUB_WORKSPACE/packages/luna/" && pnpm run test
+            # - name: Test MARKETS
+            #   run: cd "$GITHUB_WORKSPACE/packages/markets/" && pnpm run test
             # - name: Test NANO
             #   run: cd "$GITHUB_WORKSPACE/packages/nano/" && pnpm run test
-            - name: Test NEO
-              run: cd "$GITHUB_WORKSPACE/packages/neo/" && pnpm run test
-            - name: Test NEWS
-              run: cd "$GITHUB_WORKSPACE/packages/news/" && pnpm run test
-            # - name: Test PROFILES
-            #   run: cd "$GITHUB_WORKSPACE/packages/profiles/" && pnpm run test
-            - name: Test SDK
-              run: cd "$GITHUB_WORKSPACE/packages/sdk/" && pnpm run test
-            - name: Test SOL
-              run: cd "$GITHUB_WORKSPACE/packages/sol/" && pnpm run test
-            - name: Test TRX
-              run: cd "$GITHUB_WORKSPACE/packages/trx/" && pnpm run test
-            - name: Test XLM
-              run: cd "$GITHUB_WORKSPACE/packages/xlm/" && pnpm run test
-            - name: Test XRP
-              run: cd "$GITHUB_WORKSPACE/packages/xrp/" && pnpm run test
-            - name: Test ZIL
-              run: cd "$GITHUB_WORKSPACE/packages/zil/" && pnpm run test
+            # - name: Test NEO
+            #   run: cd "$GITHUB_WORKSPACE/packages/neo/" && pnpm run test
+            # - name: Test NEWS
+            #   run: cd "$GITHUB_WORKSPACE/packages/news/" && pnpm run test
+            - name: Test PROFILES
+              run: cd "$GITHUB_WORKSPACE/packages/profiles/" && pnpm run test
+            # - name: Test SDK
+            #   run: cd "$GITHUB_WORKSPACE/packages/sdk/" && pnpm run test
+            # - name: Test SOL
+            #   run: cd "$GITHUB_WORKSPACE/packages/sol/" && pnpm run test
+            # - name: Test TRX
+            #   run: cd "$GITHUB_WORKSPACE/packages/trx/" && pnpm run test
+            # - name: Test XLM
+            #   run: cd "$GITHUB_WORKSPACE/packages/xlm/" && pnpm run test
+            # - name: Test XRP
+            #   run: cd "$GITHUB_WORKSPACE/packages/xrp/" && pnpm run test
+            # - name: Test ZIL
+            #   run: cd "$GITHUB_WORKSPACE/packages/zil/" && pnpm run test

@@ -1,85 +1,88 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { ConfStorage as ConfigStorage } from "./conf.storage";
 
-let subject: ConfigStorage;
-let key: string;
+let subject;
+let key;
 
 test.before.each(() => {
-    subject = new ConfigStorage();
-    key = UUID.random();
+	subject = new ConfigStorage();
+	key = UUID.random();
 });
 
 test("ConfStorage#all", async () => {
-    await assert.is(subject.all()).resolves.toEqual({});
+	assert.object(await subject.all(), {});
 
-    await subject.set(key, "value");
+	await subject.set(key, "value");
 
-    await assert.is(subject.all()).resolves.toEqual({ [key]: "value" });
+	assert.object(await subject.all(), { [key]: "value" });
 
-    await subject.flush();
+	await subject.flush();
 
-    await assert.is(subject.all()).resolves.toEqual({});
+	assert.object(await subject.all(), {});
 });
 
 test("ConfStorage#get", async () => {
-    await subject.set(key, "value");
+	await subject.set(key, "value");
 
-    await assert.is(subject.get(key)).resolves, "value");
+	assert.is(await subject.get(key), "value");
 });
 
 test("ConfStorage#set", async () => {
-    await assert.is(subject.set(key, "value")).resolves, "undefined");
+	assert.undefined(await subject.set(key, "value"));
 });
 
 test("ConfStorage#has", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.false(await subject.has(key));
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 });
 
 test("ConfStorage#forget", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.false(await subject.has(key));
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 
-await subject.forget(key);
+	await subject.forget(key);
 
-await assert.is(subject.has(key)).resolves, false);
+	assert.false(await subject.has(key));
 });
 
 test("ConfStorage#flush", async () => {
-    await assert.is(subject.has(key)).resolves, false);
+	assert.false(await subject.has(key));
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.has(key)).resolves, true);
+	assert.true(await subject.has(key));
 
-await subject.flush();
+	await subject.flush();
 
-await assert.is(subject.has(key)).resolves, false);
+	assert.false(await subject.has(key));
 });
 
 test("ConfStorage#count", async () => {
-    await assert.is(subject.count()).resolves, 0);
+	assert.is(await subject.count(), 0);
 
-await subject.set(key, "value");
+	await subject.set(key, "value");
 
-await assert.is(subject.count()).resolves, 1);
+	assert.is(await subject.count(), 1);
 
-await subject.forget(key);
+	await subject.forget(key);
 
-await assert.is(subject.count()).resolves, 0);
+	assert.is(await subject.count(), 0);
 });
 
 test("ConfStorage#snapshot", async () => {
-    await assert.is(subject.snapshot()).resolves, undefined);
+	assert.undefined(await subject.snapshot());
 });
 
 test("ConfStorage#restore", async () => {
-    await assert.is(subject.restore()).resolves, undefined);
+	assert.undefined(await subject.restore());
 });
+
+test.run();

@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { bootContainer } from "../test/mocking";
@@ -8,7 +9,7 @@ import { Profile } from "./profile";
 test.before(() => bootContainer());
 
 describe("contact", () => {
-	let subject: Contact;
+	let subject;
 
 	test.before.each(() => {
 		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
@@ -38,12 +39,12 @@ describe("contact", () => {
 	});
 
 	test("should have starred state", () => {
-		assert.is(subject.isStarred(), true);
+		assert.true(subject.isStarred());
 	});
 
 	test("should be able to toggle starred state", () => {
 		subject.toggleStarred();
-		assert.is(subject.isStarred(), false);
+		assert.false(subject.isStarred());
 	});
 
 	test("should have an avatar", () => {
@@ -55,7 +56,7 @@ describe("contact", () => {
 	});
 
 	test("should map to object", () => {
-		assert.is(subject.toObject()).toStrictEqual({
+		assert.equal(subject.toObject(), {
 			addresses: [],
 			id: "uuid",
 			name: "John Doe",
@@ -64,11 +65,11 @@ describe("contact", () => {
 	});
 
 	test("should return addresses", () => {
-		assert.is(subject.addresses() instanceof ContactAddressRepository);
+		assert.instance(subject.addresses(), ContactAddressRepository);
 	});
 
 	test("should be able to set addresses", () => {
-		assert.is(() => subject.setAddresses([])).toThrowError('"addresses" must contain at least 1 items');
+		assert.throws(() => subject.setAddresses([]), '"addresses" must contain at least 1 items');
 
 		subject.setAddresses([
 			{
@@ -81,3 +82,5 @@ describe("contact", () => {
 		assert.is(subject.addresses().count(), 1);
 	});
 });
+
+test.run();

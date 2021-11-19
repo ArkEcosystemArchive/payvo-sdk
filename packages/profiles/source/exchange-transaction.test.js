@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { bootContainer } from "../test/mocking";
@@ -23,11 +24,11 @@ const stubData = {
 };
 
 describe("ExchangeTransaction", () => {
-	let subject: ExchangeTransaction;
+	let subject;
 	let dateNowSpy;
 
 	test.before(() => {
-		dateNowSpy = jest.spyOn(Date, "now").mockImplementation(() => 123456789);
+		dateNowSpy = mockery(Date, "now").mockImplementation(() => 123456789);
 	});
 
 	test.after(() => {
@@ -92,47 +93,47 @@ describe("ExchangeTransaction", () => {
 	});
 
 	test("should check if the transaction is expired", () => {
-		assert.is(subject.isExpired(), false);
+		assert.false(subject.isExpired());
 
 		subject.setStatus(ExchangeTransactionStatus.Expired);
 
-		assert.is(subject.isExpired(), true);
+		assert.true(subject.isExpired());
 	});
 
 	test("should check if the transaction is failed", () => {
-		assert.is(subject.isFailed(), false);
+		assert.false(subject.isFailed());
 
 		subject.setStatus(ExchangeTransactionStatus.Failed);
 
-		assert.is(subject.isFailed(), true);
+		assert.true(subject.isFailed());
 	});
 
 	test("should check if the transaction is finished", () => {
-		assert.is(subject.isFinished(), false);
+		assert.false(subject.isFinished());
 
 		subject.setStatus(ExchangeTransactionStatus.Finished);
 
-		assert.is(subject.isFinished(), true);
+		assert.true(subject.isFinished());
 	});
 
 	test("should check if the transaction is pending", () => {
-		assert.is(subject.isPending(), true);
+		assert.true(subject.isPending());
 
 		subject.setStatus(ExchangeTransactionStatus.Failed);
 
-		assert.is(subject.isPending(), false);
+		assert.false(subject.isPending());
 	});
 
 	test("should check if the transaction is refunded", () => {
-		assert.is(subject.isRefunded(), false);
+		assert.false(subject.isRefunded());
 
 		subject.setStatus(ExchangeTransactionStatus.Refunded);
 
-		assert.is(subject.isRefunded(), true);
+		assert.true(subject.isRefunded());
 	});
 
 	test("should map to object", () => {
-		assert.is(subject.toObject()).toStrictEqual({
+		assert.equal(subject.toObject(), {
 			id: "uuid",
 			createdAt: 123456789,
 			status: ExchangeTransactionStatus.New,
@@ -140,3 +141,5 @@ describe("ExchangeTransaction", () => {
 		});
 	});
 });
+
+test.run();

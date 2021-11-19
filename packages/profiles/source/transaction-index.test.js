@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,8 +12,8 @@ import { Wallet } from "./wallet";
 import { IProfile, IProfileRepository, IReadWriteWallet } from "./contracts";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-let profile: IProfile;
-let subject: IReadWriteWallet;
+let profile;
+let subject;
 
 test.before(() => bootContainer());
 
@@ -86,21 +87,15 @@ test.before.each(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("all", async () => {
-	await assert
-		.is(subject.transactionIndex().all())
-		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+	assert.instance(await subject.transactionIndex().all(), ExtendedConfirmedTransactionDataCollection);
 });
 
 test("sent", async () => {
-	await assert
-		.is(subject.transactionIndex().sent())
-		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+	assert.instance(await subject.transactionIndex().sent(), ExtendedConfirmedTransactionDataCollection);
 });
 
 test("received", async () => {
-	await assert
-		.is(subject.transactionIndex().received())
-		.resolves.toBeInstanceOf(ExtendedConfirmedTransactionDataCollection);
+	assert.instance(await subject.transactionIndex().received(), ExtendedConfirmedTransactionDataCollection);
 });
 
 test("should fetch transaction by id", async () => {
@@ -117,6 +112,8 @@ test("should fetch transactions by id", async () => {
 	assert.is(transactions.length, 2);
 
 	const fetchedIds = transactions.map((transaction) => transaction.id());
-	assert.is(fetchedIds.includes(transactionId), true);
-	assert.is(fetchedIds.includes(secondaryTransactionId), true);
+	assert.true(fetchedIds.includes(transactionId));
+	assert.true(fetchedIds.includes(secondaryTransactionId));
 });
+
+test.run();

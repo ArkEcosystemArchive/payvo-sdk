@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { bootContainer } from "../test/mocking";
@@ -9,7 +10,7 @@ describe("PasswordManager", () => {
 	test("should set and get password", () => {
 		const subject = new PasswordManager();
 
-		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
 
 		subject.set("password");
 
@@ -19,23 +20,25 @@ describe("PasswordManager", () => {
 	test("#exists", () => {
 		const subject = new PasswordManager();
 
-		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
 
-		assert.is(subject.exists(), false);
+		assert.false(subject.exists());
 		subject.set("password");
 
-		assert.is(subject.exists(), true);
+		assert.true(subject.exists());
 	});
 
 	test("#forget", () => {
 		const subject = new PasswordManager();
 
-		assert.is(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
 
 		subject.set("password");
-		assert.is(subject.exists(), true);
+		assert.true(subject.exists());
 		subject.forget();
 
-		assert.is(subject.exists(), false);
+		assert.false(subject.exists());
 	});
 });
+
+test.run();

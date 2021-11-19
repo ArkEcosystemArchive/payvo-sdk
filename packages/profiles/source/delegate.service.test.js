@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -10,7 +11,7 @@ import { Wallet } from "./wallet";
 import { DelegateService } from "./delegate.service";
 import { IReadWriteWallet } from "./contracts";
 
-let subject: DelegateService;
+let subject;
 
 test.before(() => {
 	bootContainer();
@@ -18,8 +19,8 @@ test.before(() => {
 	nock.disableNetConnect();
 });
 
-let wallet: IReadWriteWallet;
-let profile: Profile;
+let wallet;
+let profile;
 
 test.before.each(async () => {
 	nock(/.+/)
@@ -49,80 +50,78 @@ test.before.each(async () => {
 
 describe("DelegateService", () => {
 	test("should sync the delegates", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
-		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.array(subject.all("ARK", "ark.devnet"));
+		assert.length(subject.all("ARK", "ark.devnet"), 200);
 	});
 
 	test("should sync the delegates only one page", async () => {
 		nock.cleanAll();
 		nock(/.+/).get("/api/delegates").reply(200, require("../test/fixtures/client/delegates-single-page.json"));
 
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
-		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(10);
+		assert.array(subject.all("ARK", "ark.devnet"));
+		assert.length(subject.all("ARK", "ark.devnet"), 10);
 	});
 
 	test("should sync the delegates when network does not support FastDelegateSync", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		jest.spyOn(profile.coins().set("ARK", "ark.devnet").network(), "meta").mockReturnValue({
+		mockery(profile.coins().set("ARK", "ark.devnet").network(), "meta").mockReturnValue({
 			fastDelegateSync: false,
 		});
 
 		await subject.sync(profile, "ARK", "ark.devnet");
 
-		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
-		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.array(subject.all("ARK", "ark.devnet"));
+		assert.length(subject.all("ARK", "ark.devnet"), 200);
 	});
 
 	test("should sync the delegates of all coins", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
-		assert.is(subject.all("ARK", "ark.devnet")).toBeArray();
-		assert.is(subject.all("ARK", "ark.devnet")).toHaveLength(200);
+		assert.array(subject.all("ARK", "ark.devnet"));
+		assert.length(subject.all("ARK", "ark.devnet"), 200);
 	});
 
 	test("#findByAddress", async () => {
 		await subject.syncAll(profile);
-		assert.is(subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve")).toBeTruthy();
-		assert.is(() => subject.findByAddress("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert.truthy(subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve"));
+		assert.throws(() => subject.findByAddress("ARK", "ark.devnet", "unknown"), /No delegate for/);
 	});
 
 	test("#findByPublicKey", async () => {
 		await subject.syncAll(profile);
-		assert
-			.is(
-				subject.findByPublicKey(
-					"ARK",
-					"ark.devnet",
-					"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
-				),
-			)
-			.toBeTruthy();
-		assert.is(() => subject.findByPublicKey("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert.truthy(
+			subject.findByPublicKey(
+				"ARK",
+				"ark.devnet",
+				"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
+			),
+		);
+		assert.throws(() => subject.findByPublicKey("ARK", "ark.devnet", "unknown"), /No delegate for/);
 	});
 
 	test("#findByUsername", async () => {
 		await subject.syncAll(profile);
-		assert.is(subject.findByUsername("ARK", "ark.devnet", "alessio")).toBeTruthy();
-		assert.is(() => subject.findByUsername("ARK", "ark.devnet", "unknown")).toThrowError(/No delegate for/);
+		assert.truthy(subject.findByUsername("ARK", "ark.devnet", "alessio"));
+		assert.throws(() => subject.findByUsername("ARK", "ark.devnet", "unknown"), /No delegate for/);
 	});
 
 	describe("#map", () => {
 		test("should return an empty array if there are no public keys", async () => {
 			const mappedDelegates = subject.map(wallet, []);
 
-			assert.is(mappedDelegates).toBeArray();
-			assert.is(mappedDelegates).toHaveLength(0);
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 0);
 		});
 
 		test("should map the public keys to read-only wallets", async () => {
@@ -135,8 +134,8 @@ describe("DelegateService", () => {
 
 			const mappedDelegates = subject.map(wallet, publicKeys);
 
-			assert.is(mappedDelegates).toBeArray();
-			assert.is(mappedDelegates).toHaveLength(100);
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 100);
 
 			for (let i = 0; i < delegates.length; i++) {
 				assert.is(mappedDelegates[i].address(), addresses[i]);
@@ -155,8 +154,8 @@ describe("DelegateService", () => {
 
 			const mappedDelegates = subject.map(wallet, publicKeys.concat(["pubkey"]));
 
-			assert.is(mappedDelegates).toBeArray();
-			assert.is(mappedDelegates).toHaveLength(100);
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 100);
 
 			for (let i = 0; i < delegates.length; i++) {
 				assert.is(mappedDelegates[i].address(), addresses[i]);
@@ -166,3 +165,5 @@ describe("DelegateService", () => {
 		});
 	});
 });
+
+test.run();
