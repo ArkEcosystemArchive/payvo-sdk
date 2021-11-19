@@ -1,7 +1,8 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { TransactionSerializer } from "./transaction.serializer";
 
-const clone = (data: any[]): any[] => JSON.parse(JSON.stringify(data));
+const clone = (data) => JSON.parse(JSON.stringify(data));
 
 const transactions = [
 	{
@@ -83,49 +84,56 @@ const transactions = [
 	},
 ];
 
-describe("TransactionSerializer", () => {
-	test.each(clone(transactions))("#toMachine(%s)", (transaction) => {
-		assert.is(createService(TransactionSerializer).toMachine(transaction)).toMatchSnapshot();
+for (const transaction of clone(transactions)) {
+	test("#toMachine(%s)", () => {
+		assert.object(createService(TransactionSerializer).toMachine(transaction));
 	});
+}
 
-	describe("#toHuman", () => {
-		it.each(clone(transactions))("should serialize to human (%s)", async (transaction) => {
+describe("#toHuman", () => {
+	for (const transaction of clone(transactions)) {
+		test("should serialize to human (%s)", async () => {
 			const subject = await createService(TransactionSerializer);
 
-			assert.is(subject.toHuman(subject.toMachine(transaction))).toMatchSnapshot();
+			assert.object(subject.toHuman(subject.toMachine(transaction)));
+		});
+	}
+
+	test("should default transfer data to empty string when not present", async () => {
+		const subject = await createService(TransactionSerializer);
+
+		const transaction = subject.toMachine({
+			moduleID: 2,
+			assetID: 0,
+			asset: { recipientAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: "100000000" },
+			senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
+			nonce: "3",
+			fee: "207000",
 		});
 
-		test("should default transfer data to empty string when not present", async () => {
-			const subject = await createService(TransactionSerializer);
+		delete transaction.asset.data;
 
-			const transaction = subject.toMachine({
-				moduleID: 2,
-				assetID: 0,
-				asset: { recipientAddress: "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7", amount: "100000000" },
-				senderPublicKey: "5e93fd5cfe306ea2c34d7082a6c79692cf2f5c6e07aa6f9b4a11b4917d33f16b",
-				nonce: "3",
-				fee: "207000",
-			});
-
-			delete transaction.asset.data;
-
-			assert.is(subject.toHuman(transaction).asset.data, "");
-		});
-	});
-
-	describe("#toString", () => {
-		it.each(clone(transactions))("should serialize to string (%s)", async (transaction) => {
-			const subject = await createService(TransactionSerializer);
-
-			assert.is(subject.toString(subject.toHuman(transaction))).toMatchSnapshot();
-		});
-
-		test("should throw error for unrecognized transaction types", async () => {
-			const subject = await createService(TransactionSerializer);
-
-			assert
-				.is(() => subject.toString({ moduleID: 10, assetID: 10 }))
-				.toThrowError("Failed to determine the transaction type.");
-		});
+		assert.is(subject.toHuman(transaction).asset.data, "");
 	});
 });
+
+describe("#toString", () => {
+	for (const transaction of clone(transactions)) {
+		test("should serialize to string (%s)", async () => {
+			const subject = await createService(TransactionSerializer);
+
+			assert.string(subject.toString(subject.toHuman(transaction)));
+		});
+	}
+
+	test("should throw error for unrecognized transaction types", async () => {
+		const subject = await createService(TransactionSerializer);
+
+		assert.throws(
+			() => subject.toString({ moduleID: 10, assetID: 10 }),
+			"Failed to determine the transaction type.",
+		);
+	});
+});
+
+test.run();
