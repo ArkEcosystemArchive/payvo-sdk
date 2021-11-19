@@ -17,7 +17,8 @@
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source .test.js"
+		"test": "uvu -r tsm source .test.js",
+		"test:coverage": "c8 pnpm run test"
 	},
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",
@@ -47,6 +48,7 @@
 		"@types/uuid": "^8.3.1",
 		"@typescript-eslint/eslint-plugin": "^5.3.1",
 		"@typescript-eslint/parser": "^5.3.1",
+		"c8": "~7.10.0",
 		"eslint": "^8.2.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-import": "^2.25.3",
