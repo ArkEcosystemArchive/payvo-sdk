@@ -939,6 +939,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "watchlist",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "web3",
       "allowedCategories": [ "libraries" ]
     },
