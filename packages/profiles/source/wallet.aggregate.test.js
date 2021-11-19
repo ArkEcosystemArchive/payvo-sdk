@@ -36,44 +36,42 @@ test.before.each(async () => {
 	subject = new WalletAggregate(profile);
 });
 
-describe("WalletAggregate", () => {
-	test("#balance", async () => {
-		assert.is(subject.balance("test"), 558270.93444556);
-		assert.is(subject.balance("live"), 0);
-		assert.is(subject.balance(), 0);
+test("#balance", async () => {
+	assert.is(subject.balance("test"), 558270.93444556);
+	assert.is(subject.balance("live"), 0);
+	assert.is(subject.balance(), 0);
 
-		const mockWalletLive = mockery(profile.wallets().first().network(), "isLive").mockReturnValue(true);
-		assert.is(subject.balance("live"), 558270.93444556);
-		mockWalletLive.mockRestore();
+	const mockWalletLive = mockery(profile.wallets().first().network(), "isLive").mockReturnValue(true);
+	assert.is(subject.balance("live"), 558270.93444556);
+	mockWalletLive.mockRestore();
+});
+
+test("#convertedBalance", async () => {
+	assert.is(subject.convertedBalance(), 0);
+});
+
+test("#balancesByNetworkType", async () => {
+	assert.equal(subject.balancesByNetworkType(), {
+		live: BigNumber.ZERO,
+		test: BigNumber.make("55827093444556"),
+	});
+});
+
+test("#balancePerCoin", async () => {
+	assert.equal(subject.balancePerCoin(), {});
+	assert.equal(subject.balancePerCoin("live"), {});
+
+	assert.equal(subject.balancePerCoin("test"), {
+		DARK: {
+			percentage: "100.00",
+			total: "558270.93444556",
+		},
 	});
 
-	test("#convertedBalance", async () => {
-		assert.is(subject.convertedBalance(), 0);
-	});
+	const mockWalletLive = mockery(profile.wallets().first(), "balance").mockReturnValue(0);
 
-	test("#balancesByNetworkType", async () => {
-		assert.is(subject.balancesByNetworkType(), {
-			live: BigNumber.ZERO,
-			test: BigNumber.make("55827093444556"),
-		});
-	});
-
-	test("#balancePerCoin", async () => {
-		assert.is(subject.balancePerCoin(), {});
-		assert.is(subject.balancePerCoin("live"), {});
-
-		assert.is(subject.balancePerCoin("test"), {
-			DARK: {
-				percentage: "100.00",
-				total: "558270.93444556",
-			},
-		});
-
-		const mockWalletLive = mockery(profile.wallets().first(), "balance").mockReturnValue(0);
-
-		assert.is(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
-		mockWalletLive.mockRestore();
-	});
+	assert.equal(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
+	mockWalletLive.mockRestore();
 });
 
 test.run();
