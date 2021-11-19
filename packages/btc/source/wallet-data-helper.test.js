@@ -79,8 +79,8 @@ test.before.each(async () => {
 test("should discover all used", async () => {
 	assert.undefined(await walletDataHelper.discoverAllUsed());
 
-	assert.is(walletDataHelper.discoveredSpendAddresses(), 100);
-	assert.is(walletDataHelper.discoveredChangeAddresses(), 100);
+	assert.length(walletDataHelper.discoveredSpendAddresses(), 100);
+	assert.length(walletDataHelper.discoveredChangeAddresses(), 100);
 });
 
 test("should return the next change address", async () => {

@@ -44,7 +44,7 @@ test("#votes", () => {
 });
 
 test("#multiSignature", () => {
-	assert.is(() => subject.multiSignature()).toThrow(/does not have/);
+	assert.throws(() => subject.multiSignature(), "does not have");
 });
 
 test("#isMultiSignature", () => {

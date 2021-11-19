@@ -23,7 +23,7 @@ describe("testnet", (suite) => {
 	suite("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "n2qGdjfjmFyvAXqbErrtXpfypXhtbNWruM",
 				path: "m/44'/1'/0'/0/0",
@@ -61,7 +61,7 @@ describe("testnet", (suite) => {
 			},
 		});
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "mjS2VkYDn9ZxB4pVTgQGy5wYiPPwTnQHij",
 				path: "m/44'/1'/7'/0/3",
@@ -99,7 +99,7 @@ describe("testnet", (suite) => {
 			},
 		});
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "mnaedh1YpvPsgybYyoyUjtnYaq91DjSXi4",
 				path: "m/44'/1'/5'/1/2",
@@ -120,7 +120,7 @@ describe("testnet", (suite) => {
 });
 
 describe("livenet", (suite) => {
-	test.before.each(async () => {
+	suite.before.each(async () => {
 		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
@@ -129,7 +129,7 @@ describe("livenet", (suite) => {
 	suite("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa",
 				path: "m/44'/0'/0'/0/0",
@@ -167,7 +167,7 @@ describe("livenet", (suite) => {
 			},
 		});
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "1DFirytnzyKwMBA2T8JNhjzwEoEimKTCKd",
 				path: "m/44'/0'/7'/0/3",
@@ -205,7 +205,7 @@ describe("livenet", (suite) => {
 			},
 		});
 
-		assert.is(result, [
+		assert.equal(result, [
 			{
 				address: "1PSddm78a9UnGWvL5xVCAcV7HddY16Vgjv",
 				path: "m/44'/0'/5'/1/2",
