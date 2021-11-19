@@ -1,63 +1,63 @@
 {
-    "name": "@payvo/sdk-intl",
-    "version": "3.2.2",
-    "description": "Cross-Platform Utilities for Payvo Applications",
-    "license": "MIT",
-    "contributors": [],
-    "type": "module",
-    "exports": "./distribution/index.js",
-    "types": "./distribution/index.d.ts",
-    "files": [
-        "/distribution"
-    ],
-    "scripts": {
-        "build": "pnpm run clean && tsc",
-        "build:watch": "pnpm run clean && tsc -w",
-        "clean": "rimraf .coverage distribution tmp",
-        "lint": "eslint source/**/*.ts --fix",
-        "lint:tests": "eslint source/**/*.test.ts --fix",
-        "prepublishOnly": "pnpm run build",
-        "test": "uvu -r tsm source .test.js",
-        "test:coverage": "c8 pnpm run test",
-        "test:watch": "watchlist source -- pnpm run test"
-    },
-    "dependencies": {
-        "dayjs": "^1.10.7",
-        "dinero.js": "^1.9.1"
-    },
-    "devDependencies": {
-        "@payvo/sdk-test": "workspace:*",
-        "@types/dinero.js": "1.9.0",
-        "@types/eslint": "^7.28.2",
-        "@types/eslint-plugin-prettier": "^3.1.0",
-        "@types/node": "^16.11.7",
-        "@types/prettier": "^2.4.1",
-        "@types/rimraf": "^3.0.2",
-        "@typescript-eslint/eslint-plugin": "^5.3.1",
-        "@typescript-eslint/parser": "^5.3.1",
-        "c8": "~7.10.0",
-        "eslint": "^8.2.0",
-        "eslint-config-prettier": "^8.3.0",
-        "eslint-plugin-import": "^2.25.3",
-        "eslint-plugin-jsx-a11y": "^6.5.1",
-        "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-promise": "^5.1.1",
-        "eslint-plugin-simple-import-sort": "^7.0.0",
-        "eslint-plugin-sonarjs": "^0.10.0",
-        "eslint-plugin-sort-keys-fix": "^1.1.2",
-        "eslint-plugin-testcafe": "^0.2.1",
-        "eslint-plugin-testing-library": "^5.0.0",
-        "eslint-plugin-unicorn": "^38.0.1",
-        "eslint-plugin-unused-imports": "^2.0.0",
-        "prettier": "^2.4.1",
-        "rimraf": "^3.0.2",
-        "tsm": "^2.1.4",
-        "typescript": "^4.4.4",
-        "uvu": "^0.5.2",
-        "watchlist": "~0.3.1"
-    },
-    "engines": {
-        "node": "^14.13.1 || >=16.0.0"
-    },
-    "engineStrict": true
+	"name": "@payvo/sdk-intl",
+	"version": "3.2.2",
+	"description": "Cross-Platform Utilities for Payvo Applications",
+	"license": "MIT",
+	"contributors": [],
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
+	"files": [
+		"/distribution"
+	],
+	"scripts": {
+		"build": "pnpm run clean && tsc",
+		"build:watch": "pnpm run clean && tsc -w",
+		"clean": "rimraf .coverage distribution tmp",
+		"lint": "eslint source/**/*.ts --fix",
+		"lint:tests": "eslint source/**/*.test.ts --fix",
+		"prepublishOnly": "pnpm run build",
+		"test": "uvu -r tsm source .test.js",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
+	},
+	"dependencies": {
+		"dayjs": "^1.10.7",
+		"dinero.js": "^1.9.1"
+	},
+	"devDependencies": {
+		"@payvo/sdk-test": "workspace:*",
+		"@types/dinero.js": "1.9.0",
+		"@types/eslint": "^7.28.2",
+		"@types/eslint-plugin-prettier": "^3.1.0",
+		"@types/node": "^16.11.7",
+		"@types/prettier": "^2.4.1",
+		"@types/rimraf": "^3.0.2",
+		"@typescript-eslint/eslint-plugin": "^5.3.1",
+		"@typescript-eslint/parser": "^5.3.1",
+		"c8": "~7.10.0",
+		"eslint": "^8.2.0",
+		"eslint-config-prettier": "^8.3.0",
+		"eslint-plugin-import": "^2.25.3",
+		"eslint-plugin-jsx-a11y": "^6.5.1",
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-promise": "^5.1.1",
+		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"eslint-plugin-sonarjs": "^0.10.0",
+		"eslint-plugin-sort-keys-fix": "^1.1.2",
+		"eslint-plugin-testcafe": "^0.2.1",
+		"eslint-plugin-testing-library": "^5.0.0",
+		"eslint-plugin-unicorn": "^38.0.1",
+		"eslint-plugin-unused-imports": "^2.0.0",
+		"prettier": "^2.4.1",
+		"rimraf": "^3.0.2",
+		"tsm": "^2.1.4",
+		"typescript": "^4.4.4",
+		"uvu": "^0.5.2",
+		"watchlist": "~0.3.1"
+	},
+	"engines": {
+		"node": "^14.13.1 || >=16.0.0"
+	},
+	"engineStrict": true
 }
