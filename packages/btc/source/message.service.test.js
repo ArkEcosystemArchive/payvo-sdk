@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
@@ -38,3 +39,5 @@ describe("MessageService", () => {
 		assert.true(await subject.verify(result));
 	});
 });
+
+test.run();

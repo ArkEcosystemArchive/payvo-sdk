@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";
@@ -302,3 +303,5 @@ describe.skip("bip84 wallet", () => {
 		assert.instance(result.timestamp(), DateTime);
 	});
 });
+
+test.run();

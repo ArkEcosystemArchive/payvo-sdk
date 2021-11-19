@@ -1,3 +1,4 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { ExtendedPublicKeyService } from "./extended-public-key.service";
@@ -52,3 +53,5 @@ it.each([
         });
     });
 });
+
+test.run();

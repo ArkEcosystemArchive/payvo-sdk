@@ -1,12 +1,12 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import nock from "nock";
-import { IoC } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import * as bitcoin from "bitcoinjs-lib";
 
-let subject: AddressFactory;
+let subject;
 
 test.before.each(async () => {
     nock.disableNetConnect();
@@ -100,3 +100,5 @@ assert.is(walletDataHelper.firstUnusedChangeAddress(), {
 });
     });
 });
+
+test.run();

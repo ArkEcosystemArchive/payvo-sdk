@@ -1,4 +1,5 @@
-import { IoC, Services, Test } from "@payvo/sdk";
+import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
@@ -259,3 +260,5 @@ describe("#broadcast", () => {
     });
 });
 });
+
+test.run();

@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
@@ -223,3 +224,5 @@ describe("livenet", () => {
 		]);
 	});
 });
+
+test.run();

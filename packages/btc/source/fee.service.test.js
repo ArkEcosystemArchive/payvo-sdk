@@ -1,9 +1,10 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import nock from "nock";
 
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-const matchSnapshot = (transaction): void =>
+const matchSnapshot = (transaction) =>
 	assert
 		.is({
 			min: transaction.min.toString(),
@@ -60,3 +61,5 @@ describe("FeeService", () => {
 		matchSnapshot(result.htlcRefund);
 	});
 });
+
+test.run();

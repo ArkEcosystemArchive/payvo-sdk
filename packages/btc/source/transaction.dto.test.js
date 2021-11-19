@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import Fixture from "../test/fixtures/client/transaction.json";
@@ -32,3 +33,5 @@ describe("ConfirmedTransactionData", () => {
 		assert.is(subject.outputs()).toMatchSnapshot();
 	});
 });
+
+test.run();
