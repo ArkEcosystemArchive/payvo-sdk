@@ -419,6 +419,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "c8",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "cardano-crypto.js",
       "allowedCategories": [ "libraries" ]
     },
