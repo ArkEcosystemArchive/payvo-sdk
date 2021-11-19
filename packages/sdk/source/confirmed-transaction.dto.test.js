@@ -25,7 +25,7 @@ test("#type", () => {
 
 	assert.is(subject.type(), "transfer");
 
-	mockery(true, "isMagistrate").mockReturnValueOnce(true);
+	mockery(subject, "isMagistrate").mockReturnValueOnce(true);
 
 	assert.is(subject.type(), "magistrate");
 });
@@ -47,15 +47,15 @@ test("#recipient", () => {
 });
 
 test("#recipients", () => {
-	assert.is(new Transaction().configure({ key: "value" }).recipients(), []);
+	assert.equal(new Transaction().configure({ key: "value" }).recipients(), []);
 });
 
 test("#amount", () => {
-	assert.is(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
+	assert.equal(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
 });
 
 test("#fee", () => {
-	assert.is(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
+	assert.equal(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
 });
 
 test("#memo", () => {
@@ -67,7 +67,7 @@ test("#memo", () => {
 });
 
 test("#asset", () => {
-	assert.is(new Transaction().configure({ key: "value" }).asset(), {});
+	assert.equal(new Transaction().configure({ key: "value" }).asset(), {});
 });
 
 test("#isConfirmed", () => {

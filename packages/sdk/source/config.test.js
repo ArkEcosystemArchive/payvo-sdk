@@ -1,5 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
-import { ConfigRepository } from "./config";
+import { ConfigKey, ConfigRepository } from "./config";
 
 let subject;
 

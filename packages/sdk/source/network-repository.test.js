@@ -7,7 +7,7 @@ let subject;
 test.before.each(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
-	assert.length(subject.all(), 6);
+	assert.length(Object.keys(subject.all()), 7);
 });
 
 test("#get | #push | #forget", () => {
