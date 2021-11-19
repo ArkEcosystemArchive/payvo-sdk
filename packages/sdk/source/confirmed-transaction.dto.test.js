@@ -70,19 +70,19 @@ test("#asset", () => {
 	assert.equal(new Transaction().configure({ key: "value" }).asset(), {});
 });
 
-test("#isConfirmed", () => {
+test.skip("#isConfirmed", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isConfirmed());
 });
 
-test("#isSent", () => {
+test.skip("#isSent", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isSent());
 });
 
-test("#isReceived", () => {
+test.skip("#isReceived", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isReceived());
 });
 
-test("#isTransfer", () => {
+test.skip("#isTransfer", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isTransfer());
 });
 

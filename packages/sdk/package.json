@@ -17,7 +17,7 @@
 		"lint": "eslint source/**/*.ts --fix",
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source confirmed-transaction.dto.test.js"
+		"test": "uvu -r tsm source .test.js"
 	},
 	"dependencies": {
 		"@payvo/sdk-helpers": "workspace:*",
