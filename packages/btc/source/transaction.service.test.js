@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
@@ -21,7 +22,7 @@ const mnemonic = "skin fortune security mom coin hurdle click emotion heart bris
 
 let subject;
 
-test.before.each(async () => {
+const createLocalServices = async () => {
 	nock.disableNetConnect();
 
 	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
@@ -43,14 +44,16 @@ test.before.each(async () => {
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
-});
+};
 
-test.after.each(async () => {
-	nock.cleanAll();
-});
+describe("bip44 wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
 
-describe("bip44 wallet", () => {
-	test.before.each(() => {
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -95,7 +98,7 @@ describe("bip44 wallet", () => {
 			.persist();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	suite("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -130,8 +133,14 @@ describe("bip44 wallet", () => {
 	});
 });
 
-describe("bip49 wallet", () => {
-	test.before.each(() => {
+describe("bip49 wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -176,7 +185,7 @@ describe("bip49 wallet", () => {
 			.persist();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	suite("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -212,8 +221,14 @@ describe("bip49 wallet", () => {
 	});
 });
 
-describe("bip84 wallet", () => {
-	test.before.each(() => {
+describe("bip84 wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -258,7 +273,7 @@ describe("bip84 wallet", () => {
 			.persist();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	suite("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -294,8 +309,14 @@ describe("bip84 wallet", () => {
 	});
 });
 
-describe("legacy multisignature wallet", () => {
-	test.before.each(() => {
+describe("legacy multisignature wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -329,8 +350,8 @@ describe("legacy multisignature wallet", () => {
 			.persist();
 	});
 
-	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	suite("should generate a transfer transaction", async () => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
 		};
@@ -360,8 +381,14 @@ describe("legacy multisignature wallet", () => {
 	});
 });
 
-describe("p2sh segwit multisignature wallet", () => {
-	test.before(() => {
+describe("p2sh segwit multisignature wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -395,8 +422,8 @@ describe("p2sh segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	suite("should generate a transfer transaction", async () => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.p2shSegwitMasterPublicKey),
 		};
@@ -426,8 +453,14 @@ describe("p2sh segwit multisignature wallet", () => {
 	});
 });
 
-describe("native segwit multisignature wallet", () => {
-	test.before(() => {
+describe("native segwit multisignature wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
+
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -472,8 +505,8 @@ describe("native segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	suite("should generate a transfer transaction", async () => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
 		};
@@ -502,3 +535,5 @@ describe("native segwit multisignature wallet", () => {
 		);
 	});
 });
+
+test.run();
