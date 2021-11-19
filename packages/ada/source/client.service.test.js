@@ -51,7 +51,7 @@ test("#wallet should succeed", async () => {
 		result.address(),
 		"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
 	);
-	assert.is(result.balance(), "object");
+	assert.object(result.balance());
 });
 
 describe("#transactions", () => {
@@ -68,29 +68,28 @@ describe("#transactions", () => {
 			senderPublicKey:
 				"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
 		});
-		assert.undefined(result.publicKey());
 		assert.length(result.items(), 5);
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 	test("missing senderPublicKey", async () => {
-		await assert.is(
-			subject.transactions({
-				identifiers: [
-					{
-						type: "extendedPublicKey",
-						value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
-					},
-				],
-			}),
+		await assert.rejects(
+			() =>
+				subject.transactions({
+					identifiers: [
+						{
+							type: "extendedPublicKey",
+							value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
+						},
+					],
+				}),
 			"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
 		);
 	});
 	test("missing query", async () => {
-		await assert
-			.is(subject.transactions({}))
-			.rejects.toThrow(
-				"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
-			);
+		await assert.rejects(
+			() => subject.transactions({}),
+			"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
+		);
 	});
 });
 
@@ -130,24 +129,24 @@ test("#transaction", async () => {
 	assert.is(actual[1].amount.toString(), "4831199");
 
 	const inputs = result.inputs();
-	assert.is(inputs).toBeArrayOfSize(1);
-	assert.is(inputs[0] instanceof DTO.UnspentTransactionData);
+	assert.length(inputs, 1);
+	assert.instance(inputs[0], DTO.UnspentTransactionData);
 	assert.is(inputs[0].id(), "6bf76f4380da8a389ae0a7ecccf1922b74ae11d773ba8b1b761d84a1b4474a4f");
-	assert.is(inputs[0].amount(), BigNumber.make(30000000));
+	assert.equal(inputs[0].amount(), BigNumber.make(30000000));
 	assert.is(
 		inputs[0].address(),
 		"addr_test1qrhvwtn8sa3duzkm93v5kjjxlv5lvg67j530wyeumngu23lk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33s4s8xvh",
 	);
 
 	const outputs = result.outputs();
-	assert.is(outputs).toBeArrayOfSize(2);
-	assert.is(outputs[0] instanceof DTO.UnspentTransactionData);
+	assert.length(outputs, 2);
+	assert.instance(outputs[0], DTO.UnspentTransactionData);
 	assert.is(outputs[0].amount().toString(), "25000000");
 	assert.is(
 		outputs[0].address(),
 		"addr_test1qzct2hsralem3fqn8fupu90v3jkelpg4rfp4zqx06zgevpachk6az8jcydma5a6vgsuw5c37v0c8j6rlclpqajn2vxsq3rz4th",
 	);
-	assert.is(outputs[1] instanceof DTO.UnspentTransactionData);
+	assert.instance(outputs[1], DTO.UnspentTransactionData);
 	assert.is(outputs[1].amount().toString(), "4831199");
 	assert.is(
 		outputs[1].address(),
@@ -180,10 +179,7 @@ test("broadcast is accepted", async () => {
 			ConfirmedTransactionData,
 			WalletData,
 		});
-		container.singleton(
-			IoC.BindingType.DataTransferObjectService,
-			Services.AbstractDataTransferObjectService,
-		);
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 	});
 
 	const transfer = await txService.transfer({
@@ -205,7 +201,7 @@ test("broadcast is accepted", async () => {
 
 	const transactions = [transfer];
 	const result = await subject.broadcast(transactions);
-	assert.is(result).toMatchObject({
+	assert.equal(result, {
 		accepted: ["a190c2c349983eda75bf0e31dc1b84b7fc08462416d9e7a1ac6d780ce2e5b568"],
 		rejected: [],
 		errors: {},
@@ -229,7 +225,7 @@ test("broadcast is rejected", async () => {
 		),
 	];
 	const result = await subject.broadcast(transactions);
-	assert.is(result).toMatchObject({
+	assert.equal(result, {
 		accepted: [],
 		rejected: ["35e95e8851fb6cc2fadb988d0a6e514386ac7a82a0d40baca34d345740e9657f"],
 		errors: {

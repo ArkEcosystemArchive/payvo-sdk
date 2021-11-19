@@ -5,7 +5,7 @@ import { ExtendedAddressService } from "./address-list.service";
 test("#fromMnemonic", async () => {
 	const subject = new ExtendedAddressService();
 
-	await assert.is(subject.fromMnemonic(identity.mnemonic, 20)).resolves.toHaveLength(20);
+	assert.length(await subject.fromMnemonic(identity.mnemonic, 20), 20);
 });
 
 test.run();

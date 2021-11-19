@@ -59,7 +59,7 @@ test("#recipients", () => {
 test("#inputs", () => {
 	const inputs = subject.inputs();
 	assert.length(inputs, 1);
-	assert.undefined(inputs[0], DTO.UnspentTransactionData);
+	assert.instance(inputs[0], DTO.UnspentTransactionData);
 	assert.is(inputs[0].id(), "6bf76f4380da8a389ae0a7ecccf1922b74ae11d773ba8b1b761d84a1b4474a4f");
 	assert.is(inputs[0].amount().toString(), "30000000");
 	assert.is(
@@ -71,13 +71,13 @@ test("#inputs", () => {
 test("#outputs", () => {
 	const outputs = subject.outputs();
 	assert.length(outputs, 2);
-	assert.undefined(outputs[0], DTO.UnspentTransactionData);
+	assert.instance(outputs[0], DTO.UnspentTransactionData);
 	assert.is(outputs[0].amount().toString(), "25000000");
 	assert.is(
 		outputs[0].address(),
 		"addr_test1qzct2hsralem3fqn8fupu90v3jkelpg4rfp4zqx06zgevpachk6az8jcydma5a6vgsuw5c37v0c8j6rlclpqajn2vxsq3rz4th",
 	);
-	assert.undefined(outputs[1], DTO.UnspentTransactionData);
+	assert.instance(outputs[1], DTO.UnspentTransactionData);
 	assert.is(outputs[1].amount().toString(), "4831199");
 	assert.is(
 		outputs[1].address(),
@@ -94,7 +94,7 @@ test("#fee", () => {
 });
 
 test("#asset", () => {
-	assert.is(subject.asset(), {});
+	assert.equal(subject.asset(), {});
 });
 
 test("#isConfirmed", () => {
