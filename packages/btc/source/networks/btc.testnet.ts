@@ -33,7 +33,7 @@ const network: Networks.NetworkManifest = {
 			type: "explorer",
 		},
 		{
-			host: process.env.BTC_MUSIG_HOST || "https://btc-test-musig.payvo.com",
+			host: "https://btc-test-musig.payvo.com",
 			type: "musig",
 		},
 	],
