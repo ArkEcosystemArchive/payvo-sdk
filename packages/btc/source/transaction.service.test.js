@@ -331,7 +331,7 @@ describe("legacy multisignature wallet", () => {
 	});
 
 	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
 		};
@@ -397,7 +397,7 @@ describe("p2sh segwit multisignature wallet", () => {
 	});
 
 	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.p2shSegwitMasterPublicKey),
 		};
@@ -474,7 +474,7 @@ describe("native segwit multisignature wallet", () => {
 	});
 
 	test("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
 		};
