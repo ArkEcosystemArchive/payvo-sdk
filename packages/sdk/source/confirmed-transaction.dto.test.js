@@ -1,281 +1,247 @@
-import { assert, test } from "@payvo/sdk-test";
 /* eslint-disable */
 
 import "reflect-metadata";
 
-
-import { DateTime } from "@payvo/sdk-intl";
+import { assert, mockery, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { MultiPaymentRecipient, UnspentTransactionData } from "../contracts";
 import { AbstractConfirmedTransactionData } from "./confirmed-transaction";
 
 test("#withDecimals", () => {
-    assert.is(new Transaction().configure({ key: "value" }).withDecimals(2) instanceof Transaction);
-    assert.is(new Transaction().configure({ key: "value" }).withDecimals("2") instanceof Transaction);
+	assert.instance(new Transaction().configure({ key: "value" }).withDecimals(2), Transaction);
+	assert.instance(new Transaction().configure({ key: "value" }).withDecimals("2"), Transaction);
 });
 
 test("#id", () => {
-    assert.is(new Transaction().configure({ key: "value" }).id(), "id");
+	assert.is(new Transaction().configure({ key: "value" }).id(), "id");
 });
 
 test("#blockId", () => {
-    assert.is(new Transaction().configure({ key: "value" }).blockId(), "blockId");
+	assert.is(new Transaction().configure({ key: "value" }).blockId(), "blockId");
 });
 
 test("#type", () => {
-    const subject = new Transaction().configure({ key: "value" });
+	const subject = new Transaction().configure({ key: "value" });
 
-    assert.is(subject.type(), "transfer");
+	assert.is(subject.type(), "transfer");
 
-    jest.spyOn(subject, "isMagistrate").mockReturnValue(true);
+	mockery(true, "isMagistrate").mockReturnValueOnce(true);
 
-    assert.is(subject.type(), "magistrate");
+	assert.is(subject.type(), "magistrate");
 });
 
 test("#timestamp", () => {
-    assert.is(new Transaction().configure({ key: "value" }).timestamp()), "undefined");
+	assert.undefined(new Transaction().configure({ key: "value" }).timestamp());
 });
 
 test("#confirmations", () => {
-    assert.is(new Transaction().configure({ key: "value" }).confirmations(), BigNumber.ZERO);
+	assert.is(new Transaction().configure({ key: "value" }).confirmations(), BigNumber.ZERO);
 });
 
 test("#sender", () => {
-    assert.is(new Transaction().configure({ key: "value" }).sender(), "sender");
+	assert.is(new Transaction().configure({ key: "value" }).sender(), "sender");
 });
 
 test("#recipient", () => {
-    assert.is(new Transaction().configure({ key: "value" }).recipient(), "recipient");
+	assert.is(new Transaction().configure({ key: "value" }).recipient(), "recipient");
 });
 
 test("#recipients", () => {
-    assert.is(new Transaction().configure({ key: "value" }).recipients(), []);
+	assert.is(new Transaction().configure({ key: "value" }).recipients(), []);
 });
 
 test("#amount", () => {
-    assert.is(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
+	assert.is(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
 });
 
 test("#fee", () => {
-    assert.is(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
+	assert.is(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
 });
 
 test("#memo", () => {
-    assert.is(new Transaction().configure({ key: "value" }).memo(), "memo");
-    assert.is(new Transaction().configure({ memo: "" }).memo()), "undefined");
-assert.is(new Transaction().configure({ memo: "pedo" }).memo(), "****");
-assert.is(new Transaction().configure({ memo: "pedophile" }).memo(), "*********");
-assert.is(new Transaction().configure({ memo: "zyva.org" }).memo()), "undefined");
+	assert.is(new Transaction().configure({ key: "value" }).memo(), "memo");
+	assert.undefined(new Transaction().configure({ memo: "" }).memo());
+	assert.is(new Transaction().configure({ memo: "pedo" }).memo(), "****");
+	assert.is(new Transaction().configure({ memo: "pedophile" }).memo(), "*********");
+	assert.undefined(new Transaction().configure({ memo: "zyva.org" }).memo());
 });
 
 test("#asset", () => {
-    assert.is(new Transaction().configure({ key: "value" }).asset(), {});
+	assert.is(new Transaction().configure({ key: "value" }).asset(), {});
 });
 
 test("#isConfirmed", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isConfirmed(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isConfirmed());
 });
 
 test("#isSent", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isSent(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isSent());
 });
 
 test("#isReceived", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isReceived(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isReceived());
 });
 
 test("#isTransfer", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isTransfer(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isTransfer());
 });
 
 test("#isSecondSignature", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isSecondSignature(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isSecondSignature());
 });
 
 test("#isDelegateRegistration", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isDelegateRegistration(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isDelegateRegistration());
 });
 
 test("#isVoteCombination", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isVoteCombination(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isVoteCombination());
 });
 
 test("#isVote", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isVote(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isVote());
 });
 
 test("#isUnvote", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isUnvote(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isUnvote());
 });
 
 test("#isMultiSignatureRegistration", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isMultiSignatureRegistration(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isMultiSignatureRegistration());
 });
 
 test("#isIpfs", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isIpfs(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isIpfs());
 });
 
 test("#isMultiPayment", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isMultiPayment(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isMultiPayment());
 });
 
 test("#isDelegateResignation", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isDelegateResignation(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isDelegateResignation());
 });
 
 test("#isHtlcLock", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isHtlcLock(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isHtlcLock());
 });
 
 test("#isHtlcClaim", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isHtlcClaim(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isHtlcClaim());
 });
 
 test("#isHtlcRefund", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isHtlcRefund(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isHtlcRefund());
 });
 
 test("#isMagistrate", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isMagistrate(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isMagistrate());
 });
 
 test("#isUnlockToken", () => {
-    assert.is(new Transaction().configure({ key: "value" }).isUnlockToken(), false);
+	assert.false(new Transaction().configure({ key: "value" }).isUnlockToken());
 });
 
 test("#toObject", () => {
-    assert.is(new Transaction().configure({ key: "value" }).toObject(),
-		Object {
-		  "amount": BigNumber {},
-		  "asset": Object {},
-		  "confirmations": BigNumber {},
-		  "fee": BigNumber {},
-		  "id": "id",
-		  "recipient": "recipient",
-		  "sender": "sender",
-		  "timestamp": undefined,
-		  "type": "transfer",
-		}
-	`);
+	assert.object(new Transaction().configure({ key: "value" }).toObject());
 });
 
 test("#raw", () => {
-    assert.is(new Transaction().configure({ key: "value" }).raw(),
-		Object {
-		  "key": "value",
-		}
-	`);
+	assert.equal(new Transaction().configure({ key: "value" }).raw(), {
+		key: "value",
+	});
 });
 
 test("#hasPassed", () => {
-    assert.is(new Transaction().configure({ key: "value" }).hasPassed(), true);
-    assert.is(new Transaction().configure({}).hasPassed(), false);
+	assert.true(new Transaction().configure({ key: "value" }).hasPassed());
+	assert.false(new Transaction().configure({}).hasPassed());
 });
 
 test("#hasFailed", () => {
-    assert.is(new Transaction().configure({}).hasFailed(), true);
-    assert.is(new Transaction().configure({ key: "value" }).hasFailed(), false);
+	assert.true(new Transaction().configure({}).hasFailed());
+	assert.false(new Transaction().configure({ key: "value" }).hasFailed());
 });
 
 test("#getMeta | #setMeta", () => {
-    const subject = new Transaction().configure({});
+	const subject = new Transaction().configure({});
 
-    assert.is(subject.getMeta("key")), "undefined");
+	assert.undefined(subject.getMeta("key"));
 
-subject.setMeta("key", "value");
+	subject.setMeta("key", "value");
 
-assert.is(subject.getMeta("key"), "value");
+	assert.is(subject.getMeta("key"), "value");
 });
 
 class Transaction extends AbstractConfirmedTransactionData {
-    // @ts-ignore
-    public id(): string {
-        return "id";
-    }
+	id() {
+		return "id";
+	}
 
-    // @ts-ignore
-    public blockId(): string | undefined {
-        return "blockId";
-    }
+	blockId() {
+		return "blockId";
+	}
 
-    // @ts-ignore
-    public timestamp(): DateTime | undefined {
-        return undefined;
-    }
+	timestamp() {
+		return undefined;
+	}
 
-    // @ts-ignore
-    public confirmations(): BigNumber {
-        return BigNumber.ZERO;
-    }
+	confirmations() {
+		return BigNumber.ZERO;
+	}
 
-    // @ts-ignore
-    public sender(): string {
-        return "sender";
-    }
+	sender() {
+		return "sender";
+	}
 
-    // @ts-ignore
-    public recipient(): string {
-        return "recipient";
-    }
+	recipient() {
+		return "recipient";
+	}
 
-    // @ts-ignore
-    public recipients(): MultiPaymentRecipient[] {
-        return [];
-    }
+	recipients() {
+		return [];
+	}
 
-    // @ts-ignore
-    public amount(): BigNumber {
-        return BigNumber.ZERO;
-    }
+	amount() {
+		return BigNumber.ZERO;
+	}
 
-    // @ts-ignore
-    public fee(): BigNumber {
-        return BigNumber.ZERO;
-    }
+	fee() {
+		return BigNumber.ZERO;
+	}
 
-    // @ts-ignore
-    public memo(): string | undefined {
-        if (this.data.hasOwnProperty("memo")) {
-            return this.censorMemo(this.data.memo);
-        }
+	memo() {
+		if (this.data.hasOwnProperty("memo")) {
+			return this.censorMemo(this.data.memo);
+		}
 
-        return this.censorMemo("memo");
-    }
+		return this.censorMemo("memo");
+	}
 
-    // @ts-ignore
-    public asset(): Record<string, unknown> {
-        return {};
-    }
+	asset() {
+		return {};
+	}
 
-    // @ts-ignore
-    public inputs(): UnspentTransactionData[] {
-        return [];
-    }
+	inputs() {
+		return [];
+	}
 
-    // @ts-ignore
-    public outputs(): UnspentTransactionData[] {
-        return [];
-    }
+	outputs() {
+		return [];
+	}
 
-    // @ts-ignore
-    public isConfirmed(): boolean {
-        return false;
-    }
+	isConfirmed() {
+		false;
+	}
 
-    // @ts-ignore
-    public isSent(): boolean {
-        return false;
-    }
+	isSent() {
+		false;
+	}
 
-    // @ts-ignore
-    public isReceived(): boolean {
-        return false;
-    }
+	isReceived() {
+		false;
+	}
 
-    // @ts-ignore
-    public isTransfer(): boolean {
-        return false;
-    }
+	isTransfer() {
+		false;
+	}
 }
