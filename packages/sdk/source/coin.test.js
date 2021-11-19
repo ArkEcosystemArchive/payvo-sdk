@@ -1,16 +1,16 @@
+import { assert, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
-import { Network, NetworkRepository } from "../networks/index";
-import { Coin } from "./coin";
+import { ARK } from "../../ark/distribution";
+import { Request } from "../../http-fetch/distribution";
+import { Network, NetworkRepository } from "./networks";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
 
-let subject: Coin;
+let subject;
 
 test.before.each(async () => {
 	nock.disableNetConnect();
@@ -26,7 +26,6 @@ test.before.each(async () => {
 		.reply(200, loader.json("test/testnet/syncing.json"))
 		.persist();
 
-	// @ts-ignore
 	subject = CoinFactory.make(ARK, {
 		httpClient: new Request(),
 		network: "ark.devnet",
@@ -36,124 +35,124 @@ test.before.each(async () => {
 test.after.each(() => nock.cleanAll());
 
 test("#construct", async () => {
-	assert.is(() => subject.address()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.bigNumber()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.client()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.dataTransferObject()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedAddress()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedPublicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.fee()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.keyPair()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.knownWallet()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.ledger()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.link()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.message()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.multiSignature()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.privateKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.publicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.signatory()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.transaction()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.walletDiscovery()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.wif()).toThrow(/No matching bindings found for serviceIdentifier/);
+	assert.throws(() => subject.address(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.bigNumber(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.client(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.fee(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.keyPair(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.knownWallet(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.ledger(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.link(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.message(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.multiSignature(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.privateKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.publicKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.signatory(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.transaction(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.walletDiscovery(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.wif(), "No matching bindings found for serviceIdentifier");
 
 	await subject.__construct();
 
-	assert.is(() => subject.address()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.bigNumber()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.client()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.dataTransferObject()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedAddress()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedPublicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.fee()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.keyPair()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.knownWallet()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.ledger()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.link()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.message()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.multiSignature()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.privateKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.publicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.signatory()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.transaction()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.walletDiscovery()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.wif()).not.toThrow(/No matching bindings found for serviceIdentifier/);
+	assert.not.throws(() => subject.address(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.bigNumber(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.client(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.fee(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.keyPair(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.knownWallet(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.ledger(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.link(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.message(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.multiSignature(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.privateKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.publicKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.signatory(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.transaction(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.walletDiscovery(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.wif(), "No matching bindings found for serviceIdentifier");
 });
 
 test("#__destruct", async () => {
 	await subject.__construct();
 
-	assert.is(() => subject.address()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.bigNumber()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.client()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.dataTransferObject()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedAddress()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedPublicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.fee()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.keyPair()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.knownWallet()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.ledger()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.link()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.message()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.multiSignature()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.privateKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.publicKey()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.signatory()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.transaction()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.walletDiscovery()).not.toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.wif()).not.toThrow(/No matching bindings found for serviceIdentifier/);
+	assert.not.throws(() => subject.address(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.bigNumber(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.client(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.fee(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.keyPair(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.knownWallet(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.ledger(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.link(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.message(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.multiSignature(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.privateKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.publicKey(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.signatory(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.transaction(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.walletDiscovery(), "No matching bindings found for serviceIdentifier");
+	assert.not.throws(() => subject.wif(), "No matching bindings found for serviceIdentifier");
 
 	await subject.__destruct();
 
-	assert.is(() => subject.address()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.bigNumber()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.client()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.dataTransferObject()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedAddress()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.extendedPublicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.fee()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.keyPair()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.knownWallet()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.ledger()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.link()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.message()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.multiSignature()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.privateKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.publicKey()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.signatory()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.transaction()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.walletDiscovery()).toThrow(/No matching bindings found for serviceIdentifier/);
-	assert.is(() => subject.wif()).toThrow(/No matching bindings found for serviceIdentifier/);
+	assert.throws(() => subject.address(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.bigNumber(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.client(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.fee(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.keyPair(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.knownWallet(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.ledger(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.link(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.message(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.multiSignature(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.privateKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.publicKey(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.signatory(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.transaction(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.walletDiscovery(), "No matching bindings found for serviceIdentifier");
+	assert.throws(() => subject.wif(), "No matching bindings found for serviceIdentifier");
 });
 
 test("#hasBeenSynchronized", async () => {
-	assert.is(subject.hasBeenSynchronized(), false);
+	assert.false(subject.hasBeenSynchronized());
 
 	await subject.__construct();
 
-	assert.is(subject.hasBeenSynchronized(), true);
+	assert.true(subject.hasBeenSynchronized());
 
 	await subject.__destruct();
 
-	assert.is(subject.hasBeenSynchronized(), false);
+	assert.false(subject.hasBeenSynchronized());
 });
 
 test("#network", () => {
-	assert.is(subject.network() instanceof Network);
+	assert.instance(subject.network(), Network);
 });
 
 test("#networks", () => {
-	assert.is(subject.networks() instanceof NetworkRepository);
+	assert.instance(subject.networks(), NetworkRepository);
 });
 
 test("#manifest", () => {
-	assert.is(subject.manifest() instanceof Manifest);
+	assert.instance(subject.manifest(), Manifest);
 });
 
 test("#config", () => {
-	assert.is(subject.config() instanceof ConfigRepository);
+	assert.instance(subject.config(), ConfigRepository);
 });
 
-describe.each([
+for (const method of [
 	"address",
 	"bigNumber",
 	"client",
@@ -173,14 +172,16 @@ describe.each([
 	"transaction",
 	"walletDiscovery",
 	"wif",
-])("#%s", (method) => {
+]) {
 	test("should throw if coin has not been fully set up", async () => {
-		assert.is(() => subject[method]()).toThrow();
+		assert.throws(() => subject[method]());
 	});
 
 	test("should not throw if coin has not been fully set up", async () => {
 		await subject.__construct();
 
-		assert.is(subject[method](), "object");
+		assert.object(subject[method]());
 	});
-});
+}
+
+test.run();

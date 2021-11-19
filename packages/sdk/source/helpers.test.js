@@ -1,4 +1,4 @@
-import { ConfigRepository } from "./coins/index";
+import { assert, test } from "@payvo/sdk-test";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers";
 
 test.after.each(() => jest.restoreAllMocks());
@@ -18,7 +18,7 @@ const configMock = {
 			host: "https://explorer.ark.io",
 		},
 	],
-} as unknown as ConfigRepository;
+};
 
 test("filterHostsFromConfig", () => {
 	assert.is(filterHostsFromConfig(configMock, "explorer"), [
@@ -47,20 +47,20 @@ test("randomHostFromConfig default", () => {
 	assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
 });
 
-describe("pluckAddress", () => {
-	test("senderId", () => {
-		assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
-	});
-
-	test("recipientId", () => {
-		assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
-	});
-
-	test("addresses", () => {
-		assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
-	});
-
-	test("addresses", () => {
-		assert.is(() => pluckAddress({ key: "value" })).toThrow("Failed to pluck any address.");
-	});
+test("#pluckAddress - senderId", () => {
+	assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
 });
+
+test("#pluckAddress - recipientId", () => {
+	assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
+});
+
+test("#pluckAddress - addresses", () => {
+	assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
+});
+
+test("#pluckAddress - addresses", () => {
+	assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
+});
+
+test.run();

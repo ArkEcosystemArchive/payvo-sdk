@@ -1,11 +1,12 @@
 /* eslint-disable sonarjs/no-identical-expressions */
+import { assert, test } from "@payvo/sdk-test";
 
 import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
+import { ARK } from "../../ark/distribution";
+import { Request } from "../../http-fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
@@ -40,44 +41,38 @@ test.before(async () => {
 test.after(() => nock.cleanAll());
 
 test("should create an instance", async () => {
-	// @ts-ignore
-	assert.is(CoinFactory.make(ARK, options) instanceof Coin);
+	assert.instance(CoinFactory.make(ARK, options), Coin);
 });
 
 test("should create multiple instances with independent containers", async () => {
-	// @ts-ignore
 	const first = CoinFactory.make(ARK, options);
 	await first.__construct();
 
-	// @ts-ignore
 	const second = CoinFactory.make(ARK, options);
 	await second.__construct();
 
-	// @ts-ignore
 	const third = CoinFactory.make(ARK, options);
 	await third.__construct();
 
 	// A equals A
-	assert.is(first.address() === first.address(), true);
+	assert.true(first.address() === first.address());
 	// B equals B
-	assert.is(second.address() === second.address(), true);
+	assert.true(second.address() === second.address());
 	// C equals C
-	assert.is(third.address() === third.address(), true);
+	assert.true(third.address() === third.address());
 	// A does not equal B
-	assert.is(first.address() === second.address(), false);
+	assert.false(first.address() === second.address());
 	// A does not equal C
-	assert.is(first.address() === third.address(), false);
+	assert.false(first.address() === third.address());
 	// B does not equal C
-	assert.is(second.address() === third.address(), false);
+	assert.false(second.address() === third.address());
 });
 
 test("should create an instance with a custom network", async () => {
-	// @ts-ignore
-	const coin: Coin = CoinFactory.make(ARK, {
+	const coin = CoinFactory.make(ARK, {
 		httpClient: new Request(),
 		network: "coin.network",
 		networks: {
-			// @ts-ignore
 			"coin.network": {
 				id: "coin.network",
 				name: "Mainnet",
@@ -88,3 +83,5 @@ test("should create an instance with a custom network", async () => {
 	assert.is(coin.network().id(), "coin.network");
 	assert.is(coin.network().name(), "Mainnet");
 });
+
+test.run();

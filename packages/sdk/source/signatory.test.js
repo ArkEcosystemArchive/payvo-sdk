@@ -1,15 +1,16 @@
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
+import { assert, describe, test } from "@payvo/sdk-test";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory";
+import { LedgerSignatory } from "./ledger.signatory";
+import { MnemonicSignatory } from "./mnemonic.signatory";
+import { MultiSignatureSignatory } from "./multi-signature.signatory";
+import { PrivateKeySignatory } from "./private-key.signatory";
+import { SecretSignatory } from "./secret.signatory";
 import { Signatory } from "./signatory";
-import { WIFSignatory } from "./wif";
+import { WIFSignatory } from "./wif.signatory";
 
-describe("MnemonicSignatory", () => {
+describe("MnemonicSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new MnemonicSignatory({
@@ -20,7 +21,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -33,7 +34,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -46,7 +47,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -59,7 +60,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey(), "publicKey"`);
+        assert.is(subject.publicKey(), "publicKey");
     });
 
     test("#privateKey", () => {
@@ -72,7 +73,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "privateKey"`);
+        assert.is(subject.privateKey(), "privateKey");
     });
 
     test("#multiSignature", () => {
@@ -96,19 +97,7 @@ describe("MnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 
     test("#options", () => {
@@ -137,17 +126,16 @@ describe("MnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.options(),
-		Object {
-		  "bip44": Object {
+        assert.equal(subject.options(),
+		 {
+		  "bip44":  {
 		    "account": 0,
 		  },
-		}
-	`);
+		});
     });
 });
 
-describe("ConfirmationMnemonicSignatory", () => {
+describe("ConfirmationMnemonicSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationMnemonicSignatory({
@@ -159,7 +147,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -173,7 +161,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey(), "confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey");
     });
 
     test("#address", () => {
@@ -187,7 +175,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -201,7 +189,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey(), "publicKey"`);
+        assert.is(subject.publicKey(), "publicKey");
     });
 
     test("#privateKey", () => {
@@ -215,7 +203,7 @@ describe("ConfirmationMnemonicSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "privateKey"`);
+        assert.is(subject.privateKey(), "privateKey");
     });
 
     test("#multiSignature", () => {
@@ -240,23 +228,11 @@ describe("ConfirmationMnemonicSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 });
 
-describe("WIFSignatory", () => {
+describe("WIFSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new WIFSignatory({
@@ -267,7 +243,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -280,7 +256,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -293,7 +269,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -306,7 +282,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey(), "publicKey"`);
+        assert.is(subject.publicKey(), "publicKey");
     });
 
     test("#privateKey", () => {
@@ -319,7 +295,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "privateKey"`);
+        assert.is(subject.privateKey(), "privateKey");
     });
 
     test("#multiSignature", () => {
@@ -343,23 +319,11 @@ describe("WIFSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 });
 
-describe("ConfirmationWIFSignatory", () => {
+describe("ConfirmationWIFSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationWIFSignatory({
@@ -371,7 +335,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -385,7 +349,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey(), "confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey");
     });
 
     test("#address", () => {
@@ -399,7 +363,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -413,7 +377,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey(), "publicKey"`);
+        assert.is(subject.publicKey(), "publicKey");
     });
 
     test("#privateKey", () => {
@@ -427,7 +391,7 @@ describe("ConfirmationWIFSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "privateKey"`);
+        assert.is(subject.privateKey(), "privateKey");
     });
 
     test("#multiSignature", () => {
@@ -452,23 +416,11 @@ describe("ConfirmationWIFSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 });
 
-describe("PrivateKeySignatory", () => {
+describe("PrivateKeySignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new PrivateKeySignatory({
@@ -477,7 +429,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -488,7 +440,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -499,7 +451,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -510,7 +462,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(() => subject.publicKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.publicKey(), "cannot be called");
     });
 
     test("#privateKey", () => {
@@ -521,7 +473,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "signingKey"`);
+        assert.is(subject.privateKey(), "signingKey");
     });
 
     test("#multiSignature", () => {
@@ -543,19 +495,7 @@ describe("PrivateKeySignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 
     test("#options", () => {
@@ -582,23 +522,22 @@ describe("PrivateKeySignatory", () => {
             },
         );
 
-        assert.is(subject.options(),
-		Object {
-		  "bip44": Object {
+        assert.equal(subject.options(),
+		 {
+		  "bip44":  {
 		    "account": 0,
 		  },
-		}
-	`);
+		});
     });
 });
 
-describe("MultiSignatureSignatory", () => {
+describe("MultiSignatureSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.signingKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.signingKey(), "cannot be called");
     });
 
     test("#asset", () => {
@@ -606,14 +545,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(subject.asset(),
-		Object {
-		  "min": 5,
-		  "publicKeys": Array [
-		    "identifier",
-		  ],
-		}
-	`);
+        assert.object(subject.asset());
     });
 
     test("#confirmKey", () => {
@@ -621,7 +553,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -629,7 +561,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(subject.address(), "identifier"`);
+        assert.is(subject.address(), "identifier");
     });
 
     test("#publicKey", () => {
@@ -637,7 +569,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.publicKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.publicKey(), "cannot be called");
     });
 
     test("#privateKey", () => {
@@ -645,11 +577,11 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.privateKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.privateKey(), "cannot be called");
     });
 });
 
-describe("ConfirmationSecretSignatory", () => {
+describe("ConfirmationSecretSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationSecretSignatory({
@@ -661,7 +593,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.signingKey(), "signingKey"`);
+        assert.is(subject.signingKey(), "signingKey");
     });
 
     test("#confirmKey", () => {
@@ -675,7 +607,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.confirmKey(), "confirmKey"`);
+        assert.is(subject.confirmKey(), "confirmKey");
     });
 
     test("#address", () => {
@@ -689,7 +621,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.address(), "address"`);
+        assert.is(subject.address(), "address");
     });
 
     test("#publicKey", () => {
@@ -703,7 +635,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.publicKey(), "publicKey"`);
+        assert.is(subject.publicKey(), "publicKey");
     });
 
     test("#privateKey", () => {
@@ -717,7 +649,7 @@ describe("ConfirmationSecretSignatory", () => {
             }),
         );
 
-        assert.is(subject.privateKey(), "privateKey"`);
+        assert.is(subject.privateKey(), "privateKey");
     });
 
     test("#multiSignature", () => {
@@ -742,19 +674,7 @@ describe("ConfirmationSecretSignatory", () => {
             },
         );
 
-        assert.is(subject.multiSignature(),
-		Object {
-		  "min": 4,
-		  "publicKeys": Array [
-		    "0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-		    "023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-		    "032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-		    "0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-		    "029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-		    "034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-		  ],
-		}
-	`);
+        assert.object(subject.multiSignature());
     });
 });
 
@@ -768,7 +688,7 @@ test("#hasMultiSignature", () => {
         }),
     );
 
-    assert.is(subject.hasMultiSignature()), "boolean");
+    assert.boolean(subject.hasMultiSignature());
 
 subject = new Signatory(
     new SecretSignatory({
@@ -803,7 +723,7 @@ test("#actsWithMnemonic", () => {
         }),
     );
 
-    assert.is(subject.actsWithMnemonic()), "boolean");
+    assert.boolean(subject.actsWithMnemonic());
 });
 
 test("#actsWithConfirmationMnemonic", () => {
@@ -817,7 +737,7 @@ test("#actsWithConfirmationMnemonic", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationMnemonic()), "boolean");
+    assert.boolean(subject.actsWithConfirmationMnemonic());
 });
 
 test("#actsWithWIF", () => {
@@ -830,7 +750,7 @@ test("#actsWithWIF", () => {
         }),
     );
 
-    assert.is(subject.actsWithWIF()), "boolean");
+    assert.boolean(subject.actsWithWIF());
 });
 
 test("#actsWithConfirmationWIF", () => {
@@ -844,7 +764,7 @@ test("#actsWithConfirmationWIF", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationWIF()), "boolean");
+    assert.boolean(subject.actsWithConfirmationWIF());
 });
 
 test("#actsWithPrivateKey", () => {
@@ -855,19 +775,19 @@ test("#actsWithPrivateKey", () => {
         }),
     );
 
-    assert.is(subject.actsWithPrivateKey()), "boolean");
+    assert.boolean(subject.actsWithPrivateKey());
 });
 
 test("#actsWithMultiSignature", () => {
     const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
 
-    assert.is(subject.actsWithMultiSignature()), "boolean");
+    assert.boolean(subject.actsWithMultiSignature());
 });
 
 test("#actsWithLedger", () => {
     const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
 
-    assert.is(subject.actsWithLedger()), "boolean");
+    assert.boolean(subject.actsWithLedger());
 });
 
 test("#actsWithSecret", () => {
@@ -880,7 +800,7 @@ test("#actsWithSecret", () => {
         }),
     );
 
-    assert.is(subject.actsWithSecret()), "boolean");
+    assert.boolean(subject.actsWithSecret());
 });
 
 test("#actsWithConfirmationSecret", () => {
@@ -894,5 +814,7 @@ test("#actsWithConfirmationSecret", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationSecret()), "boolean");
+    assert.boolean(subject.actsWithConfirmationSecret());
 });
+
+test.run();

@@ -20,6 +20,10 @@ export class Mockery {
 		this.#stub.resolves(value);
 	}
 
+	public mockReturnValue(value: unknown): void {
+		this.#stub.returns(value);
+	}
+
 	public mockReturnValueOnce(value: unknown): void {
 		this.#stub.onFirstCall().returns(value);
 	}

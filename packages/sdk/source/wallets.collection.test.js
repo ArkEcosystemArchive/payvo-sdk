@@ -1,6 +1,7 @@
-import { WalletDataCollection } from "./wallets";
+import { assert, test } from "@payvo/sdk-test";
+import { WalletDataCollection } from "./wallets.collection";
 
-let subject: WalletDataCollection;
+let subject;
 
 test.before.each(
 	() =>
@@ -18,31 +19,15 @@ test.before.each(
 );
 
 test("#findByAddress", () => {
-	assert.is(subject.findByAddress("address"),
-		Object {
-		  "address": [Function],
-		  "publicKey": [Function],
-		  "username": [Function],
-		}
-	`);
+	assert.object(subject.findByAddress("address"));
 });
 
 test("#findByPublicKey", () => {
-	assert.is(subject.findByPublicKey("publicKey"),
-		Object {
-		  "address": [Function],
-		  "publicKey": [Function],
-		  "username": [Function],
-		}
-	`);
+	assert.object(subject.findByPublicKey("publicKey"));
 });
 
 test("#findByUsername", () => {
-	assert.is(subject.findByUsername("username"),
-		Object {
-		  "address": [Function],
-		  "publicKey": [Function],
-		  "username": [Function],
-		}
-	`);
+	assert.object(subject.findByUsername("username"));
 });
+
+test.run();

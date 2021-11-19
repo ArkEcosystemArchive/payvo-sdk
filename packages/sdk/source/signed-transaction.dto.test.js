@@ -1,11 +1,11 @@
 /* eslint-disable */
 
+import { assert, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-
-import { AbstractSignedTransactionData } from "./signed-transaction";
+import { AbstractSignedTransactionData } from "./signed-transaction.dto";
 
 test("#setAttributes", () => {
 	let transaction = new Transaction().configure("id", { key: "value" }, "");
@@ -15,10 +15,10 @@ test("#setAttributes", () => {
 	assert.is(transaction.id(), "new");
 
 	transaction = new Transaction().configure("id", { key: "value" }, "", 2);
-	assert.is(transaction instanceof Transaction);
+	assert.instance(transaction, Transaction);
 
 	transaction = new Transaction().configure("id", { key: "value" }, "", "2");
-	assert.is(transaction instanceof Transaction);
+	assert.instance(transaction, Transaction);
 });
 
 test("#id", () => {
@@ -34,15 +34,15 @@ test("#recipient", () => {
 });
 
 test("#amount", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").amount(), BigNumber.ZERO);
+	assert.equal(new Transaction().configure("id", { key: "value" }, "").amount(), BigNumber.ZERO);
 });
 
 test("#fee", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").fee(), BigNumber.ZERO);
+	assert.equal(new Transaction().configure("id", { key: "value" }, "").fee(), BigNumber.ZERO);
 });
 
 test("#timestamp", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").timestamp(), DateTime.make(0));
+	assert.equal(new Transaction().configure("id", { key: "value" }, "").timestamp(), DateTime.make(0));
 });
 
 test("#get", () => {
@@ -50,54 +50,34 @@ test("#get", () => {
 });
 
 test("#toString", () => {
-	assert
-		.is(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString())
-		.toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
-	assert
-		.is(new Transaction().configure("id", { key: "value" }, "").toString())
-		.toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
+	assert.string(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString());
+	assert.string(new Transaction().configure("id", { key: "value" }, "").toString());
 });
 
 test("#toObject", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").toObject(),
-		Object {
-		  "amount": "0",
-		  "broadcast": "",
-		  "data": Object {
-		    "key": "value",
-		  },
-		  "fee": "0",
-		  "id": "id",
-		  "recipient": "recipient",
-		  "sender": "sender",
-		  "timestamp": "1970-01-01T00:00:00.000Z",
-		}
-	`);
+	assert.object(new Transaction().configure("id", { key: "value" }, "").toObject());
 });
 
 class Transaction extends AbstractSignedTransactionData {
-	// @ts-ignore
-	public sender(): string {
+	sender() {
 		return "sender";
 	}
 
-	// @ts-ignore
-	public recipient(): string {
+	recipient() {
 		return "recipient";
 	}
 
-	// @ts-ignore
-	public amount(): BigNumber {
+	amount() {
 		return BigNumber.ZERO;
 	}
 
-	// @ts-ignore
-	public fee(): BigNumber {
+	fee() {
 		return BigNumber.ZERO;
 	}
 
-	// @ts-ignore
-	public timestamp(): DateTime {
+	timestamp() {
 		return DateTime.make(0);
 	}
 }
+
+test.run();

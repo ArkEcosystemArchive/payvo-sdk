@@ -1,18 +1,20 @@
 /* eslint-disable */
 
-import { HttpResponse } from "./contracts";
-import { AbstractRequest } from "./request";
-import { Response } from "./response";
+import { sinon, test } from "@payvo/sdk-test";
+import { AbstractRequest } from "./http-request";
+import { Response } from "./http-response";
 
-let subject: Stub;
+let subject;
 let spy;
 
 class Stub extends AbstractRequest {
-	public constructor(protected readonly spy) {
+	constructor() {
 		super();
+
+		this.spy = spy;
 	}
 
-	protected async send(method: string, url: string, data?: { query?: object; data?: any }): Promise<HttpResponse> {
+	async send(method, url, data) {
 		this.spy({ method, url, data, options: this._options, bodyFormat: this._bodyFormat });
 
 		return new Response({
@@ -24,7 +26,7 @@ class Stub extends AbstractRequest {
 }
 
 test.before.each(async () => {
-	spy = jest.fn();
+	spy = sinon.spy();
 	subject = new Stub(spy);
 });
 
@@ -33,7 +35,7 @@ test("#baseUrl", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -54,7 +56,7 @@ test("#asJson", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -68,7 +70,7 @@ test("#asForm", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "form_params",
 		data: { query: undefined },
 		method: "GET",
@@ -82,7 +84,7 @@ test("#asOctet", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "octet",
 		data: { query: undefined },
 		method: "GET",
@@ -96,7 +98,7 @@ test("#bodyFormat", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "bodyFormat",
 		data: { query: undefined },
 		method: "GET",
@@ -110,7 +112,7 @@ test("#contentType", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -124,7 +126,7 @@ test("#acceptJson", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -138,7 +140,7 @@ test("#accept", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -152,7 +154,7 @@ test("#withHeaders", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -166,7 +168,7 @@ test("#withCacheStore", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -180,7 +182,7 @@ test("#timeout", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: { query: undefined },
 		method: "GET",
@@ -194,7 +196,7 @@ test("#retry", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -218,7 +220,7 @@ test("#withOptions", () => {
 
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			query: undefined,
@@ -237,7 +239,7 @@ test("#withOptions", () => {
 test("#get", () => {
 	subject.get("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -256,7 +258,7 @@ test("#get", () => {
 test("#head", () => {
 	subject.head("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -275,7 +277,7 @@ test("#head", () => {
 test("#post", () => {
 	subject.post("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -294,7 +296,7 @@ test("#post", () => {
 test("#patch", () => {
 	subject.patch("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -313,7 +315,7 @@ test("#patch", () => {
 test("#put", () => {
 	subject.put("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -332,7 +334,7 @@ test("#put", () => {
 test("#delete", () => {
 	subject.delete("/");
 
-	assert.is(spy).toHaveBeenCalledWith({
+	spy.calledWith({
 		bodyFormat: "json",
 		data: {
 			data: undefined,
@@ -347,3 +349,5 @@ test("#delete", () => {
 		url: "/",
 	});
 });
+
+test.run();

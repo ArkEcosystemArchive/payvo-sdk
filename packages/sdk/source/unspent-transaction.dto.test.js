@@ -1,22 +1,25 @@
+import { assert, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { UnspentTransactionData } from "./unspent-transaction";
+import { UnspentTransactionData } from "./unspent-transaction.dto";
 
 test("#id", () => {
-    assert.is(new UnspentTransactionData({ id: "value" }).id()), "string");
+	assert.string(new UnspentTransactionData({ id: "value" }).id());
 });
 
 test("#timestamp", () => {
-    assert.is(new UnspentTransactionData({ timestamp: DateTime.make() }).timestamp() instanceof DateTime);
+	assert.instance(new UnspentTransactionData({ timestamp: DateTime.make() }).timestamp(), DateTime);
 });
 
 test("#amount", () => {
-    assert.is(new UnspentTransactionData({ amount: BigNumber.make(1) }).amount() instanceof BigNumber);
+	assert.instance(new UnspentTransactionData({ amount: BigNumber.make(1) }).amount(), BigNumber);
 });
 
 test("#addresses", () => {
-    assert.is(new UnspentTransactionData({ address: "a" }).address(), "a");
+	assert.is(new UnspentTransactionData({ address: "a" }).address(), "a");
 });
+
+test.run();

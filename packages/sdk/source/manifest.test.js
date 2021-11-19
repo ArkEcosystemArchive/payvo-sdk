@@ -1,16 +1,18 @@
+import { assert, test } from "@payvo/sdk-test";
 import { Manifest } from "./manifest";
 
 test("#all", () => {
-	assert.is(new Manifest({ key: "value" }).all(),
-		Object {
-		  "key": "value",
-		}
-	`);
+	assert.equal(new Manifest({ key: "value" }).all(), {
+		key: "value",
+	});
 });
 
 test("#get", () => {
 	assert.is(new Manifest({ key: "value" }).get("key"), "value");
-	assert
-		.is(() => new Manifest({ key: "value" }).get("keykey"))
-		.toThrow("The [keykey] key does not exist in the manifest.");
+	assert.throws(
+		() => new Manifest({ key: "value" }).get("keykey"),
+		"The [keykey] key does not exist in the manifest.",
+	);
 });
+
+test.run();
