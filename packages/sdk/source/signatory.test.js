@@ -34,7 +34,7 @@ describe("MnemonicSignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -256,7 +256,7 @@ describe("WIFSignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -440,7 +440,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -462,7 +462,7 @@ describe("PrivateKeySignatory", () => {
             }),
         );
 
-        assert.is(() => subject.publicKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.publicKey(), "cannot be called");
     });
 
     test("#privateKey", () => {
@@ -537,7 +537,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.signingKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.signingKey(), "cannot be called");
     });
 
     test("#asset", () => {
@@ -559,7 +559,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.confirmKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.confirmKey(), "cannot be called");
     });
 
     test("#address", () => {
@@ -575,7 +575,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.publicKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.publicKey(), "cannot be called");
     });
 
     test("#privateKey", () => {
@@ -583,7 +583,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(() => subject.privateKey()).toThrow(/cannot be called/);
+        assert.throws(() => subject.privateKey(), "cannot be called");
     });
 });
 

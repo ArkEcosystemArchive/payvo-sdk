@@ -14,39 +14,33 @@ test.before.each(
 
 test("#constructor", () => {
 	assert
-		.is(
+		.throws(
 			() =>
 				new Response({
 					body: "{}",
 					headers: { Accept: "something" },
 					statusCode: 500,
-				}),
-		)
-		.toThrow("HTTP request returned status code 500.");
+				}), "HTTP request returned status code 500.");
 });
 
 test("#body", () => {
 	assert.is(subject.body(), "{}");
 
 	assert
-		.is(() =>
+		.throws(() =>
 			new Response({
 				body: undefined,
 				headers: { Accept: "something" },
 				statusCode: 200,
-			}).body(),
-		)
-		.toThrow("The response body is empty.");
+			}).body(), "The response body is empty.");
 
 	assert
-		.is(() =>
+		.throws(() =>
 			new Response({
 				body: "",
 				headers: { Accept: "something" },
 				statusCode: 200,
-			}).body(),
-		)
-		.toThrow("The response body is empty.");
+			}).body(), "The response body is empty.");
 });
 
 test("#json", () => {

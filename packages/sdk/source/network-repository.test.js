@@ -4,7 +4,7 @@ import { NetworkRepository } from "./network-repository";
 
 let subject;
 
-test.before.each(() => (subject = new NetworkRepository(manifest.networks));
+test.before.each(() => (subject = new NetworkRepository(manifest.networks)));
 
 test("#all", () => {
 	assert.length(subject.all(), 6);
