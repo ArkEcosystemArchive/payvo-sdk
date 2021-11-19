@@ -13,14 +13,14 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-describe("testnet", () => {
-	test.before.each(async () => {
+describe("testnet", (suite) => {
+	suite.before.each(async () => {
 		subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	test("should generate an output from a mnemonic", async () => {
+	suite("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
 		assert.is(result, [
@@ -42,7 +42,7 @@ describe("testnet", () => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
+	suite("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
@@ -80,7 +80,7 @@ describe("testnet", () => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for change chain", async () => {
+	suite("should generate an output from a mnemonic for change chain", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,
@@ -119,14 +119,14 @@ describe("testnet", () => {
 	});
 });
 
-describe("livenet", () => {
+describe("livenet", (suite) => {
 	test.before.each(async () => {
 		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	test("should generate an output from a mnemonic", async () => {
+	suite("should generate an output from a mnemonic", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic);
 
 		assert.is(result, [
@@ -148,7 +148,7 @@ describe("livenet", () => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
+	suite("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
@@ -186,7 +186,7 @@ describe("livenet", () => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for change chain", async () => {
+	suite("should generate an output from a mnemonic for change chain", async () => {
 		const result = await subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,

@@ -9,16 +9,16 @@ test.before.each(async () => {
 	subject = await createService(PublicKeyService);
 });
 
-	test("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+test("should generate an output from a mnemonic", async () => {
+	const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.equal(result, { publicKey: identity.publicKey });
-	});
+	assert.equal(result, { publicKey: identity.publicKey });
+});
 
-	test("should generate an output from a wif", async () => {
-		const result = await subject.fromWIF(identity.wif);
+test("should generate an output from a wif", async () => {
+	const result = await subject.fromWIF(identity.wif);
 
-		assert.equal(result, { publicKey: identity.publicKey });
-	});
+	assert.equal(result, { publicKey: identity.publicKey });
+});
 
 test.run();

@@ -21,24 +21,24 @@ test.before.each(async () => {
 	);
 });
 
-	test("#sender", () => {
-		assert.is(subject.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-	});
+test("#sender", () => {
+	assert.is(subject.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+});
 
-	test("#recipient", () => {
-		assert.is(subject.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-	});
+test("#recipient", () => {
+	assert.is(subject.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+});
 
-	test("#amount", () => {
-		assert.is(subject.amount().toNumber(), 100_000);
-	});
+test("#amount", () => {
+	assert.is(subject.amount().toNumber(), 100_000);
+});
 
-	test("#fee", () => {
-		assert.is(subject.fee().toNumber(), 12_430);
-	});
+test("#fee", () => {
+	assert.is(subject.fee().toNumber(), 12_430);
+});
 
-	test("#timestamp", () => {
-		assert.is(subject.timestamp().toISOString(), "1970-01-01T00:00:00.000Z");
-	});
+test("#timestamp", () => {
+	assert.is(subject.timestamp().toISOString(), "1970-01-01T00:00:00.000Z");
+});
 
 test.run();
