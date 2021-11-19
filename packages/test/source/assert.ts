@@ -34,6 +34,7 @@ export const assert = {
 	length: (value: string | unknown[], length: number): void => uvu.is(value.length, length),
 	lt: (a: number, b: number): void => uvu.ok(a < b),
 	lte: (a: number, b: number): void => uvu.ok(a <= b),
+	null: (value: unknown): void => uvu.ok(value === null),
 	number: (value: unknown): void => uvu.type(value, "number"),
 	object: (value: unknown): void => uvu.type(value, "object"),
 	string: (value: unknown): void => uvu.type(value, "string"),
