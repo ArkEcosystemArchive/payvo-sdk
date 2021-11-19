@@ -1,11 +1,9 @@
-import { Value } from "@emurgo/cardano-serialization-lib-nodejs";
+import { assert, test } from "@payvo/sdk-test";
 
 import { createValue } from "./transaction.factory";
 
-describe("createValue", () => {
-	test("should work", () => {
-		const result: Value = createValue("2");
+test("createValue", () => {
+		const result = createValue("2");
 
 		assert.is(result.coin().to_str(), "2");
-	});
 });

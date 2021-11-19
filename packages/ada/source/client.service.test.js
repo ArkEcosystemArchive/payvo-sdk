@@ -1,3 +1,4 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { DTO, IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import nock from "nock";
@@ -68,8 +69,8 @@ describe("#transactions", () => {
                 "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
         });
 assert.undefined(result.publicKey());
-    assert.is(result.items()).toBeArrayOfSize(5);
-    assert.is(result.items()[0] instanceof ConfirmedTransactionData);
+    assert.length(result.items(), 5);
+    assert.instance(result.items()[0], ConfirmedTransactionData);
 });
 test("missing senderPublicKey", async () => {
     await assert.is(
@@ -80,9 +81,7 @@ test("missing senderPublicKey", async () => {
                     value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
                 },
             ],
-        }),
-    ).rejects.toThrow(
-        "Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
+        }), "Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
     );
 });
 test("missing query", async () => {
@@ -99,7 +98,7 @@ test("#transaction", async () => {
     assert.instance(result, ConfirmedTransactionData);
     assert.is(result.id(), "35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 
-    assert.is(result.blockId()), "undefined");
+    assert.undefined(result.blockId());
 
 assert.is(result.timestamp()?.toISOString(), "2021-02-05T15:04:16.000Z");
 
