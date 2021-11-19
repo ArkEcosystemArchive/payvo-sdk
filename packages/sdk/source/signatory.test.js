@@ -522,7 +522,7 @@ describe("PrivateKeySignatory", (test) => {
             },
         );
 
-        assert.is(subject.options(),
+        assert.equal(subject.options(),
 		 {
 		  "bip44":  {
 		    "account": 0,

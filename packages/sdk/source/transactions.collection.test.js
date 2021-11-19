@@ -38,7 +38,7 @@ test("#findBySender", () => {
 });
 
 test("#findByRecipient", () => {
-	assert.is(subject.findByRecipient("recipient"));
+	assert.object(subject.findByRecipient("recipient"));
 });
 
 test.run();

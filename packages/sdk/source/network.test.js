@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { assert, mockery, test } from "@payvo/sdk-test";
 
 import { manifest } from "../../ark/distribution/manifest";
 import { FeatureFlag } from "./enums";
@@ -27,7 +27,7 @@ test("should have a name", () => {
 test("should have a display name", () => {
     assert.is(subject.displayName(), "ARK Devnet");
 
-    jest.spyOn(subject, "isLive").mockReturnValueOnce(true);
+    mockery(subject, "isLive").mockReturnValueOnce(true);
 
     assert.is(subject.displayName(), "ARK");
 });
@@ -45,11 +45,11 @@ test("should have a symbol", () => {
 });
 
 test("should determine if the network is a live environment", () => {
-    assert.is(subject.isLive(), false);
+    assert.false(subject.isLive());
 });
 
 test("should determine if the network is a test environment", () => {
-    assert.is(subject.isTest(), true);
+    assert.true(subject.isTest());
 });
 
 test("should get the expiration type", () => {
@@ -57,17 +57,16 @@ test("should get the expiration type", () => {
 });
 
 test("should allows voting", () => {
-    assert.is(subject.allowsVoting(), true);
+    assert.true(subject.allowsVoting());
 
     subject = new Network(manifest, {
-        // @ts-ignore
         "ark.devnet": {
             ...manifest.networks["ark.devnet"],
             governance: {},
         },
     });
 
-    assert.is(subject.allowsVoting(), false);
+    assert.false(subject.allowsVoting());
 });
 
 test("#votesAmountStep", () => {
@@ -86,7 +85,6 @@ test("should get the delegate count", () => {
     assert.is(subject.delegateCount(), 51);
 
     subject = new Network(manifest, {
-        // @ts-ignore
         "ark.devnet": {
             ...manifest.networks["ark.devnet"],
             governance: {},
@@ -100,7 +98,6 @@ test("should get maximum votes per wallet", () => {
     assert.is(subject.maximumVotesPerWallet(), 1);
 
     subject = new Network(manifest, {
-        // @ts-ignore
         "ark.devnet": {
             ...manifest.networks["ark.devnet"],
             governance: {},
@@ -114,7 +111,6 @@ test("should get maximum votes per transaction", () => {
     assert.is(subject.maximumVotesPerTransaction(), 1);
 
     subject = new Network(manifest, {
-        // @ts-ignore
         "ark.devnet": {
             ...manifest.networks["ark.devnet"],
             governance: {},

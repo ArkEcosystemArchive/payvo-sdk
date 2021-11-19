@@ -16,7 +16,7 @@ test("#publicKey", () => {
 });
 
 test("#balance", () => {
-	assert.is(new Wallet({ key: "value" }).balance(), "object");
+	assert.object(new Wallet({ key: "value" }).balance());
 });
 
 test("#nonce", () => {
