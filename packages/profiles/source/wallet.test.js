@@ -97,7 +97,7 @@ test.before.each(async () => {
 		container.singleton(Identifiers.ExchangeRateService, ExchangeRateService);
 	}
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -443,7 +443,7 @@ test("should turn into an object", () => {
 	subject.data().set("key", "value");
 
 	subject.data().set(WalletData.DerivationPath, "1");
-	subject.true().set(WalletFlag.Starred);
+	subject.data().set(WalletFlag.Starred, true);
 
 	const actual = subject.toObject();
 
@@ -453,29 +453,28 @@ test("should turn into an object", () => {
 	assert.is(actual.data[WalletData.Coin], "ARK");
 	assert.is(actual.data[WalletData.Network], "ark.devnet");
 	assert.is(actual.data[WalletData.PublicKey], "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
-	assert.is(actual.data, {
-		ADDRESS: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-		BALANCE: {
-			available: "55827093444556",
-			fees: "55827093444556",
-		},
-		BIP38_ENCRYPTED_KEY: undefined,
+	assert.equal(actual.data, {
+		COIN: 'ARK',
+		NETWORK: 'ark.devnet',
+		ADDRESS: 'D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW',
+		PUBLIC_KEY: '030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd',
+		BALANCE: { available: '55827093444556', fees: '55827093444556' },
 		BROADCASTED_TRANSACTIONS: {},
-		COIN: "ARK",
-		DERIVATION_PATH: "1",
-		DERIVATION_TYPE: "bip39",
-		IMPORT_METHOD: "BIP39.MNEMONIC",
-		NETWORK: "ark.devnet",
-		PUBLIC_KEY: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-		SEQUENCE: "111932",
+		DERIVATION_PATH: '1',
+		DERIVATION_TYPE: 'bip39',
+		IMPORT_METHOD: 'BIP39.MNEMONIC',
+		SEQUENCE: '111932',
 		SIGNED_TRANSACTIONS: {},
-		STARRED: true,
-		VOTES: [],
-		VOTES_USED: 0,
-		VOTES_AVAILABLE: 0,
 		PENDING_MULTISIGNATURE_TRANSACTIONS: {},
-		STATUS: "COLD",
-	});
+		VOTES: [],
+		VOTES_AVAILABLE: 0,
+		VOTES_USED: 0,
+		ENCRYPTED_SIGNING_KEY: undefined,
+		ENCRYPTED_CONFIRM_KEY: undefined,
+		STARRED: true,
+		LEDGER_MODEL: undefined,
+		STATUS: 'COLD'
+	  });
 	assert.object(actual.settings);
 	assert.string(actual.settings.AVATAR);
 });
@@ -517,11 +516,11 @@ test("should return whether it can vote or not", () => {
 });
 
 test("should construct a coin instance", async () => {
-	const mockConstruct = mockery(subject.getAttributes().get < Coins.Coin > "coin", "__construct");
+	const mockConstruct = mockery(subject.getAttributes().get("coin"), "__construct");
 
 	await subject.connect();
 
-	assert.is(mockConstruct).toHaveBeenCalledTimes(1);
+	mockConstruct.calledTimes(1);
 });
 
 test("should throw if a connection is tried to be established but no coin has been set", async () => {

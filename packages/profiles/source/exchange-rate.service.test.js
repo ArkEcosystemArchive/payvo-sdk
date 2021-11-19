@@ -90,7 +90,7 @@ describe("ExchangeRateService", () => {
 		await subject.syncAll(profile, "DARK");
 
 		assert.is(wallet.convertedBalance(), 0.00005048);
-		const allStorage = (await container.get) < StubStorage > Identifiers.Storage.all();
+		const allStorage = container.get(Identifiers.Storage).all();
 		assert.equal(allStorage.EXCHANGE_RATE_SERVICE, { DARK: { BTC: expect.anything() } });
 	});
 
@@ -156,17 +156,14 @@ describe("ExchangeRateService", () => {
 		await assert.resolves(() => subject.restore());
 
 		assert
-			.is((await container.get) < StubStorage > Identifiers.Storage.get("EXCHANGE_RATE_SERVICE"))
-			.toMatchObject({
+			.is(container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"), {
 				DARK: { BTC: expect.anything() },
 			});
 
-		//@ts-ignore
-		(await container.get) < StubStorage > Identifiers.Storage.set("EXCHANGE_RATE_SERVICE", null);
+		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
 		await assert.resolves(() => subject.restore());
 
-		//@ts-ignore
-		(await container.get) < StubStorage > Identifiers.Storage.set("EXCHANGE_RATE_SERVICE", undefined);
+		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", undefined);
 		await assert.resolves(() => subject.restore());
 	});
 });

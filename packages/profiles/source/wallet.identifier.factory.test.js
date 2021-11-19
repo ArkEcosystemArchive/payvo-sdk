@@ -32,7 +32,7 @@ test.before.each(async () => {
 		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
 		.reply(200, require("../test/fixtures/client/wallet-2.json"));
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 });

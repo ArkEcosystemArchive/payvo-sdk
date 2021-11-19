@@ -33,9 +33,9 @@ test.before(() => {
 });
 
 test.before.each(() => {
-	container.get < IProfileRepository > Identifiers.ProfileRepository.flush();
+	container.get(Identifiers.ProfileRepository).flush();
 
-	profile = container.get < IProfileRepository > Identifiers.ProfileRepository.create("John Doe");
+	profile = container.get(Identifiers.ProfileRepository).create("John Doe");
 	subject = new ProfileDumper(profile);
 });
 

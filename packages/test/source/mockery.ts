@@ -43,6 +43,10 @@ export class Mockery {
 	public mockRestore(): void {
 		this.#stub.restore();
 	}
+
+	public calledTimes(times: number): void {
+		assert.ok(this.#stub.callCount === times);
+	}
 }
 
 export const mockery = (owner: object, method: string): Mockery => Mockery.stub(owner, method);

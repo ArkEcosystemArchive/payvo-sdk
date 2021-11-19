@@ -118,9 +118,9 @@ test.before(() => {
 });
 
 test.before.each(() => {
-	container.get < IProfileRepository > Identifiers.ProfileRepository.flush();
+	container.get(Identifiers.ProfileRepository).flush();
 
-	profile = container.get < IProfileRepository > Identifiers.ProfileRepository.create("John Doe");
+	profile = container.get(Identifiers.ProfileRepository).create("John Doe");
 	subject = new ProfileImporter(profile);
 	dumper = new ProfileDumper(profile);
 	serialiser = new ProfileSerialiser(profile);
@@ -254,8 +254,8 @@ describe("#restore", () => {
 			data: Base64.encode(JSON.stringify(profileWithWallets)),
 		};
 
-		const coin = container.get < Coins.CoinBundle > Identifiers.Coins["ARK"];
-		delete container.get < Coins.CoinBundle > Identifiers.Coins["ARK"];
+		const coin = container.get(Identifiers.Coins)["ARK"];
+		delete container.get(Identifiers.Coins)["ARK"];
 
 		const profile = new Profile(profileDump);
 		subject = new ProfileImporter(profile);

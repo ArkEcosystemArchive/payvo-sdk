@@ -73,7 +73,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 

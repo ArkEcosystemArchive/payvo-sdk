@@ -11,83 +11,83 @@ test.before(() => {
 	bootContainer();
 });
 
-// describe.each([["profile", "wallet"]])("SettingRepository(%s)", (type) => {
-// 	let subject;
-// 	let key;
+for (const type of ["profile", "wallet"]) {
+	let subject;
+	let key;
 
-// 	test.before.each(() => {
-// 		subject = new SettingRepository(
-// 			new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
-// 			Object.values(type === "profile" ? ProfileSetting : WalletSetting),
-// 		);
-// 		subject.flush();
+	test.before.each(() => {
+		subject = new SettingRepository(
+			new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
+			Object.values(type === "profile" ? ProfileSetting : WalletSetting),
+		);
+		subject.flush();
 
-// 		key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
-// 	});
+		key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
+	});
 
-// 	test("#all", async () => {
-// 		assert.is(subject.all(), {});
+	test("#all", async () => {
+		assert.equal(subject.all(), {});
 
-// 		subject.set(key, "value");
+		subject.set(key, "value");
 
-// 		assert.is(subject.all(), { [key]: "value" });
-// 		assert.is(subject.keys(), [key]);
+		assert.equal(subject.all(), { [key]: "value" });
+		assert.equal(subject.keys(), [key]);
 
-// 		subject.flush();
+		subject.flush();
 
-// 		assert.is(subject.all(), {});
-// 		assert.is(subject.keys(), []);
-// 	});
+		assert.equal(subject.all(), {});
+		assert.equal(subject.keys(), []);
+	});
 
-// 	test("#get", async () => {
-// 		subject.set(key, "value");
+	test("#get", async () => {
+		subject.set(key, "value");
 
-// 		assert.is(subject.get(key), "value");
-// 	});
+		assert.is(subject.get(key), "value");
+	});
 
-// 	test("#set", async () => {
-// 		assert.undefined(subject.set(key, "value"));
-// 	});
+	test("#set", async () => {
+		assert.undefined(subject.set(key, "value"));
+	});
 
-// 	test("#has", async () => {
-// 		assert.false(subject.has(key));
+	test("#has", async () => {
+		assert.false(subject.has(key));
 
-// 		subject.set(key, "value");
+		subject.set(key, "value");
 
-// 		assert.true(subject.has(key));
-// 	});
+		assert.true(subject.has(key));
+	});
 
-// 	test("#missing", async () => {
-// 		assert.true(subject.missing(key));
+	test("#missing", async () => {
+		assert.true(subject.missing(key));
 
-// 		subject.set(key, "value");
+		subject.set(key, "value");
 
-// 		assert.false(subject.missing(key));
-// 	});
+		assert.false(subject.missing(key));
+	});
 
-// 	test("#forget", async () => {
-// 		assert.false(subject.has(key));
+	test("#forget", async () => {
+		assert.false(subject.has(key));
 
-// 		subject.set(key, "value");
+		subject.set(key, "value");
 
-// 		assert.true(subject.has(key));
+		assert.true(subject.has(key));
 
-// 		subject.forget(key);
+		subject.forget(key);
 
-// 		assert.false(subject.has(key));
-// 	});
+		assert.false(subject.has(key));
+	});
 
-// 	test("#flush", async () => {
-// 		assert.false(subject.has(key));
+	test("#flush", async () => {
+		assert.false(subject.has(key));
 
-// 		subject.set(key, "value");
+		subject.set(key, "value");
 
-// 		assert.true(subject.has(key));
+		assert.true(subject.has(key));
 
-// 		subject.flush();
+		subject.flush();
 
-// 		assert.false(subject.has(key));
-// 	});
-// });
+		assert.false(subject.has(key));
+	});
+}
 
 test.run();

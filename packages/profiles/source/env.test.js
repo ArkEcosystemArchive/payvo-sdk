@@ -313,7 +313,7 @@ test("should boot with exchange service data", async () => {
 		ledgerTransportFactory: async () => {},
 	});
 
-	(await container.get) < Storage > Identifiers.Storage.set("EXCHANGE_RATE_SERVICE", {});
+	container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", {});
 
 	assert.undefined(await env.verify({ profiles: {}, data: {} }));
 	assert.undefined(await env.boot());
