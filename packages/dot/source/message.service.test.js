@@ -11,27 +11,27 @@ import { MessageService } from "./message.service";
 let subject;
 
 test.before.each(async () => {
-    await waitReady();
+	await waitReady();
 
-    subject = await createService(MessageService, undefined, async (container) => {
-        container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
-    });
+	subject = await createService(MessageService, undefined, async (container) => {
+		container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
+	});
 });
 
-    test("should sign a message", async () => {
-        const result = await subject.sign({
-            message: "Hello World",
-            signatory: new Signatories.Signatory(
-                new Signatories.MnemonicSignatory({
-                    signingKey: identity.mnemonic,
-                    address: identity.address,
-                    publicKey: identity.publicKey,
-                    privateKey: identity.privateKey,
-                }),
-            ),
-        });
+test("should sign a message", async () => {
+	const result = await subject.sign({
+		message: "Hello World",
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+	});
 
-        assert.true(await subject.verify(result));
+	assert.true(await subject.verify(result));
 });
 
 test.run();

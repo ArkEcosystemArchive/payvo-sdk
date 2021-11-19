@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PrivateKeyService } from "./private-key.service";
@@ -15,3 +16,5 @@ describe("PrivateKey", () => {
 		assert.equal(result, { privateKey: identity.privateKey });
 	});
 });
+
+test.run();
