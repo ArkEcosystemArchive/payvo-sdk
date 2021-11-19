@@ -22,41 +22,37 @@ const mnemonic = "skin fortune security mom coin hurdle click emotion heart bris
 
 let subject;
 
-const createLocalServices = async (test, callback) => {
-	test.before.each(async () => {
-		nock.disableNetConnect();
+const createLocalServices = async () => {
+	nock.disableNetConnect();
 
-		subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
-			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
-				ConfirmedTransactionData,
-				WalletData,
-			});
-			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
-			container.singleton(IoC.BindingType.FeeService, FeeService);
-			container.constant(
-				IoC.BindingType.LedgerTransportFactory,
-				async () => await openTransportReplayer(RecordStore.fromString("")),
-			);
-			container.singleton(IoC.BindingType.LedgerService, LedgerService);
-			container.singleton(BindingType.AddressFactory, AddressFactory);
+	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
+		container.constant(IoC.BindingType.Container, container);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
 		});
-
-		callback();
-	});
-
-	test.after.each(async () => {
-		nock.cleanAll();
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.singleton(IoC.BindingType.FeeService, FeeService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString("")),
+		);
+		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 };
 
 describe("bip44 wallet", (suite) => {
-	suite.before(async () => {
-		await createLocalServices(suite);
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -138,8 +134,12 @@ describe("bip44 wallet", (suite) => {
 });
 
 describe("bip49 wallet", (suite) => {
-	suite.before(async () => {
-		await createLocalServices(suite);
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -222,8 +222,12 @@ describe("bip49 wallet", (suite) => {
 });
 
 describe("bip84 wallet", (suite) => {
-	suite.before(async () => {
-		await createLocalServices(suite);
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -306,8 +310,12 @@ describe("bip84 wallet", (suite) => {
 });
 
 describe("legacy multisignature wallet", (suite) => {
-	suite.before(async () => {
-		await createLocalServices(suite);
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -374,8 +382,12 @@ describe("legacy multisignature wallet", (suite) => {
 });
 
 describe("p2sh segwit multisignature wallet", (suite) => {
-	suite.before(async () => {
-		await createLocalServices(suite);
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
+	suite.before.each(async () => {
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -442,8 +454,12 @@ describe("p2sh segwit multisignature wallet", (suite) => {
 });
 
 describe("native segwit multisignature wallet", (suite) => {
+	suite.after.each(async () => {
+		nock.cleanAll();
+	});
+
 	suite.before.each(async () => {
-		await createLocalServices(suite);
+		await createLocalServices();
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
