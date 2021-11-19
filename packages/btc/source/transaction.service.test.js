@@ -442,7 +442,7 @@ describe("p2sh segwit multisignature wallet", (suite) => {
 });
 
 describe("native segwit multisignature wallet", (suite) => {
-	suite.before(async () => {
+	suite.before.each(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })

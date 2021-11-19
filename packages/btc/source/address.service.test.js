@@ -117,6 +117,10 @@ describe("#fromPublicKey", (suite) => {
 	});
 
 	suite("should generate a Native SegWit address from an extended public key for livenet", async () => {
+		subject = await createService(AddressService, "btc.livenet", async (container) => {
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+		});
+
 		const result = await subject.fromPublicKey(
 			"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
 			{ bip84: { account: 0 } },
