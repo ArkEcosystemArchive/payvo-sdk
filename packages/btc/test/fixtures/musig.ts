@@ -2,7 +2,6 @@ export const musig = {
 	accounts: [
 		{
 			mnemonic: "hard produce blood mosquito provide feed open enough access motor chimney swamp",
-			masterFingerprint: "af299292",
 			legacyMasterPath: "m/45'/0",
 			legacyMasterPublicKey:
 				"tpubDAAEEpXA719cjhRw18JBeWk8dgMYphpc9vJgeosdtEL9vxrHkumoLijuRVPtLF6qByEG9B3rLgsfofQ1Fben4DgR6FBSLShrZwfdERCfE8L",
@@ -15,7 +14,6 @@ export const musig = {
 		},
 		{
 			mnemonic: "build tuition fuel distance often swallow birth embark nest barely drink beach",
-			masterFingerprint: "72201f51",
 			legacyMasterPath: "m/45'/0",
 			legacyMasterPublicKey:
 				"tpubDAo8kUYJD3WQa61Dz7neMDiwLwk433izoifv2ZcTks4t1XYxYdaYRCU6nkbNba3yRa12yLbx3EtY8cCQusGES91LbHoS1MJYVNfuAMPqGWL",
@@ -28,7 +26,6 @@ export const musig = {
 		},
 		{
 			mnemonic: "mandate pull cat east limit enemy cabin possible success force mountain hood",
-			masterFingerprint: "a8b4b448",
 			legacyMasterPath: "m/45'/0",
 			legacyMasterPublicKey:
 				"tpubDBb7ADvzzJ9Wi5R7fGN9iWZG9sp1zqbjFfemC1HNcyWitsuAu8suWUXrLYEFb8fSKW9NTMwDNAeo15HY8m7oi2NMo17xhmNEiAicBNz2SwB",
