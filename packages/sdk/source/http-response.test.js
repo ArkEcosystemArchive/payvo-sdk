@@ -1,5 +1,5 @@
 import { assert, mockery, test } from "@payvo/sdk-test";
-import { Response } from "./response";
+import { Response } from "./http-response";
 
 let subject;
 

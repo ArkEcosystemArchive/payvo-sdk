@@ -1,13 +1,13 @@
 import "reflect-metadata";
 
 import { assert, test } from "@payvo/sdk-test";
-import { ConfigKey, ConfigRepository } from "../coins/config";
-import { Container } from "../ioc/index";
-import { BindingType } from "../ioc/service-provider.contract";
+import { ConfigKey, ConfigRepository } from "./config";
+import { Container } from "./container";
+import { BindingType } from "./service-provider.contract";
 import { BigNumberService } from "./big-number.service";
 
 for (const power of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
-	test(`#make(${i})`, async () => {
+	test(`#make(${power})`, async () => {
 		const container = new Container();
 
 		const configRepository = new ConfigRepository({});

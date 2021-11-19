@@ -1,5 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
-import { WalletDataCollection } from "./wallets";
+import { WalletDataCollection } from "./wallets.collection";
 
 let subject;
 

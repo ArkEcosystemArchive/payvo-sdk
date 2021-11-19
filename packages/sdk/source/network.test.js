@@ -1,12 +1,12 @@
 import { assert, test } from "@payvo/sdk-test";
 
-import { manifest } from "../../../ark/distribution/manifest";
-import { FeatureFlag } from "../enums";
+import { manifest } from "../../ark/distribution/manifest";
+import { FeatureFlag } from "./enums";
 import { Network } from "./network";
 
 let subject;
 
-test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"]));
+test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
 
 test("should have an coin", () => {
     assert.is(subject.coin(), "ARK");

@@ -47,22 +47,20 @@ test("randomHostFromConfig default", () => {
 	assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
 });
 
-describe("pluckAddress", () => {
-	test("senderId", () => {
-		assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
-	});
+test("#pluckAddress - senderId", () => {
+	assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
+});
 
-	test("recipientId", () => {
-		assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
-	});
+test("#pluckAddress - recipientId", () => {
+	assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
+});
 
-	test("addresses", () => {
-		assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
-	});
+test("#pluckAddress - addresses", () => {
+	assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
+});
 
-	test("addresses", () => {
-		assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
-	});
+test("#pluckAddress - addresses", () => {
+	assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
 });
 
 test.run();

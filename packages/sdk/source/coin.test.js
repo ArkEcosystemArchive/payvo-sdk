@@ -3,9 +3,9 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
-import { Network, NetworkRepository } from "../networks/index";
+import { ARK } from "../../ark/distribution";
+import { Request } from "../../http-fetch/distribution";
+import { Network, NetworkRepository } from "./networks";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";

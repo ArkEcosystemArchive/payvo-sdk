@@ -5,6 +5,7 @@ import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { AbstractSignedTransactionData } from "./signed-transaction.dto";
 
 test("#setAttributes", () => {
 	let transaction = new Transaction().configure("id", { key: "value" }, "");

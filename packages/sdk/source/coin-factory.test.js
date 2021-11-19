@@ -5,8 +5,8 @@ import "reflect-metadata";
 
 import nock from "nock";
 
-import { ARK } from "../../../ark/distribution";
-import { Request } from "../../../http-fetch";
+import { ARK } from "../../ark/distribution";
+import { Request } from "../../http-fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 

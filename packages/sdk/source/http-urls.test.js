@@ -1,5 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
-import { ensureTrailingSlash } from "./urls";
+import { ensureTrailingSlash } from "./http-urls";
 
 test("#ensureTrailingSlash", () => {
 	assert.is(ensureTrailingSlash("#"), "#/");

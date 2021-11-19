@@ -5,7 +5,7 @@ import "reflect-metadata";
 import { assert, mockery, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { AbstractConfirmedTransactionData } from "./confirmed-transaction";
+import { AbstractConfirmedTransactionData } from "./confirmed-transaction.dto";
 
 test("#withDecimals", () => {
 	assert.instance(new Transaction().configure({ key: "value" }).withDecimals(2), Transaction);

@@ -1,16 +1,16 @@
-import { assert, test } from "@payvo/sdk-test";
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic";
-import { ConfirmationSecretSignatory } from "./confirmation-secret";
-import { ConfirmationWIFSignatory } from "./confirmation-wif";
-import { LedgerSignatory } from "./ledger";
-import { MnemonicSignatory } from "./mnemonic";
-import { MultiSignatureSignatory } from "./multi-signature";
-import { PrivateKeySignatory } from "./private-key";
-import { SecretSignatory } from "./secret";
+import { assert, describe, test } from "@payvo/sdk-test";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory";
+import { LedgerSignatory } from "./ledger.signatory";
+import { MnemonicSignatory } from "./mnemonic.signatory";
+import { MultiSignatureSignatory } from "./multi-signature.signatory";
+import { PrivateKeySignatory } from "./private-key.signatory";
+import { SecretSignatory } from "./secret.signatory";
 import { Signatory } from "./signatory";
-import { WIFSignatory } from "./wif";
+import { WIFSignatory } from "./wif.signatory";
 
-describe("MnemonicSignatory", () => {
+describe("MnemonicSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new MnemonicSignatory({
@@ -135,7 +135,7 @@ describe("MnemonicSignatory", () => {
     });
 });
 
-describe("ConfirmationMnemonicSignatory", () => {
+describe("ConfirmationMnemonicSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationMnemonicSignatory({
@@ -232,7 +232,7 @@ describe("ConfirmationMnemonicSignatory", () => {
     });
 });
 
-describe("WIFSignatory", () => {
+describe("WIFSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new WIFSignatory({
@@ -323,7 +323,7 @@ describe("WIFSignatory", () => {
     });
 });
 
-describe("ConfirmationWIFSignatory", () => {
+describe("ConfirmationWIFSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationWIFSignatory({
@@ -420,7 +420,7 @@ describe("ConfirmationWIFSignatory", () => {
     });
 });
 
-describe("PrivateKeySignatory", () => {
+describe("PrivateKeySignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new PrivateKeySignatory({
@@ -531,7 +531,7 @@ describe("PrivateKeySignatory", () => {
     });
 });
 
-describe("MultiSignatureSignatory", () => {
+describe("MultiSignatureSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
@@ -581,7 +581,7 @@ describe("MultiSignatureSignatory", () => {
     });
 });
 
-describe("ConfirmationSecretSignatory", () => {
+describe("ConfirmationSecretSignatory", (test) => {
     test("#signingKey", () => {
         const subject = new Signatory(
             new ConfirmationSecretSignatory({

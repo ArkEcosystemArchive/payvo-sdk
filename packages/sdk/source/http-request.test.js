@@ -1,8 +1,8 @@
 /* eslint-disable */
 
-import { assert, sinon, test } from "@payvo/sdk-test";
-import { AbstractRequest } from "./request";
-import { Response } from "./response";
+import { sinon, test } from "@payvo/sdk-test";
+import { AbstractRequest } from "./http-request";
+import { Response } from "./http-response";
 
 let subject;
 let spy;

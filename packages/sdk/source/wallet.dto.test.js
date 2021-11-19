@@ -5,8 +5,7 @@ import "reflect-metadata";
 import { assert, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { WalletBalance } from "../contracts";
-import { AbstractWalletData } from "./wallet";
+import { AbstractWalletData } from "./wallet.dto";
 
 test("#address", () => {
 	assert.is(new Wallet({ key: "value" }).address(), "address");
