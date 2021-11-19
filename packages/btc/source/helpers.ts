@@ -5,27 +5,22 @@ import { getNetworkConfig } from "./config";
 import { BipLevel } from "./contracts";
 import * as bitcoin from "bitcoinjs-lib";
 import { ECPair } from "ecpair";
-import { convertBuffer } from "@payvo/sdk-helpers";
 
-export const prettyBufferSerializer = (k, v) => {
-	if (v !== null && v.type === "Buffer") {
-		return convertBuffer(v.data);
-	}
-	if (v !== null && typeof v === "string") {
-		try {
-			return bitcoin.Psbt.fromBase64(v);
-		} catch (_) {}
-	}
-	return v;
-};
-
-export const prettySerialize = (obj) => {
-	return JSON.stringify(obj, prettyBufferSerializer, 2);
-};
-
-export const prettyPrint = (obj) => {
-	return console.log(prettySerialize(obj));
-};
+// export const prettyBufferSerializer = (k, v) => {
+// 	if (v !== null && v.type === "Buffer") {
+// 		return convertBuffer(v.data);
+// 	}
+// 	if (v !== null && typeof v === "string") {
+// 		try {
+// 			return bitcoin.Psbt.fromBase64(v);
+// 		} catch (_) {}
+// 	}
+// 	return v;
+// };
+//
+// export const prettySerialize = (obj) => {
+// 	return JSON.stringify(obj, prettyBufferSerializer, 2);
+// };
 
 export const post = async (
 	path: string,
