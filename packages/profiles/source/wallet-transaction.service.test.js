@@ -842,7 +842,7 @@ test("#confirm", async () => {
     };
 
     const id = await subject.signTransfer(input);
-    await assert.is(subject.broadcast(id)).resolves.toMatchInlineSnapshot(`
+    await assert.is(subject.broadcast(id),
 					Object {
 					  "accepted": Array [
 					    "819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef",

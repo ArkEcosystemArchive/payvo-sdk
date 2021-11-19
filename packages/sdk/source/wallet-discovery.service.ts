@@ -8,7 +8,7 @@ import { WalletDiscoveryService } from "./wallet-discovery.contract.js";
 
 @injectable()
 export class AbstractWalletDiscoveryService implements WalletDiscoveryService {
-    public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<AddressDataTransferObject[]> {
-        throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
-    }
+	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<AddressDataTransferObject[]> {
+		throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
+	}
 }

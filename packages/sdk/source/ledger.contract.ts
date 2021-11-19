@@ -6,23 +6,23 @@ export type LedgerTransportFactory = () => Promise<LedgerTransport>;
 export type LedgerWalletList = Record<string, WalletData>;
 
 export interface LedgerService {
-    connect(): Promise<void>;
+	connect(): Promise<void>;
 
-    disconnect(): Promise<void>;
+	disconnect(): Promise<void>;
 
-    getVersion(): Promise<string>;
+	getVersion(): Promise<string>;
 
-    getPublicKey(path: string): Promise<string>;
+	getPublicKey(path: string): Promise<string>;
 
-    getExtendedPublicKey(path: string): Promise<string>;
+	getExtendedPublicKey(path: string): Promise<string>;
 
-    signTransaction(path: string, payload: Buffer): Promise<string>;
+	signTransaction(path: string, payload: Buffer): Promise<string>;
 
-    signMessage(path: string, payload: Buffer): Promise<string>;
+	signMessage(path: string, payload: Buffer): Promise<string>;
 
-    scan(options?: { useLegacy: boolean; startPath?: string }): Promise<Record<string, WalletData>>;
+	scan(options?: { useLegacy: boolean; startPath?: string }): Promise<Record<string, WalletData>>;
 
-    isNanoS(): Promise<boolean>;
+	isNanoS(): Promise<boolean>;
 
-    isNanoX(): Promise<boolean>;
+	isNanoX(): Promise<boolean>;
 }

@@ -9,18 +9,18 @@ import { IdentityOptions } from "./shared.contract.js";
 
 @injectable()
 export class AbstractPrivateKeyService implements PrivateKeyService {
-    @inject(BindingType.ConfigRepository)
-    protected readonly configRepository!: ConfigRepository;
+	@inject(BindingType.ConfigRepository)
+	protected readonly configRepository!: ConfigRepository;
 
-    public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<PrivateKeyDataTransferObject> {
-        throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
-    }
+	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<PrivateKeyDataTransferObject> {
+		throw new NotImplemented(this.constructor.name, this.fromMnemonic.name);
+	}
 
-    public async fromWIF(wif: string): Promise<PrivateKeyDataTransferObject> {
-        throw new NotImplemented(this.constructor.name, this.fromWIF.name);
-    }
+	public async fromWIF(wif: string): Promise<PrivateKeyDataTransferObject> {
+		throw new NotImplemented(this.constructor.name, this.fromWIF.name);
+	}
 
-    public async fromSecret(secret: string): Promise<PrivateKeyDataTransferObject> {
-        throw new NotImplemented(this.constructor.name, this.fromSecret.name);
-    }
+	public async fromSecret(secret: string): Promise<PrivateKeyDataTransferObject> {
+		throw new NotImplemented(this.constructor.name, this.fromSecret.name);
+	}
 }

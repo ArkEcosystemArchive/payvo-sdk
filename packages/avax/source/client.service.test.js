@@ -1,3 +1,4 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { Collections, IoC, Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
@@ -20,44 +21,36 @@ test.before(async () => {
 	});
 });
 
-describe("ClientService", () => {
-	describe("#transaction", () => {
-		test("should succeed", async () => {
-			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
+test("#transaction", async () => {
+	const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
-			assert.instance(result, ConfirmedTransactionData);
-		});
-	});
+	assert.instance(result, ConfirmedTransactionData);
+});
 
-	describe.skip("#transactions", () => {
-		test("should succeed", async () => {
-			const result = await subject.transactions({
-				identifiers: [
-					{
-						type: "address",
-						value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-					},
-				],
-			});
-
-			assert.is(result instanceof Collections.ConfirmedTransactionDataCollection);
-		});
-	});
-
-	describe("#wallet", () => {
-		test("should succeed", async () => {
-			const result = await subject.wallet({
+test.skip("#transactions", async () => {
+	const result = await subject.transactions({
+		identifiers: [
+			{
 				type: "address",
 				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-			});
-
-			assert.instance(result, WalletData);
-		});
+			},
+		],
 	});
 
-	describe("#delegates", () => {
-		test("should succeed", async () => {
-			await assert.is(subject.delegates()).resolves.toBeInstanceOf(Collections.WalletDataCollection);
-		});
-	});
+	assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 });
+
+test("#wallet", async () => {
+	const result = await subject.wallet({
+		type: "address",
+		value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+	});
+
+	assert.instance(result, WalletData);
+});
+
+test("#delegates", async () => {
+	assert.instance(await subject.delegates(), Collections.WalletDataCollection);
+});
+
+test.run();

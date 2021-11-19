@@ -51,9 +51,7 @@ test("#transaction", async () => {
 
 test("#transactions", async () => {
 	nock("https://stargate.cosmos.network")
-		.get(
-			"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
-		)
+		.get("/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100")
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 	const result = await subject.transactions({

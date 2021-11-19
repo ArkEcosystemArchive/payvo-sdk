@@ -9,25 +9,25 @@ import { UnspentTransactionData as Contract } from "./confirmed-transaction.dto.
 
 @injectable()
 export class UnspentTransactionData implements Contract {
-    readonly #data: KeyValuePair;
+	readonly #data: KeyValuePair;
 
-    public constructor(data: KeyValuePair) {
-        this.#data = data;
-    }
+	public constructor(data: KeyValuePair) {
+		this.#data = data;
+	}
 
-    public id(): string {
-        return this.#data.id;
-    }
+	public id(): string {
+		return this.#data.id;
+	}
 
-    public timestamp(): DateTime {
-        return this.#data.timestamp;
-    }
+	public timestamp(): DateTime {
+		return this.#data.timestamp;
+	}
 
-    public amount(): BigNumber {
-        return this.#data.amount;
-    }
+	public amount(): BigNumber {
+		return this.#data.amount;
+	}
 
-    public address(): string {
-        return this.#data.address;
-    }
+	public address(): string {
+		return this.#data.address;
+	}
 }
