@@ -9,8 +9,15 @@ import * as bitcoin from "bitcoinjs-lib";
 import { musig } from "../test/fixtures/musig";
 
 let subject;
+let walletDataHelper;
 
-test.before(() => {
+const network = bitcoin.networks.testnet;
+
+const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, network));
+
+const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
+
+test.before(async () => {
 	nock.disableNetConnect();
 
 	nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -35,18 +42,9 @@ test.before(() => {
 	subject = await createService(AddressFactory, "btc.testnet", async (container) => {
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
-});
 
-const network = bitcoin.networks.testnet;
-
-let walletDataHelper;
-
-const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, network));
-
-const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
-
-test.before.each(async () => {
 	walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
+
 });
 
 test("should discover all used", async () => {

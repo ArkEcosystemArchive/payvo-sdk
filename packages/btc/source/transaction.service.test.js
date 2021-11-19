@@ -55,7 +55,7 @@ const createLocalServices = async (test, callback) => {
 };
 
 describe("bip44 wallet", (suite) => {
-	suite.before.each(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -138,7 +138,7 @@ describe("bip44 wallet", (suite) => {
 });
 
 describe("bip49 wallet", (suite) => {
-	suite.before.each(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -222,7 +222,7 @@ describe("bip49 wallet", (suite) => {
 });
 
 describe("bip84 wallet", (suite) => {
-	suite.before.each(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -306,7 +306,7 @@ describe("bip84 wallet", (suite) => {
 });
 
 describe("legacy multisignature wallet", (suite) => {
-	suite.before.each(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -374,7 +374,7 @@ describe("legacy multisignature wallet", (suite) => {
 });
 
 describe("p2sh segwit multisignature wallet", (suite) => {
-	suite.before(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -442,7 +442,7 @@ describe("p2sh segwit multisignature wallet", (suite) => {
 });
 
 describe("native segwit multisignature wallet", (suite) => {
-	suite.before(() => {
+	suite.before(async () => {
 		await createLocalServices(suite);
 
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
