@@ -49,10 +49,8 @@ test("#get", () => {
 });
 
 test("#toString", () => {
-	assert
-		.string(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString())
-	assert
-		.string(new Transaction().configure("id", { key: "value" }, "").toString())
+	assert.string(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString());
+	assert.string(new Transaction().configure("id", { key: "value" }, "").toString());
 });
 
 test("#toObject", () => {

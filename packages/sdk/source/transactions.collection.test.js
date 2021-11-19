@@ -1,20 +1,18 @@
 import { assert, test } from "@payvo/sdk-test";
 import { ConfirmedTransactionDataCollection } from "./transactions";
 
-let subjectCollection;
+let subject;
 
 test.before.each(
 	() =>
 		(subject = new ConfirmedTransactionDataCollection(
 			[
-				// @ts-ignore
 				{
 					id: () => "id",
 
 					recipient: () => "recipient",
 
 					sender: () => "sender",
-					// @ts-ignore
 					timestamp: () => "timestamp",
 					type: () => "type",
 				},
@@ -24,61 +22,21 @@ test.before.each(
 );
 
 test("#findById", () => {
-	assert.is(subject.findById("id"),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.findById("id"));
 });
 
 test("#findByType", () => {
-	assert.is(subject.findByType("type"),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.findByType("type"));
 });
 
 test("#findByTimestamp", () => {
-	assert.is(subject.findByTimestamp("timestamp"),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.findByTimestamp("timestamp"));
 });
 
 test("#findBySender", () => {
-	assert.is(subject.findBySender("sender"),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.findBySender("sender"));
 });
 
 test("#findByRecipient", () => {
-	assert.is(subject.findByRecipient("recipient"),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.is(subject.findByRecipient("recipient"));
 });
