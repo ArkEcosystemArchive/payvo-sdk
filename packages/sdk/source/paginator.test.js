@@ -1,7 +1,7 @@
 import { assert, test } from "@payvo/sdk-test";
 import { Paginator } from "./paginator";
 
-let subject: Stub;
+let subject;
 
 test.before.each(
 	() =>
@@ -33,48 +33,15 @@ test.before.each(
 );
 
 test("#items", () => {
-	assert.is(subject.items(),
-		Array [
-		  Object {
-		    "id": [Function],
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		  Object {
-		    "id": [Function],
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		]
-	`);
+	assert.length(subject.items(), 2);
 });
 
 test("#first", () => {
-	assert.is(subject.first(),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.first());
 });
 
 test("#last", () => {
-	assert.is(subject.last(),
-		Object {
-		  "id": [Function],
-		  "recipient": [Function],
-		  "sender": [Function],
-		  "timestamp": [Function],
-		  "type": [Function],
-		}
-	`);
+	assert.object(subject.last());
 });
 
 test("#previousPage", () => {
@@ -106,24 +73,7 @@ test("#isNotEmpty", () => {
 });
 
 test("#transform", () => {
-	assert.is(subject.items(),
-		Array [
-		  Object {
-		    "id": [Function],
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		  Object {
-		    "id": [Function],
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		]
-	`);
+	assert.length(subject.items(), 2);
 
 	subject.transform((data) => {
 		data.id = `${data.id}-transformed`;
@@ -131,35 +81,11 @@ test("#transform", () => {
 		return data;
 	});
 
-	assert.is(subject.items(),
-		Array [
-		  Object {
-		    "id": "() => \\"id1\\"-transformed",
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		  Object {
-		    "id": "() => \\"id2\\"-transformed",
-		    "recipient": [Function],
-		    "sender": [Function],
-		    "timestamp": [Function],
-		    "type": [Function],
-		  },
-		]
-	`);
+	assert.length(subject.items(), 2);
 });
 
 test("#getPagination", () => {
-	assert.is(subject.getPagination(),
-		Object {
-		  "last": 4,
-		  "next": 4,
-		  "prev": 1,
-		  "self": 2,
-		}
-	`);
+	assert.object(subject.getPagination());
 });
 
-class Stub extends Paginator<any> {}
+class Stub extends Paginator {}
