@@ -81,9 +81,9 @@ it("should aggregate the balances of all wallets", async () => {
 			"ark.devnet",
 		),
 	]);
-	a.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
-	b.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
-	c.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
+	a.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
+	b.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
+	c.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
 
 	jest.spyOn(a.network(), "isLive").mockReturnValue(true);
 	jest.spyOn(a.network(), "isTest").mockReturnValue(false);
