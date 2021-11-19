@@ -2,15 +2,24 @@ import { assert, mockery, test } from "@payvo/sdk-test";
 import { Response } from "./http-response";
 
 let subject;
+let spy;
 
 test.before.each(
-	() =>
-		(subject = new Response({
+	() => {
+			subject = new Response({
 			body: "{}",
 			headers: { Accept: "something" },
 			statusCode: 200,
-		})),
+		})
+
+		spy = mockery(subject, "status");
+
+	},
 );
+
+test.after.each(() => {
+	spy.reset();
+});
 
 test("#constructor", () => {
 	assert
@@ -44,7 +53,7 @@ test("#body", () => {
 });
 
 test("#json", () => {
-	assert.is(subject.json(), {});
+	assert.object(subject.json());
 });
 
 test("#header", () => {
@@ -62,7 +71,7 @@ test("#status", () => {
 test("#successful", () => {
 	assert.is(subject.successful(), true);
 
-	mockery(subject, "status").mockReturnValue(400);
+	spy.mockReturnValue(400);
 
 	assert.is(subject.successful(), false);
 });
@@ -70,7 +79,7 @@ test("#successful", () => {
 test("#ok", () => {
 	assert.is(subject.ok(), true);
 
-	mockery(subject, "status").mockReturnValue(400);
+	spy.mockReturnValue(400);
 
 	assert.is(subject.ok(), false);
 });
@@ -78,7 +87,7 @@ test("#ok", () => {
 test("#redirect", () => {
 	assert.is(subject.redirect(), false);
 
-	mockery(subject, "status").mockReturnValue(300);
+	spy.mockReturnValue(300);
 
 	assert.is(subject.redirect(), true);
 });
@@ -86,11 +95,11 @@ test("#redirect", () => {
 test("#failed", () => {
 	assert.is(subject.failed(), false);
 
-	mockery(subject, "status").mockReturnValue(400);
+	spy.mockReturnValue(400);
 
 	assert.is(subject.failed(), true);
 
-	mockery(subject, "status").mockReturnValue(500);
+	spy.mockReturnValue(500);
 
 	assert.is(subject.failed(), true);
 });
@@ -98,7 +107,7 @@ test("#failed", () => {
 test("#clientError", () => {
 	assert.is(subject.clientError(), false);
 
-	mockery(subject, "status").mockReturnValue(400);
+	spy.mockReturnValue(400);
 
 	assert.is(subject.clientError(), true);
 });
@@ -106,7 +115,7 @@ test("#clientError", () => {
 test("#serverError", () => {
 	assert.is(subject.serverError(), false);
 
-	mockery(subject, "status").mockReturnValue(500);
+	spy.mockReturnValue(500);
 
 	assert.is(subject.serverError(), true);
 });

@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { assert, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -180,7 +180,7 @@ for (const method of [
 	test("should not throw if coin has not been fully set up", async () => {
 		await subject.__construct();
 
-		assert.is(subject[method](), "object");
+		assert.object(subject[method]());
 	});
 }
 

@@ -11,11 +11,11 @@ test("#all", () => {
 });
 
 test("#get | #push | #forget", () => {
-	assert.is(subject.get("ark.devnet"), "object");
+	assert.object(subject.get("ark.devnet"));
 
 	subject.push("ark.devnet", manifest.networks["ark.devnet"]);
 
-	assert.is(subject.get("ark.devnet"), "object");
+	assert.object(subject.get("ark.devnet"));
 
 	subject.forget("ark.devnet");
 

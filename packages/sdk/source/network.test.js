@@ -6,7 +6,9 @@ import { Network } from "./network";
 
 let subject;
 
-test.before.each(() => (subject = new Network(manifest, manifest.networks["ark.devnet"])));
+test.before.each(() => {
+	subject = new Network(manifest, manifest.networks["ark.devnet"]);
+});
 
 test("should have an coin", () => {
     assert.is(subject.coin(), "ARK");
@@ -181,11 +183,11 @@ test("#chargesZeroFees", () => {
 });
 
 test("#importMethods", () => {
-    assert.is(subject.importMethods());
+    assert.object(subject.importMethods());
 });
 
 test("#meta", () => {
-    assert.is(subject.meta());
+    assert.object(subject.meta());
 });
 
 test("#feeType", () => {
@@ -205,7 +207,7 @@ test("#usesLockedBalance", () => {
 });
 
 test("#tokens", () => {
-    assert.is(subject.tokens()).toBeArray();
+    assert.array(subject.tokens());
 });
 
 test("#multiPaymentRecipients", () => {
