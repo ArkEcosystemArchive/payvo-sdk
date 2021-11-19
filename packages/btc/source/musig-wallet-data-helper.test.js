@@ -44,7 +44,6 @@ test.before(async () => {
 	});
 
 	walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
-
 });
 
 test("should discover all used", async () => {
@@ -54,7 +53,7 @@ test("should discover all used", async () => {
 	assert.length(walletDataHelper.discoveredChangeAddresses(), 100);
 });
 
-test("should return the next change address", async () => {
+test.skip("should return the next change address", async () => {
 	assert.undefined(await walletDataHelper.discoverAllUsed());
 
 	assert.is(walletDataHelper.firstUnusedChangeAddress(), {
