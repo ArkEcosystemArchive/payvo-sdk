@@ -2,7 +2,7 @@ import "jest-extended";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
@@ -19,18 +19,6 @@ import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
 // import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 // import logger from "@ledgerhq/logs";
-
-class TransportWrapper {
-	readonly #record;
-
-	constructor(record: string) {
-		this.#record = record;
-	}
-
-	public create() {
-		return openTransportReplayer(RecordStore.fromString(this.#record));
-	}
-}
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -50,18 +38,19 @@ const configureMock = (record: string): TransactionService =>
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString(record)),
+			// @ts-ignore Uncomment for using real device
+			// async () => await TransportNodeHid.default.open(null)
+		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
-
-		// @ts-ignore Uncomment for using real device
-		// container.constant(BindingType.LedgerTransport, TransportNodeHid.default);
-		container.constant(BindingType.LedgerTransport, new TransportWrapper(record));
 	});
 
 jest.setTimeout(30_000);
 
-describe.skip("bip44 wallet", () => {
+describe("bip44 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -141,7 +130,7 @@ describe.skip("bip44 wallet", () => {
 	});
 });
 
-describe.skip("bip49 wallet", () => {
+describe("bip49 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -221,7 +210,7 @@ describe.skip("bip49 wallet", () => {
 	});
 });
 
-describe.skip("bip84 wallet", () => {
+describe("bip84 wallet", () => {
 	beforeAll(() => {
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(

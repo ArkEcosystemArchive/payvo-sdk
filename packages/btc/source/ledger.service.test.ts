@@ -4,7 +4,7 @@ import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
@@ -26,6 +26,8 @@ const createMockService = async (record: string) => {
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
+			// // @ts-ignore
+			// async () => await TransportNodeHid.default.open(null)
 		);
 	});
 
@@ -58,7 +60,7 @@ describe("getVersion", () => {
 	});
 });
 
-describe.skip("getPublicKey", () => {
+describe("getPublicKey", () => {
 	it("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
@@ -66,7 +68,7 @@ describe.skip("getPublicKey", () => {
 	});
 });
 
-describe.skip("getExtendedPublicKey", () => {
+describe("getExtendedPublicKey", () => {
 	it("should pass with for a given path", async () => {
 		const subject = await createMockService(ledger.extendedPublicKey.record);
 

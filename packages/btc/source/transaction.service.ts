@@ -124,7 +124,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			if (input.signatory.actsWithMnemonic()) {
 				transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
 			} else if (input.signatory.actsWithLedger()) {
-				transaction = await this.ledgerService.createTransaction(network, inputs, outputs, changeAddress);
+				transaction = await this.ledgerService.createTransaction(inputs, outputs, changeAddress);
 			} else {
 				throw new Exceptions.Exception("Unsupported signatory");
 			}

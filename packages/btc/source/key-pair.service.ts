@@ -1,7 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { ECPair, ECPairInterface } from "ecpair";
-import { convertBuffer } from "@payvo/sdk-helpers";
+import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
@@ -17,7 +17,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		return this.#normalize(ECPair.fromPrivateKey(Buffer.from(privateKey, "hex")));
+		return this.#normalize(ECPair.fromPrivateKey(convertString(privateKey)));
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.KeyPairDataTransferObject> {
