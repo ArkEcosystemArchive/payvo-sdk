@@ -83,7 +83,7 @@ describe("example musig wallet creation and joining", () => {
 			path: musig.accounts[0].legacyMasterPath,
 		};
 
-		const transaction1 = await subject.multiSignature({
+		const transaction1 = await subject.renamedMultiSignature({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: wallet1.signingKey,

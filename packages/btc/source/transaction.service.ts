@@ -154,7 +154,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
-	public override async multiSignature(
+	// TODO revert to public override async multiSignature(
+	public async renamedMultiSignature(
 		input: Services.MultiSignatureInput,
 	): Promise<Contracts.SignedTransactionData> {
 		if (!input.data.min) {

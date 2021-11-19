@@ -786,7 +786,7 @@ test("#multiSignature (fake) registration", async () => {
 		path: musig.accounts[2].nativeSegwitMasterPath,
 	};
 
-	const transaction1 = await subject.multiSignature({
+	const transaction1 = await subject.renamedMultiSignature({
 		signatory: new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet1.signingKey,
