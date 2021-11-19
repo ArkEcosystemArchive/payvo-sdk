@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { assert, test } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -21,7 +21,6 @@ test.before.each(async () => {
 	);
 });
 
-describe("SignedTransactionData", () => {
 	test("#sender", () => {
 		assert.is(subject.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 	});
@@ -41,6 +40,5 @@ describe("SignedTransactionData", () => {
 	test("#timestamp", () => {
 		assert.is(subject.timestamp().toISOString(), "1970-01-01T00:00:00.000Z");
 	});
-});
 
 test.run();
