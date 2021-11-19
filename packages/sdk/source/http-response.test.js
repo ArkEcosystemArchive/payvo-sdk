@@ -4,52 +4,54 @@ import { Response } from "./http-response";
 let subject;
 let spy;
 
-test.before.each(
-	() => {
-			subject = new Response({
-			body: "{}",
-			headers: { Accept: "something" },
-			statusCode: 200,
-		})
+test.before.each(() => {
+	subject = new Response({
+		body: "{}",
+		headers: { Accept: "something" },
+		statusCode: 200,
+	});
 
-		spy = mockery(subject, "status");
-
-	},
-);
+	spy = mockery(subject, "status");
+});
 
 test.after.each(() => {
 	spy.reset();
 });
 
 test("#constructor", () => {
-	assert
-		.throws(
-			() =>
-				new Response({
-					body: "{}",
-					headers: { Accept: "something" },
-					statusCode: 500,
-				}), "HTTP request returned status code 500.");
+	assert.throws(
+		() =>
+			new Response({
+				body: "{}",
+				headers: { Accept: "something" },
+				statusCode: 500,
+			}),
+		"HTTP request returned status code 500.",
+	);
 });
 
 test("#body", () => {
 	assert.is(subject.body(), "{}");
 
-	assert
-		.throws(() =>
+	assert.throws(
+		() =>
 			new Response({
 				body: undefined,
 				headers: { Accept: "something" },
 				statusCode: 200,
-			}).body(), "The response body is empty.");
+			}).body(),
+		"The response body is empty.",
+	);
 
-	assert
-		.throws(() =>
+	assert.throws(
+		() =>
 			new Response({
 				body: "",
 				headers: { Accept: "something" },
 				statusCode: 200,
-			}).body(), "The response body is empty.");
+			}).body(),
+		"The response body is empty.",
+	);
 });
 
 test("#json", () => {
