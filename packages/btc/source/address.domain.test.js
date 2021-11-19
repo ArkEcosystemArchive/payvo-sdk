@@ -20,7 +20,7 @@ const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(accou
 test("should derive account key for legacy multisig", async () => {
 	const accountKeys = rootToAccountKeys(rootAccountKeys, defaultLegacyMusigAccountKey);
 
-	assert.is(
+	assert.equal(
 		accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
 		musig.legacyWallet.accountKeys,
 	);
@@ -29,7 +29,7 @@ test("should derive account key for legacy multisig", async () => {
 test("should derive account key for p2sh-segwit multisig", async () => {
 	const accountKeys = rootToAccountKeys(rootAccountKeys, defaultP2SHSegwitMusigAccountKey);
 
-	assert.is(
+	assert.equal(
 		accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
 		musig.p2shSegwitWallet.accountKeys,
 	);
@@ -38,7 +38,7 @@ test("should derive account key for p2sh-segwit multisig", async () => {
 test("should derive account key for native segwit multisig", async () => {
 	const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-	assert.is(
+	assert.equal(
 		accountKeys.map((accountKey) => convertBuffer(accountKey.publicKey)),
 		musig.nativeSegwitWallet.accountKeys,
 	);

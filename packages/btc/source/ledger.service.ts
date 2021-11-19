@@ -18,8 +18,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Bitcoin.default(this.#ledger);
+		this.#transport = new Bitcoin(this.#ledger);
 	}
 
 	@IoC.preDestroy()
