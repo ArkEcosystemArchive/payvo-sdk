@@ -37,3 +37,5 @@ test.before.each(async () => {
         assert.true(await subject.validate(identity.address));
     	assert.false(await subject.validate(identity.address.slice(0, 10)));
 });
+
+test.run();

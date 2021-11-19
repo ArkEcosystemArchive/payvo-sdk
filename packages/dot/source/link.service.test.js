@@ -20,3 +20,5 @@ test("should generate a link for a transaction", async () => {
 test("should generate a link for a wallet", async () => {
 	assert.is(subject.wallet("id"), "https://polkascan.io/address/id");
 });
+
+test.run();

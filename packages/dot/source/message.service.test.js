@@ -33,3 +33,5 @@ test.before.each(async () => {
 
         assert.true(await subject.verify(result));
 });
+
+test.run();

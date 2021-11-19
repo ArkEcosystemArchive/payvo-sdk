@@ -58,3 +58,5 @@ test.skip("#transfer", async () => {
 	assert.instance(result, SignedTransactionData);
 	assert.is(result.amount().toString(), "123450000000000");
 });
+
+test.run();

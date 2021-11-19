@@ -21,3 +21,5 @@ test("should generate an output from a mnemonic", async () => {
 test("should fail from an invalid mnemonic", async () => {
 	await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
 });
+
+test.run();

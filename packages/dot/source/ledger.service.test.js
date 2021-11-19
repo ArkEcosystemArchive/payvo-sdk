@@ -75,3 +75,5 @@ describe("signMessage", () => {
 		await assert.is(polkadot.signMessage("", Buffer.alloc(0))).rejects.toThrow();
 	});
 });
+
+test.run();
