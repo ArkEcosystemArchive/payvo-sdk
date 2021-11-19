@@ -1,3 +1,4 @@
+import { assert, test } from "@payvo/sdk-test";
 import { IoC } from "@payvo/sdk";
 import { cryptoWaitReady } from "@polkadot/util-crypto";
 
@@ -17,7 +18,6 @@ test.before.each(async () => {
     });
 });
 
-describe("Address", () => {
     test("should generate an output from a mnemonic", async () => {
         const result = await subject.fromMnemonic(identity.mnemonic);
 
@@ -34,7 +34,6 @@ describe("Address", () => {
     });
 
     test("should validate an address", async () => {
-        assert.true(await subject.validate(identity.address)));
-    await assert.is(subject.validate(identity.address.slice(0, 10))).resolves, false);
-});
+        assert.true(await subject.validate(identity.address));
+    	assert.false(await subject.validate(identity.address.slice(0, 10)));
 });

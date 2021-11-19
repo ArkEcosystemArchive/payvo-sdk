@@ -1,3 +1,4 @@
+import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
@@ -38,26 +39,22 @@ test.before(async () => {
 	});
 });
 
-describe("TransactionService", () => {
-	describe("#transfer", () => {
-		it.skip("should verify", async () => {
-			const result = await subject.transfer({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: identity.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					amount: 12345,
-					to: identity.address,
-				},
-			});
-
-			assert.is(result instanceof SignedTransactionData);
-			assert.is(result.amount().toString(), "123450000000000");
-		});
+test.skip("#transfer", async () => {
+	const result = await subject.transfer({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: identity.mnemonic,
+				address: identity.address,
+				publicKey: identity.publicKey,
+				privateKey: identity.privateKey,
+			}),
+		),
+		data: {
+			amount: 12345,
+			to: identity.address,
+		},
 	});
+
+	assert.instance(result, SignedTransactionData);
+	assert.is(result.amount().toString(), "123450000000000");
 });

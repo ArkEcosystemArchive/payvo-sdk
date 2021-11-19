@@ -1,3 +1,4 @@
+import { assert, describe, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -10,7 +11,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record) => {
 	const transport = await createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -44,7 +45,7 @@ describe("getVersion", () => {
 	test("should generate an app version", async () => {
 		const polkadot = await createMockService(ledger.appVersion.record);
 
-		await assert.is(polkadot.getVersion()).resolves.toEqual(ledger.appVersion.result);
+		assert.is(await polkadot.getVersion(), ledger.appVersion.result);
 	});
 });
 
@@ -52,7 +53,7 @@ describe("getPublicKey", () => {
 	test("should generate a publicKey", async () => {
 		const polkadot = await createMockService(ledger.publicKey.record);
 
-		await assert.is(polkadot.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+		assert.is(await polkadot.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
@@ -60,9 +61,10 @@ describe("signTransaction", () => {
 	test("should generate output from a transaction", async () => {
 		const polkadot = await createMockService(ledger.transaction.record);
 
-		await assert
-			.is(polkadot.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")))
-			.resolves.toEqual(ledger.transaction.result);
+		assert.is(
+			await polkadot.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
+			ledger.transaction.result,
+		);
 	});
 });
 
