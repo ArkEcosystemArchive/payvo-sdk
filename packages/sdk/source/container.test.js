@@ -5,30 +5,26 @@ import { BindingType } from "./service-provider.contract";
 test("should prevent multiple bindings of the same key", () => {
 	const container = new Container();
 
-	assert.is(() => container.constant(BindingType.AddressService, "value")).not.toThrow(/Duplicate binding attempted/);
-	assert.is(() => container.constant(BindingType.AddressService, "value")).toThrow(/Duplicate binding attempted/);
-	assert.is(() => container.constant(BindingType.AddressService, "value")).toThrow(/Duplicate binding attempted/);
+	assert.not.throws(() => container.constant(BindingType.AddressService, "value"), "Duplicate binding attempted");
+	assert.throws(() => container.constant(BindingType.AddressService, "value"), "Duplicate binding attempted");
+	assert.throws(() => container.constant(BindingType.AddressService, "value"), "Duplicate binding attempted");
 });
 
 test("should bind values independent from container instances", () => {
 	const container1 = new Container();
 
-	assert
-		.is(() => container1.constant(BindingType.AddressService, "value"))
-		.not.toThrow(/Duplicate binding attempted/);
+	assert.not.throws(() => container1.constant(BindingType.AddressService, "value"), "Duplicate binding attempted");
 
 	const container2 = new Container();
 
-	assert
-		.is(() => container2.constant(BindingType.AddressService, "value"))
-		.not.toThrow(/Duplicate binding attempted/);
+	assert.not.throws(() => container2.constant(BindingType.AddressService, "value"), "Duplicate binding attempted");
 });
 
 test("should bind a value and be able to retrieve it", () => {
 	const container = new Container();
 
 	assert.is(container.missing("key"), true);
-	assert.is(() => container.get("key")).toThrow();
+	assert.throws(() => container.get("key"));
 
 	container.constant("key", "value");
 
@@ -39,23 +35,23 @@ test("should bind a value and be able to retrieve it", () => {
 test("should forget a value", () => {
 	const container = new Container();
 
-	assert.is(() => container.unbind("key")).toThrow();
+	assert.throws(() => container.unbind("key"));
 
 	container.constant("key", "value");
 
-	assert.is(() => container.unbind("key")).not.toThrow();
+	assert.not.throws(() => container.unbind("key"));
 });
 
 test("should flush all bindings", () => {
 	const container = new Container();
 
-	assert.is(() => container.unbind("key")).toThrow();
+	assert.throws(() => container.unbind("key"));
 
 	container.constant("key", "value");
 
-	assert.is(() => container.unbind("key")).not.toThrow();
+	assert.not.throws(() => container.unbind("key"));
 
 	container.flush();
 
-	assert.is(() => container.unbind("key")).toThrow();
+	assert.throws(() => container.unbind("key"));
 });

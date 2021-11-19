@@ -1,5 +1,4 @@
 import { assert, test } from "@payvo/sdk-test";
-import { ConfigRepository } from "./coins/index";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers";
 
 test.after.each(() => jest.restoreAllMocks());
@@ -19,7 +18,7 @@ const configMock = {
 			host: "https://explorer.ark.io",
 		},
 	],
-} as unknown as ConfigRepository;
+};
 
 test("filterHostsFromConfig", () => {
 	assert.is(filterHostsFromConfig(configMock, "explorer"), [
@@ -62,6 +61,6 @@ describe("pluckAddress", () => {
 	});
 
 	test("addresses", () => {
-		assert.is(() => pluckAddress({ key: "value" })).toThrow("Failed to pluck any address.");
+		assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
 	});
 });
