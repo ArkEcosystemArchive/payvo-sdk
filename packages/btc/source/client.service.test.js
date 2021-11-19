@@ -8,7 +8,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { ConfirmedTransactionDataCollection } from "@payvo/sdk/distribution/collections";
+import { Collections } from "@payvo/sdk";
 
 let subject;
 
@@ -53,7 +53,7 @@ test("#transactions", async () => {
 	const result = await subject.transactions({
 		identifiers: [{ type: "address", value: "12C1rVsgUUNKfFYWQ9X18M38c4hsGV9T5w" }],
 	});
-	assert.instance(result, ConfirmedTransactionDataCollection);
+	assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 	assert.is(result.currentPage(), 1);
 	assert.is(result.getPagination().last, 1);
 	assert.is(result.getPagination().self, 1);
