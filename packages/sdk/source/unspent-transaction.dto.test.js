@@ -21,3 +21,5 @@ test("#amount", () => {
 test("#addresses", () => {
 	assert.is(new UnspentTransactionData({ address: "a" }).address(), "a");
 });
+
+test.run();

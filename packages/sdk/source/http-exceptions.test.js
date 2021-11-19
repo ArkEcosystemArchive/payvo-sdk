@@ -32,3 +32,5 @@ test("RequestException with Error", () => {
 test("BadResponseException", () => {
 	assert.is(new BadResponseException("ERR_FAILED").message, "Bad Response: ERR_FAILED");
 });
+
+test.run();

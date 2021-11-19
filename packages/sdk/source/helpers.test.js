@@ -64,3 +64,5 @@ describe("pluckAddress", () => {
 		assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
 	});
 });
+
+test.run();

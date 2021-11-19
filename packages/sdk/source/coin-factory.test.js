@@ -83,3 +83,5 @@ test("should create an instance with a custom network", async () => {
 	assert.is(coin.network().id(), "coin.network");
 	assert.is(coin.network().name(), "Mainnet");
 });
+
+test.run();

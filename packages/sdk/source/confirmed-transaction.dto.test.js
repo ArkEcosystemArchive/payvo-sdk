@@ -245,3 +245,5 @@ class Transaction extends AbstractConfirmedTransactionData {
 		false;
 	}
 }
+
+test.run();

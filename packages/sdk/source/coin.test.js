@@ -183,3 +183,5 @@ for (const method of [
 		assert.is(subject[method](), "object");
 	});
 }
+
+test.run();

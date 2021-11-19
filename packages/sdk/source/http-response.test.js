@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { assert, mockery, test } from "@payvo/sdk-test";
 import { Response } from "./response";
 
 let subject;
@@ -52,11 +52,7 @@ test("#header", () => {
 });
 
 test("#headers", () => {
-	assert.is(subject.headers(),
-		Object {
-		  "Accept": "something",
-		}
-	`);
+	assert.object(subject.headers());
 });
 
 test("#status", () => {
@@ -66,7 +62,7 @@ test("#status", () => {
 test("#successful", () => {
 	assert.is(subject.successful(), true);
 
-	jest.spyOn(subject, "status").mockReturnValue(400);
+	mockery(subject, "status").mockReturnValue(400);
 
 	assert.is(subject.successful(), false);
 });
@@ -74,7 +70,7 @@ test("#successful", () => {
 test("#ok", () => {
 	assert.is(subject.ok(), true);
 
-	jest.spyOn(subject, "status").mockReturnValue(400);
+	mockery(subject, "status").mockReturnValue(400);
 
 	assert.is(subject.ok(), false);
 });
@@ -82,7 +78,7 @@ test("#ok", () => {
 test("#redirect", () => {
 	assert.is(subject.redirect(), false);
 
-	jest.spyOn(subject, "status").mockReturnValue(300);
+	mockery(subject, "status").mockReturnValue(300);
 
 	assert.is(subject.redirect(), true);
 });
@@ -90,11 +86,11 @@ test("#redirect", () => {
 test("#failed", () => {
 	assert.is(subject.failed(), false);
 
-	jest.spyOn(subject, "status").mockReturnValue(400);
+	mockery(subject, "status").mockReturnValue(400);
 
 	assert.is(subject.failed(), true);
 
-	jest.spyOn(subject, "status").mockReturnValue(500);
+	mockery(subject, "status").mockReturnValue(500);
 
 	assert.is(subject.failed(), true);
 });
@@ -102,7 +98,7 @@ test("#failed", () => {
 test("#clientError", () => {
 	assert.is(subject.clientError(), false);
 
-	jest.spyOn(subject, "status").mockReturnValue(400);
+	mockery(subject, "status").mockReturnValue(400);
 
 	assert.is(subject.clientError(), true);
 });
@@ -110,7 +106,9 @@ test("#clientError", () => {
 test("#serverError", () => {
 	assert.is(subject.serverError(), false);
 
-	jest.spyOn(subject, "status").mockReturnValue(500);
+	mockery(subject, "status").mockReturnValue(500);
 
 	assert.is(subject.serverError(), true);
 });
+
+test.run();

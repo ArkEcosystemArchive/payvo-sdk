@@ -545,13 +545,7 @@ describe("MultiSignatureSignatory", () => {
             new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
         );
 
-        assert.is(subject.asset(),
-		 {
-		  "min": 5,
-		  "publicKeys": Array [
-		    "identifier",
-		  ],
-		});
+        assert.object(subject.asset());
     });
 
     test("#confirmKey", () => {
@@ -694,7 +688,7 @@ test("#hasMultiSignature", () => {
         }),
     );
 
-    assert.is(subject.hasMultiSignature()), "boolean");
+    assert.boolean(subject.hasMultiSignature());
 
 subject = new Signatory(
     new SecretSignatory({
@@ -729,7 +723,7 @@ test("#actsWithMnemonic", () => {
         }),
     );
 
-    assert.is(subject.actsWithMnemonic()), "boolean");
+    assert.boolean(subject.actsWithMnemonic());
 });
 
 test("#actsWithConfirmationMnemonic", () => {
@@ -743,7 +737,7 @@ test("#actsWithConfirmationMnemonic", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationMnemonic()), "boolean");
+    assert.boolean(subject.actsWithConfirmationMnemonic());
 });
 
 test("#actsWithWIF", () => {
@@ -756,7 +750,7 @@ test("#actsWithWIF", () => {
         }),
     );
 
-    assert.is(subject.actsWithWIF()), "boolean");
+    assert.boolean(subject.actsWithWIF());
 });
 
 test("#actsWithConfirmationWIF", () => {
@@ -770,7 +764,7 @@ test("#actsWithConfirmationWIF", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationWIF()), "boolean");
+    assert.boolean(subject.actsWithConfirmationWIF());
 });
 
 test("#actsWithPrivateKey", () => {
@@ -781,19 +775,19 @@ test("#actsWithPrivateKey", () => {
         }),
     );
 
-    assert.is(subject.actsWithPrivateKey()), "boolean");
+    assert.boolean(subject.actsWithPrivateKey());
 });
 
 test("#actsWithMultiSignature", () => {
     const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
 
-    assert.is(subject.actsWithMultiSignature()), "boolean");
+    assert.boolean(subject.actsWithMultiSignature());
 });
 
 test("#actsWithLedger", () => {
     const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
 
-    assert.is(subject.actsWithLedger()), "boolean");
+    assert.boolean(subject.actsWithLedger());
 });
 
 test("#actsWithSecret", () => {
@@ -806,7 +800,7 @@ test("#actsWithSecret", () => {
         }),
     );
 
-    assert.is(subject.actsWithSecret()), "boolean");
+    assert.boolean(subject.actsWithSecret());
 });
 
 test("#actsWithConfirmationSecret", () => {
@@ -820,5 +814,7 @@ test("#actsWithConfirmationSecret", () => {
         }),
     );
 
-    assert.is(subject.actsWithConfirmationSecret()), "boolean");
+    assert.boolean(subject.actsWithConfirmationSecret());
 });
+
+test.run();

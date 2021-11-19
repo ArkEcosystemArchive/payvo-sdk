@@ -94,3 +94,5 @@ test("FeatureFlag", () => {
 		WifSecret: "WIF.secret",
 	});
 });
+
+test.run();

@@ -349,3 +349,5 @@ test("#delete", () => {
 		url: "/",
 	});
 });
+
+test.run();

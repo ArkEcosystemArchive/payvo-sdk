@@ -80,3 +80,5 @@ test("ConfigKey", () => {
 		Slip44: "network.constants.slip44",
 	});
 });
+
+test.run();

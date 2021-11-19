@@ -129,3 +129,5 @@ class Wallet extends AbstractWalletData {
 		return false;
 	}
 }
+
+test.run();

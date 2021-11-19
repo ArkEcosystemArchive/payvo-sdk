@@ -50,3 +50,5 @@ test("BadStateException", () => {
 		throw new BadStateException("method", "error");
 	}, "Method [method] has entered a bad state: error");
 });
+
+test.run();

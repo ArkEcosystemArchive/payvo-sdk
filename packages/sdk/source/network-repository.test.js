@@ -21,3 +21,5 @@ test("#get | #push | #forget", () => {
 
 	assert.throws(() => subject.get("ark.devnet"), "The [ark.devnet] network is not supported.");
 });
+
+test.run();

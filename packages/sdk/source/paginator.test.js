@@ -89,3 +89,5 @@ test("#getPagination", () => {
 });
 
 class Stub extends Paginator {}
+
+test.run();

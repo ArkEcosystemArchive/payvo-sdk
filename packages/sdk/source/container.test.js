@@ -55,3 +55,5 @@ test("should flush all bindings", () => {
 
 	assert.throws(() => container.unbind("key"));
 });
+
+test.run();

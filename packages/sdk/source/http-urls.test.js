@@ -5,3 +5,5 @@ test("#ensureTrailingSlash", () => {
 	assert.is(ensureTrailingSlash("#"), "#/");
 	assert.is(ensureTrailingSlash("/"), "/");
 });
+
+test.run();

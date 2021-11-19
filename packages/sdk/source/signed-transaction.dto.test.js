@@ -78,3 +78,5 @@ class Transaction extends AbstractSignedTransactionData {
 		return DateTime.make(0);
 	}
 }
+
+test.run();

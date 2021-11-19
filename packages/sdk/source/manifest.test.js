@@ -14,3 +14,5 @@ test("#get", () => {
 		"The [keykey] key does not exist in the manifest.",
 	);
 });
+
+test.run();

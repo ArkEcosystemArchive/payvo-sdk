@@ -223,3 +223,5 @@ test("#multiSignatureType", () => {
 test("#wordCount", () => {
     assert.is(subject.wordCount(), 24);
 });
+
+test.run();
