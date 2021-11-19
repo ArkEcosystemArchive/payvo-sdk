@@ -19,6 +19,8 @@ import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
 import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
+// import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
+// import logger from "@ledgerhq/logs";
 
 beforeEach(async () => {
 	nock.disableNetConnect();
