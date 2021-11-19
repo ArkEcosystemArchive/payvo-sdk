@@ -42,3 +42,5 @@ test("#fee", () => {
 test("#timestamp", () => {
 	assert.true(DateTime.make(0).isSame(subject.timestamp()));
 });
+
+test.run();

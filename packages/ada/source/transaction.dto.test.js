@@ -164,3 +164,5 @@ test("#isHtlcRefund", () => {
 test("#isMagistrate", () => {
 	assert.false(subject.isMagistrate());
 });
+
+test.run();

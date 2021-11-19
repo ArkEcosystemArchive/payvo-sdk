@@ -7,3 +7,5 @@ test("createValue", () => {
 
 	assert.is(result.coin().to_str(), "2");
 });
+
+test.run();

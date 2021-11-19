@@ -33,3 +33,5 @@ test("#isSecondSignature", () => {
 test("#isResignedDelegate", () => {
 	assert.false(subject.isResignedDelegate());
 });
+
+test.run();

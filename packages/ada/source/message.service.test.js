@@ -26,3 +26,5 @@ test("should sign and verify a message", async () => {
 
 	assert.true(await subject.verify(result));
 });
+
+test.run();

@@ -7,3 +7,5 @@ test("#fromMnemonic", async () => {
 
 	await assert.is(subject.fromMnemonic(identity.mnemonic, 20)).resolves.toHaveLength(20);
 });
+
+test.run();
