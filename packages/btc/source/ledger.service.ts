@@ -2,7 +2,7 @@ import { Coins, IoC, Services } from "@payvo/sdk";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
-import { getNetworkID } from "./config";
+import { getNetworkConfig, getNetworkID } from "./config";
 import createXpub from "create-xpub";
 import { maxLevel } from "./helpers";
 import { Bip44Address } from "./contracts";
@@ -15,16 +15,25 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	#ledger: Services.LedgerTransport;
 	#transport!: Bitcoin;
+	#network!: bitcoin.networks.Network;
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
+
 		// @ts-ignore
 		this.#transport = new Bitcoin.default(this.#ledger);
 	}
 
 	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
-		await this.#transport.transport.close();
+		if (this.#ledger) {
+			await this.#ledger.close();
+		}
 	}
 
 	public override async getVersion(): Promise<string> {
@@ -60,12 +69,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public async createTransaction(
-		network: bitcoin.networks.Network,
 		inputs: any[],
 		outputs: any[],
 		changeAddress: Bip44Address,
 	): Promise<bitcoin.Transaction> {
-		const outputScriptHex = await this.#getOutputScript(network, outputs);
+		const outputScriptHex = await this.#getOutputScript(outputs);
 		const isSegwit = inputs.some((input) => input.path.match(/49|84'/) !== null);
 		const isBip84 = inputs.some((input) => input.path.match(/84'/) !== null);
 		const additionals: string[] = isBip84 ? ["bech32"] : [];
@@ -85,8 +93,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return bitcoin.Transaction.fromHex(transactionHex);
 	}
 
-	async #getOutputScript(network: bitcoin.networks.Network, outputs: any[]): Promise<string> {
-		const psbt = new bitcoin.Psbt({ network: network });
+	async #getOutputScript(outputs: any[]): Promise<string> {
+		const psbt = new bitcoin.Psbt({ network: this.#network });
 		outputs.forEach((output) =>
 			psbt.addOutput({
 				address: output.address,
