@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { Exceptions } from "@payvo/sdk";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
+import { oneSignatureMusigP2shSegwitTransferTx } from "../test/fixtures/musig-p2sh-segwit-txs";
+import { unsignedNativeSegwitMusigRegistrationTx } from "../test/fixtures/musig-native-segwit-txs";
 
 let subject: SignedTransactionData;
 
@@ -42,5 +42,23 @@ describe("SignedTransactionData", () => {
 
 	test("#timestamp", () => {
 		expect(subject.timestamp().toISOString()).toBe("1970-01-01T00:00:00.000Z");
+	});
+
+	describe("multiSignature", function () {
+		test("#isMultiSignatureRegistration for regular, non-musig transfer", () => {
+			expect(subject.isMultiSignatureRegistration()).toBeFalse();
+		});
+
+		test("#isMultiSignatureRegistration for musig registration", () => {
+			subject.configure(unsignedNativeSegwitMusigRegistrationTx.id, unsignedNativeSegwitMusigRegistrationTx, "");
+
+			expect(subject.isMultiSignatureRegistration()).toBeTrue();
+		});
+
+		test("#isMultiSignatureRegistration for transfer", () => {
+			subject.configure(oneSignatureMusigP2shSegwitTransferTx.id, oneSignatureMusigP2shSegwitTransferTx, "");
+
+			expect(subject.isMultiSignatureRegistration()).toBeFalse();
+		});
 	});
 });

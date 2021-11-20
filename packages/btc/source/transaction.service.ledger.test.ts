@@ -17,6 +17,8 @@ import { WalletData } from "./wallet.dto";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { jest } from "@jest/globals";
 import { ledger } from "../test/fixtures/ledger";
+import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 // import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
 // import logger from "@ledgerhq/logs";
 
@@ -45,7 +47,9 @@ const configureMock = (record: string): TransactionService =>
 			// async () => await TransportNodeHid.default.open(null)
 		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 	});
 
 jest.setTimeout(30_000);

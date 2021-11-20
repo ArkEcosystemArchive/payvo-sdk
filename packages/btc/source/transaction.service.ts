@@ -1,15 +1,18 @@
-import { BIP32, BIP32Interface } from "@payvo/sdk-cryptography";
+import { BIP32, BIP32Interface, UUID } from "@payvo/sdk-cryptography";
 import { Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 import * as bitcoin from "bitcoinjs-lib";
 import { ECPair } from "ecpair";
 import coinSelect from "coinselect";
-import changeVersionBytes from "xpub-converter";
 
 import { getNetworkConfig } from "./config";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
-import { BipLevel, Levels, MusigDerivationMethod, UnspentTransaction } from "./contracts";
+import { BipLevel, Levels, UnspentTransaction } from "./contracts";
 import { LedgerService } from "./ledger.service";
+import { MultiSignatureTransaction } from "./multi-signature.contract";
+import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
+import { MultiSignatureService } from "./multi-signature.service";
+import { signatureValidator } from "./helpers";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,
@@ -39,6 +42,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	@IoC.inject(IoC.BindingType.FeeService)
 	private readonly feeService!: Services.FeeService;
+
+	@IoC.inject(IoC.BindingType.MultiSignatureService)
+	private readonly multiSignatureService!: MultiSignatureService;
+
+	#network!: bitcoin.networks.Network;
+
+	@IoC.postConstruct()
+	private onPostConstruct(): void {
+		this.#network = getNetworkConfig(this.configRepository);
+	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (!input.signatory.actsWithMultiSignature() && input.signatory.signingKey() === undefined) {
@@ -78,13 +91,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, async () => {
 			const levels = this.addressFactory.getLevel(identityOptions);
 
-			const network = getNetworkConfig(this.configRepository);
-
 			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
 
 			// Derivce account key (depth 3)
-			const accountKey = await this.#getAccountKey(input.signatory, network, levels);
+			const accountKey = await this.#getAccountKey(input.signatory, this.#network, levels);
 
 			// create a wallet data helper and find all used addresses
 			const walledDataHelper = this.addressFactory.walletDataHelper(
@@ -122,7 +133,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			let transaction: bitcoin.Transaction;
 
 			if (input.signatory.actsWithMnemonic()) {
-				transaction = await this.#createTransactionLocalSigning(network, inputs, outputs);
+				transaction = await this.#createTransactionLocalSigning(inputs, outputs);
 			} else if (input.signatory.actsWithLedger()) {
 				transaction = await this.ledgerService.createTransaction(inputs, outputs, changeAddress);
 			} else {
@@ -143,12 +154,49 @@ export class TransactionService extends Services.AbstractTransactionService {
 		});
 	}
 
-	async #createTransactionLocalSigning(
-		network: bitcoin.networks.Network,
-		inputs: any[],
-		outputs: any[],
-	): Promise<bitcoin.Transaction> {
-		const psbt = new bitcoin.Psbt({ network });
+	// TODO revert to public override async multiSignature(
+	public async renamedMultiSignature(input: Services.MultiSignatureInput): Promise<Contracts.SignedTransactionData> {
+		if (!input.data.min) {
+			throw new Error("Expected [input.data.min] to be defined as an integer.");
+		}
+
+		if (!input.data.numberOfSignatures) {
+			throw new Error("Expected [input.data.numberOfSignatures] to be defined as an integer.");
+		}
+
+		if (input.data.min > input.data.numberOfSignatures) {
+			throw new Error("Expected [input.data.min] must be less than or equal to [input.data.numberOfSignatures].");
+		}
+
+		if (!input.data.derivationMethod) {
+			throw new Error("Expected [input.data.derivationMethod] must be present.");
+		}
+
+		// if (input.signatory.actsWithMnemonic()) {
+		const rootKey = BIP32.fromMnemonic(input.signatory.signingKey(), this.#network);
+		const accountKey = rootKey.derivePath(input.signatory.publicKey());
+		const senderExtendedPublicKey = toExtPubKey(accountKey, input.data.derivationMethod, this.#network);
+
+		// } else {
+		// 	throw new Exceptions.Exception("No other signatory supported");
+		// }
+
+		const transaction: MultiSignatureTransaction = {
+			id: UUID.random(), // TODO We should aim to do this deterministically based on m, n and originator's ext public key
+			senderPublicKey: senderExtendedPublicKey,
+			multiSignature: {
+				min: input.data.min, // m
+				numberOfSignatures: input.data.numberOfSignatures, // n
+				publicKeys: [senderExtendedPublicKey],
+			},
+			signatures: [],
+		};
+
+		return await this.multiSignatureService.addSignature(transaction, input.signatory);
+	}
+
+	async #createTransactionLocalSigning(inputs: any[], outputs: any[]): Promise<bitcoin.Transaction> {
+		const psbt = new bitcoin.Psbt({ network: this.#network });
 
 		inputs.forEach((input) =>
 			psbt.addInput({
@@ -165,19 +213,17 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		// Sign and verify signatures
-		inputs.forEach((input, index) => psbt.signInput(index, ECPair.fromPrivateKey(input.signingKey, { network })));
+		inputs.forEach((input, index) =>
+			psbt.signInput(index, ECPair.fromPrivateKey(input.signingKey, { network: this.#network })),
+		);
 
-		if (!psbt.validateSignaturesOfAllInputs(this.#validator)) {
+		if (!psbt.validateSignaturesOfAllInputs(signatureValidator)) {
 			throw new Exceptions.Exception("There was a problem signing the transaction locally.");
 		}
 
 		psbt.finalizeAllInputs();
 
 		return psbt.extractTransaction();
-	}
-
-	#validator(publicKey: Buffer, hash: Buffer, signature: Buffer): boolean {
-		return ECPair.fromPublicKey(publicKey).verify(hash, signature);
 	}
 
 	async #getAccountKey(
@@ -236,18 +282,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		throw new Exceptions.Exception(`Invalid level specified: ${levels.purpose}`);
 	}
-	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const network = getNetworkConfig(this.configRepository);
 
+	async #transferMusig(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		const multiSignatureAsset: Services.MultiSignatureAsset = input.signatory.asset();
 
-		// https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
-		const { accountPublicKeys, method } = this.#keysAndMethod(multiSignatureAsset, network);
+		const { accountExtendedPublicKeys, method } = keysAndMethod(multiSignatureAsset, this.#network);
+		const accountPublicKeys = accountExtendedPublicKeys.map((extendedPublicKey) =>
+			BIP32.fromBase58(extendedPublicKey, this.#network),
+		);
 
 		// create a musig wallet data helper and find all used addresses
 		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
-			accountPublicKeys.map((extendedPublicKey) => BIP32.fromBase58(extendedPublicKey, network)),
+			accountPublicKeys,
 			method,
 		);
 		await walledDataHelper.discoverAllUsed();
@@ -276,10 +323,15 @@ export class TransactionService extends Services.AbstractTransactionService {
 		outputs.forEach((output) => {
 			if (!output.address) {
 				output.address = changeAddress.address;
+				output.bip32Derivation = accountPublicKeys.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					path: `m/${changeAddress.path}`,
+					pubkey: pubKey.derivePath(changeAddress.path).publicKey,
+				}));
 			}
 		});
 
-		const psbt = new bitcoin.Psbt({ network });
+		const psbt = new bitcoin.Psbt({ network: this.#network });
 		inputs.forEach((input) =>
 			psbt.addInput({
 				hash: input.txId,
@@ -291,11 +343,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 			psbt.addOutput({
 				address: output.address,
 				value: output.value,
+				...output,
 			}),
 		);
 
 		const psbtBaseText = psbt.toBase64();
-		console.log("base64", psbtBaseText);
 
 		// @ts-ignore
 		const tx: bitcoin.Transaction = psbt.__CACHE.__TX;
@@ -308,50 +360,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 				amount,
 				fee,
 				timestamp: new Date(),
+				multiSignatureAsset,
 			},
-			tx.toHex(),
-			// psbtBaseText, // TODO where do we return the psbt to be co-signed
+			psbtBaseText,
 		);
-	}
-
-	#mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };
-	#testnetPrefixes = { tpub: "legacyMusig", Upub: "p2SHSegwitMusig", Vpub: "nativeSegwitMusig" };
-
-	#keysAndMethod(
-		multiSignatureAsset: Services.MultiSignatureAsset,
-		network: bitcoin.networks.Network,
-	): { accountPublicKeys: string[]; method: MusigDerivationMethod } {
-		const prefixes = multiSignatureAsset.publicKeys.map((publicKey) => publicKey.slice(0, 4));
-
-		if (new Set(prefixes).size > 1) {
-			throw new Exceptions.Exception(`Cannot mix extended public key prefixes.`);
-		}
-
-		let method: MusigDerivationMethod;
-
-		if (network === bitcoin.networks.bitcoin) {
-			if (prefixes.some((prefix) => !this.#mainnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(
-					`Extended public key must start with any of ${Object.keys(this.#mainnetPrefixes)}.`,
-				);
-			}
-			method = this.#mainnetPrefixes[prefixes[0]];
-		} else if (network === bitcoin.networks.testnet) {
-			if (prefixes.some((prefix) => !this.#testnetPrefixes[prefix])) {
-				throw new Exceptions.Exception(
-					`Extended public key must start with any of ${Object.keys(this.#testnetPrefixes)}.`,
-				);
-			}
-			method = this.#testnetPrefixes[prefixes[0]];
-		} else {
-			throw new Exceptions.Exception(`Invalid network.`);
-		}
-		const accountPublicKeys = multiSignatureAsset.publicKeys.map((publicKey) =>
-			changeVersionBytes(publicKey, network === bitcoin.networks.bitcoin ? "xpub" : "tpub"),
-		);
-		return {
-			accountPublicKeys,
-			method,
-		};
 	}
 }

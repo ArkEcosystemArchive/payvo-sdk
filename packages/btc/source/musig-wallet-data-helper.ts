@@ -1,13 +1,14 @@
-import { Coins, Exceptions, Http } from "@payvo/sdk";
-import { BIP32Interface } from "@payvo/sdk-cryptography";
-import * as bitcoin from "bitcoinjs-lib";
-
-import { Bip44Address, MusigDerivationMethod, UnspentTransaction } from "./contracts";
-import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
+import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
+import { convertString } from "@payvo/sdk-helpers";
 import { post, walletUsedAddresses } from "./helpers";
+import * as bitcoin from "bitcoinjs-lib";
+import { BIP32Interface } from "@payvo/sdk-cryptography";
+
+import { Bip44Address, UnspentTransaction } from "./contracts";
+import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
 
 const getDerivationFunction = (
-	method: MusigDerivationMethod,
+	method: Services.MusigDerivationMethod,
 ): ((n: number, pubkeys: Buffer[], network: bitcoin.Network) => bitcoin.Payment) => {
 	return { legacyMusig, p2SHSegwitMusig, nativeSegwitMusig }[method];
 };
@@ -15,7 +16,7 @@ const getDerivationFunction = (
 export default class MusigWalletDataHelper {
 	readonly #n: number;
 	readonly #accountPublicKeys: BIP32Interface[];
-	readonly #method: MusigDerivationMethod;
+	readonly #method: Services.MusigDerivationMethod;
 	readonly #network: bitcoin.networks.Network;
 	readonly #spendAddressGenerator: Generator<Bip44Address[]>;
 	readonly #changeAddressGenerator: Generator<Bip44Address[]>;
@@ -28,7 +29,7 @@ export default class MusigWalletDataHelper {
 	public constructor(
 		n: number,
 		accountPublicKeys: BIP32Interface[],
-		method: MusigDerivationMethod,
+		method: Services.MusigDerivationMethod,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
 		configRepository: Coins.ConfigRepository,
@@ -94,9 +95,40 @@ export default class MusigWalletDataHelper {
 		const addresses = this.allUsedAddresses().map((address) => address.address);
 
 		const utxos = await this.#unspentTransactionOutputs(addresses);
-		// @ts-ignore
 		return utxos.map((utxo) => {
 			const address: Bip44Address = this.#signingKeysForAddress(utxo.address);
+
+			const payment = getDerivationFunction(this.#method)(
+				this.#n,
+				this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+				this.#network,
+			);
+
+			let extra;
+			if (this.#method === "legacyMusig") {
+				extra = {
+					nonWitnessUtxo: convertString(utxo.raw),
+					redeemScript: payment.redeem!.output,
+				};
+			} else if (this.#method === "p2SHSegwitMusig") {
+				extra = {
+					witnessUtxo: {
+						script: convertString(utxo.script),
+						value: utxo.satoshis,
+					},
+					witnessScript: payment.redeem!.redeem!.output,
+					redeemScript: payment.redeem!.output,
+				};
+			} else if (this.#method === "nativeSegwitMusig") {
+				extra = {
+					witnessUtxo: {
+						script: convertString(utxo.script),
+						value: utxo.satoshis,
+					},
+					witnessScript: payment.redeem!.output,
+				};
+			}
+
 			return {
 				address: utxo.address,
 				txId: utxo.txId,
@@ -105,10 +137,12 @@ export default class MusigWalletDataHelper {
 				vout: utxo.outputIndex,
 				value: utxo.satoshis,
 				path: address.path,
-				witnessUtxo: {
-					script: Buffer.from(utxo.script, "hex"),
-					value: utxo.satoshis,
-				},
+				bip32Derivation: this.#accountPublicKeys.map((pubKey) => ({
+					masterFingerprint: pubKey.fingerprint,
+					path: "m/" + address.path,
+					pubkey: pubKey.derivePath(address.path).publicKey,
+				})),
+				...extra,
 			};
 		});
 	}
@@ -176,7 +210,22 @@ export default class MusigWalletDataHelper {
 		if (addresses.length === 0) {
 			return [];
 		}
-		return (await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository))
-			.data;
+		const utxos = (
+			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+		).data;
+
+		const rawTxs = (
+			await post(
+				`wallets/transactions/raw`,
+				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
+				this.#httpClient,
+				this.#configRepository,
+			)
+		).data;
+
+		return utxos.map((utxo) => ({
+			...utxo,
+			raw: rawTxs[utxo.txId],
+		}));
 	}
 }

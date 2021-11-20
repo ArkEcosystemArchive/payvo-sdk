@@ -1,8 +1,11 @@
 import "jest-extended";
+import { jest } from "@jest/globals";
+
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";
+import * as bitcoin from "bitcoinjs-lib";
 
 import { createServiceAsync } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
@@ -14,13 +17,34 @@ import { ExtendedPublicKeyService } from "./extended-public-key.service";
 import { FeeService } from "./fee.service";
 import { LedgerService } from "./ledger.service";
 import { musig } from "../test/fixtures/musig";
-import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 import { WalletData } from "./wallet.dto";
+import { UUID } from "@payvo/sdk-cryptography";
+import {
+	oneSignatureLegacyMusigTransferTx,
+	twoSignatureLegacyMusigTransferTx,
+	unsignedLegacyMusigTransferTx,
+} from "../test/fixtures/musig-legacy-txs";
+import {
+	oneSignatureMusigP2shSegwitTransferTx,
+	twoSignatureMusigP2shSegwitTransferTx,
+	unsignedMusigP2shSegwitTransferTx,
+} from "../test/fixtures/musig-p2sh-segwit-txs";
+import {
+	oneSignatureNativeSegwitMusigTransferTx,
+	twoSignatureNativeSegwitMusigTransferTx,
+	unsignedNativeSegwitMusigTransferTx,
+} from "../test/fixtures/musig-native-segwit-txs";
+import { signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
+jest.setTimeout(60_000);
 let subject: TransactionService;
+let musigService: MultiSignatureService;
 
 beforeEach(async () => {
 	nock.disableNetConnect();
@@ -42,6 +66,30 @@ beforeEach(async () => {
 			async () => await openTransportReplayer(RecordStore.fromString("")),
 		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+	});
+
+	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
+		container.constant(IoC.BindingType.Container, container);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(IoC.BindingType.DataTransferObjects, {
+			SignedTransactionData,
+			ConfirmedTransactionData,
+			WalletData,
+		});
+		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.singleton(IoC.BindingType.FeeService, FeeService);
+		container.constant(
+			IoC.BindingType.LedgerTransportFactory,
+			async () => await openTransportReplayer(RecordStore.fromString("")),
+		);
+		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 });
@@ -316,6 +364,14 @@ describe("legacy multisignature wallet", () => {
 				200,
 				'{"data":[{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c","outputIndex":1,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":81000},{"address":"2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","txId":"002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904","outputIndex":0,"script":"a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87","satoshis":100000}],"links":{"first":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","last":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent","per_page":15,"to":2,"total":2}}',
 			)
+			.post(
+				"/api/wallets/transactions/raw",
+				'{"transaction_ids":["8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c","002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904"]}',
+			)
+			.reply(
+				200,
+				'{"data":{"8b4f152b355ad2eedfa471de291b58bc91852e0a7ce9c16e17debf6a0ac89b6c":"0200000000010192fe603fc7ad46549a47f66fed8d1265bd12e135f0657bbfd8d839888fd0c0f40100000000feffffff02e4f2c6eb00000000160014a1dcb4f5d6c16066155bbda7bdca72c3b4dd6521683c01000000000017a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd870247304402206052f3392a9886eefc0ee27864021e8be3dadeb089e8cd4aed352a203f9649f502202b778ef60669b46bf38ff4dbdeb3304854393173987e2e95963aa35a21baa288012103e5b942ce33a7fb43b161342e014d8e1395a872e716ca7b2794369636ffee547849042000","002dd704b3df4eaa31abcadd2f60f7b47288d31595f8b83b49d13d64a0a12904":"02000000000101326683d547d76fff487958bd73f0dcad90b9828d29c373f91771dea274a33fce0000000000feffffff02a08601000000000017a914532d3dfa1c6c413a385f216ed2c2b51deb7aeddd87fab86b000000000017a9145ca092c6ad33d1b8e56e78d634791ac843708380870247304402203c6d562030c380952130a81328c63cf969488320194009dc30c2734063f50bd50220389a7324b44538f1e697808b623db1bb34338da4be1605671629940482685e79012103823effd3ddd2ee2e120edc073c4bc9e7cdb8498c6f717be1036dd232037645bf49042000"}}',
+			)
 			.get("/api/fees")
 			.reply(200, {
 				data: {
@@ -344,15 +400,84 @@ describe("legacy multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("8c0af7b197a5232b44b2bed21fbb37aa60c13e0b49d935983c0033c78777c148");
+		expect(result.id()).toBe(unsignedLegacyMusigTransferTx.id);
 		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			// TODO Something seems to be missing here (apart from the signaures)
-			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d000000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
+		expect(result.toBroadcast()).toBe(unsignedLegacyMusigTransferTx.psbt);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].legacyMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id(),
+				...result.data(),
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.id()).toBe(oneSignatureLegacyMusigTransferTx.id);
+		expect(signed1.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(330);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(oneSignatureLegacyMusigTransferTx.psbt);
+
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].legacyMasterPath,
+		};
+		const signatory2 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed2 = await musigService.addSignature(
+			{
+				id: signed1.id(),
+				...signed1.data(),
+				psbt: signed1.toBroadcast(),
+				signatures: [],
+			},
+			signatory2,
+		);
+
+		expect(signed2.id()).toBe(twoSignatureLegacyMusigTransferTx.id);
+		expect(signed2.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed2.amount().toNumber()).toBe(10_000);
+		expect(signed2.fee().toNumber()).toBe(330);
+		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed2.toBroadcast()).toBe(twoSignatureLegacyMusigTransferTx.psbt);
+
+		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+
+		signedFinal.finalizeAllInputs();
+		expect(signedFinal.extractTransaction().toHex()).toBe(
+			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d0000000000fdfe00004830450221008e49b68e58a819e5e7199f69ca7aea8a0e83c137aa5d63334167f46263d13fa302203bbc8490e10e91a66cbef8dee64e41f46436caf5815702109211d3a37fa651fd01483045022100a1dcf290034f8f177b6069bf0b10b11c0d37c5dbdc6d9ff189cfb69d06026dd702200db05bcc907117d506af47a5648bfc81fc5a58e0766c1076401e5b4debfbb565014c69522102685c2d9e7743b278d57b8de9c81c4478737eb3453fe59e51b1e20020c583395621029015af20164d731b612990bee7a995c032abba83fa186a3ae3918f996f2173402103970f2c616181063e26fd970b9bc1308a78986f3f59053e554b1f297bde8e3d5053aeffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
 	});
 });
@@ -380,6 +505,13 @@ describe("p2sh segwit multisignature wallet", () => {
 			.reply(
 				200,
 				'{"data":[{"address":"2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT","txId":"dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349","outputIndex":0,"script":"a9141fa993e76d714a6b603abea2361c20c0c7f003bb87","satoshis":98800}],"links":{"first":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","last":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","prev":null,"next":null},"meta":{"current_page":1,"from":1,"last_page":1,"links":[{"url":null,"label":"&laquo; Previous","active":false},{"url":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent?page=1","label":"1","active":true},{"url":null,"label":"Next &raquo;","active":false}],"path":"https:\\/\\/btc-test.payvo.com\\/api\\/wallets\\/transactions\\/unspent","per_page":15,"to":1,"total":1}}',
+			)
+			.post("/api/wallets/transactions/raw", {
+				transaction_ids: ["dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349"],
+			})
+			.reply(
+				200,
+				'{"data":{"dfa81f23ae409a2b82184c05a8f8bb30d72997e45947577ee2a3e859bc712349":"0200000000010106d3da99cdc6d87d89a1c0196ea105aa62ba0a431f163ed981a456646a3a067b0100000000ffffffff02f08101000000000017a9141fa993e76d714a6b603abea2361c20c0c7f003bb87c80000000000000022002081051a0839e678ede25d0fa89fa0b1dcc8a44fcc8f0739bb35b3e83c4d930d700400483045022100cdbd7729f8a25152e2eef2e4a737240dd553165c62370c12b9ee85f67c0c512302203a69e1285e21aff88f75ed144fe90a1bd1a826c9b2f042b9360ffdf54c33055b0147304402205150444107b40c102ae1455fe7099653216de2eba83009105722e5d879e2be9602200443f5866804005e0f37dcf7b343ad56c137b9c49eaaf19e54b5c52a5561b6ca016952210314e9ec814e8f5c7e7b16e17a0a8a65efea64c88f01085aaed41ebac7df9bf6e121032b0996a84fb0449a899616ca746c8e6cfc5d8f823114ba6bd7aed5b4e90442e221033830fa105ee889ae98074506e9d5f1153aafa64fa828904843204564f95a492653ae00000000"}}',
 			)
 			.get("/api/fees")
 			.reply(200, {
@@ -409,21 +541,91 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("0efb264253f1dfb3a791671c9950a600a5715fee865e94a05b5f7883131cbe58");
+		expect(result.id()).toBe(unsignedMusigP2shSegwitTransferTx.id);
 		expect(result.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
 		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(330);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			// TODO Something seems to be missing here (apart from the signaures)
-			"0200000001492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df0000000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f38700000000",
+		expect(result.toBroadcast()).toBe(unsignedMusigP2shSegwitTransferTx.psbt);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].p2shSegwitMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id(),
+				...result.data(),
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.id()).toBe(oneSignatureMusigP2shSegwitTransferTx.id);
+		expect(signed1.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(330);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(oneSignatureMusigP2shSegwitTransferTx.psbt);
+
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].p2shSegwitMasterPath,
+		};
+		const signatory2 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed2 = await musigService.addSignature(
+			{
+				id: signed1.id(),
+				...signed1.data(),
+				psbt: signed1.toBroadcast(),
+				signatures: [],
+			},
+			signatory2,
+		);
+
+		expect(signed2.id()).toBe(twoSignatureMusigP2shSegwitTransferTx.id);
+		expect(signed2.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed2.amount().toNumber()).toBe(10_000);
+		expect(signed2.fee().toNumber()).toBe(330);
+		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed2.toBroadcast()).toBe(twoSignatureMusigP2shSegwitTransferTx.psbt);
+
+		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+
+		signedFinal.finalizeAllInputs();
+		expect(signedFinal.extractTransaction().toHex()).toBe(
+			"02000000000101492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df000000002322002094bffa57fc318c02c22d0c0a73aebe0f3bbf0e943f6ee3f5be69d8af51eec1faffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f3870400483045022100fbd10b1104d55aeda1e889bee0bb1fc03aab94f7854f816a4fbf0ae838fb34de022008e3df71716593353a53c2afdd39b3d48851b3d98cd1b009ee8e7e0bdd32bb3201483045022100b3da66f4604551b6e5327496cc895ab8cf7354f4b5ac2ffdf9b6452f589ca41402201aa8b331522a525b4734b263958e8cd15e7be6e1c82b473543a94839f906a1e90169522102398cf7167bbabcec35a34d07d3597592a55d0ebd8e6ab8c911bfa6b0519bc8202102806ff2a45228d117e4723d6db6943b7fcb8713971a59c7c7051f6c12dfdba68021031a69f4d735f153a39c83f16765fccb0f2e66673ec47c6bfbc3b2fac1a9fca04753ae00000000",
 		);
 	});
 });
 
 describe("native segwit multisignature wallet", () => {
 	beforeAll(() => {
+		// nock.recorder.rec();
 		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -468,7 +670,7 @@ describe("native segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	it("should generate a transfer transaction", async () => {
+	it("should generate, sign and broadcast a transfer transaction", async () => {
 		const multiSignatureAsset: Services.MultiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
@@ -491,9 +693,146 @@ describe("native segwit multisignature wallet", () => {
 		expect(result.amount().toNumber()).toBe(10_000);
 		expect(result.fee().toNumber()).toBe(374);
 		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
-			// TODO Something seems to be missing here (apart from the signaures)
-			"0200000001fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa0800000000",
+		expect(result.toBroadcast()).toBe(unsignedNativeSegwitMusigTransferTx.psbt);
+
+		// Now make participants sign their parts
+
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].nativeSegwitMasterPath,
+		};
+		const signatory1 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed1 = await musigService.addSignature(
+			{
+				id: result.id(),
+				...result.data(),
+				psbt: result.toBroadcast(),
+				signatures: [],
+			},
+			signatory1,
+		);
+
+		expect(signed1.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		expect(signed1.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed1.amount().toNumber()).toBe(10_000);
+		expect(signed1.fee().toNumber()).toBe(374);
+		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed1.toBroadcast()).toBe(oneSignatureNativeSegwitMusigTransferTx.psbt);
+
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].nativeSegwitMasterPath,
+		};
+		const signatory2 = new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		);
+
+		const signed2 = await musigService.addSignature(
+			{
+				id: signed1.id(),
+				...signed1.data(),
+				psbt: signed1.toBroadcast(),
+				signatures: [],
+			},
+			signatory2,
+		);
+
+		expect(signed2.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		expect(signed2.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		expect(signed2.amount().toNumber()).toBe(10_000);
+		expect(signed2.fee().toNumber()).toBe(374);
+		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
+		expect(signed2.toBroadcast()).toBe(twoSignatureNativeSegwitMusigTransferTx.psbt);
+
+		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
+		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+
+		signedFinal.finalizeAllInputs();
+		expect(signedFinal.extractTransaction().toHex()).toBe(
+			"02000000000101fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa080400473044022066a9bba1433025ddfd2e8915c91ef7a83815f7487844ede9d0fc7e508734de24022067058b1d83eaff20075624e72225f1c2795faeccc74841a44f209b7b1f0d91aa01473044022062d77ba018c7c4bcef5e2e12a88a7487458ff621092faf860a337f79785750f3022068277031a2b04c731b381789d4dc9471a75baee2136e7c6cf4d72f836fd409d20169522102694992474a7b5f54e32f9533eb8638e3fe2febe1fd91fa58851206c1fe65d18a2102a0bc42bd4d44a93e066381c442733401357a9a6f30bd0ed9c35dd70e9a0947062103da12a46cc7bd880762b4e9fb7e99496e88dd2ab8cf15dbb195d3d8348a462ac053ae00000000",
 		);
 	});
+});
+
+test("#multiSignature (fake) registration", async () => {
+	jest.spyOn(UUID, "random").mockReturnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
+	const wallet1 = {
+		signingKey: musig.accounts[0].mnemonic,
+		path: musig.accounts[0].nativeSegwitMasterPath,
+	};
+
+	const wallet2 = {
+		signingKey: musig.accounts[1].mnemonic,
+		path: musig.accounts[1].nativeSegwitMasterPath,
+	};
+
+	const wallet3 = {
+		signingKey: musig.accounts[2].mnemonic,
+		path: musig.accounts[2].nativeSegwitMasterPath,
+	};
+
+	const transaction1 = await subject.renamedMultiSignature({
+		signatory: new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet1.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		),
+		data: {
+			min: 2,
+			numberOfSignatures: 3,
+			publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
+			derivationMethod: "nativeSegwitMusig",
+		},
+	});
+
+	expect(transaction1).toBeInstanceOf(SignedTransactionData);
+	expect(transaction1).toMatchSnapshot();
+
+	const transaction2 = await musigService.addSignature(
+		transaction1.data(),
+		new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet2.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet2.path, // TODO really? We need a way to pass in the account path
+				privateKey: "privateKey", // Not needed / used
+			}),
+		),
+	);
+
+	expect(transaction2).toBeInstanceOf(SignedTransactionData);
+	expect(transaction2).toMatchSnapshot();
+
+	const transaction3 = await musigService.addSignature(
+		transaction2.data(),
+		new Signatories.Signatory(
+			new Signatories.MnemonicSignatory({
+				signingKey: wallet3.signingKey,
+				address: "address", // Not needed / used
+				publicKey: wallet3.path, // TODO really?
+				privateKey: "privateKey", // Not needed / used
+			}),
+		),
+	);
+
+	expect(transaction3).toBeInstanceOf(SignedTransactionData);
+	expect(transaction3).toMatchSnapshot();
 });

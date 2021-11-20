@@ -33,4 +33,9 @@ export const mnemonics = {
 		"render account sausage blast galaxy trouble stock police normal spider finish goose",
 		"spike kite laundry input polar produce exotic kitten end feature sun glimpse",
 	],
+	"btc.testnet": [
+		"hard produce blood mosquito provide feed open enough access motor chimney swamp",
+		"build tuition fuel distance often swallow birth embark nest barely drink beach",
+		"mandate pull cat east limit enemy cabin possible success force mountain hood",
+	],
 };
