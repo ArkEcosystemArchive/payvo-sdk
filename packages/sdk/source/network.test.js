@@ -29,7 +29,7 @@ test.skip("should have a name", () => {
 test.skip("should have a display name", () => {
 	assert.is(subject.displayName(), "ARK Devnet");
 
-	Mockery.stub(subject, "isLive").mockReturnValueOnce(true);
+	Mockery.stub(subject, "isLive").returnValueOnce(true);
 
 	assert.is(subject.displayName(), "ARK");
 });

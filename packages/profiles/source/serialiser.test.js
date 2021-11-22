@@ -156,12 +156,12 @@ test.before(() => nock.disableNetConnect());
 
 // 		subject.data().set(WalletData.DerivationPath, "1");
 // 		subject.data().set(WalletFlag.Starred, true);
-// 		const partiallyRestoredMock = Mockery.stub(subject, "hasBeenPartiallyRestored").mockReturnValue(true);
+// 		const partiallyRestoredMock = Mockery.stub(subject, "hasBeenPartiallyRestored").returnValue(true);
 
 // 		const actual = subject.toObject();
 
 // 		assert.is(actual, {});
-// 		partiallyRestoredMock.mockRestore();
+// 		partiallyRestoredMock.restore();
 // 	});
 // });
 

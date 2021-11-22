@@ -8,10 +8,10 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 	describe("encrypt", ({ afterEach, beforeEach, test }) => {
 // 		test("should work with provided password", () => {
 // 			const auth = mock();
-// 			auth.verifyPassword.calledWith("some-pass").mockReturnValue(true);
+// 			auth.verifyPassword.calledWith("some-pass").returnValue(true);
 
 // 			const profile = mock();
-// 			profile.auth.mockReturnValue(auth);
+// 			profile.auth.returnValue(auth);
 
 // 			const subject = new ProfileEncrypter(profile);
 
@@ -20,10 +20,10 @@ import { AttributeBag } from "./helpers/attribute-bag";
 
 // 		test("should not work with invalid pasword", () => {
 // 			const auth = mock();
-// 			auth.verifyPassword.calledWith("some-pass").mockReturnValue(false);
+// 			auth.verifyPassword.calledWith("some-pass").returnValue(false);
 
 // 			const profile = mock();
-// 			profile.auth.mockReturnValue(auth);
+// 			profile.auth.returnValue(auth);
 
 // 			const subject = new ProfileEncrypter(profile);
 
@@ -32,16 +32,16 @@ import { AttributeBag } from "./helpers/attribute-bag";
 
 // 		test("should use provided password if available", () => {
 // 			const auth = mock();
-// 			auth.verifyPassword.calledWith("some-pass").mockReturnValue(true);
+// 			auth.verifyPassword.calledWith("some-pass").returnValue(true);
 
 // 			const profile = mock();
-// 			profile.password.mockImplementation(() => ({
+// 			profile.password.callsFake(() => ({
 // 				get: () => "some-pass",
 // 				set: () => undefined,
 // 				exists: () => true,
 // 				forget: () => undefined,
 // 			}));
-// 			profile.auth.mockReturnValue(auth);
+// 			profile.auth.returnValue(auth);
 
 // 			const subject = new ProfileEncrypter(profile);
 
@@ -58,8 +58,8 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 			);
 
 // 			const profile = mock();
-// 			profile.usesPassword.mockReturnValue(true);
-// 			profile.getAttributes.mockReturnValue(attributes);
+// 			profile.usesPassword.returnValue(true);
+// 			profile.getAttributes.returnValue(attributes);
 
 // 			const subject = new ProfileEncrypter(profile);
 
@@ -69,7 +69,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 
 // 		test("should failed if profile is not encrypted", () => {
 // 			const profile = mock();
-// 			profile.usesPassword.mockReturnValue(false);
+// 			profile.usesPassword.returnValue(false);
 
 // 			const subject = new ProfileEncrypter(profile);
 

@@ -25,7 +25,7 @@ test("#type", () => {
 
 	assert.is(subject.type(), "transfer");
 
-	Mockery.stub(subject, "isMagistrate").mockReturnValueOnce(true);
+	Mockery.stub(subject, "isMagistrate").returnValueOnce(true);
 
 	assert.is(subject.type(), "magistrate");
 });

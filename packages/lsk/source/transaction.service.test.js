@@ -79,7 +79,7 @@ test.before(async () => {
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
-	jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
+	jest.spyOn(DateTime, "make").returnValue(DateTime.make("2021-01-01 12:00:00"));
 });
 
 test("#transfer", async () => {

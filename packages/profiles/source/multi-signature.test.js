@@ -98,8 +98,8 @@ test("should return multi signature", async () => {
 });
 
 test("should return multi-signature participants", async () => {
-	const isMultiSignature = Mockery.stub(subject, "isMultiSignature").mockReturnValue(true);
-	const multiSignature = Mockery.stub(subject.multiSignature(), "all").mockReturnValue({
+	const isMultiSignature = Mockery.stub(subject, "isMultiSignature").returnValue(true);
+	const multiSignature = Mockery.stub(subject.multiSignature(), "all").returnValue({
 		min: 2,
 		publicKeys: [
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
@@ -114,8 +114,8 @@ test("should return multi-signature participants", async () => {
 	assert.instance(subject.multiSignature().participants()[0], ReadOnlyWallet);
 	assert.instance(subject.multiSignature().participants()[1], ReadOnlyWallet);
 
-	isMultiSignature.mockRestore();
-	multiSignature.mockRestore();
+	isMultiSignature.restore();
+	multiSignature.restore();
 });
 
 test("should throw if the wallet does not have a multi-signature registered", async () => {
@@ -148,7 +148,7 @@ test("should throw if the multi-signature has not been synchronized yet", async 
 });
 
 test("should list all participants with a standard multi signature", async () => {
-	Mockery.stub(subject.multiSignature(), "all").mockReturnValue({
+	Mockery.stub(subject.multiSignature(), "all").returnValue({
 		min: 2,
 		publicKeys: ["a", "b"],
 	});
@@ -157,7 +157,7 @@ test("should list all participants with a standard multi signature", async () =>
 });
 
 test("should list all participants with an advanced multi signature", async () => {
-	Mockery.stub(subject.multiSignature(), "all").mockReturnValue({
+	Mockery.stub(subject.multiSignature(), "all").returnValue({
 		numberOfSignatures: 2,
 		mandatoryKeys: ["a", "b"],
 		optionalKeys: ["c", "d"],

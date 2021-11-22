@@ -86,41 +86,41 @@ describe("#isReturn", ({ beforeEach, test }) => {
 	});
 
 	test("should return true for transfers if sender equals recipient", () => {
-		Mockery.stub(subject, "isTransfer").mockReturnValueOnce(true);
-		Mockery.stub(subject, "isSent").mockReturnValueOnce(true);
-		Mockery.stub(subject, "isReceived").mockReturnValueOnce(true);
-		Mockery.stub(subject, "recipient").mockReturnValueOnce(subject.sender());
+		Mockery.stub(subject, "isTransfer").returnValueOnce(true);
+		Mockery.stub(subject, "isSent").returnValueOnce(true);
+		Mockery.stub(subject, "isReceived").returnValueOnce(true);
+		Mockery.stub(subject, "recipient").returnValueOnce(subject.sender());
 
 		assert.is(subject.isReturn(), true);
 	});
 
 	test("should return false for transfers if sender does not equal recipient", () => {
-		Mockery.stub(subject, "isTransfer").mockReturnValueOnce(true);
-		Mockery.stub(subject, "isReceived").mockReturnValueOnce(true);
-		Mockery.stub(subject, "recipient").mockReturnValueOnce(subject.sender());
+		Mockery.stub(subject, "isTransfer").returnValueOnce(true);
+		Mockery.stub(subject, "isReceived").returnValueOnce(true);
+		Mockery.stub(subject, "recipient").returnValueOnce(subject.sender());
 
 		assert.false(subject.isReturn());
 	});
 
 	test("should return true for multipayments if sender is included in recipients", () => {
-		Mockery.stub(subject, "isTransfer").mockReturnValueOnce(false);
-		Mockery.stub(subject, "isMultiPayment").mockReturnValueOnce(true);
-		Mockery.stub(subject, "recipients").mockReturnValueOnce([{ amount: BigNumber.ZERO, address: subject.sender() }]);
+		Mockery.stub(subject, "isTransfer").returnValueOnce(false);
+		Mockery.stub(subject, "isMultiPayment").returnValueOnce(true);
+		Mockery.stub(subject, "recipients").returnValueOnce([{ amount: BigNumber.ZERO, address: subject.sender() }]);
 
 		assert.is(subject.isReturn(), true);
 	});
 
 	test("should return false for multipayments if sender is not included in recipients", () => {
-		Mockery.stub(subject, "isTransfer").mockReturnValueOnce(false);
-		Mockery.stub(subject, "isMultiPayment").mockReturnValueOnce(true);
-		Mockery.stub(subject, "recipients").mockReturnValueOnce([{ amount: BigNumber.ZERO, address: subject.recipient() }]);
+		Mockery.stub(subject, "isTransfer").returnValueOnce(false);
+		Mockery.stub(subject, "isMultiPayment").returnValueOnce(true);
+		Mockery.stub(subject, "recipients").returnValueOnce([{ amount: BigNumber.ZERO, address: subject.recipient() }]);
 
 		assert.false(subject.isReturn());
 	});
 
 	test("should return false if transaction type is not 'transfer' or 'multiPayment'", () => {
-		Mockery.stub(subject, "isTransfer").mockReturnValueOnce(false);
-		Mockery.stub(subject, "isMultiPayment").mockReturnValueOnce(false);
+		Mockery.stub(subject, "isTransfer").returnValueOnce(false);
+		Mockery.stub(subject, "isMultiPayment").returnValueOnce(false);
 
 		assert.false(subject.isReturn());
 	});

@@ -81,11 +81,11 @@ test("#entries", async () => {
 
 	assert.equal(subject.entries(), [["ARK", ["ark.devnet"]]]);
 
-	const mockUndefinedNetwork = Mockery.stub(subject, "all").mockReturnValue({ ARK: { ark: undefined } });
+	const mockUndefinedNetwork = Mockery.stub(subject, "all").returnValue({ ARK: { ark: undefined } });
 
 	assert.equal(subject.entries(), [["ARK", ["ark"]]]);
 
-	mockUndefinedNetwork.mockRestore();
+	mockUndefinedNetwork.restore();
 });
 
 test.skip("#flush", async () => {

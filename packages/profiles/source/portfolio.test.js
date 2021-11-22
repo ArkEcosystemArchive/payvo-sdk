@@ -85,9 +85,9 @@ test("should aggregate the balances of all wallets", async () => {
 	b.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 	c.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-	Mockery.stub(a.network(), "isLive").mockReturnValue(true);
-	Mockery.stub(a.network(), "isTest").mockReturnValue(false);
-	Mockery.stub(a.network(), "ticker").mockReturnValue("ARK");
+	Mockery.stub(a.network(), "isLive").returnValue(true);
+	Mockery.stub(a.network(), "isTest").returnValue(false);
+	Mockery.stub(a.network(), "ticker").returnValue("ARK");
 
 	await container.get(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 

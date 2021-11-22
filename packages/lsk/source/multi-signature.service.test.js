@@ -91,7 +91,7 @@ const wallet2 = {
 test.before(async () => {
 	await createLocalServices();
 
-	Mockery.stub(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-01-01 12:00:00"));
+	Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-01-01 12:00:00"));
 });
 
 test("should add signature", async () => {

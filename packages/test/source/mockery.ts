@@ -24,36 +24,31 @@ export class Mockery {
 		ok(this.#subject.calledWith(message));
 	}
 
-	// @TODO: rename
-	public mockResolvedValue(value: unknown): Mockery {
+	public resolvedValue(value: unknown): Mockery {
 		this.#subject.resolves(value);
 
 		return this;
 	}
 
-	// @TODO: rename
-	public mockReturnValue(value: unknown): Mockery {
+	public returnValue(value: unknown): Mockery {
 		this.#subject.returns(value);
 
 		return this;
 	}
 
-	// @TODO: rename
-	public mockReturnValueOnce(value: unknown): Mockery {
+	public returnValueOnce(value: unknown): Mockery {
 		this.#subject.onFirstCall().returns(value);
 
 		return this;
 	}
 
-	// @TODO: rename
-	public mockImplementation(value: Function): Mockery {
+	public callsFake(value: Function): Mockery {
 		this.#subject.callsFake(value);
 
 		return this;
 	}
 
-	// @TODO: rename
-	public mockRestore(): void {
+	public restore(): void {
 		this.#subject.restore();
 	}
 

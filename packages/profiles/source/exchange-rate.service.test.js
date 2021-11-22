@@ -68,13 +68,13 @@ test.before.each(async () => {
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 	wallet.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-	liveSpy = Mockery.stub(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = Mockery.stub(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = Mockery.stub(wallet.network(), "isLive").returnValue(true);
+	testSpy = Mockery.stub(wallet.network(), "isTest").returnValue(false);
 });
 
 test.after.each(() => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
+	liveSpy.restore();
+	testSpy.restore();
 });
 
 test.before(() => nock.disableNetConnect());

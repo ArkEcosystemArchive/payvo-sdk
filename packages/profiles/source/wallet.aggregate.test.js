@@ -41,9 +41,9 @@ test("#balance", async () => {
 	assert.is(subject.balance("live"), 0);
 	assert.is(subject.balance(), 0);
 
-	const mockWalletLive = Mockery.stub(profile.wallets().first().network(), "isLive").mockReturnValue(true);
+	const mockWalletLive = Mockery.stub(profile.wallets().first().network(), "isLive").returnValue(true);
 	assert.is(subject.balance("live"), 558270.93444556);
-	mockWalletLive.mockRestore();
+	mockWalletLive.restore();
 });
 
 test("#convertedBalance", async () => {
@@ -68,10 +68,10 @@ test("#balancePerCoin", async () => {
 		},
 	});
 
-	const mockWalletLive = Mockery.stub(profile.wallets().first(), "balance").mockReturnValue(0);
+	const mockWalletLive = Mockery.stub(profile.wallets().first(), "balance").returnValue(0);
 
 	assert.equal(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
-	mockWalletLive.mockRestore();
+	mockWalletLive.restore();
 });
 
 test.run();

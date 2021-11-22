@@ -174,7 +174,7 @@ test("#push", async () => {
 
 	const wallet = subject.first();
 
-	Mockery.stub(wallet, "networkId").mockReturnValueOnce("ark.mainnet");
+	Mockery.stub(wallet, "networkId").returnValueOnce("ark.mainnet");
 
 	await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
 });
@@ -421,10 +421,10 @@ test("#update", async () => {
 // 		assert.false(subject.findById(wallet.id()).hasBeenPartiallyRestored());
 // 	});
 
-// 	// @TODO: implement mockImplementationOnce
+// 	// @TODO: implement callsFakeOnce
 // 	skip("should retry if it encounters a failure during restoration", async () => {
 // 		// Nasty: we need to mock a failure on the wallet instance the repository has
-// 		Mockery.stub(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
+// 		Mockery.stub(subject.findById(wallet.id()), "mutator").callsFakeOnce(() => {
 // 			throw new Error();
 // 		});
 

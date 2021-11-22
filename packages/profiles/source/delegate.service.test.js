@@ -72,7 +72,7 @@ test("should sync the delegates only one page", async () => {
 test("should sync the delegates when network does not support FastDelegateSync", async () => {
 	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-	Mockery.stub(profile.coins().set("ARK", "ark.devnet").network(), "meta").mockReturnValue({
+	Mockery.stub(profile.coins().set("ARK", "ark.devnet").network(), "meta").returnValue({
 		fastDelegateSync: false,
 	});
 

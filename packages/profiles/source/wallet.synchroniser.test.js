@@ -122,37 +122,37 @@ test("should sync multi signature when not musig", async () => {
 });
 
 test("should sync the identity with a public key", async () => {
-	actsWithMnemonic.mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(true);
-	Mockery.stub(wallet.network(), "usesExtendedPublicKey").mockReturnValue(false);
+	actsWithMnemonic.returnValue(false);
+	Mockery.stub(wallet, "actsWithPublicKey").returnValue(true);
+	Mockery.stub(wallet.network(), "usesExtendedPublicKey").returnValue(false);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
 
-	actsWithMnemonic.mockRestore();
+	actsWithMnemonic.restore();
 });
 
 test("should sync the identity with an extended public key", async () => {
-	actsWithMnemonic.mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(true);
-	Mockery.stub(wallet.network(), "usesExtendedPublicKey").mockReturnValue(true);
+	actsWithMnemonic.returnValue(false);
+	Mockery.stub(wallet, "actsWithPublicKey").returnValue(true);
+	Mockery.stub(wallet.network(), "usesExtendedPublicKey").returnValue(true);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
 
-	actsWithMnemonic.mockRestore();
+	actsWithMnemonic.restore();
 });
 
 test("should fail to sync the identity with an unknown import method", async () => {
-	Mockery.stub(wallet, "actsWithAddress").mockReturnValue(false);
-	actsWithMnemonic.mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithMnemonic").mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithPrivateKey").mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithWifWithEncryption").mockReturnValue(false);
-	Mockery.stub(wallet, "actsWithWif").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithAddress").returnValue(false);
+	actsWithMnemonic.returnValue(false);
+	Mockery.stub(wallet, "actsWithPublicKey").returnValue(false);
+	Mockery.stub(wallet, "actsWithMnemonic").returnValue(false);
+	Mockery.stub(wallet, "actsWithPrivateKey").returnValue(false);
+	Mockery.stub(wallet, "actsWithWifWithEncryption").returnValue(false);
+	Mockery.stub(wallet, "actsWithWif").returnValue(false);
 
 	await assert.rejects(() => new WalletSynchroniser(wallet).identity());
 
-	actsWithMnemonic.mockRestore();
+	actsWithMnemonic.restore();
 });
 
 test.run();

@@ -27,11 +27,11 @@
 // let dateNowSpy;
 
 // test.before(() => {
-// 	dateNowSpy = Mockery.stub(Date, "now").mockImplementation(() => 123456789);
+// 	dateNowSpy = Mockery.stub(Date, "now").callsFake(() => 123456789);
 // });
 
 // test.after(() => {
-// 	dateNowSpy.mockRestore();
+// 	dateNowSpy.restore();
 // });
 
 // test.before.each(() => {
@@ -172,4 +172,4 @@
 
 // test.run();
 
-// @TODO: mockRestore is leaking
+// @TODO: restore is leaking

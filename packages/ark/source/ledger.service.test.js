@@ -122,7 +122,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 
 		const ark = await createMockService(ledger.wallets.record);
 
-		Mockery.stub(ark, "getExtendedPublicKey").mockResolvedValue(
+		Mockery.stub(ark, "getExtendedPublicKey").resolvedValue(
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 		);
 

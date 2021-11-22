@@ -131,9 +131,9 @@ test("should import btc wallets and retrieve balance", async () => {
 	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic)));
 	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity()));
 
-	Mockery.stub(wallets[0].network(), "isLive").mockReturnValue(true);
-	Mockery.stub(wallets[1].network(), "isLive").mockReturnValue(true);
-	Mockery.stub(wallets[2].network(), "isLive").mockReturnValue(true);
+	Mockery.stub(wallets[0].network(), "isLive").returnValue(true);
+	Mockery.stub(wallets[1].network(), "isLive").returnValue(true);
+	Mockery.stub(wallets[2].network(), "isLive").returnValue(true);
 
 	assert.is(
 		wallets.map((wallet) => wallet.balance()),

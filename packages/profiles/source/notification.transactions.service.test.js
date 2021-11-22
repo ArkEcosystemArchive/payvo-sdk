@@ -174,8 +174,8 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 		const transactions = await profile.transactionAggregate().received({ limit: 10 });
 		const transaction = transactions.findById(NotificationTransactionFixtures.data[2].id);
 
-		Mockery.stub(transaction, "timestamp").mockReturnValue(undefined);
-		Mockery.stub(profile.transactionAggregate(), "received").mockResolvedValue(transactions);
+		Mockery.stub(transaction, "timestamp").returnValue(undefined);
+		Mockery.stub(profile.transactionAggregate(), "received").resolvedValue(transactions);
 
 		await subject.sync();
 		assert.length(subject.recent(10), 2);

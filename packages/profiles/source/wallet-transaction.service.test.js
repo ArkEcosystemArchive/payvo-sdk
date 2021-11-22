@@ -466,9 +466,9 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 	});
 
 	test("should fail retrieving public key if wallet is lacking a public key", async () => {
-		const walletPublicKeyMock = Mockery.stub(wallet, "publicKey").mockReturnValue(undefined);
+		const walletPublicKeyMock = Mockery.stub(wallet, "publicKey").returnValue(undefined);
 		assert.throws(() => subject.getPublicKey());
-		walletPublicKeyMock.mockRestore();
+		walletPublicKeyMock.restore();
 	});
 
 	test("#dump", async () => {
@@ -525,9 +525,9 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 
-		const mockedUndefinedStorage = Mockery.stub(wallet.data(), "get").mockReturnValue(undefined);
+		const mockedUndefinedStorage = Mockery.stub(wallet.data(), "get").returnValue(undefined);
 		subject.restore();
-		mockedUndefinedStorage.mockRestore();
+		mockedUndefinedStorage.restore();
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 	});
 
@@ -591,7 +591,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 		const mockNeedsWalletSignature = Mockery.stub(
 			wallet.coin().multiSignature(),
 			"needsWalletSignature",
-		).mockReturnValue(true);
+		).returnValue(true);
 
 		assert.true(
 			subject.isAwaitingSignatureByPublicKey(
@@ -599,7 +599,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 				"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 			),
 		);
-		mockNeedsWalletSignature.mockRestore();
+		mockNeedsWalletSignature.restore();
 	});
 
 	test("transaction should not await any signatures", async () => {
@@ -735,7 +735,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 
 		const isMultiSignatureRegistration = Mockery.stub(subject.transaction(id), "isMultiSignatureRegistration");
 
-		const mockedFalseMultisignatureRegistration = isMultiSignatureRegistration.mockReturnValue(false);
+		const mockedFalseMultisignatureRegistration = isMultiSignatureRegistration.returnValue(false);
 		assert.defined(subject.transaction(id));
 		assert.containKey(subject.pending(), id);
 		assert.true(subject.transaction(id).usesMultiSignature());
@@ -743,12 +743,12 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 		await subject.broadcast(id);
 		assert.containKey(subject.waitingForOtherSignatures(), id);
 
-		const mockedFalseMultisignature = isMultiSignatureRegistration.mockReturnValue(false);
+		const mockedFalseMultisignature = isMultiSignatureRegistration.returnValue(false);
 		await subject.broadcast(id);
 		assert.defined(subject.transaction(id));
 
-		mockedFalseMultisignatureRegistration.mockRestore();
-		mockedFalseMultisignature.mockRestore();
+		mockedFalseMultisignatureRegistration.restore();
+		mockedFalseMultisignature.restore();
 	});
 
 	test("should broadcast multisignature registration", async () => {
@@ -840,12 +840,12 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 		await assert.rejects(() => subject.confirm(null));
 
 		// Handle wallet client error. Should return false
-		const walletClientTransactionMock = Mockery.stub(wallet.client(), "transaction").mockImplementation(() => {
+		const walletClientTransactionMock = Mockery.stub(wallet.client(), "transaction").callsFake(() => {
 			throw new Error("transaction error");
 		});
 
 		assert.is(await subject.confirm(id), false);
-		walletClientTransactionMock.mockRestore();
+		walletClientTransactionMock.restore();
 
 		// Confirmed
 		nock.cleanAll();

@@ -89,13 +89,13 @@ const beforeEachCallback = async () => {
 
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = Mockery.stub(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = Mockery.stub(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = Mockery.stub(wallet.network(), "isLive").returnValue(true);
+	testSpy = Mockery.stub(wallet.network(), "isTest").returnValue(false);
 };
 
 const afterEachCallback = () => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
+	liveSpy.restore();
+	testSpy.restore();
 };
 
 describe("Transaction", ({ afterEach, beforeEach, test }) => {
