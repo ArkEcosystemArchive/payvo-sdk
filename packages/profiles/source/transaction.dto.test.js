@@ -1,4 +1,4 @@
-import { assert, describe, mockery, sinon, test } from "@payvo/sdk-test";
+import { assert, describe, stub, sinon, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
@@ -89,8 +89,8 @@ const beforeEachCallback = async () => {
 
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = stub(wallet.network(), "isLive").mockReturnValue(true);
+	testSpy = stub(wallet.network(), "isTest").mockReturnValue(false);
 };
 
 const afterEachCallback = () => {

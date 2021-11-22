@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
 import { Cache } from "./cache.service";
 
 let subject;

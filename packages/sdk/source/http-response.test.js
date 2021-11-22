@@ -1,4 +1,4 @@
-import { assert, mockery, test } from "@payvo/sdk-test";
+import { assert, stub, test } from "@payvo/sdk-test";
 import { Response } from "./http-response";
 
 let subject;
@@ -11,7 +11,7 @@ test.before.each(() => {
 		statusCode: 200,
 	});
 
-	spy = mockery(subject, "status");
+	spy = stub(subject, "status");
 });
 
 test.after.each(() => {

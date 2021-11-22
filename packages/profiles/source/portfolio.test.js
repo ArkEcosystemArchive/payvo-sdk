@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -85,9 +85,9 @@ test("should aggregate the balances of all wallets", async () => {
 	b.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 	c.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-	mockery(a.network(), "isLive").mockReturnValue(true);
-	mockery(a.network(), "isTest").mockReturnValue(false);
-	mockery(a.network(), "ticker").mockReturnValue("ARK");
+	stub(a.network(), "isLive").mockReturnValue(true);
+	stub(a.network(), "isTest").mockReturnValue(false);
+	stub(a.network(), "ticker").mockReturnValue("ARK");
 
 	await container.get(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 

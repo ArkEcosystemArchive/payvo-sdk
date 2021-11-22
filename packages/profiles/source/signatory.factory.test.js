@@ -1,4 +1,4 @@
-import { assert, describe, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, stub, test } from "@payvo/sdk-test";
 import { Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
@@ -38,14 +38,14 @@ test("returns signatory when mnemonic and 2nd mnemonic are provided", async () =
 });
 
 test("when encryption password is provided it returns signatory when wallet acts with mnemonic", async () => {
-	mockery(wallet, "isSecondSignature").mockReturnValueOnce(false);
+	stub(wallet, "isSecondSignature").mockReturnValueOnce(false);
 	wallet.signingKey().set(mnemonic, "password");
 
 	assert.instance(await subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
 });
 
 test("when encryption password is provided it returns signatory when wallet and acts with mnemonic and has 2nd signature", async () => {
-	mockery(wallet, "isSecondSignature").mockReturnValueOnce(true);
+	stub(wallet, "isSecondSignature").mockReturnValueOnce(true);
 	wallet.signingKey().set(mnemonic, "password");
 	wallet.confirmKey().set("second mnemonic", "password");
 
@@ -60,7 +60,7 @@ test("when encryption password is provided it returns signatory when wallet acts
 		secret: "secret",
 	});
 
-	mockery(wallet, "isSecondSignature").mockReturnValueOnce(false);
+	stub(wallet, "isSecondSignature").mockReturnValueOnce(false);
 
 	subject = new SignatoryFactory(wallet);
 
@@ -75,7 +75,7 @@ test("when encryption password is provided it returns signatory when wallet acts
 		secret: "secret",
 	});
 
-	mockery(wallet, "isSecondSignature").mockReturnValueOnce(true);
+	stub(wallet, "isSecondSignature").mockReturnValueOnce(true);
 
 	wallet.confirmKey().set("second secret", "password");
 
@@ -85,8 +85,8 @@ test("when encryption password is provided it returns signatory when wallet acts
 });
 
 test("returns signatory when wallet is multi-signature", async () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(true);
-	mockery(wallet.multiSignature(), "all").mockReturnValueOnce({
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(true);
+	stub(wallet.multiSignature(), "all").mockReturnValueOnce({
 		min: 1,
 		publicKeys: [wallet.publicKey()],
 	});
@@ -95,22 +95,22 @@ test("returns signatory when wallet is multi-signature", async () => {
 });
 
 test("returns signatory when wallet is Ledger", async () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
-	mockery(wallet, "isLedger").mockReturnValueOnce(true);
-	mockery(wallet.data(), "get").mockReturnValueOnce("m/44'/111'/0'/0/0");
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isLedger").mockReturnValueOnce(true);
+	stub(wallet.data(), "get").mockReturnValueOnce("m/44'/111'/0'/0/0");
 
 	assert.instance(await subject.make({}), Signatories.Signatory);
 });
 
 test("throw error when wallet is Ledger but no derivation path exists", async () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
-	mockery(wallet, "isLedger").mockReturnValueOnce(true);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isLedger").mockReturnValueOnce(true);
 
 	assert.throws(() => subject.make({}), "[derivationPath] must be string.");
 });
 
 test("returns signatory when wif is provided", async () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
 
 	const { wif } = await wallet.wifService().fromMnemonic(mnemonic);
 
@@ -118,7 +118,7 @@ test("returns signatory when wif is provided", async () => {
 });
 
 test("returns signatory when private key is provided", async () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
 
 	const { privateKey } = await wallet.privateKeyService().fromMnemonic(mnemonic);
 
@@ -132,7 +132,7 @@ test("returns signatory when secret is provided", async () => {
 		secret: "secret",
 	});
 
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
 
 	subject = new SignatoryFactory(wallet);
 
@@ -146,8 +146,8 @@ test("returns signatory when secret and 2nd secret are provided", async () => {
 		secret: "secret",
 	});
 
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
-	mockery(wallet, "isSecondSignature").mockReturnValueOnce(true);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isSecondSignature").mockReturnValueOnce(true);
 
 	subject = new SignatoryFactory(wallet);
 
@@ -155,7 +155,7 @@ test("returns signatory when secret and 2nd secret are provided", async () => {
 });
 
 test("throws error when no signing key is provided", () => {
-	mockery(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	stub(wallet, "isMultiSignature").mockReturnValueOnce(false);
 
 	assert.throws(() => subject.make({}), "No signing key provided.");
 });

@@ -1,4 +1,4 @@
-import { assert, describe, loader, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, loader, stub, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import nock from "nock";
@@ -246,7 +246,7 @@ describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
 	test("should have a pending balance if the current height is not greater than the unlock height", async () => {
 		await createLocalServices();
 
-		// mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
+		// stub(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
 
 		nock(/.+/)
 			.get("/api/v2/accounts")
@@ -289,7 +289,7 @@ describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
 	test("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
 		await createLocalServices();
 
-		// mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
+		// stub(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
 
 		nock(/.+/)
 			.get("/api/v2/accounts")

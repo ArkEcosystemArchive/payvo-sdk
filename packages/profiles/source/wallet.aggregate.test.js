@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -41,7 +41,7 @@ test("#balance", async () => {
 	assert.is(subject.balance("live"), 0);
 	assert.is(subject.balance(), 0);
 
-	const mockWalletLive = mockery(profile.wallets().first().network(), "isLive").mockReturnValue(true);
+	const mockWalletLive = stub(profile.wallets().first().network(), "isLive").mockReturnValue(true);
 	assert.is(subject.balance("live"), 558270.93444556);
 	mockWalletLive.mockRestore();
 });
@@ -68,7 +68,7 @@ test("#balancePerCoin", async () => {
 		},
 	});
 
-	const mockWalletLive = mockery(profile.wallets().first(), "balance").mockReturnValue(0);
+	const mockWalletLive = stub(profile.wallets().first(), "balance").mockReturnValue(0);
 
 	assert.equal(subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
 	mockWalletLive.mockRestore();

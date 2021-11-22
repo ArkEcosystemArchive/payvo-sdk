@@ -1,4 +1,4 @@
-import { assert, describe, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, stub, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -309,7 +309,7 @@ test("should not save profile data if profile is not restored", async () => {
 	const profile = subject.create("John");
 	profile.status().reset();
 
-	const profileAttibuteSetMock = mockery(profile.getAttributes(), "set").mockImplementation(() => {
+	const profileAttibuteSetMock = stub(profile.getAttributes(), "set").mockImplementation(() => {
 		return true;
 	});
 
@@ -327,7 +327,7 @@ test("should not save profile data if profile is not marked as dirty", async () 
 
 	const profile = subject.create("John");
 
-	const profileAttibuteSetMock = mockery(profile.getAttributes(), "set").mockImplementation(() => {
+	const profileAttibuteSetMock = stub(profile.getAttributes(), "set").mockImplementation(() => {
 		return true;
 	});
 
@@ -337,7 +337,7 @@ test("should not save profile data if profile is not marked as dirty", async () 
 	profileAttibuteSetMock.calledTimes(0);
 
 	await subject.restore(profile);
-	const profileDirtyStatusMock = mockery(profile.status(), "isDirty").mockReturnValue(false);
+	const profileDirtyStatusMock = stub(profile.status(), "isDirty").mockReturnValue(false);
 	subject.persist(profile);
 
 	assert.true(profile.status().isRestored());

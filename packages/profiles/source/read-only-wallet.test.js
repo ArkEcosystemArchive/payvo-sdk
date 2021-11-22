@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { ReadOnlyWallet } from "./read-only-wallet";
 
