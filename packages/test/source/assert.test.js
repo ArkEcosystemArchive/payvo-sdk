@@ -25,4 +25,13 @@ test("does not match the given object", () => {
 	);
 });
 
+test("creates a snapshot", () => {
+	assert.snapshot("object", { hello: "world" });
+	assert.snapshot("number", 1);
+	assert.snapshot("hello", "hello");
+	assert.snapshot("true", true);
+	assert.snapshot("false", false);
+	assert.snapshot("nan", Number.NaN);
+});
+
 test.run();

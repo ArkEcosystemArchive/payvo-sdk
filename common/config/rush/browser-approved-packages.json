@@ -443,6 +443,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "concordance",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "conf",
       "allowedCategories": [ "libraries" ]
     },
@@ -956,6 +960,10 @@
     },
     {
       "name": "xpub-converter",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
+      "name": "yargs",
       "allowedCategories": [ "libraries" ]
     },
     {

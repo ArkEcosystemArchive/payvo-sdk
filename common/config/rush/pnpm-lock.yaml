@@ -1898,22 +1898,26 @@ importers:
   ../../packages/test:
     dependencies:
       c8: 7.10.0
+      concordance: 5.0.4
       nock: 13.2.0
       sinon: 12.0.1
       tsm: 2.1.4
       uvu: 0.5.2
       watchlist: 0.3.1
+      yargs: 17.2.1
       zod: 3.11.6
     devDependencies:
       '@types/node': 16.11.7
     specifiers:
       '@types/node': ^16.11.7
       c8: ~7.10.0
+      concordance: ~5.0.4
       nock: ^13.2.0
       sinon: ^12.0.1
       tsm: ^2.1.4
       uvu: ^0.5.2
       watchlist: ~0.3.1
+      yargs: ~17.2.1
       zod: ~3.11.6
   ../../packages/trx:
     dependencies:
@@ -5203,6 +5207,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
+  /blueimp-md5/2.19.0:
+    dev: false
+    resolution:
+      integrity: sha512-DRQrD6gJyy8FbiE4s+bDoXS9hiW3Vbx5uCdwvcCf3zLHL+Iv7LtGHLpr+GZV8rHG8tK766FGYBwRbu8pELTt+w==
   /bn.js/4.11.6:
     dev: false
     resolution:
@@ -5850,6 +5858,21 @@ packages:
   /concat-map/0.0.1:
     resolution:
       integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=
+  /concordance/5.0.4:
+    dependencies:
+      date-time: 3.1.0
+      esutils: 2.0.3
+      fast-diff: 1.2.0
+      js-string-escape: 1.0.1
+      lodash: 4.17.21
+      md5-hex: 3.0.1
+      semver: 7.3.5
+      well-known-symbols: 2.0.0
+    dev: false
+    engines:
+      node: '>=10.18.0 <11 || >=12.14.0 <13 || >=14'
+    resolution:
+      integrity: sha512-OAcsnTEYu1ARJqWVGwf4zh4JDfHZEaSNlNccFmt8YjB2l/n19/PF2viLINHc57vO4FKIAFl2FWASIGZZWZ2Kxw==
   /conf/10.0.3:
     dependencies:
       ajv: 8.7.1
@@ -6112,6 +6135,14 @@ packages:
       node: '>=12'
     resolution:
       integrity: sha512-Ds554NeT5Gennfoo9KN50Vh6tpgtvYEwraYjejXnyTpu1C7oXKxdFk75REooENHE8ndTVOJuv+BEs4/J/xcozw==
+  /date-time/3.1.0:
+    dependencies:
+      time-zone: 1.0.0
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-uqCUKXE5q1PNBXjPqvwhwJf9SwMoAHBgWJ6DcrnS5o+W2JOiIILl0JEdVD8SGujrNS02GGxgwAg2PN2zONgtjg==
   /dayjs/1.10.7:
     dev: false
     resolution:
@@ -7451,7 +7482,6 @@ packages:
     resolution:
       integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
   /fast-diff/1.2.0:
-    dev: true
     resolution:
       integrity: sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
   /fast-glob/3.2.5:
@@ -8723,6 +8753,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-PWsmefG6Jkodqt+ePTvBZCSMFgN7Clckjd0O7su3I0+BW2QWUTJNzjktHsztGLhncP2h8mcF9V9Y2Ha59pAViQ==
+  /js-string-escape/1.0.1:
+    dev: false
+    engines:
+      node: '>= 0.8'
+    resolution:
+      integrity: sha1-4mJbrbwNZ8dTPp7cEGjFh65BN+8=
   /js-tokens/4.0.0:
     resolution:
       integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
@@ -9235,6 +9271,14 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-hdN1wVrZbb29eBGiGjJbeP8JbKjq1urkHJ/LIP/NY48MZ1QVXUsQBV1G1zvYFHn1XE06cwjBsOI2K3Ulnj1YXQ==
+  /md5-hex/3.0.1:
+    dependencies:
+      blueimp-md5: 2.19.0
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-BUiRtTtV39LIJwinWBjqVsU9xhdnz7/i889V859IBFpuqGAj6LuOvHv5XLbgZ2R7ptJoJaEcxkv88/h25T7Ciw==
   /md5.js/1.3.5:
     dependencies:
       hash-base: 3.1.0
@@ -11559,6 +11603,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-DdTJ/6q8NXlgsbckEV1+Doai4fU=
+  /time-zone/1.0.0:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-mcW/VZWJZq9tBtg73zgA3IL67F0=
   /timed-out/4.0.1:
     dev: false
     engines:
@@ -12425,6 +12475,12 @@ packages:
       node: '>=4.0.0'
     resolution:
       integrity: sha512-PRDso2sGwF6kM75QykIesBijKSVceR6jL2G8NGYyq2XrItNC2P5/qL5XeR056GhA+Ly7JMFvJb9I312mJfmqnQ==
+  /well-known-symbols/2.0.0:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-ZMjC3ho+KXo0BfJb7JgtQ5IBuvnShdlACNkKkdsqBmYw3bPAaJfPeYUo6tLUaT5tG/Gkh7xkpBhKRQ9e7pyg9Q==
   /whatwg-encoding/1.0.5:
     dependencies:
       iconv-lite: 0.4.24
@@ -12843,6 +12899,20 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-D1mvvtDG0L5ft/jGWkLpG1+m0eQxOfaBvTNELraWj22wSVUMWxZUvYgJYcKh6jGGIkJFhH4IZPQhR4TKpc8mBw==
+  /yargs/17.2.1:
+    dependencies:
+      cliui: 7.0.4
+      escalade: 3.1.1
+      get-caller-file: 2.0.5
+      require-directory: 2.1.1
+      string-width: 4.2.2
+      y18n: 5.0.8
+      yargs-parser: 20.2.9
+    dev: false
+    engines:
+      node: '>=12'
+    resolution:
+      integrity: sha512-XfR8du6ua4K6uLGm5S6fA+FIJom/MdJcFNVY8geLlp2v8GYbOXD4EB1tPNZsRn4vBzKGMgb5DRZMeWuFc2GO8Q==
   /yocto-queue/0.1.0:
     engines:
       node: '>=10'

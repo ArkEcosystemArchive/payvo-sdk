@@ -1,4 +1,11 @@
+import { format } from "concordance";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import * as uvu from "uvu/assert";
+import { hideBin } from "yargs/helpers";
+// @ts-ignore - Cannot find module 'yargs' or its corresponding type declarations.
+import yargs from "yargs/yargs";
 import { z, ZodRawShape } from "zod";
 
 export const assert = {
@@ -68,6 +75,35 @@ export const assert = {
 
 			uvu.ok(false, "Expected promise to be resolved but it rejected.");
 		}
+	},
+	snapshot: (name: string, value: unknown): void => {
+		let directory: string;
+
+		if (__dirname) {
+			directory = __dirname;
+		} else {
+			directory = dirname(fileURLToPath(import.meta.url));
+		}
+
+		directory = join(directory, "__snapshots__");
+
+		if (!existsSync(directory)) {
+			mkdirSync(directory, { recursive: true });
+		}
+
+		const snapshot: string = join(directory, `${name}.snapshot`);
+
+		const { updateSnapshots } = yargs(hideBin(process.argv)).argv;
+
+		if (updateSnapshots) {
+			unlinkSync(snapshot);
+		}
+
+		if (!existsSync(snapshot)) {
+			writeFileSync(snapshot, format(value));
+		}
+
+		assert.is(format(value), readFileSync(snapshot).toString());
 	},
 	startsWith: (value: string, prefix: string): void => uvu.ok(value.startsWith(prefix)),
 	string: (value: unknown): void => uvu.type(value, "string"),
