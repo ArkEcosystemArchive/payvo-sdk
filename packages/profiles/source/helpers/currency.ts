@@ -37,9 +37,10 @@ export class Currency {
 			money = money.setLocale(options.locale);
 		}
 
-		return money
-			.format()
-			.slice(withTicker ? 0 : 1)
-			.trim();
+		if (!withTicker) {
+			return money.format().replace(/[^\d,.]/g, "").trim()
+		}
+
+		return money.format();
 	}
 }
