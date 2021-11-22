@@ -26,11 +26,12 @@ describe("Date.now()", ({ assert, beforeAll, afterAll, each, only, skip, test })
 		assert.is(Date.now(), 101);
 		assert.is(Date.now(), 102);
 	});
+});
 
-	each("number ", ({ dataset }) => {
-		console.log(dataset)
+describe("Datasets", ({ assert, each }) => {
+	each("number %s should be greater than 0", ({ dataset }) => {
 		assert.true(dataset > 0);
-	}, [1, 2, 3]);
+	}, Array.from({ length: 32 },(_, index) =>index + 1));
 });
 
 describeWithContext("Context (Object)", { hello: "world" }, ({ assert, test }) => {
