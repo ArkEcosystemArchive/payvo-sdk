@@ -1,6 +1,6 @@
 import { describe, describeWithContext } from "./describe";
 
-describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
+describe("Date.now()", ({ assert, beforeAll, afterAll, each, only, skip, test }) => {
 	let _Date;
 
 	beforeAll(() => {
@@ -26,6 +26,11 @@ describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
 		assert.is(Date.now(), 101);
 		assert.is(Date.now(), 102);
 	});
+
+	each("should progress with time", ({ dataset }) => {
+		console.log(dataset)
+		assert.true(dataset > 0);
+	}, [1, 2, 3]);
 });
 
 describeWithContext("Context (Object)", { hello: "world" }, ({ assert, test }) => {

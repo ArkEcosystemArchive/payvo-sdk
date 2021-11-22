@@ -1,6 +1,7 @@
 import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
+import { eachSuite } from "./each.js";
 import { Mockery } from "./mockery.js";
 
 type ContextFunction = () => Context;
@@ -13,6 +14,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		assert,
 		beforeAll: suite.before,
 		beforeEach: suite.before.each,
+		each: eachSuite(suite),
 		it: suite,
 		mock: Mockery.mock,
 		only: suite.only,
