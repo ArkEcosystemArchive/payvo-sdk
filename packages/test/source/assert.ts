@@ -1,4 +1,5 @@
 import * as uvu from "uvu/assert";
+import { z, ZodRawShape } from "zod";
 
 export const assert = {
 	...uvu,
@@ -28,6 +29,7 @@ export const assert = {
 		...uvu.not,
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
 		empty: (value: unknown[]): void => uvu.ok(Object.keys(value).length > 0),
+		matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.throws(() => z.object(schema).parse(value)),
 	},
 	null: (value: unknown): void => uvu.ok(value === null),
 	number: (value: unknown): void => uvu.type(value, "number"),
@@ -72,4 +74,5 @@ export const assert = {
 	true: (value: unknown): void => uvu.is(value, true),
 	truthy: (value: unknown): void => uvu.ok(!!value),
 	undefined: (value: unknown): void => uvu.type(value, "undefined"),
+	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 };

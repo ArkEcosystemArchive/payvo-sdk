@@ -99,6 +99,8 @@ jobs:
               run: cd "$GITHUB_WORKSPACE/packages/sdk/" && pnpm run test:coverage
             - name: Test SOL
               run: cd "$GITHUB_WORKSPACE/packages/sol/" && pnpm run test:coverage
+            - name: Test TEST
+              run: cd "$GITHUB_WORKSPACE/packages/test/" && pnpm run test:coverage
             - name: Test TRX
               run: cd "$GITHUB_WORKSPACE/packages/trx/" && pnpm run test:coverage
             - name: Test XLM
