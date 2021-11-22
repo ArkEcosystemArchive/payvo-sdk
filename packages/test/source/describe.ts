@@ -19,9 +19,12 @@ const runSuite = (suite: Test, callback: Function): void => {
 	});
 
 	suite.run();
-}
+};
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
 
-export const describeWithContext = async (title: string, context: Context | ContextFunction | ContextPromise, callback: Function): Promise<void> =>
-	runSuite(suite(title, typeof context === "function" ? await context() : context), callback)
+export const describeWithContext = async (
+	title: string,
+	context: Context | ContextFunction | ContextPromise,
+	callback: Function,
+): Promise<void> => runSuite(suite(title, typeof context === "function" ? await context() : context), callback);
