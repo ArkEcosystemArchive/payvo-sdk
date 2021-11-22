@@ -520,7 +520,7 @@ test("should construct a coin instance", async () => {
 
 	await subject.connect();
 
-	mockConstruct.calledTimes(1);
+	mockConstruct.calledOnce();
 });
 
 test("should throw if a connection is tried to be established but no coin has been set", async () => {

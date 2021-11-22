@@ -52,6 +52,14 @@ export class Mockery {
 		this.#subject.restore();
 	}
 
+	public neverCalled(): void {
+		this.calledTimes(0);
+	}
+
+	public calledOnce(): void {
+		this.calledTimes(1);
+	}
+
 	public calledTimes(times: number): void {
 		ok(this.#subject.callCount === times);
 	}

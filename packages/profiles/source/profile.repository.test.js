@@ -314,12 +314,12 @@ test("should not save profile data if profile is not restored", async () => {
 	});
 
 	assert.false(profile.status().isRestored());
-	profileAttibuteSetMock.calledTimes(0);
+	profileAttibuteSetMock.neverCalled();
 
 	subject.persist(profile);
 
 	assert.false(profile.status().isRestored());
-	profileAttibuteSetMock.calledTimes(0);
+	profileAttibuteSetMock.neverCalled();
 });
 
 test("should not save profile data if profile is not marked as dirty", async () => {
@@ -334,7 +334,7 @@ test("should not save profile data if profile is not marked as dirty", async () 
 	profile.status().reset();
 	assert.false(profile.status().isRestored());
 	assert.false(profile.status().isDirty());
-	profileAttibuteSetMock.calledTimes(0);
+	profileAttibuteSetMock.neverCalled();
 
 	await subject.restore(profile);
 	const profileDirtyStatusMock = Mockery.stub(profile.status(), "isDirty").returnValue(false);
@@ -342,7 +342,7 @@ test("should not save profile data if profile is not marked as dirty", async () 
 
 	assert.true(profile.status().isRestored());
 	assert.false(profile.status().isDirty());
-	profileAttibuteSetMock.calledTimes(0);
+	profileAttibuteSetMock.neverCalled();
 	profileDirtyStatusMock.restore();
 	profileAttibuteSetMock.restore();
 });
