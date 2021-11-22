@@ -899,6 +899,10 @@
       "allowedCategories": [ "libraries" ]
     },
     {
+      "name": "string-kit",
+      "allowedCategories": [ "libraries" ]
+    },
+    {
       "name": "terminal-link",
       "allowedCategories": [ "libraries" ]
     },
