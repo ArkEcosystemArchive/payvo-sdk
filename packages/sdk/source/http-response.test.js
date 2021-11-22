@@ -1,4 +1,4 @@
-import { assert, mockery, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 import { Response } from "./http-response";
 
 let subject;
@@ -11,7 +11,7 @@ test.before.each(() => {
 		statusCode: 200,
 	});
 
-	spy = mockery(subject, "status");
+	spy = Mockery.stub(subject, "status");
 });
 
 test.after.each(() => {
@@ -73,7 +73,7 @@ test("#status", () => {
 test("#successful", () => {
 	assert.is(subject.successful(), true);
 
-	spy.mockReturnValue(400);
+	spy.returnValue(400);
 
 	assert.is(subject.successful(), false);
 });
@@ -81,7 +81,7 @@ test("#successful", () => {
 test("#ok", () => {
 	assert.is(subject.ok(), true);
 
-	spy.mockReturnValue(400);
+	spy.returnValue(400);
 
 	assert.is(subject.ok(), false);
 });
@@ -89,7 +89,7 @@ test("#ok", () => {
 test("#redirect", () => {
 	assert.is(subject.redirect(), false);
 
-	spy.mockReturnValue(300);
+	spy.returnValue(300);
 
 	assert.is(subject.redirect(), true);
 });
@@ -97,11 +97,11 @@ test("#redirect", () => {
 test("#failed", () => {
 	assert.is(subject.failed(), false);
 
-	spy.mockReturnValue(400);
+	spy.returnValue(400);
 
 	assert.is(subject.failed(), true);
 
-	spy.mockReturnValue(500);
+	spy.returnValue(500);
 
 	assert.is(subject.failed(), true);
 });
@@ -109,7 +109,7 @@ test("#failed", () => {
 test("#clientError", () => {
 	assert.is(subject.clientError(), false);
 
-	spy.mockReturnValue(400);
+	spy.returnValue(400);
 
 	assert.is(subject.clientError(), true);
 });
@@ -117,7 +117,7 @@ test("#clientError", () => {
 test("#serverError", () => {
 	assert.is(subject.serverError(), false);
 
-	spy.mockReturnValue(500);
+	spy.returnValue(500);
 
 	assert.is(subject.serverError(), true);
 });

@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -72,7 +72,7 @@ test("should sync the delegates only one page", async () => {
 test("should sync the delegates when network does not support FastDelegateSync", async () => {
 	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-	mockery(profile.coins().set("ARK", "ark.devnet").network(), "meta").mockReturnValue({
+	Mockery.stub(profile.coins().set("ARK", "ark.devnet").network(), "meta").returnValue({
 		fastDelegateSync: false,
 	});
 

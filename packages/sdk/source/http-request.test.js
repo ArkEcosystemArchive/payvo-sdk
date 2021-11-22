@@ -8,7 +8,7 @@ let subject;
 let spy;
 
 class Stub extends AbstractRequest {
-	constructor() {
+	constructor(spy) {
 		super();
 
 		this.spy = spy;

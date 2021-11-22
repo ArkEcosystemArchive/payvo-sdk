@@ -1,4 +1,4 @@
-import { assert, describe, mockery, sinon, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
@@ -89,13 +89,13 @@ const beforeEachCallback = async () => {
 
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = Mockery.stub(wallet.network(), "isLive").returnValue(true);
+	testSpy = Mockery.stub(wallet.network(), "isTest").returnValue(false);
 };
 
 const afterEachCallback = () => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
+	liveSpy.restore();
+	testSpy.restore();
 };
 
 describe("Transaction", ({ afterEach, beforeEach, test }) => {
@@ -309,8 +309,8 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#getMeta | #setMeta", () => {
-		const getMeta = sinon.spy();
-		const setMeta = sinon.spy();
+		const getMeta = Mockery.spy();
+		const setMeta = Mockery.spy();
 
 		subject = createSubject(wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
 

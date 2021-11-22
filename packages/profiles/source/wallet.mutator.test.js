@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -107,7 +107,7 @@ describe("#setCoin", ({ afterEach, beforeEach, test }) => {
 // 	it.each(["bip39", "bip44", "bip49", "bip84"])("should mutate the address with a path (%s)", async (type) => {
 // 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
-// 		mockery(subject.coin().address(), "fromMnemonic").mockImplementation(async () => ({
+// 		Mockery.stub(subject.coin().address(), "fromMnemonic").callsFake(async () => ({
 // 			address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 // 			path: "path",
 // 			type,
@@ -130,12 +130,12 @@ describe("#setCoin", ({ afterEach, beforeEach, test }) => {
 // 			subject.data().set(WalletData.ImportMethod, WalletImportMethod.PublicKey);
 // 			subject.data().set(WalletData.ImportMethod, WalletImportMethod.PublicKey);
 
-// 			mockery(subject.coin().address(), "fromMnemonic").mockImplementation(async () => ({
+// 			Mockery.stub(subject.coin().address(), "fromMnemonic").callsFake(async () => ({
 // 				address: "2NDqSnogr4eQeLrPWM5GmgBvNuMbwdyh1Bi",
 // 				path: "path",
 // 				type,
 // 			}));
-// 			mockery(subject.coin().extendedPublicKey(), "fromMnemonic").mockImplementation(
+// 			Mockery.stub(subject.coin().extendedPublicKey(), "fromMnemonic").callsFake(
 // 				async () =>
 // 					"tpubDDtBpveGs7uW1X715ZzEHtH1KinDUTW71E3u1ourxCameEdmWrQMLdFGAAYmgTWbLxWw8Dcb6PAV37eNCZDSUu3s2uc2ZTvXRodnUcTLJ8u",
 // 			);
@@ -174,8 +174,8 @@ test("#removeEncryption - should remove the encryption password of a wallet impo
 
 	const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-	mockery(subject, "address").mockReturnValueOnce(address);
-	mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
+	Mockery.stub(subject, "address").returnValueOnce(address);
+	Mockery.stub(subject, "isSecondSignature").returnValueOnce(false);
 
 	assert.true(subject.signingKey().exists());
 
@@ -194,8 +194,8 @@ test("#removeEncryption - should remove the encryption password of a wallet impo
 
 	const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-	mockery(subject, "address").mockReturnValueOnce(address);
-	mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
+	Mockery.stub(subject, "address").returnValueOnce(address);
+	Mockery.stub(subject, "isSecondSignature").returnValueOnce(true);
 
 	assert.true(subject.signingKey().exists());
 	assert.true(subject.confirmKey().exists());
@@ -215,8 +215,8 @@ test("#removeEncryption - should remove the encryption password of a wallet impo
 
 	const address = (await subject.coin().address().fromSecret("secret")).address;
 
-	mockery(subject, "address").mockReturnValueOnce(address);
-	mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
+	Mockery.stub(subject, "address").returnValueOnce(address);
+	Mockery.stub(subject, "isSecondSignature").returnValueOnce(false);
 
 	assert.true(subject.signingKey().exists());
 
@@ -235,8 +235,8 @@ test("#removeEncryption - should remove the encryption password of a wallet impo
 
 	const address = (await subject.coin().address().fromSecret("secret")).address;
 
-	mockery(subject, "address").mockReturnValueOnce(address);
-	mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
+	Mockery.stub(subject, "address").returnValueOnce(address);
+	Mockery.stub(subject, "isSecondSignature").returnValueOnce(true);
 
 	assert.true(subject.signingKey().exists());
 	assert.true(subject.confirmKey().exists());

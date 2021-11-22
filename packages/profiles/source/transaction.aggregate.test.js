@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -166,13 +166,13 @@ test("should flush all the history", async () => {
 test("should handle undefined  promiseAllSettledByKey responses in aggregate", async () => {
 	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
 
-	const promiseAllSettledByKeyMock = mockery(promiseHelpers, "promiseAllSettledByKey").mockImplementation(() => {
+	const promiseAllSettledByKeyMock = Mockery.stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
 		return Promise.resolve(undefined);
 	});
 
 	const results = await subject.all();
 	assert.instance(results, ExtendedConfirmedTransactionDataCollection);
-	promiseAllSettledByKeyMock.mockRestore();
+	promiseAllSettledByKeyMock.restore();
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `address`", async () => {

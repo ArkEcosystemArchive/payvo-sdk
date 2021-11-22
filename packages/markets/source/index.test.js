@@ -1,4 +1,4 @@
-import { assert, mockery, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { PriceTracker } from "../test/stubs/tracker";
@@ -8,7 +8,7 @@ let subject;
 
 const createSpyAdapter = (method) => {
 	const adapter = new PriceTracker();
-	const spy = mockery(adapter, method);
+	const spy = Mockery.stub(adapter, method);
 
 	subject.setAdapter(adapter);
 

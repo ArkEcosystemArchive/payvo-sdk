@@ -1,4 +1,4 @@
-import { assert, describe, loader, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
@@ -91,7 +91,7 @@ const wallet2 = {
 test.before(async () => {
 	await createLocalServices();
 
-	mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-01-01 12:00:00"));
+	Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-01-01 12:00:00"));
 });
 
 test("should add signature", async () => {

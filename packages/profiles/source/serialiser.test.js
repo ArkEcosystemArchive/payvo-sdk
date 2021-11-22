@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -156,12 +156,12 @@ test.before(() => nock.disableNetConnect());
 
 // 		subject.data().set(WalletData.DerivationPath, "1");
 // 		subject.data().set(WalletFlag.Starred, true);
-// 		const partiallyRestoredMock = mockery(subject, "hasBeenPartiallyRestored").mockReturnValue(true);
+// 		const partiallyRestoredMock = Mockery.stub(subject, "hasBeenPartiallyRestored").returnValue(true);
 
 // 		const actual = subject.toObject();
 
 // 		assert.is(actual, {});
-// 		partiallyRestoredMock.mockRestore();
+// 		partiallyRestoredMock.restore();
 // 	});
 // });
 

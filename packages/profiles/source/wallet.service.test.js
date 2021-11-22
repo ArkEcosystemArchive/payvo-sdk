@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -86,15 +86,15 @@ test.before.each(async () => {
 
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = Mockery.stub(wallet.network(), "isLive").returnValue(true);
+	testSpy = Mockery.stub(wallet.network(), "isTest").returnValue(false);
 
 	subject = new WalletService();
 });
 
 test.after.each(() => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
+	liveSpy.restore();
+	testSpy.restore();
 });
 
 test.before(() => nock.disableNetConnect());
@@ -107,9 +107,9 @@ test("#syncByProfile", async () => {
 	assert.not.throws(() => wallet.voting().current(), /has not been synced/);
 
 	// @ts-ignore
-	const mockUndefinedWallets = mockery(profile.wallets(), "values").mockReturnValue([undefined]);
+	const mockUndefinedWallets = Mockery.stub(profile.wallets(), "values").returnValue([undefined]);
 	await subject.syncByProfile(profile);
-	mockUndefinedWallets.mockRestore();
+	mockUndefinedWallets.restore();
 });
 
 test.run();
