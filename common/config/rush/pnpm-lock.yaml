@@ -1903,6 +1903,7 @@ importers:
       tsm: 2.1.4
       uvu: 0.5.2
       watchlist: 0.3.1
+      zod: 3.11.6
     devDependencies:
       '@types/node': 16.11.7
     specifiers:
@@ -1913,6 +1914,7 @@ importers:
       tsm: ^2.1.4
       uvu: ^0.5.2
       watchlist: ~0.3.1
+      zod: ~3.11.6
   ../../packages/trx:
     dependencies:
       '@ledgerhq/hw-app-trx': 6.11.2
@@ -12846,6 +12848,10 @@ packages:
       node: '>=10'
     resolution:
       integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+  /zod/3.11.6:
+    dev: false
+    resolution:
+      integrity: sha512-daZ80A81I3/9lIydI44motWe6n59kRBfNzTuS2bfzVh1nAXi667TOTWWtatxyG+fwgNUiagSj/CWZwRRbevJIg==
   github.com/Zondax/bip32-ed25519/0949df01b5c93885339bc28116690292088f6134:
     dependencies:
       bn.js: 5.2.0
