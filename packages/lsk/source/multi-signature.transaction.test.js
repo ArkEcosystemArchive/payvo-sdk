@@ -130,7 +130,7 @@ test("#isMultiSignatureReady", () => {
 	assert.true(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: false }));
 });
 
-describe("#needsSignatures", () => {
+describe("#needsSignatures", ({ afterEach, beforeEach, test }) => {
 	test("should return false if it is not a multi signature transaction", () => {
 		assert.false(new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsSignatures());
 	});
@@ -154,7 +154,7 @@ test("#needsAllSignatures", () => {
 	assert.false(new PendingMultiSignatureTransaction(register3).needsAllSignatures());
 });
 
-describe("#needsWalletSignature", () => {
+describe("#needsWalletSignature", ({ afterEach, beforeEach, test }) => {
 	test("should return false if it is not a multi signature transaction", () => {
 		assert.false(
 			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsWalletSignature(wallet1),
@@ -180,7 +180,7 @@ describe("#needsWalletSignature", () => {
 	});
 });
 
-describe("#needsFinalSignature", () => {
+describe("#needsFinalSignature", ({ afterEach, beforeEach, test }) => {
 	test("should return false if it is not a multi signature transaction", () => {
 		assert.false(
 			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsFinalSignature(),

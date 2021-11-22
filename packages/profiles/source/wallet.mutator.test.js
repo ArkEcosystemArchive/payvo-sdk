@@ -85,7 +85,7 @@ test.before.each(async () => {
 
 test.before(() => nock.disableNetConnect());
 
-describe("#setCoin", () => {
+describe("#setCoin", ({ afterEach, beforeEach, test }) => {
 	test("should mark the wallet as partially restored if the coin construction fails", async () => {
 		subject = new Wallet(UUID.random(), {}, profile);
 
@@ -103,7 +103,7 @@ describe("#setCoin", () => {
 	});
 });
 
-// describe("#identity", () => {
+// describe("#identity", ({ afterEach, beforeEach, test }) => {
 // 	it.each(["bip39", "bip44", "bip49", "bip84"])("should mutate the address with a path (%s)", async (type) => {
 // 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
@@ -151,126 +151,122 @@ describe("#setCoin", () => {
 // 	);
 // });
 
-describe("#address", () => {
-	test("should mutate the address with a path", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
+test("should mutate the address with a path", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
-		assert.false(subject.data().has(WalletData.DerivationType));
-		assert.false(subject.data().has(WalletData.DerivationPath));
+	assert.false(subject.data().has(WalletData.DerivationType));
+	assert.false(subject.data().has(WalletData.DerivationPath));
 
-		await subject.mutator().address({
-			address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-			path: "path",
-			type: "bip39",
-		});
-
-		assert.true(subject.data().has(WalletData.DerivationType));
-		assert.true(subject.data().has(WalletData.DerivationPath));
+	await subject.mutator().address({
+		address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+		path: "path",
+		type: "bip39",
 	});
+
+	assert.true(subject.data().has(WalletData.DerivationType));
+	assert.true(subject.data().has(WalletData.DerivationPath));
 });
 
-describe("#removeEncryption", () => {
-	test("should remove the encryption password of a wallet imported by mnemonic", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
+test("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		subject.signingKey().set(identity.mnemonic, "password");
+	subject.signingKey().set(identity.mnemonic, "password");
 
-		const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
+	const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-		mockery(subject, "address").mockReturnValueOnce(address);
-		mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
+	mockery(subject, "address").mockReturnValueOnce(address);
+	mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
 
-		assert.true(subject.signingKey().exists());
+	assert.true(subject.signingKey().exists());
 
-		await subject.mutator().removeEncryption("password");
+	await subject.mutator().removeEncryption("password");
 
-		assert.false(subject.signingKey().exists());
+	assert.false(subject.signingKey().exists());
 
-		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
-	});
+	assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
+});
 
-	test("should remove the encryption password of a wallet imported by mnemonic with second signature", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
+test("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic with second signature", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		subject.signingKey().set(identity.mnemonic, "password");
-		subject.confirmKey().set(identity.secondMnemonic, "password");
+	subject.signingKey().set(identity.mnemonic, "password");
+	subject.confirmKey().set(identity.secondMnemonic, "password");
 
-		const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
+	const address = (await subject.coin().address().fromMnemonic(identity.mnemonic)).address;
 
-		mockery(subject, "address").mockReturnValueOnce(address);
-		mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
+	mockery(subject, "address").mockReturnValueOnce(address);
+	mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
 
-		assert.true(subject.signingKey().exists());
-		assert.true(subject.confirmKey().exists());
+	assert.true(subject.signingKey().exists());
+	assert.true(subject.confirmKey().exists());
 
-		await subject.mutator().removeEncryption("password");
+	await subject.mutator().removeEncryption("password");
 
-		assert.false(subject.signingKey().exists());
-		assert.false(subject.confirmKey().exists());
+	assert.false(subject.signingKey().exists());
+	assert.false(subject.confirmKey().exists());
 
-		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
-	});
+	assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
+});
 
-	test("should remove the encryption password of a wallet imported by secret", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
+test("#removeEncryption - should remove the encryption password of a wallet imported by secret", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
-		subject.signingKey().set("secret", "password");
+	subject.signingKey().set("secret", "password");
 
-		const address = (await subject.coin().address().fromSecret("secret")).address;
+	const address = (await subject.coin().address().fromSecret("secret")).address;
 
-		mockery(subject, "address").mockReturnValueOnce(address);
-		mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
+	mockery(subject, "address").mockReturnValueOnce(address);
+	mockery(subject, "isSecondSignature").mockReturnValueOnce(false);
 
-		assert.true(subject.signingKey().exists());
+	assert.true(subject.signingKey().exists());
 
-		await subject.mutator().removeEncryption("password");
+	await subject.mutator().removeEncryption("password");
 
-		assert.false(subject.signingKey().exists());
+	assert.false(subject.signingKey().exists());
 
-		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
-	});
+	assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
+});
 
-	test("should remove the encryption password of a wallet imported by secret with second signature", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
+test("#removeEncryption - should remove the encryption password of a wallet imported by secret with second signature", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
-		subject.signingKey().set("secret", "password");
-		subject.confirmKey().set("second-secret", "password");
+	subject.signingKey().set("secret", "password");
+	subject.confirmKey().set("second-secret", "password");
 
-		const address = (await subject.coin().address().fromSecret("secret")).address;
+	const address = (await subject.coin().address().fromSecret("secret")).address;
 
-		mockery(subject, "address").mockReturnValueOnce(address);
-		mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
+	mockery(subject, "address").mockReturnValueOnce(address);
+	mockery(subject, "isSecondSignature").mockReturnValueOnce(true);
 
-		assert.true(subject.signingKey().exists());
-		assert.true(subject.confirmKey().exists());
+	assert.true(subject.signingKey().exists());
+	assert.true(subject.confirmKey().exists());
 
-		await subject.mutator().removeEncryption("password");
+	await subject.mutator().removeEncryption("password");
 
-		assert.false(subject.signingKey().exists());
-		assert.false(subject.confirmKey().exists());
+	assert.false(subject.signingKey().exists());
+	assert.false(subject.confirmKey().exists());
 
-		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
-	});
+	assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
+});
 
-	test("should throw if the wallet has an unsupported import method", async () => {
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
+test("#removeEncryption - should throw if the wallet has an unsupported import method", async () => {
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
-		await assert.rejects(
-			() => subject.mutator().removeEncryption("wrong-password"),
-			`Import method [${WalletImportMethod.Address}] is not supported.`,
-		);
-	});
+	await assert.rejects(
+		() => subject.mutator().removeEncryption("wrong-password"),
+		`Import method [${WalletImportMethod.Address}] is not supported.`,
+	);
+});
 
-	test("should throw if the provided password does not match the wallet", async () => {
-		subject.signingKey().set(identity.mnemonic, "password");
+test("#removeEncryption - should throw if the provided password does not match the wallet", async () => {
+	subject.signingKey().set(identity.mnemonic, "password");
 
-		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
+	subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		await assert.rejects(
-			() => subject.mutator().removeEncryption("wrong-password"),
-			"The provided password does not match the wallet.",
-		);
-	});
+	await assert.rejects(
+		() => subject.mutator().removeEncryption("wrong-password"),
+		"The provided password does not match the wallet.",
+	);
 });
 
 test.run();

@@ -8,7 +8,7 @@ import { Profile } from "./profile";
 
 test.before(() => bootContainer());
 
-describe("contact", () => {
+describe("contact", ({ afterEach, beforeEach, test }) => {
 	let subject;
 
 	test.before.each(() => {

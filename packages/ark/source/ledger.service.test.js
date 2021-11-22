@@ -78,12 +78,12 @@ test("should pass with a schnorr signature", async () => {
 	);
 });
 
-describe("scan", (suite) => {
-	suite.before(() => nock.disableNetConnect());
+describe("scan", ({ afterEach, beforeAll, test }) => {
+	beforeAll(() => nock.disableNetConnect());
 
-	suite.after.each(() => nock.cleanAll());
+	afterEach(() => nock.cleanAll());
 
-	suite("should scan for legacy wallets", async () => {
+	test("should scan for legacy wallets", async () => {
 		nock(/.+/)
 			.get(
 				"/api/wallets?address=D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK%2CDFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ%2CDFr1CR81idSmfgQ19KXe4M6keqUEAuU8kF%2CDTYiNbvTKveMtJC8KPPdBrgRWxfPxGp1WV%2CDJyGFrZv4MYKrTMcjzEyhZzdTAJju2Rcjr",
@@ -111,7 +111,7 @@ describe("scan", (suite) => {
 		}
 	});
 
-	suite("should scan for new wallets", async () => {
+	test("should scan for new wallets", async () => {
 		nock(/.+/)
 			.get("/api/wallets")
 			.query(true)

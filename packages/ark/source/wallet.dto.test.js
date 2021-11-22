@@ -77,60 +77,60 @@ const WalletDataFixture = {
 };
 
 for (const network of ["mainnet", "devnet"]) {
-	describe(network, (suite) => {
-		suite.before.each(async () => {
+	describe(network, ({ afterEach, beforeEach, test }) => {
+		beforeEach(async () => {
 			subject = (await createService(WalletData)).fill(WalletDataFixture[network]);
 		});
 
-		suite("#primaryKey", () => {
+		test("#primaryKey", () => {
 			assert.is(subject.primaryKey(), "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9");
 		});
 
-		suite("#address", () => {
+		test("#address", () => {
 			assert.is(subject.address(), "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9");
 		});
 
-		suite("#publicKey", () => {
+		test("#publicKey", () => {
 			assert.is(subject.publicKey(), "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec");
 		});
 
-		suite("#balance", () => {
+		test("#balance", () => {
 			assert.equal(subject.balance().available, BigNumber.make("55827093444556"));
 		});
 
-		suite("#nonce", () => {
+		test("#nonce", () => {
 			assert.equal(subject.nonce(), BigNumber.make("111932"));
 		});
 
-		suite("#secondPublicKey", () => {
+		test("#secondPublicKey", () => {
 			assert.undefined(subject.secondPublicKey());
 		});
 
-		suite("#username", () => {
+		test("#username", () => {
 			assert.is(subject.username(), "arkx");
 		});
 
-		suite("#rank", () => {
+		test("#rank", () => {
 			assert.undefined(subject.rank());
 		});
 
-		suite("#votes", () => {
+		test("#votes", () => {
 			assert.equal(subject.votes(), network === "devnet" ? BigNumber.make(0) : undefined);
 		});
 
-		suite("#isResignedDelegate", () => {
+		test("#isResignedDelegate", () => {
 			assert.boolean(subject.isResignedDelegate());
 		});
 
-		suite("#isMultiSignature", () => {
+		test("#isMultiSignature", () => {
 			assert.boolean(subject.isMultiSignature());
 		});
 
-		suite("#isSecondSignature", () => {
+		test("#isSecondSignature", () => {
 			assert.false(subject.isSecondSignature());
 		});
 
-		suite("#toObject", () => {
+		test("#toObject", () => {
 			assert.object(subject.toObject());
 		});
 	});

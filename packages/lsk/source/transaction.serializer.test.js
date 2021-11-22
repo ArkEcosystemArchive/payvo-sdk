@@ -90,7 +90,7 @@ for (const transaction of clone(transactions)) {
 	});
 }
 
-describe("#toHuman", () => {
+describe("#toHuman", ({ afterEach, beforeEach, test }) => {
 	for (const transaction of clone(transactions)) {
 		test("should serialize to human (%s)", async () => {
 			const subject = await createService(TransactionSerializer);
@@ -117,7 +117,7 @@ describe("#toHuman", () => {
 	});
 });
 
-describe("#toString", () => {
+describe("#toString", ({ afterEach, beforeEach, test }) => {
 	for (const transaction of clone(transactions)) {
 		test("should serialize to string (%s)", async () => {
 			const subject = await createService(TransactionSerializer);

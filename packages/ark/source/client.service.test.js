@@ -36,8 +36,8 @@ test("#transaction", async () => {
 	assert.instance(result, ConfirmedTransactionData);
 });
 
-describe("transactions should work with Core 2.0", (suite) => {
-	suite.before.each(async () => {
+describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ClientService, "ark.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -49,7 +49,7 @@ describe("transactions should work with Core 2.0", (suite) => {
 		});
 	});
 
-	suite("single address", async () => {
+	test("single address", async () => {
 		nock(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
@@ -64,7 +64,7 @@ describe("transactions should work with Core 2.0", (suite) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	suite("multiple addresses", async () => {
+	test("multiple addresses", async () => {
 		nock(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -86,8 +86,8 @@ describe("transactions should work with Core 2.0", (suite) => {
 	});
 });
 
-describe("should work with Core 3.0", (suite) => {
-	suite.before.each(async () => {
+describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ClientService, "ark.devnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -99,7 +99,7 @@ describe("should work with Core 3.0", (suite) => {
 		});
 	});
 
-	suite("single address", async () => {
+	test("single address", async () => {
 		nock(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
@@ -113,7 +113,7 @@ describe("should work with Core 3.0", (suite) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	suite("multiple addresses", async () => {
+	test("multiple addresses", async () => {
 		nock(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
@@ -130,7 +130,7 @@ describe("should work with Core 3.0", (suite) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	suite("for advanced search", async () => {
+	test("for advanced search", async () => {
 		nock(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -166,8 +166,8 @@ test("#wallet", async () => {
 	assert.instance(result, WalletData);
 });
 
-describe("#wallets", (suite) => {
-	suite("should work with Core 2.0", async () => {
+describe("#wallets", ({ afterEach, beforeEach, test }) => {
+	test("should work with Core 2.0", async () => {
 		subject = await createService(ClientService, "ark.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -191,7 +191,7 @@ describe("#wallets", (suite) => {
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	suite("should work with Core 3.0", async () => {
+	test("should work with Core 3.0", async () => {
 		subject = await createService(ClientService, "ark.devnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -233,7 +233,7 @@ test("#delegates", async () => {
 	assert.instance(result.items()[0], WalletData);
 });
 
-describe("#votes", (suite) => {
+describe("#votes", ({ afterEach, beforeEach, test }) => {
 	let fixture;
 
 	test.before.each(async () => {
@@ -320,14 +320,14 @@ test("#voters", async () => {
 	assert.instance(result.items()[0], WalletData);
 });
 
-describe("#broadcast", (suite) => {
+describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	let fixture;
 
-	suite.before.each(async () => {
+	beforeEach(async () => {
 		fixture = loader.json(`test/fixtures/client/broadcast.json`);
 	});
 
-	suite("should accept 1 transaction and reject 1 transaction", async () => {
+	test("should accept 1 transaction and reject 1 transaction", async () => {
 		nock(/.+/).post("/api/transactions").reply(422, fixture);
 
 		const mock = { toBroadcast: () => "" };
@@ -342,7 +342,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("should read errors in non-array format", async () => {
+	test("should read errors in non-array format", async () => {
 		const errorId = Object.keys(fixture.errors)[0];
 		const nonArrayFixture = {
 			data: fixture.data,

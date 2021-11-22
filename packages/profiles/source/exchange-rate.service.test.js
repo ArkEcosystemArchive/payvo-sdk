@@ -79,90 +79,88 @@ test.after.each(() => {
 
 test.before(() => nock.disableNetConnect());
 
-describe("ExchangeRateService", () => {
-	test("should sync a coin for specific profile with wallets argument", async () => {
-		nock(/.+/)
-			.get("/data/dayAvg")
-			.query(true)
-			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-			.persist();
+test("should sync a coin for specific profile with wallets argument", async () => {
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
 
-		await subject.syncAll(profile, "DARK");
+	await subject.syncAll(profile, "DARK");
 
-		assert.is(wallet.convertedBalance(), 0.00005048);
-		const allStorage = await container.get(Identifiers.Storage).all();
-		assert.object(allStorage.EXCHANGE_RATE_SERVICE);
-	});
+	assert.is(wallet.convertedBalance(), 0.00005048);
+	const allStorage = await container.get(Identifiers.Storage).all();
+	assert.object(allStorage.EXCHANGE_RATE_SERVICE);
+});
 
-	test("should sync a coin for specific profile without wallets argument", async () => {
-		nock(/.+/)
-			.get("/data/dayAvg")
-			.query(true)
-			.reply(200, { BTC: 0.00002134, ConversionType: { type: "direct", conversionSymbol: "" } })
-			.persist();
+test("should sync a coin for specific profile without wallets argument", async () => {
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00002134, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
 
-		await subject.syncAll(profile, "DARK");
+	await subject.syncAll(profile, "DARK");
 
-		assert.is(wallet.convertedBalance(), 0.00002134);
-	});
+	assert.is(wallet.convertedBalance(), 0.00002134);
+});
 
-	test("should fail to sync a coin for a specific profile if there are no wallets", async () => {
-		profile.wallets().flush();
+test("should fail to sync a coin for a specific profile if there are no wallets", async () => {
+	profile.wallets().flush();
 
-		assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
+	assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
 
-		await subject.syncAll(profile, "DARK");
+	await subject.syncAll(profile, "DARK");
 
-		assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
-	});
+	assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
+});
 
-	test("should store exchange rates and currency in profile wallets if undefined", async () => {
-		nock(/.+/)
-			.get("/data/dayAvg")
-			.query(true)
-			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-			.persist();
+test("should store exchange rates and currency in profile wallets if undefined", async () => {
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
 
-		profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+	profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-		await subject.syncAll(profile, "DARK");
-		assert.is(wallet.convertedBalance(), 0.00005048);
-	});
+	await subject.syncAll(profile, "DARK");
+	assert.is(wallet.convertedBalance(), 0.00005048);
+});
 
-	test("should cache historic exchange rates", async () => {
-		nock(/.+/)
-			.get("/data/dayAvg")
-			.query(true)
-			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-			.persist();
+test("should cache historic exchange rates", async () => {
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
 
-		profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+	profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-		await subject.syncAll(profile, "DARK");
-		assert.is(wallet.convertedBalance(), 0.00005048);
+	await subject.syncAll(profile, "DARK");
+	assert.is(wallet.convertedBalance(), 0.00005048);
 
-		nock(/.+/)
-			.get("/data/dayAvg")
-			.query(true)
-			.reply(200, { BTC: 0.00005555, ConversionType: { type: "direct", conversionSymbol: "" } })
-			.persist();
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00005555, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
 
-		await subject.syncAll(profile, "DARK");
-		// The price should be the cached price from previous sync: 0.00005048
-		assert.is(wallet.convertedBalance(), 0.00005048);
-	});
+	await subject.syncAll(profile, "DARK");
+	// The price should be the cached price from previous sync: 0.00005048
+	assert.is(wallet.convertedBalance(), 0.00005048);
+});
 
-	test("handle restore", async () => {
-		await assert.resolves(() => subject.restore());
+test("handle restore", async () => {
+	await assert.resolves(() => subject.restore());
 
-		assert.object(await container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"));
+	assert.object(await container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"));
 
-		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
-		await assert.resolves(() => subject.restore());
+	container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
+	await assert.resolves(() => subject.restore());
 
-		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", undefined);
-		await assert.resolves(() => subject.restore());
-	});
+	container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", undefined);
+	await assert.resolves(() => subject.restore());
 });
 
 test.run();

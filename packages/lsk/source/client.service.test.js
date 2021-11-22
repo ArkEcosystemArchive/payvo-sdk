@@ -210,10 +210,10 @@ test("#votes", async () => {
 	assert.array(result.votes);
 });
 
-describe("#unlockableBalances", (suite) => {
-	test.before.each(async () => createLocalServices());
+describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => createLocalServices());
 
-	suite('#should return empty when the property "unlocking" is missing in the response', async () => {
+	test('#should return empty when the property "unlocking" is missing in the response', async () => {
 		await createLocalServices();
 
 		nock(/.+/)
@@ -243,7 +243,7 @@ describe("#unlockableBalances", (suite) => {
 		assert.array(objects);
 	});
 
-	suite("should have a pending balance if the current height is not greater than the unlock height", async () => {
+	test("should have a pending balance if the current height is not greater than the unlock height", async () => {
 		await createLocalServices();
 
 		// mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
@@ -286,58 +286,55 @@ describe("#unlockableBalances", (suite) => {
 		assert.is(pending.toHuman(), 10);
 	});
 
-	suite(
-		"should have a current balance if the current height is greater than or equal to the unlock height",
-		async () => {
-			await createLocalServices();
+	test("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
+		await createLocalServices();
 
-			// mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
+		// mockery(DateTime, "make").mockReturnValueOnce(DateTime.make("2021-07-28 12:00"));
 
-			nock(/.+/)
-				.get("/api/v2/accounts")
-				.query(true)
-				.reply(200, {
-					data: [
-						{
-							dpos: {
-								unlocking: [
-									{
-										delegateAddress: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
-										amount: "1000000000",
-										height: {
-											start: 14216291,
-											end: 14218291,
-										},
+		nock(/.+/)
+			.get("/api/v2/accounts")
+			.query(true)
+			.reply(200, {
+				data: [
+					{
+						dpos: {
+							unlocking: [
+								{
+									delegateAddress: "lsknnwoty8tmzoc96rscwu7bw4kmcwvdatawerehw",
+									amount: "1000000000",
+									height: {
+										start: 14216291,
+										end: 14218291,
 									},
-								],
-							},
+								},
+							],
 						},
-					],
-				})
-				.get("/api/v2/network/status")
-				.reply(200, {
-					data: {
-						blockTime: 10,
-						height: 14218295,
 					},
-				});
+				],
+			})
+			.get("/api/v2/network/status")
+			.reply(200, {
+				data: {
+					blockTime: 10,
+					height: 14218295,
+				},
+			});
 
-			const { current, pending, objects } = await subject.unlockableBalances(
-				"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
-			);
+		const { current, pending, objects } = await subject.unlockableBalances(
+			"lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp",
+		);
 
-			assert.is(current.toHuman(), 10);
-			assert.is(pending.toHuman(), 0);
-			assert.array(objects);
-			assert.is(objects[0].amount.toHuman(), 10);
-		},
-	);
+		assert.is(current.toHuman(), 10);
+		assert.is(pending.toHuman(), 0);
+		assert.array(objects);
+		assert.is(objects[0].amount.toHuman(), 10);
+	});
 });
 
-describe("#broadcast", (suite) => {
+describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	let transactionPayload;
 
-	suite.before.each(async () => {
+	beforeEach(async () => {
 		await createLocalServices();
 
 		const transactionSigned = {
@@ -360,7 +357,7 @@ describe("#broadcast", (suite) => {
 		);
 	});
 
-	suite("should pass", async () => {
+	test("should pass", async () => {
 		nock(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
 		const result = await subject.broadcast([transactionPayload]);
@@ -372,7 +369,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("should fail", async () => {
+	test("should fail", async () => {
 		nock(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
 		const result = await subject.broadcast([transactionPayload]);
@@ -386,7 +383,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("should handle http exception", async () => {
+	test("should handle http exception", async () => {
 		nock(/.+/).post("/api/v2/transactions").reply(500, { message: "unknown error" });
 
 		const result = await subject.broadcast([transactionPayload]);

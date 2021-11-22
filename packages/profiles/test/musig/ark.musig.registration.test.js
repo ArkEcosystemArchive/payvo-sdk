@@ -13,7 +13,7 @@ import {
 	generateRegistrationTransactionData,
 } from "./musig.test.helpers";
 
-describe("ARK", () => {
+describe("ARK", ({ afterEach, beforeEach, test }) => {
 	let profile;
 	const { mockServerResponse, resetServerResponseMocks } = mockMusigServer({
 		url: "https://ark-test-musig.payvo.com",
@@ -50,7 +50,7 @@ describe("ARK", () => {
 		resetServerResponseMocks();
 	});
 
-	describe("MuSig Registration", () => {
+	describe("MuSig Registration", ({ afterEach, beforeEach, test }) => {
 		test("should perform a 2 out of 2 registration", async () => {
 			const { wallets, publicKeys } = await generateWallets({
 				numberOfWallets: 2,

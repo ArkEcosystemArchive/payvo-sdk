@@ -200,12 +200,12 @@ test("#update", async () => {
 	);
 });
 
-// describe("#fill", (suite) => {
-// 	suite.before.each(async () => {
+// describe("#fill", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(async () => {
 // 		await createEnv();
 // 	});
 
-// 	suite("should fill the wallet", async () => {
+// 	test("should fill the wallet", async () => {
 // 		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 // 		profile.settings().set(ProfileSetting.Name, "John Doe");
 
@@ -228,7 +228,7 @@ test("#update", async () => {
 // 		assert.equal(subject.findById(newWallet.id()), newWallet);
 // 	});
 
-// 	suite("should fail to fill the wallet if the coin doesn't exist", async () => {
+// 	test("should fail to fill the wallet if the coin doesn't exist", async () => {
 // 		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 // 		profile.settings().set(ProfileSetting.Name, "John Doe");
 
@@ -254,7 +254,7 @@ test("#update", async () => {
 // 		assert.true(subject.findById(newWallet.id()).isMissingNetwork());
 // 	});
 
-// 	suite("should fail to fill the wallet if the network doesn't exist", async () => {
+// 	test("should fail to fill the wallet if the network doesn't exist", async () => {
 // 		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 // 		profile.settings().set(ProfileSetting.Name, "John Doe");
 
@@ -281,12 +281,12 @@ test("#update", async () => {
 // 	});
 // });
 
-// describe("#sortBy", (suite) => {
+// describe("#sortBy", ({ afterEach, beforeEach, test }) => {
 // 	let walletARK;
 // 	let walletBTC;
 // 	let walletLSK;
 
-// 	suite.before.each(async () => {
+// 	beforeEach(async () => {
 // 		await createEnv();
 
 // 		subject.flush();
@@ -311,7 +311,7 @@ test("#update", async () => {
 // 		);
 // 	});
 
-// 	suite("should sort by coin", async () => {
+// 	test("should sort by coin", async () => {
 // 		const wallets = subject.sortBy("coin");
 
 // 		assert.is(wallets[0].address(), walletBTC.address()); // BTC
@@ -319,7 +319,7 @@ test("#update", async () => {
 // 		assert.is(wallets[2].address(), walletLSK.address()); // LSK
 // 	});
 
-// 	suite("should sort by coin desc", async () => {
+// 	test("should sort by coin desc", async () => {
 // 		const wallets = subject.sortBy("coin", "desc");
 
 // 		assert.is(wallets[0].address(), walletLSK.address()); // LSK
@@ -327,7 +327,7 @@ test("#update", async () => {
 // 		assert.is(wallets[2].address(), walletBTC.address()); // BTC
 // 	});
 
-// 	suite("should sort by address", async () => {
+// 	test("should sort by address", async () => {
 // 		const wallets = subject.sortBy("address");
 
 // 		assert.is(wallets[0].address(), walletARK.address());
@@ -335,7 +335,7 @@ test("#update", async () => {
 // 		assert.is(wallets[2].address(), walletBTC.address());
 // 	});
 
-// 	suite("should sort by type", async () => {
+// 	test("should sort by type", async () => {
 // 		walletARK.toggleStarred();
 // 		walletLSK.toggleStarred();
 
@@ -346,7 +346,7 @@ test("#update", async () => {
 // 		assert.is(wallets[2].address(), walletLSK.address());
 // 	});
 
-// 	suite("should sort by balance", async () => {
+// 	test("should sort by balance", async () => {
 // 		const wallets = subject.sortBy("balance");
 
 // 		assert.is(wallets[0].address(), walletARK.address());
@@ -354,18 +354,18 @@ test("#update", async () => {
 // 		assert.is(wallets[2].address(), walletLSK.address());
 // 	});
 
-// 	suite("should export toObject", async () => {
+// 	test("should export toObject", async () => {
 // 		const wallets = subject.toObject();
 
 // 		assert.instance(wallets, Object);
 // 	});
 // });
 
-// describe("restore", function (suite) {
+// describe("restore", function ({ afterEach, beforeEach, test }) {
 // 	let profile;
 // 	let wallet;
 
-// 	suite.before.each(async () => {
+// 	beforeEach(async () => {
 // 		await createEnv();
 
 // 		profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
@@ -386,7 +386,7 @@ test("#update", async () => {
 // 		});
 // 	});
 
-// 	suite("should restore", async () => {
+// 	test("should restore", async () => {
 // 		const newWallet2 = await profile.walletFactory().fromMnemonicWithBIP39({
 // 			coin: "ARK",
 // 			mnemonic: "obvious office stock bind patient jazz off neutral figure truth start limb",
@@ -412,7 +412,7 @@ test("#update", async () => {
 // 		assert.true(subject.findById(newWallet2.id()).hasBeenFullyRestored());
 // 	});
 
-// 	suite("should do nothing if the wallet has already been fully restored", async () => {
+// 	test("should do nothing if the wallet has already been fully restored", async () => {
 // 		subject.findById(wallet.id()).markAsFullyRestored();
 
 // 		await subject.restore();
@@ -422,7 +422,7 @@ test("#update", async () => {
 // 	});
 
 // 	// @TODO: implement mockImplementationOnce
-// 	suite.skip("should retry if it encounters a failure during restoration", async () => {
+// 	skip("should retry if it encounters a failure during restoration", async () => {
 // 		// Nasty: we need to mock a failure on the wallet instance the repository has
 // 		mockery(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
 // 			throw new Error();

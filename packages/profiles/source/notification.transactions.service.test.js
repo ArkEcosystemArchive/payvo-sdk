@@ -21,7 +21,7 @@ let notificationsRepository;
 let subjectTransactionNotificationService;
 let profile;
 
-describe("ProfileTransactionNotificationService", () => {
+describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test }) => {
 	test.before(async () => {
 		bootContainer();
 

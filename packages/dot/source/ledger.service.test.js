@@ -33,7 +33,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ afterEach, beforeEach, test }) => {
 	test("should generate an app version", async () => {
 		const polkadot = await createMockService(ledger.appVersion.record);
 
@@ -49,7 +49,7 @@ describe("getVersion", () => {
 	});
 });
 
-describe("getPublicKey", () => {
+describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
 	test("should generate a publicKey", async () => {
 		const polkadot = await createMockService(ledger.publicKey.record);
 
@@ -57,7 +57,7 @@ describe("getPublicKey", () => {
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	test("should generate output from a transaction", async () => {
 		const polkadot = await createMockService(ledger.transaction.record);
 
@@ -68,7 +68,7 @@ describe("signTransaction", () => {
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ afterEach, beforeEach, test }) => {
 	test("should fail to generate an output from a message", async () => {
 		const polkadot = await createMockService("");
 

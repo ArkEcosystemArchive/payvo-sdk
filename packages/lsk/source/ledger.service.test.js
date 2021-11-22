@@ -39,7 +39,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("connect", () => {
+describe("connect", ({ afterEach, beforeEach, test }) => {
 	test("should throw error with unexpected input", async () => {
 		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -62,7 +62,7 @@ describe("connect", () => {
 	});
 });
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
 
@@ -70,7 +70,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ afterEach, beforeEach, test }) => {
 	test("should pass with an app version", async () => {
 		const lsk = await createMockService(ledger.appVersion.record);
 
@@ -78,7 +78,7 @@ describe("getVersion", () => {
 	});
 });
 
-describe("getPublicKey", () => {
+describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a compressed publicKey", async () => {
 		const lsk = await createMockService(ledger.publicKey.record);
 
@@ -86,7 +86,7 @@ describe("getPublicKey", () => {
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a signature", async () => {
 		const lsk = await createMockService(ledger.transaction.record);
 
@@ -97,7 +97,7 @@ describe("signTransaction", () => {
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a signature", async () => {
 		const lsk = await createMockService(ledger.message.record);
 
@@ -108,12 +108,12 @@ describe("signMessage", () => {
 	});
 });
 
-describe("scan", (suite) => {
-	suite.after.each(() => nock.cleanAll());
+describe("scan", ({ afterEach, beforeAll, test }) => {
+	afterEach(() => nock.cleanAll());
 
-	suite.before(() => nock.disableNetConnect());
+	beforeAll(() => nock.disableNetConnect());
 
-	suite("should return scanned wallet", async () => {
+	test("should return scanned wallet", async () => {
 		nock(/.+/)
 			.get("/api/v2/accounts")
 			.query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
@@ -132,7 +132,7 @@ describe("scan", (suite) => {
 		assert.length(Object.keys(walletData), 4); // 3 + 1 cold wallet
 	});
 
-	suite("should allow to pass a startPath", async () => {
+	test("should allow to pass a startPath", async () => {
 		const lsk = await createMockService(ledger.wallets.record2);
 
 		const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
@@ -140,7 +140,7 @@ describe("scan", (suite) => {
 		assert.length(Object.keys(walletData), 1);
 	});
 
-	suite("should support legacy", async () => {
+	test("should support legacy", async () => {
 		const lsk = await createMockService(ledger.wallets.record);
 
 		const walletData = await lsk.scan({ useLegacy: true });

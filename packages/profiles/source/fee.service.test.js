@@ -42,34 +42,32 @@ test.before.each(async () => {
 	subject = new FeeService();
 });
 
-describe("FeeService", () => {
-	test("should sync fees", async () => {
-		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+test("should sync fees", async () => {
+	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		await subject.sync(profile, "ARK", "ark.devnet");
-		assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
-	});
+	await subject.sync(profile, "ARK", "ark.devnet");
+	assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
+});
 
-	test("should sync fees of all coins", async () => {
-		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+test("should sync fees of all coins", async () => {
+	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		await subject.syncAll(profile);
+	await subject.syncAll(profile);
 
-		assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
-	});
+	assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
+});
 
-	test("#findByType", async () => {
-		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+test("#findByType", async () => {
+	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		await subject.syncAll(profile);
+	await subject.syncAll(profile);
 
-		const fees = subject.findByType("ARK", "ark.devnet", "transfer");
+	const fees = subject.findByType("ARK", "ark.devnet", "transfer");
 
-		assert.is(fees.min.toHuman(), 0.00357);
-		assert.is(fees.avg.toHuman(), 0.1);
-		assert.is(fees.max.toHuman(), 0.1);
-		assert.is(fees.static.toHuman(), 0.1);
-	});
+	assert.is(fees.min.toHuman(), 0.00357);
+	assert.is(fees.avg.toHuman(), 0.1);
+	assert.is(fees.max.toHuman(), 0.1);
+	assert.is(fees.static.toHuman(), 0.1);
 });
 
 test.run();

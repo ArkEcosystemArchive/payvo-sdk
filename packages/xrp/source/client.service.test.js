@@ -1,5 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
-
+import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -63,53 +62,49 @@ test("#transactions", async () => {
 	assert.equal(result.items()[0].fee(), BigNumber.make(1000));
 });
 
-describe("#wallet", () => {
-	test("should succeed", async () => {
-		nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
+test("#wallet", async () => {
+	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
-			type: "address",
-			value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
-		});
-
-		assert.instance(result, WalletData);
-		assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
-		assert.undefined(result.publicKey());
-		assert.equal(result.balance().available, BigNumber.make("92291324300"));
+	const result = await subject.wallet({
+		type: "address",
+		value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
 	});
 
-	describe("#broadcast", () => {
-		const transactionPayload = createService(SignedTransactionData).configure(
-			"id",
-			"12000322000000002400000017201B0086955468400000000000000C732102F89EAEC7667B30F33D0687BBA86C3FE2A08CCA40A9186C5BDE2DAA6FA97A37D87446304402207660BDEF67105CE1EBA9AD35DC7156BAB43FF1D47633199EE257D70B6B9AAFBF02207F5517BC8AEF2ADC1325897ECDBA8C673838048BCA62F4E98B252F19BE88796D770A726970706C652E636F6D81144FBFF73DA4ECF9B701940F27341FA8020C313443",
-			"12000322000000002400000017201B0086955468400000000000000C732102F89EAEC7667B30F33D0687BBA86C3FE2A08CCA40A9186C5BDE2DAA6FA97A37D87446304402207660BDEF67105CE1EBA9AD35DC7156BAB43FF1D47633199EE257D70B6B9AAFBF02207F5517BC8AEF2ADC1325897ECDBA8C673838048BCA62F4E98B252F19BE88796D770A726970706C652E636F6D81144FBFF73DA4ECF9B701940F27341FA8020C313443",
-		);
+	assert.instance(result, WalletData);
+	assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
+	assert.undefined(result.publicKey());
+	assert.equal(result.balance().available, BigNumber.make("92291324300"));
+});
 
-		test("broadcast should pass", async () => {
-			nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+const transactionPayload = createService(SignedTransactionData).configure(
+	"id",
+	"12000322000000002400000017201B0086955468400000000000000C732102F89EAEC7667B30F33D0687BBA86C3FE2A08CCA40A9186C5BDE2DAA6FA97A37D87446304402207660BDEF67105CE1EBA9AD35DC7156BAB43FF1D47633199EE257D70B6B9AAFBF02207F5517BC8AEF2ADC1325897ECDBA8C673838048BCA62F4E98B252F19BE88796D770A726970706C652E636F6D81144FBFF73DA4ECF9B701940F27341FA8020C313443",
+	"12000322000000002400000017201B0086955468400000000000000C732102F89EAEC7667B30F33D0687BBA86C3FE2A08CCA40A9186C5BDE2DAA6FA97A37D87446304402207660BDEF67105CE1EBA9AD35DC7156BAB43FF1D47633199EE257D70B6B9AAFBF02207F5517BC8AEF2ADC1325897ECDBA8C673838048BCA62F4E98B252F19BE88796D770A726970706C652E636F6D81144FBFF73DA4ECF9B701940F27341FA8020C313443",
+);
 
-			const result = await subject.broadcast([transactionPayload]);
+test("broadcast should pass", async () => {
+	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-			assert.equal(result, {
-				accepted: ["2B6928A583A9D14D359E471EB8D8F961CBC1A054EF86845A39790A7912147CD2"],
-				rejected: [],
-				errors: {},
-			});
-		});
+	const result = await subject.broadcast([transactionPayload]);
 
-		test("broadcast should fail", async () => {
-			nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+	assert.equal(result, {
+		accepted: ["2B6928A583A9D14D359E471EB8D8F961CBC1A054EF86845A39790A7912147CD2"],
+		rejected: [],
+		errors: {},
+	});
+});
 
-			const result = await subject.broadcast([transactionPayload]);
+test("broadcast should fail", async () => {
+	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-			assert.equal(result, {
-				accepted: [],
-				rejected: [transactionPayload.id()],
-				errors: {
-					[transactionPayload.id()]: "tecUNFUNDED_PAYMENT",
-				},
-			});
-		});
+	const result = await subject.broadcast([transactionPayload]);
+
+	assert.equal(result, {
+		accepted: [],
+		rejected: [transactionPayload.id()],
+		errors: {
+			[transactionPayload.id()]: "tecUNFUNDED_PAYMENT",
+		},
 	});
 });
 

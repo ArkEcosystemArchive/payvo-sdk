@@ -13,7 +13,7 @@ import {
 	generateRegistrationTransactionData,
 } from "./musig.test.helpers";
 
-describe("LSK", () => {
+describe("LSK", ({ afterEach, beforeEach, test }) => {
 	let profile;
 
 	const { mockServerResponse, resetServerResponseMocks } = mockMusigServer({
@@ -39,7 +39,7 @@ describe("LSK", () => {
 		resetServerResponseMocks();
 	});
 
-	describe("MuSig Registration", () => {
+	describe("MuSig Registration", ({ afterEach, beforeEach, test }) => {
 		// it.each(["mandatory", "optional"])(
 		// 	"should perform a 2 out of 2 registration using all keys as %s",
 		// 	async (key) => {

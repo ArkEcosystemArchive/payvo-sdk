@@ -22,85 +22,79 @@ let profile;
 let wallet;
 let subject;
 
-test.before(() => {
-	bootContainer();
+describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
+	beforeAll(() => {
+		bootContainer();
 
-	nock.disableNetConnect();
-});
+		nock.disableNetConnect();
+	});
 
-test.before.each(() => {
-	nock("https://ark-test.payvo.com:443")
-		.get("/api/blockchain")
-		.reply(200, require("../test/fixtures/client/blockchain.json"))
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		// default wallet
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		// second wallet
-		.get("/api/wallets/022e04844a0f02b1df78dff2c7c4e3200137dfc1183dcee8fc2a411b00fd1877ce")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		// Musig wallet
-		.get("/api/wallets/DML7XEfePpj5qDFb1SbCWxLRhzdTDop7V1")
-		.reply(200, require("../test/fixtures/client/wallet-musig.json"))
-		.get("/api/wallets/02cec9caeb855e54b71e4d60c00889e78107f6136d1f664e5646ebcb2f62dae2c6")
-		.reply(200, require("../test/fixtures/client/wallet-musig.json"))
-		.get("/transaction/a7245dcc720d3e133035cff04b4a14dbc0f8ff889c703c89c99f2f03e8f3c59d")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/musig-transaction.json"))
-		.get("/transaction/bb9004fa874b534905f9eff201150f7f982622015f33e076c52f1e945ef184ed")
-		.query(true)
-		.reply(200, () => ({ data: require("../test/fixtures/client/transactions.json").data[1] }))
-		.persist();
+	beforeEach(async () => {
+		nock("https://ark-test.payvo.com:443")
+			.get("/api/blockchain")
+			.reply(200, require("../test/fixtures/client/blockchain.json"))
+			.get("/api/node/configuration")
+			.reply(200, require("../test/fixtures/client/configuration.json"))
+			.get("/api/peers")
+			.reply(200, require("../test/fixtures/client/peers.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, require("../test/fixtures/client/syncing.json"))
+			// default wallet
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, require("../test/fixtures/client/wallet.json"))
+			.get("/api/wallets/030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd")
+			.reply(200, require("../test/fixtures/client/wallet.json"))
+			// second wallet
+			.get("/api/wallets/022e04844a0f02b1df78dff2c7c4e3200137dfc1183dcee8fc2a411b00fd1877ce")
+			.reply(200, require("../test/fixtures/client/wallet-2.json"))
+			.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+			.reply(200, require("../test/fixtures/client/wallet-2.json"))
+			// Musig wallet
+			.get("/api/wallets/DML7XEfePpj5qDFb1SbCWxLRhzdTDop7V1")
+			.reply(200, require("../test/fixtures/client/wallet-musig.json"))
+			.get("/api/wallets/02cec9caeb855e54b71e4d60c00889e78107f6136d1f664e5646ebcb2f62dae2c6")
+			.reply(200, require("../test/fixtures/client/wallet-musig.json"))
+			.get("/transaction/a7245dcc720d3e133035cff04b4a14dbc0f8ff889c703c89c99f2f03e8f3c59d")
+			.query(true)
+			.reply(200, require("../test/fixtures/client/musig-transaction.json"))
+			.get("/transaction/bb9004fa874b534905f9eff201150f7f982622015f33e076c52f1e945ef184ed")
+			.query(true)
+			.reply(200, () => ({ data: require("../test/fixtures/client/transactions.json").data[1] }))
+			.persist();
 
-	nock("https://lsk-test.payvo.com:443")
-		.get("/api/v2/accounts")
-		.query({ address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h" })
-		.reply(404, { error: true, message: "Data not found" })
-		.get("/api/v2/fees")
-		.reply(200, {
-			data: {
-				feeEstimatePerByte: {
-					low: 0,
-					medium: 0,
-					high: 0,
+		nock("https://lsk-test.payvo.com:443")
+			.get("/api/v2/accounts")
+			.query({ address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h" })
+			.reply(404, { error: true, message: "Data not found" })
+			.get("/api/v2/fees")
+			.reply(200, {
+				data: {
+					feeEstimatePerByte: {
+						low: 0,
+						medium: 0,
+						high: 0,
+					},
+					baseFeeById: {
+						"5:0": "1000000000",
+					},
+					baseFeeByName: {
+						"dpos:registerDelegate": "1000000000",
+					},
+					minFeePerByte: 1000,
 				},
-				baseFeeById: {
-					"5:0": "1000000000",
+				meta: {
+					lastUpdate: 1630294530,
+					lastBlockHeight: 14467510,
+					lastBlockId: "0ccc6783e26b8fbf030d9d23c6df35c2db58395b2d7aab9b61a703798425be40",
 				},
-				baseFeeByName: {
-					"dpos:registerDelegate": "1000000000",
-				},
-				minFeePerByte: 1000,
-			},
-			meta: {
-				lastUpdate: 1630294530,
-				lastBlockHeight: 14467510,
-				lastBlockId: "0ccc6783e26b8fbf030d9d23c6df35c2db58395b2d7aab9b61a703798425be40",
-			},
-		})
-		.persist();
+			})
+			.persist();
 
-	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
-	profile.settings().set(ProfileSetting.Name, "John Doe");
-});
+		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+		profile.settings().set(ProfileSetting.Name, "John Doe");
 
-test.after.each(() => {
-	nock.cleanAll();
-});
-
-describe("ARK", (suite) => {
-	test.before.each(async () => {
 		wallet = await profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -110,273 +104,275 @@ describe("ARK", (suite) => {
 		subject = new TransactionService(wallet);
 	});
 
+	afterEach(() => {
+		nock.cleanAll();
+	});
+
 	test("should sync", async () => {
 		const musig = require("../test/fixtures/client/musig-transaction.json");
 		nock("https://ark-test.payvo.com:443").get("/transactions").query(true).reply(200, [musig]).persist();
 		await assert.resolves(() => subject.sync());
 	});
 
-	describe("signatures", () => {
-		test("should add signature", async () => {
-			nock("https://ark-test-musig.payvo.com:443")
-				.post("/", {
-					publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-					state: "pending",
-				})
-				.reply(200, {
-					result: [
-						{
-							data: {
-								id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
-								signatures: [],
-							},
-							multisigAsset: {},
+	test("should add signature", async () => {
+		nock("https://ark-test-musig.payvo.com:443")
+			.post("/", {
+				publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+				state: "pending",
+			})
+			.reply(200, {
+				result: [
+					{
+						data: {
+							id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
+							signatures: [],
 						},
-					],
-				})
-				.post("/", {
-					publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-					state: "ready",
-				})
-				.reply(200, {
-					result: [
-						{
-							data: {
-								id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
-								signatures: [],
-							},
-							multisigAsset: {},
-						},
-					],
-				})
-				.post("/", {
-					id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
-				})
-				.reply(200, {
-					result: {
-						data: { signatures: [] },
 						multisigAsset: {},
 					},
-				})
-				.post("/", ({ method }) => method === "store")
-				.reply(200, {
-					result: {
-						id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
+				],
+			})
+			.post("/", {
+				publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+				state: "ready",
+			})
+			.reply(200, {
+				result: [
+					{
+						data: {
+							id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
+							signatures: [],
+						},
+						multisigAsset: {},
 					},
-				})
-				.persist();
-
-			const identity1 = await deriveIdentity(
-				"citizen door athlete item name various drive onion foster audit board myself",
-			);
-			const identity2 = await deriveIdentity(
-				"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
-			);
-
-			const id = await subject.signMultiSignature({
-				nonce: "1",
-				signatory: new Signatories.Signatory(new Signatories.MnemonicSignatory(identity1)),
-				data: {
-					publicKeys: [identity1.publicKey, identity2.publicKey],
-					min: 1,
-					senderPublicKey: "0205d9bbe71c343ac9a6a83a4344fd404c3534fc7349827097d0835d160bc2b896",
+				],
+			})
+			.post("/", {
+				id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
+			})
+			.reply(200, {
+				result: {
+					data: { signatures: [] },
+					multisigAsset: {},
 				},
-			});
-
-			await subject.sync();
-			await subject.addSignature(id, new Signatories.Signatory(new Signatories.MnemonicSignatory(identity2)));
-
-			assert.defined(subject.transaction(id));
-		});
-
-		test("should sign second signature", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					mnemonic: "this is a top secret second mnemonic",
+			})
+			.post("/", ({ method }) => method === "store")
+			.reply(200, {
+				result: {
+					id: "505e385d08e211b83fa6cf304ad67f42ddbdb364d767fd65354eb5a620b9380f",
 				},
-			};
-			const id = await subject.signSecondSignature(input);
+			})
+			.persist();
 
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+		const identity1 = await deriveIdentity(
+			"citizen door athlete item name various drive onion foster audit board myself",
+		);
+		const identity2 = await deriveIdentity(
+			"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
+		);
+
+		const id = await subject.signMultiSignature({
+			nonce: "1",
+			signatory: new Signatories.Signatory(new Signatories.MnemonicSignatory(identity1)),
+			data: {
+				publicKeys: [identity1.publicKey, identity2.publicKey],
+				min: 1,
+				senderPublicKey: "0205d9bbe71c343ac9a6a83a4344fd404c3534fc7349827097d0835d160bc2b896",
+			},
 		});
 
-		test("should sign multi signature registration", async () => {
-			const identity1 = await deriveIdentity(
-				"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
-			);
-			const identity2 = await deriveIdentity(
-				"citizen door athlete item name various drive onion foster audit board myself",
-			);
-			const identity3 = await deriveIdentity(
-				"nuclear anxiety mandate board property fade chief mule west despair photo fiber",
-			);
+		await subject.sync();
+		await subject.addSignature(id, new Signatories.Signatory(new Signatories.MnemonicSignatory(identity2)));
 
-			const id = await subject.signMultiSignature({
-				nonce: "1",
-				signatory: new Signatories.Signatory(new Signatories.MnemonicSignatory(identity1)),
-				data: {
-					publicKeys: [identity1.publicKey, identity2.publicKey, identity3.publicKey],
-					min: 2,
-					senderPublicKey: identity1.publicKey,
+		assert.defined(subject.transaction(id));
+	});
+
+	test("should sign second signature", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				mnemonic: "this is a top secret second mnemonic",
+			},
+		};
+		const id = await subject.signSecondSignature(input);
+
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
+
+	test("should sign multi signature registration", async () => {
+		const identity1 = await deriveIdentity(
+			"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
+		);
+		const identity2 = await deriveIdentity(
+			"citizen door athlete item name various drive onion foster audit board myself",
+		);
+		const identity3 = await deriveIdentity(
+			"nuclear anxiety mandate board property fade chief mule west despair photo fiber",
+		);
+
+		const id = await subject.signMultiSignature({
+			nonce: "1",
+			signatory: new Signatories.Signatory(new Signatories.MnemonicSignatory(identity1)),
+			data: {
+				publicKeys: [identity1.publicKey, identity2.publicKey, identity3.publicKey],
+				min: 2,
+				senderPublicKey: identity1.publicKey,
+			},
+		});
+
+		assert.string(id);
+		assert.containKey(subject.waitingForOtherSignatures(), id);
+		assert.instance(subject.waitingForOtherSignatures()[id], ExtendedSignedTransactionData);
+		assert.false(subject.canBeSigned(id));
+	});
+
+	test("should sign ipfs", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				hash: "QmR45FmbVVrixReBwJkhEKde2qwHYaQzGxu4ZoDeswuF9w",
+			},
+		};
+		const id = await subject.signIpfs(input);
+
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
+
+	test("should sign multi payment", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				payments: [
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+				],
+			},
+		};
+		const id = await subject.signMultiPayment(input);
+
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
+
+	test("should sign delegate resignation", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+		};
+		const id = await subject.signDelegateResignation(input);
+
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
+
+	test("should sign htlc lock", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				amount: 1,
+				to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+				secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
+				expiration: {
+					type: 1,
+					value: 1607523002,
 				},
-			});
+			},
+		};
+		const id = await subject.signHtlcLock(input);
 
-			assert.string(id);
-			assert.containKey(subject.waitingForOtherSignatures(), id);
-			assert.instance(subject.waitingForOtherSignatures()[id], ExtendedSignedTransactionData);
-			assert.false(subject.canBeSigned(id));
-		});
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
 
-		test("should sign ipfs", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					hash: "QmR45FmbVVrixReBwJkhEKde2qwHYaQzGxu4ZoDeswuF9w",
-				},
-			};
-			const id = await subject.signIpfs(input);
+	test("should sign htlc claim", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
+				unlockSecret: "c27f1ce845d8c29eebc9006be932b604fd06755521b1a8b0be4204c65377151a",
+			},
+		};
+		const id = await subject.signHtlcClaim(input);
 
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+	});
 
-		test("should sign multi payment", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					payments: [
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-					],
-				},
-			};
-			const id = await subject.signMultiPayment(input);
+	test("should sign htlc refund", async () => {
+		const input = {
+			nonce: "1",
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					publicKey: "publicKey",
+					privateKey: "privateKey",
+				}),
+			),
+			data: {
+				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
+			},
+		};
+		const id = await subject.signHtlcRefund(input);
 
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
-
-		test("should sign delegate resignation", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-			};
-			const id = await subject.signDelegateResignation(input);
-
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
-
-		test("should sign htlc lock", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					amount: 1,
-					to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-					secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
-					expiration: {
-						type: 1,
-						value: 1607523002,
-					},
-				},
-			};
-			const id = await subject.signHtlcLock(input);
-
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
-
-		test("should sign htlc claim", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-					unlockSecret: "c27f1ce845d8c29eebc9006be932b604fd06755521b1a8b0be4204c65377151a",
-				},
-			};
-			const id = await subject.signHtlcClaim(input);
-
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
-
-		test("should sign htlc refund", async () => {
-			const input = {
-				nonce: "1",
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-				},
-			};
-			const id = await subject.signHtlcRefund(input);
-
-			assert.string(id);
-			assert.containKey(subject.signed(), id);
-			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		});
+		assert.string(id);
+		assert.containKey(subject.signed(), id);
+		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
 	test("#transaction lifecycle", async () => {
@@ -866,7 +862,7 @@ describe("ARK", (suite) => {
 	});
 });
 
-// describe("Shared", () => {
+// describe("Shared", ({ afterEach, beforeEach, test }) => {
 //     it.each([
 //         {
 //             coin: "ARK",

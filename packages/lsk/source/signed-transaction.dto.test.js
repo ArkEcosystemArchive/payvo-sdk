@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { assert, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -34,63 +34,59 @@ test("#sender", () => {
 	assert.is(subject.sender(), transaction.asset.recipientAddress);
 });
 
-describe("#recipient", () => {
-	test("returns the recipient address", () => {
-		assert.is(subject.recipient(), transaction.asset.recipientAddress);
-	});
-
-	test("returns the recipient address when it's buffer", async () => {
-		subject = await createService(SignedTransactionData).configure(
-			transaction.id,
-			{
-				...transaction,
-				asset: {
-					recipientAddress: Buffer.from([
-						118, 60, 25, 27, 10, 77, 5, 117, 2, 12, 225, 230, 80, 3, 117, 214, 208, 189, 212, 94,
-					]),
-				},
-			},
-			transaction,
-		);
-
-		assert.is(subject.recipient(), "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7");
-	});
+test("returns the recipient address", () => {
+	assert.is(subject.recipient(), transaction.asset.recipientAddress);
 });
 
-describe("#amount", () => {
-	test("returns transaction amount", () => {
-		assert.instance(subject.amount(), BigNumber);
-		assert.is(subject.amount().toString(), "100000000");
-	});
-
-	test("returns sum of unlock objects amounts if type is unlockToken", async () => {
-		subject = await createService(SignedTransactionData).configure(
-			transaction.id,
-			{
-				...transaction,
-				moduleID: 5,
-				assetID: 2,
-				asset: {
-					unlockObjects: [
-						{
-							delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
-							amount: "2000000000",
-							unvoteHeight: 14548930,
-						},
-						{
-							delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
-							amount: "3000000000",
-							unvoteHeight: 14548929,
-						},
-					],
-				},
+test("returns the recipient address when it's buffer", async () => {
+	subject = await createService(SignedTransactionData).configure(
+		transaction.id,
+		{
+			...transaction,
+			asset: {
+				recipientAddress: Buffer.from([
+					118, 60, 25, 27, 10, 77, 5, 117, 2, 12, 225, 230, 80, 3, 117, 214, 208, 189, 212, 94,
+				]),
 			},
-			transaction,
-		);
+		},
+		transaction,
+	);
 
-		assert.instance(subject.amount(), BigNumber);
-		assert.is(subject.amount().toString(), "5000000000");
-	});
+	assert.is(subject.recipient(), "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7");
+});
+
+test("returns transaction amount", () => {
+	assert.instance(subject.amount(), BigNumber);
+	assert.is(subject.amount().toString(), "100000000");
+});
+
+test("returns sum of unlock objects amounts if type is unlockToken", async () => {
+	subject = await createService(SignedTransactionData).configure(
+		transaction.id,
+		{
+			...transaction,
+			moduleID: 5,
+			assetID: 2,
+			asset: {
+				unlockObjects: [
+					{
+						delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
+						amount: "2000000000",
+						unvoteHeight: 14548930,
+					},
+					{
+						delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
+						amount: "3000000000",
+						unvoteHeight: 14548929,
+					},
+				],
+			},
+		},
+		transaction,
+	);
+
+	assert.instance(subject.amount(), BigNumber);
+	assert.is(subject.amount().toString(), "5000000000");
 });
 
 test("#fee", () => {

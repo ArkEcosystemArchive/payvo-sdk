@@ -10,7 +10,7 @@ import { SecretSignatory } from "./secret.signatory";
 import { Signatory } from "./signatory";
 import { WIFSignatory } from "./wif.signatory";
 
-describe("MnemonicSignatory", (test) => {
+describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
@@ -134,7 +134,7 @@ describe("MnemonicSignatory", (test) => {
 	});
 });
 
-describe("ConfirmationMnemonicSignatory", (test) => {
+describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
@@ -231,7 +231,7 @@ describe("ConfirmationMnemonicSignatory", (test) => {
 	});
 });
 
-describe("WIFSignatory", (test) => {
+describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
@@ -322,7 +322,7 @@ describe("WIFSignatory", (test) => {
 	});
 });
 
-describe("ConfirmationWIFSignatory", (test) => {
+describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
@@ -419,7 +419,7 @@ describe("ConfirmationWIFSignatory", (test) => {
 	});
 });
 
-describe("PrivateKeySignatory", (test) => {
+describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
@@ -529,7 +529,7 @@ describe("PrivateKeySignatory", (test) => {
 	});
 });
 
-describe("MultiSignatureSignatory", (test) => {
+describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
@@ -579,7 +579,7 @@ describe("MultiSignatureSignatory", (test) => {
 	});
 });
 
-describe("ConfirmationSecretSignatory", (test) => {
+describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 	test("#signingKey", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
