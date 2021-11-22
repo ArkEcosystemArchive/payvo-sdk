@@ -91,12 +91,12 @@ const beforeEachCallback = async () => {
 
 	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
 	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
-}
+};
 
 const afterEachCallback = () => {
 	liveSpy.mockRestore();
 	testSpy.mockRestore();
-}
+};
 
 describe("Transaction", ({ afterEach, beforeEach, test }) => {
 	beforeEach(async () => {

@@ -152,10 +152,7 @@ test.after(() => nock.enableNetConnect());
 // });
 
 test("should flush all the history", async () => {
-	nock(/.+/)
-		.get("/api/transactions")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transactions.json"));
+	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
 
 	assert.false(subject.hasMore("transactions"));
 
@@ -167,10 +164,7 @@ test("should flush all the history", async () => {
 });
 
 test("should handle undefined  promiseAllSettledByKey responses in aggregate", async () => {
-	nock(/.+/)
-		.get("/api/transactions")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transactions.json"));
+	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const promiseAllSettledByKeyMock = mockery(promiseHelpers, "promiseAllSettledByKey").mockImplementation(() => {
 		return Promise.resolve(undefined);
@@ -182,10 +176,7 @@ test("should handle undefined  promiseAllSettledByKey responses in aggregate", a
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `address`", async () => {
-	nock(/.+/)
-		.get("/api/transactions")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transactions.json"));
+	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
@@ -198,10 +189,7 @@ test("should aggregate and filter transactions based on provided identifiers of 
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey`", async () => {
-	nock(/.+/)
-		.get("/api/transactions")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transactions.json"));
+	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [
