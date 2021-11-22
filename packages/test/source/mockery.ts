@@ -1,4 +1,4 @@
-import sinon from "sinon";
+import { mock, spy, stub } from "sinon";
 import { ok } from "uvu/assert";
 
 export class Mockery {
@@ -8,16 +8,16 @@ export class Mockery {
 		this.#subject = subject;
 	}
 
-	public static spy(owner: object, method: string): Mockery {
-		return new Mockery(sinon.spy(owner, method));
+	public static spy(owner?: object, method?: string): Mockery {
+		return new Mockery(spy(owner, method));
 	}
 
 	public static stub(owner: object, method: string): Mockery {
-		return new Mockery(sinon.subject(owner, method));
+		return new Mockery(stub(owner, method));
 	}
 
 	public static mock(owner: object, method: string): Mockery {
-		return new Mockery(sinon.mock(owner, method));
+		return new Mockery(mock(owner, method));
 	}
 
 	public calledWith(message: string | object): void {

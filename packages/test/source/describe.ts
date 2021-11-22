@@ -1,7 +1,7 @@
 import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
-import { mock, spy, stub } from "./sinon.js";
+import { Mockery } from "./mockery.js";
 
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
@@ -14,11 +14,11 @@ const runSuite = (suite: Test, callback: Function): void => {
 		beforeAll: suite.before,
 		beforeEach: suite.before.each,
 		it: suite,
-		mock,
+		mock: Mockery.mock,
 		only: suite.only,
 		skip: suite.skip,
-		spy,
-		stub,
+		spy: Mockery.spy,
+		stub: Mockery.stub,
 		test: suite,
 	});
 

@@ -1,4 +1,4 @@
-import { assert, sinon, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 import nock from "nock";
 import { bootContainer } from "../test/mocking";
@@ -14,7 +14,7 @@ import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
 import { Authenticator } from "./authenticator";
 import { Profile } from "./profile";
-import { IProfile, IReadWriteWallet, ProfileData, ProfileSetting } from "./contracts";
+import { ProfileData, ProfileSetting } from "./contracts";
 import { WalletFactory } from "./wallet.factory";
 import { ProfileNotificationService } from "./notification.service";
 
@@ -181,7 +181,7 @@ test("should determine if the password uses a password", () => {
 });
 
 test.skip("#hasBeenPartiallyRestored", async () => {
-	const wallet = sinon.spy();
+	const wallet = Mockery.spy();
 	wallet.id.returnValue("some-id");
 	wallet.hasBeenPartiallyRestored.returnValue(true);
 	subject.wallets().push(wallet);

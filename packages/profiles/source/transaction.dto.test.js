@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, sinon, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
@@ -309,8 +309,8 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#getMeta | #setMeta", () => {
-		const getMeta = sinon.spy();
-		const setMeta = sinon.spy();
+		const getMeta = Mockery.spy();
+		const setMeta = Mockery.spy();
 
 		subject = createSubject(wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
 

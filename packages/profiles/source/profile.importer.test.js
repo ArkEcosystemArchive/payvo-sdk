@@ -1,4 +1,4 @@
-import { assert, describe, sinon, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -269,7 +269,7 @@ test("should restore a profile with wallets of unavailable coins", async () => {
 });
 
 test("should apply migrations if any are set", async () => {
-	const migrationFunction = sinon.spy();
+	const migrationFunction = Mockery.spy();
 	const migrations = { "1.0.1": migrationFunction };
 
 	container.constant(Identifiers.MigrationSchemas, migrations);
