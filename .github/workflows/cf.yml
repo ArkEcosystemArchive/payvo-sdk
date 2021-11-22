@@ -42,6 +42,8 @@ jobs:
               run: pnpm install --frozen-lockfile
             - name: Update manifests
               run: sh scripts/update-manifests.sh
+            - name: Sort
+              run: npx sort-package-json packages/**/package.json
             - name: Lint
               run: rush lint || true
             - name: Format
