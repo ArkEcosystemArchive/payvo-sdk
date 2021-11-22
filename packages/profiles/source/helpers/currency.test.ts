@@ -7,14 +7,29 @@ describe("Helpers.Currency", () => {
 		expect(Currency.format(10, "USD")).toBe("$10.00");
 	});
 
-	it("should format crypto", () => {
-		expect(Currency.format(1, "DARK")).toBe("1 DARK");
-		expect(Currency.format(1, "BTC")).toBe("1 BTC");
+	it.each(["BTC", "ETH", "ARK", "DARK", "LSK", "BIND", "SOL"])("should format crypto (%s)", (ticker) => {
+		expect(Currency.format(10, ticker)).toBe(`10 ${ticker}`);
 	});
 
-	it("should allow to hide ticker", () => {
-		expect(Currency.format(10, "USD", { withTicker: false })).toBe("10.00");
-		expect(Currency.format(1, "BTC", { withTicker: false })).toBe("1");
+	it.each([
+		"AUD",
+		"BRL",
+		"CAD",
+		"CHF",
+		"CNY",
+		"DKK",
+		"EUR",
+		"GBP",
+		"HKD",
+		"IDR",
+		"INR",
+		"MXN",
+		"NOK",
+		"RUB",
+		"SEK",
+		"USD",
+	])("should allow to hide ticker (%s)", (ticker) => {
+		expect(Currency.format(10, ticker, { withTicker: false })).toBe("10.00");
 	});
 
 	it("should allow to pass locale", () => {
