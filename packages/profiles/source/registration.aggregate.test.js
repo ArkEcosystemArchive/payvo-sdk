@@ -35,13 +35,11 @@ test.before.each(async () => {
 	subject = new RegistrationAggregate(profile);
 });
 
-describe("RegistrationAggregate", () => {
-	test("#delegates", async () => {
-		const delegates = subject.delegates();
+test("#delegates", async () => {
+	const delegates = subject.delegates();
 
-		assert.length(delegates, 1);
-		assert.is(delegates[0].address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-	});
+	assert.length(delegates, 1);
+	assert.is(delegates[0].address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
 });
 
 test.run();

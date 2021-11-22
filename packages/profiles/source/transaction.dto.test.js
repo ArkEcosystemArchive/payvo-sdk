@@ -50,7 +50,7 @@ let wallet;
 let liveSpy;
 let testSpy;
 
-test.before(async () => {
+const beforeEachCallback = async () => {
 	bootContainer();
 
 	nock.disableNetConnect();
@@ -80,9 +80,7 @@ test.before(async () => {
 		.query(true)
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
-});
 
-test.before.each(async () => {
 	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
 	profile.settings().set(ProfileSetting.Name, "John Doe");
@@ -93,15 +91,25 @@ test.before.each(async () => {
 
 	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
 	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
-});
+};
 
-test.after.each(() => {
+const afterEachCallback = () => {
 	liveSpy.mockRestore();
 	testSpy.mockRestore();
-});
+};
 
-describe("Transaction", () => {
-	test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+describe("Transaction", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
+		await beforeEachCallback();
+
+		subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData);
+	});
+
+	afterEach(() => {
+		container.flush();
+
+		afterEachCallback();
+	});
 
 	test("should have an explorer link", () => {
 		assert.is(subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
@@ -438,8 +446,8 @@ describe("Transaction", () => {
 	// });
 });
 
-// describe("DelegateRegistrationData", () => {
-// 	test.before.each(() => {
+// describe("DelegateRegistrationData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -454,7 +462,7 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("DelegateResignationData", () => {
+// describe("DelegateResignationData", ({ afterEach, beforeEach, test }) => {
 // 	test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
 // 	test("#id", () => {
@@ -462,8 +470,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("HtlcClaimData", () => {
-// 	test.before.each(() => {
+// describe("HtlcClaimData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -483,8 +491,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("HtlcLockData", () => {
-// 	test.before.each(() => {
+// describe("HtlcLockData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -509,8 +517,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("HtlcRefundData", () => {
-// 	test.before.each(() => {
+// describe("HtlcRefundData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -525,8 +533,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("IpfsData", () => {
-// 	test.before.each(() => {
+// describe("IpfsData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -541,8 +549,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("MultiPaymentData", () => {
-// 	test.before.each(() => {
+// describe("MultiPaymentData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -557,8 +565,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("MultiSignatureData", () => {
-// 	test.before.each(() => {
+// describe("MultiSignatureData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -578,8 +586,8 @@ describe("Transaction", () => {
 // 	});
 // });
 
-// describe("SecondSignatureData", () => {
-// 	test.before.each(() => {
+// describe("SecondSignatureData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -594,24 +602,30 @@ describe("Transaction", () => {
 // 	});
 // });
 
-describe("TransferData", () => {
-	test.before.each(() => {
-		subject = createSubject(
-			wallet,
-			{
-				memo: () => "memo",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("TransferData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(async () => {
+// 		beforeEachCallback();
 
-	test("#memo", () => {
-		assert.is(subject.memo(), "memo");
-	});
-});
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				memo: () => "memo",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-// describe("VoteData", () => {
-// 	test.before.each(() => {
+// 	afterEach(() => {
+// 		afterEachCallback();
+// 	});
+
+// 	test("#memo", () => {
+// 		assert.is(subject.memo(), "memo");
+// 	});
+// });
+
+// describe("VoteData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{
@@ -631,8 +645,8 @@ describe("TransferData", () => {
 // 	});
 // });
 
-// describe("Type Specific", () => {
-// 	test.before.each(() => {
+// describe("Type Specific", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
 // 		subject = createSubject(
 // 			wallet,
 // 			{

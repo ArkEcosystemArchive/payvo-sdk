@@ -9,12 +9,10 @@ test.before.each(async () => {
 	subject = await createService(PrivateKeyService);
 });
 
-describe("PrivateKey", () => {
-	test("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+test("should generate an output from a mnemonic", async () => {
+	const result = await subject.fromMnemonic(identity.mnemonic);
 
-		assert.equal(result, { privateKey: identity.privateKey });
-	});
+	assert.equal(result, { privateKey: identity.privateKey });
 });
 
 test.run();

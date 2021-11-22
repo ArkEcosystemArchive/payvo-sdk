@@ -26,7 +26,7 @@ test.before(() => {
 		.persist();
 });
 
-describe("ProfileInitialiser", () => {
+describe("ProfileInitialiser", ({ afterEach, beforeEach, test }) => {
 	let profile;
 
 	test.before.each(() => {

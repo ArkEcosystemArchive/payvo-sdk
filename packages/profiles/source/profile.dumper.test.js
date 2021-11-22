@@ -39,34 +39,32 @@ test.before.each(() => {
 	subject = new ProfileDumper(profile);
 });
 
-describe("#dump", () => {
-	test("should dump the profile with a password", () => {
-		profile.auth().setPassword("password");
+test("should dump the profile with a password", () => {
+	profile.auth().setPassword("password");
 
-		const { id, password, data } = subject.dump();
+	const { id, password, data } = subject.dump();
 
-		assert.string(id);
-		assert.string(password);
-		assert.string(data);
-	});
+	assert.string(id);
+	assert.string(password);
+	assert.string(data);
+});
 
-	test("should dump the profile without a password", () => {
-		const { id, password, data } = subject.dump();
+test("should dump the profile without a password", () => {
+	const { id, password, data } = subject.dump();
 
-		assert.string(id);
-		assert.undefined(password);
-		assert.string(data);
-	});
+	assert.string(id);
+	assert.undefined(password);
+	assert.string(data);
+});
 
-	test("should fail to dump a profile with a password if the profile was not encrypted", () => {
-		profile = new Profile({ id: "uuid", name: "name", data: "", password: "password" });
-		subject = new ProfileDumper(profile);
+test("should fail to dump a profile with a password if the profile was not encrypted", () => {
+	profile = new Profile({ id: "uuid", name: "name", data: "", password: "password" });
+	subject = new ProfileDumper(profile);
 
-		assert.throws(
-			() => subject.dump(),
-			"The profile [name] has not been encoded or encrypted. Please call [save] before dumping.",
-		);
-	});
+	assert.throws(
+		() => subject.dump(),
+		"The profile [name] has not been encoded or encrypted. Please call [save] before dumping.",
+	);
 });
 
 test.run();

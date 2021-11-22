@@ -54,43 +54,41 @@ test("#wallet should succeed", async () => {
 	assert.object(result.balance());
 });
 
-describe("#transactions", () => {
-	test("returns ok", async () => {
-		nock(/.+/)
-			.post("/")
-			.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
-			.post("/")
-			.reply(200, loader.json(`test/fixtures/client/transactions-20.json`))
-			.post("/")
-			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
+test("#transactions should ", async () => {
+	nock(/.+/)
+		.post("/")
+		.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
+		.post("/")
+		.reply(200, loader.json(`test/fixtures/client/transactions-20.json`))
+		.post("/")
+		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
-			senderPublicKey:
-				"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
-		});
-		assert.length(result.items(), 5);
-		assert.instance(result.items()[0], ConfirmedTransactionData);
+	const result = await subject.transactions({
+		senderPublicKey:
+			"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
 	});
-	test("missing senderPublicKey", async () => {
-		await assert.rejects(
-			() =>
-				subject.transactions({
-					identifiers: [
-						{
-							type: "extendedPublicKey",
-							value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
-						},
-					],
-				}),
-			"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
-		);
-	});
-	test("missing query", async () => {
-		await assert.rejects(
-			() => subject.transactions({}),
-			"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
-		);
-	});
+	assert.length(result.items(), 5);
+	assert.instance(result.items()[0], ConfirmedTransactionData);
+});
+
+test("#transactions should fail if the sender public key is missing", async () => {
+	await assert.rejects(
+		() =>
+			subject.transactions({
+				identifiers: [
+					{
+						type: "extendedPublicKey",
+						value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
+					},
+				],
+			}),
+		"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
+	);
+
+	await assert.rejects(
+		() => subject.transactions({}),
+		"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
+	);
 });
 
 test("#transaction", async () => {

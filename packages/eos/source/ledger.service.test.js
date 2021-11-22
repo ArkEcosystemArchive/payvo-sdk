@@ -33,7 +33,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -49,7 +49,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ afterEach, beforeEach, test }) => {
 	test("should pass with an app version", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
@@ -76,7 +76,7 @@ test.skip("signTransaction", () => {
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ afterEach, beforeEach, test }) => {
 	test("should fail with a 'NotImplemented' error", async () => {
 		const subject = await createMockService("");
 

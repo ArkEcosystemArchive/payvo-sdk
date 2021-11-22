@@ -6,7 +6,7 @@ import { PasswordManager } from "./password";
 
 test.before(() => bootContainer());
 
-describe("PasswordManager", () => {
+describe("PasswordManager", ({ afterEach, beforeEach, test }) => {
 	test("should set and get password", () => {
 		const subject = new PasswordManager();
 

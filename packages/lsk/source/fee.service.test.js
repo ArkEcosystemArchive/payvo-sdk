@@ -47,36 +47,53 @@ test.before.each(async () => {
 	});
 });
 
-describe("#all", () => {
-	test("should succeed", async () => {
-		const result = await subject.all();
+test("#all should succeed", async () => {
+	const result = await subject.all();
 
-		assert.containKeys(result, [
-			"transfer",
-			"secondSignature",
-			"delegateRegistration",
-			"vote",
-			"multiSignature",
-			"ipfs",
-			"multiPayment",
-			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
-		]);
+	assert.containKeys(result, [
+		"transfer",
+		"secondSignature",
+		"delegateRegistration",
+		"vote",
+		"multiSignature",
+		"ipfs",
+		"multiPayment",
+		"delegateResignation",
+		"htlcLock",
+		"htlcClaim",
+		"htlcRefund",
+	]);
 
-		assert.is(result.transfer.min.toString(), "10000000");
-		assert.is(result.transfer.avg.toString(), "10000000");
-		assert.is(result.transfer.max.toString(), "10000000");
-		assert.is(result.transfer.static.toString(), "10000000");
-	});
+	assert.is(result.transfer.min.toString(), "10000000");
+	assert.is(result.transfer.avg.toString(), "10000000");
+	assert.is(result.transfer.max.toString(), "10000000");
+	assert.is(result.transfer.static.toString(), "10000000");
 });
 
-describe("#calculate", () => {
+describe("#calculate", ({ beforeEach, test }) => {
 	let service;
 
-	test.before.each(async () => {
+	beforeEach(async () => {
 		nock(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
+
+		subject = await createService(FeeService, "lsk.testnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+			container.singleton(BindingType.AssetSerializer, AssetSerializer);
+			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+		});
 
 		service = await createService(TransactionService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);

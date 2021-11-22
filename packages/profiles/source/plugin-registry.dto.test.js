@@ -3,8 +3,8 @@ import "reflect-metadata";
 
 import { RegistryPlugin } from "./plugin-registry.dto";
 
-describe("RegistryPlugin", () => {
-	describe("sourceProvider", () => {
+describe("RegistryPlugin", ({ afterEach, beforeEach, test }) => {
+	describe("sourceProvider", ({ afterEach, beforeEach, test }) => {
 		for (const [company, project] of [
 			["company", "project"],
 			["COMPANY", "PROJECT"],
@@ -73,7 +73,7 @@ describe("RegistryPlugin", () => {
 		});
 	});
 
-	describe("getMetadata", () => {
+	describe("getMetadata", ({ afterEach, beforeEach, test }) => {
 		test("should find the requested key", async () => {
 			const subject = new RegistryPlugin(
 				{},

@@ -33,7 +33,7 @@ const createMockService = async (record, opts) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -41,7 +41,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("disconnect", () => {
+describe("disconnect", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -49,7 +49,7 @@ describe("disconnect", () => {
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ afterEach, beforeEach, test }) => {
 	test("should pass with an app version", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
@@ -57,7 +57,7 @@ describe("getVersion", () => {
 	});
 });
 
-describe("getPublicKey", () => {
+describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
 	test("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
@@ -65,7 +65,7 @@ describe("getPublicKey", () => {
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	test.skip("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.publicKey.record + ledger.transaction.record, {
 			autoSkipUnknownApdu: true,
@@ -86,7 +86,7 @@ describe("signTransaction", () => {
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ afterEach, beforeEach, test }) => {
 	test("should pass with an ecdsa signature", async () => {
 		const subject = await createMockService("");
 

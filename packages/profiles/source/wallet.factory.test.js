@@ -69,170 +69,150 @@ test.before.each(async () => {
 		.persist();
 });
 
-describe("#fromMnemonicWithBIP39", () => {
-	test("should create a wallet using BIP39", async () => {
-		const wallet = await subject.fromMnemonicWithBIP39({
-			coin: "ARK",
-			network: "ark.devnet",
-			mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-		});
-
-		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+test("#fromMnemonicWithBIP39 - should create a wallet using BIP39", async () => {
+	const wallet = await subject.fromMnemonicWithBIP39({
+		coin: "ARK",
+		network: "ark.devnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
 	});
 
-	test("should throw if BIP39 is requested but extended public keys are used", async () => {
-		await assert.rejects(
-			() =>
-				subject.fromMnemonicWithBIP39({
-					coin: "ADA",
-					network: "ada.testnet",
-					mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				}),
-			"The configured network uses extended public keys with BIP44 for derivation.",
-		);
-	});
-
-	test("should create a wallet using BIP39 with encryption", async () => {
-		const wallet = await subject.fromMnemonicWithBIP39({
-			coin: "ARK",
-			network: "ark.devnet",
-			mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-			password: "password",
-		});
-
-		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
-		assert.string(wallet.data().get(WalletData.EncryptedSigningKey));
-
-		assert.is(
-			PBKDF2.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
-			"bomb open frame quit success evolve gain donate prison very rent later",
-		);
-	});
+	assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 });
 
-describe("#fromMnemonicWithBIP44", () => {
-	describe("should create a wallet using BIP44 (mnemonic > address)", () => {
-		test("should work for ADA", async () => {
-			const wallet = await subject.fromMnemonicWithBIP44({
+test("#fromMnemonicWithBIP39 - should throw if BIP39 is requested but extended public keys are used", async () => {
+	await assert.rejects(
+		() =>
+			subject.fromMnemonicWithBIP39({
 				coin: "ADA",
 				network: "ada.testnet",
-				mnemonic:
-					"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
-				levels: { account: 0 },
-			});
-
-			assert.is(
-				wallet.address(),
-				"addr_test1qqy6nhfyks7wdu3dudslys37v252w2nwhv0fw2nfawemmn8k8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33sw96paj",
-			);
-		});
-
-		test("should work for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP44({
-				coin: "BTC",
-				network: "btc.testnet",
 				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
-
-			assert.is(wallet.address(), "n16aeukbAKUZPh3iefK3DjpyJAc6TUHw9C");
-		});
-	});
-
-	describe("should create a wallet using BIP44 (mnemonic > extended public key)", () => {
-		test("should work for ADA", async () => {
-			const wallet = await subject.fromMnemonicWithBIP44({
-				coin: "ADA",
-				network: "ada.testnet",
-				mnemonic:
-					"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
-				levels: { account: 0 },
-			});
-
-			assert.is(
-				wallet.publicKey(),
-				"xpub14mpsxvx74mxaw5p3jksdwvp9d7h0sup8qg43hhd8eg9xr09q540y64667k5nhh6fqk3hqtadah69r6jcg7gayvadayykt4sghtzhxpqca4vve",
-			);
-		});
-
-		test("should work for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP44({
-				coin: "BTC",
-				network: "btc.testnet",
-				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
-
-			assert.is(
-				wallet.publicKey(),
-				"tpubDDdFbnZcaQhDWfstrSh8cWxcSFzJZfeteebCDwXUeis9JuvajhA4qwjhoDN8Em3gKX1t1A8FcVNMNWPPUMAmWKLtneA2cj4kci1boqmKf4m",
-			);
-		});
-	});
+			}),
+		"The configured network uses extended public keys with BIP44 for derivation.",
+	);
 });
 
-describe("#fromMnemonicWithBIP49", () => {
-	describe("should create a wallet using BIP49 (mnemonic > address)", () => {
-		test("for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP49({
-				coin: "BTC",
-				network: "btc.testnet",
-				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
-
-			assert.is(wallet.address(), "2NDqSnogr4eQeLrPWM5GmgBvNuMbwdyh1Bi");
-		});
+test("#fromMnemonicWithBIP39 - should create a wallet using BIP39 with encryption", async () => {
+	const wallet = await subject.fromMnemonicWithBIP39({
+		coin: "ARK",
+		network: "ark.devnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		password: "password",
 	});
 
-	describe("should create a wallet using BIP49 (mnemonic > extended public key)", () => {
-		test("for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP49({
-				coin: "BTC",
-				network: "btc.testnet",
-				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
+	assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+	assert.string(wallet.data().get(WalletData.EncryptedSigningKey));
 
-			assert.is(
-				wallet.publicKey(),
-				"tpubDDtBpveGs7uW1X715ZzEHtH1KinDUTW71E3u1ourxCameEdmWrQMLdFGAAYmgTWbLxWw8Dcb6PAV37eNCZDSUu3s2uc2ZTvXRodnUcTLJ8u",
-			);
-		});
-	});
+	assert.is(
+		PBKDF2.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
+		"bomb open frame quit success evolve gain donate prison very rent later",
+	);
 });
 
-describe("#fromMnemonicWithBIP84", () => {
-	describe("should create a wallet using BIP84 (mnemonic > address)", () => {
-		test("for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP84({
-				coin: "BTC",
-				network: "btc.testnet",
-				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
-
-			assert.is(wallet.address(), "tb1quhtzwu2pm7apf4r0c4sgj73cvdrspy6ez4jxjn");
-		});
+test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for ADA", async () => {
+	const wallet = await subject.fromMnemonicWithBIP44({
+		coin: "ADA",
+		network: "ada.testnet",
+		mnemonic:
+			"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
+		levels: { account: 0 },
 	});
 
-	describe("should create a wallet using BIP84 (mnemonic > extended public key)", () => {
-		test("for BTC", async () => {
-			const wallet = await subject.fromMnemonicWithBIP84({
-				coin: "BTC",
-				network: "btc.testnet",
-				mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
-				levels: { account: 0 },
-			});
+	assert.is(
+		wallet.address(),
+		"addr_test1qqy6nhfyks7wdu3dudslys37v252w2nwhv0fw2nfawemmn8k8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33sw96paj",
+	);
+});
 
-			assert.is(
-				wallet.publicKey(),
-				"tpubDDVt9raAkiwRY7hvDoYYP3aAJMVc6rUN4sAEPFHUamgpupZKQAFZeBJ9S83UksWoGUTqseKEuwerpgqPytYuhSxXMKVYz7tFMinkt5iGk4g",
-			);
-		});
+test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP44({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
 	});
+
+	assert.is(wallet.address(), "n16aeukbAKUZPh3iefK3DjpyJAc6TUHw9C");
+});
+
+test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for ADA", async () => {
+	const wallet = await subject.fromMnemonicWithBIP44({
+		coin: "ADA",
+		network: "ada.testnet",
+		mnemonic:
+			"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
+		levels: { account: 0 },
+	});
+
+	assert.is(
+		wallet.publicKey(),
+		"xpub14mpsxvx74mxaw5p3jksdwvp9d7h0sup8qg43hhd8eg9xr09q540y64667k5nhh6fqk3hqtadah69r6jcg7gayvadayykt4sghtzhxpqca4vve",
+	);
+});
+
+test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP44({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
+	});
+
+	assert.is(
+		wallet.publicKey(),
+		"tpubDDdFbnZcaQhDWfstrSh8cWxcSFzJZfeteebCDwXUeis9JuvajhA4qwjhoDN8Em3gKX1t1A8FcVNMNWPPUMAmWKLtneA2cj4kci1boqmKf4m",
+	);
+});
+
+test("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > address) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP49({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
+	});
+
+	assert.is(wallet.address(), "2NDqSnogr4eQeLrPWM5GmgBvNuMbwdyh1Bi");
+});
+
+test("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > extended public key) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP49({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
+	});
+
+	assert.is(
+		wallet.publicKey(),
+		"tpubDDtBpveGs7uW1X715ZzEHtH1KinDUTW71E3u1ourxCameEdmWrQMLdFGAAYmgTWbLxWw8Dcb6PAV37eNCZDSUu3s2uc2ZTvXRodnUcTLJ8u",
+	);
+});
+
+test("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > address) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP84({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
+	});
+
+	assert.is(wallet.address(), "tb1quhtzwu2pm7apf4r0c4sgj73cvdrspy6ez4jxjn");
+});
+
+test("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > extended public key) for BTC", async () => {
+	const wallet = await subject.fromMnemonicWithBIP84({
+		coin: "BTC",
+		network: "btc.testnet",
+		mnemonic: "bomb open frame quit success evolve gain donate prison very rent later",
+		levels: { account: 0 },
+	});
+
+	assert.is(
+		wallet.publicKey(),
+		"tpubDDVt9raAkiwRY7hvDoYYP3aAJMVc6rUN4sAEPFHUamgpupZKQAFZeBJ9S83UksWoGUTqseKEuwerpgqPytYuhSxXMKVYz7tFMinkt5iGk4g",
+	);
 });
 
 test("#fromAddress", async () => {
@@ -254,49 +234,47 @@ test("#fromAddress", async () => {
 	assert.is(mainnetWallet.address(), "AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX");
 });
 
-describe("#fromPublicKey", () => {
-	test("for ARK", async () => {
-		const wallet = await subject.fromPublicKey({
-			coin: "ARK",
-			network: "ark.devnet",
-			publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-		});
-
-		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+test("#fromPublicKey - for ARK", async () => {
+	const wallet = await subject.fromPublicKey({
+		coin: "ARK",
+		network: "ark.devnet",
+		publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 	});
 
-	test("for BTC (testnet)", async () => {
-		const wallet = await subject.fromPublicKey({
-			coin: "BTC",
-			network: "btc.testnet",
-			publicKey:
-				"tpubDCdFvjrda9JXDYFb518YfcEEWSj3gRfRAU69PGnNS4dYx3bBARVhKQNRC1wBYComzGCyXea7rpYW2YjxahrEPzapLQpfSMky4bdz3YPTgTJ",
-			bip44: { account: 0 },
-		});
+	assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+});
 
-		assert.is(wallet.address(), "mp2Ucb5WLX5v3aD3wmwbTi5xsbLESKhQDf");
-		assert.is(
-			wallet.publicKey(),
+test("#fromPublicKey - for BTC (testnet)", async () => {
+	const wallet = await subject.fromPublicKey({
+		coin: "BTC",
+		network: "btc.testnet",
+		publicKey:
 			"tpubDCdFvjrda9JXDYFb518YfcEEWSj3gRfRAU69PGnNS4dYx3bBARVhKQNRC1wBYComzGCyXea7rpYW2YjxahrEPzapLQpfSMky4bdz3YPTgTJ",
-		);
+		bip44: { account: 0 },
 	});
 
-	test("for BTC (livenet)", async () => {
-		const wallet = await subject.fromPublicKey({
-			coin: "BTC",
-			network: "btc.livenet",
-			publicKey:
-				"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
-			bip44: { account: 0 },
-		});
+	assert.is(wallet.address(), "mp2Ucb5WLX5v3aD3wmwbTi5xsbLESKhQDf");
+	assert.is(
+		wallet.publicKey(),
+		"tpubDCdFvjrda9JXDYFb518YfcEEWSj3gRfRAU69PGnNS4dYx3bBARVhKQNRC1wBYComzGCyXea7rpYW2YjxahrEPzapLQpfSMky4bdz3YPTgTJ",
+	);
+});
 
-		assert.is(wallet.address(), "12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
-		assert.is(
-			wallet.publicKey(),
+test("#fromPublicKey - for BTC (livenet)", async () => {
+	const wallet = await subject.fromPublicKey({
+		coin: "BTC",
+		network: "btc.livenet",
+		publicKey:
 			"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
-		);
+		bip44: { account: 0 },
 	});
+
+	assert.is(wallet.address(), "12KRAVpawWmzWNnv9WbqqKRHuhs7nFiQro");
+	assert.is(
+		wallet.publicKey(),
+		"xpub6Bk8X5Y1FN7pSecqoqkHe8F8gNaqMVApCrmMxZnRvSw4JpgqeM5T83Ze6uD4XEMiCSwZiwysnny8uQj5F6XAPF9FNKYNHTMoAu97bDXNtRe",
+	);
 });
 
 test("#fromPrivateKey", async () => {
@@ -322,31 +300,29 @@ test("#fromAddressWithDerivationPath", async () => {
 	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 });
 
-describe("#fromWIF", () => {
-	test("should create it with a WIF", async () => {
-		const wallet = await subject.fromWIF({
-			coin: "ARK",
-			network: "ark.devnet",
-			wif: "SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5esJPm1NiG3",
-		});
-
-		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+test("#fromWIF - should create it with a WIF", async () => {
+	const wallet = await subject.fromWIF({
+		coin: "ARK",
+		network: "ark.devnet",
+		wif: "SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5esJPm1NiG3",
 	});
 
-	test("should create it with a WIF and encryption", async () => {
-		const { compressed, privateKey } = decode("SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5esJPm1NiG3");
+	assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+});
 
-		const wallet = await subject.fromWIF({
-			coin: "ARK",
-			network: "ark.devnet",
-			wif: encrypt(privateKey, compressed, "password"),
-			password: "password",
-		});
+test("#fromWIF - should create it with a WIF and encryption", async () => {
+	const { compressed, privateKey } = decode("SHA89yQdW3bLFYyCvEBpn7ngYNR8TEojGCC1uAJjT5esJPm1NiG3");
 
-		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
+	const wallet = await subject.fromWIF({
+		coin: "ARK",
+		network: "ark.devnet",
+		wif: encrypt(privateKey, compressed, "password"),
+		password: "password",
 	});
+
+	assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 });
 
 test.run();

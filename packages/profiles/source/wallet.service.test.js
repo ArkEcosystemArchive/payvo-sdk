@@ -99,19 +99,17 @@ test.after.each(() => {
 
 test.before(() => nock.disableNetConnect());
 
-describe("WalletService", () => {
-	test("#syncByProfile", async () => {
-		assert.throws(() => wallet.voting().current(), /has not been synced/);
+test("#syncByProfile", async () => {
+	assert.throws(() => wallet.voting().current(), /has not been synced/);
 
-		await subject.syncByProfile(profile);
+	await subject.syncByProfile(profile);
 
-		assert.not.throws(() => wallet.voting().current(), /has not been synced/);
+	assert.not.throws(() => wallet.voting().current(), /has not been synced/);
 
-		// @ts-ignore
-		const mockUndefinedWallets = mockery(profile.wallets(), "values").mockReturnValue([undefined]);
-		await subject.syncByProfile(profile);
-		mockUndefinedWallets.mockRestore();
-	});
+	// @ts-ignore
+	const mockUndefinedWallets = mockery(profile.wallets(), "values").mockReturnValue([undefined]);
+	await subject.syncByProfile(profile);
+	mockUndefinedWallets.mockRestore();
 });
 
 test.run();

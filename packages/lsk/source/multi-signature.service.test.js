@@ -142,10 +142,10 @@ test("should add signature", async () => {
 	assert.false(musig.needsWalletSignature(transaction2, wallet2.publicKey));
 });
 
-describe("#broadcast", (suite) => {
+describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	let transaction;
 
-	suite.before.each(async () => {
+	beforeEach(async () => {
 		await createLocalServices();
 
 		transaction = await musig.addSignature(
@@ -177,7 +177,7 @@ describe("#broadcast", (suite) => {
 		);
 	});
 
-	suite("should broadcast a transaction", async () => {
+	test("should broadcast a transaction", async () => {
 		nock(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(200, {
@@ -191,7 +191,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("should handle error", async () => {
+	test("should handle error", async () => {
 		nock(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(400, {
@@ -207,7 +207,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("#needsFinalSignature", async () => {
+	test("#needsFinalSignature", async () => {
 		assert.true(
 			musig.needsFinalSignature(
 				await subject.transfer({
@@ -229,7 +229,7 @@ describe("#broadcast", (suite) => {
 		);
 	});
 
-	suite("#allWithPendingState", async () => {
+	test("#allWithPendingState", async () => {
 		nock(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -250,7 +250,7 @@ describe("#broadcast", (suite) => {
 		await assert.length(await musig.allWithPendingState(identity.publicKey), 2);
 	});
 
-	suite("#allWithReadyState", async () => {
+	test("#allWithReadyState", async () => {
 		nock(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -271,7 +271,7 @@ describe("#broadcast", (suite) => {
 		assert.length(await musig.allWithReadyState(identity.publicKey), 2);
 	});
 
-	suite("#findById", async () => {
+	test("#findById", async () => {
 		nock(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -288,7 +288,7 @@ describe("#broadcast", (suite) => {
 		});
 	});
 
-	suite("#forgetById", async () => {
+	test("#forgetById", async () => {
 		const deleteNock = nock(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",

@@ -2,7 +2,7 @@ import { assert, describe, test } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { AssetSerializer } from "./asset.serializer";
 
-describe("AssetSerializer #toMachine", () => {
+describe("AssetSerializer #toMachine", ({ afterEach, beforeEach, test }) => {
 	for (const { moduleID, assetID, asset } of [
 		{
 			moduleID: 2,

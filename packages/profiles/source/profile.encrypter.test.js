@@ -4,8 +4,8 @@ import "reflect-metadata";
 import { ProfileEncrypter } from "./profile.encrypter";
 import { AttributeBag } from "./helpers/attribute-bag";
 
-// describe("ProfileEncrypter", () => {
-// 	describe("encrypt", () => {
+// describe("ProfileEncrypter", ({ afterEach, beforeEach, test }) => {
+// 	describe("encrypt", ({ afterEach, beforeEach, test }) => {
 // 		test("should work with provided password", () => {
 // 			const auth = mock();
 // 			auth.verifyPassword.calledWith("some-pass").mockReturnValue(true);
@@ -49,7 +49,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 		});
 // 	});
 
-// 	describe("decrypt", () => {
+// 	describe("decrypt", ({ afterEach, beforeEach, test }) => {
 // 		test("should work with provided pasword", () => {
 // 			const attributes = new AttributeBag();
 // 			attributes.set(

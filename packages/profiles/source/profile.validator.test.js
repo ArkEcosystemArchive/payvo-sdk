@@ -46,103 +46,101 @@ test.before.each(() => {
 	dumper = new ProfileDumper(profile);
 });
 
-describe("#validate", () => {
-	test("should successfully validate profile data", async () => {
-		const validProfileData = {
-			id: "uuid",
-			contacts: {
-				"448042c3-a405-4895-970e-a33c6e907905": {
-					id: "448042c3-a405-4895-970e-a33c6e907905",
-					name: "John",
-					starred: false,
-					addresses: [
-						{
-							id: "3a7a9e03-c10b-4135-88e9-92e586d53e69",
-							coin: "ARK",
-							network: "ark.devnet",
-							address: "test",
-						},
-						{
-							id: "dfc3a16d-47b8-47f2-9b6f-fe4b8365a64a",
-							coin: "ARK",
-							network: "ark.mainnet",
-							address: "test",
-						},
-					],
-				},
+test("should successfully validate profile data", async () => {
+	const validProfileData = {
+		id: "uuid",
+		contacts: {
+			"448042c3-a405-4895-970e-a33c6e907905": {
+				id: "448042c3-a405-4895-970e-a33c6e907905",
+				name: "John",
+				starred: false,
+				addresses: [
+					{
+						id: "3a7a9e03-c10b-4135-88e9-92e586d53e69",
+						coin: "ARK",
+						network: "ark.devnet",
+						address: "test",
+					},
+					{
+						id: "dfc3a16d-47b8-47f2-9b6f-fe4b8365a64a",
+						coin: "ARK",
+						network: "ark.mainnet",
+						address: "test",
+					},
+				],
 			},
-			data: { key: "value" },
-			exchangeTransactions: {},
-			notifications: {},
-			plugins: {
-				data: {},
-			},
-			settings: {
-				[ProfileSetting.AccentColor]: "blue",
-				[ProfileSetting.AdvancedMode]: false,
-				[ProfileSetting.AutomaticSignOutPeriod]: 60,
-				[ProfileSetting.Bip39Locale]: "english",
-				[ProfileSetting.DashboardTransactionHistory]: false,
-				[ProfileSetting.DoNotShowFeeWarning]: false,
-				[ProfileSetting.ErrorReporting]: false,
-				[ProfileSetting.ExchangeCurrency]: "ADA",
-				[ProfileSetting.Locale]: "en-US",
-				[ProfileSetting.MarketProvider]: "coingecko",
-				[ProfileSetting.Name]: "John Doe",
-				[ProfileSetting.NewsFilters]: JSON.stringify({ categories: [], coins: ["ARK"] }),
-				[ProfileSetting.ScreenshotProtection]: false,
-				[ProfileSetting.Theme]: "dark",
-				[ProfileSetting.TimeFormat]: "HH::MM",
-				[ProfileSetting.UseExpandedTables]: false,
-				[ProfileSetting.UseNetworkWalletNames]: false,
-				[ProfileSetting.UseTestNetworks]: false,
-			},
-			wallets: {},
-		};
-
-		validator = new ProfileValidator();
-
-		assert.equal(validator.validate(validProfileData).settings, validProfileData.settings);
-	});
-
-	test("should fail to validate", async () => {
-		const corruptedProfileData = {
-			// id: 'uuid',
-			contacts: {},
+		},
+		data: { key: "value" },
+		exchangeTransactions: {},
+		notifications: {},
+		plugins: {
 			data: {},
-			exchangeTransactions: {},
-			notifications: {},
-			plugins: { data: {} },
-			settings: { NAME: "John Doe" },
-			wallets: {},
-		};
+		},
+		settings: {
+			[ProfileSetting.AccentColor]: "blue",
+			[ProfileSetting.AdvancedMode]: false,
+			[ProfileSetting.AutomaticSignOutPeriod]: 60,
+			[ProfileSetting.Bip39Locale]: "english",
+			[ProfileSetting.DashboardTransactionHistory]: false,
+			[ProfileSetting.DoNotShowFeeWarning]: false,
+			[ProfileSetting.ErrorReporting]: false,
+			[ProfileSetting.ExchangeCurrency]: "ADA",
+			[ProfileSetting.Locale]: "en-US",
+			[ProfileSetting.MarketProvider]: "coingecko",
+			[ProfileSetting.Name]: "John Doe",
+			[ProfileSetting.NewsFilters]: JSON.stringify({ categories: [], coins: ["ARK"] }),
+			[ProfileSetting.ScreenshotProtection]: false,
+			[ProfileSetting.Theme]: "dark",
+			[ProfileSetting.TimeFormat]: "HH::MM",
+			[ProfileSetting.UseExpandedTables]: false,
+			[ProfileSetting.UseNetworkWalletNames]: false,
+			[ProfileSetting.UseTestNetworks]: false,
+		},
+		wallets: {},
+	};
 
-		new Profile({
-			id: "uuid",
-			name: "name",
-			avatar: "avatar",
-			password: undefined,
-			data: Base64.encode(JSON.stringify(corruptedProfileData)),
-		});
+	validator = new ProfileValidator();
 
-		validator = new ProfileValidator();
+	assert.equal(validator.validate(validProfileData).settings, validProfileData.settings);
+});
 
-		assert.throws(() => validator.validate(corruptedProfileData));
+test("should fail to validate", async () => {
+	const corruptedProfileData = {
+		// id: 'uuid',
+		contacts: {},
+		data: {},
+		exchangeTransactions: {},
+		notifications: {},
+		plugins: { data: {} },
+		settings: { NAME: "John Doe" },
+		wallets: {},
+	};
+
+	new Profile({
+		id: "uuid",
+		name: "name",
+		avatar: "avatar",
+		password: undefined,
+		data: Base64.encode(JSON.stringify(corruptedProfileData)),
 	});
 
-	test("should apply migrations if any are set", async () => {
-		const migrationFunction = sinon.spy();
-		const migrations = { "1.0.1": migrationFunction };
+	validator = new ProfileValidator();
 
-		container.constant(Identifiers.MigrationSchemas, migrations);
-		container.constant(Identifiers.MigrationVersion, "1.0.2");
+	assert.throws(() => validator.validate(corruptedProfileData));
+});
 
-		subject = new ProfileImporter(new Profile(dumper.dump()));
+test("should apply migrations if any are set", async () => {
+	const migrationFunction = sinon.spy();
+	const migrations = { "1.0.1": migrationFunction };
 
-		await subject.import();
+	container.constant(Identifiers.MigrationSchemas, migrations);
+	container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-		assert.true(migrationFunction.callCount > 0);
-	});
+	subject = new ProfileImporter(new Profile(dumper.dump()));
+
+	await subject.import();
+
+	assert.true(migrationFunction.callCount > 0);
 });
 
 test.run();

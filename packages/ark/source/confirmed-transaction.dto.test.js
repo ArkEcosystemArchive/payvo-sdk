@@ -79,7 +79,12 @@ test("#isConfirmed", () => {
 	assert.true(subject.isConfirmed());
 });
 
-describe("#isReturn", (suite) => {
+describe("#isReturn", ({ beforeEach, test }) => {
+	beforeEach(async () => {
+		subject = await createService(ConfirmedTransactionData);
+		subject.configure(Fixture.data);
+	});
+
 	test("should return true for transfers if sender equals recipient", () => {
 		mockery(subject, "isTransfer").mockReturnValueOnce(true);
 		mockery(subject, "isSent").mockReturnValueOnce(true);
@@ -202,54 +207,54 @@ test("#type", () => {
 	assert.is(subject.type(), "transfer");
 });
 
-describe("DelegateRegistrationData", (suite) => {
-	suite.before.each(async () => {
+describe("DelegateRegistrationData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 	});
 
-	suite("#id", () => {
+	test("#id", () => {
 		assert.is(subject.username(), "genesis_1");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "delegateRegistration");
 	});
 });
 
-describe("DelegateResignationData", (suite) => {
-	suite.before.each(async () => {
+describe("DelegateResignationData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "delegateResignation");
 	});
 });
 
-describe("HtlcClaimData", (suite) => {
-	suite.before.each(async () => {
+describe("HtlcClaimData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
 	});
 
-	suite("#lockTransactionId", () => {
+	test("#lockTransactionId", () => {
 		assert.is(subject.lockTransactionId(), "1");
 	});
 
-	suite("#unlockSecret", () => {
+	test("#unlockSecret", () => {
 		assert.is(subject.unlockSecret(), "2");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "htlcClaim");
 	});
 });
 
-describe("HtlcLockData", (suite) => {
-	suite.before.each(async () => {
+describe("HtlcLockData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({
 			type: 8,
@@ -267,55 +272,55 @@ describe("HtlcLockData", (suite) => {
 		});
 	});
 
-	suite("#secretHash", () => {
+	test("#secretHash", () => {
 		assert.is(subject.secretHash(), "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454");
 	});
 
-	suite("#expirationType", () => {
+	test("#expirationType", () => {
 		assert.is(subject.expirationType(), 1);
 	});
 
-	suite("#expirationValue", () => {
+	test("#expirationValue", () => {
 		assert.is(subject.expirationValue(), 123456789);
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "htlcLock");
 	});
 });
 
-describe("HtlcRefundData", (suite) => {
-	suite.before.each(async () => {
+describe("HtlcRefundData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
 	});
 
-	suite("#lockTransactionId", () => {
+	test("#lockTransactionId", () => {
 		assert.is(subject.lockTransactionId(), "1");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "htlcRefund");
 	});
 });
 
-describe("IpfsData", (suite) => {
-	suite.before.each(async () => {
+describe("IpfsData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ type: 5, asset: { ipfs: "123456789" } });
 	});
 
-	suite("#lockTransactionId", () => {
+	test("#lockTransactionId", () => {
 		assert.is(subject.hash(), "123456789");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "ipfs");
 	});
 });
 
-describe("MultiPaymentData", (suite) => {
-	suite.before.each(async () => {
+describe("MultiPaymentData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({
 			type: 6,
@@ -329,21 +334,21 @@ describe("MultiPaymentData", (suite) => {
 		});
 	});
 
-	suite("#memo", () => {
+	test("#memo", () => {
 		assert.undefined(subject.memo());
 	});
 
-	suite("#payments", () => {
+	test("#payments", () => {
 		assert.length(subject.payments(), 3);
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "multiPayment");
 	});
 });
 
-describe("MultiSignatureData", (suite) => {
-	suite.before.each(async () => {
+describe("MultiSignatureData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({
 			type: 4,
@@ -356,66 +361,66 @@ describe("MultiSignatureData", (suite) => {
 		});
 	});
 
-	suite("#publicKeys", () => {
+	test("#publicKeys", () => {
 		assert.length(subject.publicKeys(), 2);
 	});
 
-	suite("#min", () => {
+	test("#min", () => {
 		assert.is(subject.min(), 1);
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "multiSignature");
 	});
 });
 
-describe("SecondSignatureData", (suite) => {
-	suite.before.each(async () => {
+describe("SecondSignatureData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
 	});
 
-	suite("#publicKeys", () => {
+	test("#publicKeys", () => {
 		assert.is(subject.secondPublicKey(), "1");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "secondSignature");
 	});
 });
 
-describe("TransferData", (suite) => {
-	suite.before.each(async () => {
+describe("TransferData", ({ afterEach, beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ vendorField: "X" });
 	});
 
-	suite("#memo", () => {
+	test("#memo", () => {
 		assert.is(subject.memo(), "X");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		assert.is(subject.type(), "transfer");
 	});
 });
 
-describe("VoteData", (suite) => {
-	suite.before.each(async () => {
+describe("VoteData", ({ beforeEach, test }) => {
+	beforeEach(async () => {
 		subject = await createService(ConfirmedTransactionData);
 		subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
 	});
 
-	suite("#votes", () => {
+	test("#votes", () => {
 		assert.length(subject.votes(), 1);
 		assert.is(subject.votes()[0], "A");
 	});
 
-	suite("#unvotes", () => {
+	test("#unvotes", () => {
 		assert.length(subject.unvotes(), 1);
 		assert.is(subject.unvotes()[0], "B");
 	});
 
-	suite("#type", () => {
+	test("#type", () => {
 		subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
 
 		assert.is(subject.type(), "voteCombination");

@@ -126,162 +126,160 @@ test.before.each(() => {
 	repository = new ProfileRepository();
 });
 
-describe("#restore", () => {
-	test("should restore a profile with a password", async () => {
-		profile.auth().setPassword("password");
+test("should restore a profile with a password", async () => {
+	profile.auth().setPassword("password");
 
-		repository.persist(profile);
+	repository.persist(profile);
 
-		const profileCopy = new Profile(dumper.dump());
+	const profileCopy = new Profile(dumper.dump());
 
-		await importByMnemonic(profileCopy, identity.mnemonic, "ARK", "ark.devnet");
+	await importByMnemonic(profileCopy, identity.mnemonic, "ARK", "ark.devnet");
 
-		serialiser = new ProfileSerialiser(profileCopy);
+	serialiser = new ProfileSerialiser(profileCopy);
 
-		await subject.import("password");
-		await profileCopy.sync();
+	await subject.import("password");
+	await profileCopy.sync();
 
-		assert.containKeys(serialiser.toJSON(), [
-			"contacts",
-			"data",
-			"exchangeTransactions",
-			"notifications",
-			"plugins",
-			"data",
-			"settings",
-			"wallets",
-		]);
+	assert.containKeys(serialiser.toJSON(), [
+		"contacts",
+		"data",
+		"exchangeTransactions",
+		"notifications",
+		"plugins",
+		"data",
+		"settings",
+		"wallets",
+	]);
+});
+
+test("should fail to restore a profile with corrupted data", async () => {
+	const corruptedProfileData = {
+		// id: 'uuid',
+		contacts: {},
+		data: {},
+		exchangeTransactions: {},
+		notifications: {},
+		plugins: { data: {} },
+		settings: { NAME: "John Doe" },
+		wallets: {},
+	};
+
+	const profile = new Profile({
+		id: "uuid",
+		name: "name",
+		avatar: "avatar",
+		password: undefined,
+		data: Base64.encode(JSON.stringify(corruptedProfileData)),
 	});
 
-	test("should fail to restore a profile with corrupted data", async () => {
-		const corruptedProfileData = {
-			// id: 'uuid',
-			contacts: {},
-			data: {},
-			exchangeTransactions: {},
-			notifications: {},
-			plugins: { data: {} },
-			settings: { NAME: "John Doe" },
-			wallets: {},
-		};
+	subject = new ProfileImporter(profile);
 
-		const profile = new Profile({
-			id: "uuid",
-			name: "name",
-			avatar: "avatar",
-			password: undefined,
-			data: Base64.encode(JSON.stringify(corruptedProfileData)),
-		});
+	await assert.rejects(() => subject.import());
+});
 
-		subject = new ProfileImporter(profile);
+test("should restore a profile without a password", async () => {
+	const profileCopy = new Profile(dumper.dump());
 
-		await assert.rejects(() => subject.import());
-	});
+	subject = new ProfileImporter(profileCopy);
 
-	test("should restore a profile without a password", async () => {
-		const profileCopy = new Profile(dumper.dump());
+	await subject.import();
 
-		subject = new ProfileImporter(profileCopy);
+	assert.equal(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
+});
 
-		await subject.import();
+test("should fail to restore if profile is not using password but password is passed", async () => {
+	const profileCopy = new Profile(dumper.dump());
 
-		assert.equal(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
-	});
+	subject = new ProfileImporter(profileCopy);
 
-	test("should fail to restore if profile is not using password but password is passed", async () => {
-		const profileCopy = new Profile(dumper.dump());
+	await assert.rejects(
+		() => subject.import("password"),
+		"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
+	);
+});
 
-		subject = new ProfileImporter(profileCopy);
+test("should fail to restore a profile with a password if no password was provided", async () => {
+	profile.auth().setPassword("password");
 
-		await assert.rejects(
-			() => subject.import("password"),
-			"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
-		);
-	});
+	repository.persist(profile);
 
-	test("should fail to restore a profile with a password if no password was provided", async () => {
-		profile.auth().setPassword("password");
+	const profileCopy = new Profile(dumper.dump());
 
-		repository.persist(profile);
+	subject = new ProfileImporter(profileCopy);
 
-		const profileCopy = new Profile(dumper.dump());
+	await assert.rejects(() => subject.import(), "Failed to decode or decrypt the profile.");
+});
 
-		subject = new ProfileImporter(profileCopy);
+test("should fail to restore a profile with a password if an invalid password was provided", async () => {
+	profile.auth().setPassword("password");
 
-		await assert.rejects(() => subject.import(), "Failed to decode or decrypt the profile.");
-	});
+	const profileCopy = new Profile(dumper.dump());
 
-	test("should fail to restore a profile with a password if an invalid password was provided", async () => {
-		profile.auth().setPassword("password");
+	subject = new ProfileImporter(profileCopy);
 
-		const profileCopy = new Profile(dumper.dump());
+	await assert.rejects(() => subject.import("invalid-password"), "Failed to decode or decrypt the profile.");
+});
 
-		subject = new ProfileImporter(profileCopy);
+test("should restore a profile with wallets and contacts", async () => {
+	const profileDump = {
+		id: "uuid",
+		name: "name",
+		avatar: "avatar",
+		password: undefined,
+		data: Base64.encode(JSON.stringify(profileWithWallets)),
+	};
 
-		await assert.rejects(() => subject.import("invalid-password"), "Failed to decode or decrypt the profile.");
-	});
+	const profile = new Profile(profileDump);
+	subject = new ProfileImporter(profile);
+	await subject.import();
 
-	test("should restore a profile with wallets and contacts", async () => {
-		const profileDump = {
-			id: "uuid",
-			name: "name",
-			avatar: "avatar",
-			password: undefined,
-			data: Base64.encode(JSON.stringify(profileWithWallets)),
-		};
+	assert.is(profile.wallets().values().length, 2);
+	assert.is(profile.wallets().valuesWithCoin().length, 2);
+	assert.is(profile.contacts().count(), 1);
+	assert.is(profile.contacts().first().addresses().count(), 1);
+	assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
+	assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
+});
 
-		const profile = new Profile(profileDump);
-		subject = new ProfileImporter(profile);
-		await subject.import();
+test("should restore a profile with wallets of unavailable coins", async () => {
+	const profileDump = {
+		id: "uuid",
+		name: "name",
+		avatar: "avatar",
+		password: undefined,
+		data: Base64.encode(JSON.stringify(profileWithWallets)),
+	};
 
-		assert.is(profile.wallets().values().length, 2);
-		assert.is(profile.wallets().valuesWithCoin().length, 2);
-		assert.is(profile.contacts().count(), 1);
-		assert.is(profile.contacts().first().addresses().count(), 1);
-		assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
-		assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
-	});
+	const coin = container.get(Identifiers.Coins)["ARK"];
+	delete container.get(Identifiers.Coins)["ARK"];
 
-	test("should restore a profile with wallets of unavailable coins", async () => {
-		const profileDump = {
-			id: "uuid",
-			name: "name",
-			avatar: "avatar",
-			password: undefined,
-			data: Base64.encode(JSON.stringify(profileWithWallets)),
-		};
+	const profile = new Profile(profileDump);
+	subject = new ProfileImporter(profile);
+	await subject.import();
 
-		const coin = container.get(Identifiers.Coins)["ARK"];
-		delete container.get(Identifiers.Coins)["ARK"];
+	assert.is(profile.wallets().values().length, 2);
+	assert.is(profile.wallets().valuesWithCoin().length, 0);
 
-		const profile = new Profile(profileDump);
-		subject = new ProfileImporter(profile);
-		await subject.import();
+	assert.is(profile.contacts().count(), 1);
+	assert.is(profile.contacts().first().addresses().count(), 1);
+	assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
+	assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
 
-		assert.is(profile.wallets().values().length, 2);
-		assert.is(profile.wallets().valuesWithCoin().length, 0);
+	container.get(Identifiers.Coins)["ARK"] = coin;
+});
 
-		assert.is(profile.contacts().count(), 1);
-		assert.is(profile.contacts().first().addresses().count(), 1);
-		assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
-		assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
+test("should apply migrations if any are set", async () => {
+	const migrationFunction = sinon.spy();
+	const migrations = { "1.0.1": migrationFunction };
 
-		container.get(Identifiers.Coins)["ARK"] = coin;
-	});
+	container.constant(Identifiers.MigrationSchemas, migrations);
+	container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-	test("should apply migrations if any are set", async () => {
-		const migrationFunction = sinon.spy();
-		const migrations = { "1.0.1": migrationFunction };
+	subject = new ProfileImporter(new Profile(dumper.dump()));
 
-		container.constant(Identifiers.MigrationSchemas, migrations);
-		container.constant(Identifiers.MigrationVersion, "1.0.2");
+	await subject.import();
 
-		subject = new ProfileImporter(new Profile(dumper.dump()));
-
-		await subject.import();
-
-		assert.true(migrationFunction.callCount > 0);
-	});
+	assert.true(migrationFunction.callCount > 0);
 });
 
 test.run();

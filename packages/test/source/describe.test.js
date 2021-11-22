@@ -1,15 +1,15 @@
 import { describe } from "./describe";
 
-describe("Date.now()", ({ assert, before, after, only, skip, test }) => {
+describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
 	let _Date;
 
-	before(() => {
+	beforeAll(() => {
 		let count = 0;
 		_Date = global.Date;
 		global.Date = { now: () => 100 + count++ };
 	});
 
-	after(() => {
+	afterAll(() => {
 		global.Date = _Date;
 	});
 

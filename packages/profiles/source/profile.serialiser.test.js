@@ -42,81 +42,70 @@ test("should turn into an object", () => {
 	assert.object(subject.toJSON());
 });
 
-describe("should turn into an object with options", () => {
-	let profile;
+test("should not exclude anything", async () => {
+	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	test.before.each(() => {
-		profile = new Profile({ id: "uuid", name: "name", data: "" });
-		profile.settings().set(ProfileSetting.Name, "John Doe");
-
-		subject = new ProfileSerialiser(profile);
+	const filtered = subject.toJSON({
+		excludeEmptyWallets: false,
+		excludeLedgerWallets: false,
+		addNetworkInformation: true,
+		saveGeneralSettings: true,
 	});
 
-	test("should not exclude anything", async () => {
-		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+	assert.length(Object.keys(filtered.wallets), 1);
+});
 
-		const filtered = subject.toJSON({
-			excludeEmptyWallets: false,
-			excludeLedgerWallets: false,
-			addNetworkInformation: true,
-			saveGeneralSettings: true,
-		});
-
-		assert.length(Object.keys(filtered.wallets), 1);
+test("should exclude empty wallets", async () => {
+	await generateWallet(profile, "ARK", "ark.devnet");
+	const filtered = subject.toJSON({
+		excludeEmptyWallets: true,
+		excludeLedgerWallets: false,
+		addNetworkInformation: true,
+		saveGeneralSettings: true,
 	});
 
-	test("should exclude empty wallets", async () => {
-		await generateWallet(profile, "ARK", "ark.devnet");
-		const filtered = subject.toJSON({
-			excludeEmptyWallets: true,
-			excludeLedgerWallets: false,
-			addNetworkInformation: true,
-			saveGeneralSettings: true,
-		});
+	assert.length(Object.keys(filtered.wallets), 0);
+});
 
-		assert.length(Object.keys(filtered.wallets), 0);
+test("should exclude ledger wallets", async () => {
+	await importByAddressWithDerivationPath(profile, identity.address, "ARK", "ark.devnet", "m/44");
+
+	const filtered = subject.toJSON({
+		excludeEmptyWallets: false,
+		excludeLedgerWallets: true,
+		addNetworkInformation: true,
+		saveGeneralSettings: true,
 	});
 
-	test("should exclude ledger wallets", async () => {
-		await importByAddressWithDerivationPath(profile, identity.address, "ARK", "ark.devnet", "m/44");
+	assert.length(Object.keys(filtered.wallets), 0);
+});
 
-		const filtered = subject.toJSON({
-			excludeEmptyWallets: false,
-			excludeLedgerWallets: true,
-			addNetworkInformation: true,
-			saveGeneralSettings: true,
-		});
+test("should not include network information", async () => {
+	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-		assert.length(Object.keys(filtered.wallets), 0);
-	});
+	assert.throws(
+		() =>
+			subject.toJSON({
+				excludeEmptyWallets: false,
+				excludeLedgerWallets: false,
+				addNetworkInformation: false,
+				saveGeneralSettings: true,
+			}),
+		"This is not implemented yet",
+	);
+});
 
-	test("should not include network information", async () => {
-		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
-
-		assert.throws(
-			() =>
-				subject.toJSON({
-					excludeEmptyWallets: false,
-					excludeLedgerWallets: false,
-					addNetworkInformation: false,
-					saveGeneralSettings: true,
-				}),
-			"This is not implemented yet",
-		);
-	});
-
-	test("should not include general settings", async () => {
-		assert.throws(
-			() =>
-				subject.toJSON({
-					excludeEmptyWallets: false,
-					excludeLedgerWallets: false,
-					addNetworkInformation: true,
-					saveGeneralSettings: false,
-				}),
-			"This is not implemented yet",
-		);
-	});
+test("should not include general settings", async () => {
+	assert.throws(
+		() =>
+			subject.toJSON({
+				excludeEmptyWallets: false,
+				excludeLedgerWallets: false,
+				addNetworkInformation: true,
+				saveGeneralSettings: false,
+			}),
+		"This is not implemented yet",
+	);
 });
 
 test.run();

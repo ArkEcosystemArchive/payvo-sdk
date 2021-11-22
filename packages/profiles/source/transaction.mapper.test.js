@@ -32,7 +32,7 @@ const data = [
 
 test.before(() => bootContainer());
 
-describe("transaction-mapper", () => {
+describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	let profile;
 	let wallet;
 

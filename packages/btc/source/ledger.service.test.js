@@ -33,7 +33,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", async () => {
+test("disconnect", async () => {
 	const subject = await createMockService("");
 
 	assert.undefined(await subject.disconnect());
