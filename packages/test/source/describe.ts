@@ -1,21 +1,30 @@
-import { suite } from "uvu";
+import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
 
-export const describe = (title: string, callback: Function): void => {
-	const instance = suite(title);
+type ContextFunction = () => Context;
+type ContextPromise = () => Promise<Context>;
 
+const runSuite = (suite: Test, callback: Function): void => {
 	callback({
-		afterAll: instance.after,
-		afterEach: instance.after.each,
+		afterAll: suite.after,
+		afterEach: suite.after.each,
 		assert,
-		beforeAll: instance.before,
-		beforeEach: instance.before.each,
-		it: instance,
-		only: instance.only,
-		skip: instance.skip,
-		test: instance,
+		beforeAll: suite.before,
+		beforeEach: suite.before.each,
+		it: suite,
+		only: suite.only,
+		skip: suite.skip,
+		test: suite,
 	});
 
-	instance.run();
+	suite.run();
 };
+
+export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
+
+export const describeWithContext = async (
+	title: string,
+	context: Context | ContextFunction | ContextPromise,
+	callback: Function,
+): Promise<void> => runSuite(suite(title, typeof context === "function" ? await context() : context), callback);
