@@ -3,9 +3,9 @@ import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import * as uvu from "uvu/assert";
+import { hideBin } from "yargs/helpers";
 // @ts-ignore - Cannot find module 'yargs' or its corresponding type declarations.
 import yargs from "yargs/yargs";
-import { hideBin } from "yargs/helpers";
 import { z, ZodRawShape } from "zod";
 
 export const assert = {
