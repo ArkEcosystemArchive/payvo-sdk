@@ -25,6 +25,7 @@ export const assert = {
 	length: (value: string | unknown[], length: number): void => uvu.is(value.length, length),
 	lt: (a: number, b: number): void => uvu.ok(a < b),
 	lte: (a: number, b: number): void => uvu.ok(a <= b),
+	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 	not: {
 		...uvu.not,
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
@@ -74,5 +75,4 @@ export const assert = {
 	true: (value: unknown): void => uvu.is(value, true),
 	truthy: (value: unknown): void => uvu.ok(!!value),
 	undefined: (value: unknown): void => uvu.type(value, "undefined"),
-	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 };

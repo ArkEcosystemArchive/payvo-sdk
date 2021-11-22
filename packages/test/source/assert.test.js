@@ -6,22 +6,22 @@ import { assert } from "./assert";
 test("does match the given object", () => {
 	assert.matchesObject(
 		{
-			hello: "world"
+			hello: "world",
 		},
 		{
 			hello: z.string(),
-		}
+		},
 	);
 });
 
 test("does not match the given object", () => {
 	assert.not.matchesObject(
 		{
-			hello: 1
+			hello: 1,
 		},
 		{
 			hello: z.string(),
-		}
+		},
 	);
 });
 

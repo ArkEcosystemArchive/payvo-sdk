@@ -91,7 +91,7 @@
 		"wif": "^2.0.6"
 	},
 	"engines": {
-		"node": "^14.13.1 || >=16.0.0"
+		"node": ">=16.0.0"
 	},
 	"engineStrict": true
 }
