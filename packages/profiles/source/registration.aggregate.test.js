@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -8,8 +9,8 @@ import { IProfile } from "./contracts";
 import { Profile } from "./profile";
 import { RegistrationAggregate } from "./registration.aggregate";
 
-let subject: RegistrationAggregate;
-let profile: IProfile;
+let subject;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -38,7 +39,9 @@ describe("RegistrationAggregate", () => {
 	test("#delegates", async () => {
 		const delegates = subject.delegates();
 
-		assert.is(delegates).toHaveLength(1);
+		assert.length(delegates, 1);
 		assert.is(delegates[0].address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
 	});
 });
+
+test.run();

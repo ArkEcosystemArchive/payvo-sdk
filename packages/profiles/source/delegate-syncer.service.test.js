@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -33,8 +34,8 @@ test.before.each(async () => {
 	coin = await makeCoin("ARK", "ark.devnet");
 });
 
-describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
-	let subject: IDelegateSyncer;
+for (const type of ["serial", "parallel"]) {
+	let subject;
 
 	test.before.each(async () => {
 		const clientService = coin.client();
@@ -44,7 +45,7 @@ describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
 	});
 
 	test("should sync", async () => {
-		assert.is(await subject.sync()).toHaveLength(200);
+		assert.length(await subject.sync(), 200);
 	});
 
 	test("should sync single page", async () => {
@@ -54,6 +55,8 @@ describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
 			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
 			.persist();
 
-		assert.is(await subject.sync()).toHaveLength(10);
+		assert.length(await subject.sync(), 10);
 	});
-});
+}
+
+test.run();

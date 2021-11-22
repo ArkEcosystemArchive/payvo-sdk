@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -10,8 +11,8 @@ import { Identifiers } from "./container.models";
 import { Wallet } from "./wallet";
 import { IExchangeRateService, IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
 
-let profile: IProfile;
-let subject: IReadWriteWallet;
+let profile;
+let subject;
 
 test.before(() => bootContainer());
 
@@ -40,7 +41,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -84,19 +85,11 @@ test("should aggregate the balances of all wallets", async () => {
 	b.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 	c.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-	jest.spyOn(a.network(), "isLive").mockReturnValue(true);
-	jest.spyOn(a.network(), "isTest").mockReturnValue(false);
-	jest.spyOn(a.network(), "ticker").mockReturnValue("ARK");
+	mockery(a.network(), "isLive").mockReturnValue(true);
+	mockery(a.network(), "isTest").mockReturnValue(false);
+	mockery(a.network(), "ticker").mockReturnValue("ARK");
 
-	jest.spyOn(b.network(), "isLive").mockReturnValue(true);
-	jest.spyOn(b.network(), "isTest").mockReturnValue(false);
-	jest.spyOn(b.network(), "ticker").mockReturnValue("ARK");
-
-	jest.spyOn(c.network(), "isLive").mockReturnValue(true);
-	jest.spyOn(c.network(), "isTest").mockReturnValue(false);
-	jest.spyOn(c.network(), "ticker").mockReturnValue("ARK");
-
-	(await container.get) < IExchangeRateService > Identifiers.ExchangeRateService.syncAll(profile, "ARK");
+	await container.get(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 
 	assert.is(profile.portfolio().breakdown()[0].source, 3);
 	assert.is(profile.portfolio().breakdown()[0].target, 0.00015144);
@@ -125,5 +118,7 @@ test("should ignore test network wallets", async () => {
 		),
 	]);
 
-	assert.is(profile.portfolio().breakdown(), []);
+	assert.equal(profile.portfolio().breakdown(), []);
 });
+
+test.run();

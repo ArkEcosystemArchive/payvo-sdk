@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -5,7 +6,7 @@ import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
 import { IProfile } from "./contracts";
 
-let profile: IProfile;
+let profile;
 
 test.before(() => bootContainer());
 
@@ -14,27 +15,29 @@ test.before.each(async () => {
 });
 
 test("should mark the profile as dirty", async () => {
-	assert.is(profile.status().isDirty(), false);
+	assert.false(profile.status().isDirty());
 	profile.status().markAsDirty();
-	assert.is(profile.status().isDirty(), true);
+	assert.true(profile.status().isDirty());
 });
 
 test("should mark the profile as restored", async () => {
-	assert.is(profile.status().isRestored(), false);
+	assert.false(profile.status().isRestored());
 	profile.status().markAsRestored();
-	assert.is(profile.status().isRestored(), true);
+	assert.true(profile.status().isRestored());
 });
 
 test("should reset the status of the profile to the default values", async () => {
 	profile.status().markAsRestored();
-	assert.is(profile.status().isRestored(), true);
+	assert.true(profile.status().isRestored());
 	profile.status().reset();
-	assert.is(profile.status().isRestored(), false);
+	assert.false(profile.status().isRestored());
 });
 
 test("should reset dirty status", async () => {
 	profile.status().markAsDirty();
-	assert.is(profile.status().isDirty(), true);
+	assert.true(profile.status().isDirty());
 	profile.status().markAsClean();
-	assert.is(profile.status().isDirty(), false);
+	assert.false(profile.status().isDirty());
 });
+
+test.run();

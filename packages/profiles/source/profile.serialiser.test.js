@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -8,8 +9,8 @@ import { Profile } from "./profile";
 import { IProfile, ProfileSetting } from "./contracts";
 import { ProfileSerialiser } from "./profile.serialiser";
 
-let subject: ProfileSerialiser;
-let profile: IProfile;
+let subject;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -38,24 +39,11 @@ test.before.each(() => {
 });
 
 test("should turn into an object", () => {
-	assert.is(subject.toJSON(),
-		Object {
-		  "contacts": Object {},
-		  "data": Object {},
-		  "exchangeTransactions": Object {},
-		  "id": "uuid",
-		  "notifications": Object {},
-		  "plugins": Object {},
-		  "settings": Object {
-		    "NAME": "John Doe",
-		  },
-		  "wallets": Object {},
-		}
-	`);
+	assert.object(subject.toJSON());
 });
 
 describe("should turn into an object with options", () => {
-	let profile: IProfile;
+	let profile;
 
 	test.before.each(() => {
 		profile = new Profile({ id: "uuid", name: "name", data: "" });
@@ -74,7 +62,7 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		assert.is(Object.keys(filtered.wallets)).toHaveLength(1);
+		assert.length(Object.keys(filtered.wallets), 1);
 	});
 
 	test("should exclude empty wallets", async () => {
@@ -86,7 +74,7 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		assert.is(Object.keys(filtered.wallets)).toHaveLength(0);
+		assert.length(Object.keys(filtered.wallets), 0);
 	});
 
 	test("should exclude ledger wallets", async () => {
@@ -99,34 +87,36 @@ describe("should turn into an object with options", () => {
 			saveGeneralSettings: true,
 		});
 
-		assert.is(Object.keys(filtered.wallets)).toHaveLength(0);
+		assert.length(Object.keys(filtered.wallets), 0);
 	});
 
 	test("should not include network information", async () => {
 		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-		assert
-			.is(() =>
+		assert.throws(
+			() =>
 				subject.toJSON({
 					excludeEmptyWallets: false,
 					excludeLedgerWallets: false,
 					addNetworkInformation: false,
 					saveGeneralSettings: true,
 				}),
-			)
-			.toThrow("This is not implemented yet");
+			"This is not implemented yet",
+		);
 	});
 
 	test("should not include general settings", async () => {
-		assert
-			.is(() =>
+		assert.throws(
+			() =>
 				subject.toJSON({
 					excludeEmptyWallets: false,
 					excludeLedgerWallets: false,
 					addNetworkInformation: true,
 					saveGeneralSettings: false,
 				}),
-			)
-			.toThrow("This is not implemented yet");
+			"This is not implemented yet",
+		);
 	});
 });
+
+test.run();

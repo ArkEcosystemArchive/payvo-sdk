@@ -87,14 +87,14 @@ jobs:
               run: cd "$GITHUB_WORKSPACE/packages/luna/" && pnpm run test:coverage
             - name: Test MARKETS
               run: cd "$GITHUB_WORKSPACE/packages/markets/" && pnpm run test:coverage
-            # - name: Test NANO
-            #   run: cd "$GITHUB_WORKSPACE/packages/nano/" && pnpm run test:coverage
+            - name: Test NANO
+              run: cd "$GITHUB_WORKSPACE/packages/nano/" && pnpm run test:coverage
             - name: Test NEO
               run: cd "$GITHUB_WORKSPACE/packages/neo/" && pnpm run test:coverage
             - name: Test NEWS
               run: cd "$GITHUB_WORKSPACE/packages/news/" && pnpm run test:coverage
-            # - name: Test PROFILES
-            #   run: cd "$GITHUB_WORKSPACE/packages/profiles/" && pnpm run test:coverage
+            - name: Test PROFILES
+              run: cd "$GITHUB_WORKSPACE/packages/profiles/" && pnpm run test:coverage
             - name: Test SDK
               run: cd "$GITHUB_WORKSPACE/packages/sdk/" && pnpm run test:coverage
             - name: Test SOL

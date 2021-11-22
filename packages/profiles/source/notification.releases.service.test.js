@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
@@ -6,105 +7,107 @@ import { NotificationRepository } from "./notification.repository";
 import { WalletReleaseNotificationService } from "./notification.releases.service";
 import { INotificationTypes, IWalletReleaseNotificationService } from "./notification.repository.contract";
 
-let notificationsRepository: NotificationRepository;
-let subject: IWalletReleaseNotificationService;
+let notificationsRepository;
+let subject;
 
 const releaseNotifications = [
-    {
-        icon: "warning",
-        name: "Wallet Update Available 2",
-        type: INotificationTypes.Release,
-        body: "...",
-        meta: {
-            version: "3.0.2",
-        },
-    },
-    {
-        icon: "warning",
-        name: "Wallet Update Available",
-        type: INotificationTypes.Release,
-        body: "...",
-        meta: {
-            version: "3.0.0",
-        },
-    },
+	{
+		icon: "warning",
+		name: "Wallet Update Available 2",
+		type: INotificationTypes.Release,
+		body: "...",
+		meta: {
+			version: "3.0.2",
+		},
+	},
+	{
+		icon: "warning",
+		name: "Wallet Update Available",
+		type: INotificationTypes.Release,
+		body: "...",
+		meta: {
+			version: "3.0.0",
+		},
+	},
 ];
 
 test.before(() => {
-    bootContainer();
+	bootContainer();
 });
 
 test.before.each(() => {
-    notificationsRepository = new NotificationRepository(
-        new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
-    );
-    subject = new WalletReleaseNotificationService(notificationsRepository);
+	notificationsRepository = new NotificationRepository(
+		new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
+	);
+	subject = new WalletReleaseNotificationService(notificationsRepository);
 });
 
 test("#push", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(subject.has("3.0.0"), true);
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	assert.true(subject.has("3.0.0"));
 
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(notificationsRepository.values()).toHaveLength(2);
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	assert.length(notificationsRepository.values(), 2);
 
-    subject.push({
-        name: "Wallet Update Available",
-        body: "...",
-        meta: undefined,
-    });
+	subject.push({
+		name: "Wallet Update Available",
+		body: "...",
+		meta: undefined,
+	});
 
-    assert.is(notificationsRepository.values()).toHaveLength(2);
+	assert.length(notificationsRepository.values(), 2);
 
-    subject.push({
-        name: "Wallet Update Available",
-        body: "...",
-        meta: {
-            version: undefined,
-        },
-    });
+	subject.push({
+		name: "Wallet Update Available",
+		body: "...",
+		meta: {
+			version: undefined,
+		},
+	});
 
-    assert.is(notificationsRepository.values()).toHaveLength(2);
+	assert.length(notificationsRepository.values(), 2);
 });
 
 test("#has", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(subject.has("3.0.0"), true);
-    assert.is(subject.has("3.3.0"), false);
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	assert.true(subject.has("3.0.0"));
+	assert.false(subject.has("3.3.0"));
 });
 
 test("#findByVersion", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(subject.findByVersion("3.0.0")?.name, releaseNotifications[1].name);
-    assert.is(subject.findByVersion("3.10.0")), "undefined");
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	assert.is(subject.findByVersion("3.0.0")?.name, releaseNotifications[1].name);
+	assert.undefined(subject.findByVersion("3.10.0"));
 });
 
 test("#markAsRead", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    const notification = subject.findByVersion("3.0.0");
-    assert.is(notification?.name, releaseNotifications[1].name);
-    assert.is(notification?.read_at), "undefined");
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	const notification = subject.findByVersion("3.0.0");
+	assert.is(notification?.name, releaseNotifications[1].name);
+	assert.undefined(notification?.read_at);
 
-subject.markAsRead("3.11.0");
-subject.markAsRead("3.0.0");
+	subject.markAsRead("3.11.0");
+	subject.markAsRead("3.0.0");
 
-assert.is(notification?.read_at).toBeTruthy();
+	assert.truthy(notification?.read_at);
 });
 
 test("#forget", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    const notification = subject.findByVersion("3.0.0");
-    assert.is(notification?.name, releaseNotifications[1].name);
-    assert.is(notification?.read_at), "undefined");
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	const notification = subject.findByVersion("3.0.0");
+	assert.is(notification?.name, releaseNotifications[1].name);
+	assert.undefined(notification?.read_at);
 
-subject.forget("3.11.0");
-subject.forget("3.0.0");
+	subject.forget("3.11.0");
+	subject.forget("3.0.0");
 
-assert.is(subject.findByVersion("3.0.0")), "undefined");
+	assert.undefined(subject.findByVersion("3.0.0"));
 });
 
 test("#recent", () => {
-    releaseNotifications.forEach((notification) => subject.push(notification));
-    assert.is(subject.recent()).toHaveLength(2);
-    assert.is(subject.recent(10)).toHaveLength(2);
+	releaseNotifications.forEach((notification) => subject.push(notification));
+	assert.length(subject.recent(), 2);
+	assert.length(subject.recent(10), 2);
 });
+
+test.run();

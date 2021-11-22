@@ -1,41 +1,44 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import { NullStorage } from "./null.storage";
 
-let subject: NullStorage;
+let subject;
 
-test.before.each(() => (subject = new NullStorage());
+test.before.each(() => (subject = new NullStorage()));
 
 test("#all", async () => {
-    await assert.is(subject.all()).resolves.toEqual({});
+	assert.equal(await subject.all(), {});
 });
 
 test("#get", async () => {
-    await assert.is(subject.get("key")).resolves, "undefined");
+	assert.undefined(await subject.get("key"));
 });
 
 test("#set", async () => {
-    await assert.is(subject.set("key", "value")).resolves, "undefined");
+	assert.undefined(await subject.set("key", "value"));
 });
 
 test("#has", async () => {
-    await assert.is(subject.has("key")).resolves, false);
+	assert.false(await subject.has("key"));
 });
 
 test("#forget", async () => {
-    await assert.is(subject.forget("null")).resolves, "undefined");
+	assert.undefined(await subject.forget("null"));
 });
 
 test("#flush", async () => {
-    await assert.is(subject.flush()).resolves, "undefined");
+	assert.undefined(await subject.flush());
 });
 
 test("#count", async () => {
-    await assert.is(subject.count()).resolves, 0);
+	assert.is(await subject.count(), 0);
 });
 
 test("#snapshot", async () => {
-    await assert.is(subject.snapshot()).resolves, "undefined");
+	assert.undefined(await subject.snapshot());
 });
 
 test("#restore", async () => {
-    await assert.is(subject.restore()).resolves, "undefined");
+	assert.undefined(await subject.restore());
 });
+
+test.run();

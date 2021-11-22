@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,9 +12,9 @@ import { Wallet } from "./wallet";
 import { IProfile, IProfileRepository, IReadWriteWallet } from "./contracts";
 import { WalletGate } from "./wallet.gate";
 
-let subject: WalletGate;
-let profile: IProfile;
-let wallet: IReadWriteWallet;
+let subject;
+let profile;
+let wallet;
 
 test.before(() => bootContainer());
 
@@ -73,7 +74,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -89,19 +90,21 @@ test.before.each(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("#allows", () => {
-	assert.is(subject.allows("some-feature"), false);
+	assert.false(subject.allows("some-feature"));
 });
 
 test("#denies", () => {
-	assert.is(subject.denies("some-feature"), true);
+	assert.true(subject.denies("some-feature"));
 });
 
 test("#any", () => {
-	assert.is(subject.any(["some-feature"]), false);
-	assert.is(subject.any(["Client.transactions"]), true);
+	assert.false(subject.any(["some-feature"]));
+	assert.true(subject.any(["Client.transactions"]));
 });
 
 test("#all", () => {
-	assert.is(subject.all(["some-feature"]), false);
-	assert.is(subject.all(["Client.transactions"]), true);
+	assert.false(subject.all(["some-feature"]));
+	assert.true(subject.all(["Client.transactions"]));
 });
+
+test.run();

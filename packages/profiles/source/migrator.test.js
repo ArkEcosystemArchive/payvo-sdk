@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -10,15 +11,15 @@ import { ProfileImporter } from "./profile.importer";
 import { ProfileSerialiser } from "./profile.serialiser";
 import { IProfileData } from "./profile.contract";
 
-let subject: Migrator;
-let profile: IProfile;
+let subject;
+let profile;
 
 test.before(() => bootContainer());
 
 test.before.each(async () => {
 	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
 
-	subject = new Migrator(profile, {} as IProfileData);
+	subject = new Migrator(profile, {});
 });
 
 test("should save the project version as the initial migrated version", async () => {
@@ -47,11 +48,11 @@ test("should not run the migration when the version does not change", async () =
 
 	await subject.migrate(migrations, "0.0.2");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
-	assert.is(profile.data().has("key"), false);
+	assert.false(profile.data().has("key"));
 
 	await subject.migrate(migrations, "0.0.2");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
-	assert.is(profile.data().has("key"), false);
+	assert.false(profile.data().has("key"));
 });
 
 test("should run migration when previous version is less but not zero", async () => {
@@ -71,11 +72,11 @@ test("should run the migration when the version changes", async () => {
 
 	await subject.migrate(migrations, "0.0.2");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "0.0.2");
-	assert.is(profile.data().has("key"), false);
+	assert.false(profile.data().has("key"));
 
 	await subject.migrate(migrations, "1.1.0");
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.1.0");
-	assert.is(profile.data().has("key"), true);
+	assert.true(profile.data().has("key"));
 	assert.is(profile.data().get("key"), "value");
 });
 
@@ -166,9 +167,7 @@ test("should rollback changes if a migration failed", async () => {
 
 	await subject.migrate(passingMigrations, "1.0.0");
 
-	await assert
-		.is(subject.migrate(failingMigrations, "1.0.2"))
-		.rejects.toThrowError(/throw the migration and rollback/);
+	await assert.rejects(() => subject.migrate(failingMigrations, "1.0.2"), "throw the migration and rollback");
 
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.0");
 	assert.is(profile.data().get("key"), "initial update");
@@ -238,12 +237,12 @@ test("should migrate profiles from JSON to Base64", async () => {
 		},
 	});
 
-	subject = new Migrator(profile, {} as IProfileData);
+	subject = new Migrator(profile, {});
 
 	await subject.migrate(
 		{
-			"2.0.0": async ({ profile }: { profile: IProfile }) => {
-				const profileData: Record<string, any> = profile.getAttributes().all();
+			"2.0.0": async ({ profile }) => {
+				const profileData = profile.getAttributes().all();
 				profileData.data.contacts["0e147f96-049f-4d89-bad4-ad3341109907"].name = "John Doe";
 				profileData.data.contacts["0e147f96-049f-4d89-bad4-ad3341109907"].addresses = [
 					{
@@ -270,63 +269,9 @@ test("should migrate profiles from JSON to Base64", async () => {
 	await new ProfileImporter(profile).import();
 
 	assert.is(profile.id(), "b999d134-7a24-481e-a95d-bc47c543bfc9");
-	assert.is(profile.usesPassword(), true);
+	assert.true(profile.usesPassword());
 	assert.is(profile.contacts().findById("0e147f96-049f-4d89-bad4-ad3341109907").name(), "John Doe");
-	assert.is(new ProfileSerialiser(profile).toJSON(),
-		Object {
-		  "contacts": Object {
-		    "0e147f96-049f-4d89-bad4-ad3341109907": Object {
-		      "addresses": Array [
-		        Object {
-		          "address": "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-		          "coin": "ARK",
-		          "id": "403a2b1a-8f0a-4351-9e86-1e50da063de0",
-		          "network": "ark.devnet",
-		        },
-		      ],
-		      "id": "0e147f96-049f-4d89-bad4-ad3341109907",
-		      "name": "John Doe",
-		      "starred": false,
-		    },
-		  },
-		  "data": Object {
-		    "LATEST_MIGRATION": "2.0.0",
-		  },
-		  "exchangeTransactions": Object {},
-		  "id": "b999d134-7a24-481e-a95d-bc47c543bfc9",
-		  "notifications": Object {
-		    "b183aef3-2dba-471a-a588-0fcf8f01b645": Object {
-		      "action": "Read Changelog",
-		      "body": "...",
-		      "icon": "warning",
-		      "id": "b183aef3-2dba-471a-a588-0fcf8f01b645",
-		      "name": "Ledger Update Available",
-		      "type": "type",
-		    },
-		  },
-		  "plugins": Object {},
-		  "settings": Object {
-		    "ACCENT_COLOR": "blue",
-		    "ADVANCED_MODE": false,
-		    "AUTOMATIC_SIGN_OUT_PERIOD": 60,
-		    "BIP39_LOCALE": "english",
-		    "DASHBOARD_TRANSACTION_HISTORY": false,
-		    "DO_NOT_SHOW_FEE_WARNING": false,
-		    "ERROR_REPORTING": false,
-		    "EXCHANGE_CURRENCY": "ADA",
-		    "LOCALE": "en-US",
-		    "MARKET_PROVIDER": "coingecko",
-		    "NAME": "John Doe",
-		    "NEWS_FILTERS": "{\\"categories\\":[],\\"coins\\":[\\"ARK\\"]}",
-		    "PASSWORD": "$argon2id$v=19$m=16,t=2,p=1$S09reTl2S1NTVllrU2ZuMg$Efpf9GGOgXdDmFmW1eF1Ew",
-		    "SCREENSHOT_PROTECTION": false,
-		    "THEME": "dark",
-		    "TIME_FORMAT": "HH::MM",
-		    "USE_EXPANDED_TABLES": false,
-		    "USE_NETWORK_WALLET_NAMES": false,
-		    "USE_TEST_NETWORKS": false,
-		  },
-		  "wallets": Object {},
-		}
-	`);
+	assert.object(new ProfileSerialiser(profile).toJSON());
 });
+
+test.run();

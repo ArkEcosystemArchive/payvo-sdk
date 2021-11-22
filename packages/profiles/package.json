@@ -19,7 +19,8 @@
 		"prepublishOnly": "pnpm run build",
 		"test": "uvu -r tsm source .test.js",
 		"test:coverage": "c8 pnpm run test",
-		"test:watch": "watchlist source -- pnpm run test"
+		"test:watch": "watchlist source -- pnpm run test",
+		"testi": "uvu -r tsm source"
 	},
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",

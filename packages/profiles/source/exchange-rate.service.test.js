@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,159 +12,157 @@ import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
 import { ExchangeRateService } from "./exchange-rate.service";
 
-let profile: IProfile;
-let wallet: IReadWriteWallet;
-let subject: ExchangeRateService;
+let profile;
+let wallet;
+let subject;
 
-let liveSpy: jest.SpyInstance;
-let testSpy: jest.SpyInstance;
+let liveSpy;
+let testSpy;
 
 test.before(() => bootContainer());
 
 test.before.each(async () => {
-    nock.cleanAll();
+	nock.cleanAll();
 
-    nock(/.+/)
-        // ARK Core
-        .get("/api/node/configuration")
-        .reply(200, require("../test/fixtures/client/configuration.json"))
-        .get("/api/peers")
-        .reply(200, require("../test/fixtures/client/peers.json"))
-        .get("/api/node/configuration/crypto")
-        .reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-        .get("/api/node/syncing")
-        .reply(200, require("../test/fixtures/client/syncing.json"))
-        .get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-        .reply(200, require("../test/fixtures/client/wallet.json"))
-        .get("/api/delegates")
-        .reply(200, require("../test/fixtures/client/delegates-1.json"))
-        .get("/api/delegates?page=2")
-        .reply(200, require("../test/fixtures/client/delegates-2.json"))
-        // CryptoCompare
-        .get("/data/histoday")
-        .query(true)
-        .reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
-        .persist();
+	nock(/.+/)
+		// ARK Core
+		.get("/api/node/configuration")
+		.reply(200, require("../test/fixtures/client/configuration.json"))
+		.get("/api/peers")
+		.reply(200, require("../test/fixtures/client/peers.json"))
+		.get("/api/node/configuration/crypto")
+		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+		.get("/api/node/syncing")
+		.reply(200, require("../test/fixtures/client/syncing.json"))
+		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+		.reply(200, require("../test/fixtures/client/wallet.json"))
+		.get("/api/delegates")
+		.reply(200, require("../test/fixtures/client/delegates-1.json"))
+		.get("/api/delegates?page=2")
+		.reply(200, require("../test/fixtures/client/delegates-2.json"))
+		// CryptoCompare
+		.get("/data/histoday")
+		.query(true)
+		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
+		.persist();
 
-    const profileRepository = new ProfileRepository();
-    subject = new ExchangeRateService();
+	const profileRepository = new ProfileRepository();
+	subject = new ExchangeRateService();
 
-    if (container.has(Identifiers.ProfileRepository)) {
-        container.unbind(Identifiers.ProfileRepository);
-    }
+	if (container.has(Identifiers.ProfileRepository)) {
+		container.unbind(Identifiers.ProfileRepository);
+	}
 
-    container.constant(Identifiers.ProfileRepository, profileRepository);
+	container.constant(Identifiers.ProfileRepository, profileRepository);
 
-    if (container.has(Identifiers.ExchangeRateService)) {
-        container.unbind(Identifiers.ExchangeRateService);
-    }
+	if (container.has(Identifiers.ExchangeRateService)) {
+		container.unbind(Identifiers.ExchangeRateService);
+	}
 
-    container.constant(Identifiers.ExchangeRateService, subject);
+	container.constant(Identifiers.ExchangeRateService, subject);
 
-    profile = profileRepository.create("John Doe");
+	profile = profileRepository.create("John Doe");
 
-    profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+	profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-    wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
-    wallet.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
+	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+	wallet.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-    liveSpy = jest.spyOn(wallet.network(), "isLive").mockReturnValue(true);
-    testSpy = jest.spyOn(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
+	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
 });
 
 test.after.each(() => {
-    liveSpy.mockRestore();
-    testSpy.mockRestore();
+	liveSpy.mockRestore();
+	testSpy.mockRestore();
 });
 
 test.before(() => nock.disableNetConnect());
 
 describe("ExchangeRateService", () => {
-    test("should sync a coin for specific profile with wallets argument", async () => {
-        nock(/.+/)
-            .get("/data/dayAvg")
-            .query(true)
-            .reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-            .persist();
+	test("should sync a coin for specific profile with wallets argument", async () => {
+		nock(/.+/)
+			.get("/data/dayAvg")
+			.query(true)
+			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+			.persist();
 
-        await subject.syncAll(profile, "DARK");
+		await subject.syncAll(profile, "DARK");
 
-        assert.is(wallet.convertedBalance(), 0.00005048);
-        const allStorage: Record<string, any> = await container.get<StubStorage>(Identifiers.Storage).all();
-        assert.is(allStorage.EXCHANGE_RATE_SERVICE).toMatchObject({ DARK: { BTC: expect.anything() } });
-    });
+		assert.is(wallet.convertedBalance(), 0.00005048);
+		const allStorage = await container.get(Identifiers.Storage).all();
+		assert.object(allStorage.EXCHANGE_RATE_SERVICE);
+	});
 
-    test("should sync a coin for specific profile without wallets argument", async () => {
-        nock(/.+/)
-            .get("/data/dayAvg")
-            .query(true)
-            .reply(200, { BTC: 0.00002134, ConversionType: { type: "direct", conversionSymbol: "" } })
-            .persist();
+	test("should sync a coin for specific profile without wallets argument", async () => {
+		nock(/.+/)
+			.get("/data/dayAvg")
+			.query(true)
+			.reply(200, { BTC: 0.00002134, ConversionType: { type: "direct", conversionSymbol: "" } })
+			.persist();
 
-        await subject.syncAll(profile, "DARK");
+		await subject.syncAll(profile, "DARK");
 
-        assert.is(wallet.convertedBalance(), 0.00002134);
-    });
+		assert.is(wallet.convertedBalance(), 0.00002134);
+	});
 
-    test("should fail to sync a coin for a specific profile if there are no wallets", async () => {
-        profile.wallets().flush();
+	test("should fail to sync a coin for a specific profile if there are no wallets", async () => {
+		profile.wallets().flush();
 
-        assert.is(wallet.data().get(WalletData.ExchangeCurrency)), "undefined");
+		assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
 
-    await subject.syncAll(profile, "DARK");
+		await subject.syncAll(profile, "DARK");
 
-    assert.is(wallet.data().get(WalletData.ExchangeCurrency)), "undefined");
-    });
+		assert.undefined(wallet.data().get(WalletData.ExchangeCurrency));
+	});
 
-test("should store exchange rates and currency in profile wallets if undefined", async () => {
-    nock(/.+/)
-        .get("/data/dayAvg")
-        .query(true)
-        .reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-        .persist();
+	test("should store exchange rates and currency in profile wallets if undefined", async () => {
+		nock(/.+/)
+			.get("/data/dayAvg")
+			.query(true)
+			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+			.persist();
 
-    profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+		profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-    await subject.syncAll(profile, "DARK");
-    assert.is(wallet.convertedBalance(), 0.00005048);
+		await subject.syncAll(profile, "DARK");
+		assert.is(wallet.convertedBalance(), 0.00005048);
+	});
+
+	test("should cache historic exchange rates", async () => {
+		nock(/.+/)
+			.get("/data/dayAvg")
+			.query(true)
+			.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+			.persist();
+
+		profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+
+		await subject.syncAll(profile, "DARK");
+		assert.is(wallet.convertedBalance(), 0.00005048);
+
+		nock(/.+/)
+			.get("/data/dayAvg")
+			.query(true)
+			.reply(200, { BTC: 0.00005555, ConversionType: { type: "direct", conversionSymbol: "" } })
+			.persist();
+
+		await subject.syncAll(profile, "DARK");
+		// The price should be the cached price from previous sync: 0.00005048
+		assert.is(wallet.convertedBalance(), 0.00005048);
+	});
+
+	test("handle restore", async () => {
+		await assert.resolves(() => subject.restore());
+
+		assert.object(await container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"));
+
+		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
+		await assert.resolves(() => subject.restore());
+
+		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", undefined);
+		await assert.resolves(() => subject.restore());
+	});
 });
 
-test("should cache historic exchange rates", async () => {
-    nock(/.+/)
-        .get("/data/dayAvg")
-        .query(true)
-        .reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
-        .persist();
-
-    profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
-
-    await subject.syncAll(profile, "DARK");
-    assert.is(wallet.convertedBalance(), 0.00005048);
-
-    nock(/.+/)
-        .get("/data/dayAvg")
-        .query(true)
-        .reply(200, { BTC: 0.00005555, ConversionType: { type: "direct", conversionSymbol: "" } })
-        .persist();
-
-    await subject.syncAll(profile, "DARK");
-    // The price should be the cached price from previous sync: 0.00005048
-    assert.is(wallet.convertedBalance(), 0.00005048);
-});
-
-test("handle restore", async () => {
-    await assert.is(subject.restore()).toResolve();
-
-    assert.is(await container.get<StubStorage>(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE")).toMatchObject({
-        DARK: { BTC: expect.anything() },
-    });
-
-    //@ts-ignore
-    await container.get<StubStorage>(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
-    await assert.is(subject.restore()).toResolve();
-
-    //@ts-ignore
-    await container.get<StubStorage>(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", undefined);
-    await assert.is(subject.restore()).toResolve();
-});
-});
+test.run();

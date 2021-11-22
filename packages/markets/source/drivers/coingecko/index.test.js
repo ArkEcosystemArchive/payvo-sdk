@@ -53,7 +53,7 @@ test.before.each(async () => {
 test("should return ticker values", async () => {
 	const response = await subject.marketData(token);
 	const entries = Object.keys(response);
-	assert.notEmpty(entries);
+	assert.not.empty(entries);
 	assert.includeAllMembers(entries, Object.keys(CURRENCIES));
 	assert.is(response.USD.price, 0.176829);
 });

@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -11,8 +12,8 @@ import { Wallet } from "./wallet";
 import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
 import { IDelegateService } from "./delegate.service.contract";
 
-let profile: IProfile;
-let subject: IReadWriteWallet;
+let profile;
+let subject;
 
 test.before(() => bootContainer());
 
@@ -72,7 +73,7 @@ test.before.each(async () => {
 		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	const profileRepository = container.get < IProfileRepository > Identifiers.ProfileRepository;
+	const profileRepository = container.get(Identifiers.ProfileRepository);
 	profileRepository.flush();
 	profile = profileRepository.create("John Doe");
 
@@ -86,22 +87,24 @@ test.before.each(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("should return current votes", async () => {
-	assert
-		.is(() => subject.voting().available())
-		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
+	assert.throws(
+		() => subject.voting().available(),
+		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+	);
 
-	(await container.get) < IDelegateService > Identifiers.DelegateService.sync(profile, "ARK", "ark.devnet");
+	await container.get(Identifiers.DelegateService).sync(profile, "ARK", "ark.devnet");
 	await subject.synchroniser().votes();
 
-	assert.is(subject.voting().current()).toHaveLength(1);
+	assert.length(subject.voting().current(), 1);
 	assert.is(subject.voting().current()[0].wallet?.address(), "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve");
 	assert.is(subject.voting().current()[0].wallet?.username(), "alessio");
 });
 
 test("should return votes available", () => {
-	assert
-		.is(() => subject.voting().available())
-		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
+	assert.throws(
+		() => subject.voting().available(),
+		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+	);
 
 	subject.data().set(WalletData.VotesAvailable, 2);
 
@@ -109,11 +112,14 @@ test("should return votes available", () => {
 });
 
 test("should return votes used", () => {
-	assert
-		.is(() => subject.voting().used())
-		.toThrow("The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.");
+	assert.throws(
+		() => subject.voting().used(),
+		"The voting data has not been synced. Please call [synchroniser().votes()] before accessing votes.",
+	);
 
 	subject.data().set(WalletData.VotesUsed, 2);
 
 	assert.is(subject.voting().used(), 2);
 });
+
+test.run();

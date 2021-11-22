@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 import nock from "nock";
 
@@ -13,7 +14,7 @@ import { INotificationTypes } from "./notification.repository.contract";
 const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
 const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
 
-let subject: ProfileNotificationService;
+let subject;
 
 test.before(async () => {
 	bootContainer();
@@ -44,53 +45,53 @@ test.before.each(async () => {
 });
 
 test("#transactions", async () => {
-	assert.is(subject.transactions() instanceof ProfileTransactionNotificationService);
+	assert.instance(subject.transactions(), ProfileTransactionNotificationService);
 });
 
 test("#releases", async () => {
-	assert.is(subject.releases() instanceof WalletReleaseNotificationService);
+	assert.instance(subject.releases(), WalletReleaseNotificationService);
 });
 
 test("#markAsRead", async () => {
-	assert.is(subject.hasUnread(), false);
+	assert.false(subject.hasUnread());
 	await subject.transactions().sync({});
 
-	assert.is(subject.hasUnread(), true);
+	assert.true(subject.hasUnread());
 
 	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
-	subject.markAsRead(notification?.id as string);
+	subject.markAsRead(notification?.id);
 
 	const notification2 = subject.transactions().findByTransactionId(NotificationTransactionFixtures.data[2].id);
-	subject.markAsRead(notification2?.id as string);
+	subject.markAsRead(notification2?.id);
 
-	assert.is(subject.hasUnread(), false);
+	assert.false(subject.hasUnread());
 });
 
 test("#get", async () => {
-	assert.is(subject.hasUnread(), false);
+	assert.false(subject.hasUnread());
 	await subject.transactions().sync({});
 
 	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
 
-	assert.is(subject.get(notification?.id!).meta, notification?.meta!);
+	assert.is(subject.get(notification?.id).meta, notification?.meta);
 });
 
 test("#filterByType", async () => {
 	await subject.transactions().sync({});
 
-	assert.is(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(2);
+	assert.length(subject.filterByType(INotificationTypes.Transaction), 2);
 });
 
 test("#hasUnread", async () => {
-	assert.is(subject.hasUnread(), false);
+	assert.false(subject.hasUnread());
 	await subject.transactions().sync({});
-	assert.is(subject.hasUnread(), true);
+	assert.true(subject.hasUnread());
 });
 
 test("#all", async () => {
 	await subject.transactions().sync({});
-	assert.is(subject.all() instanceof Object);
-	assert.is(Object.values(subject.all())).toHaveLength(2);
+	assert.instance(subject.all(), Object);
+	assert.length(Object.values(subject.all()), 2);
 });
 
 test("#count", async () => {
@@ -122,3 +123,5 @@ test("#fill", async () => {
 	subject.fill(notifications);
 	assert.is(subject.count(), 1);
 });
+
+test.run();

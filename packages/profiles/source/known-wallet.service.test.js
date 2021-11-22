@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -6,7 +7,7 @@ import { bootContainer } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 import { Profile } from "./profile";
 
-let subject: KnownWalletService;
+let subject;
 
 test.before(() => {
 	bootContainer();
@@ -70,18 +71,20 @@ describe("KnownWalletService", () => {
 	});
 
 	test("#is", async () => {
-		assert.is(subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), true);
-		assert.is(subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s"), false);
+		assert.true(subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
+		assert.false(subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s"));
 	});
 
 	test("#isExchange", async () => {
-		assert.is(subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), true);
-		assert.is(subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), false);
-		assert.is(subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), false);
+		assert.true(subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
+		assert.false(subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
+		assert.false(subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
 	});
 
 	test("#isTeam", async () => {
-		assert.is(subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), true);
-		assert.is(subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"), false);
+		assert.true(subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
+		assert.false(subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
 	});
 });
+
+test.run();

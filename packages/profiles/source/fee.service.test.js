@@ -1,3 +1,4 @@
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -5,11 +6,11 @@ import nock from "nock";
 import { bootContainer } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-let subject: FeeService;
+let subject;
 import NodeFeesFixture from "../test/fixtures/client/node-fees.json";
 import { Profile } from "./profile";
 
-let profile: Profile;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -43,22 +44,22 @@ test.before.each(async () => {
 
 describe("FeeService", () => {
 	test("should sync fees", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.sync(profile, "ARK", "ark.devnet");
-		assert.is(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
 	});
 
 	test("should sync fees of all coins", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
-		assert.is(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		assert.length(Object.keys(subject.all("ARK", "ark.devnet")), 11);
 	});
 
 	test("#findByType", async () => {
-		assert.is(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+		assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 		await subject.syncAll(profile);
 
@@ -70,3 +71,5 @@ describe("FeeService", () => {
 		assert.is(fees.static.toHuman(), 0.1);
 	});
 });
+
+test.run();

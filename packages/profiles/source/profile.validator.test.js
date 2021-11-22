@@ -1,3 +1,4 @@
+import { assert, describe, sinon, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -6,16 +7,16 @@ import nock from "nock";
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileValidator } from "./profile.validator";
 
-let subject: ProfileImporter;
-let validator: ProfileValidator;
-let dumper: ProfileDumper;
-let profile: IProfile;
+let subject;
+let validator;
+let dumper;
+let profile;
 
 test.before(() => {
 	bootContainer();
@@ -37,9 +38,9 @@ test.before(() => {
 });
 
 test.before.each(() => {
-	container.get < IProfileRepository > Identifiers.ProfileRepository.flush();
+	container.get(Identifiers.ProfileRepository).flush();
 
-	profile = container.get < IProfileRepository > Identifiers.ProfileRepository.create("John Doe");
+	profile = container.get(Identifiers.ProfileRepository).create("John Doe");
 	subject = new ProfileImporter(profile);
 	validator = new ProfileValidator();
 	dumper = new ProfileDumper(profile);
@@ -101,7 +102,7 @@ describe("#validate", () => {
 
 		validator = new ProfileValidator();
 
-		assert.is(validator.validate(validProfileData).settings, validProfileData.settings);
+		assert.equal(validator.validate(validProfileData).settings, validProfileData.settings);
 	});
 
 	test("should fail to validate", async () => {
@@ -116,7 +117,7 @@ describe("#validate", () => {
 			wallets: {},
 		};
 
-		const profile: IProfile = new Profile({
+		new Profile({
 			id: "uuid",
 			name: "name",
 			avatar: "avatar",
@@ -126,21 +127,22 @@ describe("#validate", () => {
 
 		validator = new ProfileValidator();
 
-		//@ts-ignore
-		assert.is(() => validator.validate(corruptedProfileData)).toThrow();
+		assert.throws(() => validator.validate(corruptedProfileData));
 	});
 
 	test("should apply migrations if any are set", async () => {
-		const migrationFunction = jest.fn();
+		const migrationFunction = sinon.spy();
 		const migrations = { "1.0.1": migrationFunction };
 
 		container.constant(Identifiers.MigrationSchemas, migrations);
 		container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-		subject = new ProfileImporter(new Profile(dumper.dump());
+		subject = new ProfileImporter(new Profile(dumper.dump()));
 
 		await subject.import();
 
-		assert.is(migrationFunction).toHaveBeenCalled();
+		assert.true(migrationFunction.callCount > 0);
 	});
 });
+
+test.run();

@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { assert, describe, sinon, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -7,7 +7,7 @@ import nock from "nock";
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileSerialiser } from "./profile.serialiser";
@@ -15,11 +15,11 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
 
-let subject: ProfileImporter;
-let dumper: ProfileDumper;
-let serialiser: ProfileSerialiser;
-let repository: ProfileRepository;
-let profile: IProfile;
+let subject;
+let dumper;
+let serialiser;
+let repository;
+let profile;
 
 const profileWithWallets = {
 	id: "uuid",
@@ -117,9 +117,9 @@ test.before(() => {
 });
 
 test.before.each(() => {
-	container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
+	container.get(Identifiers.ProfileRepository).flush();
 
-	profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");
+	profile = container.get(Identifiers.ProfileRepository).create("John Doe");
 	subject = new ProfileImporter(profile);
 	dumper = new ProfileDumper(profile);
 	serialiser = new ProfileSerialiser(profile);
@@ -132,7 +132,7 @@ describe("#restore", () => {
 
 		repository.persist(profile);
 
-		const profileCopy: IProfile = new Profile(dumper.dump());
+		const profileCopy = new Profile(dumper.dump());
 
 		await importByMnemonic(profileCopy, identity.mnemonic, "ARK", "ark.devnet");
 
@@ -141,18 +141,16 @@ describe("#restore", () => {
 		await subject.import("password");
 		await profileCopy.sync();
 
-		assert
-			.is(serialiser.toJSON())
-			.toContainAllKeys([
-				"contacts",
-				"data",
-				"exchangeTransactions",
-				"notifications",
-				"plugins",
-				"data",
-				"settings",
-				"wallets",
-			]);
+		assert.containKeys(serialiser.toJSON(), [
+			"contacts",
+			"data",
+			"exchangeTransactions",
+			"notifications",
+			"plugins",
+			"data",
+			"settings",
+			"wallets",
+		]);
 	});
 
 	test("should fail to restore a profile with corrupted data", async () => {
@@ -167,7 +165,7 @@ describe("#restore", () => {
 			wallets: {},
 		};
 
-		const profile: IProfile = new Profile({
+		const profile = new Profile({
 			id: "uuid",
 			name: "name",
 			avatar: "avatar",
@@ -177,29 +175,28 @@ describe("#restore", () => {
 
 		subject = new ProfileImporter(profile);
 
-		await assert.is(subject.import()).rejects.toThrow();
+		await assert.rejects(() => subject.import());
 	});
 
 	test("should restore a profile without a password", async () => {
-		const profileCopy: IProfile = new Profile(dumper.dump());
+		const profileCopy = new Profile(dumper.dump());
 
 		subject = new ProfileImporter(profileCopy);
 
 		await subject.import();
 
-		assert.is(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
+		assert.equal(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
 	});
 
 	test("should fail to restore if profile is not using password but password is passed", async () => {
-		const profileCopy: IProfile = new Profile(dumper.dump());
+		const profileCopy = new Profile(dumper.dump());
 
 		subject = new ProfileImporter(profileCopy);
 
-		await assert
-			.is(subject.import("password"))
-			.rejects.toThrow(
-				"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
-			);
+		await assert.rejects(
+			() => subject.import("password"),
+			"Failed to decode or decrypt the profile. Reason: This profile does not use a password but password was passed for decryption",
+		);
 	});
 
 	test("should fail to restore a profile with a password if no password was provided", async () => {
@@ -207,21 +204,21 @@ describe("#restore", () => {
 
 		repository.persist(profile);
 
-		const profileCopy: IProfile = new Profile(dumper.dump());
+		const profileCopy = new Profile(dumper.dump());
 
 		subject = new ProfileImporter(profileCopy);
 
-		await assert.is(subject.import()).rejects.toThrow("Failed to decode or decrypt the profile.");
+		await assert.rejects(() => subject.import(), "Failed to decode or decrypt the profile.");
 	});
 
 	test("should fail to restore a profile with a password if an invalid password was provided", async () => {
 		profile.auth().setPassword("password");
 
-		const profileCopy: IProfile = new Profile(dumper.dump());
+		const profileCopy = new Profile(dumper.dump());
 
 		subject = new ProfileImporter(profileCopy);
 
-		await assert.is(subject.import("invalid-password")).rejects.toThrow("Failed to decode or decrypt the profile.");
+		await assert.rejects(() => subject.import("invalid-password"), "Failed to decode or decrypt the profile.");
 	});
 
 	test("should restore a profile with wallets and contacts", async () => {
@@ -254,8 +251,8 @@ describe("#restore", () => {
 			data: Base64.encode(JSON.stringify(profileWithWallets)),
 		};
 
-		const coin = container.get<Coins.CoinBundle>(Identifiers.Coins)["ARK"];
-		delete container.get<Coins.CoinBundle>(Identifiers.Coins)["ARK"];
+		const coin = container.get(Identifiers.Coins)["ARK"];
+		delete container.get(Identifiers.Coins)["ARK"];
 
 		const profile = new Profile(profileDump);
 		subject = new ProfileImporter(profile);
@@ -269,20 +266,22 @@ describe("#restore", () => {
 		assert.is(profile.settings().get(ProfileSetting.AccentColor), "blue");
 		assert.is(profile.settings().get(ProfileSetting.Theme), "dark");
 
-		container.get<Coins.CoinBundle>(Identifiers.Coins)["ARK"] = coin;
+		container.get(Identifiers.Coins)["ARK"] = coin;
 	});
 
 	test("should apply migrations if any are set", async () => {
-		const migrationFunction = jest.fn();
+		const migrationFunction = sinon.spy();
 		const migrations = { "1.0.1": migrationFunction };
 
 		container.constant(Identifiers.MigrationSchemas, migrations);
 		container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-		subject = new ProfileImporter(new Profile(dumper.dump());
+		subject = new ProfileImporter(new Profile(dumper.dump()));
 
 		await subject.import();
 
-		assert.is(migrationFunction).toHaveBeenCalled();
+		assert.true(migrationFunction.callCount > 0);
 	});
 });
+
+test.run();
