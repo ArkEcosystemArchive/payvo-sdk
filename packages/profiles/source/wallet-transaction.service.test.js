@@ -1,4 +1,4 @@
-import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Signatories } from "@payvo/sdk";
@@ -466,7 +466,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 	});
 
 	test("should fail retrieving public key if wallet is lacking a public key", async () => {
-		const walletPublicKeyMock = stub(wallet, "publicKey").mockReturnValue(undefined);
+		const walletPublicKeyMock = mockery(wallet, "publicKey").mockReturnValue(undefined);
 		assert.throws(() => subject.getPublicKey());
 		walletPublicKeyMock.mockRestore();
 	});
@@ -525,7 +525,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 
-		const mockedUndefinedStorage = stub(wallet.data(), "get").mockReturnValue(undefined);
+		const mockedUndefinedStorage = mockery(wallet.data(), "get").mockReturnValue(undefined);
 		subject.restore();
 		mockedUndefinedStorage.mockRestore();
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
@@ -588,7 +588,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 		const id = "46343c36bf7497b68e14d4c0fd713e41a737841b6a858fa41ef0eab6c4647938";
 
 		await subject.sync();
-		const mockNeedsWalletSignature = stub(
+		const mockNeedsWalletSignature = mockery(
 			wallet.coin().multiSignature(),
 			"needsWalletSignature",
 		).mockReturnValue(true);
@@ -733,7 +733,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 			},
 		});
 
-		const isMultiSignatureRegistration = stub(subject.transaction(id), "isMultiSignatureRegistration");
+		const isMultiSignatureRegistration = mockery(subject.transaction(id), "isMultiSignatureRegistration");
 
 		const mockedFalseMultisignatureRegistration = isMultiSignatureRegistration.mockReturnValue(false);
 		assert.defined(subject.transaction(id));
@@ -840,7 +840,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 		await assert.rejects(() => subject.confirm(null));
 
 		// Handle wallet client error. Should return false
-		const walletClientTransactionMock = stub(wallet.client(), "transaction").mockImplementation(() => {
+		const walletClientTransactionMock = mockery(wallet.client(), "transaction").mockImplementation(() => {
 			throw new Error("transaction error");
 		});
 

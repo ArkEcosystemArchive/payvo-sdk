@@ -1,4 +1,4 @@
-import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -98,8 +98,8 @@ test("should return multi signature", async () => {
 });
 
 test("should return multi-signature participants", async () => {
-	const isMultiSignature = stub(subject, "isMultiSignature").mockReturnValue(true);
-	const multiSignature = stub(subject.multiSignature(), "all").mockReturnValue({
+	const isMultiSignature = mockery(subject, "isMultiSignature").mockReturnValue(true);
+	const multiSignature = mockery(subject.multiSignature(), "all").mockReturnValue({
 		min: 2,
 		publicKeys: [
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
@@ -148,7 +148,7 @@ test("should throw if the multi-signature has not been synchronized yet", async 
 });
 
 test("should list all participants with a standard multi signature", async () => {
-	stub(subject.multiSignature(), "all").mockReturnValue({
+	mockery(subject.multiSignature(), "all").mockReturnValue({
 		min: 2,
 		publicKeys: ["a", "b"],
 	});
@@ -157,7 +157,7 @@ test("should list all participants with a standard multi signature", async () =>
 });
 
 test("should list all participants with an advanced multi signature", async () => {
-	stub(subject.multiSignature(), "all").mockReturnValue({
+	mockery(subject.multiSignature(), "all").mockReturnValue({
 		numberOfSignatures: 2,
 		mandatoryKeys: ["a", "b"],
 		optionalKeys: ["c", "d"],

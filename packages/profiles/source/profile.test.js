@@ -234,7 +234,7 @@ test("should determine if the manual installation disclaimer has been accepted",
 
 // test("should fail to save if encoding or encrypting fails", () => {
 // 	// @ts-ignore
-// 	const encodingMock = stub(JSON, "stringify").mockReturnValue(undefined);
+// 	const encodingMock = mockery(JSON, "stringify").mockReturnValue(undefined);
 
 // 	assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
 // 	encodingMock.mockRestore();

@@ -1,7 +1,7 @@
 import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
-import { mock, spy, stub } from "./mockery.js";
+import { mock, spy, stub } from "./sinon.js";
 
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;

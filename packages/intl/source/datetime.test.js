@@ -1,4 +1,4 @@
-import { assert, stub, test } from "@payvo/sdk-test";
+import { assert, mockery, test } from "@payvo/sdk-test";
 
 import { DateTime } from "./datetime";
 
@@ -7,7 +7,7 @@ let subject;
 test.before.each(() => (subject = DateTime.make("2020-01-01")));
 
 test("#make", () => {
-	const consoleSpy = stub(console, "debug");
+	const consoleSpy = mockery(console, "debug");
 
 	DateTime.make("2020-01-01 12:00:00", "invalid");
 

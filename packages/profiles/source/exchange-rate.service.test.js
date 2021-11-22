@@ -1,4 +1,4 @@
-import { assert, describe, stub, loader, test } from "@payvo/sdk-test";
+import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -68,8 +68,8 @@ test.before.each(async () => {
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 	wallet.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
-	liveSpy = stub(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = stub(wallet.network(), "isTest").mockReturnValue(false);
+	liveSpy = mockery(wallet.network(), "isLive").mockReturnValue(true);
+	testSpy = mockery(wallet.network(), "isTest").mockReturnValue(false);
 });
 
 test.after.each(() => {
