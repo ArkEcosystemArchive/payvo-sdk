@@ -11,7 +11,24 @@ describe("Helpers.Currency", () => {
 		expect(Currency.format(10, ticker)).toBe(`10 ${ticker}`);
 	});
 
-	it.each(["AUD", "BRL", "CAD", "CHF", "CNY", "DKK", "EUR", "GBP", "HKD", "IDR", "INR", "MXN", "NOK", "RUB", "SEK", "USD"])("should allow to hide ticker (%s)", (ticker) => {
+	it.each([
+		"AUD",
+		"BRL",
+		"CAD",
+		"CHF",
+		"CNY",
+		"DKK",
+		"EUR",
+		"GBP",
+		"HKD",
+		"IDR",
+		"INR",
+		"MXN",
+		"NOK",
+		"RUB",
+		"SEK",
+		"USD",
+	])("should allow to hide ticker (%s)", (ticker) => {
 		expect(Currency.format(10, ticker, { withTicker: false })).toBe("10.00");
 	});
 

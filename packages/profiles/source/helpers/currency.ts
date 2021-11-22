@@ -38,7 +38,10 @@ export class Currency {
 		}
 
 		if (!withTicker) {
-			return money.format().replace(/[^\d,.]/g, "").trim()
+			return money
+				.format()
+				.replace(/[^\d,.]/g, "")
+				.trim();
 		}
 
 		return money.format();
