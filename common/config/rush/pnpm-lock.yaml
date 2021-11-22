@@ -1901,6 +1901,7 @@ importers:
       concordance: 5.0.4
       nock: 13.2.0
       sinon: 12.0.1
+      string-kit: 0.14.2
       tsm: 2.1.4
       uvu: 0.5.2
       watchlist: 0.3.1
@@ -1914,6 +1915,7 @@ importers:
       concordance: ~5.0.4
       nock: ^13.2.0
       sinon: ^12.0.1
+      string-kit: ~0.14.2
       tsm: ^2.1.4
       uvu: ^0.5.2
       watchlist: ~0.3.1
@@ -11352,6 +11354,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-LhWeKBSpThCr/XEIltPNNfg9Rp10Ei/xPYANF2Y4ezaoXuF0fOU2vjwRfcaK1kgavkKkBqMWvh222cscP9myCA==
+  /string-kit/0.14.2:
+    dev: false
+    engines:
+      node: '>=14.15.0'
+    resolution:
+      integrity: sha512-u8vgcSh/IctgL7vnl+p/BfO535PA3HXaOHgnfHdiOm0ZleQkTBkEIfZjK7/uiyDkLjU/hERNwuAKXZdUTCWzZQ==
   /string-width/1.0.2:
     dependencies:
       code-point-at: 1.1.0

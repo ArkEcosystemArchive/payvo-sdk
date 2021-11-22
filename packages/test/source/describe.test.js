@@ -27,7 +27,7 @@ describe("Date.now()", ({ assert, beforeAll, afterAll, each, only, skip, test })
 		assert.is(Date.now(), 102);
 	});
 
-	each("should progress with time", ({ dataset }) => {
+	each("number ", ({ dataset }) => {
 		console.log(dataset)
 		assert.true(dataset > 0);
 	}, [1, 2, 3]);
