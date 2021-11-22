@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -82,7 +82,7 @@ test.before.each(async () => {
 		mnemonic: identity.mnemonic,
 	});
 
-	actsWithMnemonic = actsWithMnemonic ?? mockery(wallet, "actsWithMnemonic");
+	actsWithMnemonic = actsWithMnemonic ?? Mockery.stub(wallet, "actsWithMnemonic");
 });
 
 test.before(() => nock.disableNetConnect());
@@ -123,8 +123,8 @@ test("should sync multi signature when not musig", async () => {
 
 test("should sync the identity with a public key", async () => {
 	actsWithMnemonic.mockReturnValue(false);
-	mockery(wallet, "actsWithPublicKey").mockReturnValue(true);
-	mockery(wallet.network(), "usesExtendedPublicKey").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(true);
+	Mockery.stub(wallet.network(), "usesExtendedPublicKey").mockReturnValue(false);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
 
@@ -133,8 +133,8 @@ test("should sync the identity with a public key", async () => {
 
 test("should sync the identity with an extended public key", async () => {
 	actsWithMnemonic.mockReturnValue(false);
-	mockery(wallet, "actsWithPublicKey").mockReturnValue(true);
-	mockery(wallet.network(), "usesExtendedPublicKey").mockReturnValue(true);
+	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(true);
+	Mockery.stub(wallet.network(), "usesExtendedPublicKey").mockReturnValue(true);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
 
@@ -142,13 +142,13 @@ test("should sync the identity with an extended public key", async () => {
 });
 
 test("should fail to sync the identity with an unknown import method", async () => {
-	mockery(wallet, "actsWithAddress").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithAddress").mockReturnValue(false);
 	actsWithMnemonic.mockReturnValue(false);
-	mockery(wallet, "actsWithPublicKey").mockReturnValue(false);
-	mockery(wallet, "actsWithMnemonic").mockReturnValue(false);
-	mockery(wallet, "actsWithPrivateKey").mockReturnValue(false);
-	mockery(wallet, "actsWithWifWithEncryption").mockReturnValue(false);
-	mockery(wallet, "actsWithWif").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithPublicKey").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithMnemonic").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithPrivateKey").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithWifWithEncryption").mockReturnValue(false);
+	Mockery.stub(wallet, "actsWithWif").mockReturnValue(false);
 
 	await assert.rejects(() => new WalletSynchroniser(wallet).identity());
 

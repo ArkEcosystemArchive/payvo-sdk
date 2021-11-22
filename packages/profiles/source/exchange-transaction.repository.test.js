@@ -1,4 +1,4 @@
-// import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+// import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 // import "reflect-metadata";
 
 // import { bootContainer } from "../test/mocking";
@@ -27,7 +27,7 @@
 // let dateNowSpy;
 
 // test.before(() => {
-// 	dateNowSpy = mockery(Date, "now").mockImplementation(() => 123456789);
+// 	dateNowSpy = Mockery.stub(Date, "now").mockImplementation(() => 123456789);
 // });
 
 // test.after(() => {

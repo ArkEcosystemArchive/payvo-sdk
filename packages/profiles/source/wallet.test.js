@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -151,8 +151,8 @@ test("should have a converted balance if it is a live wallet", async () => {
 		.persist();
 
 	const wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
-	const live = mockery(subject.network(), "isLive").mockReturnValue(true);
-	const test = mockery(subject.network(), "isTest").mockReturnValue(false);
+	const live = Mockery.stub(subject.network(), "isLive").mockReturnValue(true);
+	const test = Mockery.stub(subject.network(), "isTest").mockReturnValue(false);
 
 	wallet.data().set(WalletData.Balance, { available: 1e8, fees: 1e8 });
 
@@ -167,8 +167,8 @@ test("should have a converted balance if it is a live wallet", async () => {
 });
 
 test("should not have a converted balance if it is a live wallet but has no exchange rate", async () => {
-	const live = mockery(subject.network(), "isLive").mockReturnValue(true);
-	const test = mockery(subject.network(), "isTest").mockReturnValue(false);
+	const live = Mockery.stub(subject.network(), "isLive").mockReturnValue(true);
+	const test = Mockery.stub(subject.network(), "isTest").mockReturnValue(false);
 
 	assert.is(subject.convertedBalance(), 0);
 
@@ -177,8 +177,8 @@ test("should not have a converted balance if it is a live wallet but has no exch
 });
 
 test("should not have a converted balance if it is a test wallet", async () => {
-	const live = mockery(subject.network(), "isLive").mockReturnValue(false);
-	const test = mockery(subject.network(), "isTest").mockReturnValue(true);
+	const live = Mockery.stub(subject.network(), "isLive").mockReturnValue(false);
+	const test = Mockery.stub(subject.network(), "isTest").mockReturnValue(true);
 
 	assert.is(subject.convertedBalance(), 0);
 
@@ -278,7 +278,7 @@ test("should have a display name (username)", () => {
 });
 
 test("should have a display name (knownName)", () => {
-	const usernameSpy = mockery(subject, "username").mockReturnValue(undefined);
+	const usernameSpy = Mockery.stub(subject, "username").mockReturnValue(undefined);
 
 	if (container.has(Identifiers.KnownWalletService)) {
 		container.unbind(Identifiers.KnownWalletService);
@@ -516,7 +516,7 @@ test("should return whether it can vote or not", () => {
 });
 
 test("should construct a coin instance", async () => {
-	const mockConstruct = mockery(subject.getAttributes().get("coin"), "__construct");
+	const mockConstruct = Mockery.stub(subject.getAttributes().get("coin"), "__construct");
 
 	await subject.connect();
 
@@ -530,7 +530,7 @@ test("should throw if a connection is tried to be established but no coin has be
 		mnemonic: identity.mnemonic,
 	});
 
-	mockery(subject, "hasCoin").mockReturnValue(false);
+	Mockery.stub(subject, "hasCoin").mockReturnValue(false);
 
 	await assert.rejects(() => subject.connect());
 });

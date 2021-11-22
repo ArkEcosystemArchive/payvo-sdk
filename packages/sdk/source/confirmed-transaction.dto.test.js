@@ -2,7 +2,7 @@
 
 import "reflect-metadata";
 
-import { assert, mockery, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { AbstractConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -25,7 +25,7 @@ test("#type", () => {
 
 	assert.is(subject.type(), "transfer");
 
-	mockery(subject, "isMagistrate").mockReturnValueOnce(true);
+	Mockery.stub(subject, "isMagistrate").mockReturnValueOnce(true);
 
 	assert.is(subject.type(), "magistrate");
 });

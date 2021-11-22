@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import { NullStorage } from "./null.storage";
 
 let subject;

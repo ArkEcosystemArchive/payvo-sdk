@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Coins } from "@payvo/sdk";
@@ -81,7 +81,7 @@ test("#entries", async () => {
 
 	assert.equal(subject.entries(), [["ARK", ["ark.devnet"]]]);
 
-	const mockUndefinedNetwork = mockery(subject, "all").mockReturnValue({ ARK: { ark: undefined } });
+	const mockUndefinedNetwork = Mockery.stub(subject, "all").mockReturnValue({ ARK: { ark: undefined } });
 
 	assert.equal(subject.entries(), [["ARK", ["ark"]]]);
 

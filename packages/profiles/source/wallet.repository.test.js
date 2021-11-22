@@ -1,4 +1,4 @@
-import { assert, describe, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
@@ -174,7 +174,7 @@ test("#push", async () => {
 
 	const wallet = subject.first();
 
-	mockery(wallet, "networkId").mockReturnValueOnce("ark.mainnet");
+	Mockery.stub(wallet, "networkId").mockReturnValueOnce("ark.mainnet");
 
 	await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
 });
@@ -424,7 +424,7 @@ test("#update", async () => {
 // 	// @TODO: implement mockImplementationOnce
 // 	skip("should retry if it encounters a failure during restoration", async () => {
 // 		// Nasty: we need to mock a failure on the wallet instance the repository has
-// 		mockery(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
+// 		Mockery.stub(subject.findById(wallet.id()), "mutator").mockImplementationOnce(() => {
 // 			throw new Error();
 // 		});
 

@@ -1,4 +1,4 @@
-import { assert, describe, loader, mockery, test } from "@payvo/sdk-test";
+import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
@@ -122,7 +122,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 
 		const ark = await createMockService(ledger.wallets.record);
 
-		mockery(ark, "getExtendedPublicKey").mockResolvedValue(
+		Mockery.stub(ark, "getExtendedPublicKey").mockResolvedValue(
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 		);
 

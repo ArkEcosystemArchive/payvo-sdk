@@ -1,4 +1,4 @@
-import { assert, mockery, test } from "@payvo/sdk-test";
+import { assert, Mockery, test } from "@payvo/sdk-test";
 
 import { manifest } from "../../ark/distribution/manifest";
 import { FeatureFlag } from "./enums";
@@ -29,7 +29,7 @@ test.skip("should have a name", () => {
 test.skip("should have a display name", () => {
 	assert.is(subject.displayName(), "ARK Devnet");
 
-	mockery(subject, "isLive").mockReturnValueOnce(true);
+	Mockery.stub(subject, "isLive").mockReturnValueOnce(true);
 
 	assert.is(subject.displayName(), "ARK");
 });
