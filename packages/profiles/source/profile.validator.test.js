@@ -1,4 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, sinon, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -7,7 +7,7 @@ import nock from "nock";
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileImporter } from "./profile.importer";
@@ -102,7 +102,7 @@ describe("#validate", () => {
 
 		validator = new ProfileValidator();
 
-		assert.is(validator.validate(validProfileData).settings, validProfileData.settings);
+		assert.equal(validator.validate(validProfileData).settings, validProfileData.settings);
 	});
 
 	test("should fail to validate", async () => {
@@ -117,7 +117,7 @@ describe("#validate", () => {
 			wallets: {},
 		};
 
-		const profile = new Profile({
+		new Profile({
 			id: "uuid",
 			name: "name",
 			avatar: "avatar",
@@ -141,7 +141,7 @@ describe("#validate", () => {
 
 		await subject.import();
 
-		assert.is(migrationFunction).toHaveBeenCalled();
+		assert.true(migrationFunction.callCount > 0);
 	});
 });
 

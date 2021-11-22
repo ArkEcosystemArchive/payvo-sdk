@@ -1,57 +1,63 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { RegistryPlugin } from "./plugin-registry.dto";
 
 describe("RegistryPlugin", () => {
 	describe("sourceProvider", () => {
-		// it.each([
-		// 	["company", "project"],
-		// 	["COMPANY", "PROJECT"],
-		// ])("should handle github source provider", async (company, project) => {
-		// 	const subject = new RegistryPlugin(
-		// 		{
-		// 			links: {
-		// 				repository: `https://github.com/${company}/${project}`,
-		// 			},
-		// 		},
-		// 		{},
-		// 	);
+		for (const [company, project] of [
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		]) {
+			test("should handle github source provider", async () => {
+				const subject = new RegistryPlugin(
+					{
+						links: {
+							repository: `https://github.com/${company}/${project}`,
+						},
+					},
+					{},
+				);
 
-		// 	assert.is(subject.sourceProvider().url, `https://github.com/${company}/${project}`);
-		// });
+				assert.is(subject.sourceProvider().url, `https://github.com/${company}/${project}`);
+			});
+		}
 
-		// it.each([
-		// 	["company", "project"],
-		// 	["COMPANY", "PROJECT"],
-		// ])("should handle bitbucket source provider", async (company, project) => {
-		// 	const subject = new RegistryPlugin(
-		// 		{
-		// 			links: {
-		// 				repository: `https://bitbucket.com/${company}/${project}`,
-		// 			},
-		// 		},
-		// 		{},
-		// 	);
+		for (const [company, project] of [
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		]) {
+			test("should handle bitbucket source provider", async () => {
+				const subject = new RegistryPlugin(
+					{
+						links: {
+							repository: `https://bitbucket.com/${company}/${project}`,
+						},
+					},
+					{},
+				);
 
-		// 	assert.is(subject.sourceProvider().url, `https://bitbucket.com/${company}/${project}`);
-		// });
+				assert.is(subject.sourceProvider().url, `https://bitbucket.com/${company}/${project}`);
+			});
+		}
 
-		// it.each([
-		// 	["company", "project"],
-		// 	["COMPANY", "PROJECT"],
-		// ])("should handle gitlab source provider", async (company, project) => {
-		// 	const subject = new RegistryPlugin(
-		// 		{
-		// 			links: {
-		// 				repository: `https://gitlab.com/${company}/${project}`,
-		// 			},
-		// 		},
-		// 		{},
-		// 	);
+		for (const [company, project] of [
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		]) {
+			test("should handle gitlab source provider", async () => {
+				const subject = new RegistryPlugin(
+					{
+						links: {
+							repository: `https://gitlab.com/${company}/${project}`,
+						},
+					},
+					{},
+				);
 
-		// 	assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
-		// });
+				assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
+			});
+		}
 
 		test("should handle unknown source provider", async () => {
 			const subject = new RegistryPlugin(

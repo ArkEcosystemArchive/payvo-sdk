@@ -1,17 +1,12 @@
 import "reflect-metadata";
 
 import { BIP44 } from "@payvo/sdk-cryptography";
-import { AddressDataTransferObject } from "@payvo/sdk/distribution/services/address.contract";
 import nock from "nock";
 
 import { Profile } from "../../source";
-import { IProfile, IReadWriteWallet } from "../../source/contracts";
 import { bootContainer } from "../mocking";
 
-const importWalletByAddress = async (
-	address: AddressDataTransferObject,
-	mnemonic,
-): Promise<IReadWriteWallet> => {
+const importWalletByAddress = async (address, mnemonic) => {
 	const wallet = await profile.walletFactory()["fromMnemonicWith" + address.type.toUpperCase()]({
 		coin: "BTC",
 		network: "btc.testnet",
@@ -121,11 +116,7 @@ test.before.each(async () => {
 
 test("should import btc wallets and retrieve balance", async () => {
 	const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
-	const addresses: AddressDataTransferObject[] = await profile
-		.coins()
-		.get("BTC", "btc.testnet")
-		.walletDiscovery()
-		.fromMnemonic(mnemonic);
+	const addresses = await profile.coins().get("BTC", "btc.testnet").walletDiscovery().fromMnemonic(mnemonic);
 
 	assert.array(addresses);
 	assert.length(addresses, 3);
@@ -137,8 +128,8 @@ test("should import btc wallets and retrieve balance", async () => {
 			"tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
 		]);
 
-	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic));
-	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity());
+	const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic)));
+	await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity()));
 
 	mockery(wallets[0].network(), "isLive").mockReturnValue(true);
 	mockery(wallets[1].network(), "isLive").mockReturnValue(true);

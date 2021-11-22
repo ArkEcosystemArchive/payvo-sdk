@@ -10,7 +10,7 @@ test.before.each(() => (subject = new AttributeBag()));
 test("#all", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.all(), values);
+	assert.equal(subject.all(), values);
 });
 
 test("#get", async () => {
@@ -76,13 +76,13 @@ test("#flush", async () => {
 test("#only", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.only(["a", "b"]), { a: "a", b: "b" });
+	assert.equal(subject.only(["a", "b"]), { a: "a", b: "b" });
 });
 
 test("#except", async () => {
 	subject.setMany(values);
 
-	assert.is(subject.except(["a", "b"]), { c: "c" });
+	assert.equal(subject.except(["a", "b"]), { c: "c" });
 });
 
 test.run();

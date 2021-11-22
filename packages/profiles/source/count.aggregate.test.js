@@ -13,8 +13,10 @@ test.before.each(async () => {
 	subject = new CountAggregate(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }));
 });
 
-// it.each(["contacts", "notifications", "wallets"])("should count %s", (method) => {
-// 	assert.number(subject[method]());
-// });
+for (const method of ["contacts", "notifications", "wallets"]) {
+	test(`should count ${method}`, () => {
+		assert.number(subject[method]());
+	});
+}
 
 test.run();

@@ -34,29 +34,29 @@ test.before.each(async () => {
 	coin = await makeCoin("ARK", "ark.devnet");
 });
 
-// describe.each(["serial", "parallel"])("IDelegateSyncer %s", (type) => {
-// 	let subject;
+for (const type of ["serial", "parallel"]) {
+	let subject;
 
-// 	test.before.each(async () => {
-// 		const clientService = coin.client();
+	test.before.each(async () => {
+		const clientService = coin.client();
 
-// 		subject =
-// 			type === "serial" ? new SerialDelegateSyncer(clientService) : new ParallelDelegateSyncer(clientService);
-// 	});
+		subject =
+			type === "serial" ? new SerialDelegateSyncer(clientService) : new ParallelDelegateSyncer(clientService);
+	});
 
-// 	test("should sync", async () => {
-// 		assert.length(await subject.sync(), 200);
-// 	});
+	test("should sync", async () => {
+		assert.length(await subject.sync(), 200);
+	});
 
-// 	test("should sync single page", async () => {
-// 		nock.cleanAll();
-// 		nock(/.+/)
-// 			.get("/api/delegates")
-// 			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
-// 			.persist();
+	test("should sync single page", async () => {
+		nock.cleanAll();
+		nock(/.+/)
+			.get("/api/delegates")
+			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
+			.persist();
 
-// 		assert.length(await subject.sync(), 10);
-// 	});
-// });
+		assert.length(await subject.sync(), 10);
+	});
+}
 
 test.run();

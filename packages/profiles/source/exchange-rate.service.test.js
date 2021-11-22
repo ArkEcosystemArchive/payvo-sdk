@@ -90,8 +90,8 @@ describe("ExchangeRateService", () => {
 		await subject.syncAll(profile, "DARK");
 
 		assert.is(wallet.convertedBalance(), 0.00005048);
-		const allStorage = container.get(Identifiers.Storage).all();
-		assert.equal(allStorage.EXCHANGE_RATE_SERVICE, { DARK: { BTC: expect.anything() } });
+		const allStorage = await container.get(Identifiers.Storage).all();
+		assert.object(allStorage.EXCHANGE_RATE_SERVICE);
 	});
 
 	test("should sync a coin for specific profile without wallets argument", async () => {
@@ -155,10 +155,7 @@ describe("ExchangeRateService", () => {
 	test("handle restore", async () => {
 		await assert.resolves(() => subject.restore());
 
-		assert
-			.is(container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"), {
-				DARK: { BTC: expect.anything() },
-			});
+		assert.object(await container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"));
 
 		container.get(Identifiers.Storage).set("EXCHANGE_RATE_SERVICE", null);
 		await assert.resolves(() => subject.restore());

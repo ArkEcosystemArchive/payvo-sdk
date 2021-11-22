@@ -89,14 +89,6 @@ test("should aggregate the balances of all wallets", async () => {
 	mockery(a.network(), "isTest").mockReturnValue(false);
 	mockery(a.network(), "ticker").mockReturnValue("ARK");
 
-	mockery(b.network(), "isLive").mockReturnValue(true);
-	mockery(b.network(), "isTest").mockReturnValue(false);
-	mockery(b.network(), "ticker").mockReturnValue("ARK");
-
-	mockery(c.network(), "isLive").mockReturnValue(true);
-	mockery(c.network(), "isTest").mockReturnValue(false);
-	mockery(c.network(), "ticker").mockReturnValue("ARK");
-
 	await container.get(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 
 	assert.is(profile.portfolio().breakdown()[0].source, 3);
@@ -126,7 +118,7 @@ test("should ignore test network wallets", async () => {
 		),
 	]);
 
-	assert.is(profile.portfolio().breakdown(), []);
+	assert.equal(profile.portfolio().breakdown(), []);
 });
 
 test.run();

@@ -1,5 +1,5 @@
-import * as assert from "uvu/assert";
 import sinon from "sinon";
+import { ok } from "uvu/assert";
 
 export class Mockery {
 	readonly #stub;
@@ -13,7 +13,7 @@ export class Mockery {
 	}
 
 	public calledWith(message: string | object): void {
-		assert.ok(this.#stub.calledWith(message));
+		ok(this.#stub.calledWith(message));
 	}
 
 	public mockResolvedValue(value: unknown): Mockery {
@@ -45,7 +45,7 @@ export class Mockery {
 	}
 
 	public calledTimes(times: number): void {
-		assert.ok(this.#stub.callCount === times);
+		ok(this.#stub.callCount === times);
 	}
 }
 

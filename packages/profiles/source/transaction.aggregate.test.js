@@ -173,12 +173,9 @@ describe("TransactionAggregate", () => {
 			.query(true)
 			.reply(200, require("../test/fixtures/client/transactions.json"));
 
-		const promiseAllSettledByKeyMock = jest
-			.spyOn(promiseHelpers, "promiseAllSettledByKey")
-			//@ts-ignore
-			.mockImplementation(() => {
-				return Promise.resolve(undefined);
-			});
+		const promiseAllSettledByKeyMock = mockery(promiseHelpers, "promiseAllSettledByKey").mockImplementation(() => {
+			return Promise.resolve(undefined);
+		});
 
 		const results = await subject.all();
 		assert.instance(results, ExtendedConfirmedTransactionDataCollection);

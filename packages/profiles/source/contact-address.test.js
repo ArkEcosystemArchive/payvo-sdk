@@ -44,7 +44,7 @@ test("should have an avatar", () => {
 });
 
 test("should turn into an object", () => {
-	assert.is(subject.toObject(), {
+	assert.equal(subject.toObject(), {
 		address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		coin: "ARK",
 		id: "uuid",

@@ -278,10 +278,7 @@ describe("LSK", () => {
 			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
 			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
-			const signedMultiSignatureData = first.wallet
-				.transaction()
-				.transaction(uuid)
-				.get("multiSignature") as Record<string, any>;
+			const signedMultiSignatureData = first.wallet.transaction().transaction(uuid).get("multiSignature");
 
 			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
 			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);
@@ -547,10 +544,7 @@ describe("LSK", () => {
 			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
 			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
-			const signedMultiSignatureData = first.wallet
-				.transaction()
-				.transaction(uuid)
-				.get("multiSignature") as Record<string, any>;
+			const signedMultiSignatureData = first.wallet.transaction().transaction(uuid).get("multiSignature");
 
 			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
 			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);
@@ -816,10 +810,7 @@ describe("LSK", () => {
 			assert.true(first.wallet.transaction().transaction(uuid).isMultiSignatureRegistration());
 			assert.true(first.wallet.transaction().transaction(uuid).usesMultiSignature());
 
-			const signedMultiSignatureData = first.wallet
-				.transaction()
-				.transaction(uuid)
-				.get("multiSignature") as Record<string, any>;
+			const signedMultiSignatureData = first.wallet.transaction().transaction(uuid).get("multiSignature");
 
 			assert.length(signedMultiSignatureData.mandatoryKeys, transactionData.data.mandatoryKeys.length);
 			assert.length(signedMultiSignatureData.optionalKeys, transactionData.data.optionalKeys.length);

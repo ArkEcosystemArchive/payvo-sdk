@@ -167,9 +167,7 @@ test("should rollback changes if a migration failed", async () => {
 
 	await subject.migrate(passingMigrations, "1.0.0");
 
-	await assert
-		.is(subject.migrate(failingMigrations, "1.0.2"))
-		.rejects.toThrowError(/throw the migration and rollback/);
+	await assert.rejects(() => subject.migrate(failingMigrations, "1.0.2"), "throw the migration and rollback");
 
 	assert.is(profile.data().get(ProfileData.LatestMigration), "1.0.0");
 	assert.is(profile.data().get("key"), "initial update");

@@ -454,16 +454,16 @@ test("should turn into an object", () => {
 	assert.is(actual.data[WalletData.Network], "ark.devnet");
 	assert.is(actual.data[WalletData.PublicKey], "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	assert.equal(actual.data, {
-		COIN: 'ARK',
-		NETWORK: 'ark.devnet',
-		ADDRESS: 'D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW',
-		PUBLIC_KEY: '030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd',
-		BALANCE: { available: '55827093444556', fees: '55827093444556' },
+		COIN: "ARK",
+		NETWORK: "ark.devnet",
+		ADDRESS: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+		PUBLIC_KEY: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+		BALANCE: { available: "55827093444556", fees: "55827093444556" },
 		BROADCASTED_TRANSACTIONS: {},
-		DERIVATION_PATH: '1',
-		DERIVATION_TYPE: 'bip39',
-		IMPORT_METHOD: 'BIP39.MNEMONIC',
-		SEQUENCE: '111932',
+		DERIVATION_PATH: "1",
+		DERIVATION_TYPE: "bip39",
+		IMPORT_METHOD: "BIP39.MNEMONIC",
+		SEQUENCE: "111932",
 		SIGNED_TRANSACTIONS: {},
 		PENDING_MULTISIGNATURE_TRANSACTIONS: {},
 		VOTES: [],
@@ -473,8 +473,8 @@ test("should turn into an object", () => {
 		ENCRYPTED_CONFIRM_KEY: undefined,
 		STARRED: true,
 		LEDGER_MODEL: undefined,
-		STATUS: 'COLD'
-	  });
+		STATUS: "COLD",
+	});
 	assert.object(actual.settings);
 	assert.string(actual.settings.AVATAR);
 });

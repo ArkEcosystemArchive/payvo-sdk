@@ -109,7 +109,7 @@ test("#keys", () => {
 	stubNotifications.forEach((n) => subject.push(n));
 	const keys = Object.keys(subject.all());
 
-	assert.is(subject.keys(), keys);
+	assert.equal(subject.keys(), keys);
 });
 
 test("#values", () => {
@@ -118,7 +118,7 @@ test("#values", () => {
 	stubNotifications.forEach((n) => subject.push(n));
 	const values = Object.keys(subject.all()).map((id) => subject.get(id));
 
-	assert.is(subject.values(), values);
+	assert.equal(subject.values(), values);
 });
 
 test("#get", () => {

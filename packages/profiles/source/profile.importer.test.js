@@ -1,5 +1,4 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
-import { Coins } from "@payvo/sdk";
+import { assert, describe, sinon, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
@@ -8,7 +7,7 @@ import nock from "nock";
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileSerialiser } from "./profile.serialiser";
@@ -142,18 +141,16 @@ describe("#restore", () => {
 		await subject.import("password");
 		await profileCopy.sync();
 
-		assert
-			.is(serialiser.toJSON())
-			.toContainAllKeys([
-				"contacts",
-				"data",
-				"exchangeTransactions",
-				"notifications",
-				"plugins",
-				"data",
-				"settings",
-				"wallets",
-			]);
+		assert.containKeys(serialiser.toJSON(), [
+			"contacts",
+			"data",
+			"exchangeTransactions",
+			"notifications",
+			"plugins",
+			"data",
+			"settings",
+			"wallets",
+		]);
 	});
 
 	test("should fail to restore a profile with corrupted data", async () => {
@@ -188,7 +185,7 @@ describe("#restore", () => {
 
 		await subject.import();
 
-		assert.is(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
+		assert.equal(new ProfileSerialiser(profile).toJSON(), new ProfileSerialiser(profileCopy).toJSON());
 	});
 
 	test("should fail to restore if profile is not using password but password is passed", async () => {
@@ -283,7 +280,7 @@ describe("#restore", () => {
 
 		await subject.import();
 
-		migrationFunction.toHaveBeenCalled();
+		assert.true(migrationFunction.callCount > 0);
 	});
 });
 

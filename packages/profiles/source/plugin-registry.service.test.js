@@ -49,37 +49,35 @@ test.before.each(() => {
 
 test.after.each(() => nock.cleanAll());
 
-describe("PluginRegistry", () => {
-	test("should list all plugins", async () => {
-		createNetworkMocks();
+test("should list all plugins", async () => {
+	createNetworkMocks();
 
-		const result = await subject.all();
+	const result = await subject.all();
 
-		assert.length(result, 2);
-		assert.object(result[1].toObject());
-	});
+	assert.length(result, 2);
+	assert.object(result[1].toObject());
+});
 
-	test("should get the size of the given plugin", async () => {
-		createNetworkMocks();
+test("should get the size of the given plugin", async () => {
+	createNetworkMocks();
 
-		nock("https://registry.npmjs.com")
-			.get("/@dated/delegate-calculator-plugin")
-			.reply(200, require("../test/fixtures/plugins/npm.json"));
+	nock("https://registry.npmjs.com")
+		.get("/@dated/delegate-calculator-plugin")
+		.reply(200, require("../test/fixtures/plugins/npm.json"));
 
-		const plugin = (await subject.all())[0];
+	const plugin = (await subject.all())[0];
 
-		await assert.is(subject.size(plugin), 22025);
-	});
+	assert.is(await subject.size(plugin), 22025);
+});
 
-	test("should get the download count of the given plugin", async () => {
-		createNetworkMocks();
+test("should get the download count of the given plugin", async () => {
+	createNetworkMocks();
 
-		nock("https://api.npmjs.org")
-			.get(`/downloads/range/2005-01-01:${new Date().getFullYear() + 1}-01-01/@dated/delegate-calculator-plugin`)
-			.reply(200, require("../test/fixtures/plugins/downloads.json"));
+	nock("https://api.npmjs.org")
+		.get(`/downloads/range/2005-01-01:${new Date().getFullYear() + 1}-01-01/@dated/delegate-calculator-plugin`)
+		.reply(200, require("../test/fixtures/plugins/downloads.json"));
 
-		assert.is(await subject.downloads((await subject.all())[0]), 446);
-	});
+	assert.is(await subject.downloads((await subject.all())[0]), 446);
 });
 
 test.run();

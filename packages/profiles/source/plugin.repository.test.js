@@ -26,14 +26,11 @@ test("should return all data", () => {
 });
 
 test("should return the first item", () => {
-	assert.is(
-		subject.first(),
-		undefined`);
+	assert.undefined(subject.first());
 });
 
 test("should return the last item", () => {
-    assert.is(subject.last(), undefined`,
-	);
+	assert.undefined(subject.last());
 });
 
 test("should return all data keys", () => {

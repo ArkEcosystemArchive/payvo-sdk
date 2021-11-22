@@ -18,14 +18,14 @@ test("should return all resolved and rejected promises by their key", () =>
 		nope: promise3,
 		theNumberThree: promise1,
 	}).then(({ theNumberThree, getFoo, nope }) => {
-		assert.is(theNumberThree, { status: "fulfilled", value: 3 });
-		assert.is(getFoo, { status: "rejected", value: "foo error" });
-		assert.is(nope, { status: "rejected", value: undefined });
+		assert.equal(theNumberThree, { status: "fulfilled", value: 3 });
+		assert.equal(getFoo, { status: "rejected", value: "foo error" });
+		assert.equal(nope, { status: "rejected", value: undefined });
 	}));
 
 test("should return an empty object if no promises object supplied", () =>
 	promiseAllSettledByKey().then((settled) => {
-		assert.is(settled, {});
+		assert.equal(settled, {});
 	}));
 
 test("should return ONLY resolved promises", () =>
@@ -38,7 +38,7 @@ test("should return ONLY resolved promises", () =>
 		{ onlyResolved: true },
 	).then((results) => {
 		assert.length(Object.keys(results), 1);
-		assert.is(results, {
+		assert.equal(results, {
 			theNumberThree: { status: "fulfilled", value: 3 },
 		});
 	}));
@@ -64,7 +64,7 @@ test("should return ONLY rejected promises", () =>
 		{ onlyRejected: true },
 	).then((results) => {
 		assert.length(Object.keys(results), 2);
-		assert.is(results, {
+		assert.equal(results, {
 			getFoo: { status: "rejected", value: "foo error" },
 			nope: { status: "rejected", value: undefined },
 		});

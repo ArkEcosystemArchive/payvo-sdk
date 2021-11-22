@@ -37,7 +37,7 @@ test.before(async () => {
 	nock.disableNetConnect();
 });
 
-test("should sign transaction", async () => {
+test.skip("should sign transaction", async () => {
 	nock("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
 	const result = await subject.transfer({

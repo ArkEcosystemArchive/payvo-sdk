@@ -12,6 +12,7 @@ import { WalletSynchroniser } from "./wallet.synchroniser";
 
 let profile;
 let wallet;
+let actsWithMnemonic;
 
 test.before(() => bootContainer());
 
@@ -80,6 +81,8 @@ test.before.each(async () => {
 		network: "ark.devnet",
 		mnemonic: identity.mnemonic,
 	});
+
+	actsWithMnemonic = actsWithMnemonic ?? mockery(wallet, "actsWithMnemonic");
 });
 
 test.before(() => nock.disableNetConnect());
@@ -119,24 +122,28 @@ test("should sync multi signature when not musig", async () => {
 });
 
 test("should sync the identity with a public key", async () => {
-	mockery(wallet, "actsWithMnemonic").mockReturnValue(false);
+	actsWithMnemonic.mockReturnValue(false);
 	mockery(wallet, "actsWithPublicKey").mockReturnValue(true);
 	mockery(wallet.network(), "usesExtendedPublicKey").mockReturnValue(false);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
+
+	actsWithMnemonic.mockRestore();
 });
 
 test("should sync the identity with an extended public key", async () => {
-	mockery(wallet, "actsWithMnemonic").mockReturnValue(false);
+	actsWithMnemonic.mockReturnValue(false);
 	mockery(wallet, "actsWithPublicKey").mockReturnValue(true);
 	mockery(wallet.network(), "usesExtendedPublicKey").mockReturnValue(true);
 
 	await assert.resolves(() => new WalletSynchroniser(wallet).identity());
+
+	actsWithMnemonic.mockRestore();
 });
 
 test("should fail to sync the identity with an unknown import method", async () => {
 	mockery(wallet, "actsWithAddress").mockReturnValue(false);
-	mockery(wallet, "actsWithMnemonic").mockReturnValue(false);
+	actsWithMnemonic.mockReturnValue(false);
 	mockery(wallet, "actsWithPublicKey").mockReturnValue(false);
 	mockery(wallet, "actsWithMnemonic").mockReturnValue(false);
 	mockery(wallet, "actsWithPrivateKey").mockReturnValue(false);
@@ -144,6 +151,8 @@ test("should fail to sync the identity with an unknown import method", async () 
 	mockery(wallet, "actsWithWif").mockReturnValue(false);
 
 	await assert.rejects(() => new WalletSynchroniser(wallet).identity());
+
+	actsWithMnemonic.mockRestore();
 });
 
 test.run();

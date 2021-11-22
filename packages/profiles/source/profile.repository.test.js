@@ -1,19 +1,16 @@
-import { assert, describe, mockery, loader, test } from "@payvo/sdk-test";
+import { assert, describe, mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { IProfileInput, IProfileRepository } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileSerialiser } from "./profile.serialiser";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-
-let subjectRepository;
 
 test.before(() => {
 	bootContainer();
@@ -203,7 +200,7 @@ describe("ProfileRepository", () => {
 		await new ProfileImporter(restoredJohn).import();
 		await restoredJohn.sync();
 
-		assert.is(new ProfileSerialiser(restoredJohn).toJSON(), new ProfileSerialiser(john).toJSON());
+		assert.equal(new ProfileSerialiser(restoredJohn).toJSON(), new ProfileSerialiser(john).toJSON());
 	});
 
 	test("should dump profiles with a password", async () => {
@@ -222,7 +219,7 @@ describe("ProfileRepository", () => {
 		await new ProfileImporter(restoredJane).import("password");
 		await restoredJane.sync();
 
-		assert.is(new ProfileSerialiser(restoredJane).toJSON(), new ProfileSerialiser(jane).toJSON());
+		assert.equal(new ProfileSerialiser(restoredJane).toJSON(), new ProfileSerialiser(jane).toJSON());
 	});
 
 	test("should export ok", async () => {
@@ -318,12 +315,12 @@ describe("ProfileRepository", () => {
 		});
 
 		assert.false(profile.status().isRestored());
-		assert.is(profileAttibuteSetMock).toHaveBeenCalledTimes(0);
+		profileAttibuteSetMock.calledTimes(0);
 
 		subject.persist(profile);
 
 		assert.false(profile.status().isRestored());
-		assert.is(profileAttibuteSetMock).toHaveBeenCalledTimes(0);
+		profileAttibuteSetMock.calledTimes(0);
 	});
 
 	test("should not save profile data if profile is not marked as dirty", async () => {
@@ -338,7 +335,7 @@ describe("ProfileRepository", () => {
 		profile.status().reset();
 		assert.false(profile.status().isRestored());
 		assert.false(profile.status().isDirty());
-		assert.is(profileAttibuteSetMock).toHaveBeenCalledTimes(0);
+		profileAttibuteSetMock.calledTimes(0);
 
 		await subject.restore(profile);
 		const profileDirtyStatusMock = mockery(profile.status(), "isDirty").mockReturnValue(false);
@@ -346,7 +343,7 @@ describe("ProfileRepository", () => {
 
 		assert.true(profile.status().isRestored());
 		assert.false(profile.status().isDirty());
-		assert.is(profileAttibuteSetMock).not.toHaveBeenCalled();
+		profileAttibuteSetMock.calledTimes(0);
 		profileDirtyStatusMock.mockRestore();
 		profileAttibuteSetMock.mockRestore();
 	});
