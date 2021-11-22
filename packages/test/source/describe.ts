@@ -3,6 +3,7 @@ import { Context, suite, Test } from "uvu";
 import { assert } from "./assert.js";
 
 type ContextFunction = () => Context;
+type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
 	callback({
@@ -22,5 +23,5 @@ const runSuite = (suite: Test, callback: Function): void => {
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
 
-export const describeWithContext = (title: string, context: Context | ContextFunction, callback: Function): void =>
-	runSuite(suite(title, typeof context === "function" ? context() : context), callback)
+export const describeWithContext = async (title: string, context: Context | ContextFunction | ContextPromise, callback: Function): Promise<void> =>
+	runSuite(suite(title, typeof context === "function" ? await context() : context), callback)

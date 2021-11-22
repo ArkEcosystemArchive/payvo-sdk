@@ -39,3 +39,9 @@ describeWithContext("Context (Function)", () => ({ hello: "world" }), ({ assert,
 		assert.is(context.hello, "world");
 	});
 });
+
+describeWithContext("Context (Promise Function)", async () => Promise.resolve({ hello: "world" }), ({ assert,  test }) => {
+	test("should have context from an object", (context) => {
+		assert.is(context.hello, "world");
+	});
+});
