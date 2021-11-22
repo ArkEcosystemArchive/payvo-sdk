@@ -1,4 +1,11 @@
+import { format } from "concordance";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import * as uvu from "uvu/assert";
+// @ts-ignore - Cannot find module 'yargs' or its corresponding type declarations.
+import yargs from "yargs/yargs";
+import { hideBin } from "yargs/helpers";
 import { z, ZodRawShape } from "zod";
 
 export const assert = {
@@ -25,6 +32,7 @@ export const assert = {
 	length: (value: string | unknown[], length: number): void => uvu.is(value.length, length),
 	lt: (a: number, b: number): void => uvu.ok(a < b),
 	lte: (a: number, b: number): void => uvu.ok(a <= b),
+	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 	not: {
 		...uvu.not,
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
@@ -68,11 +76,39 @@ export const assert = {
 			uvu.ok(false, "Expected promise to be resolved but it rejected.");
 		}
 	},
+	snapshot: (name: string, value: unknown): void => {
+		let directory: string;
+
+		if (__dirname) {
+			directory = __dirname;
+		} else {
+			directory = dirname(fileURLToPath(import.meta.url));
+		}
+
+		directory = join(directory, "__snapshots__");
+
+		if (!existsSync(directory)) {
+			mkdirSync(directory, { recursive: true });
+		}
+
+		const snapshot: string = join(directory, `${name}.snapshot`);
+
+		const { updateSnapshots } = yargs(hideBin(process.argv)).argv;
+
+		if (updateSnapshots) {
+			unlinkSync(snapshot);
+		}
+
+		if (!existsSync(snapshot)) {
+			writeFileSync(snapshot, format(value));
+		}
+
+		assert.is(format(value), readFileSync(snapshot).toString());
+	},
 	startsWith: (value: string, prefix: string): void => uvu.ok(value.startsWith(prefix)),
 	string: (value: unknown): void => uvu.type(value, "string"),
 	stringArray: (values: unknown[]): void => uvu.ok(values.every((value) => typeof value === "string")),
 	true: (value: unknown): void => uvu.is(value, true),
 	truthy: (value: unknown): void => uvu.ok(!!value),
 	undefined: (value: unknown): void => uvu.type(value, "undefined"),
-	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 };
