@@ -14,5 +14,5 @@ export const eachSuite = (test: Test) => {
 		for (const dataset of datasets) {
 			test(formatName(name), async (context: Context) => callback({ context, dataset }));
 		}
-	}
+	};
 };
