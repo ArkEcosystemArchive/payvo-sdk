@@ -30,6 +30,8 @@ const network: Networks.NetworkManifest = {
 		minFeeA: 44,
 		minFeeB: 155_381,
 		minUTxOValue: 1_000_000,
+		maxValueSize: 5000,
+		maxTxSize: 16384,
 
 		// @TODO
 		networkId: "0",

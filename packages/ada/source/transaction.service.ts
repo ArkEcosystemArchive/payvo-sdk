@@ -1,4 +1,4 @@
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
@@ -11,7 +11,7 @@ import { UnspentTransaction } from "./transaction.models";
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const { minFeeA, minFeeB, minUTxOValue, poolDeposit, keyDeposit, networkId } =
+		const { minFeeA, minFeeB, minUTxOValue, poolDeposit, keyDeposit, maxValueSize, maxTxSize, networkId } =
 			this.configRepository.get<Contracts.KeyValuePair>("network.meta");
 
 		// This is the transaction builder that uses values from the genesis block of the configured network.
@@ -23,6 +23,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			CardanoWasm.BigNum.from_str(minUTxOValue.toString()),
 			CardanoWasm.BigNum.from_str(poolDeposit.toString()),
 			CardanoWasm.BigNum.from_str(keyDeposit.toString()),
+			maxValueSize,
+			maxTxSize,
 		);
 
 		// Get a `Bip32PrivateKey` instance according to `CIP1852` and turn it into a `PrivateKey` instance
