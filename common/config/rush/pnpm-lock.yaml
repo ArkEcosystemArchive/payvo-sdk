@@ -3,7 +3,7 @@ importers:
     specifiers: {}
   ../../packages/ada:
     dependencies:
-      '@emurgo/cardano-serialization-lib-nodejs': 8.1.0
+      '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -47,12 +47,10 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
-      '@emurgo/cardano-serialization-lib-nodejs': ^8.0.0
+      '@emurgo/cardano-serialization-lib-nodejs': ^9.0.0
       '@jest/globals': ^27.3.1
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -95,8 +93,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/ark:
@@ -104,7 +100,6 @@ importers:
       '@arkecosystem/crypto': 3.0.5
       '@arkecosystem/crypto-identities': 1.2.0
       '@arkecosystem/ledger-transport': 2.0.0
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -154,8 +149,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -164,7 +157,6 @@ importers:
       '@arkecosystem/ledger-transport': ^2.0.0
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-helpers': workspace:*
@@ -210,9 +202,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       semver: ^7.3.5
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/atom:
@@ -263,8 +253,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -313,8 +301,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/avax:
@@ -368,8 +354,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -421,14 +405,11 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/btc:
     dependencies:
       '@ledgerhq/hw-app-btc': 6.12.1
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -479,15 +460,12 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-app-btc': ^6.12.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@ledgerhq/logs': ^6.10.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -534,8 +512,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       xpub-converter: ^1.0.2
@@ -597,8 +573,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
       wif: 2.0.6
@@ -654,10 +628,8 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       safe-buffer: ^5.2.1
       string-crypto: ^2.0.2
-      terser: ^5.9.0
       tiny-secp256k1: ^1.0.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
@@ -717,8 +689,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -773,8 +743,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/egld:
@@ -824,8 +792,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -873,8 +839,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/eos:
@@ -924,8 +888,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -973,8 +935,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/eth:
@@ -1027,8 +987,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1078,8 +1036,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
       web3: ^1.6.0
@@ -1140,8 +1096,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1198,8 +1152,6 @@ importers:
       qrcode: ^1.4.4
       remarkable: ^2.0.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -1243,8 +1195,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1285,8 +1235,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/intl:
@@ -1327,8 +1275,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1367,13 +1313,10 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/lsk:
     dependencies:
-      '@ledgerhq/hw-transport-node-hid-singleton': 6.11.2
       '@liskhq/lisk-cryptography': 3.2.0
       '@liskhq/lisk-transactions': 5.2.0
       '@payvo/sdk': link:../sdk
@@ -1419,14 +1362,11 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
       '@jest/globals': ^27.3.1
       '@ledgerhq/hw-transport-mocker': ^6.11.2
-      '@ledgerhq/hw-transport-node-hid-singleton': ^6.11.2
       '@liskhq/lisk-cryptography': ^3.2
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/sdk': workspace:*
@@ -1469,8 +1409,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/luna:
@@ -1518,8 +1456,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1565,8 +1501,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/markets:
@@ -1609,8 +1543,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1651,8 +1583,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/nano:
@@ -1702,8 +1632,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1751,8 +1679,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/neo:
@@ -1792,8 +1718,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1831,8 +1755,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/news:
@@ -1875,8 +1797,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -1916,9 +1836,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       rss-parser: ^3.12.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/profiles:
@@ -1992,8 +1910,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
       wif: 2.0.6
@@ -2064,9 +1980,7 @@ importers:
       prettier: ^2.4.1
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       semver: ^7.3.5
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -2124,8 +2038,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2178,8 +2090,6 @@ importers:
       prettier: ^2.4.1
       reflect-metadata: ^0.1.13
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       type-fest: ^2.5.3
       typescript: ^4.4.4
@@ -2230,8 +2140,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2279,8 +2187,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/trx:
@@ -2329,8 +2235,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2376,8 +2280,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       tronweb: ^4.0.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
@@ -2427,8 +2329,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2474,9 +2374,7 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
       stellar-sdk: ^9.0.1
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/xrp:
@@ -2530,8 +2428,6 @@ importers:
       prettier: 2.4.1
       rimraf: 3.0.2
       ripple-binary-codec: 1.1.3
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2583,8 +2479,6 @@ importers:
       ripple-binary-codec: ^1.1.3
       ripple-keypairs: ^1.0.3
       ripple-lib: ^1.10.0
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
   ../../packages/zil:
@@ -2634,8 +2528,6 @@ importers:
       npm-check-updates: 12.0.2
       prettier: 2.4.1
       rimraf: 3.0.2
-      rollup: 2.59.0
-      terser: 5.9.0
       ts-jest: 27.0.7_2c4ca6574207836d1023f54689cc81ac
       typescript: 4.4.4
     specifiers:
@@ -2683,8 +2575,6 @@ importers:
       npm-check-updates: ^12.0.2
       prettier: ^2.4.1
       rimraf: ^3.0.2
-      rollup: ^2.59.0
-      terser: ^5.9.0
       ts-jest: ^27.0.7
       typescript: ^4.4.4
 lockfileVersion: 5.2
@@ -3211,10 +3101,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-amDVVV4demxQdcvL8xEZNrPDDXve3d1sO3/1Tk5UglG2S2RTW3nnmC2UccKYUROEaQaH6YAyZwYhzyTKQilz4g==
-  /@emurgo/cardano-serialization-lib-nodejs/8.1.0:
+  /@emurgo/cardano-serialization-lib-nodejs/9.1.2:
     dev: false
     resolution:
-      integrity: sha512-BH8MhQQt+BDqWM4Yqa9Asn/vhJJLxi43pp7Crq6bdQuj2NOT2F6e3nhdLS2KJhvb47YGFdg0pnvGaH+TCmUoIA==
+      integrity: sha512-wX0z/P2xysCjSxClnJxdcEKk9+uttpLnHiCsHZj1x+FEUYZ0FCnfIsJT8nN7oRCGyM/Y9peppoZUbqR05d97nQ==
   /@eslint/eslintrc/1.0.4:
     dependencies:
       ajv: 6.12.6
@@ -3928,29 +3818,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-23vjrwzXDpnP0C1JA6540vYpOMFMtVeHc8+iNDltHFhx0kIuAq70lzk7OV6z8TNGpTSrf5DCnKagOha2FIS0yQ==
-  /@ledgerhq/hw-transport-node-hid-noevents/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      node-hid: 2.1.1
-    dev: false
-    resolution:
-      integrity: sha512-LxdGIzo/Z1sPH8iDoGAP5dV/ZzPcaTLfkZ0o65cwBAkehrSdVxbYCiBxVK1l9Rh1oh8MrnvGPZxqM0zcyqdVHA==
-  /@ledgerhq/hw-transport-node-hid-singleton/6.11.2:
-    dependencies:
-      '@ledgerhq/devices': 6.11.2
-      '@ledgerhq/errors': 6.10.0
-      '@ledgerhq/hw-transport': 6.11.2
-      '@ledgerhq/hw-transport-node-hid-noevents': 6.11.2
-      '@ledgerhq/logs': 6.10.0
-      lodash: 4.17.21
-      node-hid: 2.1.1
-      usb-detection: 4.13.0
-    dev: false
-    resolution:
-      integrity: sha512-3k2q/L8wNWdAiisFv7vSA3EBISDJ1spStRDas+8DBmJzbJvZWb2hl47Y2E0YoBWt0iN0S78wfEk2L9Ur/yA+gA==
   /@ledgerhq/hw-transport-node-hid/5.50.0:
     dependencies:
       '@ledgerhq/devices': 5.50.0
@@ -8473,10 +8340,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
-  /eventemitter2/5.0.1:
-    dev: false
-    resolution:
-      integrity: sha1-YZegldX7a1folC9v1+qtY6CclFI=
   /eventemitter3/3.1.2:
     dev: false
     resolution:
@@ -13282,15 +13145,6 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-HAfAmL6SDYNWPUOJNrM500x4Thn4PZsEy5pijPh40U9WfNk0z15hUYzO9xVIMAdIHdFtD8CBDHd75Td1g36Mjg==
-  /rollup/2.59.0:
-    dev: true
-    engines:
-      node: '>=10.0.0'
-    hasBin: true
-    optionalDependencies:
-      fsevents: 2.3.2
-    resolution:
-      integrity: sha512-l7s90JQhCQ6JyZjKgo7Lq1dKh2RxatOM+Jr6a9F7WbS9WgKbocyUSeLmZl8evAse7y96Ae98L2k1cBOwWD8nHw==
   /rpc-websockets/7.4.11:
     dependencies:
       '@babel/runtime': 7.16.3
@@ -14097,6 +13951,7 @@ packages:
       commander: 2.20.3
       source-map: 0.7.3
       source-map-support: 0.5.20
+    dev: false
     engines:
       node: '>=10'
     hasBin: true
@@ -14615,18 +14470,6 @@ packages:
       node: '>= 4'
     resolution:
       integrity: sha1-FQWgOiiaSMvXpDTvuu7FBV9WM6k=
-  /usb-detection/4.13.0:
-    dependencies:
-      bindings: 1.5.0
-      eventemitter2: 5.0.1
-      nan: 2.15.0
-      prebuild-install: 6.1.4
-    dev: false
-    engines:
-      node: '>=4'
-    requiresBuild: true
-    resolution:
-      integrity: sha512-5b0P+IYSN6Qv29hZ/m8P+iJyBDFYQR1UD8n4bWwPWbCIG6c2erQ9F8Owp69OSK0cwqf/InxYjIBuTVvl97bpZA==
   /usb/1.7.0:
     dependencies:
       bindings: 1.5.0
