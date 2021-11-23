@@ -1,10 +1,8 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, nock, test } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import * as bitcoin from "bitcoinjs-lib";
-import nock from "nock";
 
 import { createServiceAsync } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
@@ -69,7 +67,7 @@ const createLocalServices = async () => {
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 
-	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
+	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -421,13 +419,13 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			signatory,
 		});
 
-		expect(result.id()).toBe(unsignedLegacyMusigTransferTx.id);
-		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedLegacyMusigTransferTx.psbt);
+		assert.is(result.id(), unsignedLegacyMusigTransferTx.id);
+		assert.is(result.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedLegacyMusigTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -454,13 +452,13 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe(oneSignatureLegacyMusigTransferTx.id);
-		expect(signed1.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(330);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureLegacyMusigTransferTx.psbt);
+		assert.is(signed1.id(), oneSignatureLegacyMusigTransferTx.id);
+		assert.is(signed1.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 330);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureLegacyMusigTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -485,19 +483,20 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe(twoSignatureLegacyMusigTransferTx.id);
-		expect(signed2.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(330);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureLegacyMusigTransferTx.psbt);
+		assert.is(signed2.id(), twoSignatureLegacyMusigTransferTx.id);
+		assert.is(signed2.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 330);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureLegacyMusigTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d0000000000fdfe00004830450221008e49b68e58a819e5e7199f69ca7aea8a0e83c137aa5d63334167f46263d13fa302203bbc8490e10e91a66cbef8dee64e41f46436caf5815702109211d3a37fa651fd01483045022100a1dcf290034f8f177b6069bf0b10b11c0d37c5dbdc6d9ff189cfb69d06026dd702200db05bcc907117d506af47a5648bfc81fc5a58e0766c1076401e5b4debfbb565014c69522102685c2d9e7743b278d57b8de9c81c4478737eb3453fe59e51b1e20020c583395621029015af20164d731b612990bee7a995c032abba83fa186a3ae3918f996f2173402103970f2c616181063e26fd970b9bc1308a78986f3f59053e554b1f297bde8e3d5053aeffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
 	});
@@ -568,13 +567,13 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			signatory,
 		});
 
-		expect(result.id()).toBe(unsignedMusigP2shSegwitTransferTx.id);
-		expect(result.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedMusigP2shSegwitTransferTx.psbt);
+		assert.is(result.id(), unsignedMusigP2shSegwitTransferTx.id);
+		assert.is(result.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedMusigP2shSegwitTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -601,13 +600,13 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe(oneSignatureMusigP2shSegwitTransferTx.id);
-		expect(signed1.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(330);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureMusigP2shSegwitTransferTx.psbt);
+		assert.is(signed1.id(), oneSignatureMusigP2shSegwitTransferTx.id);
+		assert.is(signed1.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 330);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureMusigP2shSegwitTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -632,19 +631,20 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe(twoSignatureMusigP2shSegwitTransferTx.id);
-		expect(signed2.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(330);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureMusigP2shSegwitTransferTx.psbt);
+		assert.is(signed2.id(), twoSignatureMusigP2shSegwitTransferTx.id);
+		assert.is(signed2.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 330);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureMusigP2shSegwitTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000000101492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df000000002322002094bffa57fc318c02c22d0c0a73aebe0f3bbf0e943f6ee3f5be69d8af51eec1faffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f3870400483045022100fbd10b1104d55aeda1e889bee0bb1fc03aab94f7854f816a4fbf0ae838fb34de022008e3df71716593353a53c2afdd39b3d48851b3d98cd1b009ee8e7e0bdd32bb3201483045022100b3da66f4604551b6e5327496cc895ab8cf7354f4b5ac2ffdf9b6452f589ca41402201aa8b331522a525b4734b263958e8cd15e7be6e1c82b473543a94839f906a1e90169522102398cf7167bbabcec35a34d07d3597592a55d0ebd8e6ab8c911bfa6b0519bc8202102806ff2a45228d117e4723d6db6943b7fcb8713971a59c7c7051f6c12dfdba68021031a69f4d735f153a39c83f16765fccb0f2e66673ec47c6bfbc3b2fac1a9fca04753ae00000000",
 		);
 	});
@@ -719,13 +719,13 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			signatory,
 		});
 
-		expect(result.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(result.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(374);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedNativeSegwitMusigTransferTx.psbt);
+		assert.is(result.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(result.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 374);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedNativeSegwitMusigTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -752,13 +752,13 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(signed1.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(374);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureNativeSegwitMusigTransferTx.psbt);
+		assert.is(signed1.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(signed1.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 374);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -783,26 +783,27 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(signed2.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(374);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureNativeSegwitMusigTransferTx.psbt);
+		assert.is(signed2.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(signed2.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 374);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000000101fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa080400473044022066a9bba1433025ddfd2e8915c91ef7a83815f7487844ede9d0fc7e508734de24022067058b1d83eaff20075624e72225f1c2795faeccc74841a44f209b7b1f0d91aa01473044022062d77ba018c7c4bcef5e2e12a88a7487458ff621092faf860a337f79785750f3022068277031a2b04c731b381789d4dc9471a75baee2136e7c6cf4d72f836fd409d20169522102694992474a7b5f54e32f9533eb8638e3fe2febe1fd91fa58851206c1fe65d18a2102a0bc42bd4d44a93e066381c442733401357a9a6f30bd0ed9c35dd70e9a0947062103da12a46cc7bd880762b4e9fb7e99496e88dd2ab8cf15dbb195d3d8348a462ac053ae00000000",
 		);
 	});
 });
 
 test("#multiSignature (fake) registration", async () => {
-	jest.spyOn(UUID, "random").mockReturnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
+	Mockery.stub(UUID, "random").returnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
 	const wallet1 = {
 		signingKey: musig.accounts[0].mnemonic,
 		path: musig.accounts[0].nativeSegwitMasterPath,
@@ -835,8 +836,8 @@ test("#multiSignature (fake) registration", async () => {
 		},
 	});
 
-	expect(transaction1).toBeInstanceOf(SignedTransactionData);
-	expect(transaction1).toMatchSnapshot();
+	assert.instance(transaction1, SignedTransactionData);
+	assert.snapshot("musig-registration-transaction1", transaction1);
 
 	const transaction2 = await musigService.addSignature(
 		transaction1.data(),
@@ -850,8 +851,8 @@ test("#multiSignature (fake) registration", async () => {
 		),
 	);
 
-	expect(transaction2).toBeInstanceOf(SignedTransactionData);
-	expect(transaction2).toMatchSnapshot();
+	assert.instance(transaction2, SignedTransactionData);
+	assert.snapshot("musig-registration-transaction2", transaction2);
 
 	const transaction3 = await musigService.addSignature(
 		transaction2.data(),
@@ -865,8 +866,8 @@ test("#multiSignature (fake) registration", async () => {
 		),
 	);
 
-	expect(transaction3).toBeInstanceOf(SignedTransactionData);
-	expect(transaction3).toMatchSnapshot();
+	assert.instance(transaction3, SignedTransactionData);
+	assert.snapshot("musig-registration-transaction3", transaction3);
 });
 
 test.run();

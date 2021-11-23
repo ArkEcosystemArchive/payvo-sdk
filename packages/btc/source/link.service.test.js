@@ -5,7 +5,7 @@ import { createService } from "../test/mocking";
 
 let subject;
 
-describe("livenet", function ({ afterEach, beforeAll, test }) {
+describe("livenet", function ({ beforeAll, test }) {
 	beforeAll(async () => {
 		subject = await createService(Services.AbstractLinkService, "btc.livenet");
 	});
@@ -23,7 +23,7 @@ describe("livenet", function ({ afterEach, beforeAll, test }) {
 	});
 });
 
-describe("testnet", function ({ afterEach, beforeAll, test }) {
+describe("testnet", function ({ beforeAll, test }) {
 	beforeAll(async () => {
 		subject = await createService(Services.AbstractLinkService, "btc.testnet");
 	});
@@ -40,5 +40,3 @@ describe("testnet", function ({ afterEach, beforeAll, test }) {
 		assert.is(subject.wallet("id"), "https://blockstream.info/testnet/address/id");
 	});
 });
-
-test.run();
