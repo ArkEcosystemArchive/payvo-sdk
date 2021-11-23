@@ -1,7 +1,7 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -152,7 +152,10 @@ test.after(() => nock.enableNetConnect());
 // });
 
 test("should flush all the history", async () => {
-	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	assert.false(subject.hasMore("transactions"));
 
@@ -164,7 +167,10 @@ test("should flush all the history", async () => {
 });
 
 test("should handle undefined  promiseAllSettledByKey responses in aggregate", async () => {
-	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const promiseAllSettledByKeyMock = Mockery.stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
 		return Promise.resolve(undefined);
@@ -176,7 +182,10 @@ test("should handle undefined  promiseAllSettledByKey responses in aggregate", a
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `address`", async () => {
-	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
@@ -189,7 +198,10 @@ test("should aggregate and filter transactions based on provided identifiers of 
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey`", async () => {
-	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [

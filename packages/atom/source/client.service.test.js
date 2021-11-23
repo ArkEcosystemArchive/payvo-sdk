@@ -2,7 +2,7 @@ import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -121,7 +121,9 @@ const transactionPayload = createService(SignedTransactionData).configure(
 );
 
 test("broadcast should pass", async () => {
-	nock.fake("https://stargate.cosmos.network").post("/txs").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+	nock.fake("https://stargate.cosmos.network")
+		.post("/txs")
+		.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
 	const result = await subject.broadcast([transactionPayload]);
 

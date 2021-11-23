@@ -1,5 +1,5 @@
 import { assert, describe, test } from "@payvo/sdk-test";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";

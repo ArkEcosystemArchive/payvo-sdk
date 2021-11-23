@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { Collections, IoC, Services, Test } from "@payvo/sdk";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
@@ -31,7 +31,9 @@ test.before(async () => {
 });
 
 test("#transactions", async () => {
-	nock.fake("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/transactions.json`));
+	nock.fake("https://proxy.nanos.cc/")
+		.post("/proxy")
+		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 	const result = await subject.transactions({
 		identifiers: [{ type: "address", value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3" }],

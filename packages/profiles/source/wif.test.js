@@ -2,7 +2,7 @@ import { assert, each, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { PBKDF2 } from "@payvo/sdk-cryptography";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";

@@ -1,7 +1,7 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Test } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet } from "../test/mocking";

@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { bootContainer } from "../mocking";
 import { Profile } from "../../source/profile";
 import { IProfile } from "../../source/contracts";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import {
 	mockMusigServer,

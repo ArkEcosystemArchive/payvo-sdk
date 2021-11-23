@@ -2,7 +2,7 @@ import { assert, describe, test } from "@payvo/sdk-test";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createServiceAsync } from "../test/mocking";
 import { TransactionService } from "./transaction.service";

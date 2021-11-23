@@ -2,7 +2,7 @@ import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";

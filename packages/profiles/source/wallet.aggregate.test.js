@@ -2,7 +2,7 @@ import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";

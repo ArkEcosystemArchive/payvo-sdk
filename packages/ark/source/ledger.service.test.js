@@ -3,7 +3,7 @@ import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";

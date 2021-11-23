@@ -2,7 +2,7 @@ import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -289,7 +289,8 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#forgetById", async () => {
-		const deleteNock = nock.fake(/.+/)
+		const deleteNock = nock
+			.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
 				id: /.+/,

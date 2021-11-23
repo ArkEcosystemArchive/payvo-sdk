@@ -2,7 +2,7 @@ import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Collections } from "@payvo/sdk";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { identity } from "../test/fixtures/identity";

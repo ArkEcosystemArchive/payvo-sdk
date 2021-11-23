@@ -1,7 +1,7 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { FeeService } from "./fee.service";

@@ -3,7 +3,7 @@ import { assert, test } from "@payvo/sdk-test";
 
 import "reflect-metadata";
 
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { ARK } from "../../ark/distribution";
 import { Request } from "../../http-fetch/distribution";

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { BIP44 } from "@payvo/sdk-cryptography";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { Profile } from "../../source";
 import { bootContainer } from "../mocking";

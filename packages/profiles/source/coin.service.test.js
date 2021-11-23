@@ -2,7 +2,7 @@ import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Coins } from "@payvo/sdk";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import NodeFeesFixture from "../test/fixtures/client/node-fees.json";

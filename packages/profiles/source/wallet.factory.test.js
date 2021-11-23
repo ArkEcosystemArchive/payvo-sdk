@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import { PBKDF2 } from "@payvo/sdk-cryptography";
 import { encrypt } from "bip38";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 import { decode } from "wif";
 
 import { bootContainer } from "../test/mocking";

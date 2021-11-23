@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -38,7 +38,9 @@ test.before(async () => {
 });
 
 test.skip("should sign transaction", async () => {
-	nock.fake("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/account-info.json`));
+	nock.fake("https://proxy.nanos.cc/")
+		.post("/proxy")
+		.reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
 	const result = await subject.transfer({
 		signatory: new Signatories.Signatory(

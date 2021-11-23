@@ -2,7 +2,7 @@ import { assert, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";

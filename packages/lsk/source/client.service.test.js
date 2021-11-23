@@ -1,7 +1,7 @@
 import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -31,7 +31,10 @@ const createLocalServices = async () => {
 test.before(async () => createLocalServices());
 
 test("#transaction", async () => {
-	nock.fake(/.+/).get("/api/v2/transactions").query(true).reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	nock.fake(/.+/)
+		.get("/api/v2/transactions")
+		.query(true)
+		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
 
@@ -377,7 +380,9 @@ describe("#broadcast", ({ beforeEach, test }) => {
 	});
 
 	test("should fail", async () => {
-		nock.fake(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+		nock.fake(/.+/)
+			.post("/api/v2/transactions")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
 		const result = await subject.broadcast([transactionPayload]);
 

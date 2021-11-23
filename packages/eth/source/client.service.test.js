@@ -1,7 +1,7 @@
 import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
-import {nock} from "@payvo/sdk-test";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
