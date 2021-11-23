@@ -1,8 +1,8 @@
-import { assert, describe, Mockery, test } from "@payvo/sdk-test";
+import { assert, describe, Mockery, nock } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Signatories } from "@payvo/sdk";
-import nock from "nock";
+// import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
@@ -24,13 +24,11 @@ let subject;
 
 describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	beforeAll(() => {
-		bootContainer();
-
-		nock.disableNetConnect();
+		bootContainer({ flush: true });
 	});
 
 	beforeEach(async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/blockchain")
 			.reply(200, require("../test/fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")
@@ -64,7 +62,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 			.reply(200, () => ({ data: require("../test/fixtures/client/transactions.json").data[1] }))
 			.persist();
 
-		nock("https://lsk-test.payvo.com:443")
+		nock.fake("https://lsk-test.payvo.com:443")
 			.get("/api/v2/accounts")
 			.query({ address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h" })
 			.reply(404, { error: true, message: "Data not found" })
@@ -110,12 +108,12 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 
 	test("should sync", async () => {
 		const musig = require("../test/fixtures/client/musig-transaction.json");
-		nock("https://ark-test.payvo.com:443").get("/transactions").query(true).reply(200, [musig]).persist();
+		nock.fake("https://ark-test.payvo.com:443").get("/transactions").query(true).reply(200, [musig]).persist();
 		await assert.resolves(() => subject.sync());
 	});
 
 	test("should add signature", async () => {
-		nock("https://ark-test-musig.payvo.com:443")
+		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/", {
 				publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 				state: "pending",
@@ -402,7 +400,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.false(subject.hasBeenBroadcasted(id));
 		assert.false(subject.hasBeenConfirmed(id));
 
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
 				data: {
@@ -532,7 +530,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("sign a multisig transaction awaiting other signatures", async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/musig-transaction.json")] })
 			.post("/")
@@ -564,7 +562,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should sync multisig transaction awaiting our signature", async () => {
-		nock("https://ark-test-musig.payvo.com:443")
+		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-our.json")] })
 			.post("/")
@@ -578,7 +576,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should await signature by public ip", async () => {
-		nock("https://ark-test-musig.payvo.com:443")
+		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-signature.json")] })
 			.post("/")
@@ -603,7 +601,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("transaction should not await any signatures", async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [] })
 			.post("/")
@@ -622,7 +620,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should broadcast transaction", async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
 				data: {
@@ -659,7 +657,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should broadcast a transfer and confirm it", async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
 				data: {
@@ -698,13 +696,13 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should broadcast multisignature transaction", async () => {
-		nock("https://ark-test-musig.payvo.com:443")
+		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-none.json")] })
 			.post("/")
 			.reply(200, { result: [] });
 
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/transaction")
 			.reply(201, {
 				data: {
@@ -752,11 +750,11 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test("should broadcast multisignature registration", async () => {
-		nock("https://ark-test-musig.payvo.com:443")
+		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/musig-transaction.json")] });
 
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [] })
 			.post("/transaction")
@@ -797,7 +795,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	});
 
 	test.skip("#confirm", async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
 				data: {
@@ -849,7 +847,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 
 		// Confirmed
 		nock.cleanAll();
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/transactions/819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef")
 			.reply(200, { data: { confirmations: 51 } });
 
@@ -864,13 +862,11 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 
 describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 	beforeAll(() => {
-		bootContainer();
-
-		nock.disableNetConnect();
+		bootContainer({ flush: true });
 	});
 
 	beforeEach(async () => {
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/blockchain")
 			.reply(200, require("../test/fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")
@@ -904,7 +900,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 			.reply(200, () => ({ data: require("../test/fixtures/client/transactions.json").data[1] }))
 			.persist();
 
-		nock("https://lsk-test.payvo.com:443")
+		nock.fake("https://lsk-test.payvo.com:443")
 			.get("/api/v2/accounts")
 			.query({ address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h" })
 			.reply(404, { error: true, message: "Data not found" })
