@@ -26,7 +26,7 @@ describe("ClientService", async ({ beforeEach, assert, it, afterEach }) => {
 	});
 
 	afterEach(() => {
-		nock.cleanAll()
+		nock.cleanAll();
 	});
 
 	it("#wallet should succeed", async () => {
