@@ -5,22 +5,12 @@ const formatName = (name: string, ...dataset: unknown[]): string => format(name,
 
 export const each = (name: string, callback: Callback<any>, datasets: unknown[]) => {
 	for (const dataset of datasets) {
-		test(formatName(name, dataset), async (context: Context) => {
-			console.log({ context })
-			console.log({ dataset })
-
-			await callback({ context, dataset });
-		});
+		test(formatName(name, dataset), async (context: Context) => callback({ context, dataset }));
 	}
 };
 
 export const eachSuite = (test: Test) => (name: string, callback: Callback<any>, datasets: unknown[]) => {
 	for (const dataset of datasets) {
-		test(formatName(name, dataset), async (context: Context) => {
-			console.log({ context })
-			console.log({ dataset })
-
-			await callback({ context, dataset });
-		});
+		test(formatName(name, dataset), async (context: Context) => callback({ context, dataset }));
 	}
 };

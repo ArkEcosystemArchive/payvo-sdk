@@ -22,7 +22,7 @@ let profile;
 let wallet;
 let subject;
 
-describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
+describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 	beforeAll(() => {
 		bootContainer();
 
@@ -826,7 +826,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 			},
 		};
 
-		const id = await subject.signTransfer(input);
+		const id = await subject.signTransfer(dataset.input);
 
 		assert.object(subject.broadcast(id));
 		assert.defined(subject.transaction(id));
@@ -948,22 +948,22 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		nock.cleanAll();
 	});
 
-    each("should create a transfer for %s", async ({ coin, network, input }) => {
+    each("should create a transfer for %s", async ({ dataset }) => {
         const subject = new TransactionService(
             await profile.walletFactory().fromMnemonicWithBIP39({
-                coin,
-                network,
+                coin: dataset.coin,
+                network: dataset.network,
                 mnemonic: identity.mnemonic,
             }),
         );
 
-        const id = await subject.signTransfer(input);
+        const id = await subject.signTransfer(dataset.input);
 
         assert.string(id);
 		assert.containKey(subject.signed(), id);
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), input.signatory.address());
-		assert.is(subject.transaction(id).recipient(), input.data.to);
+		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+		assert.is(subject.transaction(id).recipient(), dataset.input.data.to);
 		assert.true(subject.transaction(id).isTransfer());
 		assert.false(subject.transaction(id).isSecondSignature());
 		assert.false(subject.transaction(id).isDelegateRegistration());
@@ -1018,21 +1018,21 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
         },
     ]);
 
-	each("should create a delegate registration for %s", async ({ coin, network, input }) => {
+	each("should create a delegate registration for %s", async ({ dataset }) => {
 		const subject = new TransactionService(
 			await profile.walletFactory().fromMnemonicWithBIP39({
-				coin,
-				network,
+                coin: dataset.coin,
+                network: dataset.network,
 				mnemonic: identity.mnemonic,
 			}),
 		);
 
-		const id = await subject.signDelegateRegistration(input);
+		const id = await subject.signDelegateRegistration(dataset.input);
 
 		assert.string(id);
 		assert.containKey(subject.signed(), id);
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), input.signatory.address());
+		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
 		assert.undefined(subject.transaction(id).recipient());
 		assert.false(subject.transaction(id).isTransfer());
 		assert.false(subject.transaction(id).isSecondSignature());
@@ -1086,21 +1086,21 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		},
 	]);
 
-	each("should create a vote for %s", async ({ coin, network, input }) => {
+	each("should create a vote for %s", async ({ dataset }) => {
 		const subject = new TransactionService(
 			await profile.walletFactory().fromMnemonicWithBIP39({
-				coin,
-				network,
+                coin: dataset.coin,
+                network: dataset.network,
 				mnemonic: identity.mnemonic,
 			}),
 		);
 
-		const id = await subject.signVote(input);
+		const id = await subject.signVote(dataset.input);
 
 		assert.string(id);
 		assert.containKey(subject.signed(), id);
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), input.signatory.address());
+		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
 		assert.undefined(subject.transaction(id).recipient());
 		assert.false(subject.transaction(id).isTransfer());
 		assert.false(subject.transaction(id).isSecondSignature());
@@ -1166,21 +1166,21 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		},
 	]);
 
-	each("should create an unvote for %s", async ({ coin, network, input }) => {
+	each("should create an unvote for %s", async ({ dataset }) => {
 		const subject = new TransactionService(
 			await profile.walletFactory().fromMnemonicWithBIP39({
-				coin,
-				network,
+                coin: dataset.coin,
+                network: dataset.network,
 				mnemonic: identity.mnemonic,
 			}),
 		);
 
-		const id = await subject.signVote(input);
+		const id = await subject.signVote(dataset.input);
 
 		assert.string(id);
 		assert.containKey(subject.signed(), id);
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), input.signatory.address());
+		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
 		assert.undefined(subject.transaction(id).recipient());
 		assert.false(subject.transaction(id).isTransfer());
 		assert.false(subject.transaction(id).isSecondSignature());
@@ -1260,7 +1260,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		assert.string(id);
 		assert.containKey(subject.signed(), id);
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), input.signatory.address());
+		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
 		assert.undefined(subject.transaction(id).recipient());
 		assert.false(subject.transaction(id).isTransfer());
 		assert.false(subject.transaction(id).isSecondSignature());
@@ -1336,5 +1336,3 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		},
 	]);
 });
-
-test.run();
