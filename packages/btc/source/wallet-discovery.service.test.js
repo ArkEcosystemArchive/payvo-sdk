@@ -9,11 +9,7 @@ import { AddressFactory } from "./address.factory";
 
 let subject;
 
-test.before(async () => {
-	nock.disableNetConnect();
-});
-
-describe("testnet", ({ afterEach, beforeEach, test }) => {
+describe("testnet", ({ beforeEach, test }) => {
 	beforeEach(async () => {
 		subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
@@ -119,7 +115,7 @@ describe("testnet", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("livenet", ({ afterEach, beforeEach, test }) => {
+describe("livenet", ({ beforeEach, test }) => {
 	beforeEach(async () => {
 		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
@@ -224,5 +220,3 @@ describe("livenet", ({ afterEach, beforeEach, test }) => {
 		]);
 	});
 });
-
-test.run();

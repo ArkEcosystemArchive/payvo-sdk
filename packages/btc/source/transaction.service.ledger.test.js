@@ -289,5 +289,3 @@ describe("BIP84 wallet", ({ afterEach, beforeAll, test }) => {
 		assert.instance(result.timestamp(), DateTime);
 	});
 });
-
-test.run();
