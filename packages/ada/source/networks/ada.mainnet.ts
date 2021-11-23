@@ -23,11 +23,11 @@ const network: Networks.NetworkManifest = {
 	meta: {
 		extendedPublicKey: true,
 		keyDeposit: 2_000_000,
+		maxTxSize: 16_384,
+		maxValueSize: 5000,
 		minFeeA: 44,
 		minFeeB: 155_381,
 		minUTxOValue: 1_000_000,
-		maxValueSize: 5000,
-		maxTxSize: 16384,
 
 		// @TODO
 		networkId: "1",
