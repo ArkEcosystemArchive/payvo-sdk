@@ -10,8 +10,8 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
 		return {
-			publicKey: BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).publicKey.toString(
-				"hex",
+			publicKey: convertBuffer(
+				BIP32.fromMnemonic(mnemonic, this.configRepository.get("network.constants")).publicKey,
 			),
 		};
 	}

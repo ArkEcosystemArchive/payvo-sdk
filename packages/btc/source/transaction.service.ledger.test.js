@@ -16,6 +16,8 @@ import { WalletData } from "./wallet.dto";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
+import { ledger } from "../test/fixtures/ledger";
+import { MultiSignatureService } from "./multi-signature.service";
 
 const configureMock = (record) =>
 	createService(TransactionService, "btc.testnet", async (container) => {
@@ -34,6 +36,7 @@ const configureMock = (record) =>
 			openTransportReplayer(RecordStore.fromString(record)),
 		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
+		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 

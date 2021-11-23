@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
+import { featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Bitcoin",
@@ -31,6 +31,10 @@ const network: Networks.NetworkManifest = {
 		{
 			host: "https://blockstream.info",
 			type: "explorer",
+		},
+		{
+			host: "https://btc-test-musig.payvo.com",
+			type: "musig",
 		},
 	],
 	id: "btc.testnet",

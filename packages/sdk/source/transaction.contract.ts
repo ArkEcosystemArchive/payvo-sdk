@@ -56,6 +56,8 @@ export interface VoteInput extends TransactionInput {
 	};
 }
 
+export type MusigDerivationMethod = "legacyMusig" | "p2SHSegwitMusig" | "nativeSegwitMusig";
+
 export interface MultiSignatureInput extends TransactionInput {
 	data: {
 		// Standard
@@ -67,6 +69,7 @@ export interface MultiSignatureInput extends TransactionInput {
 		mandatoryKeys?: string[];
 		numberOfSignatures?: number;
 		optionalKeys?: string[];
+		derivationMethod?: MusigDerivationMethod;
 	};
 }
 

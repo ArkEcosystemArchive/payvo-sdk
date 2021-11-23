@@ -1,4 +1,4 @@
-import { IPortfolio, IPortfolioEntry, IProfile } from "./contracts.js";
+import { IPortfolio, IPortfolioBreakdownOptions, IPortfolioEntry, IProfile } from "./contracts.js";
 
 export class Portfolio implements IPortfolio {
 	readonly #profile: IProfile;
@@ -8,11 +8,15 @@ export class Portfolio implements IPortfolio {
 	}
 
 	/** {@inheritDoc IPortfolio.breakdown} */
-	public breakdown(): IPortfolioEntry[] {
+	public breakdown(options: IPortfolioBreakdownOptions = {}): IPortfolioEntry[] {
 		const result: Record<string, IPortfolioEntry> = {};
 
 		for (const wallet of this.#profile.wallets().values()) {
 			if (wallet.network().isTest()) {
+				continue;
+			}
+
+			if (options.networkIds && !options.networkIds.includes(wallet.networkId())) {
 				continue;
 			}
 
@@ -27,8 +31,8 @@ export class Portfolio implements IPortfolio {
 				};
 			}
 
-			result[ticker].source += wallet.balance();
-			result[ticker].target += wallet.convertedBalance();
+			result[ticker].source += wallet.balance("total");
+			result[ticker].target += wallet.convertedBalance("total");
 		}
 
 		let totalValue = 0;

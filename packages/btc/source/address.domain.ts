@@ -30,13 +30,13 @@ export const rootToAccountKeys = (
 export const rootKeyToAccountKey = (rootKey: BIP32Interface, path: string): BIP32Interface => rootKey.derivePath(path);
 
 export const defaultLegacyMusigAccountKey = (rootKey: BIP32Interface): BIP32Interface =>
-	rootKeyToAccountKey(rootKey, "45'/0");
+	rootKeyToAccountKey(rootKey, "m/45'/0");
 
 export const defaultP2SHSegwitMusigAccountKey = (rootKey: BIP32Interface): BIP32Interface =>
-	rootKeyToAccountKey(rootKey, "48'/1'/0'/1'");
+	rootKeyToAccountKey(rootKey, "m/48'/1'/0'/1'");
 
 export const defaultNativeSegwitMusigAccountKey = (rootKey: BIP32Interface): BIP32Interface =>
-	rootKeyToAccountKey(rootKey, "48'/1'/0'/2'");
+	rootKeyToAccountKey(rootKey, "m/48'/1'/0'/2'");
 
 const createMusigPayment = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network) =>
 	bitcoin.payments.p2ms({

@@ -1,8 +1,26 @@
-import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
-import { getNetworkConfig } from "./config.js";
-import { BipLevel } from "./contracts.js";
+import { getNetworkConfig } from "./config";
+import { BipLevel } from "./contracts";
+import * as bitcoin from "bitcoinjs-lib";
+import { ECPair } from "ecpair";
+
+// export const prettyBufferSerializer = (k, v) => {
+// 	if (v !== null && v.type === "Buffer") {
+// 		return convertBuffer(v.data);
+// 	}
+// 	if (v !== null && typeof v === "string") {
+// 		try {
+// 			return bitcoin.Psbt.fromBase64(v);
+// 		} catch (_) {}
+// 	}
+// 	return v;
+// };
+//
+// export const prettySerialize = (obj) => {
+// 	return JSON.stringify(obj, prettyBufferSerializer, 2);
+// };
 
 export const post = async (
 	path: string,
@@ -105,3 +123,20 @@ export const maxLevel = (path: string): number => {
 	}
 	return depth;
 };
+
+export const signWith = (psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: string): bitcoin.Psbt => {
+	psbt.txInputs.forEach((input, index) => {
+		for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
+			const [internal, addressIndex] = derivation.path.split("/").slice(-2);
+			const child = rootKey.derivePath(`${path}/${internal}/${addressIndex}`);
+			if (psbt.inputHasPubkey(index, child.publicKey)) {
+				psbt.signInput(index, child);
+				break;
+			}
+		}
+	});
+	return psbt;
+};
+
+export const signatureValidator = (pubkey: Buffer, msghash: Buffer, signature: Buffer): boolean =>
+	ECPair.fromPublicKey(pubkey).verify(msghash, signature);

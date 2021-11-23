@@ -5,7 +5,7 @@ import * as bitcoin from "bitcoinjs-lib";
 import { getNetworkConfig } from "./config.js";
 import WalletDataHelper from "./wallet-data-helper.js";
 import MusigWalletDataHelper from "./musig-wallet-data-helper.js";
-import { BipLevel, Levels, MusigDerivationMethod } from "./contracts.js";
+import { BipLevel, Levels } from "./contracts.js";
 
 @IoC.injectable()
 export class AddressFactory {
@@ -130,7 +130,7 @@ export class AddressFactory {
 	public musigWalletDataHelper(
 		n: number,
 		accountPublicKeys: BIP32Interface[],
-		method: MusigDerivationMethod,
+		method: Services.MusigDerivationMethod,
 	): MusigWalletDataHelper {
 		return new MusigWalletDataHelper(
 			n,

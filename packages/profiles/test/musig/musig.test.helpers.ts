@@ -19,7 +19,7 @@ export const generateWalletsFromMnemonics = async ({
 	coinId: string;
 	networkId: string;
 	mnemonics: string[];
-}) => {
+}): Promise<Wallet[]> => {
 	const wallets: Wallet[] = [];
 
 	for (const mnemonic of mnemonics) {
