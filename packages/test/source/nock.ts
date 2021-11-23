@@ -7,6 +7,6 @@ export const nock = {
 	fake: (basePath: string | RegExp, options?: Options): Scope => {
 		base.disableNetConnect();
 
-		return base(/.+/, options);
+		return base(basePath ?? /.+/, options);
 	},
 };
