@@ -1,0 +1,15 @@
+{
+  avg: BigNumber {
+    '62128036'
+  },
+  isDynamic: true,
+  max: BigNumber {
+    '500000000'
+  },
+  min: BigNumber {
+    '10000000'
+  },
+  static: BigNumber {
+    '500000000'
+  },
+}
