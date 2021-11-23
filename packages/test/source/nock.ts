@@ -1,4 +1,4 @@
-import base, { Scope, Options } from "nock";
+import base, { Options, Scope } from "nock";
 
 export const nock = {
 	cleanAll: base.cleanAll,
