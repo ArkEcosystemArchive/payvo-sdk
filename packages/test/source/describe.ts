@@ -7,24 +7,24 @@ import { Mockery } from "./mockery.js";
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
-const runSuite = (instance: Test, callback: Function): void => {
+const runSuite = (suite: Test, callback: Function): void => {
 	callback({
-		afterAll: instance.after,
-		afterEach: instance.after.each,
+		afterAll: suite.after,
+		afterEach: suite.after.each,
 		assert,
-		beforeAll: instance.before,
-		beforeEach: instance.before.each,
-		each: eachSuite(instance),
-		it: instance,
+		beforeAll: suite.before,
+		beforeEach: suite.before.each,
+		each: eachSuite(suite),
+		it: suite,
 		mock: Mockery.mock,
-		only: instance.only,
-		skip: instance.skip,
+		only: suite.only,
+		skip: suite.skip,
 		spy: Mockery.spy,
 		stub: Mockery.stub,
-		test: instance,
+		test: suite,
 	});
 
-	instance.run();
+	suite.run();
 };
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
