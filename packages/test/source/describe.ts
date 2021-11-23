@@ -8,9 +8,9 @@ import { Mockery } from "./mockery.js";
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
-const runHook = (cb: Function) => async (context: Context) => {
+const runHook = (callback: Function) => async (context: Context) => {
 	try {
-		await cb(context);
+		await callback(context);
 	} catch (error) {
 		console.log(bold(bgRed(white(error.stack))));
 	}
@@ -18,11 +18,11 @@ const runHook = (cb: Function) => async (context: Context) => {
 
 const runSuite = (suite: Test, callback: Function): void => {
 	callback({
-		afterAll: async (cb: Function) => suite.after(runHook(cb)),
-		afterEach: async (cb: Function) => suite.after.each(runHook(cb)),
+		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
+		afterEach: async (callback_: Function) => suite.after.each(runHook(callback_)),
 		assert,
-		beforeAll: async (cb: Function) => suite.before(runHook(cb)),
-		beforeEach: async (cb: Function) => suite.before.each(runHook(cb)),
+		beforeAll: async (callback_: Function) => suite.before(runHook(callback_)),
+		beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
 		each: eachSuite(suite),
 		it: suite,
 		mock: Mockery.mock,

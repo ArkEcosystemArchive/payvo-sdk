@@ -24,6 +24,7 @@
 	"dependencies": {
 		"c8": "~7.10.0",
 		"concordance": "~5.0.4",
+		"kleur": "~4.1.4",
 		"nock": "^13.2.0",
 		"sinon": "^12.0.1",
 		"string-kit": "~0.14.2",
@@ -31,8 +32,7 @@
 		"uvu": "^0.5.2",
 		"watchlist": "~0.3.1",
 		"yargs": "~17.2.1",
-		"zod": "~3.11.6",
-		"kleur": "~4.1.4"
+		"zod": "~3.11.6"
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.7",

@@ -1,9 +1,9 @@
 import base, { Scope } from "nock";
 
 export const nock = {
-	enableNetConnect: base.enableNetConnect,
-	disableNetConnect: base.disableNetConnect,
 	cleanAll: base.cleanAll,
+	disableNetConnect: base.disableNetConnect,
+	enableNetConnect: base.enableNetConnect,
 	fake: (basePath: string | RegExp): Scope => {
 		base.disableNetConnect();
 
