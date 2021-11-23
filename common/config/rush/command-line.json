@@ -19,22 +19,6 @@
 		},
 		{
 			"commandKind": "bulk",
-			"name": "build:cjs",
-			"summary": "...",
-			"description": "...",
-			"enableParallelism": true,
-			"allowWarningsInSuccessfulBuild": true
-		},
-		{
-			"commandKind": "bulk",
-			"name": "build:esm",
-			"summary": "...",
-			"description": "...",
-			"enableParallelism": true,
-			"allowWarningsInSuccessfulBuild": true
-		},
-		{
-			"commandKind": "bulk",
 			"name": "lint",
 			"summary": "...",
 			"description": "...",

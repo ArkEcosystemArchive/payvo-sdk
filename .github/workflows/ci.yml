@@ -54,7 +54,7 @@ jobs:
               with:
                   timeout_seconds: 300
                   max_attempts: 3
-                  command: node common/scripts/install-run-rush.js build --verbose
+                  command: node common/scripts/install-run-rush.js build:npm --verbose
             - name: Test ADA
               run: cd "$GITHUB_WORKSPACE/packages/ada/" && pnpm run test:coverage
             - name: Test ARK

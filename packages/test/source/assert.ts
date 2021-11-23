@@ -82,6 +82,7 @@ export const assert = {
 		if (__dirname) {
 			directory = __dirname;
 		} else {
+			// @ts-ignore - We are still bundling CJS and this will fail to build.
 			directory = dirname(fileURLToPath(import.meta.url));
 		}
 
