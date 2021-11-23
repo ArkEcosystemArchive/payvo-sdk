@@ -1,7 +1,7 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
@@ -19,7 +19,7 @@ test.before(() => bootContainer());
 test.before.each(async () => {
 	nock.cleanAll();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/peers")

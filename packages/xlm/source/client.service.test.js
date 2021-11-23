@@ -2,7 +2,7 @@ import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -36,7 +36,7 @@ test.before(async () => {
 });
 
 test("#transaction", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/transactions/264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/transaction.json`))
@@ -58,7 +58,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/accounts/GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO/payments")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -78,7 +78,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/accounts/GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
@@ -96,13 +96,13 @@ test("#wallet", async () => {
 });
 
 test("broadcast should pass", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 		.persist();
 
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.post("/transactions")
 		.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
@@ -143,13 +143,13 @@ test("broadcast should pass", async () => {
 });
 
 test("broadcast should fail", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 		.persist();
 
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.post("/transactions")
 		.reply(400, loader.json(`test/fixtures/client/broadcast-failure.json`));
 

@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
@@ -37,7 +37,7 @@ test.before(async () => {
 });
 
 test("#transfer", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
 		.post("/")

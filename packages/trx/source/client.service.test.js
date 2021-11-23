@@ -1,7 +1,7 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { Collections, IoC, Services } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -30,7 +30,7 @@ test.before(async () => {
 });
 
 test("#transaction", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.post("/wallet/gettransactionbyid")
 		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
@@ -40,7 +40,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.get("/v1/accounts/TUrM3F7b7WVZSZVjgrqsVBYXQL3GVgAqXq/transactions")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -53,7 +53,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.get("/v1/accounts/TTSFjEG3Lu9WkHdp4JrWYhbGP6K1REqnGQ")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
@@ -66,7 +66,7 @@ test("#wallet", async () => {
 });
 
 test("broadcast should pass", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.post("/wallet/broadcasttransaction")
 		.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
@@ -86,7 +86,7 @@ test("broadcast should pass", async () => {
 });
 
 test("broadcast should fail", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.post("/wallet/broadcasttransaction")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 

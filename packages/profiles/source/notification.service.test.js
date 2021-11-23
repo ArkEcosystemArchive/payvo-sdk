@@ -1,6 +1,6 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -21,7 +21,7 @@ test.before(async () => {
 
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/node/configuration")
@@ -34,7 +34,7 @@ test.before(async () => {
 		.reply(200, require("../test/fixtures/client/wallet.json"))
 		.persist();
 
-	nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
+	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
 });
 
 test.before.each(async () => {

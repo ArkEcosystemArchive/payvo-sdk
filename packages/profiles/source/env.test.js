@@ -7,7 +7,7 @@ import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import fs from "fs-extra";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import storageData from "../test/fixtures/env-storage.json";
 import { identity } from "../test/fixtures/identity";
@@ -44,7 +44,7 @@ const makeSubject = async () => {
 test.before(() => {
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")

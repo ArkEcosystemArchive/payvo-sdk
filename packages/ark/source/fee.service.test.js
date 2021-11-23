@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
@@ -32,7 +32,7 @@ test.after.each(() => nock.cleanAll());
 test.before(() => nock.disableNetConnect());
 
 test("should get the fees for ARK", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/fees")
 		.reply(200, loader.json(`test/fixtures/client/feesByNode.json`))
 		.get("/api/transactions/fees")
@@ -68,7 +68,7 @@ test("should get the fees for ARK", async () => {
 });
 
 test("should get the fees for BIND", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/fees")
 		.reply(200, loader.json(`test/fixtures/client/feesByNode-bind.json`))
 		.get("/api/transactions/fees")
@@ -104,7 +104,7 @@ test("should get the fees for BIND", async () => {
 });
 
 test("should calculate the fees for ARK multi-signature registrations", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get(`/api/wallets/${identity.address}`)
 		.reply(200, { data: { nonce: "1" } })
 		.get("/api/node/fees")

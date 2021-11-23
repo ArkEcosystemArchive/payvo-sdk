@@ -3,7 +3,7 @@ import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -84,7 +84,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 	afterEach(() => nock.cleanAll());
 
 	test("should scan for legacy wallets", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get(
 				"/api/wallets?address=D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK%2CDFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ%2CDFr1CR81idSmfgQ19KXe4M6keqUEAuU8kF%2CDTYiNbvTKveMtJC8KPPdBrgRWxfPxGp1WV%2CDJyGFrZv4MYKrTMcjzEyhZzdTAJju2Rcjr",
 			)
@@ -112,7 +112,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 	});
 
 	test("should scan for new wallets", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/wallets")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/wallets-page-0.json`))

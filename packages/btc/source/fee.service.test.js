@@ -1,5 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
@@ -17,7 +17,7 @@ test.after.each(() => nock.cleanAll());
 test.before(() => nock.disableNetConnect());
 
 test("should get the fees", async () => {
-	nock("https://btc-test.payvo.com:443")
+	nock.fake("https://btc-test.payvo.com:443")
 		.get("/api/fees")
 		.reply(200, {
 			data: {

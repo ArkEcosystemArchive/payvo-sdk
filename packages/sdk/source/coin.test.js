@@ -1,7 +1,7 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { ARK } from "../../ark/distribution";
 import { Request } from "../../http-fetch/distribution";
@@ -15,7 +15,7 @@ let subject;
 test.before.each(async () => {
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/testnet/blockchain.json"))
 		.get("/api/node/configuration")

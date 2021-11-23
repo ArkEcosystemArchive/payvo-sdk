@@ -1,6 +1,6 @@
 import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
@@ -74,7 +74,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 	let service;
 
 	beforeEach(async () => {
-		nock(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
+		nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
 		subject = await createService(FeeService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -172,7 +172,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 	});
 
 	test("multiSignature", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
 			.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
@@ -222,7 +222,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 	});
 
 	test("multiSignature with 5 participants", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
 			.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")

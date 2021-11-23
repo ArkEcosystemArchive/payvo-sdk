@@ -1,5 +1,5 @@
 import { assert, loader, test } from "@payvo/sdk-test";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";

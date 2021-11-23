@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 import { Coins } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { identity } from "../test/fixtures/identity";
@@ -38,7 +38,7 @@ test.before(() => {
 test.before.each(async () => {
 	nock.cleanAll();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/peers")
@@ -144,7 +144,7 @@ test("should have a balance", () => {
 
 test("should have a converted balance if it is a live wallet", async () => {
 	// cryptocompare
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })

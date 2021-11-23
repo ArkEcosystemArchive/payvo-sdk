@@ -2,7 +2,7 @@ import { assert, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -102,7 +102,7 @@ test.before(() => {
 
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/peers")

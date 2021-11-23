@@ -1,7 +1,7 @@
 import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -114,7 +114,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	test("should return scanned wallet", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
 			.reply(200, loader.json("test/fixtures/client/wallet-0.json"))

@@ -2,7 +2,7 @@ import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
@@ -33,7 +33,7 @@ test.before(async () => {
 });
 
 test("#transactions", async () => {
-	nock("https://neoscan-testnet.io/api/test_net/v1/")
+	nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 		.get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
@@ -54,7 +54,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock("https://neoscan-testnet.io/api/test_net/v1/")
+	nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 		.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
@@ -68,7 +68,7 @@ test("#wallet", async () => {
 });
 
 test.skip("broadcast should pass", async () => {
-	nock("https://neoscan-testnet.io/api/test_net/v1/")
+	nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 		.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
 		.reply(200, loader.json(`test/fixtures/client/balance.json`))
 		.post("/api/transactions")
@@ -86,7 +86,7 @@ test.skip("broadcast should pass", async () => {
 });
 
 test.skip("broadcast should fail", async () => {
-	nock("https://neoscan-testnet.io/api/test_net/v1/")
+	nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 		.post("/api/transactions")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 

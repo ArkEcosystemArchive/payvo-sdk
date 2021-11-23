@@ -1,7 +1,7 @@
 import { assert, describe, loader, test } from "@payvo/sdk-test";
 import { DTO, IoC, Services, Signatories } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -33,7 +33,7 @@ test.before(async () => {
 });
 
 test("#wallet should succeed", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
 		.post("/")
@@ -55,7 +55,7 @@ test("#wallet should succeed", async () => {
 });
 
 test("#transactions should ", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
 		.post("/")
@@ -92,7 +92,7 @@ test("#transactions should fail if the sender public key is missing", async () =
 });
 
 test("#transaction", async () => {
-	nock(/.+/).post(/.*/).reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	nock.fake(/.+/).post(/.*/).reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 	assert.instance(result, ConfirmedTransactionData);
@@ -157,7 +157,7 @@ test("#transaction", async () => {
 });
 
 test("broadcast is accepted", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
 		.post("/")
@@ -207,7 +207,7 @@ test("broadcast is accepted", async () => {
 });
 
 test("broadcast is rejected", async () => {
-	nock(/.+/).post("/").reply(201, loader.json(`test/fixtures/transaction/submit-tx-failed.json`));
+	nock.fake(/.+/).post("/").reply(201, loader.json(`test/fixtures/transaction/submit-tx-failed.json`));
 
 	const transactions = [
 		createService(SignedTransactionData).configure(

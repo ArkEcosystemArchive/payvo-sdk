@@ -1,7 +1,7 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { bootContainer } from "../test/mocking";
@@ -23,7 +23,7 @@ let wallet;
 let profile;
 
 test.before.each(async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")
@@ -59,7 +59,7 @@ test("should sync the delegates", async () => {
 
 test("should sync the delegates only one page", async () => {
 	nock.cleanAll();
-	nock(/.+/).get("/api/delegates").reply(200, require("../test/fixtures/client/delegates-single-page.json"));
+	nock.fake(/.+/).get("/api/delegates").reply(200, require("../test/fixtures/client/delegates-single-page.json"));
 
 	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 

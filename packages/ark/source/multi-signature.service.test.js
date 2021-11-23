@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { MultiSignatureService } from "./multi-signature.service";
@@ -47,25 +47,25 @@ test.before.each(async () => {
 });
 
 test("#allWithPendingState", async () => {
-	nock(/.+/).post("/").reply(200, fixtures);
+	nock.fake(/.+/).post("/").reply(200, fixtures);
 
 	assert.length(await subject.allWithPendingState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"), 3);
 });
 
 test("#allWithReadyState", async () => {
-	nock(/.+/).post("/").reply(200, fixtures);
+	nock.fake(/.+/).post("/").reply(200, fixtures);
 
 	assert.length(await subject.allWithReadyState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"), 3);
 });
 
 test("#findById", async () => {
-	nock(/.+/).post("/").reply(200, { result: fixtures.result[0] });
+	nock.fake(/.+/).post("/").reply(200, { result: fixtures.result[0] });
 
 	assert.object(await subject.findById("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"));
 });
 
 test("#broadcast", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, { result: { id: "abc" } })
 		.post("/")

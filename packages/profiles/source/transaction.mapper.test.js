@@ -2,7 +2,7 @@ import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Collections } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { identity } from "../test/fixtures/identity";
@@ -55,7 +55,7 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	test.before(async () => {
 		nock.disableNetConnect();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/peers")
 			.reply(200, require("../test/fixtures/client/peers.json"))
 			.get("/api/node/configuration/crypto")

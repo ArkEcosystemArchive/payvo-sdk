@@ -2,7 +2,7 @@ import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -27,7 +27,7 @@ let musig;
 const createLocalServices = async () => {
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/v2/accounts")
 		.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
 		.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
@@ -178,7 +178,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("should broadcast a transaction", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(200, {
 				result: { id: transaction.id() },
@@ -192,7 +192,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("should handle error", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(400, {
 				message: "Unable to broadcast transaction.",
@@ -230,7 +230,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#allWithPendingState", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
 				id: /.+/,
@@ -251,7 +251,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#allWithReadyState", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
 				id: /.+/,
@@ -272,7 +272,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#findById", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
 				id: /.+/,
@@ -289,7 +289,8 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("#forgetById", async () => {
-		const deleteNock = nock(/.+/)
+		const deleteNock = nock
+			.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
 				id: /.+/,

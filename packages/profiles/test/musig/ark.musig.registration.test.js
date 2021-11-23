@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { bootContainer } from "../mocking";
 import { Profile } from "../../source/profile";
 import { IProfile } from "../../source/contracts";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import {
 	mockMusigServer,
@@ -23,7 +23,7 @@ describe("ARK", ({ afterEach, beforeEach, test }) => {
 		bootContainer();
 
 		// Default mocks
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/blockchain")
 			.reply(200, require("../fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")

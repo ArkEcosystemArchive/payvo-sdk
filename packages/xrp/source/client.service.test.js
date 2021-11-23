@@ -2,7 +2,7 @@ import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -27,7 +27,7 @@ test.before(async () => {
 test.after.each(() => nock.cleanAll());
 
 test("#transaction", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
 
@@ -44,7 +44,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transactions.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 	const result = await subject.transactions({
 		identifiers: [{ type: "address", value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59" }],
@@ -63,7 +63,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
 	const result = await subject.wallet({
 		type: "address",
@@ -83,7 +83,7 @@ const transactionPayload = createService(SignedTransactionData).configure(
 );
 
 test("broadcast should pass", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
 	const result = await subject.broadcast([transactionPayload]);
 
@@ -95,7 +95,7 @@ test("broadcast should pass", async () => {
 });
 
 test("broadcast should fail", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
 	const result = await subject.broadcast([transactionPayload]);
 

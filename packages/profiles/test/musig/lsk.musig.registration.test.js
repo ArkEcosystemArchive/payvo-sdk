@@ -4,7 +4,7 @@ import "reflect-metadata";
 import { bootContainer } from "../mocking";
 import { Profile } from "../../source/profile";
 import { IProfile } from "../../source/contracts";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import {
 	mockMusigServer,
@@ -23,7 +23,7 @@ describe("LSK", ({ afterEach, beforeEach, test }) => {
 	test.before(() => {
 		bootContainer();
 
-		nock("https://lsk-test.payvo.com:443")
+		nock.fake("https://lsk-test.payvo.com:443")
 			.get("/api/v2/accounts?address=lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap")
 			.reply(200, require("../fixtures/wallets/lsk/lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap.json"))
 			.get("/api/v2/accounts?address=lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr")

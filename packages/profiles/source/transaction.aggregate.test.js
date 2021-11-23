@@ -1,7 +1,7 @@
 import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -17,7 +17,7 @@ test.before(() => {
 
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/node/configuration")
@@ -43,7 +43,7 @@ test.after(() => nock.enableNetConnect());
 
 // describe.each(["all", "sent", "received"])("%s", (method) => {
 // 	test("should have more transactions", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions.json"));
@@ -56,7 +56,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should not have more transactions", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions-no-more.json"));
@@ -69,7 +69,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should skip error responses for processing", async () => {
-// 		nock(/.+/).get("/api/transactions").query(true).reply(404);
+// 		nock.fake(/.+/).get("/api/transactions").query(true).reply(404);
 
 // 		const result = await subject[method]();
 
@@ -79,7 +79,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should skip empty responses for processing", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions-empty.json"));
@@ -92,7 +92,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should fetch transactions twice and then stop because no more are available", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions.json"))
@@ -123,7 +123,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should determine if it has more transactions to be requested", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions.json"));
@@ -136,7 +136,7 @@ test.after(() => nock.enableNetConnect());
 // 	});
 
 // 	test("should flush the history", async () => {
-// 		nock(/.+/)
+// 		nock.fake(/.+/)
 // 			.get("/api/transactions")
 // 			.query(true)
 // 			.reply(200, require("../test/fixtures/client/transactions.json"));
@@ -152,7 +152,10 @@ test.after(() => nock.enableNetConnect());
 // });
 
 test("should flush all the history", async () => {
-	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	assert.false(subject.hasMore("transactions"));
 
@@ -164,7 +167,10 @@ test("should flush all the history", async () => {
 });
 
 test("should handle undefined  promiseAllSettledByKey responses in aggregate", async () => {
-	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const promiseAllSettledByKeyMock = Mockery.stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
 		return Promise.resolve(undefined);
@@ -176,7 +182,10 @@ test("should handle undefined  promiseAllSettledByKey responses in aggregate", a
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `address`", async () => {
-	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
@@ -189,7 +198,10 @@ test("should aggregate and filter transactions based on provided identifiers of 
 });
 
 test("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey`", async () => {
-	nock(/.+/).get("/api/transactions").query(true).reply(200, require("../test/fixtures/client/transactions.json"));
+	nock.fake(/.+/)
+		.get("/api/transactions")
+		.query(true)
+		.reply(200, require("../test/fixtures/client/transactions.json"));
 
 	const result = await subject.all({
 		identifiers: [

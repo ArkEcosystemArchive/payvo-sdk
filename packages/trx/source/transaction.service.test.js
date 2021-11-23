@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -38,7 +38,7 @@ test.before(async () => {
 });
 
 test("#transfer", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.post("/wallet/createtransaction")
 		.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
 		.post("/wallet/broadcasttransaction")

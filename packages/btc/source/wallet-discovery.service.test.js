@@ -1,5 +1,5 @@
 import { assert, describe, test } from "@payvo/sdk-test";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";

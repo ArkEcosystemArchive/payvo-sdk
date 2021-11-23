@@ -1,7 +1,7 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { Transactions } from "@arkecosystem/crypto";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { BindingType } from "./coin.contract";
@@ -68,7 +68,7 @@ test("#transfer", async () => {
 });
 
 test("should verify without nonce", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get(`/api/wallets/${identity.address}`)
 		.reply(200, { data: { nonce: "1" } });
 
@@ -91,7 +91,7 @@ test("should verify without nonce", async () => {
 });
 
 test("should verify without nonce if uses secondary wif", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get(`/api/wallets/${identity.address}`)
 		.reply(200, { data: { nonce: "1" } });
 
@@ -136,7 +136,7 @@ test("should sign with a custom expiration", async () => {
 });
 
 test("should sign using network estimated expiration", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/fixtures/client/blockchain.json"))
 		.get("/api/node/configuration")
@@ -161,7 +161,7 @@ test("should sign using network estimated expiration", async () => {
 });
 
 test("should add a signature if the sender public key is a multi-signature wallet", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/wallets/DBHbggggWbDUhdiqeh9HQ6b5Ryfit7Esek")
 		.reply(200, loader.json(`test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
 
@@ -410,7 +410,7 @@ test("#htlcRefund", async () => {
 });
 
 test("#estimateExpiration", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/fixtures/client/blockchain.json"))
 		.get("/api/node/configuration")

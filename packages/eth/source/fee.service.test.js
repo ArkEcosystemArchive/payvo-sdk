@@ -1,5 +1,5 @@
 import { assert, loader, test } from "@payvo/sdk-test";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
@@ -15,7 +15,7 @@ test.after.each(() => nock.cleanAll());
 test.before(() => nock.disableNetConnect());
 
 test("should fetch all available fees", async () => {
-	nock("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
+	nock.fake("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
 
 	const result = await subject.all();
 
