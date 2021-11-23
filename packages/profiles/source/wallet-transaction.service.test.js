@@ -21,7 +21,7 @@ let profile;
 let wallet;
 let subject;
 
-describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
+describe("ARK", ({ afterEach, beforeAll, beforeEach, test }) => {
 	beforeAll(() => {
 		bootContainer({ flush: true });
 	});
