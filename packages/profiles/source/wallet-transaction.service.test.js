@@ -948,391 +948,411 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		nock.cleanAll();
 	});
 
-    each("should create a transfer for %s", async ({ dataset }) => {
-        const subject = new TransactionService(
-            await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: dataset.coin,
-                network: dataset.network,
-                mnemonic: identity.mnemonic,
-            }),
-        );
+	each(
+		"should create a transfer for %s",
+		async ({ dataset }) => {
+			const subject = new TransactionService(
+				await profile.walletFactory().fromMnemonicWithBIP39({
+					coin: dataset.coin,
+					network: dataset.network,
+					mnemonic: identity.mnemonic,
+				}),
+			);
 
-        const id = await subject.signTransfer(dataset.input);
+			const id = await subject.signTransfer(dataset.input);
 
-        assert.string(id);
-		assert.containKey(subject.signed(), id);
-		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
-		assert.is(subject.transaction(id).recipient(), dataset.input.data.to);
-		assert.true(subject.transaction(id).isTransfer());
-		assert.false(subject.transaction(id).isSecondSignature());
-		assert.false(subject.transaction(id).isDelegateRegistration());
-		assert.false(subject.transaction(id).isVoteCombination());
-		assert.false(subject.transaction(id).isVote());
-		assert.false(subject.transaction(id).isUnvote());
-		assert.false(subject.transaction(id).isMultiSignatureRegistration());
-		assert.false(subject.transaction(id).isIpfs());
-		assert.false(subject.transaction(id).isMultiPayment());
-		assert.false(subject.transaction(id).isDelegateResignation());
-		assert.false(subject.transaction(id).isHtlcLock());
-		assert.false(subject.transaction(id).isHtlcClaim());
-		assert.false(subject.transaction(id).isHtlcRefund());
-		assert.false(subject.transaction(id).isMagistrate());
-		assert.false(subject.transaction(id).usesMultiSignature());
-	}, [
-        {
-            coin: "ARK",
-            network: "ark.devnet",
-            input: {
-                signatory: new Signatories.Signatory(
-                    new Signatories.MnemonicSignatory({
-                        signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-                        address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-                        publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-                        privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-                    }),
-                ),
-                data: {
-                    amount: 1,
-                    to: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-                },
-            },
-        },
-        {
-            coin: "LSK",
-            network: "lsk.testnet",
-            input: {
-                signatory: new Signatories.Signatory(
-                    new Signatories.MnemonicSignatory({
-                        signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-                        address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-                        publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-                        privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-                    }),
-                ),
-                data: {
-                    amount: 1,
-                    to: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-                },
-            },
-        },
-    ]);
-
-	each("should create a delegate registration for %s", async ({ dataset }) => {
-		const subject = new TransactionService(
-			await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: dataset.coin,
-                network: dataset.network,
-				mnemonic: identity.mnemonic,
-			}),
-		);
-
-		const id = await subject.signDelegateRegistration(dataset.input);
-
-		assert.string(id);
-		assert.containKey(subject.signed(), id);
-		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
-		assert.undefined(subject.transaction(id).recipient());
-		assert.false(subject.transaction(id).isTransfer());
-		assert.false(subject.transaction(id).isSecondSignature());
-		assert.true(subject.transaction(id).isDelegateRegistration());
-		assert.false(subject.transaction(id).isVoteCombination());
-		assert.false(subject.transaction(id).isVote());
-		assert.false(subject.transaction(id).isUnvote());
-		assert.false(subject.transaction(id).isMultiSignatureRegistration());
-		assert.false(subject.transaction(id).isIpfs());
-		assert.false(subject.transaction(id).isMultiPayment());
-		assert.false(subject.transaction(id).isDelegateResignation());
-		assert.false(subject.transaction(id).isHtlcLock());
-		assert.false(subject.transaction(id).isHtlcClaim());
-		assert.false(subject.transaction(id).isHtlcRefund());
-		assert.false(subject.transaction(id).isMagistrate());
-		assert.false(subject.transaction(id).usesMultiSignature());
-	}, [
-		{
-			coin: "ARK",
-			network: "ark.devnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					username: "johndoe",
+			assert.string(id);
+			assert.containKey(subject.signed(), id);
+			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+			assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+			assert.is(subject.transaction(id).recipient(), dataset.input.data.to);
+			assert.true(subject.transaction(id).isTransfer());
+			assert.false(subject.transaction(id).isSecondSignature());
+			assert.false(subject.transaction(id).isDelegateRegistration());
+			assert.false(subject.transaction(id).isVoteCombination());
+			assert.false(subject.transaction(id).isVote());
+			assert.false(subject.transaction(id).isUnvote());
+			assert.false(subject.transaction(id).isMultiSignatureRegistration());
+			assert.false(subject.transaction(id).isIpfs());
+			assert.false(subject.transaction(id).isMultiPayment());
+			assert.false(subject.transaction(id).isDelegateResignation());
+			assert.false(subject.transaction(id).isHtlcLock());
+			assert.false(subject.transaction(id).isHtlcClaim());
+			assert.false(subject.transaction(id).isHtlcRefund());
+			assert.false(subject.transaction(id).isMagistrate());
+			assert.false(subject.transaction(id).usesMultiSignature());
+		},
+		[
+			{
+				coin: "ARK",
+				network: "ark.devnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						amount: 1,
+						to: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+					},
 				},
 			},
-		},
-		{
-			coin: "LSK",
-			network: "lsk.testnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-						privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-					}),
-				),
-				data: {
-					username: "johndoe",
+			{
+				coin: "LSK",
+				network: "lsk.testnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						amount: 1,
+						to: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+					},
 				},
 			},
+		],
+	);
+
+	each(
+		"should create a delegate registration for %s",
+		async ({ dataset }) => {
+			const subject = new TransactionService(
+				await profile.walletFactory().fromMnemonicWithBIP39({
+					coin: dataset.coin,
+					network: dataset.network,
+					mnemonic: identity.mnemonic,
+				}),
+			);
+
+			const id = await subject.signDelegateRegistration(dataset.input);
+
+			assert.string(id);
+			assert.containKey(subject.signed(), id);
+			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+			assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+			assert.undefined(subject.transaction(id).recipient());
+			assert.false(subject.transaction(id).isTransfer());
+			assert.false(subject.transaction(id).isSecondSignature());
+			assert.true(subject.transaction(id).isDelegateRegistration());
+			assert.false(subject.transaction(id).isVoteCombination());
+			assert.false(subject.transaction(id).isVote());
+			assert.false(subject.transaction(id).isUnvote());
+			assert.false(subject.transaction(id).isMultiSignatureRegistration());
+			assert.false(subject.transaction(id).isIpfs());
+			assert.false(subject.transaction(id).isMultiPayment());
+			assert.false(subject.transaction(id).isDelegateResignation());
+			assert.false(subject.transaction(id).isHtlcLock());
+			assert.false(subject.transaction(id).isHtlcClaim());
+			assert.false(subject.transaction(id).isHtlcRefund());
+			assert.false(subject.transaction(id).isMagistrate());
+			assert.false(subject.transaction(id).usesMultiSignature());
 		},
-	]);
-
-	each("should create a vote for %s", async ({ dataset }) => {
-		const subject = new TransactionService(
-			await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: dataset.coin,
-                network: dataset.network,
-				mnemonic: identity.mnemonic,
-			}),
-		);
-
-		const id = await subject.signVote(dataset.input);
-
-		assert.string(id);
-		assert.containKey(subject.signed(), id);
-		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
-		assert.undefined(subject.transaction(id).recipient());
-		assert.false(subject.transaction(id).isTransfer());
-		assert.false(subject.transaction(id).isSecondSignature());
-		assert.false(subject.transaction(id).isDelegateRegistration());
-		assert.false(subject.transaction(id).isVoteCombination());
-		assert.true(subject.transaction(id).isVote());
-		assert.false(subject.transaction(id).isUnvote());
-		assert.false(subject.transaction(id).isMultiSignatureRegistration());
-		assert.false(subject.transaction(id).isIpfs());
-		assert.false(subject.transaction(id).isMultiPayment());
-		assert.false(subject.transaction(id).isDelegateResignation());
-		assert.false(subject.transaction(id).isHtlcLock());
-		assert.false(subject.transaction(id).isHtlcClaim());
-		assert.false(subject.transaction(id).isHtlcRefund());
-		assert.false(subject.transaction(id).isMagistrate());
-		assert.false(subject.transaction(id).usesMultiSignature());
-	}, [
-		{
-			coin: "ARK",
-			network: "ark.devnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					votes: [
-						{
-							id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-							amount: 0,
-						},
-					],
-					unvotes: [],
+		[
+			{
+				coin: "ARK",
+				network: "ark.devnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+							publicKey: "publicKey",
+							privateKey: "privateKey",
+						}),
+					),
+					data: {
+						username: "johndoe",
+					},
 				},
 			},
-		},
-		{
-			coin: "LSK",
-			network: "lsk.testnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-						privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-					}),
-				),
-				data: {
-					votes: [
-						{
-							amount: 10,
-							id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						},
-					],
-					unvotes: [],
+			{
+				coin: "LSK",
+				network: "lsk.testnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						username: "johndoe",
+					},
 				},
 			},
+		],
+	);
+
+	each(
+		"should create a vote for %s",
+		async ({ dataset }) => {
+			const subject = new TransactionService(
+				await profile.walletFactory().fromMnemonicWithBIP39({
+					coin: dataset.coin,
+					network: dataset.network,
+					mnemonic: identity.mnemonic,
+				}),
+			);
+
+			const id = await subject.signVote(dataset.input);
+
+			assert.string(id);
+			assert.containKey(subject.signed(), id);
+			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+			assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+			assert.undefined(subject.transaction(id).recipient());
+			assert.false(subject.transaction(id).isTransfer());
+			assert.false(subject.transaction(id).isSecondSignature());
+			assert.false(subject.transaction(id).isDelegateRegistration());
+			assert.false(subject.transaction(id).isVoteCombination());
+			assert.true(subject.transaction(id).isVote());
+			assert.false(subject.transaction(id).isUnvote());
+			assert.false(subject.transaction(id).isMultiSignatureRegistration());
+			assert.false(subject.transaction(id).isIpfs());
+			assert.false(subject.transaction(id).isMultiPayment());
+			assert.false(subject.transaction(id).isDelegateResignation());
+			assert.false(subject.transaction(id).isHtlcLock());
+			assert.false(subject.transaction(id).isHtlcClaim());
+			assert.false(subject.transaction(id).isHtlcRefund());
+			assert.false(subject.transaction(id).isMagistrate());
+			assert.false(subject.transaction(id).usesMultiSignature());
 		},
-	]);
-
-	each("should create an unvote for %s", async ({ dataset }) => {
-		const subject = new TransactionService(
-			await profile.walletFactory().fromMnemonicWithBIP39({
-                coin: dataset.coin,
-                network: dataset.network,
-				mnemonic: identity.mnemonic,
-			}),
-		);
-
-		const id = await subject.signVote(dataset.input);
-
-		assert.string(id);
-		assert.containKey(subject.signed(), id);
-		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
-		assert.undefined(subject.transaction(id).recipient());
-		assert.false(subject.transaction(id).isTransfer());
-		assert.false(subject.transaction(id).isSecondSignature());
-		assert.false(subject.transaction(id).isDelegateRegistration());
-		assert.false(subject.transaction(id).isVoteCombination());
-		assert.false(subject.transaction(id).isVote());
-		assert.true(subject.transaction(id).isUnvote());
-		assert.false(subject.transaction(id).isMultiSignatureRegistration());
-		assert.false(subject.transaction(id).isIpfs());
-		assert.false(subject.transaction(id).isMultiPayment());
-		assert.false(subject.transaction(id).isDelegateResignation());
-		assert.false(subject.transaction(id).isHtlcLock());
-		assert.false(subject.transaction(id).isHtlcClaim());
-		assert.false(subject.transaction(id).isHtlcRefund());
-		assert.false(subject.transaction(id).isMagistrate());
-		assert.false(subject.transaction(id).usesMultiSignature());
-    }, [
-		{
-			coin: "ARK",
-			network: "ark.devnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					votes: [],
-					unvotes: [
-						{
-							id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-							amount: 0,
-						},
-					],
+		[
+			{
+				coin: "ARK",
+				network: "ark.devnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+							publicKey: "publicKey",
+							privateKey: "privateKey",
+						}),
+					),
+					data: {
+						votes: [
+							{
+								id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+								amount: 0,
+							},
+						],
+						unvotes: [],
+					},
 				},
 			},
-		},
-		{
-			coin: "LSK",
-			network: "lsk.testnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-						privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-					}),
-				),
-				data: {
-					votes: [],
-					unvotes: [
-						{
-							amount: 10,
-							id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						},
-					],
+			{
+				coin: "LSK",
+				network: "lsk.testnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						votes: [
+							{
+								amount: 10,
+								id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							},
+						],
+						unvotes: [],
+					},
 				},
 			},
+		],
+	);
+
+	each(
+		"should create an unvote for %s",
+		async ({ dataset }) => {
+			const subject = new TransactionService(
+				await profile.walletFactory().fromMnemonicWithBIP39({
+					coin: dataset.coin,
+					network: dataset.network,
+					mnemonic: identity.mnemonic,
+				}),
+			);
+
+			const id = await subject.signVote(dataset.input);
+
+			assert.string(id);
+			assert.containKey(subject.signed(), id);
+			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+			assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+			assert.undefined(subject.transaction(id).recipient());
+			assert.false(subject.transaction(id).isTransfer());
+			assert.false(subject.transaction(id).isSecondSignature());
+			assert.false(subject.transaction(id).isDelegateRegistration());
+			assert.false(subject.transaction(id).isVoteCombination());
+			assert.false(subject.transaction(id).isVote());
+			assert.true(subject.transaction(id).isUnvote());
+			assert.false(subject.transaction(id).isMultiSignatureRegistration());
+			assert.false(subject.transaction(id).isIpfs());
+			assert.false(subject.transaction(id).isMultiPayment());
+			assert.false(subject.transaction(id).isDelegateResignation());
+			assert.false(subject.transaction(id).isHtlcLock());
+			assert.false(subject.transaction(id).isHtlcClaim());
+			assert.false(subject.transaction(id).isHtlcRefund());
+			assert.false(subject.transaction(id).isMagistrate());
+			assert.false(subject.transaction(id).usesMultiSignature());
 		},
-	]);
-
-	each("should create a vote combination for %s", async ({ dataset }) => {
-		const subject = new TransactionService(
-			await profile.walletFactory().fromMnemonicWithBIP39({
-				coin: dataset.coin,
-				network: dataset.network,
-				mnemonic: identity.mnemonic,
-			}),
-		);
-
-		const id = await subject.signVote(dataset.input);
-
-		assert.string(id);
-		assert.containKey(subject.signed(), id);
-		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
-		assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
-		assert.undefined(subject.transaction(id).recipient());
-		assert.false(subject.transaction(id).isTransfer());
-		assert.false(subject.transaction(id).isSecondSignature());
-		assert.false(subject.transaction(id).isDelegateRegistration());
-		assert.true(subject.transaction(id).isVoteCombination());
-		assert.true(subject.transaction(id).isVote());
-		assert.true(subject.transaction(id).isUnvote());
-		assert.false(subject.transaction(id).isMultiSignatureRegistration());
-		assert.false(subject.transaction(id).isIpfs());
-		assert.false(subject.transaction(id).isMultiPayment());
-		assert.false(subject.transaction(id).isDelegateResignation());
-		assert.false(subject.transaction(id).isHtlcLock());
-		assert.false(subject.transaction(id).isHtlcClaim());
-		assert.false(subject.transaction(id).isHtlcRefund());
-		assert.false(subject.transaction(id).isMagistrate());
-		assert.false(subject.transaction(id).usesMultiSignature());
-	}, [
-		{
-			coin: "ARK",
-			network: "ark.devnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
-				data: {
-					votes: [
-						{
-							id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-							amount: 0,
-						},
-					],
-					unvotes: [
-						{
-							id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-							amount: 0,
-						},
-					],
+		[
+			{
+				coin: "ARK",
+				network: "ark.devnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+							publicKey: "publicKey",
+							privateKey: "privateKey",
+						}),
+					),
+					data: {
+						votes: [],
+						unvotes: [
+							{
+								id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+								amount: 0,
+							},
+						],
+					},
 				},
 			},
-		},
-		{
-			coin: "LSK",
-			network: "lsk.testnet",
-			input: {
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-						address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
-						privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
-					}),
-				),
-				data: {
-					votes: [
-						{
-							amount: 10,
-							id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						},
-					],
-					unvotes: [
-						{
-							amount: 10,
-							id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
-						},
-					],
+			{
+				coin: "LSK",
+				network: "lsk.testnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						votes: [],
+						unvotes: [
+							{
+								amount: 10,
+								id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							},
+						],
+					},
 				},
 			},
+		],
+	);
+
+	each(
+		"should create a vote combination for %s",
+		async ({ dataset }) => {
+			const subject = new TransactionService(
+				await profile.walletFactory().fromMnemonicWithBIP39({
+					coin: dataset.coin,
+					network: dataset.network,
+					mnemonic: identity.mnemonic,
+				}),
+			);
+
+			const id = await subject.signVote(dataset.input);
+
+			assert.string(id);
+			assert.containKey(subject.signed(), id);
+			assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
+			assert.is(subject.transaction(id).sender(), dataset.input.signatory.address());
+			assert.undefined(subject.transaction(id).recipient());
+			assert.false(subject.transaction(id).isTransfer());
+			assert.false(subject.transaction(id).isSecondSignature());
+			assert.false(subject.transaction(id).isDelegateRegistration());
+			assert.true(subject.transaction(id).isVoteCombination());
+			assert.true(subject.transaction(id).isVote());
+			assert.true(subject.transaction(id).isUnvote());
+			assert.false(subject.transaction(id).isMultiSignatureRegistration());
+			assert.false(subject.transaction(id).isIpfs());
+			assert.false(subject.transaction(id).isMultiPayment());
+			assert.false(subject.transaction(id).isDelegateResignation());
+			assert.false(subject.transaction(id).isHtlcLock());
+			assert.false(subject.transaction(id).isHtlcClaim());
+			assert.false(subject.transaction(id).isHtlcRefund());
+			assert.false(subject.transaction(id).isMagistrate());
+			assert.false(subject.transaction(id).usesMultiSignature());
 		},
-	]);
+		[
+			{
+				coin: "ARK",
+				network: "ark.devnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+							publicKey: "publicKey",
+							privateKey: "privateKey",
+						}),
+					),
+					data: {
+						votes: [
+							{
+								id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+								amount: 0,
+							},
+						],
+						unvotes: [
+							{
+								id: "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+								amount: 0,
+							},
+						],
+					},
+				},
+			},
+			{
+				coin: "LSK",
+				network: "lsk.testnet",
+				input: {
+					signatory: new Signatories.Signatory(
+						new Signatories.MnemonicSignatory({
+							signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
+							address: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							publicKey: "39b49ead71b16c0b0330a6ba46c57183819936bfdf789dfd2452df4dc04f5a2a",
+							privateKey: "e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617",
+						}),
+					),
+					data: {
+						votes: [
+							{
+								amount: 10,
+								id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							},
+						],
+						unvotes: [
+							{
+								amount: 10,
+								id: "lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h",
+							},
+						],
+					},
+				},
+			},
+		],
+	);
 });
