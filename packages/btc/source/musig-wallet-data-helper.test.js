@@ -45,6 +45,10 @@ test.before(async (nock) => {
 	walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
 });
 
+test.after(async (nock) => {
+	nock.cleanAll();
+});
+
 test("should discover all used", async () => {
 	assert.undefined(await walletDataHelper.discoverAllUsed());
 
