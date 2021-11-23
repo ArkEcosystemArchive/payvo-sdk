@@ -110,7 +110,7 @@ test("should determine if the wallet uses a WIF", () => {
 	assert.true(subject.signingKey().exists());
 });
 
-each("should set the WIF", ({ dataset }) => {
+each("should set the WIF using (%s)", ({ dataset }) => {
 	assert.false(subject.signingKey().exists());
 
 	subject.signingKey().set(dataset, "password");
