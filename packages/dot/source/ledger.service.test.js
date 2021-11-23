@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,32 +33,32 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
 		assert.undefined(await subject.disconnect());
 	});
 });
 
-describe("getVersion", ({ afterEach, beforeEach, test }) => {
-	test("should generate an app version", async () => {
+describe("getVersion", ({ it, assert }) => {
+	it("should generate an app version", async () => {
 		const polkadot = await createMockService(ledger.appVersion.record);
 
 		assert.is(await polkadot.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
-	test("should generate a publicKey", async () => {
+describe("getPublicKey", ({ it, assert }) => {
+	it("should generate a publicKey", async () => {
 		const polkadot = await createMockService(ledger.publicKey.record);
 
 		assert.is(await polkadot.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", ({ afterEach, beforeEach, test }) => {
-	test("should generate output from a transaction", async () => {
+describe("signTransaction", ({ it, assert }) => {
+	it("should generate output from a transaction", async () => {
 		const polkadot = await createMockService(ledger.transaction.record);
 
 		assert.is(
@@ -68,12 +68,10 @@ describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("signMessage", ({ afterEach, beforeEach, test }) => {
-	test("should fail to generate an output from a message", async () => {
+describe("signMessage", ({ it, assert }) => {
+	it("should fail to generate an output from a message", async () => {
 		const polkadot = await createMockService("");
 
 		await assert.rejects(() => polkadot.signMessage("", Buffer.alloc(0)));
 	});
 });
-
-test.run();
