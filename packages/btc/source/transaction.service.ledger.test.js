@@ -16,8 +16,8 @@ import { WalletData } from "./wallet.dto";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { ledger } from "../test/fixtures/ledger";
 import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureSigner } from "./multi-signature.signer";
 
 const configureMock = (record) =>
 	createService(TransactionService, "btc.testnet", async (container) => {
@@ -38,6 +38,7 @@ const configureMock = (record) =>
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 	});
 
 describe("BIP44 wallet", ({ afterEach, beforeAll, test }) => {
