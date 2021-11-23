@@ -210,8 +210,19 @@ test("#votes", async () => {
 	assert.array(result.votes);
 });
 
-describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
+describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, test }) => {
+	beforeAll(async (context) => {
+		const gotoTime = DateTime.make("2021-07-28 12:00");
+
+		context.dateTime = Mockery.stub(DateTime, "make");
+		context.dateTime.returnValueOnce(gotoTime);
+	});
+
 	beforeEach(async () => createLocalServices());
+
+	afterEach(async (context) => {
+		context.dateTime.restore();
+	});
 
 	test('#should return empty when the property "unlocking" is missing in the response', async () => {
 		await createLocalServices();
@@ -245,8 +256,6 @@ describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
 
 	test("should have a pending balance if the current height is not greater than the unlock height", async () => {
 		await createLocalServices();
-
-		// Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-07-28 12:00"));
 
 		nock(/.+/)
 			.get("/api/v2/accounts")
@@ -289,8 +298,6 @@ describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
 	test("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
 		await createLocalServices();
 
-		// Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-07-28 12:00"));
-
 		nock(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
@@ -331,7 +338,7 @@ describe("#unlockableBalances", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("#broadcast", ({ afterEach, beforeEach, test }) => {
+describe("#broadcast", ({ beforeEach, test }) => {
 	let transactionPayload;
 
 	beforeEach(async () => {
