@@ -826,7 +826,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 			},
 		};
 
-		const id = await subject.signTransfer(dataset.input);
+		const id = await subject.signTransfer(input);
 
 		assert.object(subject.broadcast(id));
 		assert.defined(subject.transaction(id));
