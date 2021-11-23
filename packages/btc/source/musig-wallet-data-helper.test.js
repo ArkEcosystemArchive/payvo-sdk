@@ -1,5 +1,4 @@
 import { assert, test } from "@payvo/sdk-test";
-import { nock } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
@@ -17,7 +16,7 @@ const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(accou
 
 const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-test.before(async () => {
+test.before(async (nock) => {
 	nock.disableNetConnect();
 
 	nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -53,7 +52,7 @@ test("should discover all used", async () => {
 	assert.length(walletDataHelper.discoveredChangeAddresses(), 100);
 });
 
-test.skip("should return the next change address", async () => {
+test("should return the next change address", async () => {
 	assert.undefined(await walletDataHelper.discoverAllUsed());
 
 	assert.is(walletDataHelper.firstUnusedChangeAddress(), {
