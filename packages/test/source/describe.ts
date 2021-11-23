@@ -1,20 +1,9 @@
-import { bgRed, bold, white } from "kleur";
 import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
 import { eachSuite } from "./each.js";
+import { ContextFunction, ContextPromise, runHook } from "./hooks.js";
 import { Mockery } from "./mockery.js";
-
-type ContextFunction = () => Context;
-type ContextPromise = () => Promise<Context>;
-
-const runHook = (callback: Function) => async (context: Context) => {
-	try {
-		await callback(context);
-	} catch (error) {
-		console.log(bold(bgRed(white(error.stack))));
-	}
-};
 
 const runSuite = (suite: Test, callback: Function): void => {
 	callback({
