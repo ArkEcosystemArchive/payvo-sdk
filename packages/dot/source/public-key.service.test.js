@@ -19,5 +19,4 @@ describe("PublicKeyService", async ({ assert, it, beforeEach }) => {
 	it("should fail to generate an output from an invalid mnemonic", async () => {
 		await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
 	});
-
 });
