@@ -1,5 +1,6 @@
 export { assert } from "./assert.js";
 export { describe } from "./describe.js";
+export { each } from "./each.js";
 export { loader } from "./loader.js";
 export { Mockery } from "./mockery.js";
 export { nock } from "./nock.js";

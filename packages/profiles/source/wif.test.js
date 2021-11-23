@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+import { assert, each, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { PBKDF2 } from "@payvo/sdk-cryptography";
@@ -8,12 +8,16 @@ import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, IReadWriteWallet, WalletData } from "./contracts";
+import { WalletData } from "./contracts";
 
 let profile;
 let subject;
 
-test.before(() => bootContainer());
+test.before(() => {
+	bootContainer();
+
+	nock.disableNetConnect();
+});
 
 test.before.each(async () => {
 	nock.cleanAll();
@@ -82,8 +86,6 @@ test.before.each(async () => {
 	});
 });
 
-test.before(() => nock.disableNetConnect());
-
 test("should decrypt the WIF", () => {
 	subject.data().set(WalletData.EncryptedSigningKey, PBKDF2.encrypt(identity.mnemonic, "password"));
 
@@ -108,17 +110,17 @@ test("should determine if the wallet uses a WIF", () => {
 	assert.true(subject.signingKey().exists());
 });
 
-// it.each([
-// 	"bomb open frame quit success evolve gain donate prison very rent later",
-// 	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
-// 	"secret",
-// ])("should set the WIF", (mnemonic) => {
-// 	assert.false(subject.signingKey().exists());
+each("should set the WIF", ({ dataset }) => {
+	assert.false(subject.signingKey().exists());
 
-// 	subject.signingKey().set(mnemonic, "password");
+	subject.signingKey().set(dataset, "password");
 
-// 	assert.true(subject.signingKey().exists());
-// });
+	assert.true(subject.signingKey().exists());
+}, [
+	"bomb open frame quit success evolve gain donate prison very rent later",
+	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
+	"secret",
+]);
 
 test("should remove the WIF", async () => {
 	subject.signingKey().set(identity.mnemonic, "password");
