@@ -7,12 +7,12 @@ import { bootContainer } from "../test/mocking";
 import { PluginRegistry } from "./plugin-registry.service";
 
 const createNetworkMocks = () => {
-	nock("https://raw.githubusercontent.com")
+	nock.fake("https://raw.githubusercontent.com")
 		.get("/PayvoHQ/wallet-plugins/master/whitelist.json")
 		.once()
 		.reply(200, require("../test/fixtures/plugins/whitelist.json"));
 
-	nock("https://registry.npmjs.com")
+	nock.fake("https://registry.npmjs.com")
 		.get("/-/v1/search")
 		.query(true)
 		.once()
@@ -29,7 +29,7 @@ const createNetworkMocks = () => {
 			continue;
 		}
 
-		nock("https://registry.npmjs.com")
+		nock.fake("https://registry.npmjs.com")
 			.get(`/${plugin.name}`)
 			.reply(200, require("../test/fixtures/plugins/npm.json"));
 	}
@@ -61,7 +61,7 @@ test("should list all plugins", async () => {
 test("should get the size of the given plugin", async () => {
 	createNetworkMocks();
 
-	nock("https://registry.npmjs.com")
+	nock.fake("https://registry.npmjs.com")
 		.get("/@dated/delegate-calculator-plugin")
 		.reply(200, require("../test/fixtures/plugins/npm.json"));
 
@@ -73,7 +73,7 @@ test("should get the size of the given plugin", async () => {
 test("should get the download count of the given plugin", async () => {
 	createNetworkMocks();
 
-	nock("https://api.npmjs.org")
+	nock.fake("https://api.npmjs.org")
 		.get(`/downloads/range/2005-01-01:${new Date().getFullYear() + 1}-01-01/@dated/delegate-calculator-plugin`)
 		.reply(200, require("../test/fixtures/plugins/downloads.json"));
 

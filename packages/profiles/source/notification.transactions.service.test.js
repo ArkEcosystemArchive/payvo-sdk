@@ -27,7 +27,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 
 		nock.disableNetConnect();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/node/configuration/crypto")
 			.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/node/configuration")
@@ -50,7 +50,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#recent", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync({ limit: 20 });
 
@@ -62,7 +62,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#sync", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		profile.settings().set(ProfileSetting.UseTestNetworks, true);
 
@@ -74,7 +74,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("should return empty responses for test networks", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query(true)
 			.reply(200, require("../test/fixtures/client/transactions-empty.json"));
@@ -89,7 +89,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#has", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync();
 
@@ -98,7 +98,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#findByTransactionId", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync();
 
@@ -107,7 +107,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#forget", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync();
 
@@ -120,7 +120,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#forgetByRecipient", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
 
 		await subject.sync({ limit: 20 });
 		const wallet = profile.wallets().first();
@@ -138,7 +138,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#markAsRead", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync({ limit: 20 });
 
@@ -152,7 +152,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#transactions", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync({ limit: 20 });
 
@@ -161,7 +161,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#transactions", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync({ limit: 20 });
 
@@ -169,7 +169,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("should handle undefined timestamp", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		const transactions = await profile.transactionAggregate().received({ limit: 10 });
 		const transaction = transactions.findById(NotificationTransactionFixtures.data[2].id);
@@ -190,7 +190,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#markAllAsRead", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		await subject.sync({ limit: 20 });
 		notificationsRepository.push({
@@ -205,7 +205,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	});
 
 	test("#isSyncing", async () => {
-		nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
+		nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures);
 
 		assert.false(subject.isSyncing());
 		await subject.sync({ limit: 20 });

@@ -29,7 +29,7 @@ test("should return a list of known wallets if the request succeeds", async () =
 		},
 	];
 
-	nock("https://raw.githubusercontent.com")
+	nock.fake("https://raw.githubusercontent.com")
 		.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 		.reply(200, wallets);
 
@@ -37,7 +37,7 @@ test("should return a list of known wallets if the request succeeds", async () =
 });
 
 test("should return an empty list if the request fails", async () => {
-	nock("https://raw.githubusercontent.com")
+	nock.fake("https://raw.githubusercontent.com")
 		.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 		.reply(404);
 
@@ -45,7 +45,7 @@ test("should return an empty list if the request fails", async () => {
 });
 
 test("should return an empty list if the request response is not an array", async () => {
-	nock("https://raw.githubusercontent.com")
+	nock.fake("https://raw.githubusercontent.com")
 		.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 		.reply(200, {});
 

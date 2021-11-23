@@ -31,7 +31,7 @@ const createLocalServices = async () => {
 test.before(async () => createLocalServices());
 
 test("#transaction", async () => {
-	nock(/.+/).get("/api/v2/transactions").query(true).reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	nock.fake(/.+/).get("/api/v2/transactions").query(true).reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
 
@@ -62,7 +62,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/v2/transactions")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -101,7 +101,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
 	const result = await subject.wallet({
 		type: "address",
@@ -130,7 +130,7 @@ test("#wallet", async () => {
 });
 
 test("#wallets", async () => {
-	nock(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallets.json`));
+	nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallets.json`));
 
 	const result = await subject.wallets({
 		identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
@@ -155,7 +155,7 @@ test("#wallets", async () => {
 });
 
 test("#delegate", async () => {
-	nock(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegate.json`));
+	nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
 	const result = await subject.delegate("punkrock");
 
@@ -177,7 +177,7 @@ test("#delegate", async () => {
 });
 
 test("#delegates", async () => {
-	nock(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegates.json`));
+	nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegates.json`));
 
 	const result = await subject.delegates();
 	const wallet = result.items()[0];
@@ -200,7 +200,7 @@ test("#delegates", async () => {
 });
 
 test("#votes", async () => {
-	nock(/.+/).get("/api/v2/votes_sent").query(true).reply(200, loader.json(`test/fixtures/client/votes.json`));
+	nock.fake(/.+/).get("/api/v2/votes_sent").query(true).reply(200, loader.json(`test/fixtures/client/votes.json`));
 
 	const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
@@ -227,7 +227,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, test }) => 
 	test('#should return empty when the property "unlocking" is missing in the response', async () => {
 		await createLocalServices();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, {
@@ -257,7 +257,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, test }) => 
 	test("should have a pending balance if the current height is not greater than the unlock height", async () => {
 		await createLocalServices();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, {
@@ -298,7 +298,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, test }) => 
 	test("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
 		await createLocalServices();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, {
@@ -365,7 +365,7 @@ describe("#broadcast", ({ beforeEach, test }) => {
 	});
 
 	test("should pass", async () => {
-		nock(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+		nock.fake(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
 		const result = await subject.broadcast([transactionPayload]);
 
@@ -377,7 +377,7 @@ describe("#broadcast", ({ beforeEach, test }) => {
 	});
 
 	test("should fail", async () => {
-		nock(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+		nock.fake(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
 		const result = await subject.broadcast([transactionPayload]);
 
@@ -391,7 +391,7 @@ describe("#broadcast", ({ beforeEach, test }) => {
 	});
 
 	test("should handle http exception", async () => {
-		nock(/.+/).post("/api/v2/transactions").reply(500, { message: "unknown error" });
+		nock.fake(/.+/).post("/api/v2/transactions").reply(500, { message: "unknown error" });
 
 		const result = await subject.broadcast([transactionPayload]);
 

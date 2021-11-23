@@ -44,7 +44,7 @@ const makeSubject = async () => {
 test.before(() => {
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")

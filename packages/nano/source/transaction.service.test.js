@@ -38,7 +38,7 @@ test.before(async () => {
 });
 
 test.skip("should sign transaction", async () => {
-	nock("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/account-info.json`));
+	nock.fake("https://proxy.nanos.cc/").post("/proxy").reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
 	const result = await subject.transfer({
 		signatory: new Signatories.Signatory(

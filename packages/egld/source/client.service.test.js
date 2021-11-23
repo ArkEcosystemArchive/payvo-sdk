@@ -31,7 +31,7 @@ test.before(async () => {
 });
 
 test("#transaction", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/v1.0/transaction/c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66")
 		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
@@ -41,7 +41,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7/transactions")
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
@@ -53,7 +53,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 

@@ -24,7 +24,7 @@ test.before(() => bootContainer());
 test.before.each(async () => {
 	nock.cleanAll();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		// ARK Core
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
@@ -80,7 +80,7 @@ test.after.each(() => {
 test.before(() => nock.disableNetConnect());
 
 test("should sync a coin for specific profile with wallets argument", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
@@ -94,7 +94,7 @@ test("should sync a coin for specific profile with wallets argument", async () =
 });
 
 test("should sync a coin for specific profile without wallets argument", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00002134, ConversionType: { type: "direct", conversionSymbol: "" } })
@@ -116,7 +116,7 @@ test("should fail to sync a coin for a specific profile if there are no wallets"
 });
 
 test("should store exchange rates and currency in profile wallets if undefined", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
@@ -129,7 +129,7 @@ test("should store exchange rates and currency in profile wallets if undefined",
 });
 
 test("should cache historic exchange rates", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
@@ -140,7 +140,7 @@ test("should cache historic exchange rates", async () => {
 	await subject.syncAll(profile, "DARK");
 	assert.is(wallet.convertedBalance(), 0.00005048);
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005555, ConversionType: { type: "direct", conversionSymbol: "" } })

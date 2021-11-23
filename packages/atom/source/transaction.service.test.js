@@ -33,7 +33,7 @@ test.before(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("#transfer", async () => {
-	nock("https://stargate.cosmos.network")
+	nock.fake("https://stargate.cosmos.network")
 		.get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 		.get("/bank/balances/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")

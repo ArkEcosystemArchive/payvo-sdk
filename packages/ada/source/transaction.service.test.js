@@ -37,7 +37,7 @@ test.before(async () => {
 });
 
 test("#transfer", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
 		.post("/")

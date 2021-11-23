@@ -15,7 +15,7 @@ const options = { httpClient: new Request(), network: "ark.mainnet" };
 test.before(async () => {
 	nock.disableNetConnect();
 
-	nock("https://ark-live.payvo.com")
+	nock.fake("https://ark-live.payvo.com")
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/livenet/blockchain.json"))
 		.get("/api/node/configuration")
@@ -26,7 +26,7 @@ test.before(async () => {
 		.reply(200, loader.json("test/livenet/syncing.json"))
 		.persist();
 
-	nock("https://ark-test.payvo.com")
+	nock.fake("https://ark-test.payvo.com")
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/testnet/blockchain.json"))
 		.get("/api/node/configuration")

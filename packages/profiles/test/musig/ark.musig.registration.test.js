@@ -23,7 +23,7 @@ describe("ARK", ({ afterEach, beforeEach, test }) => {
 		bootContainer();
 
 		// Default mocks
-		nock("https://ark-test.payvo.com:443")
+		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/blockchain")
 			.reply(200, require("../fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")

@@ -31,7 +31,7 @@ test.before(async () => {
 });
 
 test("#wallet", async () => {
-	nock("https://api.testnet.eos.io")
+	nock.fake("https://api.testnet.eos.io")
 		.post("/v1/chain/get_account")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 

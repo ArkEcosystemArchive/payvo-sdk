@@ -21,7 +21,7 @@ test.before(async () => {
 
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/node/configuration")
@@ -34,7 +34,7 @@ test.before(async () => {
 		.reply(200, require("../test/fixtures/client/wallet.json"))
 		.persist();
 
-	nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
+	nock.fake(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
 });
 
 test.before.each(async () => {

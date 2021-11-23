@@ -48,7 +48,7 @@ const importByMnemonic = async (mnemonic, coin, network, bip) => {
 const createEnv = async () => {
 	nock.cleanAll();
 
-	nock("https://ark-test.payvo.com:443", { encodedQueryParams: true })
+	nock.fake("https://ark-test.payvo.com:443", { encodedQueryParams: true })
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/peers")
@@ -63,7 +63,7 @@ const createEnv = async () => {
 		.reply(404, `{"statusCode":404,"error":"Not Found","message":"Wallet not found"}`)
 		.persist();
 
-	nock("https://platform.ark.io:443", { encodedQueryParams: true })
+	nock.fake("https://platform.ark.io:443", { encodedQueryParams: true })
 		.get("/api/eth/wallets/0xF3D149CFDAAC1ECA70CFDCE04702F34CCEAD43E2")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.persist();

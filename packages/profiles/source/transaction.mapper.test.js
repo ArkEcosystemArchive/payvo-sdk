@@ -55,7 +55,7 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	test.before(async () => {
 		nock.disableNetConnect();
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/peers")
 			.reply(200, require("../test/fixtures/client/peers.json"))
 			.get("/api/node/configuration/crypto")

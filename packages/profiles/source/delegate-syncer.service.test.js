@@ -17,7 +17,7 @@ test.before(() => {
 test.before.each(async () => {
 	nock.cleanAll();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")
@@ -50,7 +50,7 @@ for (const type of ["serial", "parallel"]) {
 
 	test("should sync single page", async () => {
 		nock.cleanAll();
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/delegates")
 			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
 			.persist();

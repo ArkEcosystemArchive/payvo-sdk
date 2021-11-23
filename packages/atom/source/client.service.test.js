@@ -31,7 +31,7 @@ test.before(async () => {
 });
 
 test("#transaction", async () => {
-	nock("https://stargate.cosmos.network")
+	nock.fake("https://stargate.cosmos.network")
 		.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
 		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
@@ -50,7 +50,7 @@ test("#transaction", async () => {
 });
 
 test("#transactions", async () => {
-	nock("https://stargate.cosmos.network")
+	nock.fake("https://stargate.cosmos.network")
 		.get("/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100")
 		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
@@ -72,7 +72,7 @@ test("#transactions", async () => {
 });
 
 test("#wallet", async () => {
-	nock("https://stargate.cosmos.network")
+	nock.fake("https://stargate.cosmos.network")
 		.get("/auth/accounts/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 		.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
@@ -121,7 +121,7 @@ const transactionPayload = createService(SignedTransactionData).configure(
 );
 
 test("broadcast should pass", async () => {
-	nock("https://stargate.cosmos.network").post("/txs").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+	nock.fake("https://stargate.cosmos.network").post("/txs").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
 	const result = await subject.broadcast([transactionPayload]);
 
@@ -133,7 +133,7 @@ test("broadcast should pass", async () => {
 });
 
 test("broadcast should fail", async () => {
-	nock("https://stargate.cosmos.network")
+	nock.fake("https://stargate.cosmos.network")
 		.post("/txs")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 

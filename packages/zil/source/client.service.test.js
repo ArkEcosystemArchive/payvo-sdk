@@ -35,7 +35,7 @@ test.before(async () => {
 });
 
 test("#transaction", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
 
@@ -49,7 +49,7 @@ test("#transaction", async () => {
 });
 
 test("#wallet", async () => {
-	nock(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
 	const result = await subject.wallet({
 		type: "address",
@@ -63,7 +63,7 @@ test("#wallet", async () => {
 });
 
 test("broadcast should pass", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
 		.post("/")
@@ -90,7 +90,7 @@ test("broadcast should pass", async () => {
 });
 
 test("broadcast should fail", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
 		.post("/")

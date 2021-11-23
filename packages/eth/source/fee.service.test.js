@@ -15,7 +15,7 @@ test.after.each(() => nock.cleanAll());
 test.before(() => nock.disableNetConnect());
 
 test("should fetch all available fees", async () => {
-	nock("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
+	nock.fake("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
 
 	const result = await subject.all();
 

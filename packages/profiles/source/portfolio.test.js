@@ -19,7 +19,7 @@ test.before(() => bootContainer());
 test.before.each(async () => {
 	nock.cleanAll();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/peers")
@@ -55,7 +55,7 @@ test.before.each(async () => {
 test.before(() => nock.disableNetConnect());
 
 test("should aggregate the balances of all wallets", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/data/dayAvg")
 		.query(true)
 		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })

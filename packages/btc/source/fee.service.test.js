@@ -17,7 +17,7 @@ test.after.each(() => nock.cleanAll());
 test.before(() => nock.disableNetConnect());
 
 test("should get the fees", async () => {
-	nock("https://btc-test.payvo.com:443")
+	nock.fake("https://btc-test.payvo.com:443")
 		.get("/api/fees")
 		.reply(200, {
 			data: {

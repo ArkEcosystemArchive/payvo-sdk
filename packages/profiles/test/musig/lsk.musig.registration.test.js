@@ -23,7 +23,7 @@ describe("LSK", ({ afterEach, beforeEach, test }) => {
 	test.before(() => {
 		bootContainer();
 
-		nock("https://lsk-test.payvo.com:443")
+		nock.fake("https://lsk-test.payvo.com:443")
 			.get("/api/v2/accounts?address=lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap")
 			.reply(200, require("../fixtures/wallets/lsk/lskmb4waqehazt6j8468nrpy455jbvxy7cxqzfgap.json"))
 			.get("/api/v2/accounts?address=lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr")

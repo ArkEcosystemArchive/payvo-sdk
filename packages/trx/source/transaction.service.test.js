@@ -38,7 +38,7 @@ test.before(async () => {
 });
 
 test("#transfer", async () => {
-	nock("https://api.shasta.trongrid.io")
+	nock.fake("https://api.shasta.trongrid.io")
 		.post("/wallet/createtransaction")
 		.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
 		.post("/wallet/broadcasttransaction")

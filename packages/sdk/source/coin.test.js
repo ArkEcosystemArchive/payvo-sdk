@@ -15,7 +15,7 @@ let subject;
 test.before.each(async () => {
 	nock.disableNetConnect();
 
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/testnet/blockchain.json"))
 		.get("/api/node/configuration")

@@ -38,7 +38,7 @@ test.before(async () => {
 });
 
 test("#transfer", async () => {
-	nock("https://horizon-testnet.stellar.org")
+	nock.fake("https://horizon-testnet.stellar.org")
 		.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 		.query(true)
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));

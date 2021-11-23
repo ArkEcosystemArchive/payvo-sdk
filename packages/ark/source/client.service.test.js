@@ -27,7 +27,7 @@ test.before(async () => {
 test.after.each(() => nock.cleanAll());
 
 test("#transaction", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
 		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
@@ -50,7 +50,7 @@ describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, tes
 	});
 
 	test("single address", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -65,7 +65,7 @@ describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, tes
 	});
 
 	test("multiple addresses", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
 				page: "0",
@@ -100,7 +100,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("single address", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -114,7 +114,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("multiple addresses", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
@@ -131,7 +131,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("for advanced search", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
 				address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
@@ -154,7 +154,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 });
 
 test("#wallet", async () => {
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
 		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
@@ -178,7 +178,7 @@ describe("#wallets", ({ afterEach, beforeEach, test }) => {
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/wallets")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
@@ -202,7 +202,7 @@ describe("#wallets", ({ afterEach, beforeEach, test }) => {
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/wallets")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
@@ -217,7 +217,7 @@ describe("#wallets", ({ afterEach, beforeEach, test }) => {
 });
 
 test("#delegate", async () => {
-	nock(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
+	nock.fake(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
 	const result = await subject.delegate("arkx");
 
@@ -225,7 +225,7 @@ test("#delegate", async () => {
 });
 
 test("#delegates", async () => {
-	nock(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
+	nock.fake(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
 
 	const result = await subject.delegates();
 
@@ -241,7 +241,7 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("should succeed", async () => {
-		nock(/.+/).get("/api/wallets/arkx").reply(200, fixture);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixture);
 
 		const result = await subject.votes("arkx");
 
@@ -263,7 +263,7 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 			},
 		};
 
-		nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
 		const result = await subject.votes("arkx");
 
@@ -282,7 +282,7 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 			},
 		};
 
-		nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
 		const result = await subject.votes("arkx");
 
@@ -300,7 +300,7 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 			},
 		};
 
-		nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
 		const result = await subject.votes("arkx");
 
@@ -312,7 +312,7 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 });
 
 test("#voters", async () => {
-	nock(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
+	nock.fake(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
 
 	const result = await subject.voters("arkx");
 
@@ -328,7 +328,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 	});
 
 	test("should accept 1 transaction and reject 1 transaction", async () => {
-		nock(/.+/).post("/api/transactions").reply(422, fixture);
+		nock.fake(/.+/).post("/api/transactions").reply(422, fixture);
 
 		const mock = { toBroadcast: () => "" };
 		const result = await subject.broadcast([mock]);
@@ -349,7 +349,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 			errors: { [errorId]: fixture.errors[errorId][0] },
 		};
 
-		nock(/.+/).post("/api/transactions").reply(422, nonArrayFixture);
+		nock.fake(/.+/).post("/api/transactions").reply(422, nonArrayFixture);
 
 		const mock = { toBroadcast: () => "" };
 		const result = await subject.broadcast([mock]);
