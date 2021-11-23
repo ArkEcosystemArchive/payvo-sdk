@@ -54,17 +54,17 @@ test("should get the fees for ARK", async () => {
 		"htlcRefund",
 	]);
 
-	matchSnapshot("fees-ark-transfer", result.transfer);
-	matchSnapshot("fees-ark-secondSignature", result.secondSignature);
-	matchSnapshot("fees-ark-delegateRegistration", result.delegateRegistration);
-	matchSnapshot("fees-ark-vote", result.vote);
-	matchSnapshot("fees-ark-multiSignature", result.multiSignature);
-	matchSnapshot("fees-ark-ipfs", result.ipfs);
-	matchSnapshot("fees-ark-multiPayment", result.multiPayment);
-	matchSnapshot("fees-ark-delegateResignation", result.delegateResignation);
-	matchSnapshot("fees-ark-htlcLock", result.htlcLock);
-	matchSnapshot("fees-ark-htlcClaim", result.htlcClaim);
-	matchSnapshot("fees-ark-htlcRefund", result.htlcRefund);
+	matchSnapshot("fees_ark_transfer", result.transfer);
+	matchSnapshot("fees_ark_second_signature", result.secondSignature);
+	matchSnapshot("fees_ark_delegate_registration", result.delegateRegistration);
+	matchSnapshot("fees_ark_vote", result.vote);
+	matchSnapshot("fees_ark_multi_signature", result.multiSignature);
+	matchSnapshot("fees_ark_ipfs", result.ipfs);
+	matchSnapshot("fees_ark_multi_payment", result.multiPayment);
+	matchSnapshot("fees_ark_delegate_resignation", result.delegateResignation);
+	matchSnapshot("fees_ark_htlc_lock", result.htlcLock);
+	matchSnapshot("fees_ark_htlc_claim", result.htlcClaim);
+	matchSnapshot("fees_ark_htlc_refund", result.htlcRefund);
 });
 
 test("should get the fees for BIND", async () => {
@@ -90,17 +90,17 @@ test("should get the fees for BIND", async () => {
 		"htlcRefund",
 	]);
 
-	matchSnapshot("fees-bind-transfer", result.transfer);
-	matchSnapshot("fees-bind-secondSignature", result.secondSignature);
-	matchSnapshot("fees-bind-delegateRegistration", result.delegateRegistration);
-	matchSnapshot("fees-bind-vote", result.vote);
-	matchSnapshot("fees-bind-multiSignature", result.multiSignature);
-	matchSnapshot("fees-bind-ipfs", result.ipfs);
-	matchSnapshot("fees-bind-multiPayment", result.multiPayment);
-	matchSnapshot("fees-bind-delegateResignation", result.delegateResignation);
-	matchSnapshot("fees-bind-htlcLock", result.htlcLock);
-	matchSnapshot("fees-bind-htlcClaim", result.htlcClaim);
-	matchSnapshot("fees-bind-htlcRefund", result.htlcRefund);
+	matchSnapshot("fees_bind_transfer", result.transfer);
+	matchSnapshot("fees_bind_second_signature", result.secondSignature);
+	matchSnapshot("fees_bind_delegate_registration", result.delegateRegistration);
+	matchSnapshot("fees_bind_vote", result.vote);
+	matchSnapshot("fees_bind_multi_signature", result.multiSignature);
+	matchSnapshot("fees_bind_ipfs", result.ipfs);
+	matchSnapshot("fees_bind_multi_payment", result.multiPayment);
+	matchSnapshot("fees_bind_delegate_resignation", result.delegateResignation);
+	matchSnapshot("fees_bind_htlc_lock", result.htlcLock);
+	matchSnapshot("fees_bind_htlc_claim", result.htlcClaim);
+	matchSnapshot("fees_bind_htlc_refund", result.htlcRefund);
 });
 
 test("should calculate the fees for ARK multi-signature registrations", async () => {

@@ -1,0 +1,14 @@
+{
+  avg: BigNumber {
+    '1074'
+  },
+  max: BigNumber {
+    '180617'
+  },
+  min: BigNumber {
+    '1074'
+  },
+  static: BigNumber {
+    '180617'
+  },
+}
