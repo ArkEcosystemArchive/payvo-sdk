@@ -25,9 +25,12 @@ test("#type", () => {
 
 	assert.is(subject.type(), "transfer");
 
-	Mockery.stub(subject, "isMagistrate").returnValueOnce(true);
+	const isMagistrate = Mockery.stub(subject, "isMagistrate");
+	isMagistrate.returnValueOnce(true);
 
 	assert.is(subject.type(), "magistrate");
+
+	isMagistrate.restore();
 });
 
 test("#timestamp", () => {
@@ -70,19 +73,19 @@ test("#asset", () => {
 	assert.equal(new Transaction().configure({ key: "value" }).asset(), {});
 });
 
-test.skip("#isConfirmed", () => {
+test("#isConfirmed", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isConfirmed());
 });
 
-test.skip("#isSent", () => {
+test("#isSent", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isSent());
 });
 
-test.skip("#isReceived", () => {
+test("#isReceived", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isReceived());
 });
 
-test.skip("#isTransfer", () => {
+test("#isTransfer", () => {
 	assert.false(new Transaction().configure({ key: "value" }).isTransfer());
 });
 
@@ -230,19 +233,19 @@ class Transaction extends AbstractConfirmedTransactionData {
 	}
 
 	isConfirmed() {
-		false;
+		return false;
 	}
 
 	isSent() {
-		false;
+		return false;
 	}
 
 	isReceived() {
-		false;
+		return false;
 	}
 
 	isTransfer() {
-		false;
+		return false;
 	}
 }
 
