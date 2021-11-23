@@ -110,17 +110,21 @@ test("should determine if the wallet uses a WIF", () => {
 	assert.true(subject.signingKey().exists());
 });
 
-each("should set the WIF using (%s)", ({ dataset }) => {
-	assert.false(subject.signingKey().exists());
+each(
+	"should set the WIF using (%s)",
+	({ dataset }) => {
+		assert.false(subject.signingKey().exists());
 
-	subject.signingKey().set(dataset, "password");
+		subject.signingKey().set(dataset, "password");
 
-	assert.true(subject.signingKey().exists());
-}, [
-	"bomb open frame quit success evolve gain donate prison very rent later",
-	"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
-	"secret",
-]);
+		assert.true(subject.signingKey().exists());
+	},
+	[
+		"bomb open frame quit success evolve gain donate prison very rent later",
+		"unaware tunnel sibling bottom color fan student kitten sting seminar usual protect entire air afford potato three now win drastic salmon enable fox day",
+		"secret",
+	],
+);
 
 test("should remove the WIF", async () => {
 	subject.signingKey().set(identity.mnemonic, "password");
