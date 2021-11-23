@@ -4,6 +4,7 @@
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
+	"type": "module",
 	"exports": {
 		".": {
 			"import": "./distribution/esm/index.js",
