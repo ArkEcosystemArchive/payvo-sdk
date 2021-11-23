@@ -6,7 +6,7 @@ let subject;
 
 describe("AddressListService", async ({ assert, beforeEach, it }) => {
 	beforeEach(() => {
-		subject = new ExtendedAddressService()
+		subject = new ExtendedAddressService();
 	});
 
 	it("should generate an output from a mnemonic", async () => {
