@@ -128,3 +128,56 @@ it("should ignore test network wallets", async () => {
 
 	expect(profile.portfolio().breakdown()).toEqual([]);
 });
+
+it("should allow filtering by network ids", async () => {
+	nock(/.+/)
+		.get("/data/dayAvg")
+		.query(true)
+		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.persist();
+
+	const [a, b, c] = await Promise.all([
+		importByMnemonic(
+			profile,
+			"bomb open frame quit success evolve gain donate prison very rent later",
+			"ARK",
+			"ark.devnet",
+		),
+		importByMnemonic(
+			profile,
+			"dizzy feel dinosaur one custom excuse mutual announce shrug stamp rose arctic",
+			"ARK",
+			"ark.devnet",
+		),
+		importByMnemonic(
+			profile,
+			"citizen door athlete item name various drive onion foster audit board myself",
+			"ARK",
+			"ark.devnet",
+		),
+	]);
+	a.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
+	b.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
+	c.data().set(WalletData.Balance, { total: 1e8, fees: 1e8 });
+
+	jest.spyOn(a.network(), "isLive").mockReturnValue(true);
+	jest.spyOn(a.network(), "isTest").mockReturnValue(false);
+	jest.spyOn(a.network(), "ticker").mockReturnValue("ARK");
+	jest.spyOn(a, "networkId").mockReturnValue("ark.mainnet");
+
+	jest.spyOn(b.network(), "isLive").mockReturnValue(true);
+	jest.spyOn(b.network(), "isTest").mockReturnValue(false);
+	jest.spyOn(b.network(), "ticker").mockReturnValue("ARK");
+	jest.spyOn(b, "networkId").mockReturnValue("ark.mainnet");
+
+	jest.spyOn(c.network(), "isLive").mockReturnValue(true);
+	jest.spyOn(c.network(), "isTest").mockReturnValue(false);
+	jest.spyOn(c.network(), "ticker").mockReturnValue("ARK");
+	jest.spyOn(c, "networkId").mockReturnValue("ark.mainnet");
+
+	await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
+
+	expect(profile.portfolio().breakdown({ networkIds: ["ark.devnet"] })).toHaveLength(0);
+	expect(profile.portfolio().breakdown({ networkIds: ["ark.mainnet"] })).toHaveLength(1);
+	expect(profile.portfolio().breakdown()).toHaveLength(1);
+});

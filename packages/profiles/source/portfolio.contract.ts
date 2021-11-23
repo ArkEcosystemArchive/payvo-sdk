@@ -14,6 +14,16 @@ export interface IPortfolioEntry {
 }
 
 /**
+ * Defines the structure of options for the portfolio breakdown.
+ *
+ * @export
+ * @interface IPortfolioBreakdownOptions
+ */
+export interface IPortfolioBreakdownOptions {
+	networkIds?: string[];
+}
+
+/**
  * Defines the implementation contract for the portfolio service.
  *
  * @export
@@ -26,5 +36,5 @@ export interface IPortfolio {
 	 * @return {IPortfolioEntry[]}
 	 * @memberof IPortfolio
 	 */
-	breakdown(): IPortfolioEntry[];
+	breakdown(options?: IPortfolioBreakdownOptions): IPortfolioEntry[];
 }
