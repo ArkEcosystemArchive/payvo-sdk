@@ -76,7 +76,7 @@ export const assert = {
 		}
 	},
 	snapshot: (name: string, value: unknown): void => {
-		let directory: string = join(process.cwd(), "snapshots");
+		const directory: string = join(process.cwd(), "snapshots");
 
 		if (!existsSync(directory)) {
 			mkdirSync(directory, { recursive: true });
