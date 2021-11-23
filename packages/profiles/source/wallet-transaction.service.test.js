@@ -2,7 +2,6 @@ import { assert, describe, Mockery, nock } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Signatories } from "@payvo/sdk";
-// import nock from "nock";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
