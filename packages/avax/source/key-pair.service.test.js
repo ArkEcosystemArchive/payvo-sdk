@@ -5,12 +5,12 @@ import { KeyPairService } from "./key-pair.service";
 
 let subject;
 
-describe("KeyPairService", async ({ assert, beforeEach, test }) => {
+describe("KeyPairService", async ({ assert, beforeEach, it }) => {
 	beforeEach(async () => {
 		subject = await createService(KeyPairService);
 	});
 
-	test("should generate an output from a mnemonic", async () => {
+	it("should generate an output from a mnemonic", async () => {
 		assert.equal(await subject.fromMnemonic(identity.mnemonic), {
 			path: "m/44'/9000'/0'/0/0",
 			privateKey: "rC7DsPL1zKuPnwnqHSnShdXxeMReKWLBJgKcuJ1ZLUCUrzRni",
@@ -18,7 +18,7 @@ describe("KeyPairService", async ({ assert, beforeEach, test }) => {
 		});
 	});
 
-	test("should generate an output from a privateKey", async () => {
+	it("should generate an output from a privateKey", async () => {
 		assert.equal(await subject.fromPrivateKey(identity.privateKey), {
 			publicKey: identity.publicKey,
 			privateKey: identity.privateKey,

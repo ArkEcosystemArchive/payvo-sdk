@@ -9,7 +9,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-describe("ClientService", async ({ assert, beforeAll, skip, test }) => {
+describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 	beforeAll(async () => {
 		subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -22,13 +22,13 @@ describe("ClientService", async ({ assert, beforeAll, skip, test }) => {
 		});
 	});
 
-	test("#transaction", async () => {
+	it("should retrieve a single transaction", async () => {
 		const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
 		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	skip("#transactions", async () => {
+	skip("should retrieve a list of transactions", async () => {
 		const result = await subject.transactions({
 			identifiers: [
 				{
@@ -41,7 +41,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, test }) => {
 		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 	});
 
-	test("#wallet", async () => {
+	it("#wallet", async () => {
 		const result = await subject.wallet({
 			type: "address",
 			value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
@@ -50,7 +50,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, test }) => {
 		assert.instance(result, WalletData);
 	});
 
-	test("#delegates", async () => {
+	it("#delegates", async () => {
 		assert.instance(await subject.delegates(), Collections.WalletDataCollection);
 	});
 });

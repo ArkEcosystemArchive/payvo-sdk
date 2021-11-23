@@ -7,12 +7,12 @@ import { MessageService } from "./message.service";
 
 let subject;
 
-describe("MessageService", async ({ assert, beforeEach, test }) => {
+describe("MessageService", async ({ assert, beforeEach, it }) => {
 	beforeEach(async () => {
 		subject = await createService(MessageService);
 	});
 
-	test("should sign and verify a message", async () => {
+	it("should sign and verify a message", async () => {
 		const result = await subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(

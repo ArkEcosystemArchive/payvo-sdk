@@ -14,7 +14,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-describe("TransactionService", async ({ assert, beforeAll, test }) => {
+describe("TransactionService", async ({ assert, beforeAll, skip }) => {
 	beforeAll(async () => {
 		subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -31,7 +31,7 @@ describe("TransactionService", async ({ assert, beforeAll, test }) => {
 		});
 	});
 
-	test.skip("#transfer", async () => {
+	skip("#transfer", async () => {
 		const result = await subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
