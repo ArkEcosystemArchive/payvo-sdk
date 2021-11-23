@@ -48,7 +48,9 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 
 	it("#transactions should succeed", async () => {
 		nock.fake("https://stargate.cosmos.network")
-			.get("/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100")
+			.get(
+				"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
+			)
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 		const result = await subject.transactions({
@@ -103,7 +105,8 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 			fee: { amount: [{ amount: 5000, denom: "umuon" }], gas: "200000" },
 			signatures: [
 				{
-					signature: "naiy71Wa8hPC8wMj2/J4CwnqtR8RThv9Cy3y1EGJVowVtDWJQoUmy3KfYneA2wwLQUlgI/UWgNMClCzbJdD8Ew==",
+					signature:
+						"naiy71Wa8hPC8wMj2/J4CwnqtR8RThv9Cy3y1EGJVowVtDWJQoUmy3KfYneA2wwLQUlgI/UWgNMClCzbJdD8Ew==",
 					account_number: "58976",
 					sequence: "16",
 					pub_key: {
