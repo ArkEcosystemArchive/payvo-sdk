@@ -13,7 +13,7 @@ let subject;
 test.before.each(async () => {
 	subject = new CoinGecko(new Request());
 
-	nock(BASE_URL_COINGECKO)
+	nock.fake(BASE_URL_COINGECKO)
 		.get("/coins/list")
 		.reply(200, [
 			{
@@ -28,7 +28,7 @@ test.before.each(async () => {
 			},
 		]);
 
-	nock(BASE_URL_COINGECKO)
+	nock.fake(BASE_URL_COINGECKO)
 		.get("/simple/price")
 		.query(true)
 		.reply(200, {
@@ -37,14 +37,14 @@ test.before.each(async () => {
 			},
 		});
 
-	nock(BASE_URL_COINGECKO).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
+	nock.fake(BASE_URL_COINGECKO).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
 
-	nock(BASE_URL_COINGECKO)
+	nock.fake(BASE_URL_COINGECKO)
 		.get("/coins/ark/market_chart")
 		.query(true)
 		.reply(200, loader.json("test/fixtures/coingecko/historical.json"));
 
-	nock(BASE_URL_COINGECKO)
+	nock.fake(BASE_URL_COINGECKO)
 		.get("/coins/ark/history")
 		.query(true)
 		.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
