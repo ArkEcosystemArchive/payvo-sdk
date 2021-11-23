@@ -1,6 +1,6 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { Collections, IoC, Services, Test } from "@payvo/sdk";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";

@@ -1,7 +1,7 @@
 import { assert, loader, test } from "@payvo/sdk-test";
 import { Transactions } from "@arkecosystem/crypto";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { BindingType } from "./coin.contract";

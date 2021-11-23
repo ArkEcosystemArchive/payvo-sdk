@@ -1,7 +1,7 @@
 import { assert, describe, test } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";

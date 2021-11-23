@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
 import { Coins } from "@payvo/sdk";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { identity } from "../test/fixtures/identity";

@@ -1,5 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";

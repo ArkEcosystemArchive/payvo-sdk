@@ -3,7 +3,7 @@ import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 
 import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { identity } from "../test/fixtures/identity";

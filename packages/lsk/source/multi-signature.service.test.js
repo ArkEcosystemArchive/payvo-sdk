@@ -2,7 +2,7 @@ import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";

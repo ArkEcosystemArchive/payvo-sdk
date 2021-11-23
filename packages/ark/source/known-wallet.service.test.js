@@ -1,6 +1,6 @@
 import { assert, test } from "@payvo/sdk-test";
 import { Coins, IoC } from "@payvo/sdk";
-import nock from "nock";
+import {nock} from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
