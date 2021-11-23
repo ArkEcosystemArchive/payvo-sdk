@@ -13,7 +13,7 @@ test.before.each(() => (subject = new Blockfolio(new Request())));
 test.after.each(() => nock.cleanAll());
 
 test("should retrieve the feed and findByCoin it", async () => {
-	nock("https://news.payvo.com")
+	nock.fake("https://news.payvo.com")
 		.get("/api")
 		.query(true)
 		.reply(200, {

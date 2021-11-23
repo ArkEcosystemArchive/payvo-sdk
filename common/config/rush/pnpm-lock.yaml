@@ -1602,6 +1602,7 @@ importers:
       conf: 10.0.3
       inversify: 6.0.1
       joi: 17.4.2
+      kleur: 4.1.4
       localforage: 1.10.0
       mem: 9.0.1
       node-cache: 5.1.2
@@ -1706,6 +1707,7 @@ importers:
       got: ^11.8.2
       inversify: ^6.0.1
       joi: ^17.4.2
+      kleur: ~4.1.4
       localforage: ^1.10.0
       mem: ^9.0.1
       node-cache: ^5.1.2
@@ -1899,6 +1901,7 @@ importers:
     dependencies:
       c8: 7.10.0
       concordance: 5.0.4
+      kleur: 4.1.4
       nock: 13.2.0
       sinon: 12.0.1
       string-kit: 0.14.2
@@ -1914,6 +1917,7 @@ importers:
       '@types/node': ^16.11.7
       c8: ~7.10.0
       concordance: ~5.0.4
+      kleur: ~4.1.4
       nock: ^13.2.0
       sinon: ^12.0.1
       string-kit: ~0.14.2

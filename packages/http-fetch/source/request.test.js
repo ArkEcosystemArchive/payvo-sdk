@@ -17,7 +17,7 @@ test("should get with params", async () => {
 		url: "http://httpbin.org/get",
 	};
 
-	nock("http://httpbin.org/").get("/get").query(true).reply(200, responseBody);
+	nock.fake("http://httpbin.org/").get("/get").query(true).reply(200, responseBody);
 
 	const response = await subject.get("http://httpbin.org/get", { key: "value" });
 
@@ -31,7 +31,7 @@ test("should get without params", async () => {
 		url: "http://httpbin.org/get",
 	};
 
-	nock("http://httpbin.org/").get("/get").reply(200, responseBody);
+	nock.fake("http://httpbin.org/").get("/get").reply(200, responseBody);
 
 	const response = await subject.get("http://httpbin.org/get");
 
@@ -51,7 +51,7 @@ test("should post with body", async () => {
 		url: "http://httpbin.org/post",
 	};
 
-	nock("http://httpbin.org/").post("/post").reply(200, responseBody);
+	nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
 	const response = await subject.post("http://httpbin.org/post", { key: "value" });
 
@@ -72,7 +72,7 @@ test("should post with headers", async () => {
 		url: "http://httpbin.org/post",
 	};
 
-	nock("http://httpbin.org/").post("/post").reply(200, responseBody);
+	nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
 	const response = await subject
 		.asJson()
@@ -95,7 +95,7 @@ test("should post with form_params", async () => {
 		url: "http://httpbin.org/post",
 	};
 
-	nock("http://httpbin.org/").post("/post").reply(200, responseBody);
+	nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
 	const response = await subject.asForm().post("http://httpbin.org/post", { key: "value" });
 
@@ -115,7 +115,7 @@ test("should post with octet", async () => {
 		url: "http://httpbin.org/post",
 	};
 
-	nock("http://httpbin.org/").post("/post").reply(200, responseBody);
+	nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
 	const response = await subject
 		.bodyFormat("octet")
@@ -125,7 +125,7 @@ test("should post with octet", async () => {
 });
 
 test("should handle 404s", async () => {
-	nock("http://httpbin.org/").get("/get").reply(404);
+	nock.fake("http://httpbin.org/").get("/get").reply(404);
 
 	await assert.rejects(() => subject.get("http://httpbin.org/get"), "HTTP request returned status code 404");
 });

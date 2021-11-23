@@ -1,3 +1,4 @@
+import { bgRed, bold, white } from "kleur";
 import { Context, suite, Test } from "uvu";
 
 import { assert } from "./assert.js";
@@ -7,13 +8,21 @@ import { Mockery } from "./mockery.js";
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
+const runHook = (callback: Function) => async (context: Context) => {
+	try {
+		await callback(context);
+	} catch (error) {
+		console.log(bold(bgRed(white(error.stack))));
+	}
+};
+
 const runSuite = (suite: Test, callback: Function): void => {
 	callback({
-		afterAll: suite.after,
-		afterEach: suite.after.each,
+		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
+		afterEach: async (callback_: Function) => suite.after.each(runHook(callback_)),
 		assert,
-		beforeAll: suite.before,
-		beforeEach: suite.before.each,
+		beforeAll: async (callback_: Function) => suite.before(runHook(callback_)),
+		beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
 		each: eachSuite(suite),
 		it: suite,
 		mock: Mockery.mock,

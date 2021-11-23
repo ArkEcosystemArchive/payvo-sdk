@@ -12,12 +12,12 @@ let subject;
 test.before.each(async () => {
 	subject = new CryptoCompare(new Request());
 
-	nock(BASE_URL_CRYPTOCOMPARE)
+	nock.fake(BASE_URL_CRYPTOCOMPARE)
 		.get("/data/pricemultifull")
 		.query(true)
 		.reply(200, loader.json("test/fixtures/cryptocompare/market.json"));
 
-	nock(BASE_URL_CRYPTOCOMPARE)
+	nock.fake(BASE_URL_CRYPTOCOMPARE)
 		.get(/\/data\/histo.+/)
 		.reply(200, loader.json("test/fixtures/cryptocompare/historical.json"));
 });
@@ -50,13 +50,13 @@ test("should return ticker values", async () => {
 });
 
 test("verifyToken", async () => {
-	nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+	nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
 		BTC: 0.00002073,
 	});
 
 	assert.true(await subject.verifyToken("ark"));
 
-	nock(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+	nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
 		Response: "Error",
 	});
 
@@ -76,7 +76,7 @@ test("should return historic day values", async () => {
 });
 
 test("should return the current price", async () => {
-	nock(BASE_URL_CRYPTOCOMPARE)
+	nock.fake(BASE_URL_CRYPTOCOMPARE)
 		.get("/data/price")
 		.query(true)
 		.reply(200, loader.json("test/fixtures/cryptocompare/price.json"));
