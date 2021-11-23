@@ -1,6 +1,6 @@
 import "jest-extended";
 
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { createService, requireModule } from "../test/mocking";
@@ -70,6 +70,7 @@ describe("TransactionService", () => {
 			expect(result).toBeInstanceOf(SignedTransactionData);
 			expect(result.id()).toBe("e2e75b04c4b1dc4d4b3db14166fb02cb26f5b9ed3c49b1e1c8379a21502dc77c");
 			expect(result.amount().toString()).toBe("1000000");
+			expect(result.toBroadcast()).toBe("83a40081825820844def3c505ec24317f8f539a001989951c37a9dea5764e87e60654a86358a4d0001828258390044f8e44d237a7ea3caa88319d120e7fa47a9a1f48bb7649927f1de8606e2ae44dff6770dc0f4ada3cf4cf2605008e27aecdb332ad349fda71a000f4240825839009324efcaacd8500b53493a8dc9f2570211c68813280ce4f0f54e571bf63ad603a628ea1f7397b90b0d13274543fe50a4ef5819ec332ffc631a3b74159e021a00029151031a016c301ea10081825820f9162b91126212b71500e89dc7da31111dfc1466a9f24f48a34e7ea529d2d3385840df186965621768ce54cbe83493e8c5e3feba56f24c15f9033802254e566afc1eadb15af83068dc76cdb243fc7b3d58dd9849bf9d7a83fa2a1b7499f96a723c01f6");
 		});
 	});
 });
