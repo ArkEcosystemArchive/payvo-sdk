@@ -7,63 +7,59 @@ import { Network } from "./network";
 let subject;
 
 test.before.each(() => {
-	subject = new Network(manifest, manifest.networks["ark.devnet"]);
+	subject = new Network(manifest, manifest.networks["ark.mainnet"]);
 });
 
-test.skip("should have an coin", () => {
+test("should have an coin", () => {
 	assert.is(subject.coin(), "ARK");
 });
 
-test.skip("should have an coin name", () => {
+test("should have an coin name", () => {
 	assert.is(subject.coinName(), "ARK");
 });
 
-test.skip("should have an id", () => {
-	assert.is(subject.id(), "ark.devnet");
+test("should have an id", () => {
+	assert.is(subject.id(), "ark.mainnet");
 });
 
-test.skip("should have a name", () => {
-	assert.is(subject.name(), "Devnet");
+test("should have a name", () => {
+	assert.is(subject.name(), "Mainnet");
 });
 
-test.skip("should have a display name", () => {
-	assert.is(subject.displayName(), "ARK Devnet");
-
-	Mockery.stub(subject, "isLive").returnValueOnce(true);
-
+test("should have a display name", () => {
 	assert.is(subject.displayName(), "ARK");
 });
 
-test.skip("should have an explorer", () => {
-	assert.is(subject.explorer(), "https://dexplorer.ark.io");
+test("should have an explorer", () => {
+	assert.is(subject.explorer(), "https://explorer.ark.io");
 });
 
-test.skip("should have a ticker", () => {
-	assert.is(subject.ticker(), "DARK");
+test("should have a ticker", () => {
+	assert.is(subject.ticker(), "ARK");
 });
 
-test.skip("should have a symbol", () => {
-	assert.is(subject.symbol(), "DѦ");
+test("should have a symbol", () => {
+	assert.is(subject.symbol(), "Ѧ");
 });
 
-test.skip("should determine if the network is a live environment", () => {
-	assert.false(subject.isLive());
+test("should determine if the network is a live environment", () => {
+	assert.true(subject.isLive());
 });
 
-test.skip("should determine if the network is a test environment", () => {
-	assert.true(subject.isTest());
+test("should determine if the network is a test environment", () => {
+	assert.false(subject.isTest());
 });
 
-test.skip("should get the expiration type", () => {
+test("should get the expiration type", () => {
 	assert.is(subject.expirationType(), "height");
 });
 
-test.skip("should allows voting", () => {
+test("should allows voting", () => {
 	assert.true(subject.allowsVoting());
 
 	subject = new Network(manifest, {
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
+		"ark.mainnet": {
+			...manifest.networks["ark.mainnet"],
 			governance: {},
 		},
 	});
@@ -71,24 +67,24 @@ test.skip("should allows voting", () => {
 	assert.false(subject.allowsVoting());
 });
 
-test.skip("#votesAmountStep", () => {
+test("#votesAmountStep", () => {
 	assert.number(subject.votesAmountStep());
 });
 
-test.skip("#votesAmountMinimum", () => {
+test("#votesAmountMinimum", () => {
 	assert.number(subject.votesAmountMinimum());
 });
 
-test.skip("#votesAmountMaximum", () => {
+test("#votesAmountMaximum", () => {
 	assert.number(subject.votesAmountMaximum());
 });
 
-test.skip("should get the delegate count", () => {
+test("should get the delegate count", () => {
 	assert.is(subject.delegateCount(), 51);
 
 	subject = new Network(manifest, {
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
+		"ark.mainnet": {
+			...manifest.networks["ark.mainnet"],
 			governance: {},
 		},
 	});
@@ -96,12 +92,12 @@ test.skip("should get the delegate count", () => {
 	assert.is(subject.delegateCount(), 0);
 });
 
-test.skip("should get maximum votes per wallet", () => {
+test("should get maximum votes per wallet", () => {
 	assert.is(subject.maximumVotesPerWallet(), 1);
 
 	subject = new Network(manifest, {
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
+		"ark.mainnet": {
+			...manifest.networks["ark.mainnet"],
 			governance: {},
 		},
 	});
@@ -109,12 +105,12 @@ test.skip("should get maximum votes per wallet", () => {
 	assert.is(subject.maximumVotesPerWallet(), 0);
 });
 
-test.skip("should get maximum votes per transaction", () => {
+test("should get maximum votes per transaction", () => {
 	assert.is(subject.maximumVotesPerTransaction(), 1);
 
 	subject = new Network(manifest, {
-		"ark.devnet": {
-			...manifest.networks["ark.devnet"],
+		"ark.mainnet": {
+			...manifest.networks["ark.mainnet"],
 			governance: {},
 		},
 	});
@@ -122,23 +118,23 @@ test.skip("should get maximum votes per transaction", () => {
 	assert.is(subject.maximumVotesPerTransaction(), 0);
 });
 
-test.skip("should get the delegate identifier", () => {
+test("should get the delegate identifier", () => {
 	assert.string(subject.delegateIdentifier());
 });
 
-test.skip("should determine if the network uses extended public keys", () => {
+test("should determine if the network uses extended public keys", () => {
 	assert.is(subject.usesExtendedPublicKey(), false);
 });
 
-test.skip("should have an object representation", () => {
+test("should have an object representation", () => {
 	assert.object(subject.toObject());
 });
 
-test.skip("should have an string representation", () => {
+test("should have an string representation", () => {
 	assert.string(subject.toJson());
 });
 
-test.skip("#allows", () => {
+test("#allows", () => {
 	assert.is(subject.allows(FeatureFlag.ClientBroadcast), true);
 	assert.is(subject.allows(FeatureFlag.AddressMnemonicBip84), false);
 
@@ -157,68 +153,68 @@ test.skip("#allows", () => {
 	assert.is(subject.allows("randomKey"), false);
 });
 
-test.skip("#denies", () => {
+test("#denies", () => {
 	assert.is(subject.denies(FeatureFlag.AddressMnemonicBip84), true);
 	assert.is(subject.denies(FeatureFlag.ClientBroadcast), false);
 });
 
-test.skip("#chargesStaticFees", () => {
+test("#chargesStaticFees", () => {
 	assert.boolean(subject.chargesStaticFees());
 });
 
-test.skip("#chargesDynamicFees", () => {
+test("#chargesDynamicFees", () => {
 	assert.boolean(subject.chargesDynamicFees());
 });
 
-test.skip("#chargesGasFees", () => {
+test("#chargesGasFees", () => {
 	assert.boolean(subject.chargesGasFees());
 });
 
-test.skip("#chargesWeightFees", () => {
+test("#chargesWeightFees", () => {
 	assert.boolean(subject.chargesWeightFees());
 });
 
-test.skip("#chargesZeroFees", () => {
+test("#chargesZeroFees", () => {
 	assert.boolean(subject.chargesZeroFees());
 });
 
-test.skip("#importMethods", () => {
+test("#importMethods", () => {
 	assert.object(subject.importMethods());
 });
 
-test.skip("#meta", () => {
+test("#meta", () => {
 	assert.object(subject.meta());
 });
 
-test.skip("#feeType", () => {
+test("#feeType", () => {
 	assert.is(subject.feeType(), "dynamic");
 });
 
-test.skip("#usesMemo", () => {
+test("#usesMemo", () => {
 	assert.boolean(subject.usesMemo());
 });
 
-test.skip("#usesUTXO", () => {
+test("#usesUTXO", () => {
 	assert.boolean(subject.usesUTXO());
 });
 
-test.skip("#usesLockedBalance", () => {
+test("#usesLockedBalance", () => {
 	assert.boolean(subject.usesLockedBalance());
 });
 
-test.skip("#tokens", () => {
+test("#tokens", () => {
 	assert.array(subject.tokens());
 });
 
-test.skip("#multiPaymentRecipients", () => {
+test("#multiPaymentRecipients", () => {
 	assert.number(subject.multiPaymentRecipients());
 });
 
-test.skip("#multiSignatureType", () => {
+test("#multiSignatureType", () => {
 	assert.string(subject.multiSignatureType());
 });
 
-test.skip("#wordCount", () => {
+test("#wordCount", () => {
 	assert.is(subject.wordCount(), 24);
 });
 
