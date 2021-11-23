@@ -18,15 +18,14 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-// const matchSnapshot = (transaction) =>
-// 	assert
-// 		.object({
-// 			min: transaction.min.toString(),
-// 			avg: transaction.avg.toString(),
-// 			max: transaction.max.toString(),
-// 			static: transaction.static.toString(),
-// 			isDynamic: transaction.isDynamic,
-// 		});
+const matchSnapshot = (name, transaction) =>
+	assert.snapshot(name, {
+		min: transaction.min,
+		avg: transaction.avg,
+		max: transaction.max,
+		static: transaction.static,
+		isDynamic: transaction.isDynamic,
+	});
 
 test.after.each(() => nock.cleanAll());
 
@@ -55,18 +54,17 @@ test("should get the fees for ARK", async () => {
 		"htlcRefund",
 	]);
 
-	// @TODO
-	// matchSnapshot(result.transfer);
-	// matchSnapshot(result.secondSignature);
-	// matchSnapshot(result.delegateRegistration);
-	// matchSnapshot(result.vote);
-	// matchSnapshot(result.multiSignature);
-	// matchSnapshot(result.ipfs);
-	// matchSnapshot(result.multiPayment);
-	// matchSnapshot(result.delegateResignation);
-	// matchSnapshot(result.htlcLock);
-	// matchSnapshot(result.htlcClaim);
-	// matchSnapshot(result.htlcRefund);
+	matchSnapshot("fees-ark-transfer", result.transfer);
+	matchSnapshot("fees-ark-secondSignature", result.secondSignature);
+	matchSnapshot("fees-ark-delegateRegistration", result.delegateRegistration);
+	matchSnapshot("fees-ark-vote", result.vote);
+	matchSnapshot("fees-ark-multiSignature", result.multiSignature);
+	matchSnapshot("fees-ark-ipfs", result.ipfs);
+	matchSnapshot("fees-ark-multiPayment", result.multiPayment);
+	matchSnapshot("fees-ark-delegateResignation", result.delegateResignation);
+	matchSnapshot("fees-ark-htlcLock", result.htlcLock);
+	matchSnapshot("fees-ark-htlcClaim", result.htlcClaim);
+	matchSnapshot("fees-ark-htlcRefund", result.htlcRefund);
 });
 
 test("should get the fees for BIND", async () => {
@@ -92,17 +90,17 @@ test("should get the fees for BIND", async () => {
 		"htlcRefund",
 	]);
 
-	// matchSnapshot(result.transfer);
-	// matchSnapshot(result.secondSignature);
-	// matchSnapshot(result.delegateRegistration);
-	// matchSnapshot(result.vote);
-	// matchSnapshot(result.multiSignature);
-	// matchSnapshot(result.ipfs);
-	// matchSnapshot(result.multiPayment);
-	// matchSnapshot(result.delegateResignation);
-	// matchSnapshot(result.htlcLock);
-	// matchSnapshot(result.htlcClaim);
-	// matchSnapshot(result.htlcRefund);
+	matchSnapshot("fees-bind-transfer", result.transfer);
+	matchSnapshot("fees-bind-secondSignature", result.secondSignature);
+	matchSnapshot("fees-bind-delegateRegistration", result.delegateRegistration);
+	matchSnapshot("fees-bind-vote", result.vote);
+	matchSnapshot("fees-bind-multiSignature", result.multiSignature);
+	matchSnapshot("fees-bind-ipfs", result.ipfs);
+	matchSnapshot("fees-bind-multiPayment", result.multiPayment);
+	matchSnapshot("fees-bind-delegateResignation", result.delegateResignation);
+	matchSnapshot("fees-bind-htlcLock", result.htlcLock);
+	matchSnapshot("fees-bind-htlcClaim", result.htlcClaim);
+	matchSnapshot("fees-bind-htlcRefund", result.htlcRefund);
 });
 
 test("should calculate the fees for ARK multi-signature registrations", async () => {

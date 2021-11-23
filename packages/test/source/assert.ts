@@ -1,7 +1,6 @@
 import { format } from "concordance";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { join } from "node:path";
 import * as uvu from "uvu/assert";
 import { hideBin } from "yargs/helpers";
 // @ts-ignore - Cannot find module 'yargs' or its corresponding type declarations.
@@ -77,15 +76,7 @@ export const assert = {
 		}
 	},
 	snapshot: (name: string, value: unknown): void => {
-		let directory: string;
-
-		if (__dirname) {
-			directory = __dirname;
-		} else {
-			directory = dirname(fileURLToPath(import.meta.url));
-		}
-
-		directory = join(directory, "__snapshots__");
+		const directory: string = join(process.cwd(), "snapshots");
 
 		if (!existsSync(directory)) {
 			mkdirSync(directory, { recursive: true });
