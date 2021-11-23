@@ -167,7 +167,7 @@ test("should allow filtering by network ids", async () => {
 	jest.spyOn(c.network(), "ticker").mockReturnValue("ARK");
 	jest.spyOn(c, "networkId").mockReturnValue("ark.mainnet");
 
-	await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
+	await container.get(Identifiers.ExchangeRateService).syncAll(profile, "ARK");
 
 	expect(profile.portfolio().breakdown({ networkIds: ["ark.devnet"] })).toHaveLength(0);
 	expect(profile.portfolio().breakdown({ networkIds: ["ark.mainnet"] })).toHaveLength(1);
