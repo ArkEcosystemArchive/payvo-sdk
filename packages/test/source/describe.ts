@@ -13,7 +13,6 @@ const runHook = (cb: Function) => async (context: Context) => {
 		await cb(context);
 	} catch (error) {
 		console.log(bold(bgRed(white(error.stack))));
-		throw error;
 	}
 };
 

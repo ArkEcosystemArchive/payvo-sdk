@@ -51,7 +51,7 @@ let liveSpy;
 let testSpy;
 
 const beforeEachCallback = async () => {
-	bootContainer();
+	bootContainer({ flush: true });
 
 	nock.disableNetConnect();
 
@@ -106,8 +106,6 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 	});
 
 	afterEach(() => {
-		container.flush();
-
 		afterEachCallback();
 	});
 

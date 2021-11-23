@@ -85,7 +85,6 @@ test.before(() => {
 		.get(/.+/)
 		.query(true)
 		.reply(200, (url) => {
-			console.log("getting url", url);
 			return { meta: {}, data: {} };
 		})
 		.persist();

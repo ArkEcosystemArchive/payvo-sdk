@@ -5,7 +5,7 @@ import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { LSK } from "@payvo/sdk-lsk";
 import { Request } from "@payvo/sdk-http-fetch";
-import nock from "nock";
+import { nock } from "@payvo/sdk-test";
 
 import { container } from "../source/container";
 import { Profile } from "../source/profile";
@@ -15,7 +15,7 @@ import { WalletFactory } from "../source/wallet.factory";
 import { DriverFactory } from "../source/driver";
 
 export const bootContainer = (options?: { flush: boolean }): void => {
-	if (options.flush) {
+	if (options?.flush) {
 		container.flush();
 	}
 
@@ -47,9 +47,7 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 };
 
 export const knock = (): void => {
-	nock.disableNetConnect();
-
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("./fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")
