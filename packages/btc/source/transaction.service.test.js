@@ -98,7 +98,7 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
 		nock.cleanAll();
 	});
 
-	test.skip("should generate and sign a transfer transaction", async () => {
+	test("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -134,10 +134,6 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
 });
 
 describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	beforeEach(async () => {
 		await createLocalServices();
 
@@ -185,7 +181,11 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
 			.persist();
 	});
 
-	test.skip("should generate and sign a transfer transaction", async () => {
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
+	test("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -222,10 +222,6 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
 });
 
 describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	beforeEach(async () => {
 		await createLocalServices();
 
@@ -273,7 +269,11 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
 			.persist();
 	});
 
-	test.skip("should generate and sign a transfer transaction", async () => {
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
+	test("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -310,10 +310,6 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
 });
 
 describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	beforeEach(async () => {
 		await createLocalServices();
 
@@ -350,7 +346,11 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			.persist();
 	});
 
-	test.skip("should generate a transfer transaction", async () => {
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
+	test("should generate a transfer transaction", async () => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
@@ -382,10 +382,6 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 });
 
 describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	beforeEach(async () => {
 		await createLocalServices();
 
@@ -422,7 +418,11 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			.persist();
 	});
 
-	test.skip("should generate a transfer transaction", async () => {
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
+	test("should generate a transfer transaction", async () => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.p2shSegwitMasterPublicKey),
@@ -454,10 +454,6 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 });
 
 describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	beforeEach(async () => {
 		await createLocalServices();
 
@@ -505,7 +501,11 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			.persist();
 	});
 
-	test.skip("should generate a transfer transaction", async () => {
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
+	test("should generate a transfer transaction", async () => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
