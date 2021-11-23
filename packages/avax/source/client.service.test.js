@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { Collections, IoC, Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
@@ -9,48 +9,48 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+describe("ClientService", async ({ assert, beforeAll, skip, test }) => {
+	beforeAll(async () => {
+		subject = await createService(ClientService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-test("#transaction", async () => {
-	const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
-
-	assert.instance(result, ConfirmedTransactionData);
-});
-
-test.skip("#transactions", async () => {
-	const result = await subject.transactions({
-		identifiers: [
-			{
-				type: "address",
-				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-			},
-		],
 	});
 
-	assert.instance(result, Collections.ConfirmedTransactionDataCollection);
-});
+	test("#transaction", async () => {
+		const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
-test("#wallet", async () => {
-	const result = await subject.wallet({
-		type: "address",
-		value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	assert.instance(result, WalletData);
-});
+	skip("#transactions", async () => {
+		const result = await subject.transactions({
+			identifiers: [
+				{
+					type: "address",
+					value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+				},
+			],
+		});
 
-test("#delegates", async () => {
-	assert.instance(await subject.delegates(), Collections.WalletDataCollection);
-});
+		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
+	});
 
-test.run();
+	test("#wallet", async () => {
+		const result = await subject.wallet({
+			type: "address",
+			value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+		});
+
+		assert.instance(result, WalletData);
+	});
+
+	test("#delegates", async () => {
+		assert.instance(await subject.delegates(), Collections.WalletDataCollection);
+	});
+});
