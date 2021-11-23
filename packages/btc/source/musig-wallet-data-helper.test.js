@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { assert, nock, test } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
@@ -16,7 +16,7 @@ const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(accou
 
 const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-test.before(async (nock) => {
+test.before(async () => {
 	nock.disableNetConnect();
 
 	nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
@@ -45,7 +45,7 @@ test.before(async (nock) => {
 	walletDataHelper = subject.musigWalletDataHelper(2, accountKeys, "nativeSegwitMusig");
 });
 
-test.after(async (nock) => {
+test.after(async () => {
 	nock.cleanAll();
 });
 
