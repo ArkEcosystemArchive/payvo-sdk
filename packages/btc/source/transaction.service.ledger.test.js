@@ -40,8 +40,6 @@ const configureMock = (record) =>
 
 describe("BIP44 wallet", ({ beforeAll, test }) => {
 	beforeAll(() => {
-		nock.disableNetConnect();
-
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -86,6 +84,10 @@ describe("BIP44 wallet", ({ beforeAll, test }) => {
 			.persist();
 	});
 
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
 	test("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -121,8 +123,6 @@ describe("BIP44 wallet", ({ beforeAll, test }) => {
 
 describe("BIP49 wallet", ({ beforeAll, test }) => {
 	beforeAll(() => {
-		nock.disableNetConnect();
-
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -167,6 +167,10 @@ describe("BIP49 wallet", ({ beforeAll, test }) => {
 			.persist();
 	});
 
+	afterEach(async () => {
+		nock.cleanAll();
+	});
+
 	test("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -202,8 +206,6 @@ describe("BIP49 wallet", ({ beforeAll, test }) => {
 
 describe("BIP84 wallet", ({ beforeAll, test }) => {
 	beforeAll(() => {
-		nock.disableNetConnect();
-
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
@@ -246,6 +248,10 @@ describe("BIP84 wallet", ({ beforeAll, test }) => {
 				},
 			})
 			.persist();
+	});
+
+	afterEach(async () => {
+		nock.cleanAll();
 	});
 
 	test("should generate and sign a transfer transaction", async () => {
