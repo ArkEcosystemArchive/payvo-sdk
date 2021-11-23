@@ -1,9 +1,6 @@
 import { bgRed, bold, white } from "kleur";
 import { Context, test } from "uvu";
 
-export type ContextFunction = () => Context;
-export type ContextPromise = () => Promise<Context>;
-
 export const runHook = (callback: Function) => async (context: Context) => {
 	try {
 		await callback(context);
