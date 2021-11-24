@@ -7,11 +7,11 @@ describe("Numeral", ({ assert, it }) => {
 		assert.is(Numeral.make("en").format(5000), "5,000");
 	});
 
-	it("should format as currency", () => {
+	it("should format the number as a currency", () => {
 		assert.is(Numeral.make("en").formatAsCurrency(5000, "EUR"), "€5,000.00");
 	});
 
-	it("should format as unit", () => {
+	it("should format the number as a unit", () => {
 		assert.is(Numeral.make("en").formatAsUnit(5000, "kilobyte"), "5,000 kB");
 	});
 });
