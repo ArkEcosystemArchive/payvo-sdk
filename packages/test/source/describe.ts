@@ -12,6 +12,9 @@ type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
+	suite.before(() => nock.disableNetConnect());
+
+	suite.after(() => nock.enableNetConnect());
 	suite.after.each(() => nock.cleanAll());
 
 	callback({
