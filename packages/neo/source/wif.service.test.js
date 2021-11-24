@@ -5,7 +5,7 @@ import { WIFService } from "./wif.service";
 
 let subject;
 
-describe("WIFService", async({ beforeEach, it, assert }) => {
+describe("WIFService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async () => {
 		subject = await createService(WIFService);
 	});
