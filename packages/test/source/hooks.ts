@@ -1,20 +1,9 @@
 import { bgRed, bold, white } from "kleur";
 import { Context, test } from "uvu";
-import { nock } from "./nock.js";
 
 export const runHook = (callback: Function) => async (context: Context) => {
 	try {
 		await callback(context);
-	} catch (error) {
-		console.log(bold(bgRed(white(error.stack))));
-	}
-};
-
-export const runHookWithClean = (callback: Function) => async (context: Context) => {
-	try {
-		await callback(context);
-
-		nock.cleanAll();
 	} catch (error) {
 		console.log(bold(bgRed(white(error.stack))));
 	}
