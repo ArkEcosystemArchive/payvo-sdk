@@ -4,6 +4,7 @@ import { z as zod } from "zod";
 import { assert } from "./assert.js";
 import { eachSuite } from "./each.js";
 import { runHook } from "./hooks.js";
+import { nock } from "./nock.js";
 import { loader } from "./loader.js";
 import { Mockery } from "./mockery.js";
 
@@ -20,6 +21,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		each: eachSuite(suite),
 		it: suite,
 		loader,
+		nock,
 		mock: Mockery.mock,
 		only: suite.only,
 		should: suite,
