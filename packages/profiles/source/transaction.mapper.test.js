@@ -53,8 +53,6 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	};
 
 	test.before(async () => {
-
-
 		nock.fake(/.+/)
 			.get("/api/peers")
 			.reply(200, require("../test/fixtures/client/peers.json"))

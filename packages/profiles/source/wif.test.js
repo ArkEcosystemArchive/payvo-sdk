@@ -15,8 +15,6 @@ let subject;
 
 test.before(() => {
 	bootContainer();
-
-
 });
 
 test.before.each(async () => {

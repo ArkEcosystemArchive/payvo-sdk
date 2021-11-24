@@ -14,7 +14,6 @@ let profile;
 
 test.before(() => {
 	bootContainer();
-
 });
 
 test.before.each(async () => {

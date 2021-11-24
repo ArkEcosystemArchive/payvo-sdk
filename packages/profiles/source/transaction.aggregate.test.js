@@ -15,8 +15,6 @@ let subject;
 test.before(() => {
 	bootContainer();
 
-
-
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))

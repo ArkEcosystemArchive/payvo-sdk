@@ -33,9 +33,7 @@ test.before(async () => {
 
 test.after.each(() => nock.cleanAll());
 
-test.before(async () => {
-
-});
+test.before(async () => {});
 
 test.skip("should sign transaction", async () => {
 	nock.fake("https://proxy.nanos.cc/")

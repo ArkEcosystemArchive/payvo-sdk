@@ -10,8 +10,6 @@ let coin;
 
 test.before(() => {
 	bootContainer();
-
-
 });
 
 test.before.each(async () => {

@@ -30,8 +30,6 @@ let profile;
 let subject;
 
 test.before(() => {
-
-
 	bootContainer();
 });
 

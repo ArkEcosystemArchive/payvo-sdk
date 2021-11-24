@@ -53,8 +53,6 @@ let testSpy;
 const beforeEachCallback = async () => {
 	bootContainer({ flush: true });
 
-
-
 	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))

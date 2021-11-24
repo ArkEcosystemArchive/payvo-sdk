@@ -13,8 +13,6 @@ import { Manifest } from "./manifest";
 let subject;
 
 test.before.each(async () => {
-
-
 	nock.fake(/.+/)
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/testnet/blockchain.json"))

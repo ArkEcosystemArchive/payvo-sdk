@@ -22,9 +22,7 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-
-});
+test.before(async () => {});
 
 test.before.each(async () => {
 	subject = await createService(FeeService, "lsk.testnet", (container) => {

@@ -38,8 +38,6 @@ const createNetworkMocks = () => {
 let subject;
 
 test.before(() => {
-
-
 	bootContainer();
 });
 

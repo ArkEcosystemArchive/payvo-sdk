@@ -36,8 +36,6 @@ const wallet2 = {
 };
 
 test.before(async () => {
-
-
 	nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
 	subject = await createService(TransactionService, "lsk.testnet", (container) => {
@@ -208,8 +206,6 @@ for (const parameter of ["mandatoryKeys", "optionalKeys"]) {
 }
 
 test("multiSignature should verify", async () => {
-
-
 	nock.fake(/.+/)
 		.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 		.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))

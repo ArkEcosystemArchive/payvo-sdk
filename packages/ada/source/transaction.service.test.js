@@ -15,8 +15,6 @@ import { WalletData } from "./wallet.dto";
 let subject;
 
 describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
-
-
 	beforeAll(async () => {
 		subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

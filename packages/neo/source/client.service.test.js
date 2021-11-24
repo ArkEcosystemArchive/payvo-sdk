@@ -13,8 +13,6 @@ import { WalletData } from "./wallet.dto";
 let subject;
 
 test.before(async () => {
-
-
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, {
@@ -28,9 +26,7 @@ test.before(async () => {
 
 test.after.each(() => nock.cleanAll());
 
-test.before(async () => {
-
-});
+test.before(async () => {});
 
 test("#transactions", async () => {
 	nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
