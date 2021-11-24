@@ -109,7 +109,7 @@ describe("signMessage", ({ afterEach, beforeEach, test }) => {
 });
 
 describe("scan", ({ afterEach, beforeAll, test }) => {
-	afterEach(() => nock.cleanAll());
+
 
 	beforeAll(() => nock.disableNetConnect());
 

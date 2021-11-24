@@ -95,7 +95,7 @@ describe("LedgerService", async ({ assert, it }) => {
 describe("LedgerService - scan", ({ assert, afterEach, beforeAll, it, loader, stub }) => {
 	beforeAll(() => nock.disableNetConnect());
 
-	afterEach(() => nock.cleanAll());
+
 
 	it("should scan for legacy wallets", async () => {
 		nock.fake(/.+/)

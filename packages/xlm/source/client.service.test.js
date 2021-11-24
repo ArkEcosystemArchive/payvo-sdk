@@ -28,7 +28,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	afterEach(() => nock.cleanAll());
+
 
 	it("#transaction", async () => {
 		nock.fake("https://horizon-testnet.stellar.org")

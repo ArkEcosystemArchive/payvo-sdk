@@ -27,7 +27,7 @@ const normaliseFees = (transaction) => ({
 });
 
 describe("FeeService", async ({ assert, afterEach, it, loader }) => {
-	afterEach(() => nock.cleanAll());
+
 
 	it("should get the fees for ARK", async () => {
 		nock.fake(/.+/)

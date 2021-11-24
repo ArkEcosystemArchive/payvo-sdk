@@ -48,8 +48,6 @@ describe("ARK MuSig Registration", ({ assert, afterEach, beforeEach, it, nock })
 	});
 
 	afterEach((context) => {
-		nock.cleanAll();
-
 		context.resetServerResponseMocks();
 	});
 

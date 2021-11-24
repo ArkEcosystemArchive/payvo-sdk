@@ -14,7 +14,7 @@ describe("KnownWalletService", async ({ assert, afterEach, beforeAll, beforeEach
 		subject = await createService(KnownWalletService);
 	});
 
-	afterEach(() => nock.cleanAll());
+
 
 	it("should return a list of known wallets if the request succeeds", async () => {
 		const wallets = [

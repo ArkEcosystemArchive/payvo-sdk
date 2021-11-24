@@ -23,7 +23,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		});
 	});
 
-	afterEach(() => nock.cleanAll());
+
 
 	it("should retrieve a transaction", async () => {
 		nock.fake(/.+/)

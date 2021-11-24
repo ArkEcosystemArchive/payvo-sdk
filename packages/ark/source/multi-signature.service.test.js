@@ -41,7 +41,7 @@ describe("MultiSignatureService", async ({ assert, afterEach, beforeAll, beforeE
 		fixtures = loader.json(`test/fixtures/client/multisig-transactions.json`);
 	});
 
-	afterEach(() => nock.cleanAll());
+
 
 	let fixtures;
 

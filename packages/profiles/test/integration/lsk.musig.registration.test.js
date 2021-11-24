@@ -36,8 +36,6 @@ describe("LSK MuSig Registration", ({ assert, afterEach, beforeEach, each, it, n
 	});
 
 	afterEach((context) => {
-		nock.cleanAll();
-
 		context.resetServerResponseMocks();
 	});
 
