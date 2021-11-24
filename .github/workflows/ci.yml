@@ -10,7 +10,6 @@ on:
 
 jobs:
     test:
-        needs: [conflicts]
         runs-on: ubuntu-latest
         strategy:
             matrix:
