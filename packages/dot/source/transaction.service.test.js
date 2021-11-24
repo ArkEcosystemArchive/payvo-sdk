@@ -6,6 +6,7 @@ import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createApiPromise, createKeyring } from "./factories";
+import { ClientService } from "./client.service";
 import { AddressService } from "./address.service";
 import { KeyPairService } from "./key-pair.service";
 import { PublicKeyService } from "./public-key.service";
@@ -28,6 +29,7 @@ describe("TransactionService", async ({ beforeAll, assert, it }) => {
 			container.constant(BindingType.Keyring, keyring);
 
 			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
