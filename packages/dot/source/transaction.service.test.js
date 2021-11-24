@@ -42,7 +42,7 @@ describe("TransactionService", async ({ beforeAll, assert, it }) => {
 		});
 	});
 
-	it.skip("#transfer should succeed", async () => {
+	it("#transfer should succeed", async () => {
 		const result = await subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
