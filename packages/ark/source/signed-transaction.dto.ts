@@ -40,7 +40,6 @@ export class SignedTransactionData
 			return DateTime.make(this.signedData.timestamp);
 		}
 
-		// defaulting to now because timestamps missing in V2
 		return DateTime.make();
 	}
 

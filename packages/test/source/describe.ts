@@ -3,6 +3,7 @@ import { Context, suite, Test } from "uvu";
 import { assert } from "./assert.js";
 import { eachSuite } from "./each.js";
 import { runHook } from "./hooks.js";
+import { loader } from "./loader.js";
 import { Mockery } from "./mockery.js";
 
 type ContextFunction = () => Context;
@@ -17,6 +18,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
 		each: eachSuite(suite),
 		it: suite,
+		loader,
 		mock: Mockery.mock,
 		only: suite.only,
 		skip: suite.skip,
