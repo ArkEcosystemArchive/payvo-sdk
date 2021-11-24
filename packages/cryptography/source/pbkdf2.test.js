@@ -1,16 +1,16 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { PBKDF2 } from "./pbkdf2";
 
 const message = "Hello World";
 const password = "password";
 
-test("#encrypt", async () => {
-	assert.type(PBKDF2.encrypt(message, password), "string");
-});
+describe("PBKDF2", ({ assert, it }) => {
+	it("should encrypt the given value", async () => {
+		assert.type(PBKDF2.encrypt(message, password), "string");
+	});
 
-test("#decrypt", async () => {
-	assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
+	it("should decrypt the given value", async () => {
+		assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
+	});
 });
-
-test.run();

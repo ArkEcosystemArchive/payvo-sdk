@@ -1,36 +1,42 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { UUID } from "./uuid";
 
 const dummy = "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b";
 
-test("#timestamp", () => {
-	assert.string(UUID.timestamp());
-});
+describe("UUID", ({ assert, it }) => {
+	it("should create a UUID based on the TIMESTAMP method", () => {
+		assert.string(UUID.timestamp());
+	});
 
-test("#md5", () => {
-	assert.is(UUID.md5("Hello World", "1b671a64-40d5-491e-99b0-da01ff1f3341"), "d954df73-1ea5-303b-a2cc-b24265839eec");
-});
+	it("should create a UUID based on the MD5 method", () => {
+		assert.is(
+			UUID.md5("Hello World", "1b671a64-40d5-491e-99b0-da01ff1f3341"),
+			"d954df73-1ea5-303b-a2cc-b24265839eec",
+		);
+	});
 
-test("#random", () => {
-	assert.string(UUID.random());
-});
+	it("should create a UUID based on the RANDOM method", () => {
+		assert.string(UUID.random());
+	});
 
-test("#sha1", () => {
-	assert.is(UUID.sha1("Hello World", "1b671a64-40d5-491e-99b0-da01ff1f3341"), "a572fa0f-9bfa-5103-9882-16394770ad11");
-});
+	it("should create a UUID based on the SHA1 method", () => {
+		assert.is(
+			UUID.sha1("Hello World", "1b671a64-40d5-491e-99b0-da01ff1f3341"),
+			"a572fa0f-9bfa-5103-9882-16394770ad11",
+		);
+	});
 
-test("#parse", () => {
-	assert.object(UUID.parse(dummy));
-});
+	it("should parse the given value", () => {
+		assert.object(UUID.parse(dummy));
+	});
 
-test("#stringify", () => {
-	assert.is(UUID.stringify(UUID.parse(dummy)), "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b");
-});
+	it("should stringify the given value", () => {
+		assert.is(UUID.stringify(UUID.parse(dummy)), "6ec0bd7f-11c0-43da-975e-2a8ad9ebae0b");
+	});
 
-test("#validate", () => {
-	assert.true(UUID.validate(dummy));
-	assert.false(UUID.validate("invalid"));
+	it("should validate the given value", () => {
+		assert.true(UUID.validate(dummy));
+		assert.false(UUID.validate("invalid"));
+	});
 });
-
-test.run();
