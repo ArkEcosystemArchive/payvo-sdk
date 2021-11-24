@@ -1,17 +1,17 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { Numeral } from "./numeral";
 
-test("#format", () => {
-	assert.is(Numeral.make("en").format(5000), "5,000");
-});
+describe("Numeral", ({ assert, it }) => {
+	it("should format", () => {
+		assert.is(Numeral.make("en").format(5000), "5,000");
+	});
 
-test("#formatAsCurrency", () => {
-	assert.is(Numeral.make("en").formatAsCurrency(5000, "EUR"), "€5,000.00");
-});
+	it("should format as currency", () => {
+		assert.is(Numeral.make("en").formatAsCurrency(5000, "EUR"), "€5,000.00");
+	});
 
-test("#formatAsUnit", () => {
-	assert.is(Numeral.make("en").formatAsUnit(5000, "kilobyte"), "5,000 kB");
+	it("should format as unit", () => {
+		assert.is(Numeral.make("en").formatAsUnit(5000, "kilobyte"), "5,000 kB");
+	});
 });
-
-test.run();
