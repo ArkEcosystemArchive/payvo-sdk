@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
@@ -6,6 +6,7 @@ import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createApiPromise, createKeyring } from "./factories";
+import { ClientService } from "./client.service";
 import { AddressService } from "./address.service";
 import { KeyPairService } from "./key-pair.service";
 import { PublicKeyService } from "./public-key.service";
@@ -16,47 +17,48 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-	await waitReady();
+describe("TransactionService", async ({ beforeAll, assert, it }) => {
+	beforeAll(async () => {
+		await waitReady();
 
-	subject = await createServiceAsync(TransactionService, undefined, async (container) => {
-		const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
-		const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
+		subject = await createServiceAsync(TransactionService, undefined, async (container) => {
+			const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
+			const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
 
-		container.constant(BindingType.ApiPromise, apiPromise);
-		container.constant(BindingType.Keyring, keyring);
+			container.constant(BindingType.ApiPromise, apiPromise);
+			container.constant(BindingType.Keyring, keyring);
 
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-	});
-});
-
-test.skip("#transfer", async () => {
-	const result = await subject.transfer({
-		signatory: new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: identity.mnemonic,
-				address: identity.address,
-				publicKey: identity.publicKey,
-				privateKey: identity.privateKey,
-			}),
-		),
-		data: {
-			amount: 12345,
-			to: identity.address,
-		},
 	});
 
-	assert.instance(result, SignedTransactionData);
-	assert.is(result.amount().toString(), "123450000000000");
-});
+	it("#transfer should succeed", async () => {
+		const result = await subject.transfer({
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: identity.mnemonic,
+					address: identity.address,
+					publicKey: identity.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+			data: {
+				amount: 12345,
+				to: identity.address,
+			},
+		});
 
-test.run();
+		assert.instance(result, SignedTransactionData);
+		assert.is(result.amount().toString(), "123450000000000");
+	});
+});
