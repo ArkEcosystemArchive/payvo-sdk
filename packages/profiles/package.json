@@ -31,17 +31,17 @@
 		"@sindresorhus/slugify": "^2.1.0",
 		"@vechain/picasso": "^2.1.1",
 		"bip38": "^3.1.1",
-		"conf": "^10.0.3",
+		"conf": "^10.1.0",
 		"inversify": "^6.0.1",
 		"joi": "^17.4.2",
 		"localforage": "^1.10.0",
 		"mem": "^9.0.1",
 		"node-cache": "^5.1.2",
-		"p-queue": "^6.6.2",
-		"p-retry": "^4.3.0",
+		"p-queue": "^7.1.0",
+		"p-retry": "^5.0.0",
 		"reflect-metadata": "^0.1.13",
 		"semver": "^7.3.5",
-		"type-fest": "^2.5.3"
+		"type-fest": "^2.6.0"
 	},
 	"devDependencies": {
 		"@payvo/sdk-ada": "workspace:*",

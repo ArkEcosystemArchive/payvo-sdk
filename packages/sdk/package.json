@@ -34,7 +34,7 @@
 		"joi": "^17.4.2",
 		"node-emoji": "^1.11.0",
 		"reflect-metadata": "^0.1.13",
-		"type-fest": "^2.5.3"
+		"type-fest": "^2.6.0"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",

@@ -18,7 +18,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			UUID.random(),
 			transaction.toData(),
-			transaction.toJSON(),
+			transaction.toData(),
 		);
 	}
 

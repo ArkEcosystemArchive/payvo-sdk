@@ -28,7 +28,7 @@
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
 		"ed25519-hd-key": "^1.2.0",
-		"stellar-sdk": "^9.0.1"
+		"stellar-sdk": "^9.1.0"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",

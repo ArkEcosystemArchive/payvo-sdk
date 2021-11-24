@@ -1,4 +1,4 @@
-import { Exceptions, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 
 import { deriveKey } from "./helpers.js";
 
@@ -10,7 +10,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		const accountKey = deriveKey(mnemonic);
 
 		return {
-			publicKey: accountKey.publicKey!.toString("hex"),
+			publicKey: accountKey.publicKey!.toAminoJSON(),
 			privateKey: accountKey.privateKey.toString("hex"),
 		};
 	}

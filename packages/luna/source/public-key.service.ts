@@ -7,6 +7,6 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		return { publicKey: deriveKey(mnemonic).publicKey!.toString("hex") };
+		return { publicKey: deriveKey(mnemonic).publicKey!.toAminoJSON() };
 	}
 }
