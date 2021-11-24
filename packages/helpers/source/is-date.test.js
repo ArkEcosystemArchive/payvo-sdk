@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isDate } from "./is-date";
 
-test("should pass", () => {
-	assert.true(isDate(new Date()));
-});
+describe("isDate", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isDate(new Date()));
+	});
 
-test("should fail", () => {
-	assert.false(isDate(1));
+	it("should fail", () => {
+		assert.false(isDate(1));
+	});
 });
-
-test.run();

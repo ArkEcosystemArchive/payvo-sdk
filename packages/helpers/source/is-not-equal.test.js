@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isNotEqual } from "./is-not-equal";
 
-test("should pass", () => {
-	assert.true(isNotEqual(1, "1"));
-});
+describe("isNotEqual", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isNotEqual(1, "1"));
+	});
 
-test("should fail", () => {
-	assert.false(isNotEqual(1, 1));
+	it("should fail", () => {
+		assert.false(isNotEqual(1, 1));
+	});
 });
-
-test.run();

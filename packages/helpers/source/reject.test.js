@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { reject } from "./reject";
 
@@ -7,11 +7,11 @@ const users = [
 	{ user: "fred", age: 40, active: true },
 ];
 
-test("should work with a function", () => {
-	assert.equal(
-		reject(users, (o) => !o.active),
-		[{ user: "fred", age: 40, active: true }],
-	);
+describe("reject", async ({ assert, it }) => {
+	it("should work with a function", () => {
+		assert.equal(
+			reject(users, (o) => !o.active),
+			[{ user: "fred", age: 40, active: true }],
+		);
+	});
 });
-
-test.run();

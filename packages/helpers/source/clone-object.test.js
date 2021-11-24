@@ -1,11 +1,11 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { cloneObject } from "./clone-object";
 
-test("should work like lodash", () => {
-	const objects = { a: 1 };
+describe("cloneObject", async ({ assert, it }) => {
+	it("should work like lodash", () => {
+		const objects = { a: 1 };
 
-	assert.equal(cloneObject(objects), objects);
+		assert.equal(cloneObject(objects), objects);
+	});
 });
-
-test.run();

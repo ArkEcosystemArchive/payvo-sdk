@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isSymbol } from "./is-symbol";
 
-test("should pass", () => {
-	assert.true(isSymbol(Symbol.for("string")));
-});
+describe("isSymbol", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isSymbol(Symbol.for("string")));
+	});
 
-test("should fail", () => {
-	assert.false(isSymbol("string"));
+	it("should fail", () => {
+		assert.false(isSymbol("string"));
+	});
 });
-
-test.run();

@@ -1,25 +1,25 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { toString } from "./to-string";
 
-test("should work with a string", () => {
-	assert.is(toString("hi"), "hi");
-});
+describe("toString", async ({ assert, it }) => {
+	it("should work with a string", () => {
+		assert.is(toString("hi"), "hi");
+	});
 
-test("should work with a symbol", () => {
-	assert.is(toString(Symbol.for("hi")), "Symbol(hi)");
-});
+	it("should work with a symbol", () => {
+		assert.is(toString(Symbol.for("hi")), "Symbol(hi)");
+	});
 
-test("should work with a null value", () => {
-	assert.is(toString(null), "");
-});
+	it("should work with a null value", () => {
+		assert.is(toString(null), "");
+	});
 
-test("should work with an undefined value", () => {
-	assert.is(toString(undefined), "");
-});
+	it("should work with an undefined value", () => {
+		assert.is(toString(undefined), "");
+	});
 
-test("should work with an array", () => {
-	assert.is(toString([1, 2, 3]), "1,2,3");
+	it("should work with an array", () => {
+		assert.is(toString([1, 2, 3]), "1,2,3");
+	});
 });
-
-test.run();

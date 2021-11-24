@@ -1,35 +1,35 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { reduceRight } from "./reduce-right";
 
-test("should work with an array", () => {
-	assert.equal(
-		reduceRight(
-			[
-				[0, 1],
-				[2, 3],
-				[4, 5],
-			],
-			(flattened, other) => flattened.concat(other),
-			[],
-		),
-		[4, 5, 2, 3, 0, 1],
-	);
+describe("reduceRight", async ({ assert, it }) => {
+	it("should work with an array", () => {
+		assert.equal(
+			reduceRight(
+				[
+					[0, 1],
+					[2, 3],
+					[4, 5],
+				],
+				(flattened, other) => flattened.concat(other),
+				[],
+			),
+			[4, 5, 2, 3, 0, 1],
+		);
+	});
+
+	it("should work with an object", () => {
+		assert.equal(
+			reduceRight(
+				{ a: 1, b: 2, c: 1 },
+				(result, value, key) => {
+					(result[value] || (result[value] = [])).push(key);
+
+					return result;
+				},
+				{},
+			),
+			{ 1: ["c", "a"], 2: ["b"] },
+		);
+	});
 });
-
-test("should work with an object", () => {
-	assert.equal(
-		reduceRight(
-			{ a: 1, b: 2, c: 1 },
-			(result, value, key) => {
-				(result[value] || (result[value] = [])).push(key);
-
-				return result;
-			},
-			{},
-		),
-		{ 1: ["c", "a"], 2: ["b"] },
-	);
-});
-
-test.run();

@@ -1,17 +1,17 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { lastMapEntry } from "./last-map-entry";
 
-test("should return the last entry", () => {
-	assert.equal(
-		lastMapEntry(
-			new Map([
-				["Hello", "World"],
-				["Another", "Planet"],
-			]),
-		),
-		["Another", "Planet"],
-	);
+describe("lastMapEntry", async ({ assert, it }) => {
+	it("should return the last entry", () => {
+		assert.equal(
+			lastMapEntry(
+				new Map([
+					["Hello", "World"],
+					["Another", "Planet"],
+				]),
+			),
+			["Another", "Planet"],
+		);
+	});
 });
-
-test.run();

@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { upperFirst } from "./upper-first";
 
@@ -8,10 +8,10 @@ const dummies = {
 	"test space": "Test space",
 };
 
-test("should capitalize the given input", () => {
-	Object.keys(dummies).forEach((key) => {
-		assert.is(upperFirst(key), dummies[key]);
+describe("upperFirst", async ({ assert, it }) => {
+	it("should capitalize the given input", () => {
+		Object.keys(dummies).forEach((key) => {
+			assert.is(upperFirst(key), dummies[key]);
+		});
 	});
 });
-
-test.run();

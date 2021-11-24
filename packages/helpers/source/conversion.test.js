@@ -1,21 +1,21 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "./conversion";
 
-test("#convertBuffer", () => {
-	assert.is(convertBuffer(Buffer.from("Hello World")), "48656c6c6f20576f726c64");
-});
+describe("Conversion", async ({ assert, it }) => {
+	it("should convert the given value to a buffer", () => {
+		assert.is(convertBuffer(Buffer.from("Hello World")), "48656c6c6f20576f726c64");
+	});
 
-test("#convertBufferList", () => {
-	assert.stringArray(convertBufferList([Buffer.from("Hello"), Buffer.from("World")]));
-});
+	it("should convert the given value to a buffer list", () => {
+		assert.stringArray(convertBufferList([Buffer.from("Hello"), Buffer.from("World")]));
+	});
 
-test("#convertString", () => {
-	assert.buffer(convertString("48656c6c6f20576f726c64"));
-});
+	it("should convert the given value to a string", () => {
+		assert.buffer(convertString("48656c6c6f20576f726c64"));
+	});
 
-test("#convertStringList", () => {
-	assert.bufferArray(convertStringList(["48656c6c6f", "576f726c64"]));
+	it("should convert the given value to a string list", () => {
+		assert.bufferArray(convertStringList(["48656c6c6f", "576f726c64"]));
+	});
 });
-
-test.run();

@@ -1,14 +1,14 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isSyncFunction } from "./is-sync-function";
 
-test("should pass", () => {
-	assert.true(isSyncFunction(new Function()));
-});
+describe("isSyncFunction", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isSyncFunction(new Function()));
+	});
 
-test("should fail", () => {
-	assert.false(isSyncFunction(async () => ({})));
-	assert.false(isSyncFunction([]));
+	it("should fail", () => {
+		assert.false(isSyncFunction(async () => ({})));
+		assert.false(isSyncFunction([]));
+	});
 });
-
-test.run();
