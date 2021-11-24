@@ -4,7 +4,7 @@ import { Request } from "./request";
 
 let subject;
 
-describe("Request", ({ assert, it, nock }) => {
+describe("Request", ({ assert, beforeAll, it, nock }) => {
 	beforeAll(() => {
 		subject = new Request();
 	});
