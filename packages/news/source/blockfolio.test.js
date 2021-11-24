@@ -9,8 +9,6 @@ let subject;
 describe("FeedService", async ({ assert, afterEach, beforeEach, it, nock }) => {
 	beforeEach(() => (subject = new Blockfolio(new Request())));
 
-	afterEach(() => nock.cleanAll());
-
 	it("should retrieve the feed and findByCoin it", async () => {
 		nock.fake("https://news.payvo.com")
 			.get("/api")

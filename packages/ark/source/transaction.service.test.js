@@ -41,8 +41,6 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		});
 	});
 
-	afterEach(() => nock.cleanAll());
-
 	it("should create a transfer", async () => {
 		const result = await subject.transfer({
 			nonce: "1",

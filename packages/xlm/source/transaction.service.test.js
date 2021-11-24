@@ -32,8 +32,6 @@ describe("TransactionService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	afterEach(() => nock.cleanAll());
-
 	it("#transfer should succeed", async () => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")

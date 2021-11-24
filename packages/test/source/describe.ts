@@ -12,6 +12,8 @@ type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
+	suite.after.each(() => nock.cleanAll());
+
 	callback({
 		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
 		afterEach: async (callback_: Function) => suite.after.each(runHook(callback_)),
