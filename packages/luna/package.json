@@ -26,7 +26,7 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"@terra-money/terra.js": "^2.0.16"
+		"@terra-money/terra.js": "^3.0.1"
 	},
 	"devDependencies": {
 		"@payvo/sdk-http-fetch": "workspace:*",

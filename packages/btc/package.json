@@ -22,7 +22,7 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-app-btc": "^6.12.1",
+		"@ledgerhq/hw-app-btc": "^6.15.1",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",

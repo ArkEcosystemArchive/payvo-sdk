@@ -28,8 +28,8 @@
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
 		"bignumber.js": "^9.0.1",
-		"multicoin-address-validator": "^0.5.2",
-		"ripple-keypairs": "^1.0.3",
+		"multicoin-address-validator": "^0.5.5",
+		"ripple-keypairs": "^1.1.0",
 		"ripple-lib": "^1.10.0"
 	},
 	"devDependencies": {
