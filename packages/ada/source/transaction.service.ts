@@ -7,6 +7,7 @@ import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } 
 import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
 import { createValue } from "./transaction.factory";
 import { UnspentTransaction } from "./transaction.models";
+import { convertBuffer } from "../../helpers/source";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -107,7 +108,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Build the signed transaction
 		return this.dataTransferObjectService.signedTransaction(
-			Buffer.from(txHash.to_bytes()).toString("hex"),
+			convertBuffer(Buffer.from(txHash.to_bytes())),
 			{
 				// @TODO This doesn't make sense in Cardano, because there can be any many senders (all addresses from the same sender)
 				sender: input.signatory.publicKey(),
@@ -116,7 +117,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee: txBody.fee().to_str(),
 				timestamp: DateTime.make(),
 			},
-			Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses).to_bytes()).toString("hex"),
+			convertBuffer(Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses, undefined).to_bytes())),
 		);
 	}
 
