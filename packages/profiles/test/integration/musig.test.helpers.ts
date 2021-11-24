@@ -1,8 +1,9 @@
-import { mnemonics as testMnemonics } from "../fixtures/identity";
-import nock from "nock";
-import { IReadWriteWallet } from "../../source/wallet.contract";
-import { IProfile } from "../../source/profile.contract";
+import { nock } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
+
+import { mnemonics as testMnemonics } from "../fixtures/identity.js";
+import { IReadWriteWallet } from "../../source/wallet.contract.js";
+import { IProfile } from "../../source/profile.contract.js";
 
 interface Wallet {
 	wallet: IReadWriteWallet;
@@ -215,7 +216,7 @@ export const mockMusigServer = ({ url }: { url: string }) => {
 		pending: { result: [] },
 	};
 
-	nock(url)
+	nock.fake(url)
 		.post("/", ({ method }) => method === "delete")
 		.reply(200, () => mockResponse.delete)
 		.post("/", ({ method }) => method === "store")
@@ -228,7 +229,7 @@ export const mockMusigServer = ({ url }: { url: string }) => {
 		.reply(200, () => mockResponse.ready)
 		.persist();
 
-	const mockServerResponse = (key: string, loader: any) => {
+	const mockServerResponse = (key: string, fixture: any) => {
 		mockResponse[key].result = fixture;
 	};
 
