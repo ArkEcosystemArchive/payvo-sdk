@@ -21,6 +21,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		loader,
 		mock: Mockery.mock,
 		only: suite.only,
+		should: suite,
 		skip: suite.skip,
 		spy: Mockery.spy,
 		stub: Mockery.stub,
