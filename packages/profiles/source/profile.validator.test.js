@@ -21,7 +21,7 @@ let profile;
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")

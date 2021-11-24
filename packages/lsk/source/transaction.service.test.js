@@ -36,7 +36,7 @@ const wallet2 = {
 };
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
@@ -208,7 +208,7 @@ for (const parameter of ["mandatoryKeys", "optionalKeys"]) {
 }
 
 test("multiSignature should verify", async () => {
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")

@@ -15,7 +15,7 @@ import { Identifiers } from "./container.models";
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 });
 
 test.before.each(() => {

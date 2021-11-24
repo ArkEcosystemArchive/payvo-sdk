@@ -53,7 +53,7 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	};
 
 	test.before(async () => {
-		nock.disableNetConnect();
+
 
 		nock.fake(/.+/)
 			.get("/api/peers")

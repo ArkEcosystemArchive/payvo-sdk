@@ -13,7 +13,7 @@ import { Collections } from "@payvo/sdk";
 let subject;
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 
 	subject = await createService(ClientService, "btc.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);

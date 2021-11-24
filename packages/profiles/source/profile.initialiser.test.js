@@ -10,7 +10,7 @@ import { nock } from "@payvo/sdk-test";
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")

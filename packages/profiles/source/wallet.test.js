@@ -30,7 +30,7 @@ let profile;
 let subject;
 
 test.before(() => {
-	nock.disableNetConnect();
+
 
 	bootContainer();
 });

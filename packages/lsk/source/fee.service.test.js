@@ -23,7 +23,7 @@ import { WalletData } from "./wallet.dto";
 let subject;
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 });
 
 test.before.each(async () => {

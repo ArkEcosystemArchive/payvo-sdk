@@ -9,7 +9,7 @@ import * as bitcoin from "bitcoinjs-lib";
 let subject;
 
 test.before.each(async () => {
-	nock.disableNetConnect();
+
 
 	subject = await createService(AddressFactory, "btc.testnet", async (container) => {
 		container.singleton(BindingType.AddressFactory, AddressFactory);

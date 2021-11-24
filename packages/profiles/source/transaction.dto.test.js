@@ -53,7 +53,7 @@ let testSpy;
 const beforeEachCallback = async () => {
 	bootContainer({ flush: true });
 
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration")

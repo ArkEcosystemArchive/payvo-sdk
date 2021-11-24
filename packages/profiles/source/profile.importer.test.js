@@ -100,7 +100,7 @@ const profileWithWallets = {
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")

@@ -16,7 +16,7 @@ let subject;
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 
 	subject = new WalletFactory(new Profile({ id: "id", name: "name", avatar: "avatar", data: "" }));
 });

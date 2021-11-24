@@ -43,7 +43,7 @@ let subject;
 let musigService;
 
 const createLocalServices = async () => {
-	nock.disableNetConnect();
+
 
 	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);

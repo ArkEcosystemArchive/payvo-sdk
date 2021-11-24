@@ -34,7 +34,7 @@ test.before(async () => {
 test.after.each(() => nock.cleanAll());
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 });
 
 test.skip("should sign transaction", async () => {

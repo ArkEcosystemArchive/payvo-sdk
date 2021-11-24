@@ -15,7 +15,7 @@ import { WalletData } from "./wallet.dto";
 let subject;
 
 describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
-	nock.disableNetConnect();
+
 
 	beforeAll(async () => {
 		subject = await createService(TransactionService, undefined, (container) => {

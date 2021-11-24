@@ -18,7 +18,7 @@ const rootAccountKeys = musig.accounts.map((account) => BIP32.fromMnemonic(accou
 const accountKeys = rootToAccountKeys(rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 
 	nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 		.post(

@@ -23,7 +23,7 @@ let subject;
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")

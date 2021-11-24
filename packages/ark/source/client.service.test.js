@@ -12,7 +12,7 @@ let subject;
 
 describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) => {
 	beforeAll(async () => {
-		nock.disableNetConnect();
+
 
 		subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

@@ -25,7 +25,7 @@ describe("ProfileTransactionNotificationService", ({ afterEach, beforeEach, test
 	test.before(async () => {
 		bootContainer();
 
-		nock.disableNetConnect();
+
 
 		nock.fake(/.+/)
 			.get("/api/node/configuration/crypto")

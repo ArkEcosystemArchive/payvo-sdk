@@ -14,7 +14,7 @@ let subject;
 
 describe("ClientService", async ({ assert, beforeAll, it }) => {
 	beforeAll(async () => {
-		nock.disableNetConnect();
+
 
 		subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

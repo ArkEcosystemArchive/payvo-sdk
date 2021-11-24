@@ -12,7 +12,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 let subject;
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
@@ -28,7 +28,7 @@ test.before(async () => {
 test.after.each(() => nock.cleanAll());
 
 test.before(async () => {
-	nock.disableNetConnect();
+
 });
 
 test("#transaction", async ({ afterEach, beforeEach, test }) => {

@@ -42,7 +42,7 @@ const makeSubject = async () => {
 };
 
 test.before(() => {
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/node/configuration")

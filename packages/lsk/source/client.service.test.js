@@ -14,7 +14,7 @@ import { BindingType } from "./coin.contract";
 let subject;
 
 const createLocalServices = async () => {
-	nock.disableNetConnect();
+
 
 	subject = await createService(ClientService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);

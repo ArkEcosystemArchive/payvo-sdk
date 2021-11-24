@@ -13,7 +13,7 @@ import { Manifest } from "./manifest";
 let subject;
 
 test.before.each(async () => {
-	nock.disableNetConnect();
+
 
 	nock.fake(/.+/)
 		.get("/api/blockchain")
