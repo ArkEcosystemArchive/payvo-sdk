@@ -1,4 +1,4 @@
-import { loader, describe, assert } from "@payvo/sdk-test";
+import { loader, describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { nock } from "@payvo/sdk-test";
 
