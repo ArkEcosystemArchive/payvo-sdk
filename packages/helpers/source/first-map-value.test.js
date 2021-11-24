@@ -1,9 +1,9 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { firstMapValue } from "./first-map-value";
 
-test("should return the first value", () => {
-	assert.is(firstMapValue(new Map([["Hello", "World"]])), "World");
+describe("firstMapValue", async ({ assert, it }) => {
+	it("should return the first value", () => {
+		assert.is(firstMapValue(new Map([["Hello", "World"]])), "World");
+	});
 });
-
-test.run();

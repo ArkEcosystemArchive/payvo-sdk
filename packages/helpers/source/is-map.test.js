@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isMap } from "./is-map";
 
-test("should pass", () => {
-	assert.true(isMap(new Map()));
-});
+describe("isMap", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isMap(new Map()));
+	});
 
-test("should fail", () => {
-	assert.false(isMap(1));
+	it("should fail", () => {
+		assert.false(isMap(1));
+	});
 });
-
-test.run();

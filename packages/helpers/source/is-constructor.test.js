@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isConstructor } from "./is-constructor";
 
-test("should pass", () => {
-	assert.true(isConstructor(Date));
-});
+describe("isConstructor", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isConstructor(Date));
+	});
 
-test("should fail", () => {
-	assert.false(isConstructor([]));
+	it("should fail", () => {
+		assert.false(isConstructor([]));
+	});
 });
-
-test.run();

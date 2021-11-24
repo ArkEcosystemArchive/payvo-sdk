@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { find } from "./find";
 
@@ -8,13 +8,13 @@ const users = [
 	{ user: "pebbles", age: 1, active: true },
 ];
 
-test("should work with a function", () => {
-	assert.is(
-		find(users, (o) => o.age < 40),
-		users[0],
-	);
+describe("find", async ({ assert, it }) => {
+	it("should work with a function", () => {
+		assert.is(
+			find(users, (o) => o.age < 40),
+			users[0],
+		);
 
-	assert.undefined(find(users, (o) => o.name === "john"));
+		assert.undefined(find(users, (o) => o.name === "john"));
+	});
 });
-
-test.run();

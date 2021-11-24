@@ -1,14 +1,14 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isURL } from "./is-url";
 import { URL } from "url";
 
-test("should pass", () => {
-	assert.true(isURL(new URL("https://google.com")));
-});
+describe("isURL", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isURL(new URL("https://google.com")));
+	});
 
-test("should fail", () => {
-	assert.false(isURL(1));
+	it("should fail", () => {
+		assert.false(isURL(1));
+	});
 });
-
-test.run();

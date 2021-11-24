@@ -1,11 +1,11 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { Arr } from "./arr";
 
-test("#randomElement", () => {
-	const data = [...Array(1000).keys()];
+describe("randomElement", async ({ assert, it }) => {
+	it("should pick random elements", () => {
+		const data = [...Array(1000).keys()];
 
-	assert.is.not(Arr.randomElement(data), Arr.randomElement(data));
+		assert.is.not(Arr.randomElement(data), Arr.randomElement(data));
+	});
 });
-
-test.run();

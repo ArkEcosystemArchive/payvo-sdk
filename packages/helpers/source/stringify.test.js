@@ -1,16 +1,16 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { stringify } from "./stringify";
 
-test("should return the given value as JSON", () => {
-	assert.is(stringify({ b: 1, a: 0 }), '{"b":1,"a":0}');
+describe("stringify", async ({ assert, it }) => {
+	it("should return the given value as JSON", () => {
+		assert.is(stringify({ b: 1, a: 0 }), '{"b":1,"a":0}');
+	});
+
+	it("should return undefined if there are circular references", () => {
+		const o = { b: 1, a: 0 };
+		o.o = o;
+
+		assert.undefined(stringify(o));
+	});
 });
-
-test("should return undefined if there are circular references", () => {
-	const o = { b: 1, a: 0 };
-	o.o = o;
-
-	assert.undefined(stringify(o));
-});
-
-test.run();

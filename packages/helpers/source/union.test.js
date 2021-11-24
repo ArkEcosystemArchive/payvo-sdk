@@ -1,9 +1,9 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { union } from "./union";
 
-test("should work with any value", () => {
-	assert.equal(union([2], [1, 2]), [2, 1]);
+describe("union", async ({ assert, it }) => {
+	it("should work with any value", () => {
+		assert.equal(union([2], [1, 2]), [2, 1]);
+	});
 });
-
-test.run();

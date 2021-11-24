@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isStringArray } from "./is-string-array";
 
-test("should pass", () => {
-	assert.true(isStringArray(["string"]));
-});
+describe("isStringArray", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isStringArray(["string"]));
+	});
 
-test("should fail", () => {
-	assert.false(isStringArray([1]));
+	it("should fail", () => {
+		assert.false(isStringArray([1]));
+	});
 });
-
-test.run();

@@ -1,15 +1,15 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isNegativeZero } from "./is-negative-zero";
 
-test("should pass", () => {
-	assert.true(isNegativeZero(-0));
-});
+describe("isNegativeZero", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isNegativeZero(-0));
+	});
 
-test("should fail", () => {
-	assert.false(isNegativeZero(+0));
-	assert.false(isNegativeZero(0));
-	assert.false(isNegativeZero(-1));
+	it("should fail", () => {
+		assert.false(isNegativeZero(+0));
+		assert.false(isNegativeZero(0));
+		assert.false(isNegativeZero(-1));
+	});
 });
-
-test.run();

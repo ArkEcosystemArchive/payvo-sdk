@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { lowerFirst } from "./lower-first";
 
@@ -8,10 +8,10 @@ const dummies = {
 	"Test Space": "test Space",
 };
 
-test("should uncapitalize the given input", () => {
-	Object.keys(dummies).forEach((key) => {
-		assert.is(lowerFirst(key), dummies[key]);
+describe("lowerFirst", async ({ assert, it }) => {
+	it("should uncapitalize the given input", () => {
+		Object.keys(dummies).forEach((key) => {
+			assert.is(lowerFirst(key), dummies[key]);
+		});
 	});
 });
-
-test.run();

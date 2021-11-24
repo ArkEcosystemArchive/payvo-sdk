@@ -1,13 +1,13 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { isError } from "./is-error";
 
-test("should pass", () => {
-	assert.true(isError(new Error()));
-});
+describe("isError", async ({ assert, it }) => {
+	it("should pass", () => {
+		assert.true(isError(new Error()));
+	});
 
-test("should fail", () => {
-	assert.false(isError(1));
+	it("should fail", () => {
+		assert.false(isError(1));
+	});
 });
-
-test.run();

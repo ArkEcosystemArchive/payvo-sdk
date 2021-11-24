@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { mapValues } from "./map-values";
 
@@ -7,11 +7,11 @@ const users = {
 	pebbles: { user: "pebbles", age: 1 },
 };
 
-test("should work with a function", () => {
-	assert.equal(
-		mapValues(users, (o) => o.age),
-		{ fred: 40, pebbles: 1 },
-	);
+describe("mapValues", async ({ assert, it }) => {
+	it("should work with a function", () => {
+		assert.equal(
+			mapValues(users, (o) => o.age),
+			{ fred: 40, pebbles: 1 },
+		);
+	});
 });
-
-test.run();
