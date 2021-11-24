@@ -27,8 +27,6 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 		});
 	});
 
-
-
 	it("should retrieve a transaction", async () => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
