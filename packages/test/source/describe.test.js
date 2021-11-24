@@ -1,6 +1,6 @@
 import { describe, describeWithContext } from "./describe";
 
-describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
+describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, it }) => {
 	let _Date;
 
 	beforeAll(() => {
@@ -17,7 +17,7 @@ describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
 		assert.type(Date.now, "function");
 	});
 
-	test("should return a number", () => {
+	it("should return a number", () => {
 		assert.type(Date.now(), "number");
 	});
 
@@ -38,8 +38,8 @@ describe("Datasets", ({ assert, each }) => {
 	);
 });
 
-describeWithContext("Context (Object)", { hello: "world" }, ({ assert, test }) => {
-	test("should have context from an object", (context) => {
+describeWithContext("Context (Object)", { hello: "world" }, ({ assert, it }) => {
+	it("should have context from an object", (context) => {
 		assert.is(context.hello, "world");
 	});
 });
@@ -47,8 +47,8 @@ describeWithContext("Context (Object)", { hello: "world" }, ({ assert, test }) =
 describeWithContext(
 	"Context (Function)",
 	() => ({ hello: "world" }),
-	({ assert, test }) => {
-		test("should have context from an object", (context) => {
+	({ assert, it }) => {
+		it("should have context from an object", (context) => {
 			assert.is(context.hello, "world");
 		});
 	},
@@ -57,8 +57,8 @@ describeWithContext(
 describeWithContext(
 	"Context (Promise Function)",
 	async () => Promise.resolve({ hello: "world" }),
-	({ assert, test }) => {
-		test("should have context from an object", (context) => {
+	({ assert, it }) => {
+		it("should have context from an object", (context) => {
 			assert.is(context.hello, "world");
 		});
 	},
