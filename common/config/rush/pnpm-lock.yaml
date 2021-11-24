@@ -3,7 +3,7 @@ importers:
     specifiers: {}
   ../../packages/ada:
     dependencies:
-      '@emurgo/cardano-serialization-lib-nodejs': 8.1.0
+      '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -43,7 +43,7 @@ importers:
       uvu: 0.5.2
       watchlist: 0.3.1
     specifiers:
-      '@emurgo/cardano-serialization-lib-nodejs': ^8.0.0
+      '@emurgo/cardano-serialization-lib-nodejs': ^9.0.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-helpers': workspace:*
@@ -2651,10 +2651,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-amDVVV4demxQdcvL8xEZNrPDDXve3d1sO3/1Tk5UglG2S2RTW3nnmC2UccKYUROEaQaH6YAyZwYhzyTKQilz4g==
-  /@emurgo/cardano-serialization-lib-nodejs/8.1.0:
+  /@emurgo/cardano-serialization-lib-nodejs/9.1.2:
     dev: false
     resolution:
-      integrity: sha512-BH8MhQQt+BDqWM4Yqa9Asn/vhJJLxi43pp7Crq6bdQuj2NOT2F6e3nhdLS2KJhvb47YGFdg0pnvGaH+TCmUoIA==
+      integrity: sha512-wX0z/P2xysCjSxClnJxdcEKk9+uttpLnHiCsHZj1x+FEUYZ0FCnfIsJT8nN7oRCGyM/Y9peppoZUbqR05d97nQ==
   /@eslint/eslintrc/1.0.4:
     dependencies:
       ajv: 6.12.6
