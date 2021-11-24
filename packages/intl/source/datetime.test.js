@@ -7,7 +7,7 @@ let subject;
 describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 	beforeEach(() => (subject = DateTime.make("2020-01-01")));
 
-	it("should make", () => {
+	it("should create an instance", () => {
 		const consoleSpy = stub(console, "debug");
 
 		DateTime.make("2020-01-01 12:00:00", "invalid");
@@ -15,17 +15,7 @@ describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 		consoleSpy.calledWith("Failed to load data for the [invalid] locale.");
 	});
 
-	it("should setLocale", () => {
-		const subject = DateTime.fromUnix(1_596_534_984);
-
-		assert.is(subject.format("L LTS"), "08/04/2020 9:56:24 AM");
-
-		subject.setLocale("de");
-
-		assert.is(subject.format("L LTS"), "08/04/2020 9:56:24 AM");
-	});
-
-	it("should fromUnix", () => {
+	it("should create an instance from a UNIX timestamp", () => {
 		const subject = DateTime.fromUnix(1_596_534_984);
 
 		assert.is(subject.format("YYYY-MM-DDTHH:mm:ssZ[Z]"), "2020-08-04T09:56:24+00:00Z");
@@ -35,274 +25,284 @@ describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 		assert.is(subject.format("L LTS"), "08/04/2020 9:56:24 AM");
 	});
 
-	it("should isBefore", () => {
+	it("should set the locale", () => {
+		const subject = DateTime.fromUnix(1_596_534_984);
+
+		assert.is(subject.format("L LTS"), "08/04/2020 9:56:24 AM");
+
+		subject.setLocale("de");
+
+		assert.is(subject.format("L LTS"), "08/04/2020 9:56:24 AM");
+	});
+
+	it("should determine if the date is before another date", () => {
 		assert.true(subject.isBefore(DateTime.make("2020-01-01").addDay()));
 		assert.false(subject.isBefore(DateTime.make("2020-01-01").subDay()));
 	});
 
-	it("should isSame", () => {
+	it("should determine if two dates the same", () => {
 		assert.true(subject.isSame(subject));
 		assert.false(subject.isSame(DateTime.make("2020-01-01").addDay()));
 	});
 
-	it("should isAfter", () => {
+	it("should determine if the date is after another date", () => {
 		assert.true(subject.isAfter(DateTime.make("2020-01-01").subDay()));
 		assert.false(subject.isAfter(DateTime.make("2020-01-01").addDay()));
 	});
 
-	it("should getMillisecond", () => {
+	it("should get the millisecond", () => {
 		assert.is(subject.getMillisecond(), 0);
 	});
 
-	it("should getSecond", () => {
+	it("should get the second", () => {
 		assert.is(subject.getSecond(), 0);
 	});
 
-	it("should getMinute", () => {
+	it("should get the minute", () => {
 		assert.is(subject.getMinute(), 0);
 	});
 
-	it("should getHour", () => {
+	it("should get the hour", () => {
 		assert.is(subject.getHour(), 0);
 	});
 
-	it("should getDayOfMonth", () => {
+	it("should get the dayofmonth", () => {
 		assert.is(subject.getDayOfMonth(), 1);
 	});
 
-	it("should getDay", () => {
+	it("should get the day", () => {
 		assert.is(subject.getDay(), 1);
 	});
 
-	it("should getWeek", () => {
+	it("should get the week", () => {
 		assert.is(subject.getWeek(), 1);
 	});
 
-	it("should getMonth", () => {
+	it("should get the month", () => {
 		assert.is(subject.getMonth(), 0);
 	});
 
-	it("should getQuarter", () => {
+	it("should get the quarter", () => {
 		assert.is(subject.getQuarter(), 1);
 	});
 
-	it("should getYear", () => {
+	it("should get the year", () => {
 		assert.is(subject.getYear(), 2020);
 	});
 
-	it("should setMillisecond", () => {
+	it("should set the millisecond", () => {
 		assert.is(subject.setMillisecond(500).getMillisecond(), 500);
 	});
 
-	it("should setSecond", () => {
+	it("should set the second", () => {
 		assert.is(subject.setSecond(30).getSecond(), 30);
 	});
 
-	it("should setMinute", () => {
+	it("should set the minute", () => {
 		assert.is(subject.setMinute(30).getMinute(), 30);
 	});
 
-	it("should setHour", () => {
+	it("should set the hour", () => {
 		assert.is(subject.setHour(12).getHour(), 12);
 	});
 
-	it("should setDayOfMonth", () => {
+	it("should set the dayofmonth", () => {
 		assert.is(subject.setDayOfMonth(15).getDayOfMonth(), 15);
 	});
 
-	it("should setDay", () => {
+	it("should set the day", () => {
 		assert.is(subject.setDay(123).getDay(), 123);
 	});
 
-	it("should setWeek", () => {
+	it("should set the week", () => {
 		assert.is(subject.setWeek(26).getWeek(), 26);
 	});
 
-	it("should setMonth", () => {
+	it("should set the month", () => {
 		assert.is(subject.setMonth(3).getMonth(), 3);
 	});
 
-	it("should setQuarter", () => {
+	it("should set the quarter", () => {
 		assert.is(subject.setQuarter(2).getQuarter(), 2);
 	});
 
-	it("should setYear", () => {
+	it("should set the year", () => {
 		assert.is(subject.setYear(123).getYear(), 123);
 	});
 
-	it("should addMillisecond", () => {
+	it("should add millisecond", () => {
 		assert.is.not(subject.addMillisecond().toISOString(), subject.toISOString());
 	});
 
-	it("should addMilliseconds", () => {
+	it("should add milliseconds", () => {
 		assert.is.not(subject.addMilliseconds(5).toISOString(), subject.toISOString());
 	});
 
-	it("should addSecond", () => {
+	it("should add second", () => {
 		assert.is.not(subject.addSecond().toString(), subject.toString());
 	});
 
-	it("should addSeconds", () => {
+	it("should add seconds", () => {
 		assert.is.not(subject.addSeconds(5).toString(), subject.toString());
 	});
 
-	it("should addMinute", () => {
+	it("should add minute", () => {
 		assert.is.not(subject.addMinute().toString(), subject.toString());
 	});
 
-	it("should addMinutes", () => {
+	it("should add minutes", () => {
 		assert.is.not(subject.addMinutes(5).toString(), subject.toString());
 	});
 
-	it("should addHour", () => {
+	it("should add hour", () => {
 		assert.is.not(subject.addHour().toString(), subject.toString());
 	});
 
-	it("should addHours", () => {
+	it("should add hours", () => {
 		assert.is.not(subject.addHours(5).toString(), subject.toString());
 	});
 
-	it("should addDay", () => {
+	it("should add day", () => {
 		assert.is.not(subject.addDay().toString(), subject.toString());
 	});
 
-	it("should addDays", () => {
+	it("should add days", () => {
 		assert.is.not(subject.addDays(5).toString(), subject.toString());
 	});
 
-	it("should addWeek", () => {
+	it("should add week", () => {
 		assert.is.not(subject.addWeek().toString(), subject.toString());
 	});
 
-	it("should addWeeks", () => {
+	it("should add weeks", () => {
 		assert.is.not(subject.addWeeks(5).toString(), subject.toString());
 	});
 
-	it("should addMonth", () => {
+	it("should add month", () => {
 		assert.is.not(subject.addMonth().toString(), subject.toString());
 	});
 
-	it("should addMonths", () => {
+	it("should add months", () => {
 		assert.is.not(subject.addMonths(5).toString(), subject.toString());
 	});
 
-	it("should addYear", () => {
+	it("should add year", () => {
 		assert.is.not(subject.addYear().toString(), subject.toString());
 	});
 
-	it("should addYears", () => {
+	it("should add years", () => {
 		assert.is.not(subject.addYears(5).toString(), subject.toString());
 	});
 
-	it("should subMillisecond", () => {
+	it("should subtract millisecond", () => {
 		assert.is.not(subject.subMillisecond().toString(), subject.toString());
 	});
 
-	it("should subMilliseconds", () => {
+	it("should subtract milliseconds", () => {
 		assert.is.not(subject.subMilliseconds(5).toString(), subject.toString());
 	});
 
-	it("should subSecond", () => {
+	it("should subtract second", () => {
 		assert.is.not(subject.subSecond().toString(), subject.toString());
 	});
 
-	it("should subSeconds", () => {
+	it("should subtract seconds", () => {
 		assert.is.not(subject.subSeconds(5).toString(), subject.toString());
 	});
 
-	it("should subMinute", () => {
+	it("should subtract minute", () => {
 		assert.is.not(subject.subMinute().toString(), subject.toString());
 	});
 
-	it("should subMinutes", () => {
+	it("should subtract minutes", () => {
 		assert.is.not(subject.subMinutes(5).toString(), subject.toString());
 	});
 
-	it("should subHour", () => {
+	it("should subtract hour", () => {
 		assert.is.not(subject.subHour().toString(), subject.toString());
 	});
 
-	it("should subHours", () => {
+	it("should subtract hours", () => {
 		assert.is.not(subject.subHours(5).toString(), subject.toString());
 	});
 
-	it("should subDay", () => {
+	it("should subtract day", () => {
 		assert.is.not(subject.subDay().toString(), subject.toString());
 	});
 
-	it("should subDays", () => {
+	it("should subtract days", () => {
 		assert.is.not(subject.subDays(5).toString(), subject.toString());
 	});
 
-	it("should subWeek", () => {
+	it("should subtract week", () => {
 		assert.is.not(subject.subWeek().toString(), subject.toString());
 	});
 
-	it("should subWeeks", () => {
+	it("should subtract weeks", () => {
 		assert.is.not(subject.subWeeks(5).toString(), subject.toString());
 	});
 
-	it("should subMonth", () => {
+	it("should subtract month", () => {
 		assert.is.not(subject.subMonth().toString(), subject.toString());
 	});
 
-	it("should subMonths", () => {
+	it("should subtract months", () => {
 		assert.is.not(subject.subMonths(5).toString(), subject.toString());
 	});
 
-	it("should subQuarter", () => {
+	it("should subtract quarter", () => {
 		assert.is.not(subject.subQuarter().toString(), subject.toString());
 	});
 
-	it("should subQuarters", () => {
+	it("should subtract quarters", () => {
 		assert.is.not(subject.subQuarters(5).toString(), subject.toString());
 	});
 
-	it("should subYear", () => {
+	it("should subtract year", () => {
 		assert.is.not(subject.subYear().toString(), subject.toString());
 	});
 
-	it("should subYears", () => {
+	it("should subtract years", () => {
 		assert.is.not(subject.subYears(5).toString(), subject.toString());
 	});
 
-	it("should diffInMilliseconds", () => {
+	it("should determine the difference in milliseconds", () => {
 		assert.is(subject.diffInMilliseconds(subject.addMillisecond()), -1);
 	});
 
-	it("should diffInSeconds", () => {
+	it("should determine the difference in seconds", () => {
 		assert.is(subject.diffInSeconds(subject.addSecond()), -1);
 	});
 
-	it("should diffInMinutes", () => {
+	it("should determine the difference in minutes", () => {
 		assert.is(subject.diffInMinutes(subject.addMinute()), -1);
 	});
 
-	it("should diffInHours", () => {
+	it("should determine the difference in hours", () => {
 		assert.is(subject.diffInHours(subject.addHour()), -1);
 	});
 
-	it("should diffInDays", () => {
+	it("should determine the difference in days", () => {
 		assert.is(subject.diffInDays(subject.addDay()), -1);
 	});
 
-	it("should diffInWeeks", () => {
+	it("should determine the difference in weeks", () => {
 		assert.is(subject.diffInWeeks(subject.addWeek()), -1);
 	});
 
-	it("should diffInMonths", () => {
+	it("should determine the difference in months", () => {
 		assert.is(subject.diffInMonths(subject.addMonth()), -1);
 	});
 
-	it("should diffInQuarters", () => {
+	it("should determine the difference in quarters", () => {
 		assert.is(subject.diffInQuarters(subject.addQuarter()), -1);
 	});
 
-	it("should diffInYears", () => {
+	it("should determine the difference in years", () => {
 		assert.is(subject.diffInYears(subject.addYear()), -1);
 	});
 
-	it("should format", () => {
+	it("should format the date using the given rules", () => {
 		assert.is(subject.format("YYYY-MM-DDTHH:mm:ssZ[Z]"), "2020-01-01T00:00:00+00:00Z");
 		assert.is(subject.format("DD/MM/YYYY"), "01/01/2020");
 		assert.is(subject.format("L h:mm:ss A"), "01/01/2020 12:00:00 AM");
@@ -310,7 +310,7 @@ describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 		assert.is(subject.format("L LTS"), "01/01/2020 12:00:00 AM");
 	});
 
-	it("should toObject", () => {
+	it("should transform the date into an object containing each segment", () => {
 		assert.equal(subject.toObject(), {
 			date: 1,
 			hours: 0,
@@ -322,35 +322,35 @@ describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 		});
 	});
 
-	it("should toJSON", () => {
+	it("should transform the date into a JSON string", () => {
 		assert.is(subject.toJSON(), "2020-01-01T00:00:00.000Z");
 	});
 
-	it("should toISOString", () => {
+	it("should transform the date into a ISO string", () => {
 		assert.is(subject.toISOString(), "2020-01-01T00:00:00.000Z");
 	});
 
-	it("should toString", () => {
+	it("should transform the date into a human-readable string", () => {
 		assert.is(subject.toString(), "Wed, 01 Jan 2020 00:00:00 GMT");
 	});
 
-	it("should toUNIX", () => {
+	it("should transform the date into a UNIX timestamp", () => {
 		assert.is(subject.toUNIX(), 1_577_836_800);
 	});
 
-	it("should valueOf", () => {
+	it("should transform the date into a timestamp with milliseconds", () => {
 		assert.is(subject.valueOf(), 1_577_836_800_000);
 	});
 
-	it("should toDate", () => {
+	it("should transform the date into a native Date instance", () => {
 		assert.instance(subject.toDate(), Date);
 	});
 
-	it("should startOf", () => {
+	it("should return the start of the year", () => {
 		assert.is(subject.startOf("year").toISOString(), "2020-01-01T00:00:00.000Z");
 	});
 
-	it("should from", () => {
+	it("should determine a human-readable difference between years", () => {
 		assert.is(subject.from("2019"), "in a year");
 		assert.is(subject.from("2019", true), "a year");
 
@@ -364,14 +364,14 @@ describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 		assert.is(subject.from("2022", true), "2 years");
 	});
 
-	it("should fromNow", () => {
+	it("should determine a human-readable difference between now and another date", () => {
 		const now = DateTime.make().toString();
 		const fromNow = subject.from(now).toString();
 
 		assert.is(subject.fromNow(), fromNow);
 	});
 
-	it("should isValid", () => {
+	it("should determine if the date is valid", () => {
 		assert.true(subject.isValid());
 
 		const invalidDate = DateTime.make("abc");
