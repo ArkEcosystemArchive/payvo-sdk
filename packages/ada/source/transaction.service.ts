@@ -1,4 +1,5 @@
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, IoC, Services } from "@payvo/sdk";
+import { convertBuffer } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
@@ -11,7 +12,7 @@ import { UnspentTransaction } from "./transaction.models";
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const { minFeeA, minFeeB, minUTxOValue, poolDeposit, keyDeposit, networkId } =
+		const { minFeeA, minFeeB, minUTxOValue, poolDeposit, keyDeposit, maxValueSize, maxTxSize, networkId } =
 			this.configRepository.get<Contracts.KeyValuePair>("network.meta");
 
 		// This is the transaction builder that uses values from the genesis block of the configured network.
@@ -23,6 +24,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			CardanoWasm.BigNum.from_str(minUTxOValue.toString()),
 			CardanoWasm.BigNum.from_str(poolDeposit.toString()),
 			CardanoWasm.BigNum.from_str(keyDeposit.toString()),
+			maxValueSize,
+			maxTxSize,
 		);
 
 		// Get a `Bip32PrivateKey` instance according to `CIP1852` and turn it into a `PrivateKey` instance
@@ -105,7 +108,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		// Build the signed transaction
 		return this.dataTransferObjectService.signedTransaction(
-			Buffer.from(txHash.to_bytes()).toString("hex"),
+			convertBuffer(Buffer.from(txHash.to_bytes())),
 			{
 				// @TODO This doesn't make sense in Cardano, because there can be any many senders (all addresses from the same sender)
 				sender: input.signatory.publicKey(),
@@ -114,7 +117,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				fee: txBody.fee().to_str(),
 				timestamp: DateTime.make(),
 			},
-			Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses).to_bytes()).toString("hex"),
+			convertBuffer(Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses, undefined).to_bytes())),
 		);
 	}
 

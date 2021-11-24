@@ -1,5 +1,5 @@
 import { describe, loader, nock } from "@payvo/sdk-test";
-import { DTO, IoC, Services, Signatories } from "@payvo/sdk";
+import { DTO, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { createService } from "../test/mocking";
@@ -176,27 +176,24 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 
-		const transfer = await txService.transfer({
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey:
-						"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
-					address:
-						"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				amount: 1,
-				to: "addr_test1qpgs3nex8wvaggzx9pnwjgh946e7zk3k8vc9lnf4jrk5fs4u9m4778wzj4rhddna0s2tszgz9neja69f4q6xwp2w6wqsnfunm6",
+		const transfer = await createService(SignedTransactionData);
+		transfer.configure(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+			{
+				amount: "1000000",
+				fee: "168273",
+				timestamp: "1970-01-01T00:00:00.000Z",
+				sender: "publicKey",
+				recipient:
+					"addr_test1qpz03ezdyda8ag724zp3n5fqulay02dp7j9mweyeylcaapsxu2hyfhlkwuxupa9d5085eunq2qywy7hvmvej456flknscw3xw7",
 			},
-		});
+			"83a40081825820844def3c505ec24317f8f539a001989951c37a9dea5764e87e60654a86358a4d0001828258390044f8e44d237a7ea3caa88319d120e7fa47a9a1f48bb7649927f1de8606e2ae44dff6770dc0f4ada3cf4cf2605008e27aecdb332ad349fda71a000f4240825839009324efcaacd8500b53493a8dc9f2570211c68813280ce4f0f54e571bf63ad603a628ea1f7397b90b0d13274543fe50a4ef5819ec332ffc631a3b74159e021a00029151031a016c301ea10081825820f9162b91126212b71500e89dc7da31111dfc1466a9f24f48a34e7ea529d2d3385840df186965621768ce54cbe83493e8c5e3feba56f24c15f9033802254e566afc1eadb15af83068dc76cdb243fc7b3d58dd9849bf9d7a83fa2a1b7499f96a723c01f6",
+		);
 
 		const transactions = [transfer];
 		const result = await subject.broadcast(transactions);
 		assert.equal(result, {
-			accepted: ["a190c2c349983eda75bf0e31dc1b84b7fc08462416d9e7a1ac6d780ce2e5b568"],
+			accepted: ["3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572"],
 			rejected: [],
 			errors: {},
 		});

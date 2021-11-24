@@ -1,6 +1,5 @@
-import { describe, loader } from "@payvo/sdk-test";
+import { describe, loader, nock } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
@@ -11,6 +10,8 @@ import { TransactionService } from "./transaction.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
+import { convertString } from "@payvo/sdk-helpers";
 
 let subject;
 
@@ -63,8 +64,14 @@ describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
 			},
 		});
 
+		console.log(CardanoWasm.Transaction.from_bytes(convertString(result.toBroadcast())));
+
 		assert.instance(result, SignedTransactionData);
-		assert.is(result.id(), "e2e75b04c4b1dc4d4b3db14166fb02cb26f5b9ed3c49b1e1c8379a21502dc77c");
+		assert.is(result.id(), "2320a48ac62f19f6a5e028cc8b33e4ffce8dc2684d20b1cb7b703e534a3bf454");
 		assert.is(result.amount().toString(), "1000000");
+		assert.is(
+			result.toBroadcast(),
+			"84a400818258204dc971406792e2c7eac907743043148868fb73d1931476f55abe3a0fc08749c40101828258390044f8e44d237a7ea3caa88319d120e7fa47a9a1f48bb7649927f1de8606e2ae44dff6770dc0f4ada3cf4cf2605008e27aecdb332ad349fda71a000f4240825839009324efcaacd8500b53493a8dc9f2570211c68813280ce4f0f54e571bf63ad603a628ea1f7397b90b0d13274543fe50a4ef5819ec332ffc631a3a6d5286021a0002917d031a029624a0a10081825820a39421323978b0c5a0d481701b185a70f147e298f760f6082a3b0b44245c841c5840b74e9732a261b834a35b624c9cc146423fd97212c5bddcc40aaab20792ca86ab84fc522e4785f099a309e9e132c70056745c446e111de85b18da0ab245f24b07f5f6",
+		);
 	});
 });

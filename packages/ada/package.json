@@ -22,7 +22,7 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
-		"@emurgo/cardano-serialization-lib-nodejs": "^8.0.0",
+		"@emurgo/cardano-serialization-lib-nodejs": "^9.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
@@ -41,7 +41,6 @@
 		"@typescript-eslint/eslint-plugin": "^5.4.0",
 		"@typescript-eslint/parser": "^5.4.0",
 		"c8": "~7.10.0",
-		"cardano-crypto.js": "^6.1.0",
 		"eslint": "^8.3.0",
 		"eslint-config-prettier": "^8.3.0",
 		"eslint-plugin-import": "^2.25.3",

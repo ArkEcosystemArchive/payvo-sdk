@@ -3,7 +3,7 @@ importers:
     specifiers: {}
   ../../packages/ada:
     dependencies:
-      '@emurgo/cardano-serialization-lib-nodejs': 8.1.0
+      '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -21,7 +21,6 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.4.0_5c8ff4cecd5a55e744866c0654edac32
       '@typescript-eslint/parser': 5.4.0_eslint@8.3.0+typescript@4.5.2
       c8: 7.10.0
-      cardano-crypto.js: 6.1.0
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
       eslint-plugin-import: 2.25.3_eslint@8.3.0
@@ -43,7 +42,7 @@ importers:
       uvu: 0.5.2
       watchlist: 0.3.1
     specifiers:
-      '@emurgo/cardano-serialization-lib-nodejs': ^8.0.0
+      '@emurgo/cardano-serialization-lib-nodejs': ^9.0.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-helpers': workspace:*
@@ -60,7 +59,6 @@ importers:
       '@typescript-eslint/parser': ^5.4.0
       bech32: ^2.0.0
       c8: ~7.10.0
-      cardano-crypto.js: ^6.1.0
       eslint: ^8.3.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-import: ^2.25.3
@@ -1242,7 +1240,6 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.4.0_5c8ff4cecd5a55e744866c0654edac32
       '@typescript-eslint/parser': 5.4.0_eslint@8.3.0+typescript@4.5.2
       c8: 7.10.0
-      cardano-crypto.js: 6.1.0
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
       eslint-plugin-import: 2.25.3_eslint@8.3.0
@@ -1280,7 +1277,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.4.0
       '@typescript-eslint/parser': ^5.4.0
       c8: ~7.10.0
-      cardano-crypto.js: ^6.1.0
       eslint: ^8.3.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-import: ^2.25.3
@@ -1392,7 +1388,6 @@ importers:
       '@typescript-eslint/eslint-plugin': 5.4.0_5c8ff4cecd5a55e744866c0654edac32
       '@typescript-eslint/parser': 5.4.0_eslint@8.3.0+typescript@4.5.2
       c8: 7.10.0
-      cardano-crypto.js: 6.1.0
       eslint: 8.3.0
       eslint-config-prettier: 8.3.0_eslint@8.3.0
       eslint-plugin-import: 2.25.3_eslint@8.3.0
@@ -1430,7 +1425,6 @@ importers:
       '@typescript-eslint/eslint-plugin': ^5.4.0
       '@typescript-eslint/parser': ^5.4.0
       c8: ~7.10.0
-      cardano-crypto.js: ^6.1.0
       eslint: ^8.3.0
       eslint-config-prettier: ^8.3.0
       eslint-plugin-import: ^2.25.3
@@ -2651,10 +2645,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-amDVVV4demxQdcvL8xEZNrPDDXve3d1sO3/1Tk5UglG2S2RTW3nnmC2UccKYUROEaQaH6YAyZwYhzyTKQilz4g==
-  /@emurgo/cardano-serialization-lib-nodejs/8.1.0:
+  /@emurgo/cardano-serialization-lib-nodejs/9.1.2:
     dev: false
     resolution:
-      integrity: sha512-BH8MhQQt+BDqWM4Yqa9Asn/vhJJLxi43pp7Crq6bdQuj2NOT2F6e3nhdLS2KJhvb47YGFdg0pnvGaH+TCmUoIA==
+      integrity: sha512-wX0z/P2xysCjSxClnJxdcEKk9+uttpLnHiCsHZj1x+FEUYZ0FCnfIsJT8nN7oRCGyM/Y9peppoZUbqR05d97nQ==
   /@eslint/eslintrc/1.0.4:
     dependencies:
       ajv: 6.12.6
@@ -4043,6 +4037,7 @@ packages:
     resolution:
       integrity: sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
   /@types/node/11.11.6:
+    dev: false
     resolution:
       integrity: sha512-Exw4yUWMBXM3X+8oqzJNRqZSwUAaS4+7NdvHqQuFi/d+synz++xmX3QIf+BFqneW8N31R8Ky+sikfZUXq07ggQ==
   /@types/node/12.20.11:
@@ -5048,6 +5043,7 @@ packages:
     resolution:
       integrity: sha512-KDX2CR29o6ZoqpQndcCxFZAtYA1jDMnXU3jmCfzP44g++Cu7AHHtZN/JbrN/MXAg9SLvtQ8XISG+eVD9zH1+Jg==
   /bech32/1.1.4:
+    dev: false
     resolution:
       integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==
   /bech32/2.0.0:
@@ -5091,6 +5087,7 @@ packages:
     resolution:
       integrity: sha512-S4XzBk5sMB+Rcb/LNcpzXr57VRTxgAvaAEDAl1AwRx27j00hT84O6OkteE7u8UB3NuaaygCRrEpqox4uDOrbdQ==
   /bignumber.js/9.0.1:
+    dev: false
     resolution:
       integrity: sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA==
   /binary-extensions/2.2.0:
@@ -5196,6 +5193,7 @@ packages:
       create-hash: 1.2.0
       pbkdf2: 3.1.2
       randombytes: 2.1.0
+    dev: false
     resolution:
       integrity: sha512-YZKQlb752TrUWqHWj7XAwCSjYEgGAk+/Aas3V7NyjQeZYsztO8JnQUaCWhcnL4T+jL8nvB8typ2jRPzTlgugNw==
   /bip66/1.1.5:
@@ -5335,20 +5333,6 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw==
-  /borc/2.1.2:
-    dependencies:
-      bignumber.js: 9.0.1
-      buffer: 5.7.1
-      commander: 2.20.3
-      ieee754: 1.2.1
-      iso-url: 0.4.7
-      json-text-sequence: 0.1.1
-      readable-stream: 3.6.0
-    dev: true
-    engines:
-      node: '>=4'
-    resolution:
-      integrity: sha512-Sy9eoUi4OiKzq7VovMn246iTo17kzuyHJKomCfpWMlI6RpfN1gk95w7d7gH264nApVLg0HZfcpz62/g4VH1Y4w==
   /borsh/0.4.0:
     dependencies:
       '@types/bn.js': 4.11.6
@@ -5532,6 +5516,7 @@ packages:
     dependencies:
       base64-js: 1.5.1
       ieee754: 1.2.1
+    dev: false
     resolution:
       integrity: sha512-EHcyIPBQ4BSGlvjB16k5KgAJ27CIsHY/2JBmCRReo48y9rQ3MaUzWX3KVlBa4U7MyX02HdVj0K7C3WaB3ju7FQ==
   /buffer/6.0.1:
@@ -5722,15 +5707,6 @@ packages:
     dev: true
     resolution:
       integrity: sha512-pjC2T4DIDyGAKTL4dMvGUQaMUHRmhvPpAgNNTa14jaBWHu+bLQgvpFqElxh9L4829Fdx0PlKiMp3wnYldRtECA==
-  /cardano-crypto.js/6.1.0:
-    dependencies:
-      bech32: 1.1.4
-      bip39: 3.0.4
-      borc: 2.1.2
-      pbkdf2: 3.1.2
-    dev: true
-    resolution:
-      integrity: sha512-mS4cgQYv3S05wGE00tS86EGrZPAN/zwYn6w5tGkfFZE2xiS5lF7KlpSgOIbO7Bip5XZf1rXCLYSiWgxj2Qnkpg==
   /caseless/0.12.0:
     dev: false
     resolution:
@@ -5927,6 +5903,7 @@ packages:
     resolution:
       integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   /commander/2.20.3:
+    dev: false
     resolution:
       integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
   /commander/6.2.1:
@@ -6083,6 +6060,7 @@ packages:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
+    dev: false
     resolution:
       integrity: sha512-MJG9liiZ+ogc4TzUwuvbER1JRdgvUFSB5+VR/g5h82fGaIRWMWddtKBHi7/sVhfjQZ6SehlyhvQYrcYkaUIpLg==
   /create-xpub/2.1.0:
@@ -6414,10 +6392,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
-  /delimit-stream/0.1.0:
-    dev: true
-    resolution:
-      integrity: sha1-m4MZR3wOX4rrPONXrjBfwl6hzSs=
   /depd/1.1.2:
     dev: false
     engines:
@@ -8744,12 +8718,6 @@ packages:
   /isexe/2.0.0:
     resolution:
       integrity: sha1-6PvzdNxVb/iUehDcsFctYz8s+hA=
-  /iso-url/0.4.7:
-    dev: true
-    engines:
-      node: '>=10'
-    resolution:
-      integrity: sha512-27fFRDnPAMnHGLq36bWTpKET+eiXct3ENlCcdcMdk+mjXrb2kw3mhBUg1B7ewAC0kVzlOPhADzQgz1SE6Tglog==
   /isomorphic-dompurify/0.15.0:
     dependencies:
       '@types/dompurify': 2.3.1
@@ -9032,12 +9000,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
-  /json-text-sequence/0.1.1:
-    dependencies:
-      delimit-stream: 0.1.0
-    dev: true
-    resolution:
-      integrity: sha1-py8hfcSvxGKf/1/rME3BvVGi89I=
   /json5/1.0.1:
     dependencies:
       minimist: 1.2.5
@@ -10391,6 +10353,7 @@ packages:
       ripemd160: 2.0.2
       safe-buffer: 5.2.1
       sha.js: 2.4.11
+    dev: false
     engines:
       node: '>=0.12'
     resolution:
@@ -10713,6 +10676,7 @@ packages:
   /randombytes/2.1.0:
     dependencies:
       safe-buffer: 5.2.1
+    dev: false
     resolution:
       integrity: sha512-vYl3iOX+4CKUWuxGi9Ukhie6fsqXqS9FE2Zaic4tNFD2N2QQaXOMFbuKK4QmDHC0JO6B1Zp41J0LpT0oR68amQ==
   /randomfill/1.0.4:
