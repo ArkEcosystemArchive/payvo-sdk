@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,32 +33,32 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const xrp = await createMockService("");
 
 		assert.undefined(await xrp.disconnect());
 	});
 });
 
-describe("getVersion", ({ afterEach, beforeEach, test }) => {
-	test("should pass with an app version", async () => {
+describe("getVersion", ({ it, assert }) => {
+	it("should pass with an app version", async () => {
 		const xrp = await createMockService(ledger.appVersion.record);
 
 		assert.is(await xrp.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a compressed publicKey", async () => {
+describe("getPublicKey", ({ it, assert }) => {
+	it("should pass with a compressed publicKey", async () => {
 		const xrp = await createMockService(ledger.publicKey.record);
 
 		assert.is(await xrp.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a signature", async () => {
+describe("signTransaction", ({ it, assert }) => {
+	it("should pass with a signature", async () => {
 		const xrp = await createMockService(ledger.transaction.record);
 
 		assert.is(
@@ -68,12 +68,10 @@ describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("signMessage", ({ afterEach, beforeEach, test }) => {
-	test("should fail with a 'NotImplemented' error", async () => {
+describe("signMessage", ({ it, assert }) => {
+	it("should fail with a 'NotImplemented' error", async () => {
 		const xrp = await createMockService("");
 
 		await assert.rejects(() => xrp.signMessage("", Buffer.alloc(0)));
 	});
 });
-
-test.run();
