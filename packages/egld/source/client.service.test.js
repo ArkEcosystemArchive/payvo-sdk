@@ -1,4 +1,4 @@
-import { assert, loader, test } from "@payvo/sdk-test";
+import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { nock } from "@payvo/sdk-test";
 
@@ -10,59 +10,57 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-	nock.disableNetConnect();
+describe("ClientService", async ({ beforeAll, afterEach, assert, it }) => {
+	beforeAll(async () => {
+		nock.disableNetConnect();
 
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+		subject = await createService(ClientService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-test.after.each(() => nock.cleanAll());
-
-test.before(async () => {
-	nock.disableNetConnect();
-});
-
-test("#transaction", async () => {
-	nock.fake(/.+/)
-		.get("/v1.0/transaction/c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66")
-		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
-
-	const result = await subject.transaction("c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66");
-
-	assert.instance(result, ConfirmedTransactionData);
-});
-
-test("#transactions", async () => {
-	nock.fake(/.+/)
-		.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7/transactions")
-		.reply(200, loader.json(`test/fixtures/client/transactions.json`));
-
-	const result = await subject.transactions({
-		identifiers: [{ type: "address", value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7" }],
 	});
 
-	assert.instance(result.items()[0], ConfirmedTransactionData);
-});
-
-test("#wallet", async () => {
-	nock.fake(/.+/)
-		.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7")
-		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
-
-	const result = await subject.wallet({
-		type: "address",
-		value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7",
+	afterEach(() => {
+		nock.cleanAll();
 	});
 
-	assert.instance(result, WalletData);
-});
+	it("#transaction should succeed", async () => {
+		nock.fake(/.+/)
+			.get("/v1.0/transaction/c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66")
+			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-test.run();
+		const result = await subject.transaction("c2e6e2c75357b7d69d735d5ce7d7e9a77291477d0a11ba158b5cf39317398f66");
+
+		assert.instance(result, ConfirmedTransactionData);
+	});
+
+	it("#transactions should succeed", async () => {
+		nock.fake(/.+/)
+			.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7/transactions")
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
+
+		const result = await subject.transactions({
+			identifiers: [{ type: "address", value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7" }],
+		});
+
+		assert.instance(result.items()[0], ConfirmedTransactionData);
+	});
+
+	it("#wallet should succeed", async () => {
+		nock.fake(/.+/)
+			.get("/v1.0/address/erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
+
+		const result = await subject.wallet({
+			type: "address",
+			value: "erd17uy64y9zw8zd4xz5d2deqmxfxkk3zfuj0jh24k0s5jqhet3pz0esng60j7",
+		});
+
+		assert.instance(result, WalletData);
+	});
+});
