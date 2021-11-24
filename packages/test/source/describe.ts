@@ -1,4 +1,5 @@
 import { Context, suite, Test } from "uvu";
+import { z as zod } from "zod";
 
 import { assert } from "./assert.js";
 import { eachSuite } from "./each.js";
@@ -26,6 +27,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		spy: Mockery.spy,
 		stub: Mockery.stub,
 		test: suite,
+		zod,
 	});
 
 	suite.run();
