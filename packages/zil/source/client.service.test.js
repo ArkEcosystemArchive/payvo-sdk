@@ -13,7 +13,8 @@ import { BindingType } from "./constants";
 
 let subject;
 
-test.before(async () => {
+describe("AddressService", async ({ assert, beforeEach, it }) => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 
 	subject = await createService(ClientService, undefined, (container) => {
@@ -30,11 +31,11 @@ test.before(async () => {
 
 test.after.each(() => nock.cleanAll());
 
-test.before(async () => {
+beforeAll(async () => {
 	nock.disableNetConnect();
 });
 
-test("#transaction", async () => {
+it("#transaction", async () => {
 	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
 	const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
@@ -48,7 +49,7 @@ test("#transaction", async () => {
 	assert.equal(result.fee(), BigNumber.make("0.1"));
 });
 
-test("#wallet", async () => {
+it("#wallet", async () => {
 	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
 	const result = await subject.wallet({
@@ -62,7 +63,7 @@ test("#wallet", async () => {
 	assert.equal(result.nonce(), BigNumber.make(1));
 });
 
-test("broadcast should pass", async () => {
+it("broadcast should pass", async () => {
 	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
@@ -89,7 +90,7 @@ test("broadcast should pass", async () => {
 	});
 });
 
-test("broadcast should fail", async () => {
+it("broadcast should fail", async () => {
 	nock.fake(/.+/)
 		.post("/")
 		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
@@ -115,5 +116,4 @@ test("broadcast should fail", async () => {
 		},
 	});
 });
-
-test.run();
+});

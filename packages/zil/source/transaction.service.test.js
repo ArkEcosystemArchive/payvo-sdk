@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
@@ -13,7 +13,8 @@ import { BindingType } from "./constants";
 
 let subject;
 
-test.before(async () => {
+describe("AddressService", async ({ assert, beforeEach, it }) => {
+beforeAll(async () => {
 	subject = await createService(TransactionService, undefined, (container) => {
 		container.constant(BindingType.Zilliqa, mockWallet());
 		container.constant(IoC.BindingType.Container, container);
@@ -28,7 +29,7 @@ test.before(async () => {
 	});
 });
 
-test("#transfer", async () => {
+it("#transfer", async () => {
 	const result = await subject.transfer({
 		signatory: new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
@@ -51,5 +52,4 @@ test("#transfer", async () => {
 	assert.string(result.toBroadcast());
 	assert.is(result.amount().toNumber(), 100_000_000_000_000);
 });
-
-test.run();
+});

@@ -6,7 +6,8 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject;
 
-test.before.each(async () => {
+describe("AddressService", async ({ assert, beforeEach, it }) => {
+beforeEach(async () => {
 	subject = await createService(SignedTransactionData);
 
 	subject.configure(
@@ -22,24 +23,23 @@ test.before.each(async () => {
 	);
 });
 
-test("#sender", () => {
+it("#sender", () => {
 	assert.is(subject.sender(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9qun");
 });
 
-test("#recipient", () => {
+it("#recipient", () => {
 	assert.is(subject.recipient(), "zil1ua64tlepq090nw8dttzxyaa9q5zths8w4m9123");
 });
 
-test("#amount", () => {
+it("#amount", () => {
 	assert.is(subject.amount().toHuman(), 120);
 });
 
-test("#fee", () => {
+it("#fee", () => {
 	assert.is(subject.fee().toString(), "25");
 });
 
-test("#timestamp", () => {
+it("#timestamp", () => {
 	assert.true(DateTime.make(0).isSame(subject.timestamp()));
 });
-
-test.run();
+});
