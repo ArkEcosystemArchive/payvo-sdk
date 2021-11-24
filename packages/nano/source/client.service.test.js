@@ -31,7 +31,9 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
 		const result = await subject.transactions({
-			identifiers: [{ type: "address", value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3" }],
+			identifiers: [
+				{ type: "address", value: "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3" },
+			],
 		});
 
 		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
