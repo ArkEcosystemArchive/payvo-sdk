@@ -109,50 +109,14 @@ jobs:
               run: cd "$GITHUB_WORKSPACE/packages/xrp/" && pnpm run test:coverage
             - name: Test ZIL
               run: cd "$GITHUB_WORKSPACE/packages/zil/" && pnpm run test:coverage
-    lint:
-        needs: [test]
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16.x]
-        concurrency:
-            group: ${{ github.head_ref }}-prettier
-            cancel-in-progress: true
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  ref: ${{ github.head_ref }}
-                  token: ${{ secrets.GH_TOKEN }}
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v1
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: Cache pnpm modules
-              uses: actions/cache@v2
-              env:
-                  cache-name: cache-pnpm-modules
-              with:
-                  path: ~/.pnpm-store
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
-                  restore-keys: ${{ runner.os }}-build-${{ env.cache-name }}-${{ matrix.node-version }}-
-            - name: Install pnpm
-              uses: pnpm/action-setup@v2
-              with:
-                  version: 6.20.4
-            - name: Install Rush
-              run: pnpm install -g @microsoft/rush
-            - name: Install dependencies
-              run: node common/scripts/install-run-rush.js install
-            - name: Install ts-morph
-              run: pnpm install --frozen-lockfile
-            - name: Update manifests
-              run: sh scripts/update-manifests.sh
-            - name: Sort
-              run: npx sort-package-json packages/**/package.json
             - name: Lint
-              run: rush lint || true
-            - name: Format
-              run: pnpm run prettier
+              run: |
+                  cd $GITHUB_WORKSPACE
+                  pnpm install --frozen-lockfile
+                  sh scripts/update-manifests.sh
+                  npx sort-package-json packages/**/package.json
+                  rush lint || true
+                  pnpm run prettier
             - uses: stefanzweifel/git-auto-commit-action@v4
               with:
                   commit_message: "style: resolve style guide violations"
