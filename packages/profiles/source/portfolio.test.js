@@ -14,8 +14,6 @@ let subject;
 
 test.before(() => {
 	bootContainer();
-
-	nock.disableNetConnect();
 });
 
 test.before.each(async () => {

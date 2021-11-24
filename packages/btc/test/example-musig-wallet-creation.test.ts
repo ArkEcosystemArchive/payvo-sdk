@@ -25,8 +25,6 @@ let subject: TransactionService;
 let musigService: MultiSignatureService;
 
 beforeEach(async () => {
-	nock.disableNetConnect();
-
 	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
