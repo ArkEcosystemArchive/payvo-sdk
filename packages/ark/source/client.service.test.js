@@ -1,5 +1,5 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
-import { IoC, Services, Test } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
@@ -10,35 +10,11 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-	nock.disableNetConnect();
+describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) => {
+	beforeAll(async () => {
+		nock.disableNetConnect();
 
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-test.after.each(() => nock.cleanAll());
-
-test("#transaction", async () => {
-	nock.fake(/.+/)
-		.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
-		.reply(200, loader.json(`test/fixtures/client/transaction.json`));
-
-	const result = await subject.transaction("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
-
-	assert.instance(result, ConfirmedTransactionData);
-});
-
-describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		subject = await createService(ClientService, "ark.mainnet", (container) => {
+		subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -49,7 +25,19 @@ describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, tes
 		});
 	});
 
-	test("single address", async () => {
+	afterEach(() => nock.cleanAll());
+
+	it("should retrieve a transaction", async () => {
+		nock.fake(/.+/)
+			.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
+			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
+
+		const result = await subject.transaction("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+
+		assert.instance(result, ConfirmedTransactionData);
+	});
+
+	it("should retrieve a list of transactions for a single address via Core 2.0", async () => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
@@ -64,7 +52,7 @@ describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, tes
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	test("multiple addresses", async () => {
+	it("should retrieve a list of transactions for multiple addresses via Core 2.0", async () => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -84,22 +72,8 @@ describe("transactions should work with Core 2.0", ({ afterEach, beforeEach, tes
 		assert.object(result);
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
-});
 
-describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		subject = await createService(ClientService, "ark.devnet", (container) => {
-			container.constant(IoC.BindingType.Container, container);
-			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
-				ConfirmedTransactionData,
-				WalletData,
-			});
-			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		});
-	});
-
-	test("single address", async () => {
+	it("should retrieve a list of transactions for a single address via Core 3.0", async () => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
@@ -113,7 +87,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	test("multiple addresses", async () => {
+	it("should retrieve a list of transactions for multiple addresses via Core 3.0", async () => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
@@ -130,7 +104,7 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	test("for advanced search", async () => {
+	it("should retrieve a list of transactions for an advanced search via Core 3.0", async () => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -151,23 +125,21 @@ describe("should work with Core 3.0", ({ afterEach, beforeEach, test }) => {
 		assert.object(result);
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
-});
 
-test("#wallet", async () => {
-	nock.fake(/.+/)
-		.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
-		.reply(200, loader.json(`test/fixtures/client/wallet.json`));
+	it("should retrieve a wallet", async () => {
+		nock.fake(/.+/)
+			.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-	const result = await subject.wallet({
-		type: "address",
-		value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+		const result = await subject.wallet({
+			type: "address",
+			value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+		});
+
+		assert.instance(result, WalletData);
 	});
 
-	assert.instance(result, WalletData);
-});
-
-describe("#wallets", ({ afterEach, beforeEach, test }) => {
-	test("should work with Core 2.0", async () => {
+	it("should retrieve a list of wallets via Core 2.0", async () => {
 		subject = await createService(ClientService, "ark.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -191,7 +163,7 @@ describe("#wallets", ({ afterEach, beforeEach, test }) => {
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	test("should work with Core 3.0", async () => {
+	it("should retrieve a list of wallets via Core 3.0", async () => {
 		subject = await createService(ClientService, "ark.devnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -214,33 +186,27 @@ describe("#wallets", ({ afterEach, beforeEach, test }) => {
 		assert.object(result);
 		assert.instance(result.items()[0], WalletData);
 	});
-});
 
-test("#delegate", async () => {
-	nock.fake(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
+	it("should retrieve a delegate", async () => {
+		nock.fake(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
-	const result = await subject.delegate("arkx");
+		const result = await subject.delegate("arkx");
 
-	assert.instance(result, WalletData);
-});
-
-test("#delegates", async () => {
-	nock.fake(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
-
-	const result = await subject.delegates();
-
-	assert.object(result);
-	assert.instance(result.items()[0], WalletData);
-});
-
-describe("#votes", ({ afterEach, beforeEach, test }) => {
-	let fixture;
-
-	test.before.each(async () => {
-		fixture = loader.json(`test/fixtures/client/wallet.json`);
+		assert.instance(result, WalletData);
 	});
 
-	test("should succeed", async () => {
+	it("should retrieve a list of delegates", async () => {
+		nock.fake(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
+
+		const result = await subject.delegates();
+
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
+	});
+
+	it("should retrieve votes of a wallet", async () => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
 		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixture);
 
 		const result = await subject.votes("arkx");
@@ -251,7 +217,9 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 		assert.array(result.votes);
 	});
 
-	test("should succeed without vote", async () => {
+	it("should retrieve votes of a wallet without a vote", async () => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
 		const fixtureWithoutVote = {
 			data: {
 				...fixture.data,
@@ -273,7 +241,9 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 		assert.array(result.votes);
 	});
 
-	test("should succeed without attributes when no vote", async () => {
+	it("should retrieve votes of a wallet without attributes when not voting", async () => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
 		const fixtureWithoutVote = {
 			data: {
 				...fixture.data,
@@ -292,7 +262,9 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 		assert.array(result.votes);
 	});
 
-	test("should succeed without attributes", async () => {
+	it("should retrieve votes of a wallet without attributes", async () => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
 		const fixtureWithoutVote = {
 			data: {
 				...fixture.data,
@@ -309,25 +281,18 @@ describe("#votes", ({ afterEach, beforeEach, test }) => {
 		assert.is(result.available, 0);
 		assert.array(result.votes);
 	});
-});
 
-test("#voters", async () => {
-	nock.fake(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
+	it("should retrieve a list of voters", async () => {
+		nock.fake(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
 
-	const result = await subject.voters("arkx");
+		const result = await subject.voters("arkx");
 
-	assert.object(result);
-	assert.instance(result.items()[0], WalletData);
-});
-
-describe("#broadcast", ({ afterEach, beforeEach, test }) => {
-	let fixture;
-
-	beforeEach(async () => {
-		fixture = loader.json(`test/fixtures/client/broadcast.json`);
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
 	});
 
-	test("should accept 1 transaction and reject 1 transaction", async () => {
+	it("should broadcast and accept 1 transaction and reject 1 transaction", async () => {
+		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
 		nock.fake(/.+/).post("/api/transactions").reply(422, fixture);
 
 		const mock = { toBroadcast: () => "" };
@@ -342,7 +307,8 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 		});
 	});
 
-	test("should read errors in non-array format", async () => {
+	it("should broadcast and read errors in non-array format", async () => {
+		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
 		const errorId = Object.keys(fixture.errors)[0];
 		const nonArrayFixture = {
 			data: fixture.data,
@@ -363,5 +329,3 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 		});
 	});
 });
-
-test.run();

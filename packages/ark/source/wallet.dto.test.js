@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { WalletData } from "./wallet.dto";
@@ -77,81 +77,79 @@ const WalletDataFixture = {
 };
 
 for (const network of ["mainnet", "devnet"]) {
-	describe(network, ({ afterEach, beforeEach, test }) => {
+	describe(`WalletData - ${network}`, ({ assert, beforeEach, it }) => {
 		beforeEach(async () => {
 			subject = (await createService(WalletData)).fill(WalletDataFixture[network]);
 		});
 
-		test("#primaryKey", () => {
+		it("should have a primary key", () => {
 			assert.is(subject.primaryKey(), "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9");
 		});
 
-		test("#address", () => {
+		it("should have a address", () => {
 			assert.is(subject.address(), "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9");
 		});
 
-		test("#publicKey", () => {
+		it("should have a public key", () => {
 			assert.is(subject.publicKey(), "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec");
 		});
 
-		test("#balance", () => {
+		it("should have a balance", () => {
 			assert.equal(subject.balance().available, BigNumber.make("55827093444556"));
 		});
 
-		test("#nonce", () => {
+		it("should have a nonce", () => {
 			assert.equal(subject.nonce(), BigNumber.make("111932"));
 		});
 
-		test("#secondPublicKey", () => {
+		it("should have a secondary public key", () => {
 			assert.undefined(subject.secondPublicKey());
 		});
 
-		test("#username", () => {
+		it("should have a username", () => {
 			assert.is(subject.username(), "arkx");
 		});
 
-		test("#rank", () => {
+		it("should have a rank", () => {
 			assert.undefined(subject.rank());
 		});
 
-		test("#votes", () => {
+		it("should have a votes", () => {
 			assert.equal(subject.votes(), network === "devnet" ? BigNumber.make(0) : undefined);
 		});
 
-		test("#isResignedDelegate", () => {
+		it("should determine if it is a delegate", async () => {
+			subject = (await createService(WalletData)).fill({ ...WalletDataFixture.devnet, isResigned: false });
+
+			assert.true(subject.isDelegate());
+
+			subject = (await createService(WalletData)).fill({ ...WalletDataFixture.mainnet, isResigned: true });
+
+			assert.false(subject.isDelegate());
+		});
+
+		it("should determine if it is a resigned delegate", () => {
 			assert.boolean(subject.isResignedDelegate());
 		});
 
-		test("#isMultiSignature", () => {
+		it("should determine if it is a multi signature", () => {
 			assert.boolean(subject.isMultiSignature());
 		});
 
-		test("#isSecondSignature", () => {
+		it("should determine if it is a second signature", () => {
 			assert.false(subject.isSecondSignature());
 		});
 
-		test("#toObject", () => {
+		it("should turn into a normalised object", () => {
 			assert.object(subject.toObject());
+		});
+
+		it("should have a multi signature asset", async () => {
+			const devnetSubject = (await createService(WalletData)).fill(WalletDataFixture.devnet);
+			const mainnetSubject = (await createService(WalletData)).fill(WalletDataFixture.mainnet);
+
+			assert.throws(() => mainnetSubject.multiSignature(), "does not have");
+			assert.is(devnetSubject.multiSignature(), WalletDataFixture.devnet.attributes.multiSignature);
 		});
 	});
 }
-
-test("#isDelegate", async () => {
-	subject = (await createService(WalletData)).fill({ ...WalletDataFixture.devnet, isResigned: false });
-
-	assert.true(subject.isDelegate());
-
-	subject = (await createService(WalletData)).fill({ ...WalletDataFixture.mainnet, isResigned: true });
-
-	assert.false(subject.isDelegate());
-});
-
-test("#multiSignature", async () => {
-	const devnetSubject = (await createService(WalletData)).fill(WalletDataFixture.devnet);
-	const mainnetSubject = (await createService(WalletData)).fill(WalletDataFixture.mainnet);
-
-	assert.throws(() => mainnetSubject.multiSignature(), "does not have");
-	assert.is(devnetSubject.multiSignature(), WalletDataFixture.devnet.attributes.multiSignature);
-});
-
-test.run();

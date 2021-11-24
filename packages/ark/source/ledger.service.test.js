@@ -1,4 +1,4 @@
-import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
@@ -36,54 +36,68 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-test("should pass with a resolved transport closure", async () => {
-	const ark = await createMockService("");
+describe("LedgerService", async ({ assert, it }) => {
+	it("should pass with a resolved transport closure", async () => {
+		const ark = await createMockService("");
 
-	assert.undefined(await ark.disconnect());
+		assert.undefined(await ark.disconnect());
+	});
+
+	it("should pass with an app version", async () => {
+		const ark = await createMockService(ledger.appVersion.record);
+
+		assert.is(await ark.getVersion(), ledger.appVersion.result);
+	});
+
+	it("should pass with a compressed publicKey", async () => {
+		const ark = await createMockService(ledger.publicKey.record);
+
+		assert.is(await ark.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
+	});
+
+	it("should pass with a compressed publicKey", async () => {
+		const ark = await createMockService(ledger.publicKey.record);
+
+		await assert.rejects(() => ark.getExtendedPublicKey(ledger.bip44.path));
+	});
+
+	it("should pass with a schnorr signature", async () => {
+		const ark = await createMockService(ledger.transaction.schnorr.record);
+
+		assert.is(
+			await ark.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.schnorr.payload, "hex")),
+			ledger.transaction.schnorr.result,
+		);
+	});
+
+	it("should pass with a schnorr signature", async () => {
+		const ark = await createMockService(ledger.message.schnorr.record);
+
+		assert.is(
+			await ark.signMessage(ledger.bip44.path, Buffer.from(ledger.message.schnorr.payload, "hex")),
+			ledger.message.schnorr.result,
+		);
+	});
+
+	it("should determine if the device is a nano S", async () => {
+		const subject = await createMockService(ledger.message.schnorr.record);
+
+		assert.boolean(await subject.isNanoS());
+	});
+
+	it("should determine if the device is a nano X", async () => {
+		const subject = await createMockService(ledger.message.schnorr.record);
+
+		assert.boolean(await subject.isNanoX());
+	});
 });
 
-test("should pass with an app version", async () => {
-	const ark = await createMockService(ledger.appVersion.record);
-
-	assert.is(await ark.getVersion(), ledger.appVersion.result);
-});
-
-test("should pass with a compressed publicKey", async () => {
-	const ark = await createMockService(ledger.publicKey.record);
-
-	assert.is(await ark.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
-});
-
-test("should pass with a compressed publicKey", async () => {
-	const ark = await createMockService(ledger.publicKey.record);
-
-	await assert.rejects(() => ark.getExtendedPublicKey(ledger.bip44.path));
-});
-
-test("should pass with a schnorr signature", async () => {
-	const ark = await createMockService(ledger.transaction.schnorr.record);
-
-	assert.is(
-		await ark.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.schnorr.payload, "hex")),
-		ledger.transaction.schnorr.result,
-	);
-});
-
-test("should pass with a schnorr signature", async () => {
-	const ark = await createMockService(ledger.message.schnorr.record);
-
-	assert.is(
-		await ark.signMessage(ledger.bip44.path, Buffer.from(ledger.message.schnorr.payload, "hex")),
-		ledger.message.schnorr.result,
-	);
-});
-
-describe("scan", ({ afterEach, beforeAll, test }) => {
+describe("LedgerService - scan", ({ assert, afterEach, beforeAll, it, loader, stub }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	afterEach(() => nock.cleanAll());
 
-	test("should scan for legacy wallets", async () => {
+	it("should scan for legacy wallets", async () => {
 		nock.fake(/.+/)
 			.get(
 				"/api/wallets?address=D9xJncW4ECUSJQWeLP7wncxhDTvNeg2HNK%2CDFgggtreMXQNQKnxHddvkaPHcQbRdK3jyJ%2CDFr1CR81idSmfgQ19KXe4M6keqUEAuU8kF%2CDTYiNbvTKveMtJC8KPPdBrgRWxfPxGp1WV%2CDJyGFrZv4MYKrTMcjzEyhZzdTAJju2Rcjr",
@@ -111,7 +125,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 		}
 	});
 
-	test("should scan for new wallets", async () => {
+	it("should scan for new wallets", async () => {
 		nock.fake(/.+/)
 			.get("/api/wallets")
 			.query(true)
@@ -122,7 +136,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 
 		const ark = await createMockService(ledger.wallets.record);
 
-		Mockery.stub(ark, "getExtendedPublicKey").resolvedValue(
+		stub(ark, "getExtendedPublicKey").resolvedValue(
 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
 		);
 
@@ -141,17 +155,3 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 		}
 	});
 });
-
-test("#isNanoS", async () => {
-	const subject = await createMockService(ledger.message.schnorr.record);
-
-	assert.boolean(await subject.isNanoS());
-});
-
-test("#isNanoX", async () => {
-	const subject = await createMockService(ledger.message.schnorr.record);
-
-	assert.boolean(await subject.isNanoX());
-});
-
-test.run();
