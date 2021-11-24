@@ -1602,7 +1602,6 @@ importers:
       conf: 10.0.3
       inversify: 6.0.1
       joi: 17.4.2
-      kleur: 4.1.4
       localforage: 1.10.0
       mem: 9.0.1
       node-cache: 5.1.2
@@ -1707,7 +1706,6 @@ importers:
       got: ^11.8.2
       inversify: ^6.0.1
       joi: ^17.4.2
-      kleur: ~4.1.4
       localforage: ^1.10.0
       mem: ^9.0.1
       node-cache: ^5.1.2
@@ -1912,6 +1910,7 @@ importers:
       zod: 3.11.6
     devDependencies:
       '@types/node': 16.11.7
+      rimraf: 3.0.2
       typescript: 4.5.2
     specifiers:
       '@types/node': ^16.11.7
@@ -1919,6 +1918,7 @@ importers:
       concordance: ~5.0.4
       kleur: ~4.1.4
       nock: ^13.2.0
+      rimraf: ^3.0.2
       sinon: ^12.0.1
       string-kit: ~0.14.2
       tsm: ^2.1.4
