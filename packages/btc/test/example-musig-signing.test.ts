@@ -8,9 +8,7 @@ import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/sdk-helpers";
 import { signatureValidator, signWith } from "../source/helpers";
 
-beforeEach(async () => {
-	nock.disableNetConnect();
-});
+beforeEach(async () => {});
 
 const network = bitcoin.networks.testnet;
 

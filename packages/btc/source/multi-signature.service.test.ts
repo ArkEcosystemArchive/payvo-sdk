@@ -34,8 +34,6 @@ import {
 let subject: MultiSignatureService;
 
 beforeAll(async () => {
-	nock.disableNetConnect();
-
 	subject = await createService(MultiSignatureService, "btc.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);

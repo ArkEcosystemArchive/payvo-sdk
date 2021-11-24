@@ -15,8 +15,6 @@ let profile;
 test.before(() => {
 	bootContainer();
 
-	nock.disableNetConnect();
-
 	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))

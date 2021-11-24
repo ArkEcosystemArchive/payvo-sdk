@@ -19,8 +19,6 @@ let subject;
 test.before(async () => {
 	bootContainer();
 
-	nock.disableNetConnect();
-
 	nock.fake(/.+/)
 		.get("/api/node/configuration/crypto")
 		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))

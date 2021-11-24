@@ -25,8 +25,6 @@ let subject;
 let musig;
 
 const createLocalServices = async () => {
-	nock.disableNetConnect();
-
 	nock.fake(/.+/)
 		.get("/api/v2/accounts")
 		.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })

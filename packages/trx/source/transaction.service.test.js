@@ -18,8 +18,6 @@ let subject;
 
 describe("TransactionService", async ({ beforeAll, assert, it }) => {
 	beforeAll(async () => {
-		nock.disableNetConnect();
-
 		subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);

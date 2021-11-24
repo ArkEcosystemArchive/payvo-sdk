@@ -15,8 +15,6 @@ let subject;
 
 describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) => {
 	beforeEach(async () => {
-		nock.disableNetConnect();
-
 		subject = await createService(ClientService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());
 			container.constant(IoC.BindingType.Container, container);

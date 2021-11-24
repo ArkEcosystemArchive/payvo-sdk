@@ -13,8 +13,6 @@ import { CoinFactory } from "./coin-factory";
 const options = { httpClient: new Request(), network: "ark.mainnet" };
 
 test.before(async () => {
-	nock.disableNetConnect();
-
 	nock.fake("https://ark-live.payvo.com")
 		.get("/api/blockchain")
 		.reply(200, loader.json("test/livenet/blockchain.json"))

@@ -15,8 +15,6 @@ let subject;
 
 test.before(() => {
 	bootContainer();
-
-	nock.disableNetConnect();
 });
 
 let wallet;

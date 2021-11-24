@@ -12,8 +12,6 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 let subject;
 
 test.before(async () => {
-	nock.disableNetConnect();
-
 	subject = await createService(ClientService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, {
@@ -27,9 +25,7 @@ test.before(async () => {
 
 test.after.each(() => nock.cleanAll());
 
-test.before(async () => {
-	nock.disableNetConnect();
-});
+test.before(async () => {});
 
 test("#transaction", async ({ afterEach, beforeEach, test }) => {
 	nock.fake("https://platform.ark.io/api/eth")
