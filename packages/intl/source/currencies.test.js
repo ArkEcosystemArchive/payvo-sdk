@@ -1,9 +1,9 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { CURRENCIES } from "./currencies";
 
-test("CURRENCIES", () => {
-	assert.object(CURRENCIES);
+describe("CURRENCIES", ({ assert, it }) => {
+	it("should have a list of currencies", () => {
+		assert.snapshot("currencies", CURRENCIES);
+	});
 });
-
-test.run();
