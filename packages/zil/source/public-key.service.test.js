@@ -7,20 +7,20 @@ import { PublicKeyService } from "./public-key.service";
 
 let subject;
 
-describe("AddressService", async ({ assert, beforeEach, it }) => {
-beforeEach(async () => {
-	subject = await createService(PublicKeyService, undefined, (container) => {
-		container.constant(BindingType.Zilliqa, mockWallet());
+describe("PublicKeyService", async ({ assert, beforeEach, it }) => {
+	beforeEach(async () => {
+		subject = await createService(PublicKeyService, undefined, (container) => {
+			container.constant(BindingType.Zilliqa, mockWallet());
+		});
 	});
-});
 
-it("should generate an output from a mnemonic", async () => {
-	const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async () => {
+		const result = await subject.fromMnemonic(identity.mnemonic);
 
-	assert.equal(result, { publicKey: identity.publicKey });
-});
+		assert.equal(result, { publicKey: identity.publicKey });
+	});
 
-it("should fail to generate an output from an invalid mnemonic", async () => {
-	await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
-});
+	it("should fail to generate an output from an invalid mnemonic", async () => {
+		await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
+	});
 });
