@@ -1,7 +1,7 @@
 import { describe } from "./describe";
 
-describe("assert", ({ assert, test, zod }) => {
-	test("does match the given object", () => {
+describe("assert", ({ assert, it, zod }) => {
+	it("does match the given object", () => {
 		assert.matchesObject(
 			{
 				hello: "world",
@@ -12,7 +12,7 @@ describe("assert", ({ assert, test, zod }) => {
 		);
 	});
 
-	test("does not match the given object", () => {
+	it("does not match the given object", () => {
 		assert.not.matchesObject(
 			{
 				hello: 1,
@@ -23,7 +23,7 @@ describe("assert", ({ assert, test, zod }) => {
 		);
 	});
 
-	test("creates a snapshot", () => {
+	it("creates a snapshot", () => {
 		assert.snapshot("object", { hello: "world" });
 		assert.snapshot("number", 1);
 		assert.snapshot("hello", "hello");
