@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,40 +33,40 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
 		assert.undefined(await subject.disconnect());
 	});
 });
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
 		assert.undefined(await subject.disconnect());
 	});
 });
 
-describe("getVersion", ({ afterEach, beforeEach, test }) => {
-	test("should pass with an app version", async () => {
+describe("getVersion", ({ it, assert }) => {
+	it("should pass with an app version", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
 		assert.is(await subject.getVersion(), ledger.appVersion.result);
 	});
 });
 
-test.skip("getPublicKey", () => {
-	test("should pass with a compressed publicKey", async () => {
+describe("getPublicKey", ({ it, assert }) => {
+	it.skip("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
 		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-test.skip("signTransaction", () => {
-	test("should pass with a signature", async () => {
+describe("signTransaction", ({ it, assert }) => {
+	it.skip("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.transaction.record);
 
 		assert.is(
@@ -76,12 +76,10 @@ test.skip("signTransaction", () => {
 	});
 });
 
-describe("signMessage", ({ afterEach, beforeEach, test }) => {
-	test("should fail with a 'NotImplemented' error", async () => {
+describe("signMessage", ({ it, assert }) => {
+	it("should fail with a 'NotImplemented' error", async () => {
 		const subject = await createMockService("");
 
 		await assert.rejects(() => subject.signMessage("", Buffer.alloc(0)));
 	});
 });
-
-test.run();
