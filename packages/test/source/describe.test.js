@@ -1,6 +1,6 @@
 import { describe, describeWithContext } from "./describe";
 
-describe("Date.now()", ({ assert, beforeAll, afterAll, each, only, skip, test }) => {
+describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, test }) => {
 	let _Date;
 
 	beforeAll(() => {
