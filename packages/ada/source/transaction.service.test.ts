@@ -12,6 +12,8 @@ import { TransactionService } from "./transaction.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
+import { convertString } from "../../helpers/source";
 
 let subject: TransactionService;
 
@@ -66,6 +68,8 @@ describe("TransactionService", () => {
 					to: "addr_test1qpz03ezdyda8ag724zp3n5fqulay02dp7j9mweyeylcaapsxu2hyfhlkwuxupa9d5085eunq2qywy7hvmvej456flknscw3xw7",
 				},
 			});
+
+			CardanoWasm.Transaction.from_bytes(convertString(result.toBroadcast()));
 
 			expect(result).toBeInstanceOf(SignedTransactionData);
 			expect(result.id()).toBe("e2e75b04c4b1dc4d4b3db14166fb02cb26f5b9ed3c49b1e1c8379a21502dc77c");
