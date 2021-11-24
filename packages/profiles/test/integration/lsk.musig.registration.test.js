@@ -131,10 +131,7 @@ describe("LSK MuSig Registration", ({ assert, afterEach, beforeEach, each, it, n
 			await second.wallet.transaction().sync();
 
 			assert.true(second.wallet.transaction().transaction(uuid).timestamp().isValid());
-			assert.is(
-				second.wallet.transaction().transaction(uuid).timestamp().toUNIX(),
-				transactionData.timestamp,
-			);
+			assert.is(second.wallet.transaction().transaction(uuid).timestamp().toUNIX(), transactionData.timestamp);
 
 			assert.true(second.wallet.transaction().isAwaitingOurSignature(uuid));
 			assert.false(second.wallet.transaction().isAwaitingOtherSignatures(uuid));

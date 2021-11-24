@@ -18,8 +18,8 @@
 		"lint:tests": "eslint source/**/*.test.ts --fix",
 		"prepublishOnly": "pnpm run build",
 		"test": "uvu -r tsm source .test.js",
-		"test:integration": "uvu -r tsm test/integration .test.js",
 		"test:coverage": "c8 pnpm run test",
+		"test:integration": "uvu -r tsm test/integration .test.js",
 		"test:watch": "watchlist source -- pnpm run test",
 		"testi": "uvu -r tsm source"
 	},

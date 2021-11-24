@@ -122,11 +122,14 @@ describe("BTC Wallets", ({ assert, afterEach, beforeAll, beforeEach, it, nock, s
 
 		assert.array(addresses);
 		assert.length(addresses, 3);
-		assert.equal(addresses.map((address) => address.address), [
+		assert.equal(
+			addresses.map((address) => address.address),
+			[
 				"mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
 				"2N789HT3aXABch6TqknX2TCekPEUGLMfurn",
 				"tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
-			]);
+			],
+		);
 
 		const wallets = await Promise.all(addresses.map((address) => importWalletByAddress(address, mnemonic)));
 		await Promise.all(wallets.map((wallet) => wallet.synchroniser().identity()));
