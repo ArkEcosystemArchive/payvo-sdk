@@ -1,4 +1,4 @@
-import { assert, loader, test } from "@payvo/sdk-test";
+import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { nock } from "@payvo/sdk-test";
 
@@ -16,51 +16,49 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {
-	subject = await createService(TransactionService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+describe("TransactionService", async ({ beforeAll, assert, it }) => {
+	beforeAll(async () => {
+		nock.disableNetConnect();
+
+		subject = await createService(TransactionService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+			container.singleton(IoC.BindingType.PrivateKeyService, PrivateKeyService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(IoC.BindingType.PrivateKeyService, PrivateKeyService);
-	});
-});
-
-test.before(async () => {
-	nock.disableNetConnect();
-});
-
-test("#transfer", async () => {
-	nock.fake("https://api.shasta.trongrid.io")
-		.post("/wallet/createtransaction")
-		.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
-		.post("/wallet/broadcasttransaction")
-		.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
-
-	const result = await subject.transfer({
-		signatory: new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: identity.mnemonic,
-				address: identity.address,
-				publicKey: identity.publicKey,
-				privateKey: identity.privateKey,
-			}),
-		),
-		data: {
-			to: "TEre3kN6JdPzqCNpiZT8JWM4kt8iGrg1Rm",
-			amount: 1,
-		},
 	});
 
-	assert.object(result);
-	assert.is(result.amount().toNumber(), 1_000_000);
-});
+	it("#transfer", async () => {
+		nock.fake("https://api.shasta.trongrid.io")
+			.post("/wallet/createtransaction")
+			.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
+			.post("/wallet/broadcasttransaction")
+			.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
 
-test.run();
+		const result = await subject.transfer({
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: identity.mnemonic,
+					address: identity.address,
+					publicKey: identity.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+			data: {
+				to: "TEre3kN6JdPzqCNpiZT8JWM4kt8iGrg1Rm",
+				amount: 1,
+			},
+		});
+
+		assert.object(result);
+		assert.is(result.amount().toNumber(), 1_000_000);
+	});
+});

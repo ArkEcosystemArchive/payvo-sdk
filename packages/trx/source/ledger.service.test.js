@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,37 +33,37 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-test("#disconnect", async () => {
-	const trx = await createMockService("");
+describe("LedgerService", async ({ it, assert }) => {
+	it("#disconnect", async () => {
+		const trx = await createMockService("");
 
-	assert.undefined(await trx.disconnect());
+		assert.undefined(await trx.disconnect());
+	});
+
+	it("#getVersion", async () => {
+		const trx = await createMockService(ledger.appVersion.record);
+
+		assert.is(await trx.getVersion(), ledger.appVersion.result);
+	});
+
+	it("#getPublicKey", async () => {
+		const trx = await createMockService(ledger.publicKey.record);
+
+		assert.is(await trx.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
+	});
+
+	it("#signTransaction", async () => {
+		const trx = await createMockService(ledger.transaction.record);
+
+		assert.is(
+			await trx.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
+			ledger.transaction.result,
+		);
+	});
+
+	it("#signMessage", async () => {
+		const trx = await createMockService("");
+
+		await assert.rejects(() => trx.signMessage("", Buffer.alloc(0)));
+	});
 });
-
-test("#getVersion", async () => {
-	const trx = await createMockService(ledger.appVersion.record);
-
-	assert.is(await trx.getVersion(), ledger.appVersion.result);
-});
-
-test("#getPublicKey", async () => {
-	const trx = await createMockService(ledger.publicKey.record);
-
-	assert.is(await trx.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
-});
-
-test("#signTransaction", async () => {
-	const trx = await createMockService(ledger.transaction.record);
-
-	assert.is(
-		await trx.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
-		ledger.transaction.result,
-	);
-});
-
-test("#signMessage", async () => {
-	const trx = await createMockService("");
-
-	await assert.rejects(() => trx.signMessage("", Buffer.alloc(0)));
-});
-
-test.run();
