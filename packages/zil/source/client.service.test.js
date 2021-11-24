@@ -1,5 +1,5 @@
-import { assert, loader, test } from "@payvo/sdk-test";
-import { IoC, Services, Test } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { nock } from "@payvo/sdk-test";
 
@@ -13,107 +13,103 @@ import { BindingType } from "./constants";
 
 let subject;
 
-test.before(async () => {
-	nock.disableNetConnect();
+describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) => {
+	beforeEach(async () => {
+		nock.disableNetConnect();
 
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(BindingType.Zilliqa, mockWallet());
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+		subject = await createService(ClientService, undefined, (container) => {
+			container.constant(BindingType.Zilliqa, mockWallet());
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-test.after.each(() => nock.cleanAll());
-
-test.before(async () => {
-	nock.disableNetConnect();
-});
-
-test("#transaction", async () => {
-	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
-
-	const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
-
-	assert.instance(result, ConfirmedTransactionData);
-	assert.is(result.id(), "b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
-	assert.true(result.isConfirmed());
-	assert.is(result.sender(), "0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
-	assert.is(result.recipient(), "0xA54E49719267E8312510D7b78598ceF16ff127CE");
-	assert.equal(result.amount(), BigNumber.make(1));
-	assert.equal(result.fee(), BigNumber.make("0.1"));
-});
-
-test("#wallet", async () => {
-	nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
-
-	const result = await subject.wallet({
-		type: "address",
-		value: identity.address,
 	});
 
-	assert.instance(result, WalletData);
-	assert.is(result.address(), identity.address);
-	assert.equal(result.balance().available, BigNumber.make(499890000000));
-	assert.equal(result.nonce(), BigNumber.make(1));
-});
+	afterEach(() => nock.cleanAll());
 
-test("broadcast should pass", async () => {
-	nock.fake(/.+/)
-		.post("/")
-		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
-		.post("/")
-		.reply(200, loader.json(`test/fixtures/client/broadcast-create.json`))
-		.post("/")
-		.reply(200, loader.json(`test/fixtures/client/broadcast-success.json`));
+	it("should retrieve a transaction", async () => {
+		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-	const signedData = {
-		sender: "",
-		recipient: "",
-		amount: "",
-		fee: "2000000000",
-	};
+		const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
 
-	const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
-	const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
-	const result = await subject.broadcast([transaction]);
+		assert.instance(result, ConfirmedTransactionData);
+		assert.is(result.id(), "b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
+		assert.true(result.isConfirmed());
+		assert.is(result.sender(), "0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
+		assert.is(result.recipient(), "0xA54E49719267E8312510D7b78598ceF16ff127CE");
+		assert.equal(result.amount(), BigNumber.make(1));
+		assert.equal(result.fee(), BigNumber.make("0.1"));
+	});
 
-	assert.equal(result, {
-		accepted: ["id"],
-		rejected: [],
-		errors: {},
+	it("should retrieve a wallet", async () => {
+		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
+
+		const result = await subject.wallet({
+			type: "address",
+			value: identity.address,
+		});
+
+		assert.instance(result, WalletData);
+		assert.is(result.address(), identity.address);
+		assert.equal(result.balance().available, BigNumber.make(499890000000));
+		assert.equal(result.nonce(), BigNumber.make(1));
+	});
+
+	it("should broadcast", async () => {
+		nock.fake(/.+/)
+			.post("/")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
+			.post("/")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-create.json`))
+			.post("/")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-success.json`));
+
+		const signedData = {
+			sender: "",
+			recipient: "",
+			amount: "",
+			fee: "2000000000",
+		};
+
+		const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
+		const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
+		const result = await subject.broadcast([transaction]);
+
+		assert.equal(result, {
+			accepted: ["id"],
+			rejected: [],
+			errors: {},
+		});
+	});
+
+	it("should fail to broadcast", async () => {
+		nock.fake(/.+/)
+			.post("/")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
+			.post("/")
+			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+
+		const signedData = {
+			sender: "",
+			recipient: "",
+			amount: "",
+			fee: "2000000000", // keeping it high here to test lib code
+		};
+
+		const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
+		const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
+		const result = await subject.broadcast([transaction]);
+
+		assert.equal(result, {
+			accepted: [],
+			rejected: ["id"],
+			errors: {
+				id: "GasPrice 1 lower than minimum allowable 2000000000",
+			},
+		});
 	});
 });
-
-test("broadcast should fail", async () => {
-	nock.fake(/.+/)
-		.post("/")
-		.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
-		.post("/")
-		.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
-
-	const signedData = {
-		sender: "",
-		recipient: "",
-		amount: "",
-		fee: "2000000000", // keeping it high here to test lib code
-	};
-
-	const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
-	const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
-	const result = await subject.broadcast([transaction]);
-
-	assert.equal(result, {
-		accepted: [],
-		rejected: ["id"],
-		errors: {
-			id: "GasPrice 1 lower than minimum allowable 2000000000",
-		},
-	});
-});
-
-test.run();
