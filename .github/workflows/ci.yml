@@ -9,15 +9,6 @@ on:
         types: [ready_for_review, synchronize, opened]
 
 jobs:
-    conflicts:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v2
-              with:
-                  ref: ${{ github.head_ref }}
-            - name: Merge Conflict finder
-              uses: olivernybroe/action-conflict-finder@v1.1
     test:
         needs: [conflicts]
         runs-on: ubuntu-latest
@@ -29,6 +20,8 @@ jobs:
             cancel-in-progress: true
         steps:
             - uses: actions/checkout@v2
+            - name: Merge Conflict finder
+              uses: olivernybroe/action-conflict-finder@v1.1
             - name: Use Node.js ${{ matrix.node-version }}
               uses: actions/setup-node@v1
               with:
