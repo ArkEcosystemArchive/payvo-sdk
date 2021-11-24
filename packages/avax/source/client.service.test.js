@@ -22,7 +22,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		});
 	});
 
-	it("should retrieve a single transaction", async () => {
+	skip("should retrieve a single transaction", async () => {
 		const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
 		assert.instance(result, ConfirmedTransactionData);
@@ -41,7 +41,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 	});
 
-	it("#wallet", async () => {
+	skip("#wallet", async () => {
 		const result = await subject.wallet({
 			type: "address",
 			value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
@@ -50,7 +50,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		assert.instance(result, WalletData);
 	});
 
-	it("#delegates", async () => {
+	skip("#delegates", async () => {
 		assert.instance(await subject.delegates(), Collections.WalletDataCollection);
 	});
 });
