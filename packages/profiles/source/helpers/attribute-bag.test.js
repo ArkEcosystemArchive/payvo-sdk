@@ -1,4 +1,5 @@
 import { assert, test } from "@payvo/sdk-test";
+
 import { AttributeBag } from "./attribute-bag";
 
 const values = { a: "a", b: "b", c: "c" };

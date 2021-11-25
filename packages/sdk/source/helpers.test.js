@@ -1,66 +1,64 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig, randomHostFromConfig } from "./helpers";
 
-test.after.each(() => jest.restoreAllMocks());
+describe("Helpers", ({ assert, it }) => {
+	const configMock = {
+		get: () => [
+			{
+				type: "full",
+				host: "https://wallets.ark.io",
+			},
+			{
+				type: "musig",
+				host: "https://musig1.ark.io",
+			},
+			{
+				type: "explorer",
+				host: "https://explorer.ark.io",
+			},
+		],
+	};
 
-const configMock = {
-	get: () => [
-		{
+	it("should filter hosts by their their type", () => {
+		assert.equal(filterHostsFromConfig(configMock, "explorer"), [
+			{
+				type: "explorer",
+				host: "https://explorer.ark.io",
+			},
+		]);
+	});
+
+	it("should pick a random host", () => {
+		assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
+	});
+
+	it("should pick a random network host by type", () => {
+		assert.equal(randomNetworkHostFromConfig(configMock, "explorer"), {
+			type: "explorer",
+			host: "https://explorer.ark.io",
+		});
+	});
+
+	it("should pick a random network host", () => {
+		assert.equal(randomNetworkHostFromConfig(configMock), {
 			type: "full",
 			host: "https://wallets.ark.io",
-		},
-		{
-			type: "musig",
-			host: "https://musig1.ark.io",
-		},
-		{
-			type: "explorer",
-			host: "https://explorer.ark.io",
-		},
-	],
-};
+		});
+	});
 
-test("filterHostsFromConfig", () => {
-	assert.is(filterHostsFromConfig(configMock, "explorer"), [
-		{
-			type: "explorer",
-			host: "https://explorer.ark.io",
-		},
-	]);
-});
+	it("should pluck an address by senderId", () => {
+		assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
+	});
 
-test("randomNetworkHostFromConfig", () => {
-	assert.is(randomNetworkHostFromConfig(configMock, "explorer"), {
-		type: "explorer",
-		host: "https://explorer.ark.io",
+	it("should pluck an address by recipientId", () => {
+		assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
+	});
+
+	it("should pluck an address by addresses", () => {
+		assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
+	});
+
+	it("should fail to pluck an address", () => {
+		assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
 	});
 });
-
-test("randomNetworkHostFromConfig default", () => {
-	assert.is(randomNetworkHostFromConfig(configMock), {
-		type: "full",
-		host: "https://wallets.ark.io",
-	});
-});
-
-test("randomHostFromConfig default", () => {
-	assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
-});
-
-test("#pluckAddress - senderId", () => {
-	assert.is(pluckAddress({ senderId: "senderId" }), "senderId");
-});
-
-test("#pluckAddress - recipientId", () => {
-	assert.is(pluckAddress({ recipientId: "recipientId" }), "recipientId");
-});
-
-test("#pluckAddress - addresses", () => {
-	assert.is(pluckAddress({ identifiers: [{ value: "addresses" }] }), "addresses");
-});
-
-test("#pluckAddress - addresses", () => {
-	assert.throws(() => pluckAddress({ key: "value" }), "Failed to pluck any address.");
-});
-
-test.run();

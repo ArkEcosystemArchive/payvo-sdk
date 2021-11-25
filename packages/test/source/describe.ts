@@ -4,9 +4,9 @@ import { z as zod } from "zod";
 import { assert } from "./assert.js";
 import { eachSuite } from "./each.js";
 import { runHook } from "./hooks.js";
-import { nock } from "./nock.js";
 import { loader } from "./loader.js";
 import { Mockery } from "./mockery.js";
+import { nock } from "./nock.js";
 
 type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
@@ -26,8 +26,8 @@ const runSuite = (suite: Test, callback: Function): void => {
 		each: eachSuite(suite),
 		it: suite,
 		loader,
-		nock,
 		mock: Mockery.mock,
+		nock,
 		only: suite.only,
 		should: suite,
 		skip: suite.skip,

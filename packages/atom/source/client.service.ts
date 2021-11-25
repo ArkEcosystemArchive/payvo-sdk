@@ -17,17 +17,17 @@ export class ClientService extends Services.AbstractClientService {
 		const page = Number(query.cursor || 1);
 
 		const response = await this.#get("txs", {
+			limit: query.limit || 100,
 			"message.action": "send",
 			"message.sender": query.identifiers![0].value,
 			page,
-			limit: query.limit || 100,
 		});
 
 		return this.dataTransferObjectService.transactions(response.txs, {
+			last: response.page_total,
+			next: page >= Number(response.page_total) ? undefined : page,
 			prev: page <= 1 ? undefined : page - 1,
 			self: Number(response.page_number),
-			next: page >= Number(response.page_total) ? undefined : page,
-			last: response.page_total,
 		});
 	}
 
@@ -37,8 +37,8 @@ export class ClientService extends Services.AbstractClientService {
 
 		return this.dataTransferObjectService.wallet({
 			address: details.value.address,
-			publicKey: details.value.public_key.value,
 			balance: Object.values(balance).find(({ denom }: any) => denom === "uatom"),
+			publicKey: details.value.public_key.value,
 			sequence: details.value.sequence,
 		});
 	}
@@ -48,8 +48,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {

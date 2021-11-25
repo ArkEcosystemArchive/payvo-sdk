@@ -4,7 +4,7 @@
  * Based on https://github.com/Dobby89/promise-all-settled-by-key/blob/master/source/__tests__/index.test.js.
  */
 
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+import { assert, test } from "@payvo/sdk-test";
 
 import { promiseAllSettledByKey } from "./promise";
 

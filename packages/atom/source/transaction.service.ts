@@ -21,14 +21,24 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const { address: senderAddress } = await this.addressService.fromMnemonic(input.signatory.signingKey());
 		const keyPair = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
 
-		const { account_number, sequence } = (
-			await this.clientService.wallet({ type: "address", value: senderAddress })
-		)
-			// @ts-ignore
-			.raw();
+		const wallet = await this.clientService.wallet({ type: "address", value: senderAddress });
+		// @ts-ignore
+		const { account_number, sequence } = wallet.raw();
 
 		const signedTransaction = createSignedTransactionData(
 			{
+				account_number: String(account_number),
+				chain_id: this.#networkId,
+				fee: {
+					amount: [
+						{
+							amount: String(5000), // todo: make this configurable or estimate it
+							denom: "umuon", // todo: make this configurable
+						},
+					],
+					gas: String(200_000), // todo: make this configurable or estimate it
+				},
+				memo: "",
 				msgs: [
 					{
 						type: "cosmos-sdk/MsgSend",
@@ -44,18 +54,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 						},
 					},
 				],
-				chain_id: this.#networkId,
-				fee: {
-					amount: [
-						{
-							amount: String(5000), // todo: make this configurable or estimate it
-							denom: "umuon", // todo: make this configurable
-						},
-					],
-					gas: String(200000), // todo: make this configurable or estimate it
-				},
-				memo: "",
-				account_number: String(account_number),
 				sequence: String(sequence),
 			},
 			keyPair,

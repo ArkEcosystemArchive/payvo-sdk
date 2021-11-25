@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
-# Update
-rush update --purge
+pnpm run build
 
-# Build
-rush build
-
-# Publish
-NPM_AUTH_TOKEN=$1 rush publish --publish --set-access-level=public --include-all
+for dir in `find packages -mindepth 1 -maxdepth 1 -type d | sort -nr`; do
+    cd $dir
+    echo $PWD
+    NPM_AUTH_TOKEN=$1 pnpm publish --access=public
+    cd ../..
+done
