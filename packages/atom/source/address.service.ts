@@ -1,4 +1,4 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Coins, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 import { bech32 } from "bech32";
 
@@ -14,9 +14,9 @@ export class AddressService extends Services.AbstractAddressService {
 		});
 
 		return {
-			type: "bip44",
 			address: bech32.encode(this.configRepository.get(Coins.ConfigKey.Bech32), bech32.toWords(child.identifier)),
 			path,
+			type: "bip44",
 		};
 	}
 

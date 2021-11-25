@@ -1,4 +1,4 @@
-import argon2 from "argon2-browser";
+import { hash, verify } from "argon2-browser";
 
 /**
  * Implements all functionality that is required to work with the Argon2
@@ -19,7 +19,9 @@ export class Argon2 {
 	 * @memberof Argon2
 	 */
 	public static async hash(value: string): Promise<string> {
-		return (await argon2.hash({ pass: value, salt: Math.random().toString(10) })).encoded;
+		const { encoded } = await hash({ pass: value, salt: Math.random().toString(10) });
+
+		return encoded;
 	}
 
 	/**
@@ -37,7 +39,7 @@ export class Argon2 {
 	 */
 	public static async verify(hash: string, password: string): Promise<boolean> {
 		try {
-			await argon2.verify({ encoded: hash, pass: password });
+			await verify({ encoded: hash, pass: password });
 
 			return true;
 		} catch {

@@ -1,4 +1,4 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import { secp256k1 } from "bcrypto";
 

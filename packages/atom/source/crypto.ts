@@ -4,48 +4,48 @@ import { secp256k1 } from "bcrypto";
 
 import { HashAlgorithms } from "./hash.js";
 
-const sortObject = (obj) => {
-	if (obj === null) {
+const sortObject = (object) => {
+	if (object === null) {
 		return null;
 	}
 
-	if (typeof obj !== "object") {
-		return obj;
+	if (typeof object !== "object") {
+		return object;
 	}
 
-	if (Array.isArray(obj)) {
-		return obj.map(sortObject);
+	if (Array.isArray(object)) {
+		return object.map(sortObject);
 	}
 
-	const sortedKeys = Object.keys(obj).sort();
+	const sortedKeys = Object.keys(object).sort();
 	const result = {};
 	for (const key of sortedKeys) {
-		result[key] = sortObject(obj[key]);
+		result[key] = sortObject(object[key]);
 	}
 
 	return result;
 };
 
-export const createSignedTransactionData = (stdSignMsg, keyPair) => {
+export const createSignedTransactionData = (stdSignMessage, keyPair) => {
 	const privateKey: Buffer = Buffoon.fromHex(keyPair.privateKey);
 
 	return {
-		msg: stdSignMsg.msgs,
-		fee: stdSignMsg.fee,
+		fee: stdSignMessage.fee,
+		memo: stdSignMessage.memo,
+		msg: stdSignMessage.msgs,
 		signatures: [
 			{
-				signature: secp256k1
-					.sign(HashAlgorithms.sha256(JSON.stringify(sortObject(stdSignMsg))), privateKey)
-					.toString("base64"),
-				account_number: stdSignMsg.account_number,
-				sequence: stdSignMsg.sequence,
+				account_number: stdSignMessage.account_number,
 				pub_key: {
 					type: "tendermint/PubKeySecp256k1",
 					value: Buffoon.toBase64(secp256k1.publicKeyCreate(privateKey)),
 				},
+				sequence: stdSignMessage.sequence,
+				signature: secp256k1
+					.sign(HashAlgorithms.sha256(JSON.stringify(sortObject(stdSignMessage))), privateKey)
+					.toString("base64"),
 			},
 		],
-		memo: stdSignMsg.memo,
 		timestamp: DateTime.make(),
 	};
 };
