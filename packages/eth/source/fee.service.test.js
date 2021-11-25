@@ -4,7 +4,7 @@ import { nock } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-describe('FeeService', async ({ beforeEach, afterEach, beforeAll, it, assert, loader }) => {
+describe("FeeService", async ({ beforeEach, afterEach, beforeAll, it, assert, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(FeeService);
 	});

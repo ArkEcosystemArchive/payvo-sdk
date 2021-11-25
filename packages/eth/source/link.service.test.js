@@ -3,7 +3,7 @@ import { Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 
-describe('LinkService', async ({ beforeAll, assert, it }) => {
+describe("LinkService", async ({ beforeAll, assert, it }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(Services.AbstractLinkService);
 	});
