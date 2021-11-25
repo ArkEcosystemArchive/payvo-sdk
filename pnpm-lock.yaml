@@ -69,7 +69,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       got: ^11.8.3
     dependencies:
@@ -81,7 +80,6 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -97,11 +95,9 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/lodash.orderby': ^4.6.6
       '@types/node': ^16.11.10
       '@types/semver': 7.3.9
-      '@types/uuid': ^8.3.3
       is-url-superb: ^6.1.0
       lodash.orderby: ^4.6.0
       node-dotify: ^1.1.0
@@ -122,11 +118,9 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/lodash.orderby': 4.6.6
       '@types/node': 16.11.10
       '@types/semver': 7.3.9
-      '@types/uuid': 8.3.3
 
   packages/atom:
     specifiers:
@@ -137,9 +131,7 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
       bcrypto: ^5.4.0
       got: ^11.8.3
       ledger-cosmos-js: ^2.1.8
@@ -154,9 +146,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
   packages/avax:
@@ -168,12 +158,8 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/hdkey': 2.0.0
-      '@types/lodash.orderby': ^4.6.6
       '@types/node': ^16.11.10
-      '@types/semver': 7.3.9
-      '@types/uuid': ^8.3.3
       avalanche: ^3.9.3
       got: ^11.8.3
       hdkey: ^2.0.1
@@ -190,12 +176,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/hdkey': 2.0.0
-      '@types/lodash.orderby': 4.6.6
       '@types/node': 16.11.10
-      '@types/semver': 7.3.9
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
   packages/btc:
@@ -209,7 +191,7 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
+      '@types/create-xpub': ^2.1.1
       '@types/node': ^16.11.10
       bignumber.js: ^9.0.1
       bitcoinjs-lib: ^6.0.0
@@ -237,7 +219,7 @@ importers:
       '@ledgerhq/logs': 6.10.0
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
+      '@types/create-xpub': 2.1.1
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -246,11 +228,15 @@ importers:
       '@payvo/sdk-test': workspace:*
       '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
-      '@types/bent': ^7.3.2
+      '@types/benchmark': ^2.1.1
       '@types/bip38': 2.0.1
-      '@types/hapi__joi': 17.1.7
+      '@types/create-xpub': ^2.1.1
+      '@types/hdkey': ^2.0.0
+      '@types/microtime': ^2.1.0
       '@types/node': ^16.11.10
       '@types/node-forge': 0.10.10
+      '@types/uuid': ^8.3.3
+      '@types/wif': ^2.0.2
       argon2-browser: ^1.18.0
       bcryptjs: ^2.4.3
       bcrypto: ^5.4.0
@@ -289,11 +275,15 @@ importers:
       '@payvo/sdk-test': link:../test
       '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
-      '@types/bent': 7.3.2
+      '@types/benchmark': 2.1.1
       '@types/bip38': 2.0.1
-      '@types/hapi__joi': 17.1.7
+      '@types/create-xpub': 2.1.1
+      '@types/hdkey': 2.0.0
+      '@types/microtime': 2.1.0
       '@types/node': 16.11.10
       '@types/node-forge': 0.10.10
+      '@types/uuid': 8.3.3
+      '@types/wif': 2.0.2
       benchmark: 2.1.4
       microtime: 3.0.0
       wif: 2.0.6
@@ -315,9 +305,7 @@ importers:
       '@polkadot/wasm-crypto': ^4.4.1
       '@polkadot/x-global': ^7.9.2
       '@polkadot/x-randomvalues': ^7.9.2
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
       '@zondax/ledger-polkadot': ^0.13.0
       got: ^11.8.3
     dependencies:
@@ -338,9 +326,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
   packages/egld:
@@ -354,7 +340,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       got: ^11.8.3
     dependencies:
@@ -368,7 +353,6 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -382,7 +366,6 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/elliptic': 6.4.14
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       cross-fetch: ^3.1.4
       elliptic: ^6.5.4
@@ -400,7 +383,6 @@ importers:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
       '@types/elliptic': 6.4.14
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
 
   packages/eth:
@@ -415,7 +397,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       bip39: ^3.0.4
       ethers: ^5.5.1
@@ -436,7 +417,6 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -444,11 +424,11 @@ importers:
     specifiers:
       '@hapi/bourne': ^2.0.0
       '@payvo/sdk-test': workspace:*
-      '@types/bent': ^7.3.2
-      '@types/hapi__joi': 17.1.7
+      '@types/benchmark': ^2.1.1
       '@types/lodash': ^4.14.177
       '@types/node': ^16.11.10
       '@types/qrcode': 1.4.1
+      '@types/remarkable': ^2.0.3
       bad-words: ^3.0.4
       benchmark: ^2.1.4
       bignumber.js: ^9.0.1
@@ -482,11 +462,11 @@ importers:
       type-fest: 2.6.0
     devDependencies:
       '@payvo/sdk-test': link:../test
-      '@types/bent': 7.3.2
-      '@types/hapi__joi': 17.1.7
+      '@types/benchmark': 2.1.1
       '@types/lodash': 4.14.177
       '@types/node': 16.11.10
       '@types/qrcode': 1.4.1
+      '@types/remarkable': 2.0.3
       benchmark: 2.1.4
       del-cli: 4.0.1
       lodash: 4.17.21
@@ -497,7 +477,6 @@ importers:
       '@payvo/sdk-test': workspace:*
       '@types/fs-extra': ^9.0.13
       '@types/node': ^16.11.10
-      '@types/node-fetch': 3.0.2
       cross-fetch: ^3.1.4
       fs-extra: ^10.0.0
     dependencies:
@@ -507,7 +486,6 @@ importers:
       '@payvo/sdk-test': link:../test
       '@types/fs-extra': 9.0.13
       '@types/node': 16.11.10
-      '@types/node-fetch': 3.0.2
       fs-extra: 10.0.0
 
   packages/intl:
@@ -536,7 +514,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       dpos-ledger-api: ^3.0.1
       got: ^11.8.3
@@ -552,7 +529,6 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -565,7 +541,6 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@terra-money/terra.js': ^3.0.1
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       got: ^11.8.3
     dependencies:
@@ -577,7 +552,6 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -609,7 +583,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       got: ^11.8.3
       nanocurrency: ^2.5.0
@@ -625,7 +598,6 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
       got: 11.8.3
 
@@ -639,9 +611,7 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
       got: ^11.8.3
     dependencies:
       '@cityofzion/neon-js': 4.9.0
@@ -653,9 +623,7 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
   packages/news:
@@ -695,10 +663,8 @@ importers:
       '@types/async': 3.2.10
       '@types/bip38': 2.0.1
       '@types/fs-extra': ^9.0.13
-      '@types/mersenne-twister': 1.1.2
       '@types/node': ^16.11.10
       '@types/semver': 7.3.9
-      '@types/uuid': ^8.3.3
       '@types/wif': 2.0.2
       '@vechain/picasso': ^2.1.1
       bip38: ^3.1.1
@@ -747,10 +713,8 @@ importers:
       '@types/async': 3.2.10
       '@types/bip38': 2.0.1
       '@types/fs-extra': 9.0.13
-      '@types/mersenne-twister': 1.1.2
       '@types/node': 16.11.10
       '@types/semver': 7.3.9
-      '@types/uuid': 8.3.3
       '@types/wif': 2.0.2
       fs-extra: 10.0.0
       got: 11.8.3
@@ -761,10 +725,9 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
+      '@types/bent': ^7.3.2
       '@types/node': ^16.11.10
       '@types/node-emoji': 1.8.1
-      '@types/rimraf': ^3.0.2
       bad-words: ^3.0.4
       bent: ^7.3
       bignumber.js: ^9.0.1
@@ -792,10 +755,9 @@ importers:
       type-fest: 2.6.0
     devDependencies:
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
+      '@types/bent': 7.3.2
       '@types/node': 16.11.10
       '@types/node-emoji': 1.8.1
-      '@types/rimraf': 3.0.2
 
   packages/sol:
     specifiers:
@@ -806,9 +768,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@solana/web3.js': ^1.30.2
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
       bstring: ^0.3.9
       ed25519-hd-key: ^1.2.0
       got: ^11.8.3
@@ -823,14 +783,14 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
   packages/test:
     specifiers:
       '@types/node': ^16.11.10
+      '@types/sinon': ^10.0.6
+      '@types/yargs': ~17.0.7
       concordance: ~5.0.4
       kleur: ~4.1.4
       nock: ^13.2.1
@@ -848,6 +808,8 @@ importers:
       zod: 3.11.6
     devDependencies:
       '@types/node': 16.11.10
+      '@types/sinon': 10.0.6
+      '@types/yargs': 17.0.7
 
   packages/trx:
     specifiers:
@@ -859,7 +821,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       multicoin-address-validator: ^0.5.5
       tronweb: ^4.0.1
@@ -875,7 +836,6 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
 
   packages/xlm:
@@ -888,7 +848,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
       ed25519-hd-key: ^1.2.0
       stellar-sdk: ^9.1.0
@@ -904,7 +863,6 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
 
   packages/xrp:
@@ -917,7 +875,6 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/lodash': ^4.14.177
       '@types/node': ^16.11.10
       bignumber.js: ^9.0.1
@@ -940,7 +897,6 @@ importers:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/lodash': 4.14.177
       '@types/node': 16.11.10
       lodash: 4.17.21
@@ -954,9 +910,7 @@ importers:
       '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hapi__joi': 17.1.7
       '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
       '@zilliqa-js/account': ^3.3.3
       '@zilliqa-js/util': ^3.3.3
       '@zilliqa-js/zilliqa': ^3.3.3
@@ -972,9 +926,7 @@ importers:
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
-      '@types/hapi__joi': 17.1.7
       '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
       got: 11.8.3
 
 packages:
@@ -2437,13 +2389,11 @@ packages:
     resolution: {integrity: sha512-xkNcLAn/wZaX14RPlwizcKicDk9G3F8m2nU3L7Ukm5zBgTwiT0wsoFAHx9Jq56fJA1z/7uKGtCRu16sOUCLIHQ==}
     dependencies:
       type-detect: 4.0.8
-    dev: false
 
   /@sinonjs/fake-timers/7.1.2:
     resolution: {integrity: sha512-iQADsW4LBMISqZ6Ci1dupJL9pprqwcVFTcOsEmQOEhW+KLCVn/Y4Jrvg2k19fIHCp+iFprriYPTdRcQR8NbUPg==}
     dependencies:
       '@sinonjs/commons': 1.8.3
-    dev: false
 
   /@sinonjs/fake-timers/8.1.0:
     resolution: {integrity: sha512-OAPJUAtgeINhh/TAlUID4QTs53Njm7xzddaVlEs/SXwgtiD1tW22zAB/W1wdqfrpmikgaWQ9Fw6Ws+hsiRm5Vg==}
@@ -2566,6 +2516,10 @@ packages:
     resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
     dev: true
 
+  /@types/benchmark/2.1.1:
+    resolution: {integrity: sha512-XmdNOarpSSxnb3DE2rRFOFsEyoqXLUL+7H8nSGS25vs+JS0018bd+cW5Ma9vdlkPmoTHSQ6e8EUFMFMxeE4l+g==}
+    dev: true
+
   /@types/bent/7.3.2:
     resolution: {integrity: sha512-wtE/+NIk55jVUHJFt//kxmq8cQ7ef4J2U9HO7lZqKW4lvvPYTd7KfAEKZLsFmDgmzzMvfd4cPSdv3blqVWmqSQ==}
     dependencies:
@@ -2614,6 +2568,10 @@ packages:
     dependencies:
       '@types/node': 16.11.10
     dev: false
+
+  /@types/create-xpub/2.1.1:
+    resolution: {integrity: sha512-R/HBIoPcthtbfC0N0kUOOF8KhlAn17zXRmEzL/F4vOm6twa68txCReY50Ej4abiBfkmYz63SUMPbhak7b6h+Dg==}
+    dev: true
 
   /@types/crypto-js/4.0.1:
     resolution: {integrity: sha512-6+OPzqhKX/cx5xh+yO8Cqg3u3alrkhoxhE5ZOdSEv0DOzJ13lwJ6laqGU0Kv6+XDMFmlnGId04LtY22PsFLQUw==}
@@ -2682,10 +2640,6 @@ packages:
       '@types/node': 16.11.10
     dev: true
 
-  /@types/hapi__joi/17.1.7:
-    resolution: {integrity: sha512-byC9slpuqyDeEKegl/ViT8PCQRSp0CYkhLzz0cPxqxV6QC53Ht1cr2jG5iwOvtt/RxylUbTpXNqpgbf9Qu8QFw==}
-    dev: true
-
   /@types/hdkey/0.7.1:
     resolution: {integrity: sha512-4Kkr06hq+R8a9EzVNqXGOY2x1xA7dhY6qlp6OvaZ+IJy1BCca1Cv126RD9X7CMJoXoLo8WvAizy8gQHpqW6K0Q==}
     dependencies:
@@ -2696,6 +2650,10 @@ packages:
     resolution: {integrity: sha512-tq+EUqdxFKX+opzlGudmq+l00rKCWS4ngZzcSgUSe+DTCu8GzUQ6QHmX0IhTxT/3XGyxfwyWiZwhoQKh1Yid8Q==}
     dependencies:
       '@types/node': 16.11.10
+    dev: true
+
+  /@types/highlight.js/9.12.4:
+    resolution: {integrity: sha512-t2szdkwmg2JJyuCM20e8kR2X59WCE5Zkl4bzm1u1Oukjm79zpbiAv+QjnwLnuuV0WHEcX2NgUItu0pAMKuOPww==}
     dev: true
 
   /@types/http-cache-semantics/4.0.1:
@@ -2731,8 +2689,8 @@ packages:
     resolution: {integrity: sha512-5tXH6Bx/kNGd3MgffdmP4dy2Z+G4eaXw0SE81Tq3BNadtnMR5/ySMzX4SLEzHJzSmPNn4HIdpQsBvXMUykr58w==}
     dev: false
 
-  /@types/mersenne-twister/1.1.2:
-    resolution: {integrity: sha512-7KMIfSkMpaVExbzJRLUXHMO4hkFWbbspHPREk8I6pBxiNN+3+l6eAEClMCIPIo2KjCkR0rjYfXppr6+wKdTwpA==}
+  /@types/microtime/2.1.0:
+    resolution: {integrity: sha1-rb2Z9QGoXIhpXrHv01FYEPJWOTI=}
     dev: true
 
   /@types/minimatch/3.0.5:
@@ -2753,12 +2711,6 @@ packages:
       '@types/node': 16.11.10
       form-data: 3.0.1
     dev: false
-
-  /@types/node-fetch/3.0.2:
-    resolution: {integrity: sha512-3q5FyT6iuekUxXeL2qjcyIhtMJdfMF7RGhYXWKkYpdcW9k36A/+txXrjG0l+NMVkiC30jKNrcOqVlqBl7BcCHA==}
-    dependencies:
-      node-fetch: 3.1.0
-    dev: true
 
   /@types/node-forge/0.10.10:
     resolution: {integrity: sha512-iixn5bedlE9fm/5mN7fPpXraXlxCVrnNWHZekys8c5fknridLVWGnNRqlaWpenwaijIuB3bNI0lEOm+JD6hZUA==}
@@ -2819,6 +2771,13 @@ packages:
     resolution: {integrity: sha512-EEhsLsD6UsDM1yFhAvy0Cjr6VwmpMWqFBCb9w07wVugF7w9nfajxLuVmngTIpgS6svCnm6Vaw+MZhoDCKnOfsw==}
     dev: false
 
+  /@types/remarkable/2.0.3:
+    resolution: {integrity: sha512-QQUBeYApuHCNl9Br6ZoI3PlKmwZ69JHrlJktJXnjxobia9liZgsI70fm8PnCqVFAcefYK+9PGzR5L/hzCslNYQ==}
+    dependencies:
+      '@types/highlight.js': 9.12.4
+      highlight.js: 9.18.5
+    dev: true
+
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
@@ -2828,13 +2787,6 @@ packages:
     resolution: {integrity: sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==}
     dev: false
 
-  /@types/rimraf/3.0.2:
-    resolution: {integrity: sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==}
-    dependencies:
-      '@types/glob': 7.2.0
-      '@types/node': 16.11.10
-    dev: true
-
   /@types/secp256k1/4.0.3:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
@@ -2843,6 +2795,12 @@ packages:
 
   /@types/semver/7.3.9:
     resolution: {integrity: sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==}
+    dev: true
+
+  /@types/sinon/10.0.6:
+    resolution: {integrity: sha512-6EF+wzMWvBNeGrfP3Nx60hhx+FfwSg1JJBLAAP/IdIUq0EYkqCYf70VT3PhuhPX9eLD+Dp+lNdpb/ZeHG8Yezg==}
+    dependencies:
+      '@sinonjs/fake-timers': 7.1.2
     dev: true
 
   /@types/trusted-types/2.0.2:
@@ -2878,6 +2836,16 @@ packages:
     dependencies:
       '@types/node': 16.11.10
     dev: false
+
+  /@types/yargs-parser/20.2.1:
+    resolution: {integrity: sha512-7tFImggNeNBVMsn0vLrpn1H1uPrUBdnARPTpZoitY37ZrdJREzf7I16tMrlK3hen349gr1NYh8CmZQa7CTG6Aw==}
+    dev: true
+
+  /@types/yargs/17.0.7:
+    resolution: {integrity: sha512-OvLKmpKdea1aWtqHv9bxVVcMoT6syAeK+198dfETIFkAevYRGwqh4H+KFxfjUETZuUuE5sQCAFwdOdoHUdo8eg==}
+    dependencies:
+      '@types/yargs-parser': 20.2.1
+    dev: true
 
   /@typescript-eslint/eslint-plugin/5.4.0_5c8ff4cecd5a55e744866c0654edac32:
     resolution: {integrity: sha512-9/yPSBlwzsetCsGEn9j24D8vGQgJkOTr4oMLas/w886ZtzKIs1iyoqFrwsX2fqYEeUwsdBpC21gcjRGo57u0eg==}
@@ -4741,11 +4709,6 @@ packages:
       assert-plus: 1.0.0
     dev: false
 
-  /data-uri-to-buffer/4.0.0:
-    resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
-    engines: {node: '>= 12'}
-    dev: true
-
   /data-urls/2.0.0:
     resolution: {integrity: sha512-X5eWTSXO/BJmpdIKCRuKUgSCgAN0OwliVK3yPKbwIWU1Tdw5BRajxlzMidvh+gwko9AfQ9zIj52pzF91Q3YAvQ==}
     engines: {node: '>=10'}
@@ -6082,13 +6045,6 @@ packages:
       reusify: 1.0.4
     dev: true
 
-  /fetch-blob/3.1.3:
-    resolution: {integrity: sha512-ax1Y5I9w+9+JiM+wdHkhBoxew+zG4AJ2SvAD1v1szpddUIiPERVGBxrMcB2ZqW0Y3PP8bOWYv2zqQq1Jp2kqUQ==}
-    engines: {node: ^12.20 || >= 14.13}
-    dependencies:
-      web-streams-polyfill: 3.2.0
-    dev: true
-
   /file-entry-cache/6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -6269,13 +6225,6 @@ packages:
       combined-stream: 1.0.8
       mime-types: 2.1.34
     dev: false
-
-  /formdata-polyfill/4.0.10:
-    resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
-    engines: {node: '>=12.20.0'}
-    dependencies:
-      fetch-blob: 3.1.3
-    dev: true
 
   /forwarded/0.2.0:
     resolution: {integrity: sha512-buRG0fpBtRHSTCOASe6hD258tEubFoRLb4ZNA6NxMVHNw2gOcwHo9wyablzMzOA5z9xA9L1KNjk/Nt6MT9aYow==}
@@ -6674,6 +6623,12 @@ packages:
     resolution: {integrity: sha512-F/1DnUGPopORZi0ni+CvrCgHQ5FyEAHRLSApuYWMmrbSwoN2Mn/7k+Gl38gJnR7yyDZk6WLXwiGod1JOWNDKGw==}
     hasBin: true
     dev: false
+
+  /highlight.js/9.18.5:
+    resolution: {integrity: sha512-a5bFyofd/BHCX52/8i8uJkjr9DYwXIPnM/plwI6W7ezItLGqzt7X2G2nXuYSfsIJdkwwj/g9DG1LkcGJI/dDoA==}
+    deprecated: Support has ended for 9.x series. Upgrade to @latest
+    requiresBuild: true
+    dev: true
 
   /hmac-drbg/1.0.1:
     resolution: {integrity: sha1-0nRXAQJabHdabFRXk+1QL8DGSaE=}
@@ -8254,15 +8209,6 @@ packages:
     dependencies:
       whatwg-url: 5.0.0
     dev: false
-
-  /node-fetch/3.1.0:
-    resolution: {integrity: sha512-QU0WbIfMUjd5+MUzQOYhenAazakV7Irh1SGkWCsRzBwvm4fAhzEUaHMJ6QLP7gWT6WO9/oH2zhKMMGMuIrDyKw==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: 4.0.0
-      fetch-blob: 3.1.3
-      formdata-polyfill: 4.0.10
-    dev: true
 
   /node-forge/0.10.0:
     resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
@@ -10264,7 +10210,6 @@ packages:
   /type-detect/4.0.8:
     resolution: {integrity: sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==}
     engines: {node: '>=4'}
-    dev: false
 
   /type-fest/0.10.0:
     resolution: {integrity: sha512-EUV9jo4sffrwlg8s0zDhP0T2WD3pru5Xi0+HTE3zTUmBaZNhfkite9PdSJwdXLwPVW0jnAHT56pZHIOYckPEiw==}
@@ -10633,11 +10578,6 @@ packages:
     hasBin: true
     dependencies:
       mri: 1.2.0
-    dev: true
-
-  /web-streams-polyfill/3.2.0:
-    resolution: {integrity: sha512-EqPmREeOzttaLRm5HS7io98goBgZ7IVz79aDvqjD0kYXLtFZTc0T/U6wHTPKyIjb+MdN7DFIIX6hgdBEpWmfPA==}
-    engines: {node: '>= 8'}
     dev: true
 
   /web3-bzz/1.6.1:

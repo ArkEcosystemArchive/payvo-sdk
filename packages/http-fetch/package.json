@@ -27,7 +27,6 @@
 		"@payvo/sdk-test": "workspace:*",
 		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^16.11.10",
-		"@types/node-fetch": "3.0.2",
 		"fs-extra": "^10.0.0"
 	},
 	"engines": {

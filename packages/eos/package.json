@@ -33,7 +33,6 @@
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/elliptic": "6.4.14",
-		"@types/hapi__joi": "17.1.7",
 		"@types/node": "^16.11.10"
 	},
 	"engines": {

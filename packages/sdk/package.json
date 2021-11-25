@@ -36,10 +36,9 @@
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
-		"@types/hapi__joi": "17.1.7",
+		"@types/bent": "^7.3.2",
 		"@types/node": "^16.11.10",
-		"@types/node-emoji": "1.8.1",
-		"@types/rimraf": "^3.0.2"
+		"@types/node-emoji": "1.8.1"
 	},
 	"engines": {
 		"node": ">=16.0.0"
