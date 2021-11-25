@@ -1,5 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39, Buffer } from "@payvo/sdk-cryptography";
+import { BIP39 } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import { base58 } from "bstring";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
@@ -52,7 +53,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: base58.encode(derivePublicKey(Buffer.from(privateKey, "hex"))),
+			address: base58.encode(derivePublicKey(Buffer.from(privateKey, "hex") as any)),
 		};
 	}
 

@@ -1,3 +1,5 @@
+import { Buffer } from "@payvo/sdk-helpers";
+
 import { WalletData } from "./contracts.js";
 
 export type LedgerTransport = any;

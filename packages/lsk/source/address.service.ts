@@ -4,7 +4,8 @@ import {
 	getLisk32AddressFromPublicKey,
 	validateBase32Address,
 } from "@liskhq/lisk-cryptography";
-import { BIP39, Buffer } from "@payvo/sdk-cryptography";
+import { BIP39 } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 import { strict as assert } from "assert";
 
@@ -34,7 +35,7 @@ export class AddressService extends Services.AbstractAddressService {
 		publicKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex")) };
+		return { type: "bip39", address: getLisk32AddressFromPublicKey(Buffer.from(publicKey, "hex") as any) };
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.AddressDataTransferObject> {

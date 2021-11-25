@@ -2,7 +2,7 @@ import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskh
 import { getBytes } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
-import { Buffer } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 import { joinModuleAndAssetIds } from "./multi-signature.domain.js";
@@ -149,7 +149,7 @@ export class TransactionSerializer {
 
 	#convertAddress(address: string | Buffer): string {
 		if (Buffer.isBuffer(address)) {
-			return getLisk32AddressFromAddress(address);
+			return getLisk32AddressFromAddress(address as any);
 		}
 
 		return getLisk32AddressFromAddress(getAddressFromBase32Address(address));

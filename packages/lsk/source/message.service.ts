@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { Buffer } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()
@@ -16,8 +16,8 @@ export class MessageService extends Services.AbstractMessageService {
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
 		return verifyMessageWithPublicKey({
 			message: input.message,
-			publicKey: Buffer.from(input.signatory, "hex"),
-			signature: Buffer.from(input.signature, "hex"),
+			publicKey: Buffer.from(input.signatory, "hex") as any,
+			signature: Buffer.from(input.signature, "hex") as any,
 		});
 	}
 }

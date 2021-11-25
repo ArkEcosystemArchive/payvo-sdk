@@ -17,7 +17,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		return this.#normalize(ECPair.fromPrivateKey(convertString(privateKey)));
+		return this.#normalize(ECPair.fromPrivateKey(convertString(privateKey) as any));
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.KeyPairDataTransferObject> {

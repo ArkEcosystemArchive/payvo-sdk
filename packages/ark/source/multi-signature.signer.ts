@@ -1,5 +1,6 @@
 import { Managers, Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
@@ -170,11 +171,13 @@ export class MultiSignatureSigner {
 
 		const signature = await this.ledgerService.signTransaction(
 			signatory.signingKey(),
-			Transactions.Serializer.getBytes(transaction, {
-				excludeSignature: true,
-				excludeSecondSignature: true,
-				excludeMultiSignature,
-			}),
+			Buffer.from(
+				Transactions.Serializer.getBytes(transaction, {
+					excludeSignature: true,
+					excludeSecondSignature: true,
+					excludeMultiSignature,
+				}),
+			),
 		);
 
 		await this.ledgerService.disconnect();

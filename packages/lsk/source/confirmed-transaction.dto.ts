@@ -36,7 +36,7 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			return this.data.sender.address;
 		}
 
-		return getLisk32AddressFromPublicKey(convertString(this.data.senderPublicKey));
+		return getLisk32AddressFromPublicKey(convertString(this.data.senderPublicKey) as any);
 	}
 
 	public override recipient(): string {

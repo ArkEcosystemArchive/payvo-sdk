@@ -1,4 +1,6 @@
+import { Buffer as BufferSafe } from "buffer/";
 import { format } from "concordance";
+import { Buffer as BufferNative } from "node:buffer";
 import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import * as uvu from "uvu/assert";
@@ -11,8 +13,20 @@ export const assert = {
 	...uvu,
 	array: (value: unknown): void => uvu.ok(Array.isArray(value)),
 	boolean: (value: unknown): void => uvu.type(value, "boolean"),
-	buffer: (value: unknown): void => uvu.instance(value, Buffer),
-	bufferArray: (values: unknown[]): void => uvu.ok(values.every((value) => value instanceof Buffer)),
+	buffer: (value: unknown): void => {
+		try {
+			uvu.instance(value, BufferNative);
+		} catch {
+			uvu.instance(value, BufferSafe);
+		}
+	},
+	bufferArray: (values: unknown[]): void => {
+		try {
+			uvu.ok(values.every((value) => value instanceof BufferNative));
+		} catch {
+			uvu.ok(values.every((value) => value instanceof BufferSafe));
+		}
+	},
 	containKey: (value: object, key: string): void => assert.true(Object.keys(value).includes(key)),
 	containKeys: (value: object, keys: string[]): void => {
 		for (const key of keys) {

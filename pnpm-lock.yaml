@@ -452,6 +452,7 @@ importers:
       bad-words: ^3.0.4
       benchmark: ^2.1.4
       bignumber.js: ^9.0.1
+      buffer: ^6.0.3
       censorify-it: ^3.0.2
       deepmerge: ^4.2.2
       del-cli: ^4.0.1
@@ -464,12 +465,12 @@ importers:
       lodash: ^4.17.21
       qrcode: ^1.5.0
       remarkable: ^2.0.1
-      safe-buffer: ^5.2.1
       type-fest: ^2.6.0
     dependencies:
       '@hapi/bourne': 2.0.0
       bad-words: 3.0.4
       bignumber.js: 9.0.1
+      buffer: 6.0.3
       censorify-it: 3.0.2
       deepmerge: 4.2.2
       dot-prop: 6.0.1
@@ -480,7 +481,6 @@ importers:
       joi: 17.4.2
       qrcode: 1.5.0
       remarkable: 2.0.1
-      safe-buffer: 5.2.1
       type-fest: 2.6.0
     devDependencies:
       '@payvo/sdk-test': link:../test
@@ -833,6 +833,7 @@ importers:
   packages/test:
     specifiers:
       '@types/node': ^16.11.10
+      buffer: ^6.0.3
       concordance: ~5.0.4
       kleur: ~4.1.4
       nock: ^13.2.1
@@ -841,6 +842,7 @@ importers:
       yargs: ~17.2.1
       zod: ~3.11.6
     dependencies:
+      buffer: 6.0.3
       concordance: 5.0.4
       kleur: 4.1.4
       nock: 13.2.1

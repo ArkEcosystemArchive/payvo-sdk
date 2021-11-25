@@ -1,6 +1,6 @@
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions";
-import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
+import { Buffer, convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract.js";
@@ -141,6 +141,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		signedTransaction = signTransaction(
 			assetSchema,
 			this.transactionSerializer.toMachine(transactionObject),
+			// @ts-ignore
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
@@ -166,10 +167,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const keys = {
 			mandatoryKeys: convertStringList(
 				isMultiSignatureRegistration ? asset.mandatoryKeys : wallet?.multiSignature().mandatoryKeys,
-			),
+			) as any,
 			optionalKeys: convertStringList(
 				isMultiSignatureRegistration ? asset.optionalKeys : wallet?.multiSignature().optionalKeys,
-			),
+			) as any,
 		};
 
 		const transactionObject = await this.#buildTransactionObject(input, type, asset);
@@ -180,7 +181,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				...this.transactionSerializer.toMachine(transactionObject),
 				signatures: [],
 			},
-			this.#networkIdentifier(),
+			this.#networkIdentifier() as any,
 			input.signatory.signingKey(),
 			keys,
 			isMultiSignatureRegistration,
@@ -198,6 +199,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 					...this.transactionSerializer.toMachine(transactionObject),
 					signatures: signedTransaction.signatures,
 				},
+				// @ts-ignore
 				this.#networkIdentifier(),
 				input.signatory.signingKey(),
 				keys,

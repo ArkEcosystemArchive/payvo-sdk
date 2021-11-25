@@ -1,5 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39, Buffer } from "@payvo/sdk-cryptography";
+import { BIP39 } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
@@ -20,12 +21,12 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 			throw new Exceptions.InvalidArguments(this.constructor.name, this.fromMnemonic.name);
 		}
 
-		const privateBuffer: Buffer = derivePrivateKey(
+		const privateBuffer = derivePrivateKey(
 			mnemonic,
 			options?.bip44?.account || 0,
 			options?.bip44?.addressIndex || 0,
 			this.#slip44,
-		);
+		) as any;
 
 		return {
 			publicKey: derivePublicKey(privateBuffer).toString("hex"),
@@ -34,7 +35,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 	}
 
 	public override async fromPrivateKey(privateKey: string): Promise<Services.KeyPairDataTransferObject> {
-		const privateBuffer: Buffer = Buffer.from(privateKey, "hex");
+		const privateBuffer = Buffer.from(privateKey, "hex") as any;
 
 		return {
 			publicKey: derivePublicKey(privateBuffer).toString("hex"),

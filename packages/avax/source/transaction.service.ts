@@ -42,6 +42,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				[input.data.to],
 				keyPairAddresses,
 				keyPairAddresses,
+				// @ts-ignore
 				input.data.memo === undefined ? undefined : Buffer.from(input.data.memo),
 			)
 		).sign(this.#keychain);

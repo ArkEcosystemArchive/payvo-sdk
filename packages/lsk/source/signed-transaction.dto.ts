@@ -1,5 +1,5 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { Buffer } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
@@ -11,7 +11,7 @@ export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData {
 	public override sender(): string {
-		return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex"));
+		return getLisk32AddressFromPublicKey(Buffer.from(this.signedData.senderPublicKey, "hex") as any);
 	}
 
 	public override recipient(): string {

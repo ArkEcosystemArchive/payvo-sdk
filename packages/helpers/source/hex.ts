@@ -1,4 +1,4 @@
-import { Buffer } from "safe-buffer";
+import { Buffer } from "buffer/";
 
 const encode = (value: string): string => Buffer.from(value, "utf8").toString("hex");
 

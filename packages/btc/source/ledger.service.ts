@@ -1,5 +1,5 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import { convertBuffer } from "@payvo/sdk-helpers";
+import { Buffer, convertBuffer } from "@payvo/sdk-helpers";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
 import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";

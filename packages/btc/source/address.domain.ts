@@ -1,4 +1,5 @@
-import { BIP32, BIP32Interface, Buffer } from "@payvo/sdk-cryptography";
+import { BIP32, BIP32Interface, } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import * as bitcoin from "bitcoinjs-lib";
 
 export const bip44 = (publicKey, network): string =>
@@ -41,7 +42,7 @@ export const defaultNativeSegwitMusigAccountKey = (rootKey: BIP32Interface): BIP
 const createMusigPayment = (minSignatures: number, pubkeys: Buffer[], network: bitcoin.Network) =>
 	bitcoin.payments.p2ms({
 		m: minSignatures,
-		pubkeys: pubkeys.sort(Buffer.compare),
+		pubkeys: pubkeys.sort(Buffer.compare) as any,
 		network,
 	});
 

@@ -100,7 +100,7 @@ export default class WalletDataHelper {
 			} else if (this.isBip49()) {
 				const payment = bitcoin.payments.p2sh({
 					redeem: bitcoin.payments.p2wpkh({
-						pubkey: convertString(addressWithKeys.publicKey),
+						pubkey: convertString(addressWithKeys.publicKey) as any,
 						network: this.#network,
 					}),
 					network: this.#network,

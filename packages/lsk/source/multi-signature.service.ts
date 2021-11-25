@@ -1,6 +1,6 @@
 import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions";
 import { UUID } from "@payvo/sdk-cryptography";
-import { convertBuffer, convertString, convertStringList } from "@payvo/sdk-helpers";
+import { Buffer, convertBuffer, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { BindingType } from "./coin.contract.js";
 
@@ -173,11 +173,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				asset: this.assetSerializer.toMachine(+moduleID, +assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
-			this.#networkIdentifier(),
+			this.#networkIdentifier() as any,
 			signatory.actsWithConfirmationMnemonic() ? signatory.confirmKey() : signatory.signingKey(),
 			{
-				mandatoryKeys: convertStringList(mandatoryKeys),
-				optionalKeys: convertStringList(optionalKeys),
+				mandatoryKeys: convertStringList(mandatoryKeys) as any,
+				optionalKeys: convertStringList(optionalKeys) as any,
 			},
 			isMultiSignatureRegistration(transaction),
 		);

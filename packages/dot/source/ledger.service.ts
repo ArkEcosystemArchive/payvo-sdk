@@ -1,5 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { newPolkadotApp } from "@zondax/ledger-polkadot";
+import { Buffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {

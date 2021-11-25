@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { inject, injectable, preDestroy } from "inversify";
+import { Buffer } from "@payvo/sdk-helpers";
 
 import { WalletData } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";

@@ -1,7 +1,7 @@
 import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
-import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
+import { Contracts, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
-import { BigNumber } from "@payvo/sdk-helpers";
+import { BigNumber, Buffer } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 import { applyCryptoConfiguration } from "./config.js";
@@ -332,10 +332,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		if (input.signatory.actsWithLedger()) {
 			transaction.data.signature = await this.ledgerService.signTransaction(
 				input.signatory.signingKey(),
-				Transactions.Serializer.getBytes(transaction.data, {
+				Buffer.from(Transactions.Serializer.getBytes(transaction.data, {
 					excludeSignature: true,
 					excludeSecondSignature: true,
-				}),
+				})),
 			);
 
 			await this.ledgerService.disconnect();

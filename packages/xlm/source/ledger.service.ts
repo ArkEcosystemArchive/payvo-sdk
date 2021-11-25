@@ -1,5 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Stellar from "@ledgerhq/hw-app-str";
+import { Buffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -29,7 +30,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		const { signature } = await this.#transport.signTransaction(path, payload);
+		const { signature } = await this.#transport.signTransaction(path, payload as any);
 
 		return signature.toString("hex");
 	}

@@ -1,6 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
+import { Buffer } from "@payvo/sdk-helpers";
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers";
 
 @IoC.injectable()
@@ -42,11 +43,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		return this.#transport.signTransactionWithSchnorr(path, payload);
+		return this.#transport.signTransactionWithSchnorr(path, payload as any);
 	}
 
 	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		return this.#transport.signMessageWithSchnorr(path, payload);
+		return this.#transport.signMessageWithSchnorr(path, payload as any);
 	}
 
 	public override async scan(options?: {

@@ -1,6 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 import Cosmos from "ledger-cosmos-js";
+import { Buffer } from "@payvo/sdk-helpers";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {

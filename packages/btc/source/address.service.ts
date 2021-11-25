@@ -53,7 +53,7 @@ export class AddressService extends Services.AbstractAddressService {
 			result = bitcoin.payments.p2sh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map(convertString),
+					pubkeys: publicKeys.map(convertString) as any,
 				}),
 				network: this.#network,
 			});
@@ -64,7 +64,7 @@ export class AddressService extends Services.AbstractAddressService {
 				redeem: bitcoin.payments.p2wsh({
 					redeem: bitcoin.payments.p2ms({
 						m: min,
-						pubkeys: publicKeys.map(convertString),
+						pubkeys: publicKeys.map(convertString) as any,
 					}),
 				}),
 				network: this.#network,
@@ -75,7 +75,7 @@ export class AddressService extends Services.AbstractAddressService {
 			result = bitcoin.payments.p2wsh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map(convertString),
+					pubkeys: publicKeys.map(convertString) as any,
 				}),
 				network: this.#network,
 			});
@@ -101,7 +101,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		let result;
 
-		let publicKeyBuffer: Buffer = convertString(publicKey);
+		let publicKeyBuffer: Buffer = convertString(publicKey) as any;
 
 		if (publicKey.startsWith("xpub")) {
 			if (getNetworkID(this.configRepository) !== "livenet") {
@@ -158,7 +158,7 @@ export class AddressService extends Services.AbstractAddressService {
 		privateKey: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		return this.fromPublicKey(convertBuffer(ECPair.fromPrivateKey(convertString(privateKey)).publicKey), options);
+		return this.fromPublicKey(convertBuffer(ECPair.fromPrivateKey(convertString(privateKey) as any).publicKey), options);
 	}
 
 	public override async fromWIF(
