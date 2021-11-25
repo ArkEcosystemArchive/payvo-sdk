@@ -1,44 +1,44 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { ConfirmedTransactionDataCollection } from "./transactions.collection";
 
 let subject;
 
-test.before.each(
-	() =>
-		(subject = new ConfirmedTransactionDataCollection(
-			[
-				{
-					id: () => "id",
+describe("ConfirmedTransactionDataCollection", ({ assert, beforeEach, it }) => {
+	beforeEach(
+		() =>
+			(subject = new ConfirmedTransactionDataCollection(
+				[
+					{
+						id: () => "id",
 
-					recipient: () => "recipient",
+						recipient: () => "recipient",
 
-					sender: () => "sender",
-					timestamp: () => "timestamp",
-					type: () => "type",
-				},
-			],
-			{ next: "", prev: "", self: "" },
-		)),
-);
+						sender: () => "sender",
+						timestamp: () => "timestamp",
+						type: () => "type",
+					},
+				],
+				{ next: "", prev: "", self: "" },
+			)),
+	);
 
-test("#findById", () => {
-	assert.object(subject.findById("id"));
+	it("should find transactions by id", () => {
+		assert.object(subject.findById("id"));
+	});
+
+	it("should find transactions by type", () => {
+		assert.object(subject.findByType("type"));
+	});
+
+	it("should find transactions by timestamp", () => {
+		assert.object(subject.findByTimestamp("timestamp"));
+	});
+
+	it("should find transactions by sender", () => {
+		assert.object(subject.findBySender("sender"));
+	});
+
+	it("should find transactions by recipient", () => {
+		assert.object(subject.findByRecipient("recipient"));
+	});
 });
-
-test("#findByType", () => {
-	assert.object(subject.findByType("type"));
-});
-
-test("#findByTimestamp", () => {
-	assert.object(subject.findByTimestamp("timestamp"));
-});
-
-test("#findBySender", () => {
-	assert.object(subject.findBySender("sender"));
-});
-
-test("#findByRecipient", () => {
-	assert.object(subject.findByRecipient("recipient"));
-});
-
-test.run();

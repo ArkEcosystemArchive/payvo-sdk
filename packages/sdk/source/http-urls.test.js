@@ -1,9 +1,9 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { ensureTrailingSlash } from "./http-urls";
 
-test("#ensureTrailingSlash", () => {
-	assert.is(ensureTrailingSlash("#"), "#/");
-	assert.is(ensureTrailingSlash("/"), "/");
+describe("HTTP URLs", ({ assert, it }) => {
+	it("should ensure a trailing slash is set", () => {
+		assert.is(ensureTrailingSlash("#"), "#/");
+		assert.is(ensureTrailingSlash("/"), "/");
+	});
 });
-
-test.run();
