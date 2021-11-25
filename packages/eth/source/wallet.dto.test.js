@@ -14,35 +14,35 @@ describe('WalletData', async ({ beforeEach, it, assert }) => {
 			})),
 	);
 
-	it("#address", ({ subject }) => {
+	it("should have an address", ({ subject }) => {
 		assert.is(subject.address(), "0x4581a610f96878266008993475f1476ca9997081");
 	});
 
-	it("#publicKey", ({ subject }) => {
+	it("should have a publicKey", ({ subject }) => {
 		assert.undefined(subject.publicKey());
 	});
 
-	it("#balance", ({ subject }) => {
+	it("should have a balance", ({ subject }) => {
 		assert.equal(subject.balance().available, BigNumber.make("10"));
 	});
 
-	it("#nonce", ({ subject }) => {
+	it("should have a nonce", ({ subject }) => {
 		assert.equal(subject.nonce(), BigNumber.ZERO);
 	});
 
-	it("#isMultiSignature", ({ subject }) => {
+	it("should have a method to know if wallet is multisignature", ({ subject }) => {
 		assert.false(subject.isMultiSignature());
 	});
 
-	it("#isDelegate", ({ subject }) => {
+	it("should have a method to know if wallet is delegate", ({ subject }) => {
 		assert.false(subject.isDelegate());
 	});
 
-	it("#isSecondSignature", ({ subject }) => {
+	it("should have a method to know if wallet is second signature", ({ subject }) => {
 		assert.false(subject.isSecondSignature());
 	});
 
-	it("#isResignedDelegate", ({ subject }) => {
+	it("should have a method to know if wallet is a resigned delegate", ({ subject }) => {
 		assert.false(subject.isResignedDelegate());
 	});
 });
