@@ -86,7 +86,7 @@ const transactions = [
 
 describe("#toMachine", async ({ it, assert }) => {
 	for (const transaction of clone(transactions)) {
-		it(`should serialize to machine ${JSON.stringify({transaction})}`, () => {
+		it(`should serialize to machine ${JSON.stringify({ transaction })}`, () => {
 			assert.object(createService(TransactionSerializer).toMachine(transaction));
 		});
 	}
@@ -94,7 +94,7 @@ describe("#toMachine", async ({ it, assert }) => {
 
 describe("#toHuman", ({ it, assert }) => {
 	for (const transaction of clone(transactions)) {
-		it(`should serialize to human ${JSON.stringify({transaction})}`, async () => {
+		it(`should serialize to human ${JSON.stringify({ transaction })}`, async () => {
 			const subject = await createService(TransactionSerializer);
 
 			assert.object(subject.toHuman(subject.toMachine(transaction)));
@@ -121,7 +121,7 @@ describe("#toHuman", ({ it, assert }) => {
 
 describe("#toString", ({ it, assert }) => {
 	for (const transaction of clone(transactions)) {
-		it(`should serialize to string ${JSON.stringify({transaction})}`, async () => {
+		it(`should serialize to string ${JSON.stringify({ transaction })}`, async () => {
 			const subject = await createService(TransactionSerializer);
 
 			assert.string(subject.toString(subject.toHuman(transaction)));

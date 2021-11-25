@@ -144,7 +144,10 @@ describe("#wallets", async ({ beforeAll, it, assert }) => {
 	beforeAll(async () => createLocalServices());
 
 	it("should succeed", async () => {
-		nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallets.json`));
+		nock.fake(/.+/)
+			.get("/api/v2/accounts")
+			.query(true)
+			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
 
 		const result = await subject.wallets({
 			identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
@@ -173,7 +176,10 @@ describe("#delegate", async ({ beforeAll, it, assert }) => {
 	beforeAll(async () => createLocalServices());
 
 	it("should succeed", async () => {
-		nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegate.json`));
+		nock.fake(/.+/)
+			.get("/api/v2/accounts")
+			.query(true)
+			.reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
 		const result = await subject.delegate("punkrock");
 
@@ -199,7 +205,10 @@ describe("#delegates", async ({ beforeAll, it, assert }) => {
 	beforeAll(async () => createLocalServices());
 
 	it("should succeed", async () => {
-		nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/delegates.json`));
+		nock.fake(/.+/)
+			.get("/api/v2/accounts")
+			.query(true)
+			.reply(200, loader.json(`test/fixtures/client/delegates.json`));
 
 		const result = await subject.delegates();
 		const wallet = result.items()[0];
@@ -226,7 +235,10 @@ describe("#votes", async ({ beforeAll, it, assert }) => {
 	beforeAll(async () => createLocalServices());
 
 	it("should succeed", async () => {
-		nock.fake(/.+/).get("/api/v2/votes_sent").query(true).reply(200, loader.json(`test/fixtures/client/votes.json`));
+		nock.fake(/.+/)
+			.get("/api/v2/votes_sent")
+			.query(true)
+			.reply(200, loader.json(`test/fixtures/client/votes.json`));
 
 		const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
