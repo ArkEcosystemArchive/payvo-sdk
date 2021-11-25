@@ -2,8 +2,10 @@ import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { AssetSerializer } from "./asset.serializer";
 
-describe("AssetSerializer #toMachine", ({ it, assert }) => {
-	for (const { moduleID, assetID, asset } of [
+describe("AssetSerializer #toMachine", ({ each, it, assert }) => {
+	each("should serialize asset of transaction type %s", ({ dataset }) => {
+		assert.object(createService(AssetSerializer).toMachine(dataset.moduleID, dataset.assetID, dataset.asset));
+	}, [
 		{
 			moduleID: 2,
 			assetID: 0,
@@ -44,11 +46,7 @@ describe("AssetSerializer #toMachine", ({ it, assert }) => {
 				],
 			},
 		},
-	]) {
-		it(`should serialize asset of transaction type ${JSON.stringify({ assetID, moduleID })}`, () => {
-			assert.object(createService(AssetSerializer).toMachine(moduleID, assetID, asset));
-		});
-	}
+	]);
 
 	it("should throw error when transaction type cannot be recognized", () => {
 		assert.throws(
