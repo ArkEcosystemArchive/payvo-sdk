@@ -4,7 +4,6 @@ import { describe, sinon } from "@payvo/sdk-test";
 import { AbstractRequest } from "./http-request";
 import { Response } from "./http-response";
 
-
 class Stub extends AbstractRequest {
 	constructor(spy) {
 		super();

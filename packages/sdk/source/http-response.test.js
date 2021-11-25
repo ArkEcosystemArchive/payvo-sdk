@@ -8,7 +8,6 @@ describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
 			headers: { Accept: "something" },
 			statusCode: 200,
 		});
-
 	});
 
 	afterEach((context) => {

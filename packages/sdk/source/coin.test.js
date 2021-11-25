@@ -75,9 +75,15 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 		assert.not.throws(() => context.subject.address(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.bigNumber(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.client(), "No matching bindings found for serviceIdentifier");
-		assert.not.throws(() => context.subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+		assert.not.throws(
+			() => context.subject.dataTransferObject(),
+			"No matching bindings found for serviceIdentifier",
+		);
 		assert.not.throws(() => context.subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
-		assert.not.throws(() => context.subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+		assert.not.throws(
+			() => context.subject.extendedPublicKey(),
+			"No matching bindings found for serviceIdentifier",
+		);
 		assert.not.throws(() => context.subject.fee(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.keyPair(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.knownWallet(), "No matching bindings found for serviceIdentifier");
@@ -99,9 +105,15 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 		assert.not.throws(() => context.subject.address(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.bigNumber(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.client(), "No matching bindings found for serviceIdentifier");
-		assert.not.throws(() => context.subject.dataTransferObject(), "No matching bindings found for serviceIdentifier");
+		assert.not.throws(
+			() => context.subject.dataTransferObject(),
+			"No matching bindings found for serviceIdentifier",
+		);
 		assert.not.throws(() => context.subject.extendedAddress(), "No matching bindings found for serviceIdentifier");
-		assert.not.throws(() => context.subject.extendedPublicKey(), "No matching bindings found for serviceIdentifier");
+		assert.not.throws(
+			() => context.subject.extendedPublicKey(),
+			"No matching bindings found for serviceIdentifier",
+		);
 		assert.not.throws(() => context.subject.fee(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.keyPair(), "No matching bindings found for serviceIdentifier");
 		assert.not.throws(() => context.subject.knownWallet(), "No matching bindings found for serviceIdentifier");

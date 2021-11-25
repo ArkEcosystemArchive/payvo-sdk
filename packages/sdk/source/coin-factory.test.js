@@ -8,7 +8,6 @@ import { Request } from "../../http-fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
-
 describe("CoinFactory", ({ assert, beforeAll, loader, nock, it, skip }) => {
 	beforeAll(async (context) => {
 		context.options = { httpClient: new Request(), network: "ark.mainnet" };

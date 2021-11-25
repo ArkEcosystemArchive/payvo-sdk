@@ -35,7 +35,10 @@ describe("ConfigRepository", ({ assert, beforeEach, it }) => {
 	});
 
 	it("shoul get a value without throwing if it does not exist", (context) => {
-		assert.not.throws(() => context.subject.getLoose("hello.world"), "The [key] is an unknown configuration value.");
+		assert.not.throws(
+			() => context.subject.getLoose("hello.world"),
+			"The [key] is an unknown configuration value.",
+		);
 	});
 
 	it("should determine if a value exists", (context) => {
