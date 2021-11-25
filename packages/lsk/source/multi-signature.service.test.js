@@ -210,25 +210,25 @@ describe("#broadcast", ({ beforeEach, assert, it }) => {
 
 describe("#needsFinalSignature", async ({ it, assert }) => {
 	it("should succeed", async () => {
-		assert.true(
-			musig.needsFinalSignature(
-				await subject.transfer({
-					fee: 10,
-					signatory: new Signatories.Signatory(
-						new Signatories.MnemonicSignatory({
-							signingKey: wallet1.signingKey,
-							address: wallet1.address,
-							publicKey: wallet1.publicKey,
-							privateKey: identity.privateKey,
-						}),
-					),
-					data: {
-						amount: 1,
-						to: wallet1.address,
-					},
-				}),
-			),
-		);
+		await createLocalServices();
+
+		assert.true(musig.needsFinalSignature(
+			await subject.transfer({
+				fee: 10,
+				signatory: new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						signingKey: wallet1.signingKey,
+						address: wallet1.address,
+						publicKey: wallet1.publicKey,
+						privateKey: identity.privateKey,
+					}),
+				),
+				data: {
+					amount: 1,
+					to: wallet1.address,
+				},
+			}),
+		));
 	});
 });
 
