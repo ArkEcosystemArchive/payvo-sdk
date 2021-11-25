@@ -28,7 +28,9 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 	it("#transaction should succeed", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
+		const result = await context.subject.transaction(
+			"F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
