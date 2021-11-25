@@ -11,11 +11,9 @@ import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { BindingType } from "./constants";
 
-let subject;
-
 describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) => {
-	beforeEach(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -27,10 +25,10 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 		});
 	});
 
-	it("should retrieve a transaction", async () => {
+	it("should retrieve a transaction", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
+		const result = await context.subject.transaction("b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "b2e78cb571fcee734fb6e3e34a16d735e3a3550c09100b79d017dd364b8770cb");
@@ -41,10 +39,10 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 		assert.equal(result.fee(), BigNumber.make("0.1"));
 	});
 
-	it("should retrieve a wallet", async () => {
+	it("should retrieve a wallet", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: identity.address,
 		});
@@ -55,7 +53,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 		assert.equal(result.nonce(), BigNumber.make(1));
 	});
 
-	it("should broadcast", async () => {
+	it("should broadcast", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
@@ -73,7 +71,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 
 		const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
 		const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
-		const result = await subject.broadcast([transaction]);
+		const result = await context.subject.broadcast([transaction]);
 
 		assert.equal(result, {
 			accepted: ["id"],
@@ -82,7 +80,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 		});
 	});
 
-	it("should fail to broadcast", async () => {
+	it("should fail to broadcast", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-minimum-gas-price.json`))
@@ -98,7 +96,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) 
 
 		const broadcastData = JSON.stringify(loader.json(`test/fixtures/client/broadcast-request-payload.json`));
 		const transaction = createService(SignedTransactionData).configure("id", signedData, broadcastData);
-		const result = await subject.broadcast([transaction]);
+		const result = await context.subject.broadcast([transaction]);
 
 		assert.equal(result, {
 			accepted: [],
