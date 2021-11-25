@@ -3,7 +3,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 
-describe('AddressService', ({ it, assert, beforeEach }) => {
+describe("AddressService", ({ it, assert, beforeEach }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(AddressService);
 	});
@@ -22,7 +22,7 @@ describe('AddressService', ({ it, assert, beforeEach }) => {
 		});
 	});
 
-	it("should validate an address", async ({subject }) => {
+	it("should validate an address", async ({ subject }) => {
 		assert.true(await subject.validate("0x986A007A43D65FF18D040ACDAD844CFE7C349135"));
 		assert.false(await subject.validate("randomString"));
 	});

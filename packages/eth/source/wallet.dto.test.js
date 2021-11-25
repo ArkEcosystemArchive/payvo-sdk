@@ -4,7 +4,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 
-describe('WalletData', async ({ beforeEach, it, assert }) => {
+describe("WalletData", async ({ beforeEach, it, assert }) => {
 	beforeEach(
 		async (context) =>
 			(context.subject = (await createService(WalletData)).fill({
