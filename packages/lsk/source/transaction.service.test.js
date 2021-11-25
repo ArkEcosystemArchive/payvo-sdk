@@ -210,8 +210,8 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 							[dataset]: "",
 						},
 					}),
-					`Expected [input.data.${dataset}] to be defined as a list of strings.`,
-				);
+				`Expected [input.data.${dataset}] to be defined as a list of strings.`,
+			);
 		},
 		["mandatoryKeys", "optionalKeys"],
 	);
