@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,32 +33,32 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const trx = await createMockService("");
 
 		assert.undefined(await trx.disconnect());
 	});
 });
 
-describe("getVersion", ({ afterEach, beforeEach, test }) => {
-	test("should pass with an app version", async () => {
+describe("getVersion", ({ it, assert }) => {
+	it("should pass with an app version", async () => {
 		const trx = await createMockService(ledger.appVersion.record);
 
 		assert.is(await trx.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a compressed publicKey", async () => {
+describe("getPublicKey", ({ it, assert }) => {
+	it("should pass with a compressed publicKey", async () => {
 		const trx = await createMockService(ledger.publicKey.record);
 
 		assert.is(await trx.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a signature", async () => {
+describe("signTransaction", ({ it, assert }) => {
+	it("should pass with a signature", async () => {
 		const trx = await createMockService(ledger.transaction.record);
 
 		const result = await trx.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex"));
@@ -67,8 +67,8 @@ describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("signMessage", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a signature", async () => {
+describe("signMessage", ({ it, assert }) => {
+	it("should pass with a signature", async () => {
 		const trx = await createMockService(ledger.message.record);
 
 		const result = await trx.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"));
@@ -76,5 +76,3 @@ describe("signMessage", ({ afterEach, beforeEach, test }) => {
 		assert.equal(JSON.parse(result), ledger.message.result);
 	});
 });
-
-test.run();
