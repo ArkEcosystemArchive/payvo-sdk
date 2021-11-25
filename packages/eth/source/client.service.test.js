@@ -31,7 +31,9 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it, loader }) =
 			.get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+		const result = await context.subject.transaction(
+			"0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
