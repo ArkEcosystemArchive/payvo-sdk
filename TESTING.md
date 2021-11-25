@@ -20,8 +20,8 @@ With **jest** you will often see that people wrap their tests into a describe bl
 
 When writing tests you should decide what kind of tests you are going to write before you write them. If you are just going to write a few tests that don't require any grouping then use a single `describe` that indicates the class, function or entity you are testing and keep them at root of the file. If you are going to write tests that require grouping because there's a lot of cases you have two options.
 
-- Give them expressive titles that make it clear what they test. These should be written for humans so they don't need to contain the function names in the form of `#function` or alike.
-- Organise all of them in separate suites by using `describe` to ensure they have their own local state.
+-   Give them expressive titles that make it clear what they test. These should be written for humans so they don't need to contain the function names in the form of `#function` or alike.
+-   Organise all of them in separate suites by using `describe` to ensure they have their own local state.
 
 Both of those options are valid and which you choose depends on how you want to organise the tests because of their size.
 
