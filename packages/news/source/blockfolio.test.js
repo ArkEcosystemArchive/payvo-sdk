@@ -6,7 +6,7 @@ import { Blockfolio } from "./blockfolio";
 
 describe("FeedService", async ({ assert, beforeEach, it, nock }) => {
 	beforeEach((context) => {
-		context.subject = new Blockfolio(new Request())
+		context.subject = new Blockfolio(new Request());
 	});
 
 	it("should retrieve the feed and findByCoin it", async (context) => {
