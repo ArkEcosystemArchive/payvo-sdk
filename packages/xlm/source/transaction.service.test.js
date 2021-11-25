@@ -13,11 +13,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
-describe("TransactionService", async ({ beforeAll, afterEach, it, assert }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+describe("TransactionService", async ({ beforeAll, it, assert }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -32,13 +30,13 @@ describe("TransactionService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	it("#transfer should succeed", async () => {
+	it("#transfer should succeed", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,

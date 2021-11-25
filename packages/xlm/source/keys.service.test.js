@@ -3,15 +3,13 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 
-let subject;
-
 describe("KeyPairService", async ({ beforeEach, it, assert }) => {
-	beforeEach(async () => {
-		subject = await createService(KeyPairService);
+	beforeEach(async (context) => {
+		context.subject = await createService(KeyPairService);
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, {
 			path: "m/44'/148'/0'",
@@ -20,8 +18,8 @@ describe("KeyPairService", async ({ beforeEach, it, assert }) => {
 		});
 	});
 
-	it("should generate an output from a private key", async () => {
-		const result = await subject.fromPrivateKey(identity.privateKey);
+	it("should generate an output from a private key", async (context) => {
+		const result = await context.subject.fromPrivateKey(identity.privateKey);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,
