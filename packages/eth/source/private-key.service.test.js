@@ -8,8 +8,8 @@ describe('PrivateKeyService', async ({ assert, it, beforeEach }) => {
 		context.subject = await createService(PrivateKeyService);
 	});
 
-	it("should generate an output from a mnemonic", async ({ subject }) => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, { privateKey: identity.privateKey });
 	});

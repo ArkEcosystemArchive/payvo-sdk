@@ -14,35 +14,35 @@ describe('WalletData', async ({ beforeEach, it, assert }) => {
 			})),
 	);
 
-	it("should have an address", ({ subject }) => {
-		assert.is(subject.address(), "0x4581a610f96878266008993475f1476ca9997081");
+	it("should have an address", (context) => {
+		assert.is(context.subject.address(), "0x4581a610f96878266008993475f1476ca9997081");
 	});
 
-	it("should have a publicKey", ({ subject }) => {
-		assert.undefined(subject.publicKey());
+	it("should have a publicKey", (context) => {
+		assert.undefined(context.subject.publicKey());
 	});
 
-	it("should have a balance", ({ subject }) => {
-		assert.equal(subject.balance().available, BigNumber.make("10"));
+	it("should have a balance", (context) => {
+		assert.equal(context.subject.balance().available, BigNumber.make("10"));
 	});
 
-	it("should have a nonce", ({ subject }) => {
-		assert.equal(subject.nonce(), BigNumber.ZERO);
+	it("should have a nonce", (context) => {
+		assert.equal(context.subject.nonce(), BigNumber.ZERO);
 	});
 
-	it("should have a method to know if wallet is multisignature", ({ subject }) => {
-		assert.false(subject.isMultiSignature());
+	it("should have a method to know if wallet is multisignature", (context) => {
+		assert.false(context.subject.isMultiSignature());
 	});
 
-	it("should have a method to know if wallet is delegate", ({ subject }) => {
-		assert.false(subject.isDelegate());
+	it("should have a method to know if wallet is delegate", (context) => {
+		assert.false(context.subject.isDelegate());
 	});
 
-	it("should have a method to know if wallet is second signature", ({ subject }) => {
-		assert.false(subject.isSecondSignature());
+	it("should have a method to know if wallet is second signature", (context) => {
+		assert.false(context.subject.isSecondSignature());
 	});
 
-	it("should have a method to know if wallet is a resigned delegate", ({ subject }) => {
-		assert.false(subject.isResignedDelegate());
+	it("should have a method to know if wallet is a resigned delegate", (context) => {
+		assert.false(context.subject.isResignedDelegate());
 	});
 });

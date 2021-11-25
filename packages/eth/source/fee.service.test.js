@@ -13,10 +13,10 @@ describe('FeeService', async ({ beforeEach, afterEach, beforeAll, it, assert, lo
 
 	beforeAll(() => nock.disableNetConnect());
 
-	it("should fetch all available fees", async ({ subject }) => {
+	it("should fetch all available fees", async (context) => {
 		nock.fake("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
 
-		const result = await subject.all();
+		const result = await context.subject.all();
 
 		assert.containKeys(result, [
 			"transfer",

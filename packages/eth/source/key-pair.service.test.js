@@ -8,15 +8,15 @@ describe('KeyPairService', async ({ beforeEach, it, assert }) => {
 		context.subject = await createService(KeyPairService);
 	})
 
-	it("should generate an output from a mnemonic", async ({ subject }) => {
-		assert.equal(await subject.fromMnemonic(identity.mnemonic), {
+	it("should generate an output from a mnemonic", async (context) => {
+		assert.equal(await context.subject.fromMnemonic(identity.mnemonic), {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});
 	});
 
-	it("should generate an output from a privateKey", async ({ subject }) => {
-		assert.equal(await subject.fromPrivateKey(identity.privateKey), {
+	it("should generate an output from a privateKey", async (context) => {
+		assert.equal(await context.subject.fromPrivateKey(identity.privateKey), {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

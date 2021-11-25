@@ -26,12 +26,12 @@ describe('ClientService', async ({ assert, beforeAll, afterEach, it, loader }) =
 		nock.cleanAll();
 	});
 
-	it("#transaction should succeed", async ({ subject }) => {
+	it("#transaction should succeed", async (context) => {
 		nock.fake("https://platform.ark.io/api/eth")
 			.get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+		const result = await context.subject.transaction("0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
@@ -45,12 +45,12 @@ describe('ClientService', async ({ assert, beforeAll, afterEach, it, loader }) =
 		assert.undefined(result.memo());
 	});
 
-	it("#transactions should succeed", async ({ subject }) => {
+	it("#transactions should succeed", async (context) => {
 		nock.fake("https://platform.ark.io/api/eth")
 			.get("/wallets/0x8e5231be3b71afdd0c417164986573fecddbae59/transactions")
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
 			limit: 1,
 		});
@@ -58,12 +58,12 @@ describe('ClientService', async ({ assert, beforeAll, afterEach, it, loader }) =
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("#wallet should succeed", async ({ subject }) => {
+	it("#wallet should succeed", async (context) => {
 		nock.fake("https://platform.ark.io/api/eth")
 			.get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "0x4581a610f96878266008993475f1476ca9997081",
 		});
@@ -74,12 +74,12 @@ describe('ClientService', async ({ assert, beforeAll, afterEach, it, loader }) =
 		assert.is(result.nonce().toString(), "665");
 	});
 
-	it("broadcast should pass", async ({ subject }) => {
+	it("broadcast should pass", async (context) => {
 		nock.fake("https://platform.ark.io/api/eth")
 			.post("/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
 		]);
 
@@ -90,12 +90,12 @@ describe('ClientService', async ({ assert, beforeAll, afterEach, it, loader }) =
 		});
 	});
 
-	it("broadcast should fail", async ({ subject }) => {
+	it("broadcast should fail", async (context) => {
 		nock.fake("https://platform.ark.io/api/eth")
 			.post("/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			createService(SignedTransactionData).configure("id", "transactionPayload", "transactionPayload"),
 		]);
 
