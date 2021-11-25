@@ -1,5 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
-import { nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -7,17 +6,15 @@ import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 
-let subject;
-
-describe("testnet", ({ beforeEach, test }) => {
-	beforeEach(async () => {
-		subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
+describe("testnet", ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	test("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, [
 			{
@@ -38,8 +35,8 @@ describe("testnet", ({ beforeEach, test }) => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for specific paths for each addressing schema", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
 				change: 0,
@@ -76,8 +73,8 @@ describe("testnet", ({ beforeEach, test }) => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for change chain", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for change chain", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,
 				change: 1,
@@ -115,15 +112,15 @@ describe("testnet", ({ beforeEach, test }) => {
 	});
 });
 
-describe("livenet", ({ beforeEach, test }) => {
-	beforeEach(async () => {
-		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
+describe("livenet", ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	test("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, [
 			{
@@ -144,8 +141,8 @@ describe("livenet", ({ beforeEach, test }) => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for specific paths for each addressing schema", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
 				change: 0,
@@ -182,8 +179,8 @@ describe("livenet", ({ beforeEach, test }) => {
 		]);
 	});
 
-	test("should generate an output from a mnemonic for change chain", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for change chain", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,
 				change: 1,
