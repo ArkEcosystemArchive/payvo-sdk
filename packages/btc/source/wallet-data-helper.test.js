@@ -5,7 +5,7 @@ import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 import * as bitcoin from "bitcoinjs-lib";
 
-describe('Wallet data helper', async ({ beforeEach, it, assert, nock }) => {
+describe("Wallet data helper", async ({ beforeEach, it, assert, nock }) => {
 	beforeEach(async (context) => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(

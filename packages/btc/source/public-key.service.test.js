@@ -3,7 +3,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
-describe('PublicKeyService', async ({ beforeEach, it, assert }) => {
+describe("PublicKeyService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(PublicKeyService);
 	});
