@@ -35,7 +35,9 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transaction-operations.json`));
 
-		const result = await context.subject.transaction("264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");
+		const result = await context.subject.transaction(
+			"264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");

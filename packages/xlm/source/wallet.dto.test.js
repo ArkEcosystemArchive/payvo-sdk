@@ -10,7 +10,7 @@ describe("WalletData", async ({ beforeAll, assert, it }) => {
 		context.subject = (await createService(WalletData)).fill(Fixture);
 	});
 
-it("should have an address", (context) => {
+	it("should have an address", (context) => {
 		assert.is(context.subject.address(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
 	});
 
