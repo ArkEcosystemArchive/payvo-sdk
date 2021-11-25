@@ -25,7 +25,6 @@
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
 		"bcrypto": "^5.4.0",
-		"bech32": "^2.0.0",
 		"ledger-cosmos-js": "^2.1.8"
 	},
 	"devDependencies": {

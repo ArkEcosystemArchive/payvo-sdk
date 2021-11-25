@@ -1,5 +1,5 @@
 import { Services } from "@payvo/sdk";
-import { bech32 } from "bech32";
+import { bech32 } from "@payvo/sdk-cryptography";
 
 import { makeAccount } from "./factories.js";
 
