@@ -13,11 +13,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("TransactionService", async ({ beforeAll, afterEach, assert, it }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -34,12 +32,12 @@ describe("TransactionService", async ({ beforeAll, afterEach, assert, it }) => {
 
 	afterEach(() => nock.cleanAll());
 
-	it.skip("should sign transaction", async () => {
+	it.skip("should sign transaction", async (context) => {
 		nock.fake("https://proxy.nanos.cc/")
 			.post("/proxy")
 			.reply(200, loader.json(`test/fixtures/client/account-info.json`));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,
