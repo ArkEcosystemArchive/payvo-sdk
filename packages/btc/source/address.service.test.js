@@ -6,9 +6,10 @@ import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
 
-const createMockService = () => createService(AddressService, undefined, async (container) => {
-	container.singleton(BindingType.AddressFactory, AddressFactory);
-});
+const createMockService = () =>
+	createService(AddressService, undefined, async (container) => {
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+	});
 
 // These tests are based on the values from https://github.com/bitcoinjs/bitcoinjs-lib/blob/master/test/integration/addresses.spec.ts
 
@@ -254,10 +255,10 @@ describe("#fromWIF", ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe('Address validation', async ({ it, assert, beforeAll }) => {
+describe("Address validation", async ({ it, assert, beforeAll }) => {
 	beforeAll(async (context) => (context.subject = await createMockService()));
 
-	it('should succeed', async (context) => {
+	it("should succeed", async (context) => {
 		assert.true(await context.subject.validate(identity.address));
 		assert.true(await context.subject.validate(identity.addressBIP44));
 		assert.true(await context.subject.validate(identity.addressBIP49));

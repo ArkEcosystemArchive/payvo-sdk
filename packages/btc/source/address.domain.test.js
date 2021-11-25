@@ -17,7 +17,9 @@ describeWithContext(
 	"Address domain",
 	{
 		network: bitcoin.networks.testnet,
-		rootAccountKeys: musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, bitcoin.networks.testnet)),
+		rootAccountKeys: musig.accounts.map((account) =>
+			BIP32.fromMnemonic(account.mnemonic, bitcoin.networks.testnet),
+		),
 	},
 	async ({ it, assert }) => {
 		it("should derive account key for legacy multisig", async (context) => {

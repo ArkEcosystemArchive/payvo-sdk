@@ -29,7 +29,9 @@ describe('ClientService', async ({ beforeAll, afterEach, it, assert, loader, noc
 			.get("/api/transactions/68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32");
+		const result = await context.subject.transaction(
+			"68ad0264053ab94fa7749e78d2f728911d166ca9af8dbb68e6ee264958ca7f32",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
