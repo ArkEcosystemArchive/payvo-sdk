@@ -10,11 +10,9 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject;
-
 describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -27,10 +25,10 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 
 	afterEach(() => nock.cleanAll());
 
-	it("#transaction should succeed", async () => {
+	it("#transaction should succeed", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
+		const result = await context.subject.transaction("F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "F4AB442A6D4CBB935D66E1DA7309A5FC71C7143ED4049053EC14E3875B0CF9BF");
@@ -44,10 +42,10 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.undefined(result.memo());
 	});
 
-	it("#transactions should succeed", async () => {
+	it("#transactions should succeed", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59" }],
 			limit: 10,
 		});
@@ -63,10 +61,10 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.equal(result.items()[0].fee(), BigNumber.make(1000));
 	});
 
-	it("#wallet should succeed", async () => {
+	it("#wallet should succeed", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59",
 		});
@@ -83,10 +81,10 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		"12000322000000002400000017201B0086955468400000000000000C732102F89EAEC7667B30F33D0687BBA86C3FE2A08CCA40A9186C5BDE2DAA6FA97A37D87446304402207660BDEF67105CE1EBA9AD35DC7156BAB43FF1D47633199EE257D70B6B9AAFBF02207F5517BC8AEF2ADC1325897ECDBA8C673838048BCA62F4E98B252F19BE88796D770A726970706C652E636F6D81144FBFF73DA4ECF9B701940F27341FA8020C313443",
 	);
 
-	it("broadcast should pass", async () => {
+	it("broadcast should pass", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-		const result = await subject.broadcast([transactionPayload]);
+		const result = await context.subject.broadcast([transactionPayload]);
 
 		assert.equal(result, {
 			accepted: ["2B6928A583A9D14D359E471EB8D8F961CBC1A054EF86845A39790A7912147CD2"],
@@ -95,10 +93,10 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	it("broadcast should fail", async () => {
+	it("broadcast should fail", async (context) => {
 		nock.fake(/.+/).post("/").reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-		const result = await subject.broadcast([transactionPayload]);
+		const result = await context.subject.broadcast([transactionPayload]);
 
 		assert.equal(result, {
 			accepted: [],
