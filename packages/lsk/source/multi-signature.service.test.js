@@ -70,7 +70,7 @@ const createLocalServices = async (loader) => {
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
-	return { subject, musig }
+	return { subject, musig };
 };
 
 const wallet1 = {
@@ -87,10 +87,10 @@ const wallet2 = {
 
 describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, stub }) => {
 	beforeEach(async (context) => {
-		const { subject, musig } = await createLocalServices(loader)
+		const { subject, musig } = await createLocalServices(loader);
 
-		context.subject = subject
-		context.musig = musig
+		context.subject = subject;
+		context.musig = musig;
 
 		const gotoTime = DateTime.make("2021-01-01 12:00:00");
 

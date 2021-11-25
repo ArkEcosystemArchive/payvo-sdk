@@ -41,7 +41,10 @@ describe("WalletData", async ({ beforeEach, assert, it }) => {
 	});
 
 	it("should throw error if wallet has not registered multi-signature", (context) => {
-		assert.throws(() => context.subject.multiSignature(), "This wallet does not have a multi-signature registered.");
+		assert.throws(
+			() => context.subject.multiSignature(),
+			"This wallet does not have a multi-signature registered.",
+		);
 	});
 
 	it("should return number of votes received", (context) => {

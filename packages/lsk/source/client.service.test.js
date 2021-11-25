@@ -35,7 +35,9 @@ describe("#transaction", async ({ beforeAll, it, assert }) => {
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
+		const result = await context.subject.transaction(
+			"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");

@@ -23,7 +23,6 @@ describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
 
 		context.subject = await createService(SignedTransactionData);
 		context.subject.configure(context.transaction.id, context.transaction, context.transaction);
-
 	});
 
 	it("should have an id", (context) => {

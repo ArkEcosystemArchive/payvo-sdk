@@ -80,7 +80,6 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
 			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
 		};
-
 	});
 
 	afterEach(async (context) => {
