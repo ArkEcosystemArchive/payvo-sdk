@@ -4,8 +4,6 @@ import { describe, sinon } from "@payvo/sdk-test";
 import { AbstractRequest } from "./http-request";
 import { Response } from "./http-response";
 
-let subject;
-let spy;
 
 class Stub extends AbstractRequest {
 	constructor(spy) {
@@ -26,17 +24,17 @@ class Stub extends AbstractRequest {
 }
 
 describe("AbstractRequest", ({ beforeEach, it }) => {
-	beforeEach(async () => {
-		spy = sinon.spy();
-		subject = new Stub(spy);
+	beforeEach(async (context) => {
+		context.spy = sinon.spy();
+		context.subject = new Stub(context.spy);
 	});
 
-	it("should set a base url", () => {
-		subject.baseUrl("https://base.com");
+	it("should set a base url", (context) => {
+		context.subject.baseUrl("https://base.com");
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				query: undefined,
@@ -52,12 +50,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the request as json", () => {
-		subject.asJson();
+	it("should send the request as json", (context) => {
+		context.subject.asJson();
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -66,12 +64,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the request as x-www-form-urlencoded", () => {
-		subject.asForm();
+	it("should send the request as x-www-form-urlencoded", (context) => {
+		context.subject.asForm();
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "form_params",
 			data: { query: undefined },
 			method: "GET",
@@ -80,12 +78,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the request as octet-stream", () => {
-		subject.asOctet();
+	it("should send the request as octet-stream", (context) => {
+		context.subject.asOctet();
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "octet",
 			data: { query: undefined },
 			method: "GET",
@@ -94,12 +92,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the request as json with a custom body format", () => {
-		subject.bodyFormat("bodyFormat");
+	it("should send the request as json with a custom body format", (context) => {
+		context.subject.bodyFormat("bodyFormat");
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "bodyFormat",
 			data: { query: undefined },
 			method: "GET",
@@ -108,12 +106,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should set the content-type header", () => {
-		subject.contentType("contentType");
+	it("should set the content-type header", (context) => {
+		context.subject.contentType("contentType");
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -122,12 +120,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the accept header with json as value", () => {
-		subject.acceptJson();
+	it("should send the accept header with json as value", (context) => {
+		context.subject.acceptJson();
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -136,12 +134,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send the accept header with a custom value", () => {
-		subject.accept("contentType");
+	it("should send the accept header with a custom value", (context) => {
+		context.subject.accept("contentType");
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -150,12 +148,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send custom headers", () => {
-		subject.withHeaders({ key: "value" });
+	it("should send custom headers", (context) => {
+		context.subject.withHeaders({ key: "value" });
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -164,12 +162,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send and cache the request", () => {
-		subject.withCacheStore({ cache: "store" });
+	it("should send and cache the request", (context) => {
+		context.subject.withCacheStore({ cache: "store" });
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -178,12 +176,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should timeout after 5 seconds", () => {
-		subject.timeout(5);
+	it("should timeout after 5 seconds", (context) => {
+		context.subject.timeout(5);
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: { query: undefined },
 			method: "GET",
@@ -192,12 +190,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should retry failing requests for 3 times with 100ms pauses", () => {
-		subject.retry(3, 100);
+	it("should retry failing requests for 3 times with 100ms pauses", (context) => {
+		context.subject.retry(3, 100);
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				query: undefined,
@@ -216,12 +214,12 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should configure additional options", () => {
-		subject.withOptions({ option: "thing" });
+	it("should configure additional options", (context) => {
+		context.subject.withOptions({ option: "thing" });
 
-		subject.get("/");
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				query: undefined,
@@ -237,10 +235,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a GET request", () => {
-		subject.get("/");
+	it("should send a GET request", (context) => {
+		context.subject.get("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,
@@ -256,10 +254,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a HEAD request", () => {
-		subject.head("/");
+	it("should send a HEAD request", (context) => {
+		context.subject.head("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,
@@ -275,10 +273,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a POST request", () => {
-		subject.post("/");
+	it("should send a POST request", (context) => {
+		context.subject.post("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,
@@ -294,10 +292,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a PATCH request", () => {
-		subject.patch("/");
+	it("should send a PATCH request", (context) => {
+		context.subject.patch("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,
@@ -313,10 +311,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a PUT request", () => {
-		subject.put("/");
+	it("should send a PUT request", (context) => {
+		context.subject.put("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,
@@ -332,10 +330,10 @@ describe("AbstractRequest", ({ beforeEach, it }) => {
 		});
 	});
 
-	it("should send a DELETE request", () => {
-		subject.delete("/");
+	it("should send a DELETE request", (context) => {
+		context.subject.delete("/");
 
-		spy.calledWith({
+		context.spy.calledWith({
 			bodyFormat: "json",
 			data: {
 				data: undefined,

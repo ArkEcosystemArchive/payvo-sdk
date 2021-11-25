@@ -1,11 +1,9 @@
 import { describe } from "@payvo/sdk-test";
 import { ConfigKey, ConfigRepository } from "./config";
 
-let subject;
-
 describe("ConfigRepository", ({ assert, beforeEach, it }) => {
-	beforeEach(async () => {
-		subject = new ConfigRepository({
+	beforeEach(async (context) => {
+		context.subject = new ConfigRepository({
 			network: "ark.mainnet",
 		});
 	});
@@ -20,52 +18,52 @@ describe("ConfigRepository", ({ assert, beforeEach, it }) => {
 		);
 	});
 
-	it("get all values", () => {
-		assert.equal(subject.all(), {
+	it("get all values", (context) => {
+		assert.equal(context.subject.all(), {
 			network: "ark.mainnet",
 		});
 	});
 
-	it("should set and get a value", () => {
-		assert.is(subject.get("network"), "ark.mainnet");
+	it("should set and get a value", (context) => {
+		assert.is(context.subject.get("network"), "ark.mainnet");
 
-		subject.set("network", "ark.devnet");
+		context.subject.set("network", "ark.devnet");
 
-		assert.is(subject.get("network"), "ark.devnet");
+		assert.is(context.subject.get("network"), "ark.devnet");
 
-		assert.throws(() => subject.get("key"), "The [key] is an unknown configuration value.");
+		assert.throws(() => context.subject.get("key"), "The [key] is an unknown configuration value.");
 	});
 
-	it("shoul get a value without throwing if it does not exist", () => {
-		assert.not.throws(() => subject.getLoose("hello.world"), "The [key] is an unknown configuration value.");
+	it("shoul get a value without throwing if it does not exist", (context) => {
+		assert.not.throws(() => context.subject.getLoose("hello.world"), "The [key] is an unknown configuration value.");
 	});
 
-	it("should determine if a value exists", () => {
-		assert.false(subject.has("key"));
+	it("should determine if a value exists", (context) => {
+		assert.false(context.subject.has("key"));
 
-		subject.set("key", "value");
+		context.subject.set("key", "value");
 
-		assert.true(subject.has("key"));
+		assert.true(context.subject.has("key"));
 	});
 
-	it("should determine if a value is missing", () => {
-		assert.true(subject.missing("key"));
+	it("should determine if a value is missing", (context) => {
+		assert.true(context.subject.missing("key"));
 
-		subject.set("key", "value");
+		context.subject.set("key", "value");
 
-		assert.false(subject.missing("key"));
+		assert.false(context.subject.missing("key"));
 	});
 
-	it("should forget a value", () => {
-		assert.true(subject.missing("key"));
+	it("should forget a value", (context) => {
+		assert.true(context.subject.missing("key"));
 
-		subject.set("key", "value");
+		context.subject.set("key", "value");
 
-		assert.false(subject.missing("key"));
+		assert.false(context.subject.missing("key"));
 
-		subject.forget("key");
+		context.subject.forget("key");
 
-		assert.true(subject.missing("key"));
+		assert.true(context.subject.missing("key"));
 	});
 
 	it("should have a list of configuration keys", () => {
