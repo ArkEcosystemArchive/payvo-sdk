@@ -169,13 +169,21 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 		assert.instance(subject.config(), ConfigRepository);
 	});
 
-	each("should throw if coin has not been fully set up", async ({ dataset }) => {
-		assert.throws(() => subject[dataset]());
-	}, methods);
+	each(
+		"should throw if coin has not been fully set up",
+		async ({ dataset }) => {
+			assert.throws(() => subject[dataset]());
+		},
+		methods,
+	);
 
-	each("should not throw if coin has not been fully set up", async ({ dataset }) => {
-		await subject.__construct();
+	each(
+		"should not throw if coin has not been fully set up",
+		async ({ dataset }) => {
+			await subject.__construct();
 
-		assert.object(subject[dataset]());
-	}, methods);
+			assert.object(subject[dataset]());
+		},
+		methods,
+	);
 });
