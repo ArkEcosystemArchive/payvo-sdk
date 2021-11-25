@@ -9,7 +9,7 @@ import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { Collections } from "@payvo/sdk";
 
-describe('ClientService', async ({ beforeAll, afterEach, it, assert, loader, nock }) => {
+describe("ClientService", async ({ beforeAll, afterEach, it, assert, loader, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, "btc.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);

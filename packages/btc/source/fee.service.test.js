@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-describe('FeeService', async ({ beforeAll, afterEach, it, assert, nock }) => {
+describe("FeeService", async ({ beforeAll, afterEach, it, assert, nock }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	afterEach(() => nock.cleanAll());
