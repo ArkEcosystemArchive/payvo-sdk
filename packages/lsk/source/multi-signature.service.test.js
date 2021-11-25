@@ -1,4 +1,4 @@
-import { assert, describe, loader, Mockery, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
@@ -24,7 +24,7 @@ import { WalletData } from "./wallet.dto";
 let subject;
 let musig;
 
-const createLocalServices = async () => {
+const createLocalServices = async (loader) => {
 	nock.fake(/.+/)
 		.get("/api/v2/accounts")
 		.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
@@ -86,65 +86,74 @@ const wallet2 = {
 	publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
 };
 
-test.before(async () => {
-	await createLocalServices();
+describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, stub }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(loader);
 
-	Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-01-01 12:00:00"));
-});
+		const gotoTime = DateTime.make("2021-01-01 12:00:00");
 
-test("should add signature", async () => {
-	const transaction1 = await subject.transfer({
-		fee: 10,
-		signatory: new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet1.signingKey,
-				address: wallet1.address,
-				publicKey: wallet1.publicKey,
-				privateKey: identity.privateKey,
-			}),
-		),
-		data: {
-			amount: 1,
-			to: wallet1.address,
-		},
+		context.dateTime = stub(DateTime, "make");
+		context.dateTime.returnValue(gotoTime);
 	});
 
-	assert.instance(transaction1, SignedTransactionData);
+	afterEach(async (context) => {
+		context.dateTime.restore();
+	});
 
-	assert.false(musig.isMultiSignatureReady(transaction1));
-	assert.true(musig.needsSignatures(transaction1));
-	assert.true(musig.needsAllSignatures(transaction1));
-	assert.is(musig.remainingSignatureCount(transaction1), 1);
-	assert.false(musig.needsWalletSignature(transaction1, wallet1.publicKey));
-	assert.true(musig.needsWalletSignature(transaction1, wallet2.publicKey));
+	it("should succeed", async () => {
+		const transaction1 = await subject.transfer({
+			fee: 10,
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: wallet1.address,
+					publicKey: wallet1.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+			data: {
+				amount: 1,
+				to: wallet1.address,
+			},
+		});
 
-	const transaction2 = await musig.addSignature(
-		transaction1.data(),
-		new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet2.signingKey,
-				address: wallet2.address,
-				publicKey: wallet2.publicKey,
-				privateKey: identity.privateKey,
-			}),
-		),
-	);
+		assert.instance(transaction1, SignedTransactionData);
 
-	assert.instance(transaction2, SignedTransactionData);
+		assert.false(musig.isMultiSignatureReady(transaction1));
+		assert.true(musig.needsSignatures(transaction1));
+		assert.true(musig.needsAllSignatures(transaction1));
+		assert.is(musig.remainingSignatureCount(transaction1), 1);
+		assert.false(musig.needsWalletSignature(transaction1, wallet1.publicKey));
+		assert.true(musig.needsWalletSignature(transaction1, wallet2.publicKey));
 
-	assert.true(musig.isMultiSignatureReady(transaction2));
-	assert.false(musig.needsSignatures(transaction2));
-	assert.false(musig.needsAllSignatures(transaction2));
-	assert.is(musig.remainingSignatureCount(transaction2), 0);
-	assert.false(musig.needsWalletSignature(transaction2, wallet1.publicKey));
-	assert.false(musig.needsWalletSignature(transaction2, wallet2.publicKey));
+		const transaction2 = await musig.addSignature(
+			transaction1.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet2.signingKey,
+					address: wallet2.address,
+					publicKey: wallet2.publicKey,
+					privateKey: identity.privateKey,
+				}),
+			),
+		);
+
+		assert.instance(transaction2, SignedTransactionData);
+
+		assert.true(musig.isMultiSignatureReady(transaction2));
+		assert.false(musig.needsSignatures(transaction2));
+		assert.false(musig.needsAllSignatures(transaction2));
+		assert.is(musig.remainingSignatureCount(transaction2), 0);
+		assert.false(musig.needsWalletSignature(transaction2, wallet1.publicKey));
+		assert.false(musig.needsWalletSignature(transaction2, wallet2.publicKey));
+	});
 });
 
-describe("#broadcast", ({ afterEach, beforeEach, test }) => {
+describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
 	let transaction;
 
 	beforeEach(async () => {
-		await createLocalServices();
+		await createLocalServices(loader);
 
 		transaction = await musig.addSignature(
 			(
@@ -175,7 +184,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 		);
 	});
 
-	test("should broadcast a transaction", async () => {
+	it("should broadcast a transaction", async () => {
 		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(200, {
@@ -189,7 +198,7 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 		});
 	});
 
-	test("should handle error", async () => {
+	it("should handle error", async () => {
 		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
 			.reply(400, {
@@ -204,8 +213,12 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 			rejected: [transaction.id()],
 		});
 	});
+});
 
-	test("#needsFinalSignature", async () => {
+describe("#needsFinalSignature", async ({ it, assert, loader }) => {
+	it("should succeed", async () => {
+		await createLocalServices(loader);
+
 		assert.true(
 			musig.needsFinalSignature(
 				await subject.transfer({
@@ -226,8 +239,10 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 			),
 		);
 	});
+});
 
-	test("#allWithPendingState", async () => {
+describe("#allWithPendingState", async ({ it, assert }) => {
+	it("#should succeed", async () => {
 		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -247,8 +262,10 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 
 		await assert.length(await musig.allWithPendingState(identity.publicKey), 2);
 	});
+});
 
-	test("#allWithReadyState", async () => {
+describe("#allWithReadyState", async ({ it, assert }) => {
+	it("should succeed", async () => {
 		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -268,8 +285,10 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 
 		assert.length(await musig.allWithReadyState(identity.publicKey), 2);
 	});
+});
 
-	test("#findById", async () => {
+describe("#findById", async ({ it, assert }) => {
+	it("should succeed", async () => {
 		nock.fake(/.+/)
 			.post("/", {
 				jsonrpc: "2.0",
@@ -285,8 +304,10 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 			multiSignature: {},
 		});
 	});
+});
 
-	test("#forgetById", async () => {
+describe("#forgetById", async ({ it, assert }) => {
+	it("should succeed", async () => {
 		const deleteNock = nock
 			.fake(/.+/)
 			.post("/", {
@@ -306,5 +327,3 @@ describe("#broadcast", ({ afterEach, beforeEach, test }) => {
 		assert.true(deleteNock.isDone());
 	});
 });
-
-test.run();

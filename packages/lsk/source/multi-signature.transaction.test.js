@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 
 const asset = {
@@ -109,33 +109,39 @@ const register3 = {
 	multiSignature: asset,
 };
 
-test("#isMultiSignature", () => {
-	assert.true(new PendingMultiSignatureTransaction(transfer1).isMultiSignature());
-	assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignature());
+describe("#isMultiSignature", async ({ assert, it }) => {
+	it("should succeed", () => {
+		assert.true(new PendingMultiSignatureTransaction(transfer1).isMultiSignature());
+		assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignature());
+	});
 });
 
-test("#isMultiSignatureRegistration", () => {
-	assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureRegistration());
-	assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignatureRegistration());
+describe("#isMultiSignatureRegistration", async ({ assert, it }) => {
+	it("should succeed", () => {
+		assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureRegistration());
+		assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignatureRegistration());
+	});
 });
 
-test("#isMultiSignatureReady", () => {
-	assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false }));
-	assert.true(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false }));
+describe("#isMultiSignatureReady", async ({ assert, it }) => {
+	it("should succeed", () => {
+		assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false }));
+		assert.true(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false }));
 
-	assert.false(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false }));
-	assert.false(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: true }));
-	assert.false(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false }));
-	assert.true(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: true }));
-	assert.true(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: false }));
+		assert.false(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: false }));
+		assert.false(new PendingMultiSignatureTransaction(register1).isMultiSignatureReady({ excludeFinal: true }));
+		assert.false(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: false }));
+		assert.true(new PendingMultiSignatureTransaction(register2).isMultiSignatureReady({ excludeFinal: true }));
+		assert.true(new PendingMultiSignatureTransaction(register3).isMultiSignatureReady({ excludeFinal: false }));
+	});
 });
 
-describe("#needsSignatures", ({ afterEach, beforeEach, test }) => {
-	test("should return false if it is not a multi signature transaction", () => {
+describe("#needsSignatures", ({ assert, it }) => {
+	it("should return false if it is not a multi signature transaction", () => {
 		assert.false(new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsSignatures());
 	});
 
-	test("should verify", () => {
+	it("should verify", () => {
 		assert.true(new PendingMultiSignatureTransaction(transfer1).needsSignatures());
 		assert.false(new PendingMultiSignatureTransaction(transfer2).needsSignatures());
 
@@ -145,28 +151,30 @@ describe("#needsSignatures", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-test("#needsAllSignatures", () => {
-	assert.true(new PendingMultiSignatureTransaction(transfer1).needsAllSignatures());
-	assert.false(new PendingMultiSignatureTransaction(transfer2).needsAllSignatures());
+describe("#needsAllSignatures", ({ assert, it }) => {
+	it("should succeed", () => {
+		assert.true(new PendingMultiSignatureTransaction(transfer1).needsAllSignatures());
+		assert.false(new PendingMultiSignatureTransaction(transfer2).needsAllSignatures());
 
-	assert.true(new PendingMultiSignatureTransaction(register1).needsAllSignatures());
-	assert.true(new PendingMultiSignatureTransaction(register2).needsAllSignatures());
-	assert.false(new PendingMultiSignatureTransaction(register3).needsAllSignatures());
+		assert.true(new PendingMultiSignatureTransaction(register1).needsAllSignatures());
+		assert.true(new PendingMultiSignatureTransaction(register2).needsAllSignatures());
+		assert.false(new PendingMultiSignatureTransaction(register3).needsAllSignatures());
+	});
 });
 
-describe("#needsWalletSignature", ({ afterEach, beforeEach, test }) => {
-	test("should return false if it is not a multi signature transaction", () => {
+describe("#needsWalletSignature", ({ it, assert }) => {
+	it("should return false if it is not a multi signature transaction", () => {
 		assert.false(
 			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsWalletSignature(wallet1),
 		);
 	});
 
-	test("should return false if it does not need any signatures and the final signature", () => {
+	it("should return false if it does not need any signatures and the final signature", () => {
 		assert.false(new PendingMultiSignatureTransaction(transfer2).needsWalletSignature(wallet1));
 		assert.false(new PendingMultiSignatureTransaction(transfer2).needsWalletSignature(wallet2));
 	});
 
-	test("should return true if it is a multi signature registration and it is not ready", () => {
+	it("should return true if it is a multi signature registration and it is not ready", () => {
 		assert.true(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet1));
 		assert.true(new PendingMultiSignatureTransaction(register1).needsWalletSignature(wallet2));
 		assert.true(new PendingMultiSignatureTransaction(register2).needsWalletSignature(wallet1));
@@ -175,19 +183,19 @@ describe("#needsWalletSignature", ({ afterEach, beforeEach, test }) => {
 		assert.false(new PendingMultiSignatureTransaction(register3).needsWalletSignature(wallet2));
 	});
 
-	test("should return false if the public key is not a participant", () => {
+	it("should return false if the public key is not a participant", () => {
 		assert.false(new PendingMultiSignatureTransaction(register1).needsWalletSignature("unknown"));
 	});
 });
 
-describe("#needsFinalSignature", ({ afterEach, beforeEach, test }) => {
-	test("should return false if it is not a multi signature transaction", () => {
+describe("#needsFinalSignature", ({ it, assert }) => {
+	it("should return false if it is not a multi signature transaction", () => {
 		assert.false(
 			new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsFinalSignature(),
 		);
 	});
 
-	test("should verify", () => {
+	it("should verify", () => {
 		assert.true(new PendingMultiSignatureTransaction(transfer1).needsFinalSignature());
 		assert.false(new PendingMultiSignatureTransaction(transfer2).needsFinalSignature());
 
@@ -197,13 +205,13 @@ describe("#needsFinalSignature", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-test("#remainingSignatureCount", () => {
-	assert.is(new PendingMultiSignatureTransaction(transfer1).remainingSignatureCount(), 1);
-	assert.is(new PendingMultiSignatureTransaction(transfer2).remainingSignatureCount(), 0);
+describe("#remainingSignatureCount", ({ it, assert }) => {
+	it("should succeed", () => {
+		assert.is(new PendingMultiSignatureTransaction(transfer1).remainingSignatureCount(), 1);
+		assert.is(new PendingMultiSignatureTransaction(transfer2).remainingSignatureCount(), 0);
 
-	assert.is(new PendingMultiSignatureTransaction(register1).remainingSignatureCount(), 2);
-	assert.is(new PendingMultiSignatureTransaction(register2).remainingSignatureCount(), 1);
-	assert.is(new PendingMultiSignatureTransaction(register3).remainingSignatureCount(), 0);
+		assert.is(new PendingMultiSignatureTransaction(register1).remainingSignatureCount(), 2);
+		assert.is(new PendingMultiSignatureTransaction(register2).remainingSignatureCount(), 1);
+		assert.is(new PendingMultiSignatureTransaction(register3).remainingSignatureCount(), 0);
+	});
 });
-
-test.run();

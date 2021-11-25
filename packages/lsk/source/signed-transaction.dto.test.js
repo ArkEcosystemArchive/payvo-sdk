@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -21,243 +21,243 @@ const transaction = {
 	id: "3279be353158ae19d47191605c82b6e112980c888e98e75d6185c858359428e4",
 };
 
-test.before.each(async () => {
-	subject = await createService(SignedTransactionData);
-	subject.configure(transaction.id, transaction, transaction);
-});
+describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
+	beforeEach(async () => {
+		subject = await createService(SignedTransactionData);
+		subject.configure(transaction.id, transaction, transaction);
+	});
 
-test("#id", () => {
-	assert.is(subject.id(), transaction.id);
-});
+	it("should have an id", () => {
+		assert.is(subject.id(), transaction.id);
+	});
 
-test("#sender", () => {
-	assert.is(subject.sender(), transaction.asset.recipientAddress);
-});
+	it("should have a sender", () => {
+		assert.is(subject.sender(), transaction.asset.recipientAddress);
+	});
 
-test("returns the recipient address", () => {
-	assert.is(subject.recipient(), transaction.asset.recipientAddress);
-});
+	it("returns the recipient address", () => {
+		assert.is(subject.recipient(), transaction.asset.recipientAddress);
+	});
 
-test("returns the recipient address when it's buffer", async () => {
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			asset: {
-				recipientAddress: Buffer.from([
-					118, 60, 25, 27, 10, 77, 5, 117, 2, 12, 225, 230, 80, 3, 117, 214, 208, 189, 212, 94,
-				]),
+	it("returns the recipient address when it's buffer", async () => {
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				asset: {
+					recipientAddress: Buffer.from([
+						118, 60, 25, 27, 10, 77, 5, 117, 2, 12, 225, 230, 80, 3, 117, 214, 208, 189, 212, 94,
+					]),
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.is(subject.recipient(), "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7");
-});
+		assert.is(subject.recipient(), "lsk72fxrb264kvw6zuojntmzzsqds35sqvfzz76d7");
+	});
 
-test("returns transaction amount", () => {
-	assert.instance(subject.amount(), BigNumber);
-	assert.is(subject.amount().toString(), "100000000");
-});
+	it("returns transaction amount", () => {
+		assert.instance(subject.amount(), BigNumber);
+		assert.is(subject.amount().toString(), "100000000");
+	});
 
-test("returns sum of unlock objects amounts if type is unlockToken", async () => {
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 2,
-			asset: {
-				unlockObjects: [
-					{
-						delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
-						amount: "2000000000",
-						unvoteHeight: 14548930,
-					},
-					{
-						delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
-						amount: "3000000000",
-						unvoteHeight: 14548929,
-					},
-				],
+	it("returns sum of unlock objects amounts if type is unlockToken", async () => {
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 2,
+				asset: {
+					unlockObjects: [
+						{
+							delegateAddress: "lskc579agejjw3fo9nvgg85r8vo6sa5xojtw9qscj",
+							amount: "2000000000",
+							unvoteHeight: 14548930,
+						},
+						{
+							delegateAddress: "8c955e70d0da3e0424abc4c0683280232f41c48b",
+							amount: "3000000000",
+							unvoteHeight: 14548929,
+						},
+					],
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.instance(subject.amount(), BigNumber);
-	assert.is(subject.amount().toString(), "5000000000");
-});
+		assert.instance(subject.amount(), BigNumber);
+		assert.is(subject.amount().toString(), "5000000000");
+	});
 
-test("#fee", () => {
-	assert.instance(subject.fee(), BigNumber);
-	assert.is(subject.fee().toString(), "207000");
-});
+	it("should have fee", () => {
+		assert.instance(subject.fee(), BigNumber);
+		assert.is(subject.fee().toString(), "207000");
+	});
 
-test.skip("#timestamp", () => {
-	assert.instance(subject.timestamp(), DateTime);
-});
+	it.skip("should have timestamp", () => {
+		assert.instance(subject.timestamp(), DateTime);
+	});
 
-test("#isTransfer", async () => {
-	assert.true(subject.isTransfer());
+	it("should have a method to know if transaction is transfer", async () => {
+		assert.true(subject.isTransfer());
 
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 0,
-			assetID: 0,
-		},
-		transaction,
-	);
-
-	assert.false(subject.isTransfer());
-});
-
-test("#isSecondSignature", () => {
-	assert.false(subject.isSecondSignature());
-});
-
-test("#isDelegateRegistration", async () => {
-	assert.false(subject.isDelegateRegistration());
-
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 0,
-			asset: {
-				username: "a",
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 0,
+				assetID: 0,
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.true(subject.isDelegateRegistration());
-});
+		assert.false(subject.isTransfer());
+	});
 
-test("#isVoteCombination", async () => {
-	assert.false(subject.isVoteCombination());
+	it("should have a method to know if transaction is second signature", () => {
+		assert.false(subject.isSecondSignature());
+	});
 
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 1,
-			asset: {
-				votes: [{ amount: 1 }, { amount: -1 }],
+	it("should have a method to know if transaction is delegate registration", async () => {
+		assert.false(subject.isDelegateRegistration());
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 0,
+				asset: {
+					username: "a",
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.true(subject.isVoteCombination());
-});
+		assert.true(subject.isDelegateRegistration());
+	});
 
-test("#isVote", async () => {
-	assert.false(subject.isVote());
+	it("should have a method to know if transaction is vote combination", async () => {
+		assert.false(subject.isVoteCombination());
 
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 1,
-			asset: {
-				votes: [{ amount: 1 }],
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 1,
+				asset: {
+					votes: [{ amount: 1 }, { amount: -1 }],
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.true(subject.isVote());
-});
+		assert.true(subject.isVoteCombination());
+	});
 
-test("#isUnvote", async () => {
-	assert.false(subject.isUnvote());
+	it("should have a method to know if transaction is vote", async () => {
+		assert.false(subject.isVote());
 
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 1,
-			asset: {
-				votes: [{ amount: -1 }],
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 1,
+				asset: {
+					votes: [{ amount: 1 }],
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.true(subject.isUnvote());
-});
+		assert.true(subject.isVote());
+	});
 
-test("#isUnlockToken", async () => {
-	assert.false(subject.isUnlockToken());
+	it("should have a method to know if transaction is unvote", async () => {
+		assert.false(subject.isUnvote());
 
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 2,
-		},
-		transaction,
-	);
-
-	assert.true(subject.isUnlockToken());
-});
-
-test("#isMultiSignatureRegistration", async () => {
-	assert.false(subject.isMultiSignatureRegistration());
-
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 4,
-			assetID: 0,
-		},
-		transaction,
-	);
-
-	assert.true(subject.isMultiSignatureRegistration());
-});
-
-test("#usesMultiSignature", async () => {
-	assert.true(subject.usesMultiSignature());
-
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			signatures: undefined,
-		},
-		transaction,
-	);
-
-	assert.false(subject.usesMultiSignature());
-});
-
-test("#username", async () => {
-	assert.undefined(subject.username());
-
-	subject = await createService(SignedTransactionData).configure(
-		transaction.id,
-		{
-			...transaction,
-			moduleID: 5,
-			assetID: 0,
-			asset: {
-				username: "a",
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 1,
+				asset: {
+					votes: [{ amount: -1 }],
+				},
 			},
-		},
-		transaction,
-	);
+			transaction,
+		);
 
-	assert.is(subject.username(), "a");
+		assert.true(subject.isUnvote());
+	});
+
+	it("should have a method to know if transaction is unlock token", async () => {
+		assert.false(subject.isUnlockToken());
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 2,
+			},
+			transaction,
+		);
+
+		assert.true(subject.isUnlockToken());
+	});
+
+	it("should have a method to know if transaction is multisignature registration", async () => {
+		assert.false(subject.isMultiSignatureRegistration());
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 4,
+				assetID: 0,
+			},
+			transaction,
+		);
+
+		assert.true(subject.isMultiSignatureRegistration());
+	});
+
+	it("should have a method to know if transaction uses multisignature", async () => {
+		assert.true(subject.usesMultiSignature());
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				signatures: undefined,
+			},
+			transaction,
+		);
+
+		assert.false(subject.usesMultiSignature());
+	});
+
+	it("should have an username", async () => {
+		assert.undefined(subject.username());
+
+		subject = await createService(SignedTransactionData).configure(
+			transaction.id,
+			{
+				...transaction,
+				moduleID: 5,
+				assetID: 0,
+				asset: {
+					username: "a",
+				},
+			},
+			transaction,
+		);
+
+		assert.is(subject.username(), "a");
+	});
 });
-
-test.run();

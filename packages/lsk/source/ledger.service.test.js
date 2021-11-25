@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import { nock } from "@payvo/sdk-test";
@@ -39,8 +39,8 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("connect", ({ afterEach, beforeEach, test }) => {
-	test("should throw error with unexpected input", async () => {
+describe("connect", ({ it, assert }) => {
+	it("should throw error with unexpected input", async () => {
 		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -62,32 +62,32 @@ describe("connect", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("disconnect", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a resolved transport closure", async () => {
+describe("disconnect", ({ it, assert }) => {
+	it("should pass with a resolved transport closure", async () => {
 		const lsk = await createMockService("");
 
 		assert.undefined(await lsk.disconnect());
 	});
 });
 
-describe("getVersion", ({ afterEach, beforeEach, test }) => {
-	test("should pass with an app version", async () => {
+describe("getVersion", ({ it, assert }) => {
+	it("should pass with an app version", async () => {
 		const lsk = await createMockService(ledger.appVersion.record);
 
 		assert.is(await lsk.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a compressed publicKey", async () => {
+describe("getPublicKey", ({ it, assert }) => {
+	it("should pass with a compressed publicKey", async () => {
 		const lsk = await createMockService(ledger.publicKey.record);
 
 		assert.is(await lsk.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a signature", async () => {
+describe("signTransaction", ({ it, assert }) => {
+	it("should pass with a signature", async () => {
 		const lsk = await createMockService(ledger.transaction.record);
 
 		assert.is(
@@ -97,8 +97,8 @@ describe("signTransaction", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("signMessage", ({ afterEach, beforeEach, test }) => {
-	test("should pass with a signature", async () => {
+describe("signMessage", ({ it, assert }) => {
+	it("should pass with a signature", async () => {
 		const lsk = await createMockService(ledger.message.record);
 
 		assert.is(
@@ -108,10 +108,10 @@ describe("signMessage", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("scan", ({ afterEach, beforeAll, test }) => {
+describe("scan", ({ it, assert, beforeAll }) => {
 	beforeAll(() => nock.disableNetConnect());
 
-	test("should return scanned wallet", async () => {
+	it("should return scanned wallet", async () => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query({ address: "lsk8s6v2pdnxvab9oc42wbhvtb569jqg2ubjxgvvj" })
@@ -130,7 +130,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 		assert.length(Object.keys(walletData), 4); // 3 + 1 cold wallet
 	});
 
-	test("should allow to pass a startPath", async () => {
+	it("should allow to pass a startPath", async () => {
 		const lsk = await createMockService(ledger.wallets.record2);
 
 		const walletData = await lsk.scan({ startPath: "44'/134'/10'/0/0" });
@@ -138,7 +138,7 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 		assert.length(Object.keys(walletData), 1);
 	});
 
-	test("should support legacy", async () => {
+	it("should support legacy", async () => {
 		const lsk = await createMockService(ledger.wallets.record);
 
 		const walletData = await lsk.scan({ useLegacy: true });
@@ -147,5 +147,3 @@ describe("scan", ({ afterEach, beforeAll, test }) => {
 		assert.false(Object.values(walletData)[0].data.address.startsWith("lsk"));
 	});
 });
-
-test.run();
