@@ -1,62 +1,11 @@
 /* eslint-disable */
 
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { AbstractSignedTransactionData } from "./signed-transaction.dto";
-
-test("#setAttributes", () => {
-	let transaction = new Transaction().configure("id", { key: "value" }, "");
-	assert.is(transaction.id(), "id");
-
-	transaction.setAttributes({ identifier: "new" });
-	assert.is(transaction.id(), "new");
-
-	transaction = new Transaction().configure("id", { key: "value" }, "", 2);
-	assert.instance(transaction, Transaction);
-
-	transaction = new Transaction().configure("id", { key: "value" }, "", "2");
-	assert.instance(transaction, Transaction);
-});
-
-test("#id", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").id(), "id");
-});
-
-test("#sender", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").sender(), "sender");
-});
-
-test("#recipient", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").recipient(), "recipient");
-});
-
-test("#amount", () => {
-	assert.equal(new Transaction().configure("id", { key: "value" }, "").amount(), BigNumber.ZERO);
-});
-
-test("#fee", () => {
-	assert.equal(new Transaction().configure("id", { key: "value" }, "").fee(), BigNumber.ZERO);
-});
-
-test("#timestamp", () => {
-	assert.equal(new Transaction().configure("id", { key: "value" }, "").timestamp(), DateTime.make(0));
-});
-
-test("#get", () => {
-	assert.is(new Transaction().configure("id", { key: "value" }, "").get("key"), "value");
-});
-
-test("#toString", () => {
-	assert.string(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString());
-	assert.string(new Transaction().configure("id", { key: "value" }, "").toString());
-});
-
-test("#toObject", () => {
-	assert.object(new Transaction().configure("id", { key: "value" }, "").toObject());
-});
 
 class Transaction extends AbstractSignedTransactionData {
 	sender() {
@@ -80,4 +29,55 @@ class Transaction extends AbstractSignedTransactionData {
 	}
 }
 
-test.run();
+describe("AbstractSignedTransactionData", ({ assert, it }) => {
+	it("should get attributes", () => {
+		let transaction = new Transaction().configure("id", { key: "value" }, "");
+		assert.is(transaction.id(), "id");
+
+		transaction.setAttributes({ identifier: "new" });
+		assert.is(transaction.id(), "new");
+
+		transaction = new Transaction().configure("id", { key: "value" }, "", 2);
+		assert.instance(transaction, Transaction);
+
+		transaction = new Transaction().configure("id", { key: "value" }, "", "2");
+		assert.instance(transaction, Transaction);
+	});
+
+	it("should have an id", () => {
+		assert.is(new Transaction().configure("id", { key: "value" }, "").id(), "id");
+	});
+
+	it("should have a sender", () => {
+		assert.is(new Transaction().configure("id", { key: "value" }, "").sender(), "sender");
+	});
+
+	it("should have a recipient", () => {
+		assert.is(new Transaction().configure("id", { key: "value" }, "").recipient(), "recipient");
+	});
+
+	it("should have an amount", () => {
+		assert.equal(new Transaction().configure("id", { key: "value" }, "").amount(), BigNumber.ZERO);
+	});
+
+	it("should have a fee", () => {
+		assert.equal(new Transaction().configure("id", { key: "value" }, "").fee(), BigNumber.ZERO);
+	});
+
+	it("should have a timestamp", () => {
+		assert.equal(new Transaction().configure("id", { key: "value" }, "").timestamp(), DateTime.make(0));
+	});
+
+	it("should get a value", () => {
+		assert.is(new Transaction().configure("id", { key: "value" }, "").get("key"), "value");
+	});
+
+	it("should transform to JSON", () => {
+		assert.string(new Transaction().configure("id", JSON.stringify({ key: "value" }), "").toString());
+		assert.string(new Transaction().configure("id", { key: "value" }, "").toString());
+	});
+
+	it("should transform to a normalised object", () => {
+		assert.object(new Transaction().configure("id", { key: "value" }, "").toObject());
+	});
+});

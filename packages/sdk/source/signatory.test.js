@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
 import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
 import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory";
@@ -10,8 +10,149 @@ import { SecretSignatory } from "./secret.signatory";
 import { Signatory } from "./signatory";
 import { WIFSignatory } from "./wif.signatory";
 
-describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("Signatory", ({ assert, it }) => {
+	it("should determine if has a multi-signature asset", () => {
+		let subject = new Signatory(
+			new SecretSignatory({
+				address: "",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.hasMultiSignature());
+
+		subject = new Signatory(
+			new SecretSignatory({
+				address: "",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+			{
+				min: 4,
+				publicKeys: [
+					"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
+					"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
+					"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
+					"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
+					"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
+					"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
+				],
+			},
+		);
+
+		assert.is(subject.hasMultiSignature(), true);
+	});
+
+	it("should determine if the signatory acts with mnemonic", () => {
+		const subject = new Signatory(
+			new MnemonicSignatory({
+				address: "",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithMnemonic());
+	});
+
+	it("should determine if the signatory acts with confirmation mnemonic", () => {
+		const subject = new Signatory(
+			new ConfirmationMnemonicSignatory({
+				address: "",
+				confirmKey: "this is a top secret passphrase 2",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithConfirmationMnemonic());
+	});
+
+	it("should determine if the signatory acts with wif", () => {
+		const subject = new Signatory(
+			new WIFSignatory({
+				address: "",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithWIF());
+	});
+
+	it("should determine if the signatory acts with confirmation wif", () => {
+		const subject = new Signatory(
+			new ConfirmationWIFSignatory({
+				address: "",
+				confirmKey: "this is a top secret passphrase 2",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithConfirmationWIF());
+	});
+
+	it("should determine if the signatory acts with private key", () => {
+		const subject = new Signatory(
+			new PrivateKeySignatory({
+				address: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithPrivateKey());
+	});
+
+	it("should determine if the signatory acts with multi signature", () => {
+		const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
+
+		assert.boolean(subject.actsWithMultiSignature());
+	});
+
+	it("should determine if the signatory acts with ledger", () => {
+		const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
+
+		assert.boolean(subject.actsWithLedger());
+	});
+
+	it("should determine if the signatory acts with secret", () => {
+		const subject = new Signatory(
+			new SecretSignatory({
+				address: "",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithSecret());
+	});
+
+	it("should determine if the signatory acts with confirmation secret", () => {
+		const subject = new Signatory(
+			new ConfirmationSecretSignatory({
+				address: "",
+				confirmKey: "this is a top secret passphrase 2",
+				privateKey: "",
+				publicKey: "",
+				signingKey: "this is a top secret passphrase 1",
+			}),
+		);
+
+		assert.boolean(subject.actsWithConfirmationSecret());
+	});
+});
+
+describe("MnemonicSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -24,7 +165,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -37,7 +178,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.confirmKey(), "cannot be called");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -50,7 +191,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -63,7 +204,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.publicKey(), "publicKey");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -76,7 +217,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "privateKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -100,7 +241,7 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.object(subject.multiSignature());
 	});
 
-	test("#options", () => {
+	it("should respect options", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
 				address: "address",
@@ -134,8 +275,8 @@ describe("MnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("ConfirmationMnemonicSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -149,7 +290,7 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -163,7 +304,7 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.confirmKey(), "confirmKey");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -177,7 +318,7 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -191,7 +332,7 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.publicKey(), "publicKey");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -205,7 +346,7 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "privateKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
 				address: "address",
@@ -231,8 +372,8 @@ describe("ConfirmationMnemonicSignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("WIFSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -245,7 +386,7 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -258,7 +399,7 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.confirmKey(), "cannot be called");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -271,7 +412,7 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -284,7 +425,7 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.publicKey(), "publicKey");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -297,7 +438,7 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "privateKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
 				address: "address",
@@ -322,8 +463,8 @@ describe("WIFSignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("ConfirmationWIFSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -337,7 +478,7 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -351,7 +492,7 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.confirmKey(), "confirmKey");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -365,7 +506,7 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -379,7 +520,7 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.publicKey(), "publicKey");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -393,7 +534,7 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "privateKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
 				address: "address",
@@ -419,8 +560,8 @@ describe("ConfirmationWIFSignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("PrivateKeySignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -431,7 +572,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -442,7 +583,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.confirmKey(), "cannot be called");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -453,7 +594,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -464,7 +605,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.publicKey(), "cannot be called");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -475,7 +616,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "signingKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -497,7 +638,7 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 		assert.object(subject.multiSignature());
 	});
 
-	test("#options", () => {
+	it("should respect options", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
 				address: "address",
@@ -529,8 +670,8 @@ describe("PrivateKeySignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("MultiSignatureSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -538,7 +679,7 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.signingKey(), "cannot be called");
 	});
 
-	test("#asset", () => {
+	it("should have an asset", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -546,7 +687,7 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.object(subject.asset());
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -554,7 +695,7 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.confirmKey(), "cannot be called");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -562,7 +703,7 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "identifier");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -570,7 +711,7 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.throws(() => subject.publicKey(), "cannot be called");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
 		);
@@ -579,8 +720,8 @@ describe("MultiSignatureSignatory", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
-	test("#signingKey", () => {
+describe("ConfirmationSecretSignatory", ({ assert, it }) => {
+	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -594,7 +735,7 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.signingKey(), "signingKey");
 	});
 
-	test("#confirmKey", () => {
+	it("should have a confirmation key", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -608,7 +749,7 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.confirmKey(), "confirmKey");
 	});
 
-	test("#address", () => {
+	it("should have an address", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -622,7 +763,7 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.address(), "address");
 	});
 
-	test("#publicKey", () => {
+	it("should have a public key", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -636,7 +777,7 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.publicKey(), "publicKey");
 	});
 
-	test("#privateKey", () => {
+	it("should have a private key", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -650,7 +791,7 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.privateKey(), "privateKey");
 	});
 
-	test("#multiSignature", () => {
+	it("have a multi signature", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({
 				address: "address",
@@ -675,144 +816,3 @@ describe("ConfirmationSecretSignatory", ({ afterEach, beforeEach, test }) => {
 		assert.object(subject.multiSignature());
 	});
 });
-
-test("#hasMultiSignature", () => {
-	let subject = new Signatory(
-		new SecretSignatory({
-			address: "",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.hasMultiSignature());
-
-	subject = new Signatory(
-		new SecretSignatory({
-			address: "",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-		{
-			min: 4,
-			publicKeys: [
-				"0271e4ffe50f2955fe32f9e05fb29a23f7dfcce77fa4c8a76328c7ab735033f851",
-				"023197268b110ca9c695f181d43a159ce380902ec549fe641e8bda047da0daf989",
-				"032b0c8dccc71dde04bfc1281d3a35428a48acf0b72be9a3914d4ebca1d5a73c32",
-				"0380c64e07942aee235387b4cbdc00923f7f486b4f5051bef806e0514e93222dc5",
-				"029e4dac4887b1b5d764b877559ad5171932f75e4fdefcb9ee3a96adb78d254bc4",
-				"034996d0a7b9788386b9d8d6ae86af0a0d676aee657c69b3e506648c69e39c15ea",
-			],
-		},
-	);
-
-	assert.is(subject.hasMultiSignature(), true);
-});
-
-test("#actsWithMnemonic", () => {
-	const subject = new Signatory(
-		new MnemonicSignatory({
-			address: "",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithMnemonic());
-});
-
-test("#actsWithConfirmationMnemonic", () => {
-	const subject = new Signatory(
-		new ConfirmationMnemonicSignatory({
-			address: "",
-			confirmKey: "this is a top secret passphrase 2",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithConfirmationMnemonic());
-});
-
-test("#actsWithWIF", () => {
-	const subject = new Signatory(
-		new WIFSignatory({
-			address: "",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithWIF());
-});
-
-test("#actsWithConfirmationWIF", () => {
-	const subject = new Signatory(
-		new ConfirmationWIFSignatory({
-			address: "",
-			confirmKey: "this is a top secret passphrase 2",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithConfirmationWIF());
-});
-
-test("#actsWithPrivateKey", () => {
-	const subject = new Signatory(
-		new PrivateKeySignatory({
-			address: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithPrivateKey());
-});
-
-test("#actsWithMultiSignature", () => {
-	const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
-
-	assert.boolean(subject.actsWithMultiSignature());
-});
-
-test("#actsWithLedger", () => {
-	const subject = new Signatory(new LedgerSignatory({ signingKey: "path" }));
-
-	assert.boolean(subject.actsWithLedger());
-});
-
-test("#actsWithSecret", () => {
-	const subject = new Signatory(
-		new SecretSignatory({
-			address: "",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithSecret());
-});
-
-test("#actsWithConfirmationSecret", () => {
-	const subject = new Signatory(
-		new ConfirmationSecretSignatory({
-			address: "",
-			confirmKey: "this is a top secret passphrase 2",
-			privateKey: "",
-			publicKey: "",
-			signingKey: "this is a top secret passphrase 1",
-		}),
-	);
-
-	assert.boolean(subject.actsWithConfirmationSecret());
-});
-
-test.run();
