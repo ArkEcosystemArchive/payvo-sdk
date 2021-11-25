@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { TransactionSerializer } from "./transaction.serializer";
 
@@ -84,22 +84,24 @@ const transactions = [
 	},
 ];
 
-for (const transaction of clone(transactions)) {
-	test("#toMachine(%s)", () => {
-		assert.object(createService(TransactionSerializer).toMachine(transaction));
-	});
-}
-
-describe("#toHuman", ({ afterEach, beforeEach, test }) => {
+describe("#toMachine", async ({ it, assert }) => {
 	for (const transaction of clone(transactions)) {
-		test("should serialize to human (%s)", async () => {
+		it(`should serialize to machine ${JSON.stringify({transaction})}`, () => {
+			assert.object(createService(TransactionSerializer).toMachine(transaction));
+		});
+	}
+});
+
+describe("#toHuman", ({ it, assert }) => {
+	for (const transaction of clone(transactions)) {
+		it(`should serialize to human ${JSON.stringify({transaction})}`, async () => {
 			const subject = await createService(TransactionSerializer);
 
 			assert.object(subject.toHuman(subject.toMachine(transaction)));
 		});
 	}
 
-	test("should default transfer data to empty string when not present", async () => {
+	it("should default transfer data to empty string when not present", async () => {
 		const subject = await createService(TransactionSerializer);
 
 		const transaction = subject.toMachine({
@@ -117,16 +119,16 @@ describe("#toHuman", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("#toString", ({ afterEach, beforeEach, test }) => {
+describe("#toString", ({ it, assert }) => {
 	for (const transaction of clone(transactions)) {
-		test("should serialize to string (%s)", async () => {
+		it(`should serialize to string ${JSON.stringify({transaction})}`, async () => {
 			const subject = await createService(TransactionSerializer);
 
 			assert.string(subject.toString(subject.toHuman(transaction)));
 		});
 	}
 
-	test("should throw error for unrecognized transaction types", async () => {
+	it("should throw error for unrecognized transaction types", async () => {
 		const subject = await createService(TransactionSerializer);
 
 		assert.throws(
@@ -135,5 +137,3 @@ describe("#toString", ({ afterEach, beforeEach, test }) => {
 		);
 	});
 });
-
-test.run();

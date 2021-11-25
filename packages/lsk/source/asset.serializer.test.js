@@ -1,8 +1,8 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { AssetSerializer } from "./asset.serializer";
 
-describe("AssetSerializer #toMachine", ({ afterEach, beforeEach, test }) => {
+describe("AssetSerializer #toMachine", ({ it, assert }) => {
 	for (const { moduleID, assetID, asset } of [
 		{
 			moduleID: 2,
@@ -45,19 +45,19 @@ describe("AssetSerializer #toMachine", ({ afterEach, beforeEach, test }) => {
 			},
 		},
 	]) {
-		test("should serialize asset of transaction type (%s)", () => {
+		it(`should serialize asset of transaction type ${JSON.stringify({ assetID, moduleID })}`, () => {
 			assert.object(createService(AssetSerializer).toMachine(moduleID, assetID, asset));
 		});
 	}
 
-	test("should throw error when transaction type cannot be recognized", () => {
+	it("should throw error when transaction type cannot be recognized", () => {
 		assert.throws(
 			() => createService(AssetSerializer).toMachine(10, 10, {}),
 			"Failed to determine transaction type for asset serialization.",
 		);
 	});
 
-	test("should throw error when serializing vote asset with amount not multiple of 10", () => {
+	it("should throw error when serializing vote asset with amount not multiple of 10", () => {
 		assert.throws(
 			() =>
 				createService(AssetSerializer).toMachine(5, 1, {
@@ -67,5 +67,3 @@ describe("AssetSerializer #toMachine", ({ afterEach, beforeEach, test }) => {
 		);
 	});
 });
-
-test.run();

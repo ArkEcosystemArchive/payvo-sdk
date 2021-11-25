@@ -1,4 +1,4 @@
-import { assert, describe, loader, test } from "@payvo/sdk-test";
+import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { nock } from "@payvo/sdk-test";
 
@@ -22,53 +22,53 @@ import { WalletData } from "./wallet.dto";
 
 let subject;
 
-test.before(async () => {});
-
-test.before.each(async () => {
-	subject = await createService(FeeService, "lsk.testnet", (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+describe("#all", async ({ beforeEach, it, assert }) => {
+	beforeEach(async () => {
+		subject = await createService(FeeService, "lsk.testnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+			container.singleton(BindingType.AssetSerializer, AssetSerializer);
+			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+	});
+
+	it("should succeed", async () => {
+		const result = await subject.all();
+
+		assert.containKeys(result, [
+			"transfer",
+			"secondSignature",
+			"delegateRegistration",
+			"vote",
+			"multiSignature",
+			"ipfs",
+			"multiPayment",
+			"delegateResignation",
+			"htlcLock",
+			"htlcClaim",
+			"htlcRefund",
+		]);
+
+		assert.is(result.transfer.min.toString(), "10000000");
+		assert.is(result.transfer.avg.toString(), "10000000");
+		assert.is(result.transfer.max.toString(), "10000000");
+		assert.is(result.transfer.static.toString(), "10000000");
 	});
 });
 
-test("#all should succeed", async () => {
-	const result = await subject.all();
-
-	assert.containKeys(result, [
-		"transfer",
-		"secondSignature",
-		"delegateRegistration",
-		"vote",
-		"multiSignature",
-		"ipfs",
-		"multiPayment",
-		"delegateResignation",
-		"htlcLock",
-		"htlcClaim",
-		"htlcRefund",
-	]);
-
-	assert.is(result.transfer.min.toString(), "10000000");
-	assert.is(result.transfer.avg.toString(), "10000000");
-	assert.is(result.transfer.max.toString(), "10000000");
-	assert.is(result.transfer.static.toString(), "10000000");
-});
-
-describe("#calculate", ({ beforeEach, test }) => {
+describe("#calculate", ({ beforeEach, it, assert }) => {
 	let service;
 
 	beforeEach(async () => {
@@ -114,7 +114,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		});
 	});
 
-	test("transfer", async () => {
+	it("should calculate fee for transfer", async () => {
 		const transaction = await service.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -142,7 +142,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 0.00141);
 	});
 
-	test("delegateRegistration", async () => {
+	it("should calculate fee for delegateRegistration", async () => {
 		const transaction = await service.delegateRegistration({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -169,7 +169,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 10.00124);
 	});
 
-	test("multiSignature", async () => {
+	it("should calculate fee for multiSignature", async () => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
@@ -219,7 +219,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 0.00314);
 	});
 
-	test("multiSignature with 5 participants", async () => {
+	it("should calculate fee for multiSignature with 5 participants", async () => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
@@ -275,7 +275,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 0.00615);
 	});
 
-	test("vote", async () => {
+	it("should calculate fee for vote", async () => {
 		const transaction = await service.vote({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -307,7 +307,7 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 0.00142);
 	});
 
-	test("unlockToken", async () => {
+	it("should calculate fee for unlockToken", async () => {
 		const transaction = await service.unlockToken({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -340,12 +340,10 @@ describe("#calculate", ({ beforeEach, test }) => {
 		assert.is(fast.toHuman(), 0.00146);
 	});
 
-	test("should throw error on unrecognized transaction type", async () => {
+	it("should throw error on unrecognized transaction type", async () => {
 		await assert.rejects(
 			() => subject.calculate({ moduleID: 10, assetID: 10, asset: {} }),
 			"Failed to determine module and asset ID.",
 		);
 	});
 });
-
-test.run();
