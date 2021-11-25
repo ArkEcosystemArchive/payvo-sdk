@@ -21,26 +21,11 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-let musig;
-
-const wallet1 = {
-	signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-	address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-	publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-};
-
-const wallet2 = {
-	signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-	address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-	publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-};
-
 describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each, loader }) => {
 	beforeAll(async (context) => {
 		nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
-		subject = await createService(TransactionService, "lsk.testnet", (container) => {
+		context.subject = await createService(TransactionService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -60,7 +45,7 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		});
 
-		musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
+		context.musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -83,14 +68,27 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 
 		context.dateTime = stub(DateTime, "make");
 		context.dateTime.returnValue(gotoTime);
+
+		context.wallet1 = {
+			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
+			address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+			publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+		};
+
+		context.wallet2 = {
+			signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
+			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+		};
+
 	});
 
 	afterEach(async (context) => {
 		context.dateTime.restore();
 	});
 
-	it("#transfer", async () => {
-		const result = await subject.transfer({
+	it("#transfer", async (context) => {
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,
@@ -110,8 +108,8 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		assert.object(result.toBroadcast());
 	});
 
-	it("delegateRegistration - should verify", async () => {
-		const result = await subject.delegateRegistration({
+	it("delegateRegistration - should verify", async (context) => {
+		const result = await context.subject.delegateRegistration({
 			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -130,8 +128,8 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		assert.object(result.toBroadcast());
 	});
 
-	it("vote - should verify", async () => {
-		const result = await subject.vote({
+	it("vote - should verify", async (context) => {
+		const result = await context.subject.vote({
 			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -161,10 +159,10 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		assert.object(result.toBroadcast());
 	});
 
-	it("should fail to vote with a number that is not a multiple of 10", async () => {
+	it("should fail to vote with a number that is not a multiple of 10", async (context) => {
 		await assert.rejects(
 			() =>
-				subject.vote({
+				context.subject.vote({
 					fee: 10,
 					signatory: new Signatories.Signatory(
 						new Signatories.MnemonicSignatory({
@@ -190,22 +188,22 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 
 	each(
 		"multiSignature should throw error when %s is not a string list",
-		async ({ dataset }) => {
+		async ({ dataset, context }) => {
 			await assert.rejects(
 				() =>
-					subject.multiSignature({
+					context.subject.multiSignature({
 						fee: 10,
 						signatory: new Signatories.Signatory(
 							new Signatories.MnemonicSignatory({
-								signingKey: wallet1.signingKey,
-								address: wallet1.address,
-								publicKey: wallet1.publicKey,
+								signingKey: context.wallet1.signingKey,
+								address: context.wallet1.address,
+								publicKey: context.wallet1.publicKey,
 								privateKey: identity.privateKey,
 							}),
 						),
 						data: {
 							numberOfSignatures: 2,
-							mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+							mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
 							optionalKeys: [],
 							[dataset]: "",
 						},
@@ -216,7 +214,7 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		["mandatoryKeys", "optionalKeys"],
 	);
 
-	it("multiSignature should verify", async () => {
+	it("multiSignature should verify", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
 			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
@@ -226,32 +224,32 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 			.reply(200, loader.json(`test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
 			.persist();
 
-		const transaction1 = await subject.multiSignature({
+		const transaction1 = await context.subject.multiSignature({
 			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
-					signingKey: wallet1.signingKey,
-					address: wallet1.address,
-					publicKey: wallet1.publicKey,
+					signingKey: context.wallet1.signingKey,
+					address: context.wallet1.address,
+					publicKey: context.wallet1.publicKey,
 					privateKey: identity.privateKey,
 				}),
 			),
 			data: {
 				numberOfSignatures: 2,
-				mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+				mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
 				optionalKeys: [],
 			},
 		});
 
 		assert.instance(transaction1, SignedTransactionData);
 
-		const transaction2 = await musig.addSignature(
+		const transaction2 = await context.musig.addSignature(
 			transaction1.data(),
 			new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
-					signingKey: wallet2.signingKey,
-					address: wallet2.address,
-					publicKey: wallet2.publicKey,
+					signingKey: context.wallet2.signingKey,
+					address: context.wallet2.address,
+					publicKey: context.wallet2.publicKey,
 					privateKey: identity.privateKey,
 				}),
 			),
@@ -259,13 +257,13 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 
 		assert.instance(transaction2, SignedTransactionData);
 
-		const transaction3 = await musig.addSignature(
+		const transaction3 = await context.musig.addSignature(
 			transaction2.data(),
 			new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
-					signingKey: wallet1.signingKey,
-					address: wallet1.address,
-					publicKey: wallet1.publicKey,
+					signingKey: context.wallet1.signingKey,
+					address: context.wallet1.address,
+					publicKey: context.wallet1.publicKey,
 					privateKey: identity.privateKey,
 				}),
 			),
@@ -276,8 +274,8 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		nock.enableNetConnect();
 	});
 
-	it("#unlockToken", async () => {
-		const result = await subject.unlockToken({
+	it("#unlockToken", async (context) => {
+		const result = await context.subject.unlockToken({
 			fee: 10,
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
