@@ -34,7 +34,6 @@
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/hapi__joi": "17.1.7",
 		"@types/lodash": "^4.14.177",
 		"@types/node": "^16.11.10",
 		"lodash": "^4.17.21",
