@@ -15,7 +15,7 @@
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source .test.js",
+		"test": "uvu -r tsm source big-number.service.test.js",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},

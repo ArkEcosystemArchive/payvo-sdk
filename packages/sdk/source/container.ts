@@ -1,57 +1,69 @@
 /* istanbul ignore file */
 
-import { Container as Inversify, interfaces } from "inversify";
-
 export type ContainerKey = string | symbol;
 
+export type Cradle = Map<ContainerKey, any>;
+
 export class Container {
-	readonly #container: Inversify;
+	readonly #cradle: Cradle;
 
 	public constructor() {
-		this.#container = new Inversify({ skipBaseClassChecks: true });
+		this.#cradle = new Map();
 	}
 
 	public get<T>(key: ContainerKey): T {
-		return this.#container.get(key);
+		return this.#cradle.get(key);
 	}
 
 	public constant(key: ContainerKey, value: unknown): void {
-		this.#bind(key).toConstantValue(value);
+		if (this.has(key)) {
+			throw new Error(`Duplicate binding attempted for ${key.toString()}`);
+		}
+
+		this.#cradle.set(key, value);
 	}
 
 	public singleton(key: ContainerKey, value: new (...arguments_: never[]) => unknown): void {
-		this.#bind(key).to(value).inSingletonScope();
+		if (this.has(key)) {
+			throw new Error(`Duplicate binding attempted for ${key.toString()}`);
+		}
+
+		this.constant(key, this.resolve(value));
 	}
 
 	public has(key: ContainerKey): boolean {
-		return this.#container.isBound(key);
+		return this.#cradle.has(key);
 	}
 
-	public resolve<T>(constructorFunction: interfaces.Newable<T>): T {
-		return this.#container.resolve(constructorFunction);
+	public resolve<T>(constructorFunction: any): T {
+		const instance = new constructorFunction(this);
+
+		if (typeof instance.onPostConstruct === "function") {
+			instance.onPostConstruct();
+		}
+
+		return instance;
 	}
 
 	public missing(key: ContainerKey): boolean {
 		return !this.has(key);
 	}
 
-	public unbind(key: ContainerKey): void {
-		return this.#container.unbind(key);
+	public unbind(key: ContainerKey): boolean {
+		return this.#cradle.delete(key);
 	}
 
 	public async unbindAsync(key: ContainerKey): Promise<void> {
-		return this.#container.unbindAsync(key);
+		const instance = this.#cradle.get(key);
+
+		if (typeof instance.onPreDestroy === "function") {
+			instance.onPreDestroy();
+		}
 	}
 
 	public flush(): void {
-		this.#container.unbindAll();
-	}
-
-	#bind(key: ContainerKey): interfaces.BindingToSyntax<unknown> {
-		if (this.has(key)) {
-			throw new Error(`Duplicate binding attempted for ${key.toString()}`);
+		for (const key of this.#cradle.keys()) {
+			this.unbind(key);
 		}
-
-		return this.#container.bind(key);
 	}
 }
