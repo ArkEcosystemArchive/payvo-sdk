@@ -1,4 +1,4 @@
-import { describe, loader, Mockery } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
@@ -24,7 +24,7 @@ import { WalletData } from "./wallet.dto";
 let subject;
 let musig;
 
-const createLocalServices = async () => {
+const createLocalServices = async (loader) => {
 	nock.fake(/.+/)
 		.get("/api/v2/accounts")
 		.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
@@ -86,11 +86,18 @@ const wallet2 = {
 	publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
 };
 
-describe("#addSignature", async ({ beforeEach, assert, it }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, stub }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(loader);
 
-		Mockery.stub(DateTime, "make").returnValueOnce(DateTime.make("2021-01-01 12:00:00"));
+		const gotoTime = DateTime.make("2021-01-01 12:00:00");
+
+		context.dateTime = stub(DateTime, "make");
+		context.dateTime.returnValue(gotoTime);
+	});
+
+	afterEach(async (context) => {
+		context.dateTime.restore();
 	});
 
 	it("should succeed", async () => {
@@ -142,11 +149,11 @@ describe("#addSignature", async ({ beforeEach, assert, it }) => {
 	});
 });
 
-describe("#broadcast", ({ beforeEach, assert, it }) => {
+describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
 	let transaction;
 
 	beforeEach(async () => {
-		await createLocalServices();
+		await createLocalServices(loader);
 
 		transaction = await musig.addSignature(
 			(
@@ -208,9 +215,9 @@ describe("#broadcast", ({ beforeEach, assert, it }) => {
 	});
 });
 
-describe("#needsFinalSignature", async ({ it, assert }) => {
+describe("#needsFinalSignature", async ({ it, assert, loader }) => {
 	it("should succeed", async () => {
-		await createLocalServices();
+		await createLocalServices(loader);
 
 		assert.true(
 			musig.needsFinalSignature(
