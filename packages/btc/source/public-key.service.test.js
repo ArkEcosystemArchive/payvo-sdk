@@ -1,24 +1,18 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
-let subject;
+describe('PublicKeyService', async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(PublicKeyService);
+	});
 
-test.before.each(async () => {
-	subject = await createService(PublicKeyService);
+	it("should generate an output from a mnemonic", async (context) => {
+		assert.equal(await context.subject.fromMnemonic(identity.mnemonic), { publicKey: identity.publicKey });
+	});
+
+	it("should generate an output from a wif", async (context) => {
+		assert.equal(await context.subject.fromWIF(identity.wif), { publicKey: identity.publicKey });
+	});
 });
-
-test("should generate an output from a mnemonic", async () => {
-	const result = await subject.fromMnemonic(identity.mnemonic);
-
-	assert.equal(result, { publicKey: identity.publicKey });
-});
-
-test("should generate an output from a wif", async () => {
-	const result = await subject.fromWIF(identity.wif);
-
-	assert.equal(result, { publicKey: identity.publicKey });
-});
-
-test.run();

@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, nock, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
@@ -39,11 +39,8 @@ import { signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
-let subject;
-let musigService;
-
-const createLocalServices = async () => {
-	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container) => {
+const createLocalServices = async (context) => {
+	const createTransactionService = async () => createServiceAsync(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -65,7 +62,7 @@ const createLocalServices = async () => {
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
 
-	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container) => {
+	const createMusigService = async () => createServiceAsync(MultiSignatureService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.singleton(IoC.BindingType.AddressService, AddressService);
 		container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -86,11 +83,16 @@ const createLocalServices = async () => {
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.singleton(BindingType.AddressFactory, AddressFactory);
 	});
+
+	const [subject, musigService] = await Promise.all([createTransactionService(), createMusigService()]);
+
+	context.subject = subject;
+	context.musigService = musigService;
 };
 
-describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("BIP44 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -140,7 +142,7 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -154,7 +156,7 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
 				},
 			}),
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -175,9 +177,9 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("BIP49 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -227,7 +229,7 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -242,7 +244,7 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -263,9 +265,9 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("BIP84 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -315,7 +317,7 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -330,7 +332,7 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
@@ -351,9 +353,9 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("legacy multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -400,7 +402,7 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate a transfer transaction", async () => {
+	it("should generate a transfer transaction", async (context) => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
@@ -409,7 +411,7 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -440,7 +442,7 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -466,12 +468,12 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				publicKey: wallet2.path, // @TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -500,9 +502,9 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, test }) => {
 	});
 });
 
-describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -548,7 +550,7 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 		nock.cleanAll();
 	});
 
-	test("should generate a transfer transaction", async () => {
+	it("should generate a transfer transaction", async (context) => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.p2shSegwitMasterPublicKey),
@@ -557,7 +559,7 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -588,7 +590,7 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -614,12 +616,12 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				publicKey: wallet2.path, // @TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -648,9 +650,9 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, test }) 
 	});
 });
 
-describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }) => {
-	beforeEach(async () => {
-		await createLocalServices();
+describe("native segwit multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -700,7 +702,7 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 		nock.cleanAll();
 	});
 
-	test("should generate a transfer transaction", async () => {
+	it("should generate a transfer transaction", async (context) => {
 		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
@@ -709,7 +711,7 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -740,7 +742,7 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -771,7 +773,7 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -800,72 +802,77 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, test }
 	});
 });
 
-test("#multiSignature (fake) registration", async () => {
-	Mockery.stub(UUID, "random").returnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
-	const wallet1 = {
-		signingKey: musig.accounts[0].mnemonic,
-		path: musig.accounts[0].nativeSegwitMasterPath,
-	};
+describe('Musig (fake) registration', async ({ assert, it, stub, beforeEach }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
-	const wallet2 = {
-		signingKey: musig.accounts[1].mnemonic,
-		path: musig.accounts[1].nativeSegwitMasterPath,
-	};
-
-	const wallet3 = {
-		signingKey: musig.accounts[2].mnemonic,
-		path: musig.accounts[2].nativeSegwitMasterPath,
-	};
-
-	const transaction1 = await subject.renamedMultiSignature({
-		signatory: new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet1.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-		data: {
-			min: 2,
-			numberOfSignatures: 3,
-			publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
-			derivationMethod: "nativeSegwitMusig",
-		},
+		stub(UUID, "random").returnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
 	});
 
-	assert.instance(transaction1, SignedTransactionData);
-	assert.snapshot("musig-registration-transaction1", transaction1);
+	it("should succeed", async (context) => {
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].nativeSegwitMasterPath,
+		};
 
-	const transaction2 = await musigService.addSignature(
-		transaction1.data(),
-		new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet2.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO really? We need a way to pass in the account path
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-	);
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].nativeSegwitMasterPath,
+		};
 
-	assert.instance(transaction2, SignedTransactionData);
-	assert.snapshot("musig-registration-transaction2", transaction2);
+		const wallet3 = {
+			signingKey: musig.accounts[2].mnemonic,
+			path: musig.accounts[2].nativeSegwitMasterPath,
+		};
 
-	const transaction3 = await musigService.addSignature(
-		transaction2.data(),
-		new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet3.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet3.path, // TODO really?
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-	);
+		const transaction1 = await context.subject.renamedMultiSignature({
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet1.path, // @TODO for now we use publicKey for passing path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+			data: {
+				min: 2,
+				numberOfSignatures: 3,
+				publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
+				derivationMethod: "nativeSegwitMusig",
+			},
+		});
 
-	assert.instance(transaction3, SignedTransactionData);
-	assert.snapshot("musig-registration-transaction3", transaction3);
+		assert.instance(transaction1, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction1", transaction1);
+
+		const transaction2 = await context.musigService.addSignature(
+			transaction1.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet2.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet2.path, // @TODO really? We need a way to pass in the account path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+		);
+
+		assert.instance(transaction2, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction2", transaction2);
+
+		const transaction3 = await context.musigService.addSignature(
+			transaction2.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet3.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet3.path, // @TODO really?
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+		);
+
+		assert.instance(transaction3, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction3", transaction3);
+	});
 });
-
-test.run();
