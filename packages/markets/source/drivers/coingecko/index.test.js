@@ -4,15 +4,13 @@ import { Request } from "@payvo/sdk-http-fetch";
 
 import { CoinGecko } from "./index";
 
-const BASE_URL_COINGECKO = "https://api.coingecko.com/api/v3";
-const token = "ARK";
-const currency = "USD";
-
-let subject;
-
 describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
-	beforeEach(async () => {
-		subject = new CoinGecko(new Request());
+	const BASE_URL_COINGECKO = "https://api.coingecko.com/api/v3";
+	const token = "ARK";
+	const currency = "USD";
+
+	beforeEach(async (context) => {
+		context.subject = new CoinGecko(new Request());
 
 		nock.fake(BASE_URL_COINGECKO)
 			.get("/coins/list")
@@ -51,21 +49,21 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 			.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
 	});
 
-	it("should return ticker values", async () => {
-		const response = await subject.marketData(token);
+	it("should return ticker values", async (context) => {
+		const response = await context.subject.marketData(token);
 		const entries = Object.keys(response);
 		assert.not.empty(entries);
 		assert.includeAllMembers(entries, Object.keys(CURRENCIES));
 		assert.is(response.USD.price, 0.176829);
 	});
 
-	it("verifyToken", async () => {
-		assert.true(await subject.verifyToken("ark"));
-		assert.false(await subject.verifyToken("not-ark"));
+	it("verifyToken", async (context) => {
+		assert.true(await context.subject.verifyToken("ark"));
+		assert.false(await context.subject.verifyToken("not-ark"));
 	});
 
-	it("should return historic day values", async () => {
-		const response = await subject.historicalPrice({
+	it("should return historic day values", async (context) => {
+		const response = await context.subject.historicalPrice({
 			token,
 			currency,
 			days: 24,
@@ -76,17 +74,17 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 		assert.containKeys(response, ["labels", "datasets"]);
 	});
 
-	it("should return daily average", async () => {
-		const response = await subject.dailyAverage({
+	it("should return daily average", async (context) => {
+		const response = await context.subject.dailyAverage({
 			token,
 			currency,
-			timestamp: Date.now(),
+			timestamp: Date.now(context),
 		});
 		assert.is(response, 10.2219);
 	});
 
-	it("should return the current price", async () => {
-		const response = await subject.currentPrice({
+	it("should return the current price", async (context) => {
+		const response = await context.subject.currentPrice({
 			token,
 			currency: "BTC",
 		});
