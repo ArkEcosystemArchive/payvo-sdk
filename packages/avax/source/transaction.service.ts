@@ -1,8 +1,8 @@
 import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
-import { Hash } from "@payvo/sdk-cryptography";
+import { Buffer, Hash } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { BN, Buffer } from "avalanche";
+import { BN } from "avalanche";
 import { AVMAPI } from "avalanche/dist/apis/avm";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 import { UUID } from "@payvo/sdk-cryptography";

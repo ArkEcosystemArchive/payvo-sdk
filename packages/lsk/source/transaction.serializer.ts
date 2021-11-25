@@ -2,8 +2,10 @@ import { getAddressFromBase32Address, getLisk32AddressFromAddress } from "@liskh
 import { getBytes } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
+
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
-import { joinModuleAndAssetIds } from "./multi-signature.domain";
+import { joinModuleAndAssetIds } from "./multi-signature.domain.js";
 
 @IoC.injectable()
 export class TransactionSerializer {

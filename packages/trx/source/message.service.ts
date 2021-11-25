@@ -1,5 +1,5 @@
-import { Coins, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { Buffer } from "buffer";
+import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
 import TronWeb from "tronweb";
 
 @IoC.injectable()

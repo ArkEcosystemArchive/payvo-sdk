@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP44, Buffer } from "@payvo/sdk-cryptography";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
@@ -31,8 +31,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
 		if (this.#bip44SessionPath != path || this.#bip44SessionPath.length == 0) {
 			throw new Error(
-				`Bip44 Path [${path}] must match the session path [${
-					this.#bip44SessionPath
+				`Bip44 Path [${path}] must match the session path [${this.#bip44SessionPath
 				}] stored during 'getPublicKey' .`,
 			);
 		}

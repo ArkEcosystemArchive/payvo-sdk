@@ -1,4 +1,4 @@
-import { BIP32, BIP32Interface } from "@payvo/sdk-cryptography";
+import { BIP32, BIP32Interface, Buffer } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 
 export const bip44 = (publicKey, network): string =>

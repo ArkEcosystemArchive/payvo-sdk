@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP44, Buffer } from "@payvo/sdk-cryptography";
 
 @IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {

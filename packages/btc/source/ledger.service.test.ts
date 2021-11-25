@@ -1,6 +1,7 @@
 import "jest-extended";
 
 import { IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";

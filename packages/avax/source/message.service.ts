@@ -1,5 +1,6 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BinTools, Buffer } from "avalanche";
+import { Coins, IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
+import { BinTools } from "avalanche";
 import { KeyPair } from "avalanche/dist/apis/avm";
 import { getPreferredHRP } from "avalanche/dist/utils";
 import { createHash } from "crypto";

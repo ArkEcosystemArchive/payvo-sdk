@@ -1,4 +1,5 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
 import { Ed25519Signature, PublicKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
 import { deriveRootKey } from "./shelley.js";

@@ -1,4 +1,4 @@
-import { BIP39 } from "@payvo/sdk-cryptography";
+import { BIP39, Buffer } from "@payvo/sdk-cryptography";
 import CardanoWasm, { Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
 export const HARDENED_THRESHOLD = 0x80000000;

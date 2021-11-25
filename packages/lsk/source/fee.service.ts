@@ -1,4 +1,5 @@
 import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
 

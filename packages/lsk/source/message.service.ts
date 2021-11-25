@@ -1,4 +1,5 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
+import { Buffer } from "@payvo/sdk-cryptography";
 import { signMessageWithPassphrase, verifyMessageWithPublicKey } from "@liskhq/lisk-cryptography";
 
 @IoC.injectable()

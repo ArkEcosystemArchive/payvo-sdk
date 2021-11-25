@@ -468,6 +468,7 @@ importers:
       lodash: ^4.17.21
       qrcode: ^1.5.0
       remarkable: ^2.0.1
+      safe-buffer: ^5.2.1
       type-fest: ^2.6.0
     dependencies:
       '@hapi/bourne': 2.0.0
@@ -483,6 +484,7 @@ importers:
       joi: 17.4.2
       qrcode: 1.5.0
       remarkable: 2.0.1
+      safe-buffer: 5.2.1
       type-fest: 2.6.0
     devDependencies:
       '@payvo/sdk-test': link:../test
