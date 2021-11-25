@@ -188,29 +188,33 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 		);
 	});
 
-	each("multiSignature should throw error when %s is not a string list", async ({ dataset }) => {
-		await assert.rejects(
-			() =>
-				subject.multiSignature({
-					fee: 10,
-					signatory: new Signatories.Signatory(
-						new Signatories.MnemonicSignatory({
-							signingKey: wallet1.signingKey,
-							address: wallet1.address,
-							publicKey: wallet1.publicKey,
-							privateKey: identity.privateKey,
-						}),
-					),
-					data: {
-						numberOfSignatures: 2,
-						mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-						optionalKeys: [],
-						[dataset]: "",
-					},
-				}),
-			"to be defined as a list of strings.",
-		);
-	}, ["mandatoryKeys", "optionalKeys"]);
+	each(
+		"multiSignature should throw error when %s is not a string list",
+		async ({ dataset }) => {
+			await assert.rejects(
+				() =>
+					subject.multiSignature({
+						fee: 10,
+						signatory: new Signatories.Signatory(
+							new Signatories.MnemonicSignatory({
+								signingKey: wallet1.signingKey,
+								address: wallet1.address,
+								publicKey: wallet1.publicKey,
+								privateKey: identity.privateKey,
+							}),
+						),
+						data: {
+							numberOfSignatures: 2,
+							mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+							optionalKeys: [],
+							[dataset]: "",
+						},
+					}),
+				"to be defined as a list of strings.",
+			);
+		},
+		["mandatoryKeys", "optionalKeys"],
+	);
 
 	it("multiSignature should verify", async () => {
 		nock.fake(/.+/)
