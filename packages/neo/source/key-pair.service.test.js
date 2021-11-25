@@ -1,39 +1,33 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 
 let subject;
 
-test.before.each(async () => {
-	subject = await createService(KeyPairService);
-});
+describe("KeyPairService", async ({ beforeEach, it, assert }) => {
+	beforeEach(async () => {
+		subject = await createService(KeyPairService);
+	});
 
-test("should generate an output from a mnemonic", async () => {
-	const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async () => {
+		assert.equal(await subject.fromMnemonic(identity.mnemonic), {
+			privateKey: identity.privateKey,
+			publicKey: identity.publicKey,
+		});
+	});
 
-	assert.equal(result, {
-		privateKey: identity.privateKey,
-		publicKey: identity.publicKey,
+	it("should generate an output from a privateKey", async () => {
+		assert.equal(await subject.fromPrivateKey(identity.privateKey), {
+			privateKey: identity.privateKey,
+			publicKey: identity.publicKey,
+		});
+	});
+
+	it("should generate an output from a wif", async () => {
+		assert.equal(await subject.fromWIF(identity.wif), {
+			privateKey: identity.privateKey,
+			publicKey: identity.publicKey,
+		});
 	});
 });
-
-test("should generate an output from a privateKey", async () => {
-	const result = await subject.fromPrivateKey(identity.privateKey);
-
-	assert.equal(result, {
-		privateKey: identity.privateKey,
-		publicKey: identity.publicKey,
-	});
-});
-
-test("should generate an output from a wif", async () => {
-	const result = await subject.fromWIF(identity.wif);
-
-	assert.equal(result, {
-		privateKey: identity.privateKey,
-		publicKey: identity.publicKey,
-	});
-});
-
-test.run();
