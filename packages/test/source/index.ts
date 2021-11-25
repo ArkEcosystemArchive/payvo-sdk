@@ -1,6 +1,6 @@
 // @TODO: deprecate once `describe` is used for all tests
 export { assert } from "./assert.js";
-export { describe } from "./describe.js";
+export { describe, describeWithContext } from "./describe.js";
 // @TODO: deprecate once `describe` is used for all tests
 export { each } from "./each.js";
 // @TODO: deprecate once `describe` is used for all tests
