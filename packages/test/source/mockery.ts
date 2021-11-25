@@ -1,23 +1,15 @@
-import { mock, spy, stub } from "sinon";
+import { stub, SinonStub } from "sinon";
 import { ok } from "uvu/assert";
 
 export class Mockery {
-	readonly #subject;
+	readonly #subject: SinonStub;
 
 	private constructor(subject) {
 		this.#subject = subject;
 	}
 
-	public static spy(owner?: object, method?: string): Mockery {
-		return new Mockery(spy(owner, method));
-	}
-
 	public static stub(owner: object, method: string): Mockery {
-		return new Mockery(stub(owner, method));
-	}
-
-	public static mock(owner: object, method: string): Mockery {
-		return new Mockery(mock(owner, method));
+		return new Mockery(stub(owner, method as never));
 	}
 
 	public calledWith(message: string | object): void {
@@ -42,7 +34,7 @@ export class Mockery {
 		return this;
 	}
 
-	public callsFake(value: Function): Mockery {
+	public callsFake(value: (...args: any[]) => any): Mockery {
 		this.#subject.callsFake(value);
 
 		return this;

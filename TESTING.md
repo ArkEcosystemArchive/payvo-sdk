@@ -109,14 +109,6 @@ This function allows you to create many tests at once based on a dataset. The ti
 
 This function is a wrapper around [nock](https://github.com/nock/nock) to provide some sane defaults that are repeated a lot throughout the tests of the project.
 
-### `mock(target: object, method: string)`
-
-This function is proxy to [Mockery.mock](https://github.com/PayvoHQ/sdk/blob/develop/packages/test/source/mockery.ts) which is a wrapper around [sinon](https://sinonjs.org/).
-
-### `spy(target: object, method: string)`
-
-This function is proxy to [Mockery.spy](https://github.com/PayvoHQ/sdk/blob/develop/packages/test/source/mockery.ts) which is a wrapper around [sinon](https://sinonjs.org/).
-
 ### `stub(target: object, method: string)`
 
 This function is proxy to [Mockery.stub](https://github.com/PayvoHQ/sdk/blob/develop/packages/test/source/mockery.ts) which is a wrapper around [sinon](https://sinonjs.org/).
