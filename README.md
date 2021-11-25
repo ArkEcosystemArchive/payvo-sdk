@@ -14,36 +14,30 @@ Documentation can be found [here](https://ark.dev/docs/payvo-sdk).
 
 > If you plan to contribute you'll need to ensure that you follow our [naming conventions](./NAMING_CONVENTIONS.md).
 
-[Rush](https://rushjs.io/) and [pnpm](https://pnpm.js.org/en/) are required to be installed before starting. These tools are used to manage this monorepo.
-
-### Run `lint` and `prettier`
-
-```bash
-rush format
-```
+[pnpm](https://pnpm.js.org/en/) is required to be installed before starting. It is used to manage this monorepo.
 
 ### Apply `eslint` rules to source
 
 ```bash
-rush lint
+pnpm run lint
 ```
 
 ### Apply `eslint` rules to tests
 
 ```bash
-rush lint:tests
+pnpm run lint:test
 ```
 
 ### Apply `prettier` formatting
 
 ```bash
-rush prettier
+pnpm run prettier
 ```
 
-### Run tests with `jest`
+### Run tests with `uvu`
 
 ```bash
-rush test
+pnpm run test
 ```
 
 ### Bump the version of all packages and publish them

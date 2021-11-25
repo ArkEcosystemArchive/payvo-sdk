@@ -17,7 +17,7 @@ export class UUID {
 		return v5(name, namespace);
 	}
 
-	public static parse(uuid: string): Buffer {
+	public static parse(uuid: string): ArrayLike<number> {
 		return parse(uuid);
 	}
 

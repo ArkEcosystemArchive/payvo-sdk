@@ -1,6 +1,7 @@
 .coverage
+.ultra.cache.json
 distribution
 docs
+packages/**/coverage
 packages/**/distribution
 packages/**/prisma
-packages/**/coverage
