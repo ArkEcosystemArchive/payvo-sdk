@@ -13,3 +13,4 @@ export * from "./hdkey";
 export * from "./pbkdf2";
 export * from "./uuid";
 export * from "./wif";
+export { Buffer } from "safe-buffer";
