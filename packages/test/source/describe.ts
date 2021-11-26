@@ -9,7 +9,6 @@ import { Mockery } from "./mockery.js";
 import { nock } from "./nock.js";
 
 type ContextFunction = () => Context;
-type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
 	suite.before(() => nock.disableNetConnect());
@@ -40,8 +39,8 @@ const runSuite = (suite: Test, callback: Function): void => {
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
 
-export const describeWithContext = async (
+export const describeWithContext = (
 	title: string,
-	context: Context | ContextFunction | ContextPromise,
+	context: Context | ContextFunction,
 	callback: Function,
-): Promise<void> => runSuite(suite(title, typeof context === "function" ? await context() : context), callback);
+): void => runSuite(suite(title, typeof context === "function" ? context() : context), callback);
