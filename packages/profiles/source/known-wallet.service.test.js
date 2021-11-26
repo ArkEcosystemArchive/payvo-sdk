@@ -1,86 +1,81 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import { nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 import { Profile } from "./profile";
 
-let subject;
+describe("KnownWalletService", ({ loader, it, assert, beforeEach, afterEach, nock }) => {
+	beforeEach(async (context) => {
+		bootContainer({ flush: true });
 
-test.before(() => {
-	bootContainer();
+		nock.cleanAll();
+
+		nock.fake(/.+/)
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/delegates")
+			.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+			.get("/api/delegates?page=2")
+			.reply(200, loader.json("test/fixtures/client/delegates-2.json"))
+			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
+			.reply(200, [
+				{
+					address: "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67",
+					name: "ACF Hot Wallet",
+					type: "team",
+				},
+				{
+					address: "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR",
+					name: "ACF Hot Wallet (old)",
+					type: "team",
+				},
+				{
+					address: "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V",
+					name: "Binance",
+					type: "exchange",
+				},
+			])
+			.persist();
+
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+		await profile.coins().set("ARK", "ark.devnet").__construct();
+
+		context.subject = new KnownWalletService();
+
+		await context.subject.syncAll(profile);
+	});
+
+	afterEach(() => nock.cleanAll());
+
+	it("#name should succeed", async (context) => {
+		assert.is(context.subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), "ACF Hot Wallet");
+		assert.is(context.subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR"), "ACF Hot Wallet (old)");
+		assert.is(context.subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa"), undefined);
+	});
+
+	it("#is should succeed", async (context) => {
+		assert.true(context.subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
+		assert.false(context.subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s"));
+	});
+
+	it("#isExchange should succeed", async (context) => {
+		assert.true(context.subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
+		assert.false(context.subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
+		assert.false(context.subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
+	});
+
+	it("#isTeam should succeed", async (context) => {
+		assert.true(context.subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
+		assert.false(context.subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
+	});
 });
-
-test.before.each(async () => {
-	nock.cleanAll();
-
-	nock.fake(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
-		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"))
-		.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
-		.reply(200, [
-			{
-				type: "team",
-				name: "ACF Hot Wallet",
-				address: "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67",
-			},
-			{
-				type: "team",
-				name: "ACF Hot Wallet (old)",
-				address: "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR",
-			},
-			{
-				type: "exchange",
-				name: "Binance",
-				address: "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V",
-			},
-		])
-		.persist();
-
-	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
-	await profile.coins().set("ARK", "ark.devnet").__construct();
-
-	subject = new KnownWalletService();
-
-	await subject.syncAll(profile);
-});
-
-test.after.each(() => nock.cleanAll());
-
-test("#name", async () => {
-	assert.is(subject.name("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"), "ACF Hot Wallet");
-	assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGR"), "ACF Hot Wallet (old)");
-	assert.is(subject.name("ark.devnet", "AWkBFnqvCF4jhqPSdE2HBPJiwaf67tgfGRa"), undefined);
-});
-
-test("#is", async () => {
-	assert.true(subject.is("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
-	assert.false(subject.is("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67s"));
-});
-
-test("#isExchange", async () => {
-	assert.true(subject.isExchange("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
-	assert.false(subject.isExchange("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
-	assert.false(subject.isExchange("unknown", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
-});
-
-test("#isTeam", async () => {
-	assert.true(subject.isTeam("ark.devnet", "AagJoLEnpXYkxYdYkmdDSNMLjjBkLJ6T67"));
-	assert.false(subject.isTeam("ark.devnet", "AFrPtEmzu6wdVpa2CnRDEKGQQMWgq8nE9V"));
-});
-
-test.run();
