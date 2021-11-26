@@ -6,7 +6,7 @@ describeWithContext(
 	"PBKDF2",
 	{
 		message: "Hello World",
-		password: "password"
+		password: "password",
 	},
 	({ assert, it }) => {
 		it("should encrypt the given value", async ({ message, password }) => {

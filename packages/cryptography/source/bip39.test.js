@@ -6,12 +6,13 @@ describeWithContext(
 	"BIP39",
 	{
 		english: "slogan miracle truck skate erosion huge bright where aspect rural average almost cram glide gown",
-		japanese : "ひつぎ　ためる　むすぶ　ひかん　こうちゃ　すきま　えつらん　るいけい　いとこ　のちほど　いやす　あんまり　ぎしき　じだい　しなん",
-		korean : "직업 여섯 포인트 지급 백색 손가락 그림 화요일 계절 정말 골짜기 개별 덩어리 상자 생신",
-		chinese_simplified : "凤 谢 迈 霸 夫 祖 知 徙 合 恰 相 多 难 雨 孩",
-		chinese_traditional : "鳳 謝 邁 霸 夫 祖 知 徙 合 恰 相 多 難 雨 孩",
+		japanese:
+			"ひつぎ　ためる　むすぶ　ひかん　こうちゃ　すきま　えつらん　るいけい　いとこ　のちほど　いやす　あんまり　ぎしき　じだい　しなん",
+		korean: "직업 여섯 포인트 지급 백색 손가락 그림 화요일 계절 정말 골짜기 개별 덩어리 상자 생신",
+		chinese_simplified: "凤 谢 迈 霸 夫 祖 知 徙 合 恰 相 多 难 雨 孩",
+		chinese_traditional: "鳳 謝 邁 霸 夫 祖 知 徙 合 恰 相 多 難 雨 孩",
 		french: "remplir lézard temporel refuge éclipse furtif bermuda victoire angle pollen appeler affaire citoyen farine fermer",
-		random : "@!#$^$%^&*&^("
+		random: "@!#$^$%^&*&^(",
 	},
 	({ assert, it }) => {
 		it("should generate a new mnemonic", async () => {

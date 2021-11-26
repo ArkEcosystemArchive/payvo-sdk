@@ -8,16 +8,21 @@ describeWithContext(
 		message: "Hello World",
 		password: "password",
 		salt: "salt",
-		iv: "secretsecretsecretsecret"
+		iv: "secretsecretsecretsecret",
 	},
 	({ assert, it }) => {
 		it("should encrypt the given value", (context) => {
-			assert.is(AES.encrypt(context.message, context.password, context.salt, context.iv), "Y8RT6kFrfwll6SXUOti6UQ==");
+			assert.is(
+				AES.encrypt(context.message, context.password, context.salt, context.iv),
+				"Y8RT6kFrfwll6SXUOti6UQ==",
+			);
 		});
 
 		it("should decrypt the given value", (context) => {
-			assert.is(AES.decrypt("Y8RT6kFrfwll6SXUOti6UQ==", context.password, context.salt, context.iv), context.message);
+			assert.is(
+				AES.decrypt("Y8RT6kFrfwll6SXUOti6UQ==", context.password, context.salt, context.iv),
+				context.message,
+			);
 		});
 	},
 );
-
