@@ -18,15 +18,15 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const normaliseFees = (transaction) => ({
-	min: transaction.min,
-	avg: transaction.avg,
-	max: transaction.max,
-	static: transaction.static,
-	isDynamic: transaction.isDynamic,
-});
-
 describe("FeeService", async ({ assert, afterEach, it, loader }) => {
+	const normaliseFees = (transaction) => ({
+		min: transaction.min,
+		avg: transaction.avg,
+		max: transaction.max,
+		static: transaction.static,
+		isDynamic: transaction.isDynamic,
+	});
+
 	it("should get the fees for ARK", async () => {
 		nock.fake(/.+/)
 			.get("/api/node/fees")
