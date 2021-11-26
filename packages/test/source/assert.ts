@@ -15,6 +15,7 @@ export const assert = {
 		try {
 			uvu.instance(value, Buffer);
 		} catch {
+			// @TODO: only test for this when migration is done
 			uvu.instance(value, SafeBuffer);
 		}
 	},
