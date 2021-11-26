@@ -6,17 +6,15 @@ import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { MessageService } from "./message.service";
 
-let subject;
-
 describe("MessageService", async ({ beforeEach, assert, it }) => {
-	beforeEach(async () => {
-		subject = await createService(MessageService, undefined, (container) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(MessageService, undefined, (container) => {
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		});
 	});
 
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
+	it("should sign and verify a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -28,6 +26,6 @@ describe("MessageService", async ({ beforeEach, assert, it }) => {
 			),
 		});
 
-		assert.true(await subject.verify(result));
+		assert.true(await context.subject.verify(result));
 	});
 });
