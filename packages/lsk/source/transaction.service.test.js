@@ -1,4 +1,4 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { IoC, Services, Signatories } from "@payvo/sdk";
@@ -21,7 +21,20 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each, loader }) => {
+describeWithContext("TransactionService", {
+
+	wallet1:{
+		signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
+		address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+		publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+	},
+
+	wallet2:{
+		signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
+		address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+		publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+	},
+}, ({ afterEach, beforeAll, it, assert, stub, each, loader }) => {
 	beforeAll(async (context) => {
 		nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 
@@ -68,18 +81,6 @@ describe("#TransactionService", ({ afterEach, beforeAll, it, assert, stub, each,
 
 		context.dateTime = stub(DateTime, "make");
 		context.dateTime.returnValue(gotoTime);
-
-		context.wallet1 = {
-			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-			address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-			publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-		};
-
-		context.wallet2 = {
-			signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-		};
 	});
 
 	afterEach(async (context) => {

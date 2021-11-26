@@ -1,28 +1,28 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { CryptoCompare } from "./index";
 
-describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
-	const BASE_URL_CRYPTOCOMPARE = "https://min-api.cryptocompare.com";
-	const token = "ARK";
-	const currency = "USD";
-
+describeWithContext("CryptoCompare", {
+	basePath: "https://min-api.cryptocompare.com",
+	token: "ARK",
+	currency: "USD",
+}, async ({ assert, beforeEach, it, loader, nock }) => {
 	beforeEach(async (context) => {
 		context.subject = new CryptoCompare(new Request());
 
-		nock.fake(BASE_URL_CRYPTOCOMPARE)
+		nock.fake(context.basePath)
 			.get("/data/pricemultifull")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/cryptocompare/market.json"));
 
-		nock.fake(BASE_URL_CRYPTOCOMPARE)
+		nock.fake(context.basePath)
 			.get(/\/data\/histo.+/)
 			.reply(200, loader.json("test/fixtures/cryptocompare/historical.json"));
 	});
 
 	it("should return ticker values", async (context) => {
-		const response = await context.subject.marketData(token);
+		const response = await context.subject.marketData(context.token);
 		const entries = Object.keys(response);
 		assert.not.empty(entries);
 		assert.includeAllMembers(entries, [
@@ -49,13 +49,13 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 	});
 
 	it("verifyToken", async (context) => {
-		nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+		nock.fake(context.basePath).get("/data/price").query(true).reply(200, {
 			BTC: 0.00002073,
 		});
 
 		assert.true(await context.subject.verifyToken("ark"));
 
-		nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
+		nock.fake(context.basePath).get("/data/price").query(true).reply(200, {
 			Response: "Error",
 		});
 
@@ -64,8 +64,8 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return historic day values", async (context) => {
 		const response = await context.subject.historicalPrice({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 			days: 24,
 			type: "hour",
 			dateFormat: "HH:mm",
@@ -75,14 +75,14 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 	});
 
 	it("should return the current price", async (context) => {
-		nock.fake(BASE_URL_CRYPTOCOMPARE)
+		nock.fake(context.basePath)
 			.get("/data/price")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/cryptocompare/price.json"));
 
 		const response = await context.subject.currentPrice({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 		});
 		assert.is(response, 1.635);
 	});

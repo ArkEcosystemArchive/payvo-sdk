@@ -9,28 +9,6 @@ import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
 
 describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
-	const methods = [
-		"address",
-		"bigNumber",
-		"client",
-		"dataTransferObject",
-		"extendedAddress",
-		"extendedPublicKey",
-		"fee",
-		"keyPair",
-		"knownWallet",
-		"ledger",
-		"link",
-		"message",
-		"multiSignature",
-		"privateKey",
-		"publicKey",
-		"signatory",
-		"transaction",
-		"walletDiscovery",
-		"wif",
-	];
-
 	beforeEach(async (context) => {
 		nock.fake(/.+/)
 			.get("/api/blockchain")
@@ -183,17 +161,31 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 		"should throw if coin has not been fully set up",
 		async ({ dataset, context }) => {
 			assert.throws(() => context.subject[dataset]());
-		},
-		methods,
-	);
 
-	each(
-		"should not throw if coin has not been fully set up",
-		async ({ dataset, context }) => {
 			await context.subject.__construct();
 
 			assert.object(context.subject[dataset]());
 		},
-		methods,
+		[
+			"address",
+			"bigNumber",
+			"client",
+			"dataTransferObject",
+			"extendedAddress",
+			"extendedPublicKey",
+			"fee",
+			"keyPair",
+			"knownWallet",
+			"ledger",
+			"link",
+			"message",
+			"multiSignature",
+			"privateKey",
+			"publicKey",
+			"signatory",
+			"transaction",
+			"walletDiscovery",
+			"wif",
+		],
 	);
 });
