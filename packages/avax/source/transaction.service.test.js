@@ -12,11 +12,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("TransactionService", async ({ assert, beforeAll, skip }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -31,8 +29,8 @@ describe("TransactionService", async ({ assert, beforeAll, skip }) => {
 		});
 	});
 
-	skip("#transfer", async () => {
-		const result = await subject.transfer({
+	skip("#transfer", async (context) => {
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,

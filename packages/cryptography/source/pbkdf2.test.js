@@ -1,16 +1,20 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { PBKDF2 } from "./pbkdf2";
 
-const message = "Hello World";
-const password = "password";
+describeWithContext(
+	"PBKDF2",
+	{
+		message: "Hello World",
+		password: "password",
+	},
+	({ assert, it }) => {
+		it("should encrypt the given value", async ({ message, password }) => {
+			assert.type(PBKDF2.encrypt(message, password), "string");
+		});
 
-describe("PBKDF2", ({ assert, it }) => {
-	it("should encrypt the given value", async () => {
-		assert.type(PBKDF2.encrypt(message, password), "string");
-	});
-
-	it("should decrypt the given value", async () => {
-		assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
-	});
-});
+		it("should decrypt the given value", async ({ message, password }) => {
+			assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
+		});
+	},
+);

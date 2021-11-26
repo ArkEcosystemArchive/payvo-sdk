@@ -4,13 +4,11 @@ import { DateTime } from "@payvo/sdk-intl";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject;
-
 describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
-	beforeEach(async () => {
-		subject = await createService(SignedTransactionData);
+	beforeEach(async (context) => {
+		context.subject = await createService(SignedTransactionData);
 
-		subject.configure(
+		context.subject.configure(
 			"214e690d9a630013826a5ad002c254740028ae3b8f4230949fd04148e3d26b42",
 			{
 				visible: false,
@@ -44,23 +42,23 @@ describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
 		);
 	});
 
-	it("should have a sender", () => {
-		assert.is(subject.sender(), "410971d4dec6c12a9b4df09cbad2e42c063084860a");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "410971d4dec6c12a9b4df09cbad2e42c063084860a");
 	});
 
-	it("should have a recipient", () => {
-		assert.is(subject.recipient(), "41359a9ff5b9cd7c752e56194586e85f2fe24401fa");
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "41359a9ff5b9cd7c752e56194586e85f2fe24401fa");
 	});
 
-	it("should have an amount", () => {
-		assert.is(subject.amount().toNumber(), 1_000_000);
+	it("should have an amount", (context) => {
+		assert.is(context.subject.amount().toNumber(), 1_000_000);
 	});
 
-	it("should have a fee", () => {
-		assert.is(subject.fee().toNumber(), 0);
+	it("should have a fee", (context) => {
+		assert.is(context.subject.fee().toNumber(), 0);
 	});
 
-	it("should have a timestamp", () => {
-		assert.true(DateTime.make(1620877822246).isSame(subject.timestamp()));
+	it("should have a timestamp", (context) => {
+		assert.true(DateTime.make(1620877822246).isSame(context.subject.timestamp()));
 	});
 });

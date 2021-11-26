@@ -3,19 +3,17 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 
-let subject;
-
 describe("AddressService", async ({ beforeEach, it, assert }) => {
-	beforeEach(async () => {
-		subject = await createService(AddressService);
+	beforeEach(async (context) => {
+		context.subject = await createService(AddressService);
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		assert.object(await subject.fromMnemonic(identity.mnemonic));
+	it("should generate an output from a mnemonic", async (context) => {
+		assert.object(await context.subject.fromMnemonic(identity.mnemonic));
 	});
 
-	it("should validate an address", async () => {
-		assert.true(await subject.validate(identity.address));
-		assert.false(await subject.validate("invalid"));
+	it("should validate an address", async (context) => {
+		assert.true(await context.subject.validate(identity.address));
+		assert.false(await context.subject.validate("invalid"));
 	});
 });
