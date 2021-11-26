@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-import { describe  } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -10,37 +10,32 @@ import { ProfileNotificationService } from "./notification.service";
 import { ProfileTransactionNotificationService } from "./notification.transactions.service";
 import { Profile } from "./profile";
 
-describe("NotificationService", ({ it, assert, loader, beforeEach, beforeAll, nock }) => {
-	beforeAll(async () => {
-		nock.fake(/.+/)
-			.get("/api/node/configuration/crypto")
-			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
-			.get("/api/node/configuration")
-			.reply(200, loader.json("test/fixtures/client/configuration.json"))
-			.get("/api/peers")
-			.reply(200, loader.json("test/fixtures/client/peers.json"))
-			.get("/api/node/syncing")
-			.reply(200, loader.json("test/fixtures/client/syncing.json"))
-			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-			.reply(200, loader.json("test/fixtures/client/wallet.json"))
-			.persist();
-	});
-
+describeWithContext("NotificationService", { mnemonic: identity.mnemonic }, ({ it, assert, loader, beforeEach, nock }) => {
 	beforeEach(async (context) => {
 		bootContainer({ flush: true });
-
-		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
-		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
-
-		context.subject = new ProfileNotificationService(profile);
 
 		context.notificationTransactionFixtures = loader.json("test/fixtures/client/notification-transactions.json");
 
 		nock.fake(/.+/)
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
 			.get("/api/transactions")
 			.query(true)
 			.reply(200, context.notificationTransactionFixtures)
 			.persist();
+
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+		await importByMnemonic(profile, context.mnemonic, "ARK", "ark.devnet");
+
+		context.subject = new ProfileNotificationService(profile);
 	});
 
 	it("#transactions", async (context) => {
