@@ -36,9 +36,9 @@ export class AddressService extends Services.AbstractAddressService {
 		if (regexp.test(address)) {
 			const bytes: Buffer = baseX(ALLOWED_CHARS).decode(address);
 			const checksumComputed: string = this.#sha256Checksum(bytes.slice(0, -4).toString("hex"));
-			const checksum: string = bytes.slice(-4).toString("hex");
+			const checksumExpected: string = bytes.slice(-4).toString("hex");
 
-			return checksumComputed === checksum;
+			return checksumComputed === checksumExpected;
 		}
 
 		return false;
