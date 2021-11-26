@@ -124,6 +124,9 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 	it("should handle 404s", async (context) => {
 		nock.fake("http://httpbin.org/").get("/get").reply(404);
 
-		await assert.rejects(() => context.subject.get("http://httpbin.org/get"), "HTTP request returned status code 404");
+		await assert.rejects(
+			() => context.subject.get("http://httpbin.org/get"),
+			"HTTP request returned status code 404",
+		);
 	});
 });
