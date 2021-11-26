@@ -2,12 +2,11 @@ import { describe } from "@payvo/sdk-test";
 
 import { BIP32 } from "./bip32";
 
-const mnemonic = "praise you muffin lion enable neck grocery crumble super myself license ghost";
-
 describe("BIP32", ({ assert, each, it }) => {
 	each(
 		"#fromMnemonic - with network %s",
 		({ dataset }) => {
+			const mnemonic = "praise you muffin lion enable neck grocery crumble super myself license ghost";
 			assert.is(BIP32.fromMnemonic(mnemonic, dataset.network).toBase58(), dataset.expected);
 		},
 		[
