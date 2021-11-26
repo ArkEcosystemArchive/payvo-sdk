@@ -1,23 +1,23 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { CoinCap } from "./index";
 
-describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
-	const BASE_URL_COINCAP = "https://api.coincap.io/v2";
-	const token = "ARK";
-	const currency = "USD";
-
+describeWithContext("CoinCap", {
+	basePath: "https://api.coincap.io/v2",
+	token: "ARK",
+	currency: "USD",
+}, async ({ assert, beforeEach, it, loader, nock }) => {
 	beforeEach(async (context) => {
 		context.subject = new CoinCap(new Request());
 
-		nock.fake(BASE_URL_COINCAP)
+		nock.fake(context.basePath)
 			.get("/assets")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/coincap/assets.json"));
 
-		nock.fake(BASE_URL_COINCAP)
+		nock.fake(context.basePath)
 			.get("/assets/ark")
 			.reply(200, {
 				data: {
@@ -36,15 +36,15 @@ describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
 				timestamp: 1581339180902,
 			});
 
-		nock.fake(BASE_URL_COINCAP).get("/rates").reply(200, loader.json("test/fixtures/coincap/rates.json"));
+		nock.fake(context.basePath).get("/rates").reply(200, loader.json("test/fixtures/coincap/rates.json"));
 
-		nock.fake(BASE_URL_COINCAP)
+		nock.fake(context.basePath)
 			.get("/assets/ark/history")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/coincap/historical.json"))
 			.persist();
 
-		nock.fake(BASE_URL_COINCAP)
+		nock.fake(context.basePath)
 			.get("/assets/ark/history")
 			.query((queryObject) => queryObject.interval === "h1")
 			.reply(200, loader.json("test/fixtures/coincap/daily-average.json"))
@@ -52,7 +52,7 @@ describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
 	});
 
 	it("should return ticker values", async (context) => {
-		const response = await context.subject.marketData(token);
+		const response = await context.subject.marketData(context.token);
 		const entries = Object.keys(response);
 		assert.not.empty(entries);
 		assert.includeAllMembers(entries, Object.keys(CURRENCIES));
@@ -67,8 +67,8 @@ describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return historic day values", async (context) => {
 		const response = await context.subject.historicalPrice({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 			days: 24,
 			type: "hour",
 			dateFormat: "HH:mm",
@@ -79,8 +79,8 @@ describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return daily average", async (context) => {
 		const response = await context.subject.dailyAverage({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 			timestamp: Date.now(),
 		});
 		assert.is(response, 0.21617083497138478);
@@ -88,8 +88,8 @@ describe("CoinCap", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return the current price", async (context) => {
 		const response = await context.subject.currentPrice({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 		});
 		assert.is(response, 0.21617083497138478);
 	});

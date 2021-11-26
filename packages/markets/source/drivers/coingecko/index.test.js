@@ -1,18 +1,18 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { CoinGecko } from "./index";
 
-describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
-	const BASE_URL_COINGECKO = "https://api.coingecko.com/api/v3";
-	const token = "ARK";
-	const currency = "USD";
-
+describeWithContext("CoinGecko", {
+	basePath: "https://api.coingecko.com/api/v3",
+	token: "ARK",
+	currency: "USD",
+}, async ({ assert, beforeEach, it, loader, nock }) => {
 	beforeEach(async (context) => {
 		context.subject = new CoinGecko(new Request());
 
-		nock.fake(BASE_URL_COINGECKO)
+		nock.fake(context.basePath)
 			.get("/coins/list")
 			.reply(200, [
 				{
@@ -27,7 +27,7 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 				},
 			]);
 
-		nock.fake(BASE_URL_COINGECKO)
+		nock.fake(context.basePath)
 			.get("/simple/price")
 			.query(true)
 			.reply(200, {
@@ -36,21 +36,21 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 				},
 			});
 
-		nock.fake(BASE_URL_COINGECKO).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
+		nock.fake(context.basePath).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
 
-		nock.fake(BASE_URL_COINGECKO)
+		nock.fake(context.basePath)
 			.get("/coins/ark/market_chart")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/coingecko/historical.json"));
 
-		nock.fake(BASE_URL_COINGECKO)
+		nock.fake(context.basePath)
 			.get("/coins/ark/history")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
 	});
 
 	it("should return ticker values", async (context) => {
-		const response = await context.subject.marketData(token);
+		const response = await context.subject.marketData(context.token);
 		const entries = Object.keys(response);
 		assert.not.empty(entries);
 		assert.includeAllMembers(entries, Object.keys(CURRENCIES));
@@ -64,8 +64,8 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return historic day values", async (context) => {
 		const response = await context.subject.historicalPrice({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 			days: 24,
 			type: "hour",
 			dateFormat: "HH:mm",
@@ -76,8 +76,8 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return daily average", async (context) => {
 		const response = await context.subject.dailyAverage({
-			token,
-			currency,
+			token: context.token,
+			currency: context.currency,
 			timestamp: Date.now(context),
 		});
 		assert.is(response, 10.2219);
@@ -85,7 +85,7 @@ describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
 
 	it("should return the current price", async (context) => {
 		const response = await context.subject.currentPrice({
-			token,
+			token: context.token,
 			currency: "BTC",
 		});
 		assert.is(response, 0.0000207);
