@@ -1,5 +1,4 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
-import "reflect-metadata";
+// @TODO uncomment and fix
 
 import { ProfileEncrypter } from "./profile.encrypter";
 import { AttributeBag } from "./helpers/attribute-bag";
@@ -77,5 +76,3 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 		});
 // 	});
 // });
-
-test.run();

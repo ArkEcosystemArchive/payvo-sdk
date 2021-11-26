@@ -1,88 +1,91 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
+import { describeWithContext } from "@payvo/sdk-test";
+
 import { bootContainer } from "../test/mocking";
-import { PluginRegistry } from "./plugin-registry.service";
 import { PluginRepository } from "./plugin.repository";
+import { PluginRegistry } from "./plugin-registry.service";
 
-const stubPlugin = {
-	name: "@hello/world",
-	version: "1.0.0",
-	isEnabled: true,
-	permissions: ["something"],
-	urls: ["https://google.com"],
-};
+describeWithContext(
+	"PluginRepository",
+	{
+		stubPlugin: {
+			isEnabled: true,
+			name: "@hello/world",
+			permissions: ["something"],
+			urls: ["https://google.com"],
+			version: "1.0.0",
+		},
+	},
+	({ beforeEach, it, assert }) => {
+		beforeEach((context) => {
+			bootContainer({ flush: true });
 
-let subject;
+			context.subject = new PluginRepository();
+		});
 
-test.before(() => bootContainer());
+		it("should return all data", (context) => {
+			assert.object(context.subject.all());
+		});
 
-test.before.each(() => {
-	subject = new PluginRepository();
-});
+		it("should return the first item", (context) => {
+			assert.undefined(context.subject.first());
+		});
 
-test("should return all data", () => {
-	assert.object(subject.all());
-});
+		it("should return the last item", (context) => {
+			assert.undefined(context.subject.last());
+		});
 
-test("should return the first item", () => {
-	assert.undefined(subject.first());
-});
+		it("should return all data keys", (context) => {
+			assert.array(context.subject.keys());
+		});
 
-test("should return the last item", () => {
-	assert.undefined(subject.last());
-});
+		it("should return all data values", (context) => {
+			assert.array(context.subject.values());
+		});
 
-test("should return all data keys", () => {
-	assert.array(subject.keys());
-});
+		it("should find a plugin by its ID", (context) => {
+			const { id } = context.subject.push(context.stubPlugin);
 
-test("should return all data values", () => {
-	assert.array(subject.values());
-});
+			assert.is(context.subject.findById(id).name, context.stubPlugin.name);
+		});
 
-test("should find a plugin by its ID", () => {
-	const { id } = subject.push(stubPlugin);
+		it("should throw if a plugin cannot be found by its ID", (context) => {
+			assert.throws(() => context.subject.findById("fake"), `Failed to find a plugin for [fake].`);
+		});
 
-	assert.is(subject.findById(id).name, stubPlugin.name);
-});
+		it("should restore previously created data", (context) => {
+			context.subject.fill({ ["fake"]: context.stubPlugin });
 
-test("should throw if a plugin cannot be found by its ID", () => {
-	assert.throws(() => subject.findById("fake"), `Failed to find a plugin for [fake].`);
-});
+			assert.is(context.subject.findById("fake"), context.stubPlugin);
+		});
 
-test("should restore previously created data", () => {
-	subject.fill({ ["fake"]: stubPlugin });
+		it("should forget specific data", (context) => {
+			const { id } = context.subject.push(context.stubPlugin);
 
-	assert.is(subject.findById("fake"), stubPlugin);
-});
+			assert.is(context.subject.count(), 1);
 
-test("should forget specific data", () => {
-	const { id } = subject.push(stubPlugin);
+			context.subject.forget(id);
 
-	assert.is(subject.count(), 1);
+			assert.is(context.subject.count(), 0);
+		});
 
-	subject.forget(id);
+		it("should flush the data", (context) => {
+			context.subject.push(context.stubPlugin);
 
-	assert.is(subject.count(), 0);
-});
+			assert.is(context.subject.count(), 1);
 
-test("should flush the data", () => {
-	subject.push(stubPlugin);
+			assert.undefined(context.subject.flush());
 
-	assert.is(subject.count(), 1);
+			assert.is(context.subject.count(), 0);
+		});
 
-	assert.undefined(subject.flush());
+		it("should count the data", (context) => {
+			assert.is(context.subject.count(), 0);
+		});
 
-	assert.is(subject.count(), 0);
-});
-
-test("should count the data", () => {
-	assert.is(subject.count(), 0);
-});
-
-test("should access the plugin registry", () => {
-	assert.instance(subject.registry(), PluginRegistry);
-});
-
-test.run();
+		it("should access the plugin registry", (context) => {
+			assert.instance(context.subject.registry(), PluginRegistry);
+		});
+	},
+);

@@ -1,44 +1,41 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
+
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { PasswordManager } from "./password";
 
-test.before(() => bootContainer());
+describe("PasswordManager", ({ it, assert, beforeEach }) => {
+	beforeEach((context) => {
+		bootContainer({ flush: true });
 
-describe("PasswordManager", ({ afterEach, beforeEach, test }) => {
-	test("should set and get password", () => {
-		const subject = new PasswordManager();
-
-		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
-
-		subject.set("password");
-
-		assert.is(subject.get(), "password");
+		context.subject = new PasswordManager();
 	});
 
-	test("#exists", () => {
-		const subject = new PasswordManager();
+	it("should set and get password", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
 
-		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
+		context.subject.set("password");
 
-		assert.false(subject.exists());
-		subject.set("password");
-
-		assert.true(subject.exists());
+		assert.is(context.subject.get(), "password");
 	});
 
-	test("#forget", () => {
-		const subject = new PasswordManager();
+	it("#exists", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
 
-		assert.throws(() => subject.get(), "Failed to find a password for the given profile.");
+		assert.false(context.subject.exists());
+		context.subject.set("password");
 
-		subject.set("password");
-		assert.true(subject.exists());
-		subject.forget();
+		assert.true(context.subject.exists());
+	});
 
-		assert.false(subject.exists());
+	it("#forget", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
+
+		context.subject.set("password");
+		assert.true(context.subject.exists());
+		context.subject.forget();
+
+		assert.false(context.subject.exists());
 	});
 });
-
-test.run();
