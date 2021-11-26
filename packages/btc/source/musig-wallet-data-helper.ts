@@ -1,7 +1,7 @@
 import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
 import { convertString } from "@payvo/sdk-helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "@payvo/sdk-cryptography";
+import { BIP32Interface, Buffer } from "@payvo/sdk-cryptography";
 
 import { Bip44Address, UnspentTransaction } from "./contracts.js";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain.js";
@@ -100,7 +100,7 @@ export default class MusigWalletDataHelper {
 
 			const payment = getDerivationFunction(this.#method)(
 				this.#n,
-				this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey),
+				this.#accountPublicKeys.map((apk) => apk.derivePath(address.path).publicKey) as any,
 				this.#network,
 			);
 
@@ -195,7 +195,7 @@ export default class MusigWalletDataHelper {
 					path: `${chain}/${index}`,
 					address: bip(
 						n,
-						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey),
+						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey) as any,
 						network,
 					).address!,
 					status: "unknown",
