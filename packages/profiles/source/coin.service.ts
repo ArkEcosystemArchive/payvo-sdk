@@ -55,7 +55,7 @@ export class CoinService implements ICoinService {
 		return instance;
 	}
 
-	/** {@inheritDoc ICoinService.push} */
+	/** {@inheritDoc ICoinService.set} */
 	public set(coin: string, network: string, options: object = {}): Coins.Coin {
 		const cacheKey = `${coin}.${network}`;
 
