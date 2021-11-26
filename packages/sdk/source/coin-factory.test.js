@@ -8,10 +8,10 @@ import { Request } from "../../http-fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
-const options = { httpClient: new Request(), network: "ark.mainnet" };
-
 describe("CoinFactory", ({ assert, beforeAll, loader, nock, it, skip }) => {
-	beforeAll(async () => {
+	beforeAll(async (context) => {
+		context.options = { httpClient: new Request(), network: "ark.mainnet" };
+
 		nock.fake("https://ark-live.payvo.com:443")
 			.get("/api/blockchain")
 			.reply(200, loader.json("test/livenet/blockchain.json"))
@@ -35,18 +35,18 @@ describe("CoinFactory", ({ assert, beforeAll, loader, nock, it, skip }) => {
 			.persist();
 	});
 
-	it("should create an instance", async () => {
-		assert.instance(CoinFactory.make(ARK, options), Coin);
+	it("should create an instance", async (context) => {
+		assert.instance(CoinFactory.make(ARK, context.options), Coin);
 	});
 
-	skip("should create multiple instances with independent containers", async () => {
-		const first = CoinFactory.make(ARK, options);
+	skip("should create multiple instances with independent containers", async (context) => {
+		const first = CoinFactory.make(ARK, context.options);
 		await first.__construct();
 
-		const second = CoinFactory.make(ARK, options);
+		const second = CoinFactory.make(ARK, context.options);
 		await second.__construct();
 
-		const third = CoinFactory.make(ARK, options);
+		const third = CoinFactory.make(ARK, context.options);
 		await third.__construct();
 
 		// A equals A

@@ -10,11 +10,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -25,20 +23,20 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	afterEach(() => {
+	afterEach((context) => {
 		nock.cleanAll();
 	});
 
-	it("#transactions should succeed", async () => {
+	it("#transactions should succeed", async (context) => {
 		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 			.get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
 		});
 
-		assert.instance(result.items()[0], ConfirmedTransactionData);
+		assert.instance(result.items(context)[0], ConfirmedTransactionData);
 		assert.is(result.items()[0].id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
 		assert.is(result.items()[0].type(), "transfer");
 		assert.instance(result.items()[0].timestamp(), DateTime);
@@ -50,28 +48,28 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.undefined(result.items()[0].memo());
 	});
 
-	it("#wallet should succeed", async () => {
+	it("#wallet should succeed", async (context) => {
 		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 			.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF",
 		});
 
-		assert.is(result.address(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
+		assert.is(result.address(context), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
 		assert.equal(result.balance().available, BigNumber.make(9).times(1e8));
 	});
 
-	it.skip("broadcast should pass", async () => {
+	it.skip("broadcast should pass", async (context) => {
 		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 			.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
 			.reply(200, loader.json(`test/fixtures/client/balance.json`))
 			.post("/api/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			createService(SignedTransactionData).configure("id", "transactionPayload", ""),
 		]);
 
@@ -82,12 +80,12 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	it.skip("broadcast should fail", async () => {
+	it.skip("broadcast should fail", async (context) => {
 		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
 			.post("/api/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			createService(SignedTransactionData).configure("id", "transactionPayload", ""),
 		]);
 

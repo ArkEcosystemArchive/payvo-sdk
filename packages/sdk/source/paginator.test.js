@@ -1,15 +1,13 @@
 import { describe } from "@payvo/sdk-test";
 import { Paginator } from "./paginator";
 
-let subject;
-
 describe("Paginator", ({ assert, beforeEach, it }) => {
 	beforeEach(
-		() =>
-			(subject = new Stub(
+		(context) =>
+			(context.subject = new Stub(
 				[
 					{
-						id: () => "id1",
+						id: (context) => "id1",
 
 						recipient: () => "recipient1",
 
@@ -33,60 +31,61 @@ describe("Paginator", ({ assert, beforeEach, it }) => {
 			)),
 	);
 
-	it("#items", () => {
-		assert.length(subject.items(), 2);
+	it("#items", (context) => {
+		assert.length(context.subject.items(), 2);
 	});
 
-	it("#first", () => {
-		assert.object(subject.first());
+	it("#first", (context) => {
+		assert.object(context.subject.first());
 	});
 
-	it("#last", () => {
-		assert.object(subject.last());
+	it("#last", (context) => {
+		assert.object(context.subject.last());
 	});
 
-	it("#previousPage", () => {
-		assert.is(subject.previousPage(), 1);
+	it("#previousPage", (context) => {
+		assert.is(context.subject.previousPage(), 1);
 	});
 
-	it("#currentPage", () => {
-		assert.is(subject.currentPage(), 2);
+	it("#currentPage", (context) => {
+		assert.is(context.subject.currentPage(), 2);
 	});
 
-	it("#nextPage", () => {
-		assert.is(subject.nextPage(), 4);
+	it("#nextPage", (context) => {
+		assert.is(context.subject.nextPage(), 4);
 	});
 
-	it("#lastPage", () => {
-		assert.is(subject.lastPage(), 4);
+	it("#lastPage", (context) => {
+		assert.is(context.subject.lastPage(), 4);
 	});
 
-	it("#hasMorePages", () => {
-		assert.is(subject.hasMorePages(), true);
+	it("#hasMorePages", (context) => {
+		assert.is(context.subject.hasMorePages(), true);
 	});
 
-	it("#isEmpty", () => {
-		assert.is(subject.isEmpty(), false);
+	it("#isEmpty", (context) => {
+		assert.is(context.subject.isEmpty(), false);
 	});
 
-	it("#isNotEmpty", () => {
-		assert.is(subject.isNotEmpty(), true);
+	it("#isNotEmpty", (context) => {
+		assert.is(context.subject.isNotEmpty(), true);
 	});
 
-	it("#transform", () => {
-		assert.length(subject.items(), 2);
+	it("#transform", (context) => {
+		console.log(context);
+		assert.length(context.subject.items(), 2);
 
-		subject.transform((data) => {
+		context.subject.transform((data) => {
 			data.id = `${data.id}-transformed`;
 
 			return data;
 		});
 
-		assert.length(subject.items(), 2);
+		assert.length(context.subject.items(context), 2);
 	});
 
-	it("#getPagination", () => {
-		assert.object(subject.getPagination());
+	it("#getPagination", (context) => {
+		assert.object(context.subject.getPagination());
 	});
 
 	class Stub extends Paginator {}
