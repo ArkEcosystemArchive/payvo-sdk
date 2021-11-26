@@ -4,12 +4,8 @@ import { ok } from "uvu/assert";
 export class Mockery {
 	readonly #subject: SinonStub;
 
-	private constructor(subject: SinonStub) {
-		this.#subject = subject;
-	}
-
-	public static stub(owner: object, method: string): Mockery {
-		return new Mockery(stub(owner, method as never));
+	public constructor(target: object, method: string) {
+		this.#subject = stub(target, method as never);
 	}
 
 	public returnValue(value: unknown): Mockery {

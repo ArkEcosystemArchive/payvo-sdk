@@ -30,7 +30,7 @@ const runSuite = (suite: Test, callback: Function): void => {
 		only: suite.only,
 		should: suite,
 		skip: suite.skip,
-		stub: Mockery.stub,
+		stub: (target: object, method: string) => new Mockery(target, method),
 		test: suite,
 		zod,
 	});
