@@ -40,17 +40,10 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
 
-export const describeWithContext = (
-	title: string,
-	context: Context | ContextFunction,
-	callback: Function,
-): void => runSuite(suite(title, typeof context === "function" ? context() : context), callback);
+export const describeWithContext = (title: string, context: Context | ContextFunction, callback: Function): void =>
+	runSuite(suite(title, typeof context === "function" ? context() : context), callback);
 
-export const describeEach = (
-	title: string,
-	callback: Function,
-	datasets: unknown[],
-): void => {
+export const describeEach = (title: string, callback: Function, datasets: unknown[]): void => {
 	for (const dataset of datasets) {
 		runSuite(suite(formatName(title, dataset)), callback);
 	}
