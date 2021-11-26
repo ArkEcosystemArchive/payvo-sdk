@@ -3,15 +3,13 @@ import { Request } from "@payvo/sdk-http-fetch";
 
 import { CryptoCompare } from "./index";
 
-const BASE_URL_CRYPTOCOMPARE = "https://min-api.cryptocompare.com";
-const token = "ARK";
-const currency = "USD";
-
-let subject;
-
 describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
-	beforeEach(async () => {
-		subject = new CryptoCompare(new Request());
+	const BASE_URL_CRYPTOCOMPARE = "https://min-api.cryptocompare.com";
+	const token = "ARK";
+	const currency = "USD";
+
+	beforeEach(async (context) => {
+		context.subject = new CryptoCompare(new Request());
 
 		nock.fake(BASE_URL_CRYPTOCOMPARE)
 			.get("/data/pricemultifull")
@@ -23,8 +21,8 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 			.reply(200, loader.json("test/fixtures/cryptocompare/historical.json"));
 	});
 
-	it("should return ticker values", async () => {
-		const response = await subject.marketData(token);
+	it("should return ticker values", async (context) => {
+		const response = await context.subject.marketData(token);
 		const entries = Object.keys(response);
 		assert.not.empty(entries);
 		assert.includeAllMembers(entries, [
@@ -50,22 +48,22 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 		assert.is(response.USD.price, 0.178045896);
 	});
 
-	it("verifyToken", async () => {
+	it("verifyToken", async (context) => {
 		nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
 			BTC: 0.00002073,
 		});
 
-		assert.true(await subject.verifyToken("ark"));
+		assert.true(await context.subject.verifyToken("ark"));
 
 		nock.fake(BASE_URL_CRYPTOCOMPARE).get("/data/price").query(true).reply(200, {
 			Response: "Error",
 		});
 
-		assert.false(await subject.verifyToken("not-ark"));
+		assert.false(await context.subject.verifyToken("not-ark"));
 	});
 
-	it("should return historic day values", async () => {
-		const response = await subject.historicalPrice({
+	it("should return historic day values", async (context) => {
+		const response = await context.subject.historicalPrice({
 			token,
 			currency,
 			days: 24,
@@ -76,13 +74,13 @@ describe("CryptoCompare", async ({ assert, beforeEach, it, loader, nock }) => {
 		assert.containKeys(response, ["labels", "datasets"]);
 	});
 
-	it("should return the current price", async () => {
+	it("should return the current price", async (context) => {
 		nock.fake(BASE_URL_CRYPTOCOMPARE)
 			.get("/data/price")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/cryptocompare/price.json"));
 
-		const response = await subject.currentPrice({
+		const response = await context.subject.currentPrice({
 			token,
 			currency,
 		});
