@@ -89,7 +89,10 @@ for (const network of ["mainnet", "devnet"]) {
 		});
 
 		it("should have a public key", (context) => {
-			assert.is(context.subject.publicKey(), "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec");
+			assert.is(
+				context.subject.publicKey(),
+				"03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
+			);
 		});
 
 		it("should have a balance", (context) => {
@@ -117,11 +120,17 @@ for (const network of ["mainnet", "devnet"]) {
 		});
 
 		it("should determine if it is a delegate", async (context) => {
-			context.subject = (await createService(WalletData)).fill({ ...WalletDataFixture.devnet, isResigned: false });
+			context.subject = (await createService(WalletData)).fill({
+				...WalletDataFixture.devnet,
+				isResigned: false,
+			});
 
 			assert.true(context.subject.isDelegate());
 
-			context.subject = (await createService(WalletData)).fill({ ...WalletDataFixture.mainnet, isResigned: true });
+			context.subject = (await createService(WalletData)).fill({
+				...WalletDataFixture.mainnet,
+				isResigned: true,
+			});
 
 			assert.false(context.subject.isDelegate());
 		});
