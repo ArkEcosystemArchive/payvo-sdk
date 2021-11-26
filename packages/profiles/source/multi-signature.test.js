@@ -86,7 +86,10 @@ describe("MultiSignature", ({ assert, it, stub, loader, nock, beforeAll, beforeE
 	});
 
 	it("should return multi signature", async (context) => {
-		assert.throws(() => context.subject.multiSignature().all(), "This wallet does not have a multi-signature registered.");
+		assert.throws(
+			() => context.subject.multiSignature().all(),
+			"This wallet does not have a multi-signature registered.",
+		);
 
 		context.subject = new Wallet(UUID.random(), {}, context.profile);
 
