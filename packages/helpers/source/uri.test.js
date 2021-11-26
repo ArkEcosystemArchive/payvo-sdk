@@ -2,13 +2,11 @@ import { describe } from "@payvo/sdk-test";
 
 import { URI } from "./uri";
 
-let subject;
-
 describe("URI", async ({ assert, beforeEach, each, it }) => {
-	beforeEach(async () => (subject = new URI()));
+	beforeEach(async (context) => (context.subject = new URI()));
 
-	it("should serialize", () => {
-		const result = subject.serialize({
+	it("should serialize", (context) => {
+		const result = context.subject.serialize({
 			method: "transfer",
 			coin: "ark",
 			network: "ark.mainnet",
@@ -25,8 +23,8 @@ describe("URI", async ({ assert, beforeEach, each, it }) => {
 
 	each(
 		`should deserialize (%s)`,
-		({ dataset }) => {
-			assert.equal(subject.deserialize(dataset[0]), dataset[1]);
+		({ dataset, context }) => {
+			assert.equal(context.subject.deserialize(dataset[0]), dataset[1]);
 		},
 		[
 			[
@@ -92,27 +90,27 @@ describe("URI", async ({ assert, beforeEach, each, it }) => {
 		],
 	);
 
-	it("should fail to deserialize with an invalid protocol", () => {
+	it("should fail to deserialize with an invalid protocol", (context) => {
 		assert.throws(
-			() => subject.deserialize("mailto:DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9"),
+			() => context.subject.deserialize("mailto:DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9"),
 			"The given data is malformed.",
 		);
 	});
 
-	it("should fail to deserialize with invalid data", () => {
+	it("should fail to deserialize with invalid data", (context) => {
 		assert.throws(
 			() =>
-				subject.deserialize(
+				context.subject.deserialize(
 					"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
 				),
 			'The given data is malformed: ValidationError: "amount" must be a number',
 		);
 	});
 
-	it("should fail to deserialize with an invalid method", () => {
+	it("should fail to deserialize with an invalid method", (context) => {
 		assert.throws(
 			() =>
-				subject.deserialize(
+				context.subject.deserialize(
 					"payvo:unknown?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=ARK&memo=ARK",
 				),
 			"The given method is unknown: unknown",
