@@ -11,11 +11,9 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 
-let subject;
-
 describe("AddressService", async ({ assert, beforeEach, it }) => {
-	beforeEach(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -29,8 +27,8 @@ describe("AddressService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should create a transfer", async () => {
-		const result = await subject.transfer({
+	it("should create a transfer", async (context) => {
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,

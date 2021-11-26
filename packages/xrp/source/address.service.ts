@@ -1,6 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
-import { validate } from "multicoin-address-validator";
+import { BIP44, Hash } from "@payvo/sdk-cryptography";
+import baseX from "base-x";
 import { deriveAddress, deriveKeypair } from "ripple-keypairs";
 
 @IoC.injectable()
@@ -30,6 +30,23 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return validate(address, "XRP");
+		const ALLOWED_CHARS = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
+		const regexp = new RegExp("^r[" + ALLOWED_CHARS + "]{27,35}$");
+
+		if (regexp.test(address)) {
+			const bytes: Buffer = baseX(ALLOWED_CHARS).decode(address);
+			const checksumComputed: string = this.#sha256Checksum(bytes.slice(0, -4).toString("hex"));
+			const checksumExpected: string = bytes.slice(-4).toString("hex");
+
+			return checksumComputed === checksumExpected;
+		}
+
+		return false;
+	}
+
+	#sha256Checksum(payload) {
+		return Hash.sha256(Hash.sha256(Buffer.from(payload, "hex")))
+			.toString("hex")
+			.substr(0, 8);
 	}
 }

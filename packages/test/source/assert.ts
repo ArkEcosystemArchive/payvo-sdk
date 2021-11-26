@@ -3,7 +3,6 @@ import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "
 import { join } from "node:path";
 import * as uvu from "uvu/assert";
 import { hideBin } from "yargs/helpers";
-// @ts-ignore - Cannot find module 'yargs' or its corresponding type declarations.
 import yargs from "yargs/yargs";
 import { z, ZodRawShape } from "zod";
 
@@ -84,7 +83,7 @@ export const assert = {
 
 		const snapshot: string = join(directory, `${name}.snapshot`);
 
-		const { updateSnapshots } = yargs(hideBin(process.argv)).argv;
+		const { updateSnapshots }: any = yargs(hideBin(process.argv));
 
 		if (updateSnapshots) {
 			unlinkSync(snapshot);

@@ -13,11 +13,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -28,7 +26,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	it("#transaction", async () => {
+	it("#transaction", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/transactions/264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c")
 			.query(true)
@@ -37,7 +35,9 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transaction-operations.json`));
 
-		const result = await subject.transaction("264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");
+		const result = await context.subject.transaction(
+			"264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "264226cb06af3b86299031884175155e67a02e0a8ad0b3ab3a88b409a8c09d5c");
@@ -50,13 +50,13 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.undefined(result.memo());
 	});
 
-	it("#transactions", async () => {
+	it("#transactions", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO/payments")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const response = await subject.transactions({
+		const response = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO" }],
 		});
 
@@ -70,13 +70,13 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.undefined(response.items()[0].memo());
 	});
 
-	it("#wallet", async () => {
+	it("#wallet", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB",
 		});
@@ -88,7 +88,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		assert.equal(result.nonce(), BigNumber.make("7275146318446606"));
 	});
 
-	it("broadcast should pass", async () => {
+	it("broadcast should pass", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 			.query(true)
@@ -111,7 +111,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		});
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			await transactionService.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
@@ -135,7 +135,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 		});
 	});
 
-	it("broadcast should fail", async () => {
+	it("broadcast should fail", async (context) => {
 		nock.fake("https://horizon-testnet.stellar.org")
 			.get("/accounts/GCGYSPQBSQCJKNDXDISBSXAM3THK7MACUVZGEMXF6XRZCPGAWCUGXVNC")
 			.query(true)
@@ -158,7 +158,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert }) => {
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		});
 
-		const result = await subject.broadcast([
+		const result = await context.subject.broadcast([
 			await transactionService.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({

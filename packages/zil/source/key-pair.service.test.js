@@ -5,17 +5,15 @@ import { createService, mockWallet } from "../test/mocking";
 import { BindingType } from "./constants";
 import { KeyPairService } from "./key-pair.service";
 
-let subject;
-
 describe("KeyPairService", async ({ assert, beforeEach, it }) => {
-	beforeEach(async () => {
-		subject = await createService(KeyPairService, undefined, (container) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(KeyPairService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());
 		});
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,
@@ -23,12 +21,12 @@ describe("KeyPairService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should fail from an invalid mnemonic", async () => {
-		await assert.rejects(() => subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
+	it("should fail from an invalid mnemonic", async (context) => {
+		await assert.rejects(() => context.subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
 	});
 
-	it("should generate an output from a privateKey", async () => {
-		const result = await subject.fromPrivateKey(identity.privateKey);
+	it("should generate an output from a privateKey", async (context) => {
+		const result = await context.subject.fromPrivateKey(identity.privateKey);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,

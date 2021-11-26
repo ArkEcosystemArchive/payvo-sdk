@@ -25,8 +25,8 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
+		"base-x": "^3.0.9",
 		"bignumber.js": "^9.0.1",
-		"multicoin-address-validator": "^0.5.5",
 		"ripple-keypairs": "^1.1.0",
 		"ripple-lib": "^1.10.0"
 	},
@@ -34,7 +34,6 @@
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/hapi__joi": "17.1.7",
 		"@types/lodash": "^4.14.177",
 		"@types/node": "^16.11.10",
 		"lodash": "^4.17.21",

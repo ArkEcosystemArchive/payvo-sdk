@@ -5,12 +5,10 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject;
-
 describe("ConfirmedTransactionData", async ({ assert, it, beforeEach }) => {
-	beforeEach(async () => {
-		subject = await createService(ConfirmedTransactionData);
-		subject.configure({
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({
 			txid: "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
 			time: 1588930966,
 			block_height: 4259222,
@@ -21,16 +19,16 @@ describe("ConfirmedTransactionData", async ({ assert, it, beforeEach }) => {
 		});
 	});
 
-	it("should succeed", async () => {
-		assert.instance(subject, ConfirmedTransactionData);
-		assert.is(subject.id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
-		assert.is(subject.type(), "transfer");
-		assert.instance(subject.timestamp(), DateTime);
-		assert.equal(subject.confirmations(), BigNumber.ZERO);
-		assert.is(subject.sender(), "AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
-		assert.is(subject.recipient(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-		assert.equal(subject.amount(), BigNumber.make(1));
-		assert.equal(subject.fee(), BigNumber.ZERO);
-		assert.undefined(subject.memo());
+	it("should succeed", async (context) => {
+		assert.instance(context.subject, ConfirmedTransactionData);
+		assert.is(context.subject.id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
+		assert.is(context.subject.type(), "transfer");
+		assert.instance(context.subject.timestamp(), DateTime);
+		assert.equal(context.subject.confirmations(), BigNumber.ZERO);
+		assert.is(context.subject.sender(), "AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
+		assert.is(context.subject.recipient(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
+		assert.equal(context.subject.amount(), BigNumber.make(1));
+		assert.equal(context.subject.fee(), BigNumber.ZERO);
+		assert.undefined(context.subject.memo());
 	});
 });

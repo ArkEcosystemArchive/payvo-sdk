@@ -4,12 +4,12 @@ import { Request } from "@payvo/sdk-http-fetch";
 
 import { Blockfolio } from "./blockfolio";
 
-let subject;
+describe("FeedService", async ({ assert, beforeEach, it, nock }) => {
+	beforeEach((context) => {
+		context.subject = new Blockfolio(new Request());
+	});
 
-describe("FeedService", async ({ assert, afterEach, beforeEach, it, nock }) => {
-	beforeEach(() => (subject = new Blockfolio(new Request())));
-
-	it("should retrieve the feed and findByCoin it", async () => {
+	it("should retrieve the feed and findByCoin it", async (context) => {
 		nock.fake("https://news.payvo.com")
 			.get("/api")
 			.query(true)
@@ -195,7 +195,7 @@ describe("FeedService", async ({ assert, afterEach, beforeEach, it, nock }) => {
 				},
 			});
 
-		const result = await subject.findByCoin({ coins: ["ARK"] });
+		const result = await context.subject.findByCoin({ coins: ["ARK"] });
 
 		assert.type(result, "object");
 		assert.ok(Array.isArray(result.data));

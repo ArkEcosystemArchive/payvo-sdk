@@ -1,95 +1,99 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
 import { Request } from "@payvo/sdk-http-fetch";
 
 import { CoinGecko } from "./index";
 
-const BASE_URL_COINGECKO = "https://api.coingecko.com/api/v3";
-const token = "ARK";
-const currency = "USD";
+describeWithContext(
+	"CoinGecko",
+	{
+		basePath: "https://api.coingecko.com/api/v3",
+		token: "ARK",
+		currency: "USD",
+	},
+	async ({ assert, beforeEach, it, loader, nock }) => {
+		beforeEach(async (context) => {
+			context.subject = new CoinGecko(new Request());
 
-let subject;
+			nock.fake(context.basePath)
+				.get("/coins/list")
+				.reply(200, [
+					{
+						id: "ark",
+						symbol: "ark",
+						name: "ark",
+					},
+					{
+						id: "dark",
+						symbol: "dark",
+						name: "dark",
+					},
+				]);
 
-describe("CoinGecko", async ({ assert, beforeEach, it, loader, nock }) => {
-	beforeEach(async () => {
-		subject = new CoinGecko(new Request());
+			nock.fake(context.basePath)
+				.get("/simple/price")
+				.query(true)
+				.reply(200, {
+					ark: {
+						btc: 0.0000207,
+					},
+				});
 
-		nock.fake(BASE_URL_COINGECKO)
-			.get("/coins/list")
-			.reply(200, [
-				{
-					id: "ark",
-					symbol: "ark",
-					name: "ark",
-				},
-				{
-					id: "dark",
-					symbol: "dark",
-					name: "dark",
-				},
-			]);
+			nock.fake(context.basePath)
+				.get("/coins/ark")
+				.reply(200, loader.json("test/fixtures/coingecko/market.json"));
 
-		nock.fake(BASE_URL_COINGECKO)
-			.get("/simple/price")
-			.query(true)
-			.reply(200, {
-				ark: {
-					btc: 0.0000207,
-				},
+			nock.fake(context.basePath)
+				.get("/coins/ark/market_chart")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/coingecko/historical.json"));
+
+			nock.fake(context.basePath)
+				.get("/coins/ark/history")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
+		});
+
+		it("should return ticker values", async (context) => {
+			const response = await context.subject.marketData(context.token);
+			const entries = Object.keys(response);
+			assert.not.empty(entries);
+			assert.includeAllMembers(entries, Object.keys(CURRENCIES));
+			assert.is(response.USD.price, 0.176829);
+		});
+
+		it("verifyToken", async (context) => {
+			assert.true(await context.subject.verifyToken("ark"));
+			assert.false(await context.subject.verifyToken("not-ark"));
+		});
+
+		it("should return historic day values", async (context) => {
+			const response = await context.subject.historicalPrice({
+				token: context.token,
+				currency: context.currency,
+				days: 24,
+				type: "hour",
+				dateFormat: "HH:mm",
 			});
-
-		nock.fake(BASE_URL_COINGECKO).get("/coins/ark").reply(200, loader.json("test/fixtures/coingecko/market.json"));
-
-		nock.fake(BASE_URL_COINGECKO)
-			.get("/coins/ark/market_chart")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/coingecko/historical.json"));
-
-		nock.fake(BASE_URL_COINGECKO)
-			.get("/coins/ark/history")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/coingecko/daily-average.json"));
-	});
-
-	it("should return ticker values", async () => {
-		const response = await subject.marketData(token);
-		const entries = Object.keys(response);
-		assert.not.empty(entries);
-		assert.includeAllMembers(entries, Object.keys(CURRENCIES));
-		assert.is(response.USD.price, 0.176829);
-	});
-
-	it("verifyToken", async () => {
-		assert.true(await subject.verifyToken("ark"));
-		assert.false(await subject.verifyToken("not-ark"));
-	});
-
-	it("should return historic day values", async () => {
-		const response = await subject.historicalPrice({
-			token,
-			currency,
-			days: 24,
-			type: "hour",
-			dateFormat: "HH:mm",
+			assert.object(response);
+			assert.containKeys(response, ["labels", "datasets"]);
 		});
-		assert.object(response);
-		assert.containKeys(response, ["labels", "datasets"]);
-	});
 
-	it("should return daily average", async () => {
-		const response = await subject.dailyAverage({
-			token,
-			currency,
-			timestamp: Date.now(),
+		it("should return daily average", async (context) => {
+			const response = await context.subject.dailyAverage({
+				token: context.token,
+				currency: context.currency,
+				timestamp: Date.now(context),
+			});
+			assert.is(response, 10.2219);
 		});
-		assert.is(response, 10.2219);
-	});
 
-	it("should return the current price", async () => {
-		const response = await subject.currentPrice({
-			token,
-			currency: "BTC",
+		it("should return the current price", async (context) => {
+			const response = await context.subject.currentPrice({
+				token: context.token,
+				currency: "BTC",
+			});
+			assert.is(response, 0.0000207);
 		});
-		assert.is(response, 0.0000207);
-	});
-});
+	},
+);

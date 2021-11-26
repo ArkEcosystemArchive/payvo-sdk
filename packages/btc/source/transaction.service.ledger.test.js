@@ -1,4 +1,4 @@
-import { assert, describe, nock, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { createService } from "../test/mocking";
@@ -41,7 +41,7 @@ const configureMock = (record) =>
 		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 	});
 
-describe("BIP44 wallet", ({ afterEach, beforeAll, test }) => {
+describe("BIP44 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -91,7 +91,7 @@ describe("BIP44 wallet", ({ afterEach, beforeAll, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate a transfer transaction and sign it with ledger nano", async () => {
+	it("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",
@@ -124,7 +124,7 @@ describe("BIP44 wallet", ({ afterEach, beforeAll, test }) => {
 	});
 });
 
-describe("BIP49 wallet", ({ afterEach, beforeAll, test }) => {
+describe("BIP49 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -174,7 +174,7 @@ describe("BIP49 wallet", ({ afterEach, beforeAll, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate a transfer transaction and sign it with ledger nano", async () => {
+	it("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",
@@ -207,7 +207,7 @@ describe("BIP49 wallet", ({ afterEach, beforeAll, test }) => {
 	});
 });
 
-describe("BIP84 wallet", ({ afterEach, beforeAll, test }) => {
+describe("BIP84 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -257,7 +257,7 @@ describe("BIP84 wallet", ({ afterEach, beforeAll, test }) => {
 		nock.cleanAll();
 	});
 
-	test("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",

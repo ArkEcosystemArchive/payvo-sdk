@@ -31,9 +31,7 @@
 	"devDependencies": {
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/hapi__joi": "17.1.7",
 		"@types/node": "^16.11.10",
-		"@types/uuid": "^8.3.3",
 		"got": "^11.8.3"
 	},
 	"engines": {

@@ -36,11 +36,9 @@
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/hapi__joi": "17.1.7",
 		"@types/lodash.orderby": "^4.6.6",
 		"@types/node": "^16.11.10",
-		"@types/semver": "7.3.9",
-		"@types/uuid": "^8.3.3"
+		"@types/semver": "7.3.9"
 	},
 	"engines": {
 		"node": ">=16.0.0"

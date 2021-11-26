@@ -1,22 +1,19 @@
 import { describe } from "@payvo/sdk-test";
 import { Response } from "./http-response";
 
-let subject;
-let spy;
-
 describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
-	beforeEach(() => {
-		subject = new Response({
+	beforeEach((context) => {
+		context.subject = new Response({
 			body: "{}",
 			headers: { Accept: "something" },
 			statusCode: 200,
 		});
 	});
 
-	afterEach(() => {
-		if (spy) {
-			spy.restore();
-			spy = undefined;
+	afterEach((context) => {
+		if (context.spy) {
+			context.spy.restore();
+			context.spy = undefined;
 		}
 	});
 
@@ -32,8 +29,8 @@ describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
 		);
 	});
 
-	it("should get the response unparsed body", () => {
-		assert.is(subject.body(), "{}");
+	it("should get the response unparsed body", (context) => {
+		assert.is(context.subject.body(), "{}");
 
 		assert.throws(
 			() =>
@@ -56,71 +53,71 @@ describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
 		);
 	});
 
-	it("should get the parsed response body", () => {
-		assert.object(subject.json());
+	it("should get the parsed response body", (context) => {
+		assert.object(context.subject.json());
 	});
 
-	it("should get a specific header", () => {
-		assert.is(subject.header("Accept"), "something");
+	it("should get a specific header", (context) => {
+		assert.is(context.subject.header("Accept"), "something");
 	});
 
-	it("should get all headers", () => {
-		assert.object(subject.headers());
+	it("should get all headers", (context) => {
+		assert.object(context.subject.headers());
 	});
 
-	it("should get the response status", () => {
-		assert.is(subject.status(), 200);
+	it("should get the response status", (context) => {
+		assert.is(context.subject.status(), 200);
 	});
 
-	it("should determine if the request was successful", () => {
-		assert.true(subject.successful());
+	it("should determine if the request was successful", (context) => {
+		assert.true(context.subject.successful());
 
-		spy = stub(subject, "status").returnValue(400);
+		context.spy = stub(context.subject, "status").returnValue(400);
 
-		assert.false(subject.successful());
+		assert.false(context.subject.successful());
 	});
 
-	it("should determine if the request was ok", () => {
-		assert.true(subject.ok());
+	it("should determine if the request was ok", (context) => {
+		assert.true(context.subject.ok());
 
-		spy = stub(subject, "status").returnValue(400);
+		context.spy = stub(context.subject, "status").returnValue(400);
 
-		assert.false(subject.ok());
+		assert.false(context.subject.ok());
 	});
 
-	it("should determine if the request was a redirect", () => {
-		assert.false(subject.redirect());
+	it("should determine if the request was a redirect", (context) => {
+		assert.false(context.subject.redirect());
 
-		spy = stub(subject, "status").returnValue(300);
+		context.spy = stub(context.subject, "status").returnValue(300);
 
-		assert.true(subject.redirect());
+		assert.true(context.subject.redirect());
 	});
 
-	it("should determine if the request has failed", () => {
-		assert.false(subject.failed());
+	it("should determine if the request has failed", (context) => {
+		assert.false(context.subject.failed());
 
-		spy = stub(subject, "status").returnValue(400);
+		context.spy = stub(context.subject, "status").returnValue(400);
 
-		assert.true(subject.failed());
+		assert.true(context.subject.failed());
 
-		spy.returnValue(500);
+		context.spy.returnValue(500);
 
-		assert.true(subject.failed());
+		assert.true(context.subject.failed());
 	});
 
-	it("should determine if the request was encountered a client error", () => {
-		assert.false(subject.clientError());
+	it("should determine if the request was encountered a client error", (context) => {
+		assert.false(context.subject.clientError());
 
-		spy = stub(subject, "status").returnValue(400);
+		context.spy = stub(context.subject, "status").returnValue(400);
 
-		assert.true(subject.clientError());
+		assert.true(context.subject.clientError());
 	});
 
-	it("should determine if the request was encountered a server error", () => {
-		assert.false(subject.serverError());
+	it("should determine if the request was encountered a server error", (context) => {
+		assert.false(context.subject.serverError());
 
-		spy = stub(subject, "status").returnValue(500);
+		context.spy = stub(context.subject, "status").returnValue(500);
 
-		assert.true(subject.serverError());
+		assert.true(context.subject.serverError());
 	});
 });

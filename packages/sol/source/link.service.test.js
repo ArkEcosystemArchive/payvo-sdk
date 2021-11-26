@@ -3,22 +3,20 @@ import { Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 
-let subject;
-
 describe("LinkService", async ({ beforeAll, assert, it }) => {
-	beforeAll(async () => {
-		subject = await createService(Services.AbstractLinkService);
+	beforeAll(async (context) => {
+		context.subject = await createService(Services.AbstractLinkService);
 	});
 
-	it("should generate a link for a block", async () => {
-		assert.is(subject.block("id"), "https://explorer.solana.com/block/id?cluster=testnet");
+	it("should generate a link for a block", async (context) => {
+		assert.is(context.subject.block("id"), "https://explorer.solana.com/block/id?cluster=testnet");
 	});
 
-	it("should generate a link for a transaction", async () => {
-		assert.is(subject.transaction("id"), "https://explorer.solana.com/tx/id?cluster=testnet");
+	it("should generate a link for a transaction", async (context) => {
+		assert.is(context.subject.transaction("id"), "https://explorer.solana.com/tx/id?cluster=testnet");
 	});
 
-	it("should generate a link for a wallet", async () => {
-		assert.is(subject.wallet("id"), "https://explorer.solana.com/address/id?cluster=testnet");
+	it("should generate a link for a wallet", async (context) => {
+		assert.is(context.subject.wallet("id"), "https://explorer.solana.com/address/id?cluster=testnet");
 	});
 });
