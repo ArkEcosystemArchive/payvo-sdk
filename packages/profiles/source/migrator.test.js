@@ -12,7 +12,7 @@ import { ProfileSerialiser } from "./profile.serialiser";
 
 describe("Migrator", ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true })
+		bootContainer({ flush: true });
 
 		context.profile = new Profile({ avatar: "avatar", data: Base64.encode("{}"), id: "id", name: "name" });
 		context.subject = new Migrator(context.profile, {});
@@ -163,7 +163,10 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 
 		await context.subject.migrate(passingMigrations, "1.0.0");
 
-		await assert.rejects(() => context.subject.migrate(failingMigrations, "1.0.2"), "throw the migration and rollback");
+		await assert.rejects(
+			() => context.subject.migrate(failingMigrations, "1.0.2"),
+			"throw the migration and rollback",
+		);
 
 		assert.is(context.profile.data().get(ProfileData.LatestMigration), "1.0.0");
 		assert.is(context.profile.data().get("key"), "initial update");
@@ -218,7 +221,8 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 					[ProfileSetting.MarketProvider]: "coingecko",
 					[ProfileSetting.Name]: "John Doe",
 					[ProfileSetting.NewsFilters]: JSON.stringify({ categories: [], coins: ["ARK"] }),
-					[ProfileSetting.Password]: "$argon2id$v=19$m=16,t=2,p=1$S09reTl2S1NTVllrU2ZuMg$Efpf9GGOgXdDmFmW1eF1Ew",
+					[ProfileSetting.Password]:
+						"$argon2id$v=19$m=16,t=2,p=1$S09reTl2S1NTVllrU2ZuMg$Efpf9GGOgXdDmFmW1eF1Ew",
 					[ProfileSetting.ScreenshotProtection]: false,
 					[ProfileSetting.Theme]: "dark",
 					[ProfileSetting.TimeFormat]: "HH::MM",

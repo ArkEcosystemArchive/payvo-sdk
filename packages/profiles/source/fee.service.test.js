@@ -33,7 +33,6 @@ describe("FeeService", ({ beforeEach, loader, nock, it, assert }) => {
 		context.subject = new FeeService();
 	});
 
-
 	it("should sync fees", async (context) => {
 		assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
