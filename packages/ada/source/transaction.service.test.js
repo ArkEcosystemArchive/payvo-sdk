@@ -13,11 +13,9 @@ import { WalletData } from "./wallet.dto";
 import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
 import { convertString } from "@payvo/sdk-helpers";
 
-let subject;
-
 describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -36,7 +34,7 @@ describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
 		nock.cleanAll();
 	});
 
-	it("#transfer should succeed", async () => {
+	it("#transfer should succeed", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
@@ -47,7 +45,7 @@ describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/transaction/expiration.json`));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey:

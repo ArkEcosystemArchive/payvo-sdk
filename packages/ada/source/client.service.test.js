@@ -9,11 +9,9 @@ import { ClientService } from "./client.service";
 import { TransactionService } from "./transaction.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject;
-
 describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -28,7 +26,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		nock.cleanAll();
 	});
 
-	it("#wallet should succeed", async () => {
+	it("#wallet should succeed", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
@@ -37,7 +35,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/utxos-aggregate.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
 		});
@@ -50,7 +48,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		assert.object(result.balance());
 	});
 
-	it("#transactions should succeed", async () => {
+	it("#transactions should succeed", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/transactions-0.json`))
@@ -59,7 +57,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			senderPublicKey:
 				"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
 		});
@@ -67,10 +65,10 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("#transactions should fail if the sender public key is missing", async () => {
+	it("#transactions should fail if the sender public key is missing", async (context) => {
 		await assert.rejects(
 			() =>
-				subject.transactions({
+				context.subject.transactions({
 					identifiers: [
 						{
 							type: "extendedPublicKey",
@@ -82,15 +80,15 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		);
 
 		await assert.rejects(
-			() => subject.transactions({}),
+			() => context.subject.transactions({}),
 			"Method ClientService#transactions expects the argument [senderPublicKey] but it was not given",
 		);
 	});
 
-	it("#transaction should succeed", async () => {
+	it("#transaction should succeed", async (context) => {
 		nock.fake(/.+/).post(/.*/).reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
+		const result = await context.subject.transaction("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 
@@ -152,7 +150,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		assert.is(result.fee().toString(), "168801");
 	});
 
-	it("should handle broadcast accepted", async () => {
+	it("should handle broadcast accepted", async (context) => {
 		nock.fake(/.+/)
 			.post("/")
 			.reply(200, loader.json(`test/fixtures/transaction/transactions-page-1.json`))
@@ -191,7 +189,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		);
 
 		const transactions = [transfer];
-		const result = await subject.broadcast(transactions);
+		const result = await context.subject.broadcast(transactions);
 		assert.equal(result, {
 			accepted: ["3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572"],
 			rejected: [],
@@ -199,7 +197,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 		});
 	});
 
-	it("should handle broadcast rejected", async () => {
+	it("should handle broadcast rejected", async (context) => {
 		nock.fake(/.+/).post("/").reply(201, loader.json(`test/fixtures/transaction/submit-tx-failed.json`));
 
 		const transactions = [
@@ -215,7 +213,7 @@ describe("ClientService", async ({ assert, beforeAll, afterEach, it }) => {
 				"83a4008182582022e6ff48fc1ed9d8ed87eb416b1c45e93b5945a3dc31d7d14ccdeb93174251f40001828258390044f8e44d237a7ea3caa88319d120e7fa47a9a1f48bb7649927f1de8606e2ae44dff6770dc0f4ada3cf4cf2605008e27aecdb332ad349fda71a000f42408258390044f8e44d237a7ea3caa88319d120e7fa47a9a1f48bb7649927f1de8606e2ae44dff6770dc0f4ada3cf4cf2605008e27aecdb332ad349fda71a3888e035021a00029151031a0121e3e0a10081825820cf779aa32f35083707808532471cb64ee41426c9bbd46134dac2ac5b2a0ec0e95840fecc6f5e8fbe05a00c60998476a9102463311ffeea5b890b3bbbb0a3c933a420ff50d9a951b11ca36a491eef32d164abf21fde26d53421ce68aff2d17372a20cf6",
 			),
 		];
-		const result = await subject.broadcast(transactions);
+		const result = await context.subject.broadcast(transactions);
 		assert.equal(result, {
 			accepted: [],
 			rejected: ["35e95e8851fb6cc2fadb988d0a6e514386ac7a82a0d40baca34d345740e9657f"],
