@@ -25,8 +25,8 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
+		"base-x": "^3.0.9",
 		"bignumber.js": "^9.0.1",
-		"multicoin-address-validator": "^0.5.5",
 		"ripple-keypairs": "^1.1.0",
 		"ripple-lib": "^1.10.0"
 	},
