@@ -30,8 +30,8 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		const ALLOWED_CHARS = 'rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz';
-		const regexp = new RegExp('^r[' + ALLOWED_CHARS + ']{27,35}$');
+		const ALLOWED_CHARS = "rpshnaf39wBUDNEGHJKLM4PQRST7VWXYZ2bcdeCg65jkm8oFqi1tuvAxyz";
+		const regexp = new RegExp("^r[" + ALLOWED_CHARS + "]{27,35}$");
 
 		if (regexp.test(address)) {
 			const bytes: Buffer = baseX(ALLOWED_CHARS).decode(address);
@@ -45,6 +45,8 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	#sha256Checksum(payload) {
-		return Hash.sha256(Hash.sha256(Buffer.from(payload, "hex"))).toString("hex").substr(0, 8);
+		return Hash.sha256(Hash.sha256(Buffer.from(payload, "hex")))
+			.toString("hex")
+			.substr(0, 8);
 	}
 }
