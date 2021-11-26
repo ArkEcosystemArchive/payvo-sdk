@@ -7,10 +7,10 @@ import { bootContainer } from "../test/mocking";
 import { DelegateService } from "./delegate.service";
 import { Profile } from "./profile";
 
-void describeWithContext(
+describeWithContext(
 	"DelegateService",
 	{ mnemonic: identity.mnemonic },
-	async ({ beforeEach, it, assert, loader, nock, stub }) => {
+	({ beforeEach, it, assert, loader, nock, stub }) => {
 		beforeEach(async (context) => {
 			bootContainer({ flush: true });
 
