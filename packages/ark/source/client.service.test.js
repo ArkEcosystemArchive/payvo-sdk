@@ -26,7 +26,9 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 			.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+		const result = await context.subject.transaction(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 	});

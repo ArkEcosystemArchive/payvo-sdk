@@ -86,7 +86,9 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	it("should be a return true for multipayments if sender is included in recipients", (context) => {
 		stub(context.subject, "isTransfer").returnValueOnce(false);
 		stub(context.subject, "isMultiPayment").returnValueOnce(true);
-		stub(context.subject, "recipients").returnValueOnce([{ amount: BigNumber.ZERO, address: context.subject.sender() }]);
+		stub(context.subject, "recipients").returnValueOnce([
+			{ amount: BigNumber.ZERO, address: context.subject.sender() },
+		]);
 
 		assert.is(context.subject.isReturn(), true);
 	});
@@ -94,7 +96,9 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	it("should not be a return for multipayments if sender is not included in recipients", (context) => {
 		stub(context.subject, "isTransfer").returnValueOnce(false);
 		stub(context.subject, "isMultiPayment").returnValueOnce(true);
-		stub(context.subject, "recipients").returnValueOnce([{ amount: BigNumber.ZERO, address: context.subject.recipient() }]);
+		stub(context.subject, "recipients").returnValueOnce([
+			{ amount: BigNumber.ZERO, address: context.subject.recipient() },
+		]);
 
 		assert.false(context.subject.isReturn());
 	});
