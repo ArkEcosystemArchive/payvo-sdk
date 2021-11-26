@@ -8,29 +8,29 @@ import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
 
-describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
-	const methods = [
-		"address",
-		"bigNumber",
-		"client",
-		"dataTransferObject",
-		"extendedAddress",
-		"extendedPublicKey",
-		"fee",
-		"keyPair",
-		"knownWallet",
-		"ledger",
-		"link",
-		"message",
-		"multiSignature",
-		"privateKey",
-		"publicKey",
-		"signatory",
-		"transaction",
-		"walletDiscovery",
-		"wif",
-	];
+const methods = [
+	"address",
+	"bigNumber",
+	"client",
+	"dataTransferObject",
+	"extendedAddress",
+	"extendedPublicKey",
+	"fee",
+	"keyPair",
+	"knownWallet",
+	"ledger",
+	"link",
+	"message",
+	"multiSignature",
+	"privateKey",
+	"publicKey",
+	"signatory",
+	"transaction",
+	"walletDiscovery",
+	"wif",
+];
 
+describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 	beforeEach(async (context) => {
 		nock.fake(/.+/)
 			.get("/api/blockchain")
