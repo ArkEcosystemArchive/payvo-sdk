@@ -4,12 +4,14 @@ import { sortByDesc } from "./sort-by-desc";
 
 describeWithContext(
 	"sortByDesc",
-	() => ({ dummies: [
-		{ name: "Andrew", age: 18 },
-		{ name: "Bob", age: 18 },
-		{ name: "John", age: 30 },
-		{ name: "Jane", age: 40 },
-	]}),
+	() => ({
+		dummies: [
+			{ name: "Andrew", age: 18 },
+			{ name: "Bob", age: 18 },
+			{ name: "John", age: 30 },
+			{ name: "Jane", age: 40 },
+		],
+	}),
 	({ assert, it }) => {
 		it("should sort records without iteratees", (context) => {
 			assert.equal(sortByDesc([...context.dummies]), [

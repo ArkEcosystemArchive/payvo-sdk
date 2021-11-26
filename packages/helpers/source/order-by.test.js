@@ -4,12 +4,14 @@ import { orderBy } from "./order-by";
 
 describeWithContext(
 	"orderBy",
-	() => ({ dummies: [
-		{ name: "Andrew", age: 18 },
-		{ name: "Bob", age: 18 },
-		{ name: "John", age: 30 },
-		{ name: "Jane", age: 40 },
-	]}),
+	() => ({
+		dummies: [
+			{ name: "Andrew", age: 18 },
+			{ name: "Bob", age: 18 },
+			{ name: "John", age: 30 },
+			{ name: "Jane", age: 40 },
+		],
+	}),
 	({ assert, it }) => {
 		it("should sort records by youngest age (with string params)", (context) => {
 			assert.equal(orderBy([...context.dummies], "age", "asc"), [

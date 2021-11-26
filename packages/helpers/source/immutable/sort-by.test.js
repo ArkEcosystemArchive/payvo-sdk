@@ -4,12 +4,14 @@ import { sortBy } from "./sort-by";
 
 describeWithContext(
 	"sortBy",
-	() => ({ dummies: [
-		{ age: 30, name: "John" },
-		{ age: 40, name: "Jane" },
-		{ age: 18, name: "Andrew" },
-		{ age: 18, name: "Bob" },
-	]}),
+	() => ({
+		dummies: [
+			{ age: 30, name: "John" },
+			{ age: 40, name: "Jane" },
+			{ age: 18, name: "Andrew" },
+			{ age: 18, name: "Bob" },
+		],
+	}),
 	({ assert, it }) => {
 		it("should sort records without iteratees", (context) => {
 			assert.equal(sortBy(context.dummies), [
