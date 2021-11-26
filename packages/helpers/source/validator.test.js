@@ -4,13 +4,11 @@ import Joi from "joi";
 
 import { Validator } from "./validator";
 
-let subject;
-
 describe("Validator", async ({ assert, beforeEach, it }) => {
-	beforeEach(() => (subject = new Validator()));
+	beforeEach((context) => (context.subject = new Validator()));
 
-	it("should validate and normalise the data", () => {
-		const actual = subject.validate(
+	it("should validate and normalise the data", (context) => {
+		const actual = context.subject.validate(
 			{
 				name: "jimmy",
 				age: "24",
@@ -24,8 +22,8 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 		assert.equal(actual, { age: 24, name: "jimmy" });
 	});
 
-	it("should pass validation", () => {
-		subject.validate(
+	it("should pass validation", (context) => {
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: 24,
@@ -36,9 +34,9 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.true(subject.passes());
+		assert.true(context.subject.passes());
 
-		subject.validate(
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: "invalid number",
@@ -49,11 +47,11 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.false(subject.passes());
+		assert.false(context.subject.passes());
 	});
 
-	it("should fail validation", () => {
-		subject.validate(
+	it("should fail validation", (context) => {
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: "invalid number",
@@ -64,9 +62,9 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.true(subject.fails());
+		assert.true(context.subject.fails());
 
-		subject.validate(
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: 24,
@@ -77,13 +75,13 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.false(subject.fails());
+		assert.false(context.subject.fails());
 	});
 
-	it("should have errors", () => {
-		assert.undefined(subject.errors());
+	it("should have errors", (context) => {
+		assert.undefined(context.subject.errors());
 
-		subject.validate(
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: "invalid number",
@@ -94,11 +92,11 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.length(subject.errors(), 1);
+		assert.length(context.subject.errors(), 1);
 	});
 
-	it("should have an error", () => {
-		subject.validate(
+	it("should have an error", (context) => {
+		context.subject.validate(
 			{
 				name: "jimmy",
 				age: "invalid number",
@@ -109,6 +107,6 @@ describe("Validator", async ({ assert, beforeEach, it }) => {
 			}),
 		);
 
-		assert.instance(subject.error(), Joi.ValidationError);
+		assert.instance(context.subject.error(), Joi.ValidationError);
 	});
 });
