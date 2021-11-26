@@ -4,7 +4,7 @@ import { injectable } from "inversify";
 import retry from "p-retry";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import {
 	IDataRepository,
 	IProfile,
@@ -13,7 +13,7 @@ import {
 	IWalletExportOptions,
 	IWalletRepository,
 	WalletData,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { pqueue } from "./helpers/queue.js";
 import { Wallet } from "./wallet.js";

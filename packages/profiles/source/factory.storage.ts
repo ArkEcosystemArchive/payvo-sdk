@@ -1,4 +1,4 @@
-import { Storage } from "./env.models";
+import { Storage } from "./env.models.js";
 import { ConfStorage } from "./conf.storage";
 import { LocalStorage } from "./local.storage";
 import { MemoryStorage } from "./memory.storage";

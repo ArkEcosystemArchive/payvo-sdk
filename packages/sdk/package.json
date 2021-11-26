@@ -13,6 +13,7 @@
 	"scripts": {
 		"build": "pnpm run clean && tsc",
 		"build:watch": "pnpm run clean && tsc -w",
+		"build:webpack": "webpack --config ../../webpack.config.cjs",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build",
 		"test": "uvu -r tsm source .test.js",
@@ -31,8 +32,12 @@
 		"inversify": "^6.0.1",
 		"joi": "^17.4.2",
 		"node-emoji": "^1.11.0",
+		"query-string": "^7.0.1",
 		"reflect-metadata": "^0.1.13",
-		"type-fest": "^2.6.0"
+		"type-fest": "^2.6.0",
+		"url-format-lax": "^2.0.0",
+		"url-parse-lax": "^5.0.0",
+		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",

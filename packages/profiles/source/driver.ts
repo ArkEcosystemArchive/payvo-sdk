@@ -1,7 +1,7 @@
 import { IoC } from "@payvo/sdk";
 
-import { Identifiers } from "./container.models";
-import { EnvironmentOptions } from "./env.models";
+import { Identifiers } from "./container.models.js";
+import { EnvironmentOptions } from "./env.models.js";
 import { DataRepository } from "./data.repository";
 import { ProfileRepository } from "./profile.repository";
 import { DelegateService } from "./delegate.service.js";

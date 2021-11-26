@@ -22,7 +22,7 @@ import {
 	AbstractWalletDiscoveryService,
 	AbstractWIFService,
 	BigNumberService,
-} from "./services";
+} from "./services.js";
 import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
 import { Container } from "./container.js";
 import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";

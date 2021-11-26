@@ -5,7 +5,7 @@ import {
 	IExchangeTransactionData,
 	IExchangeTransactionRepository,
 	IProfile,
-} from "./contracts";
+} from "./contracts.js";
 import { Avatar } from "./helpers/avatar.js";
 
 export class ExchangeTransaction implements IExchangeTransaction {

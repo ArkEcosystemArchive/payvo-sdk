@@ -17,7 +17,7 @@ import {
 	IWifOptions,
 	WalletData,
 	WalletImportMethod,
-} from "./contracts";
+} from "./contracts.js";
 import { Wallet } from "./wallet.js";
 import { WalletFlag } from "./wallet.enum";
 import { IMnemonicDerivativeOptions, ISecretOptions } from "./wallet.factory.contract.js";

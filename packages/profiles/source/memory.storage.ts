@@ -1,4 +1,4 @@
-import { Storage } from "./env.models";
+import { Storage } from "./env.models.js";
 
 export class MemoryStorage implements Storage {
 	#storage: Record<string, unknown> = {};

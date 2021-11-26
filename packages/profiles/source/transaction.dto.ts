@@ -6,7 +6,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import { IExchangeRateService, IReadWriteWallet } from "./contracts.js";
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 
 export interface ExtendedTransactionRecipient {
 	address: string;

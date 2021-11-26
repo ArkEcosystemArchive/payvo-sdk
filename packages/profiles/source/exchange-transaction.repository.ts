@@ -10,7 +10,7 @@ import {
 	IExchangeTransactionInput,
 	IExchangeTransactionRepository,
 	IProfile,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
 
 @injectable()

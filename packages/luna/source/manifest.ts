@@ -1,5 +1,5 @@
-import LunaMainnet from "./networks/luna.mainnet";
-import LunaTestnet from "./networks/luna.testnet";
+import LunaMainnet from "./networks/luna.mainnet.js";
+import LunaTestnet from "./networks/luna.testnet.js";
 
 export const manifest = {
 	name: "LUNA",

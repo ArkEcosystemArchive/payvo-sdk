@@ -1,6 +1,6 @@
 import Conf from "conf";
 
-import { Storage } from "./env.models";
+import { Storage } from "./env.models.js";
 
 export class ConfStorage implements Storage {
 	readonly #storage: Conf = new Conf();
