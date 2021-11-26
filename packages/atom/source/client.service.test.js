@@ -28,7 +28,9 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 			.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
+		const result = await context.subject.transaction(
+			"B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
