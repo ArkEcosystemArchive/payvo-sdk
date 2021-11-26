@@ -8,10 +8,10 @@ import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileExporter } from "./profile.exporter";
 
-describe("Authenticator", async ({ it, assert, beforeEach, beforeAll }) => {
-	beforeAll(() => bootContainer());
-
+describe("Authenticator", async ({ it, assert, beforeEach }) => {
 	beforeEach((context) => {
+		bootContainer({ flush: true });
+
 		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 		context.subject = new Authenticator(context.profile);
 	});

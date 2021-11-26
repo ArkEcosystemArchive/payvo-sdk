@@ -7,12 +7,10 @@ import { AppearanceService } from "./appearance.service";
 import { Profile } from "./profile";
 import { ProfileSetting } from "./profile.enum.contract";
 
-describe("AppearanceService", async ({ beforeAll, beforeEach, it, assert }) => {
-	beforeAll(() => {
-		bootContainer();
-	});
-
+describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 	beforeEach((context) => {
+		bootContainer({ flush: true });
+
 		context.profile = new Profile({
 			appearance: {
 				accentColor: "blue",
