@@ -34,7 +34,7 @@ export const featureFlags: Networks.NetworkManifestFeatureFlags = {
 };
 
 export const explorer: Networks.NetworkManifestExplorer = {
-	block: "block/{0}",
-	transaction: "tx/{0}",
-	wallet: "address/{0}",
+	block: "zilliqa/block/{0}",
+	transaction: "zilliqa/tx/{0}",
+	wallet: "zilliqa/address/{0}",
 };

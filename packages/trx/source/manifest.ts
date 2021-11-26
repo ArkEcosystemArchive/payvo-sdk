@@ -1,5 +1,5 @@
-import TrxMainnet from "./networks/trx.mainnet";
-import TrxTestnet from "./networks/trx.testnet";
+import TrxMainnet from "./networks/trx.mainnet.js";
+import TrxTestnet from "./networks/trx.testnet.js";
 
 export const manifest = {
 	name: "TRX",

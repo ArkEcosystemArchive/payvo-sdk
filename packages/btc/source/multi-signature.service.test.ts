@@ -5,20 +5,20 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { MultiSignatureService } from "./multi-signature.service";
-import { ClientService } from "./client.service";
+import { createService } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { ClientService } from "./client.service.js";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { AddressService } from "./address.service";
-import { BindingType } from "./constants";
-import { musig } from "../test/fixtures/musig";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { AddressService } from "./address.service.js";
+import { BindingType } from "./constants.js";
+import { musig } from "../test/fixtures/musig.js";
 import { UUID } from "@payvo/sdk-cryptography";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 import {
 	manyMusigRegistrationTxs,
 	oneSignatureNativeSegwitMusigRegistrationTx,

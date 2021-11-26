@@ -1,5 +1,5 @@
-import AvaxMainnet from "./networks/avax.mainnet";
-import AvaxTestnet from "./networks/avax.testnet";
+import AvaxMainnet from "./networks/avax.mainnet.js";
+import AvaxTestnet from "./networks/avax.testnet.js";
 
 export const manifest = {
 	name: "AVAX",

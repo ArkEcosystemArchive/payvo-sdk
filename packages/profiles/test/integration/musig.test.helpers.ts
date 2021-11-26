@@ -1,9 +1,9 @@
 import { nock } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { mnemonics as testMnemonics } from "../fixtures/identity.js";
-import { IReadWriteWallet } from "../../source/wallet.contract.js";
-import { IProfile } from "../../source/profile.contract.js";
+import { mnemonics as testMnemonics } from "../fixtures/identity";
+import { IReadWriteWallet } from "../../source/wallet.contract";
+import { IProfile } from "../../source/profile.contract";
 
 interface Wallet {
 	wallet: IReadWriteWallet;

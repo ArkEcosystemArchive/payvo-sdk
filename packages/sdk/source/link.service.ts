@@ -3,6 +3,7 @@
 
 import { formatString } from "@payvo/sdk-helpers";
 import { URL } from "url";
+import queryString from "query-string";
 
 import { ConfigRepository } from "./coins.js";
 import { randomNetworkHostFromConfig } from "./helpers.js";
@@ -29,12 +30,13 @@ export class AbstractLinkService implements LinkService {
 
 	#buildURL(schema: string, id: string): string {
 		const { host, query } = randomNetworkHostFromConfig(this.configRepository, "explorer");
-		const url: URL = new URL(formatString(schema, id), host);
+
+		const url: string = `${host.replace(/\/$/, "")}/${formatString(schema, id)}`;
 
 		if (query) {
-			url.search = new URLSearchParams(query).toString();
+			return `${url}?${queryString.stringify(query)}`;
 		}
 
-		return url.toString();
+		return url;
 	}
 }

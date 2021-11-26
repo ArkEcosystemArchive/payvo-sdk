@@ -3,7 +3,7 @@ import { BIP32Interface } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 import changeVersionBytes from "xpub-converter";
 
-import { MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 
 // https://github.com/satoshilabs/slips/blob/master/slip-0132.md#registered-hd-version-bytes
 const mainnetPrefixes = { xpub: "legacyMusig", Ypub: "p2SHSegwitMusig", Zpub: "nativeSegwitMusig" };

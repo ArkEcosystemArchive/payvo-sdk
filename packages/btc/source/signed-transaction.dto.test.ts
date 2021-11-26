@@ -1,9 +1,9 @@
 import "jest-extended";
 
-import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { oneSignatureMusigP2shSegwitTransferTx } from "../test/fixtures/musig-p2sh-segwit-txs";
-import { unsignedNativeSegwitMusigRegistrationTx } from "../test/fixtures/musig-native-segwit-txs";
+import { createService } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { oneSignatureMusigP2shSegwitTransferTx } from "../test/fixtures/musig-p2sh-segwit-txs.js";
+import { unsignedNativeSegwitMusigRegistrationTx } from "../test/fixtures/musig-native-segwit-txs.js";
 
 let subject: SignedTransactionData;
 
