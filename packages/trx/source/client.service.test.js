@@ -26,7 +26,9 @@ describe("ClientService", async ({ beforeAll, assert, it }) => {
 			.post("/wallet/gettransactionbyid")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await context.subject.transaction("0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2");
+		const result = await context.subject.transaction(
+			"0daa9f2507c4e79e39391ea165bb76ed018c4cd69d7da129edf9e95f0dae99e2",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 	});

@@ -16,7 +16,7 @@ describe("ConfirmedTransactionData", async ({ beforeAll, it, assert }) => {
 	});
 
 	it("should parse memo correctly", async () => {
-		const  subject = await createService(ConfirmedTransactionData).configure(
+		const subject = await createService(ConfirmedTransactionData).configure(
 			loader.json(`test/fixtures/client/transactions.json`).data[1],
 		);
 
