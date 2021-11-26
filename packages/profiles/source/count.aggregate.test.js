@@ -13,7 +13,11 @@ describe("CountAggregate", async ({ beforeEach, assert, each }) => {
 		context.subject = new CountAggregate(new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }));
 	});
 
-	each("should count %s", ({ context, dataset }) => {
-		assert.number(context.subject[dataset]());
-	}, ["contacts", "notifications", "wallets"]);
+	each(
+		"should count %s",
+		({ context, dataset }) => {
+			assert.number(context.subject[dataset]());
+		},
+		["contacts", "notifications", "wallets"],
+	);
 });

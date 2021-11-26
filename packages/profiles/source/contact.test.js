@@ -9,7 +9,7 @@ import { Profile } from "./profile";
 
 describe("Contact", ({ assert, it, beforeEach }) => {
 	beforeEach((context) => {
-		bootContainer({ flush : true});
+		bootContainer({ flush: true });
 
 		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 		profile.coins().set("ARK", "ark.devnet");
