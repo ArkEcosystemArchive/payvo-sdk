@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { MemoryStorage } from "./memory.storage";
 
-describe("asd", ({ beforeEach, it, assert }) => {
+describe("MemoryStorage", ({ beforeEach, it, assert }) => {
 	beforeEach((context) => {
 		context.subject = new MemoryStorage();
 		context.key = UUID.random();
