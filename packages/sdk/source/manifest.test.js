@@ -8,7 +8,7 @@ describe("Manifest", ({ assert, it }) => {
 		});
 	});
 
-	it("shoul get a specific value", () => {
+	it("should get a specific value", () => {
 		assert.is(new Manifest({ key: "value" }).get("key"), "value");
 		assert.throws(
 			() => new Manifest({ key: "value" }).get("keykey"),

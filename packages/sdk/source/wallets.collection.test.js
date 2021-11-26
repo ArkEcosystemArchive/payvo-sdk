@@ -1,12 +1,10 @@
 import { describe } from "@payvo/sdk-test";
 import { WalletDataCollection } from "./wallets.collection";
 
-let subject;
-
 describe("WalletDataCollection", ({ assert, beforeEach, it }) => {
 	beforeEach(
-		() =>
-			(subject = new WalletDataCollection(
+		(context) =>
+			(context.subject = new WalletDataCollection(
 				[
 					// @ts-ignore
 					{
@@ -19,15 +17,15 @@ describe("WalletDataCollection", ({ assert, beforeEach, it }) => {
 			)),
 	);
 
-	it("#findByAddress", () => {
-		assert.object(subject.findByAddress("address"));
+	it("#findByAddress", (context) => {
+		assert.object(context.subject.findByAddress("address"));
 	});
 
-	it("#findByPublicKey", () => {
-		assert.object(subject.findByPublicKey("publicKey"));
+	it("#findByPublicKey", (context) => {
+		assert.object(context.subject.findByPublicKey("publicKey"));
 	});
 
-	it("#findByUsername", () => {
-		assert.object(subject.findByUsername("username"));
+	it("#findByUsername", (context) => {
+		assert.object(context.subject.findByUsername("username"));
 	});
 });
