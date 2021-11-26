@@ -11,10 +11,8 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract";
 
-let subject;
-
-const createLocalServices = async () => {
-	subject = await createService(ClientService, "lsk.testnet", (container) => {
+const createLocalServices = () => {
+	return createService(ClientService, "lsk.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
@@ -27,15 +25,19 @@ const createLocalServices = async () => {
 };
 
 describe("#transaction", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/transactions")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
+		const result = await context.subject.transaction(
+			"827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "827037ee7a3ec5dd1a57e38287616226f40cf1d52feb156394ae66e98bc6f2c5");
@@ -65,15 +67,17 @@ describe("#transaction", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#transactions", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/transactions")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
 			cursor: 1,
 		});
@@ -108,12 +112,14 @@ describe("#transactions", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#wallet", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/).get("/api/v2/accounts").query(true).reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m",
 		});
@@ -141,15 +147,17 @@ describe("#wallet", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#wallets", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
 
-		const result = await subject.wallets({
+		const result = await context.subject.wallets({
 			identifiers: [{ type: "address", value: "lsktz6b4u9x7e85nqy4mv667mabz8eaejzggvqs4m" }],
 		});
 		const wallet = result.items()[0];
@@ -173,15 +181,17 @@ describe("#wallets", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#delegate", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
-		const result = await subject.delegate("punkrock");
+		const result = await context.subject.delegate("punkrock");
 
 		assert.instance(result, WalletData);
 		assert.is(result.primaryKey(), "lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
@@ -202,15 +212,17 @@ describe("#delegate", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#delegates", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/delegates.json`));
 
-		const result = await subject.delegates();
+		const result = await context.subject.delegates();
 		const wallet = result.items()[0];
 
 		assert.object(result);
@@ -232,15 +244,17 @@ describe("#delegates", async ({ beforeAll, it, assert }) => {
 });
 
 describe("#votes", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => createLocalServices());
+	beforeAll(async (context) => {
+		context.subject = await createLocalServices();
+	});
 
-	it("should succeed", async () => {
+	it("should succeed", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/v2/votes_sent")
 			.query(true)
 			.reply(200, loader.json(`test/fixtures/client/votes.json`));
 
-		const result = await subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
+		const result = await context.subject.votes("lskbps7ge5n9y7f8nk4222c77zkqcntrj7jyhmkwp");
 
 		assert.object(result);
 		assert.is(result.used, 1);
@@ -264,7 +278,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert 
 	});
 
 	it('should return empty when the property "unlocking" is missing in the response', async () => {
-		await createLocalServices();
+		const subject = await createLocalServices();
 
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
@@ -294,7 +308,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert 
 	});
 
 	it("should have a pending balance if the current height is not greater than the unlock height", async () => {
-		await createLocalServices();
+		const subject = await createLocalServices();
 
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
@@ -335,7 +349,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert 
 	});
 
 	it("should have a current balance if the current height is greater than or equal to the unlock height", async () => {
-		await createLocalServices();
+		const subject = await createLocalServices();
 
 		nock.fake(/.+/)
 			.get("/api/v2/accounts")
@@ -379,7 +393,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert 
 
 describe("#broadcast", ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
-		await createLocalServices();
+		context.subject = await createLocalServices();
 
 		const transactionSigned = {
 			moduleID: 2,
@@ -404,7 +418,7 @@ describe("#broadcast", ({ beforeEach, it, assert }) => {
 	it("should pass", async (context) => {
 		nock.fake(/.+/).post("/api/v2/transactions").reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-		const result = await subject.broadcast([context.transactionPayload]);
+		const result = await context.subject.broadcast([context.transactionPayload]);
 
 		assert.equal(result, {
 			accepted: ["5961193224963457718"],
@@ -418,7 +432,7 @@ describe("#broadcast", ({ beforeEach, it, assert }) => {
 			.post("/api/v2/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-		const result = await subject.broadcast([context.transactionPayload]);
+		const result = await context.subject.broadcast([context.transactionPayload]);
 
 		assert.equal(result, {
 			accepted: [],
@@ -432,7 +446,7 @@ describe("#broadcast", ({ beforeEach, it, assert }) => {
 	it("should handle http exception", async (context) => {
 		nock.fake(/.+/).post("/api/v2/transactions").reply(500, { message: "unknown error" });
 
-		const result = await subject.broadcast([context.transactionPayload]);
+		const result = await context.subject.broadcast([context.transactionPayload]);
 
 		assert.equal(result, {
 			accepted: [],
