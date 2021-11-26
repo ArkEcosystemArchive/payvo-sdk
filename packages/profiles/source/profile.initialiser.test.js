@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { ProfileData,ProfileSetting } from "./contracts";
+import { ProfileData, ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileInitialiser } from "./profile.initialiser";
 

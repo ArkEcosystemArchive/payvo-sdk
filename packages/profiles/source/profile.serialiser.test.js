@@ -3,7 +3,7 @@ import "reflect-metadata";
 import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
-import { bootContainer, generateWallet,importByAddressWithDerivationPath, importByMnemonic } from "../test/mocking";
+import { bootContainer, generateWallet, importByAddressWithDerivationPath, importByMnemonic } from "../test/mocking";
 import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileSerialiser } from "./profile.serialiser";
