@@ -1,3 +1,5 @@
+import { Buffer } from "buffer/";
+
 export const convertBuffer = (value: Buffer): string => value.toString("hex");
 export const convertBufferList = (values: Buffer[]): string[] => values.map(convertBuffer);
 

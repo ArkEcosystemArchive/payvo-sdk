@@ -432,6 +432,7 @@ importers:
       bad-words: ^3.0.4
       benchmark: ^2.1.4
       bignumber.js: ^9.0.1
+      buffer: ^6.0.3
       censorify-it: ^3.0.2
       deepmerge: ^4.2.2
       del-cli: ^4.0.1
@@ -449,6 +450,7 @@ importers:
       '@hapi/bourne': 2.0.0
       bad-words: 3.0.4
       bignumber.js: 9.0.1
+      buffer: 6.0.3
       censorify-it: 3.0.2
       deepmerge: 4.2.2
       dot-prop: 6.0.1
@@ -791,6 +793,7 @@ importers:
       '@types/node': ^16.11.10
       '@types/sinon': ^10.0.6
       '@types/yargs': ~17.0.7
+      buffer: ^6.0.3
       concordance: ~5.0.4
       kleur: ~4.1.4
       nock: ^13.2.1
@@ -799,6 +802,7 @@ importers:
       yargs: ~17.2.1
       zod: ~3.11.6
     dependencies:
+      buffer: 6.0.3
       concordance: 5.0.4
       kleur: 4.1.4
       nock: 13.2.1

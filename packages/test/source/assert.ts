@@ -5,13 +5,20 @@ import * as uvu from "uvu/assert";
 import { hideBin } from "yargs/helpers";
 import yargs from "yargs/yargs";
 import { z, ZodRawShape } from "zod";
+import { Buffer as SafeBuffer } from "buffer/";
 
 export const assert = {
 	...uvu,
 	array: (value: unknown): void => uvu.ok(Array.isArray(value)),
 	boolean: (value: unknown): void => uvu.type(value, "boolean"),
-	buffer: (value: unknown): void => uvu.instance(value, Buffer),
-	bufferArray: (values: unknown[]): void => uvu.ok(values.every((value) => value instanceof Buffer)),
+	buffer: (value: unknown): void => {
+		try {
+			uvu.instance(value, Buffer);
+		} catch {
+			uvu.instance(value, SafeBuffer);
+		}
+	},
+	bufferArray: (values: unknown[]): void => uvu.ok(values.every((value) => (value instanceof Buffer || value instanceof SafeBuffer))),
 	containKey: (value: object, key: string): void => assert.true(Object.keys(value).includes(key)),
 	containKeys: (value: object, keys: string[]): void => {
 		for (const key of keys) {

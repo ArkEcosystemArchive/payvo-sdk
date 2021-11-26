@@ -20,6 +20,7 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
+		"buffer": "^6.0.3",
 		"concordance": "~5.0.4",
 		"kleur": "~4.1.4",
 		"nock": "^13.2.1",
