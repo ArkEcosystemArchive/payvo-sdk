@@ -28,7 +28,6 @@ const runSuite = (suite: Test, callback: Function): void => {
 		loader,
 		nock,
 		only: suite.only,
-		should: suite,
 		skip: suite.skip,
 		stub: Mockery.stub,
 		zod,
