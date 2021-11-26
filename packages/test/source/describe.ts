@@ -31,7 +31,6 @@ const runSuite = (suite: Test, callback: Function): void => {
 		should: suite,
 		skip: suite.skip,
 		stub: Mockery.stub,
-		test: suite,
 		zod,
 	});
 
