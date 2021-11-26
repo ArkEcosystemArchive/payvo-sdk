@@ -4,7 +4,7 @@ import { AddressService } from "./address.service";
 
 describe("AddressService", async ({ beforeEach, assert, it }) => {
 	beforeEach(async (context) => {
-		context.subject = new AddressService()
+		context.subject = new AddressService();
 	});
 
 	it("should generate an output from a mnemonic", async (context) => {
