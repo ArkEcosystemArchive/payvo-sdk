@@ -4,22 +4,12 @@ import { ok } from "uvu/assert";
 export class Mockery {
 	readonly #subject: SinonStub;
 
-	private constructor(subject) {
+	private constructor(subject: SinonStub) {
 		this.#subject = subject;
 	}
 
 	public static stub(owner: object, method: string): Mockery {
 		return new Mockery(stub(owner, method as never));
-	}
-
-	public calledWith(message: string | object): void {
-		ok(this.#subject.calledWith(message));
-	}
-
-	public resolvedValue(value: unknown): Mockery {
-		this.#subject.resolves(value);
-
-		return this;
 	}
 
 	public returnValue(value: unknown): Mockery {
@@ -34,25 +24,35 @@ export class Mockery {
 		return this;
 	}
 
+	public resolvedValue(value: unknown): Mockery {
+		this.#subject.resolves(value);
+
+		return this;
+	}
+
 	public callsFake(value: (...args: any[]) => any): Mockery {
 		this.#subject.callsFake(value);
 
 		return this;
 	}
 
+	public calledWith(message: string | object): void {
+		ok(this.#subject.calledWith(message));
+	}
+
+	public calledOnce(): void {
+		this.#calledTimes(1);
+	}
+
+	public neverCalled(): void {
+		this.#calledTimes(0);
+	}
+
 	public restore(): void {
 		this.#subject.restore();
 	}
 
-	public neverCalled(): void {
-		this.calledTimes(0);
-	}
-
-	public calledOnce(): void {
-		this.calledTimes(1);
-	}
-
-	public calledTimes(times: number): void {
+	#calledTimes(times: number): void {
 		ok(this.#subject.callCount === times);
 	}
 }
