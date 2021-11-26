@@ -1,18 +1,28 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { AES } from "./aes";
 
-const message = "Hello World";
-const password = "password";
-const salt = "salt";
-const iv = "secretsecretsecretsecret";
+describeWithContext(
+	"AES",
+	{
+		message: "Hello World",
+		password: "password",
+		salt: "salt",
+		iv: "secretsecretsecretsecret",
+	},
+	({ assert, it }) => {
+		it("should encrypt the given value", (context) => {
+			assert.is(
+				AES.encrypt(context.message, context.password, context.salt, context.iv),
+				"Y8RT6kFrfwll6SXUOti6UQ==",
+			);
+		});
 
-describe("AES", ({ assert, it }) => {
-	it("should encrypt the given value", () => {
-		assert.is(AES.encrypt(message, password, salt, iv), "Y8RT6kFrfwll6SXUOti6UQ==");
-	});
-
-	it("should decrypt the given value", () => {
-		assert.is(AES.decrypt("Y8RT6kFrfwll6SXUOti6UQ==", password, salt, iv), message);
-	});
-});
+		it("should decrypt the given value", (context) => {
+			assert.is(
+				AES.decrypt("Y8RT6kFrfwll6SXUOti6UQ==", context.password, context.salt, context.iv),
+				context.message,
+			);
+		});
+	},
+);

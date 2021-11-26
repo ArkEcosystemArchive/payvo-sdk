@@ -2,14 +2,12 @@ import { describe } from "@payvo/sdk-test";
 
 import { Request } from "./request";
 
-let subject;
-
 describe("Request", ({ assert, beforeAll, it, nock }) => {
-	beforeAll(() => {
-		subject = new Request();
+	beforeAll((context) => {
+		context.subject = new Request();
 	});
 
-	it("should get with params", async () => {
+	it("should get with params", async (context) => {
 		const responseBody = {
 			args: { key: "value" },
 			origin: "87.95.132.111,10.100.91.201",
@@ -18,12 +16,12 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").get("/get").query(true).reply(200, responseBody);
 
-		const response = await subject.get("http://httpbin.org/get", { key: "value" });
+		const response = await context.subject.get("http://httpbin.org/get", { key: "value" });
 
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should get without params", async () => {
+	it("should get without params", async (context) => {
 		const responseBody = {
 			args: {},
 			origin: "87.95.132.111,10.100.91.201",
@@ -32,12 +30,12 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").get("/get").reply(200, responseBody);
 
-		const response = await subject.get("http://httpbin.org/get");
+		const response = await context.subject.get("http://httpbin.org/get");
 
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should post with body", async () => {
+	it("should post with body", async (context) => {
 		const responseBody = {
 			args: {},
 			data: '{"key":"value"}',
@@ -52,12 +50,12 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
-		const response = await subject.post("http://httpbin.org/post", { key: "value" });
+		const response = await context.subject.post("http://httpbin.org/post", { key: "value" });
 
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should post with headers", async () => {
+	it("should post with headers", async (context) => {
 		const responseBody = {
 			args: {},
 			data: '{"key":"value"}',
@@ -73,7 +71,7 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
-		const response = await subject
+		const response = await context.subject
 			.asJson()
 			.withHeaders({ Authorization: "Bearer TOKEN" })
 			.post("http://httpbin.org/post", { key: "value" });
@@ -81,7 +79,7 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should post with form_params", async () => {
+	it("should post with form_params", async (context) => {
 		const responseBody = {
 			args: {},
 			data: '{"key":"value"}',
@@ -96,12 +94,12 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
-		const response = await subject.asForm().post("http://httpbin.org/post", { key: "value" });
+		const response = await context.subject.asForm().post("http://httpbin.org/post", { key: "value" });
 
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should post with octet", async () => {
+	it("should post with octet", async (context) => {
 		const responseBody = {
 			args: {},
 			data: '{"key":"value"}',
@@ -116,16 +114,19 @@ describe("Request", ({ assert, beforeAll, it, nock }) => {
 
 		nock.fake("http://httpbin.org/").post("/post").reply(200, responseBody);
 
-		const response = await subject
+		const response = await context.subject
 			.bodyFormat("octet")
 			.post("http://httpbin.org/post", Buffer.from(JSON.stringify({ key: "value" })));
 
 		assert.equal(response.json(), responseBody);
 	});
 
-	it("should handle 404s", async () => {
+	it("should handle 404s", async (context) => {
 		nock.fake("http://httpbin.org/").get("/get").reply(404);
 
-		await assert.rejects(() => subject.get("http://httpbin.org/get"), "HTTP request returned status code 404");
+		await assert.rejects(
+			() => context.subject.get("http://httpbin.org/get"),
+			"HTTP request returned status code 404",
+		);
 	});
 });

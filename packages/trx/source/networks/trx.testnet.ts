@@ -20,7 +20,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://shasta.tronscan.org/#",
+			host: "https://shasta.tronscan.org",
 			type: "explorer",
 		},
 	],

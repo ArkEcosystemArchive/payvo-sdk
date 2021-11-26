@@ -1,13 +1,8 @@
-import fast from "fast-sort";
+import { ISortBy, ISortByFunction } from "fast-sort";
 
 import { sortByDesc as baseSortByDesc } from "../sort-by-desc.js";
 
 export const sortByDesc = <T>(
 	values: T[],
-	iteratees?:
-		| fast.ISortByFunction<T>
-		| keyof T
-		| (fast.ISortByFunction<T> | keyof T)[]
-		| fast.ISortBy<T>[]
-		| undefined,
+	iteratees?: ISortByFunction<T> | keyof T | (ISortByFunction<T> | keyof T)[] | ISortBy<T>[] | undefined,
 ): T[] => baseSortByDesc([...values], iteratees);

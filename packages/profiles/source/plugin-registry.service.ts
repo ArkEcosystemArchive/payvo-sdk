@@ -5,7 +5,7 @@ import { injectable } from "inversify";
 import semver from "semver";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import { IPluginRegistry, IRegistryPlugin } from "./contracts.js";
 import { RegistryPlugin } from "./plugin-registry.dto.js";
 

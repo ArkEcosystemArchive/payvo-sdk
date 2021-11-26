@@ -18,11 +18,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader, skip }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
@@ -41,8 +39,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		});
 	});
 
-	it("should create a transfer", async () => {
-		const result = await subject.transfer({
+	it("should create a transfer", async (context) => {
+		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -64,12 +62,12 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.is(result.amount().toNumber(), 100_000_000);
 	});
 
-	it("should verify without nonce", async () => {
+	it("should verify without nonce", async (context) => {
 		nock.fake(/.+/)
 			.get(`/api/wallets/${identity.address}`)
 			.reply(200, { data: { nonce: "1" } });
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,
@@ -87,12 +85,12 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should verify without nonce if uses secondary wif", async () => {
+	it("should verify without nonce if uses secondary wif", async (context) => {
 		nock.fake(/.+/)
 			.get(`/api/wallets/${identity.address}`)
 			.reply(200, { data: { nonce: "1" } });
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.ConfirmationWIFSignatory({
 					signingKey: identity.wif,
@@ -111,8 +109,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should sign with a custom expiration", async () => {
-		const result = await subject.transfer({
+	it("should sign with a custom expiration", async (context) => {
+		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -132,14 +130,14 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.is(result.id(), "b6eb0b8ff36c77ab3e2a8384d1df4d0d68cb398f220ee9073dd82fe5828d7cbf");
 	});
 
-	it("should sign using network estimated expiration", async () => {
+	it("should sign using network estimated expiration", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/blockchain")
 			.reply(200, loader.json("test/fixtures/client/blockchain.json"))
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -157,12 +155,12 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.is(result.toObject().data.expiration, 6795392);
 	});
 
-	it("should add a signature if the sender public key is a multi-signature wallet", async () => {
+	it("should add a signature if the sender public key is a multi-signature wallet", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/wallets/DBHbggggWbDUhdiqeh9HQ6b5Ryfit7Esek")
 			.reply(200, loader.json(`test/fixtures/client/DKkBL5Mg9v1TPcKQrcUuW1VQrVFu8bh82Q.json`));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -194,8 +192,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.length(result.data().signatures, 1);
 	});
 
-	it("should create a second signature", async () => {
-		const result = await subject.secondSignature({
+	it("should create a second signature", async (context) => {
+		const result = await context.subject.secondSignature({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -213,8 +211,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a delegate registration", async () => {
-		const result = await subject.delegateRegistration({
+	it("should create a delegate registration", async (context) => {
+		const result = await context.subject.delegateRegistration({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -232,8 +230,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a vote", async () => {
-		const result = await subject.vote({
+	it("should create a vote", async (context) => {
+		const result = await context.subject.vote({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -262,8 +260,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	skip("#multiSignature", async () => {
-		const result = await subject.multiSignature({
+	skip("#multiSignature", async (context) => {
+		const result = await context.subject.multiSignature({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -285,8 +283,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a ipfs", async () => {
-		const result = await subject.ipfs({
+	it("should create a ipfs", async (context) => {
+		const result = await context.subject.ipfs({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -302,8 +300,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a multi payment", async () => {
-		const result = await subject.multiPayment({
+	it("should create a multi payment", async (context) => {
+		const result = await context.subject.multiPayment({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -326,8 +324,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a delegate resignation", async () => {
-		const result = await subject.delegateResignation({
+	it("should create a delegate resignation", async (context) => {
+		const result = await context.subject.delegateResignation({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -342,8 +340,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a htlc lock", async () => {
-		const result = await subject.htlcLock({
+	it("should create a htlc lock", async (context) => {
+		const result = await context.subject.htlcLock({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -367,8 +365,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a htlc claim", async () => {
-		const result = await subject.htlcClaim({
+	it("should create a htlc claim", async (context) => {
+		const result = await context.subject.htlcClaim({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -387,8 +385,8 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should create a htlc refund", async () => {
-		const result = await subject.htlcRefund({
+	it("should create a htlc refund", async (context) => {
+		const result = await context.subject.htlcRefund({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -406,7 +404,7 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	it("should estimate expiration", async () => {
+	it("should estimate expiration", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/blockchain")
 			.reply(200, loader.json("test/fixtures/client/blockchain.json"))
@@ -414,6 +412,6 @@ describe("TransactionService", async ({ assert, afterEach, beforeAll, it, loader
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.persist();
 
-		assert.is(await subject.estimateExpiration(), "6795392");
+		assert.is(await context.subject.estimateExpiration(), "6795392");
 	});
 });

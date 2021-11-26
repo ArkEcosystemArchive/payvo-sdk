@@ -3,22 +3,20 @@ import { Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 
-let subject;
-
 describe("LinkService", async ({ beforeAll, it, assert }) => {
-	beforeAll(async () => {
-		subject = await createService(Services.AbstractLinkService);
+	beforeAll(async (context) => {
+		context.subject = await createService(Services.AbstractLinkService);
 	});
 
-	it("should generate a link for a block", async () => {
-		assert.is(subject.block("id"), "https://eos-test.bloks.io/block/id");
+	it("should generate a link for a block", async (context) => {
+		assert.is(context.subject.block("id"), "https://eos-test.bloks.io/block/id");
 	});
 
-	it("should generate a link for a transaction", async () => {
-		assert.is(subject.transaction("id"), "https://eos-test.bloks.io/transaction/id");
+	it("should generate a link for a transaction", async (context) => {
+		assert.is(context.subject.transaction("id"), "https://eos-test.bloks.io/transaction/id");
 	});
 
-	it("should generate a link for a wallet", async () => {
-		assert.is(subject.wallet("id"), "https://eos-test.bloks.io/account/id");
+	it("should generate a link for a wallet", async (context) => {
+		assert.is(context.subject.wallet("id"), "https://eos-test.bloks.io/account/id");
 	});
 });

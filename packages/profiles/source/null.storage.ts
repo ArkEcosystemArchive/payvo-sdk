@@ -1,4 +1,4 @@
-import { Storage } from "./env.models";
+import { Storage } from "./env.models.js";
 
 export class NullStorage implements Storage {
 	public async all<T = Record<string, unknown>>(): Promise<T> {

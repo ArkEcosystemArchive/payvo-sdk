@@ -1,9 +1,9 @@
 import { UUID } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-import { BindingType } from "./constants";
-import { MultiSignatureSigner } from "./multi-signature.signer";
-import { getNetworkConfig } from "./config";
+import { BindingType } from "./constants.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { getNetworkConfig } from "./config.js";
 import * as bitcoin from "bitcoinjs-lib";
 
 @IoC.injectable()

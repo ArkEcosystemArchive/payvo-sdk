@@ -9,7 +9,7 @@ import {
 	NetworkManifestImportMethods,
 	NetworkManifestToken,
 	VotingMethod,
-} from "./network.models";
+} from "./network.models.js";
 
 export class Network {
 	/**

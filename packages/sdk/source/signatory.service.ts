@@ -13,7 +13,7 @@ import {
 	SecretSignatory,
 	Signatory,
 	WIFSignatory,
-} from "./signatories";
+} from "./signatories.js";
 import { AddressService } from "./address.contract.js";
 import { ExtendedAddressService } from "./extended-address.contract.js";
 import { KeyPairService } from "./key-pair.contract.js";

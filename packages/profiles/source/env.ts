@@ -3,7 +3,7 @@ import { Coins, Networks } from "@payvo/sdk";
 import Joi from "joi";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import {
 	IDataRepository,
 	IDelegateService,
@@ -13,9 +13,9 @@ import {
 	IPluginRegistry,
 	IProfileRepository,
 	IWalletService,
-} from "./contracts";
+} from "./contracts.js";
 import { DriverFactory } from "./driver.js";
-import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models";
+import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models.js";
 
 export class Environment {
 	#storage: StorageData | undefined;

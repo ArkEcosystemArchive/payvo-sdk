@@ -5,16 +5,14 @@ import { nock } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 
-let subject;
-
 describe("KnownWalletService", async ({ assert, afterEach, beforeAll, beforeEach, it }) => {
 	beforeAll(() => nock.disableNetConnect());
 
-	beforeEach(async () => {
-		subject = await createService(KnownWalletService);
+	beforeEach(async (context) => {
+		context.subject = await createService(KnownWalletService);
 	});
 
-	it("should return a list of known wallets if the request succeeds", async () => {
+	it("should return a list of known wallets if the request succeeds", async (context) => {
 		const wallets = [
 			{
 				type: "team",
@@ -32,30 +30,30 @@ describe("KnownWalletService", async ({ assert, afterEach, beforeAll, beforeEach
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, wallets);
 
-		assert.equal(await subject.all(), wallets);
+		assert.equal(await context.subject.all(), wallets);
 	});
 
-	it("should return an empty list if the request fails", async () => {
+	it("should return an empty list if the request fails", async (context) => {
 		nock.fake("https://raw.githubusercontent.com")
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(404);
 
-		assert.equal(await subject.all(), []);
+		assert.equal(await context.subject.all(), []);
 	});
 
-	it("should return an empty list if the request response is not an array", async () => {
+	it("should return an empty list if the request response is not an array", async (context) => {
 		nock.fake("https://raw.githubusercontent.com")
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, {});
 
-		assert.equal(await subject.all(), []);
+		assert.equal(await context.subject.all(), []);
 	});
 
-	it("should return an empty list if the source is empty", async () => {
-		subject = await createService(KnownWalletService, undefined, async (container) => {
+	it("should return an empty list if the source is empty", async (context) => {
+		context.subject = await createService(KnownWalletService, undefined, async (container) => {
 			container.get(IoC.BindingType.ConfigRepository).forget(Coins.ConfigKey.KnownWallets);
 		});
 
-		assert.equal(await subject.all(), []);
+		assert.equal(await context.subject.all(), []);
 	});
 });

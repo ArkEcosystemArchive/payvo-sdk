@@ -1,11 +1,6 @@
-import fast from "fast-sort";
+import { sort, ISortBy, ISortByFunction } from "fast-sort";
 
 export const sortBy = <T>(
 	values: T[],
-	iteratees?:
-		| fast.ISortByFunction<T>
-		| keyof T
-		| (fast.ISortByFunction<T> | keyof T)[]
-		| fast.ISortBy<T>[]
-		| undefined,
-): T[] => fast.sort(values).asc(iteratees);
+	iteratees?: ISortByFunction<T> | keyof T | (ISortByFunction<T> | keyof T)[] | ISortBy<T>[] | undefined,
+): T[] => sort(values).asc(iteratees);

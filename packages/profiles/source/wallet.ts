@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { Coins, Contracts, Exceptions, Networks, Services } from "@payvo/sdk";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import {
 	IDataRepository,
 	IExchangeRateService,
@@ -27,7 +27,7 @@ import {
 	WalletFlag,
 	WalletImportMethod,
 	WalletSetting,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
 import { AttributeBag } from "./helpers/attribute-bag.js";
 import { KnownWalletService } from "./known-wallet.service.js";
