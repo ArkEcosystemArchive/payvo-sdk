@@ -5,59 +5,71 @@ import { describe } from "@payvo/sdk-test";
 import { RegistryPlugin } from "./plugin-registry.dto";
 
 describe("RegistryPlugin #sourceProvider", ({ it, assert, each }) => {
-	each("should handle github source provider", async ({ dataset }) => {
-		const [company, project] = dataset;
+	each(
+		"should handle github source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
 
-		const subject = new RegistryPlugin(
-			{
-				links: {
-					repository: `https://github.com/${company}/${project}`,
+			const subject = new RegistryPlugin(
+				{
+					links: {
+						repository: `https://github.com/${company}/${project}`,
+					},
 				},
-			},
-			{},
-		);
+				{},
+			);
 
-		assert.is(subject.sourceProvider().url, `https://github.com/${company}/${project}`);
-	}, [
-		["company", "project"],
-		["COMPANY", "PROJECT"],
-	]);
+			assert.is(subject.sourceProvider().url, `https://github.com/${company}/${project}`);
+		},
+		[
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		],
+	);
 
-	each("should handle bitbucket source provider", async ({ dataset }) => {
-		const [company, project] = dataset;
+	each(
+		"should handle bitbucket source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
 
-		const subject = new RegistryPlugin(
-			{
-				links: {
-					repository: `https://bitbucket.com/${company}/${project}`,
+			const subject = new RegistryPlugin(
+				{
+					links: {
+						repository: `https://bitbucket.com/${company}/${project}`,
+					},
 				},
-			},
-			{},
-		);
+				{},
+			);
 
-		assert.is(subject.sourceProvider().url, `https://bitbucket.com/${company}/${project}`);
-	}, [
-		["company", "project"],
-		["COMPANY", "PROJECT"],
-	]);
+			assert.is(subject.sourceProvider().url, `https://bitbucket.com/${company}/${project}`);
+		},
+		[
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		],
+	);
 
-	each("should handle gitlab source provider", async ({ dataset }) => {
-		const [company, project] = dataset;
+	each(
+		"should handle gitlab source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
 
-		const subject = new RegistryPlugin(
-			{
-				links: {
-					repository: `https://gitlab.com/${company}/${project}`,
+			const subject = new RegistryPlugin(
+				{
+					links: {
+						repository: `https://gitlab.com/${company}/${project}`,
+					},
 				},
-			},
-			{},
-		);
+				{},
+			);
 
-		assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
-	}, [
-		["company", "project"],
-		["COMPANY", "PROJECT"],
-	]);
+			assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
+		},
+		[
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		],
+	);
 
 	it("should handle unknown source provider", async () => {
 		const subject = new RegistryPlugin(

@@ -267,7 +267,7 @@ describeWithContext(
 			// @TODO use something like sinon.spy() instead.
 			let callCount = 0;
 
-			const migrationFunction = () => (callCount++);
+			const migrationFunction = () => callCount++;
 			const migrations = { "1.0.1": migrationFunction };
 
 			container.constant(Identifiers.MigrationSchemas, migrations);
@@ -279,5 +279,5 @@ describeWithContext(
 
 			assert.true(callCount > 0);
 		});
-	}
-)
+	},
+);
