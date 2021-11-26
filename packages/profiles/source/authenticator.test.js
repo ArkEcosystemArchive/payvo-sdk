@@ -1,87 +1,85 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
+import { describe } from "@payvo/sdk-test";
+
 import { bootContainer } from "../test/mocking";
-import { ProfileSetting } from "./contracts";
 import { Authenticator } from "./authenticator";
+import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileExporter } from "./profile.exporter";
 
-let subject;
-let profile;
+describe("Authenticator", async ({ it, assert, beforeEach, beforeAll }) => {
+	beforeAll(() => bootContainer());
 
-test.before(() => bootContainer());
+	beforeEach((context) => {
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+		context.subject = new Authenticator(context.profile);
+	});
 
-test.before.each(() => {
-	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
-	subject = new Authenticator(profile);
+	it("should set the password", async (context) => {
+		assert.undefined(context.profile.settings().get(ProfileSetting.Password));
+
+		assert.undefined(context.subject.setPassword("password"));
+
+		assert.string(context.profile.settings().get(ProfileSetting.Password));
+	});
+
+	it("should verify the password", async (context) => {
+		context.subject.setPassword("password");
+
+		assert.true(context.subject.verifyPassword("password"));
+		assert.false(context.subject.verifyPassword("invalid"));
+	});
+
+	it("should fail to verify the password for a profile that doesn't use a profile", async (context) => {
+		assert.throws(() => context.subject.verifyPassword("password"), "No password is set.");
+	});
+
+	it("should change the password", (context) => {
+		context.subject.setPassword("old-password");
+
+		const oldPassword = context.profile.settings().get(ProfileSetting.Password);
+
+		assert.undefined(context.subject.changePassword("old-password", "new-password"));
+
+		assert.is.not(context.profile.settings().get(ProfileSetting.Password), oldPassword);
+	});
+
+	it("should fail to change the password if no password is set", (context) => {
+		assert.throws(() => context.subject.changePassword("old-password", "new-password"), "No password");
+	});
+
+	it("should fail to change the password if the old password is invalid", (context) => {
+		context.subject.setPassword("old-password");
+
+		assert.throws(() => context.subject.changePassword("invalid-old-password", "new-password"), "does not match");
+	});
+
+	it("should set password in memory", (context) => {
+		context.subject.setPassword("password");
+
+		assert.is(context.profile.password().get(), "password");
+	});
+
+	it("should forget the password", (context) => {
+		assert.false(context.profile.usesPassword());
+		const firstExport = new ProfileExporter(context.profile).export();
+		assert.string(firstExport);
+
+		context.subject.setPassword("old-password");
+
+		assert.true(context.profile.usesPassword());
+		assert.true(new ProfileExporter(context.profile).export().length > firstExport.length * 2);
+
+		context.subject.forgetPassword("old-password");
+
+		assert.false(context.profile.usesPassword());
+		assert.true(new ProfileExporter(context.profile).export().length <= firstExport.length);
+	});
+
+	it("should fail to forget the password if the current password is invalid", (context) => {
+		context.subject.setPassword("password");
+
+		assert.throws(() => context.subject.forgetPassword("invalid-password"), "does not match");
+	});
 });
-
-test("should set the password", async () => {
-	assert.undefined(profile.settings().get(ProfileSetting.Password));
-
-	assert.undefined(subject.setPassword("password"));
-
-	assert.string(profile.settings().get(ProfileSetting.Password));
-});
-
-test("should verify the password", async () => {
-	subject.setPassword("password");
-
-	assert.true(subject.verifyPassword("password"));
-	assert.false(subject.verifyPassword("invalid"));
-});
-
-test("should fail to verify the password for a profile that doesn't use a profile", async () => {
-	assert.throws(() => subject.verifyPassword("password"), "No password is set.");
-});
-
-test("should change the password", () => {
-	subject.setPassword("old-password");
-
-	const oldPassword = profile.settings().get(ProfileSetting.Password);
-
-	assert.undefined(subject.changePassword("old-password", "new-password"));
-
-	assert.is.not(profile.settings().get(ProfileSetting.Password), oldPassword);
-});
-
-test("should fail to change the password if no password is set", () => {
-	assert.throws(() => subject.changePassword("old-password", "new-password"), "No password");
-});
-
-test("should fail to change the password if the old password is invalid", () => {
-	subject.setPassword("old-password");
-
-	assert.throws(() => subject.changePassword("invalid-old-password", "new-password"), "does not match");
-});
-
-test("should set password in memory", () => {
-	subject.setPassword("password");
-
-	assert.is(profile.password().get(), "password");
-});
-
-test("should forget the password", () => {
-	assert.false(profile.usesPassword());
-	const firstExport = new ProfileExporter(profile).export();
-	assert.string(firstExport);
-
-	subject.setPassword("old-password");
-
-	assert.true(profile.usesPassword());
-	assert.true(new ProfileExporter(profile).export().length > firstExport.length * 2);
-
-	subject.forgetPassword("old-password");
-
-	assert.false(profile.usesPassword());
-	assert.true(new ProfileExporter(profile).export().length <= firstExport.length);
-});
-
-test("should fail to forget the password if the current password is invalid", () => {
-	subject.setPassword("password");
-
-	assert.throws(() => subject.forgetPassword("invalid-password"), "does not match");
-});
-
-test.run();
