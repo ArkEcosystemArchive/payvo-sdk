@@ -1,5 +1,5 @@
 import { Context, suite, Test } from "uvu";
-import { z as zod } from "zod";
+import { z as schema } from "zod";
 
 import { assert } from "./assert.js";
 import { each } from "./each.js";
@@ -28,9 +28,9 @@ const runSuite = (suite: Test, callback: Function): void => {
 		loader,
 		nock,
 		only: suite.only,
+		schema,
 		skip: suite.skip,
 		stub: Mockery.stub,
-		zod,
 	});
 
 	suite.run();
