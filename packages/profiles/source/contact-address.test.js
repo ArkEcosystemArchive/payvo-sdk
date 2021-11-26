@@ -1,60 +1,59 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
+
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { ContactAddress } from "./contact-address";
 import { Profile } from "./profile";
 
-let subject;
+describe("ContactAddress", async ({ it, assert, beforeEach }) => {
+	beforeEach((context) => {
+		bootContainer({ flush: true });
 
-test.before(() => bootContainer());
+		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 
-test.before.each(() => {
-	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+		context.subject = new ContactAddress(
+			{
+				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+				coin: "ARK",
+				id: "uuid",
+				network: "ark.devnet",
+			},
+			profile,
+		);
+	});
 
-	subject = new ContactAddress(
-		{
-			id: "uuid",
-			coin: "ARK",
-			network: "ark.devnet",
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "uuid");
+	});
+
+	it("should have a coin", (context) => {
+		assert.is(context.subject.coin(), "ARK");
+	});
+
+	it("should have a network", (context) => {
+		assert.is(context.subject.network(), "ark.devnet");
+	});
+
+	it("should have an address", (context) => {
+		assert.is(context.subject.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+	});
+
+	it("should have an avatar", (context) => {
+		assert.string(context.subject.avatar());
+	});
+
+	it("should turn into an object", (context) => {
+		assert.equal(context.subject.toObject(), {
 			address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-		},
-		profile,
-	);
-});
+			coin: "ARK",
+			id: "uuid",
+			network: "ark.devnet",
+		});
+	});
 
-test("should have an id", () => {
-	assert.is(subject.id(), "uuid");
-});
-
-test("should have a coin", () => {
-	assert.is(subject.coin(), "ARK");
-});
-
-test("should have a network", () => {
-	assert.is(subject.network(), "ark.devnet");
-});
-
-test("should have an address", () => {
-	assert.is(subject.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-});
-
-test("should have an avatar", () => {
-	assert.string(subject.avatar());
-});
-
-test("should turn into an object", () => {
-	assert.equal(subject.toObject(), {
-		address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-		coin: "ARK",
-		id: "uuid",
-		network: "ark.devnet",
+	it("should change the address", (context) => {
+		context.subject.setAddress("new address");
+		assert.is(context.subject.address(), "new address");
 	});
 });
-
-test("should change the address", () => {
-	subject.setAddress("new address");
-	assert.is(subject.address(), "new address");
-});
-
-test.run();

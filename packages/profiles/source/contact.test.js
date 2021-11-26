@@ -1,21 +1,20 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
+
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { Contact } from "./contact";
 import { ContactAddressRepository } from "./contact-address.repository";
 import { Profile } from "./profile";
 
-test.before(() => bootContainer());
+describe("Contact", ({ assert, it, beforeEach }) => {
+	beforeEach((context) => {
+		bootContainer({ flush : true});
 
-describe("contact", ({ afterEach, beforeEach, test }) => {
-	let subject;
-
-	test.before.each(() => {
-		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 		profile.coins().set("ARK", "ark.devnet");
 
-		subject = new Contact(
+		context.subject = new Contact(
 			{
 				id: "uuid",
 				name: "John Doe",
@@ -25,34 +24,34 @@ describe("contact", ({ afterEach, beforeEach, test }) => {
 		);
 	});
 
-	test("should have an id", () => {
-		assert.is(subject.id(), "uuid");
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "uuid");
 	});
 
-	test("should have a name", () => {
-		assert.is(subject.name(), "John Doe");
+	it("should have a name", (context) => {
+		assert.is(context.subject.name(), "John Doe");
 	});
 
-	test("should be able to change name", () => {
-		subject.setName("Jane Doe");
-		assert.is(subject.name(), "Jane Doe");
+	it("should be able to change name", (context) => {
+		context.subject.setName("Jane Doe");
+		assert.is(context.subject.name(), "Jane Doe");
 	});
 
-	test("should have starred state", () => {
-		assert.true(subject.isStarred());
+	it("should have starred state", (context) => {
+		assert.true(context.subject.isStarred());
 	});
 
-	test("should be able to toggle starred state", () => {
-		subject.toggleStarred();
-		assert.false(subject.isStarred());
+	it("should be able to toggle starred state", (context) => {
+		context.subject.toggleStarred();
+		assert.false(context.subject.isStarred());
 	});
 
-	test("should have an avatar", () => {
-		assert.string(subject.avatar());
+	it("should have an avatar", (context) => {
+		assert.string(context.subject.avatar());
 	});
 
-	test("should map to object", () => {
-		assert.equal(subject.toObject(), {
+	it("should map to object", (context) => {
+		assert.equal(context.subject.toObject(), {
 			addresses: [],
 			id: "uuid",
 			name: "John Doe",
@@ -60,23 +59,21 @@ describe("contact", ({ afterEach, beforeEach, test }) => {
 		});
 	});
 
-	test("should return addresses", () => {
-		assert.instance(subject.addresses(), ContactAddressRepository);
+	it("should return addresses", (context) => {
+		assert.instance(context.subject.addresses(), ContactAddressRepository);
 	});
 
-	test("should be able to set addresses", () => {
-		assert.throws(() => subject.setAddresses([]), '"addresses" must contain at least 1 items');
+	it("should be able to set addresses", (context) => {
+		assert.throws(() => context.subject.setAddresses([]), '"addresses" must contain at least 1 items');
 
-		subject.setAddresses([
+		context.subject.setAddresses([
 			{
+				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 				coin: "ARK",
 				network: "ark.devnet",
-				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 			},
 		]);
 
-		assert.is(subject.addresses().count(), 1);
+		assert.is(context.subject.addresses().count(), 1);
 	});
 });
-
-test.run();

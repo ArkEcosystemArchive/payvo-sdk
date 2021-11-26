@@ -1,22 +1,19 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
+import { describe } from "@payvo/sdk-test";
+
 import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
 import { CountAggregate } from "./count.aggregate";
+import { Profile } from "./profile";
 
-let subject;
+describe("CountAggregate", async ({ beforeEach, assert, each }) => {
+	beforeEach(async (context) => {
+		bootContainer({ flush: true });
 
-test.before(() => bootContainer());
-
-test.before.each(async () => {
-	subject = new CountAggregate(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }));
-});
-
-for (const method of ["contacts", "notifications", "wallets"]) {
-	test(`should count ${method}`, () => {
-		assert.number(subject[method]());
+		context.subject = new CountAggregate(new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }));
 	});
-}
 
-test.run();
+	each("should count %s", ({ context, dataset }) => {
+		assert.number(context.subject[dataset]());
+	}, ["contacts", "notifications", "wallets"]);
+});
