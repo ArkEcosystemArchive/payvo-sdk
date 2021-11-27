@@ -38,9 +38,8 @@ describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub }) => {
 		assert.is(context.subject.balance("live"), 0);
 		assert.is(context.subject.balance(), 0);
 
-		const mockWalletLive = stub(context.profile.wallets().first().network(), "isLive").returnValue(true);
+		stub(context.profile.wallets().first().network(), "isLive").returnValue(true);
 		assert.is(context.subject.balance("live"), 558270.93444556);
-		mockWalletLive.restore();
 	});
 
 	it("#convertedBalance", async (context) => {
@@ -65,9 +64,8 @@ describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub }) => {
 			},
 		});
 
-		const mockWalletLive = stub(context.profile.wallets().first(), "balance").returnValue(0);
+		stub(context.profile.wallets().first(), "balance").returnValue(0);
 
 		assert.equal(context.subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
-		mockWalletLive.restore();
 	});
 });

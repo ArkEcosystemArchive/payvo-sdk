@@ -90,20 +90,11 @@ const beforeEachCallback = async (nock, stub) => {
 	testSpy = stub(wallet.network(), "isTest").returnValue(false);
 };
 
-const afterEachCallback = () => {
-	liveSpy.restore();
-	testSpy.restore();
-};
-
 describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it, assert, stub, spy, nock }) => {
 	beforeEach(async () => {
 		await beforeEachCallback(nock, stub);
 
 		subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData);
-	});
-
-	afterEach(() => {
-		afterEachCallback();
 	});
 
 	it("should have an explorer link", () => {
@@ -608,10 +599,6 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 // 			},
 // 			ExtendedConfirmedTransactionData,
 // 		);
-// 	});
-
-// 	afterEach(() => {
-// 		afterEachCallback();
 // 	});
 
 // 	it("#memo", () => {

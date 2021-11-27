@@ -225,8 +225,5 @@ describe("WalletIdentifierFactory", ({
 			value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 			method: "bip39",
 		});
-
-		stubEncrypt.restore();
-		stubDecrypt.restore();
 	});
 });

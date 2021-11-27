@@ -165,13 +165,12 @@ describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 			.query(true)
 			.reply(200, require("../test/fixtures/client/transactions.json"));
 
-		const promiseAllSettledByKeyMock = stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
+		stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
 			return Promise.resolve(undefined);
 		});
 
 		const results = await context.subject.all();
 		assert.instance(results, ExtendedConfirmedTransactionDataCollection);
-		promiseAllSettledByKeyMock.restore();
 	});
 
 	it("should aggregate and filter transactions based on provided identifiers of type `address`", async (context) => {

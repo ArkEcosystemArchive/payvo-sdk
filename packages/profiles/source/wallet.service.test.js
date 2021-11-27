@@ -88,11 +88,6 @@ describe("WalletService", ({ afterEach, beforeAll, beforeEach, nock, assert, it,
 		subject = new WalletService();
 	});
 
-	afterEach(() => {
-		liveSpy.restore();
-		testSpy.restore();
-	});
-
 	it("#syncByProfile", async () => {
 		assert.throws(() => wallet.voting().current(), /has not been synced/);
 
@@ -100,9 +95,8 @@ describe("WalletService", ({ afterEach, beforeAll, beforeEach, nock, assert, it,
 
 		assert.not.throws(() => wallet.voting().current(), /has not been synced/);
 
-		// @ts-ignore
-		const mockUndefinedWallets = stub(profile.wallets(), "values").returnValue([undefined]);
+		stub(profile.wallets(), "values").returnValue([undefined]);
+
 		await subject.syncByProfile(profile);
-		mockUndefinedWallets.restore();
 	});
 });

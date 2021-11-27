@@ -6,16 +6,31 @@ import { assert } from "./assert.js";
 import { each, formatName } from "./each.js";
 import { runHook } from "./hooks.js";
 import { loader } from "./loader.js";
-import { Mockery } from "./mockery.js";
+import { Stub } from "./stub.js";
 import { nock } from "./nock.js";
 
 type ContextFunction = () => Context;
 
 const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
-	suite.before(() => nock.disableNetConnect());
+	let stubs: Stub[] = [];
 
-	suite.after(() => nock.enableNetConnect());
-	suite.after.each(() => nock.cleanAll());
+	suite.before(() => {
+		nock.disableNetConnect();
+	});
+
+	suite.after(() => {
+		nock.enableNetConnect();
+	});
+
+	suite.after.each(() => {
+		nock.cleanAll();
+
+		for (const stub of stubs) {
+			stub.restore();
+		}
+
+		stubs = [];
+	});
 
 	callback({
 		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
@@ -32,7 +47,13 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 		schema,
 		skip: suite.skip,
 		spy,
-		stub: (target: object, method: string) => new Mockery(target, method),
+		stub: (owner: object, method: string) => {
+			const result: Stub = new Stub(owner, method);
+
+			stubs.push(result);
+
+			return result;
+		},
 		test: suite,
 	});
 

@@ -61,11 +61,6 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 		context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 	});
 
-	afterEach((context) => {
-		context.liveSpy.restore();
-		context.testSpy.restore();
-	});
-
 	// @TODO remove skip and fix
 	it.skip("should sync a coin for specific profile with wallets argument", async (context) => {
 		nock.fake()

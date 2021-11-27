@@ -1,32 +1,32 @@
 import { stub, SinonStub } from "sinon";
 import { ok } from "uvu/assert";
 
-export class Mockery {
+export class Stub {
 	readonly #subject: SinonStub;
 
 	public constructor(target: object, method: string) {
 		this.#subject = stub(target, method as never);
 	}
 
-	public returnValue(value: unknown): Mockery {
+	public returnValue(value: unknown): Stub {
 		this.#subject.returns(value);
 
 		return this;
 	}
 
-	public returnValueOnce(value: unknown): Mockery {
+	public returnValueOnce(value: unknown): Stub {
 		this.#subject.onFirstCall().returns(value);
 
 		return this;
 	}
 
-	public resolvedValue(value: unknown): Mockery {
+	public resolvedValue(value: unknown): Stub {
 		this.#subject.resolves(value);
 
 		return this;
 	}
 
-	public callsFake(value: (...args: any[]) => any): Mockery {
+	public callsFake(value: (...args: any[]) => any): Stub {
 		this.#subject.callsFake(value);
 
 		return this;

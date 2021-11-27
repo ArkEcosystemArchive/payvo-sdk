@@ -238,9 +238,7 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 // });
 
 // it("should fail to save if encoding or encrypting fails", () => {
-// 	// @ts-ignore
-// 	const encodingMock = stub(JSON, "stringify").returnValue(undefined);
+//  stub(JSON, "stringify").returnValue(undefined);
 
 // 	assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
-// 	encodingMock.restore();
 // });
