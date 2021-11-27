@@ -17,7 +17,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("FeeService", async ({ assert, nock, it, nock, loader }) => {
+describe("FeeService", async ({ assert, nock, it, loader }) => {
 	const normaliseFees = (transaction) => ({
 		min: transaction.min,
 		avg: transaction.avg,

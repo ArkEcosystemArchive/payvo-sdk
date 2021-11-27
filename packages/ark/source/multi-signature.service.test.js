@@ -14,7 +14,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, it, nock, loader }) => {
+describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, it, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(MultiSignatureService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

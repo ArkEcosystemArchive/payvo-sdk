@@ -7,7 +7,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("AddressService", async ({ assert, nock, beforeAll, it, nock, loader }) => {
+describe("AddressService", async ({ assert, nock, beforeAll, it, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

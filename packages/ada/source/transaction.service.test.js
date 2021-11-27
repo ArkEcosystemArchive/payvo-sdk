@@ -13,7 +13,7 @@ import { WalletData } from "./wallet.dto";
 import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
 import { convertString } from "@payvo/sdk-helpers";
 
-describe("TransactionService", async ({ assert, beforeAll, nock, loader, it, nock, loader }) => {
+describe("TransactionService", async ({ assert, beforeAll, nock, loader, it }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
