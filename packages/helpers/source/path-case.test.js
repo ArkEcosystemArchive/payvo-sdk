@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { pathCase } from "./path-case";
 
-describe("pathCase", async ({ assert, it }) => {
+describe("pathCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into path case", () => {
 		assert.is(pathCase("string"), "string");
 		assert.is(pathCase("camelCase"), "camel/case");

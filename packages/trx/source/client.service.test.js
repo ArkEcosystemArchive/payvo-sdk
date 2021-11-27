@@ -1,6 +1,5 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { Collections, IoC, Services } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -8,7 +7,7 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-describe("ClientService", async ({ beforeAll, assert, it }) => {
+describe("ClientService", async ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);

@@ -1,4 +1,3 @@
-import { nock } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { mnemonics as testMnemonics } from "../fixtures/identity";
@@ -207,7 +206,7 @@ export const createMusigRegistrationFixture = ({
 	throw new Error(`Fixture for [${wallet.network().id()}] is missing`);
 };
 
-export const mockMusigServer = ({ url }: { url: string }) => {
+export const mockMusigServer = (nock, url) => {
 	const mockResponse: Record<string, any> = {
 		delete: { result: [] },
 		store: { result: { id: undefined } },

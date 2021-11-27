@@ -5,7 +5,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-describe("SignedTransactionData", async ({ assert, beforeAll, it }) => {
+describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(SignedTransactionData);
 

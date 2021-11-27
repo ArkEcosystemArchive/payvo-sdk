@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { hex } from "./hex";
 
-describe("hex", async ({ assert, it }) => {
+describe("hex", async ({ assert, it, nock, loader }) => {
 	it("should encode the given string", () => {
 		assert.is(hex.encode("Hello World"), "48656c6c6f20576f726c64");
 	});

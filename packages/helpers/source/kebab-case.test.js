@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { kebabCase } from "./kebab-case";
 
-describe("kebabCase", async ({ assert, it }) => {
+describe("kebabCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into kebab case", () => {
 		assert.is(kebabCase("string"), "string");
 		assert.is(kebabCase("camelCase"), "camel-case");

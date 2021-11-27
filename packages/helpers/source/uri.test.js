@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { URI } from "./uri";
 
-describe("URI", async ({ assert, beforeEach, each, it }) => {
+describe("URI", async ({ assert, beforeEach, each, it, nock, loader }) => {
 	beforeEach(async (context) => (context.subject = new URI()));
 
 	it("should serialize", (context) => {

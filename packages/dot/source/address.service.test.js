@@ -8,7 +8,7 @@ import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { AddressService } from "./address.service";
 
-describe("AddressService", async ({ beforeEach, assert, it }) => {
+describe("AddressService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		await cryptoWaitReady();
 

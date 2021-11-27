@@ -4,7 +4,7 @@ import Joi from "joi";
 
 import { Validator } from "./validator";
 
-describe("Validator", async ({ assert, beforeEach, it }) => {
+describe("Validator", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = new Validator()));
 
 	it("should validate and normalise the data", (context) => {

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Base64 } from "./base64";
 
-describe("Base64", ({ assert, it }) => {
+describe("Base64", ({ assert, it, nock, loader }) => {
 	it("should encode the given value", async () => {
 		const message = "Hello World";
 		assert.is(Base64.encode(message), "SGVsbG8gV29ybGQ=");

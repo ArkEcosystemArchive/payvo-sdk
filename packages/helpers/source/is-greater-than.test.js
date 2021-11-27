@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isGreaterThan } from "./is-greater-than";
 
-describe("isGreaterThan", async ({ assert, it }) => {
+describe("isGreaterThan", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isGreaterThan(2, 1));
 	});

@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { ReadOnlyWallet } from "./read-only-wallet";
 
-describe("ReadOnlyWallet", ({ beforeEach, assert, it }) => {
+describe("ReadOnlyWallet", ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = new ReadOnlyWallet({
 			address: identity.address,

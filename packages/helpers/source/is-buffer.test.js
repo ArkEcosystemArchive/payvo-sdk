@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isBuffer } from "./is-buffer";
 
-describe("isBuffer", async ({ assert, it }) => {
+describe("isBuffer", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isBuffer(Buffer.alloc(1)));
 	});

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isPromise } from "./is-promise";
 
-describe("isPromise", async ({ assert, it }) => {
+describe("isPromise", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isPromise(new Promise(() => {})));
 	});

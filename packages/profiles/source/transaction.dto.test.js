@@ -3,7 +3,6 @@ import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { nock } from "@payvo/sdk-test";
 
 import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { identity } from "../test/fixtures/identity";
@@ -50,7 +49,7 @@ let wallet;
 let liveSpy;
 let testSpy;
 
-const beforeEachCallback = async (stub) => {
+const beforeEachCallback = async (nock, stub) => {
 	bootContainer();
 
 	nock.fake()
@@ -96,9 +95,9 @@ const afterEachCallback = () => {
 	testSpy.restore();
 };
 
-describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it, assert, stub, spy }) => {
+describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it, assert, stub, spy, nock }) => {
 	beforeEach(async () => {
-		await beforeEachCallback(stub);
+		await beforeEachCallback(nock, stub);
 
 		subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData);
 	});
@@ -157,7 +156,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.equal(subject.amount(), 18);
 	});
 
-	test.skip("should have a converted amount", async () => {
+	skip("should have a converted amount", async () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -180,7 +179,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.equal(subject.fee(), 2);
 	});
 
-	test.skip("should have a converted fee", async () => {
+	skip("should have a converted fee", async () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -363,7 +362,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.equal(subject.total(), 12);
 	});
 
-	test.skip("should have a converted total", async () => {
+	skip("should have a converted total", async () => {
 		subject = createSubject(
 			wallet,
 			{

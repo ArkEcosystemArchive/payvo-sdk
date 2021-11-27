@@ -109,21 +109,21 @@ const register3 = {
 	multiSignature: asset,
 };
 
-describe("#isMultiSignature", async ({ assert, it }) => {
+describe("#isMultiSignature", async ({ assert, it, nock, loader }) => {
 	it("should succeed", () => {
 		assert.true(new PendingMultiSignatureTransaction(transfer1).isMultiSignature());
 		assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignature());
 	});
 });
 
-describe("#isMultiSignatureRegistration", async ({ assert, it }) => {
+describe("#isMultiSignatureRegistration", async ({ assert, it, nock, loader }) => {
 	it("should succeed", () => {
 		assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureRegistration());
 		assert.true(new PendingMultiSignatureTransaction(register1).isMultiSignatureRegistration());
 	});
 });
 
-describe("#isMultiSignatureReady", async ({ assert, it }) => {
+describe("#isMultiSignatureReady", async ({ assert, it, nock, loader }) => {
 	it("should succeed", () => {
 		assert.false(new PendingMultiSignatureTransaction(transfer1).isMultiSignatureReady({ excludeFinal: false }));
 		assert.true(new PendingMultiSignatureTransaction(transfer2).isMultiSignatureReady({ excludeFinal: false }));
@@ -136,7 +136,7 @@ describe("#isMultiSignatureReady", async ({ assert, it }) => {
 	});
 });
 
-describe("#needsSignatures", ({ assert, it }) => {
+describe("#needsSignatures", ({ assert, it, nock, loader }) => {
 	it("should return false if it is not a multi signature transaction", () => {
 		assert.false(new PendingMultiSignatureTransaction({ ...transfer1, signatures: undefined }).needsSignatures());
 	});
@@ -151,7 +151,7 @@ describe("#needsSignatures", ({ assert, it }) => {
 	});
 });
 
-describe("#needsAllSignatures", ({ assert, it }) => {
+describe("#needsAllSignatures", ({ assert, it, nock, loader }) => {
 	it("should succeed", () => {
 		assert.true(new PendingMultiSignatureTransaction(transfer1).needsAllSignatures());
 		assert.false(new PendingMultiSignatureTransaction(transfer2).needsAllSignatures());

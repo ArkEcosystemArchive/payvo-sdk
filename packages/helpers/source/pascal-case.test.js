@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { pascalCase } from "./pascal-case";
 
-describe("pascalCase", async ({ assert, it }) => {
+describe("pascalCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into pascal case", () => {
 		assert.is(pascalCase("string"), "String");
 		assert.is(pascalCase("camelCase"), "CamelCase");

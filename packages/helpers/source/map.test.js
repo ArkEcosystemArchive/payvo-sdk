@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { map } from "./map";
 
-describe("map", async ({ assert, it }) => {
+describe("map", async ({ assert, it, nock, loader }) => {
 	it("should work like lodash", () => {
 		assert.equal(
 			map([4, 8], (n) => n * n),

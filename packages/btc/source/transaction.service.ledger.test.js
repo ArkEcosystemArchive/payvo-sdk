@@ -87,10 +87,6 @@ describe("BIP44 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 			.persist();
 	});
 
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	it("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -170,10 +166,6 @@ describe("BIP49 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 			.persist();
 	});
 
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	it("should generate a transfer transaction and sign it with ledger nano", async () => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
@@ -251,10 +243,6 @@ describe("BIP84 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 				},
 			})
 			.persist();
-	});
-
-	afterEach(async () => {
-		nock.cleanAll();
 	});
 
 	it("should generate and sign a transfer transaction", async () => {

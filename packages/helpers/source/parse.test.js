@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { parse } from "./parse";
 
-describe("parse", async ({ assert, it }) => {
+describe("parse", async ({ assert, it, nock, loader }) => {
 	it("should parse valid json", () => {
 		assert.equal(parse("{}"), {});
 	});

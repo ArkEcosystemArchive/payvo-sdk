@@ -192,7 +192,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	});
 });
 
-describe("ConfirmedTransactionData - DelegateRegistrationData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - DelegateRegistrationData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
@@ -207,7 +207,7 @@ describe("ConfirmedTransactionData - DelegateRegistrationData", ({ assert, befor
 	});
 });
 
-describe("ConfirmedTransactionData - DelegateResignationData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - DelegateResignationData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
 		context.subject = await createService(ConfirmedTransactionData);
@@ -219,7 +219,7 @@ describe("ConfirmedTransactionData - DelegateResignationData", ({ assert, before
 	});
 });
 
-describe("ConfirmedTransactionData - HtlcClaimData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - HtlcClaimData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
@@ -238,7 +238,7 @@ describe("ConfirmedTransactionData - HtlcClaimData", ({ assert, beforeEach, it }
 	});
 });
 
-describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
@@ -274,7 +274,7 @@ describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it })
 	});
 });
 
-describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
@@ -289,7 +289,7 @@ describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it 
 	});
 });
 
-describe("ConfirmedTransactionData - IpfsData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - IpfsData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ type: 5, asset: { ipfs: "123456789" } });
@@ -304,7 +304,7 @@ describe("ConfirmedTransactionData - IpfsData", ({ assert, beforeEach, it }) => 
 	});
 });
 
-describe("ConfirmedTransactionData - MultiPaymentData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - MultiPaymentData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
@@ -332,7 +332,7 @@ describe("ConfirmedTransactionData - MultiPaymentData", ({ assert, beforeEach, i
 	});
 });
 
-describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
@@ -359,7 +359,7 @@ describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach,
 	});
 });
 
-describe("ConfirmedTransactionData - SecondSignatureData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - SecondSignatureData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
@@ -374,7 +374,7 @@ describe("ConfirmedTransactionData - SecondSignatureData", ({ assert, beforeEach
 	});
 });
 
-describe("ConfirmedTransactionData - TransferData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - TransferData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ vendorField: "X" });
@@ -389,7 +389,7 @@ describe("ConfirmedTransactionData - TransferData", ({ assert, beforeEach, it })
 	});
 });
 
-describe("ConfirmedTransactionData - VoteData", ({ assert, beforeEach, it }) => {
+describe("ConfirmedTransactionData - VoteData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });

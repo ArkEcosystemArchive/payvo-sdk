@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { chunk } from "./chunk";
 
-describe("chunk", async ({ assert, it }) => {
+describe("chunk", async ({ assert, it, nock, loader }) => {
 	it("should chunk the given array", () => {
 		assert.equal(chunk(["a", "b", "c", "d"], 2), [
 			["a", "b"],

@@ -3,7 +3,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
 
-describe("AddressService", async ({ assert, beforeEach, it }) => {
+describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(WIFService);
 	});

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isRegExp } from "./is-reg-exp";
 
-describe("isRegExp", async ({ assert, it }) => {
+describe("isRegExp", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isRegExp(/a/));
 	});

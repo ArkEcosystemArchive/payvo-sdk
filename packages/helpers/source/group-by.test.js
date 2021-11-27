@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { groupBy } from "./group-by";
 
-describe("groupBy", async ({ assert, it }) => {
+describe("groupBy", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		assert.equal(
 			groupBy(

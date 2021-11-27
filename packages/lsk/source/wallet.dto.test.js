@@ -5,7 +5,7 @@ import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 
-describe("WalletData", async ({ beforeEach, assert, it }) => {
+describe("WalletData", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => (context.subject = (await createService(WalletData)).fill(Fixture.data[0])));
 
 	it("#address", (context) => {

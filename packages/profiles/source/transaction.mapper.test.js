@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Collections } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
+
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { identity } from "../test/fixtures/identity";
@@ -30,7 +30,7 @@ const data = [
 	[ExtendedConfirmedTransactionData, "isOther"],
 ];
 
-describe("TransactionMapper", ({ assert, beforeAll, it }) => {
+describe("TransactionMapper", ({ assert, beforeAll, it, nock, loader }) => {
 	let profile;
 	let wallet;
 

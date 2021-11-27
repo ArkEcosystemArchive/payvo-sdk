@@ -8,7 +8,7 @@ import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";
 
-describe("MessageService", async ({ beforeEach, assert, it }) => {
+describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		await waitReady();
 

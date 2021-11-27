@@ -22,9 +22,9 @@ class Stub extends AbstractRequest {
 	}
 }
 
-describe("AbstractRequest", ({ beforeEach, it }) => {
+describe("AbstractRequest", ({ beforeEach, it, spy }) => {
 	beforeEach(async (context) => {
-		context.spy = sinon.spy();
+		context.spy = spy();
 		context.subject = new Stub(context.spy);
 	});
 

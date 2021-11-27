@@ -6,7 +6,7 @@ import { DateTime } from "@payvo/sdk-intl";
 
 import { UnspentTransactionData } from "./unspent-transaction.dto";
 
-describe("UnspentTransactionData", ({ assert, it }) => {
+describe("UnspentTransactionData", ({ assert, it, nock, loader }) => {
 	it("should have an id", () => {
 		assert.string(new UnspentTransactionData({ id: "value" }).id());
 	});

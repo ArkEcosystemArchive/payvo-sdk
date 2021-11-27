@@ -15,7 +15,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("TransactionService", async ({ beforeAll, assert, it }) => {
+describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		await waitReady();
 

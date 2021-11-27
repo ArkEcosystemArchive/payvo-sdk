@@ -1,7 +1,6 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { nock } from "@payvo/sdk-test";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -108,7 +107,7 @@ describe("signMessage", ({ it, assert }) => {
 	});
 });
 
-describe("scan", ({ it, assert, beforeAll }) => {
+describe("scan", ({ it, assert, beforeAll, nock }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	it("should return scanned wallet", async () => {

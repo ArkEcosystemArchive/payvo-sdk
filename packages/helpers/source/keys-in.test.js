@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { keysIn } from "./keys-in";
 
-describe("includeAllMembers", async ({ assert, it }) => {
+describe("includeAllMembers", async ({ assert, it, nock, loader }) => {
 	it("should work with an object", () => {
 		function Foo() {
 			this.a = 1;

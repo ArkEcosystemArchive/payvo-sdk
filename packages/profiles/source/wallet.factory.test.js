@@ -11,7 +11,7 @@ import { WalletFactory } from "./wallet.factory";
 
 let subject;
 
-describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletFactory", ({ beforeAll, beforeEach, nock, assert, stub, it }) => {
 	beforeAll(() => {
 		bootContainer();
 

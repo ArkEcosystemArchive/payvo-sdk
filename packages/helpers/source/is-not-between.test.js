@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isNotBetween } from "./is-not-between";
 
-describe("isNotBetween", async ({ assert, it }) => {
+describe("isNotBetween", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isNotBetween(1, 2, 3));
 	});

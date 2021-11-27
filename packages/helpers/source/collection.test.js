@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Collection } from "./collection";
 
-describe("Collection", async ({ assert, beforeEach, it }) => {
+describe("Collection", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => {
 		context.collection = new Collection();
 		context.collection.set("key", "value");

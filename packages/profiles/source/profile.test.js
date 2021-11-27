@@ -182,7 +182,7 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 	});
 
 	it.skip("#hasBeenPartiallyRestored", async (context) => {
-		// const wallet = Mockery.spy(); @TODO use spy
+		// const wallet = spy(); @TODO use spy
 		const wallet = { id: {} };
 		wallet.id.returnValue("some-id");
 		wallet.hasBeenPartiallyRestored.returnValue(true);

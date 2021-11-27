@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Arr } from "./arr";
 
-describe("randomElement", async ({ assert, it }) => {
+describe("randomElement", async ({ assert, it, nock, loader }) => {
 	it("should pick random elements", () => {
 		const data = [...Array(1000).keys()];
 

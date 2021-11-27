@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Bcrypt } from "./bcrypt";
 
-describe("Bcrypt", ({ assert, it }) => {
+describe("Bcrypt", ({ assert, it, nock, loader }) => {
 	it("should hash the given value", () => {
 		assert.type(Bcrypt.hash("password"), "string");
 	});

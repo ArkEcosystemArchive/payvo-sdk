@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { WalletDataCollection } from "./wallets.collection";
 
-describe("WalletDataCollection", ({ assert, beforeEach, it }) => {
+describe("WalletDataCollection", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(
 		(context) =>
 			(context.subject = new WalletDataCollection(

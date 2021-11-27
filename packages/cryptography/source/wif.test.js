@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { WIF } from "./wif";
 
-describe("WIF", ({ assert, it }) => {
+describe("WIF", ({ assert, it, nock, loader }) => {
 	it("should encode the given value", () => {
 		assert.type(
 			WIF.encode({

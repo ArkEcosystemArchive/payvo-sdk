@@ -10,7 +10,7 @@ import { WalletData } from "./wallet.enum";
 let profile;
 let subject;
 
-describe("VoteRegistry", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("VoteRegistry", ({ beforeAll, beforeEach, nock, assert, it }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

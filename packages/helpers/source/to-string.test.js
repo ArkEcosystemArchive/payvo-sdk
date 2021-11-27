@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { toString } from "./to-string";
 
-describe("toString", async ({ assert, it }) => {
+describe("toString", async ({ assert, it, nock, loader }) => {
 	it("should work with a string", () => {
 		assert.is(toString("hi"), "hi");
 	});

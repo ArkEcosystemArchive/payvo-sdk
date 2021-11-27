@@ -10,7 +10,7 @@ import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collec
 let profile;
 let subject;
 
-describe("TransactionIndex", ({ afterAll, afterEach, beforeAll, beforeEach, nock, assert, test, it }) => {
+describe("TransactionIndex", ({ beforeAll, beforeEach, nock, assert, it }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

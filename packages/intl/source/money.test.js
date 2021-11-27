@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Money } from "./money";
 
-describe("Money", ({ assert, beforeEach, it }) => {
+describe("Money", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = Money.make(5000, "EUR")));
 
 	it("should get the amount", (context) => {

@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { Manifest } from "./manifest";
 
-describe("Manifest", ({ assert, it }) => {
+describe("Manifest", ({ assert, it, nock, loader }) => {
 	it("should get all values", () => {
 		assert.equal(new Manifest({ key: "value" }).all(), {
 			key: "value",

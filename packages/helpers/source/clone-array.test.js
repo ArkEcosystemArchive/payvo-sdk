@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { cloneArray } from "./clone-array";
 
-describe("cloneArray", async ({ assert, it }) => {
+describe("cloneArray", async ({ assert, it, nock, loader }) => {
 	it("should work like lodash", () => {
 		const objects = [{ a: 1 }, { b: 2 }];
 

@@ -5,7 +5,7 @@ import { createService, mockWallet } from "../test/mocking";
 import { BindingType } from "./constants";
 import { KeyPairService } from "./key-pair.service";
 
-describe("KeyPairService", async ({ assert, beforeEach, it }) => {
+describe("KeyPairService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(KeyPairService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());

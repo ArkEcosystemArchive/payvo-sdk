@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isEmpty } from "./is-empty";
 
-describe("at", async ({ assert, it }) => {
+describe("at", async ({ assert, it, nock, loader }) => {
 	it("should return true for an empty array", () => {
 		assert.true(isEmpty([]));
 	});

@@ -11,7 +11,7 @@ let subject;
 let profile;
 let wallet;
 
-describe("WalletGate", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletGate", ({ beforeAll, beforeEach, nock, assert, it }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

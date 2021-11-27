@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { findKey } from "./find-key";
 
-describe("findKey", async ({ assert, it }) => {
+describe("findKey", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		assert.is(
 			findKey(

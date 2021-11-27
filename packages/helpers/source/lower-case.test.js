@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { lowerCase } from "./lower-case";
 
-describe("lowerCase", async ({ assert, it }) => {
+describe("lowerCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into lower case", () => {
 		assert.is(lowerCase("string"), "string");
 		assert.is(lowerCase("camelCase"), "camel case");

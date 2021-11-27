@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { binary } from "./binary";
 
-describe("binary", async ({ assert, it }) => {
+describe("binary", async ({ assert, it, nock, loader }) => {
 	it("should encode the given string", () => {
 		assert.is(
 			binary.encode("Hello World"),

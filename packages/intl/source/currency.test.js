@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Currency } from "./currency";
 
-describe("Currency", ({ assert, it }) => {
+describe("Currency", ({ assert, it, nock, loader }) => {
 	it("should parse a currency string and turn it into an object", () => {
 		assert.equal(Currency.fromString(""), { display: "", value: undefined });
 
