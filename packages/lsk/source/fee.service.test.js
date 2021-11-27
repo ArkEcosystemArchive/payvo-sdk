@@ -1,7 +1,6 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 
-
 import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { FeeService } from "./fee.service";

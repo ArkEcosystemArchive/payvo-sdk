@@ -3,7 +3,6 @@ import { IoC, Services, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";

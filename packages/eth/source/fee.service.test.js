@@ -1,6 +1,5 @@
 import { describe } from "@payvo/sdk-test";
 
-
 import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 

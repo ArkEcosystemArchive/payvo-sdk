@@ -2,7 +2,6 @@ import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";

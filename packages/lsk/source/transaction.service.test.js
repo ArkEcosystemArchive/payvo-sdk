@@ -3,7 +3,6 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
-
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";

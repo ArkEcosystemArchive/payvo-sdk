@@ -2,7 +2,6 @@ import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
-
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";

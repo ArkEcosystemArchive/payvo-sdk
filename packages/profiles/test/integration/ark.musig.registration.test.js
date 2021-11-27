@@ -40,7 +40,8 @@ describe("ARK MuSig Registration", ({ assert, afterEach, beforeEach, it, nock })
 		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
 		const { mockServerResponse, resetServerResponseMocks } = mockMusigServer(
-			nock, "https://ark-test-musig.payvo.com",
+			nock,
+			"https://ark-test-musig.payvo.com",
 		);
 
 		context.mockServerResponse = mockServerResponse;

@@ -1,7 +1,6 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { Collections, IoC, Services, Test } from "@payvo/sdk";
 
-
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
