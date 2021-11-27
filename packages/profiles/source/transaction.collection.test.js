@@ -12,15 +12,7 @@ const dummy = {
 	recipient: () => "recipient",
 };
 
-describe("ExtendedConfirmedTransactionDataCollection", ({
-	beforeAll,
-	beforeEach,
-	loader,
-	nock,
-	assert,
-	it,
-	stub,
-}) => {
+describe("ExtendedConfirmedTransactionDataCollection", ({ beforeAll, beforeEach, loader, nock, assert, it, stub }) => {
 	beforeEach(() => {
 		// @ts-ignore
 		subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
