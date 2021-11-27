@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { UUID } from "./uuid";
 
-describe("UUID", ({ assert, it }) => {
+describe("UUID", ({ assert, it, nock, loader }) => {
 	it("should create a UUID based on the TIMESTAMP method", () => {
 		assert.string(UUID.timestamp());
 	});

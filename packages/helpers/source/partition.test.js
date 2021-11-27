@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { partition } from "./partition";
 
-describe("partition", async ({ assert, it }) => {
+describe("partition", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		const users = [
 			{ user: "barney", age: 36, active: false },

@@ -5,7 +5,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 
 let subject;
 
-describe("SignedTransactionData", async ({ assert, beforeEach, it }) => {
+describe("SignedTransactionData", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async () => {
 		subject = await createService(SignedTransactionData);
 

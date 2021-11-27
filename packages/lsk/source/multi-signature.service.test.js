@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
+
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -21,7 +21,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const createLocalServices = async (loader) => {
+const createLocalServices = async (nock, loader) => {
 	nock.fake(/.+/)
 		.get("/api/v2/accounts")
 		.query({ address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p" })
@@ -85,9 +85,9 @@ const wallet2 = {
 	publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
 };
 
-describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, stub }) => {
+describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, nock, stub }) => {
 	beforeEach(async (context) => {
-		const { subject, musig } = await createLocalServices(loader);
+		const { subject, musig } = await createLocalServices(nock, loader);
 
 		context.subject = subject;
 		context.musig = musig;
@@ -151,11 +151,9 @@ describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, st
 	});
 });
 
-describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
-	let transaction;
-
+describe("#broadcast", ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
-		const { musig, subject } = await createLocalServices(loader);
+		const { musig, subject } = await createLocalServices(nock, loader);
 
 		context.transaction = await musig.addSignature(
 			(
@@ -187,7 +185,7 @@ describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
 	});
 
 	it("should broadcast a transaction", async (context) => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
@@ -203,7 +201,7 @@ describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
 	});
 
 	it("should handle error", async (context) => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		nock.fake(/.+/)
 			.post("/", (body) => body.method === "store")
@@ -221,9 +219,9 @@ describe("#broadcast", ({ beforeEach, assert, it, loader }) => {
 	});
 });
 
-describe("#needsFinalSignature", async ({ it, assert, loader }) => {
+describe("#needsFinalSignature", async ({ it, assert, nock, loader }) => {
 	it("should succeed", async () => {
-		const { musig, subject } = await createLocalServices(loader);
+		const { musig, subject } = await createLocalServices(nock, loader);
 
 		assert.true(
 			musig.needsFinalSignature(
@@ -247,9 +245,9 @@ describe("#needsFinalSignature", async ({ it, assert, loader }) => {
 	});
 });
 
-describe("#allWithPendingState", async ({ it, assert, loader }) => {
+describe("#allWithPendingState", async ({ it, assert, nock, loader }) => {
 	it("#should succeed", async () => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		nock.fake(/.+/)
 			.post("/", {
@@ -272,9 +270,9 @@ describe("#allWithPendingState", async ({ it, assert, loader }) => {
 	});
 });
 
-describe("#allWithReadyState", async ({ it, assert, loader }) => {
+describe("#allWithReadyState", async ({ it, assert, nock, loader }) => {
 	it("should succeed", async () => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		nock.fake(/.+/)
 			.post("/", {
@@ -297,9 +295,9 @@ describe("#allWithReadyState", async ({ it, assert, loader }) => {
 	});
 });
 
-describe("#findById", async ({ it, assert, loader }) => {
+describe("#findById", async ({ it, assert, nock, loader }) => {
 	it("should succeed", async () => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		nock.fake(/.+/)
 			.post("/", {
@@ -318,9 +316,9 @@ describe("#findById", async ({ it, assert, loader }) => {
 	});
 });
 
-describe("#forgetById", async ({ it, assert, loader }) => {
+describe("#forgetById", async ({ it, assert, nock, loader }) => {
 	it("should succeed", async () => {
-		const { musig } = await createLocalServices(loader);
+		const { musig } = await createLocalServices(nock, loader);
 
 		const deleteNock = nock
 			.fake(/.+/)

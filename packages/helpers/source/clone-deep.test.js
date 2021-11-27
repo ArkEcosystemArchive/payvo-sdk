@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { cloneDeep } from "./clone-deep";
 
-describe("cloneDeep", async ({ assert, it }) => {
+describe("cloneDeep", async ({ assert, it, nock, loader }) => {
 	it("should work with objects", () => {
 		const object = { a: 1 };
 

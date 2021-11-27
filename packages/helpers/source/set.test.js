@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { set } from "./set";
 
-describe("set", async ({ assert, it }) => {
+describe("set", async ({ assert, it, nock, loader }) => {
 	it("should not do anything if the target is not an object", () => {
 		assert.false(set(undefined, "a.b.c", 4));
 	});

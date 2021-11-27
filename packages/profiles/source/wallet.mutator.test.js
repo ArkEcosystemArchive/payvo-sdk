@@ -13,7 +13,7 @@ import { WalletData, WalletImportMethod } from "./wallet.enum";
 let profile;
 let subject;
 
-describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletMutator", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

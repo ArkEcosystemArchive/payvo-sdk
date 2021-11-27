@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { hasProperty } from "./has-property";
 
-describe("hasProperty", async ({ assert, it }) => {
+describe("hasProperty", async ({ assert, it, nock, loader }) => {
 	it("should return true if the object has a given property", () => {
 		assert.true(hasProperty({ property: undefined }, "property"));
 	});

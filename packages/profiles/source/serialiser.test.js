@@ -9,7 +9,7 @@ import { Identifiers } from "./container.models";
 let profile;
 let subject;
 
-describe("WalletSerialiser", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletSerialiser", ({ beforeAll, beforeEach, nock }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

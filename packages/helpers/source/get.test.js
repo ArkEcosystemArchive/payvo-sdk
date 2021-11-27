@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { get } from "./get";
 
-describe("get", async ({ assert, it }) => {
+describe("get", async ({ assert, it, nock, loader }) => {
 	it("should return the default value if the target is not an object", () => {
 		assert.is(get([], "a.b.c", "defaultValue"), "defaultValue");
 	});

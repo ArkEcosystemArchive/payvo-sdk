@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isEqual } from "./is-equal";
 
-describe("isEqual", async ({ assert, it }) => {
+describe("isEqual", async ({ assert, it, nock, loader }) => {
 	it("should return true for the same strings", () => {
 		assert.true(isEqual("true", "true"));
 	});

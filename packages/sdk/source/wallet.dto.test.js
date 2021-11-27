@@ -65,7 +65,7 @@ class Wallet extends AbstractWalletData {
 	}
 }
 
-describe("AbstractWalletData", ({ assert, it }) => {
+describe("AbstractWalletData", ({ assert, it, nock, loader }) => {
 	it("#address", () => {
 		assert.is(new Wallet({ key: "value" }).address(), "address");
 	});

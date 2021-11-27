@@ -10,7 +10,7 @@ import { SecretSignatory } from "./secret.signatory";
 import { Signatory } from "./signatory";
 import { WIFSignatory } from "./wif.signatory";
 
-describe("Signatory", ({ assert, it }) => {
+describe("Signatory", ({ assert, it, nock, loader }) => {
 	it("should determine if has a multi-signature asset", () => {
 		let subject = new Signatory(
 			new SecretSignatory({
@@ -151,7 +151,7 @@ describe("Signatory", ({ assert, it }) => {
 	});
 });
 
-describe("MnemonicSignatory", ({ assert, it }) => {
+describe("MnemonicSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new MnemonicSignatory({
@@ -275,7 +275,7 @@ describe("MnemonicSignatory", ({ assert, it }) => {
 	});
 });
 
-describe("ConfirmationMnemonicSignatory", ({ assert, it }) => {
+describe("ConfirmationMnemonicSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationMnemonicSignatory({
@@ -372,7 +372,7 @@ describe("ConfirmationMnemonicSignatory", ({ assert, it }) => {
 	});
 });
 
-describe("WIFSignatory", ({ assert, it }) => {
+describe("WIFSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new WIFSignatory({
@@ -463,7 +463,7 @@ describe("WIFSignatory", ({ assert, it }) => {
 	});
 });
 
-describe("ConfirmationWIFSignatory", ({ assert, it }) => {
+describe("ConfirmationWIFSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationWIFSignatory({
@@ -560,7 +560,7 @@ describe("ConfirmationWIFSignatory", ({ assert, it }) => {
 	});
 });
 
-describe("PrivateKeySignatory", ({ assert, it }) => {
+describe("PrivateKeySignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new PrivateKeySignatory({
@@ -670,7 +670,7 @@ describe("PrivateKeySignatory", ({ assert, it }) => {
 	});
 });
 
-describe("MultiSignatureSignatory", ({ assert, it }) => {
+describe("MultiSignatureSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new MultiSignatureSignatory({ min: 5, publicKeys: ["identifier"] }, "identifier"),
@@ -720,7 +720,7 @@ describe("MultiSignatureSignatory", ({ assert, it }) => {
 	});
 });
 
-describe("ConfirmationSecretSignatory", ({ assert, it }) => {
+describe("ConfirmationSecretSignatory", ({ assert, it, nock, loader }) => {
 	it("should have a signing key", () => {
 		const subject = new Signatory(
 			new ConfirmationSecretSignatory({

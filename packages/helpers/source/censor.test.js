@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Censor } from "./censor";
 
-describe("Censor", async ({ assert, beforeEach, it }) => {
+describe("Censor", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = new Censor()));
 
 	it("#isBad", (context) => {

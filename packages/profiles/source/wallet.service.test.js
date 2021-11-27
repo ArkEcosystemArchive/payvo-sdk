@@ -15,7 +15,7 @@ let subject;
 let liveSpy;
 let testSpy;
 
-describe("WalletService", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletService", ({ afterEach, beforeAll, beforeEach, nock, assert, it, stub }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {

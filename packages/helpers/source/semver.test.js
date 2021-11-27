@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { semver } from "./semver";
 
-describe("semver", async ({ assert, it }) => {
+describe("semver", async ({ assert, it, nock, loader }) => {
 	it("should determine if the version is equal to version", () => {
 		assert.true(semver.isEqual("0.0.0", "0.0.0"));
 		assert.true(semver.isEqual("1.2.3", "1.2.3"));

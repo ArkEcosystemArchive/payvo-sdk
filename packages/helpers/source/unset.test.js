@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { unset } from "./unset";
 
-describe("unset", async ({ assert, it }) => {
+describe("unset", async ({ assert, it, nock, loader }) => {
 	it("should return false if the target is not an object", () => {
 		assert.false(unset([], "a.b.c"));
 	});

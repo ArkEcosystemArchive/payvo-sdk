@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { prettyBytes } from "./pretty-bytes";
 
-describe("prettyBytes", async ({ assert, it }) => {
+describe("prettyBytes", async ({ assert, it, nock, loader }) => {
 	it("should format the given number", () => {
 		assert.is(prettyBytes(0), "0 B");
 		assert.is(prettyBytes(0.4), "0.4 B");

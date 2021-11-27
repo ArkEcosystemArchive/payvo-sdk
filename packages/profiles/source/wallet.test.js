@@ -18,7 +18,7 @@ import { WalletImportFormat } from "./wif";
 let profile;
 let subject;
 
-describe("Wallet", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 	beforeAll(() => {
 		bootContainer();
 	});

@@ -5,7 +5,7 @@ import { WalletData } from "./wallet.dto";
 import { createService } from "../test/mocking";
 
 for (const network of ["mainnet", "devnet"]) {
-	describe(`WalletData - ${network}`, ({ assert, beforeEach, it }) => {
+	describe(`WalletData - ${network}`, ({ assert, beforeEach, it, nock, loader }) => {
 		const WalletDataFixture = {
 			mainnet: {
 				address: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",

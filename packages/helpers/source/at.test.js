@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { at } from "./at";
 
-describe("at", async ({ assert, it }) => {
+describe("at", async ({ assert, it, nock, loader }) => {
 	it("should work like lodash", () => {
 		const object = {
 			a: { b: { c: 3 } },

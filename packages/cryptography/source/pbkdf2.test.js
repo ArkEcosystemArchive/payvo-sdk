@@ -8,7 +8,7 @@ describeWithContext(
 		message: "Hello World",
 		password: "password",
 	},
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should encrypt the given value", async ({ message, password }) => {
 			assert.type(PBKDF2.encrypt(message, password), "string");
 		});

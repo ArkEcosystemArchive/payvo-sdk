@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { has } from "./has";
 
-describe("has", async ({ assert, it }) => {
+describe("has", async ({ assert, it, nock, loader }) => {
 	it("should return false if the target is not an object", () => {
 		assert.false(has([], "a.b.c"));
 	});

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { ExtendedAddressService } from "./address-list.service";
 
-describe("AddressListService", async ({ assert, beforeEach, it }) => {
+describe("AddressListService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => {
 		context.subject = new ExtendedAddressService();
 	});

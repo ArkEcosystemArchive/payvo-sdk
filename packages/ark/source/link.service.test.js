@@ -3,7 +3,7 @@ import { Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 
-describe("LinkService", ({ assert, it }) => {
+describe("LinkService", ({ assert, it, nock, loader }) => {
 	it("should generate a link for a block on a [ark.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "ark.mainnet");
 

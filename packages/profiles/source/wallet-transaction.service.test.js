@@ -21,7 +21,7 @@ let profile;
 let wallet;
 let subject;
 
-describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, assert }) => {
+describe("ARK", ({ afterEach, beforeAll, beforeEach, skip, it, nock, stub, assert }) => {
 	beforeAll(() => {
 		bootContainer();
 	});
@@ -788,7 +788,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		assert.containKey(subject.waitingForOtherSignatures(), id);
 	});
 
-	test.skip("#confirm", async () => {
+	skip("#confirm", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {

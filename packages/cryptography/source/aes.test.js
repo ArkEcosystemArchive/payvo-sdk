@@ -10,7 +10,7 @@ describeWithContext(
 		salt: "salt",
 		iv: "secretsecretsecretsecret",
 	},
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should encrypt the given value", (context) => {
 			assert.is(
 				AES.encrypt(context.message, context.password, context.salt, context.iv),

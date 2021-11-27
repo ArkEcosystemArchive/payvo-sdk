@@ -77,7 +77,7 @@ const createEnv = async (nock) => {
 let subject;
 let factory;
 
-describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletRepository", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 	beforeAll(() => {
 		bootContainer();
 	});

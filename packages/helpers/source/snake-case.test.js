@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { snakeCase } from "./snake-case";
 
-describe("snakeCase", async ({ assert, it }) => {
+describe("snakeCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into snake case", () => {
 		assert.is(snakeCase("string"), "string");
 		assert.is(snakeCase("camelCase"), "camel_case");

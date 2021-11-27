@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Currency } from "./currency";
 
-describe("Currency", ({ assert, it }) => {
+describe("Currency", ({ assert, it, nock, loader }) => {
 	it("should format fiat", () => {
 		assert.is(Currency.format(10, "USD"), "$10.00");
 	});

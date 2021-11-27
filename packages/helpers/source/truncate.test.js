@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { truncate } from "./truncate";
 
-describe("truncate", async ({ assert, it }) => {
+describe("truncate", async ({ assert, it, nock, loader }) => {
 	it("should truncate strings if they are above the specified length", () => {
 		assert.is(truncate("Hello World"), "Hello World");
 

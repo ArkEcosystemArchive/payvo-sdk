@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { reduceRightArray } from "./reduce-right-array";
 
-describe("reduceRightArray", async ({ assert, it }) => {
+describe("reduceRightArray", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		assert.equal(
 			reduceRightArray(

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { merge } from "./merge";
 
-describe("merge", async ({ assert, it }) => {
+describe("merge", async ({ assert, it, nock, loader }) => {
 	it("should merge the given objects", () => {
 		assert.equal(
 			merge(

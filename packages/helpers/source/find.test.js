@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { find } from "./find";
 
-describe("find", async ({ assert, it }) => {
+describe("find", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		const users = [
 			{ user: "barney", age: 36, active: true },

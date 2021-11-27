@@ -1,11 +1,10 @@
 import { describe } from "@payvo/sdk-test";
 import { Coins, IoC } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 
-describe("KnownWalletService", async ({ assert, afterEach, beforeAll, beforeEach, it }) => {
+describe("KnownWalletService", async ({ assert, nock, beforeAll, beforeEach, it, nock, loader }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	beforeEach(async (context) => {

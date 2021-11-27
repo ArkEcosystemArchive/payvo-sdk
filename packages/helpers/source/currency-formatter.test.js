@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "./bignumber";
 import { CurrencyFormatter } from "./currency-formatter";
 
-describe("CurrencyFormatter", async ({ assert, it }) => {
+describe("CurrencyFormatter", async ({ assert, it, nock, loader }) => {
 	it("should format the value with a ticker", () => {
 		assert.is(CurrencyFormatter.simpleFormatCrypto(10, "ETH"), "10 ETH");
 	});

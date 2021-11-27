@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { upperCase } from "./upper-case";
 
-describe("upperCase", async ({ assert, it }) => {
+describe("upperCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into upper case", () => {
 		assert.is(upperCase("string"), "STRING");
 		assert.is(upperCase("camelCase"), "CAMEL CASE");

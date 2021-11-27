@@ -1,6 +1,5 @@
 import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
@@ -18,7 +17,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("FeeService", async ({ assert, afterEach, it, loader }) => {
+describe("FeeService", async ({ assert, nock, it, nock, loader }) => {
 	const normaliseFees = (transaction) => ({
 		min: transaction.min,
 		avg: transaction.avg,

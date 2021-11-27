@@ -10,7 +10,7 @@ import { TransactionAggregate } from "./transaction.aggregate";
 
 let subject;
 
-describe("TransactionAggregate", ({ afterAll, beforeAll, nock, assert, stub, it }) => {
+describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 	beforeAll(async (context) => {
 		bootContainer();
 

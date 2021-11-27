@@ -140,10 +140,6 @@ describe("BIP44 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
 			.persist();
 	});
 
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
@@ -225,10 +221,6 @@ describe("BIP49 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
 				},
 			})
 			.persist();
-	});
-
-	afterEach(async () => {
-		nock.cleanAll();
 	});
 
 	it("should generate and sign a transfer transaction", async (context) => {
@@ -315,10 +307,6 @@ describe("BIP84 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
 			.persist();
 	});
 
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
@@ -398,10 +386,6 @@ describe("legacy multisignature wallet", ({ afterEach, beforeEach, it, nock, ass
 				},
 			})
 			.persist();
-	});
-
-	afterEach(async () => {
-		nock.cleanAll();
 	});
 
 	it("should generate a transfer transaction", async (context) => {
@@ -546,10 +530,6 @@ describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, it, nock
 				},
 			})
 			.persist();
-	});
-
-	afterEach(async () => {
-		nock.cleanAll();
 	});
 
 	it("should generate a transfer transaction", async (context) => {
@@ -698,10 +678,6 @@ describe("native segwit multisignature wallet", ({ afterEach, beforeEach, it, no
 				},
 			})
 			.persist();
-	});
-
-	afterEach(async () => {
-		nock.cleanAll();
 	});
 
 	it("should generate a transfer transaction", async (context) => {

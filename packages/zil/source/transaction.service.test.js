@@ -11,7 +11,7 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
 
-describe("AddressService", async ({ assert, beforeEach, it }) => {
+describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());

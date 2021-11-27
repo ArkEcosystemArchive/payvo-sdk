@@ -6,7 +6,7 @@ import Fixture from "../test/fixtures/client/transaction.json";
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-describe("ConfirmedTransactionData", async ({ beforeEach, assert, it }) => {
+describe("ConfirmedTransactionData", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure(Fixture);

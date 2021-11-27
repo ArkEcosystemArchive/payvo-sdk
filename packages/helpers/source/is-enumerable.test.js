@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isEnumerable } from "./is-enumerable";
 
-describe("isEnumerable", async ({ assert, it }) => {
+describe("isEnumerable", async ({ assert, it, nock, loader }) => {
 	it("should work with objects and arrays", () => {
 		const object1 = {};
 		const array1 = [];

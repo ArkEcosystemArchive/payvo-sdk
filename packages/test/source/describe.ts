@@ -3,7 +3,7 @@ import { Context, suite, Test } from "uvu";
 import { z as schema } from "zod";
 
 import { assert } from "./assert.js";
-import { eachSuite, formatName } from "./each.js";
+import { each, formatName } from "./each.js";
 import { runHook } from "./hooks.js";
 import { loader } from "./loader.js";
 import { Mockery } from "./mockery.js";
@@ -24,7 +24,7 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 		beforeAll: async (callback_: Function) => suite.before(runHook(callback_)),
 		beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
 		dataset,
-		each: eachSuite(suite),
+		each: each(suite),
 		it: suite,
 		loader,
 		nock,

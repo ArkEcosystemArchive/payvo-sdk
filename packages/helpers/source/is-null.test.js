@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isNull } from "./is-null";
 
-describe("isNull", async ({ assert, it }) => {
+describe("isNull", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isNull(null));
 	});

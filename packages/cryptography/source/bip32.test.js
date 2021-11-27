@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { BIP32 } from "./bip32";
 
-describe("BIP32", ({ assert, each, it }) => {
+describe("BIP32", ({ assert, each, it, nock, loader }) => {
 	each(
 		"#fromMnemonic - with network %s",
 		({ dataset }) => {

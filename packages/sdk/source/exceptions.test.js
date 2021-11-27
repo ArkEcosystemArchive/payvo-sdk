@@ -9,7 +9,7 @@ import {
 	NotSupported,
 } from "./exceptions";
 
-describe("Exceptions", ({ assert, it }) => {
+describe("Exceptions", ({ assert, it, nock, loader }) => {
 	it("should throw an exception with the type NotImplemented", () => {
 		assert.throws(() => {
 			throw new NotImplemented("klass", "method");

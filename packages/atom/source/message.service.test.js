@@ -6,7 +6,7 @@ import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { MessageService } from "./message.service";
 
-describe("MessageService", async ({ beforeEach, assert, it }) => {
+describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(MessageService, undefined, (container) => {
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);

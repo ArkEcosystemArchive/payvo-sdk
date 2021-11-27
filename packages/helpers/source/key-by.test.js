@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { keyBy } from "./key-by";
 
-describe("keyBy", async ({ assert, it }) => {
+describe("keyBy", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		const array = [
 			{ dir: "left", code: 97 },

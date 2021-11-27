@@ -33,7 +33,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("disconnect", ({ assert, it }) => {
+describe("disconnect", ({ assert, it, nock, loader }) => {
 	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
@@ -41,7 +41,7 @@ describe("disconnect", ({ assert, it }) => {
 	});
 });
 
-describe("getVersion", ({ assert, it }) => {
+describe("getVersion", ({ assert, it, nock, loader }) => {
 	it("should pass with an app version", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
@@ -49,7 +49,7 @@ describe("getVersion", ({ assert, it }) => {
 	});
 });
 
-describe("getPublicKey", ({ assert, it }) => {
+describe("getPublicKey", ({ assert, it, nock, loader }) => {
 	it.skip("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
@@ -57,7 +57,7 @@ describe("getPublicKey", ({ assert, it }) => {
 	});
 });
 
-describe("signTransaction", ({ assert, it }) => {
+describe("signTransaction", ({ assert, it, nock, loader }) => {
 	it("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.transaction.record);
 
@@ -68,7 +68,7 @@ describe("signTransaction", ({ assert, it }) => {
 	});
 });
 
-describe("signMessage", ({ assert, it }) => {
+describe("signMessage", ({ assert, it, nock, loader }) => {
 	it("should fail with a 'NotImplemented' error", async () => {
 		const subject = await createMockService("");
 

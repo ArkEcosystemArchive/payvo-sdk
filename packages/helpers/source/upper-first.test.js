@@ -11,7 +11,7 @@ describeWithContext(
 			"test space": "Test space",
 		},
 	}),
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should capitalize the given input", (context) => {
 			Object.keys(context.dummies).forEach((key) => {
 				assert.is(upperFirst(key), context.dummies[key]);

@@ -1,6 +1,6 @@
 import { describe, describeWithContext } from "./describe";
 
-describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, it }) => {
+describe("Date.now()", ({ assert, beforeAll, afterAll, only, skip, it, nock, loader }) => {
 	let _Date;
 
 	beforeAll(() => {
@@ -38,7 +38,7 @@ describe("Datasets", ({ assert, each }) => {
 	);
 });
 
-describeWithContext("Context (Object)", { hello: "world" }, ({ assert, it }) => {
+describeWithContext("Context (Object)", { hello: "world" }, ({ assert, it, nock, loader }) => {
 	it("should have context from an object", (context) => {
 		assert.is(context.hello, "world");
 	});
@@ -47,7 +47,7 @@ describeWithContext("Context (Object)", { hello: "world" }, ({ assert, it }) => 
 describeWithContext(
 	"Context (Function)",
 	() => ({ hello: "world" }),
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should have context from an object", (context) => {
 			assert.is(context.hello, "world");
 		});

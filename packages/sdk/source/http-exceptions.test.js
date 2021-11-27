@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { BadResponseException, RequestException } from "./http-exceptions";
 import { Response } from "./http-response";
 
-describe("HTTP Exceptions", ({ assert, it }) => {
+describe("HTTP Exceptions", ({ assert, it, nock, loader }) => {
 	it("should throw an exception with the type RequestException", () => {
 		assert.is(
 			new RequestException(

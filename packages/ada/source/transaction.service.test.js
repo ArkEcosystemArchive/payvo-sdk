@@ -1,4 +1,4 @@
-import { describe, loader, nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
@@ -13,7 +13,7 @@ import { WalletData } from "./wallet.dto";
 import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
 import { convertString } from "@payvo/sdk-helpers";
 
-describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
+describe("TransactionService", async ({ assert, beforeAll, nock, loader, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -28,10 +28,6 @@ describe("TransactionService", async ({ assert, beforeAll, afterEach, it }) => {
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		});
-	});
-
-	afterEach(() => {
-		nock.cleanAll();
 	});
 
 	it("#transfer should succeed", async (context) => {

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { mapValues } from "./map-values";
 
-describe("mapValues", async ({ assert, it }) => {
+describe("mapValues", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		const users = {
 			fred: { user: "fred", age: 40 },

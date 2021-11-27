@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { BigNumber } from "./bignumber";
 
-describe("BigNumber", async ({ assert, beforeEach, it }) => {
+describe("BigNumber", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = BigNumber.make(1)));
 
 	it("#decimalPlaces", () => {

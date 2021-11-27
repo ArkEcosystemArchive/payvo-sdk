@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { parseURI } from "./parse-uri";
 
-describe("parseURI", async ({ assert, it }) => {
+describe("parseURI", async ({ assert, it, nock, loader }) => {
 	it("should return all values", () => {
 		assert.equal(parseURI("https://domain.com/path?query=value#fragment"), {
 			authority: "domain.com",

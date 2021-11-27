@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { assign } from "./assign";
 
-describe("assign", async ({ assert, it }) => {
+describe("assign", async ({ assert, it, nock, loader }) => {
 	it("should return the names of the users", () => {
 		function Foo() {
 			this.a = 1;

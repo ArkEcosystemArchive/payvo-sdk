@@ -14,7 +14,7 @@ describeWithContext(
 		french: "remplir lézard temporel refuge éclipse furtif bermuda victoire angle pollen appeler affaire citoyen farine fermer",
 		random: "@!#$^$%^&*&^(",
 	},
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should generate a new mnemonic", async () => {
 			assert.string(BIP39.generate("chinese_simplified"));
 			assert.string(BIP39.generate("chinese_traditional"));

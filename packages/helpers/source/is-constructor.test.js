@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isConstructor } from "./is-constructor";
 
-describe("isConstructor", async ({ assert, it }) => {
+describe("isConstructor", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isConstructor(Date));
 	});

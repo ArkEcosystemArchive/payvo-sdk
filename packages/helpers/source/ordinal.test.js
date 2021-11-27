@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { ordinal } from "./ordinal";
 
-describe("ordinal", async ({ assert, it }) => {
+describe("ordinal", async ({ assert, it, nock, loader }) => {
 	it("should return the number with the correct suffix", () => {
 		assert.is(ordinal(1), "1st");
 		assert.is(ordinal(2), "2nd");

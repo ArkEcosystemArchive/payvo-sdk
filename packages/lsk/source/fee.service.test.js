@@ -1,6 +1,6 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
+
 
 import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
@@ -66,7 +66,7 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 	});
 });
 
-describe("#calculate", ({ beforeEach, it, assert }) => {
+describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 	let service;
 
 	beforeEach(async (context) => {

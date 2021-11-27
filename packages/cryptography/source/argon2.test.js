@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Argon2 } from "./argon2";
 
-describe("Argon2", ({ assert, it }) => {
+describe("Argon2", ({ assert, it, nock, loader }) => {
 	it("should hash the given value", async () => {
 		assert.type(await Argon2.hash("password"), "string");
 	});

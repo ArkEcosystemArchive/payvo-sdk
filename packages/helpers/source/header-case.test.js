@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { headerCase } from "./header-case";
 
-describe("headerCase", async ({ assert, it }) => {
+describe("headerCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into header case", () => {
 		assert.is(headerCase("string"), "String");
 		assert.is(headerCase("camelCase"), "Camel-Case");
