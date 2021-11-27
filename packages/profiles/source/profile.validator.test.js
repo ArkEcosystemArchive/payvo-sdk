@@ -1,7 +1,7 @@
 import "reflect-metadata";
 
 import { Base64 } from "@payvo/sdk-cryptography";
-import { describe  } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
@@ -14,9 +14,9 @@ import { ProfileValidator } from "./profile.validator";
 
 describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")
@@ -122,7 +122,7 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 		// @TODO use spy.
 		let callCount = 0;
 
-		const migrationFunction = () => (callCount++);
+		const migrationFunction = () => callCount++;
 		const migrations = { "1.0.1": migrationFunction };
 
 		container.constant(Identifiers.MigrationSchemas, migrations);

@@ -12,11 +12,9 @@ import { ProfileRepository } from "./profile.repository";
 
 describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, loader, stub }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.cleanAll();
-
-		nock.fake(/.+/)
+		nock.fake()
 			// ARK Core
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
@@ -70,7 +68,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 
 	// @TODO remove skip and fix
 	it.skip("should sync a coin for specific profile with wallets argument", async (context) => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
 			.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })
@@ -84,7 +82,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 	});
 
 	it("should sync a coin for specific profile without wallets argument", async (context) => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
 			.reply(200, { BTC: 0.000_021_34, ConversionType: { conversionSymbol: "", type: "direct" } })
@@ -106,7 +104,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 	});
 
 	it("should store exchange rates and currency in profile wallets if undefined", async (context) => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
 			.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })
@@ -119,7 +117,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 	});
 
 	it("should cache historic exchange rates", async (context) => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
 			.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })
@@ -130,7 +128,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 		await context.subject.syncAll(context.profile, "DARK");
 		assert.is(context.wallet.convertedBalance(), 0.000_050_48);
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
 			.reply(200, { BTC: 0.000_055_55, ConversionType: { conversionSymbol: "", type: "direct" } })

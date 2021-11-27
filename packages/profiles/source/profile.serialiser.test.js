@@ -10,9 +10,9 @@ import { ProfileSerialiser } from "./profile.serialiser";
 
 describe("ProfileSerialiser", ({ it, assert, loader, beforeEach, nock }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")

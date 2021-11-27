@@ -38,9 +38,9 @@ const makeSubject = async (context) => {
 	await context.subject.persist();
 };
 
-describe("Environment", ({ beforeAll, beforeEach, it, assert, nock, loader }) => {
+describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, assert, nock, loader }) => {
 	beforeAll(() => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/node/configuration/crypto")

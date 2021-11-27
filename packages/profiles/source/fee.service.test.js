@@ -8,9 +8,9 @@ import { Profile } from "./profile";
 
 describe("FeeService", ({ beforeEach, loader, nock, it, assert }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/node/configuration/crypto")

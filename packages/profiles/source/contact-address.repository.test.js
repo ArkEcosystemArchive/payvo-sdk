@@ -18,7 +18,7 @@ void describeWithContext(
 	},
 	async ({ it, beforeEach, assert }) => {
 		beforeEach((context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 			context.subject = new ContactAddressRepository(context.profile);

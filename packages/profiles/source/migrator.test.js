@@ -12,7 +12,7 @@ import { ProfileSerialiser } from "./profile.serialiser";
 
 describe("Migrator", ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.profile = new Profile({ avatar: "avatar", data: Base64.encode("{}"), id: "id", name: "name" });
 		context.subject = new Migrator(context.profile, {});

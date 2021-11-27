@@ -10,7 +10,7 @@ import { ProfileExporter } from "./profile.exporter";
 
 describe("Authenticator", async ({ it, assert, beforeEach }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 		context.subject = new Authenticator(context.profile);

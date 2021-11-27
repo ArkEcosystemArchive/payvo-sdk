@@ -1,4 +1,4 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { AttributeBag } from "./attribute-bag";
 
@@ -6,84 +6,84 @@ const values = { a: "a", b: "b", c: "c" };
 
 let subject;
 
-test.before.each(() => (subject = new AttributeBag()));
+describe("AttributeBag", ({ beforeEach, test, assert }) => {
+	beforeEach(() => (subject = new AttributeBag()));
 
-test("#all", async () => {
-	subject.setMany(values);
+	test("#all", async () => {
+		subject.setMany(values);
 
-	assert.equal(subject.all(), values);
+		assert.equal(subject.all(), values);
+	});
+
+	test("#get", async () => {
+		assert.is(subject.get("a", "defaultValue"), "defaultValue");
+
+		subject.set("a", "a");
+
+		assert.is(subject.get("a"), "a");
+	});
+
+	test("#set", async () => {
+		subject.set("a", "a");
+
+		assert.true(subject.has("a"));
+	});
+
+	test("#has", async () => {
+		assert.false(subject.has("a"));
+
+		subject.set("a", "a");
+
+		assert.true(subject.has("a"));
+	});
+
+	test("#hasStrict", async () => {
+		subject.set("a", undefined);
+
+		assert.false(subject.hasStrict("a"));
+
+		subject.set("a", "a");
+
+		assert.true(subject.hasStrict("a"));
+	});
+
+	test("#missing", async () => {
+		assert.true(subject.missing("a"));
+
+		subject.set("a", "a");
+
+		assert.false(subject.missing("a"));
+	});
+
+	test("#forget", async () => {
+		subject.set("a", "a");
+
+		assert.true(subject.has("a"));
+
+		subject.forget("a");
+
+		assert.true(subject.missing("a"));
+	});
+
+	test("#flush", async () => {
+		subject.set("a", "a");
+
+		assert.true(subject.has("a"));
+
+		subject.flush();
+
+		assert.true(subject.missing("a"));
+	});
+
+	test("#only", async () => {
+		subject.setMany(values);
+
+		assert.equal(subject.only(["a", "b"]), { a: "a", b: "b" });
+	});
+
+	test("#except", async () => {
+		subject.setMany(values);
+
+		assert.equal(subject.except(["a", "b"]), { c: "c" });
+	});
 });
-
-test("#get", async () => {
-	assert.is(subject.get("a", "defaultValue"), "defaultValue");
-
-	subject.set("a", "a");
-
-	assert.is(subject.get("a"), "a");
-});
-
-test("#set", async () => {
-	subject.set("a", "a");
-
-	assert.true(subject.has("a"));
-});
-
-test("#has", async () => {
-	assert.false(subject.has("a"));
-
-	subject.set("a", "a");
-
-	assert.true(subject.has("a"));
-});
-
-test("#hasStrict", async () => {
-	subject.set("a", undefined);
-
-	assert.false(subject.hasStrict("a"));
-
-	subject.set("a", "a");
-
-	assert.true(subject.hasStrict("a"));
-});
-
-test("#missing", async () => {
-	assert.true(subject.missing("a"));
-
-	subject.set("a", "a");
-
-	assert.false(subject.missing("a"));
-});
-
-test("#forget", async () => {
-	subject.set("a", "a");
-
-	assert.true(subject.has("a"));
-
-	subject.forget("a");
-
-	assert.true(subject.missing("a"));
-});
-
-test("#flush", async () => {
-	subject.set("a", "a");
-
-	assert.true(subject.has("a"));
-
-	subject.flush();
-
-	assert.true(subject.missing("a"));
-});
-
-test("#only", async () => {
-	subject.setMany(values);
-
-	assert.equal(subject.only(["a", "b"]), { a: "a", b: "b" });
-});
-
-test("#except", async () => {
-	subject.setMany(values);
-
-	assert.equal(subject.except(["a", "b"]), { c: "c" });
-});
-
-test.run();

@@ -12,16 +12,10 @@ import { ReadOnlyWallet } from "./read-only-wallet";
 import { Wallet } from "./wallet";
 
 describe("MultiSignature", ({ assert, it, stub, loader, nock, beforeAll, beforeEach }) => {
-	beforeAll(() => {
-		nock.disableNetConnect();
-	});
-
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.cleanAll();
-
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/peers")

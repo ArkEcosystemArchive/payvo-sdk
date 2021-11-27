@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Collections } from "@payvo/sdk";
@@ -30,9 +30,7 @@ const data = [
 	[ExtendedConfirmedTransactionData, "isOther"],
 ];
 
-test.before(() => bootContainer());
-
-describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
+describe("TransactionMapper", ({ assert, beforeAll, it }) => {
 	let profile;
 	let wallet;
 
@@ -52,8 +50,10 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 		isUnvote: () => false,
 	};
 
-	test.before(async () => {
-		nock.fake(/.+/)
+	beforeAll(async () => {
+		bootContainer();
+
+		nock.fake()
 			.get("/api/peers")
 			.reply(200, require("../test/fixtures/client/peers.json"))
 			.get("/api/node/configuration/crypto")
@@ -83,7 +83,7 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 	// 	);
 	// });
 
-	test("should map collection correctly", () => {
+	it("should map collection correctly", () => {
 		const pagination = {
 			prev: "before",
 			self: "now",
@@ -104,5 +104,3 @@ describe("transaction-mapper", ({ afterEach, beforeEach, test }) => {
 		assert.is(transformedCollection.getPagination(), pagination);
 	});
 });
-
-test.run();

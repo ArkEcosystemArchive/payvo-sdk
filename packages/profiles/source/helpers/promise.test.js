@@ -4,7 +4,7 @@
 //  * Based on https://github.com/Dobby89/promise-all-settled-by-key/blob/master/source/__tests__/index.test.js.
 //  */
 
-// import { assert, test } from "@payvo/sdk-test";
+// import { describe } from "@payvo/sdk-test";
 
 // import { promiseAllSettledByKey } from "./promise";
 
@@ -12,7 +12,7 @@
 // const promise2 = new Promise((resolve, reject) => setTimeout(reject, 100, "foo error"));
 // const promise3 = new Promise((resolve, reject) => setTimeout(reject, 100));
 
-// test("should return all resolved and rejected promises by their key", () =>
+// it("should return all resolved and rejected promises by their key", () =>
 // 	promiseAllSettledByKey({
 // 		getFoo: promise2,
 // 		nope: promise3,
@@ -23,12 +23,12 @@
 // 		assert.equal(nope, { status: "rejected", value: undefined });
 // 	}));
 
-// test("should return an empty object if no promises object supplied", () =>
+// it("should return an empty object if no promises object supplied", () =>
 // 	promiseAllSettledByKey().then((settled) => {
 // 		assert.equal(settled, {});
 // 	}));
 
-// test("should return ONLY resolved promises", () =>
+// it("should return ONLY resolved promises", () =>
 // 	promiseAllSettledByKey(
 // 		{
 // 			getFoo: promise2,
@@ -43,7 +43,7 @@
 // 		});
 // 	}));
 
-// test("should return undefined if given ONLY rejected promises", () =>
+// it("should return undefined if given ONLY rejected promises", () =>
 // 	promiseAllSettledByKey(
 // 		{
 // 			getFoo: promise2,
@@ -54,7 +54,7 @@
 // 		assert.undefined(results);
 // 	}));
 
-// test("should return ONLY rejected promises", () =>
+// it("should return ONLY rejected promises", () =>
 // 	promiseAllSettledByKey(
 // 		{
 // 			getFoo: promise2,
@@ -70,7 +70,7 @@
 // 		});
 // 	}));
 
-// test("should return undefined if given ONLY resolved promises", () =>
+// it("should return undefined if given ONLY resolved promises", () =>
 // 	promiseAllSettledByKey(
 // 		{
 // 			theNumberThree: promise1,
@@ -80,4 +80,4 @@
 // 		assert.undefined(results);
 // 	}));
 
-// test.run();
+// });

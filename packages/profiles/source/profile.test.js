@@ -21,9 +21,9 @@ import { WalletRepository } from "./wallet.repository";
 
 describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")
@@ -124,7 +124,10 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 
 		assert.length(context.subject.settings().keys(), 0);
 
-		assert.throws(() => context.subject.flush(), "The name of the profile could not be found. This looks like a bug.");
+		assert.throws(
+			() => context.subject.flush(),
+			"The name of the profile could not be found. This looks like a bug.",
+		);
 	});
 
 	it("should flush settings", (context) => {
@@ -140,7 +143,10 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 
 		assert.length(context.subject.settings().keys(), 0);
 
-		assert.throws(() => context.subject.flushSettings(), "The name of the profile could not be found. This looks like a bug.");
+		assert.throws(
+			() => context.subject.flushSettings(),
+			"The name of the profile could not be found. This looks like a bug.",
+		);
 	});
 
 	it("should have a wallet factory", (context) => {
@@ -219,21 +225,21 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 
 // @TODO uncomment and fix.
 
-// test("should fail to encrypt a profile if the password is invalid", () => {
+// it("should fail to encrypt a profile if the password is invalid", () => {
 // 	subject.auth().setPassword("password");
 
 // 	assert.throws(() => subject.save("invalid-password"), "The password did not match our records.");
 // });
 
-// test("should encrypt a profile with the in-memory password if none was provided", () => {
+// it("should encrypt a profile with the in-memory password if none was provided", () => {
 // 	subject.auth().setPassword("password");
 
 // 	assert.not.throws(() => subject.save(), "The password did not match our records.");
 // });
 
-// test("should fail to save if encoding or encrypting fails", () => {
+// it("should fail to save if encoding or encrypting fails", () => {
 // 	// @ts-ignore
-// 	const encodingMock = Mockery.stub(JSON, "stringify").returnValue(undefined);
+// 	const encodingMock = stub(JSON, "stringify").returnValue(undefined);
 
 // 	assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
 // 	encodingMock.restore();

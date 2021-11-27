@@ -8,7 +8,7 @@ import { Profile } from "./profile";
 
 describe("CountAggregate", async ({ beforeEach, assert, each }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.subject = new CountAggregate(new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }));
 	});

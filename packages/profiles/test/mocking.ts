@@ -14,16 +14,14 @@ import { IProfile, IReadWriteWallet } from "../source/contracts";
 import { WalletFactory } from "../source/wallet.factory";
 import { DriverFactory } from "../source/driver";
 
-export const bootContainer = (options?: { flush: boolean }): void => {
-	if (options?.flush) {
-		container.flush();
-	}
+export const bootContainer = (): void => {
+	container.flush();
 
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
 		storage: new StubStorage(),
 		httpClient: new Request(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 };
 

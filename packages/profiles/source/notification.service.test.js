@@ -15,13 +15,13 @@ describeWithContext(
 	{ mnemonic: identity.mnemonic },
 	({ it, assert, loader, beforeEach, nock }) => {
 		beforeEach(async (context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			context.notificationTransactionFixtures = loader.json(
 				"test/fixtures/client/notification-transactions.json",
 			);
 
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration")
 				.reply(200, loader.json("test/fixtures/client/configuration.json"))
 				.get("/api/node/configuration/crypto")

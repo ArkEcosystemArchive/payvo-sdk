@@ -10,9 +10,9 @@ import { ProfileDumper } from "./profile.dumper";
 
 describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")
@@ -31,9 +31,7 @@ describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) 
 		context.subject = new ProfileDumper(context.profile);
 	});
 
-	afterEach(() => {
-		nock.cleanAll();
-	});
+	afterEach(() => {});
 
 	it("should dump the profile with a password", (context) => {
 		context.profile.auth().setPassword("password");

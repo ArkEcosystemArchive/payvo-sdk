@@ -7,9 +7,9 @@ import { ProfileData, ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileInitialiser } from "./profile.initialiser";
 
-describe("ProfileInitialiser", ({ beforeAll, beforeEach, it, assert, loader, nock }) => {
+describe("ProfileInitialiser", ({ afterAll, afterEach, beforeAll, beforeEach, it, assert, loader, nock }) => {
 	beforeAll(() => {
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")
@@ -24,7 +24,7 @@ describe("ProfileInitialiser", ({ beforeAll, beforeEach, it, assert, loader, noc
 	});
 
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.profile = new Profile({ data: "", id: "uuid", name: "name" });
 	});

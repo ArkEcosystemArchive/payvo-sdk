@@ -19,7 +19,7 @@ describeWithContext(
 	},
 	({ beforeEach, it, assert }) => {
 		beforeEach((context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			context.subject = new PluginRepository();
 		});

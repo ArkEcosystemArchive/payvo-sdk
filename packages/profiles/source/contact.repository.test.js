@@ -15,7 +15,7 @@ void describeWithContext(
 	},
 	async ({ beforeEach, it, assert }) => {
 		beforeEach((context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 

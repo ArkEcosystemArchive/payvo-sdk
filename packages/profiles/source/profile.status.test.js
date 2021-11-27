@@ -8,7 +8,7 @@ import { Profile } from "./profile";
 
 describe("Profile status", ({ it, assert, beforeEach }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.profile = new Profile({ avatar: "avatar", data: Base64.encode("{}"), id: "id", name: "name" });
 	});

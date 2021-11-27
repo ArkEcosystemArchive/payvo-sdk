@@ -9,7 +9,7 @@ import { ProfileSetting } from "./profile.enum.contract";
 
 describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.profile = new Profile({
 			appearance: {

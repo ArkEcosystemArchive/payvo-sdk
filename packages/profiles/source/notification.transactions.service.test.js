@@ -16,9 +16,9 @@ describeWithContext(
 	{ mnemonic: identity.mnemonic },
 	({ beforeEach, it, assert, loader, nock, stub }) => {
 		beforeEach(async (context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration/crypto")
 				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 				.get("/api/node/configuration")
@@ -48,7 +48,7 @@ describeWithContext(
 		});
 
 		it("#recent", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync({ limit: 20 });
 
@@ -60,7 +60,7 @@ describeWithContext(
 		});
 
 		it("#sync", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			context.profile.settings().set(ProfileSetting.UseTestNetworks, true);
 
@@ -72,7 +72,7 @@ describeWithContext(
 		});
 
 		it("should return empty responses for test networks", async (context) => {
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/transactions")
 				.query(true)
 				.reply(200, loader.json("test/fixtures/client/transactions-empty.json"));
@@ -87,7 +87,7 @@ describeWithContext(
 		});
 
 		it("#has", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync();
 
@@ -96,7 +96,7 @@ describeWithContext(
 		});
 
 		it("#findByTransactionId", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync();
 
@@ -105,7 +105,7 @@ describeWithContext(
 		});
 
 		it("#forget", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync();
 
@@ -118,7 +118,7 @@ describeWithContext(
 		});
 
 		it("#forgetByRecipient", async (context) => {
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/transactions")
 				.query(true)
 				.reply(200, context.notificationTransactionFixtures)
@@ -140,7 +140,7 @@ describeWithContext(
 		});
 
 		it("#markAsRead", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync({ limit: 20 });
 
@@ -154,7 +154,7 @@ describeWithContext(
 		});
 
 		it("#transactions", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync({ limit: 20 });
 
@@ -163,7 +163,7 @@ describeWithContext(
 		});
 
 		it("#transactions", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync({ limit: 20 });
 
@@ -174,7 +174,7 @@ describeWithContext(
 		});
 
 		it("should handle undefined timestamp", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			const transactions = await context.profile.transactionAggregate().received({ limit: 10 });
 			const transaction = transactions.findById(context.notificationTransactionFixtures.data[2].id);
@@ -195,7 +195,7 @@ describeWithContext(
 		});
 
 		it("#markAllAsRead", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			await context.subject.sync({ limit: 20 });
 			context.notificationsRepository.push({
@@ -210,7 +210,7 @@ describeWithContext(
 		});
 
 		it("#isSyncing", async (context) => {
-			nock.fake(/.+/).get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
+			nock.fake().get("/api/transactions").query(true).reply(200, context.notificationTransactionFixtures);
 
 			assert.false(context.subject.isSyncing());
 			await context.subject.sync({ limit: 20 });

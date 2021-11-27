@@ -9,9 +9,9 @@ import { Profile } from "./profile";
 
 describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/node/configuration/crypto")

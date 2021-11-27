@@ -8,11 +8,9 @@ import { Profile } from "./profile";
 
 describe("KnownWalletService", ({ loader, it, assert, beforeEach, afterEach, nock }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.cleanAll();
-
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/peers")

@@ -7,7 +7,7 @@ import { PasswordManager } from "./password";
 
 describe("PasswordManager", ({ it, assert, beforeEach }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		context.subject = new PasswordManager();
 	});

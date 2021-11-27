@@ -13,11 +13,9 @@ import { ProfileSerialiser } from "./profile.serialiser";
 
 describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.cleanAll();
-
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/peers")

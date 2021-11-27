@@ -95,7 +95,7 @@ describeWithContext(
 	},
 	({ it, assert, nock, loader, beforeEach, beforeAll, stub }) => {
 		beforeAll(() => {
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration/crypto")
 				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 				.get("/api/peers")
@@ -110,7 +110,7 @@ describeWithContext(
 		});
 
 		beforeEach((context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			container.get(Identifiers.ProfileRepository).flush();
 

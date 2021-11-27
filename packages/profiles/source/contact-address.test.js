@@ -8,7 +8,7 @@ import { Profile } from "./profile";
 
 describe("ContactAddress", async ({ it, assert, beforeEach }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 

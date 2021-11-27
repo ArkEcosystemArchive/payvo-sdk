@@ -7,7 +7,7 @@ import { PluginRegistry } from "./plugin-registry.service";
 
 describe("PluginRegistry", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
 	beforeEach((context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
 		nock.fake("https://raw.githubusercontent.com")
 			.get("/PayvoHQ/wallet-plugins/master/whitelist.json")
@@ -39,9 +39,7 @@ describe("PluginRegistry", ({ beforeEach, afterEach, it, assert, nock, loader })
 		context.subject = new PluginRegistry();
 	});
 
-	afterEach(() => {
-		nock.cleanAll();
-	});
+	afterEach(() => {});
 
 	it("should list all plugins", async (context) => {
 		const result = await context.subject.all();

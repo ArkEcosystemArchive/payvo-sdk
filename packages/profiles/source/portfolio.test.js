@@ -15,11 +15,9 @@ describeWithContext(
 	},
 	({ beforeEach, nock, it, assert, loader, stub }) => {
 		beforeEach(async (context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
-			nock.cleanAll();
-
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration")
 				.reply(200, loader.json("test/fixtures/client/configuration.json"))
 				.get("/api/peers")
@@ -53,7 +51,7 @@ describeWithContext(
 		});
 
 		it("should aggregate the balances of all wallets", async (context) => {
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/data/dayAvg")
 				.query(true)
 				.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })

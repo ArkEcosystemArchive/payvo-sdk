@@ -7,27 +7,18 @@ import { ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.
 
 describeEach(
 	"DelegateSyncer(%s)",
-	({ assert, beforeAll, beforeEach, dataset, it, nock, loader }) => {
-		beforeAll(() => {
-			bootContainer({ flush: true });
-		});
-
+	({ assert, beforeEach, dataset, it, nock, loader }) => {
 		beforeEach(async (context) => {
-			nock.cleanAll();
+			bootContainer();
 
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration")
 				.reply(200, loader.json("test/fixtures/client/configuration.json"))
 				.get("/api/node/configuration/crypto")
 				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 				.get("/api/node/syncing")
 				.reply(200, loader.json("test/fixtures/client/syncing.json"))
-				.get("/api/peers")
-				.reply(200, loader.json("test/fixtures/client/peers.json"))
-				.get("/api/delegates")
-				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
-				.get("/api/delegates?page=2")
-				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+				.persist();
 
 			const coin = await makeCoin("ARK", "ark.devnet");
 
@@ -39,12 +30,17 @@ describeEach(
 		});
 
 		it("should sync", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			assert.length(await context.subject.sync(), 200);
 		});
 
 		it("should sync single page", async (context) => {
-			nock.cleanAll();
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/delegates")
 				.reply(200, loader.json("test/fixtures/client/delegates-single-page.json"))
 				.persist();

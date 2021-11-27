@@ -77,7 +77,7 @@ describeWithContext(
 	},
 	({ beforeEach, assert, it }) => {
 		beforeEach((context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
 			context.subject = new NotificationRepository(
 				new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }),

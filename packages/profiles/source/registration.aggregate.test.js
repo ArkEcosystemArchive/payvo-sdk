@@ -9,9 +9,9 @@ import { RegistrationAggregate } from "./registration.aggregate";
 
 describe("RegistrationAggregate", ({ beforeEach, it, assert, nock, loader }) => {
 	beforeEach(async (context) => {
-		bootContainer({ flush: true });
+		bootContainer();
 
-		nock.fake(/.+/)
+		nock.fake()
 			.get("/api/node/configuration/crypto")
 			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")

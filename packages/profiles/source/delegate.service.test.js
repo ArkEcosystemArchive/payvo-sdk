@@ -12,21 +12,15 @@ describeWithContext(
 	{ mnemonic: identity.mnemonic },
 	({ beforeEach, it, assert, loader, nock, stub }) => {
 		beforeEach(async (context) => {
-			bootContainer({ flush: true });
+			bootContainer();
 
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/node/configuration")
 				.reply(200, loader.json("test/fixtures/client/configuration.json"))
 				.get("/api/node/configuration/crypto")
 				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 				.get("/api/node/syncing")
 				.reply(200, loader.json("test/fixtures/client/syncing.json"))
-				.get("/api/peers")
-				.reply(200, loader.json("test/fixtures/client/peers.json"))
-				.get("/api/delegates")
-				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
-				.get("/api/delegates?page=2")
-				.reply(200, loader.json("test/fixtures/client/delegates-2.json"))
 				.persist();
 
 			context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
@@ -40,6 +34,12 @@ describeWithContext(
 		});
 
 		it("should sync the delegates", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 			await context.subject.sync(context.profile, "ARK", "ark.devnet");
@@ -49,8 +49,7 @@ describeWithContext(
 		});
 
 		it("should sync the delegates only one page", async (context) => {
-			nock.cleanAll();
-			nock.fake(/.+/)
+			nock.fake()
 				.get("/api/delegates")
 				.reply(200, loader.json("test/fixtures/client/delegates-single-page.json"));
 
@@ -63,6 +62,12 @@ describeWithContext(
 		});
 
 		it("should sync the delegates when network does not support FastDelegateSync", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 			stub(context.profile.coins().set("ARK", "ark.devnet").network(), "meta").returnValue({
@@ -76,6 +81,12 @@ describeWithContext(
 		});
 
 		it("should sync the delegates of all coins", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
 			await context.subject.syncAll(context.profile);
@@ -85,13 +96,27 @@ describeWithContext(
 		});
 
 		it("should find a delegate by address or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			await context.subject.syncAll(context.profile);
+
 			assert.truthy(context.subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve"));
 			assert.throws(() => context.subject.findByAddress("ARK", "ark.devnet", "unknown"), /No delegate for/);
 		});
 
 		it("should find a delegate by public key or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			await context.subject.syncAll(context.profile);
+
 			assert.truthy(
 				context.subject.findByPublicKey(
 					"ARK",
@@ -103,7 +128,14 @@ describeWithContext(
 		});
 
 		it("should find a delegate by username or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			await context.subject.syncAll(context.profile);
+
 			assert.truthy(context.subject.findByUsername("ARK", "ark.devnet", "alessio"));
 			assert.throws(() => context.subject.findByUsername("ARK", "ark.devnet", "unknown"), /No delegate for/);
 		});
@@ -116,6 +148,12 @@ describeWithContext(
 		});
 
 		it("should map the public keys to read-only wallets", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			const delegates = loader.json("test/fixtures/client/delegates-1.json").data;
 			const addresses = delegates.map((delegate) => delegate.address);
 			const publicKeys = delegates.map((delegate) => delegate.publicKey);
@@ -136,6 +174,12 @@ describeWithContext(
 		});
 
 		it("should skip public keys for which it does not find a delegate", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
 			const delegates = loader.json("test/fixtures/client/delegates-1.json").data;
 			const addresses = delegates.map((delegate) => delegate.address);
 			const publicKeys = delegates.map((delegate) => delegate.publicKey);

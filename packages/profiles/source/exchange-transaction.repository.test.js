@@ -1,4 +1,4 @@
-// import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+// import { describe } from "@payvo/sdk-test";
 // import "reflect-metadata";
 
 // import { bootContainer } from "../test/mocking";
@@ -6,7 +6,7 @@
 // import { ExchangeTransactionStatus } from "./contracts";
 // import { Profile } from "./profile";
 
-// test.before(() => bootContainer());
+// beforeAll(() => bootContainer());
 
 // const stubData = {
 // 	orderId: "orderId",
@@ -26,15 +26,15 @@
 // let subject;
 // let dateNowSpy;
 
-// test.before(() => {
-// 	dateNowSpy = Mockery.stub(Date, "now").callsFake(() => 123456789);
+// beforeAll(() => {
+// 	dateNowSpy = stub(Date, "now").callsFake(() => 123456789);
 // });
 
-// test.after(() => {
+// afterAll(() => {
 // 	dateNowSpy.restore();
 // });
 
-// test.before.each(() => {
+// beforeEach(() => {
 // 	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
 // 	subject = new ExchangeTransactionRepository(profile);
@@ -170,6 +170,6 @@
 // 	assert.equal(subject.values()[0].toObject(), Object.values(exchangeTransactions)[0]);
 // });
 
-// test.run();
+// });
 
 // @TODO: restore is leaking
