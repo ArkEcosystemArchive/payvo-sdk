@@ -64,7 +64,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 			.persist();
 	});
 
-	test("#fromMnemonicWithBIP39 - should create a wallet using BIP39", async () => {
+	it("#fromMnemonicWithBIP39 - should create a wallet using BIP39", async () => {
 		const wallet = await subject.fromMnemonicWithBIP39({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -75,7 +75,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	});
 
-	test("#fromMnemonicWithBIP39 - should throw if BIP39 is requested but extended public keys are used", async () => {
+	it("#fromMnemonicWithBIP39 - should throw if BIP39 is requested but extended public keys are used", async () => {
 		await assert.rejects(
 			() =>
 				subject.fromMnemonicWithBIP39({
@@ -87,7 +87,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP39 - should create a wallet using BIP39 with encryption", async () => {
+	it("#fromMnemonicWithBIP39 - should create a wallet using BIP39 with encryption", async () => {
 		const wallet = await subject.fromMnemonicWithBIP39({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -105,7 +105,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for ADA", async () => {
+	it("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for ADA", async () => {
 		const wallet = await subject.fromMnemonicWithBIP44({
 			coin: "ADA",
 			network: "ada.testnet",
@@ -120,7 +120,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for BTC", async () => {
+	it("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > address) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP44({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -131,7 +131,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.address(), "n16aeukbAKUZPh3iefK3DjpyJAc6TUHw9C");
 	});
 
-	test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for ADA", async () => {
+	it("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for ADA", async () => {
 		const wallet = await subject.fromMnemonicWithBIP44({
 			coin: "ADA",
 			network: "ada.testnet",
@@ -146,7 +146,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for BTC", async () => {
+	it("#fromMnemonicWithBIP44 - should create a wallet using BIP44 (mnemonic > extended public key) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP44({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -160,7 +160,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > address) for BTC", async () => {
+	it("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > address) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP49({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -171,7 +171,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.address(), "2NDqSnogr4eQeLrPWM5GmgBvNuMbwdyh1Bi");
 	});
 
-	test("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > extended public key) for BTC", async () => {
+	it("#fromMnemonicWithBIP49 - should create a wallet using BIP49 (mnemonic > extended public key) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP49({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -185,7 +185,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > address) for BTC", async () => {
+	it("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > address) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP84({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -196,7 +196,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.address(), "tb1quhtzwu2pm7apf4r0c4sgj73cvdrspy6ez4jxjn");
 	});
 
-	test("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > extended public key) for BTC", async () => {
+	it("#fromMnemonicWithBIP84 - should create a wallet using BIP84 (mnemonic > extended public key) for BTC", async () => {
 		const wallet = await subject.fromMnemonicWithBIP84({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -210,7 +210,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromAddress", async () => {
+	it("#fromAddress", async () => {
 		const wallet = await subject.fromAddress({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -229,7 +229,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(mainnetWallet.address(), "AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX");
 	});
 
-	test("#fromPublicKey - for ARK", async () => {
+	it("#fromPublicKey - for ARK", async () => {
 		const wallet = await subject.fromPublicKey({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -240,7 +240,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	});
 
-	test("#fromPublicKey - for BTC (testnet)", async () => {
+	it("#fromPublicKey - for BTC (testnet)", async () => {
 		const wallet = await subject.fromPublicKey({
 			coin: "BTC",
 			network: "btc.testnet",
@@ -256,7 +256,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromPublicKey - for BTC (livenet)", async () => {
+	it("#fromPublicKey - for BTC (livenet)", async () => {
 		const wallet = await subject.fromPublicKey({
 			coin: "BTC",
 			network: "btc.livenet",
@@ -272,7 +272,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#fromPrivateKey", async () => {
+	it("#fromPrivateKey", async () => {
 		const wallet = await subject.fromPrivateKey({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -283,7 +283,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	});
 
-	test("#fromAddressWithDerivationPath", async () => {
+	it("#fromAddressWithDerivationPath", async () => {
 		const wallet = await subject.fromAddressWithDerivationPath({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -295,7 +295,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	});
 
-	test("#fromWIF - should create it with a WIF", async () => {
+	it("#fromWIF - should create it with a WIF", async () => {
 		const wallet = await subject.fromWIF({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -306,7 +306,7 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
 	});
 
-	test("#fromWIF - should create it with a WIF and encryption", async () => {
+	it("#fromWIF - should create it with a WIF and encryption", async () => {
 		const stubEncrypt = stub(BIP38, "encrypt").returnValue(
 			"6PYRydorcUPgUAtyd8KQCPd3YHo3vBAmSkBmwFcbEj7W4wBWoQ4JjxLj2d",
 		);

@@ -93,7 +93,7 @@ describe("WalletService", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		testSpy.restore();
 	});
 
-	test("#syncByProfile", async () => {
+	it("#syncByProfile", async () => {
 		assert.throws(() => wallet.voting().current(), /has not been synced/);
 
 		await subject.syncByProfile(profile);

@@ -160,7 +160,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.true(subject.data().has(WalletData.DerivationPath));
 	});
 
-	test("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic", async () => {
+	it("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
 		subject.signingKey().set(identity.mnemonic, "password");
@@ -179,7 +179,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
 	});
 
-	test("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic with second signature", async () => {
+	it("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic with second signature", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
 		subject.signingKey().set(identity.mnemonic, "password");
@@ -201,7 +201,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.BIP39.MNEMONIC);
 	});
 
-	test("#removeEncryption - should remove the encryption password of a wallet imported by secret", async () => {
+	it("#removeEncryption - should remove the encryption password of a wallet imported by secret", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
 		subject.signingKey().set("secret", "password");
@@ -220,7 +220,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
 	});
 
-	test("#removeEncryption - should remove the encryption password of a wallet imported by secret with second signature", async () => {
+	it("#removeEncryption - should remove the encryption password of a wallet imported by secret with second signature", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
 		subject.signingKey().set("secret", "password");
@@ -242,7 +242,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		assert.is(subject.data().get(WalletData.ImportMethod), WalletImportMethod.SECRET);
 	});
 
-	test("#removeEncryption - should throw if the wallet has an unsupported import method", async () => {
+	it("#removeEncryption - should throw if the wallet has an unsupported import method", async () => {
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.Address);
 
 		await assert.rejects(
@@ -251,7 +251,7 @@ describe("WalletMutator", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 		);
 	});
 
-	test("#removeEncryption - should throw if the provided password does not match the wallet", async () => {
+	it("#removeEncryption - should throw if the provided password does not match the wallet", async () => {
 		subject.signingKey().set(identity.mnemonic, "password");
 
 		subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);

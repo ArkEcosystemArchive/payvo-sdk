@@ -78,15 +78,15 @@ describe("TransactionIndex", ({ afterAll, afterEach, beforeAll, beforeEach, nock
 		});
 	});
 
-	test("all", async () => {
+	it("all", async () => {
 		assert.instance(await subject.transactionIndex().all(), ExtendedConfirmedTransactionDataCollection);
 	});
 
-	test("sent", async () => {
+	it("sent", async () => {
 		assert.instance(await subject.transactionIndex().sent(), ExtendedConfirmedTransactionDataCollection);
 	});
 
-	test("received", async () => {
+	it("received", async () => {
 		assert.instance(await subject.transactionIndex().received(), ExtendedConfirmedTransactionDataCollection);
 	});
 

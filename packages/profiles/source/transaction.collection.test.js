@@ -18,7 +18,7 @@ describe("ExtendedConfirmedTransactionDataCollection", ({
 	loader,
 	nock,
 	assert,
-	test,
+	it,
 	stub,
 }) => {
 	beforeEach(() => {
@@ -26,23 +26,23 @@ describe("ExtendedConfirmedTransactionDataCollection", ({
 		subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
 	});
 
-	test("#findById", () => {
+	it("#findById", () => {
 		assert.is(subject.findById("id"), dummy);
 	});
 
-	test("#findByType", () => {
+	it("#findByType", () => {
 		assert.is(subject.findByType("type"), dummy);
 	});
 
-	test("#findByTimestamp", () => {
+	it("#findByTimestamp", () => {
 		assert.is(subject.findByTimestamp("timestamp"), dummy);
 	});
 
-	test("#findBySender", () => {
+	it("#findBySender", () => {
 		assert.is(subject.findBySender("sender"), dummy);
 	});
 
-	test("#findByRecipient", () => {
+	it("#findByRecipient", () => {
 		assert.is(subject.findByRecipient("recipient"), dummy);
 	});
 });
