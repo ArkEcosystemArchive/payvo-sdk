@@ -100,12 +100,9 @@ describe("AbstractConfirmedTransactionData", ({ assert, it, stub }) => {
 
 		assert.is(subject.type(), "transfer");
 
-		const isMagistrate = stub(subject, "isMagistrate");
-		isMagistrate.returnValueOnce(true);
+		stub(subject, "isMagistrate").returnValueOnce(true);
 
 		assert.is(subject.type(), "magistrate");
-
-		isMagistrate.restore();
 	});
 
 	it("should have a timestamp", () => {
