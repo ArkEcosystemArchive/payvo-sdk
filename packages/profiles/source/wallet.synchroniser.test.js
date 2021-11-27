@@ -134,8 +134,6 @@ describe("WalletSynchroniser", ({
 		stub(wallet.network(), "usesExtendedPublicKey").returnValue(false);
 
 		await assert.resolves(() => new WalletSynchroniser(wallet).identity());
-
-		actsWithMnemonic.restore();
 	});
 
 	it("should sync the identity with an extended public key", async () => {
@@ -144,8 +142,6 @@ describe("WalletSynchroniser", ({
 		stub(wallet.network(), "usesExtendedPublicKey").returnValue(true);
 
 		await assert.resolves(() => new WalletSynchroniser(wallet).identity());
-
-		actsWithMnemonic.restore();
 	});
 
 	it("should fail to sync the identity with an unknown import method", async () => {
@@ -158,7 +154,5 @@ describe("WalletSynchroniser", ({
 		stub(wallet, "actsWithWif").returnValue(false);
 
 		await assert.rejects(() => new WalletSynchroniser(wallet).identity());
-
-		actsWithMnemonic.restore();
 	});
 });

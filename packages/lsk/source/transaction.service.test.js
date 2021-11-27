@@ -90,10 +90,6 @@ describeWithContext(
 			context.dateTime.returnValue(gotoTime);
 		});
 
-		afterEach(async (context) => {
-			context.dateTime.restore();
-		});
-
 		it("#transfer", async (context) => {
 			const result = await context.subject.transfer({
 				signatory: new Signatories.Signatory(

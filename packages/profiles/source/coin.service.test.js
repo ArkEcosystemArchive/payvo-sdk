@@ -73,11 +73,9 @@ describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub }) =
 
 		assert.equal(context.subject.entries(), [["ARK", ["ark.devnet"]]]);
 
-		const mockUndefinedNetwork = stub(context.subject, "all").returnValue({ ARK: { ark: undefined } });
+		stub(context.subject, "all").returnValue({ ARK: { ark: undefined } });
 
 		assert.equal(context.subject.entries(), [["ARK", ["ark"]]]);
-
-		mockUndefinedNetwork.restore();
 	});
 
 	it.skip("#flush should succeed", async (context) => {

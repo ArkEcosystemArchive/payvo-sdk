@@ -147,9 +147,6 @@ describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 
 		await container.get(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
 		assert.is(wallet.convertedBalance(), 0.00005048);
-
-		live.restore();
-		test.restore();
 	});
 
 	it("should not have a converted balance if it is a live wallet but has no exchange rate", async () => {
@@ -157,9 +154,6 @@ describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 		const test = stub(subject.network(), "isTest").returnValue(false);
 
 		assert.is(subject.convertedBalance(), 0);
-
-		live.restore();
-		test.restore();
 	});
 
 	it("should not have a converted balance if it is a test wallet", async () => {
@@ -167,9 +161,6 @@ describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 		const test = stub(subject.network(), "isTest").returnValue(true);
 
 		assert.is(subject.convertedBalance(), 0);
-
-		live.restore();
-		test.restore();
 	});
 
 	it("should have a nonce", () => {
@@ -264,7 +255,7 @@ describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 	});
 
 	it("should have a display name (knownName)", () => {
-		const usernameSpy = stub(subject, "username").returnValue(undefined);
+		stub(subject, "username").returnValue(undefined);
 
 		if (container.has(Identifiers.KnownWalletService)) {
 			container.unbind(Identifiers.KnownWalletService);
@@ -275,8 +266,6 @@ describe("Wallet", ({ beforeAll, beforeEach, nock, assert, it, stub }) => {
 		});
 
 		assert.is(subject.displayName(), subject.knownName());
-
-		usernameSpy.restore();
 	});
 
 	it("should have an avatar", () => {
