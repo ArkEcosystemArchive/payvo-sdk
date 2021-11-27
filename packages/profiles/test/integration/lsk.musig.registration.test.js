@@ -27,9 +27,9 @@ describe("LSK MuSig Registration", ({ assert, afterEach, beforeEach, each, it, n
 
 		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
-		const { mockServerResponse, resetServerResponseMocks } = mockMusigServer({
-			url: "https://lsk-test-musig.payvo.com",
-		});
+		const { mockServerResponse, resetServerResponseMocks } = mockMusigServer(
+			nock, "https://lsk-test-musig.payvo.com",
+		);
 
 		context.mockServerResponse = mockServerResponse;
 		context.resetServerResponseMocks = resetServerResponseMocks;
