@@ -1,104 +1,89 @@
-import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
-import { bootContainer } from "../test/mocking";
 
+import { describeEach } from "@payvo/sdk-test";
+
+import { bootContainer } from "../test/mocking";
 import { ProfileSetting, WalletSetting } from "./contracts";
 import { Profile } from "./profile";
-
 import { SettingRepository } from "./setting.repository";
 
-describe("SettingRepository", ({
-	afterAll,
-	afterEach,
-	beforeAll,
-	beforeEach,
-	loader,
-	nock,
-	assert,
-	test,
-	stub,
-	it,
-}) => {
+describeEach("SettingRepository (%s)", ({ beforeAll, beforeEach, assert, it, dataset }) => {
 	beforeAll(() => {
 		bootContainer();
 	});
 
-	for (const type of ["profile", "wallet"]) {
-		let subject;
-		let key;
+	beforeEach((context) => {
+		context.subject = new SettingRepository(
+			new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }),
+			Object.values(dataset === "profile" ? ProfileSetting : WalletSetting),
+		);
 
-		beforeEach(() => {
-			subject = new SettingRepository(
-				new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }),
-				Object.values(type === "profile" ? ProfileSetting : WalletSetting),
-			);
-			subject.flush();
+		context.subject.flush();
 
-			key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
-		});
+		context.key = dataset === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
+	});
 
-		it("#all", async () => {
-			assert.equal(subject.all(), {});
+	it("#all", async (context) => {
+		assert.equal(context.subject.all(), {});
 
-			subject.set(key, "value");
+		context.subject.set(context.key, "value");
 
-			assert.equal(subject.all(), { [key]: "value" });
-			assert.equal(subject.keys(), [key]);
+		assert.equal(context.subject.all(), { [context.key]: "value" });
+		assert.equal(context.subject.keys(), [context.key]);
 
-			subject.flush();
+		context.subject.flush();
 
-			assert.equal(subject.all(), {});
-			assert.equal(subject.keys(), []);
-		});
+		assert.equal(context.subject.all(), {});
+		assert.equal(context.subject.keys(), []);
+	});
 
-		it("#get", async () => {
-			subject.set(key, "value");
+	it("#get", async (context) => {
+		context.subject.set(context.key, "value");
 
-			assert.is(subject.get(key), "value");
-		});
+		assert.is(context.subject.get(context.key), "value");
+	});
 
-		it("#set", async () => {
-			assert.undefined(subject.set(key, "value"));
-		});
+	it("#set", async (context) => {
+		assert.undefined(context.subject.set(context.key, "value"));
+	});
 
-		it("#has", async () => {
-			assert.false(subject.has(key));
+	it("#has", async (context) => {
+		assert.false(context.subject.has(context.key));
 
-			subject.set(key, "value");
+		context.subject.set(context.key, "value");
 
-			assert.true(subject.has(key));
-		});
+		assert.true(context.subject.has(context.key));
+	});
 
-		it("#missing", async () => {
-			assert.true(subject.missing(key));
+	it("#missing", async (context) => {
+		assert.true(context.subject.missing(context.key));
 
-			subject.set(key, "value");
+		context.subject.set(context.key, "value");
 
-			assert.false(subject.missing(key));
-		});
+		assert.false(context.subject.missing(context.key));
+	});
 
-		it("#forget", async () => {
-			assert.false(subject.has(key));
+	it("#forget", async (context) => {
+		assert.false(context.subject.has(context.key));
 
-			subject.set(key, "value");
+		context.subject.set(context.key, "value");
 
-			assert.true(subject.has(key));
+		assert.true(context.subject.has(context.key));
 
-			subject.forget(key);
+		context.subject.forget(context.key);
 
-			assert.false(subject.has(key));
-		});
+		assert.false(context.subject.has(context.key));
+	});
 
-		it("#flush", async () => {
-			assert.false(subject.has(key));
+	it("#flush", async (context) => {
+		assert.false(context.subject.has(context.key));
 
-			subject.set(key, "value");
+		context.subject.set(context.key, "value");
 
-			assert.true(subject.has(key));
+		assert.true(context.subject.has(context.key));
 
-			subject.flush();
+		context.subject.flush();
 
-			assert.false(subject.has(key));
-		});
-	}
-});
+		assert.false(context.subject.has(context.key));
+	});
+}, ["profile", "wallet"]);
