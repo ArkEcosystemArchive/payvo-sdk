@@ -1,6 +1,5 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
@@ -8,7 +7,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("ClientService", async ({ beforeAll, afterEach, assert, it }) => {
+describe("ClientService", async ({ beforeAll, afterEach, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -19,10 +18,6 @@ describe("ClientService", async ({ beforeAll, afterEach, assert, it }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
-	});
-
-	afterEach(() => {
-		nock.cleanAll();
 	});
 
 	it("#transaction should succeed", async (context) => {

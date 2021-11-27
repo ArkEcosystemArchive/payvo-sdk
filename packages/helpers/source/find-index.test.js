@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { findIndex } from "./find-index";
 
-describe("findIndex", async ({ assert, it }) => {
+describe("findIndex", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		assert.is(
 			findIndex(

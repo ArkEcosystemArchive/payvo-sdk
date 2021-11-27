@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { reduce } from "./reduce";
 
-describe("reduce", async ({ assert, it }) => {
+describe("reduce", async ({ assert, it, nock, loader }) => {
 	it("should work with an array", () => {
 		assert.is(
 			reduce([1, 2], (sum, n) => sum + n, 0),

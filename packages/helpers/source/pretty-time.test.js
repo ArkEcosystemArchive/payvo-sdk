@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { prettyTime } from "./pretty-time";
 
-describe("prettyTime", async ({ assert, it }) => {
+describe("prettyTime", async ({ assert, it, nock, loader }) => {
 	it("should turn the given milliseconds into a human readable format", () => {
 		assert.is(prettyTime(1000000000), "11d 13h 46m 40s");
 		assert.is(prettyTime(1500), "1s 500ms");

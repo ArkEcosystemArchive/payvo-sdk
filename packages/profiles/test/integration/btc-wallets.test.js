@@ -112,10 +112,6 @@ describe("BTC Wallets", ({ assert, afterEach, beforeAll, beforeEach, it, nock, s
 			);
 	});
 
-	afterEach(async () => {
-		nock.cleanAll();
-	});
-
 	it("should import btc wallets and retrieve balance", async () => {
 		const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 		const addresses = await profile.coins().get("BTC", "btc.testnet").walletDiscovery().fromMnemonic(mnemonic);

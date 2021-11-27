@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isObject } from "./is-object";
 
-describe("isObject", async ({ assert, it }) => {
+describe("isObject", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isObject({ key: "value" }));
 	});

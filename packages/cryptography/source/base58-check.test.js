@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Base58Check } from "./base58-check";
 
-describe("Base58Check", ({ assert, it }) => {
+describe("Base58Check", ({ assert, it, nock, loader }) => {
 	it("should encode the given value", () => {
 		assert.type(Base58Check.encode("Hello"), "string");
 		assert.type(Base58Check.encode(Buffer.from("Hello")), "string");

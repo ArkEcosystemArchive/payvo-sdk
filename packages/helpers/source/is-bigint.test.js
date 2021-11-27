@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isBigInt } from "./is-bigint";
 
-describe("isBigInt", async ({ assert, it }) => {
+describe("isBigInt", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isBigInt(BigInt(1)));
 	});

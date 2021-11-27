@@ -1,12 +1,9 @@
-import { describe, loader } from "@payvo/sdk-test";
-import { nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-describe("ConfirmedTransactionData", async ({ beforeAll, it, assert }) => {
-	beforeAll(() => nock.disableNetConnect());
-
+describe("ConfirmedTransactionData", async ({ it, assert, loader }) => {
 	it("should parse blockId correctly", async () => {
 		const subject = await createService(ConfirmedTransactionData).configure(
 			loader.json(`test/fixtures/client/transactions.json`).data[1],

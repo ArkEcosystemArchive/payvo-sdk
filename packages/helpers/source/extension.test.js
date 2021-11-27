@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { extension } from "./extension";
 
-describe("extension", async ({ assert, it }) => {
+describe("extension", async ({ assert, it, nock, loader }) => {
 	it("should return the file extension", () => {
 		assert.is(extension("file.html"), "html");
 		assert.is(extension("file.js"), "js");

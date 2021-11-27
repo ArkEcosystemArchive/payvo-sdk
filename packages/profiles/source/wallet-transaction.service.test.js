@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Signatories } from "@payvo/sdk";
@@ -21,9 +21,9 @@ let profile;
 let wallet;
 let subject;
 
-describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
+describe("ARK", ({ afterEach, beforeAll, beforeEach, skip, it, nock, stub, assert }) => {
 	beforeAll(() => {
-		bootContainer({ flush: true });
+		bootContainer();
 	});
 
 	beforeEach(async () => {
@@ -101,17 +101,15 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		subject = new TransactionService(wallet);
 	});
 
-	afterEach(() => {
-		nock.cleanAll();
-	});
+	afterEach(() => {});
 
-	test("should sync", async () => {
+	it("should sync", async () => {
 		const musig = require("../test/fixtures/client/musig-transaction.json");
 		nock.fake("https://ark-test.payvo.com:443").get("/transactions").query(true).reply(200, [musig]).persist();
 		await assert.resolves(() => subject.sync());
 	});
 
-	test("should add signature", async () => {
+	it("should add signature", async () => {
 		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/", {
 				publicKey: "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
@@ -183,7 +181,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.defined(subject.transaction(id));
 	});
 
-	test("should sign second signature", async () => {
+	it("should sign second signature", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -205,7 +203,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign multi signature registration", async () => {
+	it("should sign multi signature registration", async () => {
 		const identity1 = await deriveIdentity(
 			"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
 		);
@@ -232,7 +230,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.false(subject.canBeSigned(id));
 	});
 
-	test("should sign ipfs", async () => {
+	it("should sign ipfs", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -254,7 +252,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign multi payment", async () => {
+	it("should sign multi payment", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -280,7 +278,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign delegate resignation", async () => {
+	it("should sign delegate resignation", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -299,7 +297,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign htlc lock", async () => {
+	it("should sign htlc lock", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -327,7 +325,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign htlc claim", async () => {
+	it("should sign htlc claim", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -350,7 +348,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("should sign htlc refund", async () => {
+	it("should sign htlc refund", async () => {
 		const input = {
 			nonce: "1",
 			signatory: new Signatories.Signatory(
@@ -372,7 +370,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("#transaction lifecycle", async () => {
+	it("#transaction lifecycle", async () => {
 		const realHash = "819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef";
 
 		const input = {
@@ -436,7 +434,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.false(subject.isAwaitingConfirmation(id));
 	});
 
-	test("#pending", async () => {
+	it("#pending", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -458,17 +456,17 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.containKey(subject.pending(), id);
 	});
 
-	test("should fail when using malformed transaction ID", async () => {
+	it("should fail when using malformed transaction ID", async () => {
 		assert.throws(() => subject.transaction());
 	});
 
-	test("should fail retrieving public key if wallet is lacking a public key", async () => {
-		const walletPublicKeyMock = Mockery.stub(wallet, "publicKey").returnValue(undefined);
+	it("should fail retrieving public key if wallet is lacking a public key", async () => {
+		const walletPublicKeyMock = stub(wallet, "publicKey").returnValue(undefined);
 		assert.throws(() => subject.getPublicKey());
 		walletPublicKeyMock.restore();
 	});
 
-	test("#dump", async () => {
+	it("#dump", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -494,7 +492,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 	});
 
-	test("#restore", async () => {
+	it("#restore", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -522,13 +520,13 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 
-		const mockedUndefinedStorage = Mockery.stub(wallet.data(), "get").returnValue(undefined);
+		const mockedUndefinedStorage = stub(wallet.data(), "get").returnValue(undefined);
 		subject.restore();
 		mockedUndefinedStorage.restore();
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 	});
 
-	test("sign a multisig transaction awaiting other signatures", async () => {
+	it("sign a multisig transaction awaiting other signatures", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/musig-transaction.json")] })
@@ -560,7 +558,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.true(subject.isAwaitingSignatureByPublicKey(id, identity2.publicKey));
 	});
 
-	test("should sync multisig transaction awaiting our signature", async () => {
+	it("should sync multisig transaction awaiting our signature", async () => {
 		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-our.json")] })
@@ -574,7 +572,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.containKey(subject.waitingForOurSignature(), id);
 	});
 
-	test("should await signature by public ip", async () => {
+	it("should await signature by public ip", async () => {
 		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-signature.json")] })
@@ -585,10 +583,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		const id = "46343c36bf7497b68e14d4c0fd713e41a737841b6a858fa41ef0eab6c4647938";
 
 		await subject.sync();
-		const mockNeedsWalletSignature = Mockery.stub(
-			wallet.coin().multiSignature(),
-			"needsWalletSignature",
-		).returnValue(true);
+		const mockNeedsWalletSignature = stub(wallet.coin().multiSignature(), "needsWalletSignature").returnValue(true);
 
 		assert.true(
 			subject.isAwaitingSignatureByPublicKey(
@@ -599,7 +594,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		mockNeedsWalletSignature.restore();
 	});
 
-	test("transaction should not await any signatures", async () => {
+	it("transaction should not await any signatures", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [] })
@@ -618,7 +613,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		);
 	});
 
-	test("should broadcast transaction", async () => {
+	it("should broadcast transaction", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
@@ -655,7 +650,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.defined(subject.transaction(id));
 	});
 
-	test("should broadcast a transfer and confirm it", async () => {
+	it("should broadcast a transfer and confirm it", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
@@ -694,7 +689,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.true(subject.hasBeenConfirmed(id));
 	});
 
-	test("should broadcast multisignature transaction", async () => {
+	it("should broadcast multisignature transaction", async () => {
 		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/multisig-transaction-awaiting-none.json")] })
@@ -730,7 +725,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 			},
 		});
 
-		const isMultiSignatureRegistration = Mockery.stub(subject.transaction(id), "isMultiSignatureRegistration");
+		const isMultiSignatureRegistration = stub(subject.transaction(id), "isMultiSignatureRegistration");
 
 		const mockedFalseMultisignatureRegistration = isMultiSignatureRegistration.returnValue(false);
 		assert.defined(subject.transaction(id));
@@ -748,7 +743,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		mockedFalseMultisignature.restore();
 	});
 
-	test("should broadcast multisignature registration", async () => {
+	it("should broadcast multisignature registration", async () => {
 		nock.fake("https://ark-test-musig.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/musig-transaction.json")] });
@@ -793,7 +788,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.containKey(subject.waitingForOtherSignatures(), id);
 	});
 
-	test.skip("#confirm", async () => {
+	skip("#confirm", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/api/transactions")
 			.reply(201, {
@@ -837,7 +832,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		await assert.rejects(() => subject.confirm(null));
 
 		// Handle wallet client error. Should return false
-		const walletClientTransactionMock = Mockery.stub(wallet.client(), "transaction").callsFake(() => {
+		const walletClientTransactionMock = stub(wallet.client(), "transaction").callsFake(() => {
 			throw new Error("transaction error");
 		});
 
@@ -845,7 +840,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		walletClientTransactionMock.restore();
 
 		// Confirmed
-		nock.cleanAll();
+
 		nock.fake("https://ark-test.payvo.com:443")
 			.get("/api/transactions/819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef")
 			.reply(200, { data: { confirmations: 51 } });
@@ -854,14 +849,14 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, each, test }) => {
 		assert.false(subject.isAwaitingConfirmation(id));
 	});
 
-	test("should throw if a transaction is retrieved that does not exist", async () => {
+	it("should throw if a transaction is retrieved that does not exist", async () => {
 		assert.throws(() => subject.transaction("id"), /could not be found/);
 	});
 });
 
-describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
+describe("Shared", ({ afterEach, beforeAll, beforeEach, each, nock, assert }) => {
 	beforeAll(() => {
-		bootContainer({ flush: true });
+		bootContainer();
 	});
 
 	beforeEach(async () => {
@@ -939,9 +934,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each }) => {
 		subject = new TransactionService(wallet);
 	});
 
-	afterEach(() => {
-		nock.cleanAll();
-	});
+	afterEach(() => {});
 
 	each(
 		"should create a transfer for %s",

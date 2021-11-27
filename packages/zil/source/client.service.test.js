@@ -1,7 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet } from "../test/mocking";
@@ -11,7 +10,7 @@ import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { BindingType } from "./constants";
 
-describe("ClientService", async ({ assert, afterEach, beforeEach, it, loader }) => {
+describe("ClientService", async ({ assert, afterEach, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(BindingType.Zilliqa, mockWallet());

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { convertToCurrency } from "./utils";
 
-describe("convertToCurrency", async ({ assert, it }) => {
+describe("convertToCurrency", async ({ assert, it, nock, loader }) => {
 	it("If `from` equals `base`, return the basic exchange rate for the `to` currency", async () => {
 		assert.is(convertToCurrency(10, { from: "USD", to: "BTC", base: "USD", rates: { BTC: 0.5 } }), 5);
 	});

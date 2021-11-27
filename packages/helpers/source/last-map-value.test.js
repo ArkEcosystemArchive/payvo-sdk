@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { lastMapValue } from "./last-map-value";
 
-describe("lastMapValue", async ({ assert, it }) => {
+describe("lastMapValue", async ({ assert, it, nock, loader }) => {
 	it("should return the last value", () => {
 		assert.is(
 			lastMapValue(

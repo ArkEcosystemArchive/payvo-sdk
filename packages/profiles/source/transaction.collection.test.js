@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 let subject;
@@ -12,29 +12,29 @@ const dummy = {
 	recipient: () => "recipient",
 };
 
-test.before.each(() => {
-	// @ts-ignore
-	subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
-});
+describe("ExtendedConfirmedTransactionDataCollection", ({ beforeAll, beforeEach, loader, nock, assert, it, stub }) => {
+	beforeEach(() => {
+		// @ts-ignore
+		subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
+	});
 
-test("#findById", () => {
-	assert.is(subject.findById("id"), dummy);
-});
+	it("#findById", () => {
+		assert.is(subject.findById("id"), dummy);
+	});
 
-test("#findByType", () => {
-	assert.is(subject.findByType("type"), dummy);
-});
+	it("#findByType", () => {
+		assert.is(subject.findByType("type"), dummy);
+	});
 
-test("#findByTimestamp", () => {
-	assert.is(subject.findByTimestamp("timestamp"), dummy);
-});
+	it("#findByTimestamp", () => {
+		assert.is(subject.findByTimestamp("timestamp"), dummy);
+	});
 
-test("#findBySender", () => {
-	assert.is(subject.findBySender("sender"), dummy);
-});
+	it("#findBySender", () => {
+		assert.is(subject.findBySender("sender"), dummy);
+	});
 
-test("#findByRecipient", () => {
-	assert.is(subject.findByRecipient("recipient"), dummy);
+	it("#findByRecipient", () => {
+		assert.is(subject.findByRecipient("recipient"), dummy);
+	});
 });
-
-test.run();

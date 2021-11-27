@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { pluralize } from "./pluralize";
 
-describe("pluralize", async ({ assert, it }) => {
+describe("pluralize", async ({ assert, it, nock, loader }) => {
 	it("should plural words when the count is above 1", () => {
 		assert.is(pluralize("block"), "block");
 		assert.is(pluralize("block", 0), "blocks");

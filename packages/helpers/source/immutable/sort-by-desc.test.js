@@ -12,7 +12,7 @@ describeWithContext(
 			{ age: 40, name: "Jane" },
 		],
 	}),
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should sort records without iteratees", (context) => {
 			assert.equal(sortByDesc(context.dummies), [
 				{ age: 40, name: "Jane" },

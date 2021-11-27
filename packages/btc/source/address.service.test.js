@@ -13,7 +13,7 @@ const createMockService = () =>
 
 // These tests are based on the values from https://github.com/bitcoinjs/bitcoinjs-lib/blob/master/test/integration/addresses.spec.ts
 
-describe("#fromMnemonic", ({ beforeAll, assert, it }) => {
+describe("#fromMnemonic", ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => (context.subject = await createMockService()));
 
 	it("should generate an output from a mnemonic (BIP44)", async (context) => {
@@ -41,7 +41,7 @@ describe("#fromMnemonic", ({ beforeAll, assert, it }) => {
 	});
 });
 
-describe("#fromPublicKey", ({ beforeAll, assert, it }) => {
+describe("#fromPublicKey", ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => (context.subject = await createMockService()));
 
 	it("should import an address (via P2PKH)", async (context) => {
@@ -134,7 +134,7 @@ describe("#fromPublicKey", ({ beforeAll, assert, it }) => {
 	});
 });
 
-describe("#fromPrivateKey", ({ beforeAll, assert, it }) => {
+describe("#fromPrivateKey", ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => (context.subject = await createMockService()));
 
 	it("should import an address via WIF", async (context) => {
@@ -168,7 +168,7 @@ describe("#fromPrivateKey", ({ beforeAll, assert, it }) => {
 	});
 });
 
-describe("#fromMultiSignature", ({ beforeAll, assert, it }) => {
+describe("#fromMultiSignature", ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => (context.subject = await createMockService()));
 
 	it("should generate a P2SH, pay-to-multisig (2-of-3) address", async (context) => {

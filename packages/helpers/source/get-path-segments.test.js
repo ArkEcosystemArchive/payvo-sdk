@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { getPathSegments } from "./get-path-segments";
 
-describe("getPathSegments", async ({ assert, it }) => {
+describe("getPathSegments", async ({ assert, it, nock, loader }) => {
 	it("should return an array as is", () => {
 		assert.equal(getPathSegments(["a", "b"]), ["a", "b"]);
 	});

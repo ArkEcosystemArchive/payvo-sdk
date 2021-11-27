@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { keys } from "./keys";
 
-describe("keys", async ({ assert, it }) => {
+describe("keys", async ({ assert, it, nock, loader }) => {
 	it("should work with an object", () => {
 		function Foo() {
 			this.a = 1;

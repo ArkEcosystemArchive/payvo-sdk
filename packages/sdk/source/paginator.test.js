@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { Paginator } from "./paginator";
 
-describe("Paginator", ({ assert, beforeEach, it }) => {
+describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(
 		(context) =>
 			(context.subject = new Stub(

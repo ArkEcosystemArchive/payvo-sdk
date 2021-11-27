@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isNotEqual } from "./is-not-equal";
 
-describe("isNotEqual", async ({ assert, it }) => {
+describe("isNotEqual", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isNotEqual(1, "1"));
 	});

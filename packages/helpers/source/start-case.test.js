@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { startCase } from "./start-case";
 
-describe("startCase", async ({ assert, it }) => {
+describe("startCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into start case", () => {
 		assert.is(startCase("string"), "String");
 		assert.is(startCase("camelCase"), "Camel Case");

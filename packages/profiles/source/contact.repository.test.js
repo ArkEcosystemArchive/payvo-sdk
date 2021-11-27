@@ -1,183 +1,191 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
+
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { ContactRepository } from "./contact.repository";
 import { Profile } from "./profile";
 
-let subject;
+void describeWithContext(
+	"ContactRepository",
+	{
+		addr: { address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW", coin: "ARK", network: "ark.devnet" },
+		addr2: { address: "DAWdHfDFEvvu57cHjAhs5K5di33B2DdCu1", coin: "ARK", network: "ark.devnet" },
+		name: "John Doe",
+	},
+	async ({ beforeEach, it, assert }) => {
+		beforeEach((context) => {
+			bootContainer();
 
-const name = "John Doe";
-const addr = { coin: "ARK", network: "ark.devnet", address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" };
-const addr2 = { coin: "ARK", network: "ark.devnet", address: "DAWdHfDFEvvu57cHjAhs5K5di33B2DdCu1" };
+			const profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 
-test.before(() => bootContainer());
+			context.subject = new ContactRepository(profile);
+			context.subject.flush();
+		});
 
-test.before.each(() => {
-	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+		it("#first | #last", (context) => {
+			const john = context.subject.create("John", [context.addr]);
+			const jane = context.subject.create("Jane", [context.addr]);
 
-	subject = new ContactRepository(profile);
+			assert.is(context.subject.first(), john);
+			assert.is(context.subject.last(), jane);
+		});
 
-	subject.flush();
-});
+		it("#create", (context) => {
+			assert.length(context.subject.keys(), 0);
 
-test("#first | #last", () => {
-	const john = subject.create("John", [addr]);
-	const jane = subject.create("Jane", [addr]);
+			const result = context.subject.create(context.name, [context.addr]);
 
-	assert.is(subject.first(), john);
-	assert.is(subject.last(), jane);
-});
+			assert.length(context.subject.keys(), 1);
 
-test("#create", () => {
-	assert.length(subject.keys(), 0);
+			// @TODO
+			// assert.equal(result.toObject(), {
+			// 	id: result.id(),
+			// 	name,
+			// 	starred: false,
+			// 	addresses: [
+			// 		{
+			// 			"id": "37c41631-1452-4d0a-b951-b3a25be96fe9",
+			// 			"coin": "ARK",
+			// 			"network": "ark.devnet",
+			// 			"address": "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW"
+			// 			}
+			// 	],
+			// });
 
-	const result = subject.create(name, [addr]);
+			assert.throws(
+				() => context.subject.create(context.name, [context.addr]),
+				`The contact [${context.name}] already exists.`,
+			);
+			assert.throws(() => context.subject.create("Jane Doe", []), '"addresses" must contain at least 1 items');
+			assert.is(context.subject.count(), 1);
 
-	assert.length(subject.keys(), 1);
+			assert.throws(
+				() =>
+					context.subject.create("InvalidAddress", [
+						{
+							address: undefined,
+							coin: "ARK",
+							network: "ark.devnet",
+						},
+					]),
+				'addresses[0].address" is required',
+			);
 
-	// @TODO
-	// assert.equal(result.toObject(), {
-	// 	id: result.id(),
-	// 	name,
-	// 	starred: false,
-	// 	addresses: [
-	// 		{
-	// 			"id": "37c41631-1452-4d0a-b951-b3a25be96fe9",
-	// 			"coin": "ARK",
-	// 			"network": "ark.devnet",
-	// 			"address": "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW"
-	// 			}
-	// 	],
-	// });
+			assert.is(context.subject.count(), 1);
 
-	assert.throws(() => subject.create(name, [addr]), `The contact [${name}] already exists.`);
-	assert.throws(() => subject.create("Jane Doe", []), '"addresses" must contain at least 1 items');
-	assert.is(subject.count(), 1);
+			assert.throws(
+				() =>
+					context.subject.create("InvalidAddress", [
+						{
+							address: "a",
+							coin: undefined,
+							network: "ark.devnet",
+						},
+					]),
+				'addresses[0].coin" is required',
+			);
 
-	assert.throws(
-		() =>
-			subject.create("InvalidAddress", [
-				{
-					coin: "ARK",
-					network: "ark.devnet",
-					address: undefined,
-				},
-			]),
-		'addresses[0].address" is required',
-	);
+			assert.is(context.subject.count(), 1);
 
-	assert.is(subject.count(), 1);
+			assert.throws(
+				() =>
+					context.subject.create("InvalidAddress", [
+						{
+							address: "a",
+							coin: "ARK",
+							network: undefined,
+						},
+					]),
+				'addresses[0].network" is required',
+			);
 
-	assert.throws(
-		() =>
-			subject.create("InvalidAddress", [
-				{
-					coin: undefined,
-					network: "ark.devnet",
-					address: "a",
-				},
-			]),
-		'addresses[0].coin" is required',
-	);
+			assert.is(context.subject.count(), 1);
+		});
 
-	assert.is(subject.count(), 1);
+		it("#find", (context) => {
+			assert.throws(() => context.subject.findById("invalid"), "Failed to find");
 
-	assert.throws(
-		() =>
-			subject.create("InvalidAddress", [
-				{
-					coin: "ARK",
-					network: undefined,
-					address: "a",
-				},
-			]),
-		'addresses[0].network" is required',
-	);
+			const contact = context.subject.create(context.name, [context.addr]);
 
-	assert.is(subject.count(), 1);
-});
+			assert.object(context.subject.findById(contact.id()));
+		});
 
-test("#find", () => {
-	assert.throws(() => subject.findById("invalid"), "Failed to find");
+		it("#update", (context) => {
+			assert.throws(() => context.subject.update("invalid", { name: "Jane Doe" }), "Failed to find");
 
-	const contact = subject.create(name, [addr]);
+			const contact = context.subject.create(context.name, [context.addr]);
 
-	assert.object(subject.findById(contact.id()));
-});
+			context.subject.update(contact.id(), { name: "Jane Doe" });
 
-test("#update", () => {
-	assert.throws(() => subject.update("invalid", { name: "Jane Doe" }), "Failed to find");
+			assert.is(context.subject.findById(contact.id()).name(), "Jane Doe");
 
-	const contact = subject.create(name, [addr]);
+			const anotherContact = context.subject.create("Another name", [context.addr]);
 
-	subject.update(contact.id(), { name: "Jane Doe" });
+			assert.not.throws(() => context.subject.update(anotherContact.id(), { name: "Dorothy" }));
 
-	assert.is(subject.findById(contact.id()).name(), "Jane Doe");
+			const newContact = context.subject.create("Another name", [context.addr]);
 
-	const anotherContact = subject.create("Another name", [addr]);
+			assert.throws(
+				() => context.subject.update(newContact.id(), { name: "Jane Doe" }),
+				"The contact [Jane Doe] already exists.",
+			);
+		});
 
-	assert.not.throws(() => subject.update(anotherContact.id(), { name: "Dorothy" }));
+		it("#update with addresses", (context) => {
+			const contact = context.subject.create(context.name, [context.addr]);
 
-	const newContact = subject.create("Another name", [addr]);
+			assert.throws(
+				() => context.subject.update(contact.id(), { addresses: [] }),
+				'"addresses" must contain at least 1 items',
+			);
 
-	assert.throws(
-		() => subject.update(newContact.id(), { name: "Jane Doe" }),
-		"The contact [Jane Doe] already exists.",
-	);
-});
+			assert.length(context.subject.findById(contact.id()).addresses().keys(), 1);
 
-test("#update with addresses", () => {
-	const contact = subject.create(name, [addr]);
+			context.subject.update(contact.id(), { addresses: [context.addr2] });
 
-	assert.throws(() => subject.update(contact.id(), { addresses: [] }), '"addresses" must contain at least 1 items');
+			assert.array(contact.toObject().addresses);
+		});
 
-	assert.length(subject.findById(contact.id()).addresses().keys(), 1);
+		it("#forget", (context) => {
+			assert.throws(() => context.subject.forget("invalid"), "Failed to find");
 
-	subject.update(contact.id(), { addresses: [addr2] });
+			const contact = context.subject.create(context.name, [context.addr]);
 
-	assert.array(contact.toObject().addresses);
-});
+			context.subject.forget(contact.id());
 
-test("#forget", () => {
-	assert.throws(() => subject.forget("invalid"), "Failed to find");
+			assert.throws(() => context.subject.findById(contact.id()), "Failed to find");
+		});
 
-	const contact = subject.create(name, [addr]);
+		it("#findByAddress", (context) => {
+			context.subject.create(context.name, [context.addr]);
 
-	subject.forget(contact.id());
+			assert.length(context.subject.findByAddress(context.addr.address), 1);
+			assert.length(context.subject.findByAddress("invalid"), 0);
+		});
 
-	assert.throws(() => subject.findById(contact.id()), "Failed to find");
-});
+		it("#findByCoin", (context) => {
+			context.subject.create(context.name, [context.addr]);
 
-test("#findByAddress", () => {
-	subject.create(name, [addr]);
+			assert.length(context.subject.findByCoin(context.addr.coin), 1);
+			assert.length(context.subject.findByCoin("invalid"), 0);
+		});
 
-	assert.length(subject.findByAddress(addr.address), 1);
-	assert.length(subject.findByAddress("invalid"), 0);
-});
+		it("#findByNetwork", (context) => {
+			context.subject.create(context.name, [context.addr]);
 
-test("#findByCoin", () => {
-	subject.create(name, [addr]);
+			assert.length(context.subject.findByNetwork(context.addr.network), 1);
+			assert.length(context.subject.findByNetwork("invalid"), 0);
+		});
 
-	assert.length(subject.findByCoin(addr.coin), 1);
-	assert.length(subject.findByCoin("invalid"), 0);
-});
+		it("#flush", (context) => {
+			context.subject.create(context.name, [context.addr]);
 
-test("#findByNetwork", () => {
-	subject.create(name, [addr]);
+			assert.length(context.subject.keys(), 1);
 
-	assert.length(subject.findByNetwork(addr.network), 1);
-	assert.length(subject.findByNetwork("invalid"), 0);
-});
+			context.subject.flush();
 
-test("#flush", () => {
-	subject.create(name, [addr]);
-
-	assert.length(subject.keys(), 1);
-
-	subject.flush();
-
-	assert.length(subject.keys(), 0);
-});
-
-test.run();
+			assert.length(context.subject.keys(), 0);
+		});
+	},
+);

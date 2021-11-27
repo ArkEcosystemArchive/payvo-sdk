@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isGreaterThanOrEqual } from "./is-greater-than-or-equal";
 
-describe("isGreaterThanOrEqual", async ({ assert, it }) => {
+describe("isGreaterThanOrEqual", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isGreaterThanOrEqual(2, 1));
 		assert.true(isGreaterThanOrEqual(1, 1));

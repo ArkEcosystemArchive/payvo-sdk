@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { formatNumber } from "./format-number";
 
-describe("formatNumber", async ({ assert, it }) => {
+describe("formatNumber", async ({ assert, it, nock, loader }) => {
 	it("should format the given number", () => {
 		assert.is(formatNumber(123456.789, "de-DE", { style: "currency", currency: "EUR" }), "123.456,79 €");
 		assert.is(formatNumber(123456.789, "en-UK", { style: "currency", currency: "GBP" }), "£123,456.79");

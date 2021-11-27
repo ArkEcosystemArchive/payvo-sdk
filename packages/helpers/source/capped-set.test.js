@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { CappedSet } from "./capped-set";
 
-describe("CappedSet", async ({ assert, it }) => {
+describe("CappedSet", async ({ assert, it, nock, loader }) => {
 	it("basic", () => {
 		const cappedSet = new CappedSet();
 

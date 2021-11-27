@@ -12,7 +12,7 @@ describeWithContext(
 			{ age: 40, name: "Jane" },
 		],
 	}),
-	({ assert, it }) => {
+	({ assert, it, nock, loader }) => {
 		it("should sort records by youngest age (with string params)", (context) => {
 			assert.equal(orderBy(context.dummies, "age", "asc"), [
 				{ age: 18, name: "Andrew" },

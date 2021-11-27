@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { compoundWords } from "./compound-words";
 
-describe("compoundWords", async ({ assert, it }) => {
+describe("compoundWords", async ({ assert, it, nock, loader }) => {
 	it("should return undefined if the given string is empty", () => {
 		assert.undefined(compoundWords("", (word) => word));
 	});
