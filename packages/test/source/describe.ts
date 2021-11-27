@@ -12,10 +12,23 @@ type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
-	suite.before(() => nock.disableNetConnect());
+	const stubs: Mockery[] = [];
 
-	suite.after(() => nock.enableNetConnect());
-	suite.after.each(() => nock.cleanAll());
+	suite.before(() => {
+		nock.disableNetConnect();
+	});
+
+	suite.after(() => {
+		nock.enableNetConnect();
+	});
+
+	suite.after.each(() => {
+		nock.cleanAll();
+
+		for (const stub of stubs) {
+			stub.restore();
+		}
+	});
 
 	callback({
 		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
@@ -30,7 +43,13 @@ const runSuite = (suite: Test, callback: Function): void => {
 		only: suite.only,
 		should: suite,
 		skip: suite.skip,
-		stub: Mockery.stub,
+		stub: (owner: object, method: string) => {
+			const result: Mockery = Mockery.stub(owner, method);
+
+
+
+			return result;
+		},
 		test: suite,
 		zod,
 	});
