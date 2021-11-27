@@ -199,7 +199,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.equal(subject.convertedFee(), 0);
 	});
 
-	test("#toObject", () => {
+	it("#toObject", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -215,7 +215,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		});
 	});
 
-	test("#memo", () => {
+	it("#memo", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -227,7 +227,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.is(subject.memo(), "memo");
 	});
 
-	test("#inputs", () => {
+	it("#inputs", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -239,7 +239,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.length(subject.inputs(), 3);
 	});
 
-	test("#outputs", () => {
+	it("#outputs", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -264,7 +264,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.undefined(subject.memo());
 	});
 
-	test("#hasPassed", () => {
+	it("#hasPassed", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -276,11 +276,11 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.true(subject.hasPassed());
 	});
 
-	test("coin", () => {
+	it("coin", () => {
 		assert.is(subject.coin(), wallet.coin());
 	});
 
-	test("#hasFailed", () => {
+	it("#hasFailed", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -292,7 +292,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.true(subject.hasFailed());
 	});
 
-	test("#isReturn", () => {
+	it("#isReturn", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -304,7 +304,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 		assert.true(subject.isReturn());
 	});
 
-	test("#getMeta | #setMeta", () => {
+	it("#getMeta | #setMeta", () => {
 		const getMeta = spy();
 		const setMeta = spy();
 
@@ -453,7 +453,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#username", () => {
+// 	it("#username", () => {
 // 		assert.is(subject.username(), "username");
 // 	});
 // });
@@ -461,7 +461,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // describe("DelegateResignationData", ({ afterEach, beforeEach, test }) => {
 // 	beforeEach((context) => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
-// 	test("#id", () => {
+// 	it("#id", () => {
 // 		assert.is(subject.id(), "transactionId");
 // 	});
 // });
@@ -478,11 +478,11 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#lockTransactionId", () => {
+// 	it("#lockTransactionId", () => {
 // 		assert.is(subject.lockTransactionId(), "lockTransactionId");
 // 	});
 
-// 	test("#unlockSecret", () => {
+// 	it("#unlockSecret", () => {
 // 		assert.is(subject.unlockSecret(), "unlockSecret");
 // 	});
 // });
@@ -500,15 +500,15 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#secretHash", () => {
+// 	it("#secretHash", () => {
 // 		assert.is(subject.secretHash(), "secretHash");
 // 	});
 
-// 	test("#expirationType", () => {
+// 	it("#expirationType", () => {
 // 		assert.is(subject.expirationType(), 5);
 // 	});
 
-// 	test("#expirationValue", () => {
+// 	it("#expirationValue", () => {
 // 		assert.is(subject.expirationValue(), 3);
 // 	});
 // });
@@ -524,7 +524,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#lockTransactionId", () => {
+// 	it("#lockTransactionId", () => {
 // 		assert.is(subject.lockTransactionId(), "lockTransactionId");
 // 	});
 // });
@@ -540,7 +540,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#hash", () => {
+// 	it("#hash", () => {
 // 		assert.is(subject.hash(), "hash");
 // 	});
 // });
@@ -556,7 +556,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#payments", () => {
+// 	it("#payments", () => {
 // 		assert.equal(subject.payments(), [{ recipientId: "recipientId", amount: 1000 }]);
 // 	});
 // });
@@ -573,11 +573,11 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#publicKeys", () => {
+// 	it("#publicKeys", () => {
 // 		assert.equal(subject.publicKeys(), ["1", "2", "3"]);
 // 	});
 
-// 	test("#min", () => {
+// 	it("#min", () => {
 // 		assert.is(subject.min(), 5);
 // 	});
 // });
@@ -593,7 +593,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#secondPublicKey", () => {
+// 	it("#secondPublicKey", () => {
 // 		assert.is(subject.secondPublicKey(), "secondPublicKey");
 // 	});
 // });
@@ -615,7 +615,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		afterEachCallback();
 // 	});
 
-// 	test("#memo", () => {
+// 	it("#memo", () => {
 // 		assert.is(subject.memo(), "memo");
 // 	});
 // });
@@ -632,11 +632,11 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 		);
 // 	});
 
-// 	test("#votes", () => {
+// 	it("#votes", () => {
 // 		assert.equal(subject.votes(), ["vote"]);
 // 	});
 
-// 	test("#unvotes", () => {
+// 	it("#unvotes", () => {
 // 		assert.equal(subject.unvotes(), ["unvote"]);
 // 	});
 // });

@@ -33,7 +33,7 @@ describe("WalletAggregate", ({ beforeAll, nock, assert, test, stub }) => {
 		context.subject = new WalletAggregate(context.profile);
 	});
 
-	test("#balance", async (context) => {
+	it("#balance", async (context) => {
 		assert.is(context.subject.balance("test"), 558270.93444556);
 		assert.is(context.subject.balance("live"), 0);
 		assert.is(context.subject.balance(), 0);
@@ -43,18 +43,18 @@ describe("WalletAggregate", ({ beforeAll, nock, assert, test, stub }) => {
 		mockWalletLive.restore();
 	});
 
-	test("#convertedBalance", async (context) => {
+	it("#convertedBalance", async (context) => {
 		assert.is(context.subject.convertedBalance(), 0);
 	});
 
-	test("#balancesByNetworkType", async (context) => {
+	it("#balancesByNetworkType", async (context) => {
 		assert.equal(context.subject.balancesByNetworkType(), {
 			live: BigNumber.ZERO,
 			test: BigNumber.make("55827093444556"),
 		});
 	});
 
-	test("#balancePerCoin", async (context) => {
+	it("#balancePerCoin", async (context) => {
 		assert.equal(context.subject.balancePerCoin(), {});
 		assert.equal(context.subject.balancePerCoin("live"), {});
 

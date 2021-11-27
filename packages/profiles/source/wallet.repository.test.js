@@ -86,19 +86,19 @@ describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, load
 		await createEnv(nock);
 	});
 
-	test("#all", () => {
+	it("#all", () => {
 		assert.object(subject.all());
 	});
 
-	test("#first", () => {
+	it("#first", () => {
 		assert.object(subject.first());
 	});
 
-	test("#last", () => {
+	it("#last", () => {
 		assert.object(subject.last());
 	});
 
-	test("#allByCoin", async () => {
+	it("#allByCoin", async () => {
 		await importByMnemonic(
 			"upset boat motor few ketchup merge punch gesture lecture piano neutral uniform",
 			"ARK",
@@ -110,7 +110,7 @@ describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, load
 		assert.object(subject.allByCoin().DARK);
 	});
 
-	test("#filterByAddress", () => {
+	it("#filterByAddress", () => {
 		const wallets = subject.filterByAddress(identity.address);
 
 		assert.array(wallets);
@@ -120,30 +120,30 @@ describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, load
 		}
 	});
 
-	test("#findByAddressWithNetwork", () => {
+	it("#findByAddressWithNetwork", () => {
 		assert.instance(subject.findByAddressWithNetwork(identity.address, "ark.devnet"), Wallet);
 	});
 
-	test("#findByPublicKey", () => {
+	it("#findByPublicKey", () => {
 		assert.instance(subject.findByPublicKey(identity.publicKey), Wallet);
 	});
 
-	test("#findByCoin", () => {
+	it("#findByCoin", () => {
 		assert.length(subject.findByCoin("ARK"), 1);
 	});
 
-	test("#findByCoinWithNetwork", () => {
+	it("#findByCoinWithNetwork", () => {
 		assert.length(subject.findByCoinWithNetwork("ARK", "ark.devnet"), 1);
 	});
 
-	test("#has", async () => {
+	it("#has", async () => {
 		const wallet = subject.first();
 
 		assert.true(subject.has(wallet.id()));
 		assert.false(subject.has("whatever"));
 	});
 
-	test("#forget", async () => {
+	it("#forget", async () => {
 		const wallet = subject.first();
 
 		assert.true(subject.has(wallet.id()));
@@ -153,14 +153,14 @@ describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, load
 		assert.false(subject.has(wallet.id()));
 	});
 
-	test("#findByAlias", async () => {
+	it("#findByAlias", async () => {
 		await generate("ARK", "ark.devnet");
 
 		assert.instance(subject.findByAlias("Alias"), Wallet);
 		assert.undefined(subject.findByAlias("Not Exist"));
 	});
 
-	test("#push", async () => {
+	it("#push", async () => {
 		subject.flush();
 
 		await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
@@ -173,7 +173,7 @@ describe("WalletRepository", ({ afterAll, afterEach, beforeAll, beforeEach, load
 		await assert.resolves(() => importByMnemonic(identity.mnemonic, "ARK", "ark.devnet", 39));
 	});
 
-	test("#update", async () => {
+	it("#update", async () => {
 		assert.throws(() => subject.update("invalid", { alias: "My Wallet" }), "Failed to find");
 
 		const wallet = await generate("ARK", "ark.devnet");

@@ -15,7 +15,7 @@ for (const [network, outcome] of [
 		"tpubDDQk4rFQdee83hndqmtK8dRHEtLP5W4fBWtUojpnzmnjxqpaVfiYDFyNYpp9vRBhMCsMYBKv6bt3PTmcQC7j6QFg7JbWDRjir8sTFs7iMst",
 	],
 ]) {
-	test("should derive with BIP44", async () => {
+	it("should derive with BIP44", async () => {
 		subject = await createService(ExtendedPublicKeyService, network);
 
 		assert.is(await subject.fromMnemonic(identity.mnemonic, { bip44: { account: 0 } }), outcome);
@@ -32,7 +32,7 @@ for (const [network, outcome] of [
 		"tpubDCAE2fa7YNAF2x2CpTEPRQmabzG7jNMks69zsPC6vLSqECRtb6tUmgivduD1XSXvuKZ794J9GjbEuDdLjGhEKmWfwGX45YuoMwhAXb8dpGw",
 	],
 ]) {
-	test("should derive with BIP49", async () => {
+	it("should derive with BIP49", async () => {
 		subject = await createService(ExtendedPublicKeyService, network);
 
 		assert.is(await subject.fromMnemonic(identity.mnemonic, { bip49: { account: 0 } }), outcome);
@@ -49,7 +49,7 @@ for (const [network, outcome] of [
 		"tpubDC9zgMaiUXPoSRkpk8gvDuzwHobq6GUw5D1nzWdeBWrEXYZUxaQGDLwtXvVFsmvdNUVernGA2JWFbJsj4se5Vemx8WK6w9bzmxj4K36ivox",
 	],
 ]) {
-	test("should derive with BIP84", async () => {
+	it("should derive with BIP84", async () => {
 		subject = await createService(ExtendedPublicKeyService, network);
 
 		assert.is(await subject.fromMnemonic(identity.mnemonic, { bip84: { account: 0 } }), outcome);

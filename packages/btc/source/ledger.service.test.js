@@ -33,19 +33,19 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-test("disconnect", async () => {
+it("disconnect", async () => {
 	const subject = await createMockService("");
 
 	assert.undefined(await subject.disconnect());
 });
 
-test("disconnect", async () => {
+it("disconnect", async () => {
 	const subject = await createMockService("");
 
 	assert.undefined(await subject.disconnect());
 });
 
-test("getVersion", async () => {
+it("getVersion", async () => {
 	const subject = await createMockService(ledger.appVersion.record);
 
 	assert.is(await subject.getVersion(), ledger.appVersion.result);
@@ -63,7 +63,7 @@ test.skip("getExtendedPublicKey", async () => {
 	assert.is(await subject.getExtendedPublicKey(ledger.extendedPublicKey.path), ledger.extendedPublicKey.result);
 });
 
-test("signMessage", async () => {
+it("signMessage", async () => {
 	const subject = await createMockService(ledger.message.record);
 
 	assert.is(
