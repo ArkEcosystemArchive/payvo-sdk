@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { sleep } from "./sleep";
 
-describe("sleep", async ({ assert, it }) => {
+describe("sleep", async ({ assert, it, nock, loader }) => {
 	it("should sleep for 1 second", async () => {
 		const start = +new Date();
 

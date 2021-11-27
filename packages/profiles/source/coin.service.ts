@@ -2,7 +2,7 @@ import { Coins } from "@payvo/sdk";
 import { injectable } from "inversify";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import { ICoinService, IDataRepository } from "./contracts.js";
 
 @injectable()
@@ -55,7 +55,7 @@ export class CoinService implements ICoinService {
 		return instance;
 	}
 
-	/** {@inheritDoc ICoinService.push} */
+	/** {@inheritDoc ICoinService.set} */
 	public set(coin: string, network: string, options: object = {}): Coins.Coin {
 		const cacheKey = `${coin}.${network}`;
 

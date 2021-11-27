@@ -2,7 +2,6 @@ import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -10,11 +9,9 @@ import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject;
-
-describe("ClientService", async ({ assert, beforeAll, it }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -25,12 +22,14 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 		});
 	});
 
-	it("#transaction should succeed", async () => {
+	it("#transaction should succeed", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.get("/txs/B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
+		const result = await context.subject.transaction(
+			"B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 		assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
@@ -44,14 +43,14 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 		assert.is(result.memo(), "Hello World");
 	});
 
-	it("#transactions should succeed", async () => {
+	it("#transactions should succeed", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.get(
 				"/txs?message.action=send&message.sender=cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0&page=1&limit=100",
 			)
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0" }],
 		});
 
@@ -68,14 +67,14 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 		assert.is(result.items()[0].memo(), "Hello World");
 	});
 
-	it("#wallet should succeed", async () => {
+	it("#wallet should succeed", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.get("/auth/accounts/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 			.get("/bank/balances/cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0",
 		});
@@ -118,12 +117,12 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 		"",
 	);
 
-	it("should handle successful broadcast", async () => {
+	it("should handle successful broadcast", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.post("/txs")
 			.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
-		const result = await subject.broadcast([transactionPayload]);
+		const result = await context.subject.broadcast([transactionPayload]);
 
 		assert.equal(result, {
 			accepted: ["25E82BD7E457147DA29FD39E6C155365F07559A7834C7FBB4E9B21DE6A65BFC7"],
@@ -132,12 +131,12 @@ describe("ClientService", async ({ assert, beforeAll, it }) => {
 		});
 	});
 
-	it("should handle broadcast failure", async () => {
+	it("should handle broadcast failure", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.post("/txs")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
-		const result = await subject.broadcast([transactionPayload]);
+		const result = await context.subject.broadcast([transactionPayload]);
 
 		assert.equal(result, {
 			accepted: [],

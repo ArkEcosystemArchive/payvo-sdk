@@ -1,5 +1,5 @@
-import XlmMainnet from "./networks/xlm.mainnet";
-import XlmTestnet from "./networks/xlm.testnet";
+import XlmMainnet from "./networks/xlm.mainnet.js";
+import XlmTestnet from "./networks/xlm.testnet.js";
 
 export const manifest = {
 	name: "XLM",

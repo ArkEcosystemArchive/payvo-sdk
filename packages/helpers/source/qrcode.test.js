@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { QRCode } from "./qrcode";
 
-describe("QRCode", async ({ assert, each, it }) => {
+describe("QRCode", async ({ assert, each, it, nock, loader }) => {
 	it("should create an instance from a string", () => {
 		assert.instance(QRCode.fromString("https://google.com"), QRCode);
 	});

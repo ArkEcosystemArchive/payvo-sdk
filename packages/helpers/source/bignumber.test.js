@@ -2,10 +2,8 @@ import { describe } from "@payvo/sdk-test";
 
 import { BigNumber } from "./bignumber";
 
-let subject;
-
-describe("BigNumber", async ({ assert, beforeEach, it }) => {
-	beforeEach(() => (subject = BigNumber.make(1)));
+describe("BigNumber", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach((context) => (context.subject = BigNumber.make(1)));
 
 	it("#decimalPlaces", () => {
 		assert.is(BigNumber.make("12.3456789").decimalPlaces(0).valueOf(), "12");
@@ -41,65 +39,65 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.powerOfTen("2").valueOf(), "100");
 	});
 
-	it("#isNaN", () => {
+	it("#isNaN", (context) => {
 		assert.true(BigNumber.make(NaN).isNaN());
-		assert.false(subject.isNaN());
+		assert.false(context.subject.isNaN());
 	});
 
-	it("#isPositive", () => {
-		assert.true(subject.isPositive());
-		assert.false(subject.minus(10).isPositive());
+	it("#isPositive", (context) => {
+		assert.true(context.subject.isPositive());
+		assert.false(context.subject.minus(10).isPositive());
 	});
 
-	it("#isNegative", () => {
-		assert.false(subject.isNegative());
-		assert.true(subject.minus(10).isNegative());
+	it("#isNegative", (context) => {
+		assert.false(context.subject.isNegative());
+		assert.true(context.subject.minus(10).isNegative());
 	});
 
-	it("#isFinite", () => {
-		assert.true(subject.isFinite());
+	it("#isFinite", (context) => {
+		assert.true(context.subject.isFinite());
 		assert.false(BigNumber.make(Infinity).isFinite());
 	});
 
-	it("#isZero", () => {
-		assert.false(subject.isZero());
+	it("#isZero", (context) => {
+		assert.false(context.subject.isZero());
 		assert.true(BigNumber.make(0).isZero());
 	});
 
-	it("#comparedTo", () => {
-		assert.is(subject.comparedTo(BigNumber.make(1)), 0);
-		assert.is(subject.comparedTo(BigNumber.make(0)), 1);
-		assert.is(subject.comparedTo(BigNumber.make(-1)), 1);
-		assert.is(subject.comparedTo(BigNumber.make(2)), -1);
+	it("#comparedTo", (context) => {
+		assert.is(context.subject.comparedTo(BigNumber.make(1)), 0);
+		assert.is(context.subject.comparedTo(BigNumber.make(0)), 1);
+		assert.is(context.subject.comparedTo(BigNumber.make(-1)), 1);
+		assert.is(context.subject.comparedTo(BigNumber.make(2)), -1);
 	});
 
-	it("#isEqualTo", () => {
-		assert.true(subject.isEqualTo(BigNumber.make(1)));
-		assert.false(subject.isEqualTo(BigNumber.make(2)));
+	it("#isEqualTo", (context) => {
+		assert.true(context.subject.isEqualTo(BigNumber.make(1)));
+		assert.false(context.subject.isEqualTo(BigNumber.make(2)));
 	});
 
-	it("#isGreaterThan", () => {
-		assert.true(subject.isGreaterThan(BigNumber.make(0)));
-		assert.false(subject.isGreaterThan(BigNumber.make(2)));
+	it("#isGreaterThan", (context) => {
+		assert.true(context.subject.isGreaterThan(BigNumber.make(0)));
+		assert.false(context.subject.isGreaterThan(BigNumber.make(2)));
 	});
 
-	it("#isGreaterThanOrEqualTo", () => {
-		assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
-		assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(1)));
-		assert.true(subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
-		assert.false(subject.isGreaterThanOrEqualTo(BigNumber.make(3)));
+	it("#isGreaterThanOrEqualTo", (context) => {
+		assert.true(context.subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
+		assert.true(context.subject.isGreaterThanOrEqualTo(BigNumber.make(1)));
+		assert.true(context.subject.isGreaterThanOrEqualTo(BigNumber.make(0)));
+		assert.false(context.subject.isGreaterThanOrEqualTo(BigNumber.make(3)));
 	});
 
-	it("#isLessThan", () => {
-		assert.true(subject.isLessThan(BigNumber.make(2)));
-		assert.false(subject.isLessThan(BigNumber.make(1)));
+	it("#isLessThan", (context) => {
+		assert.true(context.subject.isLessThan(BigNumber.make(2)));
+		assert.false(context.subject.isLessThan(BigNumber.make(1)));
 	});
 
-	it("#isLessThanOrEqualTo", () => {
-		assert.true(subject.isLessThanOrEqualTo(BigNumber.make(1)));
-		assert.true(subject.isLessThanOrEqualTo(BigNumber.make(1)));
-		assert.true(subject.isLessThanOrEqualTo(BigNumber.make(2)));
-		assert.false(subject.isLessThanOrEqualTo(BigNumber.make(0)));
+	it("#isLessThanOrEqualTo", (context) => {
+		assert.true(context.subject.isLessThanOrEqualTo(BigNumber.make(1)));
+		assert.true(context.subject.isLessThanOrEqualTo(BigNumber.make(1)));
+		assert.true(context.subject.isLessThanOrEqualTo(BigNumber.make(2)));
+		assert.false(context.subject.isLessThanOrEqualTo(BigNumber.make(0)));
 	});
 
 	it("#denominated", () => {
@@ -132,20 +130,20 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123456).toHuman(6), 0.123456);
 	});
 
-	it("#toFixed", () => {
-		assert.is(subject.toFixed(), "1");
-		assert.is(subject.toFixed(2), "1.00");
+	it("#toFixed", (context) => {
+		assert.is(context.subject.toFixed(), "1");
+		assert.is(context.subject.toFixed(2), "1.00");
 	});
 
-	it("#toNumber", () => {
-		assert.is(subject.toNumber(), 1);
+	it("#toNumber", (context) => {
+		assert.is(context.subject.toNumber(), 1);
 	});
 
-	it("#toString", () => {
-		assert.is(subject.toString(), "1");
+	it("#toString", (context) => {
+		assert.is(context.subject.toString(), "1");
 	});
 
-	it("#valueOf", () => {
-		assert.is(subject.valueOf(), "1");
+	it("#valueOf", (context) => {
+		assert.is(context.subject.valueOf(), "1");
 	});
 });

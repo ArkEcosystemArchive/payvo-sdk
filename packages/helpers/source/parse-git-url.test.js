@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { parseGitUrl } from "./parse-git-url";
 
-describe("parseGitUrl", async ({ assert, it }) => {
+describe("parseGitUrl", async ({ assert, it, nock, loader }) => {
 	it("should throw if it cannot find a host", () => {
 		assert.throws(() => parseGitUrl("owner/repo.git"), "Failed to find a host.");
 	});

@@ -5,7 +5,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { Contracts, DTO } from "@payvo/sdk";
 
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import { IExchangeRateService, IReadWriteWallet } from "./contracts.js";
 import { ExtendedTransactionRecipient } from "./transaction.dto.js";
 

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isGit } from "./is-git";
 
-describe("isGit", async ({ assert, it }) => {
+describe("isGit", async ({ assert, it, nock, loader }) => {
 	it("should pass for Git URLs", () => {
 		assert.true(isGit("ssh://user@github.com:port/owner/repo.git"));
 		assert.true(isGit("git://github.com/owner/repo.git"));

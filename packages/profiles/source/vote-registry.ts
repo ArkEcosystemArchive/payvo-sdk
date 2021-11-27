@@ -1,5 +1,5 @@
 import { container } from "./container.js";
-import { Identifiers } from "./container.models";
+import { Identifiers } from "./container.models.js";
 import { IDelegateService, IReadWriteWallet, IVoteRegistry, WalletData } from "./contracts.js";
 import { VoteRegistryItem } from "./vote-registry.contract.js";
 

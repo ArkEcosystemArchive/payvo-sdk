@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isMatch } from "./is-match";
 
-describe("isMatch", async ({ assert, it }) => {
+describe("isMatch", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isMatch("a", /a/));
 	});

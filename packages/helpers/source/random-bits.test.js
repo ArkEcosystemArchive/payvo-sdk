@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { randomBits } from "./random-bits";
 
-describe("randomBits", async ({ assert, it }) => {
+describe("randomBits", async ({ assert, it, nock, loader }) => {
 	it("should take bits and return a random hex string with a fixed length", () => {
 		assert.length(randomBits(32).toString("hex"), 8);
 		assert.length(randomBits(64).toString("hex"), 16);

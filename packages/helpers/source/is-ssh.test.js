@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isSSH } from "./is-ssh";
 
-describe("isSSH", async ({ assert, it }) => {
+describe("isSSH", async ({ assert, it, nock, loader }) => {
 	it("should pass for SSH URLs", () => {
 		assert.true(isSSH("ssh://user@github.com:port/owner/repo.git"));
 		assert.true(isSSH("user@github.com:/owner/repo.git"));

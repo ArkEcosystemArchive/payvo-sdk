@@ -1,13 +1,13 @@
 import { describe } from "./describe";
 
-describe("assert", ({ assert, it, zod }) => {
+describe("assert", ({ assert, it, schema }) => {
 	it("does match the given object", () => {
 		assert.matchesObject(
 			{
 				hello: "world",
 			},
 			{
-				hello: zod.string(),
+				hello: schema.string(),
 			},
 		);
 	});
@@ -18,7 +18,7 @@ describe("assert", ({ assert, it, zod }) => {
 				hello: 1,
 			},
 			{
-				hello: zod.string(),
+				hello: schema.string(),
 			},
 		);
 	});

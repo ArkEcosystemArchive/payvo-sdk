@@ -1,4 +1,4 @@
-import { NetworkManifest } from "./network.models";
+import { NetworkManifest } from "./network.models.js";
 
 export class NetworkRepository {
 	readonly #networks: Record<string, NetworkManifest>;

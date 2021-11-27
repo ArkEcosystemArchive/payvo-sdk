@@ -3,7 +3,7 @@ import {
 	IExchangeTransaction,
 	IExchangeTransactionData,
 	IExchangeTransactionInput,
-} from "./contracts";
+} from "./contracts.js";
 
 /**
  * Defines the implementation contract for the exchange transaction repository.

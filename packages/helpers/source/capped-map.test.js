@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { CappedMap } from "./capped-map";
 
-describe("CappedMap", async ({ assert, it }) => {
+describe("CappedMap", async ({ assert, it, nock, loader }) => {
 	it("should set and get an entry", () => {
 		const store = new CappedMap(100);
 		store.set("foo", 1);

@@ -1,39 +1,43 @@
-import { describe } from "@payvo/sdk-test";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { sortBy } from "./sort-by";
 
-const dummies = [
-	{ name: "John", age: 30 },
-	{ name: "Jane", age: 40 },
-	{ name: "Andrew", age: 18 },
-	{ name: "Bob", age: 18 },
-];
-
-describe("sortBy", async ({ assert, it }) => {
-	it("should sort records without iteratees", () => {
-		assert.equal(sortBy([...dummies]), [
+describeWithContext(
+	"sortBy",
+	() => ({
+		dummies: [
 			{ name: "John", age: 30 },
 			{ name: "Jane", age: 40 },
 			{ name: "Andrew", age: 18 },
 			{ name: "Bob", age: 18 },
-		]);
-	});
+		],
+	}),
+	({ assert, it, nock, loader }) => {
+		it("should sort records without iteratees", (context) => {
+			assert.equal(sortBy([...context.dummies]), [
+				{ name: "John", age: 30 },
+				{ name: "Jane", age: 40 },
+				{ name: "Andrew", age: 18 },
+				{ name: "Bob", age: 18 },
+			]);
+		});
 
-	it("should sort records by string", () => {
-		assert.equal(sortBy([...dummies], "age"), [
-			{ name: "Andrew", age: 18 },
-			{ name: "Bob", age: 18 },
-			{ name: "John", age: 30 },
-			{ name: "Jane", age: 40 },
-		]);
-	});
+		it("should sort records by string", (context) => {
+			assert.equal(sortBy([...context.dummies], "age"), [
+				{ name: "Andrew", age: 18 },
+				{ name: "Bob", age: 18 },
+				{ name: "John", age: 30 },
+				{ name: "Jane", age: 40 },
+			]);
+		});
 
-	it("should sort records by array", () => {
-		assert.equal(sortBy([...dummies], ["age"]), [
-			{ name: "Andrew", age: 18 },
-			{ name: "Bob", age: 18 },
-			{ name: "John", age: 30 },
-			{ name: "Jane", age: 40 },
-		]);
-	});
-});
+		it("should sort records by array", (context) => {
+			assert.equal(sortBy([...context.dummies], ["age"]), [
+				{ name: "Andrew", age: 18 },
+				{ name: "Bob", age: 18 },
+				{ name: "John", age: 30 },
+				{ name: "Jane", age: 40 },
+			]);
+		});
+	},
+);

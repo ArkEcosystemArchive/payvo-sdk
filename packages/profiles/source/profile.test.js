@@ -1,241 +1,246 @@
-import { assert, Mockery, test } from "@payvo/sdk-test";
 import "reflect-metadata";
-import { nock } from "@payvo/sdk-test";
+
+import { describe } from "@payvo/sdk-test";
+
 import { bootContainer } from "../test/mocking";
-import { PluginRepository } from "./plugin.repository";
+import { Authenticator } from "./authenticator";
 import { ContactRepository } from "./contact.repository";
+import { ProfileData, ProfileSetting } from "./contracts";
+import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { SettingRepository } from "./setting.repository";
-import { WalletRepository } from "./wallet.repository";
-import { CountAggregate } from "./count.aggregate";
+import { ProfileNotificationService } from "./notification.service";
+import { PluginRepository } from "./plugin.repository";
+import { Profile } from "./profile";
 import { RegistrationAggregate } from "./registration.aggregate";
+import { SettingRepository } from "./setting.repository";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
-import { Authenticator } from "./authenticator";
-import { Profile } from "./profile";
-import { ProfileData, ProfileSetting } from "./contracts";
 import { WalletFactory } from "./wallet.factory";
-import { ProfileNotificationService } from "./notification.service";
+import { WalletRepository } from "./wallet.repository";
 
-let subject;
+describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-test.before(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+			.reply(200, loader.json("test/fixtures/client/wallet-2.json"))
+			.persist();
 
-	nock.fake(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.persist();
+		context.subject = new Profile({ data: "", id: "uuid", name: "name" });
+		context.subject.settings().set(ProfileSetting.Name, "John Doe");
+	});
+
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "uuid");
+	});
+
+	it("should have a name", (context) => {
+		assert.is(context.subject.name(), "John Doe");
+	});
+
+	it("should have a default theme", (context) => {
+		assert.is(context.subject.appearance().get("theme"), "light");
+	});
+
+	it("should have a custom theme", (context) => {
+		context.subject.settings().set(ProfileSetting.Theme, "dark");
+
+		assert.is(context.subject.appearance().get("theme"), "dark");
+	});
+
+	it("should have a default avatar", (context) => {
+		assert.string(context.subject.avatar());
+	});
+
+	it("should have a custom avatar", (context) => {
+		context.subject.settings().set(ProfileSetting.Avatar, "custom-avatar");
+
+		assert.is(context.subject.avatar(), "custom-avatar");
+	});
+
+	it("should have a custom avatar in data", (context) => {
+		context.subject.getAttributes().set("data.avatar", "something");
+		context.subject.getAttributes().set("avatar", "custom-avatar");
+
+		assert.is(context.subject.avatar(), "custom-avatar");
+	});
+
+	it("should have a balance", (context) => {
+		assert.is(context.subject.balance(), 0);
+	});
+
+	it("should have a converted balance", (context) => {
+		assert.is(context.subject.convertedBalance(), 0);
+	});
+
+	it("should have a contacts repository", (context) => {
+		assert.instance(context.subject.contacts(), ContactRepository);
+	});
+
+	it("should have a data repository", (context) => {
+		assert.instance(context.subject.data(), DataRepository);
+	});
+
+	it("should have a exchange transactions repository", (context) => {
+		assert.instance(context.subject.exchangeTransactions(), ExchangeTransactionRepository);
+	});
+
+	it("should have a notifications repository", (context) => {
+		assert.instance(context.subject.notifications(), ProfileNotificationService);
+	});
+
+	it("should have a plugins repository", (context) => {
+		assert.instance(context.subject.plugins(), PluginRepository);
+	});
+
+	it("should have a settings repository", (context) => {
+		assert.instance(context.subject.settings(), SettingRepository);
+	});
+
+	it("should have a wallets repository", (context) => {
+		assert.instance(context.subject.wallets(), WalletRepository);
+	});
+
+	it("should flush all data", (context) => {
+		assert.length(context.subject.settings().keys(), 1);
+
+		context.subject.flush();
+
+		assert.length(context.subject.settings().keys(), 17);
+	});
+
+	it("should fail to flush all data if the name is missing", (context) => {
+		context.subject.settings().forget(ProfileSetting.Name);
+
+		assert.length(context.subject.settings().keys(), 0);
+
+		assert.throws(
+			() => context.subject.flush(),
+			"The name of the profile could not be found. This looks like a bug.",
+		);
+	});
+
+	it("should flush settings", (context) => {
+		assert.length(context.subject.settings().keys(), 1);
+
+		context.subject.flushSettings();
+
+		assert.length(context.subject.settings().keys(), 17);
+	});
+
+	it("should fail to flush settings if the name is missing", (context) => {
+		context.subject.settings().forget(ProfileSetting.Name);
+
+		assert.length(context.subject.settings().keys(), 0);
+
+		assert.throws(
+			() => context.subject.flushSettings(),
+			"The name of the profile could not be found. This looks like a bug.",
+		);
+	});
+
+	it("should have a wallet factory", (context) => {
+		assert.instance(context.subject.walletFactory(), WalletFactory);
+	});
+
+	it("should have a count aggregate", (context) => {
+		assert.instance(context.subject.countAggregate(), CountAggregate);
+	});
+
+	it("should have a registration aggregate", (context) => {
+		assert.instance(context.subject.registrationAggregate(), RegistrationAggregate);
+	});
+
+	it("should have a transaction aggregate", (context) => {
+		assert.instance(context.subject.transactionAggregate(), TransactionAggregate);
+	});
+
+	it("should have a wallet aggregate", (context) => {
+		assert.instance(context.subject.walletAggregate(), WalletAggregate);
+	});
+
+	it("should have an authenticator", (context) => {
+		assert.instance(context.subject.auth(), Authenticator);
+	});
+
+	it("should determine if the password uses a password", (context) => {
+		assert.false(context.subject.usesPassword());
+
+		context.subject.auth().setPassword("password");
+
+		assert.true(context.subject.usesPassword());
+	});
+
+	it.skip("#hasBeenPartiallyRestored", async (context) => {
+		// const wallet = spy(); @TODO use spy
+		const wallet = { id: {} };
+		wallet.id.returnValue("some-id");
+		wallet.hasBeenPartiallyRestored.returnValue(true);
+		context.subject.wallets().push(wallet);
+		assert.true(context.subject.hasBeenPartiallyRestored());
+	});
+
+	it("should mark the introductory tutorial as completed", (context) => {
+		assert.false(context.subject.hasCompletedIntroductoryTutorial());
+
+		context.subject.markIntroductoryTutorialAsComplete();
+
+		assert.true(context.subject.hasCompletedIntroductoryTutorial());
+	});
+
+	it("should determine if the introductory tutorial has been completed", (context) => {
+		assert.false(context.subject.hasCompletedIntroductoryTutorial());
+
+		context.subject.data().set(ProfileData.HasCompletedIntroductoryTutorial, true);
+
+		assert.true(context.subject.hasCompletedIntroductoryTutorial());
+	});
+
+	it("should mark the manual installation disclaimer as accepted", (context) => {
+		assert.false(context.subject.hasAcceptedManualInstallationDisclaimer());
+
+		context.subject.markManualInstallationDisclaimerAsAccepted();
+
+		assert.true(context.subject.hasAcceptedManualInstallationDisclaimer());
+	});
+
+	it("should determine if the manual installation disclaimer has been accepted", (context) => {
+		assert.false(context.subject.hasAcceptedManualInstallationDisclaimer());
+
+		context.subject.data().set(ProfileData.HasAcceptedManualInstallationDisclaimer, true);
+
+		assert.true(context.subject.hasAcceptedManualInstallationDisclaimer());
+	});
 });
 
-test.before.each(() => {
-	subject = new Profile({ id: "uuid", name: "name", data: "" });
+// @TODO uncomment and fix.
 
-	subject.settings().set(ProfileSetting.Name, "John Doe");
-});
-
-test("should have an id", () => {
-	assert.is(subject.id(), "uuid");
-});
-
-test("should have a name", () => {
-	assert.is(subject.name(), "John Doe");
-});
-
-test("should have a default theme", () => {
-	assert.is(subject.appearance().get("theme"), "light");
-});
-
-test("should have a custom theme", () => {
-	subject.settings().set(ProfileSetting.Theme, "dark");
-
-	assert.is(subject.appearance().get("theme"), "dark");
-});
-
-test("should have a default avatar", () => {
-	assert.string(subject.avatar());
-});
-
-test("should have a custom avatar", () => {
-	subject.settings().set(ProfileSetting.Avatar, "custom-avatar");
-
-	assert.is(subject.avatar(), "custom-avatar");
-});
-
-test("should have a custom avatar in data", () => {
-	subject.getAttributes().set("data.avatar", "something");
-	subject.getAttributes().set("avatar", "custom-avatar");
-
-	assert.is(subject.avatar(), "custom-avatar");
-});
-
-test("should have a balance", () => {
-	assert.is(subject.balance(), 0);
-});
-
-test("should have a converted balance", () => {
-	assert.is(subject.convertedBalance(), 0);
-});
-
-test("should have a contacts repository", () => {
-	assert.instance(subject.contacts(), ContactRepository);
-});
-
-test("should have a data repository", () => {
-	assert.instance(subject.data(), DataRepository);
-});
-
-test("should have a exchange transactions repository", () => {
-	assert.instance(subject.exchangeTransactions(), ExchangeTransactionRepository);
-});
-
-test("should have a notifications repository", () => {
-	assert.instance(subject.notifications(), ProfileNotificationService);
-});
-
-test("should have a plugins repository", () => {
-	assert.instance(subject.plugins(), PluginRepository);
-});
-
-test("should have a settings repository", () => {
-	assert.instance(subject.settings(), SettingRepository);
-});
-
-test("should have a wallets repository", () => {
-	assert.instance(subject.wallets(), WalletRepository);
-});
-
-test("should flush all data", () => {
-	assert.length(subject.settings().keys(), 1);
-
-	subject.flush();
-
-	assert.length(subject.settings().keys(), 17);
-});
-
-test("should fail to flush all data if the name is missing", () => {
-	subject.settings().forget(ProfileSetting.Name);
-
-	assert.length(subject.settings().keys(), 0);
-
-	assert.throws(() => subject.flush(), "The name of the profile could not be found. This looks like a bug.");
-});
-
-test("should flush settings", () => {
-	assert.length(subject.settings().keys(), 1);
-
-	subject.flushSettings();
-
-	assert.length(subject.settings().keys(), 17);
-});
-
-test("should fail to flush settings if the name is missing", () => {
-	subject.settings().forget(ProfileSetting.Name);
-
-	assert.length(subject.settings().keys(), 0);
-
-	assert.throws(() => subject.flushSettings(), "The name of the profile could not be found. This looks like a bug.");
-});
-
-test("should have a a wallet factory", () => {
-	assert.instance(subject.walletFactory(), WalletFactory);
-});
-
-test("should have a count aggregate", () => {
-	assert.instance(subject.countAggregate(), CountAggregate);
-});
-
-test("should have a registration aggregate", () => {
-	assert.instance(subject.registrationAggregate(), RegistrationAggregate);
-});
-
-test("should have a transaction aggregate", () => {
-	assert.instance(subject.transactionAggregate(), TransactionAggregate);
-});
-
-test("should have a wallet aggregate", () => {
-	assert.instance(subject.walletAggregate(), WalletAggregate);
-});
-
-test("should have an authenticator", () => {
-	assert.instance(subject.auth(), Authenticator);
-});
-
-test("should determine if the password uses a password", () => {
-	assert.false(subject.usesPassword());
-
-	subject.auth().setPassword("password");
-
-	assert.true(subject.usesPassword());
-});
-
-test.skip("#hasBeenPartiallyRestored", async () => {
-	const wallet = Mockery.spy();
-	wallet.id.returnValue("some-id");
-	wallet.hasBeenPartiallyRestored.returnValue(true);
-	subject.wallets().push(wallet);
-	assert.true(subject.hasBeenPartiallyRestored());
-});
-
-test("should mark the introductory tutorial as completed", () => {
-	assert.false(subject.hasCompletedIntroductoryTutorial());
-
-	subject.markIntroductoryTutorialAsComplete();
-
-	assert.true(subject.hasCompletedIntroductoryTutorial());
-});
-
-test("should determine if the introductory tutorial has been completed", () => {
-	assert.false(subject.hasCompletedIntroductoryTutorial());
-
-	subject.data().set(ProfileData.HasCompletedIntroductoryTutorial, true);
-
-	assert.true(subject.hasCompletedIntroductoryTutorial());
-});
-
-test("should mark the manual installation disclaimer as accepted", () => {
-	assert.false(subject.hasAcceptedManualInstallationDisclaimer());
-
-	subject.markManualInstallationDisclaimerAsAccepted();
-
-	assert.true(subject.hasAcceptedManualInstallationDisclaimer());
-});
-
-test("should determine if the manual installation disclaimer has been accepted", () => {
-	assert.false(subject.hasAcceptedManualInstallationDisclaimer());
-
-	subject.data().set(ProfileData.HasAcceptedManualInstallationDisclaimer, true);
-
-	assert.true(subject.hasAcceptedManualInstallationDisclaimer());
-});
-
-// test("should fail to encrypt a profile if the password is invalid", () => {
+// it("should fail to encrypt a profile if the password is invalid", () => {
 // 	subject.auth().setPassword("password");
 
 // 	assert.throws(() => subject.save("invalid-password"), "The password did not match our records.");
 // });
 
-// test("should encrypt a profile with the in-memory password if none was provided", () => {
+// it("should encrypt a profile with the in-memory password if none was provided", () => {
 // 	subject.auth().setPassword("password");
 
 // 	assert.not.throws(() => subject.save(), "The password did not match our records.");
 // });
 
-// test("should fail to save if encoding or encrypting fails", () => {
+// it("should fail to save if encoding or encrypting fails", () => {
 // 	// @ts-ignore
-// 	const encodingMock = Mockery.stub(JSON, "stringify").returnValue(undefined);
+// 	const encodingMock = stub(JSON, "stringify").returnValue(undefined);
 
 // 	assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
 // 	encodingMock.restore();
 // });
-
-test.run();

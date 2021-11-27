@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isNegative } from "./is-negative";
 
-describe("isNegative", async ({ assert, it }) => {
+describe("isNegative", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isNegative(-1));
 	});

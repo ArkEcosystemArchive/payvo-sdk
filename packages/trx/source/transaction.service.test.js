@@ -1,6 +1,5 @@
 import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -14,11 +13,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
-describe("TransactionService", async ({ beforeAll, assert, it }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -34,14 +31,14 @@ describe("TransactionService", async ({ beforeAll, assert, it }) => {
 		});
 	});
 
-	it("#transfer", async () => {
+	it("#transfer", async (context) => {
 		nock.fake("https://api.shasta.trongrid.io")
 			.post("/wallet/createtransaction")
 			.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
 			.post("/wallet/broadcasttransaction")
 			.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,

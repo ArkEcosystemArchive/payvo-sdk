@@ -5,13 +5,11 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject;
+describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(SignedTransactionData);
 
-describe("SignedTransactionData", async ({ assert, beforeAll, it }) => {
-	beforeAll(async () => {
-		subject = await createService(SignedTransactionData);
-
-		subject.configure(
+		context.subject.configure(
 			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			{
 				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -25,24 +23,24 @@ describe("SignedTransactionData", async ({ assert, beforeAll, it }) => {
 		);
 	});
 
-	it("should have a id", () => {
-		assert.is(subject.id(), "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+	it("should have a id", (context) => {
+		assert.is(context.subject.id(), "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
 	});
 
-	it("should have a sender", () => {
-		assert.is(subject.sender(), "DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
 	});
 
-	it("should have a recipient", () => {
-		assert.is(subject.recipient(), "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
-	it("should have an amount", () => {
-		assert.equal(subject.amount(), BigNumber.make("12500000000000000"));
+	it("should have an amount", (context) => {
+		assert.equal(context.subject.amount(), BigNumber.make("12500000000000000"));
 	});
 
-	it("should have an amount for MultiPayment", () => {
-		subject.configure(
+	it("should have an amount for MultiPayment", (context) => {
+		context.subject.configure(
 			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			{
 				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -67,15 +65,15 @@ describe("SignedTransactionData", async ({ assert, beforeAll, it }) => {
 			"",
 		);
 
-		assert.equal(subject.amount(), BigNumber.make("25000000000000000"));
+		assert.equal(context.subject.amount(), BigNumber.make("25000000000000000"));
 	});
 
-	it("should have a fee", () => {
-		assert.equal(subject.fee(), BigNumber.ZERO);
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.fee(), BigNumber.ZERO);
 	});
 
-	it("should have a timestamp", () => {
-		assert.true(DateTime.make(0).isSame(subject.timestamp()));
+	it("should have a timestamp", (context) => {
+		assert.true(DateTime.make(0).isSame(context.subject.timestamp()));
 	});
 
 	it("should have a timestamp even if the timestamp is missing", async () => {
@@ -84,63 +82,63 @@ describe("SignedTransactionData", async ({ assert, beforeAll, it }) => {
 		assert.instance(subject.timestamp(), DateTime);
 	});
 
-	it("should determine if the transaction is a transfer", () => {
-		assert.boolean(subject.isTransfer());
+	it("should determine if the transaction is a transfer", (context) => {
+		assert.boolean(context.subject.isTransfer());
 	});
 
-	it("should determine if the transaction is a second signature", () => {
-		assert.boolean(subject.isSecondSignature());
+	it("should determine if the transaction is a second signature", (context) => {
+		assert.boolean(context.subject.isSecondSignature());
 	});
 
-	it("should determine if the transaction is a delegate registration", () => {
-		assert.boolean(subject.isDelegateRegistration());
+	it("should determine if the transaction is a delegate registration", (context) => {
+		assert.boolean(context.subject.isDelegateRegistration());
 	});
 
-	it("should determine if the transaction is a vote combination", () => {
-		assert.boolean(subject.isVoteCombination());
+	it("should determine if the transaction is a vote combination", (context) => {
+		assert.boolean(context.subject.isVoteCombination());
 	});
 
-	it("should determine if the transaction is a vote", () => {
-		assert.boolean(subject.isVote());
+	it("should determine if the transaction is a vote", (context) => {
+		assert.boolean(context.subject.isVote());
 	});
 
-	it("should determine if the transaction is a unvote", () => {
-		assert.boolean(subject.isUnvote());
+	it("should determine if the transaction is a unvote", (context) => {
+		assert.boolean(context.subject.isUnvote());
 	});
 
-	it("should determine if the transaction is a multi signature registration", () => {
-		assert.boolean(subject.isMultiSignatureRegistration());
+	it("should determine if the transaction is a multi signature registration", (context) => {
+		assert.boolean(context.subject.isMultiSignatureRegistration());
 	});
 
-	it("should determine if the transaction is a ipfs", () => {
-		assert.boolean(subject.isIpfs());
+	it("should determine if the transaction is a ipfs", (context) => {
+		assert.boolean(context.subject.isIpfs());
 	});
 
-	it("should determine if the transaction is a multi payment", () => {
-		assert.boolean(subject.isMultiPayment());
+	it("should determine if the transaction is a multi payment", (context) => {
+		assert.boolean(context.subject.isMultiPayment());
 	});
 
-	it("should determine if the transaction is a delegate resignation", () => {
-		assert.boolean(subject.isDelegateResignation());
+	it("should determine if the transaction is a delegate resignation", (context) => {
+		assert.boolean(context.subject.isDelegateResignation());
 	});
 
-	it("should determine if the transaction is a htlc lock", () => {
-		assert.boolean(subject.isHtlcLock());
+	it("should determine if the transaction is a htlc lock", (context) => {
+		assert.boolean(context.subject.isHtlcLock());
 	});
 
-	it("should determine if the transaction is a htlc claim", () => {
-		assert.boolean(subject.isHtlcClaim());
+	it("should determine if the transaction is a htlc claim", (context) => {
+		assert.boolean(context.subject.isHtlcClaim());
 	});
 
-	it("should determine if the transaction is a htlc refund", () => {
-		assert.boolean(subject.isHtlcRefund());
+	it("should determine if the transaction is a htlc refund", (context) => {
+		assert.boolean(context.subject.isHtlcRefund());
 	});
 
-	it("should determine if the transaction is a magistrate", () => {
-		assert.boolean(subject.isMagistrate());
+	it("should determine if the transaction is a magistrate", (context) => {
+		assert.boolean(context.subject.isMagistrate());
 	});
 
-	it("should determine if the transaction uses multi signature", () => {
-		assert.boolean(subject.usesMultiSignature());
+	it("should determine if the transaction uses multi signature", (context) => {
+		assert.boolean(context.subject.usesMultiSignature());
 	});
 });

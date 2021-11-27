@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isBooleanArray } from "./is-boolean-array";
 
-describe("isBooleanArray", async ({ assert, it }) => {
+describe("isBooleanArray", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isBooleanArray([true]));
 	});

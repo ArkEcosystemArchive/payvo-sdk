@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { toUpper } from "./to-upper";
 
-describe("toUpper", async ({ assert, it }) => {
+describe("toUpper", async ({ assert, it, nock, loader }) => {
 	it("should turn everything into upper case", () => {
 		assert.is(toUpper("--foo-bar--"), "--FOO-BAR--");
 		assert.is(toUpper("fooBar"), "FOOBAR");

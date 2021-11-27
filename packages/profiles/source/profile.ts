@@ -26,7 +26,7 @@ import {
 	IWalletRepository,
 	ProfileData,
 	ProfileSetting,
-} from "./contracts";
+} from "./contracts.js";
 import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";

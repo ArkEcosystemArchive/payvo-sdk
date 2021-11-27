@@ -4,7 +4,7 @@ import {
 	HistoricalData,
 	HistoricalPriceOptions,
 	HistoricalVolumeOptions,
-} from "./historical";
+} from "./historical.js";
 import { MarketDataCollection } from "./market.js";
 
 export interface PriceTracker {

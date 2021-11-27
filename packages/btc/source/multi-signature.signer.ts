@@ -1,13 +1,13 @@
 import { Coins, Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
 
-import { MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
-import { getNetworkConfig } from "./config";
+import { getNetworkConfig } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { isMultiSignatureRegistration, toExtPubKey } from "./multi-signature.domain";
-import { signWith } from "./helpers";
+import { signWith } from "./helpers.js";
 
 @IoC.injectable()
 export class MultiSignatureSigner {

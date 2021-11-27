@@ -29,7 +29,7 @@ class Transaction extends AbstractSignedTransactionData {
 	}
 }
 
-describe("AbstractSignedTransactionData", ({ assert, it }) => {
+describe("AbstractSignedTransactionData", ({ assert, it, nock, loader }) => {
 	it("should get attributes", () => {
 		let transaction = new Transaction().configure("id", { key: "value" }, "");
 		assert.is(transaction.id(), "id");

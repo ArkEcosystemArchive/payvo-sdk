@@ -7,11 +7,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
-describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+describe("ClientService", async ({ assert, beforeAll, skip, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -22,14 +20,14 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		});
 	});
 
-	skip("should retrieve a single transaction", async () => {
-		const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
+	skip("should retrieve a single transaction", async (context) => {
+		const result = await context.subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
 
 		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	skip("should retrieve a list of transactions", async () => {
-		const result = await subject.transactions({
+	skip("should retrieve a list of transactions", async (context) => {
+		const result = await context.subject.transactions({
 			identifiers: [
 				{
 					type: "address",
@@ -41,8 +39,8 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
 	});
 
-	skip("#wallet", async () => {
-		const result = await subject.wallet({
+	skip("#wallet", async (context) => {
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
 		});
@@ -50,7 +48,7 @@ describe("ClientService", async ({ assert, beforeAll, skip, it }) => {
 		assert.instance(result, WalletData);
 	});
 
-	skip("#delegates", async () => {
-		assert.instance(await subject.delegates(), Collections.WalletDataCollection);
+	skip("#delegates", async (context) => {
+		assert.instance(await context.subject.delegates(), Collections.WalletDataCollection);
 	});
 });

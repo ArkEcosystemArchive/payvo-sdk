@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { take } from "./take";
 
-describe("take", async ({ assert, it }) => {
+describe("take", async ({ assert, it, nock, loader }) => {
 	it("should take the given number of items", () => {
 		assert.equal(take([1, 2, 3]), [1]);
 		assert.equal(take([1, 2, 3], 2), [1, 2]);

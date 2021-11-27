@@ -1,4 +1,4 @@
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
 import * as bitcoin from "bitcoinjs-lib";
 import { isMultiSignatureRegistration } from "./multi-signature.domain";
 import { BIP32 } from "@payvo/sdk-cryptography";

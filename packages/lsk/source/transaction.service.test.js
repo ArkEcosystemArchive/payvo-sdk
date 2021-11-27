@@ -2,7 +2,6 @@ import { describeWithContext } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { IoC, Services, Signatories } from "@payvo/sdk";
-import { nock } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
@@ -36,7 +35,7 @@ describeWithContext(
 			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
 		},
 	},
-	({ afterEach, beforeAll, it, assert, stub, each, loader }) => {
+	({ afterEach, beforeAll, it, assert, stub, each, loader, nock }) => {
 		beforeAll(async (context) => {
 			nock.fake(/.+/).get("/api/v2/fees").reply(200, loader.json(`test/fixtures/client/fees.json`)).persist();
 

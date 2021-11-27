@@ -7,7 +7,7 @@ import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers.js";
 import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain";
 import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
 import { createValue } from "./transaction.factory";
-import { UnspentTransaction } from "./transaction.models";
+import { UnspentTransaction } from "./transaction.models.js";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {

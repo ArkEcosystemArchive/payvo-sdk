@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isAsyncFunction } from "./is-async-function";
 
-describe("isAsyncFunction", async ({ assert, it }) => {
+describe("isAsyncFunction", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isAsyncFunction(async () => ({})));
 	});

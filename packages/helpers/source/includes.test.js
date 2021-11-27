@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { includes } from "./includes";
 
-describe("includes", async ({ assert, it }) => {
+describe("includes", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
 		assert.true(includes([1, 2, 3], 1));
 

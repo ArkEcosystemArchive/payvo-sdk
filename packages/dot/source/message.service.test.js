@@ -8,19 +8,17 @@ import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";
 
-let subject;
-
-describe("MessageService", async ({ beforeEach, assert, it }) => {
-	beforeEach(async () => {
+describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => {
 		await waitReady();
 
-		subject = await createService(MessageService, undefined, async (container) => {
+		context.subject = await createService(MessageService, undefined, async (container) => {
 			container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
 		});
 	});
 
-	it("should sign a message", async () => {
-		const result = await subject.sign({
+	it("should sign a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -32,6 +30,6 @@ describe("MessageService", async ({ beforeEach, assert, it }) => {
 			),
 		});
 
-		assert.true(await subject.verify(result));
+		assert.true(await context.subject.verify(result));
 	});
 });

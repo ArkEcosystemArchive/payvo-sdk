@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { getType } from "./get-type";
 
-describe("getType", async ({ assert, it }) => {
+describe("getType", async ({ assert, it, nock, loader }) => {
 	it("should return the type of the given value", () => {
 		assert.is(getType([]), "[object Array]");
 		assert.is(getType(1), "[object Number]");

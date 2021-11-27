@@ -20,7 +20,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://viewblock.io/zilliqa",
+			host: "https://viewblock.io",
 			type: "explorer",
 		},
 	],

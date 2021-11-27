@@ -1,7 +1,6 @@
 import { describe, loader, Mockery } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import { nock } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -24,7 +23,7 @@ const createLocalServices = () => {
 	});
 };
 
-describe("#transaction", async ({ beforeAll, it, assert }) => {
+describe("#transaction", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -66,7 +65,7 @@ describe("#transaction", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#transactions", async ({ beforeAll, it, assert }) => {
+describe("#transactions", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -111,7 +110,7 @@ describe("#transactions", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#wallet", async ({ beforeAll, it, assert }) => {
+describe("#wallet", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -146,7 +145,7 @@ describe("#wallet", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#wallets", async ({ beforeAll, it, assert }) => {
+describe("#wallets", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -180,7 +179,7 @@ describe("#wallets", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#delegate", async ({ beforeAll, it, assert }) => {
+describe("#delegate", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -211,7 +210,7 @@ describe("#delegate", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#delegates", async ({ beforeAll, it, assert }) => {
+describe("#delegates", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -243,7 +242,7 @@ describe("#delegates", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#votes", async ({ beforeAll, it, assert }) => {
+describe("#votes", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {
 		context.subject = await createLocalServices();
 	});
@@ -263,11 +262,11 @@ describe("#votes", async ({ beforeAll, it, assert }) => {
 	});
 });
 
-describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert }) => {
+describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert, nock, stub }) => {
 	beforeAll(async (context) => {
 		const gotoTime = DateTime.make("2021-07-28 12:00");
 
-		context.dateTime = Mockery.stub(DateTime, "make");
+		context.dateTime = stub(DateTime, "make");
 		context.dateTime.returnValueOnce(gotoTime);
 	});
 
@@ -391,7 +390,7 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert 
 	});
 });
 
-describe("#broadcast", ({ beforeEach, it, assert }) => {
+describe("#broadcast", ({ beforeEach, it, assert, nock }) => {
 	beforeEach(async (context) => {
 		context.subject = await createLocalServices();
 

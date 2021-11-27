@@ -2,13 +2,13 @@ import { describe } from "@payvo/sdk-test";
 
 import { keyBy } from "./key-by";
 
-const array = [
-	{ dir: "left", code: 97 },
-	{ dir: "right", code: 100 },
-];
-
-describe("keyBy", async ({ assert, it }) => {
+describe("keyBy", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
+		const array = [
+			{ dir: "left", code: 97 },
+			{ dir: "right", code: 100 },
+		];
+
 		assert.equal(
 			keyBy(array, (o) => String.fromCharCode(o.code)),
 			{

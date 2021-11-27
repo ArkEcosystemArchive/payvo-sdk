@@ -1,5 +1,5 @@
-import NeoMainnet from "./networks/neo.mainnet";
-import NeoTestnet from "./networks/neo.testnet";
+import NeoMainnet from "./networks/neo.mainnet.js";
+import NeoTestnet from "./networks/neo.testnet.js";
 
 export const manifest = {
 	name: "NEO",

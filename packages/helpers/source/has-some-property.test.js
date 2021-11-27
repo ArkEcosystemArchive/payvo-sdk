@@ -2,20 +2,18 @@ import { describe } from "@payvo/sdk-test";
 
 import { hasSomeProperty } from "./has-some-property";
 
-let object;
+describe("hasSomeProperty", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach((context) => (context.object = { property: undefined }));
 
-describe("hasSomeProperty", async ({ assert, beforeEach, it }) => {
-	beforeEach(() => (object = { property: undefined }));
-
-	it("should return true if the object has a given property", () => {
-		assert.true(hasSomeProperty(object, ["property"]));
+	it("should return true if the object has a given property", (context) => {
+		assert.true(hasSomeProperty(context.object, ["property"]));
 	});
 
-	it("should return true if the object has any of the given properties", () => {
-		assert.true(hasSomeProperty(object, ["not-present", "property"]));
+	it("should return true if the object has any of the given properties", (context) => {
+		assert.true(hasSomeProperty(context.object, ["not-present", "property"]));
 	});
 
-	it("should return false if the object doesn't have a given property", () => {
-		assert.false(hasSomeProperty(object, ["not-present"]));
+	it("should return false if the object doesn't have a given property", (context) => {
+		assert.false(hasSomeProperty(context.object, ["not-present"]));
 	});
 });

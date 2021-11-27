@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { Container } from "./container";
 import { BindingType } from "./service-provider.contract";
 
-describe("Container", ({ assert, it }) => {
+describe("Container", ({ assert, it, nock, loader }) => {
 	it("should prevent multiple bindings of the same key", () => {
 		const container = new Container();
 

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Numeral } from "./numeral";
 
-describe("Numeral", ({ assert, it }) => {
+describe("Numeral", ({ assert, it, nock, loader }) => {
 	it("should format", () => {
 		assert.is(Numeral.make("en").format(5000), "5,000");
 	});

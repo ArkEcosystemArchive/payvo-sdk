@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { isArray } from "./is-array";
 
-describe("isArray", async ({ assert, it }) => {
+describe("isArray", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
 		assert.true(isArray([1]));
 	});

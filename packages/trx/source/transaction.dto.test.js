@@ -1,16 +1,11 @@
-import { describe, loader } from "@payvo/sdk-test";
-import { nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject;
-
-describe("ConfirmedTransactionData", async ({ beforeAll, it, assert }) => {
-	beforeAll(() => nock.disableNetConnect());
-
+describe("ConfirmedTransactionData", async ({ it, assert, loader }) => {
 	it("should parse blockId correctly", async () => {
-		subject = await createService(ConfirmedTransactionData).configure(
+		const subject = await createService(ConfirmedTransactionData).configure(
 			loader.json(`test/fixtures/client/transactions.json`).data[1],
 		);
 
@@ -18,7 +13,7 @@ describe("ConfirmedTransactionData", async ({ beforeAll, it, assert }) => {
 	});
 
 	it("should parse memo correctly", async () => {
-		subject = await createService(ConfirmedTransactionData).configure(
+		const subject = await createService(ConfirmedTransactionData).configure(
 			loader.json(`test/fixtures/client/transactions.json`).data[1],
 		);
 
@@ -26,7 +21,7 @@ describe("ConfirmedTransactionData", async ({ beforeAll, it, assert }) => {
 	});
 
 	it("should parse missing memo correctly", async () => {
-		subject = await createService(ConfirmedTransactionData).configure(
+		const subject = await createService(ConfirmedTransactionData).configure(
 			loader.json(`test/fixtures/client/transactions.json`).data[0],
 		);
 

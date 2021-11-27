@@ -1,4 +1,4 @@
-import { assert, describe, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -33,43 +33,43 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-test("disconnect", async () => {
-	const subject = await createMockService("");
+describe("LedgerService", async ({ assert, it, skip }) => {
+	it("disconnect", async () => {
+		const subject = await createMockService("");
 
-	assert.undefined(await subject.disconnect());
+		assert.undefined(await subject.disconnect());
+	});
+
+	it("disconnect", async () => {
+		const subject = await createMockService("");
+
+		assert.undefined(await subject.disconnect());
+	});
+
+	it("getVersion", async () => {
+		const subject = await createMockService(ledger.appVersion.record);
+
+		assert.is(await subject.getVersion(), ledger.appVersion.result);
+	});
+
+	skip("getPublicKey", async () => {
+		const subject = await createMockService(ledger.publicKey.record);
+
+		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
+	});
+
+	skip("getExtendedPublicKey", async () => {
+		const subject = await createMockService(ledger.extendedPublicKey.record);
+
+		assert.is(await subject.getExtendedPublicKey(ledger.extendedPublicKey.path), ledger.extendedPublicKey.result);
+	});
+
+	it("signMessage", async () => {
+		const subject = await createMockService(ledger.message.record);
+
+		assert.is(
+			await subject.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "utf-8")),
+			ledger.message.result,
+		);
+	});
 });
-
-test("disconnect", async () => {
-	const subject = await createMockService("");
-
-	assert.undefined(await subject.disconnect());
-});
-
-test("getVersion", async () => {
-	const subject = await createMockService(ledger.appVersion.record);
-
-	assert.is(await subject.getVersion(), ledger.appVersion.result);
-});
-
-test.skip("getPublicKey", async () => {
-	const subject = await createMockService(ledger.publicKey.record);
-
-	assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
-});
-
-test.skip("getExtendedPublicKey", async () => {
-	const subject = await createMockService(ledger.extendedPublicKey.record);
-
-	assert.is(await subject.getExtendedPublicKey(ledger.extendedPublicKey.path), ledger.extendedPublicKey.result);
-});
-
-test("signMessage", async () => {
-	const subject = await createMockService(ledger.message.record);
-
-	assert.is(
-		await subject.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "utf-8")),
-		ledger.message.result,
-	);
-});
-
-test.run();

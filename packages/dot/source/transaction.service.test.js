@@ -15,13 +15,11 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
-describe("TransactionService", async ({ beforeAll, assert, it }) => {
-	beforeAll(async () => {
+describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
+	beforeAll(async (context) => {
 		await waitReady();
 
-		subject = await createServiceAsync(TransactionService, undefined, async (container) => {
+		context.subject = await createServiceAsync(TransactionService, undefined, async (container) => {
 			const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
 			const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
 
@@ -42,8 +40,8 @@ describe("TransactionService", async ({ beforeAll, assert, it }) => {
 		});
 	});
 
-	it("#transfer should succeed", async () => {
-		const result = await subject.transfer({
+	it("#transfer should succeed", async (context) => {
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,

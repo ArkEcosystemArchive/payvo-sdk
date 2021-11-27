@@ -3,15 +3,13 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 
-let subject;
-
-describe("AddressService", async ({ assert, beforeEach, it }) => {
-	beforeEach(async () => {
-		subject = await createService(KeyPairService);
+describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(KeyPairService);
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,
@@ -19,8 +17,8 @@ describe("AddressService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic given a custom locale", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,
@@ -28,12 +26,12 @@ describe("AddressService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should fail to generate an output from an invalid mnemonic", async () => {
-		await assert.rejects(() => subject.fromMnemonic(undefined));
+	it("should fail to generate an output from an invalid mnemonic", async (context) => {
+		await assert.rejects(() => context.subject.fromMnemonic(undefined));
 	});
 
-	it("should generate an output from a wif", async () => {
-		const result = await subject.fromWIF(identity.wif);
+	it("should generate an output from a wif", async (context) => {
+		const result = await context.subject.fromWIF(identity.wif);
 
 		assert.equal(result, {
 			privateKey: identity.privateKey,
@@ -41,17 +39,17 @@ describe("AddressService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should fail to generate an output from an invalid wif", async () => {
-		await assert.rejects(() => subject.fromWIF(undefined));
+	it("should fail to generate an output from an invalid wif", async (context) => {
+		await assert.rejects(() => context.subject.fromWIF(undefined));
 	});
 
-	it("should generate an output from a secret", async () => {
+	it("should generate an output from a secret", async (context) => {
 		await assert.rejects(
-			() => subject.fromSecret(identity.mnemonic),
+			() => context.subject.fromSecret(identity.mnemonic),
 			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
 		);
 
-		const result = await subject.fromSecret("abc");
+		const result = await context.subject.fromSecret("abc");
 
 		assert.equal(result, {
 			privateKey: "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
@@ -59,7 +57,7 @@ describe("AddressService", async ({ assert, beforeEach, it }) => {
 		});
 	});
 
-	it("should fail to generate an output from an invalid wif", async () => {
-		await assert.rejects(() => subject.fromSecret(undefined));
+	it("should fail to generate an output from an invalid wif", async (context) => {
+		await assert.rejects(() => context.subject.fromSecret(undefined));
 	});
 });

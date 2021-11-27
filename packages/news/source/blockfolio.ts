@@ -1,6 +1,6 @@
 import { Http } from "@payvo/sdk";
 
-import { BlockfolioResponse } from "./blockfolio.models";
+import { BlockfolioResponse } from "./blockfolio.models.js";
 
 /**
  * Implements Blockfolio Signal retrieval from the Platform SDK API.

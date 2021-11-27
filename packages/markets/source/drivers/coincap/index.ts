@@ -9,7 +9,7 @@ import {
 	HistoricalVolumeOptions,
 	MarketDataCollection,
 	PriceTracker,
-} from "../../contracts";
+} from "../../contracts/index.js";
 import { HistoricalPriceTransformer } from "./transformers/historical-price-transformer.js";
 import { MarketTransformer } from "./transformers/market-transformer.js";
 

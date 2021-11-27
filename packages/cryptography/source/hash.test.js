@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { Hash } from "./hash";
 
-describe("Hash", ({ assert, it }) => {
+describe("Hash", ({ assert, it, nock, loader }) => {
 	it("should compute a RIPEMD160 hash for the given value", () => {
 		assert.is(Hash.ripemd160("Hello World").toString("hex"), "a830d7beb04eb7549ce990fb7dc962e499a27230");
 	});

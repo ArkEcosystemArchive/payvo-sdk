@@ -1,163 +1,202 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import { nock } from "@payvo/sdk-test";
-import { UUID } from "@payvo/sdk-cryptography";
+import { describeWithContext } from "@payvo/sdk-test";
 
-import { bootContainer } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
-import { Profile } from "./profile";
-import { Wallet } from "./wallet";
+import { bootContainer } from "../test/mocking";
 import { DelegateService } from "./delegate.service";
-import { IReadWriteWallet } from "./contracts";
+import { Profile } from "./profile";
 
-let subject;
+describeWithContext(
+	"DelegateService",
+	{ mnemonic: identity.mnemonic },
+	({ beforeEach, it, assert, loader, nock, stub }) => {
+		beforeEach(async (context) => {
+			bootContainer();
 
-test.before(() => {
-	bootContainer();
-});
+			nock.fake()
+				.get("/api/node/configuration")
+				.reply(200, loader.json("test/fixtures/client/configuration.json"))
+				.get("/api/node/configuration/crypto")
+				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+				.get("/api/node/syncing")
+				.reply(200, loader.json("test/fixtures/client/syncing.json"))
+				.persist();
 
-let wallet;
-let profile;
+			context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+			context.subject = new DelegateService();
 
-test.before.each(async () => {
-	nock.fake(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
-		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"))
-		.persist();
+			context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
+				coin: "ARK",
+				mnemonic: context.mnemonic,
+				network: "ark.devnet",
+			});
+		});
 
-	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
-	subject = new DelegateService();
+		it("should sync the delegates", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-	wallet = await profile.walletFactory().fromMnemonicWithBIP39({
-		coin: "ARK",
-		network: "ark.devnet",
-		mnemonic: identity.mnemonic,
-	});
-});
+			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-test("should sync the delegates", async () => {
-	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+			await context.subject.sync(context.profile, "ARK", "ark.devnet");
 
-	await subject.sync(profile, "ARK", "ark.devnet");
+			assert.array(context.subject.all("ARK", "ark.devnet"));
+			assert.length(context.subject.all("ARK", "ark.devnet"), 200);
+		});
 
-	assert.array(subject.all("ARK", "ark.devnet"));
-	assert.length(subject.all("ARK", "ark.devnet"), 200);
-});
+		it("should sync the delegates only one page", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-single-page.json"));
 
-test("should sync the delegates only one page", async () => {
-	nock.cleanAll();
-	nock.fake(/.+/).get("/api/delegates").reply(200, require("../test/fixtures/client/delegates-single-page.json"));
+			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+			await context.subject.sync(context.profile, "ARK", "ark.devnet");
 
-	await subject.sync(profile, "ARK", "ark.devnet");
+			assert.array(context.subject.all("ARK", "ark.devnet"));
+			assert.length(context.subject.all("ARK", "ark.devnet"), 10);
+		});
 
-	assert.array(subject.all("ARK", "ark.devnet"));
-	assert.length(subject.all("ARK", "ark.devnet"), 10);
-});
+		it("should sync the delegates when network does not support FastDelegateSync", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-test("should sync the delegates when network does not support FastDelegateSync", async () => {
-	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-	Mockery.stub(profile.coins().set("ARK", "ark.devnet").network(), "meta").returnValue({
-		fastDelegateSync: false,
-	});
+			stub(context.profile.coins().set("ARK", "ark.devnet").network(), "meta").returnValue({
+				fastDelegateSync: false,
+			});
 
-	await subject.sync(profile, "ARK", "ark.devnet");
+			await context.subject.sync(context.profile, "ARK", "ark.devnet");
 
-	assert.array(subject.all("ARK", "ark.devnet"));
-	assert.length(subject.all("ARK", "ark.devnet"), 200);
-});
+			assert.array(context.subject.all("ARK", "ark.devnet"));
+			assert.length(context.subject.all("ARK", "ark.devnet"), 200);
+		});
 
-test("should sync the delegates of all coins", async () => {
-	assert.throws(() => subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+		it("should sync the delegates of all coins", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-	await subject.syncAll(profile);
+			assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-	assert.array(subject.all("ARK", "ark.devnet"));
-	assert.length(subject.all("ARK", "ark.devnet"), 200);
-});
+			await context.subject.syncAll(context.profile);
 
-test("#findByAddress", async () => {
-	await subject.syncAll(profile);
-	assert.truthy(subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve"));
-	assert.throws(() => subject.findByAddress("ARK", "ark.devnet", "unknown"), /No delegate for/);
-});
+			assert.array(context.subject.all("ARK", "ark.devnet"));
+			assert.length(context.subject.all("ARK", "ark.devnet"), 200);
+		});
 
-test("#findByPublicKey", async () => {
-	await subject.syncAll(profile);
-	assert.truthy(
-		subject.findByPublicKey(
-			"ARK",
-			"ark.devnet",
-			"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
-		),
-	);
-	assert.throws(() => subject.findByPublicKey("ARK", "ark.devnet", "unknown"), /No delegate for/);
-});
+		it("should find a delegate by address or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-test("#findByUsername", async () => {
-	await subject.syncAll(profile);
-	assert.truthy(subject.findByUsername("ARK", "ark.devnet", "alessio"));
-	assert.throws(() => subject.findByUsername("ARK", "ark.devnet", "unknown"), /No delegate for/);
-});
+			await context.subject.syncAll(context.profile);
 
-test("should return an empty array if there are no public keys", async () => {
-	const mappedDelegates = subject.map(wallet, []);
+			assert.truthy(context.subject.findByAddress("ARK", "ark.devnet", "DSyG9hK9CE8eyfddUoEvsga4kNVQLdw2ve"));
+			assert.throws(() => context.subject.findByAddress("ARK", "ark.devnet", "unknown"), /No delegate for/);
+		});
 
-	assert.array(mappedDelegates);
-	assert.length(mappedDelegates, 0);
-});
+		it("should find a delegate by public key or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-test("should map the public keys to read-only wallets", async () => {
-	const delegates = require("../test/fixtures/client/delegates-1.json").data;
-	const addresses = delegates.map((delegate) => delegate.address);
-	const publicKeys = delegates.map((delegate) => delegate.publicKey);
-	const usernames = delegates.map((delegate) => delegate.username);
+			await context.subject.syncAll(context.profile);
 
-	await subject.sync(profile, wallet.coinId(), wallet.networkId());
+			assert.truthy(
+				context.subject.findByPublicKey(
+					"ARK",
+					"ark.devnet",
+					"033a5474f68f92f254691e93c06a2f22efaf7d66b543a53efcece021819653a200",
+				),
+			);
+			assert.throws(() => context.subject.findByPublicKey("ARK", "ark.devnet", "unknown"), /No delegate for/);
+		});
 
-	const mappedDelegates = subject.map(wallet, publicKeys);
+		it("should find a delegate by username or throw error if not found", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-	assert.array(mappedDelegates);
-	assert.length(mappedDelegates, 100);
+			await context.subject.syncAll(context.profile);
 
-	for (let i = 0; i < delegates.length; i++) {
-		assert.is(mappedDelegates[i].address(), addresses[i]);
-		assert.is(mappedDelegates[i].publicKey(), publicKeys[i]);
-		assert.is(mappedDelegates[i].username(), usernames[i]);
-	}
-});
+			assert.truthy(context.subject.findByUsername("ARK", "ark.devnet", "alessio"));
+			assert.throws(() => context.subject.findByUsername("ARK", "ark.devnet", "unknown"), /No delegate for/);
+		});
 
-test("should skip public keys for which it does not find a delegate", async () => {
-	const delegates = require("../test/fixtures/client/delegates-1.json").data;
-	const addresses = delegates.map((delegate) => delegate.address);
-	const publicKeys = delegates.map((delegate) => delegate.publicKey);
-	const usernames = delegates.map((delegate) => delegate.username);
+		it("should return an empty array if there are no public keys", async (context) => {
+			const mappedDelegates = context.subject.map(context.wallet, []);
 
-	await subject.sync(profile, wallet.coinId(), wallet.networkId());
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 0);
+		});
 
-	const mappedDelegates = subject.map(wallet, publicKeys.concat(["pubkey"]));
+		it("should map the public keys to read-only wallets", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-	assert.array(mappedDelegates);
-	assert.length(mappedDelegates, 100);
+			const delegates = loader.json("test/fixtures/client/delegates-1.json").data;
+			const addresses = delegates.map((delegate) => delegate.address);
+			const publicKeys = delegates.map((delegate) => delegate.publicKey);
+			const usernames = delegates.map((delegate) => delegate.username);
 
-	for (let i = 0; i < delegates.length; i++) {
-		assert.is(mappedDelegates[i].address(), addresses[i]);
-		assert.is(mappedDelegates[i].publicKey(), publicKeys[i]);
-		assert.is(mappedDelegates[i].username(), usernames[i]);
-	}
-});
+			await context.subject.sync(context.profile, context.wallet.coinId(), context.wallet.networkId());
 
-test.run();
+			const mappedDelegates = context.subject.map(context.wallet, publicKeys);
+
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 100);
+
+			for (let index = 0; index < delegates.length; index++) {
+				assert.is(mappedDelegates[index].address(), addresses[index]);
+				assert.is(mappedDelegates[index].publicKey(), publicKeys[index]);
+				assert.is(mappedDelegates[index].username(), usernames[index]);
+			}
+		});
+
+		it("should skip public keys for which it does not find a delegate", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
+
+			const delegates = loader.json("test/fixtures/client/delegates-1.json").data;
+			const addresses = delegates.map((delegate) => delegate.address);
+			const publicKeys = delegates.map((delegate) => delegate.publicKey);
+			const usernames = delegates.map((delegate) => delegate.username);
+
+			await context.subject.sync(context.profile, context.wallet.coinId(), context.wallet.networkId());
+
+			const mappedDelegates = context.subject.map(context.wallet, [...publicKeys, "pubkey"]);
+
+			assert.array(mappedDelegates);
+			assert.length(mappedDelegates, 100);
+
+			for (let index = 0; index < delegates.length; index++) {
+				assert.is(mappedDelegates[index].address(), addresses[index]);
+				assert.is(mappedDelegates[index].publicKey(), publicKeys[index]);
+				assert.is(mappedDelegates[index].username(), usernames[index]);
+			}
+		});
+	},
+);

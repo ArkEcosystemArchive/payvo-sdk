@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { stringify } from "./stringify";
 
-describe("stringify", async ({ assert, it }) => {
+describe("stringify", async ({ assert, it, nock, loader }) => {
 	it("should return the given value as JSON", () => {
 		assert.is(stringify({ b: 1, a: 0 }), '{"b":1,"a":0}');
 	});

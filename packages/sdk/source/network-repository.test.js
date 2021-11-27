@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { manifest } from "../../ark/distribution/manifest";
 import { NetworkRepository } from "./network-repository";
 
-describe("NetworkRepository", ({ assert, beforeEach, it }) => {
+describe("NetworkRepository", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = new NetworkRepository(manifest.networks)));
 
 	it("should get all values", (context) => {

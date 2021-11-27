@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { camelCase } from "./camel-case";
 
-describe("camelCase", async ({ assert, it }) => {
+describe("camelCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into camel case", () => {
 		assert.is(camelCase("string"), "string");
 		assert.is(camelCase("camelCase"), "camelCase");

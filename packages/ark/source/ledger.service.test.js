@@ -3,7 +3,6 @@ import { describe } from "@payvo/sdk-test";
 import { Address } from "@arkecosystem/crypto-identities";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { nock } from "@payvo/sdk-test";
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
@@ -36,7 +35,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("LedgerService", async ({ assert, it }) => {
+describe("LedgerService", async ({ assert, it, nock, loader }) => {
 	it("should pass with a resolved transport closure", async () => {
 		const ark = await createMockService("");
 
@@ -92,7 +91,7 @@ describe("LedgerService", async ({ assert, it }) => {
 	});
 });
 
-describe("LedgerService - scan", ({ assert, afterEach, beforeAll, it, loader, stub }) => {
+describe("LedgerService - scan", ({ assert, nock, beforeAll, it, loader, stub }) => {
 	beforeAll(() => nock.disableNetConnect());
 
 	it("should scan for legacy wallets", async () => {
