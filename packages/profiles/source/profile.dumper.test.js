@@ -1,68 +1,63 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import { nock } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile, IProfileRepository } from "./contracts";
-import { ProfileDumper } from "./profile.dumper";
-import { Identifiers } from "./container.models";
 import { container } from "./container";
+import { Identifiers } from "./container.models";
+import { Profile } from "./profile";
+import { ProfileDumper } from "./profile.dumper";
 
-let subject;
-let profile;
+describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-test.before(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+			.reply(200, loader.json("test/fixtures/client/wallet-2.json"))
+			.persist();
 
-	nock.fake(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.persist();
+		container.get(Identifiers.ProfileRepository).flush();
+
+		context.profile = container.get(Identifiers.ProfileRepository).create("John Doe");
+		context.subject = new ProfileDumper(context.profile);
+	});
+
+	afterEach(() => {});
+
+	it("should dump the profile with a password", (context) => {
+		context.profile.auth().setPassword("password");
+
+		const { id, password, data } = context.subject.dump();
+
+		assert.string(id);
+		assert.string(password);
+		assert.string(data);
+	});
+
+	it("should dump the profile without a password", (context) => {
+		const { id, password, data } = context.subject.dump();
+
+		assert.string(id);
+		assert.undefined(password);
+		assert.string(data);
+	});
+
+	it("should fail to dump a profile with a password if the profile was not encrypted", () => {
+		const profile = new Profile({ data: "", id: "uuid", name: "name", password: "password" });
+		const subject = new ProfileDumper(profile);
+
+		assert.throws(
+			() => subject.dump(),
+			"The profile [name] has not been encoded or encrypted. Please call [save] before dumping.",
+		);
+	});
 });
-
-test.before.each(() => {
-	container.get(Identifiers.ProfileRepository).flush();
-
-	profile = container.get(Identifiers.ProfileRepository).create("John Doe");
-	subject = new ProfileDumper(profile);
-});
-
-test("should dump the profile with a password", () => {
-	profile.auth().setPassword("password");
-
-	const { id, password, data } = subject.dump();
-
-	assert.string(id);
-	assert.string(password);
-	assert.string(data);
-});
-
-test("should dump the profile without a password", () => {
-	const { id, password, data } = subject.dump();
-
-	assert.string(id);
-	assert.undefined(password);
-	assert.string(data);
-});
-
-test("should fail to dump a profile with a password if the profile was not encrypted", () => {
-	profile = new Profile({ id: "uuid", name: "name", data: "", password: "password" });
-	subject = new ProfileDumper(profile);
-
-	assert.throws(
-		() => subject.dump(),
-		"The profile [name] has not been encoded or encrypted. Please call [save] before dumping.",
-	);
-});
-
-test.run();

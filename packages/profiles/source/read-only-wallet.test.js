@@ -1,59 +1,58 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
+
 import { identity } from "../test/fixtures/identity";
 import { ReadOnlyWallet } from "./read-only-wallet";
 
-let subject;
-
-test.before.each(async () => {
-	subject = new ReadOnlyWallet({
-		address: identity.address,
-		publicKey: identity.publicKey,
-		username: "arkx",
-		rank: 1,
-		explorerLink: "https://google.com",
-		isDelegate: false,
-		isResignedDelegate: false,
-		governanceIdentifier: "address",
-	});
-});
-
-test("should have an address", () => {
-	assert.is(subject.address(), identity.address);
-});
-
-test("should have a publicKey", () => {
-	assert.is(subject.publicKey(), identity.publicKey);
-});
-
-test("should have an username", () => {
-	assert.is(subject.username(), "arkx");
-});
-
-test("should have an avatar", () => {
-	assert.string(subject.avatar());
-});
-
-test("should have an explorer link", () => {
-	assert.is(subject.explorerLink(), "https://google.com");
-});
-
-test("should have an address as governance identifier", () => {
-	assert.is(subject.governanceIdentifier(), identity.address);
-});
-
-test("should have an publicKey as governance identifier", () => {
-	subject = new ReadOnlyWallet({
-		address: identity.address,
-		publicKey: identity.publicKey,
-		username: "arkx",
-		rank: 1,
-		explorerLink: "https://google.com",
-		isDelegate: false,
-		isResignedDelegate: false,
-		governanceIdentifier: "publicKey",
+describe("ReadOnlyWallet", ({ beforeEach, assert, it }) => {
+	beforeEach(async (context) => {
+		context.subject = new ReadOnlyWallet({
+			address: identity.address,
+			explorerLink: "https://google.com",
+			governanceIdentifier: "address",
+			isDelegate: false,
+			isResignedDelegate: false,
+			publicKey: identity.publicKey,
+			rank: 1,
+			username: "arkx",
+		});
 	});
 
-	assert.is(subject.governanceIdentifier(), identity.publicKey);
-});
+	it("should have an address", (context) => {
+		assert.is(context.subject.address(), identity.address);
+	});
 
-test.run();
+	it("should have a publicKey", (context) => {
+		assert.is(context.subject.publicKey(), identity.publicKey);
+	});
+
+	it("should have an username", (context) => {
+		assert.is(context.subject.username(), "arkx");
+	});
+
+	it("should have an avatar", (context) => {
+		assert.string(context.subject.avatar());
+	});
+
+	it("should have an explorer link", (context) => {
+		assert.is(context.subject.explorerLink(), "https://google.com");
+	});
+
+	it("should have an address as governance identifier", (context) => {
+		assert.is(context.subject.governanceIdentifier(), identity.address);
+	});
+
+	it("should have an publicKey as governance identifier", (context) => {
+		const subject = new ReadOnlyWallet({
+			address: identity.address,
+			explorerLink: "https://google.com",
+			governanceIdentifier: "publicKey",
+			isDelegate: false,
+			isResignedDelegate: false,
+			publicKey: identity.publicKey,
+			rank: 1,
+			username: "arkx",
+		});
+
+		assert.is(subject.governanceIdentifier(), identity.publicKey);
+	});
+});
