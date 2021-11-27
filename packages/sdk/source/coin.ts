@@ -20,7 +20,7 @@ import {
 	TransactionService,
 	WalletDiscoveryService,
 	WIFService,
-} from "./services";
+} from "./services.js";
 import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
 import { ConfigRepository } from "./config.js";
 import { Manifest } from "./manifest.js";

@@ -1,6 +1,6 @@
 import { Collections, Services } from "@payvo/sdk";
 import { IProfile, IReadWriteWallet, ITransactionAggregate } from "./contracts.js";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
 
 import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { promiseAllSettledByKey } from "./helpers/promise.js";

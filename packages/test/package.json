@@ -13,6 +13,7 @@
 	"scripts": {
 		"build": "pnpm run clean && tsc",
 		"build:watch": "pnpm run clean && tsc -w",
+		"build:webpack": "webpack --config ../../webpack.config.cjs",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build",
 		"test": "uvu -r tsm source .test.js",
@@ -25,13 +26,11 @@
 		"nock": "^13.2.1",
 		"sinon": "^12.0.1",
 		"string-kit": "~0.14.3",
-		"yargs": "~17.2.1",
 		"zod": "~3.11.6"
 	},
 	"devDependencies": {
 		"@types/node": "^16.11.10",
-		"@types/sinon": "^10.0.6",
-		"@types/yargs": "~17.0.7"
+		"@types/sinon": "^10.0.6"
 	},
 	"engines": {
 		"node": ">=16.0.0"

@@ -2,29 +2,27 @@ import { describe } from "@payvo/sdk-test";
 
 import { Censor } from "./censor";
 
-let subject;
-
 describe("Censor", async ({ assert, beforeEach, it }) => {
-	beforeEach(() => (subject = new Censor()));
+	beforeEach((context) => (context.subject = new Censor()));
 
-	it("#isBad", () => {
-		assert.true(subject.isBad("onion"));
-		assert.true(subject.isBad("zyva.org"));
-		assert.true(subject.isBad("tighturl.com")); // allow uppercase in code
-		assert.true(subject.isBad("ZYVA.ORG")); // allow uppercase in data
-		assert.false(subject.isBad("tree"));
-		assert.false(subject.isBad(""));
+	it("#isBad", (context) => {
+		assert.true(context.subject.isBad("onion"));
+		assert.true(context.subject.isBad("zyva.org"));
+		assert.true(context.subject.isBad("tighturl.com")); // allow uppercase in code
+		assert.true(context.subject.isBad("ZYVA.ORG")); // allow uppercase in data
+		assert.false(context.subject.isBad("tree"));
+		assert.false(context.subject.isBad(""));
 	});
 
-	it("#process", () => {
-		assert.is(subject.process("pedo"), "****");
-		assert.is(subject.process("pedophile"), "*********");
-		assert.is(subject.process("zyva.org"), "********");
+	it("#process", (context) => {
+		assert.is(context.subject.process("pedo"), "****");
+		assert.is(context.subject.process("pedophile"), "*********");
+		assert.is(context.subject.process("zyva.org"), "********");
 		assert.is(
-			subject.process("https://www.google.com/ Don't be an ash0le :smile:"),
+			context.subject.process("https://www.google.com/ Don't be an ash0le :smile:"),
 			"*********************** Don't be an ****** :smile:",
 		);
-		assert.is(subject.process("tree"), "tree");
-		assert.is(subject.process(""), "");
+		assert.is(context.subject.process("tree"), "tree");
+		assert.is(context.subject.process(""), "");
 	});
 });

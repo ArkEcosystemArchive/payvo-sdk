@@ -1,60 +1,52 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import { nock } from "@payvo/sdk-test";
+import { describeEach } from "@payvo/sdk-test";
 
 import { bootContainer, makeCoin } from "../test/mocking";
-import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service";
+import { ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service";
 
-let coin;
+describeEach(
+	"DelegateSyncer(%s)",
+	({ assert, beforeEach, dataset, it, nock, loader }) => {
+		beforeEach(async (context) => {
+			bootContainer();
 
-test.before(() => {
-	bootContainer();
-});
+			nock.fake()
+				.get("/api/node/configuration")
+				.reply(200, loader.json("test/fixtures/client/configuration.json"))
+				.get("/api/node/configuration/crypto")
+				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+				.get("/api/node/syncing")
+				.reply(200, loader.json("test/fixtures/client/syncing.json"))
+				.persist();
 
-test.before.each(async () => {
-	nock.cleanAll();
+			const coin = await makeCoin("ARK", "ark.devnet");
 
-	nock.fake(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
-		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"));
+			if (dataset === "serial") {
+				context.subject = new SerialDelegateSyncer(coin.client());
+			} else {
+				context.subject = new ParallelDelegateSyncer(coin.client());
+			}
+		});
 
-	coin = await makeCoin("ARK", "ark.devnet");
-});
+		it("should sync", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+				.get("/api/delegates?page=2")
+				.reply(200, loader.json("test/fixtures/client/delegates-2.json"));
 
-for (const type of ["serial", "parallel"]) {
-	let subject;
+			assert.length(await context.subject.sync(), 200);
+		});
 
-	test.before.each(async () => {
-		const clientService = coin.client();
+		it("should sync single page", async (context) => {
+			nock.fake()
+				.get("/api/delegates")
+				.reply(200, loader.json("test/fixtures/client/delegates-single-page.json"))
+				.persist();
 
-		subject =
-			type === "serial" ? new SerialDelegateSyncer(clientService) : new ParallelDelegateSyncer(clientService);
-	});
-
-	test("should sync", async () => {
-		assert.length(await subject.sync(), 200);
-	});
-
-	test("should sync single page", async () => {
-		nock.cleanAll();
-		nock.fake(/.+/)
-			.get("/api/delegates")
-			.reply(200, require("../test/fixtures/client/delegates-single-page.json"))
-			.persist();
-
-		assert.length(await subject.sync(), 10);
-	});
-}
-
-test.run();
+			assert.length(await context.subject.sync(), 10);
+		});
+	},
+	["serial", "parallel"],
+);

@@ -4,7 +4,7 @@ import { Services } from "@payvo/sdk";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { AggregateQuery } from "./transaction.aggregate.contract.js";
 import { INotification, INotificationRepository } from "./notification.repository.contract.js";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
 
 export class ProfileTransactionNotificationService implements IProfileTransactionNotificationService {
 	readonly #profile: IProfile;

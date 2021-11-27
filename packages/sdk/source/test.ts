@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 
-import { randomUUID } from "crypto";
+import { v4 } from "uuid";
 
 import { ConfigKey, ConfigRepository } from "./coins.js";
 import { Container, BindingType } from "./ioc.js";
@@ -62,7 +62,7 @@ export const createService = <T = any>({
 		predicate(container);
 	}
 
-	const uuid: string = randomUUID();
+	const uuid: string = v4();
 
 	container.singleton(uuid, service);
 
@@ -95,7 +95,7 @@ export const createServiceAsync = async <T = any>({
 		await predicate(container);
 	}
 
-	const uuid: string = randomUUID();
+	const uuid: string = v4();
 
 	container.singleton(uuid, service);
 

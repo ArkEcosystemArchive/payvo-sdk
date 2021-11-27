@@ -1,6 +1,6 @@
 import EthGoerli from "./networks/eth.goerli";
 import EthKovan from "./networks/eth.kovan";
-import EthMainnet from "./networks/eth.mainnet";
+import EthMainnet from "./networks/eth.mainnet.js";
 import EthRinkeby from "./networks/eth.rinkeby";
 import EthRopsten from "./networks/eth.ropsten";
 

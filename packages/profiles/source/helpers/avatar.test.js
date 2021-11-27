@@ -1,9 +1,9 @@
-import { assert, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 
 import { Avatar } from "./avatar";
 
-test("Helpers.Avatar", () => {
-	assert.string(Avatar.make("Hello World"));
+describe("Helpers", ({ assert, it }) => {
+	it("should generate an avatar", () => {
+		assert.snapshot("helpers-avatar", Avatar.make("Hello World"));
+	});
 });
-
-test.run();

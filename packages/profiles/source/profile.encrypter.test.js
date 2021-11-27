@@ -1,12 +1,11 @@
-import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
-import "reflect-metadata";
+// @TODO uncomment and fix
 
 import { ProfileEncrypter } from "./profile.encrypter";
 import { AttributeBag } from "./helpers/attribute-bag";
 
 // describe("ProfileEncrypter", ({ afterEach, beforeEach, test }) => {
 // 	describe("encrypt", ({ afterEach, beforeEach, test }) => {
-// 		test("should work with provided password", () => {
+// 		it("should work with provided password", () => {
 // 			const auth = mock();
 // 			auth.verifyPassword.calledWith("some-pass").returnValue(true);
 
@@ -18,7 +17,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 			assert.string(subject.encrypt("blah", "some-pass"));
 // 		});
 
-// 		test("should not work with invalid pasword", () => {
+// 		it("should not work with invalid pasword", () => {
 // 			const auth = mock();
 // 			auth.verifyPassword.calledWith("some-pass").returnValue(false);
 
@@ -30,7 +29,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 			assert.throws(() => subject.encrypt("blah", "some-pass"));
 // 		});
 
-// 		test("should use provided password if available", () => {
+// 		it("should use provided password if available", () => {
 // 			const auth = mock();
 // 			auth.verifyPassword.calledWith("some-pass").returnValue(true);
 
@@ -50,7 +49,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 	});
 
 // 	describe("decrypt", ({ afterEach, beforeEach, test }) => {
-// 		test("should work with provided pasword", () => {
+// 		it("should work with provided pasword", () => {
 // 			const attributes = new AttributeBag();
 // 			attributes.set(
 // 				"data",
@@ -67,7 +66,7 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 			assert.is(decrypted.id, "5108f38f-5000-4043-bc25-fd9e7fb323d8");
 // 		});
 
-// 		test("should failed if profile is not encrypted", () => {
+// 		it("should failed if profile is not encrypted", () => {
 // 			const profile = mock();
 // 			profile.usesPassword.returnValue(false);
 
@@ -77,5 +76,3 @@ import { AttributeBag } from "./helpers/attribute-bag";
 // 		});
 // 	});
 // });
-
-test.run();

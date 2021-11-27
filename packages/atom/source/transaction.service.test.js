@@ -12,11 +12,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("TransactionService", async ({ beforeAll, assert, it }) => {
-	beforeAll(async () => {
-		subject = await createService(TransactionService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
@@ -31,14 +29,14 @@ describe("TransactionService", async ({ beforeAll, assert, it }) => {
 		});
 	});
 
-	it("#transfer should succeed", async () => {
+	it("#transfer should succeed", async (context) => {
 		nock.fake("https://stargate.cosmos.network")
 			.get("/auth/accounts/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`))
 			.get("/bank/balances/cosmos1wqus3z856rwadvum3l0lg0nl4sc957vq0wn8d0")
 			.reply(200, loader.json(`test/fixtures/client/wallet-balance.json`));
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",

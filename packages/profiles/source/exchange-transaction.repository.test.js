@@ -1,4 +1,4 @@
-// import { assert, describe, Mockery, loader, test } from "@payvo/sdk-test";
+// import { describe } from "@payvo/sdk-test";
 // import "reflect-metadata";
 
 // import { bootContainer } from "../test/mocking";
@@ -6,7 +6,7 @@
 // import { ExchangeTransactionStatus } from "./contracts";
 // import { Profile } from "./profile";
 
-// test.before(() => bootContainer());
+// beforeAll(() => bootContainer());
 
 // const stubData = {
 // 	orderId: "orderId",
@@ -26,15 +26,15 @@
 // let subject;
 // let dateNowSpy;
 
-// test.before(() => {
-// 	dateNowSpy = Mockery.stub(Date, "now").callsFake(() => 123456789);
+// beforeAll(() => {
+// 	dateNowSpy = stub(Date, "now").callsFake(() => 123456789);
 // });
 
-// test.after(() => {
+// afterAll(() => {
 // 	dateNowSpy.restore();
 // });
 
-// test.before.each(() => {
+// beforeEach(() => {
 // 	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
 // 	subject = new ExchangeTransactionRepository(profile);
@@ -42,11 +42,11 @@
 // 	subject.flush();
 // });
 
-// test("#all", () => {
+// it("#all", () => {
 // 	assert.object(subject.all());
 // });
 
-// test("#create", () => {
+// it("#create", () => {
 // 	assert.length(subject.keys(), 0);
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -68,7 +68,7 @@
 // 	assert.is(subject.count(), 1);
 // });
 
-// test("#find", () => {
+// it("#find", () => {
 // 	assert.throws(() => subject.findById("invalid"), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -76,7 +76,7 @@
 // 	assert.object(subject.findById(exchangeTransaction.id()));
 // });
 
-// test("#update", () => {
+// it("#update", () => {
 // 	assert.throws(() => subject.update("invalid", { status: ExchangeTransactionStatus.Finished }), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -94,7 +94,7 @@
 // 	assert.is(subject.findById(exchangeTransaction.id()).input().hash, "hash");
 // });
 
-// test("#forget", () => {
+// it("#forget", () => {
 // 	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -108,7 +108,7 @@
 // 	assert.throws(() => subject.findById(exchangeTransaction.id()), "Failed to find");
 // });
 
-// test("#findByStatus", () => {
+// it("#findByStatus", () => {
 // 	subject.create(stubData);
 // 	const exchangeTransaction = subject.create({ ...stubData, provider: "another provider" });
 
@@ -118,7 +118,7 @@
 // 	assert.length(subject.findByStatus(ExchangeTransactionStatus.Finished), 1);
 // });
 
-// test("#pending", () => {
+// it("#pending", () => {
 // 	const exchangeTransaction = subject.create(stubData);
 
 // 	assert.length(subject.pending(), 1);
@@ -128,7 +128,7 @@
 // 	assert.length(subject.pending(), 0);
 // });
 
-// test("#flush", () => {
+// it("#flush", () => {
 // 	subject.create(stubData);
 
 // 	assert.length(subject.keys(), 1);
@@ -138,7 +138,7 @@
 // 	assert.length(subject.keys(), 0);
 // });
 
-// test("#toObject", () => {
+// it("#toObject", () => {
 // 	const exchangeTransaction = subject.create(stubData);
 
 // 	assert.equal(subject.toObject(), {
@@ -151,7 +151,7 @@
 // 	});
 // });
 
-// test("#fill", () => {
+// it("#fill", () => {
 // 	const exchangeTransactions = {
 // 		id: {
 // 			id: "id",
@@ -170,6 +170,6 @@
 // 	assert.equal(subject.values()[0].toObject(), Object.values(exchangeTransactions)[0]);
 // });
 
-// test.run();
+// });
 
 // @TODO: restore is leaking

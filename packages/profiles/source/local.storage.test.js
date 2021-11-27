@@ -1,102 +1,99 @@
-import { assert, test } from "@payvo/sdk-test";
 import { UUID } from "@payvo/sdk-cryptography";
+import { describe } from "@payvo/sdk-test";
 
 import { LocalStorage } from "./local.storage";
 
-let subject;
-let key;
+describe("LocalStorage", ({ assert, it, beforeEach }) => {
+	beforeEach((context) => {
+		context.subject = new LocalStorage("localstorage");
+		context.key = UUID.random();
+	});
 
-test.before.each(() => {
-	subject = new LocalStorage("localstorage");
-	key = UUID.random();
+	it.skip("should get all items", async (context) => {
+		assert.equal(await context.subject.all(), {});
+
+		await context.subject.set(context.key, "value");
+
+		assert.equal(await context.subject.all(), { [context.key]: "value" });
+
+		await context.subject.flush();
+
+		assert.equal(await context.subject.all(), {});
+	});
+
+	it.skip("should should get the value for the given key", async (context) => {
+		await context.subject.set(context.key, "value");
+
+		assert.is(await context.subject.get(context.key), "value");
+	});
+
+	it.skip("should should set the value in the storage", async (context) => {
+		assert.undefined(await context.subject.set(context.key, "value"));
+	});
+
+	it.skip("should should check if the given key exists", async (context) => {
+		assert.false(await context.subject.has(context.key));
+
+		await context.subject.set(context.key, "value");
+
+		assert.true(await context.subject.has(context.key));
+	});
+
+	it.skip("should should forget the given key", async (context) => {
+		assert.false(await context.subject.has(context.key));
+
+		await context.subject.set(key, "value");
+
+		assert.true(await context.subject.has(context.key));
+
+		await context.subject.forget(context.key);
+
+		assert.false(await context.subject.has(context.key));
+	});
+
+	it.skip("should flush the storage", async (context) => {
+		assert.false(await context.subject.has(context.key));
+
+		await context.subject.set(context.key, "value");
+
+		assert.true(await context.subject.has(context.key));
+
+		await context.subject.flush();
+
+		assert.false(await context.subject.has(context.key));
+	});
+
+	it.skip("should count all items", async (context) => {
+		assert.is(await context.subject.count(), 0);
+
+		await context.subject.set(context.key, "value");
+
+		assert.is(await context.subject.count(), 1);
+
+		await context.subject.forget(context.key);
+
+		assert.is(await context.subject.count(), 0);
+	});
+
+	it.skip("should create a snapshot and restore it", async (context) => {
+		await context.subject.set("a", "b");
+
+		assert.is(await context.subject.count(), 1);
+
+		await context.subject.snapshot();
+
+		assert.is(await context.subject.count(), 1);
+
+		await context.subject.set(context.key, "value");
+
+		assert.is(await context.subject.count(), 2);
+
+		await context.subject.restore();
+
+		assert.is(await context.subject.count(), 1);
+	});
+
+	it.skip("should fail to restore if there is no snapshot", async (context) => {
+		await assert.rejects(() => context.subject.restore(), "There is no snapshot to restore.");
+	});
 });
-
-test.skip("should get all items", async () => {
-	assert.equal(await subject.all(), {});
-
-	await subject.set(key, "value");
-
-	assert.equal(await subject.all(), { [key]: "value" });
-
-	await subject.flush();
-
-	assert.equal(await subject.all(), {});
-});
-
-test.skip("should should get the value for the given key", async () => {
-	await subject.set(key, "value");
-
-	assert.is(await subject.get(key), "value");
-});
-
-test.skip("should should set the value in the storage", async () => {
-	assert.undefined(await subject.set(key, "value"));
-});
-
-test.skip("should should check if the given key exists", async () => {
-	assert.false(await subject.has(key));
-
-	await subject.set(key, "value");
-
-	assert.true(await subject.has(key));
-});
-
-test.skip("should should forget the given key", async () => {
-	assert.false(await subject.has(key));
-
-	await subject.set(key, "value");
-
-	assert.true(await subject.has(key));
-
-	await subject.forget(key);
-
-	assert.false(await subject.has(key));
-});
-
-test.skip("should flush the storage", async () => {
-	assert.false(await subject.has(key));
-
-	await subject.set(key, "value");
-
-	assert.true(await subject.has(key));
-
-	await subject.flush();
-
-	assert.false(await subject.has(key));
-});
-
-test.skip("should count all items", async () => {
-	assert.is(await subject.count(), 0);
-
-	await subject.set(key, "value");
-
-	assert.is(await subject.count(), 1);
-
-	await subject.forget(key);
-
-	assert.is(await subject.count(), 0);
-});
-
-test.skip("should create a snapshot and restore it", async () => {
-	await subject.set("a", "b");
-
-	assert.is(await subject.count(), 1);
-
-	await subject.snapshot();
-
-	assert.is(await subject.count(), 1);
-
-	await subject.set(key, "value");
-
-	assert.is(await subject.count(), 2);
-
-	await subject.restore();
-
-	assert.is(await subject.count(), 1);
-});
-
-test.skip("should fail to restore if there is no snapshot", async () => {
-	await assert.rejects(() => subject.restore(), "There is no snapshot to restore.");
-});
-
-test.run();

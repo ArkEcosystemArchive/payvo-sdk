@@ -1,4 +1,4 @@
-import NanoMainnet from "./networks/nano.mainnet";
+import NanoMainnet from "./networks/nano.mainnet.js";
 
 export const manifest = {
 	name: "NANO",

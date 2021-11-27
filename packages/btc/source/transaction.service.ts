@@ -9,10 +9,10 @@ import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
 import { BipLevel, Levels, UnspentTransaction } from "./contracts.js";
 import { LedgerService } from "./ledger.service.js";
-import { MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
-import { MultiSignatureService } from "./multi-signature.service";
-import { signatureValidator } from "./helpers";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { signatureValidator } from "./helpers.js";
 
 const runWithLedgerConnectionIfNeeded = async (
 	signatory: Signatories.Signatory,

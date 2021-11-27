@@ -1,1 +1,1 @@
-export { describe, describeWithContext } from "./describe.js";
+export { describe, describeEach, describeWithContext } from "./describe.js";

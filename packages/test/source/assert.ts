@@ -1,9 +1,7 @@
 import { format } from "concordance";
-import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "fs";
+import { join } from "path";
 import * as uvu from "uvu/assert";
-import { hideBin } from "yargs/helpers";
-import yargs from "yargs/yargs";
 import { z, ZodRawShape } from "zod";
 
 export const assert = {
@@ -83,7 +81,7 @@ export const assert = {
 
 		const snapshot: string = join(directory, `${name}.snapshot`);
 
-		const { updateSnapshots }: any = yargs(hideBin(process.argv));
+		const updateSnapshots: boolean = process.argv.some((arg: string) => arg === "--update-snapshots");
 
 		if (updateSnapshots) {
 			unlinkSync(snapshot);

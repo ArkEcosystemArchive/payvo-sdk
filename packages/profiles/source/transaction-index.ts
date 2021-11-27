@@ -3,7 +3,7 @@ import { Coins, Services } from "@payvo/sdk";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { transformTransactionData, transformConfirmedTransactionDataCollection } from "./transaction.mapper";
 import { IReadWriteWallet, WalletData } from "./contracts.js";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
 import { ITransactionIndex } from "./contracts.js";
 import { WalletFlag } from "./wallet.enum";
 

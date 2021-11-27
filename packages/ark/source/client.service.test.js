@@ -8,11 +8,9 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject;
-
 describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) => {
-	beforeAll(async () => {
-		subject = await createService(ClientService, undefined, (container) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -23,23 +21,25 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		});
 	});
 
-	it("should retrieve a transaction", async () => {
+	it("should retrieve a transaction", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-		const result = await subject.transaction("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+		const result = await context.subject.transaction(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+		);
 
 		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	it("should retrieve a list of transactions for a single address via Core 2.0", async () => {
+	it("should retrieve a list of transactions for a single address via Core 2.0", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 			cursor: "0",
 		});
@@ -48,7 +48,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("should retrieve a list of transactions for multiple addresses via Core 2.0", async () => {
+	it("should retrieve a list of transactions for multiple addresses via Core 2.0", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -57,7 +57,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 			})
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [
 				{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
 				{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
@@ -69,13 +69,13 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("should retrieve a list of transactions for a single address via Core 3.0", async () => {
+	it("should retrieve a list of transactions for a single address via Core 3.0", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 		});
 
@@ -83,13 +83,13 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("should retrieve a list of transactions for multiple addresses via Core 3.0", async () => {
+	it("should retrieve a list of transactions for multiple addresses via Core 3.0", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [
 				{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
 				{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
@@ -100,7 +100,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("should retrieve a list of transactions for an advanced search via Core 3.0", async () => {
+	it("should retrieve a list of transactions for an advanced search via Core 3.0", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/transactions")
 			.query({
@@ -112,7 +112,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 			})
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		const result = await subject.transactions({
+		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 			asset: { type: 4, action: 0 },
 			type: "transfer",
@@ -122,12 +122,12 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	it("should retrieve a wallet", async () => {
+	it("should retrieve a wallet", async (context) => {
 		nock.fake(/.+/)
 			.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-		const result = await subject.wallet({
+		const result = await context.subject.wallet({
 			type: "address",
 			value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 		});
@@ -135,8 +135,8 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result, WalletData);
 	});
 
-	it("should retrieve a list of wallets via Core 2.0", async () => {
-		subject = await createService(ClientService, "ark.mainnet", (container) => {
+	it("should retrieve a list of wallets via Core 2.0", async (context) => {
+		context.subject = await createService(ClientService, "ark.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -151,7 +151,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
 
-		const result = await subject.wallets({
+		const result = await context.subject.wallets({
 			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 		});
 
@@ -159,8 +159,8 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	it("should retrieve a list of wallets via Core 3.0", async () => {
-		subject = await createService(ClientService, "ark.devnet", (container) => {
+	it("should retrieve a list of wallets via Core 3.0", async (context) => {
+		context.subject = await createService(ClientService, "ark.devnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
@@ -175,7 +175,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
 			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
 
-		const result = await subject.wallets({
+		const result = await context.subject.wallets({
 			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 		});
 
@@ -183,29 +183,29 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	it("should retrieve a delegate", async () => {
+	it("should retrieve a delegate", async (context) => {
 		nock.fake(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
 
-		const result = await subject.delegate("arkx");
+		const result = await context.subject.delegate("arkx");
 
 		assert.instance(result, WalletData);
 	});
 
-	it("should retrieve a list of delegates", async () => {
+	it("should retrieve a list of delegates", async (context) => {
 		nock.fake(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
 
-		const result = await subject.delegates();
+		const result = await context.subject.delegates();
 
 		assert.object(result);
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	it("should retrieve votes of a wallet", async () => {
+	it("should retrieve votes of a wallet", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
 		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixture);
 
-		const result = await subject.votes("arkx");
+		const result = await context.subject.votes("arkx");
 
 		assert.object(result);
 		assert.is(result.used, 1);
@@ -213,7 +213,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.array(result.votes);
 	});
 
-	it("should retrieve votes of a wallet without a vote", async () => {
+	it("should retrieve votes of a wallet without a vote", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
 		const fixtureWithoutVote = {
@@ -229,7 +229,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 
 		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
-		const result = await subject.votes("arkx");
+		const result = await context.subject.votes("arkx");
 
 		assert.object(result);
 		assert.is(result.used, 0);
@@ -237,7 +237,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.array(result.votes);
 	});
 
-	it("should retrieve votes of a wallet without attributes when not voting", async () => {
+	it("should retrieve votes of a wallet without attributes when not voting", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
 		const fixtureWithoutVote = {
@@ -250,7 +250,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 
 		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
-		const result = await subject.votes("arkx");
+		const result = await context.subject.votes("arkx");
 
 		assert.object(result);
 		assert.is(result.used, 0);
@@ -258,7 +258,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.array(result.votes);
 	});
 
-	it("should retrieve votes of a wallet without attributes", async () => {
+	it("should retrieve votes of a wallet without attributes", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
 		const fixtureWithoutVote = {
@@ -270,7 +270,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 
 		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
-		const result = await subject.votes("arkx");
+		const result = await context.subject.votes("arkx");
 
 		assert.object(result);
 		assert.is(result.used, 1);
@@ -278,21 +278,21 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		assert.array(result.votes);
 	});
 
-	it("should retrieve a list of voters", async () => {
+	it("should retrieve a list of voters", async (context) => {
 		nock.fake(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
 
-		const result = await subject.voters("arkx");
+		const result = await context.subject.voters("arkx");
 
 		assert.object(result);
 		assert.instance(result.items()[0], WalletData);
 	});
 
-	it("should broadcast and accept 1 transaction and reject 1 transaction", async () => {
+	it("should broadcast and accept 1 transaction and reject 1 transaction", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
 		nock.fake(/.+/).post("/api/transactions").reply(422, fixture);
 
 		const mock = { toBroadcast: () => "" };
-		const result = await subject.broadcast([mock]);
+		const result = await context.subject.broadcast([mock]);
 
 		assert.equal(result, {
 			accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
@@ -303,7 +303,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		});
 	});
 
-	it("should broadcast and read errors in non-array format", async () => {
+	it("should broadcast and read errors in non-array format", async (context) => {
 		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
 		const errorId = Object.keys(fixture.errors)[0];
 		const nonArrayFixture = {
@@ -314,7 +314,7 @@ describe("AddressService", async ({ assert, afterEach, beforeAll, it, loader }) 
 		nock.fake(/.+/).post("/api/transactions").reply(422, nonArrayFixture);
 
 		const mock = { toBroadcast: () => "" };
-		const result = await subject.broadcast([mock]);
+		const result = await context.subject.broadcast([mock]);
 
 		assert.equal(result, {
 			accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],

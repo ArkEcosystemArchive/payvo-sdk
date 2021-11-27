@@ -1,5 +1,5 @@
-import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 // @TODO: turn this into a function that loads based on file extension
 export const loader = {

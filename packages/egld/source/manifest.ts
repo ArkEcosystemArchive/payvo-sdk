@@ -1,5 +1,5 @@
-import ElrondMainnet from "./networks/egld.mainnet";
-import ElrondTestnet from "./networks/egld.testnet";
+import ElrondMainnet from "./networks/egld.mainnet.js";
+import ElrondTestnet from "./networks/egld.testnet.js";
 
 export const manifest = {
 	name: "EGLD",

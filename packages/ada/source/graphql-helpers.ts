@@ -1,6 +1,6 @@
 import { Coins, Helpers, Http } from "@payvo/sdk";
 
-import { UnspentTransaction } from "./transaction.models";
+import { UnspentTransaction } from "./transaction.models.js";
 
 const postGraphql = async (
 	config: Coins.ConfigRepository,

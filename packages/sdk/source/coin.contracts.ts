@@ -1,5 +1,5 @@
 import { HttpClient } from "./http.js";
-import { CoinManifest, NetworkManifest } from "./network.models";
+import { CoinManifest, NetworkManifest } from "./network.models.js";
 import {
 	AddressService,
 	BigNumberService,
@@ -20,7 +20,7 @@ import {
 	TransactionService,
 	WalletDiscoveryService,
 	WIFService,
-} from "./services";
+} from "./services.js";
 
 export interface CoinSpec {
 	manifest: CoinManifest;

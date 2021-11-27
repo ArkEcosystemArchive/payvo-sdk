@@ -1,4 +1,4 @@
-import { assert, describe, Mockery, sinon, test } from "@payvo/sdk-test";
+import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { DateTime } from "@payvo/sdk-intl";
@@ -50,10 +50,10 @@ let wallet;
 let liveSpy;
 let testSpy;
 
-const beforeEachCallback = async () => {
-	bootContainer({ flush: true });
+const beforeEachCallback = async (stub) => {
+	bootContainer();
 
-	nock.fake(/.+/)
+	nock.fake()
 		.get("/api/node/configuration")
 		.reply(200, require("../test/fixtures/client/configuration.json"))
 		.get("/api/peers")
@@ -87,8 +87,8 @@ const beforeEachCallback = async () => {
 
 	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = Mockery.stub(wallet.network(), "isLive").returnValue(true);
-	testSpy = Mockery.stub(wallet.network(), "isTest").returnValue(false);
+	liveSpy = stub(wallet.network(), "isLive").returnValue(true);
+	testSpy = stub(wallet.network(), "isTest").returnValue(false);
 };
 
 const afterEachCallback = () => {
@@ -96,9 +96,9 @@ const afterEachCallback = () => {
 	testSpy.restore();
 };
 
-describe("Transaction", ({ afterEach, beforeEach, test }) => {
+describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it, assert, stub, spy }) => {
 	beforeEach(async () => {
-		await beforeEachCallback();
+		await beforeEachCallback(stub);
 
 		subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData);
 	});
@@ -107,15 +107,15 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		afterEachCallback();
 	});
 
-	test("should have an explorer link", () => {
+	it("should have an explorer link", () => {
 		assert.is(subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
 	});
 
-	test("should have an explorer block link", () => {
+	it("should have an explorer block link", () => {
 		assert.is(subject.explorerLinkForBlock(), "https://dexplorer.ark.io/block/transactionBlockId");
 	});
 
-	test("should have an explorer block link for undefined block", () => {
+	it("should have an explorer block link for undefined block", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -128,32 +128,32 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.undefined(subject.explorerLinkForBlock());
 	});
 
-	test("should have a type", () => {
+	it("should have a type", () => {
 		assert.is(subject.type(), "some type");
 	});
 
-	test("should have a timestamp", () => {
+	it("should have a timestamp", () => {
 		assert.undefined(subject.timestamp());
 	});
 
-	test("should have confirmations", () => {
+	it("should have confirmations", () => {
 		assert.equal(subject.confirmations(), BigNumber.make(20));
 	});
 
-	test("should have a sender", () => {
+	it("should have a sender", () => {
 		assert.is(subject.sender(), "sender");
 	});
 
-	test("should have a recipient", () => {
+	it("should have a recipient", () => {
 		assert.is(subject.recipient(), "recipient");
 	});
 
-	test("should have a recipients", () => {
+	it("should have a recipients", () => {
 		assert.instance(subject.recipients(), Array);
 		assert.is(subject.recipients().length, 0);
 	});
 
-	test("should have an amount", () => {
+	it("should have an amount", () => {
 		assert.equal(subject.amount(), 18);
 	});
 
@@ -172,11 +172,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.convertedAmount(), 0.0005048);
 	});
 
-	test("should have a default converted amount", () => {
+	it("should have a default converted amount", () => {
 		assert.equal(subject.convertedAmount(), 0);
 	});
 
-	test("should have a fee", () => {
+	it("should have a fee", () => {
 		assert.equal(subject.fee(), 2);
 	});
 
@@ -195,11 +195,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.convertedFee(), 0.0005048);
 	});
 
-	test("should have a default converted fee", () => {
+	it("should have a default converted fee", () => {
 		assert.equal(subject.convertedFee(), 0);
 	});
 
-	test("#toObject", () => {
+	it("#toObject", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -215,7 +215,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		});
 	});
 
-	test("#memo", () => {
+	it("#memo", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -227,7 +227,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.memo(), "memo");
 	});
 
-	test("#inputs", () => {
+	it("#inputs", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -239,7 +239,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.length(subject.inputs(), 3);
 	});
 
-	test("#outputs", () => {
+	it("#outputs", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -251,7 +251,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.length(subject.outputs(), 3);
 	});
 
-	test("should not throw if transaction type does not have memo", () => {
+	it("should not throw if transaction type does not have memo", () => {
 		const subject = createSubject(
 			wallet,
 			{
@@ -264,7 +264,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.undefined(subject.memo());
 	});
 
-	test("#hasPassed", () => {
+	it("#hasPassed", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -276,11 +276,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.true(subject.hasPassed());
 	});
 
-	test("coin", () => {
+	it("coin", () => {
 		assert.is(subject.coin(), wallet.coin());
 	});
 
-	test("#hasFailed", () => {
+	it("#hasFailed", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -292,7 +292,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.true(subject.hasFailed());
 	});
 
-	test("#isReturn", () => {
+	it("#isReturn", () => {
 		subject = createSubject(
 			wallet,
 			{
@@ -304,9 +304,9 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.true(subject.isReturn());
 	});
 
-	test("#getMeta | #setMeta", () => {
-		const getMeta = sinon.spy();
-		const setMeta = sinon.spy();
+	it("#getMeta | #setMeta", () => {
+		const getMeta = spy();
+		const setMeta = spy();
 
 		subject = createSubject(wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
 
@@ -317,15 +317,15 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.true(setMeta.callCount > 0);
 	});
 
-	test("should not have a memo", () => {
+	it("should not have a memo", () => {
 		assert.is(subject.memo(), "memo");
 	});
 
-	test("should have a total for sent", () => {
+	it("should have a total for sent", () => {
 		assert.equal(subject.total(), 20);
 	});
 
-	test("should have a total for unsent", () => {
+	it("should have a total for unsent", () => {
 		// @ts-ignore
 		subject = new ExtendedConfirmedTransactionData(wallet, {
 			amount: () => BigNumber.make(18e8, 8),
@@ -336,7 +336,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.equal(subject.total(), 18);
 	});
 
-	test("should calculate total amount of the multi payments for unsent", () => {
+	it("should calculate total amount of the multi payments for unsent", () => {
 		// @ts-ignore
 		subject = new ExtendedConfirmedTransactionData(wallet, {
 			amount: () => BigNumber.make(18e8, 8),
@@ -379,15 +379,15 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 		assert.is(subject.convertedTotal(), 0.0007572);
 	});
 
-	test("should have a default converted total", () => {
+	it("should have a default converted total", () => {
 		assert.equal(subject.convertedTotal(), 0);
 	});
 
-	test("should have meta", () => {
+	it("should have meta", () => {
 		assert.equal(subject.getMeta("someKey"), "some meta");
 	});
 
-	test("should change meta", () => {
+	it("should change meta", () => {
 		subject.setMeta("someKey", "another meta");
 		assert.equal(subject.getMeta("someKey"), "another meta");
 	});
@@ -453,15 +453,15 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#username", () => {
+// 	it("#username", () => {
 // 		assert.is(subject.username(), "username");
 // 	});
 // });
 
 // describe("DelegateResignationData", ({ afterEach, beforeEach, test }) => {
-// 	test.before.each(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+// 	beforeEach((context) => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
-// 	test("#id", () => {
+// 	it("#id", () => {
 // 		assert.is(subject.id(), "transactionId");
 // 	});
 // });
@@ -478,11 +478,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#lockTransactionId", () => {
+// 	it("#lockTransactionId", () => {
 // 		assert.is(subject.lockTransactionId(), "lockTransactionId");
 // 	});
 
-// 	test("#unlockSecret", () => {
+// 	it("#unlockSecret", () => {
 // 		assert.is(subject.unlockSecret(), "unlockSecret");
 // 	});
 // });
@@ -500,15 +500,15 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#secretHash", () => {
+// 	it("#secretHash", () => {
 // 		assert.is(subject.secretHash(), "secretHash");
 // 	});
 
-// 	test("#expirationType", () => {
+// 	it("#expirationType", () => {
 // 		assert.is(subject.expirationType(), 5);
 // 	});
 
-// 	test("#expirationValue", () => {
+// 	it("#expirationValue", () => {
 // 		assert.is(subject.expirationValue(), 3);
 // 	});
 // });
@@ -524,7 +524,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#lockTransactionId", () => {
+// 	it("#lockTransactionId", () => {
 // 		assert.is(subject.lockTransactionId(), "lockTransactionId");
 // 	});
 // });
@@ -540,7 +540,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#hash", () => {
+// 	it("#hash", () => {
 // 		assert.is(subject.hash(), "hash");
 // 	});
 // });
@@ -556,7 +556,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#payments", () => {
+// 	it("#payments", () => {
 // 		assert.equal(subject.payments(), [{ recipientId: "recipientId", amount: 1000 }]);
 // 	});
 // });
@@ -573,11 +573,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#publicKeys", () => {
+// 	it("#publicKeys", () => {
 // 		assert.equal(subject.publicKeys(), ["1", "2", "3"]);
 // 	});
 
-// 	test("#min", () => {
+// 	it("#min", () => {
 // 		assert.is(subject.min(), 5);
 // 	});
 // });
@@ -593,7 +593,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#secondPublicKey", () => {
+// 	it("#secondPublicKey", () => {
 // 		assert.is(subject.secondPublicKey(), "secondPublicKey");
 // 	});
 // });
@@ -615,7 +615,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		afterEachCallback();
 // 	});
 
-// 	test("#memo", () => {
+// 	it("#memo", () => {
 // 		assert.is(subject.memo(), "memo");
 // 	});
 // });
@@ -632,11 +632,11 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("#votes", () => {
+// 	it("#votes", () => {
 // 		assert.equal(subject.votes(), ["vote"]);
 // 	});
 
-// 	test("#unvotes", () => {
+// 	it("#unvotes", () => {
 // 		assert.equal(subject.unvotes(), ["unvote"]);
 // 	});
 // });
@@ -652,9 +652,7 @@ describe("Transaction", ({ afterEach, beforeEach, test }) => {
 // 		);
 // 	});
 
-// 	test("should return the asset", () => {
+// 	it("should return the asset", () => {
 // 		assert.equal(subject.asset(), { key: "value" });
 // 	});
 // });
-
-test.run();

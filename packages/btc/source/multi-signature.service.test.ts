@@ -5,20 +5,20 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 import nock from "nock";
 
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { MultiSignatureService } from "./multi-signature.service";
-import { ClientService } from "./client.service";
+import { createService } from "../test/mocking.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { ClientService } from "./client.service.js";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { AddressService } from "./address.service";
-import { BindingType } from "./constants";
-import { musig } from "../test/fixtures/musig";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { AddressService } from "./address.service.js";
+import { BindingType } from "./constants.js";
+import { musig } from "../test/fixtures/musig.js";
 import { UUID } from "@payvo/sdk-cryptography";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 import {
 	manyMusigRegistrationTxs,
 	oneSignatureNativeSegwitMusigRegistrationTx,
@@ -65,7 +65,7 @@ describe("MultiSignatureService", () => {
 			fixtures = { result: [...manyMusigRegistrationTxs] };
 		});
 
-		test("#allWithPendingState", async () => {
+		it("#allWithPendingState", async () => {
 			nock("https://btc-test-musig.payvo.com").post("/").reply(200, fixtures);
 
 			await expect(
@@ -75,7 +75,7 @@ describe("MultiSignatureService", () => {
 			).resolves.toBeArrayOfSize(2);
 		});
 
-		test("#allWithReadyState", async () => {
+		it("#allWithReadyState", async () => {
 			nock("https://btc-test-musig.payvo.com").post("/").reply(200, fixtures);
 
 			await expect(
@@ -85,7 +85,7 @@ describe("MultiSignatureService", () => {
 			).resolves.toBeArrayOfSize(2);
 		});
 
-		test("#findById", async () => {
+		it("#findById", async () => {
 			nock("https://btc-test-musig.payvo.com")
 				.post("/")
 				.reply(200, { result: oneSignatureNativeSegwitMusigRegistrationTx });
@@ -97,7 +97,7 @@ describe("MultiSignatureService", () => {
 			).resolves.toBeObject();
 		});
 
-		test("#broadcast", async () => {
+		it("#broadcast", async () => {
 			nock("https://btc-test-musig.payvo.com")
 				.post("/")
 				.reply(200, { result: { id: "abc" } })
@@ -112,7 +112,7 @@ describe("MultiSignatureService", () => {
 			});
 		});
 
-		test("#addSignature", async () => {
+		it("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
 			const transactionData = JSON.parse(JSON.stringify(unsignedNativeSegwitMusigRegistrationTx));
 
@@ -190,13 +190,13 @@ describe("MultiSignatureService", () => {
 			});
 		});
 
-		test("#needsSignatures", async () => {
+		it("#needsSignatures", async () => {
 			const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 			expect(subject.needsSignatures(transaction)).toBeFalse();
 		});
 
-		test("#needsAllSignatures", async () => {
+		it("#needsAllSignatures", async () => {
 			const transaction = (await createService(SignedTransactionData)).configure("123", {
 				signatures: [],
 				multiSignature: {
@@ -211,7 +211,7 @@ describe("MultiSignatureService", () => {
 			expect(subject.needsAllSignatures(transaction)).toBeTrue();
 		});
 
-		test("#needsWalletSignature", async () => {
+		it("#needsWalletSignature", async () => {
 			const transaction = (await createService(SignedTransactionData)).configure(
 				oneSignatureNativeSegwitMusigRegistrationTx.id,
 				oneSignatureNativeSegwitMusigRegistrationTx,
@@ -232,7 +232,7 @@ describe("MultiSignatureService", () => {
 			).toBeTrue();
 		});
 
-		test("#needsFinalSignature", async () => {
+		it("#needsFinalSignature", async () => {
 			const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
 			expect(subject.needsFinalSignature(transaction)).toBeFalse();
@@ -253,7 +253,7 @@ describe("MultiSignatureService", () => {
 	});
 
 	describe("transfer", () => {
-		test("#broadcast", async () => {
+		it("#broadcast", async () => {
 			jest.spyOn(UUID, "random").mockReturnValueOnce("68db1bb0-d747-48e8-b6f6-e347cc01b568");
 
 			const { multiSignature, ...data } = unsignedNativeSegwitMusigTransferTx;
@@ -288,7 +288,7 @@ describe("MultiSignatureService", () => {
 			});
 		});
 
-		test("#addSignature", async () => {
+		it("#addSignature", async () => {
 			// We need a deep copy as signing modifies the signatures and public keys
 			const transactionData = JSON.parse(JSON.stringify(unsignedNativeSegwitMusigTransferTx));
 

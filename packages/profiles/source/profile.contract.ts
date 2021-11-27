@@ -21,7 +21,7 @@ import {
 	IWalletData,
 	IWalletFactory,
 	IWalletRepository,
-} from "./contracts";
+} from "./contracts.js";
 
 /**
  *

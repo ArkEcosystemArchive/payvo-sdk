@@ -8,7 +8,7 @@ import {
 	IContactAddressInput,
 	IContactAddressRepository,
 	IProfile,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
 
 @injectable()
