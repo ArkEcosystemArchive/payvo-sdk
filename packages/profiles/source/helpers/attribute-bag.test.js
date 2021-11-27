@@ -6,16 +6,16 @@ const values = { a: "a", b: "b", c: "c" };
 
 let subject;
 
-describe("AttributeBag", ({ beforeEach, test, assert }) => {
+describe("AttributeBag", ({ beforeEach, it, assert }) => {
 	beforeEach(() => (subject = new AttributeBag()));
 
-	test("#all", async () => {
+	it("#all", async () => {
 		subject.setMany(values);
 
 		assert.equal(subject.all(), values);
 	});
 
-	test("#get", async () => {
+	it("#get", async () => {
 		assert.is(subject.get("a", "defaultValue"), "defaultValue");
 
 		subject.set("a", "a");
@@ -23,13 +23,13 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.is(subject.get("a"), "a");
 	});
 
-	test("#set", async () => {
+	it("#set", async () => {
 		subject.set("a", "a");
 
 		assert.true(subject.has("a"));
 	});
 
-	test("#has", async () => {
+	it("#has", async () => {
 		assert.false(subject.has("a"));
 
 		subject.set("a", "a");
@@ -37,7 +37,7 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.true(subject.has("a"));
 	});
 
-	test("#hasStrict", async () => {
+	it("#hasStrict", async () => {
 		subject.set("a", undefined);
 
 		assert.false(subject.hasStrict("a"));
@@ -47,7 +47,7 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.true(subject.hasStrict("a"));
 	});
 
-	test("#missing", async () => {
+	it("#missing", async () => {
 		assert.true(subject.missing("a"));
 
 		subject.set("a", "a");
@@ -55,7 +55,7 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.false(subject.missing("a"));
 	});
 
-	test("#forget", async () => {
+	it("#forget", async () => {
 		subject.set("a", "a");
 
 		assert.true(subject.has("a"));
@@ -65,7 +65,7 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.true(subject.missing("a"));
 	});
 
-	test("#flush", async () => {
+	it("#flush", async () => {
 		subject.set("a", "a");
 
 		assert.true(subject.has("a"));
@@ -75,13 +75,13 @@ describe("AttributeBag", ({ beforeEach, test, assert }) => {
 		assert.true(subject.missing("a"));
 	});
 
-	test("#only", async () => {
+	it("#only", async () => {
 		subject.setMany(values);
 
 		assert.equal(subject.only(["a", "b"]), { a: "a", b: "b" });
 	});
 
-	test("#except", async () => {
+	it("#except", async () => {
 		subject.setMany(values);
 
 		assert.equal(subject.except(["a", "b"]), { c: "c" });

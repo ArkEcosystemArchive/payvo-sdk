@@ -12,37 +12,29 @@ const dummy = {
 	recipient: () => "recipient",
 };
 
-describe("ExtendedConfirmedTransactionDataCollection", ({
-	beforeAll,
-	beforeEach,
-	loader,
-	nock,
-	assert,
-	test,
-	stub,
-}) => {
+describe("ExtendedConfirmedTransactionDataCollection", ({ beforeAll, beforeEach, loader, nock, assert, it, stub }) => {
 	beforeEach(() => {
 		// @ts-ignore
 		subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
 	});
 
-	test("#findById", () => {
+	it("#findById", () => {
 		assert.is(subject.findById("id"), dummy);
 	});
 
-	test("#findByType", () => {
+	it("#findByType", () => {
 		assert.is(subject.findByType("type"), dummy);
 	});
 
-	test("#findByTimestamp", () => {
+	it("#findByTimestamp", () => {
 		assert.is(subject.findByTimestamp("timestamp"), dummy);
 	});
 
-	test("#findBySender", () => {
+	it("#findBySender", () => {
 		assert.is(subject.findBySender("sender"), dummy);
 	});
 
-	test("#findByRecipient", () => {
+	it("#findByRecipient", () => {
 		assert.is(subject.findByRecipient("recipient"), dummy);
 	});
 });

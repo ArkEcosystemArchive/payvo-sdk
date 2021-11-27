@@ -42,11 +42,11 @@
 // 	subject.flush();
 // });
 
-// test("#all", () => {
+// it("#all", () => {
 // 	assert.object(subject.all());
 // });
 
-// test("#create", () => {
+// it("#create", () => {
 // 	assert.length(subject.keys(), 0);
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -68,7 +68,7 @@
 // 	assert.is(subject.count(), 1);
 // });
 
-// test("#find", () => {
+// it("#find", () => {
 // 	assert.throws(() => subject.findById("invalid"), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -76,7 +76,7 @@
 // 	assert.object(subject.findById(exchangeTransaction.id()));
 // });
 
-// test("#update", () => {
+// it("#update", () => {
 // 	assert.throws(() => subject.update("invalid", { status: ExchangeTransactionStatus.Finished }), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -94,7 +94,7 @@
 // 	assert.is(subject.findById(exchangeTransaction.id()).input().hash, "hash");
 // });
 
-// test("#forget", () => {
+// it("#forget", () => {
 // 	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
 // 	const exchangeTransaction = subject.create(stubData);
@@ -108,7 +108,7 @@
 // 	assert.throws(() => subject.findById(exchangeTransaction.id()), "Failed to find");
 // });
 
-// test("#findByStatus", () => {
+// it("#findByStatus", () => {
 // 	subject.create(stubData);
 // 	const exchangeTransaction = subject.create({ ...stubData, provider: "another provider" });
 
@@ -118,7 +118,7 @@
 // 	assert.length(subject.findByStatus(ExchangeTransactionStatus.Finished), 1);
 // });
 
-// test("#pending", () => {
+// it("#pending", () => {
 // 	const exchangeTransaction = subject.create(stubData);
 
 // 	assert.length(subject.pending(), 1);
@@ -128,7 +128,7 @@
 // 	assert.length(subject.pending(), 0);
 // });
 
-// test("#flush", () => {
+// it("#flush", () => {
 // 	subject.create(stubData);
 
 // 	assert.length(subject.keys(), 1);
@@ -138,7 +138,7 @@
 // 	assert.length(subject.keys(), 0);
 // });
 
-// test("#toObject", () => {
+// it("#toObject", () => {
 // 	const exchangeTransaction = subject.create(stubData);
 
 // 	assert.equal(subject.toObject(), {
@@ -151,7 +151,7 @@
 // 	});
 // });
 
-// test("#fill", () => {
+// it("#fill", () => {
 // 	const exchangeTransactions = {
 // 		id: {
 // 			id: "id",

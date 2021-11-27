@@ -37,7 +37,7 @@ describe("SettingRepository", ({
 			key = type === "profile" ? ProfileSetting.Locale : WalletSetting.Peer;
 		});
 
-		test("#all", async () => {
+		it("#all", async () => {
 			assert.equal(subject.all(), {});
 
 			subject.set(key, "value");
@@ -51,17 +51,17 @@ describe("SettingRepository", ({
 			assert.equal(subject.keys(), []);
 		});
 
-		test("#get", async () => {
+		it("#get", async () => {
 			subject.set(key, "value");
 
 			assert.is(subject.get(key), "value");
 		});
 
-		test("#set", async () => {
+		it("#set", async () => {
 			assert.undefined(subject.set(key, "value"));
 		});
 
-		test("#has", async () => {
+		it("#has", async () => {
 			assert.false(subject.has(key));
 
 			subject.set(key, "value");
@@ -69,7 +69,7 @@ describe("SettingRepository", ({
 			assert.true(subject.has(key));
 		});
 
-		test("#missing", async () => {
+		it("#missing", async () => {
 			assert.true(subject.missing(key));
 
 			subject.set(key, "value");
@@ -77,7 +77,7 @@ describe("SettingRepository", ({
 			assert.false(subject.missing(key));
 		});
 
-		test("#forget", async () => {
+		it("#forget", async () => {
 			assert.false(subject.has(key));
 
 			subject.set(key, "value");
@@ -89,7 +89,7 @@ describe("SettingRepository", ({
 			assert.false(subject.has(key));
 		});
 
-		test("#flush", async () => {
+		it("#flush", async () => {
 			assert.false(subject.has(key));
 
 			subject.set(key, "value");

@@ -24,38 +24,38 @@ beforeEach(async () => {
 });
 
 describe("SignedTransactionData", () => {
-	test("#sender", () => {
+	it("#sender", () => {
 		expect(subject.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
 	});
 
-	test("#recipient", () => {
+	it("#recipient", () => {
 		expect(subject.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
 	});
 
-	test("#amount", () => {
+	it("#amount", () => {
 		expect(subject.amount().toNumber()).toBe(100_000);
 	});
 
-	test("#fee", () => {
+	it("#fee", () => {
 		expect(subject.fee().toNumber()).toBe(12_430);
 	});
 
-	test("#timestamp", () => {
+	it("#timestamp", () => {
 		expect(subject.timestamp().toISOString()).toBe("1970-01-01T00:00:00.000Z");
 	});
 
 	describe("multiSignature", function () {
-		test("#isMultiSignatureRegistration for regular, non-musig transfer", () => {
+		it("#isMultiSignatureRegistration for regular, non-musig transfer", () => {
 			expect(subject.isMultiSignatureRegistration()).toBeFalse();
 		});
 
-		test("#isMultiSignatureRegistration for musig registration", () => {
+		it("#isMultiSignatureRegistration for musig registration", () => {
 			subject.configure(unsignedNativeSegwitMusigRegistrationTx.id, unsignedNativeSegwitMusigRegistrationTx, "");
 
 			expect(subject.isMultiSignatureRegistration()).toBeTrue();
 		});
 
-		test("#isMultiSignatureRegistration for transfer", () => {
+		it("#isMultiSignatureRegistration for transfer", () => {
 			subject.configure(oneSignatureMusigP2shSegwitTransferTx.id, oneSignatureMusigP2shSegwitTransferTx, "");
 
 			expect(subject.isMultiSignatureRegistration()).toBeFalse();

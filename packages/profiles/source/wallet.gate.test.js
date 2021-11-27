@@ -81,20 +81,20 @@ describe("WalletGate", ({ afterAll, afterEach, beforeAll, beforeEach, loader, no
 		subject = new WalletGate(wallet);
 	});
 
-	test("#allows", () => {
+	it("#allows", () => {
 		assert.false(subject.allows("some-feature"));
 	});
 
-	test("#denies", () => {
+	it("#denies", () => {
 		assert.true(subject.denies("some-feature"));
 	});
 
-	test("#any", () => {
+	it("#any", () => {
 		assert.false(subject.any(["some-feature"]));
 		assert.true(subject.any(["Client.transactions"]));
 	});
 
-	test("#all", () => {
+	it("#all", () => {
 		assert.false(subject.all(["some-feature"]));
 		assert.true(subject.all(["Client.transactions"]));
 	});

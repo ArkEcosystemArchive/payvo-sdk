@@ -370,7 +370,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		assert.instance(subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	test("#transaction lifecycle", async () => {
+	it("#transaction lifecycle", async () => {
 		const realHash = "819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef";
 
 		const input = {
@@ -434,7 +434,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		assert.false(subject.isAwaitingConfirmation(id));
 	});
 
-	test("#pending", async () => {
+	it("#pending", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -466,7 +466,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		walletPublicKeyMock.restore();
 	});
 
-	test("#dump", async () => {
+	it("#dump", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -492,7 +492,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 	});
 
-	test("#restore", async () => {
+	it("#restore", async () => {
 		const input = {
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -526,7 +526,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		assert.containKey(wallet.data().get(WalletData.SignedTransactions), id);
 	});
 
-	test("sign a multisig transaction awaiting other signatures", async () => {
+	it("sign a multisig transaction awaiting other signatures", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [require("../test/fixtures/client/musig-transaction.json")] })
@@ -594,7 +594,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		mockNeedsWalletSignature.restore();
 	});
 
-	test("transaction should not await any signatures", async () => {
+	it("transaction should not await any signatures", async () => {
 		nock.fake("https://ark-test.payvo.com:443")
 			.post("/")
 			.reply(200, { result: [] })
