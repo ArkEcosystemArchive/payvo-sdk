@@ -307,10 +307,12 @@ describe("WalletFactory", ({ afterAll, afterEach, beforeAll, beforeEach, loader,
 	});
 
 	test("#fromWIF - should create it with a WIF and encryption", async () => {
-		const stubEncrypt = stub(BIP38, "encrypt").returnValue("6PYRydorcUPgUAtyd8KQCPd3YHo3vBAmSkBmwFcbEj7W4wBWoQ4JjxLj2d");
+		const stubEncrypt = stub(BIP38, "encrypt").returnValue(
+			"6PYRydorcUPgUAtyd8KQCPd3YHo3vBAmSkBmwFcbEj7W4wBWoQ4JjxLj2d",
+		);
 		const stubDecrypt = stub(BIP38, "decrypt").returnValue({
 			privateKey: Buffer.from("e2511a6022953eb399fbd48f84619c04c894f735aee107b02a7690075ae67617", "hex"),
-			compressed: true
+			compressed: true,
 		});
 
 		const wallet = await subject.fromWIF({

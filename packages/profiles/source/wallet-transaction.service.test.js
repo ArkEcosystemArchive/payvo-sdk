@@ -583,10 +583,7 @@ describe("ARK", ({ afterEach, beforeAll, beforeEach, test, it, nock, stub, asser
 		const id = "46343c36bf7497b68e14d4c0fd713e41a737841b6a858fa41ef0eab6c4647938";
 
 		await subject.sync();
-		const mockNeedsWalletSignature = stub(
-			wallet.coin().multiSignature(),
-			"needsWalletSignature",
-		).returnValue(true);
+		const mockNeedsWalletSignature = stub(wallet.coin().multiSignature(), "needsWalletSignature").returnValue(true);
 
 		assert.true(
 			subject.isAwaitingSignatureByPublicKey(

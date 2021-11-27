@@ -7,7 +7,18 @@ import { Profile } from "./profile";
 
 import { SettingRepository } from "./setting.repository";
 
-describe("SettingRepository", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("SettingRepository", ({
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	loader,
+	nock,
+	assert,
+	test,
+	stub,
+	it,
+}) => {
 	beforeAll(() => {
 		bootContainer();
 	});

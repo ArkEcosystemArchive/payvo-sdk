@@ -41,7 +41,10 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 	});
 
 	it("returns signatory when mnemonic and 2nd mnemonic are provided", async (context) => {
-		assert.instance(await context.subject.make({ mnemonic, secondMnemonic: "second mnemonic" }), Signatories.Signatory);
+		assert.instance(
+			await context.subject.make({ mnemonic, secondMnemonic: "second mnemonic" }),
+			Signatories.Signatory,
+		);
 	});
 
 	it("when encryption password is provided it returns signatory when wallet acts with mnemonic", async (context) => {
@@ -158,7 +161,10 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 
 		context.subject = new SignatoryFactory(context.wallet);
 
-		assert.instance(await context.subject.make({ secret: "secret", secondSecret: "second secret" }), Signatories.Signatory);
+		assert.instance(
+			await context.subject.make({ secret: "secret", secondSecret: "second secret" }),
+			Signatories.Signatory,
+		);
 	});
 
 	it("throws error when no signing key is provided", (context) => {

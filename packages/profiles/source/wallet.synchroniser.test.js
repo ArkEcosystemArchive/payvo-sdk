@@ -11,7 +11,18 @@ let profile;
 let wallet;
 let actsWithMnemonic;
 
-describe("WalletSynchroniser", ({ afterAll, afterEach, beforeAll, beforeEach, loader, nock, assert, test, stub, it }) => {
+describe("WalletSynchroniser", ({
+	afterAll,
+	afterEach,
+	beforeAll,
+	beforeEach,
+	loader,
+	nock,
+	assert,
+	test,
+	stub,
+	it,
+}) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async () => {
