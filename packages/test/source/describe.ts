@@ -32,7 +32,8 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 		schema,
 		skip: suite.skip,
 		spy,
-		stub: Mockery.stub,
+		stub: (target: object, method: string) => new Mockery(target, method),
+		test: suite,
 	});
 
 	suite.run();
