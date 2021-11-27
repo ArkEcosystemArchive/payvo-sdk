@@ -12,55 +12,55 @@ type ContextFunction = () => Context;
 type ContextPromise = () => Promise<Context>;
 
 const runSuite = (suite: Test, callback: Function): void => {
-    const stubs: Mockery[] = [];
+	const stubs: Mockery[] = [];
 
-    suite.before(() => {
-        nock.disableNetConnect();
-    });
+	suite.before(() => {
+		nock.disableNetConnect();
+	});
 
-    suite.after(() => {
-        nock.enableNetConnect();
-    });
+	suite.after(() => {
+		nock.enableNetConnect();
+	});
 
-    suite.after.each(() => {
-        nock.cleanAll();
+	suite.after.each(() => {
+		nock.cleanAll();
 
-        for (const stub of stubs) {
-            stub.restore();
-        }
-    });
+		for (const stub of stubs) {
+			stub.restore();
+		}
+	});
 
-    callback({
-        afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
-        afterEach: async (callback_: Function) => suite.after.each(runHook(callback_)),
-        assert,
-        beforeAll: async (callback_: Function) => suite.before(runHook(callback_)),
-        beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
-        each: eachSuite(suite),
-        it: suite,
-        loader,
-        nock,
-        only: suite.only,
-        should: suite,
-        skip: suite.skip,
-        stub: (owner: object, method: string) => {
-            const result: Mockery = Mockery.stub(owner, method);
+	callback({
+		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
+		afterEach: async (callback_: Function) => suite.after.each(runHook(callback_)),
+		assert,
+		beforeAll: async (callback_: Function) => suite.before(runHook(callback_)),
+		beforeEach: async (callback_: Function) => suite.before.each(runHook(callback_)),
+		each: eachSuite(suite),
+		it: suite,
+		loader,
+		nock,
+		only: suite.only,
+		should: suite,
+		skip: suite.skip,
+		stub: (owner: object, method: string) => {
+			const result: Mockery = Mockery.stub(owner, method);
 
-            stubs.push(result);
+			stubs.push(result);
 
-            return result;
-        },
-        test: suite,
-        zod,
-    });
+			return result;
+		},
+		test: suite,
+		zod,
+	});
 
-    suite.run();
+	suite.run();
 };
 
 export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
 
 export const describeWithContext = async (
-    title: string,
-    context: Context | ContextFunction | ContextPromise,
-    callback: Function,
+	title: string,
+	context: Context | ContextFunction | ContextPromise,
+	callback: Function,
 ): Promise<void> => runSuite(suite(title, typeof context === "function" ? await context() : context), callback);
