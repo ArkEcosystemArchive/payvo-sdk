@@ -12,7 +12,7 @@ import { nock } from "./nock.js";
 type ContextFunction = () => Context;
 
 const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
-	const stubs: Stub[] = [];
+	let stubs: Stub[] = [];
 
 	suite.before(() => {
 		nock.disableNetConnect();
@@ -28,6 +28,8 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 		for (const stub of stubs) {
 			stub.restore();
 		}
+
+		stubs = [];
 	});
 
 	callback({
