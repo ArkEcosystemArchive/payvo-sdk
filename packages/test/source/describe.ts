@@ -30,7 +30,6 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
         nock,
         only: suite.only,
         schema,
-        schema,
         skip: suite.skip,
         spy,
         stub: (target: object, method: string) => new Mockery(target, method),
