@@ -37,7 +37,7 @@ const createSubject = (wallet, properties, klass) => {
 		setMeta: (key, value) => {
 			meta = value;
 		},
-		timestamp: () => {},
+		timestamp: () => { },
 		toObject: () => ({}),
 		type: () => "some type",
 		...properties,
@@ -85,20 +85,12 @@ const beforeEachCallback = async (context, { loader, nock, stub }) => {
 	context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 };
 
-const afterEachCallback = (context) => {
-	context.liveSpy.restore();
-	context.testSpy.restore();
-};
 
-describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it, skip, assert, stub, spy, loader, nock }) => {
+describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, stub, spy, loader, nock }) => {
 	beforeEach(async (context) => {
 		await beforeEachCallback(context, { loader, nock, stub });
 
 		context.subject = createSubject(context.wallet, undefined, ExtendedConfirmedTransactionData);
-	});
-
-	afterEach((context) => {
-		afterEachCallback(context);
 	});
 
 	it("should have an explorer link", (context) => {
@@ -114,7 +106,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 			context.wallet,
 			{
 				...context.subject,
-				blockId: () => {},
+				blockId: () => { },
 			},
 			ExtendedConfirmedTransactionData,
 		);
@@ -602,10 +594,6 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, test, it,
 // 			},
 // 			ExtendedConfirmedTransactionData,
 // 		);
-// 	});
-
-// 	afterEach(() => {
-// 		afterEachCallback();
 // 	});
 
 // 	it("#memo", () => {

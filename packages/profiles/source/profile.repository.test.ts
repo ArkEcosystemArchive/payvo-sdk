@@ -333,7 +333,5 @@ describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) =
 		assert.true(profile.status().isRestored());
 		assert.false(profile.status().isDirty());
 		profileAttributeSetMock.neverCalled();
-		profileDirtyStatusMock.restore();
-		profileAttributeSetMock.restore();
 	});
 });

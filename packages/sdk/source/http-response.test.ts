@@ -12,7 +12,6 @@ describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
 
 	afterEach((context) => {
 		if (context.spy) {
-			context.spy.restore();
 			context.spy = undefined;
 		}
 	});

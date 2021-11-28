@@ -1,21 +1,56 @@
-import { spy } from "sinon";
-import { Context, suite, Test } from "uvu";
+import { SinonSpyStatic, spy } from "sinon";
+import { Callback, Context, suite, Test } from "uvu";
 import { z as schema } from "zod";
 
 import { assert } from "./assert.js";
 import { each, formatName } from "./each.js";
 import { runHook } from "./hooks.js";
 import { loader } from "./loader.js";
-import { Mockery } from "./mockery.js";
+import { Stub } from "./stub.js";
 import { nock } from "./nock.js";
 
 type ContextFunction = () => Context;
 
-const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
-	suite.before(() => nock.disableNetConnect());
+interface CallbackArguments {
+	afterAll: (callback_: Function) => void;
+	afterEach: (callback_: Function) => void;
+	assert: typeof assert;
+	beforeAll: (callback_: Function) => void;
+	beforeEach: (callback_: Function) => void;
+	dataset: unknown;
+	each: (name: string, callback: Callback<any>, datasets: unknown[]) => void;
+	it: Test;
+	loader: typeof loader;
+	nock: typeof nock;
+	only: Function;
+	schema: typeof schema;
+	skip: Function;
+	spy: SinonSpyStatic;
+	stub: (owner: object, method: string) => Stub;
+}
 
-	suite.after(() => nock.enableNetConnect());
-	suite.after.each(() => nock.cleanAll());
+type CallbackFunction = (args: CallbackArguments) => void;
+
+const runSuite = (suite: Test, callback: CallbackFunction, dataset?: unknown): void => {
+	let stubs: Stub[] = [];
+
+	suite.before(() => {
+		nock.disableNetConnect();
+	});
+
+	suite.after(() => {
+		nock.enableNetConnect();
+	});
+
+	suite.after.each(() => {
+		nock.cleanAll();
+
+		for (const stub of stubs) {
+			stub.restore();
+		}
+
+		stubs = [];
+	});
 
 	callback({
 		afterAll: async (callback_: Function) => suite.after(runHook(callback_)),
@@ -32,19 +67,27 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 		schema,
 		skip: suite.skip,
 		spy,
-		stub: (target: object, method: string) => new Mockery(target, method),
-		test: suite,
+		stub: (owner: object, method: string) => {
+			const result: Stub = new Stub(owner, method);
+
+			stubs.push(result);
+
+			return result;
+		},
 	});
 
 	suite.run();
 };
 
-export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
+export const describe = (title: string, callback: CallbackFunction): void => runSuite(suite(title), callback);
 
-export const describeWithContext = (title: string, context: Context | ContextFunction, callback: Function): void =>
-	runSuite(suite(title, typeof context === "function" ? context() : context), callback);
+export const describeWithContext = (
+	title: string,
+	context: Context | ContextFunction,
+	callback: CallbackFunction,
+): void => runSuite(suite(title, typeof context === "function" ? context() : context), callback);
 
-export const describeEach = (title: string, callback: Function, datasets: unknown[]): void => {
+export const describeEach = (title: string, callback: CallbackFunction, datasets: unknown[]): void => {
 	for (const dataset of datasets) {
 		runSuite(suite(formatName(title, dataset)), callback);
 	}

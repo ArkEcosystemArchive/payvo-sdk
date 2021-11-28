@@ -220,8 +220,5 @@ describe("WalletIdentifierFactory", ({
 			type: "address",
 			value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 		});
-
-		stubEncrypt.restore();
-		stubDecrypt.restore();
 	});
 });

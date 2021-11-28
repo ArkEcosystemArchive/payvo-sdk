@@ -30,10 +30,6 @@
 // 	dateNowSpy = stub(Date, "now").callsFake(() => 123456789);
 // });
 
-// afterAll(() => {
-// 	dateNowSpy.restore();
-// });
-
 // beforeEach(() => {
 // 	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
 

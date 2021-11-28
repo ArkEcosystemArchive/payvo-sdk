@@ -272,10 +272,6 @@ describe("#unlockableBalances", ({ afterEach, beforeAll, beforeEach, it, assert,
 
 	beforeEach(async () => createLocalServices());
 
-	afterEach(async (context) => {
-		context.dateTime.restore();
-	});
-
 	it('should return empty when the property "unlocking" is missing in the response', async () => {
 		const subject = await createLocalServices();
 

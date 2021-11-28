@@ -94,8 +94,8 @@ describe("MultiSignature", ({ assert, it, stub, loader, nock, beforeAll, beforeE
 	});
 
 	it("should return multi-signature participants", async (context) => {
-		const isMultiSignature = stub(context.subject, "isMultiSignature").returnValue(true);
-		const multiSignature = stub(context.subject.multiSignature(), "all").returnValue({
+		stub(context.subject, "isMultiSignature").returnValue(true);
+		stub(context.subject.multiSignature(), "all").returnValue({
 			min: 2,
 			publicKeys: [
 				"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
@@ -109,9 +109,6 @@ describe("MultiSignature", ({ assert, it, stub, loader, nock, beforeAll, beforeE
 		assert.length(context.subject.multiSignature().participants(), 2);
 		assert.instance(context.subject.multiSignature().participants()[0], ReadOnlyWallet);
 		assert.instance(context.subject.multiSignature().participants()[1], ReadOnlyWallet);
-
-		isMultiSignature.restore();
-		multiSignature.restore();
 	});
 
 	it("should throw if the wallet does not have a multi-signature registered", async (context) => {

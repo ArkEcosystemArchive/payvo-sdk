@@ -150,7 +150,6 @@ describe("WalletSerialiser", ({ beforeAll, beforeEach, loader, nock }) => {
 	// 		const actual = subject.toObject();
 
 	// 		assert.is(actual, {});
-	// 		partiallyRestoredMock.restore();
 	// 	});
 	// });
 });

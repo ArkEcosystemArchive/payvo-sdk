@@ -97,10 +97,6 @@ describe("#addSignature", async ({ beforeEach, afterEach, assert, it, loader, no
 		context.dateTime.returnValue(gotoTime);
 	});
 
-	afterEach(async (context) => {
-		context.dateTime.restore();
-	});
-
 	it("should succeed", async (context) => {
 		const transaction1 = await context.subject.transfer({
 			fee: 10,

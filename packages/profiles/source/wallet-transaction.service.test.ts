@@ -460,7 +460,7 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 	});
 
 	it("should fail retrieving public key if wallet is lacking a public key", async (context) => {
-		const walletPublicKeyMock = stub(context.wallet, "publicKey").returnValue();
+		const walletPublicKeyMock = stub(context.wallet, "publicKey").returnValue(undefined);
 		assert.throws(() => context.subject.getPublicKey());
 		walletPublicKeyMock.restore();
 	});
@@ -730,7 +730,7 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 
 		const isMultiSignatureRegistration = stub(context.subject.transaction(id), "isMultiSignatureRegistration");
 
-		const mockedFalseMultisignatureRegistration = isMultiSignatureRegistration.returnValue(false);
+		isMultiSignatureRegistration.returnValue(false);
 		assert.defined(context.subject.transaction(id));
 		assert.containKey(context.subject.pending(), id);
 		assert.true(context.subject.transaction(id).usesMultiSignature());
@@ -738,12 +738,9 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 		await context.subject.broadcast(id);
 		assert.containKey(context.subject.waitingForOtherSignatures(), id);
 
-		const mockedFalseMultisignature = isMultiSignatureRegistration.returnValue(false);
+		isMultiSignatureRegistration.returnValue(false);
 		await context.subject.broadcast(id);
 		assert.defined(context.subject.transaction(id));
-
-		mockedFalseMultisignatureRegistration.restore();
-		mockedFalseMultisignature.restore();
 	});
 
 	it("should broadcast multisignature registration", async (context) => {
@@ -939,7 +936,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each, nock, assert, load
 		context.subject = new TransactionService(context.wallet);
 	});
 
-	afterEach(() => {});
+	afterEach(() => { });
 
 	each(
 		"should create a transfer for %s",

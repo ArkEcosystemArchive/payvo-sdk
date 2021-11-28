@@ -322,8 +322,5 @@ describe("WalletFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 
 		assert.is(wallet.address(), "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
 		assert.is(wallet.publicKey(), "030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd");
-
-		stubEncrypt.restore();
-		stubDecrypt.restore();
 	});
 });

@@ -37,7 +37,9 @@ jobs:
             - name: Test AVAX
               run: cd "$GITHUB_WORKSPACE/packages/avax/" && pnpm run test:coverage
             - name: Test BTC
-              run: cd "$GITHUB_WORKSPACE/packages/btc/" && pnpm run test:coverage
+              run: |
+                  cd "$GITHUB_WORKSPACE/packages/btc/" && pnpm run test:coverage
+                  cd "$GITHUB_WORKSPACE/packages/btc/" && pnpm run test:integration
             - name: Test CRYPTOGRAPHY
               run: cd "$GITHUB_WORKSPACE/packages/cryptography/" && pnpm run test:coverage
             - name: Test DOT
