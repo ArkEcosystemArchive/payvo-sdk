@@ -7,30 +7,38 @@ describe("Helpers.Currency", ({ assert, each, it }) => {
 		assert.is(Currency.format(10, "USD"), "$10.00");
 	});
 
-	each("should format crypto (%s)", ({ dataset }) => {
-		assert.is(Currency.format(10, dataset), `10 ${dataset}`);
-	}, ["BTC", "ETH", "ARK", "DARK", "LSK", "BIND", "SOL"]);
+	each(
+		"should format crypto (%s)",
+		({ dataset }) => {
+			assert.is(Currency.format(10, dataset), `10 ${dataset}`);
+		},
+		["BTC", "ETH", "ARK", "DARK", "LSK", "BIND", "SOL"],
+	);
 
-	each("should allow to hide ticker (%s)", ({ dataset }) => {
-		assert.is(Currency.format(10, dataset, { withTicker: false }), "10.00");
-	}, [
-		"AUD",
-		"BRL",
-		"CAD",
-		"CHF",
-		"CNY",
-		"DKK",
-		"EUR",
-		"GBP",
-		"HKD",
-		"IDR",
-		"INR",
-		"MXN",
-		"NOK",
-		"RUB",
-		"SEK",
-		"USD",
-	]);
+	each(
+		"should allow to hide ticker (%s)",
+		({ dataset }) => {
+			assert.is(Currency.format(10, dataset, { withTicker: false }), "10.00");
+		},
+		[
+			"AUD",
+			"BRL",
+			"CAD",
+			"CHF",
+			"CNY",
+			"DKK",
+			"EUR",
+			"GBP",
+			"HKD",
+			"IDR",
+			"INR",
+			"MXN",
+			"NOK",
+			"RUB",
+			"SEK",
+			"USD",
+		],
+	);
 
 	it("should allow to pass locale", () => {
 		assert.is(Currency.format(1, "BTC", { locale: "en-US" }), "1 BTC");

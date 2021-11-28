@@ -56,19 +56,23 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 	it("#allWithPendingState", async (context) => {
 		nock.fake("https://btc-test-musig.payvo.com").post("/").reply(200, context.fixtures);
 
-		assert.length(await
-			context.subject.allWithPendingState(
+		assert.length(
+			await context.subject.allWithPendingState(
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
-			), 2);
+			),
+			2,
+		);
 	});
 
 	it("#allWithReadyState", async (context) => {
 		nock.fake("https://btc-test-musig.payvo.com").post("/").reply(200, context.fixtures);
 
-		assert.length(await
-			context.subject.allWithReadyState(
+		assert.length(
+			await context.subject.allWithReadyState(
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
-			), 2);
+			),
+			2,
+		);
 	});
 
 	it("#findById", async (context) => {
@@ -76,10 +80,11 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 			.post("/")
 			.reply(200, { result: oneSignatureNativeSegwitMusigRegistrationTx });
 
-		assert.object(await
-			context.subject.findById(
+		assert.object(
+			await context.subject.findById(
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
-			));
+			),
+		);
 	});
 
 	it("#broadcast", async (context) => {
@@ -117,7 +122,8 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 		transactionData.multiSignature.publicKeys.push(
 			"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
 		);
-		assert.equal((await context.subject.addSignature(transactionData, signatory)).data(),
+		assert.equal(
+			(await context.subject.addSignature(transactionData, signatory)).data(),
 			oneSignatureNativeSegwitMusigRegistrationTx,
 		);
 
@@ -137,7 +143,8 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 		transactionData.multiSignature.publicKeys.push(
 			"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
 		);
-		assert.equal((await context.subject.addSignature(transactionData, signatory2)).data(),
+		assert.equal(
+			(await context.subject.addSignature(transactionData, signatory2)).data(),
 			twoSignatureNativeSegwitMusigRegistrationTx,
 		);
 
@@ -157,21 +164,26 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 		transactionData.multiSignature.publicKeys.push(
 			"Vpub5mSSLBPFi3acdjk5giwrmA7gXPAJsiLXXKibgjXYycH1gp95t2Pqv3U8dT9kEGxvAdfiN5DGmozDmZ7sJyDuMgfxt4h4KujF7MWt5tQH8py",
 		);
-		assert.equal((await context.subject.addSignature(transactionData, signatory3)).data(),
+		assert.equal(
+			(await context.subject.addSignature(transactionData, signatory3)).data(),
 			threeSignatureNativeSegwitMusigRegistrationTx,
 		);
 	});
 
-	each("isMultiSignatureRegistrationReady when already signed", async ({ context, dataset }) => {
-		const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
+	each(
+		"isMultiSignatureRegistrationReady when already signed",
+		async ({ context, dataset }) => {
+			const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
 
-		assert.is(context.subject.isMultiSignatureReady(transaction), dataset.expected);
-	}, [
-		{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: false },
-		{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: false },
-		{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: false },
-		{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
-	]);
+			assert.is(context.subject.isMultiSignatureReady(transaction), dataset.expected);
+		},
+		[
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: false },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: true },
+		],
+	);
 
 	it("#needsSignatures", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
@@ -204,13 +216,15 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 			context.subject.needsWalletSignature(
 				transaction,
 				"Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN",
-			));
+			),
+		);
 
 		assert.true(
 			context.subject.needsWalletSignature(
 				transaction,
 				"Vpub5mYgzMb93fDtChZ2xmY7g3aEgHFjdgQE6P596AiL5zENEcVjDCciGfWmhZJngn6gVmBRh6E1Vp7aZYY7wQkMRTQSKhauGwYAUEdiGbS35D1",
-			));
+			),
+		);
 	});
 
 	it("#needsFinalSignature", async (context) => {
@@ -219,16 +233,20 @@ describe("multi signature registration", ({ assert, beforeEach, each, it, nock }
 		assert.false(context.subject.needsFinalSignature(transaction));
 	});
 
-	each("remainingSignatureCount when already signed by participants", async ({ context, dataset }) => {
-		const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
+	each(
+		"remainingSignatureCount when already signed by participants",
+		async ({ context, dataset }) => {
+			const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
 
-		assert.is(context.subject.remainingSignatureCount(transaction), dataset.expected);
-	}, [
-		{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: 3 },
-		{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: 2 },
-		{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
-		{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
-	]);
+			assert.is(context.subject.remainingSignatureCount(transaction), dataset.expected);
+		},
+		[
+			{ tx: unsignedNativeSegwitMusigRegistrationTx, expected: 3 },
+			{ tx: oneSignatureNativeSegwitMusigRegistrationTx, expected: 2 },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
+		],
+	);
 });
 
 describe("transfer", ({ assert, beforeEach, each, it, nock, stub }) => {
@@ -277,15 +295,19 @@ describe("transfer", ({ assert, beforeEach, each, it, nock, stub }) => {
 		});
 	});
 
-	each("remainingSignatureCount when already signed", async ({ context, dataset }) => {
-		const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
+	each(
+		"remainingSignatureCount when already signed",
+		async ({ context, dataset }) => {
+			const transaction = (await createService(SignedTransactionData)).configure(dataset.tx.id, dataset.tx);
 
-		assert.is(context.subject.remainingSignatureCount(transaction), dataset.expected);
-	}, [
-		{ tx: unsignedNativeSegwitMusigTransferTx, expected: 2 },
-		{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
-		{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
-	]);
+			assert.is(context.subject.remainingSignatureCount(transaction), dataset.expected);
+		},
+		[
+			{ tx: unsignedNativeSegwitMusigTransferTx, expected: 2 },
+			{ tx: twoSignatureNativeSegwitMusigRegistrationTx, expected: 1 },
+			{ tx: threeSignatureNativeSegwitMusigRegistrationTx, expected: 0 },
+		],
+	);
 
 	it("#addSignature", async (context) => {
 		// We need a deep copy as signing modifies the signatures and public keys

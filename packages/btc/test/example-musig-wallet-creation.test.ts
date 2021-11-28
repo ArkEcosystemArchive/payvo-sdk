@@ -21,49 +21,63 @@ import { AddressFactory } from "../source/address.factory";
 
 describe("example musig wallet creation", async ({ assert, beforeEach, it, stub }) => {
 	beforeEach(async (context) => {
-		context.subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
-			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
-				ConfirmedTransactionData,
-				WalletData,
-			});
-			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
-			container.singleton(IoC.BindingType.FeeService, FeeService);
-			container.constant(
-				IoC.BindingType.LedgerTransportFactory,
-				async () => await openTransportReplayer(RecordStore.fromString("")),
-			);
-			container.singleton(IoC.BindingType.LedgerService, LedgerService);
-			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-			container.singleton(BindingType.AddressFactory, AddressFactory);
-		});
+		context.subject = await createServiceAsync(
+			TransactionService,
+			"btc.testnet",
+			async (container: IoC.Container) => {
+				container.constant(IoC.BindingType.Container, container);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
+				container.singleton(
+					IoC.BindingType.DataTransferObjectService,
+					Services.AbstractDataTransferObjectService,
+				);
+				container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+				container.singleton(IoC.BindingType.FeeService, FeeService);
+				container.constant(
+					IoC.BindingType.LedgerTransportFactory,
+					async () => await openTransportReplayer(RecordStore.fromString("")),
+				);
+				container.singleton(IoC.BindingType.LedgerService, LedgerService);
+				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+			},
+		);
 
-		context.musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
-			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
-				ConfirmedTransactionData,
-				WalletData,
-			});
-			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
-			container.singleton(IoC.BindingType.FeeService, FeeService);
-			container.constant(
-				IoC.BindingType.LedgerTransportFactory,
-				async () => await openTransportReplayer(RecordStore.fromString("")),
-			);
-			container.singleton(IoC.BindingType.LedgerService, LedgerService);
-			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-			container.singleton(BindingType.AddressFactory, AddressFactory);
-		});
+		context.musigService = await createServiceAsync(
+			MultiSignatureService,
+			"btc.testnet",
+			async (container: IoC.Container) => {
+				container.constant(IoC.BindingType.Container, container);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
+				container.constant(IoC.BindingType.DataTransferObjects, {
+					SignedTransactionData,
+					ConfirmedTransactionData,
+					WalletData,
+				});
+				container.singleton(
+					IoC.BindingType.DataTransferObjectService,
+					Services.AbstractDataTransferObjectService,
+				);
+				container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+				container.singleton(IoC.BindingType.FeeService, FeeService);
+				container.constant(
+					IoC.BindingType.LedgerTransportFactory,
+					async () => await openTransportReplayer(RecordStore.fromString("")),
+				);
+				container.singleton(IoC.BindingType.LedgerService, LedgerService);
+				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
+				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+			},
+		);
 	});
 
 	it("first cosigner should create a wallet and others join it", async (context) => {
