@@ -4,5 +4,5 @@ export const nock = {
 	cleanAll: base.cleanAll,
 	disableNetConnect: base.disableNetConnect,
 	enableNetConnect: base.enableNetConnect,
-	fake: (basePath: string | RegExp, options?: Options): Scope => base(basePath ?? /.+/, options),
+	fake: (basePath?: string | RegExp, options?: Options): Scope => base(basePath ?? /.+/, options),
 };

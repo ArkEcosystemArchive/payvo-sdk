@@ -1,106 +1,100 @@
-import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { Collections } from "@payvo/sdk";
-
-import { UUID } from "@payvo/sdk-cryptography";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
-import { Wallet } from "./wallet";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import { transformTransactionData, transformConfirmedTransactionDataCollection } from "./transaction.mapper";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { transformConfirmedTransactionDataCollection } from "./transaction.mapper";
 
-const data = [
-	[ExtendedConfirmedTransactionData, "isDelegateRegistration"],
-	[ExtendedConfirmedTransactionData, "isDelegateResignation"],
-	[ExtendedConfirmedTransactionData, "isHtlcClaim"],
-	[ExtendedConfirmedTransactionData, "isHtlcLock"],
-	[ExtendedConfirmedTransactionData, "isHtlcRefund"],
-	[ExtendedConfirmedTransactionData, "isIpfs"],
-	[ExtendedConfirmedTransactionData, "isMultiPayment"],
-	[ExtendedConfirmedTransactionData, "isMultiSignatureRegistration"],
-	[ExtendedConfirmedTransactionData, "isSecondSignature"],
-	[ExtendedConfirmedTransactionData, "isTransfer"],
-	[ExtendedConfirmedTransactionData, "isVote"],
-	[ExtendedConfirmedTransactionData, "isUnvote"],
-	[ExtendedConfirmedTransactionData, "isOther"],
-];
+describeWithContext(
+	"TransactionMapper",
+	{
+		data: [
+			[ExtendedConfirmedTransactionData, "isDelegateRegistration"],
+			[ExtendedConfirmedTransactionData, "isDelegateResignation"],
+			[ExtendedConfirmedTransactionData, "isHtlcClaim"],
+			[ExtendedConfirmedTransactionData, "isHtlcLock"],
+			[ExtendedConfirmedTransactionData, "isHtlcRefund"],
+			[ExtendedConfirmedTransactionData, "isIpfs"],
+			[ExtendedConfirmedTransactionData, "isMultiPayment"],
+			[ExtendedConfirmedTransactionData, "isMultiSignatureRegistration"],
+			[ExtendedConfirmedTransactionData, "isSecondSignature"],
+			[ExtendedConfirmedTransactionData, "isTransfer"],
+			[ExtendedConfirmedTransactionData, "isVote"],
+			[ExtendedConfirmedTransactionData, "isUnvote"],
+			[ExtendedConfirmedTransactionData, "isOther"],
+		],
+		dummyTransactionData: {
+			isDelegateRegistration: () => false,
+			isDelegateResignation: () => false,
+			isHtlcClaim: () => false,
+			isHtlcLock: () => false,
+			isHtlcRefund: () => false,
+			isIpfs: () => false,
+			isMagistrate: () => false,
+			isMultiPayment: () => false,
+			isMultiSignatureRegistration: () => false,
+			isSecondSignature: () => false,
+			isTransfer: () => false,
+			isUnvote: () => false,
+			isVote: () => false,
+		},
+	},
+	({ assert, beforeAll, it, nock, loader }) => {
+		beforeAll(async (context) => {
+			bootContainer();
 
-describe("TransactionMapper", ({ assert, beforeAll, it, nock, loader }) => {
-	let profile;
-	let wallet;
+			nock.fake()
+				.get("/api/peers")
+				.reply(200, loader.json("test/fixtures/client/peers.json"))
+				.get("/api/node/configuration/crypto")
+				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+				.get("/api/node/syncing")
+				.reply(200, loader.json("test/fixtures/client/syncing.json"))
+				.persist();
 
-	const dummyTransactionData = {
-		isMagistrate: () => false,
-		isDelegateRegistration: () => false,
-		isDelegateResignation: () => false,
-		isHtlcClaim: () => false,
-		isHtlcLock: () => false,
-		isHtlcRefund: () => false,
-		isIpfs: () => false,
-		isMultiPayment: () => false,
-		isMultiSignatureRegistration: () => false,
-		isSecondSignature: () => false,
-		isTransfer: () => false,
-		isVote: () => false,
-		isUnvote: () => false,
-	};
+			context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+			context.profile.settings().set(ProfileSetting.Name, "John Doe");
 
-	beforeAll(async () => {
-		bootContainer();
-
-		nock.fake()
-			.get("/api/peers")
-			.reply(200, require("../test/fixtures/client/peers.json"))
-			.get("/api/node/configuration/crypto")
-			.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-			.get("/api/node/syncing")
-			.reply(200, require("../test/fixtures/client/syncing.json"))
-			.persist();
-
-		profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
-
-		profile.settings().set(ProfileSetting.Name, "John Doe");
-
-		wallet = await profile.walletFactory().fromMnemonicWithBIP39({
-			coin: "ARK",
-			network: "ark.devnet",
-			mnemonic: identity.mnemonic,
-		});
-	});
-
-	// it.each(data)(`should map %p correctly`, (className, functionName) => {
-	// 	assert.instance(
-	// 		transformTransactionData(wallet, {
-	// 			...dummyTransactionData,
-	// 			[String(functionName)]: () => true,
-	// 		}),
-	// 		className,
-	// 	);
-	// });
-
-	it("should map collection correctly", () => {
-		const pagination = {
-			prev: "before",
-			self: "now",
-			next: "after",
-			last: "last",
-		};
-
-		// @ts-ignore
-		const transactionData = new ExtendedConfirmedTransactionData(wallet, {
-			isMagistrate: () => true,
+			context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
+				coin: "ARK",
+				mnemonic: identity.mnemonic,
+				network: "ark.devnet",
+			});
 		});
 
-		// @ts-ignore
-		const collection = new Collections.ConfirmedTransactionDataCollection([transactionData], pagination);
+		// it.each(data)(`should map %p correctly`, (className, functionName) => {
+		// 	assert.instance(
+		// 		transformTransactionData(wallet, {
+		// 			...dummyTransactionData,
+		// 			[String(functionName)]: () => true,
+		// 		}),
+		// 		className,
+		// 	);
+		// });
 
-		const transformedCollection = transformConfirmedTransactionDataCollection(wallet, collection);
-		assert.instance(transformedCollection, ExtendedConfirmedTransactionDataCollection);
-		assert.is(transformedCollection.getPagination(), pagination);
-	});
-});
+		it("should map collection correctly", (context) => {
+			const pagination = {
+				last: "last",
+				next: "after",
+				prev: "before",
+				self: "now",
+			};
+
+			const transactionData = new ExtendedConfirmedTransactionData(context.wallet, {
+				isMagistrate: () => true,
+			});
+
+			const collection = new Collections.ConfirmedTransactionDataCollection([transactionData], pagination);
+
+			const transformedCollection = transformConfirmedTransactionDataCollection(context.wallet, collection);
+			assert.instance(transformedCollection, ExtendedConfirmedTransactionDataCollection);
+			assert.is(transformedCollection.getPagination(), pagination);
+		});
+	},
+);

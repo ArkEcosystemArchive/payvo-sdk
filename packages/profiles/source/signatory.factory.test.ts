@@ -1,13 +1,10 @@
-import { describe } from "@payvo/sdk-test";
 import { Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
 import { SignatoryFactory } from "./signatory.factory";
-
-let profile;
-let wallet;
 
 const mnemonic = identity.mnemonic;
 
@@ -162,7 +159,7 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 		context.subject = new SignatoryFactory(context.wallet);
 
 		assert.instance(
-			await context.subject.make({ secret: "secret", secondSecret: "second secret" }),
+			await context.subject.make({ secondSecret: "second secret", secret: "secret" }),
 			Signatories.Signatory,
 		);
 	});

@@ -1,32 +1,29 @@
-import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { BigNumber } from "@payvo/sdk-helpers";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
 import { WalletAggregate } from "./wallet.aggregate";
 
-let subject;
-let profile;
-
-describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub }) => {
+describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub, loader }) => {
 	beforeAll(async (context) => {
 		bootContainer();
 
 		nock.fake()
 			.get("/api/node/configuration/crypto")
-			.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/peers")
-			.reply(200, require("../test/fixtures/client/peers.json"))
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
 			.get("/api/node/syncing")
-			.reply(200, require("../test/fixtures/client/syncing.json"))
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
 			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-			.reply(200, require("../test/fixtures/client/wallet.json"))
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
 			.persist();
 
-		context.profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 
 		await importByMnemonic(context.profile, identity.mnemonic, "ARK", "ark.devnet");
 
@@ -34,12 +31,12 @@ describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub }) => {
 	});
 
 	it("#balance", async (context) => {
-		assert.is(context.subject.balance("test"), 558270.93444556);
+		assert.is(context.subject.balance("test"), 558_270.934_445_56);
 		assert.is(context.subject.balance("live"), 0);
 		assert.is(context.subject.balance(), 0);
 
 		stub(context.profile.wallets().first().network(), "isLive").returnValue(true);
-		assert.is(context.subject.balance("live"), 558270.93444556);
+		assert.is(context.subject.balance("live"), 558_270.934_445_56);
 	});
 
 	it("#convertedBalance", async (context) => {

@@ -29,7 +29,7 @@ interface CallbackArguments {
 	stub: (owner: object, method: string) => Stub;
 }
 
-type CallbackFunction = (args: CallbackArguments) => {};
+type CallbackFunction = (args: CallbackArguments) => void;
 
 const runSuite = (suite: Test, callback: CallbackFunction, dataset?: unknown): void => {
 	let stubs: Stub[] = [];

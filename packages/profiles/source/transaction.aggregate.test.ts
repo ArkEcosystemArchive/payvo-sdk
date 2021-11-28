@@ -1,33 +1,32 @@
-import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
+
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 import * as promiseHelpers from "./helpers/promise";
 import { Profile } from "./profile";
 import { TransactionAggregate } from "./transaction.aggregate";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-let subject;
-
-describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
+describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it }) => {
 	beforeAll(async (context) => {
 		bootContainer();
 
 		nock.fake()
 			.get("/api/node/configuration/crypto")
-			.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 			.get("/api/node/configuration")
-			.reply(200, require("../test/fixtures/client/configuration.json"))
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
 			.get("/api/peers")
-			.reply(200, require("../test/fixtures/client/peers.json"))
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
 			.get("/api/node/syncing")
-			.reply(200, require("../test/fixtures/client/syncing.json"))
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
 			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-			.reply(200, require("../test/fixtures/client/wallet.json"))
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
 			.persist();
 
-		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 
 		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
@@ -148,7 +147,7 @@ describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
-			.reply(200, require("../test/fixtures/client/transactions.json"));
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
 		assert.false(context.subject.hasMore("transactions"));
 
@@ -163,7 +162,7 @@ describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
-			.reply(200, require("../test/fixtures/client/transactions.json"));
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
 		stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
 			return Promise.resolve(undefined);
@@ -177,7 +176,7 @@ describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
-			.reply(200, require("../test/fixtures/client/transactions.json"));
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
 		const result = await context.subject.all({
 			identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
@@ -193,7 +192,7 @@ describe("TransactionAggregate", ({ beforeAll, nock, assert, stub, it }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
-			.reply(200, require("../test/fixtures/client/transactions.json"));
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
 		const result = await context.subject.all({
 			identifiers: [

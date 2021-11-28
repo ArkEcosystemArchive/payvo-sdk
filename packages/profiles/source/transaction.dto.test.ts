@@ -1,116 +1,111 @@
-import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
-import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
 
-import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { identity } from "../test/fixtures/identity";
+import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
+import { ProfileSetting } from "./contracts";
+import { Profile } from "./profile";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+
+const mnemonic = identity.mnemonic;
 
 const createSubject = (wallet, properties, klass) => {
 	let meta = "some meta";
 
 	return new klass(wallet, {
-		id: () => "transactionId",
+		amount: () => BigNumber.make(18e8, 8),
+		asset: () => ({}),
 		blockId: () => "transactionBlockId",
 		bridgechainId: () => "bridgechainId",
-		type: () => "some type",
-		timestamp: () => undefined,
 		confirmations: () => BigNumber.make(20),
-		sender: () => "sender",
-		recipient: () => "recipient",
-		memo: () => "memo",
-		recipients: () => [],
-		amount: () => BigNumber.make(18e8, 8),
 		fee: () => BigNumber.make(2e8, 8),
-		asset: () => ({}),
-		inputs: () => [],
-		outputs: () => [],
-		isSent: () => true,
-		toObject: () => ({}),
 		getMeta: () => meta,
+		id: () => "transactionId",
+		inputs: () => [],
+		isSent: () => true,
+		memo: () => "memo",
+		outputs: () => [],
+		recipient: () => "recipient",
+		recipients: () => [],
+		sender: () => "sender",
 		setMeta: (key, value) => {
 			meta = value;
 		},
-		...(properties || {}),
+		timestamp: () => {},
+		toObject: () => ({}),
+		type: () => "some type",
+		...properties,
 	});
 };
 
-let subject;
-let profile;
-let wallet;
-
-let liveSpy;
-let testSpy;
-
-const beforeEachCallback = async (nock, stub) => {
+const beforeEachCallback = async (context, { loader, nock, stub }) => {
 	bootContainer();
 
 	nock.fake()
 		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
+		.reply(200, loader.json("test/fixtures/client/configuration.json"))
 		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
+		.reply(200, loader.json("test/fixtures/client/peers.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+		.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
+		.reply(200, loader.json("test/fixtures/client/syncing.json"))
 		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
+		.reply(200, loader.json("test/fixtures/client/wallet.json"))
 		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
+		.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
 		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"))
+		.reply(200, loader.json("test/fixtures/client/delegates-2.json"))
 		.get("/api/ipfs/QmR45FmbVVrixReBwJkhEKde2qwHYaQzGxu4ZoDeswuF9c")
 		.reply(200, { data: "ipfs-content" })
 		// CryptoCompare
 		.get("/data/dayAvg")
 		.query(true)
-		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })
 		.get("/data/histoday")
 		.query(true)
-		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
+		.reply(200, loader.json("test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
 
-	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+	context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 
-	profile.settings().set(ProfileSetting.Name, "John Doe");
-	profile.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
-	profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+	context.profile.settings().set(ProfileSetting.Name, "John Doe");
+	context.profile.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
+	context.profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+	context.wallet = await importByMnemonic(context.profile, mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = stub(wallet.network(), "isLive").returnValue(true);
-	testSpy = stub(wallet.network(), "isTest").returnValue(false);
+	context.liveSpy = stub(context.wallet.network(), "isLive").returnValue(true);
+	context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 };
 
-describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it, assert, stub, spy, nock }) => {
-	beforeEach(async () => {
-		await beforeEachCallback(nock, stub);
+describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, stub, spy, loader, nock }) => {
+	beforeEach(async (context) => {
+		await beforeEachCallback(context, { loader, nock, stub });
 
-		subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData);
+		context.subject = createSubject(context.wallet, undefined, ExtendedConfirmedTransactionData);
 	});
 
-	it("should have an explorer link", () => {
-		assert.is(subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
+	it("should have an explorer link", (context) => {
+		assert.is(context.subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
 	});
 
-	it("should have an explorer block link", () => {
-		assert.is(subject.explorerLinkForBlock(), "https://dexplorer.ark.io/block/transactionBlockId");
+	it("should have an explorer block link", (context) => {
+		assert.is(context.subject.explorerLinkForBlock(), "https://dexplorer.ark.io/block/transactionBlockId");
 	});
 
-	it("should have an explorer block link for undefined block", () => {
-		subject = createSubject(
-			wallet,
+	it("should have an explorer block link for undefined block", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				...subject,
-				blockId: () => undefined,
+				...context.subject,
+				blockId: () => {},
 			},
 			ExtendedConfirmedTransactionData,
 		);
@@ -118,80 +113,80 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.undefined(subject.explorerLinkForBlock());
 	});
 
-	it("should have a type", () => {
-		assert.is(subject.type(), "some type");
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "some type");
 	});
 
-	it("should have a timestamp", () => {
-		assert.undefined(subject.timestamp());
+	it("should have a timestamp", (context) => {
+		assert.undefined(context.subject.timestamp());
 	});
 
-	it("should have confirmations", () => {
-		assert.equal(subject.confirmations(), BigNumber.make(20));
+	it("should have confirmations", (context) => {
+		assert.equal(context.subject.confirmations(), BigNumber.make(20));
 	});
 
-	it("should have a sender", () => {
-		assert.is(subject.sender(), "sender");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "sender");
 	});
 
-	it("should have a recipient", () => {
-		assert.is(subject.recipient(), "recipient");
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "recipient");
 	});
 
-	it("should have a recipients", () => {
-		assert.instance(subject.recipients(), Array);
-		assert.is(subject.recipients().length, 0);
+	it("should have a recipients", (context) => {
+		assert.instance(context.subject.recipients(), Array);
+		assert.is(context.subject.recipients().length, 0);
 	});
 
-	it("should have an amount", () => {
-		assert.equal(subject.amount(), 18);
+	it("should have an amount", (context) => {
+		assert.equal(context.subject.amount(), 18);
 	});
 
-	skip("should have a converted amount", async () => {
-		subject = createSubject(
-			wallet,
+	skip("should have a converted amount", async (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				timestamp: () => DateTime.make(),
 				amount: () => BigNumber.make(10e8, 8),
-			},
-			ExtendedConfirmedTransactionData,
-		);
-
-		await container.get(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
-
-		assert.is(subject.convertedAmount(), 0.0005048);
-	});
-
-	it("should have a default converted amount", () => {
-		assert.equal(subject.convertedAmount(), 0);
-	});
-
-	it("should have a fee", () => {
-		assert.equal(subject.fee(), 2);
-	});
-
-	skip("should have a converted fee", async () => {
-		subject = createSubject(
-			wallet,
-			{
 				timestamp: () => DateTime.make(),
-				fee: () => BigNumber.make(10e8, 8),
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		await container.get(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
 
-		assert.is(subject.convertedFee(), 0.0005048);
+		assert.is(subject.convertedAmount(), 0.000_504_8);
 	});
 
-	it("should have a default converted fee", () => {
-		assert.equal(subject.convertedFee(), 0);
+	it("should have a default converted amount", (context) => {
+		assert.equal(context.subject.convertedAmount(), 0);
 	});
 
-	it("#toObject", () => {
-		subject = createSubject(
-			wallet,
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.fee(), 2);
+	});
+
+	skip("should have a converted fee", async (context) => {
+		const subject = createSubject(
+			context.wallet,
+			{
+				fee: () => BigNumber.make(10e8, 8),
+				timestamp: () => DateTime.make(),
+			},
+			ExtendedConfirmedTransactionData,
+		);
+
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
+
+		assert.is(subject.convertedFee(), 0.000_504_8);
+	});
+
+	it("should have a default converted fee", (context) => {
+		assert.equal(context.subject.convertedFee(), 0);
+	});
+
+	it("#toObject", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				toObject: () => ({
 					key: "value",
@@ -205,9 +200,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		});
 	});
 
-	it("#memo", () => {
-		subject = createSubject(
-			wallet,
+	it("#memo", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				memo: () => "memo",
 			},
@@ -217,9 +212,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.is(subject.memo(), "memo");
 	});
 
-	it("#inputs", () => {
-		subject = createSubject(
-			wallet,
+	it("#inputs", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				inputs: () => [{}, {}, {}],
 			},
@@ -229,9 +224,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.length(subject.inputs(), 3);
 	});
 
-	it("#outputs", () => {
-		subject = createSubject(
-			wallet,
+	it("#outputs", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				outputs: () => [{}, {}, {}],
 			},
@@ -241,9 +236,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.length(subject.outputs(), 3);
 	});
 
-	it("should not throw if transaction type does not have memo", () => {
+	it("should not throw if transaction type does not have memo", (context) => {
 		const subject = createSubject(
-			wallet,
+			context.wallet,
 			{
 				memo: undefined,
 			},
@@ -254,9 +249,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.undefined(subject.memo());
 	});
 
-	it("#hasPassed", () => {
-		subject = createSubject(
-			wallet,
+	it("#hasPassed", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				hasPassed: () => true,
 			},
@@ -266,13 +261,13 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.true(subject.hasPassed());
 	});
 
-	it("coin", () => {
-		assert.is(subject.coin(), wallet.coin());
+	it("coin", (context) => {
+		assert.is(context.subject.coin(), context.wallet.coin());
 	});
 
-	it("#hasFailed", () => {
-		subject = createSubject(
-			wallet,
+	it("#hasFailed", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				hasFailed: () => true,
 			},
@@ -282,9 +277,9 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.true(subject.hasFailed());
 	});
 
-	it("#isReturn", () => {
-		subject = createSubject(
-			wallet,
+	it("#isReturn", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				isReturn: () => true,
 			},
@@ -294,11 +289,11 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.true(subject.isReturn());
 	});
 
-	it("#getMeta | #setMeta", () => {
+	it("#getMeta | #setMeta", (context) => {
 		const getMeta = spy();
 		const setMeta = spy();
 
-		subject = createSubject(wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
+		const subject = createSubject(context.wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
 
 		subject.getMeta("key");
 		subject.setMeta("key", "value");
@@ -307,35 +302,34 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.true(setMeta.callCount > 0);
 	});
 
-	it("should not have a memo", () => {
-		assert.is(subject.memo(), "memo");
+	it("should not have a memo", (context) => {
+		assert.is(context.subject.memo(), "memo");
 	});
 
-	it("should have a total for sent", () => {
-		assert.equal(subject.total(), 20);
+	it("should have a total for sent", (context) => {
+		assert.equal(context.subject.total(), 20);
 	});
 
-	it("should have a total for unsent", () => {
-		// @ts-ignore
-		subject = new ExtendedConfirmedTransactionData(wallet, {
+	it("should have a total for unsent", (context) => {
+		const subject = new ExtendedConfirmedTransactionData(context.wallet, {
 			amount: () => BigNumber.make(18e8, 8),
 			fee: () => BigNumber.make(2e8, 8),
-			isSent: () => false,
 			isMultiPayment: () => false,
+			isSent: () => false,
 		});
+
 		assert.equal(subject.total(), 18);
 	});
 
-	it("should calculate total amount of the multi payments for unsent", () => {
-		// @ts-ignore
-		subject = new ExtendedConfirmedTransactionData(wallet, {
+	it("should calculate total amount of the multi payments for unsent", (context) => {
+		const subject = new ExtendedConfirmedTransactionData(context.wallet, {
 			amount: () => BigNumber.make(18e8, 8),
 			fee: () => BigNumber.make(2e8, 8),
-			isSent: () => false,
 			isMultiPayment: () => true,
+			isSent: () => false,
 			recipients: () => [
 				{
-					address: wallet.address(),
+					address: context.wallet.address(),
 					amount: BigNumber.make(5e8, 8),
 				},
 				{
@@ -343,7 +337,7 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 					amount: BigNumber.make(6e8, 8),
 				},
 				{
-					address: wallet.address(),
+					address: context.wallet.address(),
 					amount: BigNumber.make(7e8, 8),
 				},
 			],
@@ -353,33 +347,33 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 		assert.equal(subject.total(), 12);
 	});
 
-	skip("should have a converted total", async () => {
-		subject = createSubject(
-			wallet,
+	skip("should have a converted total", async (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				timestamp: () => DateTime.make(),
 				amount: () => BigNumber.make(10e8, 8),
 				fee: () => BigNumber.make(5e8, 8),
+				timestamp: () => DateTime.make(),
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		await container.get(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
 
-		assert.is(subject.convertedTotal(), 0.0007572);
+		assert.is(subject.convertedTotal(), 0.000_757_2);
 	});
 
-	it("should have a default converted total", () => {
-		assert.equal(subject.convertedTotal(), 0);
+	it("should have a default converted total", (context) => {
+		assert.equal(context.subject.convertedTotal(), 0);
 	});
 
-	it("should have meta", () => {
-		assert.equal(subject.getMeta("someKey"), "some meta");
+	it("should have meta", (context) => {
+		assert.equal(context.subject.getMeta("someKey"), "some meta");
 	});
 
-	it("should change meta", () => {
-		subject.setMeta("someKey", "another meta");
-		assert.equal(subject.getMeta("someKey"), "another meta");
+	it("should change meta", (context) => {
+		context.subject.setMeta("someKey", "another meta");
+		assert.equal(context.subject.getMeta("someKey"), "another meta");
 	});
 
 	const data = [
@@ -406,20 +400,20 @@ describe("ExtendedConfirmedTransactionData", ({ afterEach, beforeEach, skip, it,
 	];
 
 	const dummyTransactionData = {
-		isMagistrate: () => false,
+		hasPassed: () => false,
 		isDelegateRegistration: () => false,
 		isDelegateResignation: () => false,
 		isHtlcClaim: () => false,
 		isHtlcLock: () => false,
 		isHtlcRefund: () => false,
 		isIpfs: () => false,
+		isMagistrate: () => false,
 		isMultiPayment: () => false,
 		isMultiSignatureRegistration: () => false,
 		isSecondSignature: () => false,
 		isTransfer: () => false,
-		isVote: () => false,
 		isUnvote: () => false,
-		hasPassed: () => false,
+		isVote: () => false,
 	};
 
 	// it.each(data)(`should delegate %p correctly`, (functionName) => {
