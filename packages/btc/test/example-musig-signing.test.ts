@@ -1,18 +1,15 @@
-import "jest-extended";
-
-import nock from "nock";
-import { nativeSegwitMusig, rootKeyToAccountKey } from "../source/address.domain";
+import { describe } from "@payvo/sdk-test";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
-import { musig } from "./fixtures/musig";
 import { convertString } from "@payvo/sdk-helpers";
-import { signatureValidator, signWith } from "../source/helpers";
 
-beforeEach(async () => {});
+import { nativeSegwitMusig, rootKeyToAccountKey } from "../source/address.domain";
+import { musig } from "./fixtures/musig";
+import { signatureValidator, signWith } from "../source/helpers";
 
 const network = bitcoin.networks.testnet;
 
-describe("example code using bitcoinjs-lib", () => {
+describe("example code using bitcoinjs-lib", ({ assert, it }) => {
 	const rootKeys = musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, network));
 
 	const accountKeys = rootKeys.map((rootKey) => rootKeyToAccountKey(rootKey, "m/48'/1'/0'/2'"));
@@ -96,14 +93,14 @@ describe("example code using bitcoinjs-lib", () => {
 
 		// Finalizer needs to check all signatures are valid before finalizing.
 		// let validator: ValidateSigFunction = (pubkey: Buffer, msghash: Buffer, signature: Buffer) => true;
-		expect(psbt.validateSignaturesOfInput(0, signatureValidator)).toBeTrue();
-		expect(psbt.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(psbt.validateSignaturesOfInput(0, signatureValidator));
+		assert.true(psbt.validateSignaturesOfAllInputs(signatureValidator));
 
 		// Finalizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();
 
 		// Build and check the hex
-		expect(psbt.extractTransaction().toHex()).toBe(
+		assert.is(psbt.extractTransaction().toHex(),
 			"0200000000010106d3da99cdc6d87d89a1c0196ea105aa62ba0a431f163ed981a456646a3a067b0100000000ffffffff02f08101000000000017a9141fa993e76d714a6b603abea2361c20c0c7f003bb87c80000000000000022002081051a0839e678ede25d0fa89fa0b1dcc8a44fcc8f0739bb35b3e83c4d930d700400473044022021bebb78ceb2fa6710e7eca289277f5d35e1d7822218cab21d0505194e47ac920220252dcac4356c7180fe46ecc0b101fb67e38f12009a07f1ba6de952be24017f120147304402205150444107b40c102ae1455fe7099653216de2eba83009105722e5d879e2be9602200443f5866804005e0f37dcf7b343ad56c137b9c49eaaf19e54b5c52a5561b6ca016952210314e9ec814e8f5c7e7b16e17a0a8a65efea64c88f01085aaed41ebac7df9bf6e121032b0996a84fb0449a899616ca746c8e6cfc5d8f823114ba6bd7aed5b4e90442e221033830fa105ee889ae98074506e9d5f1153aafa64fa828904843204564f95a492653ae00000000",
 		);
 	});
@@ -184,14 +181,14 @@ describe("example code using bitcoinjs-lib", () => {
 		psbt.combine(final1, final2);
 
 		// Finalizer needs to check all signatures are valid before finalizing.
-		expect(psbt.validateSignaturesOfInput(0, signatureValidator)).toBeTrue();
-		expect(psbt.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(psbt.validateSignaturesOfInput(0, signatureValidator));
+		assert.true(psbt.validateSignaturesOfAllInputs(signatureValidator));
 
 		// Finalizing creates the scriptSig and witness stack
 		psbt.finalizeAllInputs();
 
 		// Build and check the hex
-		expect(psbt.extractTransaction().toHex()).toBe(
+		assert.is(psbt.extractTransaction().toHex(),
 			"0200000000010106d3da99cdc6d87d89a1c0196ea105aa62ba0a431f163ed981a456646a3a067b0100000000ffffffff02f08101000000000017a9141fa993e76d714a6b603abea2361c20c0c7f003bb87c80000000000000022002081051a0839e678ede25d0fa89fa0b1dcc8a44fcc8f0739bb35b3e83c4d930d700400473044022021bebb78ceb2fa6710e7eca289277f5d35e1d7822218cab21d0505194e47ac920220252dcac4356c7180fe46ecc0b101fb67e38f12009a07f1ba6de952be24017f120147304402205150444107b40c102ae1455fe7099653216de2eba83009105722e5d879e2be9602200443f5866804005e0f37dcf7b343ad56c137b9c49eaaf19e54b5c52a5561b6ca016952210314e9ec814e8f5c7e7b16e17a0a8a65efea64c88f01085aaed41ebac7df9bf6e121032b0996a84fb0449a899616ca746c8e6cfc5d8f823114ba6bd7aed5b4e90442e221033830fa105ee889ae98074506e9d5f1153aafa64fa828904843204564f95a492653ae00000000",
 		);
 	});

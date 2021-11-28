@@ -16,7 +16,8 @@
 		"build:webpack": "webpack --config ../../webpack.config.cjs",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source .test.js",
+		"test": "uvu -r tsm source .test.ts",
+		"test:integration": "uvu -r tsm test .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
