@@ -39,7 +39,6 @@ const network: Networks.NetworkManifest = {
 	importMethods,
 	meta: {
 		assetId: "FvwEAhmxKfeiG8SnEvq42hc6whRyY3EFYAvebMqDNDGCgxN5Z",
-
 		blockchainId: "2oYMBNV4eNHyqk2fjjV5nVQLDbtmNJzq5s3qs3Lo6ftnC6FByM",
 		// @TODO
 		networkId: "1",
