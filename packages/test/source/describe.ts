@@ -1,5 +1,5 @@
-import { spy } from "sinon";
-import { Context, suite, Test } from "uvu";
+import { SinonSpyStatic, spy } from "sinon";
+import { Callback, Context, suite, Test } from "uvu";
 import { z as schema } from "zod";
 
 import { assert } from "./assert.js";
@@ -11,7 +11,27 @@ import { nock } from "./nock.js";
 
 type ContextFunction = () => Context;
 
-const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
+interface CallbackArguments {
+	afterAll: (callback_: Function) => void;
+	afterEach: (callback_: Function) => void;
+	assert: typeof assert;
+	beforeAll: (callback_: Function) => void;
+	beforeEach: (callback_: Function) => void;
+	dataset: unknown;
+	each: (name: string, callback: Callback<any>, datasets: unknown[]) => void;
+	it: Test;
+	loader: typeof loader;
+	nock: typeof nock;
+	only: Function;
+	schema: typeof schema;
+	skip: Function;
+	spy: SinonSpyStatic;
+	stub: (owner: object, method: string) => Stub;
+}
+
+type CallbackFunction = (args: CallbackArguments) => {};
+
+const runSuite = (suite: Test, callback: CallbackFunction, dataset?: unknown): void => {
 	let stubs: Stub[] = [];
 
 	suite.before(() => {
@@ -54,18 +74,17 @@ const runSuite = (suite: Test, callback: Function, dataset?: unknown): void => {
 
 			return result;
 		},
-		test: suite,
 	});
 
 	suite.run();
 };
 
-export const describe = (title: string, callback: Function): void => runSuite(suite(title), callback);
+export const describe = (title: string, callback: CallbackFunction): void => runSuite(suite(title), callback);
 
-export const describeWithContext = (title: string, context: Context | ContextFunction, callback: Function): void =>
+export const describeWithContext = (title: string, context: Context | ContextFunction, callback: CallbackFunction): void =>
 	runSuite(suite(title, typeof context === "function" ? context() : context), callback);
 
-export const describeEach = (title: string, callback: Function, datasets: unknown[]): void => {
+export const describeEach = (title: string, callback: CallbackFunction, datasets: unknown[]): void => {
 	for (const dataset of datasets) {
 		runSuite(suite(formatName(title, dataset)), callback);
 	}

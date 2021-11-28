@@ -1,6 +1,6 @@
 import { format as concordance } from "concordance";
 import { format } from "string-kit";
-import { Callback, Context, Test, test } from "uvu";
+import { Callback, Context, Test } from "uvu";
 
 export const formatName = (name: string, dataset: unknown): string => format(name, concordance(dataset));
 
