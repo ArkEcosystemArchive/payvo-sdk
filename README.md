@@ -12,8 +12,6 @@ Documentation can be found [here](https://ark.dev/docs/payvo-sdk).
 
 ## Development
 
-> If you plan to contribute you'll need to ensure that you follow our [naming conventions](./NAMING_CONVENTIONS.md).
-
 [pnpm](https://pnpm.js.org/en/) is required to be installed before starting. It is used to manage this monorepo.
 
 ### Apply `eslint` rules to source
