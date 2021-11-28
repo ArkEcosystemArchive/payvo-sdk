@@ -81,8 +81,11 @@ const runSuite = (suite: Test, callback: CallbackFunction, dataset?: unknown): v
 
 export const describe = (title: string, callback: CallbackFunction): void => runSuite(suite(title), callback);
 
-export const describeWithContext = (title: string, context: Context | ContextFunction, callback: CallbackFunction): void =>
-	runSuite(suite(title, typeof context === "function" ? context() : context), callback);
+export const describeWithContext = (
+	title: string,
+	context: Context | ContextFunction,
+	callback: CallbackFunction,
+): void => runSuite(suite(title, typeof context === "function" ? context() : context), callback);
 
 export const describeEach = (title: string, callback: CallbackFunction, datasets: unknown[]): void => {
 	for (const dataset of datasets) {
