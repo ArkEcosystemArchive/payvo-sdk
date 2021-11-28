@@ -37,7 +37,7 @@ const createSubject = (wallet, properties, klass) => {
 		setMeta: (key, value) => {
 			meta = value;
 		},
-		timestamp: () => { },
+		timestamp: () => {},
 		toObject: () => ({}),
 		type: () => "some type",
 		...properties,
@@ -85,7 +85,6 @@ const beforeEachCallback = async (context, { loader, nock, stub }) => {
 	context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 };
 
-
 describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, stub, spy, loader, nock }) => {
 	beforeEach(async (context) => {
 		await beforeEachCallback(context, { loader, nock, stub });
@@ -106,7 +105,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 			context.wallet,
 			{
 				...context.subject,
-				blockId: () => { },
+				blockId: () => {},
 			},
 			ExtendedConfirmedTransactionData,
 		);

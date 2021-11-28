@@ -584,7 +584,10 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 		const id = "46343c36bf7497b68e14d4c0fd713e41a737841b6a858fa41ef0eab6c4647938";
 
 		await context.subject.sync();
-		const mockNeedsWalletSignature = stub(context.wallet.coin().multiSignature(), "needsWalletSignature").returnValue(true);
+		const mockNeedsWalletSignature = stub(
+			context.wallet.coin().multiSignature(),
+			"needsWalletSignature",
+		).returnValue(true);
 
 		assert.true(
 			context.subject.isAwaitingSignatureByPublicKey(
@@ -936,7 +939,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each, nock, assert, load
 		context.subject = new TransactionService(context.wallet);
 	});
 
-	afterEach(() => { });
+	afterEach(() => {});
 
 	each(
 		"should create a transfer for %s",

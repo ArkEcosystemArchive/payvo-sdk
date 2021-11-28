@@ -85,7 +85,10 @@ describe("TransactionIndex", ({ beforeAll, beforeEach, nock, assert, it, loader 
 	});
 
 	it("received", async (context) => {
-		assert.instance(await context.subject.transactionIndex().received(), ExtendedConfirmedTransactionDataCollection);
+		assert.instance(
+			await context.subject.transactionIndex().received(),
+			ExtendedConfirmedTransactionDataCollection,
+		);
 	});
 
 	it("should fetch transaction by id", async (context) => {
@@ -97,7 +100,9 @@ describe("TransactionIndex", ({ beforeAll, beforeEach, nock, assert, it, loader 
 	it("should fetch transactions by id", async (context) => {
 		const transactionId = "3e0b2e5ed00b34975abd6dee0ca5bd5560b5bd619b26cf6d8f70030408ec5be3";
 		const secondaryTransactionId = "bb9004fa874b534905f9eff201150f7f982622015f33e076c52f1e945ef184ed";
-		const transactions = await context.subject.transactionIndex().findByIds([transactionId, secondaryTransactionId]);
+		const transactions = await context.subject
+			.transactionIndex()
+			.findByIds([transactionId, secondaryTransactionId]);
 
 		assert.is(transactions.length, 2);
 

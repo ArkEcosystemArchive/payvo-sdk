@@ -410,7 +410,10 @@ describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) =
 	});
 
 	it("should return explorer link", (context) => {
-		assert.is(context.subject.explorerLink(), "https://dexplorer.ark.io/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+		assert.is(
+			context.subject.explorerLink(),
+			"https://dexplorer.ark.io/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+		);
 	});
 
 	it("should turn into an object", (context) => {

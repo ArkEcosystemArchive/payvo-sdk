@@ -162,7 +162,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 
 		context.subject.signingKey().set(identity.mnemonic, "password");
 
-		const {address} = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
+		const { address } = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
 
 		stub(context.subject, "address").returnValueOnce(address);
 		stub(context.subject, "isSecondSignature").returnValueOnce(false);
@@ -182,7 +182,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 		context.subject.signingKey().set(identity.mnemonic, "password");
 		context.subject.confirmKey().set(identity.secondMnemonic, "password");
 
-		const {address} = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
+		const { address } = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
 
 		stub(context.subject, "address").returnValueOnce(address);
 		stub(context.subject, "isSecondSignature").returnValueOnce(true);
@@ -203,7 +203,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 
 		context.subject.signingKey().set("secret", "password");
 
-		const {address} = await context.subject.coin().address().fromSecret("secret");
+		const { address } = await context.subject.coin().address().fromSecret("secret");
 
 		stub(context.subject, "address").returnValueOnce(address);
 		stub(context.subject, "isSecondSignature").returnValueOnce(false);
@@ -223,7 +223,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 		context.subject.signingKey().set("secret", "password");
 		context.subject.confirmKey().set("second-secret", "password");
 
-		const {address} = await context.subject.coin().address().fromSecret("secret");
+		const { address } = await context.subject.coin().address().fromSecret("secret");
 
 		stub(context.subject, "address").returnValueOnce(address);
 		stub(context.subject, "isSecondSignature").returnValueOnce(true);

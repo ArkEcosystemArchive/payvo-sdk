@@ -8,15 +8,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { WalletSynchroniser } from "./wallet.synchroniser";
 
-describe("WalletSynchroniser", ({
-	beforeAll,
-	beforeEach,
-	loader,
-	nock,
-	assert,
-	stub,
-	it,
-}) => {
+describe("WalletSynchroniser", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll(() => bootContainer());
 
 	beforeEach(async (context) => {

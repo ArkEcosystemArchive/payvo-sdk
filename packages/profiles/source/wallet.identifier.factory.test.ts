@@ -9,15 +9,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { WalletIdentifierFactory } from "./wallet.identifier.factory";
 
-describe("WalletIdentifierFactory", ({
-	beforeAll,
-	beforeEach,
-	loader,
-	nock,
-	assert,
-	stub,
-	it,
-}) => {
+describe("WalletIdentifierFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll(() => {
 		bootContainer();
 	});

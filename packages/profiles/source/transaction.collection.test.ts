@@ -12,7 +12,12 @@ const dummy = {
 
 describe("ExtendedConfirmedTransactionDataCollection", ({ beforeAll, beforeEach, loader, nock, assert, it, stub }) => {
 	beforeEach((context) => {
-		context.subject = new ExtendedConfirmedTransactionDataCollection([dummy], { last: 3, next: 3, prev: 1, self: 2 });
+		context.subject = new ExtendedConfirmedTransactionDataCollection([dummy], {
+			last: 3,
+			next: 3,
+			prev: 1,
+			self: 2,
+		});
 	});
 
 	it("#findById", (context) => {

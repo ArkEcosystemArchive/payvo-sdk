@@ -11,87 +11,90 @@ import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collec
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 import { transformConfirmedTransactionDataCollection } from "./transaction.mapper";
 
-
-describeWithContext("TransactionMapper", {
-	data: [
-		[ExtendedConfirmedTransactionData, "isDelegateRegistration"],
-		[ExtendedConfirmedTransactionData, "isDelegateResignation"],
-		[ExtendedConfirmedTransactionData, "isHtlcClaim"],
-		[ExtendedConfirmedTransactionData, "isHtlcLock"],
-		[ExtendedConfirmedTransactionData, "isHtlcRefund"],
-		[ExtendedConfirmedTransactionData, "isIpfs"],
-		[ExtendedConfirmedTransactionData, "isMultiPayment"],
-		[ExtendedConfirmedTransactionData, "isMultiSignatureRegistration"],
-		[ExtendedConfirmedTransactionData, "isSecondSignature"],
-		[ExtendedConfirmedTransactionData, "isTransfer"],
-		[ExtendedConfirmedTransactionData, "isVote"],
-		[ExtendedConfirmedTransactionData, "isUnvote"],
-		[ExtendedConfirmedTransactionData, "isOther"],
-	],
-	dummyTransactionData: {
-		isDelegateRegistration: () => false,
-		isDelegateResignation: () => false,
-		isHtlcClaim: () => false,
-		isHtlcLock: () => false,
-		isHtlcRefund: () => false,
-		isIpfs: () => false,
-		isMagistrate: () => false,
-		isMultiPayment: () => false,
-		isMultiSignatureRegistration: () => false,
-		isSecondSignature: () => false,
-		isTransfer: () => false,
-		isUnvote: () => false,
-		isVote: () => false,
+describeWithContext(
+	"TransactionMapper",
+	{
+		data: [
+			[ExtendedConfirmedTransactionData, "isDelegateRegistration"],
+			[ExtendedConfirmedTransactionData, "isDelegateResignation"],
+			[ExtendedConfirmedTransactionData, "isHtlcClaim"],
+			[ExtendedConfirmedTransactionData, "isHtlcLock"],
+			[ExtendedConfirmedTransactionData, "isHtlcRefund"],
+			[ExtendedConfirmedTransactionData, "isIpfs"],
+			[ExtendedConfirmedTransactionData, "isMultiPayment"],
+			[ExtendedConfirmedTransactionData, "isMultiSignatureRegistration"],
+			[ExtendedConfirmedTransactionData, "isSecondSignature"],
+			[ExtendedConfirmedTransactionData, "isTransfer"],
+			[ExtendedConfirmedTransactionData, "isVote"],
+			[ExtendedConfirmedTransactionData, "isUnvote"],
+			[ExtendedConfirmedTransactionData, "isOther"],
+		],
+		dummyTransactionData: {
+			isDelegateRegistration: () => false,
+			isDelegateResignation: () => false,
+			isHtlcClaim: () => false,
+			isHtlcLock: () => false,
+			isHtlcRefund: () => false,
+			isIpfs: () => false,
+			isMagistrate: () => false,
+			isMultiPayment: () => false,
+			isMultiSignatureRegistration: () => false,
+			isSecondSignature: () => false,
+			isTransfer: () => false,
+			isUnvote: () => false,
+			isVote: () => false,
+		},
 	},
-}, ({ assert, beforeAll, it, nock, loader }) => {
-	beforeAll(async (context) => {
-		bootContainer();
+	({ assert, beforeAll, it, nock, loader }) => {
+		beforeAll(async (context) => {
+			bootContainer();
 
-		nock.fake()
-			.get("/api/peers")
-			.reply(200, loader.json("test/fixtures/client/peers.json"))
-			.get("/api/node/configuration/crypto")
-			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
-			.get("/api/node/syncing")
-			.reply(200, loader.json("test/fixtures/client/syncing.json"))
-			.persist();
+			nock.fake()
+				.get("/api/peers")
+				.reply(200, loader.json("test/fixtures/client/peers.json"))
+				.get("/api/node/configuration/crypto")
+				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+				.get("/api/node/syncing")
+				.reply(200, loader.json("test/fixtures/client/syncing.json"))
+				.persist();
 
-		context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-		context.profile.settings().set(ProfileSetting.Name, "John Doe");
+			context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+			context.profile.settings().set(ProfileSetting.Name, "John Doe");
 
-		context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
-			coin: "ARK",
-			mnemonic: identity.mnemonic,
-			network: "ark.devnet",
-		});
-	});
-
-	// it.each(data)(`should map %p correctly`, (className, functionName) => {
-	// 	assert.instance(
-	// 		transformTransactionData(wallet, {
-	// 			...dummyTransactionData,
-	// 			[String(functionName)]: () => true,
-	// 		}),
-	// 		className,
-	// 	);
-	// });
-
-	it("should map collection correctly", (context) => {
-		const pagination = {
-			last: "last",
-			next: "after",
-			prev: "before",
-			self: "now",
-		};
-
-		const transactionData = new ExtendedConfirmedTransactionData(context.wallet, {
-			isMagistrate: () => true,
+			context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
+				coin: "ARK",
+				mnemonic: identity.mnemonic,
+				network: "ark.devnet",
+			});
 		});
 
-		const collection = new Collections.ConfirmedTransactionDataCollection([transactionData], pagination);
+		// it.each(data)(`should map %p correctly`, (className, functionName) => {
+		// 	assert.instance(
+		// 		transformTransactionData(wallet, {
+		// 			...dummyTransactionData,
+		// 			[String(functionName)]: () => true,
+		// 		}),
+		// 		className,
+		// 	);
+		// });
 
-		const transformedCollection = transformConfirmedTransactionDataCollection(context.wallet, collection);
-		assert.instance(transformedCollection, ExtendedConfirmedTransactionDataCollection);
-		assert.is(transformedCollection.getPagination(), pagination);
-	});
-});
+		it("should map collection correctly", (context) => {
+			const pagination = {
+				last: "last",
+				next: "after",
+				prev: "before",
+				self: "now",
+			};
+
+			const transactionData = new ExtendedConfirmedTransactionData(context.wallet, {
+				isMagistrate: () => true,
+			});
+
+			const collection = new Collections.ConfirmedTransactionDataCollection([transactionData], pagination);
+
+			const transformedCollection = transformConfirmedTransactionDataCollection(context.wallet, collection);
+			assert.instance(transformedCollection, ExtendedConfirmedTransactionDataCollection);
+			assert.is(transformedCollection.getPagination(), pagination);
+		});
+	},
+);
