@@ -32,7 +32,7 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -82,7 +82,7 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -102,7 +102,7 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -112,6 +112,11 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 	});
 
 	it("should calculate fee for transfer", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.persist();
+
 		const transaction = await service.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -140,6 +145,11 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 	});
 
 	it("should calculate fee for delegateRegistration", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.persist();
+
 		const transaction = await service.delegateRegistration({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -273,6 +283,11 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 	});
 
 	it("should calculate fee for vote", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.persist();
+
 		const transaction = await service.vote({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -305,6 +320,11 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 	});
 
 	it("should calculate fee for unlockToken", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+			.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+			.persist();
+
 		const transaction = await service.unlockToken({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({

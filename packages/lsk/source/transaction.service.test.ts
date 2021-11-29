@@ -54,7 +54,7 @@ describeWithContext(
 				);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -77,7 +77,7 @@ describeWithContext(
 				);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(BindingType.AssetSerializer, AssetSerializer);
@@ -91,6 +91,11 @@ describeWithContext(
 		});
 
 		it("#transfer", async (context) => {
+			nock.fake(/.+/)
+				.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.persist();
+
 			const result = await context.subject.transfer({
 				signatory: new Signatories.Signatory(
 					new Signatories.MnemonicSignatory({
@@ -112,6 +117,11 @@ describeWithContext(
 		});
 
 		it("delegateRegistration - should verify", async (context) => {
+			nock.fake(/.+/)
+				.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.persist();
+
 			const result = await context.subject.delegateRegistration({
 				fee: 10,
 				signatory: new Signatories.Signatory(
@@ -132,6 +142,11 @@ describeWithContext(
 		});
 
 		it("vote - should verify", async (context) => {
+			nock.fake(/.+/)
+				.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.persist();
+
 			const result = await context.subject.vote({
 				fee: 10,
 				signatory: new Signatories.Signatory(
@@ -163,6 +178,11 @@ describeWithContext(
 		});
 
 		it("should fail to vote with a number that is not a multiple of 10", async (context) => {
+			nock.fake(/.+/)
+				.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.persist();
+
 			await assert.rejects(
 				() =>
 					context.subject.vote({
@@ -273,11 +293,14 @@ describeWithContext(
 			);
 
 			assert.instance(transaction3, SignedTransactionData);
-
-			nock.enableNetConnect();
 		});
 
 		it("#unlockToken", async (context) => {
+			nock.fake(/.+/)
+				.get("/api/v2/accounts?address=lskw6h7zzen4f7n8k4ntwd9qtv62gexzv2rh7cb6h")
+				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+				.persist();
+
 			const result = await context.subject.unlockToken({
 				fee: 10,
 				signatory: new Signatories.Signatory(
