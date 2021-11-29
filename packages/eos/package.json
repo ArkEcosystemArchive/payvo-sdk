@@ -17,7 +17,7 @@
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build:release",
 		"release": "pnpm publish --access=public",
-		"release:next": "pnpm publish --access=public --tag=next",
+		"release:next": "pnpm publish --access=public --publish-branch=develop --tag=next",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
