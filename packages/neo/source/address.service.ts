@@ -1,4 +1,5 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { wallet } from "@cityofzion/neon-js";
+import { IoC, Services } from "@payvo/sdk";
 
 import { createWallet, deriveWallet } from "./utils.js";
 
@@ -48,6 +49,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return address.length === 34;
+		return wallet.isAddress(address);
 	}
 }
