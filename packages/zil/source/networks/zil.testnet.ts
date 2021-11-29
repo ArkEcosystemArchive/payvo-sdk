@@ -27,6 +27,7 @@ const network: Networks.NetworkManifest = {
 	],
 	id: "zil.testnet",
 	importMethods,
+	meta: { chainId: 333 },
 	name: "Testnet",
 	transactions,
 	type: "test",
