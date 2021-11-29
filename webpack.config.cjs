@@ -3,7 +3,7 @@ const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const ResolveTypeScriptPlugin = require("resolve-typescript-plugin").default;
 
 module.exports = {
-	target: ["web", "es6"],
+	target: ["web", "es2022"],
 	mode: "production",
 	entry: path.resolve(process.cwd(), "source/index.ts"),
 	experiments: {
