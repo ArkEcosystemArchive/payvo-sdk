@@ -12,8 +12,8 @@
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
-		"build:watch": "pnpm run clean && tsc -w",
 		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build:release",
 		"test": "uvu -r tsm source .test.ts",

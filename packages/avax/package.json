@@ -1,44 +1,44 @@
 {
-    "name": "@payvo/sdk-avax",
-    "version": "3.3.1",
-    "description": "Cross-Platform Utilities for Payvo Applications",
-    "license": "MIT",
-    "contributors": [],
-    "type": "module",
-    "exports": "./distribution/index.js",
-    "types": "./distribution/index.d.ts",
-    "files": [
-        "/distribution"
-    ],
-    "scripts": {
-        "build": "pnpm run clean && tsc",
-        "build:watch": "pnpm run clean && tsc -w",
-        "build:release": "webpack --config ../../webpack.config.cjs",
-        "clean": "rimraf .coverage distribution tmp",
-        "prepublishOnly": "pnpm run build:release",
-        "test": "uvu -r tsm source .test.ts",
-        "test:coverage": "c8 pnpm run test",
-        "test:watch": "watchlist source -- pnpm run test"
-    },
-    "dependencies": {
-        "@payvo/sdk": "workspace:*",
-        "@payvo/sdk-cryptography": "workspace:*",
-        "@payvo/sdk-helpers": "workspace:*",
-        "@payvo/sdk-intl": "workspace:*",
-        "avalanche": "^3.9.3",
-        "hdkey": "^2.0.1",
-        "isomorphic-dompurify": "^0.16.0"
-    },
-    "devDependencies": {
-        "@ledgerhq/hw-transport-mocker": "^6.11.2",
-        "@payvo/sdk-http-fetch": "workspace:*",
-        "@payvo/sdk-test": "workspace:*",
-        "@types/hdkey": "2.0.0",
-        "@types/node": "^16.11.10",
-        "got": "^11.8.3"
-    },
-    "engines": {
-        "node": ">=16.0.0"
-    },
-    "engineStrict": true
+	"name": "@payvo/sdk-avax",
+	"version": "3.3.1",
+	"description": "Cross-Platform Utilities for Payvo Applications",
+	"license": "MIT",
+	"contributors": [],
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
+	"files": [
+		"/distribution"
+	],
+	"scripts": {
+		"build": "pnpm run clean && tsc",
+		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
+		"clean": "rimraf .coverage distribution tmp",
+		"prepublishOnly": "pnpm run build:release",
+		"test": "uvu -r tsm source .test.ts",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
+	},
+	"dependencies": {
+		"@payvo/sdk": "workspace:*",
+		"@payvo/sdk-cryptography": "workspace:*",
+		"@payvo/sdk-helpers": "workspace:*",
+		"@payvo/sdk-intl": "workspace:*",
+		"avalanche": "^3.9.3",
+		"hdkey": "^2.0.1",
+		"isomorphic-dompurify": "^0.16.0"
+	},
+	"devDependencies": {
+		"@ledgerhq/hw-transport-mocker": "^6.11.2",
+		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-test": "workspace:*",
+		"@types/hdkey": "2.0.0",
+		"@types/node": "^16.11.10",
+		"got": "^11.8.3"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"engineStrict": true
 }

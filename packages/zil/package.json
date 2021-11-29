@@ -1,42 +1,42 @@
 {
-    "name": "@payvo/sdk-zil",
-    "version": "3.3.1",
-    "description": "Cross-Platform Utilities for Payvo Applications",
-    "license": "MIT",
-    "contributors": [],
-    "type": "module",
-    "exports": "./distribution/index.js",
-    "types": "./distribution/index.d.ts",
-    "files": [
-        "/distribution"
-    ],
-    "scripts": {
-        "build": "pnpm run clean && tsc",
-        "build:watch": "pnpm run clean && tsc -w",
-        "build:release": "webpack --config ../../webpack.config.cjs",
-        "clean": "rimraf .coverage distribution tmp",
-        "prepublishOnly": "pnpm run build:release",
-        "test": "uvu -r tsm source .test.ts",
-        "test:coverage": "c8 pnpm run test",
-        "test:watch": "watchlist source -- pnpm run test"
-    },
-    "dependencies": {
-        "@payvo/sdk": "workspace:*",
-        "@payvo/sdk-cryptography": "workspace:*",
-        "@payvo/sdk-helpers": "workspace:*",
-        "@payvo/sdk-intl": "workspace:*",
-        "@zilliqa-js/account": "^3.3.3",
-        "@zilliqa-js/util": "^3.3.3",
-        "@zilliqa-js/zilliqa": "^3.3.3"
-    },
-    "devDependencies": {
-        "@payvo/sdk-http-fetch": "workspace:*",
-        "@payvo/sdk-test": "workspace:*",
-        "@types/node": "^16.11.10",
-        "got": "^11.8.3"
-    },
-    "engines": {
-        "node": ">=16.0.0"
-    },
-    "engineStrict": true
+	"name": "@payvo/sdk-zil",
+	"version": "3.3.1",
+	"description": "Cross-Platform Utilities for Payvo Applications",
+	"license": "MIT",
+	"contributors": [],
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
+	"files": [
+		"/distribution"
+	],
+	"scripts": {
+		"build": "pnpm run clean && tsc",
+		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
+		"clean": "rimraf .coverage distribution tmp",
+		"prepublishOnly": "pnpm run build:release",
+		"test": "uvu -r tsm source .test.ts",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
+	},
+	"dependencies": {
+		"@payvo/sdk": "workspace:*",
+		"@payvo/sdk-cryptography": "workspace:*",
+		"@payvo/sdk-helpers": "workspace:*",
+		"@payvo/sdk-intl": "workspace:*",
+		"@zilliqa-js/account": "^3.3.3",
+		"@zilliqa-js/util": "^3.3.3",
+		"@zilliqa-js/zilliqa": "^3.3.3"
+	},
+	"devDependencies": {
+		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-test": "workspace:*",
+		"@types/node": "^16.11.10",
+		"got": "^11.8.3"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"engineStrict": true
 }
