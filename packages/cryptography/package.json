@@ -1,63 +1,63 @@
 {
-    "name": "@payvo/sdk-cryptography",
-    "version": "4.0.0-next.0",
-    "description": "Cross-Platform Utilities for Payvo Applications",
-    "license": "MIT",
-    "contributors": [],
-    "type": "module",
-    "exports": "./distribution/index.js",
-    "types": "./distribution/index.d.ts",
-    "files": [
-        "/distribution"
-    ],
-    "scripts": {
-        "build": "pnpm run clean && tsc",
-        "build:release": "webpack --config ../../webpack.config.cjs",
-        "build:watch": "pnpm run clean && tsc -w",
-        "clean": "rimraf .coverage distribution tmp",
-        "release": "pnpm publish --access=public",
-        "release:next": "pnpm publish --access=public --tag=next",
-        "prepublishOnly": "pnpm run build:release",
-        "test": "uvu -r tsm source .test.ts",
-        "test:coverage": "c8 pnpm run test",
-        "test:watch": "watchlist source -- pnpm run test"
-    },
-    "dependencies": {
-        "argon2-browser": "^1.18.0",
-        "bcryptjs": "^2.4.3",
-        "bcrypto": "^5.4.0",
-        "bech32": "^2.0.0",
-        "bip32": "^3.0.1",
-        "bip38": "^3.1.1",
-        "bip39": "^3.0.4",
-        "bstring": "^0.3.9",
-        "create-xpub": "^2.1.0",
-        "hdkey": "^2.0.1",
-        "node-forge": "^0.10.0",
-        "safe-buffer": "^5.2.1",
-        "string-crypto": "^2.0.2",
-        "tiny-secp256k1": "^2.1.2",
-        "uuid": "^8.3.2"
-    },
-    "devDependencies": {
-        "@payvo/sdk-test": "workspace:*",
-        "@types/argon2-browser": "1.18.1",
-        "@types/bcryptjs": "2.4.2",
-        "@types/benchmark": "^2.1.1",
-        "@types/bip38": "2.0.1",
-        "@types/create-xpub": "^2.1.1",
-        "@types/hdkey": "^2.0.0",
-        "@types/microtime": "^2.1.0",
-        "@types/node": "^16.11.10",
-        "@types/node-forge": "0.10.10",
-        "@types/uuid": "^8.3.3",
-        "@types/wif": "^2.0.2",
-        "benchmark": "^2.1.4",
-        "microtime": "^3.0.0",
-        "wif": "^2.0.6"
-    },
-    "engines": {
-        "node": ">=16.0.0"
-    },
-    "engineStrict": true
+	"name": "@payvo/sdk-cryptography",
+	"version": "4.0.0-next.0",
+	"description": "Cross-Platform Utilities for Payvo Applications",
+	"license": "MIT",
+	"contributors": [],
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
+	"files": [
+		"/distribution"
+	],
+	"scripts": {
+		"build": "pnpm run clean && tsc",
+		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
+		"clean": "rimraf .coverage distribution tmp",
+		"prepublishOnly": "pnpm run build:release",
+		"release": "pnpm publish --access=public",
+		"release:next": "pnpm publish --access=public --tag=next",
+		"test": "uvu -r tsm source .test.ts",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
+	},
+	"dependencies": {
+		"argon2-browser": "^1.18.0",
+		"bcryptjs": "^2.4.3",
+		"bcrypto": "^5.4.0",
+		"bech32": "^2.0.0",
+		"bip32": "^3.0.1",
+		"bip38": "^3.1.1",
+		"bip39": "^3.0.4",
+		"bstring": "^0.3.9",
+		"create-xpub": "^2.1.0",
+		"hdkey": "^2.0.1",
+		"node-forge": "^0.10.0",
+		"safe-buffer": "^5.2.1",
+		"string-crypto": "^2.0.2",
+		"tiny-secp256k1": "^2.1.2",
+		"uuid": "^8.3.2"
+	},
+	"devDependencies": {
+		"@payvo/sdk-test": "workspace:*",
+		"@types/argon2-browser": "1.18.1",
+		"@types/bcryptjs": "2.4.2",
+		"@types/benchmark": "^2.1.1",
+		"@types/bip38": "2.0.1",
+		"@types/create-xpub": "^2.1.1",
+		"@types/hdkey": "^2.0.0",
+		"@types/microtime": "^2.1.0",
+		"@types/node": "^16.11.10",
+		"@types/node-forge": "0.10.10",
+		"@types/uuid": "^8.3.3",
+		"@types/wif": "^2.0.2",
+		"benchmark": "^2.1.4",
+		"microtime": "^3.0.0",
+		"wif": "^2.0.6"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"engineStrict": true
 }

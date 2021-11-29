@@ -8,9 +8,9 @@
 		"lint": "eslint packages/**/source/**/*.ts --fix",
 		"lint:test": "eslint packages/**/source/**/*.test.js --fix --config=.eslintrc.test.json",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./packages/**/*.{ts,js,json,md}\"",
+		"rebuild": "ultra -r rebuild",
 		"release": "ultra -r release",
 		"release:next": "ultra -r release:next",
-		"rebuild": "ultra -r rebuild",
 		"sort-package-json": "sort-package-json package.json && sort-package-json packages/**/package.json",
 		"test": "ultra -r test"
 	},
