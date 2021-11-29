@@ -1,4 +1,4 @@
-name: CD
+name: CD (master)
 
 on:
     push:
@@ -38,6 +38,6 @@ jobs:
             - name: Install dependencies
               run: pnpm install
             - name: Build
-              run: pnpm run build:npm
+              run: pnpm run build:release
             - name: Publish
-              run: pnpm run publish
+              run: pnpm run release
