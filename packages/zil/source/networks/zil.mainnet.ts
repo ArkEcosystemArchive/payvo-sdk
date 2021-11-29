@@ -29,6 +29,7 @@ const network: Networks.NetworkManifest = {
 	name: "Mainnet",
 	transactions,
 	type: "live",
+	meta: { chainId: 1 },
 };
 
 export default network;

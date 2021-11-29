@@ -30,6 +30,7 @@ const network: Networks.NetworkManifest = {
 	name: "Testnet",
 	transactions,
 	type: "test",
+	meta: { chainId: 333 },
 };
 
 export default network;

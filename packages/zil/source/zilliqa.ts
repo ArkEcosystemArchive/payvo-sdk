@@ -4,20 +4,10 @@ import { BN, bytes, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 export const getZilliqaVersion = (config: Coins.ConfigRepository) => {
-	const id = config.get<string>("network.id");
-
-	let chainId: number | undefined;
-
-	if (id === "zil.testnet") {
-		chainId = 333;
-	}
-
-	if (id === "zil.mainnet") {
-		chainId = 1;
-	}
+	const chainId: number | undefined = config.get("meta.chainId");
 
 	if (!chainId) {
-		throw new Exceptions.Exception(`Add chainId for network ${id}`);
+		throw new Exceptions.Exception(`Add chainId for network ${chainId}`);
 	}
 
 	return bytes.pack(chainId, 1);
