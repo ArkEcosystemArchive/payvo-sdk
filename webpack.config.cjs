@@ -38,7 +38,7 @@ module.exports = {
 	},
 	optimization: {
 		minimize: process.env.NODE_ENV === "production",
-		sideEffects: true,
+		sideEffects: false,
 	},
 	performance: {
 		hints: "warning",
