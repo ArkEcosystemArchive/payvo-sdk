@@ -18,13 +18,14 @@ export const accountFromMnemonic = async (
 	mnemonic: string,
 	options?: Services.IdentityOptions,
 ): Promise<Account> => {
-	const index = options?.bip44?.addressIndex;
-	const address = zilliqa.wallet.addByMnemonic(mnemonic, index); // TODO: is second argument correct?
+	const address: string = zilliqa.wallet.addByMnemonic(mnemonic, options?.bip44?.addressIndex);
+
 	return zilliqa.wallet.accounts[address];
 };
 
 export const accountFromPrivateKey = async (zilliqa: Zilliqa, privateKey: string): Promise<Account> => {
-	const address = zilliqa.wallet.addByPrivateKey(privateKey);
+	const address: string = zilliqa.wallet.addByPrivateKey(privateKey);
+
 	return zilliqa.wallet.accounts[address];
 };
 
