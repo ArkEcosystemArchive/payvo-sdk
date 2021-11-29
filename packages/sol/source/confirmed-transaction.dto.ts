@@ -65,8 +65,8 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 			this.data.outputs <= 1
 				? BigNumber.ZERO
 				: this.bigNumberService.make(
-						this.data.outputs.sort((a, b) => a.index - b.index)[this.data.outputs.length - 1].value,
-				  );
+					this.data.outputs.sort((a, b) => a.index - b.index)[this.data.outputs.length - 1].value,
+				);
 
 		const netAmount = totalInput.minus(changeOutput).minus(this.fee());
 		return this.bigNumberService.make(netAmount);
