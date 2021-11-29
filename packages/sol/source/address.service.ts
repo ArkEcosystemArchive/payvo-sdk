@@ -1,4 +1,4 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { base58 } from "bstring";
 

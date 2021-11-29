@@ -1,6 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import { Account, Connection, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
+import { Connection, Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
@@ -52,7 +52,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#sign(transaction: Transaction, privateKey: Buffer): Buffer {
-		transaction.sign(new Account(derivePublicKey(privateKey)));
+		transaction.sign(Keypair.fromSeed(derivePublicKey(privateKey)));
 
 		return transaction.serialize({ requireAllSignatures: false, verifySignatures: false });
 	}
