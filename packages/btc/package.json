@@ -16,6 +16,8 @@
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"prepublishOnly": "pnpm run build:release",
+		"release": "pnpm publish --access=public",
+		"release:next": "pnpm publish --access=public --tag=next",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:integration": "uvu -r tsm test .test.ts",
