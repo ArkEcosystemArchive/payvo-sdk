@@ -251,15 +251,19 @@ export class TransactionService extends Services.AbstractTransactionService {
 	): Promise<Record<string, any>> {
 		let nonce: string | undefined;
 
-		try {
-			const wallet: Contracts.WalletData = await this.clientService.wallet({
-				type: "address",
-				value: input.signatory.address(),
-			});
+		if (input.nonce) {
+			nonce = input.nonce;
+		} else {
+			try {
+				const wallet: Contracts.WalletData = await this.clientService.wallet({
+					type: "address",
+					value: input.signatory.address(),
+				});
 
-			nonce = wallet.nonce().toString();
-		} catch {
-			nonce = "0";
+				nonce = wallet.nonce().toString();
+			} catch {
+				nonce = "0";
+			}
 		}
 
 		const { assetID, moduleID } = this.#assets()[type];
