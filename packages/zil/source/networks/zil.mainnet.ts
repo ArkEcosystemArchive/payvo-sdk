@@ -26,10 +26,10 @@ const network: Networks.NetworkManifest = {
 	],
 	id: "zil.mainnet",
 	importMethods,
+	meta: { chainId: 1 },
 	name: "Mainnet",
 	transactions,
 	type: "live",
-	meta: { chainId: 1 },
 };
 
 export default network;
