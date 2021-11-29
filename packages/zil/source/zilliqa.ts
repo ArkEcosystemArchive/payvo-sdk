@@ -4,7 +4,7 @@ import { BN, bytes, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 export const getZilliqaVersion = (config: Coins.ConfigRepository) => {
-	const chainId: number | undefined = config.get("meta.chainId");
+	const chainId: number | undefined = config.get("network.meta.chainId");
 
 	if (!chainId) {
 		throw new Exceptions.Exception(`Add chainId for network ${chainId}`);
