@@ -1,47 +1,47 @@
 {
-	"name": "@payvo/sdk-ark",
-	"version": "3.3.1",
-	"description": "Cross-Platform Utilities for Payvo Applications",
-	"license": "MIT",
-	"contributors": [],
-	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
-	"files": [
-		"/distribution"
-	],
-	"scripts": {
-		"build": "pnpm run clean && tsc",
-		"build:watch": "pnpm run clean && tsc -w",
-		"build:webpack": "webpack --config ../../webpack.config.cjs",
-		"clean": "rimraf .coverage distribution tmp",
-		"prepublishOnly": "pnpm run build",
-		"test": "uvu -r tsm source .test.ts",
-		"test:coverage": "c8 pnpm run test",
-		"test:watch": "watchlist source -- pnpm run test"
-	},
-	"dependencies": {
-		"@arkecosystem/crypto": "^3.0.5",
-		"@arkecosystem/crypto-identities": "^1.2.0",
-		"@arkecosystem/ledger-transport": "^2.0.0",
-		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-cryptography": "workspace:*",
-		"@payvo/sdk-helpers": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"is-url-superb": "^6.1.0",
-		"lodash.orderby": "^4.6.0",
-		"node-dotify": "^1.1.0",
-		"semver": "^7.3.5"
-	},
-	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
-		"@payvo/sdk-http-fetch": "workspace:*",
-		"@payvo/sdk-test": "workspace:*",
-		"@types/lodash.orderby": "^4.6.6",
-		"@types/node": "^16.11.10",
-		"@types/semver": "7.3.9"
-	},
-	"engines": {
-		"node": ">=16.0.0"
-	}
+    "name": "@payvo/sdk-ark",
+    "version": "3.3.1",
+    "description": "Cross-Platform Utilities for Payvo Applications",
+    "license": "MIT",
+    "contributors": [],
+    "type": "module",
+    "exports": "./distribution/index.js",
+    "types": "./distribution/index.d.ts",
+    "files": [
+        "/distribution"
+    ],
+    "scripts": {
+        "build": "pnpm run clean && tsc",
+        "build:watch": "pnpm run clean && tsc -w",
+        "build:release": "webpack --config ../../webpack.config.cjs",
+        "clean": "rimraf .coverage distribution tmp",
+        "prepublishOnly": "pnpm run build:release",
+        "test": "uvu -r tsm source .test.ts",
+        "test:coverage": "c8 pnpm run test",
+        "test:watch": "watchlist source -- pnpm run test"
+    },
+    "dependencies": {
+        "@arkecosystem/crypto": "^3.0.5",
+        "@arkecosystem/crypto-identities": "^1.2.0",
+        "@arkecosystem/ledger-transport": "^2.0.0",
+        "@payvo/sdk": "workspace:*",
+        "@payvo/sdk-cryptography": "workspace:*",
+        "@payvo/sdk-helpers": "workspace:*",
+        "@payvo/sdk-intl": "workspace:*",
+        "is-url-superb": "^6.1.0",
+        "lodash.orderby": "^4.6.0",
+        "node-dotify": "^1.1.0",
+        "semver": "^7.3.5"
+    },
+    "devDependencies": {
+        "@ledgerhq/hw-transport-mocker": "^6.11.2",
+        "@payvo/sdk-http-fetch": "workspace:*",
+        "@payvo/sdk-test": "workspace:*",
+        "@types/lodash.orderby": "^4.6.6",
+        "@types/node": "^16.11.10",
+        "@types/semver": "7.3.9"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    }
 }
