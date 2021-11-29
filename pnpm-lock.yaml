@@ -252,7 +252,7 @@ importers:
       bcrypto: ^5.4.0
       bech32: ^2.0.0
       benchmark: ^2.1.4
-      bip32: ^3.0.1
+      bip32: ^2.0.0
       bip38: ^3.1.1
       bip39: ^3.0.4
       bstring: ^0.3.9
@@ -270,7 +270,7 @@ importers:
       bcryptjs: 2.4.3
       bcrypto: 5.4.0
       bech32: 2.0.0
-      bip32: 3.0.1
+      bip32: 2.0.6
       bip38: 3.1.1
       bip39: 3.0.4
       bstring: 0.3.9
@@ -3911,18 +3911,6 @@ packages:
       create-hash: 1.2.0
       create-hmac: 1.1.7
       tiny-secp256k1: 1.1.6
-      typeforce: 1.18.0
-      wif: 2.0.6
-    dev: false
-
-  /bip32/3.0.1:
-    resolution: {integrity: sha512-Uhpp9aEx3iyiO7CpbNGFxv9WcMIVdGoHG04doQ5Ln0u60uwDah7jUSc3QMV/fSZGm/Oo01/OeAmYevXV+Gz5jQ==}
-    engines: {node: '>=6.0.0'}
-    dependencies:
-      '@types/node': 10.12.18
-      bs58check: 2.1.2
-      create-hash: 1.2.0
-      create-hmac: 1.1.7
       typeforce: 1.18.0
       wif: 2.0.6
     dev: false

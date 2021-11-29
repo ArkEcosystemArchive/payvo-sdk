@@ -1,7 +1,6 @@
 /* eslint-disable import/no-namespace */
 
-import BIP32Factory, { BIP32Interface } from "bip32";
-import * as ecc from "tiny-secp256k1";
+import bip32, { BIP32Interface } from "bip32";
 
 import { BIP39 } from "./bip39.js";
 
@@ -12,9 +11,6 @@ interface Network {
 	};
 	wif: number;
 }
-
-// @ts-ignore
-const bip32 = BIP32Factory(ecc);
 
 /**
  * Implements all functionality that is required to work with BIP32 to create
