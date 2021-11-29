@@ -6,6 +6,7 @@ module.exports = {
 	target: ["web", "es2022"],
 	mode: "production",
 	entry: path.resolve(process.cwd(), "source/index.ts"),
+    devtool: "source-map",
 	experiments: {
 		asyncWebAssembly: true,
 		outputModule: true,
