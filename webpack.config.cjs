@@ -8,7 +8,7 @@ module.exports = {
 	entry: path.resolve(process.cwd(), "source/index.ts"),
     devtool: "source-map",
 	experiments: {
-		asyncWebAssembly: true,
+		asyncWebAssembly: false,
 		outputModule: true,
 		topLevelAwait: true,
 	},
