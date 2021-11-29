@@ -1,7 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BinTools } from "avalanche";
 
-import { keyPairFromMnemonic, useKeychain } from "./helpers.js";
+import { keyPairFromMnemonic, useKeychain, useXChain } from "./helpers.js";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -32,7 +32,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			return BinTools.getInstance().parseAddress(address, this.configRepository.get("network.meta.blockchainId")) !== undefined;
+			return useXChain(this.configRepository).parseAddress(address) !== undefined;
 		} catch {
 			return false;
 		}
