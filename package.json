@@ -4,7 +4,7 @@
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"scripts": {
 		"build": "ultra -r build",
-		"build:webpack": "ultra -r build:webpack",
+		"build:release": "ultra -r build:release",
 		"lint": "eslint packages/**/source/**/*.ts --fix",
 		"lint:test": "eslint packages/**/source/**/*.test.js --fix --config=.eslintrc.test.json",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./packages/**/*.{ts,js,json,md}\"",
