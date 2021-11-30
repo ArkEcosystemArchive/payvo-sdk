@@ -3,13 +3,13 @@ import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "./bignumber";
 
 describe("BigNumber", async ({ assert, beforeEach, it }) => {
-	beforeEach((context) => (context.subject = BigNumber.make(1)));
+	// beforeEach((context) => (context.subject = BigNumber.make(1)));
 
 	it.only("#decimalPlaces", () => {
-		assert.is(BigNumber.make("12.3456789").decimalPlaces(0).valueOf(), "12");
-		// assert.is(BigNumber.make("12.3456789").decimalPlaces(2).valueOf(), "12.35");
-		// assert.is(BigNumber.make("12.3456789").decimalPlaces(4).valueOf(), "12.3457");
-		// assert.is(BigNumber.make("12.3456789").decimalPlaces(6).valueOf(), "12.345679");
+		assert.is(BigNumber.make("12.3456789").decimalPlaces(0).toString(), "12");
+		// assert.is(BigNumber.make("12.3456789").decimalPlaces(2).toString(), "12.35");
+		// assert.is(BigNumber.make("12.3456789").decimalPlaces(4).toString(), "12.3457");
+		// assert.is(BigNumber.make("12.3456789").decimalPlaces(6).toString(), "12.345679");
 	});
 
 	// it("#plus", () => {
