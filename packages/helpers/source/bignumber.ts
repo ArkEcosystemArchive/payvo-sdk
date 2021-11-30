@@ -136,6 +136,7 @@ export class BigNumber {
 	}
 
 	#toBigNumber(value: NumberLike): bigint {
+		// @TODO: grab decimals if value is BigNumber instance
 		let [integers, decimals] = this.#parseNumber(value.toString());
 
 		return BigInt(integers + decimals.padEnd(Number(decimals || 0), "0"));
