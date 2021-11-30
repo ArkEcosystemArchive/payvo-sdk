@@ -2,14 +2,15 @@ import { Base58Check, Hash } from "@payvo/sdk-cryptography";
 
 import { MultiSignatureAsset, KeyPair } from "./contracts";
 import { PublicKeyError } from "./errors";
+import { getPubKeyHash } from "./helpers.js";
 import { PublicKey } from "./public-key";
 
 export class Address {
-	public static fromPassphrase(passphrase: string, options: { pubKeyHash: number }): string {
-		return Address.fromPublicKey(PublicKey.fromPassphrase(passphrase), options);
+	public static fromPassphrase(passphrase: string): string {
+		return Address.fromPublicKey(PublicKey.fromPassphrase(passphrase));
 	}
 
-	public static fromPublicKey(publicKey: string, options: { pubKeyHash: number }): string {
+	public static fromPublicKey(publicKey: string): string {
 		if (!PublicKey.verify(publicKey)) {
 			throw new PublicKeyError(publicKey);
 		}
@@ -17,22 +18,22 @@ export class Address {
 		const buffer: Buffer = Hash.ripemd160(Buffer.from(publicKey, "hex"));
 		const payload: Buffer = Buffer.alloc(21);
 
-		payload.writeUInt8(options.pubKeyHash, 0);
+		payload.writeUInt8(getPubKeyHash(), 0);
 		buffer.copy(payload, 1);
 
 		return this.fromBuffer(payload);
 	}
 
-	public static fromWIF(wif: string, options: { pubKeyHash: number; wif: number }): string {
-		return Address.fromPublicKey(PublicKey.fromWIF(wif, options), options);
+	public static fromWIF(wif: string): string {
+		return Address.fromPublicKey(PublicKey.fromWIF(wif));
 	}
 
-	public static fromMultiSignatureAsset(asset: MultiSignatureAsset, options: { pubKeyHash: number }): string {
-		return this.fromPublicKey(PublicKey.fromMultiSignatureAsset(asset), options);
+	public static fromMultiSignatureAsset(asset: MultiSignatureAsset): string {
+		return this.fromPublicKey(PublicKey.fromMultiSignatureAsset(asset));
 	}
 
-	public static fromPrivateKey(privateKey: KeyPair, options: { pubKeyHash: number }): string {
-		return Address.fromPublicKey(privateKey.publicKey, options);
+	public static fromPrivateKey(privateKey: KeyPair): string {
+		return Address.fromPublicKey(privateKey.publicKey);
 	}
 
 	public static fromBuffer(buffer: Buffer): string {
@@ -41,23 +42,22 @@ export class Address {
 
 	public static toBuffer(
 		address: string,
-		options: { pubKeyHash: number },
 	): { addressBuffer: Buffer; addressError?: string } {
 		const buffer: Buffer = Base58Check.decode(address);
 		const result: { addressBuffer: Buffer; addressError?: string } = {
 			addressBuffer: buffer,
 		};
 
-		if (buffer[0] !== options.pubKeyHash) {
-			result.addressError = `Expected address network byte ${options.pubKeyHash}, but got ${buffer[0]}.`;
+		if (buffer[0] !== getPubKeyHash()) {
+			result.addressError = `Expected address network byte ${getPubKeyHash()}, but got ${buffer[0]}.`;
 		}
 
 		return result;
 	}
 
-	public static validate(address: string, options: { pubKeyHash: number }): boolean {
+	public static validate(address: string): boolean {
 		try {
-			return Base58Check.decode(address)[0] === options.pubKeyHash;
+			return Base58Check.decode(address)[0] === getPubKeyHash();
 		} catch (err) {
 			return false;
 		}

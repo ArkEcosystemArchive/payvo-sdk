@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { Address as BaseAddress } from "./crypto/identities/address.js";
 import { Keys } from "./crypto/identities/keys.js";
 import { IoC, Services } from "@payvo/sdk";
@@ -21,7 +21,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPassphrase(mnemonic, this.config.network),
+			address: BaseAddress.fromPassphrase(mnemonic),
 		};
 	}
 
@@ -34,7 +34,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.config.network),
+			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }),
 		};
 	}
 
@@ -44,7 +44,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPublicKey(publicKey, this.config.network),
+			address: BaseAddress.fromPublicKey(publicKey),
 		};
 	}
 
@@ -54,7 +54,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey), this.config.network),
+			address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey)),
 		};
 	}
 
@@ -63,18 +63,18 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPassphrase(secret, this.config.network),
+			address: BaseAddress.fromPassphrase(secret),
 		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromWIF(wif, this.config.network),
+			address: BaseAddress.fromWIF(wif),
 		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return BaseAddress.validate(address, this.config.network);
+		return BaseAddress.validate(address);
 	}
 }

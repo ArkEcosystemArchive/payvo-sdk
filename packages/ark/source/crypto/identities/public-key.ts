@@ -10,8 +10,8 @@ export class PublicKey {
 		return Keys.fromPassphrase(passphrase).publicKey;
 	}
 
-	public static fromWIF(wif: string, options: { wif: number }): string {
-		return Keys.fromWIF(wif, options).publicKey;
+	public static fromWIF(wif: string): string {
+		return Keys.fromWIF(wif).publicKey;
 	}
 
 	public static fromMultiSignatureAsset(asset: MultiSignatureAsset): string {
