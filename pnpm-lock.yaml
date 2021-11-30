@@ -123,6 +123,7 @@ importers:
       lodash.set: 4.3.2
       node-dotify: ^1.1.0
       semver: ^7.3.5
+      smart-buffer: ^4.2.0
     dependencies:
       '@arkecosystem/ledger-transport': 2.0.0
       '@payvo/sdk': link:../sdk
@@ -146,6 +147,7 @@ importers:
       lodash.set: 4.3.2
       node-dotify: 1.1.0
       semver: 7.3.5
+      smart-buffer: 4.2.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-http-fetch': link:../http-fetch
@@ -9922,6 +9924,11 @@ packages:
       ansi-styles: 3.2.1
       astral-regex: 1.0.0
       is-fullwidth-code-point: 2.0.0
+    dev: false
+
+  /smart-buffer/4.2.0:
+    resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
+    engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
     dev: false
 
   /sodium-native/2.4.9:

@@ -1,12 +1,14 @@
+import { SmartBuffer, SmartBufferOptions } from 'smart-buffer';
+
 export class ByteBuffer {
-	#buffer: Buffer;
+	#buffer: SmartBuffer;
 
 	public constructor(size: number) {
-		this.#buffer = Buffer.alloc(size);
+		this.#buffer = new SmartBuffer({ size });
 	}
 
 	public get offset(): number {
-		return this.#buffer.byteOffset;
+		return this.#buffer.readOffset;
 	}
 
 	public get limit(): number {
