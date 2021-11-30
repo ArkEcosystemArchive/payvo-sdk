@@ -49,8 +49,7 @@ export class ByteBuffer {
 	}
 
 	public writeByte(value: number): void {
-		// @TODO: this should be writeInt8
-		this.#offset = this.#buffer.writeUInt8(value, this.#offset);
+		this.#offset = this.#buffer.writeInt8(value, this.#offset);
 	}
 
 	public writeUint8(value: number): void {

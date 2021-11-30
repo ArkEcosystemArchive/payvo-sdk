@@ -51,8 +51,6 @@ export class Serializer {
 			transaction.typeGroup = TransactionTypeGroup.Core;
 		}
 
-		console.log(buffer.toBuffer().byteLength);
-
 		buffer.writeByte(0xff);
 		buffer.writeByte(transaction.version);
 		buffer.writeByte(transaction.network || configManager.get("network.pubKeyHash"));
