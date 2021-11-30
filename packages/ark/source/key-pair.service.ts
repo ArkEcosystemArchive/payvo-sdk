@@ -1,6 +1,6 @@
 import { Interfaces } from "@arkecosystem/crypto";
-import { Keys as BaseKeys } from "@arkecosystem/crypto-identities";
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { Keys as BaseKeys } from "./crypto/identities/keys.js";
+import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
