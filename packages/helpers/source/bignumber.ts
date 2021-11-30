@@ -1,4 +1,4 @@
-import BigNumberJS from "bignumber.js";
+import { BigNumber as BigNumberJS } from "bignumber.js";
 
 export type NumberLike = string | number | BigNumberJS | BigNumber;
 
