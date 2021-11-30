@@ -15,8 +15,6 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"release": "pnpm publish --access=public",
-		"release:next": "pnpm publish --access=public --publish-branch=develop --tag=next",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:integration": "uvu -r tsm test .test.ts",
