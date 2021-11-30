@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+pnpm run clean
 pnpm run build
 NODE_ENV=production pnpm run build:release
 
