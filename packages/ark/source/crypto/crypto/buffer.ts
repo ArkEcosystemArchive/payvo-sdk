@@ -1,90 +1,100 @@
-import { SmartBuffer } from 'smart-buffer';
-
 export class ByteBuffer {
-	#buffer: SmartBuffer;
+	#buffer: Buffer;
+	#offset: number = 0;
 
 	public constructor(size: number) {
-		this.#buffer = SmartBuffer.fromSize(size);
+		this.#buffer = Buffer.alloc(size);
 	}
 
 	public get offset(): number {
-		return this.#buffer.readOffset || this.#buffer.writeOffset;
+		return this.#buffer.byteOffset;
 	}
 
 	public get limit(): number {
 		return this.#buffer.length;
 	}
 
-	public append(data: Buffer | string, encoding?: BufferEncoding): void {
-		this.#buffer = SmartBuffer.fromBuffer(
-			Buffer.concat([this.#buffer.toBuffer(), data instanceof Buffer ? data : Buffer.from(data, encoding)])
-		);
-	}
-
-	public reset(): void {
-		this.#buffer.clear();
-	}
-
-	public remaining(): number {
-		return this.#buffer.remaining();
-	}
-
 	public readString(length: number): string {
-		return this.#buffer.readString(length);
+		return this.readBytes(length).toString();
 	}
 
-	public readBytes(length: number): ByteBuffer {
-		return this;
+	public readBytes(length: number): Buffer {
+		const value = this.#buffer.slice(this.#offset, this.#offset + length);
+		this.#offset += length;
+		return value;
 	}
 
 	public readUint8(): number {
-		return this.#buffer.readUInt8();
+		const value = this.#buffer.readUInt8(this.#offset);
+		this.#offset += 1;
+		return value;
 	}
 
 	public readUint16(): number {
-		return this.#buffer.readUInt16LE();
+		const value = this.#buffer.readUInt16LE(this.#offset);
+		this.#offset += 2;
+		return value;
 	}
 
 	public readUint32(): number {
-		return this.#buffer.readUInt32LE();
+		const value = this.#buffer.readUInt32LE(this.#offset);
+		this.#offset += 4;
+		return value;
 	}
 
 	public readUint64(): bigint {
-		return this.#buffer.readBigUInt64LE();
+		const value = this.#buffer.readBigUInt64LE(this.#offset);
+		this.#offset += 8;
+		return value;
 	}
 
 	public writeByte(value: number): void {
-		//
+		// @TODO: this should be writeInt8
+		this.#offset = this.#buffer.writeUInt8(value, this.#offset);
 	}
 
 	public writeUint8(value: number): void {
-		this.#buffer.writeUInt8(value);
+		this.#offset = this.#buffer.writeUInt8(value, this.#offset);
 	}
 
 	public writeUint16(value: number): void {
-		this.#buffer.writeUInt16LE(value);
+		this.#offset = this.#buffer.writeUInt16LE(value, this.#offset);
 	}
 
 	public writeUint32(value: number): void {
-		this.#buffer.writeUInt32LE(value);
+		this.#offset = this.#buffer.writeUInt32LE(value, this.#offset);
 	}
 
 	public writeUint64(value: string): void {
-		this.#buffer.writeBigUInt64LE(BigInt(value));
+		this.#offset = this.#buffer.writeBigUInt64LE(BigInt(value), this.#offset);
+	}
+
+	public append(data: Buffer | string, encoding?: BufferEncoding): void {
+		this.#buffer = Buffer.concat([this.#buffer, data instanceof Buffer ? data : Buffer.from(data, encoding)]);
+	}
+
+	public reset(): void {
+		this.#offset = 0;
+	}
+
+	public remaining(): number {
+		return this.#buffer.length - this.#offset;
 	}
 
 	public mark(): ByteBuffer {
+		this.#offset = this.#offset;
+
 		return this;
 	}
 
 	public skip(length: number): ByteBuffer {
-		this.#buffer.readString(length);
+		this.#offset += length;
 
 		return this;
 	}
 
 	public flip(): ByteBuffer {
-		this.#buffer = SmartBuffer.fromBuffer(this.toBuffer().reverse());
+		this.#buffer = this.#buffer.reverse();
 
 		return this;
 	}
@@ -94,6 +104,6 @@ export class ByteBuffer {
 	}
 
 	public toBuffer(): Buffer {
-		return this.#buffer.toBuffer();
+		return this.#buffer;
 	}
 }

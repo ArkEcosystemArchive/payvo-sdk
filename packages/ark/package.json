@@ -15,7 +15,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
+		"test": "uvu -r tsm source transaction.service.test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
@@ -41,8 +41,7 @@
 		"lodash.orderby": "^4.6.0",
 		"lodash.set": "4.3.2",
 		"node-dotify": "^1.1.0",
-		"semver": "^7.3.5",
-		"smart-buffer": "^4.2.0"
+		"semver": "^7.3.5"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",

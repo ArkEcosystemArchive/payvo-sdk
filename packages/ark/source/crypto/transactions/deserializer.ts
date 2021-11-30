@@ -45,7 +45,7 @@ export class Deserializer {
 		const vendorFieldLength: number = buf.readUint8();
 		if (vendorFieldLength > 0) {
 			if (transaction.hasVendorField()) {
-				const vendorFieldBuffer: Buffer = buf.readBytes(vendorFieldLength).toBuffer();
+				const vendorFieldBuffer: Buffer = buf.readBytes(vendorFieldLength);
 				transaction.data.vendorField = vendorFieldBuffer.toString("utf8");
 			} else {
 				buf.skip(vendorFieldLength);

@@ -35,7 +35,6 @@ export abstract class MultiPaymentTransaction extends Transaction {
 			buffer.writeUint16(data.asset.payments.length);
 
 			for (const payment of data.asset.payments) {
-				// @ts-ignore - The ByteBuffer types say we can't use strings but the code actually handles them.
 				buffer.writeUint64(payment.amount.toString());
 
 				const { addressBuffer, addressError } = Address.toBuffer(payment.recipientId);
@@ -58,7 +57,7 @@ export abstract class MultiPaymentTransaction extends Transaction {
 		for (let j = 0; j < total; j++) {
 			payments.push({
 				amount: BigNumber.make(buf.readUint64().toString()),
-				recipientId: Address.fromBuffer(buf.readBytes(21).toBuffer()),
+				recipientId: Address.fromBuffer(buf.readBytes(21)),
 			});
 		}
 

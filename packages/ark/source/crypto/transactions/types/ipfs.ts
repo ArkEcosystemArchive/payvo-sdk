@@ -43,7 +43,7 @@ export abstract class IpfsTransaction extends Transaction {
 
 		const hashFunction: number = buf.readUint8();
 		const ipfsHashLength: number = buf.readUint8();
-		const ipfsHash: Buffer = buf.readBytes(ipfsHashLength).toBuffer();
+		const ipfsHash: Buffer = buf.readBytes(ipfsHashLength);
 
 		const buffer: Buffer = Buffer.alloc(ipfsHashLength + 2);
 		buffer.writeUInt8(hashFunction, 0);

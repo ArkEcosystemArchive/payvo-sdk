@@ -51,6 +51,8 @@ export class Serializer {
 			transaction.typeGroup = TransactionTypeGroup.Core;
 		}
 
+		console.log(buffer.toBuffer().byteLength);
+
 		buffer.writeByte(0xff);
 		buffer.writeByte(transaction.version);
 		buffer.writeByte(transaction.network || configManager.get("network.pubKeyHash"));
@@ -58,7 +60,6 @@ export class Serializer {
 		buffer.writeUint16(transaction.type);
 
 		if (transaction.nonce) {
-			// @ts-ignore - The ByteBuffer types say we can't use strings but the code actually handles them.
 			buffer.writeUint64(transaction.nonce.toString());
 		}
 
@@ -66,7 +67,6 @@ export class Serializer {
 			buffer.append(transaction.senderPublicKey, "hex");
 		}
 
-		// @ts-ignore - The ByteBuffer types say we can't use strings but the code actually handles them.
 		buffer.writeUint64(transaction.fee.toString());
 	}
 

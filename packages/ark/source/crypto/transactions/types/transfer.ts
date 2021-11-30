@@ -45,6 +45,6 @@ export abstract class TransferTransaction extends Transaction {
 		const { data } = this;
 		data.amount = BigNumber.make(buf.readUint64().toString());
 		data.expiration = buf.readUint32();
-		data.recipientId = Address.fromBuffer(buf.readBytes(21).toBuffer());
+		data.recipientId = Address.fromBuffer(buf.readBytes(21));
 	}
 }

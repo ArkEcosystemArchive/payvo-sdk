@@ -49,29 +49,29 @@ export class TransactionFactory {
 	}
 
 	private static fromSerialized(serialized: string, strict = true, options: IDeserializeOptions = {}): ITransaction {
-		try {
-			const transaction = Deserializer.deserialize(serialized, options);
-			transaction.data.id = Utils.getId(transaction.data, options);
+		// try {
+		const transaction = Deserializer.deserialize(serialized, options);
+		transaction.data.id = Utils.getId(transaction.data, options);
 
-			const { error } = Verifier.verifySchema(transaction.data, strict);
+		const { error } = Verifier.verifySchema(transaction.data, strict);
 
-			if (error) {
-				throw new TransactionSchemaError(error);
-			}
-
-			transaction.isVerified = transaction.verify(options);
-
-			return transaction;
-		} catch (error) {
-			if (
-				error instanceof TransactionVersionError ||
-				error instanceof TransactionSchemaError ||
-				error instanceof DuplicateParticipantInMultiSignatureError
-			) {
-				throw error;
-			}
-
-			throw new InvalidTransactionBytesError(error.message);
+		if (error) {
+			throw new TransactionSchemaError(error);
 		}
+
+		transaction.isVerified = transaction.verify(options);
+
+		return transaction;
+		// } catch (error) {
+		// 	if (
+		// 		error instanceof TransactionVersionError ||
+		// 		error instanceof TransactionSchemaError ||
+		// 		error instanceof DuplicateParticipantInMultiSignatureError
+		// 	) {
+		// 		throw error;
+		// 	}
+
+		// 	throw new InvalidTransactionBytesError(error.message);
+		// }
 	}
 }

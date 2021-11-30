@@ -38,7 +38,7 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 		});
 	});
 
-	it("should create a transfer", async (context) => {
+	it.only("should create a transfer", async (context) => {
 		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(
