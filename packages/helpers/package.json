@@ -15,14 +15,13 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
+		"test": "uvu -r tsm source bignumber.test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
 		"@hapi/bourne": "^2.0.0",
 		"bad-words": "^3.0.4",
-		"bignumber.js": "^9.0.1",
 		"censorify-it": "^3.0.2",
 		"deepmerge": "^4.2.2",
 		"dot-prop": "~6.0.1",
