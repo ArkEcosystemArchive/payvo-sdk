@@ -4,17 +4,14 @@ export class BigNumber {
 	public static readonly ZERO: bigint = BigInt(0);
 	public static readonly ONE: bigint = BigInt(1);
 
-	readonly #value: bigint;
-	readonly #decimals: number = 0;
+	#value: bigint;
+	#decimals: number = 0;
 
 	private constructor(value: NumberLike, decimals?: number) {
 		this.#value = this.#toBigNumber(value);
 
 		if (decimals !== undefined) {
-			let [pre, post] = String(value).split(".").concat("");
-
-			this.#decimals = decimals;
-			this.#value = BigInt(pre + post.padEnd(decimals, "0"));
+			this.#toBigDecimal(decimals);
 		}
 	}
 
@@ -139,10 +136,19 @@ export class BigNumber {
 	}
 
 	#toBigNumber(value: NumberLike): bigint {
-		if (value instanceof BigNumber) {
-			return BigInt(value.valueOf());
-		}
+		let [integers, decimals] = this.#parseNumber(value.toString());
 
-		return BigInt(value);
+		return BigInt(integers + decimals.padEnd(Number(decimals || 0), "0"));
+	}
+
+	#toBigDecimal(decimals?: number): void {
+		let [pre, post] = this.#parseNumber(this.#value);
+
+		this.#decimals = Number(decimals ?? post);
+		this.#value = BigInt(pre + post.padEnd(this.#decimals, "0"));
+	}
+
+	#parseNumber(value: unknown): string[] {
+		return String(value).split(".").concat("");
 	}
 }
