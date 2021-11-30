@@ -866,7 +866,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each, nock, assert, load
 		context.subject = new TransactionService(context.wallet);
 	});
 
-	afterEach(() => { });
+	afterEach(() => {});
 
 	each(
 		"should create a transfer for %s",

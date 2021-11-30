@@ -5,12 +5,7 @@ import {
 	TransactionSchemaError,
 	TransactionVersionError,
 } from "../errors";
-import {
-	IDeserializeOptions,
-	ITransaction,
-	ITransactionData,
-	ITransactionJson,
-} from "../interfaces";
+import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces";
 import { Deserializer } from "./deserializer";
 import { Serializer } from "./serializer";
 import { TransactionTypeFactory } from "./types/factory.js";
@@ -27,7 +22,7 @@ export class TransactionFactory {
 	}
 
 	public static fromJson(json: ITransactionJson): ITransaction {
-		const data: ITransactionData = ({ ...json } as unknown) as ITransactionData;
+		const data: ITransactionData = { ...json } as unknown as ITransactionData;
 		data.amount = BigNumber.make(data.amount);
 		data.fee = BigNumber.make(data.fee);
 

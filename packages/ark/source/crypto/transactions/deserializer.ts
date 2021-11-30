@@ -1,10 +1,7 @@
 import ByteBuffer from "bytebuffer";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import {
-	DuplicateParticipantInMultiSignatureError,
-	InvalidTransactionBytesError,
-} from "../errors";
+import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors";
 import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces";
 import { TransactionTypeFactory } from "./types";
 
