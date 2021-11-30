@@ -33,11 +33,7 @@ jobs:
               uses: pnpm/action-setup@v2
               with:
                   version: 6.20.4
-            - name: Install rimraf
-              run: pnpm install rimraf -g
             - name: Install dependencies
               run: pnpm install
-            - name: Build
-              run: pnpm run build:release
             - name: Publish
-              run: pnpm run release
+              run: bash scripts/publish.sh
