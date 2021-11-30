@@ -90,6 +90,6 @@ export class ByteBuffer {
 	}
 
 	public toBuffer(): Buffer {
-		return this.#buffer;
+		return this.#buffer.toBuffer();
 	}
 }
