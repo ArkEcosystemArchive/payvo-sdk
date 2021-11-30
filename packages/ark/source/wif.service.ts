@@ -1,6 +1,6 @@
 import { Interfaces } from "@arkecosystem/crypto";
-import { WIF as BaseWIF } from "@arkecosystem/crypto-identities";
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { WIF as BaseWIF } from "./crypto/identities/wif.js";
+import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 

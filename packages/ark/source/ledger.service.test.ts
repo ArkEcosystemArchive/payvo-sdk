@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Address } from "@arkecosystem/crypto-identities";
+import { Address } from "./crypto/identities/address.js";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 

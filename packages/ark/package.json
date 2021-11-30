@@ -21,7 +21,6 @@
 	},
 	"dependencies": {
 		"@arkecosystem/crypto": "^3.0.5",
-		"@arkecosystem/crypto-identities": "^1.2.0",
 		"@arkecosystem/ledger-transport": "^2.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
