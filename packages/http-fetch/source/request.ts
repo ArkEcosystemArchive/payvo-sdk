@@ -27,7 +27,10 @@ export class Request extends Http.AbstractRequest {
 		let response;
 
 		if (method === "GET") {
-			response = await fetch(url, this._options);
+			response = await fetch(url, {
+				...this._options,
+				mode: "cors",
+			});
 		}
 
 		if (method === "POST") {
@@ -35,6 +38,7 @@ export class Request extends Http.AbstractRequest {
 				...this._options,
 				body: JSON.stringify(data?.data),
 				method: "POST",
+				mode: "cors",
 			});
 		}
 
