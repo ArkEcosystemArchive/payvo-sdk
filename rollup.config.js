@@ -21,8 +21,8 @@ const polyfillsPlugins = [
         },
         include: undefined,
     }),
-    {
-        ...nodePolyfills(),
+	{
+		...nodePolyfills({ crypto: true }),
         transform: null,
     },
 ];
