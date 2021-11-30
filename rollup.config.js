@@ -40,7 +40,7 @@ const moduleConfig = {
         ts({
             transpileOnly: true,
             tsconfig: {
-                target: "es2015",
+                target: "es2022",
                 module: "esnext",
                 allowSyntheticDefaultImports: true,
                 resolveJsonModule: true,
@@ -91,7 +91,7 @@ const umdConfig = {
     output: {
         file: pkg["umd:main"],
         format: "iife",
-        name: "ArkCrypto",
+        name: "sdk",
     },
     plugins: [
         json(),
