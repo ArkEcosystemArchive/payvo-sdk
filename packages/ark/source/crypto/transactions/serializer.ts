@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../crypto/buffer.js";
 
 import { TransactionTypeGroup } from "../enums.js";
 import { TransactionVersionError } from "../errors.js";
@@ -23,7 +23,7 @@ export class Serializer {
 	 * Serializes the given transaction according to AIP11.
 	 */
 	public static serialize(transaction: ITransaction, options: ISerializeOptions = {}): Buffer {
-		const buffer: ByteBuffer = new ByteBuffer(512, true);
+		const buffer: ByteBuffer = new ByteBuffer(512);
 
 		this.serializeCommon(transaction.data, buffer);
 		this.serializeVendorField(transaction, buffer);
@@ -35,7 +35,7 @@ export class Serializer {
 		}
 
 		const typeBuffer: ByteBuffer = serialized.flip();
-		buffer.append(typeBuffer);
+		buffer.append(typeBuffer.toBuffer());
 
 		this.serializeSignatures(transaction.data, buffer, options);
 

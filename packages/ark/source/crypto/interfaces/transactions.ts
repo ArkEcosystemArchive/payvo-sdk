@@ -1,5 +1,5 @@
 import { ErrorObject } from "ajv";
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../crypto/buffer.js";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 

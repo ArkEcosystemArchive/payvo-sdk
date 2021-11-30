@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "./../../enums";
 import { Address } from "./../../identities/address.js";
@@ -24,7 +24,7 @@ export abstract class TransferTransaction extends Transaction {
 
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
 		const { data } = this;
-		const buffer: ByteBuffer = new ByteBuffer(24, true);
+		const buffer: ByteBuffer = new ByteBuffer(24);
 		buffer.writeUint64(data.amount.toString());
 		buffer.writeUint32(data.expiration || 0);
 

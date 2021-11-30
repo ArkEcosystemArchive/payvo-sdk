@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "../../enums";
 import { ISerializeOptions } from "../../interfaces";
@@ -22,7 +22,7 @@ export abstract class DelegateRegistrationTransaction extends Transaction {
 
 		if (data.asset && data.asset.delegate) {
 			const delegateBytes: Buffer = Buffer.from(data.asset.delegate.username, "utf8");
-			const buffer: ByteBuffer = new ByteBuffer(delegateBytes.length, true);
+			const buffer: ByteBuffer = new ByteBuffer(delegateBytes.length);
 
 			buffer.writeByte(delegateBytes.length);
 			buffer.append(delegateBytes, "hex");

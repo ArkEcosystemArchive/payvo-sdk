@@ -1,5 +1,5 @@
 import { base58 } from "bstring";
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "./../../enums";
 import { ISerializeOptions } from "./../../interfaces";
@@ -28,7 +28,7 @@ export abstract class IpfsTransaction extends Transaction {
 
 		if (data.asset) {
 			const ipfsBuffer: Buffer = base58.decode(data.asset.ipfs);
-			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length, true);
+			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length);
 
 			buffer.append(ipfsBuffer, "hex");
 

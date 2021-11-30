@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "./../../enums";
 import { Address } from "./../../identities/address.js";
@@ -31,7 +31,7 @@ export abstract class MultiPaymentTransaction extends Transaction {
 		const { data } = this;
 
 		if (data.asset && data.asset.payments) {
-			const buffer: ByteBuffer = new ByteBuffer(2 + data.asset.payments.length * 29, true);
+			const buffer: ByteBuffer = new ByteBuffer(2 + data.asset.payments.length * 29);
 			buffer.writeUint16(data.asset.payments.length);
 
 			for (const payment of data.asset.payments) {

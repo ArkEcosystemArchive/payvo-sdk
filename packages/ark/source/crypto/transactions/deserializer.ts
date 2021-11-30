@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../crypto/buffer.js";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import {
@@ -168,7 +168,7 @@ export class Deserializer {
 			serialized = Buffer.from(serialized, "hex");
 		}
 
-		const buffer: ByteBuffer = new ByteBuffer(serialized.length, true);
+		const buffer: ByteBuffer = new ByteBuffer(serialized.length);
 		buffer.append(serialized);
 		buffer.reset();
 
