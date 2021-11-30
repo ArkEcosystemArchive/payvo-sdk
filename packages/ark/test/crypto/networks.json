@@ -1,10 +1,10 @@
 {
-    "mainnet": {
-        "pubKeyHash": 23,
-        "wif": 170
-    },
-    "devnet": {
-        "pubKeyHash": 30,
-        "wif": 170
-    }
+	"mainnet": {
+		"pubKeyHash": 23,
+		"wif": 170
+	},
+	"devnet": {
+		"pubKeyHash": 30,
+		"wif": 170
+	}
 }

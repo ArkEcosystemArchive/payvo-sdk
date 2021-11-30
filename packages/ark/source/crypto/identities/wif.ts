@@ -10,7 +10,7 @@ export class WIF {
 		return Base.encode({
 			version: options.wif,
 			privateKey,
-			compressed
+			compressed,
 		});
 	}
 

@@ -30,13 +30,12 @@ describe("Address", ({ assert, it }) => {
 			Address.fromMultiSignatureAsset(
 				{
 					min: 3,
-					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) =>
-						PublicKey.fromPassphrase(secret),
-					),
+					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
 				},
 				devnet,
-			)
-			, "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi");
+			),
+			"DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi",
+		);
 	});
 
 	it("fromMultiSignatureAddress should create distinct addresses for different min", () => {
@@ -67,9 +66,7 @@ describe("Address", ({ assert, it }) => {
 			Address.fromMultiSignatureAsset(
 				{
 					min: 7,
-					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) =>
-						PublicKey.fromPassphrase(secret),
-					),
+					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
 				},
 				devnet,
 			);
