@@ -1,10 +1,10 @@
-import { SmartBuffer, SmartBufferOptions } from 'smart-buffer';
+import { SmartBuffer } from 'smart-buffer';
 
 export class ByteBuffer {
 	#buffer: SmartBuffer;
 
 	public constructor(size: number) {
-		this.#buffer = new SmartBuffer({ size });
+		this.#buffer = SmartBuffer.fromSize(size);
 	}
 
 	public get offset(): number {
@@ -16,19 +16,21 @@ export class ByteBuffer {
 	}
 
 	public append(data: Buffer | string, encoding?: BufferEncoding): void {
-		this.#buffer = Buffer.concat([this.#buffer, data instanceof Buffer ? data : Buffer.from(data, encoding)]);
+		this.#buffer = SmartBuffer.fromBuffer(
+			Buffer.concat([this.#buffer.toBuffer(), data instanceof Buffer ? data : Buffer.from(data, encoding)])
+		);
 	}
 
 	public reset(): void {
-		this.#buffer.reverse();
+		this.#buffer.clear();
 	}
 
 	public remaining(): number {
-		return 0;
+		return this.#buffer.remaining();
 	}
 
 	public readString(length: number): string {
-		return "";
+		return this.#buffer.readString(length);
 	}
 
 	public readBytes(length: number): ByteBuffer {
