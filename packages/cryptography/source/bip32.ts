@@ -1,6 +1,7 @@
 /* eslint-disable import/no-namespace */
 
-import bip32, { BIP32Interface } from "bip32";
+import * as bip32 from "bip32";
+import { BIP32Interface } from "bip32";
 
 import { BIP39 } from "./bip39.js";
 
