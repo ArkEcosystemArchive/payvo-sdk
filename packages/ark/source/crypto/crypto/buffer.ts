@@ -84,7 +84,7 @@ export class ByteBuffer {
 	}
 
 	public flip(): ByteBuffer {
-		// this.#buffer.();
+		this.#buffer = SmartBuffer.fromBuffer(this.toBuffer().reverse());
 
 		return this;
 	}
