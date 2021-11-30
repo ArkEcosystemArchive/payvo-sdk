@@ -41,10 +41,7 @@ export class Address {
 		return Base58Check.encode(buffer);
 	}
 
-	public static toBuffer(
-		address: string,
-		network?: Network,
-	): { addressBuffer: Buffer; addressError?: string } {
+	public static toBuffer(address: string, network?: Network): { addressBuffer: Buffer; addressError?: string } {
 		const buffer: Buffer = Base58Check.decode(address);
 		const result: { addressBuffer: Buffer; addressError?: string } = {
 			addressBuffer: buffer,

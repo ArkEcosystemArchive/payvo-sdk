@@ -25,10 +25,6 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"is-url-superb": "^6.1.0",
-		"lodash.orderby": "^4.6.0",
-		"node-dotify": "^1.1.0",
-		"semver": "^7.3.5",
 		"ajv": "6.12.6",
 		"ajv-keywords": "3.4.1",
 		"bcrypto": "5.4.0",
@@ -38,8 +34,12 @@
 		"bytebuffer": "5.0.1",
 		"dayjs": "1.10.7",
 		"deepmerge": "4.2.2",
+		"is-url-superb": "^6.1.0",
 		"lodash.get": "4.4.2",
-		"lodash.set": "4.3.2"
+		"lodash.orderby": "^4.6.0",
+		"lodash.set": "4.3.2",
+		"node-dotify": "^1.1.0",
+		"semver": "^7.3.5"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",

@@ -27,12 +27,10 @@ describe("Address", ({ assert, it }) => {
 
 	it("fromMultiSignatureAddress", () => {
 		assert.is(
-			Address.fromMultiSignatureAsset(
-				{
-					min: 3,
-					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
-				},
-			),
+			Address.fromMultiSignatureAsset({
+				min: 3,
+				publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
+			}),
 			"DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi",
 		);
 	});
@@ -47,12 +45,10 @@ describe("Address", ({ assert, it }) => {
 
 		for (let i = 1; i < 16; i++) {
 			addresses.add(
-				Address.fromMultiSignatureAsset(
-					{
-						min: i,
-						publicKeys: participants,
-					},
-				),
+				Address.fromMultiSignatureAsset({
+					min: i,
+					publicKeys: participants,
+				}),
 			);
 		}
 
@@ -61,30 +57,24 @@ describe("Address", ({ assert, it }) => {
 
 	it("should fail with invalid input", () => {
 		assert.throws(() => {
-			Address.fromMultiSignatureAsset(
-				{
-					min: 7,
-					publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
-				},
-			);
+			Address.fromMultiSignatureAsset({
+				min: 7,
+				publicKeys: ["secret 1", "secret 2", "secret 3"].map((secret) => PublicKey.fromPassphrase(secret)),
+			});
 		}, "InvalidMultiSignatureAssetError");
 
 		assert.throws(() => {
-			Address.fromMultiSignatureAsset(
-				{
-					min: 1,
-					publicKeys: [],
-				},
-			);
+			Address.fromMultiSignatureAsset({
+				min: 1,
+				publicKeys: [],
+			});
 		}, "InvalidMultiSignatureAssetError");
 
 		assert.throws(() => {
-			Address.fromMultiSignatureAsset(
-				{
-					min: 1,
-					publicKeys: ["garbage"],
-				},
-			);
+			Address.fromMultiSignatureAsset({
+				min: 1,
+				publicKeys: ["garbage"],
+			});
 		}, "PublicKeyError");
 	});
 
