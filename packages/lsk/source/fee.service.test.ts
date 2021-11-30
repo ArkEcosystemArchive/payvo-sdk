@@ -32,7 +32,7 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -53,9 +53,6 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
 		assert.is(result.transfer.min.toString(), "10000000");
@@ -82,7 +79,7 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -102,7 +99,7 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);

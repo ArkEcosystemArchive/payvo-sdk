@@ -197,18 +197,6 @@ describe("AbstractConfirmedTransactionData", ({ assert, it, stub }) => {
 		assert.false(new Transaction().configure({ key: "value" }).isDelegateResignation());
 	});
 
-	it("should determine if the transaction is a htlc lock", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isHtlcLock());
-	});
-
-	it("should determine if the transaction is a htlc claim", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isHtlcClaim());
-	});
-
-	it("should determine if the transaction is a htlc refund", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isHtlcRefund());
-	});
-
 	it("should determine if the transaction is a magistrate", () => {
 		assert.false(new Transaction().configure({ key: "value" }).isMagistrate());
 	});

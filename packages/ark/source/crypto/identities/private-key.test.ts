@@ -1,7 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { devnet } from "../../../test/crypto/networks.json";
 import { PrivateKey } from "./private-key";
 
 describe("Private Key", ({ assert, it }) => {
@@ -10,6 +9,6 @@ describe("Private Key", ({ assert, it }) => {
 	});
 
 	it("fromWIF", () => {
-		assert.is(PrivateKey.fromWIF(data.wif, devnet), data.privateKey);
+		assert.is(PrivateKey.fromWIF(data.wif), data.privateKey);
 	});
 });

@@ -117,33 +117,6 @@ export interface ITransactionService {
 	signDelegateResignation(input: Services.DelegateResignationInput): Promise<string>;
 
 	/**
-	 * Sign a HTLC Lock transaction.
-	 *
-	 * @param {Services.HtlcLockInput} input
-	 * @return {Promise<string>}
-	 * @memberof ITransactionService
-	 */
-	signHtlcLock(input: Services.HtlcLockInput): Promise<string>;
-
-	/**
-	 * Sign a HTLC Claim transaction.
-	 *
-	 * @param {Services.HtlcClaimInput} input
-	 * @return {Promise<string>}
-	 * @memberof ITransactionService
-	 */
-	signHtlcClaim(input: Services.HtlcClaimInput): Promise<string>;
-
-	/**
-	 * Sign a HTLC Refund transaction.
-	 *
-	 * @param {Services.HtlcRefundInput} input
-	 * @return {Promise<string>}
-	 * @memberof ITransactionService
-	 */
-	signHtlcRefund(input: Services.HtlcRefundInput): Promise<string>;
-
-	/**
 	 * Sign an Unlock Token transaction.
 	 *
 	 * @param {Services.UnlockTokenInput} input

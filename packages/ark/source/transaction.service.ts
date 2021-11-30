@@ -1,4 +1,4 @@
-import { Identities, Interfaces, Transactions } from "@arkecosystem/crypto";
+import { Identities, Interfaces, Transactions } from "./crypto/index.js";
 import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -168,36 +168,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData("delegateResignation", input);
 	}
 
-	public override async htlcLock(input: Services.HtlcLockInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("htlcLock", input, ({ transaction, data }) => {
-			transaction.amount(this.toSatoshi(data.amount).toString());
-
-			transaction.recipientId(data.to);
-
-			transaction.htlcLockAsset({
-				secretHash: data.secretHash,
-				expiration: data.expiration,
-			});
-		});
-	}
-
-	public override async htlcClaim(input: Services.HtlcClaimInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("htlcClaim", input, ({ transaction, data }) =>
-			transaction.htlcClaimAsset({
-				lockTransactionId: data.lockTransactionId,
-				unlockSecret: data.unlockSecret,
-			}),
-		);
-	}
-
-	public override async htlcRefund(input: Services.HtlcRefundInput): Promise<Contracts.SignedTransactionData> {
-		return this.#createFromData("htlcRefund", input, ({ transaction, data }) =>
-			transaction.htlcRefundAsset({
-				lockTransactionId: data.lockTransactionId,
-			}),
-		);
-	}
-
 	public override async estimateExpiration(value?: string): Promise<string | undefined> {
 		const { data: blockchain } = (await this.httpClient.get(`${this.#peer}/blockchain`)).json();
 		const { data: configuration } = (await this.httpClient.get(`${this.#peer}/node/configuration`)).json();
@@ -223,7 +193,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let address: string | undefined;
 		let senderPublicKey: string | undefined;
 
-		const transaction = Transactions.BuilderFactory[type]().version(2);
+		const transaction = Transactions.BuilderFactory[type]();
 
 		if (input.signatory.actsWithMnemonic() || input.signatory.actsWithConfirmationMnemonic()) {
 			address = (await this.addressService.fromMnemonic(input.signatory.signingKey())).address;

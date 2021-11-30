@@ -1,4 +1,4 @@
-import { Enums } from "@arkecosystem/crypto";
+import { Enums } from "./crypto/index.js";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 
@@ -66,11 +66,11 @@ export class ClientService extends Services.AbstractClientService {
 			available: hasVoted ? 0 : 1,
 			votes: hasVoted
 				? [
-						{
-							id: vote,
-							amount: 0,
-						},
-				  ]
+					{
+						id: vote,
+						amount: 0,
+					},
+				]
 				: [],
 		};
 	}
@@ -144,7 +144,7 @@ export class ClientService extends Services.AbstractClientService {
 		).json();
 	}
 
-	async #post(path: string, { body, searchParams }: { body; searchParams? }): Promise<Contracts.KeyValuePair> {
+	async #post(path: string, { body, searchParams }: { body; searchParams?}): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.httpClient.post(
 				`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,

@@ -4,31 +4,31 @@ import { Paginator } from "./paginator";
 describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(
 		(context) =>
-			(context.subject = new Stub(
-				[
-					{
-						id: (context) => "id1",
+		(context.subject = new Stub(
+			[
+				{
+					id: (context) => "id1",
 
-						recipient: () => "recipient1",
+					recipient: () => "recipient1",
 
-						sender: () => "sender1",
-						// @ts-ignore
-						timestamp: () => "timestamp1",
-						type: () => "type1",
-					},
-					{
-						id: () => "id2",
+					sender: () => "sender1",
+					// @ts-ignore
+					timestamp: () => "timestamp1",
+					type: () => "type1",
+				},
+				{
+					id: () => "id2",
 
-						recipient: () => "recipient2",
+					recipient: () => "recipient2",
 
-						sender: () => "sender2",
-						// @ts-ignore
-						timestamp: () => "timestamp2",
-						type: () => "type2",
-					},
-				],
-				{ last: 4, next: 4, prev: 1, self: 2 },
-			)),
+					sender: () => "sender2",
+					// @ts-ignore
+					timestamp: () => "timestamp2",
+					type: () => "type2",
+				},
+			],
+			{ last: 4, next: 4, prev: 1, self: 2 },
+		)),
 	);
 
 	it("#items", (context) => {
@@ -72,7 +72,6 @@ describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 	});
 
 	it("#transform", (context) => {
-		console.log(context);
 		assert.length(context.subject.items(), 2);
 
 		context.subject.transform((data) => {
@@ -88,5 +87,5 @@ describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 		assert.object(context.subject.getPagination());
 	});
 
-	class Stub extends Paginator {}
+	class Stub extends Paginator { }
 });

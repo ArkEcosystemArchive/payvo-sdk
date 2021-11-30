@@ -296,79 +296,6 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 		assert.instance(context.subject.transaction(id), ExtendedSignedTransactionData);
 	});
 
-	it("should sign htlc lock", async (context) => {
-		const input = {
-			data: {
-				amount: 1,
-				expiration: {
-					type: 1,
-					value: 1_607_523_002,
-				},
-				secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
-				to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-			},
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-					privateKey: "privateKey",
-					publicKey: "publicKey",
-					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-				}),
-			),
-		};
-		const id = await context.subject.signHtlcLock(input);
-
-		assert.string(id);
-		assert.containKey(context.subject.signed(), id);
-		assert.instance(context.subject.transaction(id), ExtendedSignedTransactionData);
-	});
-
-	it("should sign htlc claim", async (context) => {
-		const input = {
-			data: {
-				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-				unlockSecret: "c27f1ce845d8c29eebc9006be932b604fd06755521b1a8b0be4204c65377151a",
-			},
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-					privateKey: "privateKey",
-					publicKey: "publicKey",
-					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-				}),
-			),
-		};
-		const id = await context.subject.signHtlcClaim(input);
-
-		assert.string(id);
-		assert.containKey(context.subject.signed(), id);
-		assert.instance(context.subject.transaction(id), ExtendedSignedTransactionData);
-	});
-
-	it("should sign htlc refund", async (context) => {
-		const input = {
-			data: {
-				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-			},
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
-					privateKey: "privateKey",
-					publicKey: "publicKey",
-					signingKey: "bomb open frame quit success evolve gain donate prison very rent later",
-				}),
-			),
-		};
-		const id = await context.subject.signHtlcRefund(input);
-
-		assert.string(id);
-		assert.containKey(context.subject.signed(), id);
-		assert.instance(context.subject.transaction(id), ExtendedSignedTransactionData);
-	});
-
 	it("#transaction lifecycle", async (context) => {
 		const realHash = "819aa9902c194ce2fd48ae8789fa1b5273698c02b7ad91d0d561742567fd4cef";
 
@@ -939,7 +866,7 @@ describe("Shared", ({ afterEach, beforeAll, beforeEach, each, nock, assert, load
 		context.subject = new TransactionService(context.wallet);
 	});
 
-	afterEach(() => {});
+	afterEach(() => { });
 
 	each(
 		"should create a transfer for %s",

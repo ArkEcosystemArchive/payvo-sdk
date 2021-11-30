@@ -1,4 +1,4 @@
-import { Identities } from "@arkecosystem/crypto";
+import { Identities } from "../../source/crypto/index.js";
 
 export const identity = {
 	// Standard

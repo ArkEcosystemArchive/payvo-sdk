@@ -26,9 +26,6 @@ describe("FeeService", async ({ beforeEach, afterEach, beforeAll, it, assert, no
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
 		assert.equal(result.transfer, {
