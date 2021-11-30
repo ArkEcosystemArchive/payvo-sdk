@@ -12,7 +12,7 @@ export class ByteBuffer {
 	}
 
 	public get limit(): number {
-		return 0;
+		return this.#buffer.length;
 	}
 
 	public append(data: Buffer | string, encoding?: BufferEncoding): void {
