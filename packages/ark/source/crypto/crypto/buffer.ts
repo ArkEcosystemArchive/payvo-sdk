@@ -78,11 +78,13 @@ export class ByteBuffer {
 	}
 
 	public skip(length: number): ByteBuffer {
+		this.#buffer.readString(length);
+
 		return this;
 	}
 
 	public flip(): ByteBuffer {
-		this.#buffer.reverse();
+		// this.#buffer.();
 
 		return this;
 	}
