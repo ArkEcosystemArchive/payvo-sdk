@@ -8,7 +8,7 @@ export class ByteBuffer {
 	}
 
 	public get offset(): number {
-		return this.#buffer.readOffset;
+		return this.#buffer.readOffset || this.#buffer.writeOffset;
 	}
 
 	public get limit(): number {
