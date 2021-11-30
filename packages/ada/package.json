@@ -1,42 +1,41 @@
 {
-	"name": "@payvo/sdk-ada",
-	"version": "4.0.0-next.7",
-	"description": "Cross-Platform Utilities for Payvo Applications",
-	"license": "MIT",
-	"contributors": [],
-	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
-	"files": [
-		"/distribution"
-	],
-	"scripts": {
-		"build": "pnpm run clean && tsc",
-		"build:release": "webpack --config ../../webpack.config.cjs",
-		"build:watch": "pnpm run clean && tsc -w",
-		"clean": "rimraf .coverage distribution tmp",
-		"prepublishOnly": "NODE_ENV=production pnpm run build:release",
-		"release": "pnpm publish --access=public",
-		"release:next": "pnpm publish --access=public --publish-branch=develop --tag=next",
-		"test": "uvu -r tsm source .test.ts",
-		"test:coverage": "c8 pnpm run test",
-		"test:watch": "watchlist source -- pnpm run test"
-	},
-	"dependencies": {
-		"@emurgo/cardano-serialization-lib-nodejs": "^9.0.0",
-		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-cryptography": "workspace:*",
-		"@payvo/sdk-helpers": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*"
-	},
-	"devDependencies": {
-		"@payvo/sdk-http-fetch": "workspace:*",
-		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10",
-		"got": "^11.8.3"
-	},
-	"engines": {
-		"node": ">=16.0.0"
-	},
-	"engineStrict": true
+    "name": "@payvo/sdk-ada",
+    "version": "4.0.0-next.9",
+    "description": "Cross-Platform Utilities for Payvo Applications",
+    "license": "MIT",
+    "contributors": [],
+    "type": "module",
+    "exports": "./distribution/index.js",
+    "types": "./distribution/index.d.ts",
+    "files": [
+        "/distribution"
+    ],
+    "scripts": {
+        "build": "pnpm run clean && tsc",
+        "build:release": "webpack --config ../../webpack.config.cjs",
+        "build:watch": "pnpm run clean && tsc -w",
+        "clean": "rimraf .coverage distribution tmp",
+        "release": "pnpm publish --access=public",
+        "release:next": "pnpm publish --access=public --publish-branch=develop --tag=next",
+        "test": "uvu -r tsm source .test.ts",
+        "test:coverage": "c8 pnpm run test",
+        "test:watch": "watchlist source -- pnpm run test"
+    },
+    "dependencies": {
+        "@emurgo/cardano-serialization-lib-nodejs": "^9.0.0",
+        "@payvo/sdk": "workspace:*",
+        "@payvo/sdk-cryptography": "workspace:*",
+        "@payvo/sdk-helpers": "workspace:*",
+        "@payvo/sdk-intl": "workspace:*"
+    },
+    "devDependencies": {
+        "@payvo/sdk-http-fetch": "workspace:*",
+        "@payvo/sdk-test": "workspace:*",
+        "@types/node": "^16.11.10",
+        "got": "^11.8.3"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "engineStrict": true
 }
