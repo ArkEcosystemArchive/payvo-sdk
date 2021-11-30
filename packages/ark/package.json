@@ -15,13 +15,12 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
+		"test": "uvu -r tsm source/crypto .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
 		"@arkecosystem/crypto": "^3.0.5",
-		"@arkecosystem/crypto-identities": "^1.2.0",
 		"@arkecosystem/ledger-transport": "^2.0.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",

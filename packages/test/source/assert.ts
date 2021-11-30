@@ -34,6 +34,7 @@ export const assert = {
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
 		empty: (value: unknown[]): void => uvu.ok(Object.keys(value).length > 0),
 		matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.throws(() => z.object(schema).parse(value)),
+		undefined: (value: unknown): void => uvu.ok(value !== undefined),
 	},
 	null: (value: unknown): void => uvu.ok(value === null),
 	number: (value: unknown): void => uvu.type(value, "number"),

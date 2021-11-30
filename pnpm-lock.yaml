@@ -96,7 +96,6 @@ importers:
   packages/ark:
     specifiers:
       '@arkecosystem/crypto': ^3.0.5
-      '@arkecosystem/crypto-identities': ^1.2.0
       '@arkecosystem/ledger-transport': ^2.0.0
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
@@ -114,7 +113,6 @@ importers:
       semver: ^7.3.5
     dependencies:
       '@arkecosystem/crypto': 3.0.5
-      '@arkecosystem/crypto-identities': 1.2.0
       '@arkecosystem/ledger-transport': 2.0.0
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
