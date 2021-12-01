@@ -1,4 +1,4 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 
 import { privateToPublic, sign, verify } from "./crypto.js";
 

@@ -1,8 +1,8 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BinTools, Buffer } from "avalanche";
+import { Coins, IoC, Services } from "@payvo/sdk";
+import { Hash } from "@payvo/sdk-cryptography";
+import { BinTools } from "avalanche";
 import { KeyPair } from "avalanche/dist/apis/avm";
 import { getPreferredHRP } from "avalanche/dist/utils";
-import { createHash } from "crypto";
 
 import { cb58Decode, cb58Encode, keyPairFromMnemonic } from "./helpers.js";
 
@@ -32,12 +32,12 @@ export class MessageService extends Services.AbstractMessageService {
 		return bintools.addressToString(hrp, "X", keypair.addressFromPublicKey(pubKey)) === input.signatory;
 	}
 
-	#digestMessage(msgStr: string): Buffer {
+	#digestMessage(msgStr: string): any {
 		const mBuf = Buffer.from(msgStr, "utf8");
 		const msgSize = Buffer.alloc(4);
 		msgSize.writeUInt32BE(mBuf.length, 0);
 		const msgBuf = Buffer.from(`\x1AAvalanche Signed Message:\n${msgSize}${msgStr}`, "utf8");
 
-		return Buffer.from(createHash("sha256").update(msgBuf).digest());
+		return Buffer.from(Hash.sha256(msgBuf));
 	}
 }

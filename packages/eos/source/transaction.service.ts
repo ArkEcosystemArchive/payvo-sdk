@@ -1,10 +1,10 @@
 import { Coins, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import { createHash } from "crypto";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
+import { Hash } from "@payvo/sdk-cryptography";
 
 @IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
@@ -66,7 +66,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return this.dataTransferObjectService.signedTransaction(
-			createHash("sha256").update(transaction.serializedTransaction).digest("hex"),
+			Hash.sha256(Buffer.from(transaction.serializedTransaction)).toString("hex"),
 			{ ...transaction, timestamp: DateTime.make() },
 			transaction,
 		);
