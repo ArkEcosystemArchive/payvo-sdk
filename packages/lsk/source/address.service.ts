@@ -6,7 +6,6 @@ import {
 } from "@liskhq/lisk-cryptography";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
-import { strict as assert } from "assert";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -22,11 +21,9 @@ export class AddressService extends Services.AbstractAddressService {
 	public override async fromMultiSignature({
 		senderPublicKey,
 	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
-		assert.ok(senderPublicKey);
-
 		return {
 			type: "lip17",
-			address: (await this.fromPublicKey(senderPublicKey)).address,
+			address: (await this.fromPublicKey(senderPublicKey!)).address,
 		};
 	}
 

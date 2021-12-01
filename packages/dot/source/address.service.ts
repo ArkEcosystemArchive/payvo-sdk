@@ -2,7 +2,6 @@ import { IoC, Services } from "@payvo/sdk";
 import { decodeAddress, encodeAddress, Keyring } from "@polkadot/keyring";
 import { hexToU8a, isHex } from "@polkadot/util";
 import { createKeyMulti } from "@polkadot/util-crypto";
-import { strict as assert } from "assert";
 
 import { BindingType } from "./constants.js";
 
@@ -25,12 +24,9 @@ export class AddressService extends Services.AbstractAddressService {
 		min,
 		publicKeys,
 	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
-		assert.ok(publicKeys);
-		assert.ok(min);
-
 		return {
 			type: "ss58",
-			address: encodeAddress(createKeyMulti(publicKeys, min), 0),
+			address: encodeAddress(createKeyMulti(publicKeys!, min!), 0),
 		};
 	}
 

@@ -7,7 +7,6 @@ import { BindingType } from "./constants.js";
 import { AddressFactory } from "./address.factory";
 import { getNetworkConfig, getNetworkID } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
-import { strict as assert } from "assert";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
@@ -44,16 +43,13 @@ export class AddressService extends Services.AbstractAddressService {
 		{ min, publicKeys }: Services.MultisignatureAddressInput,
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
-		assert.ok(publicKeys);
-		assert.ok(min);
-
 		let result;
 
 		if (options?.bip44) {
 			result = bitcoin.payments.p2sh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map(convertString),
+					pubkeys: publicKeys!.map(convertString),
 				}),
 				network: this.#network,
 			});
@@ -64,7 +60,7 @@ export class AddressService extends Services.AbstractAddressService {
 				redeem: bitcoin.payments.p2wsh({
 					redeem: bitcoin.payments.p2ms({
 						m: min,
-						pubkeys: publicKeys.map(convertString),
+						pubkeys: publicKeys!.map(convertString),
 					}),
 				}),
 				network: this.#network,
@@ -75,7 +71,7 @@ export class AddressService extends Services.AbstractAddressService {
 			result = bitcoin.payments.p2wsh({
 				redeem: bitcoin.payments.p2ms({
 					m: min,
-					pubkeys: publicKeys.map(convertString),
+					pubkeys: publicKeys!.map(convertString),
 				}),
 				network: this.#network,
 			});

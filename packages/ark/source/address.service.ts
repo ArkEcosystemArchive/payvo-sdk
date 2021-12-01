@@ -4,7 +4,6 @@ import { Keys } from "./crypto/identities/keys.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
-import { strict as assert } from "assert";
 
 import { BindingType } from "./coin.contract.js";
 
@@ -29,11 +28,9 @@ export class AddressService extends Services.AbstractAddressService {
 		min,
 		publicKeys,
 	}: Services.MultisignatureAddressInput): Promise<Services.AddressDataTransferObject> {
-		assert.ok(publicKeys);
-		assert.ok(min);
-
 		return {
 			type: "bip39",
+			// @ts-ignore
 			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.config.network),
 		};
 	}
