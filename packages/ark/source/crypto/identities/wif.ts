@@ -6,21 +6,21 @@ import { getWIF } from "./helpers.js";
 import { Keys } from "./keys";
 
 export class WIF {
-    public static fromPassphrase(passphrase: string, network?: Network): string {
-        const { compressed, privateKey }: KeyPair = Keys.fromPassphrase(passphrase);
+	public static fromPassphrase(passphrase: string, network?: Network): string {
+		const { compressed, privateKey }: KeyPair = Keys.fromPassphrase(passphrase);
 
-        return Base.encode({
-            version: getWIF(network),
-            privateKey,
-            compressed,
-        });
-    }
+		return Base.encode({
+			version: getWIF(network),
+			privateKey,
+			compressed,
+		});
+	}
 
-    public static fromKeys(keys: KeyPair, network?: Network): string {
-        return Base.encode({
-            version: getWIF(network),
-            privateKey: keys.privateKey,
-            compressed: keys.compressed,
-        });
-    }
+	public static fromKeys(keys: KeyPair, network?: Network): string {
+		return Base.encode({
+			version: getWIF(network),
+			privateKey: keys.privateKey,
+			compressed: keys.compressed,
+		});
+	}
 }
