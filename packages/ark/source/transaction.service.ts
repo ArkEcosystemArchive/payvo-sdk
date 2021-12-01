@@ -235,7 +235,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		} else {
 			const wallet = await this.clientService.wallet({ type: "address", value: address! });
 
-			transaction.nonce(wallet.nonce().plus(1).toFixed());
+			transaction.nonce(wallet.nonce() + 1);
 		}
 
 		if (input.data && input.data.amount) {

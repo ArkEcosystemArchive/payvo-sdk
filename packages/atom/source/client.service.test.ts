@@ -35,7 +35,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.is(result.id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
 		assert.is(result.type(), "transfer");
 		assert.instance(result.timestamp(), DateTime);
-		assert.equal(result.confirmations(), BigNumber.ZERO);
+		assert.equal(result.confirmations(), 0);
 		assert.is(result.sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 		assert.is(result.recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
 		assert.equal(result.amount(), BigNumber.make(10680));
@@ -59,7 +59,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.is(result.items()[0].id(), "B0DB35EADB3655E954A785B1ED0402222EF8C7061B22E52720AB1CE027ADBD11");
 		assert.is(result.items()[0].type(), "transfer");
 		assert.instance(result.items()[0].timestamp(), DateTime);
-		assert.equal(result.items()[0].confirmations(), BigNumber.ZERO);
+		assert.equal(result.items()[0].confirmations(), 0);
 		assert.is(result.items()[0].sender(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 		assert.is(result.items()[0].recipient(), "cosmos14ddvyl5t0hzmknceuv3zzu5szuum4rkygpq5ln");
 		assert.equal(result.items()[0].amount(), BigNumber.make(10680));
@@ -83,7 +83,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.is(result.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 		assert.is(result.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
 		assert.equal(result.balance().available, BigNumber.make(22019458509));
-		assert.equal(result.nonce(), BigNumber.make(24242));
+		assert.equal(result.nonce(), 24242);
 	});
 
 	const transactionPayload = createService(SignedTransactionData).configure(

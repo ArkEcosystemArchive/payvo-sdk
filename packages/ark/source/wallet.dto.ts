@@ -23,8 +23,8 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		};
 	}
 
-	public override nonce(): BigNumber {
-		return BigNumber.make(this.data.nonce);
+	public override nonce(): number {
+		return Number(this.data.nonce);
 	}
 
 	public override secondPublicKey(): string | undefined {
@@ -49,7 +49,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return BigNumber.make(balance);
 	}
 
-	public multiSignature(): Contracts.WalletMultiSignature {
+	public override multiSignature(): Contracts.WalletMultiSignature {
 		if (!this.isMultiSignature()) {
 			throw new Error("This wallet does not have a multi-signature registered.");
 		}

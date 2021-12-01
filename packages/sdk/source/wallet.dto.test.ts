@@ -79,7 +79,7 @@ describe("AbstractWalletData", ({ assert, it, nock, loader }) => {
 	});
 
 	it("#nonce", () => {
-		assert.equal(new Wallet({ key: "value" }).nonce(), BigNumber.ZERO);
+		assert.equal(new Wallet({ key: "value" }).nonce(), 0);
 	});
 
 	it("#secondPublicKey", () => {

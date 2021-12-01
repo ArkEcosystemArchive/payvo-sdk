@@ -16,7 +16,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 		assert.is(context.subject.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
 		assert.is(context.subject.type(), "transfer");
 		assert.instance(context.subject.timestamp(), DateTime);
-		assert.is(context.subject.confirmations().toNumber(), 123456);
+		assert.is(context.subjectoNumber(), 123456);
 
 		assert.is(context.subject.sender(), "1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
 

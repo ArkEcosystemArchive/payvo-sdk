@@ -79,7 +79,7 @@ export const generateRegistrationTransactionData = async ({
 
 	if (wallet.wallet.network().id() === "ark.devnet") {
 		transactionData = {
-			nonce: wallet.wallet.nonce().plus(1).toString(),
+			nonce: wallet.wallet.nonce() + 1,
 			fee: 5,
 			signatory: await wallet.wallet.coin().signatory().mnemonic(wallet.mnemonic),
 			data: {
@@ -93,7 +93,7 @@ export const generateRegistrationTransactionData = async ({
 
 	if (wallet.wallet.network().id() === "lsk.testnet") {
 		transactionData = {
-			nonce: wallet.wallet.nonce().plus(1).toString(),
+			nonce: wallet.wallet.nonce() + 1,
 			fee: 5,
 			signatory: await wallet.wallet.coin().signatory().mnemonic(wallet.mnemonic),
 			data: {
@@ -147,7 +147,7 @@ export const createMusigRegistrationFixture = ({
 				fee: fee || "1500000000",
 				senderPublicKey: wallet.publicKey(),
 				typeGroup: 1,
-				nonce: wallet.nonce().plus(1).toString(),
+				nonce: wallet.nonce() + 1,
 				signatures,
 				amount: "0",
 				asset: {
@@ -182,7 +182,7 @@ export const createMusigRegistrationFixture = ({
 					mandatoryKeys,
 					optionalKeys,
 				},
-				nonce: wallet.nonce().plus(1).toString(),
+				nonce: wallet.nonce() + 1,
 				senderPublicKey: wallet.publicKey(),
 				// Make sure fee is enough to avoid side-effects in wallet statuses (isAwaitingOurSignature, isAwaitingOtherSignatures etc)
 				fee: fee || "1500000000",

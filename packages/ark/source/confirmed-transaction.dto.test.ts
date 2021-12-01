@@ -31,7 +31,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	});
 
 	it("should have a number of confirmations", (context) => {
-		assert.equal(context.subject.confirmations(), BigNumber.make(4636121));
+		assert.equal(context.subject.confirmations(), 4636121);
 	});
 
 	it("should have a sender", (context) => {

@@ -40,7 +40,7 @@ export class ExtendedConfirmedTransactionData implements Contracts.ConfirmedTran
 		return this.#data.timestamp();
 	}
 
-	public confirmations(): BigNumber {
+	public confirmations(): number {
 		return this.#data.confirmations();
 	}
 

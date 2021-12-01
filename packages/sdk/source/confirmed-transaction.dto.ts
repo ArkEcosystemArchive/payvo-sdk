@@ -84,8 +84,8 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 		throw new NotImplemented(this.constructor.name, this.timestamp.name);
 	}
 
-	public confirmations(): BigNumber {
-		return BigNumber.ZERO;
+	public confirmations(): number {
+		return 0;
 	}
 
 	public sender(): string {
@@ -129,7 +129,7 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public isConfirmed(): boolean {
-		return this.confirmations().isGreaterThanOrEqualTo(1);
+		return this.confirmations() >= 1;
 	}
 
 	public isReturn(): boolean {

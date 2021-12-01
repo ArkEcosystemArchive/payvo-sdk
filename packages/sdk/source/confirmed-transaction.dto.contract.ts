@@ -32,7 +32,7 @@ export interface ConfirmedTransactionData {
 
 	timestamp(): DateTime | undefined;
 
-	confirmations(): BigNumber;
+	confirmations(): number;
 
 	sender(): string;
 

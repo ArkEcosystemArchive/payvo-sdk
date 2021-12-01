@@ -8,18 +8,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return this.data.id;
 	}
 
-	public override blockId(): string | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.blockId.name);
-	}
-
-	public override timestamp(): DateTime {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.timestamp.name);
-	}
-
-	public override confirmations(): BigNumber {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.confirmations.name);
-	}
-
 	public override sender(): string {
 		return this.data.sender;
 	}
@@ -30,14 +18,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	public override recipients(): Contracts.MultiPaymentRecipient[] {
 		return [{ address: this.recipient(), amount: this.amount() }];
-	}
-
-	public override inputs(): Contracts.UnspentTransactionData[] {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.inputs.name);
-	}
-
-	public override outputs(): Contracts.UnspentTransactionData[] {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.outputs.name);
 	}
 
 	public override amount(): BigNumber {

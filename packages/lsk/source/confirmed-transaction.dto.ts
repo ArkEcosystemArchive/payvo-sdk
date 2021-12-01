@@ -19,12 +19,12 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return DateTime.fromUnix(this.data.block.timestamp);
 	}
 
-	public override confirmations(): BigNumber {
+	public override confirmations(): number {
 		if (this.data.confirmations) {
-			return BigNumber.make(this.data.confirmations);
+			return Number(this.data.confirmations);
 		}
 
-		return BigNumber.ZERO;
+		return 0;
 	}
 
 	public override sender(): string {

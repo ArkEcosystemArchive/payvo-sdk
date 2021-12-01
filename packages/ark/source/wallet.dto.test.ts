@@ -100,7 +100,7 @@ for (const network of ["mainnet", "devnet"]) {
 		});
 
 		it("should have a nonce", (context) => {
-			assert.equal(context.subject.nonce(), BigNumber.make("111932"));
+			assert.equal(context.subject.nonce(), 111932);
 		});
 
 		it("should have a secondary public key", (context) => {

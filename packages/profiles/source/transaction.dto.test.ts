@@ -23,7 +23,7 @@ const createSubject = (wallet, properties, klass) => {
 		asset: () => ({}),
 		blockId: () => "transactionBlockId",
 		bridgechainId: () => "bridgechainId",
-		confirmations: () => BigNumber.make(20),
+		confirmations: () => 20,
 		fee: () => BigNumber.make(2e8, 8),
 		getMeta: () => meta,
 		id: () => "transactionId",
@@ -37,7 +37,7 @@ const createSubject = (wallet, properties, klass) => {
 		setMeta: (key, value) => {
 			meta = value;
 		},
-		timestamp: () => {},
+		timestamp: () => { },
 		toObject: () => ({}),
 		type: () => "some type",
 		...properties,
@@ -105,7 +105,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 			context.wallet,
 			{
 				...context.subject,
-				blockId: () => {},
+				blockId: () => { },
 			},
 			ExtendedConfirmedTransactionData,
 		);
@@ -122,7 +122,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 	});
 
 	it("should have confirmations", (context) => {
-		assert.equal(context.subject.confirmations(), BigNumber.make(20));
+		assert.equal(context.subject.confirmations(), 20);
 	});
 
 	it("should have a sender", (context) => {

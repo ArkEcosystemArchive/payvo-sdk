@@ -66,7 +66,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have confirmations", (context) => {
-		assert.equal(context.subject.confirmations(), BigNumber.make(35754));
+		assert.equal(context.subject.confirmations(), 35754);
 	});
 
 	it("should have sender", (context) => {

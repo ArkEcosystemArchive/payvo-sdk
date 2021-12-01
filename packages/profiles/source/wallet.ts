@@ -180,14 +180,14 @@ export class Wallet implements IReadWriteWallet {
 	}
 
 	/** {@inheritDoc IReadWriteWallet.nonce} */
-	public nonce(): BigNumber {
+	public nonce(): number {
 		const value: string | undefined = this.data().get(WalletData.Sequence);
 
 		if (value === undefined) {
-			return BigNumber.ZERO;
+			return 0;
 		}
 
-		return BigNumber.make(value, this.#decimals());
+		return Number(value);
 	}
 
 	/** {@inheritDoc IReadWriteWallet.avatar} */

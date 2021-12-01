@@ -47,16 +47,12 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		};
 	}
 
-	public override nonce(): BigNumber {
+	public override nonce(): number {
 		if (this.data.sequence?.nonce) {
-			return BigNumber.make(this.data.sequence.nonce);
+			return Number(this.data.sequence.nonce);
 		}
 
-		return BigNumber.ZERO;
-	}
-
-	public override secondPublicKey(): string | undefined {
-		return undefined;
+		return 0;
 	}
 
 	public override username(): string | undefined {
@@ -75,7 +71,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return BigNumber.ZERO;
 	}
 
-	public multiSignature(): Contracts.WalletMultiSignature {
+	public override multiSignature(): Contracts.WalletMultiSignature {
 		if (!this.isMultiSignature()) {
 			throw new Error("This wallet does not have a multi-signature registered.");
 		}
@@ -88,15 +84,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return !!this.data.summary?.isDelegate;
 	}
 
-	public override isResignedDelegate(): boolean {
-		return false;
-	}
-
 	public override isMultiSignature(): boolean {
 		return !!this.data.summary?.isMultisignature;
-	}
-
-	public override isSecondSignature(): boolean {
-		return false;
 	}
 }

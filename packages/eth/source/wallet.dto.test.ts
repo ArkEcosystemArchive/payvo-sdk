@@ -7,11 +7,11 @@ import { createService } from "../test/mocking";
 describe("WalletData", async ({ beforeEach, it, assert }) => {
 	beforeEach(
 		async (context) =>
-			(context.subject = (await createService(WalletData)).fill({
-				address: "0x4581a610f96878266008993475f1476ca9997081",
-				balance: 10,
-				nonce: 0,
-			})),
+		(context.subject = (await createService(WalletData)).fill({
+			address: "0x4581a610f96878266008993475f1476ca9997081",
+			balance: 10,
+			nonce: 0,
+		})),
 	);
 
 	it("should have an address", (context) => {
@@ -27,7 +27,7 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have a nonce", (context) => {
-		assert.equal(context.subject.nonce(), BigNumber.ZERO);
+		assert.equal(context.subject.nonce(), 0);
 	});
 
 	it("should have a method to know if wallet is multisignature", (context) => {

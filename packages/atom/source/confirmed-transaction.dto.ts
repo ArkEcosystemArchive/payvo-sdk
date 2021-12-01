@@ -16,10 +16,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return DateTime.make(this.data.timestamp);
 	}
 
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override sender(): string {
 		const event = this.data.events.find(({ type }) => type === "message");
 		const attribute = event.attributes.find(({ key }) => key === "sender");

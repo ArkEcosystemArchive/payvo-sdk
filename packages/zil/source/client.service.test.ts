@@ -51,7 +51,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, nock, load
 		assert.instance(result, WalletData);
 		assert.is(result.address(), identity.address);
 		assert.equal(result.balance().available, BigNumber.make(499890000000));
-		assert.equal(result.nonce(), BigNumber.make(1));
+		assert.equal(result.nonce(), 1);
 	});
 
 	it("should broadcast", async (context) => {

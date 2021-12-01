@@ -28,7 +28,7 @@ describe("WalletData", async ({ beforeAll, assert, it, nock, loader }) => {
 	});
 
 	it("should have the nonce", (context) => {
-		assert.equal(context.subject.nonce(), BigNumber.make(24242));
+		assert.equal(context.subject.nonce(), 24242);
 	});
 
 	it("should have a method to know if wallet is multisignature", (context) => {

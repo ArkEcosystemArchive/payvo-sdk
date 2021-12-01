@@ -23,7 +23,7 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have a nonce", (context) => {
-		assert.equal(context.subject.nonce(), BigNumber.make(24242));
+		assert.equal(context.subject.nonce(), 24242);
 	});
 
 	it("should have a second public key", (context) => {

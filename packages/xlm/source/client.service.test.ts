@@ -84,7 +84,7 @@ describe("ClientService", async ({ beforeAll, it, assert, nock }) => {
 		assert.is(result.address(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
 		assert.is(result.publicKey(), "GD42RQNXTRIW6YR3E2HXV5T2AI27LBRHOERV2JIYNFMXOBA234SWLQQB");
 		assert.equal(result.balance().available, BigNumber.make("100000000000000"));
-		assert.equal(result.nonce(), BigNumber.make("7275146318446606"));
+		assert.equal(result.nonce(), 7275146318446606);
 	});
 
 	it("broadcast should pass", async (context) => {

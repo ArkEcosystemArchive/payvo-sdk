@@ -194,8 +194,8 @@ export class ExtendedSignedTransactionData {
 		return undefined;
 	}
 
-	public confirmations(): BigNumber {
-		return BigNumber.ZERO;
+	public confirmations(): number {
+		return 0;
 	}
 
 	public isConfirmed(): boolean {

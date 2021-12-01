@@ -1,86 +1,86 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { RawTransactionData, SignedTransactionData } from "./signed-transaction.dto.contract.js";
 import {
-	UnspentTransactionData,
-	ConfirmedTransactionData,
-	MultiPaymentRecipient,
-	TransactionDataMeta,
+    UnspentTransactionData,
+    ConfirmedTransactionData,
+    MultiPaymentRecipient,
+    TransactionDataMeta,
 } from "./confirmed-transaction.dto.contract.js";
 
 export type KeyValuePair = Record<string, any>;
 
 export interface WalletBalance {
-	total: BigNumber;
-	available: BigNumber;
-	fees: BigNumber;
-	locked?: BigNumber;
-	lockedVotes?: BigNumber;
-	lockedUnvotes?: BigNumber;
-	tokens?: Record<string, BigNumber>;
+    total: BigNumber;
+    available: BigNumber;
+    fees: BigNumber;
+    locked?: BigNumber;
+    lockedVotes?: BigNumber;
+    lockedUnvotes?: BigNumber;
+    tokens?: Record<string, BigNumber>;
 }
 
 export interface WalletMultiSignature {
-	// Standard
-	min?: number;
-	publicKeys?: string[];
-	limit?: number;
-	// Advanced
-	mandatoryKeys?: string[];
-	numberOfSignatures?: number;
-	optionalKeys?: string[];
+    // Standard
+    min?: number;
+    publicKeys?: string[];
+    limit?: number;
+    // Advanced
+    mandatoryKeys?: string[];
+    numberOfSignatures?: number;
+    optionalKeys?: string[];
 }
 
 export interface WalletData {
-	fill(data: any): WalletData;
+    fill(data: any): WalletData;
 
-	// Wallet
-	primaryKey(): string;
+    // Wallet
+    primaryKey(): string;
 
-	address(): string;
+    address(): string;
 
-	publicKey(): string | undefined;
+    publicKey(): string | undefined;
 
-	balance(): WalletBalance;
+    balance(): WalletBalance;
 
-	nonce(): BigNumber;
+    nonce(): number;
 
-	// Second Signature
-	secondPublicKey(): string | undefined;
+    // Second Signature
+    secondPublicKey(): string | undefined;
 
-	// Delegate
-	username(): string | undefined;
+    // Delegate
+    username(): string | undefined;
 
-	rank(): number | undefined;
+    rank(): number | undefined;
 
-	votes(): BigNumber | undefined;
+    votes(): BigNumber | undefined;
 
-	multiSignature(): WalletMultiSignature;
+    multiSignature(): WalletMultiSignature;
 
-	// Flags
-	isDelegate(): boolean;
+    // Flags
+    isDelegate(): boolean;
 
-	isResignedDelegate(): boolean;
+    isResignedDelegate(): boolean;
 
-	isMultiSignature(): boolean;
+    isMultiSignature(): boolean;
 
-	isSecondSignature(): boolean;
+    isSecondSignature(): boolean;
 
-	toObject(): KeyValuePair;
+    toObject(): KeyValuePair;
 
-	hasPassed(): boolean;
+    hasPassed(): boolean;
 
-	hasFailed(): boolean;
+    hasFailed(): boolean;
 }
 
 type LedgerTransport = any;
 
 // @TODO: export those directly from the files and get rid of this whole file
 export {
-	ConfirmedTransactionData,
-	LedgerTransport,
-	MultiPaymentRecipient,
-	RawTransactionData,
-	SignedTransactionData,
-	TransactionDataMeta,
-	UnspentTransactionData,
+    ConfirmedTransactionData,
+    LedgerTransport,
+    MultiPaymentRecipient,
+    RawTransactionData,
+    SignedTransactionData,
+    TransactionDataMeta,
+    UnspentTransactionData,
 };

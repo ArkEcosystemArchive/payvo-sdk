@@ -161,11 +161,11 @@ describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) =
 	});
 
 	it("should have a nonce", (context) => {
-		assert.equal(context.subject.nonce(), BigNumber.make("111932"));
+		assert.equal(context.subject.nonce(), 111932);
 
 		context.subject.data().set(WalletData.Sequence, undefined);
 
-		assert.is(context.subject.nonce().toNumber(), 0);
+		assert.is(context.subject.nonce(), 0);
 	});
 
 	it("should have a manifest service", (context) => {
