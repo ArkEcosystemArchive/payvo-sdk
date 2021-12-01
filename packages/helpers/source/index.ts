@@ -161,7 +161,6 @@ export * from "./sample.js";
 export * from "./semver.js";
 export * from "./set.js";
 export * from "./shuffle.js";
-export * from "./sleep.js";
 export * from "./snake-case.js";
 export * from "./some.js";
 export * from "./sort-by-desc.js";
