@@ -29,13 +29,13 @@ const polyfillsPlugins = [
 ];
 
 const baseConfig = {
-	onwarn (warning, warn) {
-        if (warning.code === "CIRCULAR_DEPENDENCY") {
+	onwarn(warning, warn) {
+		if (warning.code === "CIRCULAR_DEPENDENCY") {
 			return;
 		}
 
 		warn(warning);
-    },
+	},
 };
 
 /** Compatible code for bundlers (webpack, rollup) */
