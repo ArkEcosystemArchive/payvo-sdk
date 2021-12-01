@@ -32,7 +32,7 @@ const polyfillsPlugins = [
 
 const baseConfig = {
 	onwarn(warning, warn) {
-		if (warning.code === "UNRESOLVED_IMPORT" && warning.source === "tslib") {
+		if (warning.code === "UNRESOLVED_IMPORT") {
 			return;
 		}
 
