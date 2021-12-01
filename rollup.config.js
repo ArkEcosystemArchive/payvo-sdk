@@ -32,9 +32,29 @@ const polyfillsPlugins = [
 
 const baseConfig = {
 	onwarn(warning, warn) {
+		if (warning.code === "UNRESOLVED_IMPORT" && warning.source === "tslib") {
+			return;
+		}
+
+		if (warning.code === "MISSING_GLOBAL_NAME" && warning.source === "tslib") {
+			return;
+		}
+
 		if (warning.code === "CIRCULAR_DEPENDENCY") {
 			return;
 		}
+
+		// Error when using sourcemap for reporting an error: Can't resolve original location of error.
+		if (warning.code === "SOURCEMAP_ERROR") {
+			return;
+		}
+
+		// The 'this' keyword is equivalent to 'undefined' at the top level of an ES module, and has been rewritten
+		if (warning.code === "THIS_IS_UNDEFINED") {
+			return;
+		}
+
+		console.log(warning)
 
 		warn(warning);
 	},
