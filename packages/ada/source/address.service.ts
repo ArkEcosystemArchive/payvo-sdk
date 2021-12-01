@@ -1,5 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { bech32 } from "@payvo/sdk-cryptography";
+import { bech32 } from "bech32";
 
 import { addressFromAccountExtPublicKey, addressFromMnemonic } from "./shelley.js";
 

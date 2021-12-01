@@ -104,6 +104,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
+      bech32: ^2.0.0
       got: ^11.8.3
     dependencies:
       '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
@@ -111,6 +112,7 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
+      bech32: 2.0.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test
@@ -167,6 +169,7 @@ importers:
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
       bcrypto: ^5.4.0
+      bech32: ^2.0.0
       got: ^11.8.3
       ledger-cosmos-js: ^2.1.8
     dependencies:
@@ -175,6 +178,7 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
       bcrypto: 5.4.0
+      bech32: 2.0.0
       ledger-cosmos-js: 2.1.8
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
@@ -373,6 +377,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
+      bech32: ^2.0.0
       got: ^11.8.3
     dependencies:
       '@elrondnetwork/elrond-core-js': 2.1.0
@@ -382,6 +387,7 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
+      bech32: 2.0.0
     devDependencies:
       '@payvo/sdk-http-fetch': link:../http-fetch
       '@payvo/sdk-test': link:../test

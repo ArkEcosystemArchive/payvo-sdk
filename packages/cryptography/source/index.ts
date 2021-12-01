@@ -13,5 +13,3 @@ export * from "./hdkey.js";
 export * from "./pbkdf2.js";
 export * from "./uuid.js";
 export * from "./wif.js";
-export { secp256k1 } from "bcrypto";
-export { bech32 } from "bech32";

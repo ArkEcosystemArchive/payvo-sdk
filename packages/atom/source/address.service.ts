@@ -1,5 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import { BIP44, bech32 } from "@payvo/sdk-cryptography";
+import { BIP44 } from "@payvo/sdk-cryptography";
+import { bech32 } from "bech32";
 
 @IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
