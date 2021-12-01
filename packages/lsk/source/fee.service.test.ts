@@ -53,9 +53,6 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
 		assert.is(result.transfer.min.toString(), "10000000");

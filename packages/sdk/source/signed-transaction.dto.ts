@@ -25,9 +25,6 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	readonly #types = {
 		delegateRegistration: "isDelegateRegistration",
 		delegateResignation: "isDelegateResignation",
-		htlcClaim: "isHtlcClaim",
-		htlcLock: "isHtlcLock",
-		htlcRefund: "isHtlcRefund",
 		ipfs: "isIpfs",
 		magistrate: "isMagistrate",
 		multiPayment: "isMultiPayment",
@@ -89,7 +86,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public fee(): BigNumber {
-		throw new NotImplemented(this.constructor.name, this.fee.name);
+		return BigNumber.ZERO;
 	}
 
 	public memo(): string | undefined {

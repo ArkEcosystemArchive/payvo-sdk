@@ -14,9 +14,6 @@ import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 import {
 	DelegateRegistrationInput,
 	DelegateResignationInput,
-	HtlcClaimInput,
-	HtlcLockInput,
-	HtlcRefundInput,
 	IpfsInput,
 	MultiPaymentInput,
 	MultiSignatureInput,
@@ -74,18 +71,6 @@ export class AbstractTransactionService implements Contract {
 
 	public async delegateResignation(input: DelegateResignationInput): Promise<SignedTransactionData> {
 		throw new NotImplemented(this.constructor.name, this.delegateResignation.name);
-	}
-
-	public async htlcLock(input: HtlcLockInput): Promise<SignedTransactionData> {
-		throw new NotImplemented(this.constructor.name, this.htlcLock.name);
-	}
-
-	public async htlcClaim(input: HtlcClaimInput): Promise<SignedTransactionData> {
-		throw new NotImplemented(this.constructor.name, this.htlcClaim.name);
-	}
-
-	public async htlcRefund(input: HtlcRefundInput): Promise<SignedTransactionData> {
-		throw new NotImplemented(this.constructor.name, this.htlcRefund.name);
 	}
 
 	public async unlockToken(input: UnlockTokenInput): Promise<SignedTransactionData> {

@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { uniq } from "@payvo/sdk-helpers";
 import { UUID } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";

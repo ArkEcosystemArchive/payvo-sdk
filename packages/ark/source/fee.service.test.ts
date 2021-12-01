@@ -44,9 +44,6 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
 		assert.snapshot("fees_ark_transfer", normaliseFees(result.transfer));
@@ -57,9 +54,6 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 		assert.snapshot("fees_ark_ipfs", normaliseFees(result.ipfs));
 		assert.snapshot("fees_ark_multi_payment", normaliseFees(result.multiPayment));
 		assert.snapshot("fees_ark_delegate_resignation", normaliseFees(result.delegateResignation));
-		assert.snapshot("fees_ark_htlc_lock", normaliseFees(result.htlcLock));
-		assert.snapshot("fees_ark_htlc_claim", normaliseFees(result.htlcClaim));
-		assert.snapshot("fees_ark_htlc_refund", normaliseFees(result.htlcRefund));
 	});
 
 	it("should get the fees for BIND", async () => {
@@ -80,9 +74,6 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
 		assert.snapshot("fees_bind_transfer", normaliseFees(result.transfer));
@@ -93,9 +84,6 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 		assert.snapshot("fees_bind_ipfs", normaliseFees(result.ipfs));
 		assert.snapshot("fees_bind_multi_payment", normaliseFees(result.multiPayment));
 		assert.snapshot("fees_bind_delegate_resignation", normaliseFees(result.delegateResignation));
-		assert.snapshot("fees_bind_htlc_lock", normaliseFees(result.htlcLock));
-		assert.snapshot("fees_bind_htlc_claim", normaliseFees(result.htlcClaim));
-		assert.snapshot("fees_bind_htlc_refund", normaliseFees(result.htlcRefund));
 	});
 
 	it("should calculate the fees for ARK multi-signature registrations", async () => {

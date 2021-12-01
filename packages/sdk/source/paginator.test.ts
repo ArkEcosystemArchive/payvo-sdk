@@ -72,7 +72,6 @@ describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 	});
 
 	it("#transform", (context) => {
-		console.log(context);
 		assert.length(context.subject.items(), 2);
 
 		context.subject.transform((data) => {

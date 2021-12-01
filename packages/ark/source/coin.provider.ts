@@ -1,4 +1,4 @@
-import { Managers } from "@arkecosystem/crypto";
+import { Managers } from "./crypto/index.js";
 import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
 import { BindingType } from "./coin.contract.js";

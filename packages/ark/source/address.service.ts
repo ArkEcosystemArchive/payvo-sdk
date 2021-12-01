@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { Address as BaseAddress } from "./crypto/identities/address.js";
 import { Keys } from "./crypto/identities/keys.js";
 import { IoC, Services } from "@payvo/sdk";
@@ -72,6 +72,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return BaseAddress.validate(address, this.config.network);
+		return BaseAddress.validate(address);
 	}
 }

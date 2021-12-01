@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { PrivateKey as BasePrivateKey } from "./crypto/identities/private-key.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
@@ -32,7 +32,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 
 	public override async fromWIF(wif: string): Promise<Services.PrivateKeyDataTransferObject> {
 		return {
-			privateKey: BasePrivateKey.fromWIF(wif, this.config.network),
+			privateKey: BasePrivateKey.fromWIF(wif),
 		};
 	}
 }

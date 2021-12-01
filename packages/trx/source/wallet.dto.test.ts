@@ -26,26 +26,6 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 		assert.equal(context.subject.nonce(), BigNumber.make(24242));
 	});
 
-	it("should have a second public key", (context) => {
-		assert.throws(() => context.subject.secondPublicKey(), "not implemented");
-	});
-
-	it("should have an username", (context) => {
-		assert.throws(() => context.subject.username(), "not implemented");
-	});
-
-	it("should have the rank", (context) => {
-		assert.throws(() => context.subject.rank(), "not implemented");
-	});
-
-	it("should have votes", (context) => {
-		assert.throws(() => context.subject.votes(), "not implemented");
-	});
-
-	it("should have a method to know get multisignature data", (context) => {
-		assert.throws(() => context.subject.multiSignature(), "not implemented");
-	});
-
 	it("should have a method to know if wallet is multisignature", (context) => {
 		assert.false(context.subject.isMultiSignature());
 	});

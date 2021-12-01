@@ -1,4 +1,5 @@
-import { Crypto } from "@arkecosystem/crypto";
+import { Hash as ARK } from "./crypto/hash.js";
+import { Hash } from "@payvo/sdk-cryptography";
 import { IoC, Services } from "@payvo/sdk";
 
 @IoC.injectable()
@@ -7,7 +8,7 @@ export class MessageService extends Services.AbstractMessageService {
 		return {
 			message: input.message,
 			signatory: input.signatory.publicKey(),
-			signature: Crypto.Hash.signSchnorr(Crypto.HashAlgorithms.sha256(input.message), {
+			signature: ARK.signSchnorr(Hash.sha256(input.message), {
 				publicKey: input.signatory.publicKey(),
 				privateKey: input.signatory.privateKey(),
 				compressed: false,
@@ -16,6 +17,6 @@ export class MessageService extends Services.AbstractMessageService {
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
-		return Crypto.Hash.verifySchnorr(Crypto.HashAlgorithms.sha256(input.message), input.signature, input.signatory);
+		return ARK.verifySchnorr(Hash.sha256(input.message), input.signature, input.signatory);
 	}
 }

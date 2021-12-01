@@ -1,5 +1,6 @@
-import { Managers, Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
+import { Managers, Transactions, Interfaces, Identities, Enums } from "./crypto/index.js";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
+import { numberToHex } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
@@ -75,7 +76,7 @@ export class MultiSignatureSigner {
 				}
 
 				const signature: string = await this.#signWithLedger(transaction, signatory, true);
-				const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
+				const signatureIndex: string = numberToHex(index === -1 ? transaction.signatures.length : index);
 
 				transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
@@ -170,6 +171,7 @@ export class MultiSignatureSigner {
 
 		const signature = await this.ledgerService.signTransaction(
 			signatory.signingKey(),
+			// @ts-ignore
 			Transactions.Serializer.getBytes(transaction, {
 				excludeSignature: true,
 				excludeSecondSignature: true,

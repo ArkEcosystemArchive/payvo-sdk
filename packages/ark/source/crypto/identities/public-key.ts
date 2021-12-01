@@ -1,6 +1,7 @@
 import { secp256k1 } from "bcrypto";
 import { numberToHex } from "@payvo/sdk-helpers";
 
+import { Network } from "../interfaces/networks";
 import { MultiSignatureAsset } from "./contracts";
 import { InvalidMultiSignatureAssetError, PublicKeyError } from "./errors";
 import { Keys } from "./keys";
@@ -10,8 +11,8 @@ export class PublicKey {
 		return Keys.fromPassphrase(passphrase).publicKey;
 	}
 
-	public static fromWIF(wif: string, options: { wif: number }): string {
-		return Keys.fromWIF(wif, options).publicKey;
+	public static fromWIF(wif: string, network?: Network): string {
+		return Keys.fromWIF(wif, network).publicKey;
 	}
 
 	public static fromMultiSignatureAsset(asset: MultiSignatureAsset): string {

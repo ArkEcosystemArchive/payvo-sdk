@@ -19,10 +19,6 @@ export class SignedTransactionData
 		return BigNumber.ZERO;
 	}
 
-	public override fee(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override timestamp(): DateTime {
 		throw new Exceptions.NotImplemented(this.constructor.name, this.timestamp.name);
 	}

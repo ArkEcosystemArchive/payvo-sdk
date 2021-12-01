@@ -16,10 +16,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return DateTime.fromUnix(this.data.local_timestamp);
 	}
 
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override sender(): string {
 		if (this.isSent()) {
 			return this.data._origin;
@@ -38,10 +34,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	public override amount(): BigNumber {
 		return this.bigNumberService.make(this.data.amount);
-	}
-
-	public override fee(): BigNumber {
-		return BigNumber.ZERO;
 	}
 
 	public override isConfirmed(): boolean {

@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { PublicKey as BasePublicKey } from "./crypto/identities/public-key.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
@@ -41,7 +41,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 
 	public override async fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
 		return {
-			publicKey: BasePublicKey.fromWIF(wif, this.config.network),
+			publicKey: BasePublicKey.fromWIF(wif),
 		};
 	}
 }

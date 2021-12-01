@@ -1,7 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { devnet } from "../../../test/crypto/networks.json";
 import { PublicKey } from "./public-key";
 
 const publicKeys = {
@@ -37,7 +36,7 @@ describe("Public Key", ({ assert, it }) => {
 	});
 
 	it("fromWIF", () => {
-		assert.is(PublicKey.fromWIF(data.wif, devnet), data.publicKey);
+		assert.is(PublicKey.fromWIF(data.wif), data.publicKey);
 	});
 
 	it("fromMultiSignatureAddress should be ok", () => {

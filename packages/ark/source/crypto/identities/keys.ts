@@ -1,8 +1,10 @@
 import { Hash, WIF } from "@payvo/sdk-cryptography";
 import { secp256k1 } from "bcrypto";
 
+import { Network } from "../interfaces/networks";
 import { KeyPair } from "./contracts";
 import { NetworkVersionError } from "./errors";
+import { getWIF } from "./helpers.js";
 
 export class Keys {
 	public static fromPassphrase(passphrase: string, compressed = true): KeyPair {
@@ -19,11 +21,11 @@ export class Keys {
 		};
 	}
 
-	public static fromWIF(wif: string, options: { wif: number }): KeyPair {
+	public static fromWIF(wif: string, network?: Network): KeyPair {
 		const { version, compressed, privateKey } = WIF.decode(wif);
 
-		if (version !== options.wif) {
-			throw new NetworkVersionError(options.wif, version);
+		if (version !== getWIF(network)) {
+			throw new NetworkVersionError(getWIF(network), version);
 		}
 
 		return {
