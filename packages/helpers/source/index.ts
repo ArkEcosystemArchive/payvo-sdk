@@ -127,7 +127,6 @@ export * from "./number-to-hex.js";
 export * from "./omit-by.js";
 export * from "./order-by.js";
 export * from "./ordinal.js";
-export * from "./parse-git-url.js";
 export * from "./parse-uri.js";
 export * from "./parse.js";
 export * from "./partition.js";
