@@ -19,10 +19,6 @@ export class SignedTransactionData
 		return this.bigNumberService.make(this.signedData.amountRaw);
 	}
 
-	public override fee(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override timestamp(): DateTime {
 		return DateTime.make(this.signedData.timestamp);
 	}

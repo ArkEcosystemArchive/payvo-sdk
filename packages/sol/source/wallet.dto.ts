@@ -22,30 +22,6 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		};
 	}
 
-	public override nonce(): BigNumber {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.nonce.name);
-	}
-
-	public override secondPublicKey(): string | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.secondPublicKey.name);
-	}
-
-	public override username(): string | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.username.name);
-	}
-
-	public override rank(): number | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.rank.name);
-	}
-
-	public override votes(): BigNumber | undefined {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.votes.name);
-	}
-
-	public multiSignature(): Contracts.WalletMultiSignature {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.multiSignature.name);
-	}
-
 	public override isDelegate(): boolean {
 		return false;
 	}

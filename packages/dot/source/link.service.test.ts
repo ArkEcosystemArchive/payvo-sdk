@@ -9,14 +9,14 @@ describe("LinkService", async ({ beforeAll, assert, it, nock, loader }) => {
 	});
 
 	it("should generate a link for a block", (context) => {
-		assert.is(context.subject.block("id"), "https://polkascan.io/block/id");
+		assert.is(context.subject.block("id"), "https://polkascan.io/polkadot/block/id");
 	});
 
 	it("should generate a link for a transaction", (context) => {
-		assert.is(context.subject.transaction("id"), "https://polkascan.io/tx/id");
+		assert.is(context.subject.transaction("id"), "https://polkascan.io/polkadot/tx/id");
 	});
 
 	it("should generate a link for a wallet", (context) => {
-		assert.is(context.subject.wallet("id"), "https://polkascan.io/address/id");
+		assert.is(context.subject.wallet("id"), "https://polkascan.io/polkadot/address/id");
 	});
 });
