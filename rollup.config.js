@@ -17,7 +17,7 @@ const polyfillsPlugins = [
 		modules: {
 			BigInt: require.resolve("big-integer"),
 			process: "process-es6",
-			Buffer: ["buffer-es6", "Buffer"],
+			Buffer: ["buffer"],
 		},
 		include: undefined,
 	}),
