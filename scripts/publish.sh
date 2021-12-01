@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
 pnpm run clean
-pnpm run rebuild
-NODE_ENV=production pnpm run build:release
+pnpm run build:release
 
 for dir in `find packages -mindepth 1 -maxdepth 1 -type d | sort -nr`; do
     cd $dir
