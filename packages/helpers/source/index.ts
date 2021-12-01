@@ -24,7 +24,6 @@ export * from "./conversion.js";
 export * from "./currency-formatter.js";
 export * from "./dot-case.js";
 export * from "./every.js";
-export * from "./extension.js";
 export * from "./fill.js";
 export * from "./filter-array.js";
 export * from "./filter-object.js";
