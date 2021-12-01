@@ -2,7 +2,7 @@ import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import fetch from "cross-fetch";
-import { TextDecoder, TextEncoder } from "util";
+import { TextEncoder, TextDecoder } from "./utils";
 
 @IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
