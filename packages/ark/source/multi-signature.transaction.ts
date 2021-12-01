@@ -1,4 +1,5 @@
-import { Crypto, Transactions } from "./crypto/index.js";
+import { Transactions } from "./crypto/index.js";
+import { Hash } from "./crypto/hash.js";
 
 import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 
@@ -81,7 +82,7 @@ export class PendingMultiSignatureTransaction {
 			return true;
 		}
 
-		return !Crypto.Hash.verifySchnorr(this.#getHash(), signature.slice(2, 130), publicKey);
+		return !Hash.verifySchnorr(this.#getHash(), signature.slice(2, 130), publicKey);
 	}
 
 	public needsFinalSignature(): boolean {
@@ -93,7 +94,7 @@ export class PendingMultiSignatureTransaction {
 
 		return (
 			!transaction.signature ||
-			!Crypto.Hash.verifySchnorr(this.#getHash(false), transaction.signature, transaction.senderPublicKey!)
+			!Hash.verifySchnorr(this.#getHash(false), transaction.signature, transaction.senderPublicKey!)
 		);
 	}
 
@@ -126,7 +127,7 @@ export class PendingMultiSignatureTransaction {
 			const partialSignature: string = signature.slice(2, 130);
 			const publicKey: string = transaction.multiSignature.publicKeys[publicKeyIndex];
 
-			if (Crypto.Hash.verifySchnorr(this.#getHash(), partialSignature, publicKey)) {
+			if (Hash.verifySchnorr(this.#getHash(), partialSignature, publicKey)) {
 				validSignatures.push(signature);
 			}
 		}

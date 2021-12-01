@@ -63,49 +63,4 @@ export const schemas = {
 		$id: "uri",
 		allOf: [{ format: "uri" }, { minLength: 4, maxLength: 80 }],
 	},
-
-	blockHeader: {
-		$id: "blockHeader",
-		type: "object",
-		required: [
-			"id",
-			"timestamp",
-			"previousBlock",
-			"height",
-			"totalAmount",
-			"totalFee",
-			"reward",
-			"generatorPublicKey",
-			"blockSignature",
-		],
-		properties: {
-			id: { blockId: {} },
-			idHex: { blockId: {} },
-			version: { type: "integer", minimum: 0 },
-			timestamp: { type: "integer", minimum: 0 },
-			previousBlock: { blockId: { allowNullWhenGenesis: true, isPreviousBlock: true } },
-			previousBlockHex: { blockId: { allowNullWhenGenesis: true, isPreviousBlock: true } },
-			height: { type: "integer", minimum: 1 },
-			numberOfTransactions: { type: "integer" },
-			totalAmount: { bignumber: { minimum: 0, bypassGenesis: true, block: true } },
-			totalFee: { bignumber: { minimum: 0, bypassGenesis: true, block: true } },
-			reward: { bignumber: { minimum: 0 } },
-			payloadLength: { type: "integer", minimum: 0 },
-			payloadHash: { $ref: "hex" },
-			generatorPublicKey: { $ref: "publicKey" },
-			blockSignature: { $ref: "hex" },
-		},
-	},
-
-	block: {
-		$id: "block",
-		$ref: "blockHeader",
-		properties: {
-			transactions: {
-				$ref: "transactions",
-				minItems: { $data: "1/numberOfTransactions" },
-				maxItems: { $data: "1/numberOfTransactions" },
-			},
-		},
-	},
 };

@@ -1,5 +1,4 @@
 export * as Constants from "./constants.js";
-export * as Crypto from "./crypto/index.js";
 export * as Enums from "./enums.js";
 export * as Errors from "./errors.js";
 export * as Identities from "./identities/index.js";

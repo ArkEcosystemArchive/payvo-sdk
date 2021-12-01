@@ -1,4 +1,4 @@
-import { Hash } from "../crypto/hash";
+import { Hash } from "../hash";
 import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors";
 import { IMultiSignatureAsset, ISchemaValidationResult, ITransactionData, IVerifyOptions } from "../interfaces";
 import { configManager } from "../managers";

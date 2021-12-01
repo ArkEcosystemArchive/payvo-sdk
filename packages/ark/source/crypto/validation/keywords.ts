@@ -111,8 +111,6 @@ const bignumber = (ajv: Ajv) => {
 			properties: {
 				minimum: { type: "integer" },
 				maximum: { type: "integer" },
-				bypassGenesis: { type: "boolean" },
-				block: { type: "boolean" },
 			},
 			additionalItems: false,
 		},

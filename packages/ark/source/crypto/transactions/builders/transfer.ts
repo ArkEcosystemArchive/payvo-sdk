@@ -1,6 +1,6 @@
-import { ITransactionData } from "../../../interfaces";
+import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { TransferTransaction } from "../../types";
+import { TransferTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class TransferBuilder extends TransactionBuilder<TransferBuilder> {
