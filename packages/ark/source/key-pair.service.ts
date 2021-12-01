@@ -1,10 +1,10 @@
-import { Interfaces } from "@arkecosystem/crypto";
-import { Keys as BaseKeys } from "./crypto/identities/keys.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
-
 import { BindingType } from "./coin.contract.js";
+
+import { Keys as BaseKeys } from "./crypto/identities/keys.js";
+import { Interfaces } from "./crypto/index.js";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {

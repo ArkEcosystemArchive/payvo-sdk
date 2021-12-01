@@ -21,9 +21,6 @@ export class FeeService extends Services.AbstractFeeService {
 			ipfs: fees,
 			multiPayment: fees,
 			delegateResignation: fees,
-			htlcLock: fees,
-			htlcClaim: fees,
-			htlcRefund: fees,
 		};
 	}
 }

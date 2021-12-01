@@ -20,9 +20,6 @@ export interface TransactionFees {
 	ipfs: TransactionFee;
 	multiPayment: TransactionFee;
 	delegateResignation: TransactionFee;
-	htlcLock: TransactionFee;
-	htlcClaim: TransactionFee;
-	htlcRefund: TransactionFee;
 }
 
 export interface FeeService {

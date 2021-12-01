@@ -1,4 +1,4 @@
-import { Enums } from "@arkecosystem/crypto";
+import { Enums } from "./crypto/index.js";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 

@@ -26,9 +26,6 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	readonly #types = {
 		delegateRegistration: "isDelegateRegistration",
 		delegateResignation: "isDelegateResignation",
-		htlcClaim: "isHtlcClaim",
-		htlcLock: "isHtlcLock",
-		htlcRefund: "isHtlcRefund",
 		ipfs: "isIpfs",
 		magistrate: "isMagistrate",
 		multiPayment: "isMultiPayment",

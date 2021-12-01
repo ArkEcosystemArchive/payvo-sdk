@@ -1,5 +1,5 @@
 import { describe } from "@payvo/sdk-test";
-import { Transactions } from "@arkecosystem/crypto";
+import { Transactions } from "./crypto/index.js";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
@@ -334,70 +334,6 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 					privateKey: "privateKey",
 				}),
 			),
-		});
-
-		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
-	});
-
-	it("should create a htlc lock", async (context) => {
-		const result = await context.subject.htlcLock({
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				amount: 1,
-				to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-				secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
-				expiration: {
-					type: 1,
-					value: Math.floor(Date.now() / 1000),
-				},
-			},
-		});
-
-		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
-	});
-
-	it("should create a htlc claim", async (context) => {
-		const result = await context.subject.htlcClaim({
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-				unlockSecret: "c27f1ce845d8c29eebc9006be932b604fd06755521b1a8b0be4204c65377151a",
-			},
-		});
-
-		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
-	});
-
-	it("should create a htlc refund", async (context) => {
-		const result = await context.subject.htlcRefund({
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				lockTransactionId: "943c220691e711c39c79d437ce185748a0018940e1a4144293af9d05627d2eb4",
-			},
 		});
 
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());

@@ -1,4 +1,4 @@
-import { Crypto, Transactions } from "@arkecosystem/crypto";
+import { Crypto, Transactions } from "./crypto/index.js";
 
 import { MultiSignatureTransaction } from "./multi-signature.contract.js";
 

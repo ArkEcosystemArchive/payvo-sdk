@@ -139,9 +139,6 @@ describe("Network", ({ assert, beforeEach, it, stub }) => {
 
 		assert.is(context.subject.allows(FeatureFlag.TransactionDelegateRegistration), true);
 		assert.is(context.subject.allows(FeatureFlag.TransactionDelegateResignation), true);
-		assert.is(context.subject.allows(FeatureFlag.TransactionHtlcClaim), true);
-		assert.is(context.subject.allows(FeatureFlag.TransactionHtlcLock), true);
-		assert.is(context.subject.allows(FeatureFlag.TransactionHtlcRefund), true);
 		assert.is(context.subject.allows(FeatureFlag.TransactionIpfs), true);
 		assert.is(context.subject.allows(FeatureFlag.TransactionMultiPayment), true);
 		assert.is(context.subject.allows(FeatureFlag.TransactionMultiSignature), true);

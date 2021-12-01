@@ -1,4 +1,4 @@
-import { Managers } from "@arkecosystem/crypto";
+import { Managers } from "./crypto/index.js";
 
 export const applyCryptoConfiguration = ({ crypto, height }): void => {
 	Managers.configManager.setConfig(crypto);

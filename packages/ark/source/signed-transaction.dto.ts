@@ -1,4 +1,4 @@
-import { Identities } from "@arkecosystem/crypto";
+import { Identities } from "./crypto/index.js";
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";

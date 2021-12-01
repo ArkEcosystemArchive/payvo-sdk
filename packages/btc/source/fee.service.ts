@@ -22,9 +22,6 @@ export class FeeService extends Services.AbstractFeeService {
 			ipfs: this.#transform(0, 0, 0),
 			multiPayment: this.#transform(0, 0, 0),
 			delegateResignation: this.#transform(0, 0, 0),
-			htlcLock: this.#transform(0, 0, 0),
-			htlcClaim: this.#transform(0, 0, 0),
-			htlcRefund: this.#transform(0, 0, 0),
 		};
 	}
 
