@@ -18,7 +18,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
-		"build:release": "pnpm run clean",
+		"build:release": "pnpm run clean && tsc",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"test": "uvu -r tsm source .test.ts",
