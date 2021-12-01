@@ -31,14 +31,14 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		});
 	});
 
-	it("should create a transfer", async (context) => {
+	it.only("should create a transfer", async (context) => {
 		const result = await context.subject.transfer({
 			nonce: "1",
 			signatory: new Signatories.Signatory(

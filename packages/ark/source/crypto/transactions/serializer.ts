@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../crypto/buffer.js";
 
 import { TransactionTypeGroup } from "../enums.js";
 import { TransactionVersionError } from "../errors.js";
@@ -23,7 +23,7 @@ export class Serializer {
 	 * Serializes the given transaction according to AIP11.
 	 */
 	public static serialize(transaction: ITransaction, options: ISerializeOptions = {}): Buffer {
-		const buffer: ByteBuffer = new ByteBuffer(512, true);
+		const buffer: ByteBuffer = new ByteBuffer(512);
 
 		this.serializeCommon(transaction.data, buffer);
 		this.serializeVendorField(transaction, buffer);
@@ -34,7 +34,7 @@ export class Serializer {
 			throw new Error();
 		}
 
-		const typeBuffer: ByteBuffer = serialized.flip();
+		const typeBuffer: Buffer = serialized.flip().toBuffer();
 		buffer.append(typeBuffer);
 
 		this.serializeSignatures(transaction.data, buffer, options);
@@ -51,7 +51,9 @@ export class Serializer {
 			transaction.typeGroup = TransactionTypeGroup.Core;
 		}
 
-		buffer.writeByte(0xff);
+		// The marker equals 255 so we can't write it as a byte.
+		// how does bytebuffer.js not blow up while the native node buffer does?
+		buffer.writeUint8(0xff);
 		buffer.writeByte(transaction.version);
 		buffer.writeByte(transaction.network || configManager.get("network.pubKeyHash"));
 		buffer.writeUint32(transaction.typeGroup);

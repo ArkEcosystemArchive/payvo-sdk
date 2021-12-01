@@ -1,5 +1,6 @@
+// @TODO: use @payvo/sdk-cryptography
 import { base58 } from "bstring";
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "./../../enums";
 import { ISerializeOptions } from "./../../interfaces";
@@ -28,7 +29,7 @@ export abstract class IpfsTransaction extends Transaction {
 
 		if (data.asset) {
 			const ipfsBuffer: Buffer = base58.decode(data.asset.ipfs);
-			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length, true);
+			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length);
 
 			buffer.append(ipfsBuffer, "hex");
 
@@ -43,7 +44,7 @@ export abstract class IpfsTransaction extends Transaction {
 
 		const hashFunction: number = buf.readUint8();
 		const ipfsHashLength: number = buf.readUint8();
-		const ipfsHash: Buffer = buf.readBytes(ipfsHashLength).toBuffer();
+		const ipfsHash: Buffer = buf.readBytes(ipfsHashLength);
 
 		const buffer: Buffer = Buffer.alloc(ipfsHashLength + 2);
 		buffer.writeUInt8(hashFunction, 0);

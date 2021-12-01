@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionTypeGroup } from "../../enums";
 import { NotImplemented } from "../../errors";

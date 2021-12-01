@@ -1,4 +1,4 @@
-import ByteBuffer from "bytebuffer";
+import { ByteBuffer } from "../../crypto/buffer.js";
 
 import { TransactionType, TransactionTypeGroup } from "./../../enums";
 import { ISerializeOptions } from "./../../interfaces";
@@ -19,7 +19,7 @@ export abstract class SecondSignatureRegistrationTransaction extends Transaction
 
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
 		const { data } = this;
-		const buffer: ByteBuffer = new ByteBuffer(33, true);
+		const buffer: ByteBuffer = new ByteBuffer(33);
 
 		if (data.asset && data.asset.signature) {
 			buffer.append(data.asset.signature.publicKey, "hex");
