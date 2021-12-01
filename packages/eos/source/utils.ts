@@ -1,2 +1,2 @@
-export const TextEncoder = typeof TextEncoder !== "undefined" ? TextEncoder : require("util").TextEncoder;
-export const TextDecoder = typeof TextDecoder !== "undefined" ? TextDecoder : require("util").TextDecoder;
+export const TextEncoder = typeof window !== "undefined" ? window.TextEncoder : require("util").TextEncoder;
+export const TextDecoder = typeof window !== "undefined" ? window.TextDecoder : require("util").TextDecoder;
