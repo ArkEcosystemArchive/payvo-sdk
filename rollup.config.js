@@ -22,7 +22,11 @@ const polyfillsPlugins = [
 		include: undefined,
 	}),
 	{
-		...nodePolyfills({ crypto: true }),
+		...nodePolyfills({
+			// Pass in null to transform all files.
+			include: null,
+			sourceMap: true
+		}),
 		transform: null,
 	},
 ];
