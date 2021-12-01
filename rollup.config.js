@@ -18,7 +18,7 @@ const polyfillsPlugins = [
 			BigInt: require.resolve("big-integer"),
 			process: "process-es6",
 			Buffer: ["buffer-es6", "Buffer"],
-			global: require.resolve("rollup-plugin-node-polyfills/polyfills/global.js"),
+			global: require.resolve("rollup-plugin-polyfill-node/polyfills/global.js"),
 		},
 		include: undefined,
 	}),
