@@ -8,10 +8,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return this.data.transaction_hash || this.data.id;
 	}
 
-	public override blockId(): string | undefined {
-		return undefined;
-	}
-
 	public override timestamp(): DateTime | undefined {
 		return DateTime.make(this.data.created_at);
 	}

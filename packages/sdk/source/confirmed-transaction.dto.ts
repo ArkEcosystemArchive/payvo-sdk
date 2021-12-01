@@ -67,7 +67,7 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public blockId(): string | undefined {
-		throw new NotImplemented(this.constructor.name, this.blockId.name);
+		return undefined;
 	}
 
 	public type(): string {
@@ -81,7 +81,7 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public timestamp(): DateTime | undefined {
-		throw new NotImplemented(this.constructor.name, this.timestamp.name);
+		return undefined;
 	}
 
 	public confirmations(): BigNumber {

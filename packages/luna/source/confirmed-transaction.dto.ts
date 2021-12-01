@@ -8,16 +8,8 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return "TODO";
 	}
 
-	public override blockId(): string | undefined {
-		return undefined;
-	}
-
 	public override timestamp(): DateTime {
 		return DateTime.make();
-	}
-
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
 	}
 
 	public override sender(): string {

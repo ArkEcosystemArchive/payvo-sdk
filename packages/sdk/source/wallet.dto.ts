@@ -2,7 +2,7 @@
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { KeyValuePair, WalletBalance } from "./contracts.js";
+import { KeyValuePair, WalletBalance, WalletMultiSignature } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";
 import { inject, injectable } from "./ioc.js";
 import { BindingType } from "./service-provider.contract.js";
@@ -35,7 +35,7 @@ export class AbstractWalletData {
 	}
 
 	public publicKey(): string | undefined {
-		throw new NotImplemented(this.constructor.name, this.publicKey.name);
+		return undefined;
 	}
 
 	public balance(): WalletBalance {
@@ -43,42 +43,47 @@ export class AbstractWalletData {
 	}
 
 	public nonce(): BigNumber {
-		throw new NotImplemented(this.constructor.name, this.nonce.name);
+		return BigNumber.ZERO;
 	}
 
 	// Second Signature
 	public secondPublicKey(): string | undefined {
-		throw new NotImplemented(this.constructor.name, this.secondPublicKey.name);
+		return undefined;
 	}
 
 	// Delegate
 	public username(): string | undefined {
-		throw new NotImplemented(this.constructor.name, this.username.name);
+		return undefined;
 	}
 
 	public rank(): number | undefined {
-		throw new NotImplemented(this.constructor.name, this.rank.name);
+		return undefined;
 	}
 
 	public votes(): BigNumber | undefined {
-		throw new NotImplemented(this.constructor.name, this.votes.name);
+		return undefined;
+	}
+
+	// Musig
+	public multiSignature(): WalletMultiSignature {
+		throw new NotImplemented(this.constructor.name, this.multiSignature.name);
 	}
 
 	// Flags
 	public isDelegate(): boolean {
-		throw new NotImplemented(this.constructor.name, this.isDelegate.name);
+		return false;
 	}
 
 	public isResignedDelegate(): boolean {
-		throw new NotImplemented(this.constructor.name, this.isResignedDelegate.name);
+		return false;
 	}
 
 	public isMultiSignature(): boolean {
-		throw new NotImplemented(this.constructor.name, this.isMultiSignature.name);
+		return false;
 	}
 
 	public isSecondSignature(): boolean {
-		throw new NotImplemented(this.constructor.name, this.isSecondSignature.name);
+		return false;
 	}
 
 	public toObject(): KeyValuePair {

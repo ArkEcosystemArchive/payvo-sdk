@@ -89,7 +89,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public fee(): BigNumber {
-		throw new NotImplemented(this.constructor.name, this.fee.name);
+		return BigNumber.ZERO;
 	}
 
 	public memo(): string | undefined {

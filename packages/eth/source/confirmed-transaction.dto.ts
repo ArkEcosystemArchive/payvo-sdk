@@ -9,18 +9,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 		return this.data.hash;
 	}
 
-	public override blockId(): string | undefined {
-		return undefined;
-	}
-
-	public override timestamp(): DateTime | undefined {
-		return undefined;
-	}
-
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
-	}
-
 	public override sender(): string {
 		return this.data.from;
 	}
