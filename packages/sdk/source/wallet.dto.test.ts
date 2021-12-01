@@ -29,7 +29,7 @@ class Wallet extends AbstractWalletData {
 	}
 
 	nonce() {
-		return BigNumber.ZERO;
+		return 0;
 	}
 
 	secondPublicKey() {
