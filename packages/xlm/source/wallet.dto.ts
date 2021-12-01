@@ -20,8 +20,4 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			fees: this.bigNumberService.make(this.data.balances[0].balance).times(1e8),
 		};
 	}
-
-	public override nonce(): number {
-		return Number(this.data.sequence);
-	}
 }
