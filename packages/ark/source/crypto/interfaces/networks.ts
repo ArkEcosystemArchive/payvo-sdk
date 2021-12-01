@@ -1,6 +1,4 @@
 export interface NetworkConfig {
-	exceptions: IExceptions;
-	genesisBlock: object;
 	milestones: Array<Record<string, any>>;
 	network: Network;
 }
@@ -22,11 +20,4 @@ export interface Network {
 		symbol: string;
 		explorer: string;
 	};
-}
-
-export interface IExceptions {
-	blocks?: string[];
-	transactions?: string[];
-	outlookTable?: Record<string, string>;
-	transactionIdFixTable?: Record<string, string>;
 }

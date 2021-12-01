@@ -1,6 +1,6 @@
-import { IMultiSignatureAsset, ITransactionData } from "../../../interfaces";
+import { IMultiSignatureAsset, ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { MultiSignatureRegistrationTransaction } from "../../types";
+import { MultiSignatureRegistrationTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class MultiSignatureBuilder extends TransactionBuilder<MultiSignatureBuilder> {

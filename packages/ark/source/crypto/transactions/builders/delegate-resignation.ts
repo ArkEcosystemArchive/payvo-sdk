@@ -1,6 +1,6 @@
-import { ITransactionData } from "../../../interfaces";
+import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { DelegateResignationTransaction } from "../../types";
+import { DelegateResignationTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class DelegateResignationBuilder extends TransactionBuilder<DelegateResignationBuilder> {

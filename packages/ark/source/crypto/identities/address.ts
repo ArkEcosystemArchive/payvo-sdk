@@ -41,14 +41,11 @@ export class Address {
 		return Base58Check.encode(buffer);
 	}
 
-	public static toBuffer(address: string, network?: Network): { addressBuffer: Buffer; addressError?: string } {
-		const buffer: Buffer = Base58Check.decode(address);
-		const result: { addressBuffer: Buffer; addressError?: string } = {
-			addressBuffer: buffer,
-		};
+	public static toBuffer(address: string, network?: Network): Buffer {
+		const result: Buffer = Base58Check.decode(address);
 
-		if (buffer[0] !== getPubKeyHash(network)) {
-			result.addressError = `Expected address network byte ${getPubKeyHash(network)}, but got ${buffer[0]}.`;
+		if (result[0] !== getPubKeyHash(network)) {
+			throw new Error(`Expected address network byte ${getPubKeyHash(network)}, but got ${result[0]}.`);
 		}
 
 		return result;
@@ -57,7 +54,7 @@ export class Address {
 	public static validate(address: string): boolean {
 		try {
 			return Base58Check.decode(address)[0] === getPubKeyHash();
-		} catch (err) {
+		} catch {
 			return false;
 		}
 	}

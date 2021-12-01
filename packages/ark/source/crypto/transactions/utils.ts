@@ -1,6 +1,5 @@
 import { Hash } from "@payvo/sdk-cryptography";
 import { ISerializeOptions, ITransactionData } from "../interfaces";
-import { configManager } from "../managers";
 import { Serializer } from "./serializer";
 import { TransactionTypeFactory } from "./types/factory";
 
@@ -14,16 +13,6 @@ export class Utils {
 	}
 
 	public static getId(transaction: ITransactionData, options: ISerializeOptions = {}): string {
-		const id: string = Utils.toHash(transaction, options).toString("hex");
-
-		// Apply fix for broken type 1 and 4 transactions, which were
-		// erroneously calculated with a recipient id.
-		const { transactionIdFixTable } = configManager.get("exceptions");
-
-		if (transactionIdFixTable && transactionIdFixTable[id]) {
-			return transactionIdFixTable[id];
-		}
-
-		return id;
+		return Utils.toHash(transaction, options).toString("hex");
 	}
 }

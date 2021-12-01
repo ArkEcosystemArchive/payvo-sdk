@@ -27,8 +27,8 @@ export const transactionBaseSchema: Record<string, any> = {
 		timestamp: { type: "integer", minimum: 0 },
 		nonce: { bignumber: { minimum: 0 } },
 		typeGroup: { type: "integer", minimum: 0 },
-		amount: { bignumber: { minimum: 1, bypassGenesis: true } },
-		fee: { bignumber: { minimum: 0, bypassGenesis: true } },
+		amount: { bignumber: { minimum: 1 } },
+		fee: { bignumber: { minimum: 0 } },
 		senderPublicKey: { $ref: "publicKey" },
 		signature: { $ref: "alphanumeric" },
 		secondSignature: { $ref: "alphanumeric" },
@@ -66,7 +66,7 @@ export const transfer = extend(transactionBaseSchema, {
 	required: ["recipientId"],
 	properties: {
 		type: { transactionType: TransactionType.Transfer },
-		fee: { bignumber: { minimum: 1, bypassGenesis: true } },
+		fee: { bignumber: { minimum: 1 } },
 		vendorField: { anyOf: [{ type: "null" }, { type: "string", format: "vendorField" }] },
 		recipientId: { $ref: "address" },
 		expiration: { type: "integer", minimum: 0 },
@@ -105,7 +105,7 @@ export const delegateRegistration = extend(transactionBaseSchema, {
 	properties: {
 		type: { transactionType: TransactionType.DelegateRegistration },
 		amount: { bignumber: { minimum: 0, maximum: 0 } },
-		fee: { bignumber: { minimum: 1, bypassGenesis: true } },
+		fee: { bignumber: { minimum: 1 } },
 		asset: {
 			type: "object",
 			required: ["delegate"],

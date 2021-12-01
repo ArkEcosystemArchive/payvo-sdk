@@ -1,4 +1,4 @@
-import { Hash } from "../crypto";
+import { Hash } from "../hash.js";
 import { IKeyPair, ISerializeOptions, ITransactionData } from "../interfaces";
 import { numberToHex } from "@payvo/sdk-helpers";
 import { Utils } from "./utils";

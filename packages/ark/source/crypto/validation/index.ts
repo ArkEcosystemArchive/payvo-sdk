@@ -123,7 +123,6 @@ export class Validator {
 	}
 
 	private updateTransactionArray(ajv: Ajv.Ajv) {
-		ajv.removeSchema("block");
 		ajv.removeSchema("transactions");
 		ajv.addSchema({
 			$id: "transactions",
@@ -131,7 +130,6 @@ export class Validator {
 			additionalItems: false,
 			items: { anyOf: [...this.transactionSchemas.keys()].map((schema) => ({ $ref: `${schema}Signed` })) },
 		});
-		ajv.addSchema(schemas.block);
 	}
 }
 

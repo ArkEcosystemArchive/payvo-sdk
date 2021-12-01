@@ -1,6 +1,6 @@
-import { ITransactionData } from "../../../interfaces";
+import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { IpfsTransaction } from "../../types";
+import { IpfsTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class IPFSBuilder extends TransactionBuilder<IPFSBuilder> {
