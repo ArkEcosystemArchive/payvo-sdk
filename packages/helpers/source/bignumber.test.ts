@@ -102,7 +102,7 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.true(BigNumber.make(0).isZero());
 	});
 
-	it.skip("#comparedTo", (context) => { // @TODO unskip and fix
+	it("#comparedTo", (context) => {
 		assert.is(context.subject.comparedTo(BigNumber.make(1)), 0);
 		assert.is(context.subject.comparedTo(BigNumber.make(0)), 1);
 		assert.is(context.subject.comparedTo(BigNumber.make(-1)), 1);
@@ -168,9 +168,20 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123_456).toHuman(6), 0.123_456);
 	});
 
-	it.skip("#toFixed", (context) => { // @TODO unskip and fix
+	it("#toFixed", (context) => {
+		// eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
+		assert.is(context.subject.toFixed(), "1");
+
 		assert.is(context.subject.toFixed(0), "1");
 		assert.is(context.subject.toFixed(2), "1.00");
+
+		assert.is(BigNumber.make(1.234_567_891).toFixed(5), "1.23456");
+		assert.is(BigNumber.make(1.234_567_891).toFixed(28), "1.2345678910000000000000000000");
+		assert.is(BigNumber.make(1.234_567_891).toFixed(32), "1.23456789100000000000000000000000");
+
+		assert.is(BigNumber.make(".123").toFixed(5), "0.12300");
+		assert.is(BigNumber.make("00010.00010").toFixed(0), "10");
+		assert.is(BigNumber.make("00010.00010").toFixed(4), "10.0001");
 	});
 
 	it("#toNumber", (context) => {

@@ -108,8 +108,15 @@ export class BigNumber {
 	}
 
 	public comparedTo(value: NumberLike): number {
-		return 0; // @TODO implement
-		// return this.#value.comparedTo(this.#toBigDecimal(value));
+		if (this.isGreaterThan(value)) {
+			return 1;
+		}
+
+		if (this.isLessThan(value)) {
+			return -1;
+		}
+
+		return 0;
 	}
 
 	public isEqualTo(value: NumberLike): boolean {
@@ -148,8 +155,23 @@ export class BigNumber {
 		return +this.denominated(decimals).toString();
 	}
 
-	public toFixed(decimals?: number): string {
-		return "0"; // @TODO implement
+	public toFixed(decimalDigits?: number): string {
+		decimalDigits ??= 0;
+
+		let integers = String(this.#value).slice(0, -this.#bigIntDecimals);
+		const decimals = String(this.#value).slice(-this.#bigIntDecimals);
+
+		if (integers === "") {
+			integers = "0";
+		}
+
+		if (decimalDigits > this.#bigIntDecimals) {
+			return this.#removeTrailingDot(
+				integers + "." + decimals + "0".repeat(decimalDigits - this.#bigIntDecimals)
+			);
+		}
+
+		return this.#removeTrailingDot(integers + "." + decimals.slice(0, decimalDigits));
 	}
 
 	public toNumber(): number {
