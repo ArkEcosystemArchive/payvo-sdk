@@ -83,15 +83,15 @@ describe("Address", ({ assert, it }) => {
 	});
 
 	it("toBuffer", () => {
-		assert.undefined(Address.toBuffer("DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi").addressError);
+		assert.not.throws(() => Address.toBuffer("DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi"));
 	});
 
 	it("should not be OK", () => {
-		assert.not.undefined(Address.toBuffer("AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX").addressError);
+		assert.throws(() => Address.toBuffer("AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX"));
 	});
 
 	it("fromBuffer", () => {
-		const { addressBuffer } = Address.toBuffer("DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi");
+		const addressBuffer = Address.toBuffer("DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi");
 		assert.equal(Address.fromBuffer(addressBuffer), "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi");
 	});
 

@@ -27,9 +27,7 @@ export class ConfigManager {
 	public setConfig(config: NetworkConfig): void {
 		this.config = {
 			network: config.network,
-			exceptions: config.exceptions,
 			milestones: config.milestones,
-			genesisBlock: config.genesisBlock,
 		};
 
 		this.validateMilestones();

@@ -2,7 +2,7 @@ import { WIF as Base } from "@payvo/sdk-cryptography";
 
 import { Network } from "../interfaces/networks";
 import { KeyPair } from "./contracts";
-import { getWifFromNetwork } from "./helpers.js";
+import { getWIF } from "./helpers.js";
 import { Keys } from "./keys";
 
 export class WIF {
@@ -10,7 +10,7 @@ export class WIF {
 		const { compressed, privateKey }: KeyPair = Keys.fromPassphrase(passphrase);
 
 		return Base.encode({
-			version: getWifFromNetwork(network),
+			version: getWIF(network),
 			privateKey,
 			compressed,
 		});
@@ -18,7 +18,7 @@ export class WIF {
 
 	public static fromKeys(keys: KeyPair, network?: Network): string {
 		return Base.encode({
-			version: getWifFromNetwork(network),
+			version: getWIF(network),
 			privateKey: keys.privateKey,
 			compressed: keys.compressed,
 		});

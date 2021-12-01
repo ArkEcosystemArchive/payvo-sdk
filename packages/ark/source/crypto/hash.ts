@@ -1,6 +1,6 @@
 import { secp256k1 } from "bcrypto";
 
-import { IKeyPair } from "../interfaces";
+import { IKeyPair } from "./interfaces";
 
 export class Hash {
 	public static signECDSA(hash: Buffer, keys: IKeyPair): string {

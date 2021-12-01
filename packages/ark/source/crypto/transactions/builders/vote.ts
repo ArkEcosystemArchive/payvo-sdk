@@ -1,6 +1,6 @@
-import { ITransactionData } from "../../../interfaces";
+import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { VoteTransaction } from "../../types";
+import { VoteTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class VoteBuilder extends TransactionBuilder<VoteBuilder> {

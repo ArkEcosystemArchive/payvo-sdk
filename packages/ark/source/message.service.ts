@@ -1,4 +1,4 @@
-import { Hash as ARK } from "./crypto/crypto/hash.js";
+import { Hash as ARK } from "./crypto/hash.js";
 import { Hash } from "@payvo/sdk-cryptography";
 import { IoC, Services } from "@payvo/sdk";
 

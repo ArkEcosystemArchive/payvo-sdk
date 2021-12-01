@@ -1,7 +1,7 @@
-import { Keys } from "../../../identities";
-import { ITransactionAsset, ITransactionData } from "../../../interfaces";
+import { Keys } from "../../identities";
+import { ITransactionAsset, ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { SecondSignatureRegistrationTransaction } from "../../types";
+import { SecondSignatureRegistrationTransaction } from "../types";
 import { TransactionBuilder } from "./transaction";
 
 export class SecondSignatureBuilder extends TransactionBuilder<SecondSignatureBuilder> {

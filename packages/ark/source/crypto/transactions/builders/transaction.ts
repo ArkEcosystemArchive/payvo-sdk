@@ -1,15 +1,14 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { TransactionFactory } from "../../factory.js";
-import { Utils } from "../../utils.js";
-import { TransactionTypeGroup } from "../../../enums";
-import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../../errors";
-import { Address } from "../../../identities/address.js";
-import { Keys } from "../../../identities/keys.js";
-import { IKeyPair, ITransaction, ITransactionData } from "../../../interfaces";
-import { configManager } from "../../../managers/config";
-import { maxVendorFieldLength } from "../../../utils";
-import { Signer } from "../../signer";
-import { Verifier } from "../../verifier";
+import { TransactionFactory } from "../factory.js";
+import { Utils } from "../utils.js";
+import { TransactionTypeGroup } from "../../enums";
+import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../errors";
+import { Address } from "../../identities/address.js";
+import { Keys } from "../../identities/keys.js";
+import { IKeyPair, ITransaction, ITransactionData } from "../../interfaces";
+import { maxVendorFieldLength } from "../../utils";
+import { Signer } from "../signer";
+import { Verifier } from "../verifier";
 
 export abstract class TransactionBuilder<TBuilder extends TransactionBuilder<TBuilder>> {
 	public data: ITransactionData;

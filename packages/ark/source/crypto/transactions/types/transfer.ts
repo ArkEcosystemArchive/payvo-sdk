@@ -29,13 +29,7 @@ export abstract class TransferTransaction extends Transaction {
 		buffer.writeUint32(data.expiration || 0);
 
 		if (data.recipientId) {
-			const { addressBuffer, addressError } = Address.toBuffer(data.recipientId);
-
-			if (options) {
-				options.addressError = addressError;
-			}
-
-			buffer.append(addressBuffer);
+			buffer.append(Address.toBuffer(data.recipientId));
 		}
 
 		return buffer;

@@ -1,13 +1,13 @@
-import { DelegateRegistrationBuilder } from "./transactions/delegate-registration";
-import { DelegateResignationBuilder } from "./transactions/delegate-resignation";
-import { IPFSBuilder } from "./transactions/ipfs";
-import { MultiPaymentBuilder } from "./transactions/multi-payment";
-import { MultiSignatureBuilder } from "./transactions/multi-signature";
-import { SecondSignatureBuilder } from "./transactions/second-signature";
-import { TransferBuilder } from "./transactions/transfer";
-import { VoteBuilder } from "./transactions/vote";
+import { DelegateRegistrationBuilder } from "./delegate-registration.js";
+import { DelegateResignationBuilder } from "./delegate-resignation.js";
+import { IPFSBuilder } from "./ipfs.js";
+import { MultiPaymentBuilder } from "./multi-payment.js";
+import { MultiSignatureBuilder } from "./multi-signature.js";
+import { SecondSignatureBuilder } from "./second-signature.js";
+import { TransferBuilder } from "./transfer.js";
+import { VoteBuilder } from "./vote.js";
 
-export * from "./transactions/transaction";
+export * from "./transaction.js";
 
 export class BuilderFactory {
 	public static transfer(): TransferBuilder {
