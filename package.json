@@ -4,7 +4,7 @@
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"scripts": {
 		"build": "ultra -r build",
-		"build:release": "ultra --concurrency 1 -r build:release",
+		"build:release": "bash scripts/build-release.sh",
 		"clean": "ultra -r clean",
 		"lint": "eslint packages/**/source/**/*.ts --fix",
 		"lint:test": "eslint packages/**/source/**/*.test.js --fix --config=.eslintrc.test.json",
