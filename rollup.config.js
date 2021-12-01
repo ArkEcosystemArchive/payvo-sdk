@@ -25,7 +25,7 @@ const polyfillsPlugins = [
 		...nodePolyfills({
 			// Pass in null to transform all files.
 			include: null,
-			sourceMap: true
+			sourceMap: true,
 		}),
 		transform: null,
 	},
