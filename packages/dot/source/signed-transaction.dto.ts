@@ -5,7 +5,8 @@ import { BigNumber } from "@payvo/sdk-helpers";
 @IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
-	implements Contracts.SignedTransactionData {
+	implements Contracts.SignedTransactionData
+{
 	public override sender(): string {
 		return this.signedData.signature.signer;
 	}
