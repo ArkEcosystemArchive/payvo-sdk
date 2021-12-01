@@ -150,4 +150,4 @@ const umdConfig = {
 	],
 };
 
-export default [moduleConfig, browserConfig, umdConfig];
+export default [moduleConfig, browserConfig];
