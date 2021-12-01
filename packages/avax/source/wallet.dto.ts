@@ -1,5 +1,4 @@
 import { Contracts, DTO } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-helpers";
 
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
 	public override primaryKey(): string {
@@ -16,9 +15,9 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		// consistent for future use by other packages that use it.
 
 		return {
-			total: this.bigNumberService.make(this.data.balance / 1e1),
-			available: this.bigNumberService.make(this.data.balance / 1e1),
-			fees: this.bigNumberService.make(this.data.balance / 1e1),
+			total: this.bigNumberService.make((this.data.balance ?? 0) / 1e1),
+			available: this.bigNumberService.make((this.data.balance ?? 0) / 1e1),
+			fees: this.bigNumberService.make((this.data.balance ?? 0) / 1e1),
 		};
 	}
 
