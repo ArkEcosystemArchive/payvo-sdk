@@ -131,6 +131,7 @@ importers:
       '@types/lodash.orderby': ^4.6.6
       '@types/node': ^16.11.10
       '@types/semver': 7.3.9
+      bcrypto: ^5.4.0
       is-url-superb: ^6.1.0
       lodash.orderby: ^4.6.0
       node-dotify: ^1.1.0
@@ -142,6 +143,7 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
+      bcrypto: 5.4.0
       is-url-superb: 6.1.0
       lodash.orderby: 4.6.0
       node-dotify: 1.1.0

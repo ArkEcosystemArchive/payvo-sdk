@@ -1,4 +1,4 @@
-import { secp256k1 } from "@payvo/sdk-cryptography";
+import { secp256k1 } from "bcrypto";
 import { numberToHex } from "@payvo/sdk-helpers";
 
 import { MultiSignatureAsset } from "./contracts";
