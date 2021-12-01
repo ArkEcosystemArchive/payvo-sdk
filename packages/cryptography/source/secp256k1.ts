@@ -1,7 +1,7 @@
 import { secp256k1 as bcrypto } from "bcrypto";
 
 class Secp256k1 {
-	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
+	public publicKeyCreate(privateKey: Buffer, compressed?: boolean): Buffer {
 		return bcrypto.publicKeyCreate(privateKey, compressed);
 	}
 

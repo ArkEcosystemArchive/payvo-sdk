@@ -1,8 +1,5 @@
-import { Buffoon } from "@payvo/sdk-cryptography";
+import { Buffoon, Hash, secp256k1 } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
-import { secp256k1 } from "bcrypto";
-
-import { HashAlgorithms } from "./hash.js";
 
 const sortObject = (object) => {
 	if (object === null) {
@@ -42,7 +39,7 @@ export const createSignedTransactionData = (stdSignMessage, keyPair) => {
 				},
 				sequence: stdSignMessage.sequence,
 				signature: secp256k1
-					.sign(HashAlgorithms.sha256(JSON.stringify(sortObject(stdSignMessage))), privateKey)
+					.sign(Hash.sha256(JSON.stringify(sortObject(stdSignMessage))), privateKey)
 					.toString("base64"),
 			},
 		],

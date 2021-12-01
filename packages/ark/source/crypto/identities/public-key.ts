@@ -1,4 +1,4 @@
-import { secp256k1 } from "bcrypto";
+import { secp256k1 } from "@payvo/sdk-cryptography";
 import { numberToHex } from "@payvo/sdk-helpers";
 
 import { Network } from "../interfaces/networks";

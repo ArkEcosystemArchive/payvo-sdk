@@ -1,5 +1,4 @@
-import { Hash, WIF } from "@payvo/sdk-cryptography";
-import { secp256k1 } from "bcrypto";
+import { Hash, WIF, secp256k1 } from "@payvo/sdk-cryptography";
 
 import { Network } from "../interfaces/networks";
 import { KeyPair } from "./contracts";

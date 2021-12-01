@@ -134,7 +134,6 @@ importers:
       '@types/semver': 7.3.9
       ajv: 6.12.6
       ajv-keywords: 3.4.1
-      bcrypto: 5.4.0
       bip32: 2.0.6
       bip39: 3.0.4
       bstring: 0.3.9
@@ -155,7 +154,6 @@ importers:
       '@payvo/sdk-intl': link:../intl
       ajv: 6.12.6
       ajv-keywords: 3.4.1_ajv@6.12.6
-      bcrypto: 5.4.0
       bip32: 2.0.6
       bip39: 3.0.4
       bstring: 0.3.9
@@ -186,7 +184,6 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
-      bcrypto: ^5.4.0
       bech32: ^2.0.0
       got: ^11.8.3
       ledger-cosmos-js: ^2.1.8
@@ -195,7 +192,6 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
-      bcrypto: 5.4.0
       bech32: 2.0.0
       ledger-cosmos-js: 2.1.8
     devDependencies:
