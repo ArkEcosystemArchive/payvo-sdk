@@ -75,11 +75,16 @@ export class ByteBuffer {
 	}
 
 	// https://github.com/protobufjs/bytebuffer.js/blob/master/src/methods/append.js
-	public append(data: Buffer | string, encoding?: BufferEncoding): void {
+	public append(data: Buffer | string, encoding: BufferEncoding = "hex"): void {
 		const contents: Buffer = data instanceof Buffer ? data : Buffer.from(data, encoding);
 
-		this.#buffer = Buffer.concat([this.#buffer, contents]);
+		console.log(["APPEND", contents.toString(encoding), this.#buffer.toString("hex")]);
+		console.log(["APPEND BEFORE", this.#buffer.toString("hex")]);
+
+		this.#buffer.write(contents.toString(encoding), this.#offset, contents.length, encoding);
 		this.#offset += contents.length;
+
+		console.log(["APPEND AFTER", this.#buffer.toString("hex")]);
 	}
 
 	// https://github.com/protobufjs/bytebuffer.js/blob/master/src/methods/reset.js
@@ -113,7 +118,6 @@ export class ByteBuffer {
 	// @TODO: when bytebuffer.js flips it also sets a "limit" parameter to 0, which we don't have.
 	public flip(): ByteBuffer {
 		// this.#buffer = this.#buffer.reverse();
-		// this.#limit = this.offset;
 		this.#offset = 0;
 
 		return this;

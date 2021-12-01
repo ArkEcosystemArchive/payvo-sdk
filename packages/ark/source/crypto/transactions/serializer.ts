@@ -34,6 +34,7 @@ export class Serializer {
 			throw new Error();
 		}
 
+		// console.log(serialized.toString("hex"))
 		const typeBuffer: Buffer = serialized.flip().toBuffer();
 		buffer.append(typeBuffer);
 
@@ -60,7 +61,6 @@ export class Serializer {
 		buffer.writeUint16(transaction.type);
 
 		if (transaction.nonce) {
-			// @ts-ignore - The ByteBuffer types say we can't use strings but the code actually handles them.
 			buffer.writeUint64(transaction.nonce.toString());
 		}
 
@@ -68,7 +68,6 @@ export class Serializer {
 			buffer.append(transaction.senderPublicKey, "hex");
 		}
 
-		// @ts-ignore - The ByteBuffer types say we can't use strings but the code actually handles them.
 		buffer.writeUint64(transaction.fee.toString());
 	}
 

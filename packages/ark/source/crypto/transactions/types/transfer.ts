@@ -29,6 +29,7 @@ export abstract class TransferTransaction extends Transaction {
 		buffer.writeUint32(data.expiration || 0);
 
 		if (data.recipientId) {
+			console.log("ADDRESS")
 			buffer.append(Address.toBuffer(data.recipientId));
 		}
 
