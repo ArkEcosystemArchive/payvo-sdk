@@ -54,8 +54,6 @@ const baseConfig = {
 			return;
 		}
 
-		console.log(warning)
-
 		warn(warning);
 	},
 };
