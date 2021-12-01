@@ -4,7 +4,7 @@ import json from "@rollup/plugin-json";
 import resolve from "@rollup/plugin-node-resolve";
 import ts from "rollup-plugin-ts";
 import builtinModules from "builtin-modules";
-import nodePolyfills from "rollup-plugin-node-polyfills";
+import nodePolyfills from "rollup-plugin-polyfill-node";
 import { terser } from "rollup-plugin-terser";
 
 const pkg = require(`${process.cwd()}/package.json`);
