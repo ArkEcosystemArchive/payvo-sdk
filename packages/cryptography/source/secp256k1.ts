@@ -1,9 +1,8 @@
 import { secp256k1 as bcrypto } from "bcrypto";
-import * as secp from "@noble/secp256k1";
 
 class Secp256k1 {
 	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return secp.getPublicKey(privateKey, compressed);
+		return bcrypto.publicKeyCreate(privateKey, compressed);
 	}
 
 	public publicKeyVerify(publicKey: Buffer): boolean {
@@ -15,19 +14,19 @@ class Secp256k1 {
 	}
 
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return secp.sign(hash, privateKey);
+		return bcrypto.sign(hash, privateKey);
 	}
 
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return secp.verify(hash, signature, publicKey);
+		return bcrypto.verify(hash, signature, publicKey);
 	}
 
 	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
-		return secp.schnorr.sign(hash, privateKey);
+		return bcrypto.schnorrSign(hash, privateKey);
 	}
 
 	public schnorrVerify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return secp.schnorr.verify(hash, signature, publicKey);
+		return bcrypto.schnorrVerify(hash, signature, publicKey);
 	}
 }
 
