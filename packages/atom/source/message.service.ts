@@ -1,8 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/sdk-cryptography";
-import { secp256k1 } from "bcrypto";
-
-import { HashAlgorithms } from "./hash.js";
+import { Buffoon, Hash, secp256k1 } from "@payvo/sdk-cryptography";
 
 @IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
@@ -15,15 +12,13 @@ export class MessageService extends Services.AbstractMessageService {
 		return {
 			message: input.message,
 			signatory: publicKey,
-			signature: secp256k1
-				.sign(HashAlgorithms.sha256(input.message), Buffoon.fromHex(privateKey))
-				.toString("hex"),
+			signature: secp256k1.sign(Hash.sha256(input.message), Buffoon.fromHex(privateKey)).toString("hex"),
 		};
 	}
 
 	public override async verify(input: Services.SignedMessage): Promise<boolean> {
 		return secp256k1.verify(
-			HashAlgorithms.sha256(input.message),
+			Hash.sha256(input.message),
 			Buffoon.fromHex(input.signature),
 			Buffoon.fromHex(input.signatory),
 		);
