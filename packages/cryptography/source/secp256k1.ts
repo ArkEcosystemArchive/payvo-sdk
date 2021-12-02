@@ -1,4 +1,5 @@
 import { secp256k1 as bcrypto } from "bcrypto";
+import schnorr from "bip-schnorr";
 import elliptic from "elliptic";
 
 class Secp256k1 {
@@ -27,11 +28,11 @@ class Secp256k1 {
 	}
 
 	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.schnorrSign(hash, privateKey);
+		return schnorr.sign(privateKey, hash);
 	}
 
 	public schnorrVerify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.schnorrVerify(hash, signature, publicKey);
+		return schnorr.verify(publicKey, hash, signature);
 	}
 }
 

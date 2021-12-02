@@ -271,6 +271,7 @@ importers:
       bcrypto: ^5.4.0
       bech32: ^2.0.0
       benchmark: ^2.1.4
+      bip-schnorr: ^0.6.4
       bip32: ^2.0.0
       bip38: ^3.1.1
       bip39: ^3.0.4
@@ -290,6 +291,7 @@ importers:
       bcryptjs: 2.4.3
       bcrypto: 5.4.0
       bech32: 2.0.0
+      bip-schnorr: 0.6.4
       bip32: 2.0.6
       bip38: 3.1.1
       bip39: 3.0.4
@@ -3811,6 +3813,17 @@ packages:
     resolution: {integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==}
     dependencies:
       file-uri-to-path: 1.0.0
+    dev: false
+
+  /bip-schnorr/0.6.4:
+    resolution: {integrity: sha512-dNKw7Lea8B0wMIN4OjEmOk/Z5qUGqoPDY0P2QttLqGk1hmDPytLWW8PR5Pb6Vxy6CprcdEgfJpOjUu+ONQveyg==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      bigi: 1.4.2
+      ecurve: 1.0.6
+      js-sha256: 0.9.0
+      randombytes: 2.1.0
+      safe-buffer: 5.2.1
     dev: false
 
   /bip174/2.0.1:
@@ -7366,6 +7379,10 @@ packages:
       '@sideway/address': 4.1.2
       '@sideway/formula': 3.0.0
       '@sideway/pinpoint': 2.0.0
+    dev: false
+
+  /js-sha256/0.9.0:
+    resolution: {integrity: sha512-sga3MHh9sgQN2+pJ9VYZ+1LPwXOxuBJBA5nrR5/ofPfuiJBE2hnjsaN8se8JznOmGLN2p49Pe5U/ttafcs/apA==}
     dev: false
 
   /js-sha3/0.5.7:
