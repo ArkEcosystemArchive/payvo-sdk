@@ -15,6 +15,9 @@ class Secp256k1 {
 
 	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
 		return bcrypto.publicKeyCombine(publicKeys);
+
+		// @TODO: this will probably break because it is different than bcrypto schnorr
+		// return schnorr.muSig.pubKeyCombine(publicKeys, null);
 	}
 
 	// @TODO: remove, this is only used by ATOM
