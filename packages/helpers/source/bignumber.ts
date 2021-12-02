@@ -169,7 +169,7 @@ class BigNumber {
 			);
 		}
 
-		return this.#removeTrailingDot((integers + "." + decimals.slice(0, decimalDigits)));
+		return this.#removeTrailingDot(integers + "." + decimals.slice(0, decimalDigits));
 	}
 
 	public toString(): string {
