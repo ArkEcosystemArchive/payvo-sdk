@@ -133,17 +133,17 @@ class BigNumber {
 	public denominated(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return this.#fromBigDecimal(this.#value).divide(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value, this.#decimals).divide(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toSatoshi(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return this.#fromBigDecimal(this.#value).times(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value, this.#decimals).times(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toHuman(decimals?: number): number {
-		return +this.denominated(decimals).toString();
+		return +this.#fromBigDecimal(this.#value).divide(BigNumber.powerOfTen(decimals ?? this.#decimals ?? 0)).toString();
 	}
 
 	public toNumber(): number {

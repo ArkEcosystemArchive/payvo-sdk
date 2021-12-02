@@ -166,6 +166,18 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 			BigNumber.make(123_456_789).denominated(5).toString(),
 			BigNumber.make(1234.567_89).toString(),
 		);
+
+		assert.true(
+			BigNumber.make(123_456_789, 5)
+				.denominated()
+				.isEqualTo(BigNumber.make(1234.567_89)),
+		);
+
+		assert.true(
+			BigNumber.make(123_456_789)
+				.denominated(5)
+				.isEqualTo(BigNumber.make(1234.567_89)),
+		);
 	});
 
 	it("#toSatoshi", () => {
