@@ -7,7 +7,7 @@ export class Hash {
 	}
 
 	public static sha256(buffer: Buffer | string): Buffer {
-		return Buffer.from(sha256(buffer));
+		return Buffer.from(sha256(Hash.#bufferize(buffer)));
 	}
 
 	static #bufferize(buffer: Buffer | string) {
