@@ -136,6 +136,7 @@ importers:
       '@types/semver': 7.3.9
       ajv: 6.12.6
       ajv-keywords: 3.4.1
+      bcrypto: ^5.4.0
       bip32: 2.0.6
       bip39: 3.0.4
       bstring: 0.3.9
@@ -156,6 +157,7 @@ importers:
       '@payvo/sdk-intl': link:../intl
       ajv: 6.12.6
       ajv-keywords: 3.4.1_ajv@6.12.6
+      bcrypto: 5.4.0
       bip32: 2.0.6
       bip39: 3.0.4
       bstring: 0.3.9
@@ -4631,6 +4633,15 @@ packages:
     resolution: {integrity: sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=}
     dev: false
 
+  /bcrypto/5.4.0:
+    resolution: {integrity: sha512-KDX2CR29o6ZoqpQndcCxFZAtYA1jDMnXU3jmCfzP44g++Cu7AHHtZN/JbrN/MXAg9SLvtQ8XISG+eVD9zH1+Jg==}
+    engines: {node: '>=8.0.0'}
+    requiresBuild: true
+    dependencies:
+      bufio: 1.0.7
+      loady: 0.0.5
+    dev: false
+
   /bech32/1.1.4:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
@@ -5119,6 +5130,11 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
+    dev: false
+
+  /bufio/1.0.7:
+    resolution: {integrity: sha512-bd1dDQhiC+bEbEfg56IdBv7faWa6OipMs/AFFFvtFnB3wAYjlwQpQRZ0pm6ZkgtfL0pILRXhKxOiQj6UzoMR7A==}
+    engines: {node: '>=8.0.0'}
     dev: false
 
   /builtin-modules/3.2.0:
