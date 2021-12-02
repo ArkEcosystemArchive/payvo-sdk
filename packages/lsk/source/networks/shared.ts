@@ -37,7 +37,7 @@ export const featureFlags: Networks.NetworkManifestFeatureFlags = {
 	Message: ["sign", "verify"],
 	PrivateKey: ["mnemonic.bip39"],
 	PublicKey: ["mnemonic.bip39"],
-	Transaction: ["delegateRegistration", "multiSignature", "transfer", "unlockToken", "vote"],
+	Transaction: ["delegateRegistration", "transfer", "unlockToken", "vote"],
 };
 
 export const explorer = {

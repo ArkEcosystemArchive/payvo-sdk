@@ -39,7 +39,7 @@ beforeEach(async () => {
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -95,7 +95,7 @@ describe("FeeService", () => {
 					Services.AbstractDataTransferObjectService,
 				);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
