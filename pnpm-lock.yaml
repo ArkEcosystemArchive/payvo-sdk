@@ -279,6 +279,7 @@ importers:
       hdkey: ^2.0.1
       microtime: ^3.0.0
       node-forge: ^0.10.0
+      secp256k1: ^4.0.2
       string-crypto: ^2.0.2
       tiny-secp256k1: ^1.0.0
       uuid: ^8.3.2
@@ -296,6 +297,7 @@ importers:
       create-xpub: 2.1.0
       hdkey: 2.0.1
       node-forge: 0.10.0
+      secp256k1: 4.0.2
       string-crypto: 2.0.2
       tiny-secp256k1: 1.1.6
       uuid: 8.3.2
