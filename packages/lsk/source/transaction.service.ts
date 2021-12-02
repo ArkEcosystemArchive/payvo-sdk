@@ -71,27 +71,27 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData("dpos:voteDelegate", { votes }, input);
 	}
 
-	public override async multiSignature(
-		input: Services.MultiSignatureInput,
-	): Promise<Contracts.SignedTransactionData> {
-		if (!Array.isArray(input.data.mandatoryKeys)) {
-			throw new Error("Expected [input.data.mandatoryKeys] to be defined as a list of strings.");
-		}
+	// public override async multiSignature(
+	// 	input: Services.MultiSignatureInput,
+	// ): Promise<Contracts.SignedTransactionData> {
+	// 	if (!Array.isArray(input.data.mandatoryKeys)) {
+	// 		throw new Error("Expected [input.data.mandatoryKeys] to be defined as a list of strings.");
+	// 	}
 
-		if (!Array.isArray(input.data.optionalKeys)) {
-			throw new Error("Expected [input.data.optionalKeys] to be defined as a list of strings.");
-		}
+	// 	if (!Array.isArray(input.data.optionalKeys)) {
+	// 		throw new Error("Expected [input.data.optionalKeys] to be defined as a list of strings.");
+	// 	}
 
-		return this.#createFromData(
-			"keys:registerMultisignatureGroup",
-			{
-				numberOfSignatures: input.data.numberOfSignatures,
-				mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
-				optionalKeys: input.data.optionalKeys.slice(input.data.min),
-			},
-			input,
-		);
-	}
+	// 	return this.#createFromData(
+	// 		"keys:registerMultisignatureGroup",
+	// 		{
+	// 			numberOfSignatures: input.data.numberOfSignatures,
+	// 			mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
+	// 			optionalKeys: input.data.optionalKeys.slice(input.data.min),
+	// 		},
+	// 		input,
+	// 	);
+	// }
 
 	public override async unlockToken(input: Services.UnlockTokenInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
