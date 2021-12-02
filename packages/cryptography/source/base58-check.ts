@@ -1,9 +1,9 @@
-import { SHA256 } from "bcrypto";
+import { sha256 } from "@noble/hashes/lib/sha256";
 import { base58 } from "bstring";
 
 const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
 
-const normaliseSHA256 = (value: string | Buffer) => SHA256.digest(SHA256.digest(normalise(value)));
+const normaliseSHA256 = (value: string | Buffer) => sha256(sha256(normalise(value)));
 
 const decodeRaw = (buffer: Buffer): Buffer | undefined => {
 	const payload = buffer.slice(0, -4);
