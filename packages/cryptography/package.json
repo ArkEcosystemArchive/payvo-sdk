@@ -26,6 +26,7 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
+		"@noble/hashes": "^0.4.1",
 		"argon2-browser": "^1.18.0",
 		"bcryptjs": "^2.4.3",
 		"bcrypto": "^5.4.0",
@@ -37,6 +38,7 @@
 		"create-xpub": "^2.1.0",
 		"hdkey": "^2.0.1",
 		"node-forge": "^0.10.0",
+		"secp256k1": "^4.0.2",
 		"string-crypto": "^2.0.2",
 		"tiny-secp256k1": "^1.0.0",
 		"uuid": "^8.3.2"

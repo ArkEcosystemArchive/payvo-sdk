@@ -4,6 +4,8 @@ function bundle() {
 	cd ../..
 }
 
+pnpm run clean
+
 # 1. Prerequisites
 bundle test
 bundle helpers
