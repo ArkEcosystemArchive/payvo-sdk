@@ -19,7 +19,7 @@ const polyfillsPlugins = [
 			process: "process-es6",
 		},
 	}),
-	nodePolyfills()
+	nodePolyfills(),
 ];
 
 const baseConfig = {
