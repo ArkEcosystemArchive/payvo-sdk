@@ -294,7 +294,6 @@ importers:
       '@types/wif': ^2.0.2
       argon2-browser: ^1.18.0
       bcryptjs: ^2.4.3
-      bcrypto: ^5.4.0
       bech32: ^2.0.0
       benchmark: ^2.1.4
       bip32: ^2.0.0
@@ -314,7 +313,6 @@ importers:
       '@noble/hashes': 0.4.1
       argon2-browser: 1.18.0
       bcryptjs: 2.4.3
-      bcrypto: 5.4.0
       bech32: 2.0.0
       bip32: 2.0.6
       bip38: 3.1.1
@@ -4633,15 +4631,6 @@ packages:
     resolution: {integrity: sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=}
     dev: false
 
-  /bcrypto/5.4.0:
-    resolution: {integrity: sha512-KDX2CR29o6ZoqpQndcCxFZAtYA1jDMnXU3jmCfzP44g++Cu7AHHtZN/JbrN/MXAg9SLvtQ8XISG+eVD9zH1+Jg==}
-    engines: {node: '>=8.0.0'}
-    requiresBuild: true
-    dependencies:
-      bufio: 1.0.7
-      loady: 0.0.5
-    dev: false
-
   /bech32/1.1.4:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
@@ -5130,11 +5119,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
-    dev: false
-
-  /bufio/1.0.7:
-    resolution: {integrity: sha512-bd1dDQhiC+bEbEfg56IdBv7faWa6OipMs/AFFFvtFnB3wAYjlwQpQRZ0pm6ZkgtfL0pILRXhKxOiQj6UzoMR7A==}
-    engines: {node: '>=8.0.0'}
     dev: false
 
   /builtin-modules/3.2.0:

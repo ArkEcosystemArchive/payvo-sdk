@@ -1,4 +1,3 @@
-import { secp256k1 as bcrypto } from "bcrypto";
 import * as secp from "secp256k1";
 
 class Secp256k1 {
@@ -24,14 +23,6 @@ class Secp256k1 {
 
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
 		return secp.ecdsaVerify(signature, hash, publicKey);
-	}
-
-	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.schnorrSign(hash, privateKey);
-	}
-
-	public schnorrVerify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.schnorrVerify(hash, signature, publicKey);
 	}
 }
 

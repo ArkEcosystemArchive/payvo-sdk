@@ -21,7 +21,7 @@
 		"build:release": "pnpm run clean && tsc && rollup -c ../../rollup.config.js",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source public-key.test.ts",
+		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},

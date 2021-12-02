@@ -1,4 +1,4 @@
-import { secp256k1 } from "@payvo/sdk-cryptography";
+import { secp256k1 } from "bcrypto";
 
 import { IKeyPair } from "./interfaces";
 
