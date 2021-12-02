@@ -254,6 +254,7 @@ importers:
   packages/cryptography:
     specifiers:
       '@noble/hashes': ^0.4.1
+      '@noble/secp256k1': ^1.3.0
       '@payvo/sdk-test': workspace:*
       '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
@@ -285,6 +286,7 @@ importers:
       wif: ^2.0.6
     dependencies:
       '@noble/hashes': 0.4.1
+      '@noble/secp256k1': 1.3.0
       argon2-browser: 1.18.0
       bcryptjs: 2.4.3
       bcrypto: 5.4.0
@@ -1963,6 +1965,10 @@ packages:
 
   /@noble/hashes/0.4.1:
     resolution: {integrity: sha512-Qxy9mZoDf5SyFrQ8hpWHeMZ2Scmb9BAz/lt23sKdr/QHnACW9dD6S+/WVJHd3R/BPoNHcUYWXoXXe74cxSEYoA==}
+    dev: false
+
+  /@noble/secp256k1/1.3.0:
+    resolution: {integrity: sha512-wuFthUc6Ul4xflhY5u1+p1bDILPzVEisekxt5M+iLg4R+gG6+k2jnRR19sC9fMtzlsN5sKloBwprziDS0XlmyQ==}
     dev: false
 
   /@nodelib/fs.scandir/2.1.5:
