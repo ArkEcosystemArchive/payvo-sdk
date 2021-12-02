@@ -1,6 +1,5 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
-import { secp256k1 } from "bcrypto";
+import { BIP44, secp256k1 } from "@payvo/sdk-cryptography";
 
 @IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
