@@ -8,10 +8,10 @@ import { BindingType } from "./service-provider.contract.js";
 
 @injectable()
 export class BigNumberService {
-	@inject(BindingType.ConfigRepository)
-	private readonly configRepository!: ConfigRepository;
+    @inject(BindingType.ConfigRepository)
+    private readonly configRepository!: ConfigRepository;
 
-	public make(value: NumberLike): BigNumber {
-		return BigNumber.make(value, this.configRepository.get<number>(ConfigKey.CurrencyDecimals));
-	}
+    public make(value: NumberLike): BigNumber {
+        return BigNumber.make(value, this.configRepository.get<number>(ConfigKey.CurrencyDecimals));
+    }
 }

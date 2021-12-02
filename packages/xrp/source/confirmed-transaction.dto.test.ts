@@ -10,6 +10,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure(fixture.result);
+		context.subject.withDecimals(6);
 	});
 
 	it("should succeed", async (context) => {
