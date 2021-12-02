@@ -13,18 +13,6 @@ class Secp256k1 {
 		return bcrypto.publicKeyCombine(publicKeys);
 	}
 
-	public signatureImport(signature: Buffer): Buffer {
-		return bcrypto.signatureImport(signature);
-	}
-
-	public signatureExport(signature: Buffer): Buffer {
-		return bcrypto.signatureExport(signature);
-	}
-
-	public isLowS(signature: Buffer): boolean {
-		return bcrypto.isLowS(signature);
-	}
-
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
 		return bcrypto.sign(hash, privateKey);
 	}
