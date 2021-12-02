@@ -35,7 +35,7 @@ export const createSignedTransactionData = (stdSignMessage, keyPair) => {
 				account_number: stdSignMessage.account_number,
 				pub_key: {
 					type: "tendermint/PubKeySecp256k1",
-					value: Buffoon.toBase64(secp256k1.publicKeyCreate(privateKey)),
+					value: Buffoon.toBase64(secp256k1.publicKeyCreate(privateKey, false)),
 				},
 				sequence: stdSignMessage.sequence,
 				signature: secp256k1
