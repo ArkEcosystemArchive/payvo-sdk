@@ -15,11 +15,11 @@ class Secp256k1 {
 	}
 
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.ecdsaSign(hash, privateKey);
+		return Buffer.from(secp.ecdsaSign(hash, privateKey).signature);
 	}
 
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.ecdsaVerify(signature, hash, publicKey);
+		return secp.ecdsaVerify(signature, hash, publicKey);
 	}
 
 	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
