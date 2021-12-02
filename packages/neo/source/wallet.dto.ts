@@ -11,8 +11,12 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override balance(): Contracts.WalletBalance {
-		const available: BigNumber = this.bigNumberService.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "NEO").amount ?? 0).times(1e8);
-		const fees: BigNumber = this.bigNumberService.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "GAS").amount ?? 0).times(1e8);
+		const available: BigNumber = this.bigNumberService
+			.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "NEO").amount ?? 0)
+			.times(1e8);
+		const fees: BigNumber = this.bigNumberService
+			.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "GAS").amount ?? 0)
+			.times(1e8);
 
 		return {
 			total: available.plus(fees),

@@ -13,10 +13,7 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 	});
 
 	it("#toString should use the exponential notation above of the 35th number", () => {
-		assert.is(
-			BigNumber.make("336536650000000000000000000000000000").toString(),
-			"3.3653665e+35",
-		);
+		assert.is(BigNumber.make("336536650000000000000000000000000000").toString(), "3.3653665e+35");
 	});
 
 	it("#toString should succeed when input is provided as string", () => {
@@ -167,27 +164,13 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 				.isEqualTo(BigNumber.make(100)),
 		);
 
-		assert.is(
-			BigNumber.make(123_456_789, 5).denominated().toString(),
-			BigNumber.make(1234.567_89).toString(),
-		);
+		assert.is(BigNumber.make(123_456_789, 5).denominated().toString(), BigNumber.make(1234.567_89).toString());
 
-		assert.is(
-			BigNumber.make(123_456_789).denominated(5).toString(),
-			BigNumber.make(1234.567_89).toString(),
-		);
+		assert.is(BigNumber.make(123_456_789).denominated(5).toString(), BigNumber.make(1234.567_89).toString());
 
-		assert.true(
-			BigNumber.make(123_456_789, 5)
-				.denominated()
-				.isEqualTo(BigNumber.make(1234.567_89)),
-		);
+		assert.true(BigNumber.make(123_456_789, 5).denominated().isEqualTo(BigNumber.make(1234.567_89)));
 
-		assert.true(
-			BigNumber.make(123_456_789)
-				.denominated(5)
-				.isEqualTo(BigNumber.make(1234.567_89)),
-		);
+		assert.true(BigNumber.make(123_456_789).denominated(5).isEqualTo(BigNumber.make(1234.567_89)));
 	});
 
 	it("#toSatoshi", () => {
