@@ -1,41 +1,41 @@
 {
-    "name": "@payvo/sdk-intl",
-    "version": "4.0.0-next.10",
-    "description": "Cross-Platform Utilities for Payvo Applications",
-    "license": "MIT",
-    "contributors": [],
-    "type": "module",
-    "exports": "./distribution/index.js",
-    "main": "distribution/index.js",
-    "umd:main": "distribution/index.umd.js",
-    "jsdelivr": "distribution/index.bundled.min.js",
-    "unpkg": "distribution/index.bundled.min.js",
-    "module": "distribution/index.esm.js",
-    "browser": "distribution/index.bundled.js",
-    "types": "distribution/index.d.ts",
-    "files": [
-        "/distribution"
-    ],
-    "scripts": {
-        "build": "pnpm run clean && tsc",
-        "build:release": "webpack --config ../../webpack.config.cjs",
-        "build:watch": "pnpm run clean && tsc -w",
-        "clean": "rimraf .coverage distribution tmp",
-        "test": "uvu -r tsm source .test.ts",
-        "test:coverage": "c8 pnpm run test",
-        "test:watch": "watchlist source -- pnpm run test"
-    },
-    "dependencies": {
-        "dayjs": "^1.10.7",
-        "dinero.js": "^1.9.1"
-    },
-    "devDependencies": {
-        "@payvo/sdk-test": "workspace:*",
-        "@types/dinero.js": "1.9.0",
-        "@types/node": "^16.11.10"
-    },
-    "engines": {
-        "node": ">=16.0.0"
-    },
-    "engineStrict": true
+	"name": "@payvo/sdk-intl",
+	"version": "4.0.0-next.10",
+	"description": "Cross-Platform Utilities for Payvo Applications",
+	"license": "MIT",
+	"contributors": [],
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"main": "distribution/index.js",
+	"umd:main": "distribution/index.umd.js",
+	"jsdelivr": "distribution/index.bundled.min.js",
+	"unpkg": "distribution/index.bundled.min.js",
+	"module": "distribution/index.esm.js",
+	"browser": "distribution/index.bundled.js",
+	"types": "distribution/index.d.ts",
+	"files": [
+		"/distribution"
+	],
+	"scripts": {
+		"build": "pnpm run clean && tsc",
+		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
+		"clean": "rimraf .coverage distribution tmp",
+		"test": "uvu -r tsm source .test.ts",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
+	},
+	"dependencies": {
+		"dayjs": "^1.10.7",
+		"dinero.js": "^1.9.1"
+	},
+	"devDependencies": {
+		"@payvo/sdk-test": "workspace:*",
+		"@types/dinero.js": "1.9.0",
+		"@types/node": "^16.11.10"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"engineStrict": true
 }
