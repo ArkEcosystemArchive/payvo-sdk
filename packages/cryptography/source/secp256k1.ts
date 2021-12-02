@@ -1,44 +1,28 @@
-import { secp256k1 as bcrypto } from "bcrypto";
+import * as secp from "secp256k1";
 
 class Secp256k1 {
 	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return bcrypto.publicKeyCreate(privateKey, compressed);
+		return Buffer.from(secp.publicKeyCreate(privateKey, compressed));
 	}
 
 	public publicKeyVerify(publicKey: Buffer): boolean {
-		return bcrypto.publicKeyVerify(publicKey);
+		try {
+			return secp.publicKeyVerify(publicKey);
+		} catch {
+			return false;
+		}
 	}
 
 	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
-		return bcrypto.publicKeyCombine(publicKeys);
-	}
-
-	public signatureImport(signature: Buffer): Buffer {
-		return bcrypto.signatureImport(signature);
-	}
-
-	public signatureExport(signature: Buffer): Buffer {
-		return bcrypto.signatureExport(signature);
-	}
-
-	public isLowS(signature: Buffer): boolean {
-		return bcrypto.isLowS(signature);
+		return Buffer.from(secp.publicKeyCombine(publicKeys));
 	}
 
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.sign(hash, privateKey);
+		return Buffer.from(secp.ecdsaSign(hash, privateKey).signature);
 	}
 
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.verify(hash, signature, publicKey);
-	}
-
-	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.schnorrSign(hash, privateKey);
-	}
-
-	public schnorrVerify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.schnorrVerify(hash, signature, publicKey);
+		return secp.ecdsaVerify(signature, hash, publicKey);
 	}
 }
 
