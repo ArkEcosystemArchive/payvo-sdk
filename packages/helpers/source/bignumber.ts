@@ -32,7 +32,7 @@ export class BigNumber {
 	public static readonly ONE: BigNumber = new BigNumber(1);
 
 	/**
-	 * The current value as a bignumber.js instance.
+	 * The current value as a Big.js instance.
 	 *
 	 * @type {Big}
 	 * @memberof BigNumber
@@ -87,7 +87,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public decimalPlaces(decimals: number): BigNumber {
-		return BigNumber.make(this.#value.round(decimals), decimals);
+		return BigNumber.make(this.#value, decimals);
 	}
 
 	/**
