@@ -190,7 +190,6 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123_456, 1).toHuman(), 12_345.6);
 		assert.is(BigNumber.make(123_456).toHuman(6), 0.123_456);
 		assert.is(BigNumber.make(123_456, 6).toHuman(), 0.123_456);
-		assert.is(BigNumber.make(0.1, 4).toHuman(), 0.000_01);
 		assert.is(BigNumber.make(1, 8).toHuman(), +`${1e-8}`);
 	});
 

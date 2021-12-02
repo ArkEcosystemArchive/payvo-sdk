@@ -60,19 +60,19 @@ class BigNumber {
 	}
 
 	public plus(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value + BigNumber.make(value).bigDecimal());
+		return this.#fromBigDecimal(this.#value + BigNumber.make(value).bigDecimal(), this.#decimals);
 	}
 
 	public minus(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value - BigNumber.make(value).bigDecimal());
+		return this.#fromBigDecimal(this.#value - BigNumber.make(value).bigDecimal(), this.#decimals);
 	}
 
 	public divide(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value * this.#shift() / BigNumber.make(value).bigDecimal());
+		return this.#fromBigDecimal(this.#value * this.#shift() / BigNumber.make(value).bigDecimal(), this.#decimals);
 	}
 
 	public times(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value * BigNumber.make(value).bigDecimal() / this.#shift());
+		return this.#fromBigDecimal(this.#value * BigNumber.make(value).bigDecimal() / this.#shift(), this.#decimals);
 	}
 
 	public static sum(values: NumberLike[]): BigNumber {
