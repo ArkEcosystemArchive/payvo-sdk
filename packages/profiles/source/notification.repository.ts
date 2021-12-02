@@ -1,12 +1,10 @@
 import { Except } from "type-fest";
 import { UUID } from "@payvo/sdk-cryptography";
 import { INotification, INotificationRepository, IProfile } from "./contracts.js";
-import { injectable } from "inversify";
 
 import { DataRepository } from "./data.repository";
 import { INotificationType, INotificationTypes } from "./notification.repository.contract.js";
 
-@injectable()
 export class NotificationRepository implements INotificationRepository {
 	readonly #profile: IProfile;
 	#data: DataRepository = new DataRepository();

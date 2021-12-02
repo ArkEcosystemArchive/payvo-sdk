@@ -6,7 +6,6 @@ import { strict as assert } from "assert";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	@IoC.inject(BindingType.Keyring)
 	protected readonly keyring!: Keyring;

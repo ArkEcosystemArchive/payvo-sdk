@@ -5,7 +5,6 @@ import { Keyring } from "@polkadot/keyring";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(BindingType.ApiPromise)
 	protected readonly client!: ApiPromise;

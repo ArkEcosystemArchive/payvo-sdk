@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { Buffoon, Hash, secp256k1 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	@IoC.inject(IoC.BindingType.KeyPairService)
 	protected readonly keyPairService!: Services.KeyPairService;

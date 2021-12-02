@@ -1,7 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;

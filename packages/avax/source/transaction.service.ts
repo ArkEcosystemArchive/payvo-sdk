@@ -9,7 +9,6 @@ import { UUID } from "@payvo/sdk-cryptography";
 
 import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#xchain!: AVMAPI;
 	#pchain!: PlatformVMAPI;

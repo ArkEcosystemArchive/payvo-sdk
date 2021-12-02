@@ -9,7 +9,6 @@ import { BIP32 } from "@payvo/sdk-cryptography";
 import { isMultiSignatureRegistration, toExtPubKey } from "./multi-signature.domain";
 import { signWith } from "./helpers.js";
 
-@IoC.injectable()
 export class MultiSignatureSigner {
 	@IoC.inject(IoC.BindingType.LedgerService)
 	private readonly ledgerService!: Services.LedgerService;

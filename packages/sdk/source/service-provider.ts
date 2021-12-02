@@ -1,7 +1,5 @@
 /* istanbul ignore file */
 
-import { inject, injectable } from "inversify";
-
 import { ConfigRepository } from "./coins.js";
 import {
 	AbstractAddressService,
@@ -26,11 +24,14 @@ import {
 import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
 import { Container } from "./container.js";
 import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractServiceProvider implements IServiceProvider {
-	@inject(BindingType.ConfigRepository)
-	protected readonly configRepository!: ConfigRepository;
+	protected readonly configRepository: ConfigRepository;
+
+	public constructor(container: IContainer) {
+		this.configRepository = container.get(BindingType.ConfigRepository);
+	}
 
 	public async make(container: Container): Promise<void> {
 		return this.compose(container);
@@ -47,15 +48,15 @@ export class AbstractServiceProvider implements IServiceProvider {
 			container.singleton(BindingType.BigNumberService, BigNumberService);
 		}
 
-		if (container.missing(BindingType.ClientService)) {
-			container.singleton(BindingType.ClientService, services.ClientService || AbstractClientService);
-		}
-
 		if (container.missing(BindingType.DataTransferObjectService)) {
 			container.singleton(
 				BindingType.DataTransferObjectService,
 				services.DataTransferObjectService || AbstractDataTransferObjectService,
 			);
+		}
+
+		if (container.missing(BindingType.ClientService)) {
+			container.singleton(BindingType.ClientService, services.ClientService || AbstractClientService);
 		}
 
 		if (container.missing(BindingType.ExtendedAddressService)) {

@@ -5,7 +5,6 @@ import { UUID } from "@payvo/sdk-cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#client!: Connection;
 	#slip44!: number;

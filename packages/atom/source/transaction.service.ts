@@ -3,7 +3,6 @@ import { UUID } from "@payvo/sdk-cryptography";
 
 import { createSignedTransactionData } from "./crypto.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	protected readonly addressService!: Services.AddressService;

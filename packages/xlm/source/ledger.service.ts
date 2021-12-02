@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Stellar from "@ledgerhq/hw-app-str";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Stellar;

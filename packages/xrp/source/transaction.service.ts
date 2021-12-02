@@ -3,7 +3,6 @@ import { UUID } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { RippleAPI } from "ripple-lib";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#ripple!: RippleAPI;
 

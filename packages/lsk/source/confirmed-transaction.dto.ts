@@ -5,7 +5,6 @@ import { BigNumber, convertString } from "@payvo/sdk-helpers";
 import { TransactionTypeService } from "./transaction-type.service.js";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
-@IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
 	public override id(): string {
 		return this.data.id;

@@ -4,7 +4,6 @@ import { BindingType } from "./coin.contract.js";
 import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 

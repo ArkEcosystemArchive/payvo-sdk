@@ -3,7 +3,6 @@ import { BIP44 } from "@payvo/sdk-cryptography";
 import { validate } from "multicoin-address-validator";
 import TronWeb from "tronweb";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

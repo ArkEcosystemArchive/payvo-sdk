@@ -1,4 +1,3 @@
-import { injectable } from "inversify";
 import { UUID } from "@payvo/sdk-cryptography";
 
 import { Contact } from "./contact.js";
@@ -12,7 +11,6 @@ import {
 } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 
-@injectable()
 export class ContactRepository implements IContactRepository {
 	readonly #profile: IProfile;
 	readonly #data: DataRepository = new DataRepository();

@@ -1,7 +1,6 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { getPublicKey, sign, verify } from "@noble/ed25519";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	@IoC.inject(IoC.BindingType.KeyPairService)
 	private readonly keyPairService!: Services.KeyPairService;

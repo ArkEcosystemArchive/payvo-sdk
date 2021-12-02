@@ -8,10 +8,14 @@ import { strict as assert } from "assert";
 
 import { BindingType } from "./coin.contract.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(BindingType.Crypto)
-	private readonly config!: Interfaces.NetworkConfig;
+	readonly #config!: Interfaces.NetworkConfig;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#config = container.get(BindingType.Crypto);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -21,7 +25,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPassphrase(mnemonic, this.config.network),
+			address: BaseAddress.fromPassphrase(mnemonic, this.#config.network),
 		};
 	}
 
@@ -34,7 +38,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.config.network),
+			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.#config.network),
 		};
 	}
 
@@ -44,7 +48,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPublicKey(publicKey, this.config.network),
+			address: BaseAddress.fromPublicKey(publicKey, this.#config.network),
 		};
 	}
 
@@ -54,7 +58,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey), this.config.network),
+			address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey), this.#config.network),
 		};
 	}
 
@@ -63,14 +67,14 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip39",
-			address: BaseAddress.fromPassphrase(secret, this.config.network),
+			address: BaseAddress.fromPassphrase(secret, this.#config.network),
 		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip39",
-			address: BaseAddress.fromWIF(wif, this.config.network),
+			address: BaseAddress.fromWIF(wif, this.#config.network),
 		};
 	}
 

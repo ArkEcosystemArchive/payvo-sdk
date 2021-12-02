@@ -5,7 +5,6 @@ import { validation } from "@zilliqa-js/util";
 import { BindingType } from "./constants.js";
 import { accountFromMnemonic, accountFromPrivateKey } from "./zilliqa.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	@IoC.inject(BindingType.Zilliqa)
 	private readonly zilliqa!: Zilliqa;

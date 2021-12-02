@@ -6,10 +6,14 @@ import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
-	@IoC.inject(BindingType.Crypto)
-	private readonly config!: Interfaces.NetworkConfig;
+	readonly #config!: Interfaces.NetworkConfig;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#config = container.get(BindingType.Crypto);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,

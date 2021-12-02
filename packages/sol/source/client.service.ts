@@ -1,7 +1,6 @@
 import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { Connection, PublicKey } from "@solana/web3.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#client!: Connection;
 

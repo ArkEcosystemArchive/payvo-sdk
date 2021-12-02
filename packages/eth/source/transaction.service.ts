@@ -4,7 +4,6 @@ import Common from "@ethereumjs/common";
 import eth from "@ethereumjs/tx";
 import Web3 from "web3";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;

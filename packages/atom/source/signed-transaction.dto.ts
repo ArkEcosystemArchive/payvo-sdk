@@ -2,7 +2,6 @@ import { Contracts, DTO, Exceptions, IoC } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData

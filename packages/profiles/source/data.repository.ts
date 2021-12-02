@@ -1,9 +1,7 @@
 import { get, set, has, unset } from "@payvo/sdk-helpers";
-import { injectable } from "inversify";
 
 import { IDataRepository } from "./contracts.js";
 
-@injectable()
 export class DataRepository implements IDataRepository {
 	#storage: object = {};
 	#snapshot: object | undefined;

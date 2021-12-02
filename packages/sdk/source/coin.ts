@@ -1,4 +1,4 @@
-import { Container, injectable } from "./ioc.js";
+import { Container } from "./ioc.js";
 import { BindingType } from "./service-provider.contract.js";
 import { Network, NetworkRepository } from "./networks.js";
 import {
@@ -25,7 +25,6 @@ import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
 import { ConfigRepository } from "./config.js";
 import { Manifest } from "./manifest.js";
 
-@injectable()
 export class Coin {
 	readonly #container: Container;
 	#isSyncing = false;

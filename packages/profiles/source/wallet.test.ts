@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Coins } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";

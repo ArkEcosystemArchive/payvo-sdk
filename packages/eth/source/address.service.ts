@@ -5,7 +5,6 @@ import web3 from "web3";
 
 import { createWallet } from "./utils.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

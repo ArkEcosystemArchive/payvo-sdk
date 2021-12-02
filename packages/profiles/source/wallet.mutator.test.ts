@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { UUID } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
 

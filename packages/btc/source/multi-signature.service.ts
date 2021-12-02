@@ -6,7 +6,6 @@ import { MultiSignatureSigner } from "./multi-signature.signer.js";
 import { getNetworkConfig } from "./config.js";
 import * as bitcoin from "bitcoinjs-lib";
 
-@IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;

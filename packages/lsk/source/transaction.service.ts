@@ -6,7 +6,6 @@ import { TransactionSerializer } from "./transaction.serializer";
 import { BindingType } from "./coin.contract.js";
 import { AssetSerializer } from "./asset.serializer";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.MultiSignatureService)
 	private readonly multiSignatureService!: Services.MultiSignatureService;

@@ -3,7 +3,6 @@ import { convertStringList } from "@payvo/sdk-helpers";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 
-@IoC.injectable()
 export class AssetSerializer {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;

@@ -6,7 +6,6 @@ import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#networkId!: string;
 	#peer!: string;

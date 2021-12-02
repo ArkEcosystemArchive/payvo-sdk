@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 
 import { RegistryPlugin } from "./plugin-registry.dto";

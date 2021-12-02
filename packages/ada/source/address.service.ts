@@ -3,7 +3,6 @@ import { bech32 } from "@payvo/sdk-cryptography";
 
 import { addressFromAccountExtPublicKey, addressFromMnemonic } from "./shelley.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

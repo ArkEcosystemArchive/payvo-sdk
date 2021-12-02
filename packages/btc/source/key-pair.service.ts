@@ -3,7 +3,6 @@ import { BIP32 } from "@payvo/sdk-cryptography";
 import { ECPair, ECPairInterface } from "ecpair";
 import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,

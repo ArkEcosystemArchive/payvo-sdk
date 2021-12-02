@@ -1,7 +1,6 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,

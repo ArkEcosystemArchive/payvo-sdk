@@ -3,7 +3,6 @@ import { BinTools } from "avalanche";
 
 import { cb58Encode, keyPairFromMnemonic, useKeychain } from "./helpers.js";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,

@@ -4,7 +4,6 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { TransactionTypeService } from "./transaction-type.service.js";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData

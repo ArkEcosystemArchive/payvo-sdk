@@ -9,7 +9,6 @@ import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
 import { createValue } from "./transaction.factory";
 import { UnspentTransaction } from "./transaction.models.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		const { minFeeA, minFeeB, minUTxOValue, poolDeposit, keyDeposit, maxValueSize, maxTxSize, networkId } =

@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";

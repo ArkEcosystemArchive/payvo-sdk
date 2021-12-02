@@ -11,7 +11,6 @@ import { AssetSerializer } from "./asset.serializer";
 import { isMultiSignatureRegistration } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 
-@IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;

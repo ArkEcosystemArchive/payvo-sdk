@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Tron from "@ledgerhq/hw-app-trx";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Tron;

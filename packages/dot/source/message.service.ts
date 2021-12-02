@@ -5,7 +5,6 @@ import { signatureVerify } from "@polkadot/util-crypto";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	@IoC.inject(BindingType.Keyring)
 	protected readonly keyring!: Keyring;

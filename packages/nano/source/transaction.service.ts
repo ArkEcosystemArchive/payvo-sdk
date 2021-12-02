@@ -5,7 +5,6 @@ import { block, tools } from "nanocurrency-web";
 
 import { NanoClient } from "./rpc.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#client!: NanoClient;
 

@@ -5,7 +5,6 @@ import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { convertZilToQa, getZilliqaVersion } from "./zilliqa.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#zilliqa!: Zilliqa;
 	#version!: number;

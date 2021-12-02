@@ -3,7 +3,6 @@ import { BIP44, Hash } from "@payvo/sdk-cryptography";
 import baseX from "base-x";
 import { deriveAddress, deriveKeypair } from "ripple-keypairs";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

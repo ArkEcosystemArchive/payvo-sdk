@@ -2,11 +2,9 @@ import { Services } from "@payvo/sdk";
 
 import { pqueue } from "./helpers/queue.js";
 import { IKnownWalletService, IProfile } from "./contracts.js";
-import { injectable } from "inversify";
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 
-@injectable()
 export class KnownWalletService implements IKnownWalletService {
 	readonly #registry: KnownWalletRegistry = {};
 

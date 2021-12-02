@@ -5,7 +5,6 @@ import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@l
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	private readonly configRepository!: Coins.ConfigRepository;

@@ -9,7 +9,6 @@ import { getNetworkConfig, getNetworkID } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { strict as assert } from "assert";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	@IoC.inject(BindingType.AddressFactory)
 	protected readonly addressFactory!: AddressFactory;

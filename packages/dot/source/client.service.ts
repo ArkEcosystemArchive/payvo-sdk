@@ -3,7 +3,6 @@ import { ApiPromise } from "@polkadot/api";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	@IoC.inject(BindingType.ApiPromise)
 	protected readonly client!: ApiPromise;

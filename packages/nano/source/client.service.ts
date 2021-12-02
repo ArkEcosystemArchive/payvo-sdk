@@ -3,7 +3,6 @@ import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import { WalletData } from "./wallet.dto.js";
 import { NanoClient } from "./rpc.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#client!: NanoClient;
 

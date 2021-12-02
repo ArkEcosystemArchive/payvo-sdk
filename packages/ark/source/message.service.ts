@@ -2,7 +2,6 @@ import { Hash as ARK } from "./crypto/hash.js";
 import { Hash } from "@payvo/sdk-cryptography";
 import { IoC, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		return {

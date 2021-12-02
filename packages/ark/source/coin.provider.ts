@@ -4,7 +4,6 @@ import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 import { BindingType } from "./coin.contract.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
-@IoC.injectable()
 export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public override async make(container: IoC.Container): Promise<void> {
 		await this.#retrieveNetworkConfiguration(container);
@@ -13,7 +12,7 @@ export class ServiceProvider extends IoC.AbstractServiceProvider {
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		}
 
-		return this.compose(container);
+		this.compose(container);
 	}
 
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {

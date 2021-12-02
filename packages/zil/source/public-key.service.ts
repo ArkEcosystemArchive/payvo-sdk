@@ -4,7 +4,6 @@ import { Zilliqa } from "@zilliqa-js/zilliqa";
 import { BindingType } from "./constants.js";
 import { accountFromMnemonic } from "./zilliqa.js";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	@IoC.inject(BindingType.Zilliqa)
 	private readonly zilliqa!: Zilliqa;

@@ -9,7 +9,6 @@ import { getNetworkConfig, getNetworkID } from "./config.js";
 import { maxLevel } from "./helpers.js";
 import { Bip44Address } from "./contracts.js";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	private readonly configRepository!: Coins.ConfigRepository;

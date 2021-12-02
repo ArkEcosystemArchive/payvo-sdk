@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { BigNumber } from "@payvo/sdk-helpers";
 import { describe } from "@payvo/sdk-test";
 

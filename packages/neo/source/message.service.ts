@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Neon from "@cityofzion/neon-js";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const account = Neon.create.account(input.signatory.signingKey());

@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { resolve } from "path";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";

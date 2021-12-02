@@ -1,7 +1,6 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#connection!: TronWeb;
 	#peer!: string;

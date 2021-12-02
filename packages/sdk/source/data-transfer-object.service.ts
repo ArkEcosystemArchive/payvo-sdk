@@ -9,31 +9,32 @@ import { WalletData } from "./contracts.js";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
 import * as DataTransferObjects from "./dto.js";
 import { SignedTransactionData } from "./signed-transaction.dto.contract.js";
-import { Container, inject, injectable } from "./ioc.js";
+import { Container } from "./ioc.js";
 import { BindingType } from "./service-provider.contract.js";
 import { MetaPagination } from "./client.contract.js";
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractDataTransferObjectService implements DataTransferObjectService {
 	// @TODO: rework so that the container is not needed, this is a weird setup
-	@inject(BindingType.Container)
-	protected readonly container!: Container;
+	readonly #container: Container;
+	readonly #configRepository: ConfigRepository;
+	readonly #dataTransferObjects: Record<string, any>;
 
-	@inject(BindingType.ConfigRepository)
-	protected readonly configRepository!: ConfigRepository;
-
-	@inject(BindingType.DataTransferObjects)
-	protected readonly dataTransferObjects!: Record<string, any>;
+	public constructor(container: IContainer) {
+		this.#container = container.get(BindingType.Container);
+		this.#configRepository = container.get(BindingType.ConfigRepository);
+		this.#dataTransferObjects = container.get(BindingType.DataTransferObjects);
+	}
 
 	public signedTransaction(identifier: string, signedData: string, broadcastData?: any): SignedTransactionData {
-		return this.container
-			.resolve<SignedTransactionData>(this.dataTransferObjects.SignedTransactionData)
+		return this.#container
+			.resolve<SignedTransactionData>(this.#dataTransferObjects.SignedTransactionData)
 			.configure(
 				identifier,
 				signedData,
 				broadcastData,
-				this.configRepository.get<number>(ConfigKey.CurrencyDecimals),
+				this.#configRepository.get<number>(ConfigKey.CurrencyDecimals),
 			);
 	}
 
@@ -49,15 +50,15 @@ export class AbstractDataTransferObjectService implements DataTransferObjectServ
 	}
 
 	public wallet(wallet: unknown): WalletData {
-		return this.container.resolve<WalletData>(this.dataTransferObjects.WalletData).fill(wallet);
+		return this.#container.resolve<WalletData>(this.#dataTransferObjects.WalletData).fill(wallet);
 	}
 
 	#resolveTransactionClass(klass: string, transaction: unknown): ConfirmedTransactionData {
-		return this.container
+		return this.#container
 			.resolve<ConfirmedTransactionData>(
-				(get(this.dataTransferObjects, klass) || get(DataTransferObjects, klass))!,
+				(get(this.#dataTransferObjects, klass) || get(DataTransferObjects, klass))!,
 			)
 			.configure(transaction)
-			.withDecimals(this.configRepository.get(ConfigKey.CurrencyDecimals));
+			.withDecimals(this.#configRepository.get(ConfigKey.CurrencyDecimals));
 	}
 }

@@ -2,7 +2,6 @@ import { Coins, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { Buffer } from "buffer";
 import TronWeb from "tronweb";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	private readonly configRepository!: Coins.ConfigRepository;

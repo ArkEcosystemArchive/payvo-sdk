@@ -4,7 +4,6 @@ import { base58 } from "bstring";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	#slip44!: number;
 

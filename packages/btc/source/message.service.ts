@@ -2,7 +2,6 @@ import { IoC, Services } from "@payvo/sdk";
 import { ECPair } from "ecpair";
 import { sign, verify } from "bitcoinjs-message";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	@IoC.inject(IoC.BindingType.AddressService)
 	private readonly addressService!: Services.AddressService;

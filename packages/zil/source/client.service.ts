@@ -4,7 +4,6 @@ import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	@IoC.inject(BindingType.Zilliqa)
 	private readonly zilliqa!: Zilliqa;

@@ -7,7 +7,6 @@ import WalletDataHelper from "./wallet-data-helper.js";
 import MusigWalletDataHelper from "./musig-wallet-data-helper.js";
 import { BipLevel, Levels } from "./contracts.js";
 
-@IoC.injectable()
 export class AddressFactory {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	protected readonly configRepository!: Coins.ConfigRepository;

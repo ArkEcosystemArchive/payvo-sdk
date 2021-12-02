@@ -2,7 +2,6 @@ import { Contracts, Exceptions, Helpers, IoC, Networks, Services } from "@payvo/
 import Stellar from "stellar-sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.KeyPairService)
 	private readonly keyPairService!: Services.KeyPairService;

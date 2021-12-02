@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ethereum from "@ledgerhq/hw-app-eth";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Ethereum;

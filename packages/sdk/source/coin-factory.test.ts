@@ -1,8 +1,6 @@
 /* eslint-disable sonarjs/no-identical-expressions */
 import { describe } from "@payvo/sdk-test";
 
-import "reflect-metadata";
-
 import { ARK } from "../../ark/distribution";
 import { Request } from "../../http-fetch/distribution";
 import { Coin } from "./coin";

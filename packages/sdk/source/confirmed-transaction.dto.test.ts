@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 

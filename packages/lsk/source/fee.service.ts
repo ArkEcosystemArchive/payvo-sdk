@@ -7,7 +7,6 @@ import { BindingType } from "./coin.contract.js";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
 	@IoC.inject(IoC.BindingType.BigNumberService)
 	protected readonly bigNumberService!: Services.BigNumberService;

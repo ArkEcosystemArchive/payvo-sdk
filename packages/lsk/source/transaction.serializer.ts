@@ -5,7 +5,6 @@ import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
-@IoC.injectable()
 export class TransactionSerializer {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	protected readonly configRepository!: Coins.ConfigRepository;

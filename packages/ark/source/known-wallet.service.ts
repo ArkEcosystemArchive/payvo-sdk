@@ -1,14 +1,11 @@
-import { Coins, Http, IoC, Services } from "@payvo/sdk";
+import { Coins, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class KnownWalletService extends Services.AbstractKnownWalletService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: Http.HttpClient;
-
 	#source: string | undefined;
+
+	public onPostConstruct(): void {
+		this.#source = this.configRepository.getLoose<string>(Coins.ConfigKey.KnownWallets);
+	}
 
 	public override async all(): Promise<Services.KnownWallet[]> {
 		if (!this.#source) {
@@ -26,10 +23,5 @@ export class KnownWalletService extends Services.AbstractKnownWalletService {
 		} catch {
 			return [];
 		}
-	}
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#source = this.configRepository.getLoose<string>(Coins.ConfigKey.KnownWallets);
 	}
 }

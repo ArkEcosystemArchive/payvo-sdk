@@ -1,26 +1,33 @@
 /* istanbul ignore file */
 
-import { inject, injectable, preDestroy } from "inversify";
-
 import { WalletData } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";
 import { BindingType } from "./service-provider.contract.js";
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract.js";
+import { IContainer } from "./container.contracts.js";
+import { ConfigRepository } from "./config.js";
 
-@injectable()
 export class AbstractLedgerService implements LedgerService {
-	@inject(BindingType.LedgerTransportFactory)
-	protected readonly ledgerTransportFactory!: LedgerTransportFactory;
+	readonly #dataTransferObjectService: DataTransferObjectService;
 
-	@inject(BindingType.DataTransferObjectService)
-	private readonly dataTransferObjectService!: DataTransferObjectService;
+	protected readonly configRepository: ConfigRepository;
+	protected readonly ledgerTransportFactory: LedgerTransportFactory;
+
+	public constructor(container: IContainer) {
+		this.configRepository = container.get(BindingType.ConfigRepository);
+		this.ledgerTransportFactory = container.get(BindingType.LedgerTransportFactory);
+		this.#dataTransferObjectService = container.get(BindingType.DataTransferObjectService);
+	}
+
+	public async onPreDestroy(): Promise<void> {
+		return this.disconnect();
+	}
 
 	public async connect(): Promise<void> {
 		throw new NotImplemented(this.constructor.name, this.connect.name);
 	}
 
-	@preDestroy()
 	public async disconnect(): Promise<void> {
 		//
 	}
@@ -75,7 +82,7 @@ export class AbstractLedgerService implements LedgerService {
 				}
 				foundFirstCold = true;
 
-				ledgerWallets[path] = this.dataTransferObjectService.wallet({
+				ledgerWallets[path] = this.#dataTransferObjectService.wallet({
 					address,
 					balance: 0,
 					publicKey,

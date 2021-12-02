@@ -1,7 +1,6 @@
 import { Collections, Contracts, IoC, Networks, Services } from "@payvo/sdk";
 import Stellar from "stellar-sdk";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#client;
 

@@ -698,14 +698,12 @@ importers:
       bip38: ^3.1.1
       fs-extra: ^10.0.0
       got: ^11.8.3
-      inversify: ^6.0.1
       joi: ^17.4.2
       localforage: ^1.10.0
       mem: ^9.0.1
       node-cache: ^5.1.2
       p-queue: ^7.1.0
       p-retry: ^5.0.0
-      reflect-metadata: ^0.1.13
       semver: ^7.3.5
       type-fest: ^2.6.0
       wif: ^2.0.6
@@ -718,14 +716,12 @@ importers:
       '@sindresorhus/slugify': 2.1.0
       '@vechain/picasso': 2.1.1
       bip38: 3.1.1
-      inversify: 6.0.1
       joi: 17.4.2
       localforage: 1.10.0
       mem: 9.0.1
       node-cache: 5.1.2
       p-queue: 7.1.0
       p-retry: 5.0.0
-      reflect-metadata: 0.1.13
       semver: 7.3.5
       type-fest: 2.6.0
     devDependencies:
@@ -760,11 +756,9 @@ importers:
       bip39: ^3.0.4
       censorify-it: ^3.0.2
       dayjs: ^1.10.7
-      inversify: ^6.0.1
       joi: ^17.4.2
       node-emoji: ^1.11.0
       query-string: ^7.0.1
-      reflect-metadata: ^0.1.13
       type-fest: ^2.6.0
       url-format-lax: ^2.0.0
       url-parse-lax: ^5.0.0
@@ -778,11 +772,9 @@ importers:
       bip39: 3.0.4
       censorify-it: 3.0.2
       dayjs: 1.10.7
-      inversify: 6.0.1
       joi: 17.4.2
       node-emoji: 1.11.0
       query-string: 7.0.1
-      reflect-metadata: 0.1.13
       type-fest: 2.6.0
       url-format-lax: 2.0.0
       url-parse-lax: 5.0.0
@@ -7060,10 +7052,6 @@ packages:
       loose-envify: 1.4.0
     dev: false
 
-  /inversify/6.0.1:
-    resolution: {integrity: sha512-B3ex30927698TJENHR++8FfEaJGqoWOgI6ZY5Ht/nLUsFCwHn6akbwtnUAPCgUepAnTpe2qHxhDNjoKLyz6rgQ==}
-    dev: false
-
   /ip-regex/4.3.0:
     resolution: {integrity: sha512-B9ZWJxHHOHUhUjCPrMpLD4xEq35bUTClHM1S6CBU5ixQnkZmwipwgc96vAd7AAGM9TGHvJR+Uss+/Ak6UphK+Q==}
     engines: {node: '>=8'}
@@ -9378,10 +9366,6 @@ packages:
       indent-string: 5.0.0
       strip-indent: 4.0.0
     dev: true
-
-  /reflect-metadata/0.1.13:
-    resolution: {integrity: sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg==}
-    dev: false
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}

@@ -3,7 +3,6 @@ import { BIP39 } from "@payvo/sdk-cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	#slip44!: number;
 

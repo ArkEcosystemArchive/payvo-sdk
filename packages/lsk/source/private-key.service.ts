@@ -3,7 +3,6 @@ import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography"
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ripple from "@ledgerhq/hw-app-xrp";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Ripple;

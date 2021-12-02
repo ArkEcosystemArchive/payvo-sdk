@@ -1,7 +1,6 @@
 import { Collections, Contracts, IoC, Networks, Services } from "@payvo/sdk";
 import Neon, { api } from "@cityofzion/neon-js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 	#apiProvider;

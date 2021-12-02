@@ -5,7 +5,6 @@ import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 
 import { cb58Decode, usePChain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#xchain!: AVMAPI;
 	#pchain!: PlatformVMAPI;

@@ -32,7 +32,6 @@ const runWithLedgerConnectionIfNeeded = async (
 	}
 };
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	@IoC.inject(IoC.BindingType.LedgerService)
 	private readonly ledgerService!: LedgerService;

@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#bip44SessionPath = "";

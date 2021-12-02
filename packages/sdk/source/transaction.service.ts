@@ -6,7 +6,7 @@ import { ConfigRepository } from "./coins.js";
 import { SignedTransactionData } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";
 import { HttpClient } from "./http.js";
-import { inject, injectable } from "./ioc.js";
+
 import { BindingType } from "./service-provider.contract.js";
 import { BigNumberService } from "./big-number.service.js";
 import { ClientService } from "./client.contract.js";
@@ -23,23 +23,22 @@ import {
 	UnlockTokenInput,
 	VoteInput,
 } from "./transaction.contract.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractTransactionService implements Contract {
-	@inject(BindingType.ClientService)
-	protected readonly clientService!: ClientService;
+	protected readonly bigNumberService: BigNumberService;
+	protected readonly clientService: ClientService;
+	protected readonly configRepository: ConfigRepository;
+	protected readonly dataTransferObjectService: DataTransferObjectService;
+	protected readonly httpClient: HttpClient;
 
-	@inject(BindingType.ConfigRepository)
-	protected readonly configRepository!: ConfigRepository;
-
-	@inject(BindingType.DataTransferObjectService)
-	protected readonly dataTransferObjectService!: DataTransferObjectService;
-
-	@inject(BindingType.HttpClient)
-	protected readonly httpClient!: HttpClient;
-
-	@inject(BindingType.BigNumberService)
-	protected readonly bigNumberService!: BigNumberService;
+	public constructor(container: IContainer) {
+		this.bigNumberService = container.get(BindingType.ConfigRepository);
+		this.clientService = container.get(BindingType.ClientService);
+		this.configRepository = container.get(BindingType.DataTransferObjectService);
+		this.dataTransferObjectService = container.get(BindingType.HttpClient);
+		this.httpClient = container.get(BindingType.BigNumberService);
+	}
 
 	public async transfer(input: TransferInput): Promise<SignedTransactionData> {
 		throw new NotImplemented(this.constructor.name, this.transfer.name);

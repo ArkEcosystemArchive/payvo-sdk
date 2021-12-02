@@ -1,6 +1,5 @@
 import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
 	@IoC.inject(IoC.BindingType.ConfigRepository)
 	private readonly configRepository!: Coins.ConfigRepository;

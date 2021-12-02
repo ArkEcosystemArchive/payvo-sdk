@@ -1,6 +1,4 @@
-import { interfaces } from "inversify";
-
-export type ServiceList = Record<string, interfaces.Newable<any>>;
+export type ServiceList = Record<string, any>;
 
 export const BindingType = {
 	// [Coin] Services
