@@ -453,12 +453,14 @@ importers:
       '@hapi/bourne': ^2.0.0
       '@payvo/sdk-test': workspace:*
       '@types/benchmark': ^2.1.1
+      '@types/big.js': ^6.1.2
       '@types/lodash': ^4.14.177
       '@types/node': ^16.11.10
       '@types/qrcode': 1.4.1
       '@types/remarkable': ^2.0.3
       bad-words: ^3.0.4
       benchmark: ^2.1.4
+      big.js: ^6.1.1
       censorify-it: ^3.0.2
       deepmerge: ^4.2.2
       del-cli: ^4.0.1
@@ -475,6 +477,7 @@ importers:
     dependencies:
       '@hapi/bourne': 2.0.0
       bad-words: 3.0.4
+      big.js: 6.1.1
       censorify-it: 3.0.2
       deepmerge: 4.2.2
       dot-prop: 6.0.1
@@ -489,6 +492,7 @@ importers:
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/benchmark': 2.1.1
+      '@types/big.js': 6.1.2
       '@types/lodash': 4.14.177
       '@types/node': 16.11.10
       '@types/qrcode': 1.4.1
@@ -2510,6 +2514,10 @@ packages:
       '@types/node': 16.11.10
     dev: true
 
+  /@types/big.js/6.1.2:
+    resolution: {integrity: sha512-h24JIZ52rvSvi2jkpYDk2yLH99VzZoCJiSfDWwjst7TwJVuXN61XVCUlPCzRl7mxKEMsGf8z42Q+J4TZwU3z2w==}
+    dev: true
+
   /@types/bip38/2.0.1:
     resolution: {integrity: sha512-mZTvxt9Oue3dDV8/sgJWNCsdmrkmhnGVRja3ZFKeMHheKbyS6FgcBep0WlpTP5pK8Z3Y3YILBP4nHnAV7knq0g==}
     dependencies:
@@ -3802,6 +3810,10 @@ packages:
   /big-integer/1.6.51:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
+
+  /big.js/6.1.1:
+    resolution: {integrity: sha512-1vObw81a8ylZO5ePrtMay0n018TcftpTA5HFKDaSuiUDBo8biRBtjIobw60OpwuvrGk+FsxKamqN4cnmj/eXdg==}
+    dev: false
 
   /bigi/1.4.2:
     resolution: {integrity: sha1-nGZalfiLiwj8Bc/XMfVhhZ1yWCU=}

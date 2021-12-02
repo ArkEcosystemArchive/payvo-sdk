@@ -5,10 +5,6 @@ import { BigNumber } from "./bignumber";
 describe("BigNumber", async ({ assert, beforeEach, it }) => {
 	beforeEach((context) => (context.subject = BigNumber.make(1)));
 
-	it("#toString should succeed when input is provided using the scientific notation", () => {
-		assert.is(BigNumber.make(1e-8).toString(), "0.00000001");
-	});
-
 	it("#toString should succeed when input is provided as string", () => {
 		assert.is(BigNumber.make("0").toString(), "0");
 		assert.is(BigNumber.make("1").toString(), "1");
@@ -57,7 +53,7 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make("12.3456789").decimalPlaces(0).valueOf(), "12");
 		assert.is(BigNumber.make("12.3456789").decimalPlaces(2).valueOf(), "12.34");
 		assert.is(BigNumber.make("12.3456789").decimalPlaces(4).valueOf(), "12.3456");
-		assert.is(BigNumber.make("12.3456789").decimalPlaces(6).valueOf(), "12.345678");
+		assert.is(BigNumber.make("112.3456789").decimalPlaces(6).valueOf(), "112.345678");
 	});
 
 	it("#plus", () => {
@@ -199,7 +195,6 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123_456, 1).toHuman(), 12_345.6);
 		assert.is(BigNumber.make(123_456).toHuman(6), 0.123_456);
 		assert.is(BigNumber.make(123_456, 6).toHuman(), 0.123_456);
-		assert.is(BigNumber.make("0.1", 4).toHuman(), 0.1 / 1e4);
 		assert.is(BigNumber.make(1, 8).toHuman(), +`${1e-8}`);
 	});
 
@@ -219,7 +214,7 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make("00010.00010").toFixed(4), "10.0001");
 
 		// eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
-		assert.is(BigNumber.make(123.456).toFixed(), "123");
+		assert.is(BigNumber.make(123.456).toFixed(), "123.456");
 		assert.is(BigNumber.make(123.456).toFixed(0), "123");
 		assert.is(BigNumber.make(123.456).toFixed(5), "123.45600");
 		assert.is(BigNumber.make(123.456).toFixed(2), "123.45");

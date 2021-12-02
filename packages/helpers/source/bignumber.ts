@@ -1,80 +1,146 @@
-type NumberLike = string | number | bigint | BigNumber;
+import Big, { BigSource } from "big.js";
 
-interface BigNumberParameters {
-	value: NumberLike;
-	decimals?: number;
-	asBigDecimal?: boolean;
-}
+export type NumberLike = string | number | bigint | Big | BigNumber;
 
-class BigNumber {
-	public static readonly ZERO: BigNumber = new BigNumber({ value: 0 });
-	public static readonly ONE: BigNumber = new BigNumber({ value: 1 });
+/**
+ * An immutable BigNumber implementation wth some nice-to-have functionality
+ * for working with crypto currencies throughout our products and use the SDK.
+ *
+ * This implementation is significantly slower than the native BigInt but for
+ * applications that use the Platform SDK this performance loss is acceptable.
+ *
+ * @export
+ * @class BigNumber
+ */
+export class BigNumber {
+	/**
+	 * Quick accessor for 0, a commonly used value.
+	 *
+	 * @static
+	 * @type {BigNumber}
+	 * @memberof BigNumber
+	 */
+	public static readonly ZERO: BigNumber = new BigNumber(0);
 
-	readonly #bigIntDecimals = 30;
+	/**
+	 * Quick accessor for 1, a commonly used value.
+	 *
+	 * @static
+	 * @type {BigNumber}
+	 * @memberof BigNumber
+	 */
+	public static readonly ONE: BigNumber = new BigNumber(1);
 
-	readonly #value: bigint;
+	/**
+	 * The current value as a bignumber.js instance.
+	 *
+	 * @type {Big}
+	 * @memberof BigNumber
+	 */
+	readonly #value: Big;
+
+	/**
+	 * The number of decimals
+	 *
+	 * @type {number}
+	 * @memberof BigNumber
+	 */
 	readonly #decimals: number | undefined;
 
-	private constructor({ value, decimals, asBigDecimal }: BigNumberParameters) {
-		if (value instanceof BigNumber) {
-			this.#decimals = value.decimals();
-		}
+	/**
+	 * Creates an instance of BigNumber.
+	 *
+	 * @param {NumberLike} value
+	 * @param {number} [decimals]
+	 * @memberof BigNumber
+	 */
+	private constructor(value: NumberLike, decimals?: number) {
+		Big.RM = Big.roundDown;
+		Big.DP = 30;
+
+		this.#value = this.#toBigNumber(value);
 
 		if (decimals !== undefined) {
 			this.#decimals = decimals;
+			this.#value = this.#value.round(this.#decimals);
 		}
-
-		if (!asBigDecimal) {
-			const [int, dec = ""] = this.#dropScientificNotation(value).split(".");
-
-			this.#value = BigInt(`${int}${dec.padEnd(this.#bigIntDecimals, "0").slice(0, this.#bigIntDecimals)}`);
-
-			return;
-		}
-
-		if (typeof value !== "bigint") {
-			throw new TypeError("[value] must be of type bigint when [asBigDecimal] is true.");
-		}
-
-		this.#value = value;
 	}
 
+	/**
+	 * Creates an instance of BigNumber. Acts as a static constructor.
+	 *
+	 * @static
+	 * @param {NumberLike} value
+	 * @param {number} [decimals]
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public static make(value: NumberLike, decimals?: number): BigNumber {
-		return new BigNumber({ decimals, value });
+		return new BigNumber(value, decimals);
 	}
 
-	#fromBigDecimal(value: bigint, decimals?: number): BigNumber {
-		return new BigNumber({ asBigDecimal: true, decimals, value });
-	}
-
+	/**
+	 * Creates an instance of BigNumber with the given amount of decimals.
+	 *
+	 * @param {number} decimals
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public decimalPlaces(decimals: number): BigNumber {
-		return this.#fromBigDecimal(this.#value, decimals);
+		return BigNumber.make(this.#value.round(decimals), decimals);
 	}
 
-	public bigDecimal(): bigint {
-		return this.#value;
-	}
-
-	public decimals(): number | undefined {
-		return this.#decimals;
-	}
-
+	/**
+	 * Creates an instance of BigNumber with the given value added to the current value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public plus(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value + BigNumber.make(value).bigDecimal(), this.#decimals);
+		return BigNumber.make(this.#value.plus(this.#toBigNumber(value)), this.#decimals);
 	}
 
+	/**
+	 * Creates an instance of BigNumber with the given value subtracted from the current value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public minus(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value - BigNumber.make(value).bigDecimal(), this.#decimals);
+		return BigNumber.make(this.#value.minus(this.#toBigNumber(value)), this.#decimals);
 	}
 
+	/**
+	 * Creates an instance of BigNumber with the current value divided by the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public divide(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value * this.#shift() / BigNumber.make(value).bigDecimal(), this.#decimals);
+		return BigNumber.make(this.#value.div(this.#toBigNumber(value)), this.#decimals);
 	}
 
+	/**
+	 * Creates an instance of BigNumber with the current value multiplied by the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public times(value: NumberLike): BigNumber {
-		return this.#fromBigDecimal(this.#value * BigNumber.make(value).bigDecimal() / this.#shift(), this.#decimals);
+		return BigNumber.make(this.#value.times(this.#toBigNumber(value)), this.#decimals);
 	}
 
+	/**
+	 * Returns the sum of the different values.
+	 *
+	 * @param {NumberLike[]} values
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
 	public static sum(values: NumberLike[]): BigNumber {
 		return values.reduce(
 			(accumulator: BigNumber, currentValue: NumberLike) => accumulator.plus(currentValue),
@@ -82,149 +148,209 @@ class BigNumber {
 		);
 	}
 
-	public static powerOfTen(exponent: number): BigNumber {
-		return BigNumber.make(`1${"0".repeat(exponent)}`);
+	/**
+	 * Creates an instance of BigNumber that's a power of ten.
+	 *
+	 * @param {NumberLike} exponent
+	 * @returns {BigNumber}
+	 * @memberof BigNumber
+	 */
+	public static powerOfTen(exponent: NumberLike): BigNumber {
+		const power = BigNumber.make(exponent).toNumber();
+		return BigNumber.make(`1${"0".repeat(power)}`);
 	}
 
+	/**
+	 * Determines if the current value is positive.
+	 *
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isPositive(): boolean {
-		return this.#value > 0;
+		return this.#value.gt(0);
 	}
 
+	/**
+	 * Determines if the current value is negative.
+	 *
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isNegative(): boolean {
-		return this.#value < 0;
+		return this.#value.lt(0);
 	}
 
+	/**
+	 * Determines if the current value is zero.
+	 *
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isZero(): boolean {
-		return this.#value === BigInt(0);
+		return this.#value.eq(0);
 	}
 
+	/**
+	 * Compares the current and given value and returns a numerical value
+	 * to indicate the type of difference, like less/greater or equal.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {number}
+	 * @memberof BigNumber
+	 */
 	public comparedTo(value: NumberLike): number {
-		if (this.isGreaterThan(value)) {
-			return 1;
-		}
-
-		if (this.isLessThan(value)) {
-			return -1;
-		}
-
-		return 0;
+		return this.#value.cmp(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Determines if the current value is equal to the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isEqualTo(value: NumberLike): boolean {
-		return this.#value === BigNumber.make(value).bigDecimal();
+		return this.#value.eq(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Determines if the current value is greater than the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isGreaterThan(value: NumberLike): boolean {
-		return this.#value > BigNumber.make(value).bigDecimal();
+		return this.#value.gt(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Determines if the current value is greater than or equal to the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isGreaterThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value >= BigNumber.make(value).bigDecimal();
+		return this.#value.gte(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Determines if the current value is less than the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isLessThan(value: NumberLike): boolean {
-		return this.#value < BigNumber.make(value).bigDecimal();
+		return this.#value.lt(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Determines if the current value is less than or equal to the given value.
+	 *
+	 * @param {NumberLike} value
+	 * @returns {boolean}
+	 * @memberof BigNumber
+	 */
 	public isLessThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value <= BigNumber.make(value).bigDecimal();
+		return this.#value.lte(this.#toBigNumber(value));
 	}
 
+	/**
+	 * Returns a BigNumber as expressed naturally in the given amount of decimals.
+	 *
+	 * @param {number} [decimals]
+	 * @returns {string}
+	 * @memberof BigNumber
+	 */
 	public denominated(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
-
-		return this.#fromBigDecimal(this.#value, this.#decimals).divide(BigNumber.powerOfTen(decimals ?? 0));
+		return BigNumber.make(this.#value, decimals).divide(BigNumber.powerOfTen(decimals || 0));
 	}
 
+	/**
+	 * Returns a BigNumber expressed in the smallest unit
+	 *
+	 * @param {number} [decimals]
+	 * @returns {string}
+	 * @memberof BigNumber
+	 */
 	public toSatoshi(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
-
-		return this.#fromBigDecimal(this.#value, this.#decimals).times(BigNumber.powerOfTen(decimals ?? 0));
+		return BigNumber.make(this.#value, decimals).times(BigNumber.powerOfTen(decimals || 0));
 	}
 
+	/**
+	 * Divides the current value by one satoshi and rounds it to the given amount of decimals.
+	 *
+	 * @param {number} [decimals]
+	 * @returns {number}
+	 * @memberof BigNumber
+	 */
 	public toHuman(decimals?: number): number {
-		return +this.#fromBigDecimal(this.#value).divide(BigNumber.powerOfTen(decimals ?? this.#decimals ?? 0)).toString();
+		return +this.denominated(decimals).toString();
 	}
 
+	/**
+	 * Returns a string representing the current value rounded to the given amount of decimals.
+	 *
+	 * @param {number} [decimals]
+	 * @returns {string}
+	 * @memberof BigNumber
+	 */
+	public toFixed(decimals?: number): string {
+		if (decimals !== undefined) {
+			return this.#value.toFixed(decimals);
+		}
+
+		// eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
+		return this.#value.toFixed();
+	}
+
+	/**
+	 * Returns the current value as a primitive number.
+	 *
+	 * @returns {number}
+	 * @memberof BigNumber
+	 */
 	public toNumber(): number {
-		return Number(this.toString());
+		return this.#value.toNumber();
 	}
 
-	public valueOf(): string {
-		return this.toString();
-	}
-
-	public toFixed(decimalDigits?: number): string {
-		decimalDigits ??= 0;
-
-		let { integers, decimals } = this.#split();
-
-		if (integers === "") {
-			integers = "0";
-		}
-
-		if (decimalDigits > this.#bigIntDecimals) {
-			return this.#removeTrailingDot(
-				integers + "." + decimals + "0".repeat(decimalDigits - this.#bigIntDecimals)
-			);
-		}
-
-		return this.#removeTrailingDot(integers + "." + decimals.slice(0, decimalDigits));
-	}
-
+	/**
+	 * Returns the current value as primitive string.
+	 *
+	 * @returns {string}
+	 * @memberof BigNumber
+	 */
 	public toString(): string {
-		const { integers, decimals } = this.#split();
-
-		return this.#removeTrailingDot([integers, decimals.replace(/\.?0+$/, "")].join("."));
+		return this.#value.toString();
 	}
 
-	#shift(): bigint {
-		return BigInt("1" + "0".repeat(this.#bigIntDecimals));
+	/**
+	 * Returns the current value as a string but includes minus symbols.
+	 *
+	 * @returns {string}
+	 * @memberof BigNumber
+	 */
+	public valueOf(): string {
+		return this.#value.valueOf();
 	}
 
-	#split(): { integers: string; decimals: string } {
-		const valueAsString = String(this.#value).padStart(this.#bigIntDecimals + 1, "0");
-
-		const integers = valueAsString.slice(0, -this.#bigIntDecimals);
-		let decimals = valueAsString.slice(-this.#bigIntDecimals);
-
-		if (this.#decimals !== undefined) {
-			decimals = decimals.slice(0, this.#decimals);
+	/**
+	 * Normalise the various types of input.
+	 *
+	 * @private
+	 * @param {NumberLike} value
+	 * @returns {Big}
+	 * @memberof BigNumber
+	 */
+	#toBigNumber(value: NumberLike): Big {
+		if (value instanceof BigNumber) {
+			return new Big(value.valueOf());
 		}
 
-		return { decimals, integers };
-	}
-
-	#removeTrailingDot(value: string): string {
-		return value.replace(/\.$/, "");
-	}
-
-	#dropScientificNotation(value: any): string {
-		let isAbsLessThanOne = value < 1;
-
-		if (value < 0) {
-			isAbsLessThanOne = typeof value === "bigint" ? value * BigInt(-1) < 1 : value * -1 < 1;
-		}
-
-		if (isAbsLessThanOne) {
-			const exponent = Number.parseInt(value.toString().split('e-')[1]);
-
-			if (exponent) {
-				value *= Math.pow(10,exponent-1);
-				value = '0.' + (new Array(exponent)).join('0') + value.toString().slice(2);
-			}
-		} else {
-			let exponent = Number.parseInt(value.toString().split('+')[1]);
-
-			if (exponent > 20) {
-				exponent -= 20;
-				value /= Math.pow(10, exponent);
-				value += (new Array(exponent+1)).join('0');
-			}
-		}
-
-		return value.toString();
+		return new Big(value as BigSource);
 	}
 }
-
-export { BigNumber, NumberLike };

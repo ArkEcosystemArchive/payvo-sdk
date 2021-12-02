@@ -22,6 +22,7 @@
 	"dependencies": {
 		"@hapi/bourne": "^2.0.0",
 		"bad-words": "^3.0.4",
+		"big.js": "^6.1.1",
 		"censorify-it": "^3.0.2",
 		"deepmerge": "^4.2.2",
 		"dot-prop": "~6.0.1",
@@ -37,6 +38,7 @@
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
 		"@types/benchmark": "^2.1.1",
+		"@types/big.js": "^6.1.2",
 		"@types/lodash": "^4.14.177",
 		"@types/node": "^16.11.10",
 		"@types/qrcode": "1.4.1",
