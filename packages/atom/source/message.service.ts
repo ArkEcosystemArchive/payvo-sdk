@@ -12,9 +12,7 @@ export class MessageService extends Services.AbstractMessageService {
 		return {
 			message: input.message,
 			signatory: publicKey,
-			signature: secp256k1
-				.sign(Hash.sha256(input.message), Buffoon.fromHex(privateKey))
-				.toString("hex"),
+			signature: secp256k1.sign(Hash.sha256(input.message), Buffoon.fromHex(privateKey)).toString("hex"),
 		};
 	}
 
