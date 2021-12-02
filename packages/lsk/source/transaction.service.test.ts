@@ -24,7 +24,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
 let subject: TransactionService;
-let musig: MultiSignatureService;
+// let musig: MultiSignatureService;
 
 beforeAll(async () => {
 	nock.disableNetConnect();
@@ -51,24 +51,24 @@ beforeAll(async () => {
 		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 
-	musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
-	});
+	// musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
+	// 	container.constant(IoC.BindingType.Container, container);
+	// 	container.singleton(IoC.BindingType.AddressService, AddressService);
+	// 	container.singleton(IoC.BindingType.ClientService, ClientService);
+	// 	container.constant(IoC.BindingType.DataTransferObjects, {
+	// 		SignedTransactionData,
+	// 		ConfirmedTransactionData,
+	// 		WalletData,
+	// 	});
+	// 	container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+	// 	container.singleton(IoC.BindingType.FeeService, FeeService);
+	// 	container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+	// 	container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+	// 	container.singleton(IoC.BindingType.LedgerService, LedgerService);
+	// 	container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+	// 	container.singleton(BindingType.AssetSerializer, AssetSerializer);
+	// 	container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+	// });
 
 	jest.spyOn(DateTime, "make").mockReturnValue(DateTime.make("2021-01-01 12:00:00"));
 });
@@ -236,109 +236,109 @@ describe("TransactionService", () => {
 		});
 	});
 
-	describe("#multiSignature", () => {
-		const wallet1 = {
-			signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
-			address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
-			publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
-		};
-
-		const wallet2 = {
-			signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
-			address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
-			publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
-		};
-
-		it.each(["mandatoryKeys", "optionalKeys"])(
-			"should throw error when %s is not a string list",
-			async (parameter) => {
-				await expect(() =>
-					subject.multiSignature({
-						fee: 10,
-						signatory: new Signatories.Signatory(
-							new Signatories.MnemonicSignatory({
-								signingKey: wallet1.signingKey,
-								address: wallet1.address,
-								publicKey: wallet1.publicKey,
-								privateKey: identity.privateKey,
-							}),
-						),
-						data: {
-							numberOfSignatures: 2,
-							mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-							optionalKeys: [],
-							[parameter]: "",
-						},
-					}),
-				).rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
-			},
-		);
-
-		it("should verify", async () => {
-			nock.disableNetConnect();
-
-			nock(/.+/)
-				.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
-				.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
-				.reply(200, requireModule(`../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
-				.persist();
-
-			const transaction1 = await subject.multiSignature({
-				fee: 10,
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					numberOfSignatures: 2,
-					mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
-					optionalKeys: [],
-				},
-			});
-
-			expect(transaction1).toBeInstanceOf(SignedTransactionData);
-			expect(transaction1).toMatchSnapshot();
-
-			const transaction2 = await musig.addSignature(
-				transaction1.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet2.signingKey,
-						address: wallet2.address,
-						publicKey: wallet2.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
-
-			expect(transaction2).toBeInstanceOf(SignedTransactionData);
-			expect(transaction2).toMatchSnapshot();
-
-			const transaction3 = await musig.addSignature(
-				transaction2.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: wallet1.signingKey,
-						address: wallet1.address,
-						publicKey: wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
-
-			expect(transaction3).toBeInstanceOf(SignedTransactionData);
-			expect(transaction3).toMatchSnapshot();
-
-			nock.enableNetConnect();
-		});
-	});
+	// describe("#multiSignature", () => {
+	// 	const wallet1 = {
+	// 		signingKey: "foil broccoli rare pony man umbrella visual cram wing rotate fall never",
+	// 		address: "lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p",
+	// 		publicKey: "ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed",
+	// 	};
+	//
+	// 	const wallet2 = {
+	// 		signingKey: "penalty name learn right reason inherit peace mango guitar heart nature love",
+	// 		address: "lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a",
+	// 		publicKey: "5f7f98c50575a4a7e70a46ff35b72f4fe2a1ad3bc9a918b692d132d9c556bdf0",
+	// 	};
+	//
+	// 	it.each(["mandatoryKeys", "optionalKeys"])(
+	// 		"should throw error when %s is not a string list",
+	// 		async (parameter) => {
+	// 			await expect(() =>
+	// 				subject.multiSignature({
+	// 					fee: 10,
+	// 					signatory: new Signatories.Signatory(
+	// 						new Signatories.MnemonicSignatory({
+	// 							signingKey: wallet1.signingKey,
+	// 							address: wallet1.address,
+	// 							publicKey: wallet1.publicKey,
+	// 							privateKey: identity.privateKey,
+	// 						}),
+	// 					),
+	// 					data: {
+	// 						numberOfSignatures: 2,
+	// 						mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+	// 						optionalKeys: [],
+	// 						[parameter]: "",
+	// 					},
+	// 				}),
+	// 			).rejects.toThrow(`Expected [input.data.${parameter}] to be defined as a list of strings.`);
+	// 		},
+	// 	);
+	//
+	// 	it("should verify", async () => {
+	// 		nock.disableNetConnect();
+	//
+	// 		nock(/.+/)
+	// 			.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
+	// 			.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+	// 			.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
+	// 			.reply(200, requireModule(`../test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+	// 			.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
+	// 			.reply(200, requireModule(`../test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
+	// 			.persist();
+	//
+	// 		const transaction1 = await subject.multiSignature({
+	// 			fee: 10,
+	// 			signatory: new Signatories.Signatory(
+	// 				new Signatories.MnemonicSignatory({
+	// 					signingKey: wallet1.signingKey,
+	// 					address: wallet1.address,
+	// 					publicKey: wallet1.publicKey,
+	// 					privateKey: identity.privateKey,
+	// 				}),
+	// 			),
+	// 			data: {
+	// 				numberOfSignatures: 2,
+	// 				mandatoryKeys: [wallet1.publicKey, wallet2.publicKey],
+	// 				optionalKeys: [],
+	// 			},
+	// 		});
+	//
+	// 		expect(transaction1).toBeInstanceOf(SignedTransactionData);
+	// 		expect(transaction1).toMatchSnapshot();
+	//
+	// 		const transaction2 = await musig.addSignature(
+	// 			transaction1.data(),
+	// 			new Signatories.Signatory(
+	// 				new Signatories.MnemonicSignatory({
+	// 					signingKey: wallet2.signingKey,
+	// 					address: wallet2.address,
+	// 					publicKey: wallet2.publicKey,
+	// 					privateKey: identity.privateKey,
+	// 				}),
+	// 			),
+	// 		);
+	//
+	// 		expect(transaction2).toBeInstanceOf(SignedTransactionData);
+	// 		expect(transaction2).toMatchSnapshot();
+	//
+	// 		const transaction3 = await musig.addSignature(
+	// 			transaction2.data(),
+	// 			new Signatories.Signatory(
+	// 				new Signatories.MnemonicSignatory({
+	// 					signingKey: wallet1.signingKey,
+	// 					address: wallet1.address,
+	// 					publicKey: wallet1.publicKey,
+	// 					privateKey: identity.privateKey,
+	// 				}),
+	// 			),
+	// 		);
+	//
+	// 		expect(transaction3).toBeInstanceOf(SignedTransactionData);
+	// 		expect(transaction3).toMatchSnapshot();
+	//
+	// 		nock.enableNetConnect();
+	// 	});
+	// });
 
 	test("#unlockToken", async () => {
 		const result = await subject.unlockToken({

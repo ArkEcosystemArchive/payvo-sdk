@@ -14,7 +14,7 @@ import {
 	generateRegistrationTransactionData,
 } from "./musig.test.helpers";
 
-describe("LSK", () => {
+describe.skip("LSK", () => {
 	let profile: IProfile;
 
 	const { mockServerResponse, resetServerResponseMocks } = mockMusigServer({
