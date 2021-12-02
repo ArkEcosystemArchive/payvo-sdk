@@ -20,7 +20,7 @@ const polyfillsPlugins = [
 			Buffer: ['buffer', 'Buffer']
 		},
 	}),
-	nodePolyfills()
+	nodePolyfills(),
 ];
 
 const baseConfig = {
