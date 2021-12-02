@@ -1,15 +1,21 @@
-export type NumberLike = string | number | bigint | BigNumber;
+type NumberLike = string | number | bigint | BigNumber;
 
-export class BigNumber {
-	public static readonly ZERO: BigNumber = new BigNumber(0);
-	public static readonly ONE: BigNumber = new BigNumber(1);
+interface BigNumberParameters {
+	value: NumberLike;
+	decimals?: number;
+	asBigDecimal?: boolean;
+}
+
+class BigNumber {
+	public static readonly ZERO: BigNumber = new BigNumber({ value: 0 });
+	public static readonly ONE: BigNumber = new BigNumber({ value: 1 });
 
 	readonly #bigIntDecimals = 30;
 
 	readonly #value: bigint;
 	readonly #decimals: number | undefined;
 
-	private constructor(value: NumberLike, decimals?: number) {
+	private constructor({ value, decimals, asBigDecimal }: BigNumberParameters) {
 		if (value instanceof BigNumber) {
 			this.#decimals = value.decimals();
 		}
@@ -18,68 +24,55 @@ export class BigNumber {
 			this.#decimals = decimals;
 		}
 
-		this.#value = this.#toBigDecimal(value);
-	}
+		if (!asBigDecimal) {
+			const [int, dec = ""] = String(value).split(".");
 
-	#toBigDecimal(value: NumberLike): bigint {
-		const [integers, decimals = ""] = value.toString().split(".");
+			this.#value = BigInt(`${int}${dec.padEnd(this.#bigIntDecimals, "0").slice(0, this.#bigIntDecimals)}`);
 
-		return BigInt(integers + decimals.padEnd(this.#bigIntDecimals, "0"));
-	}
-
-	#fromBigDecimal(value: bigint, decimalDigits?: number): string {
-		if (value === BigInt(0)) {
-			return "0";
+			return;
 		}
 
-		let integers = String(value).slice(0, -this.#bigIntDecimals);
-		let decimals = String(value).slice(-this.#bigIntDecimals);
-
-		if (decimalDigits !== undefined) {
-			decimals = decimals.slice(0, decimalDigits);
+		if (typeof value !== "bigint") {
+			throw new TypeError("[value] must be of type bigint when [asBigDecimal] is true.");
 		}
 
-		if (integers === "") {
-			integers = "0";
-		}
-
-		return this.#removeTrailingDot(integers + "." + this.#removeTrailingZeroes(decimals));
-	}
-
-	#removeTrailingZeroes(value: string): string {
-		return value.replace(/\.?0+$/, "");
-	}
-
-	#removeTrailingDot(value: string): string {
-		return value.replace(/\.$/, "");
+		this.#value = value;
 	}
 
 	public static make(value: NumberLike, decimals?: number): BigNumber {
-		return new BigNumber(value, decimals);
+		return new BigNumber({ decimals, value });
+	}
+
+	#fromBigDecimal(value: bigint, decimals?: number): BigNumber {
+		return new BigNumber({ asBigDecimal: true, decimals, value });
 	}
 
 	public decimalPlaces(decimals: number): BigNumber {
-		return BigNumber.make(this.#fromBigDecimal(this.#value), decimals);
+		return this.#fromBigDecimal(this.#value, decimals);
+	}
+
+	public bigDecimal(): bigint {
+		return this.#value;
+	}
+
+	public decimals(): number | undefined {
+		return this.#decimals;
 	}
 
 	public plus(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#fromBigDecimal(this.#value + this.#toBigDecimal(value)), this.#decimals);
+		return this.#fromBigDecimal(this.#value + BigNumber.make(value).bigDecimal());
 	}
 
 	public minus(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#fromBigDecimal(this.#value - this.#toBigDecimal(value)), this.#decimals);
+		return this.#fromBigDecimal(this.#value - BigNumber.make(value).bigDecimal());
 	}
 
 	public divide(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#fromBigDecimal(
-			this.#value * BigInt("1" + "0".repeat(this.#bigIntDecimals)) / this.#toBigDecimal(value)
-		), this.#decimals);
+		return this.#fromBigDecimal(this.#value * this.#shift() / BigNumber.make(value).bigDecimal());
 	}
 
 	public times(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#fromBigDecimal(
-			this.#value * (this.#toBigDecimal(value) / BigInt("1" + "0".repeat(this.#bigIntDecimals)))
-		), this.#decimals);
+		return this.#fromBigDecimal(this.#value * BigNumber.make(value).bigDecimal() / this.#shift());
 	}
 
 	public static sum(values: NumberLike[]): BigNumber {
@@ -89,10 +82,8 @@ export class BigNumber {
 		);
 	}
 
-	public static powerOfTen(exponent: NumberLike): BigNumber {
-		const power = BigNumber.make(exponent).toNumber();
-
-		return BigNumber.make(`1${"0".repeat(power)}`);
+	public static powerOfTen(exponent: number): BigNumber {
+		return BigNumber.make(`1${"0".repeat(exponent)}`);
 	}
 
 	public isPositive(): boolean {
@@ -120,46 +111,53 @@ export class BigNumber {
 	}
 
 	public isEqualTo(value: NumberLike): boolean {
-		return this.#value === this.#toBigDecimal(value);
+		return this.#value === BigNumber.make(value).bigDecimal();
 	}
 
 	public isGreaterThan(value: NumberLike): boolean {
-		return this.#value > this.#toBigDecimal(value);
+		return this.#value > BigNumber.make(value).bigDecimal();
 	}
 
 	public isGreaterThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value >= this.#toBigDecimal(value);
+		return this.#value >= BigNumber.make(value).bigDecimal();
 	}
 
 	public isLessThan(value: NumberLike): boolean {
-		return this.#value < this.#toBigDecimal(value);
+		return this.#value < BigNumber.make(value).bigDecimal();
 	}
 
 	public isLessThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value <= this.#toBigDecimal(value);
+		return this.#value <= BigNumber.make(value).bigDecimal();
 	}
 
 	public denominated(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return BigNumber.make(this.#fromBigDecimal(this.#value), decimals).divide(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value, decimals).divide(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toSatoshi(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return BigNumber.make(this.#fromBigDecimal(this.#value), decimals).times(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value, decimals).times(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toHuman(decimals?: number): number {
 		return +this.denominated(decimals).toString();
 	}
 
+	public toNumber(): number {
+		return Number(this.toString());
+	}
+
+	public valueOf(): string {
+		return this.toString();
+	}
+
 	public toFixed(decimalDigits?: number): string {
 		decimalDigits ??= 0;
 
-		let integers = String(this.#value).slice(0, -this.#bigIntDecimals);
-		const decimals = String(this.#value).slice(-this.#bigIntDecimals);
+		let { integers, decimals } = this.#split();
 
 		if (integers === "") {
 			integers = "0";
@@ -171,22 +169,35 @@ export class BigNumber {
 			);
 		}
 
-		return this.#removeTrailingDot(integers + "." + decimals.slice(0, decimalDigits));
-	}
-
-	public toNumber(): number {
-		return Number(this.toString());
-	}
-
-	public valueOf(): string {
-		return this.#fromBigDecimal(this.#value, this.#decimals);
+		return this.#removeTrailingDot((integers + "." + decimals.slice(0, decimalDigits)));
 	}
 
 	public toString(): string {
-		return this.#fromBigDecimal(this.#value, this.#decimals);
+		const { integers, decimals } = this.#split();
+
+		return this.#removeTrailingDot([integers, decimals.replace(/\.?0+$/, "")].join("."));
 	}
 
-	public decimals(): number | undefined {
-		return this.#decimals;
+	#shift(): bigint {
+		return BigInt("1" + "0".repeat(this.#bigIntDecimals));
+	}
+
+	#split(): { integers: string; decimals: string } {
+		const valueAsString = String(this.#value).padStart(this.#bigIntDecimals + 1, "0");
+
+		const integers = valueAsString.slice(0, -this.#bigIntDecimals);
+		let decimals = valueAsString.slice(-this.#bigIntDecimals);
+
+		if (this.#decimals !== undefined) {
+			decimals = decimals.slice(0, this.#decimals);
+		}
+
+		return { decimals, integers };
+	}
+
+	#removeTrailingDot(value: string): string {
+		return value.replace(/\.$/, "");
 	}
 }
+
+export { BigNumber, NumberLike };

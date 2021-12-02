@@ -68,6 +68,9 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(10).divide(2).valueOf(), "5");
 		assert.is(BigNumber.make(5).divide(2).valueOf(), "2.5");
 		assert.is(BigNumber.make(2.5).divide(3).valueOf(), "0.833333333333333333333333333333");
+
+		assert.is(BigNumber.make("141000").divide("100000000").valueOf(), "0.00141");
+		assert.is(BigNumber.make(141_000).divide(1e8).valueOf(), "0.00141");
 	});
 
 	it("#times", () => {
@@ -84,7 +87,6 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.powerOfTen(0).valueOf(), "1");
 		assert.is(BigNumber.powerOfTen(1).valueOf(), "10");
 		assert.is(BigNumber.powerOfTen(2).valueOf(), "100");
-		assert.is(BigNumber.powerOfTen("2").valueOf(), "100");
 	});
 
 	it("#isPositive", (context) => {
@@ -150,11 +152,31 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 				.denominated(8)
 				.isEqualTo(BigNumber.make(100)),
 		);
+
+		assert.is(
+			BigNumber.make(123_456_789, 5).denominated().toString(),
+			BigNumber.make(1234.567_89).toString(),
+		);
+
+		assert.is(
+			BigNumber.make(123_456_789).denominated(5).toString(),
+			BigNumber.make(1234.567_89).toString(),
+		);
 	});
 
 	it("#toSatoshi", () => {
 		assert.is(BigNumber.make(100).toSatoshi().toString(), "100");
 		assert.is(BigNumber.make(100).toSatoshi(10).toString(), "1000000000000");
+
+		assert.is(
+			BigNumber.make(123_456_789, 5).toSatoshi().toString(),
+			"12345678900000",
+		);
+
+		assert.is(
+			BigNumber.make(1, 8).toSatoshi().toString(),
+			"100000000",
+		);
 	});
 
 	it("#toHuman", () => {
@@ -165,7 +187,11 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123_456).toHuman(), 123_456);
 		assert.is(BigNumber.make(123_456).toHuman(0), 123_456);
 		assert.is(BigNumber.make(123_456).toHuman(1), 12_345.6);
+		assert.is(BigNumber.make(123_456, 1).toHuman(), 12_345.6);
 		assert.is(BigNumber.make(123_456).toHuman(6), 0.123_456);
+		assert.is(BigNumber.make(123_456, 6).toHuman(), 0.123_456);
+		assert.is(BigNumber.make(0.1, 4).toHuman(), 0.000_01);
+		assert.is(BigNumber.make(1, 8).toHuman(), +`${1e-8}`);
 	});
 
 	it("#toFixed", (context) => {
@@ -182,14 +208,20 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(".123").toFixed(5), "0.12300");
 		assert.is(BigNumber.make("00010.00010").toFixed(0), "10");
 		assert.is(BigNumber.make("00010.00010").toFixed(4), "10.0001");
+
+		// eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
+		assert.is(BigNumber.make(123.456).toFixed(), "123");
+		assert.is(BigNumber.make(123.456).toFixed(0), "123");
+		assert.is(BigNumber.make(123.456).toFixed(5), "123.45600");
+		assert.is(BigNumber.make(123.456).toFixed(2), "123.45");
+
+		assert.is(BigNumber.make(123).toFixed(5), "123.00000");
+		assert.is(BigNumber.make(123_456).toFixed(), "123456");
+		assert.is(BigNumber.make(123_456).toFixed(0), "123456");
 	});
 
 	it("#toNumber", (context) => {
 		assert.is(context.subject.toNumber(), 1);
-	});
-
-	it("#toString", (context) => {
-		assert.is(context.subject.toString(), "1");
 	});
 
 	it("#valueOf", (context) => {
