@@ -7,7 +7,11 @@ class Secp256k1 {
 	}
 
 	public publicKeyVerify(publicKey: Buffer): boolean {
-		return secp.publicKeyVerify(publicKey);
+		try {
+			return secp.publicKeyVerify(publicKey);
+		} catch {
+			return false;
+		}
 	}
 
 	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
