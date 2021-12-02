@@ -1,5 +1,4 @@
 import { secp256k1 as bcrypto } from "bcrypto";
-import schnorr from "bip-schnorr";
 import elliptic from "elliptic";
 
 class Secp256k1 {
@@ -10,7 +9,17 @@ class Secp256k1 {
 	}
 
 	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return Buffer.from(this.#ec.keyFromPrivate(privateKey.toString("hex")).getPublic().encode("hex", compressed));
+		const publicKey: elliptic.curve.base.BasePoint = this.#ec.keyFromPrivate(privateKey.toString("hex")).getPublic();
+
+		if (compressed) {
+			return Buffer.from(publicKey.encodeCompressed("hex"), "hex");
+		}
+
+		return Buffer.from(publicKey.encode("hex", true), "hex");
+	}
+
+	public publicKeyVerify(publicKey: Buffer): boolean {
+		return bcrypto.publicKeyVerify(publicKey);
 	}
 
 	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
@@ -31,11 +40,13 @@ class Secp256k1 {
 	}
 
 	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
-		return schnorr.sign(privateKey, hash);
+		return bcrypto.schnorrSign(hash, privateKey);
+		// return schnorr.sign(privateKey.toString("hex"), hash);
 	}
 
 	public schnorrVerify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return schnorr.verify(publicKey, hash, signature);
+		return bcrypto.schnorrVerify(hash, signature, publicKey);
+		// return schnorr.verify(publicKey, hash, signature);
 	}
 }
 

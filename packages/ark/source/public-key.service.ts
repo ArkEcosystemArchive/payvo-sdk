@@ -41,7 +41,7 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 
 	public override async fromWIF(wif: string): Promise<Services.PublicKeyDataTransferObject> {
 		return {
-			publicKey: BasePublicKey.fromWIF(wif),
+			publicKey: BasePublicKey.fromWIF(wif, this.config.network),
 		};
 	}
 }

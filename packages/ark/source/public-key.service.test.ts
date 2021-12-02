@@ -8,7 +8,7 @@ describe("PublicKeyService", async ({ assert, beforeEach, it, nock, loader }) =>
 		context.subject = await createService(PublicKeyService);
 	});
 
-	it("should generate an output from a mnemonic", async (context) => {
+	it.only("should generate an output from a mnemonic", async (context) => {
 		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
 		assert.equal(result, { publicKey: identity.publicKey });

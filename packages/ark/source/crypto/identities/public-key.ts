@@ -37,6 +37,6 @@ export class PublicKey {
 	}
 
 	public static verify(publicKey: string): boolean {
-		return publicKey.length === 66;
+		return secp256k1.publicKeyVerify(Buffer.from(publicKey, "hex"));
 	}
 }
