@@ -268,7 +268,6 @@ importers:
       '@types/wif': ^2.0.2
       argon2-browser: ^1.18.0
       bcryptjs: ^2.4.3
-      bcrypto: ^5.4.0
       bech32: ^2.0.0
       benchmark: ^2.1.4
       bip32: ^2.0.0
@@ -288,7 +287,6 @@ importers:
       '@noble/hashes': 0.4.1
       argon2-browser: 1.18.0
       bcryptjs: 2.4.3
-      bcrypto: 5.4.0
       bech32: 2.0.0
       bip32: 2.0.6
       bip38: 3.1.1
