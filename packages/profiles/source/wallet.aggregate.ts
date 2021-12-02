@@ -67,7 +67,7 @@ export class WalletAggregate implements IWalletAggregate {
 				);
 
 				result[coin] = {
-					total: totalByCoin.toFixed(),
+					total: totalByCoin.toString(),
 					percentage:
 						totalByProfile === 0 ? "0.00" : totalByCoin.divide(totalByProfile).times(100).toFixed(2),
 				};
