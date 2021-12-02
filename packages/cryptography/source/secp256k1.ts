@@ -16,10 +16,12 @@ class Secp256k1 {
 		return bcrypto.publicKeyCombine(publicKeys);
 	}
 
+	// @TODO: remove, this is only used by ATOM
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
 		return Buffer.from(this.#ec.sign(hash, this.#ec.keyFromPrivate(privateKey.toString("hex")), "hex", { canonical: true }).toDER());
 	}
 
+	// @TODO: remove, this is only used by ATOM
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
 		return this.#ec.keyFromPublic(publicKey).verify(hash, signature);
 	}
