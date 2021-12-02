@@ -1,4 +1,4 @@
-import basex from 'base-x'
+import basex from "base-x";
 
 const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
 
