@@ -54,7 +54,7 @@ describeWithContext(
 				);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -77,7 +77,7 @@ describeWithContext(
 				);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(BindingType.AssetSerializer, AssetSerializer);
@@ -189,93 +189,93 @@ describeWithContext(
 			);
 		});
 
-		each(
-			"multiSignature should throw error when %s is not a string list",
-			async ({ dataset, context }) => {
-				await assert.rejects(
-					() =>
-						context.subject.multiSignature({
-							fee: 10,
-							signatory: new Signatories.Signatory(
-								new Signatories.MnemonicSignatory({
-									signingKey: context.wallet1.signingKey,
-									address: context.wallet1.address,
-									publicKey: context.wallet1.publicKey,
-									privateKey: identity.privateKey,
-								}),
-							),
-							data: {
-								numberOfSignatures: 2,
-								mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
-								optionalKeys: [],
-								[dataset]: "",
-							},
-						}),
-					`Expected [input.data.${dataset}] to be defined as a list of strings.`,
-				);
-			},
-			["mandatoryKeys", "optionalKeys"],
-		);
+		// each(
+		// 	"multiSignature should throw error when %s is not a string list",
+		// 	async ({ dataset, context }) => {
+		// 		await assert.rejects(
+		// 			() =>
+		// 				context.subject.multiSignature({
+		// 					fee: 10,
+		// 					signatory: new Signatories.Signatory(
+		// 						new Signatories.MnemonicSignatory({
+		// 							signingKey: context.wallet1.signingKey,
+		// 							address: context.wallet1.address,
+		// 							publicKey: context.wallet1.publicKey,
+		// 							privateKey: identity.privateKey,
+		// 						}),
+		// 					),
+		// 					data: {
+		// 						numberOfSignatures: 2,
+		// 						mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
+		// 						optionalKeys: [],
+		// 						[dataset]: "",
+		// 					},
+		// 				}),
+		// 			`Expected [input.data.${dataset}] to be defined as a list of strings.`,
+		// 		);
+		// 	},
+		// 	["mandatoryKeys", "optionalKeys"],
+		// );
 
-		it("multiSignature should verify", async (context) => {
-			nock.fake(/.+/)
-				.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
-				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
-				.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
-				.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
-				.reply(200, loader.json(`test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
-				.persist();
+		// it("multiSignature should verify", async (context) => {
+		// 	nock.fake(/.+/)
+		// 		.get("/api/v2/accounts?address=lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p")
+		// 		.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+		// 		.get("/api/v2/accounts?publicKey=ac574896c846b59477a9115b952563938c48d0096b84846c0b634a621e1774ed")
+		// 		.reply(200, loader.json(`test/fixtures/musig/lskp4agpmjwgw549xdrhgdt6dfwqrpvohgbkhyt8p.json`))
+		// 		.get("/api/v2/accounts?address=lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a")
+		// 		.reply(200, loader.json(`test/fixtures/musig/lskn2de9mo9z3g9jvbpj4yjn84vrvjzcn5c5mon7a.json`))
+		// 		.persist();
 
-			const transaction1 = await context.subject.multiSignature({
-				fee: 10,
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: context.wallet1.signingKey,
-						address: context.wallet1.address,
-						publicKey: context.wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-				data: {
-					numberOfSignatures: 2,
-					mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
-					optionalKeys: [],
-				},
-			});
+		// 	const transaction1 = await context.subject.multiSignature({
+		// 		fee: 10,
+		// 		signatory: new Signatories.Signatory(
+		// 			new Signatories.MnemonicSignatory({
+		// 				signingKey: context.wallet1.signingKey,
+		// 				address: context.wallet1.address,
+		// 				publicKey: context.wallet1.publicKey,
+		// 				privateKey: identity.privateKey,
+		// 			}),
+		// 		),
+		// 		data: {
+		// 			numberOfSignatures: 2,
+		// 			mandatoryKeys: [context.wallet1.publicKey, context.wallet2.publicKey],
+		// 			optionalKeys: [],
+		// 		},
+		// 	});
 
-			assert.instance(transaction1, SignedTransactionData);
+		// 	assert.instance(transaction1, SignedTransactionData);
 
-			const transaction2 = await context.musig.addSignature(
-				transaction1.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: context.wallet2.signingKey,
-						address: context.wallet2.address,
-						publicKey: context.wallet2.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
+		// 	const transaction2 = await context.musig.addSignature(
+		// 		transaction1.data(),
+		// 		new Signatories.Signatory(
+		// 			new Signatories.MnemonicSignatory({
+		// 				signingKey: context.wallet2.signingKey,
+		// 				address: context.wallet2.address,
+		// 				publicKey: context.wallet2.publicKey,
+		// 				privateKey: identity.privateKey,
+		// 			}),
+		// 		),
+		// 	);
 
-			assert.instance(transaction2, SignedTransactionData);
+		// 	assert.instance(transaction2, SignedTransactionData);
 
-			const transaction3 = await context.musig.addSignature(
-				transaction2.data(),
-				new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: context.wallet1.signingKey,
-						address: context.wallet1.address,
-						publicKey: context.wallet1.publicKey,
-						privateKey: identity.privateKey,
-					}),
-				),
-			);
+		// 	const transaction3 = await context.musig.addSignature(
+		// 		transaction2.data(),
+		// 		new Signatories.Signatory(
+		// 			new Signatories.MnemonicSignatory({
+		// 				signingKey: context.wallet1.signingKey,
+		// 				address: context.wallet1.address,
+		// 				publicKey: context.wallet1.publicKey,
+		// 				privateKey: identity.privateKey,
+		// 			}),
+		// 		),
+		// 	);
 
-			assert.instance(transaction3, SignedTransactionData);
+		// 	assert.instance(transaction3, SignedTransactionData);
 
-			nock.enableNetConnect();
-		});
+		// 	nock.enableNetConnect();
+		// });
 
 		it("#unlockToken", async (context) => {
 			const result = await context.subject.unlockToken({
