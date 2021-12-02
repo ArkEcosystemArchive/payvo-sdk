@@ -28,12 +28,12 @@
 	"dependencies": {
 		"@noble/hashes": "^0.4.1",
 		"argon2-browser": "^1.18.0",
+		"base-x": "^3.0.9",
 		"bcryptjs": "^2.4.3",
 		"bech32": "^2.0.0",
 		"bip32": "^2.0.0",
 		"bip38": "^3.1.1",
 		"bip39": "^3.0.4",
-		"bstring": "^0.3.9",
 		"create-xpub": "^2.1.0",
 		"hdkey": "^2.0.1",
 		"node-forge": "^0.10.0",
