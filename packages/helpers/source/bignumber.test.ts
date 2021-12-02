@@ -5,6 +5,20 @@ import { BigNumber } from "./bignumber";
 describe("BigNumber", async ({ assert, beforeEach, it }) => {
 	beforeEach((context) => (context.subject = BigNumber.make(1)));
 
+	it("#toString should not use the exponential notation up to the 35th number", () => {
+		assert.is(
+			BigNumber.make("33653665000000000000000000000000000").toString(),
+			"33653665000000000000000000000000000",
+		);
+	});
+
+	it("#toString should use the exponential notation above of the 35th number", () => {
+		assert.is(
+			BigNumber.make("336536650000000000000000000000000000").toString(),
+			"3.3653665e+35",
+		);
+	});
+
 	it("#toString should succeed when input is provided as string", () => {
 		assert.is(BigNumber.make("0").toString(), "0");
 		assert.is(BigNumber.make("1").toString(), "1");

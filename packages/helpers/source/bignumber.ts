@@ -57,6 +57,7 @@ export class BigNumber {
 	private constructor(value: NumberLike, decimals?: number) {
 		Big.RM = Big.roundDown;
 		Big.DP = 30;
+		Big.PE = 35;
 
 		this.#value = this.#toBigNumber(value);
 
