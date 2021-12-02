@@ -18,7 +18,7 @@ class Secp256k1 {
 
 	// @TODO: remove, this is only used by ATOM
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return Buffer.from(this.#ec.sign(hash, this.#ec.keyFromPrivate(privateKey.toString("hex")), "hex", { canonical: true }).toDER());
+		return Buffer.from(this.#ec.keyFromPrivate(privateKey.toString("hex")).sign(hash, "hex", { canonical: true }).toDER());
 	}
 
 	// @TODO: remove, this is only used by ATOM
