@@ -17,16 +17,10 @@ const polyfillsPlugins = [
 		modules: {
 			BigInt: require.resolve("big-integer"),
 			process: "process-es6",
-			Buffer: ["buffer"],
 		},
-		include: undefined,
 	}),
 	{
-		...nodePolyfills({
-			// Pass in null to transform all files.
-			include: null,
-		}),
-		transform: null,
+		...nodePolyfills(),
 	},
 ];
 
