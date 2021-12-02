@@ -25,7 +25,7 @@ class BigNumber {
 		}
 
 		if (!asBigDecimal) {
-			const [int, dec = ""] = String(value).split(".");
+			const [int, dec = ""] = this.#dropScientificNotation(value).split(".");
 
 			this.#value = BigInt(`${int}${dec.padEnd(this.#bigIntDecimals, "0").slice(0, this.#bigIntDecimals)}`);
 
@@ -133,13 +133,13 @@ class BigNumber {
 	public denominated(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return this.#fromBigDecimal(this.#value, decimals).divide(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value).divide(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toSatoshi(decimals?: number): BigNumber {
 		decimals ??= this.#decimals;
 
-		return this.#fromBigDecimal(this.#value, decimals).times(BigNumber.powerOfTen(decimals ?? 0));
+		return this.#fromBigDecimal(this.#value).times(BigNumber.powerOfTen(decimals ?? 0));
 	}
 
 	public toHuman(decimals?: number): number {
@@ -197,6 +197,33 @@ class BigNumber {
 
 	#removeTrailingDot(value: string): string {
 		return value.replace(/\.$/, "");
+	}
+
+	#dropScientificNotation(value: any): string {
+		let isAbsLessThanOne = value < 1;
+
+		if (value < 0) {
+			isAbsLessThanOne = typeof value === "bigint" ? value * BigInt(-1) < 1 : value * -1 < 1;
+		}
+
+		if (isAbsLessThanOne) {
+			const exponent = Number.parseInt(value.toString().split('e-')[1]);
+
+			if (exponent) {
+				value *= Math.pow(10,exponent-1);
+				value = '0.' + (new Array(exponent)).join('0') + value.toString().slice(2);
+			}
+		} else {
+			let exponent = Number.parseInt(value.toString().split('+')[1]);
+
+			if (exponent > 20) {
+				exponent -= 20;
+				value /= Math.pow(10, exponent);
+				value += (new Array(exponent+1)).join('0');
+			}
+		}
+
+		return value.toString();
 	}
 }
 

@@ -5,6 +5,10 @@ import { BigNumber } from "./bignumber";
 describe("BigNumber", async ({ assert, beforeEach, it }) => {
 	beforeEach((context) => (context.subject = BigNumber.make(1)));
 
+	it("#toString should succeed when input is provided using the scientific notation", () => {
+		assert.is(BigNumber.make(1e-8).toString(), "0.00000001");
+	});
+
 	it("#toString should succeed when input is provided as string", () => {
 		assert.is(BigNumber.make("0").toString(), "0");
 		assert.is(BigNumber.make("1").toString(), "1");
@@ -167,16 +171,9 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 	it("#toSatoshi", () => {
 		assert.is(BigNumber.make(100).toSatoshi().toString(), "100");
 		assert.is(BigNumber.make(100).toSatoshi(10).toString(), "1000000000000");
-
-		assert.is(
-			BigNumber.make(123_456_789, 5).toSatoshi().toString(),
-			"12345678900000",
-		);
-
-		assert.is(
-			BigNumber.make(1, 8).toSatoshi().toString(),
-			"100000000",
-		);
+		assert.is(BigNumber.make(123_456_789, 5).toSatoshi().toString(), "12345678900000");
+		assert.is(BigNumber.make(1, 8).toSatoshi().toString(), "100000000");
+		assert.is(BigNumber.make("0.00000001", 8).toSatoshi().toString(), "1");
 	});
 
 	it("#toHuman", () => {
@@ -190,6 +187,7 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(BigNumber.make(123_456, 1).toHuman(), 12_345.6);
 		assert.is(BigNumber.make(123_456).toHuman(6), 0.123_456);
 		assert.is(BigNumber.make(123_456, 6).toHuman(), 0.123_456);
+		assert.is(BigNumber.make("0.1", 4).toHuman(), 0.1 / 1e4);
 		assert.is(BigNumber.make(1, 8).toHuman(), +`${1e-8}`);
 	});
 
