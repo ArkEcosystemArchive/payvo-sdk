@@ -30,6 +30,7 @@
 		"bip39": "^3.0.4",
 		"bstring": "^0.3.9",
 		"create-xpub": "^2.1.0",
+		"elliptic": "^6.5.4",
 		"hdkey": "^2.0.1",
 		"node-forge": "^0.10.0",
 		"string-crypto": "^2.0.2",

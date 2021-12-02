@@ -1,36 +1,27 @@
 import { secp256k1 as bcrypto } from "bcrypto";
+import elliptic from "elliptic";
 
 class Secp256k1 {
-	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return bcrypto.publicKeyCreate(privateKey, compressed);
+	readonly #ec: elliptic.ec;
+
+	public constructor() {
+		this.#ec = new elliptic.ec("secp256k1");
 	}
 
-	public publicKeyVerify(publicKey: Buffer): boolean {
-		return bcrypto.publicKeyVerify(publicKey);
+	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
+		return Buffer.from(this.#ec.keyFromPrivate(privateKey.toString("hex")).getPublic().encode("hex", compressed));
 	}
 
 	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
 		return bcrypto.publicKeyCombine(publicKeys);
 	}
 
-	public signatureImport(signature: Buffer): Buffer {
-		return bcrypto.signatureImport(signature);
-	}
-
-	public signatureExport(signature: Buffer): Buffer {
-		return bcrypto.signatureExport(signature);
-	}
-
-	public isLowS(signature: Buffer): boolean {
-		return bcrypto.isLowS(signature);
-	}
-
 	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return bcrypto.sign(hash, privateKey);
+		return Buffer.from(this.#ec.sign(hash, this.#ec.keyFromPrivate(privateKey.toString("hex")), "hex", { canonical: true }).toDER());
 	}
 
 	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return bcrypto.verify(hash, signature, publicKey);
+		return this.#ec.keyFromPublic(publicKey).verify(hash, signature);
 	}
 
 	public schnorrSign(hash: Buffer, privateKey: Buffer): Buffer {
