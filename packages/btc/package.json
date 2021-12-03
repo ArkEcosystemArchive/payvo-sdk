@@ -6,11 +6,7 @@
 	"contributors": [],
 	"type": "module",
 	"exports": "./distribution/index.js",
-	"main": "./distribution/index.cjs.js",
 	"umd:main": "./distribution/index.umd.js",
-	"jsdelivr": "./distribution/index.bundled.min.js",
-	"unpkg": "./distribution/index.bundled.min.js",
-	"module": "./distribution/index.js",
 	"browser": "./distribution/index.bundled.js",
 	"types": "./distribution/index.d.ts",
 	"files": [

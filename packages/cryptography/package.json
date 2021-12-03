@@ -1,64 +1,60 @@
 {
-	"name": "@payvo/sdk-cryptography",
-	"version": "4.0.0-next.16",
-	"description": "Cross-Platform Utilities for Payvo Applications",
-	"license": "MIT",
-	"contributors": [],
-	"type": "module",
-	"exports": "./distribution/index.js",
-	"main": "./distribution/index.cjs.js",
-	"umd:main": "./distribution/index.umd.js",
-	"jsdelivr": "./distribution/index.bundled.min.js",
-	"unpkg": "./distribution/index.bundled.min.js",
-	"module": "./distribution/index.js",
-	"browser": "./distribution/index.bundled.js",
-	"types": "./distribution/index.d.ts",
-	"files": [
-		"/distribution"
-	],
-	"scripts": {
-		"build": "pnpm run clean && tsc",
-		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
-		"build:release": "webpack --config ../../webpack.config.cjs",
-		"build:watch": "pnpm run clean && tsc -w",
-		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
-		"test:coverage": "c8 pnpm run test",
-		"test:watch": "watchlist source -- pnpm run test"
-	},
-	"dependencies": {
-		"@noble/hashes": "^0.4.1",
-		"argon2-browser": "^1.18.0",
-		"base-x": "^3.0.9",
-		"bcryptjs": "^2.4.3",
-		"bech32": "^2.0.0",
-		"bip38": "^3.1.1",
-		"bip39": "^3.0.4",
-		"create-hmac": "^1.1.7",
-		"create-xpub": "^2.1.0",
-		"hdkey": "^2.0.1",
-		"node-forge": "^0.10.0",
-		"secp256k1": "^4.0.2",
-		"string-crypto": "^2.0.2",
-		"tiny-secp256k1": "^1.0.0",
-		"typeforce": "^1.18.0",
-		"uuid": "^8.3.2"
-	},
-	"devDependencies": {
-		"@payvo/sdk-test": "workspace:*",
-		"@types/argon2-browser": "1.18.1",
-		"@types/bcryptjs": "2.4.2",
-		"@types/bip38": "2.0.1",
-		"@types/create-xpub": "^2.1.1",
-		"@types/hdkey": "^2.0.0",
-		"@types/node": "^16.11.10",
-		"@types/node-forge": "0.10.10",
-		"@types/uuid": "^8.3.3",
-		"@types/wif": "^2.0.2",
-		"wif": "^2.0.6"
-	},
-	"engines": {
-		"node": ">=16.0.0"
-	},
-	"engineStrict": true
+    "name": "@payvo/sdk-cryptography",
+    "version": "4.0.0-next.16",
+    "description": "Cross-Platform Utilities for Payvo Applications",
+    "license": "MIT",
+    "contributors": [],
+    "type": "module",
+    "exports": "./distribution/index.js",
+    "umd:main": "./distribution/index.umd.js",
+    "browser": "./distribution/index.bundled.js",
+    "types": "./distribution/index.d.ts",
+    "files": [
+        "/distribution"
+    ],
+    "scripts": {
+        "build": "pnpm run clean && tsc",
+        "build:analyze": "webpack --config ../../webpack.analyze.cjs",
+        "build:release": "webpack --config ../../webpack.config.cjs",
+        "build:watch": "pnpm run clean && tsc -w",
+        "clean": "rimraf .coverage distribution tmp",
+        "test": "uvu -r tsm source .test.ts",
+        "test:coverage": "c8 pnpm run test",
+        "test:watch": "watchlist source -- pnpm run test"
+    },
+    "dependencies": {
+        "@noble/hashes": "^0.4.1",
+        "argon2-browser": "^1.18.0",
+        "base-x": "^3.0.9",
+        "bcryptjs": "^2.4.3",
+        "bech32": "^2.0.0",
+        "bip38": "^3.1.1",
+        "bip39": "^3.0.4",
+        "create-hmac": "^1.1.7",
+        "create-xpub": "^2.1.0",
+        "hdkey": "^2.0.1",
+        "node-forge": "^0.10.0",
+        "secp256k1": "^4.0.2",
+        "string-crypto": "^2.0.2",
+        "tiny-secp256k1": "^1.0.0",
+        "typeforce": "^1.18.0",
+        "uuid": "^8.3.2"
+    },
+    "devDependencies": {
+        "@payvo/sdk-test": "workspace:*",
+        "@types/argon2-browser": "1.18.1",
+        "@types/bcryptjs": "2.4.2",
+        "@types/bip38": "2.0.1",
+        "@types/create-xpub": "^2.1.1",
+        "@types/hdkey": "^2.0.0",
+        "@types/node": "^16.11.10",
+        "@types/node-forge": "0.10.10",
+        "@types/uuid": "^8.3.3",
+        "@types/wif": "^2.0.2",
+        "wif": "^2.0.6"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "engineStrict": true
 }

@@ -1,47 +1,43 @@
 {
-	"name": "@payvo/sdk-eos",
-	"version": "4.0.0-next.16",
-	"description": "Cross-Platform Utilities for Payvo Applications",
-	"license": "MIT",
-	"contributors": [],
-	"type": "module",
-	"exports": "./distribution/index.js",
-	"main": "./distribution/index.cjs.js",
-	"umd:main": "./distribution/index.umd.js",
-	"jsdelivr": "./distribution/index.bundled.min.js",
-	"unpkg": "./distribution/index.bundled.min.js",
-	"module": "./distribution/index.js",
-	"browser": "./distribution/index.bundled.js",
-	"types": "./distribution/index.d.ts",
-	"files": [
-		"/distribution"
-	],
-	"scripts": {
-		"build": "pnpm run clean && tsc",
-		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
-		"build:release": "webpack --config ../../webpack.config.cjs",
-		"build:watch": "pnpm run clean && tsc -w",
-		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
-		"test:coverage": "c8 pnpm run test",
-		"test:watch": "watchlist source -- pnpm run test"
-	},
-	"dependencies": {
-		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-cryptography": "workspace:*",
-		"@payvo/sdk-helpers": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"cross-fetch": "^3.1.4",
-		"eosjs": "^22.1.0"
-	},
-	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
-		"@payvo/sdk-http-fetch": "workspace:*",
-		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10"
-	},
-	"engines": {
-		"node": ">=16.0.0"
-	},
-	"engineStrict": true
+    "name": "@payvo/sdk-eos",
+    "version": "4.0.0-next.16",
+    "description": "Cross-Platform Utilities for Payvo Applications",
+    "license": "MIT",
+    "contributors": [],
+    "type": "module",
+    "exports": "./distribution/index.js",
+    "umd:main": "./distribution/index.umd.js",
+    "browser": "./distribution/index.bundled.js",
+    "types": "./distribution/index.d.ts",
+    "files": [
+        "/distribution"
+    ],
+    "scripts": {
+        "build": "pnpm run clean && tsc",
+        "build:analyze": "webpack --config ../../webpack.analyze.cjs",
+        "build:release": "webpack --config ../../webpack.config.cjs",
+        "build:watch": "pnpm run clean && tsc -w",
+        "clean": "rimraf .coverage distribution tmp",
+        "test": "uvu -r tsm source .test.ts",
+        "test:coverage": "c8 pnpm run test",
+        "test:watch": "watchlist source -- pnpm run test"
+    },
+    "dependencies": {
+        "@payvo/sdk": "workspace:*",
+        "@payvo/sdk-cryptography": "workspace:*",
+        "@payvo/sdk-helpers": "workspace:*",
+        "@payvo/sdk-intl": "workspace:*",
+        "cross-fetch": "^3.1.4",
+        "eosjs": "^22.1.0"
+    },
+    "devDependencies": {
+        "@ledgerhq/hw-transport-mocker": "^6.11.2",
+        "@payvo/sdk-http-fetch": "workspace:*",
+        "@payvo/sdk-test": "workspace:*",
+        "@types/node": "^16.11.10"
+    },
+    "engines": {
+        "node": ">=16.0.0"
+    },
+    "engineStrict": true
 }
