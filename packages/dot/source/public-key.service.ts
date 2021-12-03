@@ -4,10 +4,10 @@ import { mnemonicToMiniSecret, naclBoxPairFromSecret } from "@polkadot/util-cryp
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
-    public override async fromMnemonic(
-        mnemonic: string,
-        options?: Services.IdentityOptions,
-    ): Promise<Services.PublicKeyDataTransferObject> {
-        return { publicKey: u8aToHex(naclBoxPairFromSecret(mnemonicToMiniSecret(mnemonic)).publicKey) };
-    }
+	public override async fromMnemonic(
+		mnemonic: string,
+		options?: Services.IdentityOptions,
+	): Promise<Services.PublicKeyDataTransferObject> {
+		return { publicKey: u8aToHex(naclBoxPairFromSecret(mnemonicToMiniSecret(mnemonic)).publicKey) };
+	}
 }
