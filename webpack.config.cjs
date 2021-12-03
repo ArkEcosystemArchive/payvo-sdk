@@ -58,7 +58,6 @@ const esm = {
 
 const cjs = {
 	...base,
-	target: ["web", "es2022"],
 	devtool: "source-map",
 	experiments: {
 		asyncWebAssembly: false,
@@ -111,4 +110,8 @@ const umd = {
 	},
 };
 
-module.exports = [esm, cjs, umd];
+module.exports = [
+	esm,
+	// cjs,
+	umd,
+];
