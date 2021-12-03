@@ -1,4 +1,4 @@
-import { Contracts, DTO, Exceptions } from "@payvo/sdk";
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
@@ -11,10 +11,17 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	}
 
 	public override balance(): Contracts.WalletBalance {
+		const available: BigNumber = this.bigNumberService
+			.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "NEO").amount ?? 0)
+			.times(1e8);
+		const fees: BigNumber = this.bigNumberService
+			.make(this.data.balance.find(({ asset_symbol }) => asset_symbol === "GAS").amount ?? 0)
+			.times(1e8);
+
 		return {
-			total: this.bigNumberService.make(this.data.balance).times(1e8),
-			available: this.bigNumberService.make(this.data.balance).times(1e8),
-			fees: this.bigNumberService.make(this.data.balance).times(1e8),
+			total: available.plus(fees),
+			available,
+			fees,
 		};
 	}
 }

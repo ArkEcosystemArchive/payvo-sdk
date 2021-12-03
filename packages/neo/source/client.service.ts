@@ -42,7 +42,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		return this.dataTransferObjectService.wallet({
 			address: id.value,
-			balance: response.balance.find((balance) => balance.asset === "NEO").amount,
+			balance: response.balance,
 		});
 	}
 
