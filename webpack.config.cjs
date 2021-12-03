@@ -111,7 +111,7 @@ const umd = {
 };
 
 module.exports = [
-	// esm,
-	cjs,
-	// umd,
+	esm,
+	// cjs,
+	umd,
 ];
