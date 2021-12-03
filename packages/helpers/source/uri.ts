@@ -1,5 +1,9 @@
-import Joi from "joi";
+import { z, ZodString } from "zod";
 import querystring from "querystring";
+
+const string = () => z.preprocess((val) => String(val), z.string());
+const regex = (regex: RegExp) => z.preprocess((val) => String(val), z.string().regex(regex));
+const number = () => z.preprocess((val) => Number(val), z.number());
 
 /**
  * An AIP13/26 compliant serialiser and deserialiser.
@@ -67,17 +71,17 @@ export class URI {
 				throw new Error(`The given method is unknown: ${method}`);
 			}
 
-			const { error, value: result } = Joi.object(this.#getSchema(method)).validate({ method, ...params });
+			const result = z.object(this.#getSchema(method)).safeParse({ method, ...params });
 
-			if (error !== undefined) {
-				throw error;
+			if (!result.success) {
+				throw result.error;
 			}
 
-			for (const [key, value] of Object.entries(result)) {
-				result[key] = this.#decodeURIComponent(value);
+			for (const [key, value] of Object.entries(result.data)) {
+				result.data[key] = this.#decodeURIComponent(value);
 			}
 
-			return result;
+			return result.data;
 		} catch (error) {
 			throw new Error(`The given data is malformed: ${error}`);
 		}
@@ -107,43 +111,43 @@ export class URI {
 	 * @returns {object}
 	 * @memberof URI
 	 */
-	#getSchema(method: string): object {
+	#getSchema(method: string) {
 		const baseSchema = {
-			method: Joi.string().pattern(/(transfer|vote|sign-message|register-delegate)/),
-			coin: Joi.string().required(),
-			network: Joi.string().required(),
-			fee: Joi.number(),
+			method: regex(/(transfer|vote|sign-message|register-delegate)/).optional(),
+			coin: string(),
+			network: string(),
+			fee: number().optional(),
 		};
 
 		if (method === "vote") {
 			return {
 				...baseSchema,
-				delegate: Joi.string().required(),
+				delegate: string(),
 			};
 		}
 
 		if (method === "sign-message") {
 			return {
 				...baseSchema,
-				message: Joi.string().required(),
+				message: string(),
 			};
 		}
 
 		if (method === "register-delegate") {
 			return {
 				...baseSchema,
-				delegate: Joi.string().required(),
+				delegate: string(),
 			};
 		}
 
 		return {
 			...baseSchema,
-			recipient: Joi.string().required(),
-			amount: Joi.number(),
-			memo: Joi.string(),
-			vendorField: Joi.string(), // Legacy memo, not an ARK agnostic name
-			label: Joi.string(), // ???
-			relay: Joi.string(), // ???
+			recipient: string(),
+			amount: number().optional(),
+			memo: string().optional(),
+			vendorField: string().optional(), // Legacy memo, not an ARK agnostic name
+			label: string().optional(), // ???
+			relay: string().optional(), // ???
 		};
 	}
 }
