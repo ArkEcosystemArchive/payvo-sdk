@@ -1,13 +1,11 @@
 {
 	"name": "@payvo/sdk-luna",
-	"version": "3.3.2",
+	"version": "3.3.3",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
-	"main": "distribution/index.js",
-	"unpkg": "distribution/index.umd.min.js",
-	"module": "distribution/index.min.mjs",
-	"types": "distribution/index.d.ts",
+	"main": "distribution/cjs/index.js",
+	"types": "distribution/cjs/index.d.ts",
 	"files": [
 		"/distribution"
 	],
