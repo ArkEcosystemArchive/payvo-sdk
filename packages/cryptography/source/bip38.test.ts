@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import { BIP38 } from "./bip38";
 import { WIF } from "./wif";
 
-describe("BIP38", ({ assert, it, nock, loader }) => {
+describe("BIP38", ({ assert, it }) => {
 	it("should encrypt the given value", async () => {
 		const { compressed, privateKey } = WIF.decode("5KN7MzqK5wt2TP1fQCYyHBtDrXdJuXbUzm4A9rKAteGu3Qi5CVR");
 		const mnemonic = "TestingOneTwoThree";
