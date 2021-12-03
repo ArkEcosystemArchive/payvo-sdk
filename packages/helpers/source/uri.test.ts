@@ -17,7 +17,7 @@ describe("URI", async ({ assert, beforeEach, each, it, nock, loader }) => {
 
 		assert.is(
 			result,
-			"payvo:transfer?coin=ark&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9&amount=1.2&memo=ARK",
+			"payvo:transfer?amount=1.2&coin=ark&memo=ARK&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 		);
 	});
 

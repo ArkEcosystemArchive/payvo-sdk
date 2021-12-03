@@ -1,5 +1,5 @@
 import Joi from "joi";
-import querystring from "querystring";
+import querystring from "query-string";
 
 /**
  * An AIP13/26 compliant serialiser and deserialiser.
