@@ -50,14 +50,13 @@ const esm = {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.js",
-		library: {
-			type: "module",
-		},
+		libraryTarget: "module",
 	},
 };
 
 const cjs = {
 	...base,
+	target: ["node16", "es2022"],
 	devtool: "source-map",
 	experiments: {
 		asyncWebAssembly: false,
@@ -67,17 +66,12 @@ const cjs = {
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
 		plugins: [new ResolveTypeScriptPlugin()],
-		fallback: {
-			fs: false,
-		},
 	},
 	output: {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.cjs.js",
-		library: {
-			type: "commonjs",
-		},
+		libraryTarget: "commonjs",
 	},
 };
 
@@ -104,14 +98,12 @@ const umd = {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.umd.js",
-		library: {
-			type: "umd",
-		},
+		libraryTarget: "umd",
 	},
 };
 
 module.exports = [
 	esm,
 	// cjs,
-	umd,
+	// umd,
 ];
