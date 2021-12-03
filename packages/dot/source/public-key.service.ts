@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { u8aToHex } from "@polkadot/util";
-import { mnemonicToMiniSecret, naclKeypairFromSeed } from "@polkadot/util-crypto";
+import { mnemonicToMiniSecret, naclBoxPairFromSecret } from "@polkadot/util-crypto";
 
 @IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
@@ -8,6 +8,6 @@ export class PublicKeyService extends Services.AbstractPublicKeyService {
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PublicKeyDataTransferObject> {
-		return { publicKey: u8aToHex(naclKeypairFromSeed(mnemonicToMiniSecret(mnemonic)).publicKey) };
+		return { publicKey: u8aToHex(naclBoxPairFromSecret(mnemonicToMiniSecret(mnemonic)).publicKey) };
 	}
 }
