@@ -50,7 +50,7 @@ module.exports = [
 		output: {
 			clean: true,
 			path: require("path").resolve(process.cwd(), "distribution"),
-			filename: "index.esm.js",
+			filename: "index.js",
 			library: {
 				type: "module",
 			},
@@ -61,7 +61,7 @@ module.exports = [
 		output: {
 			clean: true,
 			path: require("path").resolve(process.cwd(), "distribution"),
-			filename: "index.js",
+			filename: "index.cjs.js",
 			library: {
 				type: "commonjs",
 			},
