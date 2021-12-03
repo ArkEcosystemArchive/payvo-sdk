@@ -1,9 +1,5 @@
-import { z, ZodString } from "zod";
+import { zod } from "./zod.js";
 import querystring from "querystring";
-
-const string = () => z.preprocess((val) => String(val), z.string());
-const regex = (regex: RegExp) => z.preprocess((val) => String(val), z.string().regex(regex));
-const number = () => z.preprocess((val) => Number(val), z.number());
 
 /**
  * An AIP13/26 compliant serialiser and deserialiser.
@@ -71,7 +67,7 @@ export class URI {
 				throw new Error(`The given method is unknown: ${method}`);
 			}
 
-			const result = z.object(this.#getSchema(method)).safeParse({ method, ...params });
+			const result = zod.object(this.#getSchema(method)).safeParse({ method, ...params });
 
 			if (!result.success) {
 				throw result.error;
@@ -113,41 +109,41 @@ export class URI {
 	 */
 	#getSchema(method: string) {
 		const baseSchema = {
-			method: regex(/(transfer|vote|sign-message|register-delegate)/).optional(),
-			coin: string(),
-			network: string(),
-			fee: number().optional(),
+			method: zod.regex(/(transfer|vote|sign-message|register-delegate)/).optional(),
+			coin: zod.string(),
+			network: zod.string(),
+			fee: zod.number().optional(),
 		};
 
 		if (method === "vote") {
 			return {
 				...baseSchema,
-				delegate: string(),
+				delegate: zod.string(),
 			};
 		}
 
 		if (method === "sign-message") {
 			return {
 				...baseSchema,
-				message: string(),
+				message: zod.string(),
 			};
 		}
 
 		if (method === "register-delegate") {
 			return {
 				...baseSchema,
-				delegate: string(),
+				delegate: zod.string(),
 			};
 		}
 
 		return {
 			...baseSchema,
-			recipient: string(),
-			amount: number().optional(),
-			memo: string().optional(),
-			vendorField: string().optional(), // Legacy memo, not an ARK agnostic name
-			label: string().optional(), // ???
-			relay: string().optional(), // ???
+			recipient: zod.string(),
+			amount: zod.number().optional(),
+			memo: zod.string().optional(),
+			vendorField: zod.string().optional(), // Legacy memo, not an ARK agnostic name
+			label: zod.string().optional(), // ???
+			relay: zod.string().optional(), // ???
 		};
 	}
 }
