@@ -2,11 +2,13 @@ const path = require("path");
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const ResolveTypeScriptPlugin = require("resolve-typescript-plugin").default;
 
-module.exports = {
+const package = path.resolve(process.cwd(), "source/index.ts")
+
+const common = {
 	target: ["web", "es2022"],
 	mode: "production",
 	entry: path.resolve(process.cwd(), "source/index.ts"),
-    devtool: "source-map",
+	devtool: "source-map",
 	experiments: {
 		asyncWebAssembly: false,
 		outputModule: true,
@@ -29,14 +31,6 @@ module.exports = {
 			fs: false,
 		},
 	},
-	output: {
-		clean: true,
-		filename: "index.js",
-		path: path.resolve(process.cwd(), "distribution"),
-		library: {
-			type: "module",
-		},
-	},
 	optimization: {
 		minimize: process.env.NODE_ENV === "production",
 		sideEffects: false,
@@ -50,3 +44,46 @@ module.exports = {
 		errorDetails: true,
 	},
 };
+
+const commonOutput = {
+	clean: true,
+	path: path.resolve(process.cwd(), "distribution"),
+};
+
+module.exports = [
+	{
+		...common,
+		experiments: {
+			outputModule: true,
+		},
+		output: {
+			...commonOutput,
+			filename: "index.esm.js",
+			library: {
+				type: "module",
+			},
+		},
+	},
+	{
+		...common,
+		output: {
+			...commonOutput,
+			filename: "index.umd.js",
+			library: {
+				type: "umd",
+			},
+		},
+	},
+	{
+		...common,
+		output: {
+			...commonOutput,
+			filename: "index.js",
+			library: {
+				type: "commonjs",
+			},
+		},
+	},
+];
+
+module.exports.parallelism = 4;
