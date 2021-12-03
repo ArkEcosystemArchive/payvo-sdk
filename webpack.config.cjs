@@ -50,7 +50,7 @@ const esm = {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.js",
-		libraryTarget: "module",
+		library: { type: "module" },
 	},
 };
 
@@ -71,7 +71,7 @@ const cjs = {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.cjs.js",
-		libraryTarget: "commonjs",
+		library: { type: "commonjs" },
 	},
 };
 
@@ -98,7 +98,7 @@ const umd = {
 		clean: true,
 		path: require("path").resolve(process.cwd(), "distribution"),
 		filename: "index.umd.js",
-		libraryTarget: "umd",
+		library: { type: "umd" },
 	},
 };
 
