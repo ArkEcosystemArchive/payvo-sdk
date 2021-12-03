@@ -7,9 +7,7 @@
 	"type": "module",
 	"exports": "./distribution/index.js",
 	"umd:main": "./distribution/index.umd.js",
-	"exports": "./distribution/index.js",
 	"main": "./distribution/index.cjs.js",
-	"umd:main": "./distribution/index.umd.js",
 	"browser": "./distribution/index.bundled.js",
 	"types": "./distribution/index.d.ts",
 	"files": [
