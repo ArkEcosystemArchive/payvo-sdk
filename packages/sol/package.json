@@ -25,7 +25,6 @@
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
 		"@solana/web3.js": "^1.30.2",
-		"bstring": "^0.3.9",
 		"ed25519-hd-key": "^1.2.0"
 	},
 	"devDependencies": {

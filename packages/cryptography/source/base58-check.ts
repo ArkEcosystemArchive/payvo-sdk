@@ -1,5 +1,6 @@
 import { sha256 } from "@noble/hashes/lib/sha256";
-import { base58 } from "bstring";
+
+import { Base58 } from "./base58.js";
 
 const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
 
@@ -43,7 +44,7 @@ export class Base58Check {
 	public static encode(payload: string | Buffer): string {
 		payload = normalise(payload);
 
-		return base58.encode(Buffer.concat([payload, normaliseSHA256(payload)], payload.length + 4));
+		return Base58.encode(Buffer.concat([payload, normaliseSHA256(payload)], payload.length + 4));
 	}
 
 	/**
@@ -55,7 +56,7 @@ export class Base58Check {
 	 * @memberof Base58Check
 	 */
 	public static decode(value: string): Buffer {
-		const payload = decodeRaw(base58.decode(value));
+		const payload = decodeRaw(Base58.decode(value));
 
 		if (!payload) {
 			throw new Error("Invalid checksum");

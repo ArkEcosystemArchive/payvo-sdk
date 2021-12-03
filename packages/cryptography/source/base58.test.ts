@@ -9,7 +9,7 @@ describe("Base58", ({ assert, it, nock, loader }) => {
 	});
 
 	it("should decode the given value", () => {
-		assert.is(Base58.decode(Base58.encode("Hello")), "Hello");
+		assert.is(Base58.decode(Base58.encode("Hello")).toString(), "Hello");
 	});
 
 	it("should validate the given value", () => {
