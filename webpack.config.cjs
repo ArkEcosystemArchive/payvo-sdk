@@ -21,7 +21,9 @@ module.exports = {
 			},
 		],
 	},
-	plugins: [new NodePolyfillPlugin()],
+	plugins: [
+		new NodePolyfillPlugin(),
+	],
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
 		plugins: [new ResolveTypeScriptPlugin()],
