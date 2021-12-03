@@ -1,21 +1,21 @@
-import { get, has, set, unset, ValidatorSchema } from "@payvo/sdk-helpers";
+import { get, has, set, unset, zod } from "@payvo/sdk-helpers";
 
 export class ConfigRepository {
 	readonly #config: Record<string, any>;
 
 	public constructor(config: object) {
-		const { error, value } = ValidatorSchema.object({
-			httpClient: ValidatorSchema.object(),
-			ledgerTransportFactory: ValidatorSchema.function().optional(),
-			network: ValidatorSchema.string(),
-			networks: ValidatorSchema.object().optional(),
-		}).validate(config);
+		const result = zod.object({
+			httpClient: zod.any(),
+			ledgerTransportFactory: zod.function().optional(),
+			network: zod.string(),
+			networks: zod.any().optional(),
+		}).safeParse(config);
 
-		if (error !== undefined) {
-			throw new Error(`Failed to validate the configuration: ${(error as any).message}`);
+		if (!result.success) {
+			throw new Error(`Failed to validate the configuration: ${JSON.stringify(result.error.format())}`);
 		}
 
-		this.#config = value;
+		this.#config = result.data;
 	}
 
 	public all(): Record<string, any> {
