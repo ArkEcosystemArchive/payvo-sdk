@@ -33,24 +33,19 @@
 		"node-forge": "^0.10.0",
 		"secp256k1": "^4.0.2",
 		"string-crypto": "^2.0.2",
-		"tiny-secp256k1": "^1.0.0",
 		"uuid": "^8.3.2"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
 		"@types/argon2-browser": "1.18.1",
 		"@types/bcryptjs": "2.4.2",
-		"@types/benchmark": "^2.1.1",
 		"@types/bip38": "2.0.1",
 		"@types/create-xpub": "^2.1.1",
 		"@types/hdkey": "^2.0.0",
-		"@types/microtime": "^2.1.0",
 		"@types/node": "^16.11.10",
 		"@types/node-forge": "0.10.10",
 		"@types/uuid": "^8.3.3",
 		"@types/wif": "^2.0.2",
-		"benchmark": "^2.1.4",
-		"microtime": "^3.0.0",
 		"wif": "^2.0.6"
 	},
 	"engines": {

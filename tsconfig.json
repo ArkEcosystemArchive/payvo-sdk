@@ -32,6 +32,5 @@
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false
 	},
-	"exclude": ["distribution", "**/*.test.ts"],
-	"files": ["types/global.d.ts"]
+	"exclude": ["distribution", "**/*.test.ts"]
 }

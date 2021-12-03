@@ -34,19 +34,15 @@
 		"dayjs": "1.10.7",
 		"deepmerge": "4.2.2",
 		"is-url-superb": "^6.1.0",
-		"lodash.get": "4.4.2",
-		"lodash.orderby": "^4.6.0",
-		"lodash.set": "4.3.2",
-		"node-dotify": "^1.1.0",
-		"semver": "^7.3.5"
+		"lodash.get": "^4.4.2",
+		"lodash.set": "^4.3.2",
+		"node-dotify": "^1.1.0"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/lodash.orderby": "^4.6.6",
-		"@types/node": "^16.11.10",
-		"@types/semver": "7.3.9"
+		"@types/node": "^16.11.10"
 	},
 	"engines": {
 		"node": ">=16.0.0"

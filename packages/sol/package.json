@@ -30,8 +30,7 @@
 	"devDependencies": {
 		"@payvo/sdk-http-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10",
-		"got": "^11.8.3"
+		"@types/node": "^16.11.10"
 	},
 	"engines": {
 		"node": ">=16.0.0"
