@@ -5,7 +5,7 @@
 	"scripts": {
 		"build": "ultra -r build",
 		"build:release": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish.sh",
-		"build:release:next": "bash scripts/build-release.sh && bash scripts/publish-next.sh",
+		"build:release:next": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish-next.sh",
 		"clean": "ultra -r clean",
 		"lint": "eslint packages/**/source/**/*.ts --fix",
 		"lint:test": "eslint packages/**/source/**/*.test.js --fix --config=.eslintrc.test.json",
