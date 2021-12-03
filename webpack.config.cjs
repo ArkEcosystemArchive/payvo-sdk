@@ -1,17 +1,7 @@
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const ResolveTypeScriptPlugin = require("resolve-typescript-plugin").default;
 
-const common = {
-	target: ["web", "es2022"],
-	devtool: "source-map",
-	experiments: {
-		asyncWebAssembly: false,
-		outputModule: true,
-		topLevelAwait: true,
-	},
-	plugins: [
-		new NodePolyfillPlugin(),
-	],
+const base = {
 	mode: "production",
 	entry: require("path").resolve(process.cwd(), "source/index.ts"),
 	module: {
@@ -35,6 +25,20 @@ const common = {
 	stats: {
 		errorDetails: true,
 	},
+};
+
+const esm = {
+	...base,
+	target: ["web", "es2022"],
+	devtool: "source-map",
+	experiments: {
+		asyncWebAssembly: false,
+		outputModule: true,
+		topLevelAwait: true,
+	},
+	plugins: [
+		new NodePolyfillPlugin(),
+	],
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
 		plugins: [new ResolveTypeScriptPlugin()],
@@ -42,40 +46,69 @@ const common = {
 			fs: false,
 		},
 	},
+	output: {
+		clean: true,
+		path: require("path").resolve(process.cwd(), "distribution"),
+		filename: "index.js",
+		library: {
+			type: "module",
+		},
+	},
 };
 
-module.exports = [
-	{
-		...common,
-		output: {
-			clean: true,
-			path: require("path").resolve(process.cwd(), "distribution"),
-			filename: "index.js",
-			library: {
-				type: "module",
-			},
+const cjs = {
+	...base,
+	target: ["web", "es2022"],
+	devtool: "source-map",
+	experiments: {
+		asyncWebAssembly: false,
+		outputModule: true,
+		topLevelAwait: true,
+	},
+	resolve: {
+		extensions: [".tsx", ".ts", ".js"],
+		plugins: [new ResolveTypeScriptPlugin()],
+		fallback: {
+			fs: false,
 		},
 	},
-	{
-		...common,
-		output: {
-			clean: true,
-			path: require("path").resolve(process.cwd(), "distribution"),
-			filename: "index.cjs.js",
-			library: {
-				type: "commonjs",
-			},
+	output: {
+		clean: true,
+		path: require("path").resolve(process.cwd(), "distribution"),
+		filename: "index.cjs.js",
+		library: {
+			type: "commonjs",
 		},
 	},
-	{
-		...common,
-		output: {
-			clean: true,
-			path: require("path").resolve(process.cwd(), "distribution"),
-			filename: "index.umd.js",
-			library: {
-				type: "umd",
-			},
+};
+
+const umd = {
+	...base,
+	target: ["web", "es2022"],
+	devtool: "source-map",
+	experiments: {
+		asyncWebAssembly: false,
+		outputModule: true,
+		topLevelAwait: true,
+	},
+	plugins: [
+		new NodePolyfillPlugin(),
+	],
+	resolve: {
+		extensions: [".tsx", ".ts", ".js"],
+		plugins: [new ResolveTypeScriptPlugin()],
+		fallback: {
+			fs: false,
 		},
-	}
-]
+	},
+	output: {
+		clean: true,
+		path: require("path").resolve(process.cwd(), "distribution"),
+		filename: "index.umd.js",
+		library: {
+			type: "umd",
+		},
+	},
+};
+
+module.exports = [esm, cjs, umd];
