@@ -1,9 +1,10 @@
 const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 const ResolveTypeScriptPlugin = require("resolve-typescript-plugin").default;
+const path = require("node:path");
 
 const base = {
 	mode: "production",
-	entry: require("path").resolve(process.cwd(), "source/index.ts"),
+	entry: path.resolve(process.cwd(), "source/index.ts"),
 	module: {
 		rules: [
 			{
@@ -48,7 +49,7 @@ const esm = {
 	},
 	output: {
 		clean: true,
-		path: require("path").resolve(process.cwd(), "distribution"),
+		path: path.resolve(process.cwd(), "distribution"),
 		filename: "index.js",
 		library: { type: "module" },
 	},
@@ -56,6 +57,21 @@ const esm = {
 
 const cjs = {
 	...base,
+	module: {
+		rules: [
+			{
+				test: /\.tsx?$/,
+				loader: "ts-loader",
+				exclude: /node_modules/,
+				options: {
+					compilerOptions: {
+						module: "commonjs",
+						target: "esnext"
+					}
+				},
+			},
+		],
+	},
 	target: ["node16", "es2022"],
 	devtool: "source-map",
 	experiments: {
@@ -66,10 +82,20 @@ const cjs = {
 	resolve: {
 		extensions: [".tsx", ".ts", ".js"],
 		plugins: [new ResolveTypeScriptPlugin()],
+		alias: {
+			"@payvo/sdk-test": path.resolve("../test"),
+			"@payvo/sdk-helpers": path.resolve("../helpers"),
+			"@payvo/sdk-intl": path.resolve("../intl"),
+			"@payvo/sdk-cryptography": path.resolve("../cryptography"),
+			"@payvo/sdk": path.resolve("../sdk"),
+			"@payvo/sdk-news": path.resolve("../news"),
+			"@payvo/sdk-http-fetch": path.resolve("../http-fetch"),
+			"@payvo/sdk-markets": path.resolve("../markets"),
+		},
 	},
 	output: {
 		clean: true,
-		path: require("path").resolve(process.cwd(), "distribution"),
+		path: path.resolve(process.cwd(), "distribution"),
 		filename: "index.cjs.js",
 		library: { type: "commonjs" },
 	},
@@ -96,7 +122,7 @@ const umd = {
 	},
 	output: {
 		clean: true,
-		path: require("path").resolve(process.cwd(), "distribution"),
+		path: path.resolve(process.cwd(), "distribution"),
 		filename: "index.umd.js",
 		library: { type: "umd" },
 	},
