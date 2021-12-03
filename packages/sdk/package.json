@@ -6,18 +6,19 @@
 	"contributors": [],
 	"type": "module",
 	"exports": "./distribution/index.js",
-	"main": "./distribution/index.js",
+	"main": "./distribution/index.cjs.js",
 	"umd:main": "./distribution/index.umd.js",
-	"browser": "./distribution/index.bundled.js",
-	"module": "./distribution/index.esm.js",
-	"unpkg": "./distribution/index.bundled.min.js",
 	"jsdelivr": "./distribution/index.bundled.min.js",
+	"unpkg": "./distribution/index.bundled.min.js",
+	"module": "./distribution/index.js",
+	"browser": "./distribution/index.bundled.js",
 	"types": "./distribution/index.d.ts",
 	"files": [
 		"/distribution"
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
+		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
