@@ -178,6 +178,5 @@ export * from "./unset.js";
 export * from "./upper-case.js";
 export * from "./upper-first.js";
 export * from "./uri.js";
-export * from "./validator.js";
 export * from "./words.js";
 export * from "./zip-object.js";

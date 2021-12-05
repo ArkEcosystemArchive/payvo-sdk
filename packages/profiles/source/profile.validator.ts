@@ -1,4 +1,4 @@
-import Joi from "joi";
+import yup from "yup";
 
 import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts.js";
 
@@ -11,113 +11,113 @@ export class ProfileValidator implements IProfileValidator {
 	 * @memberof Profile
 	 */
 	public validate(data: IProfileData): IProfileData {
-		const { error, value } = Joi.object({
-			id: Joi.string().required(),
-			contacts: Joi.object().pattern(
-				Joi.string().uuid(),
-				Joi.object({
-					id: Joi.string().required(),
-					name: Joi.string().required(),
-					addresses: Joi.array()
+		const { error, value } = yup.object({
+			id: yup.string().required(),
+			contacts: yup.object().pattern(
+				yup.string().uuid(),
+				yup.object({
+					id: yup.string().required(),
+					name: yup.string().required(),
+					addresses: yup.array()
 						.min(1)
 						.items(
-							Joi.object({
-								id: Joi.string().required(),
-								coin: Joi.string().required(),
-								network: Joi.string().required(),
-								address: Joi.string().required(),
+							yup.object({
+								id: yup.string().required(),
+								coin: yup.string().required(),
+								network: yup.string().required(),
+								address: yup.string().required(),
 							}),
 						),
-					starred: Joi.boolean().required(),
+					starred: yup.boolean().required(),
 				}),
 			),
-			data: Joi.object({
-				[ProfileData.LatestMigration]: Joi.string(),
-				[ProfileData.HasCompletedIntroductoryTutorial]: Joi.boolean(),
-				[ProfileData.HasAcceptedManualInstallationDisclaimer]: Joi.boolean(),
+			data: yup.object({
+				[ProfileData.LatestMigration]: yup.string(),
+				[ProfileData.HasCompletedIntroductoryTutorial]: yup.boolean(),
+				[ProfileData.HasAcceptedManualInstallationDisclaimer]: yup.boolean(),
 			}).required(),
-			exchangeTransactions: Joi.object()
+			exchangeTransactions: yup.object()
 				.pattern(
-					Joi.string().uuid(),
-					Joi.object({
-						id: Joi.string().required(),
-						orderId: Joi.string().required(),
-						provider: Joi.string().required(),
-						input: Joi.object({
-							address: Joi.string().required(),
-							amount: Joi.number().required(),
-							ticker: Joi.string().required(),
-							hash: Joi.string(),
+					yup.string().uuid(),
+					yup.object({
+						id: yup.string().required(),
+						orderId: yup.string().required(),
+						provider: yup.string().required(),
+						input: yup.object({
+							address: yup.string().required(),
+							amount: yup.number().required(),
+							ticker: yup.string().required(),
+							hash: yup.string(),
 						}).required(),
-						output: Joi.object({
-							address: Joi.string().required(),
-							amount: Joi.number().required(),
-							ticker: Joi.string().required(),
-							hash: Joi.string(),
+						output: yup.object({
+							address: yup.string().required(),
+							amount: yup.number().required(),
+							ticker: yup.string().required(),
+							hash: yup.string(),
 						}).required(),
-						status: Joi.number().required(),
-						createdAt: Joi.number().required(),
+						status: yup.number().required(),
+						createdAt: yup.number().required(),
 					}),
 				)
 				.required(),
-			notifications: Joi.object()
+			notifications: yup.object()
 				.pattern(
-					Joi.string().uuid(),
-					Joi.object({
-						id: Joi.string().required(),
-						icon: Joi.string(),
-						name: Joi.string(),
-						body: Joi.string(),
-						type: Joi.string(),
-						action: Joi.string(),
-						read_at: Joi.number(),
-						meta: Joi.object(),
+					yup.string().uuid(),
+					yup.object({
+						id: yup.string().required(),
+						icon: yup.string(),
+						name: yup.string(),
+						body: yup.string(),
+						type: yup.string(),
+						action: yup.string(),
+						read_at: yup.number(),
+						meta: yup.object(),
 					}),
 				)
 				.required(),
-			plugins: Joi.object()
+			plugins: yup.object()
 				.pattern(
-					Joi.string().uuid(),
-					Joi.object({
-						id: Joi.string().required(),
-						name: Joi.string().required(),
-						version: Joi.string().required(),
-						isEnabled: Joi.boolean().required(),
-						permissions: Joi.array().items(Joi.string()).required(),
-						urls: Joi.array().items(Joi.string()).required(),
+					yup.string().uuid(),
+					yup.object({
+						id: yup.string().required(),
+						name: yup.string().required(),
+						version: yup.string().required(),
+						isEnabled: yup.boolean().required(),
+						permissions: yup.array().items(yup.string()).required(),
+						urls: yup.array().items(yup.string()).required(),
 					}),
 				)
 				.required(),
 			// @TODO: assert specific values for enums
-			settings: Joi.object({
-				[ProfileSetting.AccentColor]: Joi.string().required(),
-				[ProfileSetting.AdvancedMode]: Joi.boolean().required(),
-				[ProfileSetting.AutomaticSignOutPeriod]: Joi.number().required(),
-				[ProfileSetting.Avatar]: Joi.string(),
-				[ProfileSetting.Bip39Locale]: Joi.string().required(),
-				[ProfileSetting.DashboardConfiguration]: Joi.object(),
-				[ProfileSetting.DashboardTransactionHistory]: Joi.boolean().required(),
-				[ProfileSetting.DoNotShowFeeWarning]: Joi.boolean().required(),
-				[ProfileSetting.ErrorReporting]: Joi.boolean().required(),
-				[ProfileSetting.ExchangeCurrency]: Joi.string().required(),
-				[ProfileSetting.Locale]: Joi.string().required(),
-				[ProfileSetting.MarketProvider]: Joi.string().allow("coincap", "cryptocompare", "coingecko").required(),
-				[ProfileSetting.Name]: Joi.string().required(),
-				[ProfileSetting.NewsFilters]: Joi.string(),
-				[ProfileSetting.Password]: Joi.string(),
-				[ProfileSetting.ScreenshotProtection]: Joi.boolean().default(false),
-				[ProfileSetting.Theme]: Joi.string().required(),
-				[ProfileSetting.TimeFormat]: Joi.string().required(),
-				[ProfileSetting.UseExpandedTables]: Joi.boolean().default(false),
-				[ProfileSetting.UseNetworkWalletNames]: Joi.boolean().default(false),
-				[ProfileSetting.UseTestNetworks]: Joi.boolean().default(false),
+			settings: yup.object({
+				[ProfileSetting.AccentColor]: yup.string().required(),
+				[ProfileSetting.AdvancedMode]: yup.boolean().required(),
+				[ProfileSetting.AutomaticSignOutPeriod]: yup.number().required(),
+				[ProfileSetting.Avatar]: yup.string(),
+				[ProfileSetting.Bip39Locale]: yup.string().required(),
+				[ProfileSetting.DashboardConfiguration]: yup.object(),
+				[ProfileSetting.DashboardTransactionHistory]: yup.boolean().required(),
+				[ProfileSetting.DoNotShowFeeWarning]: yup.boolean().required(),
+				[ProfileSetting.ErrorReporting]: yup.boolean().required(),
+				[ProfileSetting.ExchangeCurrency]: yup.string().required(),
+				[ProfileSetting.Locale]: yup.string().required(),
+				[ProfileSetting.MarketProvider]: yup.string().allow("coincap", "cryptocompare", "coingecko").required(),
+				[ProfileSetting.Name]: yup.string().required(),
+				[ProfileSetting.NewsFilters]: yup.string(),
+				[ProfileSetting.Password]: yup.string(),
+				[ProfileSetting.ScreenshotProtection]: yup.boolean().default(false),
+				[ProfileSetting.Theme]: yup.string().required(),
+				[ProfileSetting.TimeFormat]: yup.string().required(),
+				[ProfileSetting.UseExpandedTables]: yup.boolean().default(false),
+				[ProfileSetting.UseNetworkWalletNames]: yup.boolean().default(false),
+				[ProfileSetting.UseTestNetworks]: yup.boolean().default(false),
 			}).required(),
-			wallets: Joi.object().pattern(
-				Joi.string().uuid(),
-				Joi.object({
-					id: Joi.string().required(),
-					data: Joi.object().required(),
-					settings: Joi.object().required(),
+			wallets: yup.object().pattern(
+				yup.string().uuid(),
+				yup.object({
+					id: yup.string().required(),
+					data: yup.object().required(),
+					settings: yup.object().required(),
 				}),
 			),
 		}).validate(data, { stripUnknown: true, allowUnknown: true });

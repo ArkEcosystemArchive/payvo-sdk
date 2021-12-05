@@ -35,7 +35,8 @@
 		"reflect-metadata": "^0.1.13",
 		"url-format-lax": "^2.0.0",
 		"url-parse-lax": "^5.0.0",
-		"uuid": "^8.3.2"
+		"uuid": "^8.3.2",
+		"yup": "^0.32.11"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",

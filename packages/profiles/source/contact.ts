@@ -1,4 +1,4 @@
-import Joi from "joi";
+import yup from "yup";
 
 import { ContactAddressRepository } from "./contact-address.repository";
 import { IContact, IContactAddressInput, IContactAddressRepository, IContactData, IProfile } from "./contracts.js";
@@ -92,19 +92,19 @@ export class Contact implements IContact {
 	}
 
 	#validate(data: Omit<IContactData, "addresses"> & { addresses: IContactAddressInput[] }): void {
-		const { error } = Joi.object({
-			id: Joi.string().required(),
-			name: Joi.string().required(),
-			addresses: Joi.array()
+		const { error } = yup.object({
+			id: yup.string().required(),
+			name: yup.string().required(),
+			addresses: yup.array()
 				.min(1)
 				.items(
-					Joi.object({
-						coin: Joi.string().required(),
-						network: Joi.string().required(),
-						address: Joi.string().required(),
+					yup.object({
+						coin: yup.string().required(),
+						network: yup.string().required(),
+						address: yup.string().required(),
 					}),
 				),
-			starred: Joi.boolean().required(),
+			starred: yup.boolean().required(),
 		}).validate(data, { stripUnknown: true, allowUnknown: true });
 
 		if (error !== undefined) {

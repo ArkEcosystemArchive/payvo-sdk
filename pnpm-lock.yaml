@@ -426,9 +426,9 @@ importers:
       fast-copy: ^2.1.1
       fast-deep-equal: ^3.1.3
       fast-sort: ^3.1.1
-      joi: ^17.4.2
       qrcode: ^1.5.0
       query-string: ^7.0.1
+      yup: ^0.32.11
     dependencies:
       '@hapi/bourne': 2.0.0
       bad-words: 3.0.4
@@ -439,9 +439,9 @@ importers:
       fast-copy: 2.1.1
       fast-deep-equal: 3.1.3
       fast-sort: 3.1.1
-      joi: 17.4.2
       qrcode: 1.5.0
       query-string: 7.0.1
+      yup: 0.32.11
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/big.js': 6.1.2
@@ -633,7 +633,6 @@ importers:
       bip38: ^3.1.1
       fs-extra: ^10.0.0
       inversify: ^6.0.1
-      joi: ^17.4.2
       localforage: ^1.10.0
       node-cache: ^5.1.2
       p-queue: ^7.1.0
@@ -641,6 +640,7 @@ importers:
       reflect-metadata: ^0.1.13
       semver: ^7.3.5
       type-fest: ^2.6.0
+      yup: ^0.32.11
     dependencies:
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
@@ -650,7 +650,6 @@ importers:
       '@vechain/picasso': 2.1.1
       bip38: 3.1.1
       inversify: 6.0.1
-      joi: 17.4.2
       localforage: 1.10.0
       node-cache: 5.1.2
       p-queue: 7.1.0
@@ -658,6 +657,7 @@ importers:
       reflect-metadata: 0.1.13
       semver: 7.3.5
       type-fest: 2.6.0
+      yup: 0.32.11
     devDependencies:
       '@payvo/sdk-ada': link:../ada
       '@payvo/sdk-ark': link:../ark
@@ -692,6 +692,7 @@ importers:
       url-format-lax: ^2.0.0
       url-parse-lax: ^5.0.0
       uuid: ^8.3.2
+      yup: ^0.32.11
     dependencies:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
@@ -708,6 +709,7 @@ importers:
       url-format-lax: 2.0.0
       url-parse-lax: 5.0.0
       uuid: 8.3.2
+      yup: 0.32.11
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
@@ -7607,6 +7609,10 @@ packages:
       p-locate: 6.0.0
     dev: false
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.clonedeep/4.5.0:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: false
@@ -8000,6 +8006,10 @@ packages:
 
   /nanoassert/1.1.0:
     resolution: {integrity: sha1-TzFS4JVA/eKMdvRLGbvNHVpCR40=}
+    dev: false
+
+  /nanoclone/0.2.1:
+    resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==}
     dev: false
 
   /nanocurrency-web/1.3.5:
@@ -8760,6 +8770,10 @@ packages:
   /propagate/2.0.1:
     resolution: {integrity: sha512-vGrhOavPSTz4QVNuBNdcNXePNdNMaO1xj9yBeH1ScQPjk/rhg9sSlCXPhMkFuaNNW/syTvYqsnbIJxMBfRbbag==}
     engines: {node: '>= 8'}
+    dev: false
+
+  /property-expr/2.0.4:
+    resolution: {integrity: sha512-sFPkHQjVKheDNnPvotjQmm3KD3uk1fWKUN7CrpdbwmUx3CrG3QiM8QpTSimvig5vTXmTvjz7+TDvXOI9+4rkcg==}
     dev: false
 
   /protobufjs/6.10.2:
@@ -10121,6 +10135,10 @@ packages:
     resolution: {integrity: sha512-gVweAectJU3ebq//Ferr2JUY4WKSDe5N+z0FvjDncLGyHmIDoxgY/2Ie4qfEIDm4IS7OA6Rmdm7pdEEdMcV/xQ==}
     dev: false
 
+  /toposort/2.0.2:
+    resolution: {integrity: sha1-riF2gXXRVZ1IvvNUILL0li8JwzA=}
+    dev: false
+
   /totalist/1.1.0:
     resolution: {integrity: sha512-gduQwd1rOdDMGxFG1gEvhV88Oirdo2p+KjoYFU7k2g+i7n6AFFbDQ5kMPUsW0pNbfQsB/cwXvT1i4Bue0s9g5g==}
     engines: {node: '>=6'}
@@ -11456,6 +11474,19 @@ packages:
   /yocto-queue/1.0.0:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
+    dev: false
+
+  /yup/0.32.11:
+    resolution: {integrity: sha512-Z2Fe1bn+eLstG8DRR6FTavGD+MeAwyfmouhHsIUgaADz8jvFKbO/fXc2trJKZg+5EBjh4gGm3iU/t3onKlXHIg==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@babel/runtime': 7.16.3
+      '@types/lodash': 4.14.177
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      nanoclone: 0.2.1
+      property-expr: 2.0.4
+      toposort: 2.0.2
     dev: false
 
   /zod/3.11.6:

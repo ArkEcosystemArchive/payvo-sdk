@@ -1,6 +1,6 @@
 import { sortBy } from "@payvo/sdk-helpers";
 import { Coins, Networks } from "@payvo/sdk";
-import Joi from "joi";
+import yup from "yup";
 
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
@@ -39,9 +39,9 @@ export class Environment {
 		const data: object = storage.data || {};
 		const profiles: object = storage.profiles || {};
 
-		const { error, value } = Joi.object({
-			data: Joi.object().required(),
-			profiles: Joi.object().pattern(Joi.string().uuid(), Joi.object()).required(),
+		const { error, value } = yup.object({
+			data: yup.object().required(),
+			profiles: yup.object().pattern(yup.string().uuid(), yup.object()).required(),
 		}).validate({ data, profiles }, { allowUnknown: true, stripUnknown: true });
 
 		if (error) {

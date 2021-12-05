@@ -1,21 +1,20 @@
-import { get, has, set, unset, ValidatorSchema } from "@payvo/sdk-helpers";
+import { get, has, set, unset } from "@payvo/sdk-helpers";
+import yup from "yup";
 
 export class ConfigRepository {
 	readonly #config: Record<string, any>;
 
 	public constructor(config: object) {
-		const { error, value } = ValidatorSchema.object({
-			httpClient: ValidatorSchema.object(),
-			ledgerTransportFactory: ValidatorSchema.function().optional(),
-			network: ValidatorSchema.string(),
-			networks: ValidatorSchema.object().optional(),
-		}).validate(config);
-
-		if (error !== undefined) {
+		try {
+			this.#config = yup.object({
+				httpClient: yup.object(),
+				ledgerTransportFactory: yup.mixed().optional(),
+				network: yup.string(),
+				networks: yup.object().optional(),
+			}).validateSync(config);
+		} catch (error) {
 			throw new Error(`Failed to validate the configuration: ${(error as any).message}`);
 		}
-
-		this.#config = value;
 	}
 
 	public all(): Record<string, any> {

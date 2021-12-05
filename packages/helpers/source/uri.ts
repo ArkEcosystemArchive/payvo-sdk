@@ -1,4 +1,4 @@
-import Joi from "joi";
+import yup from "yup";
 import querystring from "query-string";
 
 /**
@@ -67,11 +67,7 @@ export class URI {
 				throw new Error(`The given method is unknown: ${method}`);
 			}
 
-			const { error, value: result } = Joi.object(this.#getSchema(method)).validate({ method, ...params });
-
-			if (error !== undefined) {
-				throw error;
-			}
+			const result = yup.object(this.#getSchema(method)).validateSync({ method, ...params });
 
 			for (const [key, value] of Object.entries(result)) {
 				result[key] = this.#decodeURIComponent(value);
@@ -107,43 +103,43 @@ export class URI {
 	 * @returns {object}
 	 * @memberof URI
 	 */
-	#getSchema(method: string): object {
+	#getSchema(method: string) {
 		const baseSchema = {
-			method: Joi.string().pattern(/(transfer|vote|sign-message|register-delegate)/),
-			coin: Joi.string().required(),
-			network: Joi.string().required(),
-			fee: Joi.number(),
+			method: yup.string().matches(/(transfer|vote|sign-message|register-delegate)/),
+			coin: yup.string().required(),
+			network: yup.string().required(),
+			fee: yup.number(),
 		};
 
 		if (method === "vote") {
 			return {
 				...baseSchema,
-				delegate: Joi.string().required(),
+				delegate: yup.string().required(),
 			};
 		}
 
 		if (method === "sign-message") {
 			return {
 				...baseSchema,
-				message: Joi.string().required(),
+				message: yup.string().required(),
 			};
 		}
 
 		if (method === "register-delegate") {
 			return {
 				...baseSchema,
-				delegate: Joi.string().required(),
+				delegate: yup.string().required(),
 			};
 		}
 
 		return {
 			...baseSchema,
-			recipient: Joi.string().required(),
-			amount: Joi.number(),
-			memo: Joi.string(),
-			vendorField: Joi.string(), // Legacy memo, not an ARK agnostic name
-			label: Joi.string(), // ???
-			relay: Joi.string(), // ???
+			recipient: yup.string().required(),
+			amount: yup.number(),
+			memo: yup.string(),
+			vendorField: yup.string(), // Legacy memo, not an ARK agnostic name
+			label: yup.string(), // ???
+			relay: yup.string(), // ???
 		};
 	}
 }
