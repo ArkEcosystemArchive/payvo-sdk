@@ -24,89 +24,89 @@ import assert from "../internal/assert.js";
  */
 
 class HMAC {
-    /**
-     * Create an HMAC.
-     * @param {Function} Hash
-     * @param {Number} size
-     * @param {Array} [x=[]]
-     * @param {Array} [y=[]]
-     */
+	/**
+	 * Create an HMAC.
+	 * @param {Function} Hash
+	 * @param {Number} size
+	 * @param {Array} [x=[]]
+	 * @param {Array} [y=[]]
+	 */
 
-    constructor(Hash, size, x = [], y = []) {
-        assert(typeof Hash === "function");
-        assert(size >>> 0 === size);
-        assert(Array.isArray(x));
-        assert(Array.isArray(y));
+	constructor(Hash, size, x = [], y = []) {
+		assert(typeof Hash === "function");
+		assert(size >>> 0 === size);
+		assert(Array.isArray(x));
+		assert(Array.isArray(y));
 
-        this.hash = Hash;
-        this.size = size;
-        this.x = x;
-        this.y = y;
+		this.hash = Hash;
+		this.size = size;
+		this.x = x;
+		this.y = y;
 
-        this.inner = new Hash();
-        this.outer = new Hash();
-    }
+		this.inner = new Hash();
+		this.outer = new Hash();
+	}
 
-    /**
-     * Initialize HMAC context.
-     * @param {Buffer} data
-     */
+	/**
+	 * Initialize HMAC context.
+	 * @param {Buffer} data
+	 */
 
-    init(key) {
-        assert(Buffer.isBuffer(key));
+	init(key) {
+		assert(Buffer.isBuffer(key));
 
-        // Shorten key
-        if (key.length > this.size) {
-            const Hash = this.hash;
-            const h = new Hash();
+		// Shorten key
+		if (key.length > this.size) {
+			const Hash = this.hash;
+			const h = new Hash();
 
-            h.init(...this.x);
-            h.update(key);
+			h.init(...this.x);
+			h.update(key);
 
-            key = h.final(...this.y);
+			key = h.final(...this.y);
 
-            assert(key.length <= this.size);
-        }
+			assert(key.length <= this.size);
+		}
 
-        // Pad key
-        const pad = Buffer.alloc(this.size);
+		// Pad key
+		const pad = Buffer.alloc(this.size);
 
-        for (let i = 0; i < key.length; i++) pad[i] = key[i] ^ 0x36;
+		for (let i = 0; i < key.length; i++) pad[i] = key[i] ^ 0x36;
 
-        for (let i = key.length; i < pad.length; i++) pad[i] = 0x36;
+		for (let i = key.length; i < pad.length; i++) pad[i] = 0x36;
 
-        this.inner.init(...this.x);
-        this.inner.update(pad);
+		this.inner.init(...this.x);
+		this.inner.update(pad);
 
-        for (let i = 0; i < key.length; i++) pad[i] = key[i] ^ 0x5c;
+		for (let i = 0; i < key.length; i++) pad[i] = key[i] ^ 0x5c;
 
-        for (let i = key.length; i < pad.length; i++) pad[i] = 0x5c;
+		for (let i = key.length; i < pad.length; i++) pad[i] = 0x5c;
 
-        this.outer.init(...this.x);
-        this.outer.update(pad);
+		this.outer.init(...this.x);
+		this.outer.update(pad);
 
-        return this;
-    }
+		return this;
+	}
 
-    /**
-     * Update HMAC context.
-     * @param {Buffer} data
-     */
+	/**
+	 * Update HMAC context.
+	 * @param {Buffer} data
+	 */
 
-    update(data) {
-        this.inner.update(data);
-        return this;
-    }
+	update(data) {
+		this.inner.update(data);
+		return this;
+	}
 
-    /**
-     * Finalize HMAC context.
-     * @returns {Buffer}
-     */
+	/**
+	 * Finalize HMAC context.
+	 * @returns {Buffer}
+	 */
 
-    final() {
-        this.outer.update(this.inner.final(...this.y));
-        return this.outer.final(...this.y);
-    }
+	final() {
+		this.outer.update(this.inner.final(...this.y));
+		return this.outer.final(...this.y);
+	}
 }
 
 /*

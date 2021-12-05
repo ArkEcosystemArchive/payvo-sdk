@@ -70,7 +70,7 @@ class BatchRNG {
 	refresh(counter) {
 		let overflow = 0;
 
-		for (; ;) {
+		for (;;) {
 			// First word is always zero.
 			this.iv[4] = overflow;
 			this.iv[5] = overflow >>> 8;
