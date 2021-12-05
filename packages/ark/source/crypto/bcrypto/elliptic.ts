@@ -790,7 +790,7 @@ class Curve {
 		//   Elligator 1 (~2 iterations) => 6I + 10R
 		//   Elligator 2 (~2 iterations) => 4I + 6R
 		//   Ristretto (~1 iteration) => 1I + 2R + h*1R
-		for (; ;) {
+		for (;;) {
 			const u1 = this.randomField(rng);
 			const p1 = this.pointFromUniform(u1);
 
@@ -830,7 +830,7 @@ class Curve {
 	randomPoint(rng) {
 		let p;
 
-		for (; ;) {
+		for (;;) {
 			const x = this.randomField(rng);
 			const sign = (randomInt(rng) & 1) !== 0;
 
@@ -1911,7 +1911,7 @@ class ShortCurve extends Curve {
 
 		let p;
 
-		for (; ;) {
+		for (;;) {
 			x.redIAdd(this.one);
 
 			try {
@@ -5581,7 +5581,7 @@ class XPoint extends Point {
 			const bit = k.bit(i);
 
 			if (bit === 0) [a, b] = this.diffAddDbl(a, b);
-			else[b, a] = this.diffAddDbl(b, a);
+			else [b, a] = this.diffAddDbl(b, a);
 		}
 
 		return a;

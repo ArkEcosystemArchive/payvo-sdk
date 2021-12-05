@@ -264,4 +264,4 @@ export const asn1 = {
 	writeSeq,
 	writeInt,
 	writeVersion,
-}
+};

@@ -433,7 +433,7 @@ export class ECDSA {
 		const nonce = this.curve.encodeScalar(m);
 		const drbg = new HmacDRBG(this.hash, key, nonce);
 
-		for (; ;) {
+		for (;;) {
 			const bytes = drbg.generate(this.curve.scalarSize);
 			const k = this._truncate(bytes);
 

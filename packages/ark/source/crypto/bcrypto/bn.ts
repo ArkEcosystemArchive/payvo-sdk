@@ -1973,7 +1973,7 @@ class BN {
 			b.iushrn(shift);
 		}
 
-		for (; ;) {
+		for (;;) {
 			a._makeOdd();
 			b._makeOdd();
 
@@ -2241,7 +2241,7 @@ class BN {
 
 		let p = 3;
 
-		for (; ;) {
+		for (;;) {
 			if (p > 10000) {
 				// Thought to be impossible.
 				throw new Error(`Cannot find (D/n) = -1 for ${n.toString(10)}.`);
@@ -3594,7 +3594,7 @@ class BN {
 
 		if (bits === 0) return min.clone();
 
-		for (; ;) {
+		for (;;) {
 			const num = BN.randomBits(rng, bits);
 
 			// Maximum is _exclusive_!
@@ -3939,7 +3939,7 @@ class Prime116 extends Prime {
 		let b = this.powS(x);
 		let k = this.z;
 
-		for (; ;) {
+		for (;;) {
 			let t = b;
 			let m = 0;
 
@@ -4118,10 +4118,10 @@ class P521 extends Prime34 {
 		super(
 			"p521",
 			"000001ff ffffffff ffffffff ffffffff" +
-			"ffffffff ffffffff ffffffff ffffffff" +
-			"ffffffff ffffffff ffffffff ffffffff" +
-			"ffffffff ffffffff ffffffff ffffffff" +
-			"ffffffff",
+				"ffffffff ffffffff ffffffff ffffffff" +
+				"ffffffff ffffffff ffffffff ffffffff" +
+				"ffffffff ffffffff ffffffff ffffffff" +
+				"ffffffff",
 		);
 	}
 
@@ -4509,9 +4509,9 @@ class P448 extends Prime34 {
 		super(
 			"p448",
 			"ffffffff ffffffff ffffffff ffffffff" +
-			"ffffffff ffffffff fffffffe ffffffff" +
-			"ffffffff ffffffff ffffffff ffffffff" +
-			"ffffffff ffffffff",
+				"ffffffff ffffffff fffffffe ffffffff" +
+				"ffffffff ffffffff ffffffff ffffffff" +
+				"ffffffff ffffffff",
 		);
 	}
 
@@ -5013,7 +5013,7 @@ class Red {
 		let y = this.pow(x, s.iaddn(1).iushrn(1));
 		let k = e;
 
-		for (; ;) {
+		for (;;) {
 			let t = b;
 			let m = 0;
 
