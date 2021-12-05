@@ -108,11 +108,11 @@ importers:
       '@types/node': ^16.11.10
       ajv: 6.12.6
       ajv-keywords: 3.4.1
-      bcrypto: 5.4.0
       bip39: 3.0.4
       bytebuffer: 5.0.1
       dayjs: 1.10.7
       deepmerge: 4.2.2
+      get-random-values: ^1.2.2
       is-url-superb: ^6.1.0
       lodash.get: ^4.4.2
       lodash.set: ^4.3.2
@@ -125,11 +125,11 @@ importers:
       '@payvo/sdk-intl': link:../intl
       ajv: 6.12.6
       ajv-keywords: 3.4.1_ajv@6.12.6
-      bcrypto: 5.4.0
       bip39: 3.0.4
       bytebuffer: 5.0.1
       dayjs: 1.10.7
       deepmerge: 4.2.2
+      get-random-values: 1.2.2
       is-url-superb: 6.1.0
       lodash.get: 4.4.2
       lodash.set: 4.3.2
@@ -2091,6 +2091,7 @@ packages:
     engines: {node: '>=14.0.0'}
     dependencies:
       '@babel/runtime': 7.16.3
+      '@noble/hashes': 0.4.1
       '@polkadot/networks': 8.0.5
       '@polkadot/util': 8.0.5
       '@polkadot/wasm-crypto': 4.4.1_40b3c6547f2f0ee935393a070d86b93e
@@ -3621,15 +3622,6 @@ packages:
     resolution: {integrity: sha1-mrVie5PmBiH/fNrF2pczAn3x0Ms=}
     dev: false
 
-  /bcrypto/5.4.0:
-    resolution: {integrity: sha512-KDX2CR29o6ZoqpQndcCxFZAtYA1jDMnXU3jmCfzP44g++Cu7AHHtZN/JbrN/MXAg9SLvtQ8XISG+eVD9zH1+Jg==}
-    engines: {node: '>=8.0.0'}
-    requiresBuild: true
-    dependencies:
-      bufio: 1.0.7
-      loady: 0.0.5
-    dev: false
-
   /bech32/1.1.4:
     resolution: {integrity: sha512-s0IrSOzLlbvX7yp4WBfPITzpAU8sqQcpsmwXDiKwrG4r491vwCO/XpejasRNl0piBMe/DvP4Tz0mIS/X1DPJBQ==}
     dev: false
@@ -4090,11 +4082,6 @@ packages:
     requiresBuild: true
     dependencies:
       node-gyp-build: 4.3.0
-    dev: false
-
-  /bufio/1.0.7:
-    resolution: {integrity: sha512-bd1dDQhiC+bEbEfg56IdBv7faWa6OipMs/AFFFvtFnB3wAYjlwQpQRZ0pm6ZkgtfL0pILRXhKxOiQj6UzoMR7A==}
-    engines: {node: '>=8.0.0'}
     dev: false
 
   /builtin-modules/3.2.0:
@@ -6295,6 +6282,13 @@ packages:
       has-symbols: 1.0.2
     dev: false
 
+  /get-random-values/1.2.2:
+    resolution: {integrity: sha512-lMyPjQyl0cNNdDf2oR+IQ/fM3itDvpoHy45Ymo2r0L1EjazeSl13SfbKZs7KtZ/3MDCeueiaJiuOEfKqRTsSgA==}
+    engines: {node: 10 || 12 || >=14}
+    dependencies:
+      global: 4.4.0
+    dev: false
+
   /get-stream/3.0.0:
     resolution: {integrity: sha1-jpQ9E1jcN1VQVOy+LtsFqhdO3hQ=}
     engines: {node: '>=4'}
@@ -7576,11 +7570,6 @@ packages:
   /loader-runner/4.2.0:
     resolution: {integrity: sha512-92+huvxMvYlMzMt0iIOukcwYBFpkYJdpl2xsZ7LrlayO7E8SOv+JJUEK17B/dJIHAOLMfh2dZZ/Y18WgmGtYNw==}
     engines: {node: '>=6.11.5'}
-    dev: false
-
-  /loady/0.0.5:
-    resolution: {integrity: sha512-uxKD2HIj042/HBx77NBcmEPsD+hxCgAtjEWlYNScuUjIsh/62Uyu39GOR68TBR68v+jqDL9zfftCWoUo4y03sQ==}
-    engines: {node: '>=8.0.0'}
     dev: false
 
   /localforage/1.10.0:
