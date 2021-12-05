@@ -17,16 +17,16 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
-import BN from "./bn.js";
-import ChaCha20 from "./chacha20.js";
-import SHA256 from "./sha256.js";
+import { assert } from "./assert.js";
+import { BN } from "./bn.js";
+import { ChaCha20 } from "./chacha20.js";
+import { SHA256 } from "./sha256.js";
 
 /**
  * BatchRNG
  */
 
-class BatchRNG {
+export class BatchRNG {
 	constructor(curve, encode = (key) => key) {
 		this.curve = curve;
 		this.encode = encode;
@@ -70,7 +70,7 @@ class BatchRNG {
 	refresh(counter) {
 		let overflow = 0;
 
-		for (;;) {
+		for (; ;) {
 			// First word is always zero.
 			this.iv[4] = overflow;
 			this.iv[5] = overflow >>> 8;

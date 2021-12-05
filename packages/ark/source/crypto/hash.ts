@@ -1,4 +1,4 @@
-import secp256k1 from "./bcrypto/secp256k1.js";
+import { secp256k1 } from "./bcrypto/secp256k1.js";
 import { IKeyPair } from "./interfaces";
 
 export class Hash {
