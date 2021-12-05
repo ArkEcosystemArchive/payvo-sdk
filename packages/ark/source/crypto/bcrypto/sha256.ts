@@ -17,8 +17,8 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
-import HMAC from "./internal/hmac.js";
+import { assert } from "./assert.js";
+import { HMAC } from "./hmac.js";
 
 /*
  * Constants
@@ -270,4 +270,4 @@ function writeU32(data, num, off) {
  * Expose
  */
 
-export default SHA256;
+export { SHA256 };

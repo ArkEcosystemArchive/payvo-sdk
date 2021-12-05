@@ -12,7 +12,7 @@
  * Assert
  */
 
-function assert(val, msg) {
+export function assert(val, msg) {
 	if (!val) {
 		const err = new Error(msg || "Assertion failed");
 
@@ -21,9 +21,3 @@ function assert(val, msg) {
 		throw err;
 	}
 }
-
-/*
- * Expose
- */
-
-export default assert;

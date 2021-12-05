@@ -13,7 +13,7 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
+import { assert } from "./assert.js";
 
 /*
  * Constants
@@ -275,4 +275,4 @@ function writeU32(dst, num, off) {
  * Expose
  */
 
-export default ChaCha20;
+export { ChaCha20 };

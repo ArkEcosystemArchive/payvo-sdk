@@ -17,7 +17,7 @@
 
 "use strict";
 
-import assert from "../internal/assert.js";
+import { assert } from "./assert.js";
 
 /**
  * HMAC
@@ -113,4 +113,4 @@ class HMAC {
  * Expose
  */
 
-export default HMAC;
+export { HMAC };

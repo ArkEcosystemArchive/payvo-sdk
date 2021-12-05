@@ -33,15 +33,15 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
-import BatchRNG from "./batch-rng.js";
-import BN from "./bn.js";
+import { assert } from "./assert.js";
+import { BatchRNG } from "./batch-rng.js";
+import { BN } from "./bn.js";
 
 /**
  * Schnorr
  */
 
-class Schnorr {
+export class Schnorr {
 	constructor(curve, hash) {
 		this.curve = curve;
 		this.hash = hash;
@@ -320,9 +320,3 @@ class Schnorr {
 		return this.curve.jmulAll(points, coeffs).isInfinity();
 	}
 }
-
-/*
- * Expose
- */
-
-export default Schnorr;

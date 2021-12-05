@@ -14,7 +14,7 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
+import { assert } from "./assert.js";
 import getRandomValues from "get-random-values";
 
 /*
@@ -144,8 +144,10 @@ function randomFillSync(data, off, size) {
  * Expose
  */
 
-exports.native = 0;
-exports.randomBytes = randomBytes;
-exports.randomFill = randomFill;
-exports.randomInt = randomInt;
-exports.randomRange = randomRange;
+export const rng = {
+	native: 0,
+	randomBytes,
+	randomFill,
+	randomInt,
+	randomRange,
+};

@@ -42,7 +42,7 @@
 
 "use strict";
 
-import { custom } from "./internal/custom.js";
+import { custom } from "./custom.js";
 
 /*
  * Constants
@@ -6553,4 +6553,4 @@ if (!Math.imul) comb10MulTo = smallMulTo;
 
 BN.Red = Red;
 
-export default BN;
+export { BN };

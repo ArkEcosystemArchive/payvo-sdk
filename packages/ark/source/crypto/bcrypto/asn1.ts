@@ -8,8 +8,8 @@
 
 "use strict";
 
-import assert from "../internal/assert.js";
-import BN from "../bn";
+import { assert } from "./assert.js";
+import { BN } from "./bn.js";
 
 /*
  * ASN1
@@ -251,19 +251,17 @@ function writeVersion(data, pos, version) {
 	return pos;
 }
 
-/*
- * Expose
- */
-
-exports.readSize = readSize;
-exports.readSeq = readSeq;
-exports.readInt = readInt;
-exports.readVersion = readVersion;
-exports.sizeSize = sizeSize;
-exports.sizeSeq = sizeSeq;
-exports.sizeInt = sizeInt;
-exports.sizeVersion = sizeVersion;
-exports.writeSize = writeSize;
-exports.writeSeq = writeSeq;
-exports.writeInt = writeInt;
-exports.writeVersion = writeVersion;
+export const asn1 = {
+	readSize,
+	readSeq,
+	readInt,
+	readVersion,
+	sizeSize,
+	sizeSeq,
+	sizeInt,
+	sizeVersion,
+	writeSize,
+	writeSeq,
+	writeInt,
+	writeVersion,
+};

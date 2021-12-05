@@ -9,14 +9,10 @@
 
 "use strict";
 
-import ECDSA from "./ecdsa.js";
-import SHA256 from "./sha256.js";
+import { ECDSA } from "./ecdsa.js";
+import { SHA256 } from "./sha256.js";
 
-/*
- * Expose
- */
-
-export default new ECDSA("SECP256K1", SHA256, SHA256, {
+export const secp256k1 = new ECDSA("SECP256K1", SHA256, SHA256, {
 	naf: {
 		width: 9,
 		points: [

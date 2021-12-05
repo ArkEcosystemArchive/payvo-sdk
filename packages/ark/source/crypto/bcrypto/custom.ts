@@ -10,4 +10,4 @@
 
 import { inspect } from "util";
 
-exports.custom = inspect.custom || "inspect";
+export const custom = inspect.custom || "inspect";

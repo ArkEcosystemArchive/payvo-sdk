@@ -31,19 +31,19 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
-import BN from "./bn.js";
-import rng from "./random.js";
-import asn1 from "./internal/asn1.js";
-import Schnorr from "./schnorr-legacy.js";
-import HmacDRBG from "./hmac-drbg.js";
-import elliptic from "./elliptic.js";
+import { assert } from "./assert.js";
+import { BN } from "./bn.js";
+import { rng } from "./random.js";
+import { asn1 } from "./asn1.js";
+import { Schnorr } from "./schnorr-legacy.js";
+import { HmacDRBG } from "./hmac-drbg.js";
+import { elliptic } from "./elliptic.js";
 
 /**
  * ECDSA
  */
 
-class ECDSA {
+export class ECDSA {
 	constructor(name, hash, xof, pre) {
 		assert(typeof name === "string");
 		assert(hash);
@@ -789,9 +789,3 @@ class ECDSA {
 		return this._truncate(msg).imod(this.curve.n);
 	}
 }
-
-/*
- * Expose
- */
-
-export default ECDSA;

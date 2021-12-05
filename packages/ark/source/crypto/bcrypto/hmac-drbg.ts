@@ -17,7 +17,7 @@
 
 "use strict";
 
-import assert from "./internal/assert.js";
+import { assert } from "./assert.js";
 
 /*
  * Constants
@@ -165,4 +165,4 @@ HmacDRBG.native = 0;
  * Expose
  */
 
-export default HmacDRBG;
+export { HmacDRBG };

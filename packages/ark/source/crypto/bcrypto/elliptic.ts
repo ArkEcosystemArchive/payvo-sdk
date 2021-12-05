@@ -159,8 +159,8 @@
 
 "use strict";
 
-import { custom } from "./internal/custom.js";
-import BN from "./bn.js";
+import { custom } from "./custom.js";
+import { BN } from "./bn.js";
 
 /*
  * Constants
@@ -8786,16 +8786,18 @@ function toPretty(x, size) {
  * Expose
  */
 
-exports.Curve = Curve;
-exports.Point = Point;
-exports.ShortCurve = ShortCurve;
-exports.ShortPoint = ShortPoint;
-exports.JPoint = JPoint;
-exports.MontCurve = MontCurve;
-exports.MontPoint = MontPoint;
-exports.XPoint = XPoint;
-exports.EdwardsCurve = EdwardsCurve;
-exports.EdwardsPoint = EdwardsPoint;
-exports.curves = curves;
-exports.curve = curve;
-exports.register = register;
+export const elliptic = {
+	Curve,
+	Point,
+	ShortCurve,
+	ShortPoint,
+	JPoint,
+	MontCurve,
+	MontPoint,
+	XPoint,
+	EdwardsCurve,
+	EdwardsPoint,
+	curves,
+	curve,
+	register,
+};
