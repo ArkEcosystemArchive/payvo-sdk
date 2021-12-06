@@ -62,9 +62,7 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 			exchangeTransactions: {},
 			id: "uuid",
 			notifications: {},
-			plugins: {
-				data: {},
-			},
+			plugins: {}, // @TODO: this should be an empty object with real, not have data: {}. check this
 			settings: {
 				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,

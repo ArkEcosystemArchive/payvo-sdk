@@ -16,7 +16,7 @@ import {
 } from "./contracts.js";
 import { DriverFactory } from "./driver.js";
 import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models.js";
-import { MapSchema } from "./helpers/yup.js";
+import { objectSchemaRequired } from "./helpers/yup.js";
 
 export class Environment {
 	#storage: StorageData | undefined;
@@ -44,7 +44,7 @@ export class Environment {
 			this.#storage = yup
 				.object({
 					data: yup.object().required(),
-					profiles: new MapSchema(yup.string().uuid(), yup.object()).required(),
+					profiles: objectSchemaRequired(yup.string().uuid(), yup.object()),
 				})
 				.validateSync({ data, profiles }, { stripUnknown: true });
 		} catch (error) {
