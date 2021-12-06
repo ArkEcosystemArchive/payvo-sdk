@@ -41,11 +41,12 @@ export class Environment {
 		const profiles: object = storage.profiles || {};
 
 		try {
-			this.#storage = yup.object({
-				data: yup.object().required(),
-				profiles: new MapSchema(yup.string().uuid(), yup.object()).required(),
-			}).validateSync({ data, profiles }, { stripUnknown: true });
-
+			this.#storage = yup
+				.object({
+					data: yup.object().required(),
+					profiles: new MapSchema(yup.string().uuid(), yup.object()).required(),
+				})
+				.validateSync({ data, profiles }, { stripUnknown: true });
 		} catch (error) {
 			throw new Error(`Terminating due to corrupted state: ${error}`);
 		}

@@ -8,4 +8,4 @@ export const createDynamicSchema = (entity, keySchema, valueSchema) => {
 	}
 
 	return object().shape(result);
-}
+};

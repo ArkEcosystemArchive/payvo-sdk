@@ -95,7 +95,8 @@ export class Contact implements IContact {
 		yup.object({
 			id: yup.string().required(),
 			name: yup.string().required(),
-			addresses: yup.array()
+			addresses: yup
+				.array()
 				.min(1)
 				.of(
 					yup.object({

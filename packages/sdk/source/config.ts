@@ -6,12 +6,14 @@ export class ConfigRepository {
 
 	public constructor(config: object) {
 		try {
-			this.#config = yup.object({
-				httpClient: yup.object(),
-				ledgerTransportFactory: yup.mixed().optional(),
-				network: yup.string(),
-				networks: yup.object().optional(),
-			}).validateSync(config);
+			this.#config = yup
+				.object({
+					httpClient: yup.object(),
+					ledgerTransportFactory: yup.mixed().optional(),
+					network: yup.string(),
+					networks: yup.object().optional(),
+				})
+				.validateSync(config);
 		} catch (error) {
 			throw new Error(`Failed to validate the configuration: ${(error as any).message}`);
 		}
