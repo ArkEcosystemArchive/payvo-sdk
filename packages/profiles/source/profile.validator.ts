@@ -1,16 +1,13 @@
 import yup from 'yup'
-import BaseSchema, { CastOptions } from 'yup/lib/schema'
-import { AnyObject, Callback, InternalOptions } from 'yup/lib/types'
-import runTests from 'yup/lib/util/runTests'
 
 import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts.js";
-import { MapSchema } from './helpers/yup.js';
+import { createDynamicSchema } from './helpers/yup.js';
 
 export class ProfileValidator implements IProfileValidator {
 	public validate(data: IProfileData): IProfileData {
 		return yup.object({
 			id: yup.string().required(),
-			contacts: new MapSchema(
+			contacts: yup.lazy(entity => createDynamicSchema(entity,
 				yup.string().uuid(),
 				yup.object({
 					id: yup.string().required(),
@@ -26,14 +23,14 @@ export class ProfileValidator implements IProfileValidator {
 							}),
 						),
 					starred: yup.boolean().required(),
-				}),
+				})),
 			),
 			data: yup.object({
 				[ProfileData.LatestMigration]: yup.string(),
 				[ProfileData.HasCompletedIntroductoryTutorial]: yup.boolean(),
 				[ProfileData.HasAcceptedManualInstallationDisclaimer]: yup.boolean(),
 			}).required(),
-			exchangeTransactions: new MapSchema(
+			exchangeTransactions: yup.lazy(entity => createDynamicSchema(entity,
 				yup.string().uuid(),
 				yup.object({
 					id: yup.string().required(),
@@ -54,9 +51,8 @@ export class ProfileValidator implements IProfileValidator {
 					status: yup.number().required(),
 					createdAt: yup.number().required(),
 				}),
-			)
-				.required(),
-			notifications: new MapSchema(
+			).required()),
+			notifications: yup.lazy(entity => createDynamicSchema(entity,
 				yup.string().uuid(),
 				yup.object({
 					id: yup.string().required(),
@@ -67,10 +63,9 @@ export class ProfileValidator implements IProfileValidator {
 					action: yup.string(),
 					read_at: yup.number(),
 					meta: yup.object(),
-				}),
-			)
-				.required(),
-			plugins: new MapSchema(
+				})).required(),
+			),
+			plugins: yup.lazy(entity => createDynamicSchema(entity,
 				yup.string().uuid(),
 				yup.object({
 					id: yup.string().required(),
@@ -79,9 +74,8 @@ export class ProfileValidator implements IProfileValidator {
 					isEnabled: yup.boolean().required(),
 					permissions: yup.array().of(yup.string()).required(),
 					urls: yup.array().of(yup.string()).required(),
-				}),
-			)
-				.required(),
+				})).required(),
+			),
 			// @TODO: assert specific values for enums
 			settings: yup.object({
 				[ProfileSetting.AccentColor]: yup.string().required(),
@@ -107,14 +101,14 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.UseTestNetworks]: yup.boolean().default(false),
 			}).required(),
 			wallets:
-				new MapSchema(
+				yup.lazy(entity => createDynamicSchema(entity,
 					yup.string().uuid(),
 					yup.object({
 						id: yup.string().required(),
 						data: yup.object().required(),
 						settings: yup.object().required(),
 					})
-				),
-		}).validateSync(data, { stripUnknown: true }) as IProfileData;
+				)),
+		}).validateSync(data, { stripUnknown: true }) as unknown as IProfileData;
 	}
 }
