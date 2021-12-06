@@ -50,10 +50,10 @@ jobs:
               run: cd "$GITHUB_WORKSPACE/packages/eos/" && pnpm run test:coverage
             - name: Test ETH
               run: cd "$GITHUB_WORKSPACE/packages/eth/" && pnpm run test:coverage
+            - name: Test FETCH
+              run: cd "$GITHUB_WORKSPACE/packages/fetch/" && pnpm run test:coverage
             - name: Test HELPERS
               run: cd "$GITHUB_WORKSPACE/packages/helpers/" && pnpm run test:coverage
-            - name: Test HTTP-FETCH
-              run: cd "$GITHUB_WORKSPACE/packages/http-fetch/" && pnpm run test:coverage
             - name: Test INTL
               run: cd "$GITHUB_WORKSPACE/packages/intl/" && pnpm run test:coverage
             - name: Test LSK

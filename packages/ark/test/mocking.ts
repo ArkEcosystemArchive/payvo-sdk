@@ -1,34 +1,34 @@
 import { IoC, Test } from "@payvo/sdk";
-import { Request } from "@payvo/sdk-http-fetch";
+import { Request } from "@payvo/sdk-fetch";
 import { loader } from "@payvo/sdk-test";
 
 import { BindingType } from "../source/coin.contract";
 import { manifest } from "../source/manifest";
 
 export const createService = async <T = any>(
-	service: any,
-	network: string = "ark.devnet",
-	predicate?: Function,
+    service: any,
+    network: string = "ark.devnet",
+    predicate?: Function,
 ): Promise<T> => {
-	return Test.createServiceAsync({
-		httpClient: new Request(),
-		manifest: manifest.networks[network],
-		predicate: async (container: IoC.Container) => {
-			if (container.missing(BindingType.Crypto)) {
-				container.constant(
-					BindingType.Crypto,
-					loader.json("test/fixtures/client/cryptoConfiguration.json").data,
-				);
-			}
+    return Test.createServiceAsync({
+        httpClient: new Request(),
+        manifest: manifest.networks[network],
+        predicate: async (container: IoC.Container) => {
+            if (container.missing(BindingType.Crypto)) {
+                container.constant(
+                    BindingType.Crypto,
+                    loader.json("test/fixtures/client/cryptoConfiguration.json").data,
+                );
+            }
 
-			if (container.missing(BindingType.Height)) {
-				container.constant(BindingType.Height, loader.json("test/fixtures/client/syncing.json").data.height);
-			}
+            if (container.missing(BindingType.Height)) {
+                container.constant(BindingType.Height, loader.json("test/fixtures/client/syncing.json").data.height);
+            }
 
-			if (predicate) {
-				predicate(container);
-			}
-		},
-		service,
-	});
+            if (predicate) {
+                predicate(container);
+            }
+        },
+        service,
+    });
 };
