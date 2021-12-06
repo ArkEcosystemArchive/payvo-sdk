@@ -22,7 +22,6 @@
 	},
 	"dependencies": {
 		"@noble/hashes": "^0.4.1",
-		"argon2-browser": "^1.18.0",
 		"base-x": "^3.0.9",
 		"bcryptjs": "^2.4.3",
 		"bech32": "^2.0.0",
@@ -40,7 +39,6 @@
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
-		"@types/argon2-browser": "1.18.1",
 		"@types/bcryptjs": "2.4.2",
 		"@types/bip38": "2.0.1",
 		"@types/create-xpub": "^2.1.1",
