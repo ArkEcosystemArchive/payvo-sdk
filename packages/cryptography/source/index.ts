@@ -1,4 +1,3 @@
-// export * from "./argon2.js";
 export * from "./base58-check.js";
 export * from "./base58.js";
 export * from "./base64.js";
