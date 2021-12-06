@@ -16,6 +16,7 @@ import {
 } from "./contracts.js";
 import { DriverFactory } from "./driver.js";
 import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models.js";
+import { MapSchema } from "./helpers/yup.js";
 
 export class Environment {
 	#storage: StorageData | undefined;
@@ -39,16 +40,15 @@ export class Environment {
 		const data: object = storage.data || {};
 		const profiles: object = storage.profiles || {};
 
-		const { error, value } = yup.object({
-			data: yup.object().required(),
-			profiles: yup.object().pattern(yup.string().uuid(), yup.object()).required(),
-		}).validate({ data, profiles }, { allowUnknown: true, stripUnknown: true });
+		try {
+			this.#storage = yup.object({
+				data: yup.object().required(),
+				profiles: new MapSchema(yup.string().uuid(), yup.object()).required(),
+			}).validateSync({ data, profiles }, { stripUnknown: true });
 
-		if (error) {
+		} catch (error) {
 			throw new Error(`Terminating due to corrupted state: ${error}`);
 		}
-
-		this.#storage = value;
 	}
 
 	/**

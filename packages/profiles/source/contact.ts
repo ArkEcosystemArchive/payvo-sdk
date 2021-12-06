@@ -92,12 +92,12 @@ export class Contact implements IContact {
 	}
 
 	#validate(data: Omit<IContactData, "addresses"> & { addresses: IContactAddressInput[] }): void {
-		const { error } = yup.object({
+		yup.object({
 			id: yup.string().required(),
 			name: yup.string().required(),
 			addresses: yup.array()
 				.min(1)
-				.items(
+				.of(
 					yup.object({
 						coin: yup.string().required(),
 						network: yup.string().required(),
@@ -105,10 +105,6 @@ export class Contact implements IContact {
 					}),
 				),
 			starred: yup.boolean().required(),
-		}).validate(data, { stripUnknown: true, allowUnknown: true });
-
-		if (error !== undefined) {
-			throw error;
-		}
+		}).validateSync(data, { stripUnknown: true });
 	}
 }

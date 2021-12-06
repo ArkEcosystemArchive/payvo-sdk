@@ -1,26 +1,23 @@
-import yup from "yup";
+import yup from 'yup'
+import BaseSchema, { CastOptions } from 'yup/lib/schema'
+import { AnyObject, Callback, InternalOptions } from 'yup/lib/types'
+import runTests from 'yup/lib/util/runTests'
 
 import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts.js";
+import { MapSchema } from './helpers/yup.js';
 
 export class ProfileValidator implements IProfileValidator {
-	/**
-	 * Validate the profile data.
-	 *
-	 * @param {IProfileData} [data]
-	 * @return {Promise<IProfileData>}
-	 * @memberof Profile
-	 */
 	public validate(data: IProfileData): IProfileData {
-		const { error, value } = yup.object({
+		return yup.object({
 			id: yup.string().required(),
-			contacts: yup.object().pattern(
+			contacts: new MapSchema(
 				yup.string().uuid(),
 				yup.object({
 					id: yup.string().required(),
 					name: yup.string().required(),
 					addresses: yup.array()
 						.min(1)
-						.items(
+						.of(
 							yup.object({
 								id: yup.string().required(),
 								coin: yup.string().required(),
@@ -36,57 +33,54 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileData.HasCompletedIntroductoryTutorial]: yup.boolean(),
 				[ProfileData.HasAcceptedManualInstallationDisclaimer]: yup.boolean(),
 			}).required(),
-			exchangeTransactions: yup.object()
-				.pattern(
-					yup.string().uuid(),
-					yup.object({
-						id: yup.string().required(),
-						orderId: yup.string().required(),
-						provider: yup.string().required(),
-						input: yup.object({
-							address: yup.string().required(),
-							amount: yup.number().required(),
-							ticker: yup.string().required(),
-							hash: yup.string(),
-						}).required(),
-						output: yup.object({
-							address: yup.string().required(),
-							amount: yup.number().required(),
-							ticker: yup.string().required(),
-							hash: yup.string(),
-						}).required(),
-						status: yup.number().required(),
-						createdAt: yup.number().required(),
-					}),
-				)
+			exchangeTransactions: new MapSchema(
+				yup.string().uuid(),
+				yup.object({
+					id: yup.string().required(),
+					orderId: yup.string().required(),
+					provider: yup.string().required(),
+					input: yup.object({
+						address: yup.string().required(),
+						amount: yup.number().required(),
+						ticker: yup.string().required(),
+						hash: yup.string(),
+					}).required(),
+					output: yup.object({
+						address: yup.string().required(),
+						amount: yup.number().required(),
+						ticker: yup.string().required(),
+						hash: yup.string(),
+					}).required(),
+					status: yup.number().required(),
+					createdAt: yup.number().required(),
+				}),
+			)
 				.required(),
-			notifications: yup.object()
-				.pattern(
-					yup.string().uuid(),
-					yup.object({
-						id: yup.string().required(),
-						icon: yup.string(),
-						name: yup.string(),
-						body: yup.string(),
-						type: yup.string(),
-						action: yup.string(),
-						read_at: yup.number(),
-						meta: yup.object(),
-					}),
-				)
+			notifications: new MapSchema(
+				yup.string().uuid(),
+				yup.object({
+					id: yup.string().required(),
+					icon: yup.string(),
+					name: yup.string(),
+					body: yup.string(),
+					type: yup.string(),
+					action: yup.string(),
+					read_at: yup.number(),
+					meta: yup.object(),
+				}),
+			)
 				.required(),
-			plugins: yup.object()
-				.pattern(
-					yup.string().uuid(),
-					yup.object({
-						id: yup.string().required(),
-						name: yup.string().required(),
-						version: yup.string().required(),
-						isEnabled: yup.boolean().required(),
-						permissions: yup.array().items(yup.string()).required(),
-						urls: yup.array().items(yup.string()).required(),
-					}),
-				)
+			plugins: new MapSchema(
+				yup.string().uuid(),
+				yup.object({
+					id: yup.string().required(),
+					name: yup.string().required(),
+					version: yup.string().required(),
+					isEnabled: yup.boolean().required(),
+					permissions: yup.array().of(yup.string()).required(),
+					urls: yup.array().of(yup.string()).required(),
+				}),
+			)
 				.required(),
 			// @TODO: assert specific values for enums
 			settings: yup.object({
@@ -101,7 +95,7 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.ErrorReporting]: yup.boolean().required(),
 				[ProfileSetting.ExchangeCurrency]: yup.string().required(),
 				[ProfileSetting.Locale]: yup.string().required(),
-				[ProfileSetting.MarketProvider]: yup.string().allow("coincap", "cryptocompare", "coingecko").required(),
+				[ProfileSetting.MarketProvider]: yup.string().oneOf(["coincap", "cryptocompare", "coingecko"]).required(),
 				[ProfileSetting.Name]: yup.string().required(),
 				[ProfileSetting.NewsFilters]: yup.string(),
 				[ProfileSetting.Password]: yup.string(),
@@ -112,20 +106,15 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.UseNetworkWalletNames]: yup.boolean().default(false),
 				[ProfileSetting.UseTestNetworks]: yup.boolean().default(false),
 			}).required(),
-			wallets: yup.object().pattern(
-				yup.string().uuid(),
-				yup.object({
-					id: yup.string().required(),
-					data: yup.object().required(),
-					settings: yup.object().required(),
-				}),
-			),
-		}).validate(data, { stripUnknown: true, allowUnknown: true });
-
-		if (error !== undefined) {
-			throw error;
-		}
-
-		return value as IProfileData;
+			wallets:
+				new MapSchema(
+					yup.string().uuid(),
+					yup.object({
+						id: yup.string().required(),
+						data: yup.object().required(),
+						settings: yup.object().required(),
+					})
+				),
+		}).validateSync(data, { stripUnknown: true }) as IProfileData;
 	}
 }
