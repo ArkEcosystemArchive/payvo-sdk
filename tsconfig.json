@@ -7,8 +7,11 @@
 		"experimentalDecorators": true,
 		"forceConsistentCasingInFileNames": true,
 		"incremental": true,
-		"lib": ["ESNext", "DOM"],
-		"module": "esnext",
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"module": "commonjs",
 		"moduleResolution": "node",
 		"newLine": "lf",
 		"noEmitOnError": true,
@@ -28,9 +31,14 @@
 		"strict": true,
 		"stripInternal": true,
 		"target": "ESNext",
-		"typeRoots": ["./node_modules/@types"],
+		"typeRoots": [
+			"./node_modules/@types"
+		],
 		"useDefineForClassFields": true,
 		"useUnknownInCatchVariables": false
 	},
-	"exclude": ["distribution", "**/*.test.ts"]
+	"exclude": [
+		"distribution",
+		"**/*.test.ts"
+	]
 }
