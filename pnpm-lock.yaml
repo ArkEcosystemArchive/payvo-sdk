@@ -235,7 +235,6 @@ importers:
     specifiers:
       '@noble/hashes': ^0.4.1
       '@payvo/sdk-test': workspace:*
-      '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
       '@types/bip38': 2.0.1
       '@types/create-xpub': ^2.1.1
@@ -244,7 +243,6 @@ importers:
       '@types/node-forge': 0.10.10
       '@types/uuid': ^8.3.3
       '@types/wif': ^2.0.2
-      argon2-browser: ^1.18.0
       base-x: ^3.0.9
       bcryptjs: ^2.4.3
       bech32: ^2.0.0
@@ -262,7 +260,6 @@ importers:
       wif: ^2.0.6
     dependencies:
       '@noble/hashes': 0.4.1
-      argon2-browser: 1.18.0
       base-x: 3.0.9
       bcryptjs: 2.4.3
       bech32: 2.0.0
@@ -279,7 +276,6 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@payvo/sdk-test': link:../test
-      '@types/argon2-browser': 1.18.1
       '@types/bcryptjs': 2.4.2
       '@types/bip38': 2.0.1
       '@types/create-xpub': 2.1.1
@@ -2383,10 +2379,6 @@ packages:
       path-browserify: 1.0.1
     dev: false
 
-  /@types/argon2-browser/1.18.1:
-    resolution: {integrity: sha512-PZffP/CqH9m2kovDSRQMfMMxUC3V98I7i7/caa0RB0/nvsXzYbL9bKyqZpNMFmLFGZslROlG1R60ONt7abrwlA==}
-    dev: true
-
   /@types/bcryptjs/2.4.2:
     resolution: {integrity: sha512-LiMQ6EOPob/4yUL66SZzu6Yh77cbzJFYll+ZfaPiPPFswtIlA/Fs1MzdKYA7JApHU49zQTbJGX3PDmCpIdDBRQ==}
     dev: true
@@ -3402,10 +3394,6 @@ packages:
     dependencies:
       delegates: 1.0.0
       readable-stream: 2.3.7
-    dev: false
-
-  /argon2-browser/1.18.0:
-    resolution: {integrity: sha512-ImVAGIItnFnvET1exhsQB7apRztcoC5TnlSqernMJDUjbc/DLq3UEYeXFrLPrlaIl8cVfwnXb6wX2KpFf2zxHw==}
     dev: false
 
   /argparse/1.0.10:
