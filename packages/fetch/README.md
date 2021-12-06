@@ -9,7 +9,7 @@
 ## Installation
 
 ```bash
-npm install @payvo/sdk-http-fetch
+npm install @payvo/sdk-fetch
 ```
 
 ## Usage

@@ -29,7 +29,7 @@
 		"ed25519-hd-key": "^1.2.0"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/node": "^16.11.10"
 	},

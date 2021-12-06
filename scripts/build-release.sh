@@ -13,7 +13,7 @@ bundle intl
 bundle cryptography
 bundle sdk
 bundle news
-bundle http-fetch
+bundle fetch
 bundle markets
 
 # 2. Coins

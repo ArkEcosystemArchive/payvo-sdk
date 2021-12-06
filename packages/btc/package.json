@@ -37,7 +37,7 @@
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@ledgerhq/logs": "^6.10.0",
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/create-xpub": "^2.1.1",
 		"@types/node": "^16.11.10"

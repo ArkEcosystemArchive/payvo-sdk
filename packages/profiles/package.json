@@ -45,7 +45,7 @@
 		"@payvo/sdk-ark": "workspace:*",
 		"@payvo/sdk-btc": "workspace:*",
 		"@payvo/sdk-eth": "workspace:*",
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-lsk": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/bip38": "2.0.1",

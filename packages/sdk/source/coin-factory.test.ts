@@ -4,7 +4,7 @@ import { describe } from "@payvo/sdk-test";
 import "reflect-metadata";
 
 import { ARK } from "../../ark/distribution";
-import { Request } from "../../http-fetch/distribution";
+import { Request } from "../../fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 

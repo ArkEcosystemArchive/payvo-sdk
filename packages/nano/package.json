@@ -29,7 +29,7 @@
 		"nanocurrency-web": "^1.3.5"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/node": "^16.11.10"
 	},

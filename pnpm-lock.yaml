@@ -79,8 +79,8 @@ importers:
       '@emurgo/cardano-serialization-lib-nodejs': ^9.0.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -91,7 +91,7 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -101,8 +101,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -136,7 +136,7 @@ importers:
       node-dotify: 1.1.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -145,8 +145,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -159,7 +159,7 @@ importers:
       ledger-cosmos-js: 2.1.8
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -168,8 +168,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/hdkey': 2.0.0
@@ -187,7 +187,7 @@ importers:
       isomorphic-dompurify: 0.16.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/hdkey': 2.0.0
       '@types/node': 16.11.10
@@ -199,8 +199,8 @@ importers:
       '@ledgerhq/logs': ^6.10.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/create-xpub': ^2.1.1
@@ -226,7 +226,7 @@ importers:
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@ledgerhq/logs': 6.10.0
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/create-xpub': 2.1.1
       '@types/node': 16.11.10
@@ -291,8 +291,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@polkadot/api': ^6.10.3
@@ -319,7 +319,7 @@ importers:
       '@zondax/ledger-polkadot': 0.13.8
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -330,8 +330,8 @@ importers:
       '@noble/ed25519': ^1.3.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -344,7 +344,7 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -353,8 +353,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -369,7 +369,7 @@ importers:
       eosjs: 22.1.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -381,8 +381,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -402,9 +402,28 @@ importers:
       web3: 1.6.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
+
+  packages/fetch:
+    specifiers:
+      '@payvo/sdk': workspace:*
+      '@payvo/sdk-test': workspace:*
+      '@types/fs-extra': ^9.0.13
+      '@types/node': ^16.11.10
+      cross-fetch: ^3.1.4
+      fs-extra: ^10.0.0
+      query-string: ^7.0.1
+    dependencies:
+      '@payvo/sdk': link:../sdk
+      cross-fetch: 3.1.4
+      query-string: 7.0.1
+    devDependencies:
+      '@payvo/sdk-test': link:../test
+      '@types/fs-extra': 9.0.13
+      '@types/node': 16.11.10
+      fs-extra: 10.0.0
 
   packages/helpers:
     specifiers:
@@ -445,25 +464,6 @@ importers:
       '@types/node': 16.11.10
       '@types/qrcode': 1.4.1
 
-  packages/http-fetch:
-    specifiers:
-      '@payvo/sdk': workspace:*
-      '@payvo/sdk-test': workspace:*
-      '@types/fs-extra': ^9.0.13
-      '@types/node': ^16.11.10
-      cross-fetch: ^3.1.4
-      fs-extra: ^10.0.0
-      query-string: ^7.0.1
-    dependencies:
-      '@payvo/sdk': link:../sdk
-      cross-fetch: 3.1.4
-      query-string: 7.0.1
-    devDependencies:
-      '@payvo/sdk-test': link:../test
-      '@types/fs-extra': 9.0.13
-      '@types/node': 16.11.10
-      fs-extra: 10.0.0
-
   packages/intl:
     specifiers:
       '@payvo/sdk-test': workspace:*
@@ -486,8 +486,8 @@ importers:
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -502,7 +502,7 @@ importers:
       dpos-ledger-api: 3.0.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -510,8 +510,8 @@ importers:
     specifiers:
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@terra-money/terra.js': ^3.0.1
@@ -523,14 +523,14 @@ importers:
       '@payvo/sdk-intl': link:../intl
       '@terra-money/terra.js': 3.0.1
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
   packages/markets:
     specifiers:
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -538,7 +538,7 @@ importers:
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-intl': link:../intl
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -546,8 +546,8 @@ importers:
     specifiers:
       '@noble/ed25519': ^1.3.0
       '@payvo/sdk': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -561,7 +561,7 @@ importers:
       nanocurrency: 2.5.0
       nanocurrency-web: 1.3.5
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -571,8 +571,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -584,14 +584,14 @@ importers:
       '@payvo/sdk-intl': link:../intl
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
   packages/news:
     specifiers:
       '@payvo/sdk': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/fs-extra': ^9.0.13
       '@types/node': ^16.11.10
@@ -601,7 +601,7 @@ importers:
       '@payvo/sdk': link:../sdk
       rss-parser: 3.12.0
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/fs-extra': 9.0.13
       '@types/node': 16.11.10
@@ -615,8 +615,8 @@ importers:
       '@payvo/sdk-btc': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-eth': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-lsk': workspace:*
       '@payvo/sdk-markets': workspace:*
@@ -659,7 +659,7 @@ importers:
       '@payvo/sdk-ark': link:../ark
       '@payvo/sdk-btc': link:../btc
       '@payvo/sdk-eth': link:../eth
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-lsk': link:../lsk
       '@payvo/sdk-test': link:../test
       '@types/bip38': 2.0.1
@@ -713,8 +713,8 @@ importers:
     specifiers:
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@solana/web3.js': ^1.30.2
@@ -728,7 +728,7 @@ importers:
       '@solana/web3.js': 1.31.0
       ed25519-hd-key: 1.2.0
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -759,8 +759,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -776,7 +776,7 @@ importers:
       tronweb: 4.0.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -786,8 +786,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -803,7 +803,7 @@ importers:
       stellar-sdk: 9.1.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
@@ -813,8 +813,8 @@ importers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -832,15 +832,15 @@ importers:
       ripple-lib: 1.10.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
   packages/zil:
     specifiers:
       '@payvo/sdk': workspace:*
+      '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
-      '@payvo/sdk-http-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
@@ -855,7 +855,7 @@ importers:
       '@zilliqa-js/util': 3.3.3
       '@zilliqa-js/zilliqa': 3.3.3
     devDependencies:
-      '@payvo/sdk-http-fetch': link:../http-fetch
+      '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/node': 16.11.10
 
