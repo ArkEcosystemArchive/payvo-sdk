@@ -37,9 +37,7 @@ describeWithContext(
 			exchangeTransactions: {},
 			id: "uuid",
 			notifications: {},
-			plugins: {
-				data: {},
-			},
+			plugins: {},
 			settings: {
 				[ProfileSetting.AccentColor]: "blue",
 				[ProfileSetting.AdvancedMode]: false,

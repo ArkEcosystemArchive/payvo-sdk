@@ -205,9 +205,7 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 						type: "type",
 					},
 				},
-				plugins: {
-					data: {},
-				},
+				plugins: {},
 				settings: {
 					[ProfileSetting.AccentColor]: "blue",
 					[ProfileSetting.AdvancedMode]: false,
