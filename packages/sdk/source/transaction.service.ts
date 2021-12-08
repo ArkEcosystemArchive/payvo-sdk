@@ -33,11 +33,11 @@ export class AbstractTransactionService implements Contract {
 	protected readonly httpClient: HttpClient;
 
 	public constructor(container: IContainer) {
-		this.bigNumberService = container.get(BindingType.ConfigRepository);
+		this.bigNumberService = container.get(BindingType.BigNumberService);
 		this.clientService = container.get(BindingType.ClientService);
-		this.configRepository = container.get(BindingType.DataTransferObjectService);
-		this.dataTransferObjectService = container.get(BindingType.HttpClient);
-		this.httpClient = container.get(BindingType.BigNumberService);
+		this.configRepository = container.get(BindingType.ConfigRepository);
+		this.dataTransferObjectService = container.get(BindingType.DataTransferObjectService);
+		this.httpClient = container.get(BindingType.HttpClient);
 	}
 
 	public async transfer(input: TransferInput): Promise<SignedTransactionData> {

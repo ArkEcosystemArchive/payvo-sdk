@@ -15,11 +15,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	readonly #dataTransferObjectService!: Services.DataTransferObjectService;
 	readonly #httpClient!: Http.HttpClient;
 	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
-	readonly #packageCrypto!: Interfaces.NetworkConfig;
-	readonly #packageHeight!: number;
-
-	// @TODO: remove or inject
-	#configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
+	readonly #configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
 
 	public constructor(container: IoC.IContainer) {
 		super();
@@ -28,12 +24,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
 		this.#httpClient = container.get(IoC.BindingType.HttpClient);
 		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
-		this.#packageCrypto = container.get(BindingType.Crypto);
-		this.#packageHeight = container.get(BindingType.Height);
-	}
-
-	private onPostConstruct(): void {
-		this.#configCrypto = { crypto: this.#packageCrypto, height: this.#packageHeight };
+		this.#configCrypto = {
+			crypto: container.get(BindingType.Crypto),
+			height: container.get(BindingType.Height),
+		};
 	}
 
 	/** @inheritdoc */

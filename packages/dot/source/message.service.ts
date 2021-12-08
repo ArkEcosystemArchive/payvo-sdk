@@ -1,4 +1,4 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { Keyring } from "@polkadot/keyring";
 import { hexToU8a, stringToU8a, u8aToHex } from "@polkadot/util";
 import { signatureVerify } from "@polkadot/util-crypto";
@@ -6,11 +6,16 @@ import { signatureVerify } from "@polkadot/util-crypto";
 import { BindingType } from "./constants.js";
 
 export class MessageService extends Services.AbstractMessageService {
-	@IoC.inject(BindingType.Keyring)
-	protected readonly keyring!: Keyring;
+	readonly #keyring: Keyring;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#keyring = container.get(BindingType.Keyring);
+	}
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		const keypair = this.keyring.addFromUri(input.signatory.signingKey());
+		const keypair = this.#keyring.addFromUri(input.signatory.signingKey());
 
 		return {
 			message: input.message,

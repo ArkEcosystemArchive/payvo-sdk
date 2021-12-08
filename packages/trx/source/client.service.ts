@@ -5,8 +5,9 @@ export class ClientService extends Services.AbstractClientService {
 	#connection!: TronWeb;
 	#peer!: string;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 		this.#connection = new TronWeb({ fullHost: this.#peer });
 	}

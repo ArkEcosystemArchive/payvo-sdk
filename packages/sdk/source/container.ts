@@ -1,6 +1,5 @@
 import { ConstantCradle, CradleKey, CradleValue, Factory, IContainer, InstanceCradle } from "./container.contracts.js";
 
-
 export class Container implements IContainer {
 	#constants: ConstantCradle = new Map();
 	#instances: InstanceCradle = new Map();

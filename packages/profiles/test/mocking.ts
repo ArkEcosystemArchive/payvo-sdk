@@ -21,7 +21,7 @@ export const bootContainer = (): void => {
 		coins: { ADA, ARK, BTC, ETH, LSK },
 		storage: new StubStorage(),
 		httpClient: new Request(),
-		ledgerTransportFactory: async () => {},
+		ledgerTransportFactory: async () => { },
 	});
 };
 
@@ -37,6 +37,9 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 	coins[cacheKey] = Coins.CoinFactory.make({ ARK }[coin]!, {
 		network,
 		httpClient: new Request(),
+		ledgerTransportFactory: async () => {
+			//
+		},
 	});
 
 	await coins[cacheKey].__construct();

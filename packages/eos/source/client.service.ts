@@ -8,8 +8,9 @@ export class ClientService extends Services.AbstractClientService {
 	#rpc!: JsonRpc;
 	#api!: Api;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#rpc = new JsonRpc(Helpers.randomHostFromConfig(this.configRepository), { fetch });
 
 		this.#api = new Api({

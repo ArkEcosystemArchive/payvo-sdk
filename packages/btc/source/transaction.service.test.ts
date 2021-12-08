@@ -43,14 +43,16 @@ const createLocalServices = async (context) => {
 	const createTransactionService = async () =>
 		createServiceAsync(TransactionService, "btc.testnet", async (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 			container.singleton(IoC.BindingType.FeeService, FeeService);
 			container.constant(
@@ -59,21 +61,21 @@ const createLocalServices = async (context) => {
 			);
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 
 	const createMusigService = async () =>
 		createServiceAsync(MultiSignatureService, "btc.testnet", async (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 			container.singleton(IoC.BindingType.FeeService, FeeService);
 			container.constant(
@@ -82,8 +84,6 @@ const createLocalServices = async (context) => {
 			);
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 
 	const [subject, musigService] = await Promise.all([createTransactionService(), createMusigService()]);

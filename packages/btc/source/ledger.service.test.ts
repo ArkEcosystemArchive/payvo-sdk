@@ -10,18 +10,23 @@ import { LedgerService } from "./ledger.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { AddressFactory } from "./address.factory.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { BindingType } from "./constants.js";
 
 const createMockService = async (record) => {
 	const transport = await createService(LedgerService, "btc.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),

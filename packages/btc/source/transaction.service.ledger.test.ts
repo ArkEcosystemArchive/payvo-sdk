@@ -22,26 +22,26 @@ import { MultiSignatureSigner } from "./multi-signature.signer";
 const configureMock = (record) =>
 	createService(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
+		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 		container.constant(IoC.BindingType.LedgerTransportFactory, async () =>
 			openTransportReplayer(RecordStore.fromString(record)),
 		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 	});
 
-describe("BIP44 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
+describe("BIP44 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -120,7 +120,7 @@ describe("BIP44 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 	});
 });
 
-describe("BIP49 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
+describe("BIP49 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
@@ -199,7 +199,7 @@ describe("BIP49 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
 	});
 });
 
-describe("BIP84 wallet", ({ afterEach, beforeAll, it, assert, nock }) => {
+describe("BIP84 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
 		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(

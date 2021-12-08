@@ -7,7 +7,6 @@ import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
-import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
 import { TransactionSerializer } from "./transaction.serializer";
 import { SignedTransactionData } from "./signed-transaction.dto";
@@ -17,16 +16,14 @@ import { WalletData } from "./wallet.dto";
 const createMockService = async (record) => {
 	const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(BindingType.AssetSerializer, AssetSerializer);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
@@ -42,16 +39,14 @@ describe("connect", ({ it, assert }) => {
 	it("should throw error with unexpected input", async () => {
 		const transport = await createService(LedgerService, "lsk.mainnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.singleton(BindingType.AssetSerializer, AssetSerializer);
-			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.LedgerTransportFactory, () => {
 				throw new Error("cannot open");
 			});

@@ -11,7 +11,6 @@ import { LedgerService } from "./ledger.service";
 import { PublicKeyService } from "./public-key.service";
 import { MultiSignatureService } from "./multi-signature.service";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
 import { TransactionService } from "./transaction.service";
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -23,21 +22,19 @@ describe("#all", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(FeeService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.AssetSerializer, AssetSerializer);
-			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		});
 	});
 
@@ -70,41 +67,37 @@ describe("#calculate", ({ beforeEach, it, assert, nock }) => {
 
 		context.subject = await createService(FeeService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.AssetSerializer, AssetSerializer);
-			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		});
 
 		service = await createService(TransactionService, "lsk.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
-			container.singleton(IoC.BindingType.FeeService, FeeService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.singleton(IoC.BindingType.FeeService, FeeService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);
 			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-			container.singleton(BindingType.AssetSerializer, AssetSerializer);
-			container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 		});
 	});
 

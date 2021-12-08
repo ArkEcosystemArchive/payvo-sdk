@@ -2,16 +2,15 @@ import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
+	readonly #addressService: Services.AddressService;
+	readonly #privateKeyService: Services.PrivateKeyService;
+	readonly #connection: TronWeb;
 
-	@IoC.inject(IoC.BindingType.PrivateKeyService)
-	private readonly privateKeyService!: Services.PrivateKeyService;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	#connection!: TronWeb;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+		this.#privateKeyService = container.get(IoC.BindingType.PrivateKeyService);
 		this.#connection = new TronWeb({ fullHost: Helpers.randomHostFromConfig(this.configRepository) });
 	}
 
@@ -20,7 +19,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
 
-		const { address: senderAddress } = await this.addressService.fromMnemonic(input.signatory.signingKey());
+		const { address: senderAddress } = await this.#addressService.fromMnemonic(input.signatory.signingKey());
 
 		if (senderAddress === input.data.to) {
 			throw new Exceptions.InvalidRecipientException("Cannot transfer TRX to the same account.");
@@ -40,7 +39,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const response = await this.#connection.trx.sign(
 			transaction,
 			(
-				await this.privateKeyService.fromMnemonic(input.signatory.signingKey())
+				await this.#privateKeyService.fromMnemonic(input.signatory.signingKey())
 			).privateKey,
 		);
 

@@ -4,21 +4,26 @@ import { UUID } from "@payvo/sdk-cryptography";
 import { createSignedTransactionData } from "./crypto.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.AddressService)
-	protected readonly addressService!: Services.AddressService;
-
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	protected readonly keyPairService!: Services.KeyPairService;
+	readonly #addressService: Services.AddressService;
+	readonly #keyPairService: Services.KeyPairService;
 
 	#networkId;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
+		this.#networkId = this.configRepository.get<number>("network.meta.networkId");
+	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		if (input.signatory.signingKey() === undefined) {
 			throw new Error("No mnemonic provided.");
 		}
 
-		const { address: senderAddress } = await this.addressService.fromMnemonic(input.signatory.signingKey());
-		const keyPair = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
+		const { address: senderAddress } = await this.#addressService.fromMnemonic(input.signatory.signingKey());
+		const keyPair = await this.#keyPairService.fromMnemonic(input.signatory.signingKey());
 
 		const wallet = await this.clientService.wallet({ type: "address", value: senderAddress });
 		// @ts-ignore
@@ -59,10 +64,5 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		return this.dataTransferObjectService.signedTransaction(UUID.random(), signedTransaction, signedTransaction);
-	}
-
-	@IoC.postConstruct()
-	private onPostConstruct() {
-		this.#networkId = this.configRepository.get<number>("network.meta.networkId");
 	}
 }

@@ -6,8 +6,9 @@ import { RippleAPI } from "ripple-lib";
 export class TransactionService extends Services.AbstractTransactionService {
 	#ripple!: RippleAPI;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#ripple = new RippleAPI();
 	}
 

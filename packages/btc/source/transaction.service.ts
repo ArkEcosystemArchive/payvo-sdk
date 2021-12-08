@@ -33,22 +33,19 @@ const runWithLedgerConnectionIfNeeded = async (
 };
 
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.LedgerService)
-	private readonly ledgerService!: LedgerService;
-
-	@IoC.inject(BindingType.AddressFactory)
-	private readonly addressFactory!: AddressFactory;
-
-	@IoC.inject(IoC.BindingType.FeeService)
-	private readonly feeService!: Services.FeeService;
-
-	@IoC.inject(IoC.BindingType.MultiSignatureService)
-	private readonly multiSignatureService!: MultiSignatureService;
-
+	readonly #addressFactory: AddressFactory;
+	readonly #feeService: Services.FeeService;
+	readonly #ledgerService: LedgerService;
+	readonly #multiSignatureService: MultiSignatureService;
 	#network!: bitcoin.networks.Network;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#addressFactory = container.get(BindingType.AddressFactory);
+		this.#feeService = container.get(IoC.BindingType.FeeService);
+		this.#ledgerService = container.get(IoC.BindingType.LedgerService);
+		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
 		this.#network = getNetworkConfig(this.configRepository);
 	}
 
@@ -87,8 +84,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			);
 		}
 
-		return await runWithLedgerConnectionIfNeeded(input.signatory, this.ledgerService, async () => {
-			const levels = this.addressFactory.getLevel(identityOptions);
+		return await runWithLedgerConnectionIfNeeded(input.signatory, this.#ledgerService, async () => {
+			const levels = this.#addressFactory.getLevel(identityOptions);
 
 			// Compute the amount to be transferred
 			const amount = this.toSatoshi(input.data.amount).toNumber();
@@ -97,7 +94,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const accountKey = await this.#getAccountKey(input.signatory, this.#network, levels);
 
 			// create a wallet data helper and find all used addresses
-			const walledDataHelper = this.addressFactory.walletDataHelper(
+			const walledDataHelper = this.#addressFactory.walletDataHelper(
 				levels,
 				this.#addressingSchema(levels),
 				accountKey,
@@ -134,7 +131,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			if (input.signatory.actsWithMnemonic()) {
 				transaction = await this.#createTransactionLocalSigning(inputs, outputs);
 			} else if (input.signatory.actsWithLedger()) {
-				transaction = await this.ledgerService.createTransaction(inputs, outputs, changeAddress);
+				transaction = await this.#ledgerService.createTransaction(inputs, outputs, changeAddress);
 			} else {
 				throw new Exceptions.Exception("Unsupported signatory");
 			}
@@ -191,7 +188,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signatures: [],
 		};
 
-		return await this.multiSignatureService.addSignature(transaction, input.signatory);
+		return await this.#multiSignatureService.addSignature(transaction, input.signatory);
 	}
 
 	async #createTransactionLocalSigning(inputs: any[], outputs: any[]): Promise<bitcoin.Transaction> {
@@ -237,7 +234,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				.deriveHardened(bipLevel.account || 0);
 		} else if (signatory.actsWithLedger()) {
 			const path = `m/${bipLevel.purpose}'/${bipLevel.coinType}'/${bipLevel.account || 0}'`;
-			const publicKey = await this.ledgerService.getExtendedPublicKey(path);
+			const publicKey = await this.#ledgerService.getExtendedPublicKey(path);
 			return BIP32.fromBase58(publicKey, network);
 		}
 		throw new Exceptions.Exception("Invalid signatory");
@@ -261,7 +258,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let feeRate: number | undefined = input.fee;
 
 		if (!feeRate) {
-			feeRate = (await this.feeService.all()).transfer.avg.toNumber();
+			feeRate = (await this.#feeService.all()).transfer.avg.toNumber();
 		}
 		return feeRate;
 	}
@@ -291,7 +288,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		);
 
 		// create a musig wallet data helper and find all used addresses
-		const walledDataHelper = this.addressFactory.musigWalletDataHelper(
+		const walledDataHelper = this.#addressFactory.musigWalletDataHelper(
 			multiSignatureAsset.min,
 			accountPublicKeys,
 			method,

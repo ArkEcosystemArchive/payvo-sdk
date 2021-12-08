@@ -7,8 +7,13 @@ import { strict as assert } from "assert";
 import { BindingType } from "./constants.js";
 
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(BindingType.Keyring)
-	protected readonly keyring!: Keyring;
+	readonly #keyring: Keyring;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#keyring = container.get(BindingType.Keyring);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -16,7 +21,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "ss58",
-			address: this.keyring.addFromMnemonic(mnemonic).address,
+			address: this.#keyring.addFromMnemonic(mnemonic).address,
 		};
 	}
 

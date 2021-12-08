@@ -7,13 +7,12 @@ import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
 export class TransactionService extends Services.AbstractTransactionService {
-	#networkId!: string;
 	#peer!: string;
 	#ticker!: string;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#networkId = this.configRepository.get<string>("network.meta.networkId");
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 		this.#ticker = this.configRepository.get<string>(Coins.ConfigKey.CurrencyTicker);
 	}

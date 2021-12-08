@@ -100,13 +100,13 @@ describe("ClientService", async ({ beforeAll, it, assert, nock }) => {
 
 		const transactionService = createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		});
 
@@ -147,13 +147,13 @@ describe("ClientService", async ({ beforeAll, it, assert, nock }) => {
 
 		const transactionService = createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 		});
 

@@ -38,7 +38,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	protected readonly bigNumberService: BigNumberService;
 
 	public constructor(container: IContainer) {
-		this.bigNumberService = container.get(BindingType.ConfigRepository);
+		this.bigNumberService = container.get(BindingType.BigNumberService);
 	}
 
 	public configure(

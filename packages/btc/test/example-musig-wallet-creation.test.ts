@@ -26,8 +26,6 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 			"btc.testnet",
 			async (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.singleton(IoC.BindingType.AddressService, AddressService);
-				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, {
 					SignedTransactionData,
 					ConfirmedTransactionData,
@@ -37,6 +35,10 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
 				);
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.constant(
@@ -45,8 +47,6 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 				);
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-				container.singleton(BindingType.AddressFactory, AddressFactory);
 			},
 		);
 
@@ -55,8 +55,6 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 			"btc.testnet",
 			async (container: IoC.Container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.singleton(IoC.BindingType.AddressService, AddressService);
-				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, {
 					SignedTransactionData,
 					ConfirmedTransactionData,
@@ -66,6 +64,10 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
 				);
+				container.singleton(BindingType.AddressFactory, AddressFactory);
+				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.constant(
@@ -74,8 +76,6 @@ describe("example musig wallet creation", async ({ assert, beforeEach, it, stub 
 				);
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-				container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-				container.singleton(BindingType.AddressFactory, AddressFactory);
 			},
 		);
 	});

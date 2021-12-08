@@ -3,12 +3,7 @@ import Stellar from "stellar-sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	private readonly keyPairService!: Services.KeyPairService;
-
-	#client;
-	#networkPassphrase;
-
+	readonly #keyPairService: Services.KeyPairService;
 	readonly #networks = {
 		mainnet: {
 			host: "https://horizon.stellar.org",
@@ -20,8 +15,14 @@ export class TransactionService extends Services.AbstractTransactionService {
 		},
 	};
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	#client;
+	#networkPassphrase;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
+
 		const networkConfig = this.configRepository.get<Networks.NetworkManifest>("network");
 		const network = this.#networks[networkConfig.id.split(".")[1]];
 
@@ -36,9 +37,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		let keyPair: Services.KeyPairDataTransferObject;
 		if (input.signatory.actsWithPrivateKey()) {
-			keyPair = await this.keyPairService.fromPrivateKey(input.signatory.signingKey());
+			keyPair = await this.#keyPairService.fromPrivateKey(input.signatory.signingKey());
 		} else {
-			keyPair = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
+			keyPair = await this.#keyPairService.fromMnemonic(input.signatory.signingKey());
 		}
 
 		const { publicKey, privateKey } = keyPair;

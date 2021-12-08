@@ -102,9 +102,6 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 			await (
 				await createService(TransactionService, "ark.devnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
-					container.singleton(IoC.BindingType.AddressService, AddressService);
-					container.singleton(IoC.BindingType.ClientService, ClientService);
-					container.singleton(IoC.BindingType.FeeService, FeeService);
 					container.constant(IoC.BindingType.DataTransferObjects, {
 						SignedTransactionData,
 						ConfirmedTransactionData,
@@ -114,12 +111,15 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 						IoC.BindingType.DataTransferObjectService,
 						Services.AbstractDataTransferObjectService,
 					);
+					container.singleton(IoC.BindingType.AddressService, AddressService);
+					container.singleton(IoC.BindingType.ClientService, ClientService);
+					container.singleton(IoC.BindingType.FeeService, FeeService);
 					container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-					container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+					container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 					container.singleton(IoC.BindingType.LedgerService, LedgerService);
 					container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 					container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-					container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+					container.factory(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 				})
 			).multiSignature({
 				signatory: new Signatories.Signatory(

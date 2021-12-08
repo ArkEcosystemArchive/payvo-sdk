@@ -2,32 +2,31 @@ import { IoC, Services } from "@payvo/sdk";
 import Tron from "@ledgerhq/hw-app-trx";
 
 export class LedgerService extends Services.AbstractLedgerService {
-	#ledger: Services.LedgerTransport;
-	#transport!: Tron;
+    #ledger: Services.LedgerTransport;
+    #transport!: Tron;
 
-	public override async connect(): Promise<void> {
-		this.#ledger = await this.ledgerTransportFactory();
-		this.#transport = new Tron(this.#ledger);
-	}
+    public override async connect(): Promise<void> {
+        this.#ledger = await this.ledgerTransportFactory();
+        this.#transport = new Tron(this.#ledger);
+    }
 
-	@IoC.preDestroy()
-	public override async disconnect(): Promise<void> {
-		await this.#ledger.close();
-	}
+    public override async disconnect(): Promise<void> {
+        await this.#ledger.close();
+    }
 
-	public override async getVersion(): Promise<string> {
-		const { version } = await this.#transport.getAppConfiguration();
+    public override async getVersion(): Promise<string> {
+        const { version } = await this.#transport.getAppConfiguration();
 
-		return version;
-	}
+        return version;
+    }
 
-	public override async getPublicKey(path: string): Promise<string> {
-		const { publicKey } = await this.#transport.getAddress(path);
+    public override async getPublicKey(path: string): Promise<string> {
+        const { publicKey } = await this.#transport.getAddress(path);
 
-		return publicKey;
-	}
+        return publicKey;
+    }
 
-	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		return this.#transport.signTransaction(path, payload.toString("hex"), []);
-	}
+    public override async signTransaction(path: string, payload: Buffer): Promise<string> {
+        return this.#transport.signTransaction(path, payload.toString("hex"), []);
+    }
 }

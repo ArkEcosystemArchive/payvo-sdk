@@ -11,8 +11,8 @@ import { MessageService } from "./message.service";
 describe("MessageService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(MessageService, undefined, (container) => {
-			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
 		});
 	});
 

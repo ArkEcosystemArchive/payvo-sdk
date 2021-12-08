@@ -4,10 +4,8 @@ import { Coins, IoC } from "@payvo/sdk";
 import { createService } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 
-describe("KnownWalletService", async ({ assert, nock, beforeAll, beforeEach, it }) => {
-	beforeAll(() => nock.disableNetConnect());
-
-	beforeEach(async (context) => {
+describe("KnownWalletService", async ({ assert, beforeAll, it, nock }) => {
+	beforeAll(async (context) => {
 		context.subject = await createService(KnownWalletService);
 	});
 

@@ -1,21 +1,19 @@
-import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
 
 import { isMultiSignatureRegistration } from "./helpers.js";
-import { BindingType } from "./coin.contract.js";
 import { TransactionSerializer } from "./transaction.serializer";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
 export class FeeService extends Services.AbstractFeeService {
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	readonly #transactionSerializer: IoC.Factory<TransactionSerializer>;
 
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.inject(BindingType.TransactionSerializer)
-	protected readonly transactionSerializer!: TransactionSerializer;
+		this.#transactionSerializer = container.factory(TransactionSerializer);
+	}
 
 	public override async all(): Promise<Services.TransactionFees> {
 		return {
@@ -55,7 +53,7 @@ export class FeeService extends Services.AbstractFeeService {
 		const { assetSchema, maximumFee } = this.#asset(transaction);
 
 		const normalisedTransaction = {
-			...this.transactionSerializer.toMachine({ ...transaction }),
+			...this.#transactionSerializer().toMachine({ ...transaction }),
 			signatures: undefined,
 		};
 

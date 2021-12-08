@@ -14,7 +14,6 @@ import { PublicKeyService } from "./public-key.service";
 import { TransactionService } from "./transaction.service";
 import { MultiSignatureService } from "./multi-signature.service";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
 import { AssetSerializer } from "./asset.serializer";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
@@ -41,8 +40,6 @@ describeWithContext(
 
 			context.subject = await createService(TransactionService, "lsk.testnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.singleton(IoC.BindingType.AddressService, AddressService);
-				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, {
 					SignedTransactionData,
 					ConfirmedTransactionData,
@@ -52,20 +49,18 @@ describeWithContext(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
 				);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 				container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-				container.singleton(BindingType.AssetSerializer, AssetSerializer);
-				container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 			});
 
 			context.musig = createService(MultiSignatureService, "lsk.testnet", (container) => {
 				container.constant(IoC.BindingType.Container, container);
-				container.singleton(IoC.BindingType.AddressService, AddressService);
-				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.constant(IoC.BindingType.DataTransferObjects, {
 					SignedTransactionData,
 					ConfirmedTransactionData,
@@ -75,13 +70,13 @@ describeWithContext(
 					IoC.BindingType.DataTransferObjectService,
 					Services.AbstractDataTransferObjectService,
 				);
+				container.singleton(IoC.BindingType.AddressService, AddressService);
+				container.singleton(IoC.BindingType.ClientService, ClientService);
 				container.singleton(IoC.BindingType.FeeService, FeeService);
 				container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-				container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+				container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
 				container.singleton(IoC.BindingType.LedgerService, LedgerService);
 				container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-				container.singleton(BindingType.AssetSerializer, AssetSerializer);
-				container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 			});
 
 			const gotoTime = DateTime.make("2021-01-01 12:00:00");

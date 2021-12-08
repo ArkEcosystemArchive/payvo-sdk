@@ -1,12 +1,6 @@
-import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
+import { Helpers, Services } from "@payvo/sdk";
 
 export class FeeService extends Services.AbstractFeeService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	private readonly bigNumberService!: Services.BigNumberService;
-
 	public override async all(): Promise<Services.TransactionFees> {
 		const { min, avg, max } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)

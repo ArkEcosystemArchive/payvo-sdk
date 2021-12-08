@@ -14,8 +14,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	#pchain!: PlatformVMAPI;
 	#keychain;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#xchain = useXChain(this.configRepository);
 		this.#pchain = usePChain(this.configRepository);
 		this.#keychain = useKeychain(this.configRepository);

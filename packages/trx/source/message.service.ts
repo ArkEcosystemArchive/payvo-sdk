@@ -1,31 +1,30 @@
-import { Coins, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
 import { Buffer } from "buffer";
 import TronWeb from "tronweb";
 
 export class MessageService extends Services.AbstractMessageService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
+	readonly #configRepository: Coins.ConfigRepository;
+	readonly #addressService: Services.AddressService;
+	readonly #keyPairService: Services.KeyPairService;
+	readonly #connection: TronWeb;
 
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	private readonly keyPairService!: Services.KeyPairService;
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
 
-	#connection!: TronWeb;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
 		this.#connection = new TronWeb({
-			fullHost: Helpers.randomHostFromConfig(this.configRepository),
+			fullHost: Helpers.randomHostFromConfig(this.#configRepository),
 		});
 	}
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		const keys: Services.KeyPairDataTransferObject = await this.keyPairService.fromMnemonic(
+		const keys: Services.KeyPairDataTransferObject = await this.#keyPairService.fromMnemonic(
 			input.signatory.signingKey(),
 		);
-		const { address } = await this.addressService.fromMnemonic(input.signatory.signingKey());
+		const { address } = await this.#addressService.fromMnemonic(input.signatory.signingKey());
 
 		if (keys.privateKey === undefined) {
 			throw new Error("Failed to retrieve the private key for the signatory wallet.");

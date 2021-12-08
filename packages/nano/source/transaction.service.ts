@@ -8,8 +8,9 @@ import { NanoClient } from "./rpc.js";
 export class TransactionService extends Services.AbstractTransactionService {
 	#client!: NanoClient;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#client = new NanoClient(this.configRepository, this.httpClient);
 	}
 

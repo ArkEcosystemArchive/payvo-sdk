@@ -1,4 +1,4 @@
-import { describe, loader, Mockery } from "@payvo/sdk-test";
+import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 
@@ -7,8 +7,6 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
 
 const createLocalServices = () => {
 	return createService(ClientService, "lsk.testnet", (container) => {
@@ -19,7 +17,6 @@ const createLocalServices = () => {
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(BindingType.TransactionSerializer, TransactionSerializer);
 	});
 };
 

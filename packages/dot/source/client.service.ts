@@ -4,16 +4,20 @@ import { ApiPromise } from "@polkadot/api";
 import { BindingType } from "./constants.js";
 
 export class ClientService extends Services.AbstractClientService {
-	@IoC.inject(BindingType.ApiPromise)
-	protected readonly client!: ApiPromise;
+	readonly #client: ApiPromise;
 
-	@IoC.preDestroy()
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#client = container.get(BindingType.ApiPromise);
+	}
+
 	public async onPreDestroy(): Promise<void> {
-		await this.client.disconnect();
+		await this.#client.disconnect();
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const { data: balances, nonce } = await this.client.query.system.account(id.value);
+		const { data: balances, nonce } = await this.#client.query.system.account(id.value);
 
 		return this.dataTransferObjectService.wallet({
 			address: id.value,
@@ -33,7 +37,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		for (const transaction of transactions) {
 			try {
-				await this.client.rpc.author.submitExtrinsic(transaction.toBroadcast());
+				await this.#client.rpc.author.submitExtrinsic(transaction.toBroadcast());
 
 				result.accepted.push(transaction.id());
 			} catch (error) {

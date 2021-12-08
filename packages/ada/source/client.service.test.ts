@@ -163,13 +163,13 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 
 		const txService = createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 		});
 
 		const transfer = await createService(SignedTransactionData);

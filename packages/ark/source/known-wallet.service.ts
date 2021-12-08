@@ -1,9 +1,11 @@
-import { Coins, Services } from "@payvo/sdk";
+import { Coins, IoC, Services } from "@payvo/sdk";
 
 export class KnownWalletService extends Services.AbstractKnownWalletService {
 	#source: string | undefined;
 
-	public onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#source = this.configRepository.getLoose<string>(Coins.ConfigKey.KnownWallets);
 	}
 

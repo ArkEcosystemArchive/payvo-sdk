@@ -27,19 +27,21 @@ import {
 	unsignedNativeSegwitMusigRegistrationTx,
 	unsignedNativeSegwitMusigTransferTx,
 } from "../test/fixtures/musig-native-segwit-txs";
+import { AddressFactory } from "./address.factory.js";
 
 describe("multi signature registration", ({ assert, beforeEach, each, it, nock }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(MultiSignatureService, "btc.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 			container.constant(
@@ -253,14 +255,15 @@ describe("transfer", ({ assert, beforeEach, each, it, nock, stub }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(MultiSignatureService, "btc.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 			container.constant(

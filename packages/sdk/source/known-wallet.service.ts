@@ -5,8 +5,8 @@ import { KnownWallet, KnownWalletService } from "./known-wallet.contract.js";
 import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractKnownWalletService implements KnownWalletService {
-	protected readonly configRepository!: ConfigRepository;
-	protected readonly httpClient!: HttpClient;
+	protected readonly configRepository: ConfigRepository;
+	protected readonly httpClient: HttpClient;
 
 	public constructor(container: IContainer) {
 		this.configRepository = container.get(BindingType.ConfigRepository);

@@ -10,13 +10,13 @@ import { BIP32 } from "@payvo/sdk-cryptography";
 import { strict as assert } from "assert";
 
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(BindingType.AddressFactory)
-	protected readonly addressFactory!: AddressFactory;
-
+	readonly #addressFactory!: AddressFactory;
 	#network!: bitcoin.networks.Network;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#addressFactory = container.get(BindingType.AddressFactory);
 		this.#network = getNetworkConfig(this.configRepository);
 	}
 
@@ -25,15 +25,15 @@ export class AddressService extends Services.AbstractAddressService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		if (options?.bip44) {
-			return this.addressFactory.bip44(mnemonic, options);
+			return this.#addressFactory.bip44(mnemonic, options);
 		}
 
 		if (options?.bip49) {
-			return this.addressFactory.bip49(mnemonic, options);
+			return this.#addressFactory.bip49(mnemonic, options);
 		}
 
 		if (options?.bip84) {
-			return this.addressFactory.bip84(mnemonic, options);
+			return this.#addressFactory.bip84(mnemonic, options);
 		}
 
 		throw new Error("Please specify a valid derivation method.");

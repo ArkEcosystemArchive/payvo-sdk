@@ -10,19 +10,13 @@ import { uniq } from "@payvo/sdk-helpers";
 export class MultiSignatureSigner {
 	readonly #ledgerService!: Services.LedgerService;
 	readonly #keyPairService!: Services.KeyPairService;
-	readonly #height!: number;
-	readonly #config!: Interfaces.NetworkConfig;
 
 	public constructor(container: IoC.IContainer) {
 		this.#ledgerService = container.get(IoC.BindingType.LedgerService);
 		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
-		this.#height = container.get(BindingType.Height);
-		this.#config = container.get(BindingType.Crypto);
-	}
 
-	public onPostConstruct(): void {
-		Managers.configManager.setConfig(this.#config);
-		Managers.configManager.setHeight(this.#height);
+		Managers.configManager.setConfig(container.get(BindingType.Crypto));
+		Managers.configManager.setHeight(container.get(BindingType.Height));
 	}
 
 	// The first argument should be a TransactionBuilder but we have no proper type to hint that.

@@ -1,4 +1,4 @@
-import { Coins, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { convertBuffer } from "@payvo/sdk-helpers";
 import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
@@ -10,15 +10,13 @@ import { maxLevel } from "./helpers.js";
 import { Bip44Address } from "./contracts.js";
 
 export class LedgerService extends Services.AbstractLedgerService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
+	readonly #network: bitcoin.networks.Network;
 	#ledger: Services.LedgerTransport;
 	#transport!: Bitcoin;
-	#network!: bitcoin.networks.Network;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#network = getNetworkConfig(this.configRepository);
 	}
 
@@ -27,7 +25,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = new Bitcoin(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		if (this.#ledger) {
 			await this.#ledger.close();

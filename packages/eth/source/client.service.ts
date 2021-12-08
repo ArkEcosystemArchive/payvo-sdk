@@ -2,12 +2,11 @@ import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import Web3 from "web3";
 
 export class ClientService extends Services.AbstractClientService {
-	static readonly MONTH_IN_SECONDS = 8640 * 30;
+	readonly #peer: string;
 
-	#peer!: string;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 	}
 

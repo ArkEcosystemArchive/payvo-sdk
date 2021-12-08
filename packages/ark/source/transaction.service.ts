@@ -28,8 +28,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#publicKeyService = container.get(IoC.BindingType.PublicKeyService);
 		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
 		this.#multiSignatureSigner = container.factory(BindingType.MultiSignatureSigner);
-		this.#packageCrypto = container.get(BindingType.Crypto);
-		this.#packageHeight = container.get(BindingType.Height);
+
+		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#configCrypto = {
+			crypto: container.get(BindingType.Crypto),
+			height: container.get(BindingType.Height),
+		};
 	}
 
 	/**
@@ -173,11 +177,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return BigNumber.make(blockchain.block.height)
 			.plus((value ? Number(value) : 5) * configuration.constants.activeDelegates)
 			.toString();
-	}
-
-	private onPostConstruct(): void {
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
-		this.#configCrypto = { crypto: this.#packageCrypto, height: this.#packageHeight };
 	}
 
 	async #createFromData(

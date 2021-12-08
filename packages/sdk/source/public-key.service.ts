@@ -9,10 +9,10 @@ import { IdentityOptions } from "./shared.contract.js";
 import { IContainer } from "./container.contracts.js";
 
 export class AbstractPublicKeyService implements PublicKeyService {
-	readonly #configRepository: ConfigRepository;
+	readonly configRepository: ConfigRepository;
 
 	public constructor(container: IContainer) {
-		this.#configRepository = container.get(BindingType.ConfigRepository);
+		this.configRepository = container.get(BindingType.ConfigRepository);
 	}
 
 	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<PublicKeyDataTransferObject> {
