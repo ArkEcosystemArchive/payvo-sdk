@@ -132,7 +132,10 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 		const transactionWithSignature = await this.#multiSignatureSigner().addSignature(transaction, signatory);
 
-		return this.#dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
+		return this.#dataTransferObjectService.signedTransaction(
+			transactionWithSignature.id!,
+			transactionWithSignature,
+		);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {

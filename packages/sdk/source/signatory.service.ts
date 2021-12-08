@@ -1,6 +1,5 @@
 /* istanbul ignore file */
 
-
 import { BindingType } from "./service-provider.contract.js";
 import {
 	ConfirmationMnemonicSignatory,

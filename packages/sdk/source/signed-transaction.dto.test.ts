@@ -31,7 +31,7 @@ class Transaction extends AbstractSignedTransactionData {
 describe("AbstractSignedTransactionData", ({ assert, beforeEach, it }) => {
 	beforeEach((context) => {
 		// @ts-ignore - we don't need any bindings in this test
-		context.subject = new Transaction({ get() { } });
+		context.subject = new Transaction({ get() {} });
 	});
 
 	it("should get attributes", (context) => {

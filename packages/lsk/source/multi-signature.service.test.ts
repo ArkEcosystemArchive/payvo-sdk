@@ -41,7 +41,7 @@ const createLocalServices = async (nock, loader) => {
 		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
@@ -59,7 +59,7 @@ const createLocalServices = async (nock, loader) => {
 		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
 		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => { });
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 	});

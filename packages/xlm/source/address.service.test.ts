@@ -8,7 +8,7 @@ describe("AddressService", async ({ beforeEach, assert, it }) => {
 		context.subject = new AddressService({
 			get() {
 				return undefined;
-			}
+			},
 		});
 	});
 

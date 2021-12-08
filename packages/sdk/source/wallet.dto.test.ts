@@ -66,7 +66,7 @@ class Wallet extends AbstractWalletData {
 describe("AbstractWalletData", ({ assert, beforeEach, it }) => {
 	beforeEach((context) => {
 		// @ts-ignore - we don't need any bindings in this test
-		context.subject = new Wallet({ get() { } });
+		context.subject = new Wallet({ get() {} });
 	});
 
 	it("#address", (context) => {

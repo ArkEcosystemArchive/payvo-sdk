@@ -10,7 +10,7 @@ export class ClientService extends Services.AbstractClientService {
 		const network = this.configRepository.get<Networks.NetworkManifest>("network").id;
 		this.#client = new Stellar.Server(
 			{ mainnet: "https://horizon.stellar.org", testnet: "https://horizon-testnet.stellar.org" }[
-			network.split(".")[1]
+				network.split(".")[1]
 			],
 		);
 	}
