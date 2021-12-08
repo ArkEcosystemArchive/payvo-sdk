@@ -1,4 +1,4 @@
-import { ConstantCradle, CradleKey, CradleValue, IContainer, InstanceCradle } from "./container.contracts.js";
+import { ConstantCradle, CradleKey, CradleValue, Factory, IContainer, InstanceCradle } from "./container.contracts.js";
 
 
 export class Container implements IContainer {
@@ -23,6 +23,10 @@ export class Container implements IContainer {
 		}
 
 		this.#instances.set(key, new className(this));
+	}
+
+	public factory<T>(className: CradleValue): Factory<T> {
+		return () => new className(this);
 	}
 
 	public resolve<T>(className: CradleValue): T {

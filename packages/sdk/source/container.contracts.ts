@@ -11,6 +11,10 @@ export interface IContainer {
 
 	singleton(key: CradleKey, value: CradleValue): void;
 
+	factory<T>(className: CradleValue): () => T;
+
+	resolve<T>(className: CradleValue): T;
+
 	has(key: CradleKey): boolean;
 
 	missing(key: CradleKey): boolean;
@@ -21,3 +25,5 @@ export interface IContainer {
 
 	flush(): void;
 }
+
+export type Factory<T> = () => T;

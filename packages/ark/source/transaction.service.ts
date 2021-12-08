@@ -12,7 +12,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	readonly #addressService!: Services.AddressService;
 	readonly #publicKeyService!: Services.PublicKeyService;
 	readonly #multiSignatureService!: Services.MultiSignatureService;
-	readonly #multiSignatureSigner!: MultiSignatureSigner;
+	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
 	readonly #packageCrypto!: Interfaces.NetworkConfig;
 	readonly #packageHeight!: number;
 
@@ -27,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#addressService = container.get(IoC.BindingType.AddressService);
 		this.#publicKeyService = container.get(IoC.BindingType.PublicKeyService);
 		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
-		this.#multiSignatureSigner = container.get(BindingType.MultiSignatureSigner);
+		this.#multiSignatureSigner = container.factory(BindingType.MultiSignatureSigner);
 		this.#packageCrypto = container.get(BindingType.Crypto);
 		this.#packageHeight = container.get(BindingType.Height);
 	}
@@ -272,7 +272,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		if (input.signatory.actsWithMultiSignature()) {
-			const transactionWithSignature = this.#multiSignatureSigner.sign(transaction, input.signatory.asset());
+			const transactionWithSignature = this.#multiSignatureSigner().sign(transaction, input.signatory.asset());
 
 			return this.dataTransferObjectService.signedTransaction(
 				transactionWithSignature.id!,

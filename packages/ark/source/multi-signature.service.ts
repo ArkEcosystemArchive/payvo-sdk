@@ -14,7 +14,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	readonly #configRepository!: Coins.ConfigRepository;
 	readonly #dataTransferObjectService!: Services.DataTransferObjectService;
 	readonly #httpClient!: Http.HttpClient;
-	readonly #multiSignatureSigner!: MultiSignatureSigner;
+	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
 	readonly #packageCrypto!: Interfaces.NetworkConfig;
 	readonly #packageHeight!: number;
 
@@ -27,7 +27,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
 		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
 		this.#httpClient = container.get(IoC.BindingType.HttpClient);
-		this.#multiSignatureSigner = container.get(BindingType.MultiSignatureSigner);
+		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
 		this.#packageCrypto = container.get(BindingType.Crypto);
 		this.#packageHeight = container.get(BindingType.Height);
 	}
@@ -136,7 +136,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Contracts.SignedTransactionData> {
 		applyCryptoConfiguration(this.#configCrypto);
 
-		const transactionWithSignature = await this.#multiSignatureSigner.addSignature(transaction, signatory);
+		const transactionWithSignature = await this.#multiSignatureSigner().addSignature(transaction, signatory);
 
 		return this.#dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
 	}
