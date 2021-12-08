@@ -4,7 +4,7 @@ import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { LSK } from "@payvo/sdk-lsk";
-import { Request } from "@payvo/sdk-http-fetch";
+import { Request } from "@payvo/sdk-fetch";
 import { nock } from "@payvo/sdk-test";
 
 import { container } from "../source/container";

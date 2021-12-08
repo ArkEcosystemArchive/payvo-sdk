@@ -38,8 +38,5 @@
 	"exclude": [
 		"distribution",
 		"**/*.test.ts"
-	],
-	"files": [
-		"types/global.d.ts"
 	]
 }

@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-news",
-	"version": "4.0.0-next.10",
+	"version": "4.0.0-next.19",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -12,6 +12,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
+		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
@@ -24,7 +25,7 @@
 		"rss-parser": "^3.12.0"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/fs-extra": "^9.0.13",
 		"@types/node": "^16.11.10",

@@ -56,6 +56,6 @@ export class Cache implements ICache {
 	}
 
 	#getCacheKey(value: unknown): string {
-		return Hash.sha1(`${this.#prefix}.${JSON.stringify(value)}`).toString("hex");
+		return Hash.sha256(`${this.#prefix}.${JSON.stringify(value)}`).toString("hex");
 	}
 }

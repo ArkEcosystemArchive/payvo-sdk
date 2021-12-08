@@ -2,7 +2,7 @@ import { resolve } from "path";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
-import { Request } from "@payvo/sdk-http-fetch";
+import { Request } from "@payvo/sdk-fetch";
 import { describe } from "@payvo/sdk-test";
 import fs from "fs-extra";
 

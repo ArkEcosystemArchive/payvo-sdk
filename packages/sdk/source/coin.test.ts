@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { ARK } from "../../ark/distribution";
-import { Request } from "../../http-fetch/distribution";
+import { Request } from "../../fetch/distribution";
 import { Network, NetworkRepository } from "./networks";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";

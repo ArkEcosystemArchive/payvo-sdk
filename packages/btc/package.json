@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-btc",
-	"version": "4.0.0-next.10",
+	"version": "4.0.0-next.19",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -12,6 +12,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
+		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
@@ -26,7 +27,6 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"bignumber.js": "^9.0.1",
 		"bitcoinjs-lib": "^6.0.0",
 		"bitcoinjs-message": "^2.2.0",
 		"coinselect": "^3.1.12",
@@ -37,11 +37,10 @@
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
 		"@ledgerhq/logs": "^6.10.0",
-		"@payvo/sdk-http-fetch": "workspace:*",
+		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/create-xpub": "^2.1.1",
-		"@types/node": "^16.11.10",
-		"got": "^11.8.3"
+		"@types/node": "^16.11.10"
 	},
 	"engines": {
 		"node": ">=16.0.0"

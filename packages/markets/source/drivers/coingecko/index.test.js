@@ -1,6 +1,6 @@
 import { describeWithContext } from "@payvo/sdk-test";
 import { CURRENCIES } from "@payvo/sdk-intl";
-import { Request } from "@payvo/sdk-http-fetch";
+import { Request } from "@payvo/sdk-fetch";
 
 import { CoinGecko } from "./index";
 

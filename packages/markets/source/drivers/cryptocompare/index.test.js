@@ -1,5 +1,5 @@
 import { describeWithContext } from "@payvo/sdk-test";
-import { Request } from "@payvo/sdk-http-fetch";
+import { Request } from "@payvo/sdk-fetch";
 
 import { CryptoCompare } from "./index";
 

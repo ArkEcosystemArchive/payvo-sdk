@@ -1,6 +1,6 @@
 {
-	"name": "@payvo/sdk-http-fetch",
-	"version": "4.0.0-next.10",
+	"name": "@payvo/sdk-fetch",
+	"version": "4.0.0-next.19",
 	"description": "HTTP Client for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],
@@ -12,6 +12,7 @@
 	],
 	"scripts": {
 		"build": "pnpm run clean && tsc",
+		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
