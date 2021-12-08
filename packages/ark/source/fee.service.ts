@@ -1,15 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { Contracts, Helpers, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	private readonly bigNumberService!: Services.BigNumberService;
-
 	public override async all(): Promise<Services.TransactionFees> {
 		const node = await this.#get("node/fees");
 		const type = await this.#get("transactions/fees");

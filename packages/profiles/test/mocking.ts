@@ -37,6 +37,9 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 	coins[cacheKey] = Coins.CoinFactory.make({ ARK }[coin]!, {
 		network,
 		httpClient: new Request(),
+		ledgerTransportFactory: async () => {
+			//
+		},
 	});
 
 	await coins[cacheKey].__construct();

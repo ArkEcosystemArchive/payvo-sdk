@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 import { ConfigKey, ConfigRepository } from "./config";
 import { Container } from "./container";
@@ -20,10 +18,11 @@ describe("BigNumberService", ({ assert, each }) => {
 			});
 
 			container.constant(BindingType.ConfigRepository, configRepository);
+			container.singleton(BindingType.BigNumberService, BigNumberService);
 
 			assert.is(
 				container
-					.resolve(BigNumberService)
+					.get<BigNumberService>(BindingType.BigNumberService)
 					.make(`1${"0".repeat(dataset)}`)
 					.toHuman(),
 				1,

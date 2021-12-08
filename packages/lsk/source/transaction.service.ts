@@ -3,22 +3,17 @@ import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } f
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract.js";
-import { AssetSerializer } from "./asset.serializer";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.MultiSignatureService)
-	private readonly multiSignatureService!: Services.MultiSignatureService;
+	readonly #feeService!: Services.FeeService;
+	readonly #transactionSerializer!: IoC.Factory<TransactionSerializer>;
 
-	@IoC.inject(IoC.BindingType.FeeService)
-	private readonly feeService!: Services.FeeService;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.inject(BindingType.AssetSerializer)
-	protected readonly assetSerializer!: AssetSerializer;
-
-	@IoC.inject(BindingType.TransactionSerializer)
-	protected readonly transactionSerializer!: TransactionSerializer;
+		this.#feeService = container.get(IoC.BindingType.FeeService);
+		this.#transactionSerializer = container.factory(TransactionSerializer);
+	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(
@@ -140,13 +135,13 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		signedTransaction = signTransaction(
 			assetSchema,
-			this.transactionSerializer.toMachine(transactionObject),
+			this.#transactionSerializer().toMachine(transactionObject),
 			this.#networkIdentifier(),
 			input.signatory.signingKey(),
 		);
 
 		return this.dataTransferObjectService.signedTransaction(convertBuffer(signedTransaction.id), {
-			...this.transactionSerializer.toHuman(signedTransaction),
+			...this.#transactionSerializer().toHuman(signedTransaction),
 			timestamp: DateTime.make(),
 		});
 	}
@@ -177,7 +172,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		let signedTransaction: any = signMultiSignatureTransaction(
 			assetSchema,
 			{
-				...this.transactionSerializer.toMachine(transactionObject),
+				...this.#transactionSerializer().toMachine(transactionObject),
 				signatures: [],
 			},
 			this.#networkIdentifier(),
@@ -195,7 +190,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			signedTransaction = signMultiSignatureTransaction(
 				assetSchema,
 				{
-					...this.transactionSerializer.toMachine(transactionObject),
+					...this.#transactionSerializer().toMachine(transactionObject),
 					signatures: signedTransaction.signatures,
 				},
 				this.#networkIdentifier(),
@@ -206,7 +201,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return this.dataTransferObjectService.signedTransaction(convertBuffer(signedTransaction.id), {
-			...this.transactionSerializer.toHuman(signedTransaction, keys),
+			...this.#transactionSerializer().toHuman(signedTransaction, keys),
 			multiSignature: this.#multiSignatureAsset({
 				isMultiSignatureRegistration,
 				numberOfSignatures,
@@ -276,7 +271,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			senderPublicKey: this.#senderPublicKey(input),
 		};
 
-		const fee = input.fee ?? (await this.feeService.calculate(transactionObject)).toHuman();
+		const fee = input.fee ?? (await this.#feeService.calculate(transactionObject)).toHuman();
 
 		return {
 			...transactionObject,

@@ -1,27 +1,20 @@
-import { Coins, Contracts, Exceptions, IoC, Services, Signatories } from "@payvo/sdk";
+import { Coins, Contracts, Exceptions, IoC, Signatories } from "@payvo/sdk";
 
 import { MultiSignatureTransaction } from "./multi-signature.contract.js";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
 import { getNetworkConfig } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
-import { isMultiSignatureRegistration, toExtPubKey } from "./multi-signature.domain";
+import { isMultiSignatureRegistration } from "./multi-signature.domain";
 import { signWith } from "./helpers.js";
 
-@IoC.injectable()
 export class MultiSignatureSigner {
-	@IoC.inject(IoC.BindingType.LedgerService)
-	private readonly ledgerService!: Services.LedgerService;
+	readonly #configRepository: Coins.ConfigRepository;
+	readonly #network: bitcoin.networks.Network;
 
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	#network!: bitcoin.networks.Network;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = getNetworkConfig(this.configRepository);
+	public constructor(container: IoC.IContainer) {
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#network = getNetworkConfig(this.#configRepository);
 	}
 
 	public async addSignature(

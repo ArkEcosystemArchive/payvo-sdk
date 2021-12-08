@@ -5,13 +5,14 @@ import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 import { joinModuleAndAssetIds } from "./multi-signature.domain";
 
-@IoC.injectable()
 export class TransactionSerializer {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
+	readonly #configRepository!: Coins.ConfigRepository;
+	readonly #bigNumberService!: Services.BigNumberService;
 
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	public constructor(container: IoC.IContainer) {
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#bigNumberService = container.get(IoC.BindingType.BigNumberService);
+	}
 
 	public toMachine(transaction: Contracts.RawTransactionData): Record<string, unknown> {
 		const mutated = {
@@ -140,7 +141,7 @@ export class TransactionSerializer {
 		}
 
 		return getBytes(
-			this.configRepository.get<object>("network.meta.assets")[assetKey].assetSchema,
+			this.#configRepository.get<object>("network.meta.assets")[assetKey].assetSchema,
 			this.toMachine(this.toHuman(transaction)),
 		).toString("hex");
 	}
@@ -154,7 +155,7 @@ export class TransactionSerializer {
 	}
 
 	#normaliseVoteAmount(value: string): BigInt {
-		if (this.bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
+		if (this.#bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
 			return BigInt(value);
 		}
 

@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 
@@ -9,7 +8,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#ledger = await this.ledgerTransportFactory();
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

@@ -1,13 +1,17 @@
 import { IoC, Services } from "@payvo/sdk";
 import { Buffoon, Hash, secp256k1 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	protected readonly keyPairService!: Services.KeyPairService;
+	readonly #keyPairService: Services.KeyPairService;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
+	}
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		const { publicKey, privateKey } = await this.keyPairService.fromMnemonic(input.signatory.signingKey());
+		const { publicKey, privateKey } = await this.#keyPairService.fromMnemonic(input.signatory.signingKey());
 
 		return {
 			message: input.message,

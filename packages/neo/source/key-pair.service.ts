@@ -2,7 +2,6 @@ import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 
 import { deriveKeyPair, deriveWallet } from "./utils.js";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,

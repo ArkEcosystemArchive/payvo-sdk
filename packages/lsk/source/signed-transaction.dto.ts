@@ -5,7 +5,6 @@ import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@lis
 
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData

@@ -5,10 +5,14 @@ import { validation } from "@zilliqa-js/util";
 import { BindingType } from "./constants.js";
 import { accountFromMnemonic, accountFromPrivateKey } from "./zilliqa.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
-	@IoC.inject(BindingType.Zilliqa)
-	private readonly zilliqa!: Zilliqa;
+	readonly #zilliqa: Zilliqa;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#zilliqa = container.get(BindingType.Zilliqa);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -16,7 +20,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: (await accountFromMnemonic(this.zilliqa, mnemonic, options)).bech32Address,
+			address: (await accountFromMnemonic(this.#zilliqa, mnemonic, options)).bech32Address,
 		};
 	}
 
@@ -26,7 +30,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: (await accountFromPrivateKey(this.zilliqa, privateKey)).bech32Address,
+			address: (await accountFromPrivateKey(this.#zilliqa, privateKey)).bech32Address,
 		};
 	}
 

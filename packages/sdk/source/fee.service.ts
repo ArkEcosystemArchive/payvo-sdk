@@ -5,14 +5,23 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { SignedTransactionData } from "./dto.js";
 import { NotImplemented } from "./exceptions.js";
 import { HttpClient } from "./http.js";
-import { inject, injectable } from "./ioc.js";
+
 import { BindingType } from "./service-provider.contract.js";
 import { FeeService, TransactionFeeOptions, TransactionFees } from "./fee.contract.js";
+import { IContainer } from "./container.contracts.js";
+import { ConfigRepository } from "./config.js";
+import { BigNumberService } from "./big-number.service.js";
 
-@injectable()
 export class AbstractFeeService implements FeeService {
-	@inject(BindingType.HttpClient)
-	protected readonly httpClient!: HttpClient;
+	protected readonly configRepository: ConfigRepository;
+	protected readonly bigNumberService: BigNumberService;
+	protected readonly httpClient: HttpClient;
+
+	public constructor(container: IContainer) {
+		this.configRepository = container.get(BindingType.ConfigRepository);
+		this.bigNumberService = container.get(BindingType.BigNumberService);
+		this.httpClient = container.get(BindingType.HttpClient);
+	}
 
 	public async all(): Promise<TransactionFees> {
 		throw new NotImplemented(this.constructor.name, this.all.name);

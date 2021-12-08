@@ -5,12 +5,12 @@ import { block, tools } from "nanocurrency-web";
 
 import { NanoClient } from "./rpc.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#client!: NanoClient;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#client = new NanoClient(this.configRepository, this.httpClient);
 	}
 

@@ -2,15 +2,18 @@
 
 import { ConfigRepository } from "./coins.js";
 import { NotImplemented } from "./exceptions.js";
-import { inject, injectable } from "./ioc.js";
+
 import { BindingType } from "./service-provider.contract.js";
 import { PublicKeyDataTransferObject, PublicKeyService } from "./public-key.contract.js";
 import { IdentityOptions } from "./shared.contract.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractPublicKeyService implements PublicKeyService {
-	@inject(BindingType.ConfigRepository)
-	protected readonly configRepository!: ConfigRepository;
+	readonly configRepository: ConfigRepository;
+
+	public constructor(container: IContainer) {
+		this.configRepository = container.get(BindingType.ConfigRepository);
+	}
 
 	public async fromMnemonic(mnemonic: string, options?: IdentityOptions): Promise<PublicKeyDataTransferObject> {
 		throw new NotImplemented(this.constructor.name, this.fromMultiSignature.name);

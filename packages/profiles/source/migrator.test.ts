@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Base64 } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
 

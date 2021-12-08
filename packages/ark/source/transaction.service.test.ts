@@ -21,15 +21,15 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.factory(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 			container.singleton(IoC.BindingType.LedgerService, LedgerService);

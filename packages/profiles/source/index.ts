@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 export * from "./container.models.js";
 export * from "./env.models.js";
 export * from "./env.js";

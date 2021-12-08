@@ -2,7 +2,6 @@ import { Exceptions, IoC, Services } from "@payvo/sdk";
 
 import { privateToPublic, sign, verify } from "./crypto.js";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		return {

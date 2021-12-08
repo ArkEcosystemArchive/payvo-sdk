@@ -1,28 +1,30 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
-import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
+import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.ClientService)
-	private readonly clientService!: Services.ClientService;
-
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
-
+	readonly #clientService!: Services.ClientService;
+	readonly #addressService!: Services.AddressService;
 	#ledger!: Services.LedgerTransport;
 	#transport!: ARKTransport;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#clientService = container.get(IoC.BindingType.ClientService);
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+	}
+
+	public override async onPreDestroy(): Promise<void> {
+		return this.disconnect();
+	}
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
 		this.#transport = new ARKTransport(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		if (this.#ledger) {
 			await this.#ledger.close();
@@ -72,14 +74,14 @@ export class LedgerService extends Services.AbstractLedgerService {
 				for (const accountIndex of createRange(page, pageSize)) {
 					const path: string = formatLedgerDerivationPath({ coinType: slip44, account: accountIndex });
 					const publicKey: string = await this.getPublicKey(path);
-					const { address } = await this.addressService.fromPublicKey(publicKey);
+					const { address } = await this.#addressService.fromPublicKey(publicKey);
 
 					addresses.push(address);
 
 					addressCache[path] = { address, publicKey };
 				}
 
-				const collection = await this.clientService.wallets({
+				const collection = await this.#clientService.wallets({
 					identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
 				});
 
@@ -107,7 +109,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 						.derive(`m/0/${addressIndex}`)
 						.publicKey.toString("hex");
 
-					const { address } = await this.addressService.fromPublicKey(publicKey);
+					const { address } = await this.#addressService.fromPublicKey(publicKey);
 
 					addresses.push(address);
 
@@ -116,7 +118,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 				const collections = await Promise.all(
 					chunk(addresses, 50).map((addresses: string[]) =>
-						this.clientService.wallets({
+						this.#clientService.wallets({
 							identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
 						}),
 					),

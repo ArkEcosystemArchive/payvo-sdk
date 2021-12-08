@@ -2,10 +2,14 @@ import { IoC, Services } from "@payvo/sdk";
 import { ECPair } from "ecpair";
 import { sign, verify } from "bitcoinjs-message";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
+	readonly #addressService: Services.AddressService;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+	}
 
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const { compressed, privateKey } = ECPair.fromWIF(input.signatory.signingKey());
@@ -14,7 +18,7 @@ export class MessageService extends Services.AbstractMessageService {
 			throw new Error(`Failed to derive private key for [${input.signatory.signingKey()}].`);
 		}
 
-		const { address } = await this.addressService.fromWIF(input.signatory.signingKey(), input.signatory.options());
+		const { address } = await this.#addressService.fromWIF(input.signatory.signingKey(), input.signatory.options());
 
 		return {
 			message: input.message,

@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Signatories } from "@payvo/sdk";
 import { describe } from "@payvo/sdk-test";
 

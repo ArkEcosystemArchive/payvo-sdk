@@ -5,13 +5,13 @@ import { UUID } from "@payvo/sdk-cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#client!: Connection;
 	#slip44!: number;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#client = new Connection(this.#host());
 		this.#slip44 = this.configRepository.get<number>("network.constants.slip44");
 	}

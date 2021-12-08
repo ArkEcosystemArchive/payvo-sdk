@@ -2,7 +2,6 @@ import { Enums } from "./crypto/index.js";
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,

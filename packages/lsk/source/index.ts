@@ -15,7 +15,6 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { WIFService } from "./wif.service.js";
 import { manifest } from "./manifest.js";
-import { ServiceProvider } from "./coin.provider";
 
 export const LSK: Coins.CoinBundle = bundle({
 	dataTransferObjects: {
@@ -24,7 +23,6 @@ export const LSK: Coins.CoinBundle = bundle({
 		WalletData,
 	},
 	manifest,
-	serviceProvider: ServiceProvider,
 	services: {
 		AddressService,
 		ClientService,

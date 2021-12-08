@@ -1,4 +1,4 @@
-import { Coins, IoC, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 import { Hash } from "@payvo/sdk-cryptography";
 import { BinTools, Buffer } from "avalanche";
 import { KeyPair } from "avalanche/dist/apis/avm";
@@ -6,11 +6,7 @@ import { getPreferredHRP } from "avalanche/dist/utils";
 
 import { cb58Decode, cb58Encode, keyPairFromMnemonic } from "./helpers.js";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const { child } = keyPairFromMnemonic(this.configRepository, input.signatory.signingKey());
 

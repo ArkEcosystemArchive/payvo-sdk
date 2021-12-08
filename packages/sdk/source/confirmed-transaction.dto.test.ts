@@ -1,11 +1,13 @@
 /* eslint-disable */
 
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { AbstractConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { Container } from "./container.js";
+import { BigNumberService } from "./big-number.service.js";
+import { AbstractConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { BindingType } from "./service-provider.contract.js";
+import { ConfigRepository } from "./config.js";
 
 class Transaction extends AbstractConfirmedTransactionData {
 	id() {
@@ -81,157 +83,165 @@ class Transaction extends AbstractConfirmedTransactionData {
 	}
 }
 
-describe("AbstractConfirmedTransactionData", ({ assert, it, stub }) => {
-	it("#withDecimals", () => {
-		assert.instance(new Transaction().configure({ key: "value" }).withDecimals(2), Transaction);
-		assert.instance(new Transaction().configure({ key: "value" }).withDecimals("2"), Transaction);
+describe("AbstractConfirmedTransactionData", ({ assert, beforeEach, it, stub }) => {
+	beforeEach((context) => {
+		const container = new Container();
+		container.singleton(BindingType.ConfigRepository, ConfigRepository);
+		container.singleton(BindingType.BigNumberService, BigNumberService);
+
+		context.subject = new Transaction(container);
 	});
 
-	it("should have a id", () => {
-		assert.is(new Transaction().configure({ key: "value" }).id(), "id");
+	it("#withDecimals", (context) => {
+		assert.instance(context.subject.configure({ key: "value" }).withDecimals(2), Transaction);
+		assert.instance(context.subject.configure({ key: "value" }).withDecimals("2"), Transaction);
 	});
 
-	it("should have a blockId", () => {
-		assert.is(new Transaction().configure({ key: "value" }).blockId(), "blockId");
+	it("should have a id", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).id(), "id");
 	});
 
-	it("should have a type", () => {
-		const subject = new Transaction().configure({ key: "value" });
-
-		assert.is(subject.type(), "transfer");
-
-		stub(subject, "isMagistrate").returnValueOnce(true);
-
-		assert.is(subject.type(), "magistrate");
+	it("should have a blockId", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).blockId(), "blockId");
 	});
 
-	it("should have a timestamp", () => {
-		assert.undefined(new Transaction().configure({ key: "value" }).timestamp());
+	it("should have a type", (context) => {
+		context.subject = context.subject.configure({ key: "value" });
+
+		assert.is(context.subject.type(), "transfer");
+
+		stub(context.subject, "isMagistrate").returnValueOnce(true);
+
+		assert.is(context.subject.type(), "magistrate");
 	});
 
-	it("should have a confirmations", () => {
-		assert.is(new Transaction().configure({ key: "value" }).confirmations(), BigNumber.ZERO);
+	it("should have a timestamp", (context) => {
+		assert.undefined(context.subject.configure({ key: "value" }).timestamp());
 	});
 
-	it("should have a sender", () => {
-		assert.is(new Transaction().configure({ key: "value" }).sender(), "sender");
+	it("should have a confirmations", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).confirmations(), BigNumber.ZERO);
 	});
 
-	it("should have a recipient", () => {
-		assert.is(new Transaction().configure({ key: "value" }).recipient(), "recipient");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).sender(), "sender");
 	});
 
-	it("should have a recipients", () => {
-		assert.equal(new Transaction().configure({ key: "value" }).recipients(), []);
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).recipient(), "recipient");
 	});
 
-	it("should have a amount", () => {
-		assert.equal(new Transaction().configure({ key: "value" }).amount(), BigNumber.ZERO);
+	it("should have a recipients", (context) => {
+		assert.equal(context.subject.configure({ key: "value" }).recipients(), []);
 	});
 
-	it("should have a fee", () => {
-		assert.equal(new Transaction().configure({ key: "value" }).fee(), BigNumber.ZERO);
+	it("should have a amount", (context) => {
+		assert.equal(context.subject.configure({ key: "value" }).amount(), BigNumber.ZERO);
 	});
 
-	it("should have a memo", () => {
-		assert.is(new Transaction().configure({ key: "value" }).memo(), "memo");
-		assert.undefined(new Transaction().configure({ memo: "" }).memo());
-		assert.is(new Transaction().configure({ memo: "pedo" }).memo(), "****");
-		assert.is(new Transaction().configure({ memo: "pedophile" }).memo(), "*********");
-		assert.undefined(new Transaction().configure({ memo: "zyva.org" }).memo());
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.configure({ key: "value" }).fee(), BigNumber.ZERO);
 	});
 
-	it("should have a asset", () => {
-		assert.equal(new Transaction().configure({ key: "value" }).asset(), {});
+	it("should have a memo", (context) => {
+		assert.is(context.subject.configure({ key: "value" }).memo(), "memo");
+		assert.undefined(context.subject.configure({ memo: "" }).memo());
+		assert.is(context.subject.configure({ memo: "pedo" }).memo(), "****");
+		assert.is(context.subject.configure({ memo: "pedophile" }).memo(), "*********");
+		assert.undefined(context.subject.configure({ memo: "zyva.org" }).memo());
 	});
 
-	it("should determine if the transaction is a confirmed", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isConfirmed());
+	it("should have a asset", (context) => {
+		assert.equal(context.subject.configure({ key: "value" }).asset(), {});
 	});
 
-	it("should determine if the transaction is a sent", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isSent());
+	it("should determine if the transaction is a confirmed", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isConfirmed());
 	});
 
-	it("should determine if the transaction is a received", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isReceived());
+	it("should determine if the transaction is a sent", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isSent());
 	});
 
-	it("should determine if the transaction is a transfer", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isTransfer());
+	it("should determine if the transaction is a received", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isReceived());
 	});
 
-	it("should determine if the transaction is a second signature", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isSecondSignature());
+	it("should determine if the transaction is a transfer", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isTransfer());
 	});
 
-	it("should determine if the transaction is a delegate registration", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isDelegateRegistration());
+	it("should determine if the transaction is a second signature", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isSecondSignature());
 	});
 
-	it("should determine if the transaction is a vote combination", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isVoteCombination());
+	it("should determine if the transaction is a delegate registration", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isDelegateRegistration());
 	});
 
-	it("should determine if the transaction is a vote", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isVote());
+	it("should determine if the transaction is a vote combination", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isVoteCombination());
 	});
 
-	it("should determine if the transaction is a unvote", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isUnvote());
+	it("should determine if the transaction is a vote", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isVote());
 	});
 
-	it("should determine if the transaction is a multi signature registration", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isMultiSignatureRegistration());
+	it("should determine if the transaction is a unvote", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isUnvote());
 	});
 
-	it("should determine if the transaction is a ipfs", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isIpfs());
+	it("should determine if the transaction is a multi signature registration", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isMultiSignatureRegistration());
 	});
 
-	it("should determine if the transaction is a multi payment", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isMultiPayment());
+	it("should determine if the transaction is a ipfs", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isIpfs());
 	});
 
-	it("should determine if the transaction is a delegate resignation", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isDelegateResignation());
+	it("should determine if the transaction is a multi payment", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isMultiPayment());
 	});
 
-	it("should determine if the transaction is a magistrate", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isMagistrate());
+	it("should determine if the transaction is a delegate resignation", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isDelegateResignation());
 	});
 
-	it("should determine if the transaction is a unlock token", () => {
-		assert.false(new Transaction().configure({ key: "value" }).isUnlockToken());
+	it("should determine if the transaction is a magistrate", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isMagistrate());
 	});
 
-	it("should transform the data into a normalised object", () => {
-		assert.object(new Transaction().configure({ key: "value" }).toObject());
+	it("should determine if the transaction is a unlock token", (context) => {
+		assert.false(context.subject.configure({ key: "value" }).isUnlockToken());
 	});
 
-	it("should get the raw response data", () => {
-		assert.equal(new Transaction().configure({ key: "value" }).raw(), {
+	it("should transform the data into a normalised object", (context) => {
+		assert.object(context.subject.configure({ key: "value" }).toObject());
+	});
+
+	it("should get the raw response data", (context) => {
+		assert.equal(context.subject.configure({ key: "value" }).raw(), {
 			key: "value",
 		});
 	});
 
-	it("should determine if the transaction contains data", () => {
-		assert.true(new Transaction().configure({ key: "value" }).hasPassed());
-		assert.false(new Transaction().configure({}).hasPassed());
+	it("should determine if the transaction contains data", (context) => {
+		assert.true(context.subject.configure({ key: "value" }).hasPassed());
+		assert.false(context.subject.configure({}).hasPassed());
 	});
 
-	it("should determine if the transaction does not contain data", () => {
-		assert.true(new Transaction().configure({}).hasFailed());
-		assert.false(new Transaction().configure({ key: "value" }).hasFailed());
+	it("should determine if the transaction does not contain data", (context) => {
+		assert.true(context.subject.configure({}).hasFailed());
+		assert.false(context.subject.configure({ key: "value" }).hasFailed());
 	});
 
-	it("should set and get meta data", () => {
-		const subject = new Transaction().configure({});
+	it("should set and get meta data", (context) => {
+		context.subject = context.subject.configure({});
 
-		assert.undefined(subject.getMeta("key"));
+		assert.undefined(context.subject.getMeta("key"));
 
-		subject.setMeta("key", "value");
+		context.subject.setMeta("key", "value");
 
-		assert.is(subject.getMeta("key"), "value");
+		assert.is(context.subject.getMeta("key"), "value");
 	});
 });

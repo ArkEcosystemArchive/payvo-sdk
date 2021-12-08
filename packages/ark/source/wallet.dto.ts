@@ -1,7 +1,6 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { BigNumber, get, has } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
 	public override primaryKey(): string {
 		return this.address();

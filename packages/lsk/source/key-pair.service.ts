@@ -3,7 +3,6 @@ import { getPrivateAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography"
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(mnemonic: string): Promise<Services.KeyPairDataTransferObject> {
 		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");

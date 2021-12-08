@@ -1,7 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { BIP44, bech32 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

@@ -4,7 +4,6 @@ import { tools } from "nanocurrency-web";
 
 import { deriveAccount, deriveLegacyAccount } from "./account.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

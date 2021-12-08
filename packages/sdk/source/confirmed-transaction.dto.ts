@@ -3,7 +3,6 @@
 
 import { BigNumber, Censor } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { inject } from "inversify";
 import emoji from "node-emoji";
 
 import { KeyValuePair } from "./contracts.js";
@@ -15,6 +14,7 @@ import {
 	TransactionDataMeta,
 	UnspentTransactionData,
 } from "./confirmed-transaction.dto.contract.js";
+import { IContainer } from "./container.contracts.js";
 
 export abstract class AbstractConfirmedTransactionData implements ConfirmedTransactionData {
 	/**
@@ -47,8 +47,11 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 
 	protected data!: KeyValuePair;
 
-	@inject(BindingType.BigNumberService)
-	protected readonly bigNumberService!: any; // @TODO: import BigNumberService causes a circular dependency
+	protected readonly bigNumberService: any; // @TODO: import BigNumberService causes a circular dependency
+
+	public constructor(container: IContainer) {
+		this.bigNumberService = container.get(BindingType.BigNumberService);
+	}
 
 	public configure(data: any) {
 		this.data = data;

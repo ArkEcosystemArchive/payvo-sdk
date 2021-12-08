@@ -3,10 +3,12 @@ import { convertStringList } from "@payvo/sdk-helpers";
 import { IoC, Services } from "@payvo/sdk";
 import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 
-@IoC.injectable()
 export class AssetSerializer {
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	readonly #bigNumberService: Services.BigNumberService;
+
+	public constructor(container: IoC.IContainer) {
+		this.#bigNumberService = container.get(IoC.BindingType.BigNumberService);
+	}
 
 	public toMachine(moduleID: number, assetID: number, asset: Record<string, any>): Record<string, unknown> {
 		if (isTransfer({ assetID, moduleID })) {
@@ -54,7 +56,7 @@ export class AssetSerializer {
 	}
 
 	#normaliseVoteAmount(value: string): BigInt {
-		if (this.bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
+		if (this.#bigNumberService.make(value).denominated().toNumber() % 10 === 0) {
 			return BigInt(value);
 		}
 

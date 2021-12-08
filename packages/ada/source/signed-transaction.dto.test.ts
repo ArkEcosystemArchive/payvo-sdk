@@ -4,7 +4,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-describe("SignedTransactionData", async ({ assert, beforeEach, it, nock, loader }) => {
+describe("SignedTransactionData", async ({ assert, beforeEach, it }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(SignedTransactionData);
 

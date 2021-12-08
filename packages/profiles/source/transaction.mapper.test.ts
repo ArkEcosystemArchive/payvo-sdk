@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { Collections } from "@payvo/sdk";
 import { describeWithContext } from "@payvo/sdk-test";
 

@@ -1,7 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import { newPolkadotApp } from "@zondax/ledger-polkadot";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport;
@@ -11,7 +10,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#transport = newPolkadotApp(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

@@ -1,36 +1,35 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import Common from "@ethereumjs/common";
 import eth from "@ethereumjs/tx";
 import Web3 from "web3";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(IoC.BindingType.AddressService)
-	private readonly addressService!: Services.AddressService;
-
-	@IoC.inject(IoC.BindingType.PrivateKeyService)
-	private readonly privateKeyService!: Services.PrivateKeyService;
+	readonly #addressService: Services.AddressService;
+	readonly #privateKeyService: Services.PrivateKeyService;
 
 	#chain!: string;
 	#peer!: string;
 	#web3!: Web3;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#addressService = container.get(IoC.BindingType.AddressService);
+		this.#privateKeyService = container.get(IoC.BindingType.PrivateKeyService);
 		this.#chain = this.configRepository.get("network");
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 		this.#web3 = new Web3(); // @TODO: provide a host
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
-		const senderData = await this.addressService.fromMnemonic(input.signatory.signingKey());
+		const senderData = await this.#addressService.fromMnemonic(input.signatory.signingKey());
 
 		let privateKey: string;
 		if (input.signatory.actsWithPrivateKey()) {
 			privateKey = input.signatory.signingKey();
 		} else {
-			privateKey = (await this.privateKeyService.fromMnemonic(input.signatory.signingKey())).privateKey;
+			privateKey = (await this.#privateKeyService.fromMnemonic(input.signatory.signingKey())).privateKey;
 		}
 
 		const { nonce } = await this.#get(`wallets/${senderData.address}`);

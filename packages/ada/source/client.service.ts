@@ -3,7 +3,6 @@ import { Collections, Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { fetchTransaction, fetchTransactions, fetchUtxosAggregate, submitTransaction } from "./graphql-helpers.js";
 import { usedAddressesForAccount } from "./transaction.domain";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,

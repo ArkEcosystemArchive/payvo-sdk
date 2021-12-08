@@ -26,20 +26,22 @@ import {
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { AddressFactory } from "./address.factory.js";
 
 describe("MultiSignatureTransaction", async ({ assert, beforeAll, each }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(MultiSignatureService, "btc.testnet", (container) => {
 			container.constant(IoC.BindingType.Container, container);
-			container.singleton(IoC.BindingType.AddressService, AddressService);
-			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.constant(IoC.BindingType.DataTransferObjects, {
 				SignedTransactionData,
 				ConfirmedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
 			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 			container.constant(
 				IoC.BindingType.LedgerTransportFactory,

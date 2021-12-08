@@ -5,17 +5,19 @@ import { Keyring } from "@polkadot/keyring";
 
 import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	@IoC.inject(BindingType.ApiPromise)
-	protected readonly client!: ApiPromise;
+	readonly #client: ApiPromise;
+	readonly #keyring: Keyring;
 
-	@IoC.inject(BindingType.Keyring)
-	protected readonly keyring!: Keyring;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.preDestroy()
+		this.#client = container.get(BindingType.ApiPromise);
+		this.#keyring = container.get(BindingType.Keyring);
+	}
+
 	public async onPreDestroy(): Promise<void> {
-		await this.client.disconnect();
+		await this.#client.disconnect();
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
@@ -24,8 +26,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		const amount = this.toSatoshi(input.data.amount).toString();
-		const keypair = this.keyring.addFromMnemonic(input.signatory.signingKey());
-		const transaction = await this.client.tx.balances.transfer(input.data.to, amount).signAsync(keypair);
+		const keypair = this.#keyring.addFromMnemonic(input.signatory.signingKey());
+		const transaction = await this.#client.tx.balances.transfer(input.data.to, amount).signAsync(keypair);
 
 		const signedData = {
 			...JSON.parse(transaction.toString()),

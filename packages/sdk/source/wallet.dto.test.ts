@@ -1,7 +1,5 @@
 /* eslint-disable */
 
-import "reflect-metadata";
-
 import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -65,68 +63,73 @@ class Wallet extends AbstractWalletData {
 	}
 }
 
-describe("AbstractWalletData", ({ assert, it, nock, loader }) => {
-	it("#address", () => {
-		assert.is(new Wallet({ key: "value" }).address(), "address");
+describe("AbstractWalletData", ({ assert, beforeEach, it }) => {
+	beforeEach((context) => {
+		// @ts-ignore - we don't need any bindings in this test
+		context.subject = new Wallet({ get() {} });
 	});
 
-	it("#publicKey", () => {
-		assert.is(new Wallet({ key: "value" }).publicKey(), "publicKey");
+	it("#address", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).address(), "address");
 	});
 
-	it("#balance", () => {
-		assert.object(new Wallet({ key: "value" }).balance());
+	it("#publicKey", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).publicKey(), "publicKey");
 	});
 
-	it("#nonce", () => {
-		assert.equal(new Wallet({ key: "value" }).nonce(), BigNumber.ZERO);
+	it("#balance", (context) => {
+		assert.object(context.subject.fill({ key: "value" }).balance());
 	});
 
-	it("#secondPublicKey", () => {
-		assert.is(new Wallet({ key: "value" }).secondPublicKey(), "secondPublicKey");
+	it("#nonce", (context) => {
+		assert.equal(context.subject.fill({ key: "value" }).nonce(), BigNumber.ZERO);
 	});
 
-	it("#username", () => {
-		assert.is(new Wallet({ key: "value" }).username(), "username");
+	it("#secondPublicKey", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).secondPublicKey(), "secondPublicKey");
 	});
 
-	it("#rank", () => {
-		assert.is(new Wallet({ key: "value" }).rank(), 5);
+	it("#username", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).username(), "username");
 	});
 
-	it("#votes", () => {
-		assert.equal(new Wallet({ key: "value" }).votes(), BigNumber.ZERO);
+	it("#rank", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).rank(), 5);
 	});
 
-	it("#isDelegate", () => {
-		assert.false(new Wallet({ key: "value" }).isDelegate());
+	it("#votes", (context) => {
+		assert.equal(context.subject.fill({ key: "value" }).votes(), BigNumber.ZERO);
 	});
 
-	it("#isMultiSignature", () => {
-		assert.false(new Wallet({ key: "value" }).isMultiSignature());
+	it("#isDelegate", (context) => {
+		assert.false(context.subject.fill({ key: "value" }).isDelegate());
 	});
 
-	it("#isSecondSignature", () => {
-		assert.false(new Wallet({ key: "value" }).isSecondSignature());
+	it("#isMultiSignature", (context) => {
+		assert.false(context.subject.fill({ key: "value" }).isMultiSignature());
 	});
 
-	it("#toObject", () => {
-		assert.object(new Wallet({ key: "value" }).toObject());
+	it("#isSecondSignature", (context) => {
+		assert.false(context.subject.fill({ key: "value" }).isSecondSignature());
 	});
 
-	it("#raw", () => {
-		assert.equal(new Wallet({ key: "value" }).raw(), {
+	it("#toObject", (context) => {
+		assert.object(context.subject.fill({ key: "value" }).toObject());
+	});
+
+	it("#raw", (context) => {
+		assert.equal(context.subject.fill({ key: "value" }).raw(), {
 			key: "value",
 		});
 	});
 
-	it("#hasPassed", () => {
-		assert.is(new Wallet({ key: "value" }).hasPassed(), true);
-		assert.is(new Wallet({}).hasPassed(), false);
+	it("#hasPassed", (context) => {
+		assert.is(context.subject.fill({ key: "value" }).hasPassed(), true);
+		assert.is(context.subject.fill({}).hasPassed(), false);
 	});
 
-	it("#hasFailed", () => {
-		assert.is(new Wallet({}).hasFailed(), true);
-		assert.is(new Wallet({ key: "value" }).hasFailed(), false);
+	it("#hasFailed", (context) => {
+		assert.is(context.subject.fill({}).hasFailed(), true);
+		assert.is(context.subject.fill({ key: "value" }).hasFailed(), false);
 	});
 });

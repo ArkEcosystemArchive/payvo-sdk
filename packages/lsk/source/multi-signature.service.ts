@@ -2,7 +2,6 @@ import { signMultiSignatureTransaction } from "@liskhq/lisk-transactions";
 import { UUID } from "@payvo/sdk-cryptography";
 import { convertBuffer, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
-import { BindingType } from "./coin.contract.js";
 
 import { getKeys, joinModuleAndAssetIds } from "./multi-signature.domain";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
@@ -11,28 +10,24 @@ import { AssetSerializer } from "./asset.serializer";
 import { isMultiSignatureRegistration } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 
-@IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	readonly #clientService: Services.ClientService;
+	readonly #configRepository: Coins.ConfigRepository;
+	readonly #dataTransferObjectService: Services.DataTransferObjectService;
+	readonly #httpClient: Http.HttpClient;
+	readonly #assetSerializer: IoC.Factory<AssetSerializer>;
+	readonly #transactionSerializer: IoC.Factory<TransactionSerializer>;
 
-	@IoC.inject(IoC.BindingType.ClientService)
-	private readonly clientService!: Services.ClientService;
+	public constructor(container: IoC.IContainer) {
+		super();
 
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.DataTransferObjectService)
-	protected readonly dataTransferObjectService!: Services.DataTransferObjectService;
-
-	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: Http.HttpClient;
-
-	@IoC.inject(BindingType.AssetSerializer)
-	protected readonly assetSerializer!: AssetSerializer;
-
-	@IoC.inject(BindingType.TransactionSerializer)
-	protected readonly transactionSerializer!: TransactionSerializer;
+		this.#clientService = container.get(IoC.BindingType.ClientService);
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
+		this.#httpClient = container.get(IoC.BindingType.HttpClient);
+		this.#assetSerializer = container.factory(AssetSerializer);
+		this.#transactionSerializer = container.factory(TransactionSerializer);
+	}
 
 	/** @inheritdoc */
 	public override async allWithPendingState(publicKey: string): Promise<Services.MultiSignatureTransaction[]> {
@@ -135,17 +130,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
 		// Normalise to ensure consistent behaviour
-		transaction = this.transactionSerializer.toHuman(transaction);
+		transaction = this.#transactionSerializer().toHuman(transaction);
 
 		const { assetSchema, assetID, moduleID } = this.#asset(transaction);
 
 		let wallet: Contracts.WalletData;
 
 		if (isMultiSignatureRegistration(transaction)) {
-			wallet = await this.clientService.wallet({ type: "address", value: signatory.address() });
+			wallet = await this.#clientService.wallet({ type: "address", value: signatory.address() });
 		} else {
 			wallet = (
-				await this.clientService.wallets({
+				await this.#clientService.wallets({
 					identifiers: [
 						{
 							type: "publicKey",
@@ -170,7 +165,7 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 				nonce: BigInt(`${transaction.nonce}`),
 				fee: BigInt(`${transaction.fee}`),
 				senderPublicKey: convertString(transaction.senderPublicKey),
-				asset: this.assetSerializer.toMachine(+moduleID, +assetID, transaction.asset),
+				asset: this.#assetSerializer().toMachine(+moduleID, +assetID, transaction.asset),
 				signatures: convertStringList(transaction.signatures),
 			},
 			this.#networkIdentifier(),
@@ -182,8 +177,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			isMultiSignatureRegistration(transaction),
 		);
 
-		return this.dataTransferObjectService.signedTransaction(convertBuffer(transactionWithSignature.id), {
-			...this.transactionSerializer.toHuman(transactionWithSignature),
+		return this.#dataTransferObjectService.signedTransaction(convertBuffer(transactionWithSignature.id), {
+			...this.#transactionSerializer().toHuman(transactionWithSignature),
 			multiSignature: this.#multiSignatureAsset({ transaction, mandatoryKeys, optionalKeys, wallet }),
 			timestamp: DateTime.make(),
 		});
@@ -191,8 +186,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.httpClient.post(
-				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+			await this.#httpClient.post(
+				Helpers.randomHost(this.#configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
 				{
 					jsonrpc: "2.0",
 					id: UUID.random(),
@@ -204,11 +199,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	}
 
 	#assets(): object {
-		return this.configRepository.get<object>("network.meta.assets");
+		return this.#configRepository.get<object>("network.meta.assets");
 	}
 
 	#networkIdentifier(): Buffer {
-		return convertString(this.configRepository.get<string>("network.meta.networkId"));
+		return convertString(this.#configRepository.get<string>("network.meta.networkId"));
 	}
 
 	#asset(transaction: Contracts.RawTransactionData): Record<string, any> {

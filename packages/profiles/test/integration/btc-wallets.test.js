@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import { describe } from "@payvo/sdk-test";
 
 import { BIP44 } from "@payvo/sdk-cryptography";

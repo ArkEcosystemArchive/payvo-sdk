@@ -2,8 +2,15 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { AddressService } from "./address.service";
 
-describe("AddressService", async ({ beforeEach, assert, it, nock, loader }) => {
-	beforeEach(async (context) => (context.subject = new AddressService()));
+describe("AddressService", async ({ beforeEach, assert, it }) => {
+	beforeEach(async (context) => {
+		// @ts-ignore
+		context.subject = new AddressService({
+			get() {
+				return undefined;
+			},
+		});
+	});
 
 	it("should generate an output from a mnemonic", async (context) => {
 		const result = await context.subject.fromMnemonic(identity.mnemonic);

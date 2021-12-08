@@ -1,11 +1,17 @@
 import { describe } from "@payvo/sdk-test";
+import { IoC } from "@payvo/sdk";
+
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
+import { KeyPairService } from "./key-pair.service.js";
 
-describe("PublicKeyService", async ({ assert, beforeEach, it, nock, loader }) => {
+describe("PublicKeyService", async ({ assert, beforeEach, it }) => {
 	beforeEach(async (context) => {
-		context.subject = await createService(PublicKeyService);
+		context.subject = await createService(PublicKeyService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		});
 	});
 
 	it("should generate an output from a mnemonic", async (context) => {

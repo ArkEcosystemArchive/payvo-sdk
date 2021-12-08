@@ -5,10 +5,16 @@ import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 
 import { cb58Decode, usePChain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#xchain!: AVMAPI;
 	#pchain!: PlatformVMAPI;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#xchain = useXChain(this.configRepository);
+		this.#pchain = usePChain(this.configRepository);
+	}
 
 	public override async transaction(
 		id: string,
@@ -114,11 +120,5 @@ export class ClientService extends Services.AbstractClientService {
 
 	#host(): string {
 		return Helpers.randomHostFromConfig(this.configRepository, "archival");
-	}
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#xchain = useXChain(this.configRepository);
-		this.#pchain = usePChain(this.configRepository);
 	}
 }

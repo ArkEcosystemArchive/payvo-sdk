@@ -1,6 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,

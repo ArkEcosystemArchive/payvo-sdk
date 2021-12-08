@@ -4,7 +4,12 @@ import { AddressService } from "./address.service";
 
 describe("AddressService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {
-		context.subject = new AddressService();
+		// @ts-ignore
+		context.subject = new AddressService({
+			get() {
+				return undefined;
+			},
+		});
 	});
 
 	it("should generate an output from a mnemonic", async (context) => {

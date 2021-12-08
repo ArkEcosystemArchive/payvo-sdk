@@ -1,5 +1,4 @@
 import { describe } from "@payvo/sdk-test";
-import "reflect-metadata";
 
 import { ARK } from "../../ark/distribution";
 import { Request } from "../../fetch/distribution";
@@ -24,6 +23,9 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 		context.subject = CoinFactory.make(ARK, {
 			httpClient: new Request(),
 			network: "ark.devnet",
+			ledgerTransportFactory: async () => {
+				//
+			},
 		});
 	});
 
@@ -158,7 +160,7 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 	});
 
 	each(
-		"should throw if coin has not been fully set up",
+		"should throw if coin has not been fully set up (%s)",
 		async ({ dataset, context }) => {
 			assert.throws(() => context.subject[dataset]());
 

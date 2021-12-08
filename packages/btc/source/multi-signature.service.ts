@@ -6,31 +6,21 @@ import { MultiSignatureSigner } from "./multi-signature.signer.js";
 import { getNetworkConfig } from "./config.js";
 import * as bitcoin from "bitcoinjs-lib";
 
-@IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	readonly #configRepository: Coins.ConfigRepository;
+	readonly #dataTransferObjectService: Services.DataTransferObjectService;
+	readonly #httpClient: Http.HttpClient;
+	readonly #multiSignatureSigner: MultiSignatureSigner;
+	readonly #network: bitcoin.networks.Network;
 
-	@IoC.inject(IoC.BindingType.ClientService)
-	private readonly clientService!: Services.ClientService;
+	public constructor(container: IoC.IContainer) {
+		super();
 
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.DataTransferObjectService)
-	protected readonly dataTransferObjectService!: Services.DataTransferObjectService;
-
-	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: Http.HttpClient;
-
-	@IoC.inject(BindingType.MultiSignatureSigner)
-	private readonly multiSignatureSigner!: MultiSignatureSigner;
-
-	#network!: bitcoin.networks.Network;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = getNetworkConfig(this.configRepository);
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
+		this.#httpClient = container.get(IoC.BindingType.HttpClient);
+		this.#multiSignatureSigner = container.get(BindingType.MultiSignatureSigner);
+		this.#network = getNetworkConfig(this.#configRepository);
 	}
 
 	/** @inheritdoc */
@@ -132,9 +122,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<Contracts.SignedTransactionData> {
-		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, signatory);
+		const transactionWithSignature = await this.#multiSignatureSigner.addSignature(transaction, signatory);
 
-		return this.dataTransferObjectService.signedTransaction(
+		return this.#dataTransferObjectService.signedTransaction(
 			transaction.id,
 			transactionWithSignature,
 			transactionWithSignature.psbt,
@@ -143,8 +133,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.httpClient.post(
-				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+			await this.#httpClient.post(
+				Helpers.randomHost(this.#configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
 				{
 					jsonrpc: "2.0",
 					id: UUID.random(),

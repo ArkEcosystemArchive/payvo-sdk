@@ -4,19 +4,17 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import { KeyValuePair, WalletBalance, WalletMultiSignature } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";
-import { inject, injectable } from "./ioc.js";
+
 import { BindingType } from "./service-provider.contract.js";
 import { BigNumberService } from "./big-number.service.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractWalletData {
-	@inject(BindingType.BigNumberService)
-	protected readonly bigNumberService!: BigNumberService;
-
+	protected readonly bigNumberService: BigNumberService;
 	protected data!: KeyValuePair;
 
-	public constructor(data: KeyValuePair) {
-		this.data = data;
+	public constructor(container: IContainer) {
+		this.bigNumberService = container.get(BindingType.BigNumberService);
 	}
 
 	public fill(data: KeyValuePair) {

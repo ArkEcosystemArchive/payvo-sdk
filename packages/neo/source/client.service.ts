@@ -1,13 +1,13 @@
 import { Collections, Contracts, IoC, Networks, Services } from "@payvo/sdk";
 import Neon, { api } from "@cityofzion/neon-js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 	#apiProvider;
 
-	@IoC.postConstruct()
-	private onPostConstruct() {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		const network: string = this.configRepository.get<Networks.NetworkManifest>("network").id.split(".")[1];
 
 		this.#peer = {

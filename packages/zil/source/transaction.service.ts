@@ -5,13 +5,13 @@ import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 import { convertZilToQa, getZilliqaVersion } from "./zilliqa.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	#zilliqa!: Zilliqa;
-	#version!: number;
+	readonly #zilliqa: Zilliqa;
+	readonly #version: number;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#zilliqa = new Zilliqa(Helpers.randomHostFromConfig(this.configRepository));
 		this.#version = getZilliqaVersion(this.configRepository);
 	}

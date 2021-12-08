@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import { describeEach } from "@payvo/sdk-test";
 
 import { bootContainer, makeCoin } from "../test/mocking";

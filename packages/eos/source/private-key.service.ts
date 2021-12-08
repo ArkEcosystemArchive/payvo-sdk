@@ -1,6 +1,5 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

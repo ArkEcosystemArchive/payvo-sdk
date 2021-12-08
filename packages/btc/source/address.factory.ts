@@ -7,26 +7,22 @@ import WalletDataHelper from "./wallet-data-helper.js";
 import MusigWalletDataHelper from "./musig-wallet-data-helper.js";
 import { BipLevel, Levels } from "./contracts.js";
 
-@IoC.injectable()
 export class AddressFactory {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	protected readonly configRepository!: Coins.ConfigRepository;
+	readonly #configRepository: Coins.ConfigRepository;
+	readonly #httpClient: Http.HttpClient;
+	readonly #network: bitcoin.networks.Network;
 
-	@IoC.inject(IoC.BindingType.HttpClient)
-	protected readonly httpClient!: Http.HttpClient;
-
-	#network!: bitcoin.networks.Network;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#network = getNetworkConfig(this.configRepository);
+	public constructor(container: IoC.IContainer) {
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#httpClient = container.get(IoC.BindingType.HttpClient);
+		this.#network = getNetworkConfig(this.#configRepository);
 	}
 
 	public getLevel(options?: Services.IdentityOptions): Levels {
 		if (options?.bip44) {
 			return {
 				purpose: 44,
-				coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+				coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 				account: options?.bip44?.account,
 				change: options?.bip44?.change,
 				index: options?.bip44?.addressIndex,
@@ -36,7 +32,7 @@ export class AddressFactory {
 		if (options?.bip49) {
 			return {
 				purpose: 49,
-				coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+				coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 				account: options?.bip49?.account,
 				change: options?.bip49?.change,
 				index: options?.bip49?.addressIndex,
@@ -46,7 +42,7 @@ export class AddressFactory {
 		if (options?.bip84) {
 			return {
 				purpose: 84,
-				coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+				coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 				account: options?.bip84?.account,
 				change: options?.bip84?.change,
 				index: options?.bip84?.addressIndex,
@@ -59,7 +55,7 @@ export class AddressFactory {
 	public bip44(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
 		const levels: Levels = {
 			purpose: 44,
-			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip44?.account,
 			change: options?.bip44?.change,
 			index: options?.bip44?.addressIndex,
@@ -78,7 +74,7 @@ export class AddressFactory {
 	public bip49(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
 		const levels: Levels = {
 			purpose: 49,
-			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip49?.account,
 			change: options?.bip49?.change,
 			index: options?.bip49?.addressIndex,
@@ -100,7 +96,7 @@ export class AddressFactory {
 	public bip84(mnemonic: string, options?: Services.IdentityOptions): Services.AddressDataTransferObject {
 		const levels: Levels = {
 			purpose: 84,
-			coinType: this.configRepository.get(Coins.ConfigKey.Slip44),
+			coinType: this.#configRepository.get(Coins.ConfigKey.Slip44),
 			account: options?.bip84?.account,
 			change: options?.bip84?.change,
 			index: options?.bip84?.addressIndex,
@@ -122,8 +118,8 @@ export class AddressFactory {
 			bipLevel,
 			accountKey,
 			this.#network,
-			this.httpClient,
-			this.configRepository,
+			this.#httpClient,
+			this.#configRepository,
 		);
 	}
 
@@ -137,8 +133,8 @@ export class AddressFactory {
 			accountPublicKeys,
 			method,
 			this.#network,
-			this.httpClient,
-			this.configRepository,
+			this.#httpClient,
+			this.#configRepository,
 		);
 	}
 

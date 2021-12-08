@@ -7,17 +7,14 @@ import { strict as assert } from "assert";
 
 import { RawTransactionData, SignedTransactionData } from "./contracts.js";
 import { NotImplemented } from "./exceptions.js";
-import { inject, injectable } from "./ioc.js";
+
 import { BindingType } from "./service-provider.contract.js";
 import { BigNumberService } from "./services.js";
 import { MultiPaymentRecipient } from "./confirmed-transaction.dto.contract.js";
 import { SignedTransactionObject } from "./signed-transaction.dto.contract.js";
+import { IContainer } from "./container.contracts.js";
 
-@injectable()
 export class AbstractSignedTransactionData implements SignedTransactionData {
-	@inject(BindingType.BigNumberService)
-	protected readonly bigNumberService!: BigNumberService;
-
 	protected identifier!: string;
 	protected signedData!: RawTransactionData;
 	protected broadcastData!: any;
@@ -37,6 +34,12 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		vote: "isVote",
 		voteCombination: "isVoteCombination",
 	};
+
+	protected readonly bigNumberService: BigNumberService;
+
+	public constructor(container: IContainer) {
+		this.bigNumberService = container.get(BindingType.BigNumberService);
+	}
 
 	public configure(
 		identifier: string,

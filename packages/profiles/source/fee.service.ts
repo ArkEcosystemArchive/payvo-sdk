@@ -3,9 +3,7 @@ import { Coins, Services } from "@payvo/sdk";
 import { pqueueSettled } from "./helpers/queue.js";
 import { DataRepository } from "./data.repository";
 import { IFeeService, IProfile } from "./contracts.js";
-import { injectable } from "inversify";
 
-@injectable()
 export class FeeService implements IFeeService {
 	readonly #dataRepository: DataRepository = new DataRepository();
 

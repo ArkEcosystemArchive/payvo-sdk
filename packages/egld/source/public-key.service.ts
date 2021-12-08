@@ -2,7 +2,6 @@ import { IoC, Services } from "@payvo/sdk";
 
 import { makeAccount } from "./factories.js";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

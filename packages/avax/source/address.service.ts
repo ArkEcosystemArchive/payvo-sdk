@@ -3,7 +3,6 @@ import { BinTools } from "avalanche";
 
 import { keyPairFromMnemonic, useKeychain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

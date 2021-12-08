@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 export * from "./bundle.js";
 export * as Coins from "./coins.js";
 export * as Collections from "./collections.js";

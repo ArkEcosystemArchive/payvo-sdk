@@ -6,7 +6,6 @@ import { KeyValuePair, SignedTransactionData, WalletData } from "./contracts.js"
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
 import { NotImplemented } from "./exceptions.js";
 import { HttpClient } from "./http.js";
-import { inject } from "./ioc.js";
 import { BindingType } from "./service-provider.contract.js";
 import {
 	BroadcastResponse,
@@ -19,16 +18,18 @@ import {
 	WalletIdentifier,
 } from "./client.contract.js";
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { IContainer } from "./container.contracts.js";
 
 export class AbstractClientService implements ClientService {
-	@inject(BindingType.ConfigRepository)
-	protected readonly configRepository!: ConfigRepository;
+	protected readonly configRepository: ConfigRepository;
+	protected readonly dataTransferObjectService: DataTransferObjectService;
+	protected readonly httpClient: HttpClient;
 
-	@inject(BindingType.DataTransferObjectService)
-	protected readonly dataTransferObjectService!: DataTransferObjectService;
-
-	@inject(BindingType.HttpClient)
-	protected readonly httpClient!: HttpClient;
+	public constructor(container: IContainer) {
+		this.configRepository = container.get(BindingType.ConfigRepository);
+		this.dataTransferObjectService = container.get(BindingType.DataTransferObjectService);
+		this.httpClient = container.get(BindingType.HttpClient);
+	}
 
 	public async transaction(id: string, input?: TransactionDetailInput): Promise<ConfirmedTransactionData> {
 		throw new NotImplemented(this.constructor.name, this.transaction.name);

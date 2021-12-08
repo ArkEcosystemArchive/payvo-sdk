@@ -5,23 +5,22 @@ import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@l
 
 const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.ClientService)
-	private readonly clientService!: Services.ClientService;
-
+	readonly #clientService!: Services.ClientService;
 	#ledger: Services.LedgerTransport;
 	#transport!: DposLedger;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#clientService = container.get(IoC.BindingType.ClientService);
+	}
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
 		this.#transport = new DposLedger(new CommHandler(this.#ledger));
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}
@@ -111,7 +110,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	async #fetchWallet(address: string, wallets: Contracts.WalletData[]): Promise<void> {
 		try {
-			const wallet: Contracts.WalletData = await this.clientService.wallet({ type: "address", value: address });
+			const wallet: Contracts.WalletData = await this.#clientService.wallet({ type: "address", value: address });
 
 			/* istanbul ignore else */
 			if (wallet.address()) {

@@ -9,14 +9,14 @@ import { UUID } from "@payvo/sdk-cryptography";
 
 import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#xchain!: AVMAPI;
 	#pchain!: PlatformVMAPI;
 	#keychain;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#xchain = useXChain(this.configRepository);
 		this.#pchain = usePChain(this.configRepository);
 		this.#keychain = useKeychain(this.configRepository);

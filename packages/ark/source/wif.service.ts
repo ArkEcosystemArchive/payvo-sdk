@@ -6,10 +6,14 @@ import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 
-@IoC.injectable()
 export class WIFService extends Services.AbstractWIFService {
-	@IoC.inject(BindingType.Crypto)
-	private readonly config!: Interfaces.NetworkConfig;
+	readonly #config!: Interfaces.NetworkConfig;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#config = container.get(BindingType.Crypto);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -18,7 +22,7 @@ export class WIFService extends Services.AbstractWIFService {
 		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		return {
-			wif: BaseWIF.fromPassphrase(mnemonic),
+			wif: BaseWIF.fromPassphrase(mnemonic, this.#config.network),
 		};
 	}
 
@@ -26,7 +30,7 @@ export class WIFService extends Services.AbstractWIFService {
 		abort_if(BIP39.compatible(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
 		return {
-			wif: BaseWIF.fromPassphrase(secret),
+			wif: BaseWIF.fromPassphrase(secret, this.#config.network),
 		};
 	}
 
