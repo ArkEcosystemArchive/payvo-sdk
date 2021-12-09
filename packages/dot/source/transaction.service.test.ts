@@ -17,7 +17,7 @@ import { WalletData } from "./wallet.dto";
 
 describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {
-		nock.fake(/.+/)
+		nock.fake()
 			.post("/", ({ method }) => method === "state_getRuntimeVersion")
 			.reply(200, loader.json("test/fixtures/client/state-get-runtime-version.json"))
 			.post("/", ({ method }) => method === "system_chain")
@@ -30,6 +30,14 @@ describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) =
 			.reply(200, loader.json("test/fixtures/client/state-get-metadata.json"))
 			.post("/", ({ method }) => method === "chain_getBlockHash")
 			.reply(200, loader.json("test/fixtures/client/chain-get-block-hash.json"))
+			.post("/", ({ method }) => method === "state_getStorage")
+			.reply(200, loader.json("test/fixtures/client/state-get-storage.json"))
+			.post("/", ({ method }) => method === "state_queryStorageAt")
+			.reply(200, loader.json("test/fixtures/client/state-query-storage-at.json"))
+			.post("/", ({ method }) => method === "chain_getHeader")
+			.reply(200, loader.json("test/fixtures/client/chain-get-header.json"))
+			.post("/", ({ method }) => method === "chain_getFinalizedHead")
+			.reply(200, loader.json("test/fixtures/client/chain-get-finalized-head.json"))
 			.persist();
 
 		await waitReady();
