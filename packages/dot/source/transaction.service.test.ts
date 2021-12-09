@@ -38,6 +38,7 @@ describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) =
 			const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
 			const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
 
+			container.constant(IoC.BindingType.Container, container);
 			container.constant(BindingType.ApiPromise, apiPromise);
 			container.constant(BindingType.Keyring, keyring);
 			container.constant(IoC.BindingType.DataTransferObjects, {
@@ -46,7 +47,6 @@ describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) =
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-			container.constant(IoC.BindingType.Container, container);
 			container.singleton(IoC.BindingType.ClientService, ClientService);
 			container.singleton(IoC.BindingType.AddressService, AddressService);
 			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
