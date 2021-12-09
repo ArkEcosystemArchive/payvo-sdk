@@ -17,6 +17,21 @@ import { WalletData } from "./wallet.dto";
 
 describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {
+		nock.fake(/.+/)
+			.post("/", ({ method }) => method === "state_getRuntimeVersion")
+			.reply(200, loader.json("test/fixtures/client/state-get-runtime-version.json"))
+			.post("/", ({ method }) => method === "system_chain")
+			.reply(200, loader.json("test/fixtures/client/system-chain.json"))
+			.post("/", ({ method }) => method === "system_properties")
+			.reply(200, loader.json("test/fixtures/client/system-properties.json"))
+			.post("/", ({ method }) => method === "rpc_methods")
+			.reply(200, loader.json("test/fixtures/client/rpc-methods.json"))
+			.post("/", ({ method }) => method === "state_getMetadata")
+			.reply(200, loader.json("test/fixtures/client/state-get-metadata.json"))
+			.post("/", ({ method }) => method === "chain_getBlockHash")
+			.reply(200, loader.json("test/fixtures/client/chain-get-block-hash.json"))
+			.persist();
+
 		await waitReady();
 
 		context.subject = await createServiceAsync(TransactionService, undefined, async (container) => {
