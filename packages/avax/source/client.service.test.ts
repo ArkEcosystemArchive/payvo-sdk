@@ -34,10 +34,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("should retrieve a list of transactions", async (context) => {
-		nock.fake()
-			.get("/v2/transactions")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/transactions.json"));
+		nock.fake().get("/v2/transactions").query(true).reply(200, loader.json("test/fixtures/transactions.json"));
 
 		const result = await context.subject.transactions({
 			identifiers: [
