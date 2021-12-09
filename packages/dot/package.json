@@ -16,7 +16,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source transaction.service.test.ts",
+		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
