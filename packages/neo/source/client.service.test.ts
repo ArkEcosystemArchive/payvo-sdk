@@ -71,17 +71,21 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 			.reply(200, { txid: "0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652" });
 
 		const result = await context.subject.broadcast([
-			createService(SignedTransactionData).configure("id", {
-				account: new wallet.Account(
-					new Signatories.Signatory(
-						new Signatories.PrivateKeySignatory({
-							address: identity.address,
-							signingKey: identity.privateKey,
-						}),
-					).signingKey(),
-				),
-				intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
-			}, ""),
+			createService(SignedTransactionData).configure(
+				"id",
+				{
+					account: new wallet.Account(
+						new Signatories.Signatory(
+							new Signatories.PrivateKeySignatory({
+								address: identity.address,
+								signingKey: identity.privateKey,
+							}),
+						).signingKey(),
+					),
+					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+				},
+				"",
+			),
 		]);
 
 		assert.equal(result, {
@@ -124,7 +128,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 			accepted: [],
 			rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
 			errors: {
-				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652": "http://seed2.neo.org:20332: ERR_INSUFFICIENT_FUNDS",
+				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652":
+					"http://seed2.neo.org:20332: ERR_INSUFFICIENT_FUNDS",
 			},
 		});
 	});

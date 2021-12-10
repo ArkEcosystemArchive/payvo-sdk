@@ -1,31 +1,31 @@
 {
-  "balance": [
-	{
-	  "unspent": [
+	"balance": [
 		{
-		  "value": 0.00000001,
-		  "txid": "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
-		  "n": 1
-		}
-	  ],
-	  "asset_symbol": "GAS",
-	  "asset_hash": "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7",
-	  "asset": "GAS",
-	  "amount": 0.00000001
-	},
-	{
-	  "unspent": [
+			"unspent": [
+				{
+					"value": 0.00000001,
+					"txid": "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
+					"n": 1
+				}
+			],
+			"asset_symbol": "GAS",
+			"asset_hash": "602c79718b16e442de58778e148d0b1084e3b2dffd5de6b7b16cee7969282de7",
+			"asset": "GAS",
+			"amount": 0.00000001
+		},
 		{
-		  "value": 1.0,
-		  "txid": "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
-		  "n": 0
+			"unspent": [
+				{
+					"value": 1.0,
+					"txid": "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24",
+					"n": 0
+				}
+			],
+			"asset_symbol": "NEO",
+			"asset_hash": "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b",
+			"asset": "NEO",
+			"amount": 1.0
 		}
-	  ],
-	  "asset_symbol": "NEO",
-	  "asset_hash": "c56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b",
-	  "asset": "NEO",
-	  "amount": 1.0
-	}
-  ],
-  "address": "APPJtAkysCKBssD5EJzEpakntNk81nR7X2"
+	],
+	"address": "APPJtAkysCKBssD5EJzEpakntNk81nR7X2"
 }
