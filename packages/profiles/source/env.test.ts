@@ -128,7 +128,7 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 		assert.true(container.has(Identifiers.MigrationVersion));
 	});
 
-	it.skip("should create a profile with data and persist it when instructed to do so", async (context) => {
+	it("should create a profile with data and persist it when instructed to do so", async (context) => {
 		await makeSubject(context);
 
 		/**
