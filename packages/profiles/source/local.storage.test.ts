@@ -42,7 +42,7 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 	it.skip("should should forget the given key", async (context) => {
 		assert.false(await context.subject.has(context.key));
 
-		await context.subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
 		assert.true(await context.subject.has(context.key));
 
