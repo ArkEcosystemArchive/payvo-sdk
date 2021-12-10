@@ -13,7 +13,7 @@ describe("CoinFactory", ({ assert, beforeEach, loader, nock, it }) => {
 			ledgerTransportFactory: async () => {
 				//
 			},
-			network: "ark.mainnet"
+			network: "ark.mainnet",
 		};
 
 		nock.fake("https://ark-live.payvo.com:443")
