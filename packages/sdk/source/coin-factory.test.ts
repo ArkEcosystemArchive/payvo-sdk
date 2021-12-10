@@ -6,9 +6,15 @@ import { Request } from "../../fetch/distribution";
 import { Coin } from "./coin";
 import { CoinFactory } from "./coin-factory";
 
-describe("CoinFactory", ({ assert, beforeAll, loader, nock, it, skip }) => {
-	beforeAll(async (context) => {
-		context.options = { httpClient: new Request(), network: "ark.mainnet" };
+describe("CoinFactory", ({ assert, beforeEach, loader, nock, it }) => {
+	beforeEach(async (context) => {
+		context.options = {
+			httpClient: new Request(),
+			ledgerTransportFactory: async () => {
+				//
+			},
+			network: "ark.mainnet",
+		};
 
 		nock.fake("https://ark-live.payvo.com:443")
 			.get("/api/blockchain")
@@ -37,7 +43,7 @@ describe("CoinFactory", ({ assert, beforeAll, loader, nock, it, skip }) => {
 		assert.instance(CoinFactory.make(ARK, context.options), Coin);
 	});
 
-	skip("should create multiple instances with independent containers", async (context) => {
+	it("should create multiple instances with independent containers", async (context) => {
 		const first = CoinFactory.make(ARK, context.options);
 		await first.__construct();
 
