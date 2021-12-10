@@ -58,7 +58,7 @@ describe("getVersion", ({ it, assert }) => {
 });
 
 describe("getPublicKey", ({ it, assert }) => {
-	it.skip("should pass with a compressed publicKey", async () => {
+	it("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
 		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
@@ -66,7 +66,7 @@ describe("getPublicKey", ({ it, assert }) => {
 });
 
 describe("signTransaction", ({ it, assert }) => {
-	it.skip("should pass with a signature", async () => {
+	it("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.transaction.record);
 
 		assert.is(
