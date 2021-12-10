@@ -5,7 +5,7 @@ import { AddressService } from "./address.service";
 
 describe("AddressService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {
-		context.subject = await createService(AddressService);
+		context.subject = await createService(AddressService, "trx.mainnet");
 	});
 
 	it("should generate an output from a mnemonic", async (context) => {
