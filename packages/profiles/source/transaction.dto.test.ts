@@ -83,7 +83,7 @@ const beforeEachCallback = async (context, { loader, nock, stub }) => {
 	context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 };
 
-describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, stub, spy, loader, nock }) => {
+describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, assert, stub, spy, loader, nock }) => {
 	beforeEach(async (context) => {
 		await beforeEachCallback(context, { loader, nock, stub });
 
@@ -140,7 +140,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 		assert.equal(context.subject.amount(), 18);
 	});
 
-	skip("should have a converted amount", async (context) => {
+	it("should have a converted amount", async (context) => {
 		const subject = createSubject(
 			context.wallet,
 			{
@@ -163,7 +163,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 		assert.equal(context.subject.fee(), 2);
 	});
 
-	skip("should have a converted fee", async (context) => {
+	it("should have a converted fee", async (context) => {
 		const subject = createSubject(
 			context.wallet,
 			{
@@ -345,7 +345,7 @@ describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, skip, assert, st
 		assert.equal(subject.total(), 12);
 	});
 
-	skip("should have a converted total", async (context) => {
+	it("should have a converted total", async (context) => {
 		const subject = createSubject(
 			context.wallet,
 			{
