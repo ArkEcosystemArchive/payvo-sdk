@@ -36,7 +36,7 @@ const makeSubject = async (context) => {
 	await context.subject.persist();
 };
 
-describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, assert, nock, loader }) => {
+describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	beforeEach(() => {
 		nock.fake()
 			.get("/api/node/configuration")

@@ -1,11 +1,54 @@
+import { BigNumber } from "@payvo/sdk-helpers";
 import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
+import { WalletData, WalletFlag } from "./wallet.enum";
 
-describe("WalletSerialiser", ({ beforeAll, beforeEach, loader, nock }) => {
+describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, nock }) => {
+	const datasets = [
+		[
+			123,
+			{
+				available: Number.NaN,
+				fees: Number.NaN,
+				locked: BigNumber.make(3),
+				lockedUnvotes: BigNumber.make(3),
+				lockedVotes: BigNumber.make(3),
+				tokens: {
+					ARK: BigNumber.make(4),
+					BTC: BigNumber.make(5),
+					ETH: BigNumber.make(6),
+				},
+			},
+		],
+		[
+			456,
+			{
+				available: BigNumber.make(1),
+				fees: BigNumber.make(2),
+				locked: BigNumber.make(3),
+				lockedUnvotes: BigNumber.make(3),
+				lockedVotes: BigNumber.make(3),
+				tokens: {
+					ARK: BigNumber.make(4),
+					BTC: BigNumber.make(5),
+					ETH: BigNumber.make(6),
+				},
+			},
+		],
+		[
+			789,
+			{
+				available: Number.NaN,
+				fees: Number.NaN,
+			},
+		],
+		[111, undefined],
+	];
+
 	beforeAll(() => bootContainer());
 
 	beforeEach(async (context) => {
@@ -73,81 +116,44 @@ describe("WalletSerialiser", ({ beforeAll, beforeEach, loader, nock }) => {
 		});
 	});
 
-	// describe.each([
-	// 	[
-	// 		123,
-	// 		{
-	// 			available: Number.NaN,
-	// 			fees: Number.NaN,
-	// 			locked: BigNumber.make(3),
-	// 			lockedVotes: BigNumber.make(3),
-	// 			lockedUnvotes: BigNumber.make(3),
-	// 			tokens: {
-	// 				ARK: BigNumber.make(4),
-	// 				BTC: BigNumber.make(5),
-	// 				ETH: BigNumber.make(6),
-	// 			},
-	// 		},
-	// 	],
-	// 	[
-	// 		456,
-	// 		{
-	// 			available: BigNumber.make(1),
-	// 			fees: BigNumber.make(2),
-	// 			locked: BigNumber.make(3),
-	// 			lockedVotes: BigNumber.make(3),
-	// 			lockedUnvotes: BigNumber.make(3),
-	// 			tokens: {
-	// 				ARK: BigNumber.make(4),
-	// 				BTC: BigNumber.make(5),
-	// 				ETH: BigNumber.make(6),
-	// 			},
-	// 		},
-	// 	],
-	// 	[
-	// 		789,
-	// 		{
-	// 			available: Number.NaN,
-	// 			fees: Number.NaN,
-	// 		},
-	// 	],
-	// 	[111, undefined],
-	// ])("%s", (slip44, balance) => {
-	// 	it("should turn into an object", () => {
-	// 		subject.coin().config().set("network.constants.slip44", slip44);
-	// 		subject.data().set("key", "value");
+	each("should turn into an object (%s)", ({ context, dataset }) => {
+		context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
+		context.subject.data().set("key", "value");
 
-	// 		subject.data().set(WalletData.Balance, balance);
-	// 		subject.data().set(WalletData.DerivationPath, "1");
-	// 		subject.data().set(WalletFlag.Starred, true);
+		context.subject.data().set(WalletData.Balance, dataset.balance);
+		context.subject.data().set(WalletData.DerivationPath, "1");
+		context.subject.data().set(WalletFlag.Starred, true);
 
-	// 		const actual = subject.toObject();
+		const actual = context.subject.toObject();
 
-	// 		assert.containKeys(actual, ["id", "data", "settings"]);
-	// 		assert.string(actual.id);
-	// 		assert.is(actual.data[WalletData.Address], "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-	// 		assert.is(actual.data[WalletData.Coin], "ARK");
-	// 		assert.is(actual.data[WalletData.Network], "ark.devnet");
-	// 		assert.is(
-	// 			actual.data[WalletData.PublicKey],
-	// 			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-	// 		);
-	// 		assert.object(actual.data);
-	// 		assert.object(actual.settings);
-	// 		assert.string(actual.settings.AVATAR);
-	// 	});
+		assert.containKeys(actual, ["id", "data", "settings"]);
+		assert.string(actual.id);
+		assert.is(actual.data[WalletData.Address], "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+		assert.is(actual.data[WalletData.Coin], "ARK");
+		assert.is(actual.data[WalletData.Network], "ark.devnet");
+		assert.is(
+			actual.data[WalletData.PublicKey],
+			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+		);
+		assert.object(actual.data);
+		assert.object(actual.settings);
+		assert.string(actual.settings.AVATAR);
+	}, datasets);
 
-	// 	it("should turn into an object with initial state for partially restored wallet", () => {
-	// 		subject.coin().config().set("network.constants.slip44", slip44);
-	// 		subject.data().set("key", "value");
+	/* @TODO uncomment and fix
 
-	// 		subject.data().set(WalletData.DerivationPath, "1");
-	// 		subject.data().set(WalletFlag.Starred, true);
-	// 		const partiallyRestoredMock = stub(subject, "hasBeenPartiallyRestored").returnValue(true);
+	each("should turn into an object with initial state for partially restored wallet (%s)", ({ context, dataset }) => {
+		context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
+		context.subject.data().set("key", "value");
 
-	// 		const actual = subject.toObject();
+		context.subject.data().set(WalletData.DerivationPath, "1");
+		context.subject.data().set(WalletFlag.Starred, true);
+		const partiallyRestoredMock = stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
 
-	// 		assert.is(actual, {});
-	// 	});
-	// });
+		const actual = context.subject.toObject();
+
+		assert.is(actual, {});
+	}, datasets);
+
+	*/
 });

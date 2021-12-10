@@ -9,7 +9,7 @@ import { Storage } from "./env.models.js";
 import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
 
 export class ExchangeRateService implements IExchangeRateService {
-	readonly #storageKey: string = "EXCHANGE_RATE.service.js";
+	readonly #storageKey: string = "EXCHANGE_RATE_SERVICE";
 	readonly #dataRepository: DataRepository = new DataRepository();
 
 	/** {@inheritDoc IExchangeRateService.syncAll} */
