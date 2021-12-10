@@ -259,29 +259,6 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
 	});
 
-	skip("#multiSignature", async (context) => {
-		const result = await context.subject.multiSignature({
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				publicKeys: [
-					"03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-					"03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621ded",
-				],
-				min: 2,
-			},
-		});
-
-		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
-	});
-
 	it("should create a ipfs", async (context) => {
 		const result = await context.subject.ipfs({
 			nonce: "1",
