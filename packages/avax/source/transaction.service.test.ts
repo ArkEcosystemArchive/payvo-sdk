@@ -12,7 +12,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("TransactionService", async ({ assert, beforeAll, skip }) => {
+describe("TransactionService", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -29,7 +29,13 @@ describe("TransactionService", async ({ assert, beforeAll, skip }) => {
 		});
 	});
 
-	skip("#transfer", async (context) => {
+	it("#transfer", async (context) => {
+		nock.fake()
+			.post("/ext/bc/X", ({ method }) => method === "avm.getUTXOs")
+			.reply(200, loader.json("test/fixtures/client/avm-get-utxos.json"))
+			.post("/ext/bc/X", ({ method }) => method === "avm.getAssetDescription")
+			.reply(200, loader.json("test/fixtures/client/avm-get-asset-description.json"))
+
 		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -46,6 +52,6 @@ describe("TransactionService", async ({ assert, beforeAll, skip }) => {
 		});
 
 		assert.instance(result, SignedTransactionData);
-		assert.is(result.amount(), 1_000_000_000);
+		assert.is(result.amount().toHuman(), 1);
 	});
 });
