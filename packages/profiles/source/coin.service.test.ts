@@ -5,7 +5,7 @@ import { bootContainer } from "../test/mocking";
 import { CoinService } from "./coin.service";
 import { Profile } from "./profile";
 
-describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub }) => {
+describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy }) => {
 	beforeEach((context) => {
 		bootContainer();
 
@@ -76,12 +76,15 @@ describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub }) =
 		assert.equal(context.subject.entries(), [["ARK", ["ark"]]]);
 	});
 
-	it.skip("#flush should succeed", async (context) => {
-		const dataRepository = mock();
-		context.subject = new CoinService(dataRepository);
+	it("#flush should succeed", async (context) => {
+		const dataRepository = { flush: () => {} };
+
+		const flushSpy = spy(dataRepository, "flush");
+
+		context.subject = new CoinService(dataRepository as any);
 
 		context.subject.flush();
 
-		assert.is(dataRepository.flush).toHaveBeenCalled();
+		assert.true(flushSpy.calledOnce);
 	});
 });
