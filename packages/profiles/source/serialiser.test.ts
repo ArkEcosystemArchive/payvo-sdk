@@ -116,29 +116,33 @@ describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, noc
 		});
 	});
 
-	each("should turn into an object (%s)", ({ context, dataset }) => {
-		context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
-		context.subject.data().set("key", "value");
+	each(
+		"should turn into an object (%s)",
+		({ context, dataset }) => {
+			context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
+			context.subject.data().set("key", "value");
 
-		context.subject.data().set(WalletData.Balance, dataset.balance);
-		context.subject.data().set(WalletData.DerivationPath, "1");
-		context.subject.data().set(WalletFlag.Starred, true);
+			context.subject.data().set(WalletData.Balance, dataset.balance);
+			context.subject.data().set(WalletData.DerivationPath, "1");
+			context.subject.data().set(WalletFlag.Starred, true);
 
-		const actual = context.subject.toObject();
+			const actual = context.subject.toObject();
 
-		assert.containKeys(actual, ["id", "data", "settings"]);
-		assert.string(actual.id);
-		assert.is(actual.data[WalletData.Address], "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
-		assert.is(actual.data[WalletData.Coin], "ARK");
-		assert.is(actual.data[WalletData.Network], "ark.devnet");
-		assert.is(
-			actual.data[WalletData.PublicKey],
-			"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
-		);
-		assert.object(actual.data);
-		assert.object(actual.settings);
-		assert.string(actual.settings.AVATAR);
-	}, datasets);
+			assert.containKeys(actual, ["id", "data", "settings"]);
+			assert.string(actual.id);
+			assert.is(actual.data[WalletData.Address], "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW");
+			assert.is(actual.data[WalletData.Coin], "ARK");
+			assert.is(actual.data[WalletData.Network], "ark.devnet");
+			assert.is(
+				actual.data[WalletData.PublicKey],
+				"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd",
+			);
+			assert.object(actual.data);
+			assert.object(actual.settings);
+			assert.string(actual.settings.AVATAR);
+		},
+		datasets,
+	);
 
 	/* @TODO uncomment and fix
 
