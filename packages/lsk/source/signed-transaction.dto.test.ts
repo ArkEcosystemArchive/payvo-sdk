@@ -93,7 +93,7 @@ describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
 		assert.is(context.subject.fee().toString(), "207000");
 	});
 
-	it.skip("should have timestamp", (context) => {
+	it("should have timestamp", (context) => {
 		assert.instance(context.subject.timestamp(), DateTime);
 	});
 
