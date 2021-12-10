@@ -43,7 +43,12 @@ export class AddressService extends Services.AbstractAddressService {
 		const expected: Buffer = address.slice(offset);
 		const actual: Buffer = Hash.sha256(Hash.sha256(Buffer.from(address.slice(0, offset)))).slice(0, 4);
 
-        if (expected[0] === actual[0] && expected[1] === actual[1] && expected[2] === actual[2] && expected[3] === actual[3]) {
+		if (
+			expected[0] === actual[0] &&
+			expected[1] === actual[1] &&
+			expected[2] === actual[2] &&
+			expected[3] === actual[3]
+		) {
 			return address.slice(0, offset);
 		}
 
