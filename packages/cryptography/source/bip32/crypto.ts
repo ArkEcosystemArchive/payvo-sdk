@@ -1,12 +1,12 @@
 // Original: https://raw.githubusercontent.com/bitcoinjs/bip32/v2.0.6/ts-src/bip32.ts
 
 import createHmac from "create-hmac";
-import ecc from "tiny-secp256k1";
 import typeforce from "typeforce";
 import wif from "wif";
 
 import { Base58Check } from "../base58-check.js";
 import { Hash } from "../hash.js";
+import { ecc } from "./secp256k1.js";
 
 interface Network {
 	wif: number;
@@ -85,7 +85,7 @@ class BIP32 implements BIP32Interface {
 		if (this.__Q === undefined) {
 			this.__Q = ecc.pointFromScalar(this.__D, true);
 		}
-		return this.__Q!;
+		return this.__Q;
 	}
 
 	get privateKey(): Buffer | undefined {
