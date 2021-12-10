@@ -1,0 +1,21 @@
+{
+	"jsonrpc": "2.0",
+	"result": {
+		"balance": "2999000000",
+		"utxoIDs": [
+			{
+				"txID": "26hdxDmhiy7v19v3MAVSMgZEp8eZXZfdKFfmWg4JByWVM7nCjM",
+				"outputIndex": 0
+			},
+			{
+				"txID": "2v2HkavBbHjoNTGSFJ8yS1K1eV5eP7LVZLmPmubidKU6EBwR7Z",
+				"outputIndex": 1
+			},
+			{
+				"txID": "2v2HkavBbHjoNTGSFJ8yS1K1eV5eP7LVZLmPmubidKU6EBwR7Z",
+				"outputIndex": 0
+			}
+		]
+	},
+	"id": 1
+}
