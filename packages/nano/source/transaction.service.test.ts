@@ -31,7 +31,6 @@ describe("TransactionService", async ({ beforeAll, afterEach, assert, it, nock, 
 
 	afterEach(() => nock.cleanAll());
 
-	// @README: test skipped for performance reason. It passes but need to check why computeWork is so slow.
 	it.skip("should sign transaction", async (context) => {
 		nock.fake("https://proxy.nanos.cc/")
 			.post("/proxy")
