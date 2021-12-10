@@ -34,7 +34,7 @@ describe("TransactionService", async ({ assert, beforeAll, it, nock, loader }) =
 			.post("/ext/bc/X", ({ method }) => method === "avm.getUTXOs")
 			.reply(200, loader.json("test/fixtures/client/avm-get-utxos.json"))
 			.post("/ext/bc/X", ({ method }) => method === "avm.getAssetDescription")
-			.reply(200, loader.json("test/fixtures/client/avm-get-asset-description.json"))
+			.reply(200, loader.json("test/fixtures/client/avm-get-asset-description.json"));
 
 		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
