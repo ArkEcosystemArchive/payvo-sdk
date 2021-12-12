@@ -144,16 +144,20 @@ describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, noc
 		datasets,
 	);
 
-	each("should turn into an object with initial state for partially restored wallet (%s)", ({ context, dataset }) => {
-		context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
-		context.subject.data().set("key", "value");
+	each(
+		"should turn into an object with initial state for partially restored wallet (%s)",
+		({ context, dataset }) => {
+			context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
+			context.subject.data().set("key", "value");
 
-		context.subject.data().set(WalletData.DerivationPath, "1");
-		context.subject.data().set(WalletFlag.Starred, true);
-		stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
+			context.subject.data().set(WalletData.DerivationPath, "1");
+			context.subject.data().set(WalletFlag.Starred, true);
+			stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
 
-		const actual = context.subject.toObject();
+			const actual = context.subject.toObject();
 
-		assert.is(Object.keys(actual).length, 0);
-	}, datasets);
+			assert.is(Object.keys(actual).length, 0);
+		},
+		datasets,
+	);
 });
