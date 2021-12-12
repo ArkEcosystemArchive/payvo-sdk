@@ -33,54 +33,70 @@ describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub,
 		context.subject = new TransactionAggregate(profile);
 	});
 
-	each("should have more transactions (%s)", async ({ context, dataset }) => {
-		nock.fake()
-			.get("/api/transactions")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/client/transactions.json"));
+	each(
+		"should have more transactions (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-		const result = await context.subject[dataset]();
+			const result = await context.subject[dataset]();
 
-		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-		assert.length(result.items(), 100);
-		assert.is(result.items()[0].amount(), 7.999_999_99);
-	}, datasets);
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 100);
+			assert.is(result.items()[0].amount(), 7.999_999_99);
+		},
+		datasets,
+	);
 
-	each("should not have more transactions (%s)", async ({ context, dataset }) => {
-		nock.fake()
-			.get("/api/transactions")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/client/transactions-no-more.json"));
+	each(
+		"should not have more transactions (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions-no-more.json"));
 
-		const result = await context.subject[dataset]();
+			const result = await context.subject[dataset]();
 
-		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-		assert.length(result.items(), 100);
-		assert.false(context.subject.hasMore(dataset));
-	}, datasets);
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 100);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
-	each("should skip error responses for processing (%s)", async ({ context, dataset }) => {
-		nock.fake().get("/api/transactions").query(true).reply(404);
+	each(
+		"should skip error responses for processing (%s)",
+		async ({ context, dataset }) => {
+			nock.fake().get("/api/transactions").query(true).reply(404);
 
-		const result = await context.subject[dataset]();
+			const result = await context.subject[dataset]();
 
-		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-		assert.length(result.items(), 0);
-		assert.false(context.subject.hasMore(dataset));
-	}, datasets);
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 0);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
-	each("should skip empty responses for processing (%s)", async ({ context, dataset }) => {
-		nock.fake()
-			.get("/api/transactions")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/client/transactions-empty.json"));
+	each(
+		"should skip empty responses for processing (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions-empty.json"));
 
-		const result = await context.subject[dataset]();
+			const result = await context.subject[dataset]();
 
-		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-		assert.length(result.items(), 0);
-		assert.false(context.subject.hasMore(dataset));
-	}, datasets);
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 0);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
 	/*
 	each("should fetch transactions twice and then stop because no more are available (%s)", async ({ context, dataset }) => {
