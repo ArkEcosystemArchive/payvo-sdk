@@ -7,7 +7,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { WalletData, WalletFlag } from "./wallet.enum";
 
-describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, nock }) => {
+describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, nock, stub }) => {
 	const datasets = [
 		[
 			123,
@@ -144,20 +144,16 @@ describe("WalletSerialiser", ({ beforeAll, beforeEach, assert, loader, each, noc
 		datasets,
 	);
 
-	/* @TODO uncomment and fix
-
 	each("should turn into an object with initial state for partially restored wallet (%s)", ({ context, dataset }) => {
 		context.subject.coin().config().set("network.constants.slip44", dataset.slip44);
 		context.subject.data().set("key", "value");
 
 		context.subject.data().set(WalletData.DerivationPath, "1");
 		context.subject.data().set(WalletFlag.Starred, true);
-		const partiallyRestoredMock = stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
+		stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
 
 		const actual = context.subject.toObject();
 
-		assert.is(actual, {});
+		assert.is(Object.keys(actual).length, 0);
 	}, datasets);
-
-	*/
 });

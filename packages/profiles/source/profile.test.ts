@@ -222,26 +222,4 @@ describe("Profile", ({ beforeEach, it, assert, loader, stub, nock }) => {
 
 		assert.true(context.subject.hasAcceptedManualInstallationDisclaimer());
 	});
-
-	it("should fail to encrypt a profile if the password is invalid", (context) => {
-		context.subject.auth().setPassword("password");
-
-		assert.throws(() => context.subject.save("invalid-password"), "The password did not match our records.");
-	});
-
-	/* @TODO uncomment and fix
-
-	it("should encrypt a profile with the in-memory password if none was provided", (context) => {
-		context.subject.auth().setPassword("password");
-
-		assert.not.throws(() => context.subject.save(), "The password did not match our records.");
-	});
-
-	it("should fail to save if encoding or encrypting fails", () => {
-		stub(JSON, "stringify").returnValue(undefined);
-
-		assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
-	});
-
-	*/
 });
