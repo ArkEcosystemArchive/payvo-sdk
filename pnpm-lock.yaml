@@ -175,7 +175,6 @@ importers:
       '@types/hdkey': 2.0.0
       '@types/node': ^16.11.10
       avalanche: ^3.9.3
-      hdkey: ^2.0.1
       isomorphic-dompurify: ^0.16.0
     dependencies:
       '@payvo/sdk': link:../sdk
@@ -183,7 +182,6 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
       avalanche: 3.9.3
-      hdkey: 2.0.1
       isomorphic-dompurify: 0.16.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
