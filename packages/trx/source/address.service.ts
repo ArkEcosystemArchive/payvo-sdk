@@ -21,16 +21,16 @@ export class AddressService extends Services.AbstractAddressService {
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-            const decoded: Buffer = Base58.decode(address);
-            const offset: number = decoded.length - 4;
-            const expected: Buffer = decoded.slice(offset);
-            const actual: Buffer = Hash.sha256(Hash.sha256(Buffer.from(decoded.slice(0, offset)))).slice(0, 4);
+			const decoded: Buffer = Base58.decode(address);
+			const offset: number = decoded.length - 4;
+			const expected: Buffer = decoded.slice(offset);
+			const actual: Buffer = Hash.sha256(Hash.sha256(Buffer.from(decoded.slice(0, offset)))).slice(0, 4);
 
-            if (actual.compare(expected) !== 0) {
-                return false;
-            }
+			if (actual.compare(expected) !== 0) {
+				return false;
+			}
 
-            const result: Buffer = decoded.slice(0, offset);
+			const result: Buffer = decoded.slice(0, offset);
 
 			if (result && result.length !== 21) {
 				return false;
