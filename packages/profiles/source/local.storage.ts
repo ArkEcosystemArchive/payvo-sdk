@@ -1,4 +1,5 @@
 import localForage from "localforage";
+import memoryDriver from "localforage-driver-memory";
 
 import { Storage } from "./env.models.js";
 
@@ -7,10 +8,15 @@ export class LocalStorage implements Storage {
 	#snapshot: object | undefined;
 
 	public constructor(driver: string) {
+		if (driver === "memory") {
+			void localForage.defineDriver(memoryDriver);
+		}
+
 		this.#storage = localForage.createInstance({
 			driver: {
 				indexeddb: localForage.INDEXEDDB,
 				localstorage: localForage.LOCALSTORAGE,
+				memory: memoryDriver._driver,
 				websql: localForage.WEBSQL,
 			}[driver],
 		});

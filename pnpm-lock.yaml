@@ -634,6 +634,7 @@ importers:
       fs-extra: ^10.0.0
       joi: ^17.4.2
       localforage: ^1.10.0
+      localforage-driver-memory: ^1.0.5
       node-cache: ^5.1.2
       p-queue: ^7.1.0
       p-retry: ^5.0.0
@@ -649,6 +650,7 @@ importers:
       bip38: 3.1.1
       joi: 17.4.2
       localforage: 1.10.0
+      localforage-driver-memory: 1.0.5_localforage@1.10.0
       node-cache: 5.1.2
       p-queue: 7.1.0
       p-retry: 5.0.0
@@ -4439,6 +4441,7 @@ packages:
   /core-js/3.19.3:
     resolution: {integrity: sha512-LeLBMgEGSsG7giquSzvgBrTS7V5UL6ks3eQlUSbN8dJStlLFiRzUm5iqsRyzUB8carhfKjkJ2vzKqE6z1Vga9g==}
     requiresBuild: true
+    dev: false
 
   /core-util-is/1.0.2:
     resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
@@ -7474,6 +7477,24 @@ packages:
   /loader-runner/4.2.0:
     resolution: {integrity: sha512-92+huvxMvYlMzMt0iIOukcwYBFpkYJdpl2xsZ7LrlayO7E8SOv+JJUEK17B/dJIHAOLMfh2dZZ/Y18WgmGtYNw==}
     engines: {node: '>=6.11.5'}
+    dev: false
+
+  /localforage-driver-commons/1.0.3_tslib@1.14.1:
+    resolution: {integrity: sha512-K9PiNNXcyX98lQVyCADjv+QKxFD71y0DtVUhqMjwCkFY/d/g7GdJLPN9U92M7RUvfkL8mzPhC+mWEKo9tur5oQ==}
+    peerDependencies:
+      tslib: ^1.6.0
+    dependencies:
+      tslib: 1.14.1
+    dev: false
+
+  /localforage-driver-memory/1.0.5_localforage@1.10.0:
+    resolution: {integrity: sha512-m4v478ixdT3hA7gKv+pAxDIWgMKiUV2GuYem5jnpOBQFVJbrHU7jmNlrj8a0MfD9qff3i48E3Yfip5Eu1AN6Qg==}
+    peerDependencies:
+      localforage: ^1.5.0
+    dependencies:
+      localforage: 1.10.0
+      localforage-driver-commons: 1.0.3_tslib@1.14.1
+      tslib: 1.14.1
     dev: false
 
   /localforage/1.10.0:
