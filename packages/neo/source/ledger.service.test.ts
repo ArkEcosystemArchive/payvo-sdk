@@ -66,23 +66,18 @@ describe("getPublicKey", ({ it, assert }) => {
 });
 
 describe("signTransaction", ({ it, assert }) => {
-	it.skip("should pass with a signature", async () => {
+	it("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.publicKey.record + ledger.transaction.record, {
 			autoSkipUnknownApdu: true,
-			warning: (log) => console.warn(log),
+			warning: () => {
+				/* noop: suppress log for unknown skipped APDu */
+			},
 		});
 
-		assert.true(await subject.getPublicKey(ledger.bip44.path));
 		assert.is(
 			await subject.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload)),
 			ledger.transaction.result,
 		);
-	});
-
-	it("should fail with an incorrectly-set path", async () => {
-		const subject = await createMockService(ledger.transaction.record);
-
-		await assert.rejects(() => subject.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload)));
 	});
 });
 

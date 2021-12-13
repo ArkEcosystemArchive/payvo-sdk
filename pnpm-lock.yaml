@@ -23,6 +23,7 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^39.0.0
       eslint-plugin-unused-imports: ^2.0.0
+      mock-local-storage: ^1.1.19
       node-polyfill-webpack-plugin: ^1.1.4
       prettier: ^2.4.1
       resolve-typescript-plugin: ^1.1.1
@@ -58,6 +59,7 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.3.0+typescript@4.5.2
       eslint-plugin-unicorn: 39.0.0_eslint@8.3.0
       eslint-plugin-unused-imports: 2.0.0_246bba70209a536dc1e3d335cd795265
+      mock-local-storage: 1.1.19
       node-polyfill-webpack-plugin: 1.1.4_webpack@5.64.4
       prettier: 2.4.1
       resolve-typescript-plugin: 1.1.1_webpack@5.64.4
@@ -4434,6 +4436,10 @@ packages:
     requiresBuild: true
     dev: false
 
+  /core-js/3.19.3:
+    resolution: {integrity: sha512-LeLBMgEGSsG7giquSzvgBrTS7V5UL6ks3eQlUSbN8dJStlLFiRzUm5iqsRyzUB8carhfKjkJ2vzKqE6z1Vga9g==}
+    requiresBuild: true
+
   /core-util-is/1.0.2:
     resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
     dev: false
@@ -7763,6 +7769,13 @@ packages:
 
   /mock-fs/4.14.0:
     resolution: {integrity: sha512-qYvlv/exQ4+svI3UOvPUpLDF0OMX5euvUH0Ny4N5QyRyhNdgAgUrVH3iUINSzEPLvx0kbo/Bp28GJKIqvE7URw==}
+    dev: false
+
+  /mock-local-storage/1.1.19:
+    resolution: {integrity: sha512-YwTEsgWqFw6uRBvhKScanKwfSIpjING50y9UaHb6BGfsdlFY3Zumdnf8RLBvHRVkLh31+G2WEz0xNeYhd5f5fA==}
+    dependencies:
+      core-js: 3.19.3
+      global: 4.4.0
     dev: false
 
   /mri/1.2.0:

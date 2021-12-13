@@ -51,35 +51,33 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
-			const { response } = await Neon.sendAsset({
-				api: this.#apiProvider,
-				account: transaction.get("account"),
-				intents: transaction.get("intents"),
-			});
+			try {
+				const { response } = await Neon.sendAsset({
+					account: transaction.get("account"),
+					api: this.#apiProvider,
+					intents: transaction.get("intents"),
+				});
 
-			if (response === undefined) {
+				if (response === undefined) {
+					result.rejected.push(transaction.id());
+
+					continue;
+				}
+
+				if (response.txid) {
+					transaction.setAttributes({ identifier: response.txid });
+
+					result.accepted.push(transaction.id());
+				}
+			} catch (error) {
 				result.rejected.push(transaction.id());
 
-				continue;
-			}
-
-			if (response.txid) {
-				transaction.setAttributes({ identifier: response.txid });
-
-				result.accepted.push(transaction.id());
-			}
-
-			// @ts-ignore
-			if (response.error) {
-				result.rejected.push(transaction.id());
-
-				// @ts-ignore
-				result.errors[transaction.id()] = response.error.message;
+				result.errors[transaction.id()] = error.message;
 			}
 		}
 

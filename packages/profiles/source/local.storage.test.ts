@@ -1,15 +1,21 @@
+import "mock-local-storage";
+
 import { UUID } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
 
 import { LocalStorage } from "./local.storage";
 
-describe("LocalStorage", ({ assert, it, beforeEach }) => {
+describe("LocalStorage", ({ assert, beforeAll, beforeEach, skip }) => {
+	beforeAll(() => {
+		global.window = { localStorage: global.localStorage };
+	});
+
 	beforeEach((context) => {
 		context.subject = new LocalStorage("localstorage");
 		context.key = UUID.random();
 	});
 
-	it.skip("should get all items", async (context) => {
+	skip("should get all items", async (context) => {
 		assert.equal(await context.subject.all(), {});
 
 		await context.subject.set(context.key, "value");
@@ -21,17 +27,17 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.equal(await context.subject.all(), {});
 	});
 
-	it.skip("should should get the value for the given key", async (context) => {
+	skip("should should get the value for the given key", async (context) => {
 		await context.subject.set(context.key, "value");
 
 		assert.is(await context.subject.get(context.key), "value");
 	});
 
-	it.skip("should should set the value in the storage", async (context) => {
+	skip("should should set the value in the storage", async (context) => {
 		assert.undefined(await context.subject.set(context.key, "value"));
 	});
 
-	it.skip("should should check if the given key exists", async (context) => {
+	skip("should should check if the given key exists", async (context) => {
 		assert.false(await context.subject.has(context.key));
 
 		await context.subject.set(context.key, "value");
@@ -39,10 +45,10 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.true(await context.subject.has(context.key));
 	});
 
-	it.skip("should should forget the given key", async (context) => {
+	skip("should should forget the given key", async (context) => {
 		assert.false(await context.subject.has(context.key));
 
-		await context.subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
 		assert.true(await context.subject.has(context.key));
 
@@ -51,7 +57,7 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.false(await context.subject.has(context.key));
 	});
 
-	it.skip("should flush the storage", async (context) => {
+	skip("should flush the storage", async (context) => {
 		assert.false(await context.subject.has(context.key));
 
 		await context.subject.set(context.key, "value");
@@ -63,7 +69,7 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.false(await context.subject.has(context.key));
 	});
 
-	it.skip("should count all items", async (context) => {
+	skip("should count all items", async (context) => {
 		assert.is(await context.subject.count(), 0);
 
 		await context.subject.set(context.key, "value");
@@ -75,7 +81,7 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.is(await context.subject.count(), 0);
 	});
 
-	it.skip("should create a snapshot and restore it", async (context) => {
+	skip("should create a snapshot and restore it", async (context) => {
 		await context.subject.set("a", "b");
 
 		assert.is(await context.subject.count(), 1);
@@ -93,7 +99,7 @@ describe("LocalStorage", ({ assert, it, beforeEach }) => {
 		assert.is(await context.subject.count(), 1);
 	});
 
-	it.skip("should fail to restore if there is no snapshot", async (context) => {
+	skip("should fail to restore if there is no snapshot", async (context) => {
 		await assert.rejects(() => context.subject.restore(), "There is no snapshot to restore.");
 	});
 });

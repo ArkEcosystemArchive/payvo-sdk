@@ -1,6 +1,6 @@
 import { Base64, PBKDF2 } from "@payvo/sdk-cryptography";
-import { IProfile, IProfileData } from "./contracts.js";
-import { IProfileEncrypter } from "./contracts.js";
+
+import { IProfile, IProfileData, IProfileEncrypter } from "./contracts.js";
 
 export class ProfileEncrypter implements IProfileEncrypter {
 	readonly #profile: IProfile;
@@ -19,7 +19,7 @@ export class ProfileEncrypter implements IProfileEncrypter {
 			throw new Error("The password did not match our records.");
 		}
 
-		return PBKDF2.encrypt(unencrypted, password!);
+		return PBKDF2.encrypt(unencrypted, password);
 	}
 
 	/** {@inheritDoc IProfileEncrypter.decrypt} */

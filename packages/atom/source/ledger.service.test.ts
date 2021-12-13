@@ -50,7 +50,7 @@ describe("getVersion", ({ assert, it, nock, loader }) => {
 });
 
 describe("getPublicKey", ({ assert, it, nock, loader }) => {
-	it.skip("should pass with a compressed publicKey", async () => {
+	it("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
 		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);

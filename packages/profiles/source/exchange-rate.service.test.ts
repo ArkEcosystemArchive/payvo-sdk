@@ -59,8 +59,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 		context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 	});
 
-	// @TODO remove skip and fix
-	it.skip("should sync a coin for specific profile with wallets argument", async (context) => {
+	it("should sync a coin for specific profile with wallets argument", async (context) => {
 		nock.fake()
 			.get("/data/dayAvg")
 			.query(true)
@@ -132,8 +131,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 		assert.is(context.wallet.convertedBalance(), 0.000_050_48);
 	});
 
-	// @TODO remove skip and fix
-	it.skip("should handle restore", async (context) => {
+	it("should handle restore", async (context) => {
 		await assert.resolves(() => context.subject.restore());
 
 		assert.object(await container.get(Identifiers.Storage).get("EXCHANGE_RATE_SERVICE"));

@@ -17,7 +17,7 @@ import { WalletAggregate } from "./wallet.aggregate";
 import { WalletFactory } from "./wallet.factory";
 import { WalletRepository } from "./wallet.repository";
 
-describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
+describe("Profile", ({ beforeEach, it, assert, loader, stub, nock }) => {
 	beforeEach((context) => {
 		bootContainer();
 
@@ -179,12 +179,15 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 		assert.true(context.subject.usesPassword());
 	});
 
-	it.skip("#hasBeenPartiallyRestored", async (context) => {
-		// const wallet = spy(); @TODO use spy
-		const wallet = { id: {} };
-		wallet.id.returnValue("some-id");
-		wallet.hasBeenPartiallyRestored.returnValue(true);
-		context.subject.wallets().push(wallet);
+	it("#hasBeenPartiallyRestored", async (context) => {
+		stub(context.subject, "hasBeenPartiallyRestored").returnValue(true);
+
+		context.subject.wallets().push({
+			address: () => "",
+			id: () => "",
+			networkId: () => "",
+		});
+
 		assert.true(context.subject.hasBeenPartiallyRestored());
 	});
 
@@ -220,23 +223,3 @@ describe("Profile", ({ beforeEach, it, assert, loader, nock }) => {
 		assert.true(context.subject.hasAcceptedManualInstallationDisclaimer());
 	});
 });
-
-// @TODO uncomment and fix.
-
-// it("should fail to encrypt a profile if the password is invalid", () => {
-// 	subject.auth().setPassword("password");
-
-// 	assert.throws(() => subject.save("invalid-password"), "The password did not match our records.");
-// });
-
-// it("should encrypt a profile with the in-memory password if none was provided", () => {
-// 	subject.auth().setPassword("password");
-
-// 	assert.not.throws(() => subject.save(), "The password did not match our records.");
-// });
-
-// it("should fail to save if encoding or encrypting fails", () => {
-//  stub(JSON, "stringify").returnValue(undefined);
-
-// 	assert.throws(() => subject.save(), "Failed to encode or encrypt the profile");
-// });

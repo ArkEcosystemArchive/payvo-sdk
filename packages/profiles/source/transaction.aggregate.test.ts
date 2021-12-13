@@ -2,12 +2,14 @@ import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import * as promiseHelpers from "./helpers/promise";
+import * as promiseHelpers from "./helpers/promise"; // eslint-disable-line import/no-namespace
 import { Profile } from "./profile";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it }) => {
+describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub, it }) => {
+	const datasets = ["all", "sent", "received"];
+
 	beforeAll(async (context) => {
 		bootContainer();
 
@@ -31,117 +33,132 @@ describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it })
 		context.subject = new TransactionAggregate(profile);
 	});
 
-	// describe.each(["all", "sent", "received"])("%s", (method) => {
-	// 	it("should have more transactions", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions.json"));
+	each(
+		"should have more transactions (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-	// 		const result = await subject[method]();
+			const result = await context.subject[dataset]();
 
-	// 		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(result.items(), 100);
-	// 		assert.is(result.items()[0].amount(), 7.99999999);
-	// 	});
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 100);
+			assert.is(result.items()[0].amount(), 7.999_999_99);
+		},
+		datasets,
+	);
 
-	// 	it("should not have more transactions", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions-no-more.json"));
+	each(
+		"should not have more transactions (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions-no-more.json"));
 
-	// 		const result = await subject[method]();
+			const result = await context.subject[dataset]();
 
-	// 		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(result.items(), 100);
-	// 		assert.false(context.subject.hasMore(method));
-	// 	});
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 100);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
-	// 	it("should skip error responses for processing", async (context) => {
-	// 		nock.fake().get("/api/transactions").query(true).reply(404);
+	each(
+		"should skip error responses for processing (%s)",
+		async ({ context, dataset }) => {
+			nock.fake().get("/api/transactions").query(true).reply(404);
 
-	// 		const result = await subject[method]();
+			const result = await context.subject[dataset]();
 
-	// 		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(result.items(), 0);
-	// 		assert.false(context.subject.hasMore(method));
-	// 	});
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 0);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
-	// 	it("should skip empty responses for processing", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions-empty.json"));
+	each(
+		"should skip empty responses for processing (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions-empty.json"));
 
-	// 		const result = await subject[method]();
+			const result = await context.subject[dataset]();
 
-	// 		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(result.items(), 0);
-	// 		assert.false(context.subject.hasMore(method));
-	// 	});
+			assert.instance(result, ExtendedConfirmedTransactionDataCollection);
+			assert.length(result.items(), 0);
+			assert.false(context.subject.hasMore(dataset));
+		},
+		datasets,
+	);
 
-	// 	it("should fetch transactions twice and then stop because no more are available", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions.json"))
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions-no-more.json"));
+	/*
+	each("should fetch transactions twice and then stop because no more are available (%s)", async ({ context, dataset }) => {
+		nock.fake()
+			.get("/api/transactions")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transactions.json"))
+			.get("/api/transactions")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transactions-no-more.json"));
 
-	// 		// We receive a response that does contain a "next" cursor
-	// 		const firstRequest = await subject[method]();
+		// We receive a response that does contain a "next" cursor
+		const firstRequest = await context.subject[dataset]();
 
-	// 		assert.instance(firstRequest, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(firstRequest.items(), 100);
-	// 		assert.true(context.subject.hasMore(method));
+		assert.instance(firstRequest, ExtendedConfirmedTransactionDataCollection);
+		assert.length(firstRequest.items(), 100);
+		assert.true(context.subject.hasMore(dataset));
 
-	// 		// We receive a response that does not contain a "next" cursor
-	// 		const secondRequest = await subject[method]();
+		// We receive a response that does not contain a "next" cursor
+		const secondRequest = await context.subject[dataset]();
 
-	// 		assert.instance(secondRequest, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(secondRequest.items(), 100);
-	// 		assert.false(context.subject.hasMore(method));
+		assert.instance(secondRequest, ExtendedConfirmedTransactionDataCollection);
+		assert.length(secondRequest.items(), 100);
+		assert.false(context.subject.hasMore(dataset));
 
-	// 		// We do not send any requests because no more data is available
-	// 		const thirdRequest = await subject[method]();
+		// We do not send any requests because no more data is available
+		const thirdRequest = await context.subject[dataset]();
 
-	// 		assert.instance(thirdRequest, ExtendedConfirmedTransactionDataCollection);
-	// 		assert.length(thirdRequest.items(), 0);
-	// 		assert.false(context.subject.hasMore(method));
-	// 	});
+		assert.instance(thirdRequest, ExtendedConfirmedTransactionDataCollection);
+		assert.length(thirdRequest.items(), 0);
+		assert.false(context.subject.hasMore(dataset));
+	}, datasets);
 
-	// 	it("should determine if it has more transactions to be requested", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions.json"));
+	each("should determine if it has more transactions to be requested (%s)", async ({ context, dataset }) => {
+		nock.fake()
+			.get("/api/transactions")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-	// 		assert.false(context.subject.hasMore(method));
+		assert.false(context.subject.hasMore(dataset));
 
-	// 		await subject[method]();
+		await context.subject[dataset]();
 
-	// 		assert.true(context.subject.hasMore(method));
-	// 	});
+		assert.true(context.subject.hasMore(dataset));
+	}, datasets);
 
-	// 	it("should flush the history", async (context) => {
-	// 		nock.fake()
-	// 			.get("/api/transactions")
-	// 			.query(true)
-	// 			.reply(200, require("../test/fixtures/client/transactions.json"));
+	each("should flush the history (%s)", async ({ context, dataset }) => {
+		nock.fake()
+			.get("/api/transactions")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-	// 		assert.false(context.subject.hasMore(method));
+		assert.false(context.subject.hasMore(dataset));
 
-	// 		await subject[method]();
+		await context.subject[dataset]();
 
-	// 		assert.true(context.subject.hasMore(method));
+		assert.true(context.subject.hasMore(dataset));
 
-	// 		context.subject.flush(method);
-	// 	});
-	// });
+		context.subject.flush(dataset);
+	}, datasets);
 
-	it("should flush all the history", async (context) => {
+	each("should flush all the history (%s)", async ({ context, dataset }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
@@ -154,23 +171,21 @@ describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it })
 		assert.true(context.subject.hasMore("all"));
 
 		context.subject.flush();
-	});
+	}, datasets);
 
-	it("should handle undefined  promiseAllSettledByKey responses in aggregate", async (context) => {
+	each("should handle undefined  promiseAllSettledByKey responses in aggregate (%s)", async ({ context, dataset }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
 			.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-		stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => {
-			return Promise.resolve(undefined);
-		});
+		stub(promiseHelpers, "promiseAllSettledByKey").callsFake(() => Promise.resolve());
 
 		const results = await context.subject.all();
 		assert.instance(results, ExtendedConfirmedTransactionDataCollection);
-	});
+	}, datasets);
 
-	it("should aggregate and filter transactions based on provided identifiers of type `address`", async (context) => {
+	each("should aggregate and filter transactions based on provided identifiers of type `address` (%s)", async ({ context, dataset }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
@@ -184,9 +199,9 @@ describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it })
 		assert.length(result.items(), 100);
 
 		context.subject.flush();
-	});
+	}, datasets);
 
-	it("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey`", async (context) => {
+	each("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey` (%s)", async ({ context, dataset }) => {
 		nock.fake()
 			.get("/api/transactions")
 			.query(true)
@@ -205,5 +220,7 @@ describe("TransactionAggregate", ({ loader, beforeAll, nock, assert, stub, it })
 		assert.length(result.items(), 100);
 
 		context.subject.flush();
-	});
+	}, datasets);
+
+	*/
 });

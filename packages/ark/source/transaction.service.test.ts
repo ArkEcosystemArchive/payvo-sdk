@@ -17,7 +17,7 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, skip }) => {
+describe("TransactionService", async ({ assert, beforeAll, nock, it, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
@@ -253,29 +253,6 @@ describe("TransactionService", async ({ assert, beforeAll, nock, it, loader, ski
 						amount: 0,
 					},
 				],
-			},
-		});
-
-		assert.true(Transactions.TransactionFactory.fromJson(result.data()).verify());
-	});
-
-	skip("#multiSignature", async (context) => {
-		const result = await context.subject.multiSignature({
-			nonce: "1",
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
-			data: {
-				publicKeys: [
-					"03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-					"03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621ded",
-				],
-				min: 2,
 			},
 		});
 

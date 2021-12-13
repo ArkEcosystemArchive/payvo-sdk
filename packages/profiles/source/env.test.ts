@@ -36,8 +36,8 @@ const makeSubject = async (context) => {
 	await context.subject.persist();
 };
 
-describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, assert, nock, loader }) => {
-	beforeAll(() => {
+describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
+	beforeEach(() => {
 		nock.fake()
 			.get("/api/node/configuration")
 			.reply(200, loader.json("test/fixtures/client/configuration.json"))
@@ -80,9 +80,7 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 			.query(true)
 			.reply(200, (url) => ({ data: {}, meta: {} }))
 			.persist();
-	});
 
-	beforeEach(() => {
 		fs.removeSync(resolve("test/stubs/env.json"));
 
 		container.flush();
@@ -128,7 +126,7 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 		assert.true(container.has(Identifiers.MigrationVersion));
 	});
 
-	it.skip("should create a profile with data and persist it when instructed to do so", async (context) => {
+	it("should create a profile with data and persist it when instructed to do so", async (context) => {
 		await makeSubject(context);
 
 		/**
@@ -331,14 +329,14 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 		assert.instance(context.subject.exchangeRates(), ExchangeRateService);
 	});
 
-	it.skip("#fees", async (context) => {
+	it("#fees", async (context) => {
 		await makeSubject(context);
 
 		await context.subject.fees().sync(context.subject.profiles().create("John"), "ARK", "ark.devnet");
-		assert.length(Object.keys(context.subject.fees().all("ARK", "ark.devnet")), 11);
+		assert.length(Object.keys(context.subject.fees().all("ARK", "ark.devnet")), 8);
 	});
 
-	it.skip("#delegates", async (context) => {
+	it("#delegates", async (context) => {
 		await makeSubject(context);
 
 		await context.subject.delegates().sync(context.subject.profiles().create("John"), "ARK", "ark.devnet");
@@ -411,7 +409,7 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 		assert.not.throws(() => container.get(Identifiers.Storage));
 	});
 
-	it.skip("should persist the env and restore it", async (context) => {
+	it("should persist the env and restore it", async (context) => {
 		// Create initial environment
 		await makeSubject(context);
 
@@ -430,7 +428,12 @@ describe("Environment", ({ afterAll, afterEach, beforeAll, beforeEach, it, asser
 		await context.subject.persist();
 
 		// Boot new env after we persisted the data
-		context.subject.reset({ coins: { ARK, BTC, ETH }, httpClient: new Request(), storage: new StubStorage() });
+		context.subject.reset({
+			coins: { ARK, BTC, ETH },
+			httpClient: new Request(),
+			ledgerTransportFactory: async () => {},
+			storage: new StubStorage(),
+		});
 		await context.subject.verify();
 		await context.subject.boot();
 

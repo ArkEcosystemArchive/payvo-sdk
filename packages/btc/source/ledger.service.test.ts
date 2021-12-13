@@ -38,7 +38,7 @@ const createMockService = async (record) => {
 	return transport;
 };
 
-describe("LedgerService", async ({ assert, it, skip }) => {
+describe("LedgerService", async ({ assert, it }) => {
 	it("disconnect", async () => {
 		const subject = await createMockService("");
 
@@ -57,13 +57,13 @@ describe("LedgerService", async ({ assert, it, skip }) => {
 		assert.is(await subject.getVersion(), ledger.appVersion.result);
 	});
 
-	skip("getPublicKey", async () => {
+	it("getPublicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
 		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 
-	skip("getExtendedPublicKey", async () => {
+	it("getExtendedPublicKey", async () => {
 		const subject = await createMockService(ledger.extendedPublicKey.record);
 
 		assert.is(await subject.getExtendedPublicKey(ledger.extendedPublicKey.path), ledger.extendedPublicKey.result);

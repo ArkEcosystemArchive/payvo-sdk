@@ -1,5 +1,5 @@
 import { loader, describe } from "@payvo/sdk-test";
-import { IoC, Services, Test } from "@payvo/sdk";
+import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -8,6 +8,8 @@ import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { api, wallet } from "@cityofzion/neon-js";
+import { identity } from "../test/fixtures/identity";
 
 describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loader }) => {
 	beforeAll(async (context) => {
@@ -57,15 +59,33 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 		assert.equal(result.balance().available, BigNumber.make(9).times(1e8));
 	});
 
-	it.skip("broadcast should pass", async (context) => {
-		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
-			.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
+	it("broadcast should pass", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1")
+			.get(`/get_balance/${identity.address}`)
 			.reply(200, loader.json(`test/fixtures/client/balance.json`))
-			.post("/api/transactions")
-			.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
+			.get("/get_all_nodes")
+			.reply(200, loader.json(`test/fixtures/client/nodes.json`));
+
+		nock.fake("http://seed2.neo.org:20332")
+			.post("/", ({ method }) => method === "sendrawtransaction")
+			.reply(200, { txid: "0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652" });
 
 		const result = await context.subject.broadcast([
-			createService(SignedTransactionData).configure("id", "transactionPayload", ""),
+			createService(SignedTransactionData).configure(
+				"id",
+				{
+					account: new wallet.Account(
+						new Signatories.Signatory(
+							new Signatories.PrivateKeySignatory({
+								address: identity.address,
+								signingKey: identity.privateKey,
+							}),
+						).signingKey(),
+					),
+					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+				},
+				"",
+			),
 		]);
 
 		assert.equal(result, {
@@ -75,20 +95,41 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 		});
 	});
 
-	it.skip("broadcast should fail", async (context) => {
-		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
-			.post("/api/transactions")
-			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
+	it("broadcast should fail", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1")
+			.get(`/get_balance/${identity.address}`)
+			.reply(200, loader.json(`test/fixtures/client/balance.json`))
+			.get("/get_all_nodes")
+			.reply(200, loader.json(`test/fixtures/client/nodes.json`));
+
+		nock.fake("http://seed2.neo.org:20332")
+			.post("/", ({ method }) => method === "sendrawtransaction")
+			.reply(200, { error: { code: 0, message: "ERR_INSUFFICIENT_FUNDS" } });
 
 		const result = await context.subject.broadcast([
-			createService(SignedTransactionData).configure("id", "transactionPayload", ""),
+			createService(SignedTransactionData).configure(
+				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652",
+				{
+					account: new wallet.Account(
+						new Signatories.Signatory(
+							new Signatories.PrivateKeySignatory({
+								address: identity.address,
+								signingKey: identity.privateKey,
+							}),
+						).signingKey(),
+					),
+					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+				},
+				"",
+			),
 		]);
 
 		assert.equal(result, {
 			accepted: [],
 			rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
 			errors: {
-				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652": "ERR_INSUFFICIENT_FUNDS",
+				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652":
+					"http://seed2.neo.org:20332: ERR_INSUFFICIENT_FUNDS",
 			},
 		});
 	});

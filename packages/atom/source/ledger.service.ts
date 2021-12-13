@@ -1,4 +1,4 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 import Cosmos from "ledger-cosmos-js";
 
