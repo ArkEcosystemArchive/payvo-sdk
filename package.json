@@ -34,7 +34,6 @@
 		"eslint-plugin-testing-library": "^5.0.0",
 		"eslint-plugin-unicorn": "^39.0.0",
 		"eslint-plugin-unused-imports": "^2.0.0",
-		"mock-local-storage": "^1.1.19",
 		"node-polyfill-webpack-plugin": "^1.1.4",
 		"prettier": "^2.4.1",
 		"resolve-typescript-plugin": "^1.1.1",

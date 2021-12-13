@@ -23,7 +23,6 @@ importers:
       eslint-plugin-testing-library: ^5.0.0
       eslint-plugin-unicorn: ^39.0.0
       eslint-plugin-unused-imports: ^2.0.0
-      mock-local-storage: ^1.1.19
       node-polyfill-webpack-plugin: ^1.1.4
       prettier: ^2.4.1
       resolve-typescript-plugin: ^1.1.1
@@ -59,7 +58,6 @@ importers:
       eslint-plugin-testing-library: 5.0.0_eslint@8.3.0+typescript@4.5.2
       eslint-plugin-unicorn: 39.0.0_eslint@8.3.0
       eslint-plugin-unused-imports: 2.0.0_246bba70209a536dc1e3d335cd795265
-      mock-local-storage: 1.1.19
       node-polyfill-webpack-plugin: 1.1.4_webpack@5.64.4
       prettier: 2.4.1
       resolve-typescript-plugin: 1.1.1_webpack@5.64.4
@@ -634,6 +632,7 @@ importers:
       fs-extra: ^10.0.0
       joi: ^17.4.2
       localforage: ^1.10.0
+      localforage-driver-memory: ^1.0.5
       node-cache: ^5.1.2
       p-queue: ^7.1.0
       p-retry: ^5.0.0
@@ -667,6 +666,7 @@ importers:
       '@types/node': 16.11.10
       '@types/semver': 7.3.9
       fs-extra: 10.0.0
+      localforage-driver-memory: 1.0.5_localforage@1.10.0
 
   packages/sdk:
     specifiers:
@@ -4436,10 +4436,6 @@ packages:
     requiresBuild: true
     dev: false
 
-  /core-js/3.19.3:
-    resolution: {integrity: sha512-LeLBMgEGSsG7giquSzvgBrTS7V5UL6ks3eQlUSbN8dJStlLFiRzUm5iqsRyzUB8carhfKjkJ2vzKqE6z1Vga9g==}
-    requiresBuild: true
-
   /core-util-is/1.0.2:
     resolution: {integrity: sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=}
     dev: false
@@ -7476,6 +7472,24 @@ packages:
     engines: {node: '>=6.11.5'}
     dev: false
 
+  /localforage-driver-commons/1.0.3_tslib@1.14.1:
+    resolution: {integrity: sha512-K9PiNNXcyX98lQVyCADjv+QKxFD71y0DtVUhqMjwCkFY/d/g7GdJLPN9U92M7RUvfkL8mzPhC+mWEKo9tur5oQ==}
+    peerDependencies:
+      tslib: ^1.6.0
+    dependencies:
+      tslib: 1.14.1
+    dev: true
+
+  /localforage-driver-memory/1.0.5_localforage@1.10.0:
+    resolution: {integrity: sha512-m4v478ixdT3hA7gKv+pAxDIWgMKiUV2GuYem5jnpOBQFVJbrHU7jmNlrj8a0MfD9qff3i48E3Yfip5Eu1AN6Qg==}
+    peerDependencies:
+      localforage: ^1.5.0
+    dependencies:
+      localforage: 1.10.0
+      localforage-driver-commons: 1.0.3_tslib@1.14.1
+      tslib: 1.14.1
+    dev: true
+
   /localforage/1.10.0:
     resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}
     dependencies:
@@ -7769,13 +7783,6 @@ packages:
 
   /mock-fs/4.14.0:
     resolution: {integrity: sha512-qYvlv/exQ4+svI3UOvPUpLDF0OMX5euvUH0Ny4N5QyRyhNdgAgUrVH3iUINSzEPLvx0kbo/Bp28GJKIqvE7URw==}
-    dev: false
-
-  /mock-local-storage/1.1.19:
-    resolution: {integrity: sha512-YwTEsgWqFw6uRBvhKScanKwfSIpjING50y9UaHb6BGfsdlFY3Zumdnf8RLBvHRVkLh31+G2WEz0xNeYhd5f5fA==}
-    dependencies:
-      core-js: 3.19.3
-      global: 4.4.0
     dev: false
 
   /mri/1.2.0:
