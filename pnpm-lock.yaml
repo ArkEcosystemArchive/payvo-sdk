@@ -648,7 +648,6 @@ importers:
       bip38: 3.1.1
       joi: 17.4.2
       localforage: 1.10.0
-      localforage-driver-memory: 1.0.5_localforage@1.10.0
       node-cache: 5.1.2
       p-queue: 7.1.0
       p-retry: 5.0.0
@@ -667,6 +666,7 @@ importers:
       '@types/node': 16.11.10
       '@types/semver': 7.3.9
       fs-extra: 10.0.0
+      localforage-driver-memory: 1.0.5_localforage@1.10.0
 
   packages/sdk:
     specifiers:
@@ -7478,7 +7478,7 @@ packages:
       tslib: ^1.6.0
     dependencies:
       tslib: 1.14.1
-    dev: false
+    dev: true
 
   /localforage-driver-memory/1.0.5_localforage@1.10.0:
     resolution: {integrity: sha512-m4v478ixdT3hA7gKv+pAxDIWgMKiUV2GuYem5jnpOBQFVJbrHU7jmNlrj8a0MfD9qff3i48E3Yfip5Eu1AN6Qg==}
@@ -7488,7 +7488,7 @@ packages:
       localforage: 1.10.0
       localforage-driver-commons: 1.0.3_tslib@1.14.1
       tslib: 1.14.1
-    dev: false
+    dev: true
 
   /localforage/1.10.0:
     resolution: {integrity: sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==}

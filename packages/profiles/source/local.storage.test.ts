@@ -1,9 +1,15 @@
 import { UUID } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
+import localForage from "localforage";
+import memoryDriver from "localforage-driver-memory";
 
 import { LocalStorage } from "./local.storage";
 
-describe("LocalStorage", ({ assert, beforeEach, it }) => {
+describe("LocalStorage", ({ assert, beforeAll, beforeEach, it }) => {
+	beforeAll(async () => {
+		await localForage.defineDriver(memoryDriver);
+	});
+
 	beforeEach(async (context) => {
 		context.subject = new LocalStorage("memory");
 		context.key = UUID.random();
