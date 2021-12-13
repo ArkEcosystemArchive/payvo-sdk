@@ -10,8 +10,8 @@ export class LocalStorage implements Storage {
 		this.#storage = localForage.createInstance({
 			driver: {
 				indexeddb: localForage.INDEXEDDB,
-				websql: localForage.WEBSQL,
 				localstorage: localForage.LOCALSTORAGE,
+				websql: localForage.WEBSQL,
 			}[driver],
 		});
 	}
