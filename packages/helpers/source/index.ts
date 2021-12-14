@@ -170,6 +170,7 @@ export * from "./to-upper.js";
 export * from "./trim-trailing-slash.js";
 export * from "./truncate.js";
 export * from "./types.js";
+export * from "./uint8.js";
 export * from "./union-by.js";
 export * from "./union.js";
 export * from "./uniq-by.js";
