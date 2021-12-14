@@ -382,7 +382,6 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
-      bn.js: ^5.2.0
       ethers: ^5.5.1
       web3-eth-contract: ^1.6.1
     dependencies:
@@ -393,7 +392,6 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
-      bn.js: 5.2.0
       ethers: 5.5.1
       web3-eth-contract: 1.6.1
     devDependencies:

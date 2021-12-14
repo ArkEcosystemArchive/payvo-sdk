@@ -1,8 +1,6 @@
 // Based on https://github.com/ethjs/ethjs-unit
 
-import BN from "bn.js";
-
-const negative1 = new BN(-1);
+const negative1 = BigInt(-1);
 
 const unitMap = {
 	Gwei: "1000000000",
@@ -42,13 +40,13 @@ const getValueOfUnit = (unitInput) => {
 		throw new TypeError(
 			`[ethjs-unit] the unit provided ${unitInput} doesn't exists, please use the one of the following units ${JSON.stringify(
 				unitMap,
-				null,
+				undefined,
 				2,
 			)}`,
 		);
 	}
 
-	return new BN(unitValue, 10);
+	return BigInt(unitValue);
 };
 
 const numberToString = (argument) => {
@@ -71,10 +69,10 @@ const numberToString = (argument) => {
 			return String(argument.toPrecision());
 		}
 
-		return argument.toString(10);
+		return argument;
 	}
 
-	throw new Error(`while converting number to string, invalid number value '${argument}' type ${typeof argument}.`);
+	throw new Error(`Invalid number value '${argument}' type ${typeof argument} while converting number to string`);
 };
 
 export const toWei = (etherInput, unit) => {
@@ -90,14 +88,14 @@ export const toWei = (etherInput, unit) => {
 	}
 
 	if (ether === ".") {
-		throw new Error(`[ethjs-unit] while converting number ${etherInput} to wei, invalid value`);
+		throw new Error(`Invalid value while converting number ${etherInput} to wei`);
 	}
 
 	// Split it into a whole and fractional part
 	const comps = ether.split(".");
 
 	if (comps.length > 2) {
-		throw new Error(`[ethjs-unit] while converting number ${etherInput} to wei,  too many decimal points`);
+		throw new Error(`Too many decimal points while converting number ${etherInput} to wei`);
 	}
 
 	let whole = comps[0],
@@ -112,20 +110,21 @@ export const toWei = (etherInput, unit) => {
 	}
 
 	if (fraction.length > baseLength) {
-		throw new Error(`[ethjs-unit] while converting number ${etherInput} to wei, too many decimal places`);
+		throw new Error(`Too many decimal places while converting number ${etherInput} to wei`);
 	}
 
 	while (fraction.length < baseLength) {
 		fraction += "0";
 	}
 
-	whole = new BN(whole);
-	fraction = new BN(fraction);
-	let wei = whole.mul(base).add(fraction);
+	whole = BigInt(whole);
+	fraction = BigInt(fraction);
+
+	const wei = whole * base + fraction;
 
 	if (negative) {
-		wei = wei.mul(negative1);
+		return wei * negative1;
 	}
 
-	return BigInt(new BN(wei.toString(10), 10).toString());
+	return wei;
 };
