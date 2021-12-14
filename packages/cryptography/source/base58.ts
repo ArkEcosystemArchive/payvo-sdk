@@ -1,8 +1,6 @@
-import basex from "base-x";
+import { base58 } from "micro-base";
 
 const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
-
-const BASE58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
 /**
  * Implements all functionality that is required to work with the Base58
@@ -23,7 +21,7 @@ export class Base58 {
 	 * @memberof Base58
 	 */
 	public static encode(value: string | Buffer): string {
-		return basex(BASE58).encode(normalise(value));
+		return base58.encode(normalise(value));
 	}
 
 	/**
@@ -35,7 +33,7 @@ export class Base58 {
 	 * @memberof Base58
 	 */
 	public static decode(value: string): Buffer {
-		return basex(BASE58).decode(value);
+		return Buffer.from(base58.decode(value));
 	}
 
 	/**
@@ -53,7 +51,7 @@ export class Base58 {
 	 */
 	public static validate(value: string): boolean {
 		try {
-			basex(BASE58).decode(value);
+			base58.decode(value);
 
 			return true;
 		} catch {
