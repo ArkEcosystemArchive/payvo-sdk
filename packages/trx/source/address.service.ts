@@ -13,15 +13,15 @@ export class AddressService extends Services.AbstractAddressService {
 		});
 
 		return {
-			type: "bip44",
 			address: TronWeb.address.fromPrivateKey(child.privateKey!.toString("hex")),
 			path,
+			type: "bip44",
 		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			const decoded: Buffer = Base58.decode(address);
+			const decoded: Buffer = Buffer.from(Base58.decode(address));
 			const offset: number = decoded.length - 4;
 			const expected: Buffer = decoded.slice(offset);
 			const actual: Buffer = Hash.sha256(Hash.sha256(Buffer.from(decoded.slice(0, offset)))).slice(0, 4);

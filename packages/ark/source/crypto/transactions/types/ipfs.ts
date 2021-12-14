@@ -27,7 +27,7 @@ export abstract class IpfsTransaction extends Transaction {
 		const { data } = this;
 
 		if (data.asset) {
-			const ipfsBuffer: Buffer = Base58.decode(data.asset.ipfs!);
+			const ipfsBuffer: Buffer = Buffer.from(Base58.decode(data.asset.ipfs!));
 			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length, true);
 
 			buffer.append(ipfsBuffer, "hex");
