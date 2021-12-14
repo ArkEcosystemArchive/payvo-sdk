@@ -1,20 +1,20 @@
-import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
 import { ClientService } from "./client.service";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto";
+import { WalletData } from "./wallet.dto";
 
 describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
 				ConfirmedTransactionData,
+				SignedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -81,9 +81,9 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		]);
 
 		assert.equal(result, {
-			accepted: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
-			rejected: [],
+			accepted: ["dfe2e16d1f6cd7fc666abdb91866e77db3091d2b9a7745fa01f39fe537ce4b03"],
 			errors: {},
+			rejected: [],
 		});
 	});
 
@@ -98,11 +98,11 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 
 		assert.equal(result, {
 			accepted: [],
-			rejected: ["0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172"],
 			errors: {
-				"0x227cff6fc8990fecd43cc9c7768f2c98cc5ee8e7c98c67c11161e008cce2b172":
+				dfe2e16d1f6cd7fc666abdb91866e77db3091d2b9a7745fa01f39fe537ce4b03:
 					"insufficient funds for gas * price + value",
 			},
+			rejected: ["dfe2e16d1f6cd7fc666abdb91866e77db3091d2b9a7745fa01f39fe537ce4b03"],
 		});
 	});
 });
