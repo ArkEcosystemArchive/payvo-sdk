@@ -7,6 +7,7 @@ export * from "./bip32.js";
 export * from "./bip39.js";
 export * from "./bip44.js";
 export * from "./buffoon.js";
+export * from "./crc16.js";
 export * from "./hash.js";
 export * from "./hdkey.js";
 export * from "./pbkdf2.js";
