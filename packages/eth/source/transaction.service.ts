@@ -1,8 +1,10 @@
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { Buffoon } from "@payvo/sdk-cryptography";
 import Common from "@ethereumjs/common";
 import eth from "@ethereumjs/tx";
-import Web3 from "web3";
+import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Buffoon } from "@payvo/sdk-cryptography";
+import { Contract } from "web3-eth-contract";
+
+import { toWei } from "./units.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
 	readonly #addressService: Services.AddressService;
@@ -10,7 +12,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	#chain!: string;
 	#peer!: string;
-	#web3!: Web3;
 
 	public constructor(container: IoC.IContainer) {
 		super(container);
@@ -19,7 +20,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#privateKeyService = container.get(IoC.BindingType.PrivateKeyService);
 		this.#chain = this.configRepository.get("network");
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
-		this.#web3 = new Web3(); // @TODO: provide a host
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
@@ -38,22 +38,22 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		if (input.contract && input.contract.address) {
 			data = {
-				nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
-				gasPrice: Web3.utils.toHex(input.fee!),
-				gasLimit: Web3.utils.toHex(input.feeLimit!),
-				to: input.contract.address,
-				value: "0x0",
 				data: this.#createContract(input.contract.address)
 					.methods.transfer(input.data.to, input.data.amount)
 					.encodeABI(),
+				gasLimit: this.#toHex(input.feeLimit!),
+				gasPrice: this.#toHex(input.fee!),
+				nonce: this.#toHex(BigInt(nonce) + 1n),
+				to: input.contract.address,
+				value: "0x0",
 			};
 		} else {
 			data = {
-				nonce: Web3.utils.toHex(Web3.utils.toBN(nonce).add(Web3.utils.toBN("1"))),
-				gasLimit: Web3.utils.toHex(input.feeLimit!),
-				gasPrice: Web3.utils.toHex(input.fee!),
+				gasLimit: this.#toHex(input.feeLimit!),
+				gasPrice: this.#toHex(input.fee!),
+				nonce: this.#toHex(BigInt(nonce) + 1n),
 				to: input.data.to,
-				value: Web3.utils.toHex(Web3.utils.toWei(`${input.data.amount}`, "wei")),
+				value: this.#toHex(toWei(`${input.data.amount}`, "wei")),
 			};
 
 			if (input.data.memo) {
@@ -82,7 +82,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#createContract(contractAddress: string) {
-		return new this.#web3.eth.Contract(
+		return new Contract(
 			[
 				{
 					constant: false,
@@ -110,5 +110,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 			],
 			contractAddress,
 		);
+	}
+
+	#toHex(value: bigint | number): string {
+		return `0x${value.toString(16)}`;
 	}
 }

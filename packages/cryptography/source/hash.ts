@@ -1,5 +1,6 @@
-import { sha256 } from "@noble/hashes/lib/sha256";
 import { ripemd160 } from "@noble/hashes/lib/ripemd160";
+import { sha3_256 } from "@noble/hashes/lib/sha3";
+import { sha256 } from "@noble/hashes/lib/sha256";
 
 export class Hash {
 	public static hash160(buffer: Buffer | string): Buffer {
@@ -8,6 +9,10 @@ export class Hash {
 
 	public static ripemd160(buffer: Buffer | string): Buffer {
 		return Buffer.from(ripemd160(Hash.#bufferize(buffer)));
+	}
+
+	public static sha3(buffer: Buffer | string): Buffer {
+		return Buffer.from(sha3_256(Hash.#bufferize(buffer)));
 	}
 
 	public static sha256(buffer: Buffer | string): Buffer {
