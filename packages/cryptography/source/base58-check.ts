@@ -23,40 +23,15 @@ const decodeRaw = (buffer: Buffer): Buffer | undefined => {
 	return payload;
 };
 
-/**
- * Implements all functionality that is required to work with the Base58
- * binary-to-text encoding scheme as defined by the specifications.
- *
- * @see {@link https://learnmeabitcoin.com/technical/base58}
- *
- * @export
- * @class Base58Check
- */
 export class Base58Check {
-	/**
-	 * Encodes a string in compliance with the Base58 encoding scheme.
-	 *
-	 * @static
-	 * @param {(string | Buffer)} value
-	 * @returns {string}
-	 * @memberof Base58Check
-	 */
 	public static encode(payload: string | Buffer): string {
 		payload = normalise(payload);
 
 		return Base58.encode(Buffer.concat([payload, normaliseSHA256(payload)], payload.length + 4));
 	}
 
-	/**
-	 * Decodes a string in compliance with the Base58 encoding scheme.
-	 *
-	 * @static
-	 * @param {string} value
-	 * @returns {Buffer}
-	 * @memberof Base58Check
-	 */
 	public static decode(value: string): Buffer {
-		const payload = decodeRaw(Base58.decode(value));
+		const payload = decodeRaw(Buffer.from(Base58.decode(value)));
 
 		if (!payload) {
 			throw new Error("Invalid checksum");
