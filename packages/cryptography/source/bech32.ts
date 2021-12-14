@@ -1,16 +1,16 @@
-import { bech32 as base, Decoded } from "bech32";
+import { bech32 as base, Bech32Decoded } from "micro-base";
 
 class Bech32 {
-	public encode(prefix: string, words: ArrayLike<number>): string {
+	public encode(prefix: string, words: number[]): string {
 		return base.encode(prefix, words);
 	}
 
-	public decode(value: string, limit?: number | undefined): Decoded {
+	public decode(value: string, limit?: number | undefined): Bech32Decoded {
 		return base.decode(value, limit);
 	}
 
-	public toWords(bytes: ArrayLike<number>): number[] {
-		return base.toWords(bytes);
+	public toWords(bytes: number[]): number[] {
+		return base.toWords(new Uint8Array(bytes));
 	}
 }
 
