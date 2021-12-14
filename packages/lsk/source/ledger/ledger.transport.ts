@@ -1,6 +1,6 @@
-import { LedgerAccount } from './ledger.account.js';
+import { LedgerAccount } from "./ledger.account.js";
 import { getCrc16 } from "./ledger.helpers.js";
-import { ITransport } from './ledger.transport.contracts.js';
+import { ITransport } from "./ledger.transport.contracts.js";
 
 /**
  * Communication Protocol class.
@@ -25,18 +25,18 @@ export class LiskLedger {
 	 */
 	constructor(private transport: ITransport, private chunkSize: number = 240) {
 		if (chunkSize > 240) {
-			throw new Error('Chunk size cannot exceed 240');
+			throw new Error("Chunk size cannot exceed 240");
 		}
 
 		if (chunkSize < 1) {
-			throw new Error('Chunk size cannot be less than 1');
+			throw new Error("Chunk size cannot be less than 1");
 		}
 
-		if (transport === null || typeof(transport) === 'undefined') {
-			throw new Error('Transport cannot be empty');
+		if (transport === null || typeof transport === "undefined") {
+			throw new Error("Transport cannot be empty");
 		}
 
-		transport.setScrambleKey('scramblekey'); // @TODO review
+		transport.setScrambleKey("scramblekey"); // @TODO review
 	}
 
 	/**
@@ -55,22 +55,19 @@ export class LiskLedger {
 	 *   });
 	 * ```
 	 */
-	public async getPubKey(account: LedgerAccount | Buffer, showOnLedger: boolean = false):
-		Promise<{ publicKey: string, address: string, lisk32: string }> {
+	public async getPubKey(
+		account: LedgerAccount | Buffer,
+		showOnLedger = false,
+	): Promise<{ publicKey: string; address: string; lisk32: string }> {
 		const pathBuf = Buffer.isBuffer(account) ? account : account.derivePath();
-		const resp    = await this.exchange([
-			0x04,
-			showOnLedger ? 0x1 : 0x0,
-			(pathBuf.length / 4),
-			pathBuf,
-		]);
+		const resp = await this.exchange([0x04, showOnLedger ? 0x1 : 0x0, pathBuf.length / 4, pathBuf]);
 
 		const [publicKey, address, lisk32] = resp;
 
 		return {
-			address  : address.toString('hex'),
-			lisk32   : lisk32.toString('utf8'),
-			publicKey: publicKey.toString('hex'),
+			address: address.toString("hex"),
+			lisk32: lisk32.toString("utf8"),
+			publicKey: publicKey.toString("hex"),
 		};
 	}
 
@@ -111,7 +108,7 @@ export class LiskLedger {
 	 * ```
 	 */
 	public async signMSG(account: LedgerAccount | Buffer, what: string | Buffer): Promise<Buffer> {
-		const buffer: Buffer = typeof(what) === 'string' ? Buffer.from(what, 'utf8') : what;
+		const buffer: Buffer = typeof what === "string" ? Buffer.from(what, "utf8") : what;
 		return this.sign(0x06, account, buffer);
 	}
 
@@ -128,11 +125,11 @@ export class LiskLedger {
 	 *   });
 	 * ```
 	 */
-	public async version(): Promise<{ version: string, coinID: string }> {
+	public async version(): Promise<{ version: string; coinID: string }> {
 		const [version, coinID] = await this.exchange(0x09);
 		return {
-			coinID : coinID.toString('ascii'),
-			version: version.toString('ascii'),
+			coinID: coinID.toString("ascii"),
+			version: version.toString("ascii"),
 		};
 	}
 
@@ -142,8 +139,8 @@ export class LiskLedger {
 	 */
 	public async ping(): Promise<void> {
 		const [res] = await this.exchange(0x08);
-		if (res.toString('ascii') !== 'PONG') {
-			throw new Error('Didnt receive PONG');
+		if (res.toString("ascii") !== "PONG") {
+			throw new Error("Didnt receive PONG");
 		}
 	}
 
@@ -152,20 +149,22 @@ export class LiskLedger {
 	 * @param {string | Buffer} hexData
 	 * @returns {Promise<Buffer[]>} Raw response buffers.
 	 */
-	public async exchange(hexData: string | Buffer | number | Array<(string | Buffer | number)>): Promise<Buffer[]> {
+	public async exchange(hexData: string | Buffer | number | Array<string | Buffer | number>): Promise<Buffer[]> {
 		let inputBuffer: Buffer;
 		if (Array.isArray(hexData)) {
-			inputBuffer = Buffer.concat(hexData.map((item) => {
-				if (typeof(item) === 'string') {
-					return Buffer.from(item, 'hex');
-				} else if (typeof(item) === 'number') {
-					return Buffer.alloc(1).fill(item);
-				}
-				return item;
-			}));
-		} else if (typeof(hexData) === 'string') {
-			inputBuffer = Buffer.from(hexData, 'hex');
-		} else if (typeof(hexData) === 'number') {
+			inputBuffer = Buffer.concat(
+				hexData.map((item) => {
+					if (typeof item === "string") {
+						return Buffer.from(item, "hex");
+					} else if (typeof item === "number") {
+						return Buffer.alloc(1).fill(item);
+					}
+					return item;
+				}),
+			);
+		} else if (typeof hexData === "string") {
+			inputBuffer = Buffer.from(hexData, "hex");
+		} else if (typeof hexData === "number") {
 			inputBuffer = Buffer.alloc(1).fill(hexData);
 		} else {
 			inputBuffer = hexData;
@@ -179,44 +178,38 @@ export class LiskLedger {
 
 		// Calculate number of chunks to send.
 		const chunkDataSize = this.chunkSize;
-		const nChunks       = Math.ceil(inputBuffer.length / chunkDataSize);
+		const nChunks = Math.ceil(inputBuffer.length / chunkDataSize);
 
-		let prevCRC = 0;
-		for (let i = 0; i < nChunks; i++) {
-			const dataSize = Math.min(inputBuffer.length, (i + 1) * chunkDataSize) - i * chunkDataSize;
+		let previousCRC = 0;
+		for (let index = 0; index < nChunks; index++) {
+			const dataSize = Math.min(inputBuffer.length, (index + 1) * chunkDataSize) - index * chunkDataSize;
 
 			// copy chunk data
-			const dataBuffer = inputBuffer.slice(i * chunkDataSize, i * chunkDataSize + dataSize);
+			const dataBuffer = inputBuffer.slice(index * chunkDataSize, index * chunkDataSize + dataSize);
 
 			let resBuffer;
 			try {
-				resBuffer = await this.transport.send(
-					0xe0,
-					90,
-					0,
-					0,
-					dataBuffer
-				)
+				resBuffer = await this.transport.send(0xe0, 90, 0, 0, dataBuffer);
 			} catch (error) {
-				if (error.message.includes('0x6867')) {
-					throw new Error('Payload too big for Lisk Ledger implementation');
+				if (error.message.includes("0x6867")) {
+					throw new Error("Payload too big for Lisk Ledger implementation");
 				} else {
 					throw error;
 				}
 			}
-			const [curCRC, prevCRCLedger] = this.decomposeResponse(resBuffer);
+			const [currentCRC, previousCRCLedger] = this.decomposeResponse(resBuffer);
 			const crc = getCrc16(dataBuffer);
-			const receivedCRC = curCRC.readUInt16LE(0);
+			const receivedCRC = currentCRC.readUInt16LE(0);
 
 			if (crc !== receivedCRC) {
-				throw new Error('Something went wrong during CRC validation');
+				throw new Error("Something went wrong during CRC validation");
 			}
 
-			if (prevCRCLedger.readUInt16LE(0) !== prevCRC) {
-				throw new Error('Prev CRC is not valid');
+			if (previousCRCLedger.readUInt16LE(0) !== previousCRC) {
+				throw new Error("Prev CRC is not valid");
 			}
 
-			prevCRC = crc;
+			previousCRC = crc;
 		}
 		// Close comm flow.
 		const resBuf = await this.transport.send(0xe0, 91, 0, 0);
@@ -232,25 +225,21 @@ export class LiskLedger {
 	 * @param {boolean} hasRequesterPKey if it has a requesterpublickey (used only in tx signing mode)
 	 * @returns {Promise<Buffer>} the signature
 	 */
-	private async sign(
-		signType: number,
-		account: LedgerAccount | Buffer,
-		buff: Buffer): Promise<Buffer> {
-
-		const pathBuf    = Buffer.isBuffer(account) ? account : account.derivePath();
+	private async sign(signType: number, account: LedgerAccount | Buffer, buff: Buffer): Promise<Buffer> {
+		const pathBuf = Buffer.isBuffer(account) ? account : account.derivePath();
 		const buffLength = Buffer.alloc(2);
 		buffLength.writeUInt16BE(buff.length, 0);
-		const args = await this.exchange([
+		const arguments_ = await this.exchange([
 			signType, // sign
 			// Bip32
-			(pathBuf.length / 4),
+			pathBuf.length / 4,
 			pathBuf,
 			// headers
 			buffLength,
 			// data
 			buff,
 		]);
-		const [signature] = args;
+		const [signature] = arguments_;
 		return signature;
 	}
 
@@ -260,17 +249,17 @@ export class LiskLedger {
 	 * @returns {Array<Buffer>} decomposed response.
 	 */
 	private decomposeResponse(resBuf: Buffer): Buffer[] {
-		const totalElements   = resBuf.readInt8(0);
-		const toRet: Buffer[] = [];
-		let index             = 1; // 1 read uint8_t
+		const totalElements = resBuf.readInt8(0);
+		const toReturnValue: Buffer[] = [];
+		let index = 1; // 1 read uint8_t
 
-		for (let i = 0; i < totalElements; i++) {
-			const elLength = resBuf.readInt16LE(index);
+		for (let index_ = 0; index_ < totalElements; index_++) {
+			const elementLength = resBuf.readInt16LE(index);
 			index += 2;
-			toRet.push(resBuf.slice(index, index + elLength));
-			index += elLength;
+			toReturnValue.push(resBuf.slice(index, index + elementLength));
+			index += elementLength;
 		}
 
-		return toRet;
+		return toReturnValue;
 	}
 }

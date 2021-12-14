@@ -26,7 +26,9 @@ export class LedgerAccount {
 		const pathArray = getPathArray(`44'/${this.#coinIndex}'/${this.#account}'`);
 		const buffer = Buffer.alloc(pathArray.length * 4);
 
-		pathArray.forEach((r, index) => buffer.writeUInt32BE(r, index * 4));
+		for (const [index, r] of pathArray.entries()) {
+			buffer.writeUInt32BE(r, index * 4);
+		}
 
 		return buffer;
 	}
@@ -36,11 +38,11 @@ export class LedgerAccount {
 	 */
 	#assertValidPath(value: number) {
 		if (!Number.isInteger(value)) {
-			throw new TypeError('Param must be an integer');
+			throw new TypeError("Param must be an integer");
 		}
 
 		if (value < 0) {
-			throw new Error('Param must be greater than zero');
+			throw new Error("Param must be greater than zero");
 		}
 	}
 }
