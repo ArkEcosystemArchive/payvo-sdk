@@ -239,7 +239,6 @@ importers:
       '@types/create-xpub': ^2.1.1
       '@types/hdkey': ^2.0.0
       '@types/node': ^16.11.10
-      '@types/node-forge': 0.10.10
       '@types/uuid': ^8.3.3
       '@types/wif': ^2.0.2
       bcryptjs: ^2.4.3
@@ -251,7 +250,6 @@ importers:
       elliptic: ^6.5.4
       hdkey: ^2.0.1
       micro-base: ^0.10.0
-      node-forge: ^0.10.0
       secp256k1: ^4.0.2
       string-crypto: ^2.0.2
       typeforce: ^1.18.0
@@ -269,7 +267,6 @@ importers:
       elliptic: 6.5.4
       hdkey: 2.0.1
       micro-base: 0.10.0
-      node-forge: 0.10.0
       secp256k1: 4.0.2
       string-crypto: 2.0.2
       typeforce: 1.18.0
@@ -281,7 +278,6 @@ importers:
       '@types/create-xpub': 2.1.1
       '@types/hdkey': 2.0.0
       '@types/node': 16.11.10
-      '@types/node-forge': 0.10.10
       '@types/uuid': 8.3.3
       '@types/wif': 2.0.2
       wif: 2.0.6
@@ -2564,12 +2560,6 @@ packages:
       '@types/node': 16.11.10
       form-data: 3.0.1
     dev: false
-
-  /@types/node-forge/0.10.10:
-    resolution: {integrity: sha512-iixn5bedlE9fm/5mN7fPpXraXlxCVrnNWHZekys8c5fknridLVWGnNRqlaWpenwaijIuB3bNI0lEOm+JD6hZUA==}
-    dependencies:
-      '@types/node': 16.11.10
-    dev: true
 
   /@types/node/10.12.18:
     resolution: {integrity: sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==}
@@ -7982,11 +7972,6 @@ packages:
     engines: {node: 4.x || >=6.0.0}
     dependencies:
       whatwg-url: 5.0.0
-    dev: false
-
-  /node-forge/0.10.0:
-    resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
-    engines: {node: '>= 6.0.0'}
     dev: false
 
   /node-gyp-build/4.3.0:
