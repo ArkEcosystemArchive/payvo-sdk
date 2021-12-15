@@ -15,7 +15,7 @@ export class AppearanceService implements IAppearanceService {
 		},
 		dashboardTransactionHistory: {
 			profileSetting: ProfileSetting.DashboardTransactionHistory,
-			defaultValue: true,
+			defaultValue: false,
 		},
 		theme: {
 			profileSetting: ProfileSetting.Theme,
