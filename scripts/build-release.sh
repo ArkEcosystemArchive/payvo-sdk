@@ -8,11 +8,11 @@ pnpm run clean
 
 # 1. Prerequisites
 bundle test
-bundle ledger
 bundle helpers
 bundle intl
 bundle cryptography
 bundle sdk
+bundle ledger
 bundle news
 bundle fetch
 bundle markets
