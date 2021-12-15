@@ -18,6 +18,19 @@ export class ClientService extends Services.AbstractClientService {
 		this.#apiProvider = new api.neoscan.instance(network === "mainnet" ? "MainNet" : "TestNet");
 	}
 
+	public override async transaction(id: string, input?: Services.TransactionDetailInput): Promise<Contracts.ConfirmedTransactionData> {
+		const body = await this.#get(`get_transaction/${id}`);
+
+		return this.dataTransferObjectService.transaction({
+			txid: body.txid,
+			time: body.time,
+			address_from: body.vin[0].address_hash,
+			address_to: body.vouts[0].address_hash,
+			amount: body.vin.find(({ asset_symbol }) => asset_symbol === "NEO").value,
+			fee: body.vin.find(({ asset_symbol }) => asset_symbol === "GAS").value,
+		});
+	}
+
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {

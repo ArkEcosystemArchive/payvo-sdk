@@ -24,6 +24,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override fee(): BigNumber {
-		return BigNumber.ZERO;
+		return this.bigNumberService.make(this.data.fee);
 	}
 }
