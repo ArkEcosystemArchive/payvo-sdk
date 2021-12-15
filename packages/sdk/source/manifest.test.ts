@@ -1,4 +1,5 @@
 import { describe } from "@payvo/sdk-test";
+
 import { Manifest } from "./manifest";
 
 describe("Manifest", ({ assert, it, nock, loader }) => {

@@ -61,9 +61,9 @@ export class WalletSynchroniser implements IWalletSynchroniser {
 		for (const publicKey of this.#wallet.multiSignature().publicKeys()) {
 			participants[publicKey] = (
 				await this.#wallet.client().wallet({
+					method: this.#wallet.data().get(WalletData.ImportMethod),
 					type: "publicKey",
 					value: publicKey,
-					method: this.#wallet.data().get(WalletData.ImportMethod),
 				})
 			).toObject();
 		}

@@ -2,15 +2,15 @@
 
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
-import { ConfigRepository } from "./coins.js";
-import { SignedTransactionData } from "./contracts.js";
-import { NotImplemented } from "./exceptions.js";
-import { HttpClient } from "./http.js";
-
-import { BindingType } from "./service-provider.contract.js";
 import { BigNumberService } from "./big-number.service.js";
 import { ClientService } from "./client.contract.js";
+import { ConfigRepository } from "./coins.js";
+import { IContainer } from "./container.contracts.js";
+import { SignedTransactionData } from "./contracts.js";
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { NotImplemented } from "./exceptions.js";
+import { HttpClient } from "./http.js";
+import { BindingType } from "./service-provider.contract.js";
 import {
 	DelegateRegistrationInput,
 	DelegateResignationInput,
@@ -23,7 +23,6 @@ import {
 	UnlockTokenInput,
 	VoteInput,
 } from "./transaction.contract.js";
-import { IContainer } from "./container.contracts.js";
 
 export class AbstractTransactionService implements Contract {
 	protected readonly bigNumberService: BigNumberService;

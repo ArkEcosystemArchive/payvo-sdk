@@ -1,5 +1,5 @@
-import { sortBy } from "@payvo/sdk-helpers";
 import { Coins, Networks } from "@payvo/sdk";
+import { sortBy } from "@payvo/sdk-helpers";
 import Joi from "joi";
 
 import { container } from "./container.js";

@@ -38,10 +38,10 @@ export class ContactAddress implements IContactAddress {
 	/** {@inheritDoc IContactAddress.toObject} */
 	public toObject(): IContactAddressData {
 		return {
-			id: this.id(),
-			coin: this.coin(),
-			network: this.network(),
 			address: this.address(),
+			coin: this.coin(),
+			id: this.id(),
+			network: this.network(),
 		};
 	}
 

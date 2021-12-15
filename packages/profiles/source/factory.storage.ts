@@ -6,11 +6,11 @@ import { NullStorage } from "./null.storage";
 export class StorageFactory {
 	public static make(driver: string): Storage {
 		return {
+			indexeddb: () => new LocalStorage("indexeddb"),
+			localstorage: () => new LocalStorage("localstorage"),
 			memory: () => new MemoryStorage(),
 			null: () => new NullStorage(),
-			indexeddb: () => new LocalStorage("indexeddb"),
 			websql: () => new LocalStorage("websql"),
-			localstorage: () => new LocalStorage("localstorage"),
 		}[driver]!();
 	}
 }

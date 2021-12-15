@@ -1,5 +1,5 @@
+import { NumberLike } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
 import { IProfile } from "./contracts.js";
 

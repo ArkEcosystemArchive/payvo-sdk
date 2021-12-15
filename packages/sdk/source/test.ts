@@ -3,7 +3,7 @@
 import { v4 } from "uuid";
 
 import { ConfigKey, ConfigRepository } from "./coins.js";
-import { Container, BindingType } from "./ioc.js";
+import { BindingType, Container } from "./ioc.js";
 import { NetworkManifest } from "./networks.js";
 import { BigNumberService } from "./services.js";
 
@@ -18,7 +18,7 @@ const createContainer = ({
 	manifest: NetworkManifest;
 	meta?: any;
 }): Container => {
-	config ??= new ConfigRepository({ network: manifest.id, httpClient });
+	config ??= new ConfigRepository({ httpClient, network: manifest.id });
 
 	config.set(ConfigKey.Network, manifest);
 

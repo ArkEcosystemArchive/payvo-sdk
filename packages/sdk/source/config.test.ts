@@ -1,4 +1,5 @@
 import { describe } from "@payvo/sdk-test";
+
 import { ConfigKey, ConfigRepository } from "./config";
 
 describe("ConfigRepository", ({ assert, beforeEach, it, nock, loader }) => {

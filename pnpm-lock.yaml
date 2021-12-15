@@ -727,6 +727,7 @@ importers:
       nock: ^13.2.1
       sinon: ^12.0.1
       string-kit: ~0.14.3
+      uvu: ^0.5.2
       zod: ~3.11.6
     dependencies:
       concordance: 5.0.4
@@ -734,6 +735,7 @@ importers:
       nock: 13.2.1
       sinon: 12.0.1
       string-kit: 0.14.3
+      uvu: 0.5.2
       zod: 3.11.6
     devDependencies:
       '@types/node': 16.11.10

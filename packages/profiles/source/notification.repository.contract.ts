@@ -1,5 +1,6 @@
-import { AggregateQuery } from "./transaction.aggregate.contract.js";
 import { Except } from "type-fest";
+
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 /**

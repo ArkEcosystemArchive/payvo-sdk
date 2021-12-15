@@ -49,17 +49,17 @@ export class WalletIdentifierFactory {
 
 	static #address(wallet: IReadWriteWallet): Services.WalletIdentifier {
 		return {
+			method: wallet.derivationMethod(),
 			type: "address",
 			value: wallet.address(),
-			method: wallet.derivationMethod(),
 		};
 	}
 
 	static #extendedPublicKey(wallet: IReadWriteWallet): Services.WalletIdentifier {
 		return {
+			method: wallet.derivationMethod(),
 			type: "extendedPublicKey",
 			value: wallet.publicKey()!,
-			method: wallet.derivationMethod(),
 		};
 	}
 

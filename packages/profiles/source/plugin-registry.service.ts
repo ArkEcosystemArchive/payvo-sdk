@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
 import { Http } from "@payvo/sdk";
-
 import semver from "semver";
 
 import { container } from "./container.js";

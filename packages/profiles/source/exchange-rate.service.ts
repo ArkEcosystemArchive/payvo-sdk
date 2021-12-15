@@ -1,12 +1,12 @@
+import { NumberLike } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { MarketService } from "@payvo/sdk-markets";
-import { NumberLike } from "@payvo/sdk-helpers";
 
-import { DataRepository } from "./data.repository";
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
-import { Storage } from "./env.models.js";
 import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts.js";
+import { DataRepository } from "./data.repository";
+import { Storage } from "./env.models.js";
 
 export class ExchangeRateService implements IExchangeRateService {
 	readonly #storageKey: string = "EXCHANGE_RATE_SERVICE";
@@ -36,17 +36,18 @@ export class ExchangeRateService implements IExchangeRateService {
 			profile.settings().get(ProfileSetting.MarketProvider) as string,
 			container.get(Identifiers.HttpClient),
 		).historicalPrice({
-			token: currency,
 			currency: exchangeCurrency,
-			days: 2000, // @TODO: this might cause issues with certain providers. Should allow for an "all" option to aggregate all pages without knowing the specific number
-			type: "day",
 			dateFormat: "YYYY-MM-DD",
+			days: 2000,
+			token: currency,
+			// @TODO: this might cause issues with certain providers. Should allow for an "all" option to aggregate all pages without knowing the specific number
+			type: "day",
 		});
 
-		for (let i = 0; i < historicalRates.labels.length; i++) {
+		for (let index = 0; index < historicalRates.labels.length; index++) {
 			this.#dataRepository.set(
-				`${currency}.${exchangeCurrency}.${historicalRates.labels[i]}`,
-				historicalRates.datasets[i],
+				`${currency}.${exchangeCurrency}.${historicalRates.labels[index]}`,
+				historicalRates.datasets[index],
 			);
 		}
 

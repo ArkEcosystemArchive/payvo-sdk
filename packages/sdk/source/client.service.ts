@@ -1,12 +1,5 @@
 /* istanbul ignore file */
 
-import { ConfigRepository } from "./coins.js";
-import { ConfirmedTransactionDataCollection, WalletDataCollection } from "./collections.js";
-import { KeyValuePair, SignedTransactionData, WalletData } from "./contracts.js";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
-import { NotImplemented } from "./exceptions.js";
-import { HttpClient } from "./http.js";
-import { BindingType } from "./service-provider.contract.js";
 import {
 	BroadcastResponse,
 	ClientService,
@@ -17,8 +10,15 @@ import {
 	VoteReport,
 	WalletIdentifier,
 } from "./client.contract.js";
-import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { ConfigRepository } from "./coins.js";
+import { ConfirmedTransactionDataCollection, WalletDataCollection } from "./collections.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
 import { IContainer } from "./container.contracts.js";
+import { KeyValuePair, SignedTransactionData, WalletData } from "./contracts.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { NotImplemented } from "./exceptions.js";
+import { HttpClient } from "./http.js";
+import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractClientService implements ClientService {
 	protected readonly configRepository: ConfigRepository;

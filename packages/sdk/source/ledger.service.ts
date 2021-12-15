@@ -1,12 +1,12 @@
 /* istanbul ignore file */
 
-import { WalletData } from "./contracts.js";
-import { NotImplemented } from "./exceptions.js";
-import { BindingType } from "./service-provider.contract.js";
-import { DataTransferObjectService } from "./data-transfer-object.contract.js";
-import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract.js";
-import { IContainer } from "./container.contracts.js";
 import { ConfigRepository } from "./config.js";
+import { IContainer } from "./container.contracts.js";
+import { WalletData } from "./contracts.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
+import { NotImplemented } from "./exceptions.js";
+import { LedgerService, LedgerTransportFactory, LedgerWalletList } from "./ledger.contract.js";
+import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractLedgerService implements LedgerService {
 	readonly #dataTransferObjectService: DataTransferObjectService;

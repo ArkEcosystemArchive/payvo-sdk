@@ -385,7 +385,7 @@ describe("ARK", ({ beforeAll, beforeEach, skip, it, nock, stub, assert, loader }
 	});
 
 	it("should fail retrieving public key if wallet is lacking a public key", async (context) => {
-		const walletPublicKeyMock = stub(context.wallet, "publicKey").returnValue(undefined);
+		const walletPublicKeyMock = stub(context.wallet, "publicKey").returnValue();
 		assert.throws(() => context.subject.getPublicKey());
 		walletPublicKeyMock.restore();
 	});

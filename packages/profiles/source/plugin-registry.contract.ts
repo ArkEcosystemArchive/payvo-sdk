@@ -22,7 +22,7 @@ export interface IPluginRegistry {
 	 * @return {Promise<number>}
 	 * @memberof IPluginRegistry
 	 */
-	size(pkg: IRegistryPlugin): Promise<number>;
+	size(package_: IRegistryPlugin): Promise<number>;
 
 	/**
 	 * Get the number of downloads for the given plugin.
@@ -31,7 +31,7 @@ export interface IPluginRegistry {
 	 * @return {Promise<number>}
 	 * @memberof IPluginRegistry
 	 */
-	downloads(pkg: IRegistryPlugin): Promise<number>;
+	downloads(package_: IRegistryPlugin): Promise<number>;
 }
 
 export type IRegistryPluginAuthor = { [key: string]: any } | string;

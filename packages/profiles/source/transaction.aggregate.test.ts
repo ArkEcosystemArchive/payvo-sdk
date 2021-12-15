@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import * as promiseHelpers from "./helpers/promise"; // eslint-disable-line import/no-namespace
+// eslint-disable-line import/no-namespace
 import { Profile } from "./profile";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
