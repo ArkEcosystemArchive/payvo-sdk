@@ -249,7 +249,6 @@ importers:
       bip39: ^3.0.4
       bn.js: ^5.2.0
       browserify-aes: ^1.2.0
-      buffer-xor: ^2.0.2
       create-hash: ^1.2.0
       create-hmac: ^1.1.7
       create-xpub: ^2.1.0
@@ -271,7 +270,6 @@ importers:
       bip39: 3.0.4
       bn.js: 5.2.0
       browserify-aes: 1.2.0
-      buffer-xor: 2.0.2
       create-hash: 1.2.0
       create-hmac: 1.1.7
       create-xpub: 2.1.0
@@ -4029,12 +4027,6 @@ packages:
 
   /buffer-xor/1.0.3:
     resolution: {integrity: sha1-JuYe0UIvtw3ULm42cp7VHYVf6Nk=}
-    dev: false
-
-  /buffer-xor/2.0.2:
-    resolution: {integrity: sha512-eHslX0bin3GB+Lx2p7lEYRShRewuNZL3fUl4qlVJGGiwoPGftmt8JQgk2Y9Ji5/01TnVDo33E5b5O3vUB1HdqQ==}
-    dependencies:
-      safe-buffer: 5.2.1
     dev: false
 
   /buffer/5.6.0:

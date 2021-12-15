@@ -1,6 +1,5 @@
 import BigInteger from "bigi";
 import aes from "browserify-aes";
-import xor from "buffer-xor/inplace";
 import createHash from "create-hash";
 import ecurve from "ecurve";
 import { Buffer } from "buffer";
@@ -17,6 +16,16 @@ const SCRYPT_PARAMS = {
 };
 
 const NULL = Buffer.alloc(0);
+
+function xor(a: Buffer, b: Buffer) {
+	const length = Math.min(a.length, b.length);
+
+	for (let index = 0; index < length; ++index) {
+		a[index] = a[index] ^ b[index]
+	}
+
+	return a;
+}
 
 function hash160(buffer) {
 	let hash;
