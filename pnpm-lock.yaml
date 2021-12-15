@@ -241,7 +241,6 @@ importers:
       '@types/ecurve': ^1.0.0
       '@types/hdkey': ^2.0.0
       '@types/node': ^16.11.10
-      '@types/scryptsy': ^2.0.0
       '@types/uuid': ^8.3.3
       '@types/wif': ^2.0.2
       bcryptjs: ^2.4.3
@@ -289,7 +288,6 @@ importers:
       '@types/ecurve': 1.0.0
       '@types/hdkey': 2.0.0
       '@types/node': 16.11.10
-      '@types/scryptsy': 2.0.0
       '@types/uuid': 8.3.3
       '@types/wif': 2.0.2
       wif: 2.0.6
@@ -2702,12 +2700,6 @@ packages:
   /@types/retry/0.12.1:
     resolution: {integrity: sha512-xoDlM2S4ortawSWORYqsdU+2rxdh4LRW9ytc3zmT37RIKQh6IHyKwwtKhKis9ah8ol07DCkZxPt8BBvPjC6v4g==}
     dev: false
-
-  /@types/scryptsy/2.0.0:
-    resolution: {integrity: sha512-iDmneBKWSsmsR3SlGisOVnpCz7sB5Mqhv4I/pLg1DYq2zttWT65r+1gOVZtoxXiTsSf/JO8NhgyCKhx7cvGbaA==}
-    dependencies:
-      '@types/node': 16.11.10
-    dev: true
 
   /@types/secp256k1/4.0.3:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
