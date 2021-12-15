@@ -90,10 +90,7 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	});
 
 	it("should throw if the WIF is tried to be decrypted without one being set", (context) => {
-		assert.throws(
-			() => context.subject.signingKey().get("password"),
-			"This wallet does not use AES encryption.",
-		);
+		assert.throws(() => context.subject.signingKey().get("password"), "This wallet does not use AES encryption.");
 	});
 
 	it("should determine if the wallet uses a WIF", (context) => {
