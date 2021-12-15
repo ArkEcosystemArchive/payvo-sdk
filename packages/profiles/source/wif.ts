@@ -1,4 +1,4 @@
-import { PBKDF2 } from "@payvo/sdk-cryptography";
+import { AES } from "@payvo/sdk-cryptography";
 
 import { IReadWriteWallet, IWalletImportFormat, WalletData } from "./contracts.js";
 
@@ -17,15 +17,15 @@ export class WalletImportFormat implements IWalletImportFormat {
 		const encryptedKey: string | undefined = this.#wallet.data().get(this.#key);
 
 		if (encryptedKey === undefined) {
-			throw new Error("This wallet does not use PBKDF2 encryption.");
+			throw new Error("This wallet does not use AES encryption.");
 		}
 
-		return PBKDF2.decrypt(encryptedKey, password);
+		return AES.decrypt(encryptedKey, password);
 	}
 
 	/** {@inheritDoc IWalletImportFormat.set} */
 	public set(value: string, password: string): void {
-		this.#wallet.data().set(this.#key, PBKDF2.encrypt(value, password));
+		this.#wallet.data().set(this.#key, AES.encrypt(value, password));
 
 		this.#wallet.profile().status().markAsDirty();
 	}
@@ -37,7 +37,7 @@ export class WalletImportFormat implements IWalletImportFormat {
 
 	public forget(password: string): void {
 		if (!this.exists()) {
-			throw new Error("This wallet does not use PBKDF2 encryption.");
+			throw new Error("This wallet does not use AES encryption.");
 		}
 
 		this.#wallet.data().forget(this.#key);

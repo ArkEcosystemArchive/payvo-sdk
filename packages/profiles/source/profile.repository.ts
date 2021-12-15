@@ -1,14 +1,13 @@
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { IProfileRepository, IProfileExportOptions, IProfile, IProfileInput, ProfileData } from "./contracts.js";
-
+import { IProfile, IProfileExportOptions, IProfileInput, IProfileRepository } from "./contracts.js";
+import { DataRepository } from "./data.repository.js";
+import { ProfileDumper } from "./profile.dumper.js";
+import { ProfileExporter } from "./profile.exporter.js";
+import { ProfileFactory } from "./profile.factory.js";
+import { ProfileImporter } from "./profile.importer.js";
+import { ProfileInitialiser } from "./profile.initialiser.js";
 import { Profile } from "./profile.js";
-import { ProfileFactory } from "./profile.factory";
-import { DataRepository } from "./data.repository";
-import { ProfileExporter } from "./profile.exporter";
-import { ProfileImporter } from "./profile.importer";
-import { ProfileDumper } from "./profile.dumper";
-import { ProfileInitialiser } from "./profile.initialiser";
 
 export class ProfileRepository implements IProfileRepository {
 	readonly #data: DataRepository;
@@ -90,10 +89,10 @@ export class ProfileRepository implements IProfileRepository {
 	/** {@inheritDoc IProfileRepository.import} */
 	public async import(data: string, password?: string): Promise<Profile> {
 		const result = new Profile({
+			data,
 			id: UUID.random(),
 			name: "",
 			password,
-			data,
 		});
 
 		await new ProfileImporter(result).import(password);

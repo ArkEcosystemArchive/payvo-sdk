@@ -1,8 +1,10 @@
 // Based on https://github.com/simplyhexagonal/string-crypto/blob/main/src/index.ts
 
-import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from "crypto";
+import { pbkdf2 } from "@noble/hashes/lib/pbkdf2";
+import { sha512 } from "@noble/hashes/lib/sha512";
+import { createCipheriv, createDecipheriv, randomBytes } from "crypto";
 
-export class PBKDF2 {
+export class AES {
 	public static encrypt(value: string, password: string): string {
 		const derivedKey = this.#deriveKey(password);
 
@@ -50,13 +52,13 @@ export class PBKDF2 {
 		}
 	}
 
-	static #deriveKey(password: string) {
-		return pbkdf2Sync(
-			password,
-			"s41t",
-			1,
-			256 / 8, // Because we use aes-256-gcm
-			"sha512",
-		);
+	static #deriveKey(password: string): Uint8Array {
+		const nfkd = (password: string) => password.normalize("NFKD");
+		const salt = (password: string) => nfkd(`PBKDF2${password}`);
+
+		return pbkdf2(sha512, nfkd(password), salt(password), {
+			c: 2048,
+			dkLen: 32,
+		});
 	}
 }
