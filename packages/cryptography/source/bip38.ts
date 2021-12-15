@@ -21,7 +21,7 @@ function xor(a: Buffer, b: Buffer) {
 	const length = Math.min(a.length, b.length);
 
 	for (let index = 0; index < length; ++index) {
-		a[index] = a[index] ^ b[index]
+		a[index] = a[index] ^ b[index];
 	}
 
 	return a;
