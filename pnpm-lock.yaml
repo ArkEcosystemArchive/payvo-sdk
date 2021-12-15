@@ -485,7 +485,6 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/node': ^16.11.10
-      dpos-ledger-api: ^3.0.1
     dependencies:
       '@liskhq/lisk-cryptography': 3.2.0
       '@liskhq/lisk-transactions': 5.2.0
@@ -493,7 +492,6 @@ importers:
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
-      dpos-ledger-api: 3.0.1
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-fetch': link:../fetch
@@ -4679,13 +4677,6 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       is-obj: 2.0.0
-    dev: false
-
-  /dpos-ledger-api/3.0.1:
-    resolution: {integrity: sha512-CZ8nkVHjOYZQ/ZtbKCb5hgWy/JPsLmuDl59lE6cLVfVhXnpdpXOxsQPsxvkLCpxeUIAM7L98edxvju/sb0NRIA==}
-    dependencies:
-      bip32-path: 0.4.2
-      crc: 3.8.0
     dev: false
 
   /drbg.js/1.0.1:

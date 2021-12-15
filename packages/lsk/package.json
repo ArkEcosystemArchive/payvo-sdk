@@ -26,8 +26,7 @@
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
-		"@payvo/sdk-intl": "workspace:*",
-		"dpos-ledger-api": "^3.0.1"
+		"@payvo/sdk-intl": "workspace:*"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",
