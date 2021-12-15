@@ -5,7 +5,7 @@ import bs58check from 'bs58check';
 import xor from 'buffer-xor/inplace';
 import createHash from 'create-hash';
 import ecurve from 'ecurve';
-import { Buffer } from 'safe-buffer';
+import { Buffer } from 'buffer';
 import scrypt from 'scryptsy';
 
 const curve = ecurve.getCurveByName('secp256k1');

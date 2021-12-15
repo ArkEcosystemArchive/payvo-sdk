@@ -257,7 +257,6 @@ importers:
       elliptic: ^6.5.4
       hdkey: ^2.0.1
       micro-base: ^0.10.0
-      safe-buffer: ^5.2.1
       scryptsy: ^2.1.0
       secp256k1: ^4.0.2
       typeforce: ^1.18.0
@@ -282,7 +281,6 @@ importers:
       elliptic: 6.5.4
       hdkey: 2.0.1
       micro-base: 0.10.0
-      safe-buffer: 5.2.1
       scryptsy: 2.1.0
       secp256k1: 4.0.2
       typeforce: 1.18.0
