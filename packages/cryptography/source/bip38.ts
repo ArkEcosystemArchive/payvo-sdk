@@ -1,4 +1,3 @@
-import assert from 'assert'
 import BigInteger from 'bigi';
 import aes from 'browserify-aes';
 import bs58check from 'bs58check';
@@ -173,7 +172,9 @@ function finishDecryptRaw (buffer, salt: Buffer, compressed, scryptBuf) {
 	const address = getAddress(d, compressed)
 	const checksum = hash256(address).slice(0, 4)
 
-	assert.deepStrictEqual(salt, checksum)
+	if (salt.compare(checksum) !== 0) {
+		throw new Error("Cannot decrypt: salt and checksum do not match.");
+	}
 
 	return {
 		compressed: compressed,
@@ -226,7 +227,9 @@ function prepareDecryptECMult (buffer, passphrase, progressCallback, scryptParam
 	const compressed = (flag & 0x20) !== 0
 	const hasLotSeq = (flag & 0x04) !== 0
 
-	assert.strictEqual((flag & 0x24), flag, 'Invalid private key.')
+	if ((flag & 0x24) !== flag) {
+		throw new Error("Invalid private key.");
+	}
 
 	const addressHash = buffer.slice(2, 6)
 	const ownerEntropy = buffer.slice(6, 14)
