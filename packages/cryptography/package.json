@@ -33,7 +33,6 @@
 		"hdkey": "^2.0.1",
 		"micro-base": "^0.10.0",
 		"secp256k1": "^4.0.2",
-		"string-crypto": "^2.0.2",
 		"typeforce": "^1.18.0",
 		"uuid": "^8.3.2"
 	},
