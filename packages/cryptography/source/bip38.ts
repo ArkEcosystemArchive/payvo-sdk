@@ -1,10 +1,10 @@
 import BigInteger from "bigi";
 import aes from "browserify-aes";
-import createHash from "create-hash";
 import ecurve from "ecurve";
 import { Buffer } from "buffer";
 import scrypt from "scryptsy";
 import { Base58Check } from "./base58-check.js";
+import { Hash } from "./hash";
 
 const curve = ecurve.getCurveByName("secp256k1");
 
@@ -27,21 +27,15 @@ function xor(a: Buffer, b: Buffer) {
 	return a;
 }
 
-function hash160(buffer) {
-	let hash;
-	try {
-		hash = createHash("rmd160");
-	} catch {
-		hash = createHash("ripemd160");
-	}
-	return hash.update(createHash("sha256").update(buffer).digest()).digest();
+function hash160(buffer: Buffer): Buffer {
+	return Hash.ripemd160(Hash.sha256(buffer));
 }
 
-function hash256(buffer) {
-	return createHash("sha256").update(createHash("sha256").update(buffer).digest()).digest();
+function hash256(buffer: Buffer): Buffer {
+	return Hash.sha256(Hash.sha256(buffer));
 }
 
-function getAddress(d, compressed) {
+function getAddress(d: BigInteger, compressed: boolean): string {
 	const Q = curve.G.multiply(d).getEncoded(compressed);
 	const hash = hash160(Q);
 	const payload = Buffer.allocUnsafe(21);
@@ -56,10 +50,9 @@ function prepareEncryptRaw(buffer, compressed, passphrase, scryptParameters) {
 		throw new Error("Invalid private key length");
 	}
 
-	const d = BigInteger.fromBuffer(buffer);
-	const address = getAddress(d, compressed);
+	const address = getAddress(BigInteger.fromBuffer(buffer), compressed);
 	const secret = Buffer.from(passphrase.normalize("NFC"), "utf8");
-	const salt = hash256(address).slice(0, 4);
+	const salt = hash256(Buffer.from(address)).slice(0, 4);
 
 	const N = scryptParameters.N;
 	const r = scryptParameters.r;
@@ -160,9 +153,8 @@ function finishDecryptRaw(buffer, salt: Buffer, compressed, scryptBuf) {
 	const privateKey = xor(derivedHalf1, plainText);
 
 	// verify salt matches address
-	const d = BigInteger.fromBuffer(privateKey);
-	const address = getAddress(d, compressed);
-	const checksum = hash256(address).slice(0, 4);
+	const address = getAddress(BigInteger.fromBuffer(privateKey), compressed);
+	const checksum = hash256(Buffer.from(address)).slice(0, 4);
 
 	if (salt.compare(checksum) !== 0) {
 		throw new Error("Cannot decrypt: salt and checksum do not match.");

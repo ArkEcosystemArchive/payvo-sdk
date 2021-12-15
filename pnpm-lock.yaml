@@ -249,7 +249,6 @@ importers:
       bip39: ^3.0.4
       bn.js: ^5.2.0
       browserify-aes: ^1.2.0
-      create-hash: ^1.2.0
       create-hmac: ^1.1.7
       create-xpub: ^2.1.0
       ecurve: ^1.0.6
@@ -270,7 +269,6 @@ importers:
       bip39: 3.0.4
       bn.js: 5.2.0
       browserify-aes: 1.2.0
-      create-hash: 1.2.0
       create-hmac: 1.1.7
       create-xpub: 2.1.0
       ecurve: 1.0.6
