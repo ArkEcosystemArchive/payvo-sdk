@@ -1,58 +1,45 @@
-import StringCrypto from "string-crypto";
+// Based on https://github.com/simplyhexagonal/string-crypto/blob/main/src/index.ts
 
-/**
- * Implements all functionality that is required to work with the PBKDF2
- * key derivation and password hashing algorithm as defined by the specs.
- *
- * @see {@link https://en.wikipedia.org/wiki/PBKDF2}
- *
- * @export
- * @class PBKDF2
- */
+import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from "crypto";
+
 export class PBKDF2 {
-	/**
-	 * Encrypts the value with the given password.
-	 *
-	 * @static
-	 * @param {string} value
-	 * @param {string} password
-	 * @returns {string}
-	 * @memberof PBKDF2
-	 */
 	public static encrypt(value: string, password: string): string {
-		return new StringCrypto().encryptString(value, password);
+		const derivedKey = this.#deriveKey(password);
+
+		const randomInitVector = randomBytes(16);
+
+		const aesCBC = createCipheriv("aes-256-gcm", derivedKey, randomInitVector);
+
+		let encryptedBase64 = aesCBC.update(value.toString(), "utf8", "base64");
+		encryptedBase64 += aesCBC.final("base64");
+
+		const encryptedHex = Buffer.from(encryptedBase64).toString("hex");
+
+		const initVectorHex = randomInitVector.toString("hex");
+
+		return `${initVectorHex}:${encryptedHex}`;
 	}
 
-	/**
-	 * Decrypts the value with the given password.
-	 *
-	 * @remarks
-	 * This function will throw an exception if the password doesn't match
-	 * the hash because it won't be able to make sense of the data.
-	 *
-	 * @static
-	 * @param {string} hash
-	 * @param {string} password
-	 * @returns {string}
-	 * @memberof PBKDF2
-	 */
 	public static decrypt(hash: string, password: string): string {
-		return new StringCrypto().decryptString(hash, password);
+		const derivedKey = this.#deriveKey(password);
+
+		const encryptedParts: string[] = hash.toString().split(":");
+
+		if (encryptedParts.length !== 2) {
+			throw new Error(`Incorrect format for encrypted string: ${hash}`);
+		}
+
+		const [initVectorHex, encryptedHex] = encryptedParts;
+
+		const randomInitVector = Buffer.from(initVectorHex, "hex");
+
+		const encryptedBase64 = Buffer.from(encryptedHex, "hex").toString();
+
+		const aesCBC = createDecipheriv("aes-256-gcm", derivedKey, randomInitVector);
+
+		return aesCBC.update(encryptedBase64, "base64").toString();
 	}
 
-	/**
-	 * Verifies that the given hash and password match.
-	 *
-	 * @remarks
-	 * A match in the has and password should be interpreted as ownership
-	 * of whatever resource is protected by the given hash and password.
-	 *
-	 * @static
-	 * @param {string} hash
-	 * @param {string} password
-	 * @returns {boolean}
-	 * @memberof PBKDF2
-	 */
 	public static verify(hash: string, password: string): boolean {
 		try {
 			this.decrypt(hash, password);
@@ -61,5 +48,15 @@ export class PBKDF2 {
 		} catch {
 			return false;
 		}
+	}
+
+	static #deriveKey(password: string) {
+		return pbkdf2Sync(
+			password,
+			"s41t",
+			1,
+			256 / 8, // Because we use aes-256-gcm
+			"sha512",
+		);
 	}
 }

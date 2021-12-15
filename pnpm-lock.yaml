@@ -251,7 +251,6 @@ importers:
       hdkey: ^2.0.1
       micro-base: ^0.10.0
       secp256k1: ^4.0.2
-      string-crypto: ^2.0.2
       typeforce: ^1.18.0
       uuid: ^8.3.2
       wif: ^2.0.6
@@ -268,7 +267,6 @@ importers:
       hdkey: 2.0.1
       micro-base: 0.10.0
       secp256k1: 4.0.2
-      string-crypto: 2.0.2
       typeforce: 1.18.0
       uuid: 8.3.2
     devDependencies:
@@ -8713,10 +8711,6 @@ packages:
   /strict-uri-encode/2.0.0:
     resolution: {integrity: sha1-ucczDHBChi9rFC3CdLvMWGbONUY=}
     engines: {node: '>=4'}
-    dev: false
-
-  /string-crypto/2.0.2:
-    resolution: {integrity: sha512-LhWeKBSpThCr/XEIltPNNfg9Rp10Ei/xPYANF2Y4ezaoXuF0fOU2vjwRfcaK1kgavkKkBqMWvh222cscP9myCA==}
     dev: false
 
   /string-kit/0.14.3:
