@@ -1,14 +1,15 @@
-import { Coins, Contracts, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
-import { CommHandler, DposLedger, LedgerAccount, SupportedCoin } from "dpos-ledger-api";
 import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
+import { Contracts, IoC, Services } from "@payvo/sdk";
+import { BIP44 } from "@payvo/sdk-cryptography";
 
-const createRange = (start: number, size: number) => Array.from({ length: size }, (_, i) => i + size * start);
+import { LedgerTransport } from "./ledger/transport.js";
+
+const createRange = (start: number, size: number) => Array.from({ length: size }, (_, index) => index + size * start);
 
 export class LedgerService extends Services.AbstractLedgerService {
 	readonly #clientService!: Services.ClientService;
 	#ledger: Services.LedgerTransport;
-	#transport!: DposLedger;
+	#transport!: LedgerTransport;
 
 	public constructor(container: IoC.IContainer) {
 		super(container);
@@ -18,7 +19,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		this.#transport = new DposLedger(new CommHandler(this.#ledger));
+		this.#transport = new LedgerTransport(this.#ledger);
 	}
 
 	public override async disconnect(): Promise<void> {
@@ -72,8 +73,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 			const accountIndex = initialAccountIndex + accountIndexIterator;
 
 			const path = BIP44.stringify({
-				coinType: slip44,
 				account: accountIndex,
+				coinType: slip44,
 			});
 
 			const publicKey: string = await this.getPublicKey(path);
@@ -104,15 +105,31 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return this.mapPathsToWallets(addressCache, wallets);
 	}
 
-	#getLedgerAccount(path: string): LedgerAccount {
-		return new LedgerAccount().coinIndex(SupportedCoin.LISK).account(BIP44.parse(path).account);
+	public override async isNanoS(): Promise<boolean> {
+		return this.#ledger.deviceModel.id === "nanoS";
+	}
+
+	public override async isNanoX(): Promise<boolean> {
+		return this.#ledger.deviceModel.id === "nanoX";
+	}
+
+	#getLedgerAccount(path: string): Buffer {
+		const pathArray = this.#getPathArray(
+			`44'/${this.configRepository.get("network.constants.slip44")}'/${BIP44.parse(path).account}'`,
+		);
+		const buffer = Buffer.alloc(pathArray.length * 4);
+
+		for (const [index, r] of pathArray.entries()) {
+			buffer.writeUInt32BE(r, index * 4);
+		}
+
+		return buffer;
 	}
 
 	async #fetchWallet(address: string, wallets: Contracts.WalletData[]): Promise<void> {
 		try {
 			const wallet: Contracts.WalletData = await this.#clientService.wallet({ type: "address", value: address });
 
-			/* istanbul ignore else */
 			if (wallet.address()) {
 				wallets.push(wallet);
 			}
@@ -121,13 +138,37 @@ export class LedgerService extends Services.AbstractLedgerService {
 		}
 	}
 
-	public override async isNanoS(): Promise<boolean> {
-		/* istanbul ignore next */
-		return this.#ledger.deviceModel.id === "nanoS";
-	}
+	#getPathArray(text: string): number[] {
+		const HARDENED = 0x80_00_00_00;
 
-	public override async isNanoX(): Promise<boolean> {
-		/* istanbul ignore next */
-		return this.#ledger.deviceModel.id === "nanoX";
+		// skip the root
+		if (/^m\//i.test(text)) {
+			text = text.slice(2);
+		}
+
+		const path = text.split("/");
+		const result = new Array(path.length);
+
+		for (const [index, element] of path.entries()) {
+			const temporary = /(\d+)(['Hh]?)/.exec(element);
+
+			if (temporary === null) {
+				throw new Error("Invalid input");
+			}
+
+			result[index] = Number.parseInt(temporary[1], 10);
+
+			if (result[index] >= HARDENED) {
+				throw new Error("Invalid child index");
+			}
+
+			if (temporary[2] === "h" || temporary[2] === "H" || temporary[2] === "'") {
+				result[index] += HARDENED;
+			} else if (temporary[2].length > 0) {
+				throw new Error("Invalid modifier");
+			}
+		}
+
+		return result;
 	}
 }
