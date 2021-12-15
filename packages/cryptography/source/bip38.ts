@@ -170,7 +170,7 @@ function decryptRaw(buffer, passphrase, progressCallback, scryptParameters) {
 	return finishDecryptRaw(buffer, salt, compressed, scryptBuf);
 }
 
-function decrypt(string, passphrase, progressCallback, scryptParameters) {
+function decrypt(string, passphrase, progressCallback = undefined, scryptParameters = undefined) {
 	return decryptRaw(Base58Check.decode(string), passphrase, progressCallback, scryptParameters);
 }
 
