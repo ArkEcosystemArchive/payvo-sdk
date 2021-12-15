@@ -471,6 +471,23 @@ importers:
       '@types/dinero.js': 1.9.0
       '@types/node': 16.11.10
 
+  packages/ledger:
+    specifiers:
+      '@ledgerhq/hw-transport-u2f': ^5.36.0-deprecated
+      '@ledgerhq/hw-transport-webhid': ^6.19.0
+      '@ledgerhq/hw-transport-webusb': ^6.19.0
+      '@payvo/sdk': workspace:*
+      '@types/node': ^16.11.10
+      platform: ^1.3.6
+    dependencies:
+      '@ledgerhq/hw-transport-u2f': 5.36.0-deprecated
+      '@ledgerhq/hw-transport-webhid': 6.19.0
+      '@ledgerhq/hw-transport-webusb': 6.19.0
+      '@payvo/sdk': link:../sdk
+      platform: 1.3.6
+    devDependencies:
+      '@types/node': 16.11.10
+
   packages/lsk:
     specifiers:
       '@ledgerhq/hw-transport-mocker': ^6.11.2
@@ -599,6 +616,9 @@ importers:
 
   packages/profiles:
     specifiers:
+      '@ledgerhq/hw-transport-u2f': ^5.36.0-deprecated
+      '@ledgerhq/hw-transport-webhid': ^6.19.0
+      '@ledgerhq/hw-transport-webusb': ^6.19.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-ada': workspace:*
       '@payvo/sdk-ark': workspace:*
@@ -624,9 +644,13 @@ importers:
       node-cache: ^5.1.2
       p-queue: ^7.1.0
       p-retry: ^5.0.0
+      platform: ^1.3.6
       semver: ^7.3.5
       type-fest: ^2.6.0
     dependencies:
+      '@ledgerhq/hw-transport-u2f': 5.36.0-deprecated
+      '@ledgerhq/hw-transport-webhid': 6.19.0
+      '@ledgerhq/hw-transport-webusb': 6.19.0
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -639,6 +663,7 @@ importers:
       node-cache: 5.1.2
       p-queue: 7.1.0
       p-retry: 5.0.0
+      platform: 1.3.6
       semver: 7.3.5
       type-fest: 2.6.0
     devDependencies:
@@ -1657,6 +1682,15 @@ packages:
       rxjs: 6.6.7
       semver: 7.3.5
 
+  /@ledgerhq/devices/6.19.0:
+    resolution: {integrity: sha512-xk/6JGrFP/c8aMK4O2fKZFJGH3STynwnIRy6si/400r5p3kJmoyR6h16U954EYcCbyScrVdtDYnZKLTUCbtAIQ==}
+    dependencies:
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/logs': 6.10.0
+      rxjs: 6.6.7
+      semver: 7.3.5
+    dev: false
+
   /@ledgerhq/errors/5.50.0:
     resolution: {integrity: sha512-gu6aJ/BHuRlpU7kgVpy2vcYk6atjB4iauP2ymF7Gk0ez0Y/6VSMVSJvubeEQN+IV60+OBK0JgeIZG7OiHaw8ow==}
     dev: false
@@ -1759,6 +1793,25 @@ packages:
       u2f-api: 0.2.7
     dev: false
 
+  /@ledgerhq/hw-transport-u2f/5.36.0-deprecated:
+    resolution: {integrity: sha512-T/+mGHIiUK/ZQATad6DMDmobCMZ1mVST952009jKzhaE1Et2Uy2secU+QhRkx3BfEAkvwa0zSRSYCL9d20Iqjg==}
+    deprecated: '@ledgerhq/hw-transport-u2f is deprecated. Please use @ledgerhq/hw-transport-webusb or @ledgerhq/hw-transport-webhid. https://github.com/LedgerHQ/ledgerjs/blob/master/docs/migrate_webusb.md'
+    dependencies:
+      '@ledgerhq/errors': 5.50.0
+      '@ledgerhq/hw-transport': 5.51.1
+      '@ledgerhq/logs': 5.50.0
+      u2f-api: 0.2.7
+    dev: false
+
+  /@ledgerhq/hw-transport-webhid/6.19.0:
+    resolution: {integrity: sha512-CdziOFO0zAXYjRR5PTxa6L2spfYLdGlbwtfox/RQ6AUlWr8nvpZPrUvXZ3vHSHfQ3pVXxjiEoaDgpyMRuZCabA==}
+    dependencies:
+      '@ledgerhq/devices': 6.19.0
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/hw-transport': 6.19.0
+      '@ledgerhq/logs': 6.10.0
+    dev: false
+
   /@ledgerhq/hw-transport-webusb/5.28.0:
     resolution: {integrity: sha512-BTSA8T21ymxy3z1S3jJKMt9MvysYvyE2ZRkZm+gY35oJ9bm97PKTwe5/NLx9cwYxIem8/rJalREp4GAJESgELA==}
     dependencies:
@@ -1766,6 +1819,15 @@ packages:
       '@ledgerhq/errors': 5.50.0
       '@ledgerhq/hw-transport': 5.51.1
       '@ledgerhq/logs': 5.50.0
+    dev: false
+
+  /@ledgerhq/hw-transport-webusb/6.19.0:
+    resolution: {integrity: sha512-2sClU363P6kwl7aw5ETL7aN1RQYqfNci/zLMCDGk/AzGEUlYcJ0AfZmAw2Xp4T6xr+SdajT1cI6CxJZRH5W7+A==}
+    dependencies:
+      '@ledgerhq/devices': 6.19.0
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/hw-transport': 6.19.0
+      '@ledgerhq/logs': 6.10.0
     dev: false
 
   /@ledgerhq/hw-transport/5.51.1:
@@ -1782,6 +1844,14 @@ packages:
       '@ledgerhq/devices': 6.11.2
       '@ledgerhq/errors': 6.10.0
       events: 3.3.0
+
+  /@ledgerhq/hw-transport/6.19.0:
+    resolution: {integrity: sha512-B16iNtLb3BS+PlqKU1b6eLzOa8Os03SdeUQUYJrqc8XCqNMHJvpQxSvWVbqZFvRS5Cu991usVsCTFrPtOqaCeQ==}
+    dependencies:
+      '@ledgerhq/devices': 6.19.0
+      '@ledgerhq/errors': 6.10.0
+      events: 3.3.0
+    dev: false
 
   /@ledgerhq/logs/5.50.0:
     resolution: {integrity: sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==}
