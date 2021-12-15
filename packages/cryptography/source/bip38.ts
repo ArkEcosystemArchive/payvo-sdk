@@ -27,17 +27,13 @@ function xor(a: Buffer, b: Buffer) {
 	return a;
 }
 
-function hash160(buffer: Buffer): Buffer {
-	return Hash.ripemd160(Hash.sha256(buffer));
-}
-
 function hash256(buffer: Buffer): Buffer {
 	return Hash.sha256(Hash.sha256(buffer));
 }
 
 function getAddress(d: BigInteger, compressed: boolean): string {
 	const Q = curve.G.multiply(d).getEncoded(compressed);
-	const hash = hash160(Q);
+	const hash = Hash.hash160(Q);
 	const payload = Buffer.allocUnsafe(21);
 	payload.writeUInt8(0x00, 0); // XXX TODO FIXME bitcoin only??? damn you BIP38
 	hash.copy(payload, 1);
