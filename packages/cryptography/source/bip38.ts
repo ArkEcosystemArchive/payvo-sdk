@@ -1,8 +1,9 @@
+import { Buffer } from "buffer";
 import BigInteger from "bigi";
 import aes from "browserify-aes";
 import ecurve from "ecurve";
-import { Buffer } from "buffer";
 import scrypt from "scryptsy";
+
 import { Base58Check } from "./base58-check.js";
 import { Hash } from "./hash";
 
@@ -27,10 +28,6 @@ function xor(a: Buffer, b: Buffer) {
 	return a;
 }
 
-function hash256(buffer: Buffer): Buffer {
-	return Hash.sha256(Hash.sha256(buffer));
-}
-
 function getAddress(d: BigInteger, compressed: boolean): string {
 	const Q = curve.G.multiply(d).getEncoded(compressed);
 	const hash = Hash.hash160(Q);
@@ -48,7 +45,7 @@ function prepareEncryptRaw(buffer, compressed, passphrase, scryptParameters) {
 
 	const address = getAddress(BigInteger.fromBuffer(buffer), compressed);
 	const secret = Buffer.from(passphrase.normalize("NFC"), "utf8");
-	const salt = hash256(Buffer.from(address)).slice(0, 4);
+	const salt = Hash.hash256(Buffer.from(address)).slice(0, 4);
 
 	const N = scryptParameters.N;
 	const r = scryptParameters.r;
@@ -94,7 +91,7 @@ function encryptRaw(buffer, compressed, passphrase, progressCallback, scryptPara
 	return finishEncryptRaw(buffer, compressed, salt, scryptBuf);
 }
 
-function encrypt(buffer, compressed, passphrase, progressCallback, scryptParameters) {
+function encrypt(buffer, compressed, passphrase, progressCallback = undefined, scryptParameters = undefined) {
 	return Base58Check.encode(encryptRaw(buffer, compressed, passphrase, progressCallback, scryptParameters));
 }
 
@@ -150,7 +147,7 @@ function finishDecryptRaw(buffer, salt: Buffer, compressed, scryptBuf) {
 
 	// verify salt matches address
 	const address = getAddress(BigInteger.fromBuffer(privateKey), compressed);
-	const checksum = hash256(Buffer.from(address)).slice(0, 4);
+	const checksum = Hash.hash256(Buffer.from(address)).slice(0, 4);
 
 	if (salt.compare(checksum) !== 0) {
 		throw new Error("Cannot decrypt: salt and checksum do not match.");
@@ -223,7 +220,7 @@ function getPassIntAndPoint(preFactor, ownerEntropy, hasLotSeq) {
 	let passFactor;
 	if (hasLotSeq) {
 		const hashTarget = Buffer.concat([preFactor, ownerEntropy]);
-		passFactor = hash256(hashTarget);
+		passFactor = Hash.hash256(hashTarget);
 	} else {
 		passFactor = preFactor;
 	}
@@ -253,7 +250,7 @@ function finishDecryptECMult(seedBPass, encryptedPart1, encryptedPart2, passInt,
 
 	const seedBPart1 = xor(decipher2.read(), derivedHalf1.slice(0, 16));
 	const seedB = Buffer.concat([seedBPart1, seedBPart2], 24);
-	const factorB = BigInteger.fromBuffer(hash256(seedB));
+	const factorB = BigInteger.fromBuffer(Hash.hash256(seedB));
 
 	// d = passFactor * factorB (mod n)
 	const d = passInt.multiply(factorB).mod(curve.n);
@@ -346,8 +343,6 @@ export class BIP38 {
 			Buffer.isBuffer(privateKey) ? privateKey : Buffer.from(privateKey, "hex"),
 			compressed,
 			mnemonic,
-			undefined,
-			undefined,
 		);
 	}
 
@@ -361,7 +356,7 @@ export class BIP38 {
 	 * @memberof BIP38
 	 */
 	public static decrypt(value: string, mnemonic: string): { compressed: boolean; privateKey: string } {
-		const { compressed, privateKey } = decrypt(value, mnemonic, undefined, undefined);
+		const { compressed, privateKey } = decrypt(value, mnemonic);
 
 		return { compressed, privateKey: privateKey.toString("hex") };
 	}
