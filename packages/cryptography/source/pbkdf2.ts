@@ -1,6 +1,6 @@
 // Based on https://github.com/simplyhexagonal/string-crypto/blob/main/src/index.ts
 
-import { randomBytes, pbkdf2Sync, createCipheriv, createDecipheriv } from "crypto";
+import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from "crypto";
 
 export class PBKDF2 {
 	public static encrypt(value: string, password: string): string {
