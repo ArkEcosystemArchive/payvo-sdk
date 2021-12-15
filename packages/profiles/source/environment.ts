@@ -15,7 +15,7 @@ import {
 	IWalletService,
 } from "./contracts.js";
 import { DriverFactory } from "./driver.js";
-import { CoinList, EnvironmentOptions, Storage, StorageData } from "./env.models.js";
+import { CoinList, EnvironmentOptions, Storage, StorageData } from "./environment.models.js";
 
 export class Environment {
 	#storage: StorageData | undefined;

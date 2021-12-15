@@ -1,10 +1,10 @@
-import { resolve } from "path";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { Request } from "@payvo/sdk-fetch";
 import { describe } from "@payvo/sdk-test";
 import fs from "fs-extra";
+import { resolve } from "path";
 
 import storageData from "../test/fixtures/env-storage.json";
 import { identity } from "../test/fixtures/identity";
@@ -14,7 +14,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileData } from "./contracts";
 import { DataRepository } from "./data.repository";
-import { Environment } from "./env";
+import { Environment } from "./environment";
 import { ExchangeRateService } from "./exchange-rate.service";
 import { MemoryStorage } from "./memory.storage";
 import { PluginRegistry } from "./plugin-registry.service";
