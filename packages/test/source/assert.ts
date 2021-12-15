@@ -82,7 +82,7 @@ export const assert = {
 
 		const snapshot: string = join(directory, `${name}.snapshot`);
 
-		const updateSnapshots: boolean = process.argv.some((arg: string) => arg === "--update-snapshots");
+		const updateSnapshots: boolean = process.argv.includes("--update-snapshots");
 
 		if (updateSnapshots) {
 			unlinkSync(snapshot);

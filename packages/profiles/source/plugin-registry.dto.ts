@@ -5,9 +5,9 @@ export class RegistryPlugin implements IRegistryPlugin {
 	readonly #package: Record<string, any>;
 
 	/** {@inheritDoc IRegistryPlugin.constructor} */
-	public constructor(data: Record<string, any>, pkg: Record<string, any>) {
+	public constructor(data: Record<string, any>, package_: Record<string, any>) {
 		this.#data = data;
-		this.#package = pkg;
+		this.#package = package_;
 	}
 
 	/** {@inheritDoc IRegistryPlugin.id} */
@@ -48,9 +48,9 @@ export class RegistryPlugin implements IRegistryPlugin {
 	/** {@inheritDoc IRegistryPlugin.sourceProvider} */
 	public sourceProvider(): any {
 		for (const [provider, pattern] of Object.entries({
-			github: /http(?:s)?:\/\/(?:www\.)?github\.com(\/[A-Za-z\d](?:[A-Za-z\d]|-(?=[A-Za-z\d])){1,39}){2}/,
-			gitlab: /http(?:s)?:\/\/(?:www\.)?gitlab\.com(\/[A-Za-z\d](?:[A-Za-z\d]|-(?=[A-Za-z\d])){1,39}){2}/,
-			bitbucket: /http(?:s)?:\/\/(?:www\.)?bitbucket\.com(\/[A-Za-z\d](?:[A-Za-z\d]|-(?=[A-Za-z\d])){1,39}){2}/,
+			bitbucket: /https?:\/\/(?:www\.)?bitbucket\.com(\/[\dA-Za-z](?:[\dA-Za-z]|-(?=[\dA-Za-z])){1,39}){2}/,
+			github: /https?:\/\/(?:www\.)?github\.com(\/[\dA-Za-z](?:[\dA-Za-z]|-(?=[\dA-Za-z])){1,39}){2}/,
+			gitlab: /https?:\/\/(?:www\.)?gitlab\.com(\/[\dA-Za-z](?:[\dA-Za-z]|-(?=[\dA-Za-z])){1,39}){2}/,
 		})) {
 			if (new RegExp(pattern).test(this.#data.links.repository)) {
 				return {
@@ -123,22 +123,22 @@ export class RegistryPlugin implements IRegistryPlugin {
 		size: number;
 	} {
 		return {
-			id: this.id(),
-			name: this.name(),
 			alias: this.alias(),
-			date: this.date(),
-			version: this.version(),
-			description: this.description(),
-			author: this.author(),
-			sourceProvider: this.sourceProvider(),
-			logo: this.logo(),
-			images: this.images(),
-			categories: this.categories(),
-			permissions: this.permissions(),
-			urls: this.urls(),
-			minimumVersion: this.minimumVersion(),
 			archiveUrl: this.archiveUrl(),
+			author: this.author(),
+			categories: this.categories(),
+			date: this.date(),
+			description: this.description(),
+			id: this.id(),
+			images: this.images(),
+			logo: this.logo(),
+			minimumVersion: this.minimumVersion(),
+			name: this.name(),
+			permissions: this.permissions(),
 			size: this.size(),
+			sourceProvider: this.sourceProvider(),
+			urls: this.urls(),
+			version: this.version(),
 		};
 	}
 
@@ -147,10 +147,8 @@ export class RegistryPlugin implements IRegistryPlugin {
 			return this.#package[key];
 		}
 
-		if (this.#package["desktop-wallet"]) {
-			if (this.#package["desktop-wallet"][key]) {
-				return this.#package["desktop-wallet"][key];
-			}
+		if (this.#package["desktop-wallet"] && this.#package["desktop-wallet"][key]) {
+			return this.#package["desktop-wallet"][key];
 		}
 
 		return undefined;

@@ -1,6 +1,10 @@
 /* istanbul ignore file */
 
 import { ConfigRepository } from "./coins.js";
+import { IContainer } from "./container.contracts.js";
+import { Container } from "./container.js";
+import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
+import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";
 import {
 	AbstractAddressService,
 	AbstractClientService,
@@ -21,10 +25,6 @@ import {
 	AbstractWIFService,
 	BigNumberService,
 } from "./services.js";
-import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
-import { Container } from "./container.js";
-import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";
-import { IContainer } from "./container.contracts.js";
 
 export class AbstractServiceProvider implements IServiceProvider {
 	protected readonly configRepository: ConfigRepository;

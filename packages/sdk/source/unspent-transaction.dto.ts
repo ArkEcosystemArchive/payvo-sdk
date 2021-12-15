@@ -3,9 +3,8 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
-import { KeyValuePair } from "./contracts.js";
-
 import { UnspentTransactionData as Contract } from "./confirmed-transaction.dto.contract.js";
+import { KeyValuePair } from "./contracts.js";
 
 export class UnspentTransactionData implements Contract {
 	readonly #data: KeyValuePair;

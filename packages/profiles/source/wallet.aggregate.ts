@@ -1,4 +1,5 @@
 import { BigNumber } from "@payvo/sdk-helpers";
+
 import { IProfile, IReadWriteWallet, IWalletAggregate } from "./contracts.js";
 
 type NetworkType = "live" | "test";
@@ -60,16 +61,16 @@ export class WalletAggregate implements IWalletAggregate {
 				(wallet: IReadWriteWallet) => wallet.network().isLive() === (networkType === "live"),
 			);
 
-			if (matchingWallets.length) {
+			if (matchingWallets.length > 0) {
 				const totalByCoin: BigNumber = matchingWallets.reduce(
 					(total: BigNumber, wallet: IReadWriteWallet) => total.plus(wallet.balance()),
 					BigNumber.ZERO,
 				);
 
 				result[coin] = {
-					total: totalByCoin.toFixed(),
 					percentage:
 						totalByProfile === 0 ? "0.00" : totalByCoin.divide(totalByProfile).times(100).toFixed(2),
+					total: totalByCoin.toString(),
 				};
 			}
 		}

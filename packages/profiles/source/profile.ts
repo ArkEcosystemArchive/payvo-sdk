@@ -30,8 +30,8 @@ import {
 import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { Avatar } from "./helpers/avatar.js";
 import { AttributeBag } from "./helpers/attribute-bag.js";
+import { Avatar } from "./helpers/avatar.js";
 import { IProfileNotificationService } from "./notification.repository.contract.js";
 import { ProfileNotificationService } from "./notification.service.js";
 import { PasswordManager } from "./password.js";
@@ -379,10 +379,7 @@ export class Profile implements IProfile {
 
 	/** {@inheritDoc IProfile.hasBeenPartiallyRestored} */
 	public hasBeenPartiallyRestored(): boolean {
-		return (
-			this.#walletRepository.values().filter((wallet: IReadWriteWallet) => wallet.hasBeenPartiallyRestored())
-				.length > 0
-		);
+		return this.#walletRepository.values().some((wallet: IReadWriteWallet) => wallet.hasBeenPartiallyRestored());
 	}
 
 	/** {@inheritDoc IProfile.getAttributes} */

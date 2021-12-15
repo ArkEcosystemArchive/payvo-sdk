@@ -1,5 +1,5 @@
-import { BIP39 } from "@payvo/sdk-cryptography";
 import { Services } from "@payvo/sdk";
+import { BIP39 } from "@payvo/sdk-cryptography";
 
 import { IReadWriteWallet, IWalletMutator, WalletData, WalletImportMethod, WalletSetting } from "./contracts.js";
 import { Avatar } from "./helpers/avatar.js";
@@ -80,7 +80,7 @@ export class WalletMutator implements IWalletMutator {
 
 		this.#wallet.data().set(WalletData.PublicKey, value);
 
-		return this.address({ type, address, path });
+		return this.address({ address, path, type });
 	}
 
 	/** {@inheritDoc IWalletMutator.address} */

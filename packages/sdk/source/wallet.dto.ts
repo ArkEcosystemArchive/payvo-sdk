@@ -2,12 +2,11 @@
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { KeyValuePair, WalletBalance, WalletMultiSignature } from "./contracts.js";
-import { NotImplemented } from "./exceptions.js";
-
-import { BindingType } from "./service-provider.contract.js";
 import { BigNumberService } from "./big-number.service.js";
 import { IContainer } from "./container.contracts.js";
+import { KeyValuePair, WalletBalance, WalletMultiSignature } from "./contracts.js";
+import { NotImplemented } from "./exceptions.js";
+import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractWalletData {
 	protected readonly bigNumberService: BigNumberService;

@@ -2,15 +2,14 @@
 
 import { BigNumber } from "@payvo/sdk-helpers";
 
+import { BigNumberService } from "./big-number.service.js";
+import { ConfigRepository } from "./config.js";
+import { IContainer } from "./container.contracts.js";
 import { SignedTransactionData } from "./dto.js";
 import { NotImplemented } from "./exceptions.js";
-import { HttpClient } from "./http.js";
-
-import { BindingType } from "./service-provider.contract.js";
 import { FeeService, TransactionFeeOptions, TransactionFees } from "./fee.contract.js";
-import { IContainer } from "./container.contracts.js";
-import { ConfigRepository } from "./config.js";
-import { BigNumberService } from "./big-number.service.js";
+import { HttpClient } from "./http.js";
+import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractFeeService implements FeeService {
 	protected readonly configRepository: ConfigRepository;

@@ -1,17 +1,17 @@
 /* istanbul ignore file */
 
-import { ForbiddenMethodCallException } from "./exceptions.js";
-import { IdentityOptions, MultiSignatureAsset } from "./services.js";
-import { AbstractDoubleSignatory } from "./abstract-double.signatory.js";
 import { AbstractSignatory } from "./abstract.signatory.js";
+import { AbstractDoubleSignatory } from "./abstract-double.signatory.js";
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory.js";
 import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory.js";
 import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory.js";
+import { ForbiddenMethodCallException } from "./exceptions.js";
 import { LedgerSignatory } from "./ledger.signatory.js";
 import { MnemonicSignatory } from "./mnemonic.signatory.js";
 import { MultiSignatureSignatory } from "./multi-signature.signatory.js";
 import { PrivateKeySignatory } from "./private-key.signatory.js";
 import { SecretSignatory } from "./secret.signatory.js";
+import { IdentityOptions, MultiSignatureAsset } from "./services.js";
 import { WIFSignatory } from "./wif.signatory.js";
 
 type SignatoryType =

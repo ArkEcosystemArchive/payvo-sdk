@@ -1,5 +1,4 @@
-import { IProfileData, IProfileExportOptions, IProfile } from "./contracts.js";
-import { IProfileSerialiser } from "./contracts.js";
+import { IProfile, IProfileData, IProfileExportOptions, IProfileSerialiser } from "./contracts.js";
 
 export class ProfileSerialiser implements IProfileSerialiser {
 	readonly #profile: IProfile;
@@ -11,21 +10,21 @@ export class ProfileSerialiser implements IProfileSerialiser {
 	/** {@inheritDoc IProfileSerialiser.toJSON} */
 	public toJSON(
 		options: IProfileExportOptions = {
+			addNetworkInformation: true,
 			excludeEmptyWallets: false,
 			excludeLedgerWallets: false,
-			addNetworkInformation: true,
 			saveGeneralSettings: true,
 		},
 	): IProfileData {
 		if (!options.saveGeneralSettings) {
-			throw Error("This is not implemented yet");
+			throw new Error("This is not implemented yet");
 		}
 
 		return {
-			id: this.#profile.id(),
 			contacts: this.#profile.contacts().toObject(),
 			data: this.#profile.data().all(),
 			exchangeTransactions: this.#profile.exchangeTransactions().toObject(),
+			id: this.#profile.id(),
 			notifications: this.#profile.notifications().all(),
 			plugins: this.#profile.plugins().all(),
 			settings: this.#profile.settings().all(),

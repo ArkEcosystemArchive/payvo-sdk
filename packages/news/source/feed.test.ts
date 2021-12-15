@@ -1,6 +1,5 @@
 /* eslint-disable import/order */
 import { describe } from "@payvo/sdk-test";
-
 import fs from "fs-extra";
 import { resolve } from "path";
 

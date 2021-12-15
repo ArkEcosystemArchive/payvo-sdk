@@ -1,4 +1,5 @@
 import { describe } from "@payvo/sdk-test";
+
 import { ensureTrailingSlash } from "./http-urls";
 
 describe("HTTP URLs", ({ assert, it, nock, loader }) => {

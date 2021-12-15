@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 
-import { ConfigRepository } from "./coins.js";
-import { NotImplemented } from "./exceptions.js";
-
-import { BindingType } from "./service-provider.contract.js";
 import { AddressDataTransferObject, AddressService } from "./address.contract.js";
-import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract.js";
+import { ConfigRepository } from "./coins.js";
 import { IContainer } from "./container.contracts.js";
+import { NotImplemented } from "./exceptions.js";
+import { BindingType } from "./service-provider.contract.js";
+import { IdentityOptions, MultisignatureAddressInput } from "./shared.contract.js";
 
 export class AbstractAddressService implements AddressService {
 	protected readonly configRepository: ConfigRepository;

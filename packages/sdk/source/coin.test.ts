@@ -2,10 +2,10 @@ import { describe } from "@payvo/sdk-test";
 
 import { ARK } from "../../ark/distribution";
 import { Request } from "../../fetch/distribution";
-import { Network, NetworkRepository } from "./networks";
 import { CoinFactory } from "./coin-factory";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
+import { Network, NetworkRepository } from "./networks";
 
 describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 	beforeEach(async (context) => {
@@ -22,10 +22,10 @@ describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 
 		context.subject = CoinFactory.make(ARK, {
 			httpClient: new Request(),
-			network: "ark.devnet",
 			ledgerTransportFactory: async () => {
 				//
 			},
+			network: "ark.devnet",
 		});
 	});
 

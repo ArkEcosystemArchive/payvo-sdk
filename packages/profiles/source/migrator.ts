@@ -24,7 +24,7 @@ export class Migrator implements IMigrator {
 			try {
 				this.#profile.data().snapshot();
 
-				await migrations[version]({ profile: this.#profile, data: this.#data });
+				await migrations[version]({ data: this.#data, profile: this.#profile });
 
 				this.#set(version);
 

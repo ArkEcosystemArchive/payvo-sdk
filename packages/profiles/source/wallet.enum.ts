@@ -73,6 +73,7 @@ export enum WalletSetting {
  * @enum {number}
  */
 export const WalletImportMethod = {
+	Address: "ADDRESS",
 	BIP39: {
 		MNEMONIC: "BIP39.MNEMONIC",
 		MNEMONIC_WITH_ENCRYPTION: "BIP39.MNEMONIC_WITH_ENCRYPTION",
@@ -92,7 +93,6 @@ export const WalletImportMethod = {
 		MNEMONIC: "BIP84.MNEMONIC",
 		MNEMONIC_WITH_ENCRYPTION: "BIP84.MNEMONIC_WITH_ENCRYPTION",
 	},
-	Address: "ADDRESS",
 	PrivateKey: "PRIVATE_KEY",
 	PublicKey: "PUBLIC_KEY",
 	SECRET: "SECRET",

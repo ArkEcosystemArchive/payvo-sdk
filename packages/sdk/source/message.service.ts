@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 
+import { ConfigRepository } from "./coins.js";
+import { IContainer } from "./container.contracts.js";
 import { NotImplemented } from "./exceptions.js";
 import { MessageInput, MessageService, SignedMessage } from "./message.contract.js";
-import { ConfigRepository } from "./coins.js";
 import { BindingType } from "./service-provider.contract.js";
-import { IContainer } from "./container.contracts.js";
 
 export class AbstractMessageService implements MessageService {
 	protected readonly configRepository: ConfigRepository;

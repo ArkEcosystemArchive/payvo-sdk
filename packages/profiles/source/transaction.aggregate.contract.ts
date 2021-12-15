@@ -1,4 +1,5 @@
 import { Services } from "@payvo/sdk";
+
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
 
 export type AggregateQuery = {

@@ -6,8 +6,8 @@ import { assert } from "./assert.js";
 import { each, formatName } from "./each.js";
 import { runHook } from "./hooks.js";
 import { loader } from "./loader.js";
-import { Stub } from "./stub.js";
 import { nock } from "./nock.js";
+import { Stub } from "./stub.js";
 
 type ContextFunction = () => Context;
 

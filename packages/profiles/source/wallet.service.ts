@@ -1,5 +1,5 @@
-import { pqueueSettled } from "./helpers/queue.js";
 import { IProfile, IWalletService } from "./contracts.js";
+import { pqueueSettled } from "./helpers/queue.js";
 
 export class WalletService implements IWalletService {
 	/** {@inheritDoc IWalletService.syncByProfile} */
@@ -7,8 +7,10 @@ export class WalletService implements IWalletService {
 		const promises: (() => Promise<void>)[] = [];
 
 		for (const wallet of profile.wallets().values()) {
-			promises.push(() => wallet?.synchroniser().identity());
-			promises.push(() => wallet?.synchroniser().votes());
+			promises.push(
+				() => wallet?.synchroniser().identity(),
+				() => wallet?.synchroniser().votes(),
+			);
 		}
 
 		await pqueueSettled(promises);

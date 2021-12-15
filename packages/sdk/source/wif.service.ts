@@ -3,7 +3,6 @@
 import { ConfigRepository } from "./coins.js";
 import { IContainer } from "./container.contracts.js";
 import { NotImplemented } from "./exceptions.js";
-
 import { BindingType } from "./service-provider.contract.js";
 import { IdentityOptions } from "./shared.contract.js";
 import { WIFDataTransferObject, WIFService } from "./wif.contract.js";

@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 
 import { ConfigRepository } from "./coins.js";
-import { NotImplemented } from "./exceptions.js";
-
-import { BindingType } from "./service-provider.contract.js";
-import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
-import { IdentityOptions } from "./shared.contract.js";
 import { IContainer } from "./container.contracts.js";
+import { NotImplemented } from "./exceptions.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
+import { BindingType } from "./service-provider.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
 
 export class AbstractExtendedPublicKeyService implements ExtendedPublicKeyService {
 	protected readonly configRepository: ConfigRepository;
