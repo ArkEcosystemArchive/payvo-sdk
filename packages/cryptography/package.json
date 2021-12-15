@@ -29,7 +29,6 @@
 		"bip39": "^3.0.4",
 		"bn.js": "^5.2.0",
 		"browserify-aes": "^1.2.0",
-		"bs58check": "^2.1.2",
 		"buffer-xor": "^2.0.2",
 		"create-hash": "^1.2.0",
 		"create-hmac": "^1.1.7",
@@ -46,8 +45,10 @@
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
 		"@types/bcryptjs": "2.4.2",
+		"@types/bigi": "^1.4.2",
 		"@types/bip38": "2.0.1",
 		"@types/create-xpub": "^2.1.1",
+		"@types/ecurve": "^1.0.0",
 		"@types/hdkey": "^2.0.0",
 		"@types/node": "^16.11.10",
 		"@types/uuid": "^8.3.3",

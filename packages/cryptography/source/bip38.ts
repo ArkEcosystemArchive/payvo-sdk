@@ -1,11 +1,11 @@
 import BigInteger from "bigi";
 import aes from "browserify-aes";
-import bs58check from "bs58check";
 import xor from "buffer-xor/inplace";
 import createHash from "create-hash";
 import ecurve from "ecurve";
 import { Buffer } from "buffer";
 import scrypt from "scryptsy";
+import { Base58Check } from "./base58-check.js";
 
 const curve = ecurve.getCurveByName("secp256k1");
 
@@ -39,7 +39,7 @@ function getAddress(d, compressed) {
 	payload.writeUInt8(0x00, 0); // XXX TODO FIXME bitcoin only??? damn you BIP38
 	hash.copy(payload, 1);
 
-	return bs58check.encode(payload);
+	return Base58Check.encode(payload);
 }
 
 function prepareEncryptRaw(buffer, compressed, passphrase, scryptParameters) {
@@ -87,15 +87,6 @@ function finishEncryptRaw(buffer, compressed, salt, scryptBuf) {
 	return result;
 }
 
-async function encryptRawAsync(buffer, compressed, passphrase, progressCallback, scryptParameters, promiseInterval) {
-	scryptParameters = scryptParameters || SCRYPT_PARAMS;
-	const { secret, salt, N, r, p } = prepareEncryptRaw(buffer, compressed, passphrase, scryptParameters);
-
-	const scryptBuf = await scrypt.async(secret, salt, N, r, p, 64, progressCallback, promiseInterval);
-
-	return finishEncryptRaw(buffer, compressed, salt, scryptBuf);
-}
-
 function encryptRaw(buffer, compressed, passphrase, progressCallback, scryptParameters) {
 	scryptParameters = scryptParameters || SCRYPT_PARAMS;
 	const { secret, salt, N, r, p } = prepareEncryptRaw(buffer, compressed, passphrase, scryptParameters);
@@ -105,14 +96,8 @@ function encryptRaw(buffer, compressed, passphrase, progressCallback, scryptPara
 	return finishEncryptRaw(buffer, compressed, salt, scryptBuf);
 }
 
-async function encryptAsync(buffer, compressed, passphrase, progressCallback, scryptParameters, promiseInterval) {
-	return bs58check.encode(
-		await encryptRawAsync(buffer, compressed, passphrase, progressCallback, scryptParameters, promiseInterval),
-	);
-}
-
 function encrypt(buffer, compressed, passphrase, progressCallback, scryptParameters) {
-	return bs58check.encode(encryptRaw(buffer, compressed, passphrase, progressCallback, scryptParameters));
+	return Base58Check.encode(encryptRaw(buffer, compressed, passphrase, progressCallback, scryptParameters));
 }
 
 function prepareDecryptRaw(buffer, progressCallback, scryptParameters) {
@@ -180,26 +165,6 @@ function finishDecryptRaw(buffer, salt: Buffer, compressed, scryptBuf) {
 	};
 }
 
-async function decryptRawAsync(buffer, passphrase, progressCallback, scryptParameters, promiseInterval) {
-	scryptParameters = scryptParameters || SCRYPT_PARAMS;
-	const { salt, compressed, N, r, p, decryptEC } = prepareDecryptRaw(buffer, progressCallback, scryptParameters);
-	if (decryptEC === true) {
-		return decryptECMultAsync(buffer, passphrase, progressCallback, scryptParameters, promiseInterval);
-	}
-
-	const scryptBuf = await scrypt.async(
-		passphrase.normalize("NFC"),
-		salt,
-		N,
-		r,
-		p,
-		64,
-		progressCallback,
-		promiseInterval,
-	);
-	return finishDecryptRaw(buffer, salt, compressed, scryptBuf);
-}
-
 // some of the techniques borrowed from: https://github.com/pointbiz/bitaddress.org
 function decryptRaw(buffer, passphrase, progressCallback, scryptParameters) {
 	scryptParameters = scryptParameters || SCRYPT_PARAMS;
@@ -211,12 +176,8 @@ function decryptRaw(buffer, passphrase, progressCallback, scryptParameters) {
 	return finishDecryptRaw(buffer, salt, compressed, scryptBuf);
 }
 
-async function decryptAsync(string, passphrase, progressCallback, scryptParameters, promiseInterval) {
-	return decryptRawAsync(bs58check.decode(string), passphrase, progressCallback, scryptParameters, promiseInterval);
-}
-
 function decrypt(string, passphrase, progressCallback, scryptParameters) {
-	return decryptRaw(bs58check.decode(string), passphrase, progressCallback, scryptParameters);
+	return decryptRaw(Base58Check.decode(string), passphrase, progressCallback, scryptParameters);
 }
 
 function prepareDecryptECMult(buffer, passphrase, progressCallback, scryptParameters) {
@@ -306,31 +267,6 @@ function finishDecryptECMult(seedBPass, encryptedPart1, encryptedPart2, passInt,
 	};
 }
 
-async function decryptECMultAsync(buffer, passphrase, progressCallback, scryptParameters, promiseInterval) {
-	buffer = buffer.slice(1); // FIXME: we can avoid this
-	passphrase = Buffer.from(passphrase.normalize("NFC"), "utf8");
-	scryptParameters = scryptParameters || SCRYPT_PARAMS;
-	const { addressHash, encryptedPart1, encryptedPart2, ownerEntropy, ownerSalt, hasLotSeq, compressed, N, r, p } =
-		prepareDecryptECMult(buffer, passphrase, progressCallback, scryptParameters);
-
-	const preFactor = await scrypt.async(passphrase, ownerSalt, N, r, p, 32, progressCallback, promiseInterval);
-
-	const { passInt, passPoint } = getPassIntAndPoint(preFactor, ownerEntropy, hasLotSeq);
-
-	const seedBPass = await scrypt.async(
-		passPoint,
-		Buffer.concat([addressHash, ownerEntropy]),
-		1024,
-		1,
-		1,
-		64,
-		undefined,
-		promiseInterval,
-	);
-
-	return finishDecryptECMult(seedBPass, encryptedPart1, encryptedPart2, passInt, compressed);
-}
-
 function decryptECMult(buffer, passphrase, progressCallback, scryptParameters) {
 	buffer = buffer.slice(1); // FIXME: we can avoid this
 	passphrase = Buffer.from(passphrase.normalize("NFC"), "utf8");
@@ -346,8 +282,15 @@ function decryptECMult(buffer, passphrase, progressCallback, scryptParameters) {
 	return finishDecryptECMult(seedBPass, encryptedPart1, encryptedPart2, passInt, compressed);
 }
 
-function verify(string) {
-	const decoded = bs58check.decodeUnsafe(string);
+function verify(input: string) {
+	let decoded: Buffer;
+
+	try {
+		decoded = Base58Check.decode(input);
+	} catch {
+		return false;
+	}
+
 	if (!decoded) {
 		return false;
 	}
@@ -355,6 +298,7 @@ function verify(string) {
 	if (decoded.length !== 39) {
 		return false;
 	}
+
 	if (decoded.readUInt8(0) !== 0x01) {
 		return false;
 	}
