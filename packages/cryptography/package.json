@@ -29,7 +29,6 @@
 		"bn.js": "^5.2.0",
 		"create-hmac": "^1.1.7",
 		"create-xpub": "^2.1.0",
-		"ecurve": "^1.0.6",
 		"elliptic": "^6.5.4",
 		"hdkey": "^2.0.1",
 		"micro-base": "^0.10.0",

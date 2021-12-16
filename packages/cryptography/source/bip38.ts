@@ -4,12 +4,10 @@ import { scrypt } from "@noble/hashes/lib/scrypt";
 import BigInteger from "bigi";
 import { Buffer } from "buffer";
 import { createCipheriv, createDecipheriv } from "crypto";
-import ecurve from "ecurve";
 
 import { Base58Check } from "./base58-check.js";
+import { secp256k1 } from "./ecurve/names.js";
 import { Hash } from "./hash";
-
-const curve = ecurve.getCurveByName("secp256k1");
 
 // constants
 const SCRYPT_PARAMS = {
@@ -22,7 +20,7 @@ const NULL = Buffer.alloc(0);
 
 class Implementation {
 	public encrypt(privateKey: string | Buffer, mnemonic: string, compressed = true): string {
-        // Prepare
+		// Prepare
 		const buffer: Buffer = Buffer.isBuffer(privateKey) ? privateKey : Buffer.from(privateKey, "hex");
 
 		if (buffer.length !== 32) {
@@ -30,14 +28,14 @@ class Implementation {
 		}
 
 		const address: string = this.#getAddress(BigInteger.fromBuffer(buffer), compressed);
-        const N = SCRYPT_PARAMS.N;
-        const p = SCRYPT_PARAMS.p;
-        const r = SCRYPT_PARAMS.r;
-        const salt = Hash.hash256(Buffer.from(address)).slice(0, 4);
-        const secret = Buffer.from(mnemonic.normalize("NFC"), "utf8");
+		const N = SCRYPT_PARAMS.N;
+		const p = SCRYPT_PARAMS.p;
+		const r = SCRYPT_PARAMS.r;
+		const salt = Hash.hash256(Buffer.from(address)).slice(0, 4);
+		const secret = Buffer.from(mnemonic.normalize("NFC"), "utf8");
 
-        // Finalise
-        const scryptBuf = scrypt(secret, salt, { N, dkLen: 64, p, r });
+		// Finalise
+		const scryptBuf = scrypt(secret, salt, { N, dkLen: 64, p, r });
 		const derivedHalf1 = scryptBuf.slice(0, 32);
 		const derivedHalf2 = scryptBuf.slice(32, 64);
 
@@ -141,7 +139,7 @@ class Implementation {
 	}
 
 	#getAddress(d: BigInteger, compressed: boolean): string {
-		const Q = curve.G.multiply(d).getEncoded(compressed);
+		const Q = secp256k1.G.multiply(d).getEncoded(compressed);
 		const hash = Hash.hash160(Q);
 		const payload = Buffer.allocUnsafe(21);
 		payload.writeUInt8(0x00, 0);
@@ -220,7 +218,7 @@ class Implementation {
 		const passInt = BigInteger.fromBuffer(passFactor);
 		return {
 			passInt,
-			passPoint: curve.G.multiply(passInt).getEncoded(true),
+			passPoint: secp256k1.G.multiply(passInt).getEncoded(true),
 		};
 	}
 
@@ -312,7 +310,7 @@ class Implementation {
 		const factorB = BigInteger.fromBuffer(Hash.hash256(seedB));
 
 		// d = passFactor * factorB (mod n)
-		const d = passInt.multiply(factorB).mod(curve.n);
+		const d = passInt.multiply(factorB).mod(secp256k1.n);
 
 		return {
 			compressed,
