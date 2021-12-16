@@ -1,3 +1,5 @@
+// Based on https://github.com/cryptocoinjs/ecurve/blob/master/lib/names.js
+
 import BigInteger from "bigi";
 
 import { Curve } from "./curve.js";

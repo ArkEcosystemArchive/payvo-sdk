@@ -1,4 +1,4 @@
-import assert from "assert";
+// Based on https://github.com/cryptocoinjs/ecurve/blob/master/lib/curve.js
 import BigInteger from "bigi";
 
 import { Point } from "./point.js";
