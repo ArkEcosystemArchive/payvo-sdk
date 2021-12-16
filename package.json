@@ -14,10 +14,14 @@
 		"test": "ultra -r test"
 	},
 	"dependencies": {
+		"@babel/core": "^7.16.5",
+		"@babel/preset-env": "^7.16.5",
+		"@babel/preset-typescript": "^7.16.5",
 		"@types/eslint": "^8.2.0",
 		"@types/eslint-plugin-prettier": "^3.1.0",
 		"@typescript-eslint/eslint-plugin": "^5.4.0",
 		"@typescript-eslint/parser": "^5.4.0",
+		"babel-loader": "^8.2.3",
 		"big-integer": "^1.6.51",
 		"c8": "~7.10.0",
 		"eslint": "^8.3.0",
