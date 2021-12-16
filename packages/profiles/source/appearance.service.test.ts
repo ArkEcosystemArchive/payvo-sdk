@@ -36,7 +36,7 @@ describe("AppearanceService", () => {
 	test("#defaults", async () => {
 		expect(subject.defaults()).toEqual({
 			accentColor: "green",
-			dashboardTransactionHistory: true,
+			dashboardTransactionHistory: false,
 			theme: "light",
 			useExpandedTables: false,
 			useNetworkWalletNames: false,
