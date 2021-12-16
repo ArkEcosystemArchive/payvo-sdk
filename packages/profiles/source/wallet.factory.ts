@@ -1,8 +1,7 @@
 /* istanbul ignore file */
 
 import { Enums } from "@payvo/sdk";
-import { BIP39, UUID } from "@payvo/sdk-cryptography";
-import { decrypt, encrypt } from "bip38";
+import { BIP38, BIP39, UUID } from "@payvo/sdk-cryptography";
 
 import {
 	IAddressOptions,
@@ -216,15 +215,14 @@ export class WalletFactory implements IWalletFactory {
 		wallet.data().set(WalletData.Status, WalletFlag.Cold);
 
 		if (password) {
-			const { compressed, privateKey } = decrypt(wif, password);
-			const privateKeyString = privateKey.toString("hex");
+			const { compressed, privateKey } = BIP38.decrypt(wif, password);
 
 			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.WIFWithEncryption);
-			wallet.data().set(WalletData.EncryptedSigningKey, encrypt(privateKey, compressed, password));
+			wallet.data().set(WalletData.EncryptedSigningKey, BIP38.encrypt(privateKey, password, compressed));
 
-			await wallet.mutator().address(await wallet.coin().address().fromPrivateKey(privateKeyString));
+			await wallet.mutator().address(await wallet.coin().address().fromPrivateKey(privateKey));
 
-			const unencryptedWif = (await wallet.coin().wif().fromPrivateKey(privateKeyString)).wif;
+			const unencryptedWif = (await wallet.coin().wif().fromPrivateKey(privateKey)).wif;
 			const { publicKey } = await wallet.coin().publicKey().fromWIF(unencryptedWif);
 			wallet.data().set(WalletData.PublicKey, publicKey);
 		} else {
