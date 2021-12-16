@@ -32,8 +32,8 @@
  */
 
 import assert from "assert";
-import BigInteger from "bigi";
 import { Buffer } from "buffer";
+import BigInteger from "bigi";
 
 const THREE = BigInteger.valueOf(3);
 
