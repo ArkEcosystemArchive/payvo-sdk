@@ -22,7 +22,7 @@ const NULL = Buffer.alloc(0);
 
 class Implementation {
 	public encrypt(privateKey: string | Buffer, mnemonic: string, compressed = true): string {
-        // Prepare
+		// Prepare
 		const buffer: Buffer = Buffer.isBuffer(privateKey) ? privateKey : Buffer.from(privateKey, "hex");
 
 		if (buffer.length !== 32) {
@@ -30,14 +30,14 @@ class Implementation {
 		}
 
 		const address: string = this.#getAddress(BigInteger.fromBuffer(buffer), compressed);
-        const N = SCRYPT_PARAMS.N;
-        const p = SCRYPT_PARAMS.p;
-        const r = SCRYPT_PARAMS.r;
-        const salt = Hash.hash256(Buffer.from(address)).slice(0, 4);
-        const secret = Buffer.from(mnemonic.normalize("NFC"), "utf8");
+		const N = SCRYPT_PARAMS.N;
+		const p = SCRYPT_PARAMS.p;
+		const r = SCRYPT_PARAMS.r;
+		const salt = Hash.hash256(Buffer.from(address)).slice(0, 4);
+		const secret = Buffer.from(mnemonic.normalize("NFC"), "utf8");
 
-        // Finalise
-        const scryptBuf = scrypt(secret, salt, { N, dkLen: 64, p, r });
+		// Finalise
+		const scryptBuf = scrypt(secret, salt, { N, dkLen: 64, p, r });
 		const derivedHalf1 = scryptBuf.slice(0, 32);
 		const derivedHalf2 = scryptBuf.slice(32, 64);
 
