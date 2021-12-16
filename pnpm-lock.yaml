@@ -235,18 +235,21 @@ importers:
       '@noble/secp256k1': ^1.3.3
       '@payvo/sdk-test': workspace:*
       '@types/bcryptjs': 2.4.2
+      '@types/bigi': ^1.4.2
       '@types/bip38': 2.0.1
       '@types/create-xpub': ^2.1.1
+      '@types/ecurve': ^1.0.0
       '@types/hdkey': ^2.0.0
       '@types/node': ^16.11.10
       '@types/uuid': ^8.3.3
       '@types/wif': ^2.0.2
       bcryptjs: ^2.4.3
-      bip38: ^3.1.1
+      bigi: ^1.4.2
       bip39: ^3.0.4
       bn.js: ^5.2.0
       create-hmac: ^1.1.7
       create-xpub: ^2.1.0
+      ecurve: ^1.0.6
       elliptic: ^6.5.4
       hdkey: ^2.0.1
       micro-base: ^0.10.0
@@ -258,11 +261,12 @@ importers:
       '@noble/hashes': 0.4.1
       '@noble/secp256k1': 1.3.3
       bcryptjs: 2.4.3
-      bip38: 3.1.1
+      bigi: 1.4.2
       bip39: 3.0.4
       bn.js: 5.2.0
       create-hmac: 1.1.7
       create-xpub: 2.1.0
+      ecurve: 1.0.6
       elliptic: 6.5.4
       hdkey: 2.0.1
       micro-base: 0.10.0
@@ -272,8 +276,10 @@ importers:
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/bcryptjs': 2.4.2
+      '@types/bigi': 1.4.2
       '@types/bip38': 2.0.1
       '@types/create-xpub': 2.1.1
+      '@types/ecurve': 1.0.0
       '@types/hdkey': 2.0.0
       '@types/node': 16.11.10
       '@types/uuid': 8.3.3
@@ -2435,6 +2441,10 @@ packages:
     resolution: {integrity: sha512-h24JIZ52rvSvi2jkpYDk2yLH99VzZoCJiSfDWwjst7TwJVuXN61XVCUlPCzRl7mxKEMsGf8z42Q+J4TZwU3z2w==}
     dev: true
 
+  /@types/bigi/1.4.2:
+    resolution: {integrity: sha512-St8Vm0x1ApYlU9yNaFx3jBis5JVU6oR/5Xtgvn8+N8Ts8f3ze6kOvAAg0aNkbGMGhhG6PrP0nMOgDI9NMFETkA==}
+    dev: true
+
   /@types/bip38/2.0.1:
     resolution: {integrity: sha512-mZTvxt9Oue3dDV8/sgJWNCsdmrkmhnGVRja3ZFKeMHheKbyS6FgcBep0WlpTP5pK8Z3Y3YILBP4nHnAV7knq0g==}
     dependencies:
@@ -2497,6 +2507,13 @@ packages:
     dependencies:
       '@types/trusted-types': 2.0.2
     dev: false
+
+  /@types/ecurve/1.0.0:
+    resolution: {integrity: sha1-DR/OAi2LqyvEurKMXXgbZCEAGMQ=}
+    dependencies:
+      '@types/bigi': 1.4.2
+      '@types/node': 16.11.10
+    dev: true
 
   /@types/elliptic/6.4.12:
     resolution: {integrity: sha512-gP1KsqoouLJGH6IJa28x7PXb3cRqh83X8HCLezd2dF+XcAIMKYv53KV+9Zn6QA561E120uOqZBQ+Jy/cl+fviw==}

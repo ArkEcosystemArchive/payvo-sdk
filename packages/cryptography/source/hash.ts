@@ -7,6 +7,10 @@ export class Hash {
 		return Hash.ripemd160(Hash.sha256(buffer));
 	}
 
+	public static hash256(buffer: Buffer | string): Buffer {
+		return Hash.sha256(Hash.sha256(buffer));
+	}
+
 	public static ripemd160(buffer: Buffer | string): Buffer {
 		return Buffer.from(ripemd160(Hash.#bufferize(buffer)));
 	}

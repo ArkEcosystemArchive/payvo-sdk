@@ -16,6 +16,7 @@ describe("BIP38", ({ assert, it }) => {
 
 	it("should decrypt the given value", async () => {
 		const mnemonic = "TestingOneTwoThree";
+
 		assert.equal(BIP38.decrypt("6PRVWUbkzzsbcVac2qwfssoUJAN1Xhrg6bNk8J7Nzm5H7kxEbn2Nh2ZoGg", mnemonic), {
 			compressed: false,
 			privateKey: "cbf4b9f70470856bb4f40f80b87edb90865997ffee6df315ab166d713af433a5",
