@@ -5,6 +5,7 @@ importers:
   .:
     specifiers:
       '@babel/core': ^7.16.5
+      '@babel/plugin-proposal-class-properties': ^7.16.5
       '@babel/preset-env': ^7.16.5
       '@babel/preset-typescript': ^7.16.5
       '@types/eslint': ^8.2.0
@@ -44,6 +45,7 @@ importers:
       webpack-cli: ^4.9.1
     dependencies:
       '@babel/core': 7.16.5
+      '@babel/plugin-proposal-class-properties': 7.16.5_@babel+core@7.16.5
       '@babel/preset-env': 7.16.5_@babel+core@7.16.5
       '@babel/preset-typescript': 7.16.5_@babel+core@7.16.5
       '@types/eslint': 8.2.0

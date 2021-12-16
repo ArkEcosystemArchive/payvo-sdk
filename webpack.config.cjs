@@ -20,6 +20,7 @@ module.exports = {
 					loader: "babel-loader",
 					options: {
 						babelrc: false,
+						plugins: ["@babel/plugin-proposal-class-properties"],
 						presets: ["@babel/preset-env", "@babel/preset-typescript"],
 					},
 				},
