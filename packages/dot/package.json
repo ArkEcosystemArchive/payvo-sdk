@@ -32,7 +32,7 @@
 		"@polkadot/util-crypto": "^8.0.5",
 		"@polkadot/wasm-crypto": "^4.4.1",
 		"@polkadot/x-randomvalues": "^8.0.5",
-		"@zondax/ledger-polkadot": "^0.13.0"
+		"@zondax/ledger-substrate": "^0.22.0"
 	},
 	"devDependencies": {
 		"@ledgerhq/hw-transport-mocker": "^6.11.2",

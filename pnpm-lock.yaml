@@ -301,7 +301,7 @@ importers:
       '@polkadot/wasm-crypto': ^4.4.1
       '@polkadot/x-randomvalues': ^8.0.5
       '@types/node': ^16.11.10
-      '@zondax/ledger-polkadot': ^0.13.0
+      '@zondax/ledger-substrate': ^0.22.0
     dependencies:
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
@@ -314,7 +314,7 @@ importers:
       '@polkadot/util-crypto': 8.0.5
       '@polkadot/wasm-crypto': 4.4.1_40b3c6547f2f0ee935393a070d86b93e
       '@polkadot/x-randomvalues': 8.0.5
-      '@zondax/ledger-polkadot': 0.13.8
+      '@zondax/ledger-substrate': 0.22.0
     devDependencies:
       '@ledgerhq/hw-transport-mocker': 6.11.2
       '@payvo/sdk-fetch': link:../fetch
@@ -3235,15 +3235,14 @@ packages:
       tslib: 2.3.1
     dev: false
 
-  /@zondax/ledger-polkadot/0.13.8:
-    resolution: {integrity: sha512-F/z1hZs5KHET62kV5i/5eMyX7bT1coptyWTgPnOEMnlGDyN9/PJsfR0qplqyjTZ2vS1atx/oBn9kIcX4FVpXHg==}
-    deprecated: This package has been deprecated. Please migrate to @zondax/ledger-substrate
+  /@zondax/ledger-substrate/0.22.0:
+    resolution: {integrity: sha512-STwFhICEwQIdJmxOq43x/I7WOtA96LbrJ0xA9gK5ibNz4swBdnJ6npSy4hU5pTJshLFYxHHA4akpkRFoIRyKFA==}
     dependencies:
       '@babel/runtime': 7.16.3
-      '@ledgerhq/hw-transport': 5.51.1
+      '@ledgerhq/hw-transport': 6.19.0
       bip32: 2.0.6
       bip32-ed25519: github.com/Zondax/bip32-ed25519/0949df01b5c93885339bc28116690292088f6134
-      bip39: 3.0.3
+      bip39: 3.0.4
       blakejs: 1.1.1
       bs58: 4.0.1
       hash.js: 1.1.7
@@ -3736,15 +3735,6 @@ packages:
 
   /bip39/3.0.2:
     resolution: {integrity: sha512-J4E1r2N0tUylTKt07ibXvhpT2c5pyAFgvuA5q1H9uDy6dEGpjV8jmymh3MTYJDLCNbIVClSB9FbND49I6N24MQ==}
-    dependencies:
-      '@types/node': 11.11.6
-      create-hash: 1.2.0
-      pbkdf2: 3.1.2
-      randombytes: 2.1.0
-    dev: false
-
-  /bip39/3.0.3:
-    resolution: {integrity: sha512-P0dKrz4g0V0BjXfx7d9QNkJ/Txcz/k+hM9TnjqjUaXtuOfAvxXSw2rJw8DX0e3ZPwnK/IgDxoRqf0bvoVCqbMg==}
     dependencies:
       '@types/node': 11.11.6
       create-hash: 1.2.0

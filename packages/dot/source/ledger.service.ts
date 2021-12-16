@@ -1,5 +1,5 @@
-import { IoC, Services } from "@payvo/sdk";
-import { newPolkadotApp } from "@zondax/ledger-polkadot";
+import { Services } from "@payvo/sdk";
+import { newPolkadotApp } from "@zondax/ledger-substrate";
 
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
