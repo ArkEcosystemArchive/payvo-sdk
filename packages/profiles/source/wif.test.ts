@@ -1,4 +1,4 @@
-import { PBKDF2 } from "@payvo/sdk-cryptography";
+import { AES } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
@@ -78,7 +78,7 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	});
 
 	it("should decrypt the WIF", (context) => {
-		context.subject.data().set(WalletData.EncryptedSigningKey, PBKDF2.encrypt(identity.mnemonic, "password"));
+		context.subject.data().set(WalletData.EncryptedSigningKey, AES.encrypt(identity.mnemonic, "password"));
 
 		assert.is(context.subject.signingKey().get("password"), identity.mnemonic);
 	});
@@ -92,7 +92,7 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	it("should throw if the WIF is tried to be decrypted without one being set", (context) => {
 		assert.throws(
 			() => context.subject.signingKey().get("password"),
-			"This wallet does not use PBKDF2 encryption.",
+			"This wallet does not use AES encryption.",
 		);
 	});
 
@@ -133,7 +133,7 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	it("should throw if the WIF is tried to be removed without one being set", (context) => {
 		assert.throws(
 			() => context.subject.signingKey().forget("password"),
-			"This wallet does not use PBKDF2 encryption.",
+			"This wallet does not use AES encryption.",
 		);
 	});
 });

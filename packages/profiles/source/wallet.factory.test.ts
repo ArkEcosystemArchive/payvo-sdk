@@ -1,4 +1,4 @@
-import { BIP38, PBKDF2 } from "@payvo/sdk-cryptography";
+import { AES,BIP38 } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
@@ -95,7 +95,7 @@ describe("WalletFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 		assert.string(wallet.data().get(WalletData.EncryptedSigningKey));
 
 		assert.is(
-			PBKDF2.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
+			AES.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
 			"bomb open frame quit success evolve gain donate prison very rent later",
 		);
 	});
