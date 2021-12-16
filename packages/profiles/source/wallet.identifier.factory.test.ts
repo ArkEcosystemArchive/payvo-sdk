@@ -1,5 +1,5 @@
+import { BIP38 } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
-import BIP38 from "bip38";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";

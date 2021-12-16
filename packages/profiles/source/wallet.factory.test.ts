@@ -1,6 +1,5 @@
-import { PBKDF2 } from "@payvo/sdk-cryptography";
+import { BIP38, PBKDF2 } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
-import BIP38 from "bip38";
 
 import { bootContainer } from "../test/mocking";
 import { WalletData } from "./contracts";

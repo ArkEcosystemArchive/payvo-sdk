@@ -635,12 +635,10 @@ importers:
       '@payvo/sdk-lsk': workspace:*
       '@payvo/sdk-markets': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/bip38': 2.0.1
       '@types/fs-extra': ^9.0.13
       '@types/node': ^16.11.10
       '@types/semver': 7.3.9
       '@vechain/picasso': ^2.1.1
-      bip38: ^3.1.1
       fs-extra: ^10.0.0
       joi: ^17.4.2
       localforage: ^1.10.0
@@ -661,7 +659,6 @@ importers:
       '@payvo/sdk-intl': link:../intl
       '@payvo/sdk-markets': link:../markets
       '@vechain/picasso': 2.1.1
-      bip38: 3.1.1
       joi: 17.4.2
       localforage: 1.10.0
       node-cache: 5.1.2
@@ -678,7 +675,6 @@ importers:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-lsk': link:../lsk
       '@payvo/sdk-test': link:../test
-      '@types/bip38': 2.0.1
       '@types/fs-extra': 9.0.13
       '@types/node': 16.11.10
       '@types/semver': 7.3.9
@@ -3710,19 +3706,6 @@ packages:
       wif: 2.0.6
     dev: false
 
-  /bip38/3.1.1:
-    resolution: {integrity: sha512-d5AQWuXS95rdrEBnaKeZ9osMkvDR3QDULbAfoE7xRw0W8jfDrza9CsZwf+UhqjV6lbbfaWCrJIu5uObJlfo5Rw==}
-    dependencies:
-      bigi: 1.4.2
-      browserify-aes: 1.2.0
-      bs58check: 2.1.2
-      buffer-xor: 1.0.3
-      create-hash: 1.2.0
-      ecurve: 1.0.6
-      safe-buffer: 5.1.2
-      scryptsy: 2.1.0
-    dev: false
-
   /bip39/2.6.0:
     resolution: {integrity: sha512-RrnQRG2EgEoqO24ea+Q/fftuPUZLmrEM3qNhhGsA3PbaXaCW791LTzPuVyx/VprXQcTbPJ3K3UeTna8ZnVl2sg==}
     dependencies:
@@ -4785,13 +4768,6 @@ packages:
       tiny-secp256k1: 1.1.6
       typeforce: 1.18.0
       wif: 2.0.6
-    dev: false
-
-  /ecurve/1.0.6:
-    resolution: {integrity: sha512-/BzEjNfiSuB7jIWKcS/z8FK9jNjmEWvUV2YZ4RLSmcDtP7Lq0m6FvDuSnJpBlDpGRpfRQeTLGLBI8H+kEv0r+w==}
-    dependencies:
-      bigi: 1.4.2
-      safe-buffer: 5.2.1
     dev: false
 
   /ed25519-hd-key/1.1.2:
