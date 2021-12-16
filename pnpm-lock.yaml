@@ -247,14 +247,12 @@ importers:
       bigi: ^1.4.2
       bip39: ^3.0.4
       bn.js: ^5.2.0
-      browserify-aes: ^1.2.0
       create-hmac: ^1.1.7
       create-xpub: ^2.1.0
       ecurve: ^1.0.6
       elliptic: ^6.5.4
       hdkey: ^2.0.1
       micro-base: ^0.10.0
-      scryptsy: ^2.1.0
       secp256k1: ^4.0.2
       typeforce: ^1.18.0
       uuid: ^8.3.2
@@ -266,14 +264,12 @@ importers:
       bigi: 1.4.2
       bip39: 3.0.4
       bn.js: 5.2.0
-      browserify-aes: 1.2.0
       create-hmac: 1.1.7
       create-xpub: 2.1.0
       ecurve: 1.0.6
       elliptic: 6.5.4
       hdkey: 2.0.1
       micro-base: 0.10.0
-      scryptsy: 2.1.0
       secp256k1: 4.0.2
       typeforce: 1.18.0
       uuid: 8.3.2
