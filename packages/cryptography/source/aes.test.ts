@@ -1,25 +1,25 @@
 import { describeWithContext } from "@payvo/sdk-test";
 
-import { PBKDF2 } from "./pbkdf2";
+import { AES } from "./aes";
 
 describeWithContext(
-	"PBKDF2",
+	"AES",
 	{
 		message: "Hello World",
 		password: "password",
 	},
 	({ assert, it }) => {
 		it("should encrypt the given value", async ({ message, password }) => {
-			assert.type(PBKDF2.encrypt(message, password), "string");
+			assert.type(AES.encrypt(message, password), "string");
 		});
 
 		it("should decrypt the given value", async ({ message, password }) => {
-			assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
+			assert.is(AES.decrypt(AES.encrypt(message, password), password), message);
 		});
 
 		it("should verify the given value", async ({ message, password }) => {
-			assert.true(PBKDF2.verify(PBKDF2.encrypt(message, password), password));
-			assert.false(PBKDF2.verify(PBKDF2.encrypt(message, password), "invalid-password"));
+			assert.true(AES.verify(AES.encrypt(message, password), password));
+			assert.false(AES.verify(AES.encrypt(message, password), "invalid-password"));
 		});
 	},
 );

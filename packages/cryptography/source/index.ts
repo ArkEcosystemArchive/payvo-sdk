@@ -10,7 +10,7 @@ export * from "./bip44.js";
 export * from "./buffoon.js";
 export * from "./hash.js";
 export * from "./hdkey.js";
-export * from "./pbkdf2.js";
+export * from "./aes.js";
 export * from "./secp256k1.js";
 export * from "./uuid.js";
 export * from "./wif.js";
