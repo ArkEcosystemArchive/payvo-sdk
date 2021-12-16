@@ -1,3 +1,5 @@
+// Based on https://github.com/bitcoinjs/bip38/blob/master/index.js
+
 import { scrypt } from "@noble/hashes/lib/scrypt";
 import BigInteger from "bigi";
 import { Buffer } from "buffer";
