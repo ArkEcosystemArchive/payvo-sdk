@@ -16,7 +16,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"test": "uvu -r tsm source .test.ts",
+		"test": "uvu -r tsm source pbkdf2.test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
 	},
@@ -29,6 +29,7 @@
 		"bn.js": "^5.2.0",
 		"create-hmac": "^1.1.7",
 		"create-xpub": "^2.1.0",
+		"crypto-js": "^4.1.1",
 		"elliptic": "^6.5.4",
 		"hdkey": "^2.0.1",
 		"micro-base": "^0.10.0",

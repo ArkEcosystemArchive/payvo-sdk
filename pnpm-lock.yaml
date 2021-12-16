@@ -249,6 +249,7 @@ importers:
       bn.js: ^5.2.0
       create-hmac: ^1.1.7
       create-xpub: ^2.1.0
+      crypto-js: ^4.1.1
       elliptic: ^6.5.4
       hdkey: ^2.0.1
       micro-base: ^0.10.0
@@ -265,6 +266,7 @@ importers:
       bn.js: 5.2.0
       create-hmac: 1.1.7
       create-xpub: 2.1.0
+      crypto-js: 4.1.1
       elliptic: 6.5.4
       hdkey: 2.0.1
       micro-base: 0.10.0
@@ -4456,6 +4458,10 @@ packages:
 
   /crypto-js/4.0.0:
     resolution: {integrity: sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==}
+    dev: false
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
     dev: false
 
   /cssom/0.3.8:
