@@ -225,33 +225,6 @@ export class Point {
 		return R;
 	}
 
-	// Compute this*j + x*k (simultaneous multiplication)
-	public multiplyTwo(index, x, k) {
-		let index_ = Math.max(index.bitLength(), k.bitLength()) - 1;
-		let R = this.curve.infinity;
-		const both = this.add(x);
-
-		while (index_ >= 0) {
-			const indexBit = index.testBit(index_);
-			const kBit = k.testBit(index_);
-
-			R = R.twice();
-
-			if (indexBit) {
-				if (kBit) {
-					R = R.add(both);
-				} else {
-					R = R.add(this);
-				}
-			} else if (kBit) {
-				R = R.add(x);
-			}
-			--index_;
-		}
-
-		return R;
-	}
-
 	public getEncoded(compressed) {
 		if (compressed == undefined) {
 			compressed = this.compressed;
@@ -281,38 +254,5 @@ export class Point {
 		x.toBuffer(byteLength).copy(buffer, 1);
 
 		return buffer;
-	}
-
-	decodeFrom(curve, buffer) {
-		const type = buffer.readUInt8(0);
-		const compressed = type !== 4;
-
-		const byteLength = Math.floor((curve.p.bitLength() + 7) / 8);
-		const x = BigInteger.fromBuffer(buffer.slice(1, 1 + byteLength));
-
-		let Q;
-		if (compressed) {
-			assert.equal(buffer.length, byteLength + 1, "Invalid sequence length");
-			assert(type === 0x02 || type === 0x03, "Invalid sequence tag");
-
-			const isOdd = type === 0x03;
-			Q = curve.pointFromX(isOdd, x);
-		} else {
-			assert.equal(buffer.length, 1 + byteLength + byteLength, "Invalid sequence length");
-
-			const y = BigInteger.fromBuffer(buffer.slice(1 + byteLength));
-			Q = Point.fromAffine(curve, x, y);
-		}
-
-		Q.compressed = compressed;
-		return Q;
-	}
-
-	toString() {
-		if (this.curve.isInfinity(this)) {
-			return "(INFINITY)";
-		}
-
-		return "(" + this.affineX.toString() + "," + this.affineY.toString() + ")";
 	}
 }
