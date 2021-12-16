@@ -1,4 +1,5 @@
 import { describe } from "@payvo/sdk-test";
+
 import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
 import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
 import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory";

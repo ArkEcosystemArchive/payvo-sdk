@@ -1,7 +1,6 @@
-import { describe } from "@payvo/sdk-test";
-
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
 
 import { UnspentTransactionData } from "./unspent-transaction.dto";
 

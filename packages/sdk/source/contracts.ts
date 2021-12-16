@@ -1,11 +1,4 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { RawTransactionData, SignedTransactionData } from "./signed-transaction.dto.contract.js";
-import {
-	UnspentTransactionData,
-	ConfirmedTransactionData,
-	MultiPaymentRecipient,
-	TransactionDataMeta,
-} from "./confirmed-transaction.dto.contract.js";
 
 export type KeyValuePair = Record<string, any>;
 
@@ -75,12 +68,12 @@ export interface WalletData {
 type LedgerTransport = any;
 
 // @TODO: export those directly from the files and get rid of this whole file
+export { LedgerTransport };
+
 export {
 	ConfirmedTransactionData,
-	LedgerTransport,
 	MultiPaymentRecipient,
-	RawTransactionData,
-	SignedTransactionData,
 	TransactionDataMeta,
 	UnspentTransactionData,
-};
+} from "./confirmed-transaction.dto.contract.js";
+export { RawTransactionData, SignedTransactionData } from "./signed-transaction.dto.contract.js";

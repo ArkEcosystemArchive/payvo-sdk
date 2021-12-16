@@ -1,6 +1,6 @@
 import { AES } from "@payvo/sdk-cryptography";
 
-import { IReadWriteWallet, IWalletImportFormat, WalletData } from "./contracts.js";
+import { IReadWriteWallet, IWalletImportFormat } from "./contracts.js";
 
 // @TODO: rename to something better
 export class WalletImportFormat implements IWalletImportFormat {

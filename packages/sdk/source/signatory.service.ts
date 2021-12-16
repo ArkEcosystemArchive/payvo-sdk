@@ -1,6 +1,12 @@
 /* istanbul ignore file */
 
+import { AddressService } from "./address.contract.js";
+import { IContainer } from "./container.contracts.js";
+import { MultiSignatureAsset } from "./multi-signature.contract.js";
+import { PrivateKeyService } from "./private-key.contract.js";
+import { PublicKeyService } from "./public-key.contract.js";
 import { BindingType } from "./service-provider.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
 import {
 	ConfirmationMnemonicSignatory,
 	ConfirmationSecretSignatory,
@@ -13,13 +19,7 @@ import {
 	Signatory,
 	WIFSignatory,
 } from "./signatories.js";
-import { AddressService } from "./address.contract.js";
-import { MultiSignatureAsset } from "./multi-signature.contract.js";
-import { PrivateKeyService } from "./private-key.contract.js";
-import { PublicKeyService } from "./public-key.contract.js";
-import { IdentityOptions } from "./shared.contract.js";
 import { SignatoryService } from "./signatory.contract.js";
-import { IContainer } from "./container.contracts.js";
 
 export class AbstractSignatoryService implements SignatoryService {
 	readonly #addressService: AddressService;

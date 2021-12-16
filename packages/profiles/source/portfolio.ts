@@ -25,9 +25,9 @@ export class Portfolio implements IPortfolio {
 			if (result[ticker] === undefined) {
 				result[ticker] = {
 					coin: wallet.coin(),
+					shares: 0,
 					source: 0,
 					target: 0,
-					shares: 0,
 				};
 			}
 

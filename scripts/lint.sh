@@ -3,6 +3,6 @@
 for dir in `find packages -mindepth 1 -maxdepth 1 -type d | sort -nr`; do
     cd $dir
     echo $PWD
-    pnpm run format
+    ../../node_modules/eslint/bin/eslint.js source/**/*.ts --fix --quiet --config=../../.eslintrc.bash.json
     cd ../..
 done

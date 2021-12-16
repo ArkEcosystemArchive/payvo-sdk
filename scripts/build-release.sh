@@ -12,6 +12,7 @@ bundle helpers
 bundle intl
 bundle cryptography
 bundle sdk
+bundle ledger
 bundle news
 bundle fetch
 bundle markets

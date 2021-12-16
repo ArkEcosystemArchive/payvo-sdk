@@ -10,24 +10,24 @@ export class AppearanceService implements IAppearanceService {
 		};
 	} = {
 		accentColor: {
-			profileSetting: ProfileSetting.AccentColor,
 			defaultValue: "green",
+			profileSetting: ProfileSetting.AccentColor,
 		},
 		dashboardTransactionHistory: {
-			profileSetting: ProfileSetting.DashboardTransactionHistory,
 			defaultValue: true,
+			profileSetting: ProfileSetting.DashboardTransactionHistory,
 		},
 		theme: {
-			profileSetting: ProfileSetting.Theme,
 			defaultValue: "light",
+			profileSetting: ProfileSetting.Theme,
 		},
 		useExpandedTables: {
-			profileSetting: ProfileSetting.UseExpandedTables,
 			defaultValue: false,
+			profileSetting: ProfileSetting.UseExpandedTables,
 		},
 		useNetworkWalletNames: {
-			profileSetting: ProfileSetting.UseNetworkWalletNames,
 			defaultValue: false,
+			profileSetting: ProfileSetting.UseNetworkWalletNames,
 		},
 	};
 

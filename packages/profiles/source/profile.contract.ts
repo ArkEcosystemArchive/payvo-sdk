@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AttributeBag } from "./helpers/attribute-bag.js";
 import {
 	IAppearanceService,
 	IAuthenticator,
@@ -22,6 +21,7 @@ import {
 	IWalletFactory,
 	IWalletRepository,
 } from "./contracts.js";
+import { AttributeBag } from "./helpers/attribute-bag.js";
 
 /**
  *

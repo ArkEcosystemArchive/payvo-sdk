@@ -2,15 +2,14 @@
 /* eslint-disable import/order */
 
 import { formatString } from "@payvo/sdk-helpers";
-import { URL } from "url";
 import queryString from "query-string";
+import { URL } from "url";
 
 import { ConfigRepository } from "./coins.js";
-import { randomNetworkHostFromConfig } from "./helpers.js";
-
-import { BindingType } from "./service-provider.contract.js";
-import { LinkService } from "./link.contract.js";
 import { IContainer } from "./container.contracts.js";
+import { randomNetworkHostFromConfig } from "./helpers.js";
+import { LinkService } from "./link.contract.js";
+import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractLinkService implements LinkService {
 	readonly #configRepository: ConfigRepository;
@@ -34,7 +33,7 @@ export class AbstractLinkService implements LinkService {
 	#buildURL(schema: string, id: string): string {
 		const { host, query } = randomNetworkHostFromConfig(this.#configRepository, "explorer");
 
-		const url: string = `${host.replace(/\/$/, "")}/${formatString(schema, id)}`;
+		const url = `${host.replace(/\/$/, "")}/${formatString(schema, id)}`;
 
 		if (query) {
 			return `${url}?${queryString.stringify(query)}`;

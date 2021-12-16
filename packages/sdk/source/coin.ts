@@ -1,6 +1,9 @@
+import { ConfigRepository } from "./config.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
 import { Container } from "./ioc.js";
-import { BindingType } from "./service-provider.contract.js";
+import { Manifest } from "./manifest.js";
 import { Network, NetworkRepository } from "./networks.js";
+import { BindingType } from "./service-provider.contract.js";
 import {
 	AddressService,
 	BigNumberService,
@@ -21,9 +24,6 @@ import {
 	WalletDiscoveryService,
 	WIFService,
 } from "./services.js";
-import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
-import { ConfigRepository } from "./config.js";
-import { Manifest } from "./manifest.js";
 
 export class Coin {
 	readonly #container: Container;

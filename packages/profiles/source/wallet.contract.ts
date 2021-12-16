@@ -1,5 +1,5 @@
-import { BigNumber } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Networks, Services } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import {
 	IDataRepository,

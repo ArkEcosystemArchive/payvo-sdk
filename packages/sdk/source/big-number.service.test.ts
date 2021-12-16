@@ -1,8 +1,9 @@
 import { describe } from "@payvo/sdk-test";
+
+import { BigNumberService } from "./big-number.service";
 import { ConfigKey, ConfigRepository } from "./config";
 import { Container } from "./container";
 import { BindingType } from "./service-provider.contract";
-import { BigNumberService } from "./big-number.service";
 
 describe("BigNumberService", ({ assert, each }) => {
 	each(

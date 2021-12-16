@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
 import { NotImplemented } from "./exceptions.js";
-
 import { ExtendedAddressDataTransferObject, ExtendedAddressService } from "./extended-address.contract.js";
 
 export class AbstractExtendedAddressService implements ExtendedAddressService {

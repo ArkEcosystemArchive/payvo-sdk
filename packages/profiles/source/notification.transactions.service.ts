@@ -1,10 +1,11 @@
-import { IProfileTransactionNotificationService, IProfile, INotificationTypes, ProfileSetting } from "./contracts.js";
-import { sortByDesc } from "@payvo/sdk-helpers";
 import { Services } from "@payvo/sdk";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
-import { AggregateQuery } from "./transaction.aggregate.contract.js";
+import { sortByDesc } from "@payvo/sdk-helpers";
+
+import { INotificationTypes, IProfile, IProfileTransactionNotificationService, ProfileSetting } from "./contracts.js";
 import { INotification, INotificationRepository } from "./notification.repository.contract.js";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 export class ProfileTransactionNotificationService implements IProfileTransactionNotificationService {
 	readonly #profile: IProfile;
@@ -98,15 +99,15 @@ export class ProfileTransactionNotificationService implements IProfileTransactio
 		for (const transaction of this.#filterUnseen(transactions.items())) {
 			this.#notifications.push({
 				meta: {
-					timestamp: transaction.timestamp()?.toUNIX(),
-					transactionId: transaction.id(),
 					recipients: [
 						transaction.recipient(),
 						...transaction.recipients().map((recipient) => recipient.address),
 					],
+					timestamp: transaction.timestamp()?.toUNIX(),
+					transactionId: transaction.id(),
 				},
-				type: INotificationTypes.Transaction,
 				read_at: undefined,
+				type: INotificationTypes.Transaction,
 			});
 		}
 

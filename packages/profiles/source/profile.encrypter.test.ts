@@ -47,9 +47,9 @@ describe("ProfileEncrypter #encrypt", ({ it, assert }) => {
 			}),
 			password: () => ({
 				exists: () => true,
-				forget: () => undefined,
+				forget: () => {},
 				get: () => "some pass",
-				set: () => undefined,
+				set: () => {},
 			}),
 		};
 

@@ -1,11 +1,10 @@
 import { Coins, Contracts } from "@payvo/sdk";
 
-import { pqueueSettled } from "./helpers/queue.js";
-import { ReadOnlyWallet } from "./read-only-wallet.js";
 import { IDataRepository, IDelegateService, IProfile, IReadOnlyWallet, IReadWriteWallet } from "./contracts.js";
-
 import { DataRepository } from "./data.repository";
 import { IDelegateSyncer, ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service.js";
+import { pqueueSettled } from "./helpers/queue.js";
+import { ReadOnlyWallet } from "./read-only-wallet.js";
 
 export class DelegateService implements IDelegateService {
 	readonly #dataRepository: IDataRepository = new DataRepository();
@@ -100,13 +99,13 @@ export class DelegateService implements IDelegateService {
 
 			return new ReadOnlyWallet({
 				address: delegate.address(),
-				publicKey: delegate.publicKey(),
-				username: delegate.username(),
-				rank: delegate.rank(),
 				explorerLink: wallet.link().wallet(delegate.address()),
+				governanceIdentifier: delegate.governanceIdentifier(),
 				isDelegate: delegate.isDelegate(),
 				isResignedDelegate: delegate.isResignedDelegate(),
-				governanceIdentifier: delegate.governanceIdentifier(),
+				publicKey: delegate.publicKey(),
+				rank: delegate.rank(),
+				username: delegate.username(),
 			});
 		} catch {
 			return undefined;
@@ -126,13 +125,13 @@ export class DelegateService implements IDelegateService {
 	#mapDelegate(delegate: Record<string, any>): IReadOnlyWallet {
 		return new ReadOnlyWallet({
 			address: delegate.address,
-			publicKey: delegate.publicKey,
-			username: delegate.username,
-			rank: delegate.rank as unknown as number,
 			explorerLink: delegate.explorerLink,
+			governanceIdentifier: delegate.governanceIdentifier,
 			isDelegate: delegate.isDelegate,
 			isResignedDelegate: delegate.isResignedDelegate,
-			governanceIdentifier: delegate.governanceIdentifier,
+			publicKey: delegate.publicKey,
+			rank: delegate.rank as unknown as number,
+			username: delegate.username,
 		});
 	}
 }

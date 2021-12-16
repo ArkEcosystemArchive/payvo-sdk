@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 
+import { BroadcastResponse } from "./client.contract.js";
 import { SignedTransactionData } from "./contracts.js";
 import { RawTransactionData } from "./dto.js";
 import { NotImplemented } from "./exceptions.js";
-
-import { Signatory } from "./signatories.js";
-import { BroadcastResponse } from "./client.contract.js";
 import { MultiSignatureService, MultiSignatureTransaction } from "./multi-signature.contract.js";
+import { Signatory } from "./signatories.js";
 
 export class AbstractMultiSignatureService implements MultiSignatureService {
 	public async allWithPendingState(publicKey: string): Promise<MultiSignatureTransaction[]> {

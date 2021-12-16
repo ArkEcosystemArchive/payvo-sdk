@@ -1,14 +1,12 @@
-import { Base64 } from "@payvo/sdk-cryptography";
 import { Coins } from "@payvo/sdk";
-import { IProfileData, IProfile, WalletData } from "./contracts.js";
+import { Base64 } from "@payvo/sdk-cryptography";
 
-import { ProfileEncrypter } from "./profile.encrypter";
-import { IProfileImporter } from "./contracts.js";
-import { IProfileValidator } from "./contracts.js";
-import { ProfileValidator } from "./profile.validator";
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
+import { IProfile, IProfileData, IProfileImporter, IProfileValidator, WalletData } from "./contracts.js";
 import { Migrator } from "./migrator.js";
+import { ProfileEncrypter } from "./profile.encrypter";
+import { ProfileValidator } from "./profile.validator";
 
 export class ProfileImporter implements IProfileImporter {
 	readonly #profile: IProfile;
@@ -97,7 +95,7 @@ export class ProfileImporter implements IProfileImporter {
 		}
 
 		for (const contact of Object.values(data.contacts)) {
-			for (const { coin, network } of Object.values(contact.addresses) as { coin: string; network: string }[]) {
+			for (const { coin, network } of Object.values(contact.addresses) as any) {
 				if (isRegistered(coin)) {
 					this.#profile.coins().set(coin, network);
 				}

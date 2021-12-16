@@ -1,8 +1,8 @@
 /* istanbul ignore file */
 
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { Contracts, DTO } from "@payvo/sdk";
 
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";

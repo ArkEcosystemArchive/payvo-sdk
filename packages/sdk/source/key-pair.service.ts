@@ -1,12 +1,11 @@
 /* istanbul ignore file */
 
 import { ConfigRepository } from "./coins.js";
-import { NotImplemented } from "./exceptions.js";
-
-import { BindingType } from "./service-provider.contract.js";
-import { KeyPairDataTransferObject, KeyPairService } from "./key-pair.contract.js";
-import { IdentityOptions } from "./shared.contract.js";
 import { IContainer } from "./container.contracts.js";
+import { NotImplemented } from "./exceptions.js";
+import { KeyPairDataTransferObject, KeyPairService } from "./key-pair.contract.js";
+import { BindingType } from "./service-provider.contract.js";
+import { IdentityOptions } from "./shared.contract.js";
 
 export class AbstractKeyPairService implements KeyPairService {
 	protected readonly configRepository: ConfigRepository;

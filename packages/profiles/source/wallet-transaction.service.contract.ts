@@ -1,4 +1,4 @@
-import { Contracts, Signatories, Services } from "@payvo/sdk";
+import { Services, Signatories } from "@payvo/sdk";
 
 import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
 

@@ -1,7 +1,7 @@
 import { Services } from "@payvo/sdk";
 
-import { pqueue } from "./helpers/queue.js";
 import { IKnownWalletService, IProfile } from "./contracts.js";
+import { pqueue } from "./helpers/queue.js";
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 
@@ -17,7 +17,7 @@ export class KnownWalletService implements IKnownWalletService {
 				promises.push(async () => {
 					try {
 						this.#registry[network] = await profile.coins().get(coin, network).knownWallet().all();
-					} catch (error) {
+					} catch {
 						// Do nothing if it fails. It's not critical functionality.
 					}
 				});

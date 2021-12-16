@@ -3,17 +3,17 @@
 
 import { get } from "@payvo/sdk-helpers";
 
+import { MetaPagination } from "./client.contract.js";
 import { ConfigKey, ConfigRepository } from "./coins.js";
 import { ConfirmedTransactionDataCollection } from "./collections.js";
-import { WalletData } from "./contracts.js";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.contract.js";
+import { IContainer } from "./container.contracts.js";
+import { WalletData } from "./contracts.js";
+import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 import * as DataTransferObjects from "./dto.js";
-import { SignedTransactionData } from "./signed-transaction.dto.contract.js";
 import { Container } from "./ioc.js";
 import { BindingType } from "./service-provider.contract.js";
-import { MetaPagination } from "./client.contract.js";
-import { DataTransferObjectService } from "./data-transfer-object.contract.js";
-import { IContainer } from "./container.contracts.js";
+import { SignedTransactionData } from "./signed-transaction.dto.contract.js";
 
 export class AbstractDataTransferObjectService implements DataTransferObjectService {
 	// @TODO: rework so that the container is not needed, this is a weird setup

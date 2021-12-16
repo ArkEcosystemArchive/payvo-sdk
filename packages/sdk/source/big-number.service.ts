@@ -2,7 +2,6 @@ import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
 
 import { ConfigKey, ConfigRepository } from "./config.js";
 import { IContainer } from "./container.contracts.js";
-
 import { BindingType } from "./service-provider.contract.js";
 
 export class BigNumberService {

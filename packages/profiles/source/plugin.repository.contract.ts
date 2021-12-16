@@ -1,4 +1,5 @@
 import { Except } from "type-fest";
+
 import { IPluginRegistry } from "./contracts.js";
 
 /**

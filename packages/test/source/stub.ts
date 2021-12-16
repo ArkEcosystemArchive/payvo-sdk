@@ -1,4 +1,4 @@
-import { stub, SinonStub } from "sinon";
+import { SinonStub, stub } from "sinon";
 import { ok } from "uvu/assert";
 
 export class Stub {

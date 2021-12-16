@@ -250,7 +250,7 @@ describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) =
 	});
 
 	it("should have a display name (knownName)", (context) => {
-		const usernameSpy = stub(context.subject, "username").returnValue(undefined);
+		const usernameSpy = stub(context.subject, "username").returnValue();
 
 		if (container.has(Identifiers.KnownWalletService)) {
 			container.unbind(Identifiers.KnownWalletService);
