@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { BIP44 } from "./bip44";
 
-describe("BIP44", ({ assert, it, nock, loader }) => {
+describe("BIP44", ({ assert, it }) => {
 	it("should derive a child from the given path as object", async () => {
 		assert.is(
 			BIP44.deriveChild("praise you muffin lion enable neck grocery crumble super myself license ghost", {

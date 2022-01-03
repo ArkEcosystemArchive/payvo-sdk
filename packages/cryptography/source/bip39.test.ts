@@ -64,7 +64,7 @@ describeWithContext(
 		});
 
 		it("should transform the mnemonic into entropy", async (context) => {
-			assert.string(BIP39.toEntropy(context.english));
+			assert.object(BIP39.toEntropy(context.english));
 		});
 
 		it("should normalize the mnemonic", async (context) => {

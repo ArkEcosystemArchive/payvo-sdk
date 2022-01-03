@@ -1,7 +1,7 @@
-import { BIP39 } from "@payvo/sdk-cryptography";
 import CardanoWasm, { Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
+import { BIP39 } from "@payvo/sdk-cryptography";
 
-export const HARDENED_THRESHOLD = 0x80000000;
+export const HARDENED_THRESHOLD = 0x80_00_00_00;
 export const SHELLEY_COIN_PURPOSE = 1852;
 export const SHELLEY_COIN_TYPE = 1815;
 export const SHELLEY_DERIVATION_SCHEME = 2;
@@ -18,7 +18,7 @@ export const deriveAddress = (
 	const stakeKey = accountKey.derive(2).derive(0);
 
 	return CardanoWasm.BaseAddress.new(
-		parseInt(networkId),
+		Number.parseInt(networkId),
 		CardanoWasm.StakeCredential.from_keyhash(spendKey.to_raw_key().hash()),
 		CardanoWasm.StakeCredential.from_keyhash(stakeKey.to_raw_key().hash()),
 	)
@@ -28,7 +28,7 @@ export const deriveAddress = (
 
 // Key Derivation
 export const deriveRootKey = (mnemonic: string): Bip32PrivateKey =>
-	Bip32PrivateKey.from_bip39_entropy(Buffer.from(BIP39.toEntropy(mnemonic), "hex"), Buffer.from(""));
+	Bip32PrivateKey.from_bip39_entropy(Buffer.from(BIP39.toEntropy(mnemonic)), Buffer.from(""));
 
 export const deriveAccountKey = (rootKey: Bip32PrivateKey, index: number): Bip32PrivateKey =>
 	rootKey
@@ -71,8 +71,8 @@ export const addressFromMnemonic = (
 	);
 
 export const addressFromAccountExtPublicKey = (
-	extPubKey: Buffer,
+	extensionPubKey: Buffer,
 	isChange: boolean,
 	addressIndex: number,
 	networkId: string,
-): string => deriveAddress(CardanoWasm.Bip32PublicKey.from_bytes(extPubKey), isChange, addressIndex, networkId);
+): string => deriveAddress(CardanoWasm.Bip32PublicKey.from_bytes(extensionPubKey), isChange, addressIndex, networkId);

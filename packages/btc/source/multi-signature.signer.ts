@@ -1,12 +1,13 @@
 import { Coins, Contracts, Exceptions, IoC, Signatories } from "@payvo/sdk";
-
-import { MultiSignatureTransaction } from "./multi-signature.contract.js";
+import { BIP39 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
+import bip32 from "bip32";
 import { sign } from "bitcoinjs-message";
+
 import { getNetworkConfig } from "./config.js";
-import { BIP32 } from "@payvo/sdk-cryptography";
-import { isMultiSignatureRegistration } from "./multi-signature.domain";
 import { signWith } from "./helpers.js";
+import { MultiSignatureTransaction } from "./multi-signature.contract.js";
+import { isMultiSignatureRegistration } from "./multi-signature.domain";
 
 export class MultiSignatureSigner {
 	readonly #configRepository: Coins.ConfigRepository;
@@ -21,13 +22,17 @@ export class MultiSignatureSigner {
 		transaction: Contracts.RawTransactionData,
 		signatory: Signatories.Signatory,
 	): Promise<MultiSignatureTransaction> {
-		let signedTransaction: Contracts.RawTransactionData = { ...transaction };
+		const signedTransaction: Contracts.RawTransactionData = { ...transaction };
 
 		if (signatory.actsWithLedger()) {
 			throw new Exceptions.NotImplemented(this.constructor.name, "signing with ledger");
 		} else {
-			const rootKey = BIP32.fromMnemonic(signatory.signingKey(), this.#network);
+			const mnemonic = BIP39.normalize(signatory.signingKey());
+			BIP39.validate(mnemonic);
+
+			const rootKey = bip32.fromSeed(Buffer.from(BIP39.toSeed(mnemonic)), this.#network);
 			const accountKey = rootKey.derivePath(signatory.publicKey()); // TODO publicKey actually has the path
+
 			if (isMultiSignatureRegistration(transaction)) {
 				const messageToSign = `${transaction.id}${transaction.senderPublicKey}`;
 				const signature = sign(messageToSign, accountKey.privateKey!, true).toString("base64");

@@ -1,8 +1,9 @@
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
-import * as bitcoin from "bitcoinjs-lib";
-import { isMultiSignatureRegistration } from "./multi-signature.domain";
 import { BIP32 } from "@payvo/sdk-cryptography";
+import * as bitcoin from "bitcoinjs-lib";
 import changeVersionBytes from "xpub-converter";
+
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
+import { isMultiSignatureRegistration } from "./multi-signature.domain";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;
@@ -56,7 +57,7 @@ export class PendingMultiSignatureTransaction {
 		const firstInput = psbt.data.inputs[0];
 
 		const signer = firstInput.bip32Derivation!.find((bip32Derivation) =>
-			bip32Derivation.masterFingerprint.equals(accountKey.fingerprint),
+			bip32Derivation.masterFingerprint.equals(Buffer.from([accountKey.fingerprint])),
 		);
 
 		if (!signer) {

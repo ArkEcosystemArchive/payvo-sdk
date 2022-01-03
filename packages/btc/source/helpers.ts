@@ -1,10 +1,12 @@
-import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Exceptions, Helpers, Http, Services } from "@payvo/sdk";
+import { BIP44 } from "@payvo/sdk-cryptography";
+import { BIP32Interface } from "bip32";
+import * as bitcoin from "bitcoinjs-lib";
+import { ECPair } from "ecpair";
+
 import { addressGenerator, bip44, bip49, bip84 } from "./address.domain";
 import { getNetworkConfig } from "./config.js";
 import { BipLevel } from "./contracts.js";
-import * as bitcoin from "bitcoinjs-lib";
-import { ECPair } from "ecpair";
 
 // export const prettyBufferSerializer = (k, v) => {
 // 	if (v !== null && v.type === "Buffer") {
@@ -27,9 +29,7 @@ export const post = async (
 	body: Contracts.KeyValuePair,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
-): Promise<Contracts.KeyValuePair> => {
-	return (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
-};
+): Promise<Contracts.KeyValuePair> => (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
 
 export const walletUsedAddresses = async (
 	addresses: string[],
@@ -65,20 +65,17 @@ export const usedAddresses = async (
 
 export const getDerivationMethod = (
 	id: Services.WalletIdentifier,
-): ((publicKey: string, network: string) => string) => {
-	return { bip44, bip49, bip84 }[id.method!];
-};
+): ((publicKey: string, network: string) => string) => ({ bip44, bip49, bip84 }[id.method!]);
 
-export const getDerivationFunction = (bipLevel: BipLevel): ((publicKey: string, network: string) => string) => {
-	return { bip44, bip49, bip84 }[bipLevel];
-};
+export const getDerivationFunction = (bipLevel: BipLevel): ((publicKey: string, network: string) => string) => ({ bip44, bip49, bip84 }[bipLevel]);
 
 export const getAddresses = async (
 	id: Services.WalletIdentifier,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
 ): Promise<string[]> => {
-	if (id.type === "extendedPublicKey") {
+	switch (id.type) {
+	case "extendedPublicKey": {
 		const network = getNetworkConfig(configRepository);
 
 		const usedSpendAddresses = await usedAddresses(
@@ -94,10 +91,14 @@ export const getAddresses = async (
 		);
 
 		return usedSpendAddresses.concat(usedChangeAddresses);
-	} else if (id.type === "address") {
+	}
+	case "address": {
 		return [id.value];
-	} else if (id.type === "publicKey") {
+	}
+	case "publicKey": {
 		return [id.value];
+	}
+	// No default
 	}
 
 	throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);
@@ -125,16 +126,17 @@ export const maxLevel = (path: string): number => {
 };
 
 export const signWith = (psbt: bitcoin.Psbt, rootKey: BIP32Interface, path: string): bitcoin.Psbt => {
-	psbt.txInputs.forEach((input, index) => {
+	for (const [index, input] of psbt.txInputs.entries()) {
 		for (const derivation of psbt.data.inputs[index].bip32Derivation || []) {
 			const [internal, addressIndex] = derivation.path.split("/").slice(-2);
 			const child = rootKey.derivePath(`${path}/${internal}/${addressIndex}`);
+
 			if (psbt.inputHasPubkey(index, child.publicKey)) {
 				psbt.signInput(index, child);
 				break;
 			}
 		}
-	});
+	}
 	return psbt;
 };
 

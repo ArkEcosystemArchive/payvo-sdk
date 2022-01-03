@@ -1,4 +1,4 @@
-import { Coins, IoC, Services } from "@payvo/sdk";
+import { Coins, Services } from "@payvo/sdk";
 import { BIP44, secp256k1 } from "@payvo/sdk-cryptography";
 
 export class KeyPairService extends Services.AbstractKeyPairService {

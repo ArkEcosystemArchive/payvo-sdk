@@ -1,5 +1,4 @@
-import { BIP32 } from "./bip32.js";
-import { BIP32Interface } from "./bip32/crypto.js";
+import { BIP32, BIP32Interface } from "./bip32.js";
 
 interface BIP44Levels {
 	purpose: number;
@@ -18,8 +17,8 @@ export class BIP44 {
 			.deriveHardened(options.purpose || 44)
 			.deriveHardened(options.coinType)
 			.deriveHardened(options.account || 0)
-			.derive(options.change || 0)
-			.derive(options.index || 0);
+			.deriveChild(options.change || 0)
+			.deriveChild(options.index || 0);
 	}
 
 	public static deriveChildWithPath(
@@ -33,7 +32,7 @@ export class BIP44 {
 	}
 
 	public static deriveChildFromPath(mnemonic: string, path: string, index?: number): BIP32Interface {
-		return BIP32.fromMnemonic(mnemonic).derivePath(`${path}${index || 0}`);
+		return BIP32.fromMnemonic(mnemonic).derive(`${path}${index || 0}`);
 	}
 
 	public static parse(path: string): BIP44Levels {
