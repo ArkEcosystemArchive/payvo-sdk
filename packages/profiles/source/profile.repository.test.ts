@@ -131,28 +131,28 @@ describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) =
 	});
 
 	it("should get all profiles", async (context) => {
-		context.subject.create("John");
-		context.subject.create("Jane");
+		await context.subject.create("John");
+		await context.subject.create("Jane");
 
 		assert.length(Object.keys(context.subject.all()), 2);
 	});
 
 	it("should get all keys", async (context) => {
-		context.subject.create("John");
-		context.subject.create("Jane");
+		await context.subject.create("John");
+		await context.subject.create("Jane");
 
 		assert.length(context.subject.keys(), 2);
 	});
 
 	it("should get all values", async (context) => {
-		context.subject.create("John");
-		context.subject.create("Jane");
+		await context.subject.create("John");
+		await context.subject.create("Jane");
 
 		assert.length(context.subject.values(), 2);
 	});
 
 	it("should forget all values", async (context) => {
-		context.subject.create("Jane");
+		await context.subject.create("Jane");
 
 		assert.length(context.subject.values(), 1);
 
@@ -170,7 +170,7 @@ describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) =
 	});
 
 	it("should fail to push a profile with a duplicate name", async (context) => {
-		context.subject.create("John");
+		await context.subject.create("John");
 
 		await assert.rejects(() => context.subject.create("John"), "The profile [John] already exists.");
 	});
