@@ -44,14 +44,14 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 		);
 	});
 
-	it.skip("when encryption password is provided it returns signatory when wallet acts with mnemonic", async (context) => {
+	it("when encryption password is provided it returns signatory when wallet acts with mnemonic", async (context) => {
 		stub(context.wallet, "isSecondSignature").returnValueOnce(false);
 		await context.wallet.signingKey().set(mnemonic, "password");
 
 		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
 	});
 
-	it.skip("when encryption password is provided it returns signatory when wallet and acts with mnemonic and has 2nd signature", async (context) => {
+	it("when encryption password is provided it returns signatory when wallet and acts with mnemonic and has 2nd signature", async (context) => {
 		stub(context.wallet, "isSecondSignature").returnValueOnce(true);
 		await context.wallet.signingKey().set(mnemonic, "password");
 		await context.wallet.confirmKey().set("second mnemonic", "password");
@@ -59,7 +59,7 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
 	});
 
-	it.skip("when encryption password is provided it returns signatory when wallet acts with secret", async (context) => {
+	it("when encryption password is provided it returns signatory when wallet acts with secret", async (context) => {
 		context.wallet = await context.profile.walletFactory().fromSecret({
 			coin: "ARK",
 			network: "ark.devnet",
@@ -74,7 +74,7 @@ describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) =>
 		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
 	});
 
-	it.skip("when encryption password is provided it returns signatory when wallet acts with secret and has 2nd signature", async (context) => {
+	it("when encryption password is provided it returns signatory when wallet acts with secret and has 2nd signature", async (context) => {
 		context.wallet = await context.profile.walletFactory().fromSecret({
 			coin: "ARK",
 			network: "ark.devnet",
