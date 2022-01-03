@@ -3,7 +3,7 @@
 import { Crypto } from "@peculiar/webcrypto";
 
 // @TODO: use UINT8 instead of Buffer
-export class Implementation {
+class Implementation {
 	readonly #crypto: Crypto = new Crypto();
 
 	public async encrypt(value: string, password: string): Promise<string> {
