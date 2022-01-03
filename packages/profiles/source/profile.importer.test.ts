@@ -107,12 +107,12 @@ describeWithContext(
 				.persist();
 		});
 
-		beforeEach((context) => {
+		beforeEach(async (context) => {
 			bootContainer();
 
 			container.get(Identifiers.ProfileRepository).flush();
 
-			context.profile = container.get(Identifiers.ProfileRepository).create("John Doe");
+			context.profile = await container.get(Identifiers.ProfileRepository).create("John Doe");
 			context.subject = new ProfileImporter(context.profile);
 			context.dumper = new ProfileDumper(context.profile);
 			context.serialiser = new ProfileSerialiser(context.profile);
@@ -122,7 +122,7 @@ describeWithContext(
 		it("should restore a profile with a password", async (context) => {
 			context.profile.auth().setPassword("password");
 
-			context.repository.persist(context.profile);
+			await context.repository.persist(context.profile);
 
 			const profileCopy = new Profile(context.dumper.dump());
 
@@ -194,7 +194,7 @@ describeWithContext(
 		it("should fail to restore a profile with a password if no password was provided", async (context) => {
 			context.profile.auth().setPassword("password");
 
-			context.repository.persist(context.profile);
+			await context.repository.persist(context.profile);
 
 			const profileCopy = new Profile(context.dumper.dump());
 

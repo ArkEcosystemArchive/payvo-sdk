@@ -6,6 +6,7 @@ import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { WalletData } from "./contracts";
+import { IProfileRepository } from "./profile.repository.contract";
 
 describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	beforeAll(() => {
@@ -66,9 +67,9 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 			.reply(200, loader.json("test/fixtures/markets/cryptocompare/historical.json"))
 			.persist();
 
-		const profileRepository = container.get(Identifiers.ProfileRepository);
+		const profileRepository: IProfileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.subject = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
@@ -77,20 +78,20 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 		});
 	});
 
-	it("should decrypt the WIF", (context) => {
-		context.subject.data().set(WalletData.EncryptedSigningKey, PBKDF2.encrypt(identity.mnemonic, "password"));
+	it("should decrypt the WIF", async (context) => {
+		context.subject.data().set(WalletData.EncryptedSigningKey, await PBKDF2.encrypt(identity.mnemonic, "password"));
 
-		assert.is(context.subject.signingKey().get("password"), identity.mnemonic);
+		assert.is(await context.subject.signingKey().get("password"), identity.mnemonic);
 	});
 
-	it("should encrypt the WIF and add it to the wallet", (context) => {
-		context.subject.signingKey().set(identity.mnemonic, "password");
+	it("should encrypt the WIF and add it to the wallet", async (context) => {
+		await context.subject.signingKey().set(identity.mnemonic, "password");
 
-		assert.is(context.subject.signingKey().get("password"), identity.mnemonic);
+		assert.is(await context.subject.signingKey().get("password"), identity.mnemonic);
 	});
 
-	it("should throw if the WIF is tried to be decrypted without one being set", (context) => {
-		assert.throws(
+	it("should throw if the WIF is tried to be decrypted without one being set", async (context) => {
+		await assert.rejects(
 			() => context.subject.signingKey().get("password"),
 			"This wallet does not use PBKDF2 encryption.",
 		);
@@ -106,10 +107,10 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 
 	each(
 		"should set the WIF using (%s)",
-		({ context, dataset }) => {
+		async ({ context, dataset }) => {
 			assert.false(context.subject.signingKey().exists());
 
-			context.subject.signingKey().set(dataset, "password");
+			await context.subject.signingKey().set(dataset, "password");
 
 			assert.true(context.subject.signingKey().exists());
 		},
@@ -121,7 +122,7 @@ describe("WIF", ({ beforeAll, beforeEach, each, nock, assert, it, loader }) => {
 	);
 
 	it("should remove the WIF", async (context) => {
-		context.subject.signingKey().set(identity.mnemonic, "password");
+		await context.subject.signingKey().set(identity.mnemonic, "password");
 
 		assert.true(context.subject.signingKey().exists());
 

@@ -8,13 +8,18 @@ describeWithContext(
 		message: "Hello World",
 		password: "password",
 	},
-	({ assert, it, nock, loader }) => {
+	({ assert, it }) => {
 		it("should encrypt the given value", async ({ message, password }) => {
-			assert.type(PBKDF2.encrypt(message, password), "string");
+			assert.type(await PBKDF2.encrypt(message, password), "string");
 		});
 
 		it("should decrypt the given value", async ({ message, password }) => {
-			assert.is(PBKDF2.decrypt(PBKDF2.encrypt(message, password), password), message);
+			assert.is(await PBKDF2.decrypt(await PBKDF2.encrypt(message, password), password), message);
+		});
+
+		it("should verify the given value", async ({ message, password }) => {
+			assert.true(await PBKDF2.verify(await PBKDF2.encrypt(message, password), password));
+			assert.false(await PBKDF2.verify(await PBKDF2.encrypt(message, password), "invalid-password"));
 		});
 	},
 );

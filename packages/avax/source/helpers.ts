@@ -47,7 +47,7 @@ export const keyPairFromMnemonic = (
 	return {
 		child: useKeychain(config).importKey(
 			// @ts-ignore
-			HDKey.fromSeed(BIP39.toSeed(mnemonic)).derive(path).privateKey,
+			HDKey.fromSeed(Buffer.from(BIP39.toSeed(mnemonic))).derive(path).privateKey,
 		),
 		path,
 	};

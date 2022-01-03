@@ -4,6 +4,7 @@ export * from "./base64.js";
 export * from "./bcrypt.js";
 export * from "./bech32.js";
 export * from "./bip32.js";
+export * from "./bip38.js";
 export * from "./bip39.js";
 export * from "./bip44.js";
 export * from "./buffoon.js";

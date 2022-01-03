@@ -1,5 +1,5 @@
+import { BIP38 } from "@payvo/sdk-cryptography";
 import { describe } from "@payvo/sdk-test";
-import BIP38 from "bip38";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
@@ -27,7 +27,7 @@ describe("WalletIdentifierFactory", ({ beforeAll, beforeEach, loader, nock, asse
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 	});
 
 	it("should not create wallet identifier when unknown method", async (context) => {

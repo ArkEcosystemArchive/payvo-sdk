@@ -1,10 +1,10 @@
+import { resolve } from "path";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { Request } from "@payvo/sdk-fetch";
 import { describe } from "@payvo/sdk-test";
 import fs from "fs-extra";
-import { resolve } from "path";
 
 import storageData from "../test/fixtures/env-storage.json";
 import { identity } from "../test/fixtures/identity";
@@ -89,7 +89,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	it("should have a profile repository", async (context) => {
 		await makeSubject(context);
 
-		assert.instance(context.subject.profiles(), ProfileRepository);
+		assert.instance(await context.subject.profiles(), ProfileRepository);
 	});
 
 	it("should have a data repository", async (context) => {
@@ -133,7 +133,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 		 * Save data in the current environment.
 		 */
 
-		const profile = context.subject.profiles().create("John Doe");
+		const profile = await context.subject.profiles().create("John Doe");
 
 		// Create a Contact
 		profile.contacts().create("Jane Doe", [
@@ -164,7 +164,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 		profile.settings().set("ADVANCED_MODE", false);
 
 		// Encode all data
-		context.subject.profiles().persist(profile);
+		await context.subject.profiles().persist(profile);
 
 		// Create a Global DataEntry
 		context.subject.data().set("KEY", "VALUE");
@@ -309,7 +309,8 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	});
 
 	it("should create preselected storage given storage option as string", async () => {
-		const environment = new Environment({ coins: { ARK }, httpClient: new Request(), storage: "memory" });
+		new Environment({ coins: { ARK }, httpClient: new Request(), storage: "memory" });
+
 		assert.instance(container.get(Identifiers.Storage), MemoryStorage);
 	});
 
@@ -320,6 +321,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			ledgerTransportFactory: async () => {},
 			storage: new StubStorage(),
 		});
+
 		await assert.rejects(() => environment.boot(), "Please call [verify] before booting the environment.");
 	});
 
@@ -332,21 +334,24 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	it("#fees", async (context) => {
 		await makeSubject(context);
 
-		await context.subject.fees().sync(context.subject.profiles().create("John"), "ARK", "ark.devnet");
+		await context.subject.fees().sync(await context.subject.profiles().create("John"), "ARK", "ark.devnet");
+
 		assert.length(Object.keys(context.subject.fees().all("ARK", "ark.devnet")), 8);
 	});
 
 	it("#delegates", async (context) => {
 		await makeSubject(context);
 
-		await context.subject.delegates().sync(context.subject.profiles().create("John"), "ARK", "ark.devnet");
+		await context.subject.delegates().sync(await context.subject.profiles().create("John"), "ARK", "ark.devnet");
+
 		assert.length(context.subject.delegates().all("ARK", "ark.devnet"), 200);
 	});
 
 	it("#knownWallets", async (context) => {
 		await makeSubject(context);
 
-		await context.subject.knownWallets().syncAll(context.subject.profiles().create("John Doe"));
+		await context.subject.knownWallets().syncAll(await context.subject.profiles().create("John Doe"));
+
 		assert.false(context.subject.knownWallets().is("ark.devnet", "unknownWallet"));
 	});
 
@@ -388,7 +393,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	it("should create a profile with password and persist", async (context) => {
 		await makeSubject(context);
 
-		const profile = context.subject.profiles().create("John Doe");
+		const profile = await context.subject.profiles().create("John Doe");
 		profile.auth().setPassword("password");
 		assert.not.throws(() => context.subject.persist());
 	});
@@ -413,17 +418,17 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 		// Create initial environment
 		await makeSubject(context);
 
-		const john = context.subject.profiles().create("John");
+		const john = await context.subject.profiles().create("John");
 		await importByMnemonic(john, identity.mnemonic, "ARK", "ark.devnet");
-		context.subject.profiles().persist(john);
+		await context.subject.profiles().persist(john);
 
-		const jane = context.subject.profiles().create("Jane");
+		const jane = await context.subject.profiles().create("Jane");
 		jane.auth().setPassword("password");
-		context.subject.profiles().persist(jane);
+		await context.subject.profiles().persist(jane);
 
-		const jack = context.subject.profiles().create("Jack");
+		const jack = await context.subject.profiles().create("Jack");
 		jack.auth().setPassword("password");
-		context.subject.profiles().persist(jack);
+		await context.subject.profiles().persist(jack);
 
 		await context.subject.persist();
 
