@@ -1,8 +1,6 @@
 /* eslint-disable import/no-namespace */
 
-import { fromSeed, fromBase58, fromPublicKey, fromPrivateKey } from "./bip32/crypto.js";
-import { BIP32Interface } from "./bip32/crypto.js";
-
+import { BIP32Interface,fromBase58, fromPrivateKey,fromPublicKey, fromSeed  } from "./bip32/crypto.js";
 import { BIP39 } from "./bip39.js";
 
 interface Network {
@@ -19,7 +17,7 @@ class BIP32 {
 
 		BIP39.validate(mnemonic);
 
-		return fromSeed(BIP39.toSeed(mnemonic), network);
+		return fromSeed(Buffer.from(BIP39.toSeed(mnemonic)), network);
 	}
 
 	public static fromSeed(seed: string, network?: Network): BIP32Interface {
@@ -39,4 +37,6 @@ class BIP32 {
 	}
 }
 
-export { BIP32, BIP32Interface };
+export { BIP32,  };
+
+export {BIP32Interface} from "./bip32/crypto.js";
