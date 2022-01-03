@@ -6,7 +6,7 @@ export interface IWalletImportFormat {
 	 * @return {string}
 	 * @memberof IReadWriteWallet
 	 */
-	get(password: string): string;
+	get(password: string): Promise<string>;
 
 	/**
 	 * Set the WIF.
@@ -16,7 +16,7 @@ export interface IWalletImportFormat {
 	 * @return {void}
 	 * @memberof IReadWriteWallet
 	 */
-	set(mnemonic: string, password: string): void;
+	set(mnemonic: string, password: string): Promise<void>;
 
 	/**
 	 * Determine if the wallet uses a WIF.

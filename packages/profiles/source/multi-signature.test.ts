@@ -68,7 +68,7 @@ describe("MultiSignature", ({ assert, it, stub, loader, nock, beforeAll, beforeE
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.subject = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",

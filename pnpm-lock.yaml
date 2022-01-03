@@ -234,6 +234,7 @@ importers:
       '@noble/hashes': ^0.4.1
       '@noble/secp256k1': ^1.3.3
       '@payvo/sdk-test': workspace:*
+      '@peculiar/webcrypto': ^1.2.3
       '@types/bcryptjs': 2.4.2
       '@types/bigi': ^1.4.2
       '@types/bip38': 2.0.1
@@ -259,6 +260,7 @@ importers:
     dependencies:
       '@noble/hashes': 0.4.1
       '@noble/secp256k1': 1.3.3
+      '@peculiar/webcrypto': 1.2.3
       bcryptjs: 2.4.3
       bigi: 1.4.2
       bip39: 3.0.4
@@ -620,9 +622,6 @@ importers:
 
   packages/profiles:
     specifiers:
-      '@ledgerhq/hw-transport-u2f': ^5.36.0-deprecated
-      '@ledgerhq/hw-transport-webhid': ^6.19.0
-      '@ledgerhq/hw-transport-webusb': ^6.19.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-ada': workspace:*
       '@payvo/sdk-ark': workspace:*
@@ -646,13 +645,9 @@ importers:
       node-cache: ^5.1.2
       p-queue: ^7.1.0
       p-retry: ^5.0.0
-      platform: ^1.3.6
       semver: ^7.3.5
       type-fest: ^2.6.0
     dependencies:
-      '@ledgerhq/hw-transport-u2f': 5.36.0-deprecated
-      '@ledgerhq/hw-transport-webhid': 6.19.0
-      '@ledgerhq/hw-transport-webusb': 6.19.0
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
       '@payvo/sdk-helpers': link:../helpers
@@ -664,7 +659,6 @@ importers:
       node-cache: 5.1.2
       p-queue: 7.1.0
       p-retry: 5.0.0
-      platform: 1.3.6
       semver: 7.3.5
       type-fest: 2.6.0
     devDependencies:
@@ -2046,6 +2040,33 @@ packages:
       '@octokit/openapi-types': 11.2.0
     dev: false
 
+  /@peculiar/asn1-schema/2.0.44:
+    resolution: {integrity: sha512-uaCnjQ9A9WwQSMuDJcNOCYEPXTahgKbFMvI7eMOMd8lXgx0J1eU7F3BoMsK5PFxa3dVUxjSQbaOjfgGoeHGgoQ==}
+    dependencies:
+      '@types/asn1js': 2.0.2
+      asn1js: 2.1.1
+      pvtsutils: 1.2.1
+      tslib: 2.3.1
+    dev: false
+
+  /@peculiar/json-schema/1.1.12:
+    resolution: {integrity: sha512-coUfuoMeIB7B8/NMekxaDzLhaYmp0HZNPEjYRm9goRou8UZIC3z21s0sL9AWoCw4EG876QyO3kYrc61WNF9B/w==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
+  /@peculiar/webcrypto/1.2.3:
+    resolution: {integrity: sha512-q7wDfZy3k/tpnsYB23/MyyDkjn6IdHh8w+xwoVMS5cu6CjVoFzngXDZEOOuSE4zus2yO6ciQhhHxd4XkLpwVnQ==}
+    engines: {node: '>=10.12.0'}
+    dependencies:
+      '@peculiar/asn1-schema': 2.0.44
+      '@peculiar/json-schema': 1.1.12
+      pvtsutils: 1.2.1
+      tslib: 2.3.1
+      webcrypto-core: 1.4.0
+    dev: false
+
   /@polka/url/1.0.0-next.21:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: false
@@ -2425,6 +2446,10 @@ packages:
       minimatch: 3.0.4
       mkdirp: 1.0.4
       path-browserify: 1.0.1
+    dev: false
+
+  /@types/asn1js/2.0.2:
+    resolution: {integrity: sha512-t4YHCgtD+ERvH0FyxvNlYwJ2ezhqw7t+Ygh4urQ7dJER8i185JPv6oIM3ey5YQmGN6Zp9EMbpohkjZi9t3UxwA==}
     dev: false
 
   /@types/bcryptjs/2.4.2:
@@ -3490,6 +3515,13 @@ packages:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
       safer-buffer: 2.1.2
+    dev: false
+
+  /asn1js/2.1.1:
+    resolution: {integrity: sha512-t9u0dU0rJN4ML+uxgN6VM2Z4H5jWIYm0w8LsZLzMJaQsgL3IJNbxHgmbWDvJAwspyHpDFuzUaUFh4c05UB4+6g==}
+    engines: {node: '>=6.0.0'}
+    dependencies:
+      pvutils: 1.0.17
     dev: false
 
   /assert/2.0.0:
@@ -8031,6 +8063,17 @@ packages:
       bitcoin-ops: 1.4.1
     dev: false
 
+  /pvtsutils/1.2.1:
+    resolution: {integrity: sha512-Q867jEr30lBR2YSFFLZ0/XsEvpweqH6Kj096wmlRAFXrdRGPCNq2iz9B5Tk085EZ+OBZyYAVA5UhPkjSHGrUzQ==}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
+  /pvutils/1.0.17:
+    resolution: {integrity: sha512-wLHYUQxWaXVQvKnwIDWFVKDJku9XDCvyhhxoq8dc5MFdIlRenyPI9eSfEtcvgHgD7FlvCyGAlWgOzRnZD99GZQ==}
+    engines: {node: '>=6.0.0'}
+    dev: false
+
   /qrcode/1.5.0:
     resolution: {integrity: sha512-9MgRpgVc+/+47dFvQeD6U2s0Z92EsKzcHogtum4QB+UNd025WOJSHvn/hjk9xmzj7Stj95CyUAs31mrjxliEsQ==}
     engines: {node: '>=10.13.0'}
@@ -9662,6 +9705,16 @@ packages:
       number-to-bn: 1.7.0
       randombytes: 2.1.0
       utf8: 3.0.0
+    dev: false
+
+  /webcrypto-core/1.4.0:
+    resolution: {integrity: sha512-HY3Zo0GcRIQUUDnlZ/shGjN+4f7LVMkdJZoGPog+oHhJsJdMz6iM8Za5xZ0t6qg7Fx/JXXz+oBv2J2p982hGTQ==}
+    dependencies:
+      '@peculiar/asn1-schema': 2.0.44
+      '@peculiar/json-schema': 1.1.12
+      asn1js: 2.1.1
+      pvtsutils: 1.2.1
+      tslib: 2.3.1
     dev: false
 
   /webidl-conversions/3.0.1:

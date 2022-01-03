@@ -12,7 +12,7 @@ export class ProfileExporter implements IProfileExporter {
 	}
 
 	/** {@inheritDoc IProfileExporter.export} */
-	public export(
+	public async export(
 		password?: string,
 		options: IProfileExportOptions = {
 			addNetworkInformation: true,
@@ -20,12 +20,12 @@ export class ProfileExporter implements IProfileExporter {
 			excludeLedgerWallets: false,
 			saveGeneralSettings: true,
 		},
-	): string {
+	): Promise<string> {
 		const data = new ProfileSerialiser(this.#profile).toJSON(options);
 
 		if (this.#profile.usesPassword()) {
 			return Base64.encode(
-				new ProfileEncrypter(this.#profile).encrypt(
+				await new ProfileEncrypter(this.#profile).encrypt(
 					JSON.stringify({
 						avatar: this.#profile.avatar(),
 						data,

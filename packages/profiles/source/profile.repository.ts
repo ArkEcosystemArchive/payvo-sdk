@@ -68,7 +68,7 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	/** {@inheritDoc IProfileRepository.create} */
-	public create(name: string): IProfile {
+	public async create(name: string): Promise<IProfile> {
 		if (this.findByName(name)) {
 			throw new Error(`The profile [${name}] already exists.`);
 		}
@@ -81,7 +81,7 @@ export class ProfileRepository implements IProfileRepository {
 
 		result.status().markAsRestored();
 
-		this.persist(result);
+		await this.persist(result);
 
 		return result;
 	}
@@ -101,7 +101,7 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	/** {@inheritDoc IProfileRepository.export} */
-	public export(profile: IProfile, options: IProfileExportOptions, password?: string): string {
+	public async export(profile: IProfile, options: IProfileExportOptions, password?: string): Promise<string> {
 		return new ProfileExporter(profile).export(password, options);
 	}
 
@@ -118,7 +118,7 @@ export class ProfileRepository implements IProfileRepository {
 	}
 
 	/** {@inheritDoc IProfileRepository.persist} */
-	public persist(profile: IProfile): void {
+	public async persist(profile: IProfile): Promise<void> {
 		if (!profile.status().isRestored()) {
 			return;
 		}
@@ -128,11 +128,11 @@ export class ProfileRepository implements IProfileRepository {
 		}
 
 		if (profile.usesPassword() && profile.password().exists()) {
-			profile.getAttributes().set("data", new ProfileExporter(profile).export(profile.password().get()));
+			profile.getAttributes().set("data", await new ProfileExporter(profile).export(profile.password().get()));
 		}
 
 		if (!profile.usesPassword()) {
-			profile.getAttributes().set("data", new ProfileExporter(profile).export());
+			profile.getAttributes().set("data", await new ProfileExporter(profile).export());
 		}
 
 		profile.status().markAsClean();

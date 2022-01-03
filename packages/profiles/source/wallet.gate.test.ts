@@ -66,7 +66,7 @@ describe("WalletGate", ({ beforeAll, beforeEach, loader, nock, assert, it }) => 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
 
-		const profile = profileRepository.create("John Doe");
+		const profile = await profileRepository.create("John Doe");
 
 		const wallet = await profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",

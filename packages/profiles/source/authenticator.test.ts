@@ -59,20 +59,20 @@ describe("Authenticator", async ({ it, assert, beforeEach }) => {
 		assert.is(context.profile.password().get(), "password");
 	});
 
-	it("should forget the password", (context) => {
+	it("should forget the password", async (context) => {
 		assert.false(context.profile.usesPassword());
-		const firstExport = new ProfileExporter(context.profile).export();
+		const firstExport = await new ProfileExporter(context.profile).export();
 		assert.string(firstExport);
 
 		context.subject.setPassword("old-password");
 
 		assert.true(context.profile.usesPassword());
-		assert.true(new ProfileExporter(context.profile).export().length > firstExport.length * 2);
+		assert.true((await new ProfileExporter(context.profile).export()).length > firstExport.length * 2);
 
 		context.subject.forgetPassword("old-password");
 
 		assert.false(context.profile.usesPassword());
-		assert.true(new ProfileExporter(context.profile).export().length <= firstExport.length);
+		assert.true((await new ProfileExporter(context.profile).export()).length <= firstExport.length);
 	});
 
 	it("should fail to forget the password if the current password is invalid", (context) => {

@@ -146,7 +146,7 @@ export class WalletMutator implements IWalletMutator {
 
 	async #verifyPassword(password: string): Promise<boolean> {
 		try {
-			const wif = this.#wallet.signingKey().get(password);
+			const wif = await this.#wallet.signingKey().get(password);
 
 			let address: string;
 

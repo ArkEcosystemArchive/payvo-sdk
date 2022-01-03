@@ -7,7 +7,7 @@ import { Profile } from "./profile";
 import { ProfileDumper } from "./profile.dumper";
 
 describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
-	beforeEach((context) => {
+	beforeEach(async (context) => {
 		bootContainer();
 
 		nock.fake()
@@ -25,13 +25,13 @@ describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) 
 
 		container.get(Identifiers.ProfileRepository).flush();
 
-		context.profile = container.get(Identifiers.ProfileRepository).create("John Doe");
+		context.profile = await container.get(Identifiers.ProfileRepository).create("John Doe");
 		context.subject = new ProfileDumper(context.profile);
 	});
 
 	afterEach(() => {});
 
-	it("should dump the profile with a password", (context) => {
+	it("should dump the profile with a password", async (context) => {
 		context.profile.auth().setPassword("password");
 
 		const { id, password, data } = context.subject.dump();
@@ -41,7 +41,7 @@ describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) 
 		assert.string(data);
 	});
 
-	it("should dump the profile without a password", (context) => {
+	it("should dump the profile without a password", async (context) => {
 		const { id, password, data } = context.subject.dump();
 
 		assert.string(id);

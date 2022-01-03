@@ -27,7 +27,7 @@ describe("WalletIdentifierFactory", ({ beforeAll, beforeEach, loader, nock, asse
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 	});
 
 	it("should not create wallet identifier when unknown method", async (context) => {

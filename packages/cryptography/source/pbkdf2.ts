@@ -1,48 +1,53 @@
 // Based on https://github.com/simplyhexagonal/string-crypto/blob/main/src/index.ts
 
-import { createCipheriv, createDecipheriv, pbkdf2Sync, randomBytes } from "crypto";
+import { Crypto } from "@peculiar/webcrypto";
 
-export class PBKDF2 {
-	public static encrypt(value: string, password: string): string {
-		const derivedKey = this.#deriveKey(password);
+// @TODO: use UINT8 instead of Buffer
+export class Implementation {
+	readonly #crypto: Crypto = new Crypto();
 
-		const randomInitVector = randomBytes(16);
+	public async encrypt(value: string, password: string): Promise<string> {
+		const iv: Uint32Array = this.#crypto.getRandomValues(new Uint32Array(16));
 
-		const aesCBC = createCipheriv("aes-256-gcm", derivedKey, randomInitVector);
-
-		let encryptedBase64 = aesCBC.update(value.toString(), "utf8", "base64");
-		encryptedBase64 += aesCBC.final("base64");
-
-		const encryptedHex = Buffer.from(encryptedBase64).toString("hex");
-
-		const initVectorHex = randomInitVector.toString("hex");
-
-		return `${initVectorHex}:${encryptedHex}`;
+		return `${Buffer.from(iv).toString("hex")}:${Buffer.from(
+			await this.#crypto.subtle.encrypt(
+				{
+					iv,
+					name: "AES-GCM",
+				},
+				await this.#crypto.subtle.deriveKey(
+					{
+						hash: "SHA-512",
+						iterations: 100_000,
+						name: "PBKDF2",
+						salt: this.#getSalt(password),
+					},
+					await this.#importKey(password),
+					{ length: 256, name: "AES-GCM" },
+					true,
+					["encrypt", "decrypt"],
+				),
+				Buffer.from(value),
+			),
+		).toString("hex")}`;
 	}
 
-	public static decrypt(hash: string, password: string): string {
-		const derivedKey = this.#deriveKey(password);
-
-		const encryptedParts: string[] = hash.toString().split(":");
-
-		if (encryptedParts.length !== 2) {
-			throw new Error(`Incorrect format for encrypted string: ${hash}`);
-		}
-
-		const [initVectorHex, encryptedHex] = encryptedParts;
-
-		const randomInitVector = Buffer.from(initVectorHex, "hex");
-
-		const encryptedBase64 = Buffer.from(encryptedHex, "hex").toString();
-
-		const aesCBC = createDecipheriv("aes-256-gcm", derivedKey, randomInitVector);
-
-		return aesCBC.update(encryptedBase64, "base64").toString();
+	public async decrypt(hash: string, password: string): Promise<string> {
+		return new TextDecoder().decode(
+			await this.#crypto.subtle.decrypt(
+				{
+					iv: Buffer.from(hash.split(":")[0], "hex"),
+					name: "AES-GCM",
+				},
+				await this.#deriveKey(await this.#importKey(password), this.#getSalt(password)),
+				Buffer.from(hash.split(":")[1], "hex"),
+			),
+		);
 	}
 
-	public static verify(hash: string, password: string): boolean {
+	public async verify(hash: string, password: string): Promise<boolean> {
 		try {
-			this.decrypt(hash, password);
+			await this.decrypt(hash, password);
 
 			return true;
 		} catch {
@@ -50,13 +55,32 @@ export class PBKDF2 {
 		}
 	}
 
-	static #deriveKey(password: string) {
-		return pbkdf2Sync(
-			password,
-			"s41t",
-			1,
-			256 / 8, // Because we use aes-256-gcm
-			"sha512",
+	async #importKey(password: string): Promise<CryptoKey> {
+		return this.#crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, [
+			"deriveBits",
+			"deriveKey",
+		]);
+	}
+
+	#getSalt(password: string): Buffer {
+		return Buffer.from(`PBKDF2${password}`.normalize("NFKD"));
+	}
+
+	async #deriveKey(keyMaterial: CryptoKey, salt: Buffer): Promise<CryptoKey> {
+		return this.#crypto.subtle.deriveKey(
+			{
+				hash: "SHA-512",
+				iterations: 100_000,
+				name: "PBKDF2",
+				salt,
+			},
+			keyMaterial,
+			{ length: 256, name: "AES-GCM" },
+			true,
+			["encrypt", "decrypt"],
 		);
 	}
 }
+
+// @TODO: export as AES
+export const PBKDF2 = new Implementation();

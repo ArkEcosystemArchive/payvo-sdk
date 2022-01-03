@@ -65,7 +65,7 @@ describe("WalletSynchroniser", ({ beforeAll, beforeEach, loader, nock, assert, s
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
