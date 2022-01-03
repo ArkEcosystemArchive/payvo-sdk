@@ -1,13 +1,13 @@
 import { generateMnemonic, mnemonicToEntropy, mnemonicToSeedSync, validateMnemonic } from "micro-bip39";
-import { wordlist as czech } from 'micro-bip39/wordlists/czech';
-import { wordlist as english } from 'micro-bip39/wordlists/english';
-import { wordlist as french } from 'micro-bip39/wordlists/french';
-import { wordlist as italian } from 'micro-bip39/wordlists/italian';
-import { wordlist as japanese } from 'micro-bip39/wordlists/japanese';
-import { wordlist as korean } from 'micro-bip39/wordlists/korean';
-import { wordlist as chinese_simplified } from 'micro-bip39/wordlists/simplified-chinese';
-import { wordlist as spanish } from 'micro-bip39/wordlists/spanish';
-import { wordlist as chinese_traditional } from 'micro-bip39/wordlists/traditional-chinese';
+import { wordlist as czech } from "micro-bip39/wordlists/czech";
+import { wordlist as english } from "micro-bip39/wordlists/english";
+import { wordlist as french } from "micro-bip39/wordlists/french";
+import { wordlist as italian } from "micro-bip39/wordlists/italian";
+import { wordlist as japanese } from "micro-bip39/wordlists/japanese";
+import { wordlist as korean } from "micro-bip39/wordlists/korean";
+import { wordlist as chinese_simplified } from "micro-bip39/wordlists/simplified-chinese";
+import { wordlist as spanish } from "micro-bip39/wordlists/spanish";
+import { wordlist as chinese_traditional } from "micro-bip39/wordlists/traditional-chinese";
 
 const wordlists = {
 	chinese_simplified,
