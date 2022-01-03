@@ -13,7 +13,7 @@ export const deriveKeyPair = (
 	path: string;
 } => {
 	const path: string = buildPath(options);
-	const { key } = derivePath(path, BIP39.toSeed(mnemonic).toString("hex"));
+	const { key } = derivePath(path, Buffer.from(BIP39.toSeed(mnemonic)).toString("hex"));
 
 	return {
 		child: Keypair.fromRawEd25519Seed(key),
