@@ -1,6 +1,6 @@
 /* eslint-disable import/no-namespace */
 
-import { BIP32Interface,fromBase58, fromPrivateKey,fromPublicKey, fromSeed  } from "./bip32/crypto.js";
+import { BIP32Interface, fromBase58, fromPrivateKey,fromPublicKey, fromSeed  } from "./bip32/crypto.js";
 import { BIP39 } from "./bip39.js";
 
 interface Network {
@@ -37,6 +37,4 @@ class BIP32 {
 	}
 }
 
-export { BIP32,  };
-
-export {BIP32Interface} from "./bip32/crypto.js";
+export { BIP32, BIP32Interface };
