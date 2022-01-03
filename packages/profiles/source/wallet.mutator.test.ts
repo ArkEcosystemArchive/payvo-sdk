@@ -67,7 +67,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.subject = new Wallet(UUID.random(), {}, context.profile);
 
@@ -158,7 +158,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 	it("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic", async (context) => {
 		context.subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		context.subject.signingKey().set(identity.mnemonic, "password");
+		await context.subject.signingKey().set(identity.mnemonic, "password");
 
 		const { address } = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
 
@@ -177,8 +177,8 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 	it("#removeEncryption - should remove the encryption password of a wallet imported by mnemonic with second signature", async (context) => {
 		context.subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-		context.subject.signingKey().set(identity.mnemonic, "password");
-		context.subject.confirmKey().set(identity.secondMnemonic, "password");
+		await context.subject.signingKey().set(identity.mnemonic, "password");
+		await context.subject.confirmKey().set(identity.secondMnemonic, "password");
 
 		const { address } = await context.subject.coin().address().fromMnemonic(identity.mnemonic);
 
@@ -199,7 +199,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 	it("#removeEncryption - should remove the encryption password of a wallet imported by secret", async (context) => {
 		context.subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
-		context.subject.signingKey().set("secret", "password");
+		await context.subject.signingKey().set("secret", "password");
 
 		const { address } = await context.subject.coin().address().fromSecret("secret");
 
@@ -218,8 +218,8 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 	it("#removeEncryption - should remove the encryption password of a wallet imported by secret with second signature", async (context) => {
 		context.subject.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
-		context.subject.signingKey().set("secret", "password");
-		context.subject.confirmKey().set("second-secret", "password");
+		await context.subject.signingKey().set("secret", "password");
+		await context.subject.confirmKey().set("second-secret", "password");
 
 		const { address } = await context.subject.coin().address().fromSecret("secret");
 
@@ -247,7 +247,7 @@ describe("WalletMutator", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 	});
 
 	it("#removeEncryption - should throw if the provided password does not match the wallet", async (context) => {
-		context.subject.signingKey().set(identity.mnemonic, "password");
+		await context.subject.signingKey().set(identity.mnemonic, "password");
 
 		context.subject.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 

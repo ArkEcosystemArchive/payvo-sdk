@@ -80,7 +80,7 @@ describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) =
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.subject = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
@@ -631,10 +631,10 @@ describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) =
 		assert.false(context.subject.isCold());
 	});
 
-	it("should determine if a wallet uses an encryption paassword", (context) => {
+	it("should determine if a wallet uses an encryption password", async (context) => {
 		assert.false(context.subject.usesPassword());
 
-		context.subject.signingKey().set(identity.mnemonic, "password");
+		await context.subject.signingKey().set(identity.mnemonic, "password");
 
 		assert.true(context.subject.usesPassword());
 	});

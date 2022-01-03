@@ -95,7 +95,7 @@ describe("WalletFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, 
 		assert.string(wallet.data().get(WalletData.EncryptedSigningKey));
 
 		assert.is(
-			PBKDF2.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
+			await PBKDF2.decrypt(wallet.data().get(WalletData.EncryptedSigningKey), "password"),
 			"bomb open frame quit success evolve gain donate prison very rent later",
 		);
 	});

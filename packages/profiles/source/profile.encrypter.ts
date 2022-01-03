@@ -10,7 +10,7 @@ export class ProfileEncrypter implements IProfileEncrypter {
 	}
 
 	/** {@inheritDoc IProfileEncrypter.encrypt} */
-	public encrypt(unencrypted: string, password?: string): string {
+	public async encrypt(unencrypted: string, password?: string): Promise<string> {
 		if (typeof password !== "string") {
 			password = this.#profile.password().get();
 		}
@@ -23,13 +23,13 @@ export class ProfileEncrypter implements IProfileEncrypter {
 	}
 
 	/** {@inheritDoc IProfileEncrypter.decrypt} */
-	public decrypt(password: string): IProfileData {
+	public async decrypt(password: string): Promise<IProfileData> {
 		if (!this.#profile.usesPassword()) {
 			throw new Error("This profile does not use a password but password was passed for decryption");
 		}
 
 		const { id, data } = JSON.parse(
-			PBKDF2.decrypt(Base64.decode(this.#profile.getAttributes().get<string>("data")), password),
+			await PBKDF2.decrypt(Base64.decode(this.#profile.getAttributes().get<string>("data")), password),
 		);
 
 		return { id, ...data };

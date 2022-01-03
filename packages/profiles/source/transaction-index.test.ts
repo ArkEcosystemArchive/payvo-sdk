@@ -65,7 +65,7 @@ describe("TransactionIndex", ({ beforeAll, beforeEach, nock, assert, it, loader 
 
 		const profileRepository = container.get(Identifiers.ProfileRepository);
 		profileRepository.flush();
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.subject = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",

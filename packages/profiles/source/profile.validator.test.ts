@@ -11,7 +11,7 @@ import { ProfileImporter } from "./profile.importer";
 import { ProfileValidator } from "./profile.validator";
 
 describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
-	beforeEach((context) => {
+	beforeEach(async (context) => {
 		bootContainer();
 
 		nock.fake()
@@ -29,7 +29,7 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 
 		container.get(Identifiers.ProfileRepository).flush();
 
-		context.profile = container.get(Identifiers.ProfileRepository).create("John Doe");
+		context.profile = await container.get(Identifiers.ProfileRepository).create("John Doe");
 		context.dumper = new ProfileDumper(context.profile);
 	});
 

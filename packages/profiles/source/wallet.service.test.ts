@@ -70,7 +70,7 @@ describe("WalletService", ({ afterEach, beforeAll, beforeEach, loader, nock, ass
 
 		container.constant(Identifiers.ProfileRepository, profileRepository);
 
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
 		context.wallet = await importByMnemonic(context.profile, identity.mnemonic, "ARK", "ark.devnet");
 

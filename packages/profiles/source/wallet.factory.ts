@@ -67,7 +67,7 @@ export class WalletFactory implements IWalletFactory {
 		if (password) {
 			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.BIP39.MNEMONIC_WITH_ENCRYPTION);
 
-			wallet.signingKey().set(mnemonic, password);
+			await wallet.signingKey().set(mnemonic, password);
 		}
 
 		return wallet;
@@ -201,7 +201,7 @@ export class WalletFactory implements IWalletFactory {
 		if (password) {
 			wallet.data().set(WalletData.ImportMethod, WalletImportMethod.SECRET_WITH_ENCRYPTION);
 
-			wallet.signingKey().set(secret, password);
+			await wallet.signingKey().set(secret, password);
 		}
 
 		return wallet;

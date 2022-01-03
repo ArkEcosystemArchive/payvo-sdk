@@ -49,7 +49,7 @@ describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, load
 
 		container.constant(Identifiers.ExchangeRateService, context.subject);
 
-		context.profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 		context.profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
 		context.wallet = await importByMnemonic(context.profile, identity.mnemonic, "ARK", "ark.devnet");
