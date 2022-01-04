@@ -29,7 +29,8 @@ export const post = async (
 	body: Contracts.KeyValuePair,
 	httpClient: Http.HttpClient,
 	configRepository: Coins.ConfigRepository,
-): Promise<Contracts.KeyValuePair> => (await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
+): Promise<Contracts.KeyValuePair> =>
+	(await httpClient.post(`${Helpers.randomHostFromConfig(configRepository)}/${path}`, body)).json();
 
 export const walletUsedAddresses = async (
 	addresses: string[],
@@ -63,11 +64,11 @@ export const usedAddresses = async (
 	return usedAddresses;
 };
 
-export const getDerivationMethod = (
-	id: Services.WalletIdentifier,
-): ((publicKey: string, network: string) => string) => ({ bip44, bip49, bip84 }[id.method!]);
+export const getDerivationMethod = (id: Services.WalletIdentifier): ((publicKey: string, network: string) => string) =>
+	({ bip44, bip49, bip84 }[id.method!]);
 
-export const getDerivationFunction = (bipLevel: BipLevel): ((publicKey: string, network: string) => string) => ({ bip44, bip49, bip84 }[bipLevel]);
+export const getDerivationFunction = (bipLevel: BipLevel): ((publicKey: string, network: string) => string) =>
+	({ bip44, bip49, bip84 }[bipLevel]);
 
 export const getAddresses = async (
 	id: Services.WalletIdentifier,
@@ -75,30 +76,30 @@ export const getAddresses = async (
 	configRepository: Coins.ConfigRepository,
 ): Promise<string[]> => {
 	switch (id.type) {
-	case "extendedPublicKey": {
-		const network = getNetworkConfig(configRepository);
+		case "extendedPublicKey": {
+			const network = getNetworkConfig(configRepository);
 
-		const usedSpendAddresses = await usedAddresses(
-			addressGenerator(getDerivationMethod(id), network, id.value, true, 100),
-			httpClient,
-			configRepository,
-		);
+			const usedSpendAddresses = await usedAddresses(
+				addressGenerator(getDerivationMethod(id), network, id.value, true, 100),
+				httpClient,
+				configRepository,
+			);
 
-		const usedChangeAddresses = await usedAddresses(
-			addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
-			httpClient,
-			configRepository,
-		);
+			const usedChangeAddresses = await usedAddresses(
+				addressGenerator(getDerivationMethod(id), network, id.value, false, 100),
+				httpClient,
+				configRepository,
+			);
 
-		return usedSpendAddresses.concat(usedChangeAddresses);
-	}
-	case "address": {
-		return [id.value];
-	}
-	case "publicKey": {
-		return [id.value];
-	}
-	// No default
+			return usedSpendAddresses.concat(usedChangeAddresses);
+		}
+		case "address": {
+			return [id.value];
+		}
+		case "publicKey": {
+			return [id.value];
+		}
+		// No default
 	}
 
 	throw new Exceptions.Exception(`Address derivation method still not implemented: ${id.type}`);

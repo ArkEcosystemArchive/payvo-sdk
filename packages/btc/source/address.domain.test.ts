@@ -1,25 +1,24 @@
-import { describeWithContext } from "@payvo/sdk-test";
-import * as bitcoin from "bitcoinjs-lib";
 import { BIP32 } from "@payvo/sdk-cryptography";
+import { convertBuffer } from "@payvo/sdk-helpers";
+import { describeWithContext } from "@payvo/sdk-test";
+import { networks } from "bitcoinjs-lib";
+
+import { musig } from "../test/fixtures/musig";
 import {
-	legacyMusig,
-	nativeSegwitMusig,
-	p2SHSegwitMusig,
 	defaultLegacyMusigAccountKey,
 	defaultNativeSegwitMusigAccountKey,
 	defaultP2SHSegwitMusigAccountKey,
+	legacyMusig,
+	nativeSegwitMusig,
+	p2SHSegwitMusig,
 	rootToAccountKeys,
 } from "./address.domain";
-import { musig } from "../test/fixtures/musig";
-import { convertBuffer } from "@payvo/sdk-helpers";
 
 describeWithContext(
 	"Address domain",
 	{
-		network: bitcoin.networks.testnet,
-		rootAccountKeys: musig.accounts.map((account) =>
-			BIP32.fromMnemonic(account.mnemonic, bitcoin.networks.testnet),
-		),
+		network: networks.testnet,
+		rootAccountKeys: musig.accounts.map((account) => BIP32.fromMnemonic(account.mnemonic, networks.testnet)),
 	},
 	async ({ it, assert }) => {
 		it("should derive account key for legacy multisig", async (context) => {
@@ -52,7 +51,7 @@ describeWithContext(
 		it("should create a legacy multisig wallet like Electrum", async (context) => {
 			const accountKeys = rootToAccountKeys(context.rootAccountKeys, defaultLegacyMusigAccountKey);
 
-			musig.legacyWallet.spendAddresses.forEach((address, index) => {
+			for (const [index, address] of musig.legacyWallet.spendAddresses.entries()) {
 				assert.is(
 					legacyMusig(
 						2,
@@ -61,8 +60,8 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
-			musig.legacyWallet.changeAddresses.forEach((address, index) => {
+			}
+			for (const [index, address] of musig.legacyWallet.changeAddresses.entries()) {
 				assert.is(
 					legacyMusig(
 						2,
@@ -71,13 +70,13 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
+			}
 		});
 
-		it("should create a p2sh-segwit (p2wsh-p2sh) multisig wallet like Electrum", async (context) => {
+		it.only("should create a p2sh-segwit (p2wsh-p2sh) multisig wallet like Electrum", async (context) => {
 			const accountKeys = rootToAccountKeys(context.rootAccountKeys, defaultP2SHSegwitMusigAccountKey);
 
-			musig.p2shSegwitWallet.spendAddresses.forEach((address, index) => {
+			for (const [index, address] of musig.p2shSegwitWallet.spendAddresses.entries()) {
 				assert.is(
 					p2SHSegwitMusig(
 						2,
@@ -86,8 +85,8 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
-			musig.p2shSegwitWallet.changeAddresses.forEach((address, index) => {
+			}
+			for (const [index, address] of musig.p2shSegwitWallet.changeAddresses.entries()) {
 				assert.is(
 					p2SHSegwitMusig(
 						2,
@@ -96,13 +95,13 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
+			}
 		});
 
 		it("should create a native segwit (p2wsh) multisig wallet like Electrum", async (context) => {
 			const accountKeys = rootToAccountKeys(context.rootAccountKeys, defaultNativeSegwitMusigAccountKey);
 
-			musig.nativeSegwitWallet.spendAddresses.forEach((address, index) => {
+			for (const [index, address] of musig.nativeSegwitWallet.spendAddresses.entries()) {
 				assert.is(
 					nativeSegwitMusig(
 						2,
@@ -111,9 +110,9 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
+			}
 
-			musig.nativeSegwitWallet.changeAddresses.forEach((address, index) => {
+			for (const [index, address] of musig.nativeSegwitWallet.changeAddresses.entries()) {
 				assert.is(
 					nativeSegwitMusig(
 						2,
@@ -122,7 +121,7 @@ describeWithContext(
 					).address,
 					address,
 				);
-			});
+			}
 		});
 	},
 );

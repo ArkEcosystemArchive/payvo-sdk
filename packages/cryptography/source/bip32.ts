@@ -20,15 +20,15 @@ class BIP32Interface {
 		this.#network = network;
 	}
 
-    public static fromMasterSeed(seed: Uint8Array, network?: Network): BIP32Interface {
+	public static fromMasterSeed(seed: Uint8Array, network?: Network): BIP32Interface {
 		return new BIP32Interface(HDKey.fromMasterSeed(seed, network?.bip32), network);
 	}
 
-    public static fromExtendedKey(base58key: string, network?: Network): BIP32Interface {
+	public static fromExtendedKey(base58key: string, network?: Network): BIP32Interface {
 		return new BIP32Interface(HDKey.fromExtendedKey(base58key, network?.bip32), network);
 	}
 
-	public derive (path: string | number): BIP32Interface {
+	public derive(path: string | number): BIP32Interface {
 		if (typeof path === "string") {
 			this.#hdkey = this.#hdkey.derive(path);
 		} else {
@@ -38,53 +38,55 @@ class BIP32Interface {
 		return this;
 	}
 
-	public derivePath (path: string): BIP32Interface {
-		return this.derive(path);
+	public derivePath(path: string): BIP32Interface {
+		this.#hdkey = this.#hdkey.derive(path);
+
+		return this;
 	}
 
-	public deriveChild (index: number): BIP32Interface {
+	public deriveChild(index: number): BIP32Interface {
 		this.#hdkey = this.#hdkey.deriveChild(index);
 
 		return this;
 	}
 
-	public deriveHardened (index: number): BIP32Interface {
+	public deriveHardened(index: number): BIP32Interface {
 		this.#hdkey = this.#hdkey.deriveChild(HARDENED_OFFSET + index);
 
 		return this;
 	}
 
-	public neutered (): BIP32Interface {
+	public neutered(): BIP32Interface {
 		this.#hdkey = this.#hdkey.wipePrivateData();
 
 		return this;
 	}
 
-    public get publicKey (): Buffer {
+	public get publicKey(): Buffer {
 		return Buffer.from(this.#hdkey.publicKey!);
 	}
 
-    public get privateKey (): Buffer {
+	public get privateKey(): Buffer {
 		return Buffer.from(this.#hdkey.privateKey!);
 	}
 
-    public get identifier (): Uint8Array {
+	public get identifier(): Uint8Array {
 		return this.#hdkey.identifier!;
 	}
 
-    public get fingerprint (): number {
+	public get fingerprint(): number {
 		return this.#hdkey.fingerprint;
 	}
 
-    public get depth (): number {
+	public get depth(): number {
 		return this.#hdkey.depth;
 	}
 
-    public toBase58 () {
+	public toBase58() {
 		return this.#hdkey.privateExtendedKey;
 	}
 
-    public toWIF () {
+	public toWIF() {
 		return WIF.encode({
 			compressed: true,
 			privateKey: this.privateKey.toString("hex"),
