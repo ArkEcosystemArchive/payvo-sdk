@@ -4,7 +4,7 @@ function bundle() {
 	cd ../..
 }
 
-pnpm run clean
+pnpm run clean:browser
 
 # 1. Prerequisites
 bundle test

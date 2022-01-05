@@ -18,7 +18,8 @@
 		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
-		"clean": "rimraf .coverage distribution tmp"
+		"clean": "rimraf .coverage distribution tmp",
+	  	"clean:browser": "rimraf distribution/browser"
 	},
 	"dependencies": {
 		"@ledgerhq/hw-transport-u2f": "^5.36.0-deprecated",
