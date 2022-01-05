@@ -4,7 +4,7 @@
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"scripts": {
 		"build": "ultra -r build",
-		"build:release": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish.sh",
+		"build:release": "NODE_ENV=production bash scripts/build-release.sh",
 		"build:release:next": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish-next.sh",
 		"clean": "ultra -r clean",
 		"lint": "bash scripts/lint.sh",

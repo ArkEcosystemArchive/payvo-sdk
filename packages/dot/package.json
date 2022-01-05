@@ -5,8 +5,11 @@
 	"license": "MIT",
 	"contributors": [],
 	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
+	"exports": {
+	  "import": "./distribution/browser/index.js",
+	  "node": "./distribution/esm/index.js"
+	},
+	"types": "./distribution/esm/index.d.ts",
 	"files": [
 		"/distribution"
 	],
