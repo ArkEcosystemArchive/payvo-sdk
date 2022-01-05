@@ -6,8 +6,8 @@
 	"contributors": [],
 	"type": "module",
 	"exports": {
-	  "browser": "./distribution/browser/index.js",
-	  "default": "./distribution/esm/index.js"
+		"browser": "./distribution/browser/index.js",
+		"default": "./distribution/esm/index.js"
 	},
 	"types": "./distribution/esm/index.d.ts",
 	"files": [
