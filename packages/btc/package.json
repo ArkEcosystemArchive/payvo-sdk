@@ -19,7 +19,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-	  	"clean:browser": "rimraf distribution/browser",
+		"clean:browser": "rimraf distribution/browser",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:integration": "uvu -r tsm test .test.ts",
