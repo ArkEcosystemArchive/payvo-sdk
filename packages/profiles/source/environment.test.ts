@@ -205,7 +205,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			ADVANCED_MODE: false,
 			AUTOMATIC_SIGN_OUT_PERIOD: 15,
 			BIP39_LOCALE: "english",
-			DASHBOARD_TRANSACTION_HISTORY: true,
+			DASHBOARD_TRANSACTION_HISTORY: false,
 			DO_NOT_SHOW_FEE_WARNING: false,
 			ERROR_REPORTING: false,
 			EXCHANGE_CURRENCY: "BTC",
