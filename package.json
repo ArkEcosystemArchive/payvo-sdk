@@ -4,9 +4,9 @@
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"scripts": {
 		"build": "ultra -r build",
+		"build:all": "pnpm run build && pnpm run build:release",
 		"build:release": "NODE_ENV=production bash scripts/build-release.sh",
 		"build:release:next": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish-next.sh",
-		"build:all": "pnpm run build && pnpm run build:release",
 		"clean": "ultra -r clean",
 		"clean:browser": "ultra -r clean:browser",
 		"lint": "bash scripts/lint.sh",
