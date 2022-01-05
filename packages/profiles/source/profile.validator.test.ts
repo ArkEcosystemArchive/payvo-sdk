@@ -1,78 +1,64 @@
-import "jest-extended";
-import "reflect-metadata";
-
 import { Base64 } from "@payvo/sdk-cryptography";
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-import { IProfile, IProfileRepository, ProfileSetting } from "./contracts";
+import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileValidator } from "./profile.validator";
 
-let subject: ProfileImporter;
-let validator: ProfileValidator;
-let dumper: ProfileDumper;
-let profile: IProfile;
+describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
+	beforeEach(async (context) => {
+		bootContainer();
 
-beforeAll(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+			.reply(200, loader.json("test/fixtures/client/wallet-2.json"))
+			.persist();
 
-	nock.disableNetConnect();
+		container.get(Identifiers.ProfileRepository).flush();
 
-	nock(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.persist();
-});
+		context.profile = await container.get(Identifiers.ProfileRepository).create("John Doe");
+		context.dumper = new ProfileDumper(context.profile);
+	});
 
-beforeEach(() => {
-	container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
-
-	profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");
-	subject = new ProfileImporter(profile);
-	validator = new ProfileValidator();
-	dumper = new ProfileDumper(profile);
-});
-
-describe("#validate", () => {
-	it("should successfully validate profile data", async () => {
+	it("should successfully validate profile data", async (context) => {
 		const validProfileData = {
-			id: "uuid",
 			contacts: {
 				"448042c3-a405-4895-970e-a33c6e907905": {
+					addresses: [
+						{
+							address: "test",
+							coin: "ARK",
+							id: "3a7a9e03-c10b-4135-88e9-92e586d53e69",
+							network: "ark.devnet",
+						},
+						{
+							address: "test",
+							coin: "ARK",
+							id: "dfc3a16d-47b8-47f2-9b6f-fe4b8365a64a",
+							network: "ark.mainnet",
+						},
+					],
 					id: "448042c3-a405-4895-970e-a33c6e907905",
 					name: "John",
 					starred: false,
-					addresses: [
-						{
-							id: "3a7a9e03-c10b-4135-88e9-92e586d53e69",
-							coin: "ARK",
-							network: "ark.devnet",
-							address: "test",
-						},
-						{
-							id: "dfc3a16d-47b8-47f2-9b6f-fe4b8365a64a",
-							coin: "ARK",
-							network: "ark.mainnet",
-							address: "test",
-						},
-					],
 				},
 			},
 			data: { key: "value" },
 			exchangeTransactions: {},
+			id: "uuid",
 			notifications: {},
 			plugins: {
 				data: {},
@@ -100,12 +86,12 @@ describe("#validate", () => {
 			wallets: {},
 		};
 
-		validator = new ProfileValidator();
+		const validator = new ProfileValidator();
 
-		expect(validator.validate(validProfileData).settings).toEqual(validProfileData.settings);
+		assert.equal(validator.validate(validProfileData).settings, validProfileData.settings);
 	});
 
-	it("should fail to validate", async () => {
+	it("should fail to validate", async (context) => {
 		const corruptedProfileData = {
 			// id: 'uuid',
 			contacts: {},
@@ -117,31 +103,33 @@ describe("#validate", () => {
 			wallets: {},
 		};
 
-		const profile: IProfile = new Profile({
+		new Profile({
+			avatar: "avatar",
+			data: Base64.encode(JSON.stringify(corruptedProfileData)),
 			id: "uuid",
 			name: "name",
-			avatar: "avatar",
 			password: undefined,
-			data: Base64.encode(JSON.stringify(corruptedProfileData)),
 		});
 
-		validator = new ProfileValidator();
+		const validator = new ProfileValidator();
 
-		//@ts-ignore
-		expect(() => validator.validate(corruptedProfileData)).toThrow();
+		assert.throws(() => validator.validate(corruptedProfileData));
 	});
 
-	it("should apply migrations if any are set", async () => {
-		const migrationFunction = jest.fn();
+	it("should apply migrations if any are set", async (context) => {
+		// @TODO use spy.
+		let callCount = 0;
+
+		const migrationFunction = () => callCount++;
 		const migrations = { "1.0.1": migrationFunction };
 
 		container.constant(Identifiers.MigrationSchemas, migrations);
 		container.constant(Identifiers.MigrationVersion, "1.0.2");
 
-		subject = new ProfileImporter(new Profile(dumper.dump()));
+		const subject = new ProfileImporter(new Profile(context.dumper.dump()));
 
 		await subject.import();
 
-		expect(migrationFunction).toHaveBeenCalled();
+		assert.true(callCount > 0);
 	});
 });

@@ -1,73 +1,36 @@
 {
 	"name": "@payvo/sdk-markets",
-	"version": "3.3.4",
+	"version": "4.0.0-next.22",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
-	"main": "distribution/cjs/index.js",
-	"types": "distribution/cjs/index.d.ts",
+	"type": "module",
+	"exports": "./distribution/index.js",
+	"types": "./distribution/index.d.ts",
 	"files": [
 		"/distribution"
 	],
 	"scripts": {
-		"build": "pnpm run build:cjs",
-		"build:cjs": "tsc -p tsconfig.json",
-		"build:esm": "tsc -p tsconfig.esm.json",
-		"build:npm": "pnpm run clean && pnpm run build:cjs && pnpm run build:esm",
+		"build": "pnpm run clean && tsc",
+		"build:analyze": "webpack --config ../../webpack.analyze.cjs",
+		"build:release": "webpack --config ../../webpack.config.cjs",
+		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
-		"lint": "eslint source/**/*.ts --fix",
-		"lint:tests": "eslint source/**/*.test.ts --fix",
-		"prepublishOnly": "pnpm run build:npm",
-		"test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --detectOpenHandles",
-		"test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --forceExit --watchAll"
-	},
-	"jest": {
-		"preset": "../../jest.config.fallback.js"
+		"test": "uvu -r tsm source .test.ts",
+		"test:coverage": "c8 pnpm run test",
+		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",
-		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*"
 	},
 	"devDependencies": {
-		"@payvo/sdk-http-fetch": "workspace:*",
-		"@types/eslint": "^7.28.2",
-		"@types/eslint-plugin-prettier": "^3.1.0",
-		"@types/jest": "^27.0.2",
-		"@types/node": "^16.11.7",
-		"@types/prettier": "^2.4.1",
-		"@types/rimraf": "^3.0.2",
-		"@typescript-eslint/eslint-plugin": "^5.3.1",
-		"@typescript-eslint/parser": "^5.3.1",
-		"cross-env": "^7.0.3",
-		"eslint": "^8.2.0",
-		"eslint-config-prettier": "^8.3.0",
-		"eslint-nibble": "^7.0.0",
-		"eslint-plugin-import": "^2.25.3",
-		"eslint-plugin-jest": "^25.2.4",
-		"eslint-plugin-jest-formatting": "^3.0.0",
-		"eslint-plugin-jsx-a11y": "^6.5.1",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-promise": "^5.1.1",
-		"eslint-plugin-simple-import-sort": "^7.0.0",
-		"eslint-plugin-sonarjs": "^0.10.0",
-		"eslint-plugin-sort-keys-fix": "^1.1.2",
-		"eslint-plugin-testcafe": "^0.2.1",
-		"eslint-plugin-testing-library": "^5.0.0",
-		"eslint-plugin-unicorn": "^38.0.1",
-		"eslint-plugin-unused-imports": "^2.0.0",
-		"got": "^11.8.2",
-		"jest": "^27.3.1",
-		"jest-extended": "^1.1.0",
-		"jest-localstorage-mock": "^2.4.18",
-		"nock": "^13.2.0",
-		"npm-check-updates": "^12.0.2",
-		"prettier": "^2.4.1",
-		"rimraf": "^3.0.2",
-		"ts-jest": "^27.0.7",
-		"typescript": "^4.4.4"
+		"@payvo/sdk-fetch": "workspace:*",
+		"@payvo/sdk-test": "workspace:*",
+		"@types/node": "^16.11.10"
 	},
 	"engines": {
-		"node": ">=14.16"
-	}
+		"node": ">=16.0.0"
+	},
+	"engineStrict": true
 }

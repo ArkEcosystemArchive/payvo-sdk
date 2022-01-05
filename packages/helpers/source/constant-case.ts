@@ -1,4 +1,4 @@
-import { compoundWords } from "./compound-words";
+import { compoundWords } from "./compound-words.js";
 
 export const constantCase = (value: string): string | undefined =>
 	compoundWords(

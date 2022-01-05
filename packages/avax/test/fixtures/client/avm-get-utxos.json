@@ -1,0 +1,15 @@
+{
+	"jsonrpc": "2.0",
+	"result": {
+		"numFetched": "1",
+		"utxos": [
+			"11Ek1gohDSYjG6QsLvvuJUU2EoiAqGUTWHwXPWrtQExsNLJoYDvi5BsBiznmoj3Pa95fCykonELpJHSP9ApoR1W1NZWHiNNZoS6GS1LZTrcKQ8iCrSFViBApCkKUidgM2LkDXpsugD3YqrGVEeWt5PZg8DX4orVepVcB6V"
+		],
+		"endIndex": {
+			"address": "X-fuji1rusf9c2uwlqxg5crfrqr8xrt4r49yk6rskehvm",
+			"utxo": "i4CATA4HUkSeK722sJyRx9byCLquhi6Du3g4q9jHDJMPqrJqD"
+		},
+		"encoding": "cb58"
+	},
+	"id": 1
+}

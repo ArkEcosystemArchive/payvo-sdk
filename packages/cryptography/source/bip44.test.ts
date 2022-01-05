@@ -1,181 +1,87 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { BIP44 } from "./bip44";
 
-test("#deriveChild", async () => {
-	expect(
-		BIP44.deriveChild("praise you muffin lion enable neck grocery crumble super myself license ghost", {
-			coinType: 1,
-		}).toBase58(),
-	).toBe(
-		"xprvA2hdDq2Hzo9LTv8NN925UXHToL1WbiGHkC7x64AUtoHQ5K7T1ZYkdXs5WFRKX7fx3vzVi4bTcAtpHqdpfVd1cVHuPU2bo1W3ozBJk1j9JXf",
-	);
-});
+describe("BIP44", ({ assert, it, nock, loader }) => {
+	it("should derive a child from the given path as object", async () => {
+		assert.is(
+			BIP44.deriveChild("praise you muffin lion enable neck grocery crumble super myself license ghost", {
+				coinType: 1,
+			}).toBase58(),
+			"xprvA2hdDq2Hzo9LTv8NN925UXHToL1WbiGHkC7x64AUtoHQ5K7T1ZYkdXs5WFRKX7fx3vzVi4bTcAtpHqdpfVd1cVHuPU2bo1W3ozBJk1j9JXf",
+		);
+	});
 
-test("#deriveChildWithPath", async () => {
-	expect(
-		BIP44.deriveChildWithPath("praise you muffin lion enable neck grocery crumble super myself license ghost", {
-			account: 3,
-			change: 4,
-			coinType: 2,
-			index: 5,
-			purpose: 1,
-		}),
-	).toMatchInlineSnapshot(`
-		Object {
-		  "child": BIP32 {
-		    "__D": Object {
-		      "data": Array [
-		        193,
-		        169,
-		        247,
-		        170,
-		        209,
-		        177,
-		        135,
-		        144,
-		        35,
-		        79,
-		        61,
-		        128,
-		        172,
-		        224,
-		        49,
-		        152,
-		        209,
-		        121,
-		        51,
-		        20,
-		        19,
-		        163,
-		        150,
-		        15,
-		        13,
-		        12,
-		        239,
-		        237,
-		        134,
-		        108,
-		        175,
-		        153,
-		      ],
-		      "type": "Buffer",
-		    },
-		    "__DEPTH": 5,
-		    "__INDEX": 5,
-		    "__PARENT_FINGERPRINT": 2500390891,
-		    "__Q": undefined,
-		    "chainCode": Object {
-		      "data": Array [
-		        7,
-		        48,
-		        10,
-		        240,
-		        214,
-		        120,
-		        255,
-		        19,
-		        211,
-		        191,
-		        202,
-		        155,
-		        32,
-		        175,
-		        24,
-		        176,
-		        241,
-		        93,
-		        145,
-		        129,
-		        107,
-		        24,
-		        197,
-		        106,
-		        48,
-		        222,
-		        83,
-		        142,
-		        230,
-		        46,
-		        222,
-		        11,
-		      ],
-		      "type": "Buffer",
-		    },
-		    "lowR": false,
-		    "network": Object {
-		      "bech32": "bc",
-		      "bip32": Object {
-		        "private": 76066276,
-		        "public": 76067358,
-		      },
-		      "messagePrefix": "Bitcoin Signed Message:
-		",
-		      "pubKeyHash": 0,
-		      "scriptHash": 5,
-		      "wif": 128,
-		    },
-		  },
-		  "path": "m/1'/2'/3'/4/5",
-		}
-	`);
-});
-
-test("#deriveChildFromPath", async () => {
-	expect(
-		BIP44.deriveChildFromPath(
+	it("should derive a child from the given path as object and return its path", async () => {
+		const { child, path } = BIP44.deriveChildWithPath(
 			"praise you muffin lion enable neck grocery crumble super myself license ghost",
-			"m/0/0",
-		).toBase58(),
-	).toBe(
-		"xprv9wMjT6HUeJy2LQqk1GRdSkiJRBxxurasRZ8aU2wBktamDQ282PM9t1cmxCf5bhUoz19KNJAwAYeTEExUkxzinFSb7bRDdnWcytMGj53aKcH",
-	);
-});
+			{
+				account: 3,
+				change: 4,
+				coinType: 2,
+				index: 5,
+				purpose: 1,
+			},
+		);
 
-test("#stringify", async () => {
-	expect(
-		BIP44.stringify({
-			account: 3,
-			change: 4,
-			coinType: 2,
-			index: 5,
-			purpose: 1,
-		}),
-	).toMatchInlineSnapshot(`"m/1'/2'/3'/4/5"`);
-});
+		assert.type(child, "object");
+		assert.type(path, "string");
+	});
 
-describe("#parse", function () {
-	test("bip44 address", async () => {
+	it("should derive a child from the given path as string", async () => {
+		assert.is(
+			BIP44.deriveChildFromPath(
+				"praise you muffin lion enable neck grocery crumble super myself license ghost",
+				"m/0/0",
+			).toBase58(),
+			"xprv9wMjT6HUeJy2LQqk1GRdSkiJRBxxurasRZ8aU2wBktamDQ282PM9t1cmxCf5bhUoz19KNJAwAYeTEExUkxzinFSb7bRDdnWcytMGj53aKcH",
+		);
+	});
+
+	it("should stringify the given value", async () => {
+		assert.type(
+			BIP44.stringify({
+				account: 3,
+				change: 4,
+				coinType: 2,
+				index: 5,
+				purpose: 1,
+			}),
+			"string",
+		);
+	});
+
+	it("should parse BIP44 paths", async () => {
 		const bip44Levels = BIP44.parse("m/44'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(44);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
+		assert.is(bip44Levels.purpose, 44);
+		assert.is(bip44Levels.coinType, 1);
+		assert.is(bip44Levels.account, 2);
+		assert.is(bip44Levels.change, 3);
+		assert.is(bip44Levels.addressIndex, 4);
 	});
 
-	test("bip49 address", async () => {
+	it("should parse BIP49 paths", async () => {
 		const bip44Levels = BIP44.parse("m/49'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(49);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
+		assert.is(bip44Levels.purpose, 49);
+		assert.is(bip44Levels.coinType, 1);
+		assert.is(bip44Levels.account, 2);
+		assert.is(bip44Levels.change, 3);
+		assert.is(bip44Levels.addressIndex, 4);
 	});
 
-	test("bip84 address", async () => {
+	it("should parse BIP84 paths", async () => {
 		const bip44Levels = BIP44.parse("m/84'/1'/2'/3/4");
 
-		expect(bip44Levels.purpose).toBe(84);
-		expect(bip44Levels.coinType).toBe(1);
-		expect(bip44Levels.account).toBe(2);
-		expect(bip44Levels.change).toBe(3);
-		expect(bip44Levels.addressIndex).toBe(4);
+		assert.is(bip44Levels.purpose, 84);
+		assert.is(bip44Levels.coinType, 1);
+		assert.is(bip44Levels.account, 2);
+		assert.is(bip44Levels.change, 3);
+		assert.is(bip44Levels.addressIndex, 4);
 	});
 
-	test("invalid bip", async () => {
-		expect(() => BIP44.parse("m/1'/1'/2'/3/4")).toThrow();
+	it("should throw if it fails to parse a path", async () => {
+		assert.throws(() => BIP44.parse("m/1'/1'/2'/3/4"));
 	});
 });

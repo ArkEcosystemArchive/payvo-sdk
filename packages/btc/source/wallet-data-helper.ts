@@ -1,9 +1,9 @@
 import { Coins, Exceptions, Http } from "@payvo/sdk";
 import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
-import { getDerivationFunction, post, walletUsedAddresses } from "./helpers";
 import * as bitcoin from "bitcoinjs-lib";
 
-import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts";
+import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts.js";
+import { getDerivationFunction, post, walletUsedAddresses } from "./helpers.js";
 import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 export default class WalletDataHelper {

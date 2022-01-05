@@ -1,41 +1,39 @@
-import "jest-extended";
-import "reflect-metadata";
-
 import { Base64 } from "@payvo/sdk-cryptography";
+import { describe } from "@payvo/sdk-test";
+
 import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
-import { IProfile } from "./contracts";
 
-let profile: IProfile;
+describe("Profile status", ({ it, assert, beforeEach }) => {
+	beforeEach(async (context) => {
+		bootContainer();
 
-beforeAll(() => bootContainer());
+		context.profile = new Profile({ avatar: "avatar", data: Base64.encode("{}"), id: "id", name: "name" });
+	});
 
-beforeEach(async () => {
-	profile = new Profile({ id: "id", name: "name", avatar: "avatar", data: Base64.encode("{}") });
-});
+	it("should mark the profile as dirty", async (context) => {
+		assert.false(context.profile.status().isDirty());
+		context.profile.status().markAsDirty();
+		assert.true(context.profile.status().isDirty());
+	});
 
-it("should mark the profile as dirty", async () => {
-	expect(profile.status().isDirty()).toBeFalse();
-	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
-});
+	it("should mark the profile as restored", async (context) => {
+		assert.false(context.profile.status().isRestored());
+		context.profile.status().markAsRestored();
+		assert.true(context.profile.status().isRestored());
+	});
 
-it("should mark the profile as restored", async () => {
-	expect(profile.status().isRestored()).toBeFalse();
-	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
-});
+	it("should reset the status of the profile to the default values", async (context) => {
+		context.profile.status().markAsRestored();
+		assert.true(context.profile.status().isRestored());
+		context.profile.status().reset();
+		assert.false(context.profile.status().isRestored());
+	});
 
-it("should reset the status of the profile to the default values", async () => {
-	profile.status().markAsRestored();
-	expect(profile.status().isRestored()).toBeTrue();
-	profile.status().reset();
-	expect(profile.status().isRestored()).toBeFalse();
-});
-
-it("should reset dirty status", async () => {
-	profile.status().markAsDirty();
-	expect(profile.status().isDirty()).toBeTrue();
-	profile.status().markAsClean();
-	expect(profile.status().isDirty()).toBeFalse();
+	it("should reset dirty status", async (context) => {
+		context.profile.status().markAsDirty();
+		assert.true(context.profile.status().isDirty());
+		context.profile.status().markAsClean();
+		assert.false(context.profile.status().isDirty());
+	});
 });

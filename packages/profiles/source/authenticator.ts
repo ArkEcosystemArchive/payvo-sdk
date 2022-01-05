@@ -1,6 +1,6 @@
 import { Bcrypt } from "@payvo/sdk-cryptography";
 
-import { IAuthenticator, IProfile, ProfileSetting } from "./contracts";
+import { IAuthenticator, IProfile, ProfileSetting } from "./contracts.js";
 
 export class Authenticator implements IAuthenticator {
 	readonly #profile: IProfile;

@@ -1,7 +1,6 @@
 import { Base64 } from "@payvo/sdk-cryptography";
-import { IProfileExportOptions, IProfile } from "./contracts";
-import { IProfileExporter } from "./contracts";
 
+import { IProfile, IProfileExporter, IProfileExportOptions } from "./contracts.js";
 import { ProfileEncrypter } from "./profile.encrypter";
 import { ProfileSerialiser } from "./profile.serialiser";
 
@@ -13,26 +12,26 @@ export class ProfileExporter implements IProfileExporter {
 	}
 
 	/** {@inheritDoc IProfileExporter.export} */
-	public export(
+	public async export(
 		password?: string,
 		options: IProfileExportOptions = {
+			addNetworkInformation: true,
 			excludeEmptyWallets: false,
 			excludeLedgerWallets: false,
-			addNetworkInformation: true,
 			saveGeneralSettings: true,
 		},
-	): string {
+	): Promise<string> {
 		const data = new ProfileSerialiser(this.#profile).toJSON(options);
 
 		if (this.#profile.usesPassword()) {
 			return Base64.encode(
-				new ProfileEncrypter(this.#profile).encrypt(
+				await new ProfileEncrypter(this.#profile).encrypt(
 					JSON.stringify({
+						avatar: this.#profile.avatar(),
+						data,
 						id: this.#profile.id(),
 						name: this.#profile.name(),
-						avatar: this.#profile.avatar(),
 						password: this.#profile.getAttributes().get<string>("password"),
-						data,
 					}),
 					password,
 				),

@@ -1,14 +1,14 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
+import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 
-import { derivePrivateKey } from "./keys";
+import { derivePrivateKey } from "./keys.js";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 	#slip44!: number;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#slip44 = this.configRepository.get<number>("network.constants.slip44");
 	}
 

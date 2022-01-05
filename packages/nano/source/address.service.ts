@@ -2,9 +2,8 @@ import { IoC, Services } from "@payvo/sdk";
 import { deriveAddress, derivePublicKey } from "nanocurrency";
 import { tools } from "nanocurrency-web";
 
-import { deriveAccount, deriveLegacyAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const reduceRightObject = <T, V>(iterable: T, iteratee: FunctionReturning, initialValue?: V): V | undefined => {
 	const keys: string[] = Object.keys(iterable);

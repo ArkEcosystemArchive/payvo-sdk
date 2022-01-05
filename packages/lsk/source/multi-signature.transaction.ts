@@ -1,5 +1,5 @@
 import { convertBufferList, convertStringList } from "@payvo/sdk-helpers";
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
 
 export class PendingMultiSignatureTransaction {
 	readonly #transaction: MultiSignatureTransaction;

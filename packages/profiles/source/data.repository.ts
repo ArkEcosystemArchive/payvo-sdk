@@ -1,9 +1,7 @@
-import { get, set, has, unset } from "@payvo/sdk-helpers";
-import { injectable } from "inversify";
+import { get, has, set, unset } from "@payvo/sdk-helpers";
 
-import { IDataRepository } from "./contracts";
+import { IDataRepository } from "./contracts.js";
 
-@injectable()
 export class DataRepository implements IDataRepository {
 	#storage: object = {};
 	#snapshot: object | undefined;
@@ -60,7 +58,7 @@ export class DataRepository implements IDataRepository {
 		if (value !== undefined) {
 			this.set(
 				key,
-				value.filter((_, i) => i !== index),
+				value.filter((_, index_) => index_ !== index),
 			);
 		}
 	}

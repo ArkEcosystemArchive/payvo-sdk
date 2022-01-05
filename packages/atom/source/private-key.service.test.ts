@@ -1,24 +1,21 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { PrivateKeyService } from "./private-key.service";
 
-let subject: PrivateKeyService;
-
-beforeEach(async () => {
-	subject = await createService(PrivateKeyService, undefined, (container: IoC.Container) => {
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+describe("PrivateKeyService", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(PrivateKeyService, undefined, (container) => {
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		});
 	});
-});
 
-describe("PrivateKey", () => {
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual({ privateKey: identity.privateKey });
+		assert.equal(result, { privateKey: identity.privateKey });
 	});
 });

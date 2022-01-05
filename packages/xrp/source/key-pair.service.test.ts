@@ -1,20 +1,15 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 
-let subject: KeyPairService;
+describe("KeyPairService", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(KeyPairService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(KeyPairService);
-});
-
-describe("Keys", () => {
-	it("should generate an output from a secret", async () => {
-		const result = await subject.fromSecret(identity.mnemonic);
-
-		expect(result).toEqual({
+	it("should generate an output from a secret", async (context) => {
+		assert.equal(await context.subject.fromSecret(identity.mnemonic), {
 			privateKey: identity.privateKey,
 			publicKey: identity.publicKey,
 		});

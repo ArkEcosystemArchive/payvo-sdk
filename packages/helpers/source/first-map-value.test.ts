@@ -1,9 +1,9 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { firstMapValue } from "./first-map-value";
 
-describe("#firstMapValue", () => {
+describe("firstMapValue", async ({ assert, it, nock, loader }) => {
 	it("should return the first value", () => {
-		expect(firstMapValue(new Map([["Hello", "World"]]))).toBe("World");
+		assert.is(firstMapValue(new Map([["Hello", "World"]])), "World");
 	});
 });

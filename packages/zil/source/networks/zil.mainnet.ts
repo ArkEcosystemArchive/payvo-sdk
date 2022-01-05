@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared";
+import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Zilliqa",
@@ -20,12 +20,13 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://viewblock.io/zilliqa",
+			host: "https://viewblock.io",
 			type: "explorer",
 		},
 	],
 	id: "zil.mainnet",
 	importMethods,
+	meta: { chainId: 1 },
 	name: "Mainnet",
 	transactions,
 	type: "live",

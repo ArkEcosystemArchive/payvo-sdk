@@ -1,7 +1,6 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#bip44SessionPath = "";
@@ -10,7 +9,6 @@ export class LedgerService extends Services.AbstractLedgerService {
 		this.#ledger = await this.ledgerTransportFactory();
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}
@@ -18,28 +16,17 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async getVersion(): Promise<string> {
 		const result = await this.#ledger.send(0xb0, 0x01, 0x00, 0x00);
 
-		return result.toString("utf-8").match(new RegExp("([0-9].[0-9].[0-9])", "g")).toString();
+		return result.toString("utf-8").match(new RegExp("(\\d.\\d.\\d)", "g")).toString();
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
-		this.#bip44SessionPath = path;
 		const result = await this.#ledger.send(0x80, 0x04, 0x00, 0x00, this.#neoBIP44(path));
 
-		return result.toString("hex").substring(0, 130);
+		return result.toString("hex").slice(0, 130);
 	}
 
 	public override async signTransaction(path: string, payload: Buffer): Promise<string> {
-		if (this.#bip44SessionPath != path || this.#bip44SessionPath.length == 0) {
-			throw new Error(
-				`Bip44 Path [${path}] must match the session path [${
-					this.#bip44SessionPath
-				}] stored during 'getPublicKey' .`,
-			);
-		}
-
-		const signature = await this.#neoSignTransaction(this.#ledger, path, payload);
-
-		return signature;
+		return await this.#neoSignTransaction(this.#ledger, path, payload);
 	}
 
 	/**
@@ -49,7 +36,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	 */
 	#neoBIP44(path: string): Buffer {
 		const parsedPath = BIP44.parse(path);
-		const accountHex = this.#to8BitHex(parsedPath.account + 0x80000000);
+		const accountHex = this.#to8BitHex(parsedPath.account + 0x80_00_00_00);
 		const changeHex = this.#to8BitHex(parsedPath.change);
 		const addressHex = this.#to8BitHex(parsedPath.addressIndex);
 
@@ -61,8 +48,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 	 * modified from:
 	 * - https://github.com/CityOfZion/neon-js/blob/master/packages/neon-ledger/source/BIP44.ts
 	 */
-	#to8BitHex(num: number): string {
-		const hex = num.toString(16);
+	#to8BitHex(number_: number): string {
+		const hex = number_.toString(16);
 		return "0".repeat(8 - hex.length) + hex;
 	}
 
@@ -74,11 +61,11 @@ export class LedgerService extends Services.AbstractLedgerService {
 	async #neoSignTransaction(transport: Services.LedgerTransport, path: string, payload: Buffer): Promise<string> {
 		const chunks: string[] = payload.toString().match(/.{1,510}/g) || [];
 
-		for (let i = 0; i < chunks.length - 1; i++) {
-			await this.#ledger.send(0x80, 0x02, 0x00, 0x00, Buffer.from(chunks[i], "hex"));
+		for (let index = 0; index < chunks.length - 1; index++) {
+			await this.#ledger.send(0x80, 0x02, 0x00, 0x00, Buffer.from(chunks[index], "hex"));
 		}
 
-		const result = await this.#ledger.send(0x80, 0x02, 0x80, 0x00, Buffer.from(chunks[chunks.length - 1], "hex"));
+		const result = await this.#ledger.send(0x80, 0x02, 0x80, 0x00, Buffer.from(chunks.at(-1)!, "hex"));
 
 		return result.toString("hex").match(new RegExp(".*[^9000]", "g")).toString();
 	}

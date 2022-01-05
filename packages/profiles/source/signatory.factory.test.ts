@@ -1,179 +1,172 @@
-import "jest-extended";
-
 import { Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
-import { IProfile, IReadWriteWallet, ISignatoryFactory } from "./contracts";
 import { Profile } from "./profile";
 import { SignatoryFactory } from "./signatory.factory";
 
-let profile: IProfile;
-let wallet: IReadWriteWallet;
-
-let subject: ISignatoryFactory;
-
 const mnemonic = identity.mnemonic;
 
-describe("SignatoryFactory", () => {
-	beforeAll(() => {
+describe("SignatoryFactory", ({ beforeEach, assert, nock, loader, stub, it }) => {
+	beforeEach(async (context) => {
 		bootContainer();
 
-		profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
-	});
+		nock.fake()
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"));
 
-	beforeEach(async () => {
-		wallet = await profile.walletFactory().fromMnemonicWithBIP39({
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
+
+		context.wallet = await context.profile.walletFactory().fromMnemonicWithBIP39({
 			coin: "ARK",
 			mnemonic,
 			network: "ark.devnet",
 		});
 
-		subject = new SignatoryFactory(wallet);
+		context.subject = new SignatoryFactory(context.wallet);
 	});
 
-	it("returns signatory when mnemonic is provided", async () => {
-		await expect(subject.make({ mnemonic })).resolves.toBeInstanceOf(Signatories.Signatory);
+	it("returns signatory when mnemonic is provided", async (context) => {
+		assert.instance(await context.subject.make({ mnemonic }), Signatories.Signatory);
 	});
 
-	it("returns signatory when mnemonic and 2nd mnemonic are provided", async () => {
-		await expect(subject.make({ mnemonic, secondMnemonic: "second mnemonic" })).resolves.toBeInstanceOf(
+	it("returns signatory when mnemonic and 2nd mnemonic are provided", async (context) => {
+		assert.instance(
+			await context.subject.make({ mnemonic, secondMnemonic: "second mnemonic" }),
 			Signatories.Signatory,
 		);
 	});
 
-	describe("when encryption password is provided", () => {
-		it("returns signatory when wallet acts with mnemonic", async () => {
-			jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(false);
-			wallet.signingKey().set(mnemonic, "password");
+	it("when encryption password is provided it returns signatory when wallet acts with mnemonic", async (context) => {
+		stub(context.wallet, "isSecondSignature").returnValueOnce(false);
+		await context.wallet.signingKey().set(mnemonic, "password");
 
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
-		});
-
-		it("returns signatory when wallet and acts with mnemonic and has 2nd signature", async () => {
-			jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(true);
-			wallet.signingKey().set(mnemonic, "password");
-			wallet.confirmKey().set("second mnemonic", "password");
-
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
-		});
-
-		it("returns signatory when wallet acts with secret", async () => {
-			const wallet = await profile.walletFactory().fromSecret({
-				coin: "ARK",
-				network: "ark.devnet",
-				password: "password",
-				secret: "secret",
-			});
-
-			jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(false);
-
-			subject = new SignatoryFactory(wallet);
-
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
-		});
-
-		it("returns signatory when wallet acts with secret and has 2nd signature", async () => {
-			const wallet = await profile.walletFactory().fromSecret({
-				coin: "ARK",
-				network: "ark.devnet",
-				password: "password",
-				secret: "secret",
-			});
-
-			jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(true);
-
-			wallet.confirmKey().set("second secret", "password");
-
-			subject = new SignatoryFactory(wallet);
-
-			await expect(subject.make({ encryptionPassword: "password" })).resolves.toBeInstanceOf(
-				Signatories.Signatory,
-			);
-		});
+		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
 	});
 
-	it("returns signatory when wallet is multi-signature", async () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(true);
-		jest.spyOn(wallet.multiSignature(), "all").mockReturnValueOnce({
+	it("when encryption password is provided it returns signatory when wallet and acts with mnemonic and has 2nd signature", async (context) => {
+		stub(context.wallet, "isSecondSignature").returnValueOnce(true);
+		await context.wallet.signingKey().set(mnemonic, "password");
+		await context.wallet.confirmKey().set("second mnemonic", "password");
+
+		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
+	});
+
+	it("when encryption password is provided it returns signatory when wallet acts with secret", async (context) => {
+		context.wallet = await context.profile.walletFactory().fromSecret({
+			coin: "ARK",
+			network: "ark.devnet",
+			password: "password",
+			secret: "secret",
+		});
+
+		stub(context.wallet, "isSecondSignature").returnValueOnce(false);
+
+		context.subject = new SignatoryFactory(context.wallet);
+
+		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
+	});
+
+	it("when encryption password is provided it returns signatory when wallet acts with secret and has 2nd signature", async (context) => {
+		context.wallet = await context.profile.walletFactory().fromSecret({
+			coin: "ARK",
+			network: "ark.devnet",
+			password: "password",
+			secret: "secret",
+		});
+
+		stub(context.wallet, "isSecondSignature").returnValueOnce(true);
+
+		await context.wallet.confirmKey().set("second secret", "password");
+
+		context.subject = new SignatoryFactory(context.wallet);
+
+		assert.instance(await context.subject.make({ encryptionPassword: "password" }), Signatories.Signatory);
+	});
+
+	it("returns signatory when wallet is multi-signature", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(true);
+		stub(context.wallet.multiSignature(), "all").returnValueOnce({
 			min: 1,
-			publicKeys: [wallet.publicKey()!],
+			publicKeys: [context.wallet.publicKey()],
 		});
 
-		await expect(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
+		assert.instance(await context.subject.make({}), Signatories.Signatory);
 	});
 
-	it("returns signatory when wallet is Ledger", async () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
-		jest.spyOn(wallet, "isLedger").mockReturnValueOnce(true);
-		jest.spyOn(wallet.data(), "get").mockReturnValueOnce("m/44'/111'/0'/0/0");
+	it("returns signatory when wallet is Ledger", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
+		stub(context.wallet, "isLedger").returnValueOnce(true);
+		stub(context.wallet.data(), "get").returnValueOnce("m/44'/111'/0'/0/0");
 
-		await expect(subject.make({})).resolves.toBeInstanceOf(Signatories.Signatory);
+		assert.instance(await context.subject.make({}), Signatories.Signatory);
 	});
 
-	it("throw error when wallet is Ledger but no derivation path exists", async () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
-		jest.spyOn(wallet, "isLedger").mockReturnValueOnce(true);
+	it("throw error when wallet is Ledger but no derivation path exists", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
+		stub(context.wallet, "isLedger").returnValueOnce(true);
 
-		expect(() => subject.make({})).toThrow("[derivationPath] must be string.");
+		await assert.rejects(() => context.subject.make({}), "[derivationPath] must be string.");
 	});
 
-	it("returns signatory when wif is provided", async () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	it("returns signatory when wif is provided", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
 
-		const { wif } = await wallet.wifService().fromMnemonic(mnemonic);
+		const { wif } = await context.wallet.wifService().fromMnemonic(mnemonic);
 
-		await expect(subject.make({ wif })).resolves.toBeInstanceOf(Signatories.Signatory);
+		assert.instance(await context.subject.make({ wif }), Signatories.Signatory);
 	});
 
-	it("returns signatory when private key is provided", async () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	it("returns signatory when private key is provided", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
 
-		const { privateKey } = await wallet.privateKeyService().fromMnemonic(mnemonic);
+		const { privateKey } = await context.wallet.privateKeyService().fromMnemonic(mnemonic);
 
-		await expect(subject.make({ privateKey })).resolves.toBeInstanceOf(Signatories.Signatory);
+		assert.instance(await context.subject.make({ privateKey }), Signatories.Signatory);
 	});
 
-	it("returns signatory when secret is provided", async () => {
-		wallet = await profile.walletFactory().fromSecret({
+	it("returns signatory when secret is provided", async (context) => {
+		context.wallet = await context.profile.walletFactory().fromSecret({
 			coin: "ARK",
 			network: "ark.devnet",
 			secret: "secret",
 		});
 
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
 
-		subject = new SignatoryFactory(wallet);
+		context.subject = new SignatoryFactory(context.wallet);
 
-		await expect(subject.make({ secret: "secret" })).resolves.toBeInstanceOf(Signatories.Signatory);
+		assert.instance(await context.subject.make({ secret: "secret" }), Signatories.Signatory);
 	});
 
-	it("returns signatory when secret and 2nd secret are provided", async () => {
-		wallet = await profile.walletFactory().fromSecret({
+	it("returns signatory when secret and 2nd secret are provided", async (context) => {
+		context.wallet = await context.profile.walletFactory().fromSecret({
 			coin: "ARK",
 			network: "ark.devnet",
 			secret: "secret",
 		});
 
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
-		jest.spyOn(wallet, "isSecondSignature").mockReturnValueOnce(true);
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
+		stub(context.wallet, "isSecondSignature").returnValueOnce(true);
 
-		subject = new SignatoryFactory(wallet);
+		context.subject = new SignatoryFactory(context.wallet);
 
-		await expect(subject.make({ secret: "secret", secondSecret: "second secret" })).resolves.toBeInstanceOf(
+		assert.instance(
+			await context.subject.make({ secondSecret: "second secret", secret: "secret" }),
 			Signatories.Signatory,
 		);
 	});
 
-	it("throws error when no signing key is provided", () => {
-		jest.spyOn(wallet, "isMultiSignature").mockReturnValueOnce(false);
+	it("throws error when no signing key is provided", async (context) => {
+		stub(context.wallet, "isMultiSignature").returnValueOnce(false);
 
-		expect(() => subject.make({})).toThrow("No signing key provided.");
+		await assert.rejects(() => context.subject.make({}), "No signing key provided.");
 	});
 });

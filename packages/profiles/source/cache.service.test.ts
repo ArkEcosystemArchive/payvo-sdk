@@ -1,53 +1,54 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Cache } from "./cache.service";
 
-let subject: Cache;
-beforeEach(() => (subject = new Cache("wallet-ABC")));
+describe("Cache", async ({ beforeEach, it, assert }) => {
+	beforeEach((context) => (context.subject = new Cache("wallet-ABC")));
 
-it("should return a list of all key-value pairs", async () => {
-	expect(subject.all()).toBeEmpty();
+	it("should return a list of all key-value pairs", async (context) => {
+		assert.empty(context.subject.all());
 
-	subject.set("key", "value", 1);
+		context.subject.set("key", "value", 1);
 
-	expect(subject.all()).not.toBeEmpty();
-});
+		assert.not.empty(context.subject.all());
+	});
 
-it("should return a list of all keys", async () => {
-	expect(subject.keys()).toBeEmpty();
+	it("should return a list of all keys", async (context) => {
+		assert.empty(context.subject.keys());
 
-	subject.set("key", "value", 1);
+		context.subject.set("key", "value", 1);
 
-	expect(subject.keys()).not.toBeEmpty();
-	expect(subject.keys()[0]).toBeString();
-});
+		assert.not.empty(context.subject.keys());
+		assert.string(context.subject.keys()[0]);
+	});
 
-it("should set, get and forget a value", async () => {
-	expect(() => subject.get("key")).toThrow();
-	expect(subject.has("key")).toBeFalse();
+	it("should set, get and forget a value", async (context) => {
+		assert.throws(() => context.subject.get("key"));
+		assert.false(context.subject.has("key"));
 
-	subject.set("key", "value", 1);
+		context.subject.set("key", "value", 1);
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
 
-	subject.forget("key");
+		context.subject.forget("key");
 
-	expect(() => subject.get("key")).toThrow();
-	expect(subject.has("key")).toBeFalse();
-});
+		assert.throws(() => context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+	});
 
-it("should flush the cache", async () => {
-	expect(() => subject.get("key")).toThrow();
-	expect(subject.has("key")).toBeFalse();
+	it("should flush the cache", async (context) => {
+		assert.throws(() => context.subject.get("key"));
+		assert.false(context.subject.has("key"));
 
-	subject.set("key", "value", 1);
+		context.subject.set("key", "value", 1);
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
 
-	subject.flush();
+		context.subject.flush();
 
-	expect(() => subject.get("key")).toThrow();
-	expect(subject.has("key")).toBeFalse();
+		assert.throws(() => context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+	});
 });

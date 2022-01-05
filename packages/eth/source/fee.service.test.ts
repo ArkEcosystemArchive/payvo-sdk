@@ -1,28 +1,23 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
-import { Test } from "@payvo/sdk";
-import nock from "nock";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-let subject: FeeService;
+describe("FeeService", async ({ beforeEach, afterEach, beforeAll, it, assert, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(FeeService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(FeeService);
-});
+	afterEach(() => nock.cleanAll());
 
-afterEach(() => nock.cleanAll());
+	beforeAll(() => nock.disableNetConnect());
 
-beforeAll(() => nock.disableNetConnect());
+	it("should fetch all available fees", async (context) => {
+		nock.fake("https://ethgas.watch").get("/api/gas").reply(200, loader.json(`test/fixtures/client/fees.json`));
 
-describe("FeeService", () => {
-	it("should fetch all available fees", async () => {
-		nock("https://ethgas.watch").get("/api/gas").reply(200, requireModule(`../test/fixtures/client/fees.json`));
+		const result = await context.subject.all();
 
-		const result = await subject.all();
-
-		expect(result).toContainAllKeys([
+		assert.containKeys(result, [
 			"transfer",
 			"secondSignature",
 			"delegateRegistration",
@@ -31,12 +26,9 @@ describe("FeeService", () => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
-		expect(result.transfer).toEqual({
+		assert.equal(result.transfer, {
 			min: "148",
 			avg: "175",
 			max: "199",

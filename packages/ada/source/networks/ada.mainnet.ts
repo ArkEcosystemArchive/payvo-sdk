@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { constants, explorer, featureFlags, importMethods, transactions } from "./shared";
+import { constants, explorer, featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Cardano",
@@ -23,6 +23,8 @@ const network: Networks.NetworkManifest = {
 	meta: {
 		extendedPublicKey: true,
 		keyDeposit: 2_000_000,
+		maxTxSize: 16_384,
+		maxValueSize: 5000,
 		minFeeA: 44,
 		minFeeB: 155_381,
 		minUTxOValue: 1_000_000,

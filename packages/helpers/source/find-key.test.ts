@@ -1,10 +1,10 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { findKey } from "./find-key";
 
-describe("#findKey", () => {
+describe("findKey", async ({ assert, it, nock, loader }) => {
 	it("should work with a function", () => {
-		expect(
+		assert.is(
 			findKey(
 				{
 					barney: { age: 36, active: true },
@@ -13,6 +13,7 @@ describe("#findKey", () => {
 				},
 				(o) => o.age < 40,
 			),
-		).toBe("barney");
+			"barney",
+		);
 	});
 });

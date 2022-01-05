@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts";
+import { IProfileData, IProfileValidator, ProfileData, ProfileSetting } from "./contracts.js";
 
 export class ProfileValidator implements IProfileValidator {
 	/**
@@ -12,22 +12,21 @@ export class ProfileValidator implements IProfileValidator {
 	 */
 	public validate(data: IProfileData): IProfileData {
 		const { error, value } = Joi.object({
-			id: Joi.string().required(),
 			contacts: Joi.object().pattern(
 				Joi.string().uuid(),
 				Joi.object({
-					id: Joi.string().required(),
-					name: Joi.string().required(),
 					addresses: Joi.array()
 						.min(1)
 						.items(
 							Joi.object({
-								id: Joi.string().required(),
-								coin: Joi.string().required(),
-								network: Joi.string().required(),
 								address: Joi.string().required(),
+								coin: Joi.string().required(),
+								id: Joi.string().required(),
+								network: Joi.string().required(),
 							}),
 						),
+					id: Joi.string().required(),
+					name: Joi.string().required(),
 					starred: Joi.boolean().required(),
 				}),
 			),
@@ -40,38 +39,39 @@ export class ProfileValidator implements IProfileValidator {
 				.pattern(
 					Joi.string().uuid(),
 					Joi.object({
+						createdAt: Joi.number().required(),
 						id: Joi.string().required(),
-						orderId: Joi.string().required(),
-						provider: Joi.string().required(),
 						input: Joi.object({
 							address: Joi.string().required(),
 							amount: Joi.number().required(),
-							ticker: Joi.string().required(),
 							hash: Joi.string(),
+							ticker: Joi.string().required(),
 						}).required(),
+						orderId: Joi.string().required(),
 						output: Joi.object({
 							address: Joi.string().required(),
 							amount: Joi.number().required(),
-							ticker: Joi.string().required(),
 							hash: Joi.string(),
+							ticker: Joi.string().required(),
 						}).required(),
+						provider: Joi.string().required(),
 						status: Joi.number().required(),
-						createdAt: Joi.number().required(),
 					}),
 				)
 				.required(),
+			id: Joi.string().required(),
 			notifications: Joi.object()
 				.pattern(
 					Joi.string().uuid(),
 					Joi.object({
-						id: Joi.string().required(),
-						icon: Joi.string(),
-						name: Joi.string(),
-						body: Joi.string(),
-						type: Joi.string(),
 						action: Joi.string(),
-						read_at: Joi.number(),
+						body: Joi.string(),
+						icon: Joi.string(),
+						id: Joi.string().required(),
 						meta: Joi.object(),
+						name: Joi.string(),
+						read_at: Joi.number(),
+						type: Joi.string(),
 					}),
 				)
 				.required(),
@@ -80,11 +80,11 @@ export class ProfileValidator implements IProfileValidator {
 					Joi.string().uuid(),
 					Joi.object({
 						id: Joi.string().required(),
-						name: Joi.string().required(),
-						version: Joi.string().required(),
 						isEnabled: Joi.boolean().required(),
+						name: Joi.string().required(),
 						permissions: Joi.array().items(Joi.string()).required(),
 						urls: Joi.array().items(Joi.string()).required(),
+						version: Joi.string().required(),
 					}),
 				)
 				.required(),
@@ -115,12 +115,12 @@ export class ProfileValidator implements IProfileValidator {
 			wallets: Joi.object().pattern(
 				Joi.string().uuid(),
 				Joi.object({
-					id: Joi.string().required(),
 					data: Joi.object().required(),
+					id: Joi.string().required(),
 					settings: Joi.object().required(),
 				}),
 			),
-		}).validate(data, { stripUnknown: true, allowUnknown: true });
+		}).validate(data, { allowUnknown: true, stripUnknown: true });
 
 		if (error !== undefined) {
 			throw error;

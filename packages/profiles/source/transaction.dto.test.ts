@@ -1,204 +1,190 @@
-import "jest-extended";
-import "reflect-metadata";
-
-import { Contracts } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
 
-import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { identity } from "../test/fixtures/identity";
+import { data as secondWallet } from "../test/fixtures/wallets/D5sRKWckH4rE1hQ9eeMeHAepgyC3cvJtwb.json";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { IExchangeRateService, IProfile, IReadWriteWallet, ProfileSetting } from "./contracts";
-import { Profile } from "./profile";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
+import { ProfileSetting } from "./contracts";
+import { Profile } from "./profile";
 import { ExtendedConfirmedTransactionData } from "./transaction.dto";
 
+const mnemonic = identity.mnemonic;
+
 const createSubject = (wallet, properties, klass) => {
-	let meta: Contracts.TransactionDataMeta = "some meta";
+	let meta = "some meta";
 
 	return new klass(wallet, {
-		id: () => "transactionId",
+		amount: () => BigNumber.make(18e8, 8),
+		asset: () => ({}),
 		blockId: () => "transactionBlockId",
 		bridgechainId: () => "bridgechainId",
-		type: () => "some type",
-		timestamp: () => undefined,
 		confirmations: () => BigNumber.make(20),
-		sender: () => "sender",
-		recipient: () => "recipient",
-		memo: () => "memo",
-		recipients: () => [],
-		amount: () => BigNumber.make(18e8, 8),
 		fee: () => BigNumber.make(2e8, 8),
-		asset: () => ({}),
+		getMeta: () => meta,
+		id: () => "transactionId",
 		inputs: () => [],
-		outputs: () => [],
 		isSent: () => true,
-		toObject: () => ({}),
-		getMeta: (): Contracts.TransactionDataMeta => meta,
-		setMeta: (key: string, value: Contracts.TransactionDataMeta): void => {
+		memo: () => "memo",
+		outputs: () => [],
+		recipient: () => "recipient",
+		recipients: () => [],
+		sender: () => "sender",
+		setMeta: (key, value) => {
 			meta = value;
 		},
-		...(properties || {}),
+		timestamp: () => {},
+		toObject: () => ({}),
+		type: () => "some type",
+		...properties,
 	});
 };
 
-let subject: any;
-let profile: IProfile;
-let wallet: IReadWriteWallet;
-
-let liveSpy: jest.SpyInstance;
-let testSpy: jest.SpyInstance;
-
-beforeAll(async () => {
+const beforeEachCallback = async (context, { loader, nock, stub }) => {
 	bootContainer();
 
-	nock.disableNetConnect();
-
-	nock(/.+/)
+	nock.fake()
 		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
+		.reply(200, loader.json("test/fixtures/client/configuration.json"))
 		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
+		.reply(200, loader.json("test/fixtures/client/peers.json"))
 		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
+		.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
 		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
+		.reply(200, loader.json("test/fixtures/client/syncing.json"))
 		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
+		.reply(200, loader.json("test/fixtures/client/wallet.json"))
 		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
+		.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
 		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"))
+		.reply(200, loader.json("test/fixtures/client/delegates-2.json"))
 		.get("/api/ipfs/QmR45FmbVVrixReBwJkhEKde2qwHYaQzGxu4ZoDeswuF9c")
 		.reply(200, { data: "ipfs-content" })
 		// CryptoCompare
 		.get("/data/dayAvg")
 		.query(true)
-		.reply(200, { BTC: 0.00005048, ConversionType: { type: "direct", conversionSymbol: "" } })
+		.reply(200, { BTC: 0.000_050_48, ConversionType: { conversionSymbol: "", type: "direct" } })
 		.get("/data/histoday")
 		.query(true)
-		.reply(200, require("../test/fixtures/markets/cryptocompare/historical.json"))
+		.reply(200, loader.json("test/fixtures/markets/cryptocompare/historical.json"))
 		.persist();
-});
 
-beforeEach(async () => {
-	profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+	context.profile = new Profile({ avatar: "avatar", data: "", id: "profile-id", name: "name" });
 
-	profile.settings().set(ProfileSetting.Name, "John Doe");
-	profile.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
-	profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
+	context.profile.settings().set(ProfileSetting.Name, "John Doe");
+	context.profile.settings().set(ProfileSetting.ExchangeCurrency, "BTC");
+	context.profile.settings().set(ProfileSetting.MarketProvider, "cryptocompare");
 
-	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+	context.wallet = await importByMnemonic(context.profile, mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = jest.spyOn(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = jest.spyOn(wallet.network(), "isTest").mockReturnValue(false);
-});
+	context.liveSpy = stub(context.wallet.network(), "isLive").returnValue(true);
+	context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
+};
 
-afterEach(() => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
-});
+describe("ExtendedConfirmedTransactionData", ({ beforeEach, it, assert, stub, spy, loader, nock }) => {
+	beforeEach(async (context) => {
+		await beforeEachCallback(context, { loader, nock, stub });
 
-describe("Transaction", () => {
-	beforeEach(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
-
-	it("should have an explorer link", () => {
-		expect(subject.explorerLink()).toBe("https://dexplorer.ark.io/transaction/transactionId");
+		context.subject = createSubject(context.wallet, undefined, ExtendedConfirmedTransactionData);
 	});
 
-	it("should have an explorer block link", () => {
-		expect(subject.explorerLinkForBlock()).toBe("https://dexplorer.ark.io/block/transactionBlockId");
+	it("should have an explorer link", (context) => {
+		assert.is(context.subject.explorerLink(), "https://dexplorer.ark.io/transaction/transactionId");
 	});
 
-	it("should have an explorer block link for undefined block", () => {
-		subject = createSubject(
-			wallet,
+	it("should have an explorer block link", (context) => {
+		assert.is(context.subject.explorerLinkForBlock(), "https://dexplorer.ark.io/block/transactionBlockId");
+	});
+
+	it("should have an explorer block link for undefined block", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				...subject,
-				blockId: () => undefined,
+				...context.subject,
+				blockId: () => {},
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.explorerLinkForBlock()).toBeUndefined();
+		assert.undefined(subject.explorerLinkForBlock());
 	});
 
-	it("should have a type", () => {
-		expect(subject.type()).toBe("some type");
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "some type");
 	});
 
-	it("should have a timestamp", () => {
-		expect(subject.timestamp()).toBeUndefined();
+	it("should have a timestamp", (context) => {
+		assert.undefined(context.subject.timestamp());
 	});
 
-	it("should have confirmations", () => {
-		expect(subject.confirmations()).toStrictEqual(BigNumber.make(20));
+	it("should have confirmations", (context) => {
+		assert.equal(context.subject.confirmations(), BigNumber.make(20));
 	});
 
-	it("should have a sender", () => {
-		expect(subject.sender()).toBe("sender");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "sender");
 	});
 
-	it("should have a recipient", () => {
-		expect(subject.recipient()).toBe("recipient");
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "recipient");
 	});
 
-	it("should have a recipients", () => {
-		expect(subject.recipients()).toBeInstanceOf(Array);
-		expect(subject.recipients().length).toBe(0);
+	it("should have a recipients", (context) => {
+		assert.instance(context.subject.recipients(), Array);
+		assert.is(context.subject.recipients().length, 0);
 	});
 
-	it("should have an amount", () => {
-		expect(subject.amount()).toStrictEqual(18);
+	it("should have an amount", (context) => {
+		assert.equal(context.subject.amount(), 18);
 	});
 
-	it("should have a converted amount", async () => {
-		subject = createSubject(
-			wallet,
+	it("should have a converted amount", async (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				timestamp: () => DateTime.make(),
 				amount: () => BigNumber.make(10e8, 8),
-			},
-			ExtendedConfirmedTransactionData,
-		);
-
-		await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
-
-		expect(subject.convertedAmount()).toBe(0.0005048);
-	});
-
-	it("should have a default converted amount", () => {
-		expect(subject.convertedAmount()).toStrictEqual(0);
-	});
-
-	it("should have a fee", () => {
-		expect(subject.fee()).toStrictEqual(2);
-	});
-
-	it("should have a converted fee", async () => {
-		subject = createSubject(
-			wallet,
-			{
 				timestamp: () => DateTime.make(),
-				fee: () => BigNumber.make(10e8, 8),
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
 
-		expect(subject.convertedFee()).toBe(0.0005048);
+		assert.is(subject.convertedAmount(), 0.000_504_8);
 	});
 
-	it("should have a default converted fee", () => {
-		expect(subject.convertedFee()).toStrictEqual(0);
+	it("should have a default converted amount", (context) => {
+		assert.equal(context.subject.convertedAmount(), 0);
 	});
 
-	test("#toObject", () => {
-		subject = createSubject(
-			wallet,
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.fee(), 2);
+	});
+
+	it("should have a converted fee", async (context) => {
+		const subject = createSubject(
+			context.wallet,
+			{
+				fee: () => BigNumber.make(10e8, 8),
+				timestamp: () => DateTime.make(),
+			},
+			ExtendedConfirmedTransactionData,
+		);
+
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
+
+		assert.is(subject.convertedFee(), 0.000_504_8);
+	});
+
+	it("should have a default converted fee", (context) => {
+		assert.equal(context.subject.convertedFee(), 0);
+	});
+
+	it("#toObject", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				toObject: () => ({
 					key: "value",
@@ -207,144 +193,141 @@ describe("Transaction", () => {
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.toObject()).toMatchInlineSnapshot(`
-		Object {
-		  "key": "value",
-		}
-	`);
+		assert.equal(subject.toObject(), {
+			key: "value",
+		});
 	});
 
-	test("#memo", () => {
-		subject = createSubject(
-			wallet,
+	it("#memo", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				memo: () => "memo",
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.memo()).toBe("memo");
+		assert.is(subject.memo(), "memo");
 	});
 
-	test("#inputs", () => {
-		subject = createSubject(
-			wallet,
+	it("#inputs", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				inputs: () => [{}, {}, {}],
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.inputs()).toHaveLength(3);
+		assert.length(subject.inputs(), 3);
 	});
 
-	test("#outputs", () => {
-		subject = createSubject(
-			wallet,
+	it("#outputs", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				outputs: () => [{}, {}, {}],
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.outputs()).toHaveLength(3);
+		assert.length(subject.outputs(), 3);
 	});
 
-	test("should not throw if transaction type does not have memo", () => {
+	it("should not throw if transaction type does not have memo", (context) => {
 		const subject = createSubject(
-			wallet,
+			context.wallet,
 			{
 				memo: undefined,
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(() => subject.memo()).not.toThrow();
-		expect(subject.memo()).toBeUndefined();
+		assert.not.throws(() => subject.memo());
+		assert.undefined(subject.memo());
 	});
 
-	test("#hasPassed", () => {
-		subject = createSubject(
-			wallet,
+	it("#hasPassed", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				hasPassed: () => true,
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.hasPassed()).toBeTrue();
+		assert.true(subject.hasPassed());
 	});
 
-	test("coin", () => {
-		expect(subject.coin()).toBe(wallet.coin());
+	it("coin", (context) => {
+		assert.is(context.subject.coin(), context.wallet.coin());
 	});
 
-	test("#hasFailed", () => {
-		subject = createSubject(
-			wallet,
+	it("#hasFailed", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				hasFailed: () => true,
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.hasFailed()).toBeTrue();
+		assert.true(subject.hasFailed());
 	});
 
-	test("#isReturn", () => {
-		subject = createSubject(
-			wallet,
+	it("#isReturn", (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
 				isReturn: () => true,
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		expect(subject.isReturn()).toBeTrue();
+		assert.true(subject.isReturn());
 	});
 
-	test("#getMeta | #setMeta", () => {
-		const getMeta = jest.fn();
-		const setMeta = jest.fn();
+	it("#getMeta | #setMeta", (context) => {
+		const getMeta = spy();
+		const setMeta = spy();
 
-		subject = createSubject(wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
+		const subject = createSubject(context.wallet, { getMeta, setMeta }, ExtendedConfirmedTransactionData);
 
 		subject.getMeta("key");
 		subject.setMeta("key", "value");
 
-		expect(getMeta).toHaveBeenCalled();
-		expect(setMeta).toHaveBeenCalled();
+		assert.true(getMeta.callCount > 0);
+		assert.true(setMeta.callCount > 0);
 	});
 
-	it("should not have a memo", () => {
-		expect(subject.memo()).toBe("memo");
+	it("should not have a memo", (context) => {
+		assert.is(context.subject.memo(), "memo");
 	});
 
-	it("should have a total for sent", () => {
-		expect(subject.total()).toStrictEqual(20);
+	it("should have a total for sent", (context) => {
+		assert.equal(context.subject.total(), 20);
 	});
 
-	it("should have a total for unsent", () => {
-		// @ts-ignore
-		subject = new ExtendedConfirmedTransactionData(wallet, {
+	it("should have a total for unsent", (context) => {
+		const subject = new ExtendedConfirmedTransactionData(context.wallet, {
 			amount: () => BigNumber.make(18e8, 8),
 			fee: () => BigNumber.make(2e8, 8),
-			isSent: () => false,
 			isMultiPayment: () => false,
+			isSent: () => false,
 		});
-		expect(subject.total()).toStrictEqual(18);
+
+		assert.equal(subject.total(), 18);
 	});
 
-	it("should calculate total amount of the multi payments for unsent", () => {
-		// @ts-ignore
-		subject = new ExtendedConfirmedTransactionData(wallet, {
+	it("should calculate total amount of the multi payments for unsent", (context) => {
+		const subject = new ExtendedConfirmedTransactionData(context.wallet, {
 			amount: () => BigNumber.make(18e8, 8),
 			fee: () => BigNumber.make(2e8, 8),
-			isSent: () => false,
 			isMultiPayment: () => true,
+			isSent: () => false,
 			recipients: () => [
 				{
-					address: wallet.address(),
+					address: context.wallet.address(),
 					amount: BigNumber.make(5e8, 8),
 				},
 				{
@@ -352,43 +335,43 @@ describe("Transaction", () => {
 					amount: BigNumber.make(6e8, 8),
 				},
 				{
-					address: wallet.address(),
+					address: context.wallet.address(),
 					amount: BigNumber.make(7e8, 8),
 				},
 			],
 		});
 
-		expect(subject.amount()).toStrictEqual(18);
-		expect(subject.total()).toStrictEqual(12);
+		assert.equal(subject.amount(), 18);
+		assert.equal(subject.total(), 12);
 	});
 
-	it("should have a converted total", async () => {
-		subject = createSubject(
-			wallet,
+	it("should have a converted total", async (context) => {
+		const subject = createSubject(
+			context.wallet,
 			{
-				timestamp: () => DateTime.make(),
 				amount: () => BigNumber.make(10e8, 8),
 				fee: () => BigNumber.make(5e8, 8),
+				timestamp: () => DateTime.make(),
 			},
 			ExtendedConfirmedTransactionData,
 		);
 
-		await container.get<IExchangeRateService>(Identifiers.ExchangeRateService).syncAll(profile, "DARK");
+		await container.get(Identifiers.ExchangeRateService).syncAll(context.profile, "DARK");
 
-		expect(subject.convertedTotal()).toBe(0.0007572);
+		assert.is(subject.convertedTotal(), 0.000_757_2);
 	});
 
-	it("should have a default converted total", () => {
-		expect(subject.convertedTotal()).toStrictEqual(0);
+	it("should have a default converted total", (context) => {
+		assert.equal(context.subject.convertedTotal(), 0);
 	});
 
-	it("should have meta", () => {
-		expect(subject.getMeta("someKey")).toStrictEqual("some meta");
+	it("should have meta", (context) => {
+		assert.equal(context.subject.getMeta("someKey"), "some meta");
 	});
 
-	it("should change meta", () => {
-		subject.setMeta("someKey", "another meta");
-		expect(subject.getMeta("someKey")).toStrictEqual("another meta");
+	it("should change meta", (context) => {
+		context.subject.setMeta("someKey", "another meta");
+		assert.equal(context.subject.getMeta("someKey"), "another meta");
 	});
 
 	const data = [
@@ -415,237 +398,239 @@ describe("Transaction", () => {
 	];
 
 	const dummyTransactionData = {
-		isMagistrate: () => false,
+		hasPassed: () => false,
 		isDelegateRegistration: () => false,
 		isDelegateResignation: () => false,
 		isHtlcClaim: () => false,
 		isHtlcLock: () => false,
 		isHtlcRefund: () => false,
 		isIpfs: () => false,
+		isMagistrate: () => false,
 		isMultiPayment: () => false,
 		isMultiSignatureRegistration: () => false,
 		isSecondSignature: () => false,
 		isTransfer: () => false,
-		isVote: () => false,
 		isUnvote: () => false,
-		hasPassed: () => false,
+		isVote: () => false,
 	};
 
-	it.each(data)(`should delegate %p correctly`, (functionName) => {
-		// @ts-ignore
-		const transactionData = new ExtendedConfirmedTransactionData(wallet, {
-			...dummyTransactionData,
-			[String(functionName)]: () => true,
-		});
-		expect(transactionData[functionName.toString()]()).toBeTruthy();
-	});
+	// it.each(data)(`should delegate %p correctly`, (functionName) => {
+	//     // @ts-ignore
+	//     const transactionData = new ExtendedConfirmedTransactionData(wallet, {
+	//         ...dummyTransactionData,
+	//         [String(functionName)]: () => true,
+	//     });
+	//     assert.truthy(transactionData[functionName.toString()]());
+	// });
 });
 
-describe("DelegateRegistrationData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				username: () => "username",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("DelegateRegistrationData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				username: () => "username",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#username", () => {
-		expect(subject.username()).toBe("username");
-	});
-});
+// 	it("#username", () => {
+// 		assert.is(subject.username(), "username");
+// 	});
+// });
 
-describe("DelegateResignationData", () => {
-	beforeEach(() => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
+// describe("DelegateResignationData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach((context) => (subject = createSubject(wallet, undefined, ExtendedConfirmedTransactionData)));
 
-	test("#id", () => {
-		expect(subject.id()).toBe("transactionId");
-	});
-});
+// 	it("#id", () => {
+// 		assert.is(subject.id(), "transactionId");
+// 	});
+// });
 
-describe("HtlcClaimData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				lockTransactionId: () => "lockTransactionId",
-				unlockSecret: () => "unlockSecret",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("HtlcClaimData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				lockTransactionId: () => "lockTransactionId",
+// 				unlockSecret: () => "unlockSecret",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#lockTransactionId", () => {
-		expect(subject.lockTransactionId()).toBe("lockTransactionId");
-	});
+// 	it("#lockTransactionId", () => {
+// 		assert.is(subject.lockTransactionId(), "lockTransactionId");
+// 	});
 
-	test("#unlockSecret", () => {
-		expect(subject.unlockSecret()).toBe("unlockSecret");
-	});
-});
+// 	it("#unlockSecret", () => {
+// 		assert.is(subject.unlockSecret(), "unlockSecret");
+// 	});
+// });
 
-describe("HtlcLockData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				secretHash: () => "secretHash",
-				expirationType: () => 5,
-				expirationValue: () => 3,
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("HtlcLockData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				secretHash: () => "secretHash",
+// 				expirationType: () => 5,
+// 				expirationValue: () => 3,
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#secretHash", () => {
-		expect(subject.secretHash()).toBe("secretHash");
-	});
+// 	it("#secretHash", () => {
+// 		assert.is(subject.secretHash(), "secretHash");
+// 	});
 
-	test("#expirationType", () => {
-		expect(subject.expirationType()).toBe(5);
-	});
+// 	it("#expirationType", () => {
+// 		assert.is(subject.expirationType(), 5);
+// 	});
 
-	test("#expirationValue", () => {
-		expect(subject.expirationValue()).toBe(3);
-	});
-});
+// 	it("#expirationValue", () => {
+// 		assert.is(subject.expirationValue(), 3);
+// 	});
+// });
 
-describe("HtlcRefundData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				lockTransactionId: () => "lockTransactionId",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("HtlcRefundData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				lockTransactionId: () => "lockTransactionId",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#lockTransactionId", () => {
-		expect(subject.lockTransactionId()).toBe("lockTransactionId");
-	});
-});
+// 	it("#lockTransactionId", () => {
+// 		assert.is(subject.lockTransactionId(), "lockTransactionId");
+// 	});
+// });
 
-describe("IpfsData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				hash: () => "hash",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("IpfsData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				hash: () => "hash",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#hash", () => {
-		expect(subject.hash()).toBe("hash");
-	});
-});
+// 	it("#hash", () => {
+// 		assert.is(subject.hash(), "hash");
+// 	});
+// });
 
-describe("MultiPaymentData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				payments: () => [{ recipientId: "recipientId", amount: BigNumber.make(1000, 8).times(1e8) }],
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("MultiPaymentData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				payments: () => [{ recipientId: "recipientId", amount: BigNumber.make(1000, 8).times(1e8) }],
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#payments", () => {
-		expect(subject.payments()).toEqual([{ recipientId: "recipientId", amount: 1000 }]);
-	});
-});
+// 	it("#payments", () => {
+// 		assert.equal(subject.payments(), [{ recipientId: "recipientId", amount: 1000 }]);
+// 	});
+// });
 
-describe("MultiSignatureData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				publicKeys: () => ["1", "2", "3"],
-				min: () => 5,
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("MultiSignatureData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				publicKeys: () => ["1", "2", "3"],
+// 				min: () => 5,
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#publicKeys", () => {
-		expect(subject.publicKeys()).toEqual(["1", "2", "3"]);
-	});
+// 	it("#publicKeys", () => {
+// 		assert.equal(subject.publicKeys(), ["1", "2", "3"]);
+// 	});
 
-	test("#min", () => {
-		expect(subject.min()).toBe(5);
-	});
-});
+// 	it("#min", () => {
+// 		assert.is(subject.min(), 5);
+// 	});
+// });
 
-describe("SecondSignatureData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				secondPublicKey: () => "secondPublicKey",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("SecondSignatureData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				secondPublicKey: () => "secondPublicKey",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#secondPublicKey", () => {
-		expect(subject.secondPublicKey()).toBe("secondPublicKey");
-	});
-});
+// 	it("#secondPublicKey", () => {
+// 		assert.is(subject.secondPublicKey(), "secondPublicKey");
+// 	});
+// });
 
-describe("TransferData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				memo: () => "memo",
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// describe("TransferData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(async () => {
+// 		beforeEachCallback();
 
-	test("#memo", () => {
-		expect(subject.memo()).toBe("memo");
-	});
-});
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				memo: () => "memo",
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-describe("VoteData", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				votes: () => ["vote"],
-				unvotes: () => ["unvote"],
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// 	it("#memo", () => {
+// 		assert.is(subject.memo(), "memo");
+// 	});
+// });
 
-	test("#votes", () => {
-		expect(subject.votes()).toEqual(["vote"]);
-	});
+// describe("VoteData", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				votes: () => ["vote"],
+// 				unvotes: () => ["unvote"],
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
 
-	test("#unvotes", () => {
-		expect(subject.unvotes()).toEqual(["unvote"]);
-	});
-});
+// 	it("#votes", () => {
+// 		assert.equal(subject.votes(), ["vote"]);
+// 	});
 
-describe("Type Specific", () => {
-	beforeEach(() => {
-		subject = createSubject(
-			wallet,
-			{
-				asset: () => ({ key: "value" }),
-			},
-			ExtendedConfirmedTransactionData,
-		);
-	});
+// 	it("#unvotes", () => {
+// 		assert.equal(subject.unvotes(), ["unvote"]);
+// 	});
+// });
 
-	it("should return the asset", () => {
-		expect(subject.asset()).toEqual({ key: "value" });
-	});
-});
+// describe("Type Specific", ({ afterEach, beforeEach, test }) => {
+// 	beforeEach(() => {
+// 		subject = createSubject(
+// 			wallet,
+// 			{
+// 				asset: () => ({ key: "value" }),
+// 			},
+// 			ExtendedConfirmedTransactionData,
+// 		);
+// 	});
+
+// 	it("should return the asset", () => {
+// 		assert.equal(subject.asset(), { key: "value" });
+// 	});
+// });

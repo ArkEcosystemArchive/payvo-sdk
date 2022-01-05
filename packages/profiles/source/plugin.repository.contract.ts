@@ -1,5 +1,6 @@
 import { Except } from "type-fest";
-import { IPluginRegistry } from "./contracts";
+
+import { IPluginRegistry } from "./contracts.js";
 
 /**
  * Defines the structure that represents a plugin.

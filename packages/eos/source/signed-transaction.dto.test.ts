@@ -1,43 +1,23 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
-import { Exceptions } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject: SignedTransactionData;
+describe("SignedTransactionData", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(SignedTransactionData);
 
-beforeEach(async () => {
-	subject = await createService(SignedTransactionData);
-
-	subject.configure(
-		"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-		{
-			timestamp: "1970-01-01T00:00:00.000Z",
-		},
-		"",
-	);
-});
-
-describe("SignedTransactionData", () => {
-	test("#sender", () => {
-		expect(() => subject.sender()).toThrowError(Exceptions.NotImplemented);
+		context.subject.configure(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+			{
+				timestamp: "1970-01-01T00:00:00.000Z",
+			},
+			"",
+		);
 	});
 
-	test("#recipient", () => {
-		expect(() => subject.recipient()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#amount", () => {
-		expect(() => subject.amount()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#fee", () => {
-		expect(() => subject.fee()).toThrowError(Exceptions.NotImplemented);
-	});
-
-	test("#timestamp", () => {
-		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+	it("should have a timestamp", (context) => {
+		assert.true(DateTime.make(0).isSame(context.subject.timestamp()));
 	});
 });

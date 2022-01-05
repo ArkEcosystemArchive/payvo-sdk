@@ -1,14 +1,13 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { RegistryPlugin } from "./plugin-registry.dto";
 
-describe("RegistryPlugin", () => {
-	describe("sourceProvider", () => {
-		it.each([
-			["company", "project"],
-			["COMPANY", "PROJECT"],
-		])("should handle github source provider", async (company, project) => {
+describe("RegistryPlugin #sourceProvider", ({ it, assert, each }) => {
+	each(
+		"should handle github source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
+
 			const subject = new RegistryPlugin(
 				{
 					links: {
@@ -18,13 +17,19 @@ describe("RegistryPlugin", () => {
 				{},
 			);
 
-			expect(subject.sourceProvider().url).toBe(`https://github.com/${company}/${project}`);
-		});
-
-		it.each([
+			assert.is(subject.sourceProvider().url, `https://github.com/${company}/${project}`);
+		},
+		[
 			["company", "project"],
 			["COMPANY", "PROJECT"],
-		])("should handle bitbucket source provider", async (company, project) => {
+		],
+	);
+
+	each(
+		"should handle bitbucket source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
+
 			const subject = new RegistryPlugin(
 				{
 					links: {
@@ -34,13 +39,19 @@ describe("RegistryPlugin", () => {
 				{},
 			);
 
-			expect(subject.sourceProvider().url).toBe(`https://bitbucket.com/${company}/${project}`);
-		});
-
-		it.each([
+			assert.is(subject.sourceProvider().url, `https://bitbucket.com/${company}/${project}`);
+		},
+		[
 			["company", "project"],
 			["COMPANY", "PROJECT"],
-		])("should handle gitlab source provider", async (company, project) => {
+		],
+	);
+
+	each(
+		"should handle gitlab source provider",
+		async ({ dataset }) => {
+			const [company, project] = dataset;
+
 			const subject = new RegistryPlugin(
 				{
 					links: {
@@ -50,70 +61,74 @@ describe("RegistryPlugin", () => {
 				{},
 			);
 
-			expect(subject.sourceProvider().url).toBe(`https://gitlab.com/${company}/${project}`);
-		});
+			assert.is(subject.sourceProvider().url, `https://gitlab.com/${company}/${project}`);
+		},
+		[
+			["company", "project"],
+			["COMPANY", "PROJECT"],
+		],
+	);
 
-		it("should handle unknown source provider", async () => {
-			const subject = new RegistryPlugin(
-				{
-					links: {
-						repository: "https://mycompany.com/project",
-					},
+	it("should handle unknown source provider", async () => {
+		const subject = new RegistryPlugin(
+			{
+				links: {
+					repository: "https://mycompany.com/project",
 				},
-				{},
-			);
+			},
+			{},
+		);
 
-			expect(subject.sourceProvider()).toBeNull();
-		});
+		assert.null(subject.sourceProvider());
+	});
+});
+
+describe("RegistryPlugin #getMetadata", ({ it, assert }) => {
+	it("should find the requested key", async () => {
+		const subject = new RegistryPlugin(
+			{},
+			{
+				title: "someValue",
+			},
+		);
+
+		assert.is(subject.alias(), "someValue");
 	});
 
-	describe("getMetadata", () => {
-		it("should find the requested key", async () => {
-			const subject = new RegistryPlugin(
-				{},
-				{
+	it("should find the requested desktop-wallet key", async () => {
+		const subject = new RegistryPlugin(
+			{},
+			{
+				"desktop-wallet": {
+					logo: "someValue",
+				},
+			},
+		);
+
+		assert.is(subject.logo(), "someValue");
+	});
+
+	it("should miss the requested desktop-wallet key", async () => {
+		const subject = new RegistryPlugin(
+			{},
+			{
+				"desktop-wallet": {
 					title: "someValue",
 				},
-			);
+			},
+		);
 
-			expect(subject.alias()).toBe("someValue");
-		});
+		assert.undefined(subject.logo());
+	});
 
-		it("should find the requested desktop-wallet key", async () => {
-			const subject = new RegistryPlugin(
-				{},
-				{
-					"desktop-wallet": {
-						logo: "someValue",
-					},
-				},
-			);
+	it("should miss the requested key", async () => {
+		const subject = new RegistryPlugin(
+			{},
+			{
+				title: "someValue",
+			},
+		);
 
-			expect(subject.logo()).toBe("someValue");
-		});
-
-		it("should miss the requested desktop-wallet key", async () => {
-			const subject = new RegistryPlugin(
-				{},
-				{
-					"desktop-wallet": {
-						title: "someValue",
-					},
-				},
-			);
-
-			expect(subject.logo()).toBeUndefined();
-		});
-
-		it("should miss the requested key", async () => {
-			const subject = new RegistryPlugin(
-				{},
-				{
-					title: "someValue",
-				},
-			);
-
-			expect(subject.logo()).toBeUndefined();
-		});
+		assert.undefined(subject.logo());
 	});
 });

@@ -1,7 +1,5 @@
 import { Test } from "@payvo/sdk";
-import { Request } from "@payvo/sdk-http-fetch";
-import { createRequire } from "module";
-import { resolve } from "path";
+import { Request } from "@payvo/sdk-fetch";
 
 import { manifest } from "../source/manifest";
 
@@ -12,14 +10,4 @@ export const createService = <T = any>(service: any, network: string = "neo.test
 		predicate,
 		service,
 	});
-};
-
-// @ts-ignore
-export const requireModule = (path: string): any => {
-	if (path.startsWith("../test")) {
-		path = path.replace("../test", "./test");
-	}
-
-	// @ts-ignore
-	return createRequire(import.meta.url)(resolve(path));
 };

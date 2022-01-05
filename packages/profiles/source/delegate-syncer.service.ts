@@ -1,5 +1,6 @@
 import { Contracts, Services } from "@payvo/sdk";
-import { pqueueSettled } from "./helpers";
+
+import { pqueueSettled } from "./helpers/queue.js";
 
 export interface IDelegateSyncer {
 	sync(): Promise<Contracts.WalletData[]>;
@@ -19,14 +20,14 @@ export class ParallelDelegateSyncer implements IDelegateSyncer {
 			result.push(item);
 		}
 
-		const currentPage: number = parseInt(lastResponse.currentPage()! as string);
-		const lastPage: number = parseInt(lastResponse.lastPage()! as string);
+		const currentPage: number = Number.parseInt(lastResponse.currentPage()! as string);
+		const lastPage: number = Number.parseInt(lastResponse.lastPage()! as string);
 
 		if (lastPage > currentPage) {
 			const promises: (() => Promise<void>)[] = [];
 
-			const sendRequest = async (i: number) => {
-				const response = await this.#clientService.delegates({ cursor: i });
+			const sendRequest = async (index: number) => {
+				const response = await this.#clientService.delegates({ cursor: index });
 
 				for (const item of response.items()) {
 					result.push(item);
@@ -34,8 +35,8 @@ export class ParallelDelegateSyncer implements IDelegateSyncer {
 			};
 
 			// Skip the first page and start from page 2 up to the last page.
-			for (let i = currentPage + 1; i <= lastPage; i++) {
-				promises.push(() => sendRequest(i));
+			for (let index = currentPage + 1; index <= lastPage; index++) {
+				promises.push(() => sendRequest(index));
 			}
 
 			await pqueueSettled(promises);

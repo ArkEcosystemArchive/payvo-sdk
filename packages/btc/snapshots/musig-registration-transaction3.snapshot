@@ -1,0 +1,37 @@
+SignedTransactionData {
+  bigNumberService: BigNumberService {},
+  broadcastData: {
+    id: '189f015c-2a58-4664-83f4-0b331fa9172a',
+    multiSignature: {
+      min: 2,
+      numberOfSignatures: 3,
+      publicKeys: [
+        'Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN',
+      ],
+    },
+    senderPublicKey: 'Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN',
+    signatures: [
+      'H5CbFb5NL6RPsSMq2RYhHRKjKM3IEwy8fom+DQHL14zBWg7MNN/YH1jV96d+qFWCzJc0GwKDonr1USRxOWyl9W0=',
+      'IJBU6nKlMITou4sq2ajPa2jK0Q4wrYqixu2o4Auv2Y8wRcz60v2osJTOmfXUERxij4dhcMKB+ycV5I5/YU/nVPY=',
+      'HweHIUG2SSYr41hb9dju8FoajrALDrkrsCCsKR7VTYzLMAHOju1YcuEcm/veBian8IoGsR7pAaKtr5U9JIn/A1I=',
+    ],
+  },
+  decimals: 8,
+  identifier: '189f015c-2a58-4664-83f4-0b331fa9172a',
+  signedData: {
+    id: '189f015c-2a58-4664-83f4-0b331fa9172a',
+    multiSignature: {
+      min: 2,
+      numberOfSignatures: 3,
+      publicKeys: [
+        'Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN',
+      ],
+    },
+    senderPublicKey: 'Vpub5mtyU6Hx9xrx63Y3W4aGW1LuQkmwrq9xsQNgX7tDAM8DTHhE7vXMZ7Hue2FR8SMAGDW57fy76HFmN1jnckSmeX2cDMWVA1KViot6bLgJZuN',
+    signatures: [
+      'H5CbFb5NL6RPsSMq2RYhHRKjKM3IEwy8fom+DQHL14zBWg7MNN/YH1jV96d+qFWCzJc0GwKDonr1USRxOWyl9W0=',
+      'IJBU6nKlMITou4sq2ajPa2jK0Q4wrYqixu2o4Auv2Y8wRcz60v2osJTOmfXUERxij4dhcMKB+ycV5I5/YU/nVPY=',
+      'HweHIUG2SSYr41hb9dju8FoajrALDrkrsCCsKR7VTYzLMAHOju1YcuEcm/veBian8IoGsR7pAaKtr5U9JIn/A1I=',
+    ],
+  },
+}

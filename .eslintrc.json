@@ -1,14 +1,12 @@
 {
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
-		"project": "../../tsconfig.eslint.json",
+		"project": "tsconfig.eslint.json",
 		"extraFileExtensions": [".json"],
 		"projectFolderIgnoreList": ["build", "coverage", "node_modules", "public"]
 	},
 	"plugins": [
 		"@typescript-eslint",
-		"jest-formatting",
-		"jest",
 		"prettier",
 		"promise",
 		"simple-import-sort",
@@ -26,8 +24,6 @@
 		"plugin:import/errors",
 		"plugin:import/typescript",
 		"plugin:import/warnings",
-		"plugin:jest-formatting/strict",
-		"plugin:jest/recommended",
 		"plugin:prettier/recommended",
 		"plugin:promise/recommended",
 		"plugin:sonarjs/recommended",
@@ -80,11 +76,6 @@
 		"import/no-useless-path-segments": "error",
 		"import/no-webpack-loader-syntax": "error",
 		"import/order": "error",
-		"jest/no-conditional-expect": "off",
-		"jest/no-done-callback": "off",
-		"jest/no-identical-title": "off",
-		"jest/valid-expect": "off",
-		"jest/valid-expect-in-promise": "off",
 		"no-async-promise-executor": "off",
 		"no-prototype-builtins": "off",
 		"no-nested-ternary": "error",
@@ -109,13 +100,19 @@
 		"sonarjs/cognitive-complexity": "warn",
 		"sonarjs/no-all-duplicated-branches": "error",
 		"sonarjs/no-collapsible-if": "error",
-		"sonarjs/no-duplicate-string": "warn",
+		"sonarjs/no-duplicate-string": "off",
 		"sonarjs/no-identical-expressions": "error",
 		"sonarjs/no-identical-functions": "error",
 		"sonarjs/no-redundant-jump": "error",
 		"sonarjs/no-small-switch": "error",
 		"sonarjs/no-use-of-empty-return-value": "error",
-		"sort-keys-fix/sort-keys-fix": ["error", "asc", { "caseSensitive": true }],
+		"sort-keys-fix/sort-keys-fix": [
+			"error",
+			"asc",
+			{
+				"caseSensitive": true
+			}
+		],
 		"unicorn/consistent-destructuring": "warn",
 		"unicorn/consistent-function-scoping": "warn",
 		"unicorn/error-message": "warn",
@@ -127,6 +124,7 @@
 		"unicorn/no-array-for-each": "warn",
 		"unicorn/no-array-method-this-argument": "warn",
 		"unicorn/no-array-reduce": "warn",
+		"unicorn/no-await-expression-member": "warn",
 		"unicorn/no-new-array": "warn",
 		"unicorn/no-null": "warn",
 		"unicorn/no-object-as-default-parameter": "warn",

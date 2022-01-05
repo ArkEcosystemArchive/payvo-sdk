@@ -1,41 +1,39 @@
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { PasswordManager } from "./password";
 
-beforeAll(() => bootContainer());
+describe("PasswordManager", ({ it, assert, beforeEach }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-describe("PasswordManager", () => {
-	it("should set and get password", () => {
-		const subject = new PasswordManager();
-
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
-
-		subject.set("password");
-
-		expect(subject.get()).toBe("password");
+		context.subject = new PasswordManager();
 	});
 
-	it("#exists", () => {
-		const subject = new PasswordManager();
+	it("should set and get password", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
 
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		context.subject.set("password");
 
-		expect(subject.exists()).toBe(false);
-		subject.set("password");
-
-		expect(subject.exists()).toBe(true);
+		assert.is(context.subject.get(), "password");
 	});
 
-	it("#forget", () => {
-		const subject = new PasswordManager();
+	it("#exists", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
 
-		expect(() => subject.get()).toThrow("Failed to find a password for the given profile.");
+		assert.false(context.subject.exists());
+		context.subject.set("password");
 
-		subject.set("password");
-		expect(subject.exists()).toBe(true);
-		subject.forget();
+		assert.true(context.subject.exists());
+	});
 
-		expect(subject.exists()).toBe(false);
+	it("#forget", (context) => {
+		assert.throws(() => context.subject.get(), "Failed to find a password for the given profile.");
+
+		context.subject.set("password");
+		assert.true(context.subject.exists());
+		context.subject.forget();
+
+		assert.false(context.subject.exists());
 	});
 });

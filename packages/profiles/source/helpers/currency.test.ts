@@ -1,39 +1,47 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
-import { Currency } from "./currency";
+import { Currency } from "./currency.js";
 
-describe("Helpers.Currency", () => {
+describe("Helpers.Currency", ({ assert, each, it }) => {
 	it("should format fiat", () => {
-		expect(Currency.format(10, "USD")).toBe("$10.00");
+		assert.is(Currency.format(10, "USD"), "$10.00");
 	});
 
-	it.each(["BTC", "ETH", "ARK", "DARK", "LSK", "BIND", "SOL"])("should format crypto (%s)", (ticker) => {
-		expect(Currency.format(10, ticker)).toBe(`10 ${ticker}`);
-	});
+	each(
+		"should format crypto (%s)",
+		({ dataset }) => {
+			assert.is(Currency.format(10, dataset), `10 ${dataset}`);
+		},
+		["BTC", "ETH", "ARK", "DARK", "LSK", "BIND", "SOL"],
+	);
 
-	it.each([
-		"AUD",
-		"BRL",
-		"CAD",
-		"CHF",
-		"CNY",
-		"DKK",
-		"EUR",
-		"GBP",
-		"HKD",
-		"IDR",
-		"INR",
-		"MXN",
-		"NOK",
-		"RUB",
-		"SEK",
-		"USD",
-	])("should allow to hide ticker (%s)", (ticker) => {
-		expect(Currency.format(10, ticker, { withTicker: false })).toBe("10.00");
-	});
+	each(
+		"should allow to hide ticker (%s)",
+		({ dataset }) => {
+			assert.is(Currency.format(10, dataset, { withTicker: false }), "10.00");
+		},
+		[
+			"AUD",
+			"BRL",
+			"CAD",
+			"CHF",
+			"CNY",
+			"DKK",
+			"EUR",
+			"GBP",
+			"HKD",
+			"IDR",
+			"INR",
+			"MXN",
+			"NOK",
+			"RUB",
+			"SEK",
+			"USD",
+		],
+	);
 
 	it("should allow to pass locale", () => {
-		expect(Currency.format(1, "BTC", { locale: "en-US" })).toBe("1 BTC");
-		expect(Currency.format(1, "USD", { locale: "en-US" })).toBe("$1.00");
+		assert.is(Currency.format(1, "BTC", { locale: "en-US" }), "1 BTC");
+		assert.is(Currency.format(1, "USD", { locale: "en-US" }), "$1.00");
 	});
 });

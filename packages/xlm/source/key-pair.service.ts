@@ -1,9 +1,8 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import Stellar from "stellar-sdk";
 
-import { deriveKeyPair } from "./helpers";
+import { deriveKeyPair } from "./helpers.js";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,

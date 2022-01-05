@@ -2,7 +2,7 @@ import { Contracts, Helpers, Services } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 import { LCDClient, MnemonicKey, MsgSend } from "@terra-money/terra.js";
 
-import { useClient } from "./helpers";
+import { useClient } from "./helpers.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
@@ -18,7 +18,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			UUID.random(),
 			transaction.toData(),
-			transaction.toJSON(),
+			transaction.toData(),
 		);
 	}
 

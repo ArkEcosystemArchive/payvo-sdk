@@ -1,18 +1,15 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ethereum from "@ledgerhq/hw-app-eth";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Ethereum;
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Ethereum.default(this.#ledger);
+		this.#transport = new Ethereum(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

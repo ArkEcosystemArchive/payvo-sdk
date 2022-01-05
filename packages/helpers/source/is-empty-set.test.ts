@@ -1,9 +1,9 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { isEmptySet } from "./is-empty-set";
 
-describe("#isEmptySet", () => {
+describe("isEmptySet", async ({ assert, it, nock, loader }) => {
 	it("should return true for an empty set", () => {
-		expect(isEmptySet(new Set())).toBeTrue();
+		assert.true(isEmptySet(new Set()));
 	});
 });

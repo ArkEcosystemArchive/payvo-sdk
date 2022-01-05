@@ -1,6 +1,7 @@
 import { Services } from "@payvo/sdk";
+import { AccAddress } from "@terra-money/terra.js";
 
-import { deriveKey } from "./helpers";
+import { deriveKey } from "./helpers.js";
 
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
@@ -11,6 +12,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return true;
+		return AccAddress.validate(address);
 	}
 }

@@ -1,68 +1,60 @@
-import "jest-extended";
-import "reflect-metadata";
-
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
-import { IProfile, IProfileRepository } from "./contracts";
-import { ProfileDumper } from "./profile.dumper";
-import { Identifiers } from "./container.models";
 import { container } from "./container";
+import { Identifiers } from "./container.models";
+import { Profile } from "./profile";
+import { ProfileDumper } from "./profile.dumper";
 
-let subject: ProfileDumper;
-let profile: IProfile;
+describe("ProfileDumper", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
+	beforeEach(async (context) => {
+		bootContainer();
 
-beforeAll(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
+			.reply(200, loader.json("test/fixtures/client/wallet-2.json"))
+			.persist();
 
-	nock.disableNetConnect();
+		container.get(Identifiers.ProfileRepository).flush();
 
-	nock(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/wallets/DNc92FQmYu8G9Xvo6YqhPtRxYsUxdsUn9w")
-		.reply(200, require("../test/fixtures/client/wallet-2.json"))
-		.persist();
-});
-
-beforeEach(() => {
-	container.get<IProfileRepository>(Identifiers.ProfileRepository).flush();
-
-	profile = container.get<IProfileRepository>(Identifiers.ProfileRepository).create("John Doe");
-	subject = new ProfileDumper(profile);
-});
-
-describe("#dump", () => {
-	it("should dump the profile with a password", () => {
-		profile.auth().setPassword("password");
-
-		const { id, password, data } = subject.dump();
-
-		expect(id).toBeString();
-		expect(password).toBeString();
-		expect(data).toBeString();
+		context.profile = await container.get(Identifiers.ProfileRepository).create("John Doe");
+		context.subject = new ProfileDumper(context.profile);
 	});
 
-	it("should dump the profile without a password", () => {
-		const { id, password, data } = subject.dump();
+	afterEach(() => {});
 
-		expect(id).toBeString();
-		expect(password).toBeUndefined();
-		expect(data).toBeString();
+	it("should dump the profile with a password", async (context) => {
+		context.profile.auth().setPassword("password");
+
+		const { id, password, data } = context.subject.dump();
+
+		assert.string(id);
+		assert.string(password);
+		assert.string(data);
+	});
+
+	it("should dump the profile without a password", async (context) => {
+		const { id, password, data } = context.subject.dump();
+
+		assert.string(id);
+		assert.undefined(password);
+		assert.string(data);
 	});
 
 	it("should fail to dump a profile with a password if the profile was not encrypted", () => {
-		profile = new Profile({ id: "uuid", name: "name", data: "", password: "password" });
-		subject = new ProfileDumper(profile);
+		const profile = new Profile({ data: "", id: "uuid", name: "name", password: "password" });
+		const subject = new ProfileDumper(profile);
 
-		expect(() => subject.dump()).toThrow(
+		assert.throws(
+			() => subject.dump(),
 			"The profile [name] has not been encoded or encrypted. Please call [save] before dumping.",
 		);
 	});

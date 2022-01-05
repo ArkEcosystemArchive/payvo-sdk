@@ -3,15 +3,15 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BN, Long, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { convertZilToQa, getZilliqaVersion } from "./zilliqa";
+import { convertZilToQa, getZilliqaVersion } from "./zilliqa.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	#zilliqa!: Zilliqa;
-	#version!: number;
+	readonly #zilliqa: Zilliqa;
+	readonly #version: number;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#zilliqa = new Zilliqa(Helpers.randomHostFromConfig(this.configRepository));
 		this.#version = getZilliqaVersion(this.configRepository);
 	}

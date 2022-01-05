@@ -1,13 +1,13 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { isNull } from "./is-null";
 
-describe("#isNull", () => {
+describe("isNull", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
-		expect(isNull(null)).toBeTrue();
+		assert.true(isNull(null));
 	});
 
 	it("should fail", () => {
-		expect(isNull("null")).toBeFalse();
+		assert.false(isNull("null"));
 	});
 });

@@ -1,9 +1,9 @@
-import { Except } from "type-fest";
 import { UUID } from "@payvo/sdk-cryptography";
-import { IPlugin, IPluginRepository } from "./contracts";
+import { Except } from "type-fest";
 
+import { IPlugin, IPluginRepository } from "./contracts.js";
 import { DataRepository } from "./data.repository";
-import { PluginRegistry } from "./plugin-registry.service";
+import { PluginRegistry } from "./plugin-registry.service.js";
 
 export class PluginRepository implements IPluginRepository {
 	readonly #data: DataRepository;

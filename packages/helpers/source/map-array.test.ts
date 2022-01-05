@@ -1,9 +1,12 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { mapArray } from "./map-array";
 
-describe("#mapArray", () => {
+describe("mapArray", async ({ assert, it, nock, loader }) => {
 	it("should work like lodash", () => {
-		expect(mapArray([4, 8], (n) => n * n)).toEqual([16, 64]);
+		assert.equal(
+			mapArray([4, 8], (n) => n * n),
+			[16, 64],
+		);
 	});
 });

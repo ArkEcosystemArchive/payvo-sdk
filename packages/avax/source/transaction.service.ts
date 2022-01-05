@@ -1,4 +1,4 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { Hash } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
@@ -7,16 +7,16 @@ import { AVMAPI } from "avalanche/dist/apis/avm";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers";
+import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	#xchain!: AVMAPI;
 	#pchain!: PlatformVMAPI;
 	#keychain;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#xchain = useXChain(this.configRepository);
 		this.#pchain = usePChain(this.configRepository);
 		this.#keychain = useKeychain(this.configRepository);
@@ -27,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			throw new Exceptions.MissingArgument(this.constructor.name, this.transfer.name, "input.signatory");
 		}
 
-		const { child } = this.#keychain.importKey(
+		const child = this.#keychain.importKey(
 			keyPairFromMnemonic(this.configRepository, input.signatory.signingKey()).child.getPrivateKey(),
 		);
 		const keyPairAddresses = this.#keychain.getAddressStrings();

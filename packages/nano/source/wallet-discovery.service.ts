@@ -1,8 +1,7 @@
 import { IoC, Services } from "@payvo/sdk";
 
-import { deriveAccount, deriveLegacyAccount } from "./account";
+import { deriveAccount, deriveLegacyAccount } from "./account.js";
 
-@IoC.injectable()
 export class WalletDiscoveryService implements Services.AbstractWalletDiscoveryService {
 	//
 

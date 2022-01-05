@@ -1,67 +1,62 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 
-let subject;
+describe("WalletData", async ({ it, assert, beforeAll }) => {
+	beforeAll(async (context) => (context.subject = (await createService(WalletData)).fill(Fixture.data)));
 
-beforeAll(async () => {
-	subject = (await createService(WalletData)).fill(Fixture.data);
-});
-
-describe("WalletData", () => {
-	it("#address", () => {
-		expect(subject.address()).toEqual("my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
+	it("should have an address", (context) => {
+		assert.is(context.subject.address(), "my48EN4kDnGEpRZMBfiDS65wdfwfgCGZRz");
 	});
 
-	it("#publicKey", () => {
-		expect(subject.publicKey()).toEqual("76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac");
+	it("should have a public key", (context) => {
+		assert.is(context.subject.publicKey(), "76a914c05f53de525d80151e209a729cf1c7909c88f88e88ac");
 	});
 
-	it("#balance", () => {
-		expect(subject.balance().available).toEqual(BigNumber.make(3000001));
+	it("should have a balance", (context) => {
+		assert.equal(context.subject.balance().available, BigNumber.make(3000001));
 	});
 
-	it("#nonce", () => {
-		expect(subject.nonce()).toEqual(BigNumber.make(0));
+	it("should have a nonce", (context) => {
+		assert.equal(context.subject.nonce(), BigNumber.make(0));
 	});
 
-	it("#secondPublicKey", () => {
-		expect(subject.secondPublicKey()).toBeUndefined();
+	it("should have a second public key", (context) => {
+		assert.undefined(context.subject.secondPublicKey());
 	});
 
-	it("#username", () => {
-		expect(subject.username()).toBeUndefined();
+	it("should have a username", (context) => {
+		assert.undefined(context.subject.username());
 	});
 
-	it("#rank", () => {
-		expect(subject.rank()).toBeUndefined();
+	it("should have a rank", (context) => {
+		assert.undefined(context.subject.rank());
 	});
 
-	it("#votes", () => {
-		expect(subject.votes()).toBeUndefined();
+	it("should have votes", (context) => {
+		assert.undefined(context.subject.votes());
 	});
 
-	it("#multiSignature", () => {
-		expect(() => subject.multiSignature()).toThrow(/does not have/);
+	it("should have a method to get multisignature data", (context) => {
+		assert.throws(() => context.subject.multiSignature(), "does not have");
 	});
 
-	it("#isMultiSignature", () => {
-		expect(subject.isMultiSignature()).toBeFalse();
+	it("should have a method to know if wallet is multisignature", (context) => {
+		assert.false(context.subject.isMultiSignature());
 	});
 
-	it("#isDelegate", () => {
-		expect(subject.isDelegate()).toBeFalse();
+	it("should have a method to know if wallet is delegate", (context) => {
+		assert.false(context.subject.isDelegate());
 	});
 
-	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
+	it("should have a method to know if wallet is second signature", (context) => {
+		assert.false(context.subject.isSecondSignature());
 	});
 
-	it("#isResignedDelegate", () => {
-		expect(subject.isResignedDelegate()).toBeFalse();
+	it("should have a method to know if wallet is a resigned delegate", (context) => {
+		assert.false(context.subject.isResignedDelegate());
 	});
 });

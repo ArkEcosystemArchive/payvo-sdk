@@ -1,13 +1,11 @@
-import "jest-extended";
-
 import { Coins } from "@payvo/sdk";
 import { ADA } from "@payvo/sdk-ada";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { LSK } from "@payvo/sdk-lsk";
-import { Request } from "@payvo/sdk-http-fetch";
-import nock from "nock";
+import { Request } from "@payvo/sdk-fetch";
+import { nock } from "@payvo/sdk-test";
 
 import { container } from "../source/container";
 import { Profile } from "../source";
@@ -17,6 +15,8 @@ import { WalletFactory } from "../source/wallet.factory";
 import { DriverFactory } from "../source/driver";
 
 export const bootContainer = (): void => {
+	container.flush();
+
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
 		storage: new StubStorage(),
@@ -37,6 +37,9 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 	coins[cacheKey] = Coins.CoinFactory.make({ ARK }[coin]!, {
 		network,
 		httpClient: new Request(),
+		ledgerTransportFactory: async () => {
+			//
+		},
 	});
 
 	await coins[cacheKey].__construct();
@@ -45,9 +48,7 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 };
 
 export const knock = (): void => {
-	nock.disableNetConnect();
-
-	nock(/.+/)
+	nock.fake(/.+/)
 		.get("/api/node/configuration")
 		.reply(200, require("./fixtures/client/configuration.json"))
 		.get("/api/node/configuration/crypto")

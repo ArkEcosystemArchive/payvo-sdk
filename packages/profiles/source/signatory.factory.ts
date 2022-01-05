@@ -1,7 +1,7 @@
 import { Services, Signatories } from "@payvo/sdk";
 
-import { IReadWriteWallet, WalletData } from "./contracts";
-import { ISignatoryFactory, SignatoryInput } from "./signatory.factory.contract";
+import { IReadWriteWallet, WalletData } from "./contracts.js";
+import { ISignatoryFactory, SignatoryInput } from "./signatory.factory.contract.js";
 
 export class SignatoryFactory implements ISignatoryFactory {
 	readonly #wallet: IReadWriteWallet;
@@ -10,7 +10,7 @@ export class SignatoryFactory implements ISignatoryFactory {
 		this.#wallet = wallet;
 	}
 
-	public make({
+	public async make({
 		encryptionPassword,
 		mnemonic,
 		secondMnemonic,
@@ -33,24 +33,24 @@ export class SignatoryFactory implements ISignatoryFactory {
 					return this.#wallet
 						.signatory()
 						.confirmationSecret(
-							this.#wallet.signingKey().get(encryptionPassword),
-							this.#wallet.confirmKey().get(encryptionPassword),
+							await this.#wallet.signingKey().get(encryptionPassword),
+							await this.#wallet.confirmKey().get(encryptionPassword),
 						);
 				}
 
 				return this.#wallet
 					.signatory()
 					.confirmationMnemonic(
-						this.#wallet.signingKey().get(encryptionPassword),
-						this.#wallet.confirmKey().get(encryptionPassword),
+						await this.#wallet.signingKey().get(encryptionPassword),
+						await this.#wallet.confirmKey().get(encryptionPassword),
 					);
 			}
 
 			if (this.#wallet.actsWithSecretWithEncryption()) {
-				return this.#wallet.signatory().secret(this.#wallet.signingKey().get(encryptionPassword));
+				return this.#wallet.signatory().secret(await this.#wallet.signingKey().get(encryptionPassword));
 			}
 
-			return this.#wallet.signatory().mnemonic(this.#wallet.signingKey().get(encryptionPassword));
+			return this.#wallet.signatory().mnemonic(await this.#wallet.signingKey().get(encryptionPassword));
 		}
 
 		if (this.#wallet.isMultiSignature()) {

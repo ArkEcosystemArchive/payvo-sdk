@@ -2,18 +2,22 @@ import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { BN } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
-	@IoC.inject(BindingType.Zilliqa)
-	private readonly zilliqa!: Zilliqa;
+	readonly #zilliqa: Zilliqa;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#zilliqa = container.get(BindingType.Zilliqa);
+	}
 
 	public override async transaction(
 		id: string,
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
-		const transaction = await this.zilliqa.blockchain.getTransaction(id);
+		const transaction = await this.#zilliqa.blockchain.getTransaction(id);
 		const receipt = transaction.getReceipt();
 
 		return this.dataTransferObjectService.transaction({
@@ -29,7 +33,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const response = await this.zilliqa.blockchain.getBalance(id.value);
+		const response = await this.#zilliqa.blockchain.getBalance(id.value);
 
 		if (response.error) {
 			throw new Exceptions.Exception(`Received an error: ${JSON.stringify(response.error)}`);
@@ -49,7 +53,7 @@ export class ClientService extends Services.AbstractClientService {
 	public override async broadcast(
 		transactions: Contracts.SignedTransactionData[],
 	): Promise<Services.BroadcastResponse> {
-		const minGasPrice = (await this.zilliqa.blockchain.getMinimumGasPrice()).result;
+		const minGasPrice = (await this.#zilliqa.blockchain.getMinimumGasPrice()).result;
 
 		const response: Services.BroadcastResponse = {
 			accepted: [],
@@ -64,10 +68,10 @@ export class ClientService extends Services.AbstractClientService {
 				this.#checkGasPrice(transaction.fee().toString(), minGasPrice);
 
 				const broadcastData = transaction.toBroadcast();
-				const hash = await this.zilliqa.blockchain.createTransactionRaw(broadcastData);
+				const hash = await this.#zilliqa.blockchain.createTransactionRaw(broadcastData);
 
 				const txParams = JSON.parse(broadcastData);
-				const tx = this.zilliqa.transactions.new({ ...txParams });
+				const tx = this.#zilliqa.transactions.new({ ...txParams });
 				await tx.confirm(hash);
 
 				if (tx.isConfirmed()) {

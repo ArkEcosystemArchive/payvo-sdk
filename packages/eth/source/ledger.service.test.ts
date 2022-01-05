@@ -1,10 +1,9 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
@@ -12,17 +11,17 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record) => {
 	const transport = await createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
@@ -34,46 +33,46 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ it, assert }) => {
 	it("should pass with a resolved transport closure", async () => {
 		const trx = await createMockService("");
 
-		await expect(trx.disconnect()).resolves.toBeUndefined();
+		assert.undefined(await trx.disconnect());
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ it, assert }) => {
 	it("should pass with an app version", async () => {
 		const trx = await createMockService(ledger.appVersion.record);
 
-		await expect(trx.getVersion()).resolves.toEqual(ledger.appVersion.result);
+		assert.is(await trx.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", () => {
+describe("getPublicKey", ({ it, assert }) => {
 	it("should pass with a compressed publicKey", async () => {
 		const trx = await createMockService(ledger.publicKey.record);
 
-		await expect(trx.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+		assert.is(await trx.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ it, assert }) => {
 	it("should pass with a signature", async () => {
 		const trx = await createMockService(ledger.transaction.record);
 
 		const result = await trx.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex"));
 
-		expect(JSON.parse(result)).toEqual(ledger.transaction.result);
+		assert.equal(JSON.parse(result), ledger.transaction.result);
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ it, assert }) => {
 	it("should pass with a signature", async () => {
 		const trx = await createMockService(ledger.message.record);
 
 		const result = await trx.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"));
 
-		expect(JSON.parse(result)).toEqual(ledger.message.result);
+		assert.equal(JSON.parse(result), ledger.message.result);
 	});
 });

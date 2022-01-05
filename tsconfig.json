@@ -1,11 +1,34 @@
 {
-	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
-		"lib": [
-			"es2019",
-			"dom"
-		],
-		"module": "commonjs",
-		"target": "es2019"
-	}
+		"allowSyntheticDefaultImports": true,
+		"declaration": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"incremental": true,
+		"lib": ["ESNext", "DOM"],
+		"module": "esnext",
+		"moduleResolution": "node",
+		"newLine": "lf",
+		"noEmitOnError": true,
+		"noFallthroughCasesInSwitch": true,
+		"noImplicitAny": false,
+		"noImplicitOverride": true,
+		"noImplicitReturns": true,
+		"noPropertyAccessFromIndexSignature": false,
+		"noUncheckedIndexedAccess": false,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"outDir": "distribution",
+		"pretty": true,
+		"resolveJsonModule": true, // @TODO: set this to false because ESM doesn't support JSON
+		"skipLibCheck": true,
+		"sourceMap": true,
+		"strict": true,
+		"stripInternal": true,
+		"target": "ESNext",
+		"typeRoots": ["./node_modules/@types"],
+		"useDefineForClassFields": true,
+		"useUnknownInCatchVariables": false
+	},
+	"exclude": ["distribution", "**/*.test.ts"]
 }

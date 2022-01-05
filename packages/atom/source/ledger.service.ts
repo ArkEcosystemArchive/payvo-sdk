@@ -1,18 +1,16 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 import Cosmos from "ledger-cosmos-js";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Cosmos;
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		this.#transport = new Cosmos.default(this.#ledger);
+		this.#transport = new Cosmos(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

@@ -1,5 +1,5 @@
-import { BigNumber } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Networks, Services } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import {
 	IDataRepository,
@@ -14,8 +14,8 @@ import {
 	IWalletImportFormat,
 	IWalletMutator,
 	IWalletSynchroniser,
-} from "./contracts";
-import { AttributeBag } from "./helpers/attribute-bag";
+} from "./contracts.js";
+import { AttributeBag } from "./helpers/attribute-bag.js";
 
 export type WalletBalanceType = keyof Contracts.WalletBalance;
 

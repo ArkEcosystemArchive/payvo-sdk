@@ -1,49 +1,46 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { SignedTransactionData } from "./signed-transaction.dto";
 
-let subject: SignedTransactionData;
+describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(SignedTransactionData);
 
-beforeAll(async () => {
-	subject = await createService(SignedTransactionData);
-
-	subject.configure(
-		"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-		{
-			id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-			amount: "12500000000000000",
-			fee: "0",
-			timestamp: "1970-01-01T00:00:00.000Z",
-			senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
-			recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
-		},
-		"",
-	);
-});
-
-describe("SignedTransactionData", () => {
-	test("#id", () => {
-		expect(subject.id()).toBe("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+		context.subject.configure(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+			{
+				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+				amount: "12500000000000000",
+				fee: "0",
+				timestamp: "1970-01-01T00:00:00.000Z",
+				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
+			},
+			"",
+		);
 	});
 
-	test("#sender", () => {
-		expect(subject.sender()).toBe("DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
+	it("should have a id", (context) => {
+		assert.is(context.subject.id(), "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
 	});
 
-	test("#recipient", () => {
-		expect(subject.recipient()).toBe("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
 	});
 
-	test("#amount", () => {
-		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
-	test("#amount for MultiPayment", () => {
-		subject.configure(
+	it("should have an amount", (context) => {
+		assert.equal(context.subject.amount(), BigNumber.make("12500000000000000"));
+	});
+
+	it("should have an amount for MultiPayment", (context) => {
+		context.subject.configure(
 			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			{
 				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
@@ -68,80 +65,80 @@ describe("SignedTransactionData", () => {
 			"",
 		);
 
-		expect(subject.amount()).toEqual(BigNumber.make("25000000000000000"));
+		assert.equal(context.subject.amount(), BigNumber.make("25000000000000000"));
 	});
 
-	test("#fee", () => {
-		expect(subject.fee()).toEqual(BigNumber.ZERO);
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.fee(), BigNumber.ZERO);
 	});
 
-	test("#timestamp", () => {
-		expect(DateTime.make(0).isSame(subject.timestamp())).toBeTrue();
+	it("should have a timestamp", (context) => {
+		assert.true(DateTime.make(0).isSame(context.subject.timestamp()));
 	});
 
-	test("#timestamp missing", async () => {
+	it("should have a timestamp even if the timestamp is missing", async () => {
 		const subject = await createService(SignedTransactionData);
 		subject.configure("", {}, "");
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
+		assert.instance(subject.timestamp(), DateTime);
 	});
 
-	test("#isTransfer", () => {
-		expect(subject.isTransfer()).toBeBoolean();
+	it("should determine if the transaction is a transfer", (context) => {
+		assert.boolean(context.subject.isTransfer());
 	});
 
-	test("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeBoolean();
+	it("should determine if the transaction is a second signature", (context) => {
+		assert.boolean(context.subject.isSecondSignature());
 	});
 
-	test("#isDelegateRegistration", () => {
-		expect(subject.isDelegateRegistration()).toBeBoolean();
+	it("should determine if the transaction is a delegate registration", (context) => {
+		assert.boolean(context.subject.isDelegateRegistration());
 	});
 
-	test("#isVoteCombination", () => {
-		expect(subject.isVoteCombination()).toBeBoolean();
+	it("should determine if the transaction is a vote combination", (context) => {
+		assert.boolean(context.subject.isVoteCombination());
 	});
 
-	test("#isVote", () => {
-		expect(subject.isVote()).toBeBoolean();
+	it("should determine if the transaction is a vote", (context) => {
+		assert.boolean(context.subject.isVote());
 	});
 
-	test("#isUnvote", () => {
-		expect(subject.isUnvote()).toBeBoolean();
+	it("should determine if the transaction is a unvote", (context) => {
+		assert.boolean(context.subject.isUnvote());
 	});
 
-	test("#isMultiSignatureRegistration", () => {
-		expect(subject.isMultiSignatureRegistration()).toBeBoolean();
+	it("should determine if the transaction is a multi signature registration", (context) => {
+		assert.boolean(context.subject.isMultiSignatureRegistration());
 	});
 
-	test("#isIpfs", () => {
-		expect(subject.isIpfs()).toBeBoolean();
+	it("should determine if the transaction is a ipfs", (context) => {
+		assert.boolean(context.subject.isIpfs());
 	});
 
-	test("#isMultiPayment", () => {
-		expect(subject.isMultiPayment()).toBeBoolean();
+	it("should determine if the transaction is a multi payment", (context) => {
+		assert.boolean(context.subject.isMultiPayment());
 	});
 
-	test("#isDelegateResignation", () => {
-		expect(subject.isDelegateResignation()).toBeBoolean();
+	it("should determine if the transaction is a delegate resignation", (context) => {
+		assert.boolean(context.subject.isDelegateResignation());
 	});
 
-	test("#isHtlcLock", () => {
-		expect(subject.isHtlcLock()).toBeBoolean();
+	it("should determine if the transaction is a htlc lock", (context) => {
+		assert.boolean(context.subject.isHtlcLock());
 	});
 
-	test("#isHtlcClaim", () => {
-		expect(subject.isHtlcClaim()).toBeBoolean();
+	it("should determine if the transaction is a htlc claim", (context) => {
+		assert.boolean(context.subject.isHtlcClaim());
 	});
 
-	test("#isHtlcRefund", () => {
-		expect(subject.isHtlcRefund()).toBeBoolean();
+	it("should determine if the transaction is a htlc refund", (context) => {
+		assert.boolean(context.subject.isHtlcRefund());
 	});
 
-	test("#isMagistrate", () => {
-		expect(subject.isMagistrate()).toBeBoolean();
+	it("should determine if the transaction is a magistrate", (context) => {
+		assert.boolean(context.subject.isMagistrate());
 	});
 
-	test("#usesMultiSignature", () => {
-		expect(subject.usesMultiSignature()).toBeBoolean();
+	it("should determine if the transaction uses multi signature", (context) => {
+		assert.boolean(context.subject.usesMultiSignature());
 	});
 });

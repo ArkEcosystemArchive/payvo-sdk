@@ -1,173 +1,171 @@
-import "jest-extended";
-import "reflect-metadata";
+// import { describe } from "@payvo/sdk-test";
+//
 
-import { bootContainer } from "../test/mocking";
-import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { ExchangeTransactionStatus } from "./contracts";
-import { Profile } from "./profile";
+// import { bootContainer } from "../test/mocking";
+// import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
+// import { ExchangeTransactionStatus } from "./contracts";
+// import { Profile } from "./profile";
 
-beforeAll(() => bootContainer());
+// beforeAll(() => bootContainer());
 
-const stubData = {
-	orderId: "orderId",
-	provider: "provider",
-	input: {
-		address: "inputAddress",
-		amount: 1,
-		ticker: "btc",
-	},
-	output: {
-		address: "outputAddress",
-		amount: 100,
-		ticker: "ark",
-	},
-};
+// const stubData = {
+// 	orderId: "orderId",
+// 	provider: "provider",
+// 	input: {
+// 		address: "inputAddress",
+// 		amount: 1,
+// 		ticker: "btc",
+// 	},
+// 	output: {
+// 		address: "outputAddress",
+// 		amount: 100,
+// 		ticker: "ark",
+// 	},
+// };
 
-describe("ExchangeTransactionRepository", () => {
-	let subject: ExchangeTransactionRepository;
-	let dateNowSpy;
+// let subject;
+// let dateNowSpy;
 
-	beforeAll(() => {
-		dateNowSpy = jest.spyOn(Date, "now").mockImplementation(() => 123456789);
-	});
+// beforeAll(() => {
+// 	dateNowSpy = stub(Date, "now").callsFake(() => 123456789);
+// });
 
-	afterAll(() => {
-		dateNowSpy.mockRestore();
-	});
+// beforeEach(() => {
+// 	const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
 
-	beforeEach(() => {
-		const profile = new Profile({ id: "profile-id", name: "name", avatar: "avatar", data: "" });
+// 	subject = new ExchangeTransactionRepository(profile);
 
-		subject = new ExchangeTransactionRepository(profile);
+// 	subject.flush();
+// });
 
-		subject.flush();
-	});
+// it("#all", () => {
+// 	assert.object(subject.all());
+// });
 
-	test("#all", () => {
-		expect(subject.all()).toBeObject();
-	});
+// it("#create", () => {
+// 	assert.length(subject.keys(), 0);
 
-	test("#create", () => {
-		expect(subject.keys()).toHaveLength(0);
+// 	const exchangeTransaction = subject.create(stubData);
 
-		const exchangeTransaction = subject.create(stubData);
+// 	assert.length(subject.keys(), 1);
 
-		expect(subject.keys()).toHaveLength(1);
+// 	assert.equal(exchangeTransaction.toObject(), {
+// 		id: exchangeTransaction.id(),
+// 		status: ExchangeTransactionStatus.New,
+// 		createdAt: 123456789,
+// 		...stubData,
+// 	});
 
-		expect(exchangeTransaction.toObject()).toStrictEqual({
-			id: exchangeTransaction.id(),
-			status: ExchangeTransactionStatus.New,
-			createdAt: 123456789,
-			...stubData,
-		});
+// 	assert.throws(
+// 		() => subject.create(stubData),
+// 		`The exchange transaction [${stubData.provider} / ${stubData.orderId}] already exists.`,
+// 	);
 
-		expect(() => subject.create(stubData)).toThrowError(
-			`The exchange transaction [${stubData.provider} / ${stubData.orderId}] already exists.`,
-		);
-		expect(subject.count()).toEqual(1);
-	});
+// 	assert.is(subject.count(), 1);
+// });
 
-	test("#find", () => {
-		expect(() => subject.findById("invalid")).toThrowError("Failed to find");
+// it("#find", () => {
+// 	assert.throws(() => subject.findById("invalid"), "Failed to find");
 
-		const exchangeTransaction = subject.create(stubData);
+// 	const exchangeTransaction = subject.create(stubData);
 
-		expect(subject.findById(exchangeTransaction.id())).toBeObject();
-	});
+// 	assert.object(subject.findById(exchangeTransaction.id()));
+// });
 
-	test("#update", () => {
-		expect(() => subject.update("invalid", { status: ExchangeTransactionStatus.Finished })).toThrowError(
-			"Failed to find",
-		);
+// it("#update", () => {
+// 	assert.throws(() => subject.update("invalid", { status: ExchangeTransactionStatus.Finished }), "Failed to find");
 
-		const exchangeTransaction = subject.create(stubData);
+// 	const exchangeTransaction = subject.create(stubData);
 
-		subject.update(exchangeTransaction.id(), { status: ExchangeTransactionStatus.Finished });
+// 	subject.update(exchangeTransaction.id(), { status: ExchangeTransactionStatus.Finished });
 
-		expect(subject.findById(exchangeTransaction.id()).status()).toEqual(ExchangeTransactionStatus.Finished);
+// 	assert.is(subject.findById(exchangeTransaction.id()).status(), ExchangeTransactionStatus.Finished);
 
-		subject.update(exchangeTransaction.id(), { output: { ...stubData.output, amount: 1000 } });
+// 	subject.update(exchangeTransaction.id(), { output: { ...stubData.output, amount: 1000 } });
 
-		expect(subject.findById(exchangeTransaction.id()).output().amount).toEqual(1000);
+// 	assert.is(subject.findById(exchangeTransaction.id()).output().amount, 1000);
 
-		subject.update(exchangeTransaction.id(), { input: { ...stubData.input, hash: "hash" } });
+// 	subject.update(exchangeTransaction.id(), { input: { ...stubData.input, hash: "hash" } });
 
-		expect(subject.findById(exchangeTransaction.id()).input().hash).toEqual("hash");
-	});
+// 	assert.is(subject.findById(exchangeTransaction.id()).input().hash, "hash");
+// });
 
-	test("#forget", () => {
-		expect(() => subject.forget("invalid")).toThrowError("Failed to find");
+// it("#forget", () => {
+// 	assert.throws(() => subject.forget("invalid"), "Failed to find");
 
-		const exchangeTransaction = subject.create(stubData);
+// 	const exchangeTransaction = subject.create(stubData);
 
-		expect(subject.keys()).toHaveLength(1);
+// 	assert.length(subject.keys(), 1);
 
-		subject.forget(exchangeTransaction.id());
+// 	subject.forget(exchangeTransaction.id());
 
-		expect(subject.keys()).toHaveLength(0);
+// 	assert.length(subject.keys(), 0);
 
-		expect(() => subject.findById(exchangeTransaction.id())).toThrowError("Failed to find");
-	});
+// 	assert.throws(() => subject.findById(exchangeTransaction.id()), "Failed to find");
+// });
 
-	test("#findByStatus", () => {
-		subject.create(stubData);
-		const exchangeTransaction = subject.create({ ...stubData, provider: "another provider" });
+// it("#findByStatus", () => {
+// 	subject.create(stubData);
+// 	const exchangeTransaction = subject.create({ ...stubData, provider: "another provider" });
 
-		exchangeTransaction.setStatus(ExchangeTransactionStatus.Finished);
+// 	exchangeTransaction.setStatus(ExchangeTransactionStatus.Finished);
 
-		expect(subject.findByStatus(ExchangeTransactionStatus.New)).toHaveLength(1);
-		expect(subject.findByStatus(ExchangeTransactionStatus.Finished)).toHaveLength(1);
-	});
+// 	assert.length(subject.findByStatus(ExchangeTransactionStatus.New), 1);
+// 	assert.length(subject.findByStatus(ExchangeTransactionStatus.Finished), 1);
+// });
 
-	test("#pending", () => {
-		const exchangeTransaction = subject.create(stubData);
+// it("#pending", () => {
+// 	const exchangeTransaction = subject.create(stubData);
 
-		expect(subject.pending()).toHaveLength(1);
+// 	assert.length(subject.pending(), 1);
 
-		exchangeTransaction.setStatus(ExchangeTransactionStatus.Finished);
+// 	exchangeTransaction.setStatus(ExchangeTransactionStatus.Finished);
 
-		expect(subject.pending()).toHaveLength(0);
-	});
+// 	assert.length(subject.pending(), 0);
+// });
 
-	test("#flush", () => {
-		subject.create(stubData);
+// it("#flush", () => {
+// 	subject.create(stubData);
 
-		expect(subject.keys()).toHaveLength(1);
+// 	assert.length(subject.keys(), 1);
 
-		subject.flush();
+// 	subject.flush();
 
-		expect(subject.keys()).toHaveLength(0);
-	});
+// 	assert.length(subject.keys(), 0);
+// });
 
-	test("#toObject", () => {
-		const exchangeTransaction = subject.create(stubData);
+// it("#toObject", () => {
+// 	const exchangeTransaction = subject.create(stubData);
 
-		expect(subject.toObject()).toStrictEqual({
-			[exchangeTransaction.id()]: {
-				id: exchangeTransaction.id(),
-				status: ExchangeTransactionStatus.New,
-				createdAt: 123456789,
-				...stubData,
-			},
-		});
-	});
+// 	assert.equal(subject.toObject(), {
+// 		[exchangeTransaction.id()]: {
+// 			id: exchangeTransaction.id(),
+// 			status: ExchangeTransactionStatus.New,
+// 			createdAt: 123456789,
+// 			...stubData,
+// 		},
+// 	});
+// });
 
-	test("#fill", () => {
-		const exchangeTransactions = {
-			id: {
-				id: "id",
-				status: ExchangeTransactionStatus.New,
-				createdAt: 123456789,
-				...stubData,
-			},
-		};
+// it("#fill", () => {
+// 	const exchangeTransactions = {
+// 		id: {
+// 			id: "id",
+// 			status: ExchangeTransactionStatus.New,
+// 			createdAt: 123456789,
+// 			...stubData,
+// 		},
+// 	};
 
-		expect(subject.count()).toBe(0);
+// 	assert.is(subject.count(), 0);
 
-		subject.fill(exchangeTransactions);
+// 	subject.fill(exchangeTransactions);
 
-		expect(subject.count()).toBe(1);
+// 	assert.is(subject.count(), 1);
 
-		expect(subject.values()[0].toObject()).toStrictEqual(Object.values(exchangeTransactions)[0]);
-	});
-});
+// 	assert.equal(subject.values()[0].toObject(), Object.values(exchangeTransactions)[0]);
+// });
+
+// });
+
+// @TODO: restore is leaking

@@ -1,116 +1,136 @@
-import "jest-extended";
-
-import { IoC, Services, Test } from "@payvo/sdk";
+import { loader, describe } from "@payvo/sdk-test";
+import { IoC, Services, Signatories, Test } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { api, wallet } from "@cityofzion/neon-js";
+import { identity } from "../test/fixtures/identity";
 
-let subject: ClientService;
-
-beforeAll(async () => {
-	nock.disableNetConnect();
-
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-afterEach(() => nock.cleanAll());
-
-beforeAll(async () => {
-	nock.disableNetConnect();
-});
-
-describe("ClientService", () => {
-	describe("#transactions", () => {
-		it("should succeed", async () => {
-			nock("https://neoscan-testnet.io/api/test_net/v1/")
-				.get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
-				.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
-
-			const result = await subject.transactions({
-				identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
+describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
 			});
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			expect(result.items()[0].id()).toBe("718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
-			expect(result.items()[0].type()).toBe("transfer");
-			expect(result.items()[0].timestamp()).toBeInstanceOf(DateTime);
-			expect(result.items()[0].confirmations()).toEqual(BigNumber.ZERO);
-			expect(result.items()[0].sender()).toBe("AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
-			expect(result.items()[0].recipient()).toBe("Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-			expect(result.items()[0].amount()).toEqual(BigNumber.make(1));
-			expect(result.items()[0].fee()).toEqual(BigNumber.ZERO);
-			// @ts-ignore - Better types so that memo gets detected on TransactionDataType
-			expect(result.items()[0].memo()).toBeUndefined();
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 	});
 
-	describe("#wallet", () => {
-		it("should succeed", async () => {
-			nock("https://neoscan-testnet.io/api/test_net/v1/")
-				.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
-				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+	it("#transactions should succeed", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
+			.get("/get_address_abstracts/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF/1")
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			const result = await subject.wallet({
-				type: "address",
-				value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF",
-			});
-
-			expect(result).toBeObject();
-			expect(result.address()).toBe("Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
-			expect(result.balance().available).toEqual(BigNumber.make(9).times(1e8));
+		const result = await context.subject.transactions({
+			identifiers: [{ type: "address", value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF" }],
 		});
+
+		assert.instance(result.items(context)[0], ConfirmedTransactionData);
+		assert.is(result.items()[0].id(), "718bc4cfc50c361a8afe032e2c170dfebadce16ea72228a57634413b62b7cf24");
+		assert.is(result.items()[0].type(), "transfer");
+		assert.instance(result.items()[0].timestamp(), DateTime);
+		assert.equal(result.items()[0].confirmations(), BigNumber.ZERO);
+		assert.is(result.items()[0].sender(), "AStJyBXGGBK6bwrRfRUHSjp993PB5C9QgF");
+		assert.is(result.items()[0].recipient(), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
+		assert.equal(result.items()[0].amount(), BigNumber.make(1));
+		assert.equal(result.items()[0].fee(), BigNumber.ZERO);
+		assert.undefined(result.items()[0].memo());
 	});
 
-	describe.skip("#broadcast", () => {
-		it("should pass", async () => {
-			nock("https://neoscan-testnet.io/api/test_net/v1/")
-				.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
-				.reply(200, requireModule(`../test/fixtures/client/balance.json`))
-				.post("/api/transactions")
-				.reply(200, requireModule(`../test/fixtures/client/broadcast.json`));
+	it("#wallet should succeed", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1/")
+			.get("/get_balance/Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure("id", "transactionPayload", ""),
-			]);
-
-			expect(result).toEqual({
-				accepted: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
-				rejected: [],
-				errors: {},
-			});
+		const result = await context.subject.wallet({
+			type: "address",
+			value: "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF",
 		});
 
-		it("should fail", async () => {
-			nock("https://neoscan-testnet.io/api/test_net/v1/")
-				.post("/api/transactions")
-				.reply(200, requireModule(`../test/fixtures/client/broadcast-failure.json`));
+		assert.is(result.address(context), "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF");
+		assert.equal(result.balance().available, BigNumber.make(9).times(1e8));
+	});
 
-			const result = await subject.broadcast([
-				createService(SignedTransactionData).configure("id", "transactionPayload", ""),
-			]);
+	it("broadcast should pass", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1")
+			.get(`/get_balance/${identity.address}`)
+			.reply(200, loader.json(`test/fixtures/client/balance.json`))
+			.get("/get_all_nodes")
+			.reply(200, loader.json(`test/fixtures/client/nodes.json`));
 
-			expect(result).toEqual({
-				accepted: [],
-				rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
-				errors: {
-					"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652": "ERR_INSUFFICIENT_FUNDS",
+		nock.fake("http://seed2.neo.org:20332")
+			.post("/", ({ method }) => method === "sendrawtransaction")
+			.reply(200, { txid: "0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652" });
+
+		const result = await context.subject.broadcast([
+			createService(SignedTransactionData).configure(
+				"id",
+				{
+					account: new wallet.Account(
+						new Signatories.Signatory(
+							new Signatories.PrivateKeySignatory({
+								address: identity.address,
+								signingKey: identity.privateKey,
+							}),
+						).signingKey(),
+					),
+					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
 				},
-			});
+				"",
+			),
+		]);
+
+		assert.equal(result, {
+			accepted: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
+			rejected: [],
+			errors: {},
+		});
+	});
+
+	it("broadcast should fail", async (context) => {
+		nock.fake("https://neoscan-testnet.io/api/test_net/v1")
+			.get(`/get_balance/${identity.address}`)
+			.reply(200, loader.json(`test/fixtures/client/balance.json`))
+			.get("/get_all_nodes")
+			.reply(200, loader.json(`test/fixtures/client/nodes.json`));
+
+		nock.fake("http://seed2.neo.org:20332")
+			.post("/", ({ method }) => method === "sendrawtransaction")
+			.reply(200, { error: { code: 0, message: "ERR_INSUFFICIENT_FUNDS" } });
+
+		const result = await context.subject.broadcast([
+			createService(SignedTransactionData).configure(
+				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652",
+				{
+					account: new wallet.Account(
+						new Signatories.Signatory(
+							new Signatories.PrivateKeySignatory({
+								address: identity.address,
+								signingKey: identity.privateKey,
+							}),
+						).signingKey(),
+					),
+					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+				},
+				"",
+			),
+		]);
+
+		assert.equal(result, {
+			accepted: [],
+			rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
+			errors: {
+				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652":
+					"http://seed2.neo.org:20332: ERR_INSUFFICIENT_FUNDS",
+			},
 		});
 	});
 });

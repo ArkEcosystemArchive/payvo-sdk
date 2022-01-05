@@ -1,5 +1,5 @@
-import { IWalletReleaseNotificationService, INotificationTypes, INotification } from "./contracts";
-import { INotificationRepository } from "./notification.repository.contract";
+import { INotification, INotificationTypes, IWalletReleaseNotificationService } from "./contracts.js";
+import { INotificationRepository } from "./notification.repository.contract.js";
 
 export class WalletReleaseNotificationService implements IWalletReleaseNotificationService {
 	readonly #notifications: INotificationRepository;
@@ -32,9 +32,9 @@ export class WalletReleaseNotificationService implements IWalletReleaseNotificat
 
 		return this.#notifications.push({
 			...notification,
-			type: INotificationTypes.Release,
 			action: "update",
 			read_at: undefined,
+			type: INotificationTypes.Release,
 		});
 	}
 

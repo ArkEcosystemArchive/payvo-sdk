@@ -1,11 +1,11 @@
 /* istanbul ignore file */
 
-import { randomUUID } from "crypto";
+import { v4 } from "uuid";
 
-import { ConfigKey, ConfigRepository } from "./coins";
-import { Container, BindingType } from "./ioc";
-import { NetworkManifest } from "./networks";
-import { BigNumberService } from "./services";
+import { ConfigKey, ConfigRepository } from "./coins.js";
+import { BindingType, Container } from "./ioc.js";
+import { NetworkManifest } from "./networks.js";
+import { BigNumberService } from "./services.js";
 
 const createContainer = ({
 	config,
@@ -18,7 +18,7 @@ const createContainer = ({
 	manifest: NetworkManifest;
 	meta?: any;
 }): Container => {
-	config ??= new ConfigRepository({ network: manifest.id, httpClient });
+	config ??= new ConfigRepository({ httpClient, network: manifest.id });
 
 	config.set(ConfigKey.Network, manifest);
 
@@ -62,7 +62,7 @@ export const createService = <T = any>({
 		predicate(container);
 	}
 
-	const uuid: string = randomUUID();
+	const uuid: string = v4();
 
 	container.singleton(uuid, service);
 
@@ -95,7 +95,7 @@ export const createServiceAsync = async <T = any>({
 		await predicate(container);
 	}
 
-	const uuid: string = randomUUID();
+	const uuid: string = v4();
 
 	container.singleton(uuid, service);
 

@@ -1,41 +1,33 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 import { uniq } from "@payvo/sdk-helpers";
 import { UUID } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { Http } from "@payvo/sdk";
-import { BindingType } from "./coin.contract";
-import { applyCryptoConfiguration } from "./config";
-import { MultiSignatureSigner } from "./multi-signature.signer";
+import { BindingType } from "./coin.contract.js";
+import { applyCryptoConfiguration } from "./config.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 
-@IoC.injectable()
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
+	readonly #configRepository!: Coins.ConfigRepository;
+	readonly #dataTransferObjectService!: Services.DataTransferObjectService;
+	readonly #httpClient!: Http.HttpClient;
+	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
+	readonly #configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
 
-	@IoC.inject(IoC.BindingType.DataTransferObjectService)
-	protected readonly dataTransferObjectService!: Services.DataTransferObjectService;
+	public constructor(container: IoC.IContainer) {
+		super();
 
-	@IoC.inject(IoC.BindingType.HttpClient)
-	private readonly httpClient!: Http.HttpClient;
-
-	@IoC.inject(BindingType.MultiSignatureSigner)
-	private readonly multiSignatureSigner!: MultiSignatureSigner;
-
-	@IoC.inject(BindingType.Crypto)
-	private readonly packageCrypto!: Interfaces.NetworkConfig;
-
-	@IoC.inject(BindingType.Height)
-	private readonly packageHeight!: number;
-
-	// @TODO: remove or inject
-	#configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#configCrypto = { crypto: this.packageCrypto, height: this.packageHeight };
+		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
+		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
+		this.#httpClient = container.get(IoC.BindingType.HttpClient);
+		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
+		this.#configCrypto = {
+			crypto: container.get(BindingType.Crypto),
+			height: container.get(BindingType.Height),
+		};
 	}
 
 	/** @inheritdoc */
@@ -138,15 +130,18 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	): Promise<Contracts.SignedTransactionData> {
 		applyCryptoConfiguration(this.#configCrypto);
 
-		const transactionWithSignature = await this.multiSignatureSigner.addSignature(transaction, signatory);
+		const transactionWithSignature = await this.#multiSignatureSigner().addSignature(transaction, signatory);
 
-		return this.dataTransferObjectService.signedTransaction(transactionWithSignature.id!, transactionWithSignature);
+		return this.#dataTransferObjectService.signedTransaction(
+			transactionWithSignature.id!,
+			transactionWithSignature,
+		);
 	}
 
 	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.httpClient.post(
-				Helpers.randomHost(this.configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+			await this.#httpClient.post(
+				Helpers.randomHost(this.#configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
 				{
 					jsonrpc: "2.0",
 					id: UUID.random(),

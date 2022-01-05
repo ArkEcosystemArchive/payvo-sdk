@@ -1,16 +1,16 @@
 import { IoC } from "@payvo/sdk";
 
-import { Identifiers } from "./container.models";
-import { EnvironmentOptions } from "./env.models";
+import { Identifiers } from "./container.models.js";
 import { DataRepository } from "./data.repository";
-import { ProfileRepository } from "./profile.repository";
-import { DelegateService } from "./delegate.service";
-import { ExchangeRateService } from "./exchange-rate.service";
-import { FeeService } from "./fee.service";
-import { KnownWalletService } from "./known-wallet.service";
-import { WalletService } from "./wallet.service";
-import { PluginRegistry } from "./plugin-registry.service";
+import { DelegateService } from "./delegate.service.js";
+import { EnvironmentOptions } from "./environment.models.js";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 import { StorageFactory } from "./factory.storage";
+import { FeeService } from "./fee.service.js";
+import { KnownWalletService } from "./known-wallet.service.js";
+import { PluginRegistry } from "./plugin-registry.service.js";
+import { ProfileRepository } from "./profile.repository";
+import { WalletService } from "./wallet.service.js";
 
 export class DriverFactory {
 	public static make(container: IoC.Container, options: EnvironmentOptions): void {

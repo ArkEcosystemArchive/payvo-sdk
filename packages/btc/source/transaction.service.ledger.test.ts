@@ -1,7 +1,6 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import nock from "nock";
 import { createService } from "../test/mocking";
 import { TransactionService } from "./transaction.service";
 import { BindingType } from "./constants";
@@ -15,48 +14,36 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { jest } from "@jest/globals";
+
 import { ledger } from "../test/fixtures/ledger";
 import { MultiSignatureService } from "./multi-signature.service";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-// import TransportNodeHid from "@ledgerhq/hw-transport-node-hid-singleton";
-// import logger from "@ledgerhq/logs";
 
-beforeEach(async () => {
-	nock.disableNetConnect();
-	// logger.listen((log) => console.info(log.type + ": " + log.message));
-});
-
-const configureMock = (record: string): TransactionService =>
-	createService(TransactionService, "btc.testnet", async (container: IoC.Container) => {
+const configureMock = (record) =>
+	createService(TransactionService, "btc.testnet", async (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.constant(
-			IoC.BindingType.LedgerTransportFactory,
-			async () => await openTransportReplayer(RecordStore.fromString(record)),
-			// @ts-ignore Uncomment for using real device
-			// async () => await TransportNodeHid.default.open(null)
+		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+		container.constant(IoC.BindingType.LedgerTransportFactory, async () =>
+			openTransportReplayer(RecordStore.fromString(record)),
 		);
 		container.singleton(IoC.BindingType.LedgerService, LedgerService);
 		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.AddressFactory, AddressFactory);
-		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 	});
 
-jest.setTimeout(30_000);
-
-describe("bip44 wallet", () => {
+describe("BIP44 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["n3LhrsyE8g1Ga2XPGuXfRkaPcipevENLre","n1ii1xkSqM5zTyY4h5zpAnPi86csRbA5ar","mkEU1tHycuDj2XPcRMBWZHrBvHJXwkcBNR","my6MACmsGA3MXq73KJwnZwcNYwAYNXGGaM","mvY8me8vYkKUz8Qn3pFhionqYWDZeiC1hC","ms9QjBPWq7atAGtp4HrFRUhcuNU2QHj58z","mtkq8N81uLbazEszNZSij7ago4k6KkfjKk","mjZij3tVEKKFdyGcUTTkAVDR7jGhUfxEf7","mhub5yjwn8aktqw2C1hipdYNW83njAgymv","mjP4YPUBZZW6GaXJJ36W8gfTfxMCfuTvbP","n2khkbRh2pc8srDNeqM8uEy3n9APaL8KgV","mtBkrgNXdCX7gBVAugdtNqSq8L56EVV7Uw","mi5VbkBz7tjfg7AQ2oxxQWj78LDBzhrb3d","mhbNtdzhrxRLAuajTLYCzaec3DE79GLjwh","mhuacfeCHWSVweiu6KwDVrTGhsrnCQfTgz","mtbT1i9DnWaUMiWxUvSR42Ve56KbReKcgg","mowcx8DHsDBuhKSQ9XBpML9nZSSB2SyJDc","n2FJRGVUvWEk4rUzfJWkki5jqSg5bBwc98","n1nSwLjZ54S6k58KBwjdNDuqs1mZSCXx3z","moGqYcYarUUiLntbqEL3BBkq4XPuGBoVqN","muqrmFmmdHbbBsEqJMtL6RQm4RHPUYnFk2","mywJckScMZgPMhFmqfxGh7kDAV5cXqjX3r","mxujfFr43vVyNxLabh2F7CdFR9NAEVmUKa","muQRbM43NH5LSigqDDE1z96ygLadhUqAkS","myboc96HfByRuWpXcgvkCBaB9UUyJ9jXKK","mq5wovr1wwJpbCQHZ5T5CyftGCwze1DQDu","mktyYXvra2sribiZcBaTHxgyWqw2Jox3h9","mtJ5uCjqQ9Wi3tji6LXUyt8JhUetoYRumF","muDxFcQ4zhMKb4Zi6hYsVhkRNNZeG1CXtb","n4JzHYrRWJ4neKUs8aA3fhrdNstuzGdGRi","mpwKChjheNta7f2nfMrZtCsFVvTqnX4wu2","mvfYphsn7xAdrf8xAYDSskD5HYGe6BV8F5","mjf2x3fNeB65egmWgMhN4Uk9kCZRF6zSYF","mhC13KUAAi3M837GNu3CtmwaERKskLofS3","mpY4L4WHtXw7KSiZ6PDhZyTF5AhXK2F17X","mgUL2JxfUxtQ4yfMREqCUJDsv71SL3qav9","mz84bNXV2QHVAo82DFVzaymAWsNBn4oxXJ","mod4Whkw4T8P28ezhzmzLAqGCQTu8GXdg5","n3YrL12NVPcQdaeqxHzuNVqRGVAs8qHGfF","miEwLKjCjCLau1nNVQAsHQGjBuYgSK69dg","n42v5BSFfGZKEKDuU59yrur9eKSzg4F6QL","ms2WTyyd3QfrzouWcpmQ8LdhvwLchNogZc","mk5seBWzKpvkZayKcMmLnvfnJHH8ur4HeA","mip1uqSjVnrdNpgSxttgVdFgYRxwYNKcZP","n45q6F5LxC6VBUxdf6nuvp9ZwLGmBvSkfa","n4ZvH3QJ5b2b1yCqLCwuf2zpgtrUX1sGs2","n3rKjHbcp538Jr8n1V3PAZCbDQQyanuePZ","mr9gtRy2VAS78GejUiKgf4myszNPBHoLpV","muxcpyEWrtgAj96nQ9mUbuzQQb9ixDcFZS","mvSgDudA3dJZqA9VdXNv9rSaDBbii12odf","miUCCMdHSUMuqLakeJFnQNubCZiqtagT9V","myBsAAr9mNe1o13qXTA9RQRxVLbE1Cp96i","mt4BQPwHK9qYVyh6sE5Aq6Xm9YFyYSYTw8","mgYbtjCrroxWMbqXXQBos6dNNXfLMoG5ht","n1GtvUHv9mTU5MLcpDDydU4VwQcnvup3uB","mjaG5QmGTSkSXUCsfsRcG2CgERRFFQEfbb","myeyiLHwvy7GsTtHh6VFrRskMeZdqncSro","mx9RRciYgtqTR17CtmB8sZCuwdUesxU8X9","mxx8rKmbVh5bTmQJcip4XzZd3QSkqW44m9","mrWLJUo6HzfYQPXxMbba1Mh81FJ1jThwBV","mtgZJuqhnmzKq2Pqppyo7Bs5KXUBck9BQa","n4ZfnxeQBifbXP5VeoaDQ31eJ2YEePrAD3","mqsQmYqAttASHDRTSNtKvYt1JT95hr69hD","moHvYxq4UKhQ6rJGs3ggF6HjDC3Kt9RSd5","monmjReChadcQ28CsS2dT7cFt2voQrYDqv","mjorkR7WmVTEBprGY9pTCS7cbsSSHb48tq","msB8hgRB375MBJTL4zR89Bn2r1zYmHzVqo","mrzG17RdB7S2rWhVgaTMnmHzwpyLnrB7eE","mrvZPbrtuVtiu2JVFSPHAUeYPUrZVS3yrU","mpcNCGkruWiTCwJ9hTFHej65eEKHjYcUeQ","mjn917wD8SCTUYZekKajRRp9HP4MQL9SwK","mscG2nzgEuWyNU1f3HiWENydwPxMA5A57c","mmk4XeVpZSwJULzAEnA2hHV1eyE43QTNWb","myeA86s9hjuoNc562RqMrTQMbGKXYjW6jQ","mxovJt8LqTX1Q9t6CWy66sF5uzFJQWfhSE","mtHCRA5DQgr4d9pF3J9fPAL95cNurdRDPw","mummhXKqdB8MdS6c73MbBUb7jgPLqveXPo","mymahUdZ3LE6R926ocPjy71VcbkdFLnmtw","mr3WpZkETAM3ynUwP44sDPxjZ8X9FL5ihg","myi466NcvUwEgGiNzYeQyScNqhsNDU4JdZ","mtMQ8mWhcbrKL78yYdkGcHuU9TfCwGtDk7","mj5LmdsePJ4mbaKVSE37dof1GXeLpgrEc1","mxPtTaKJFdxDHHxqKzVZTf73CKgjcJtzAG","mjk1vbP9jzMfGc85CfTbAjxefFBwnRieo3","myR9FJitM5eDYzQvDnGXPXD7LFoXw91oAZ","n4q8fhk38s2rBfS2ZeAAiC3dfMP7X4p7F1","mpiVHCT9Fe6TCh5ZU862tpK6JhdBWoQkRs","mfsK8DnY6Px6NpxqUiCaAHHyMpaYPv67Gk","mpiQLtGkhRUQmo6kHQseAoqdq9WANgvpSJ","mx4cZn3XPRjejzC119buMKYjuRN85Vb5um","mz9VT4zPiH8vBAgKZn7Gf9VnRQstfEcnrX","miaYjb1WetR2MZK5r3zrFxRS8BA6pvrBkU","mtNHUh4G5EBe5KuWtwRsSZSnHQjiRDtMYE","mhGt72NEBz6GY5F7AqgiN1ZHu1mh3jTnU6","n4YN28XhZ9heUDWZ2tTGHmgqSW8mDVsoSr","n1cSBqiuLWygTK29maXmoPp45viXgzpXr8","mnq5grJzMVXehaMRn61Xwt7u5seqnmXcx8","mhoszJwb7jduLfgg18AKMrMBsLBq9WTpzG","mzi3gBmmhe9u8vzrabG2zyw9RYvidsvhsZ","mvzPPyHreLKmcMkm3rt24CDRiv2RfV2mJ9"]}',
@@ -101,8 +88,6 @@ describe("bip44 wallet", () => {
 	});
 
 	it("should generate a transfer transaction and sign it with ledger nano", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip44.record);
-
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",
@@ -114,7 +99,7 @@ describe("bip44 wallet", () => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await configureMock(ledger.transfers.bip44.record).transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -122,21 +107,22 @@ describe("bip44 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"0100000001a0ec19ed28505c81b7126b484940967a490f233ccc8350a1f4bb63e36fccc267010000006b4830450221009a5f6bec6bade72cfc8abb260d5f36504de840b8397821ef666f32b32676d54b02203d8975cbe5c0b5eecbcfabca2b803c1f879a12652d4a437786b7ff2e4a2ed641012102c51a1a843e4661e603d7d28279dcf58c065f8a217818fa00202b666aa56faa8bffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4f6580100000000001976a914ef628f069100b9831b592ea20a1d446e5de2c01588ac00000000",
 		);
-		expect(result.id()).toBe("22555462e2877f6799ca7fa9887d44093bba9686fac0ebe15aa5445374abd5a5");
-		expect(result.sender()).toBe("mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(1_690);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "22555462e2877f6799ca7fa9887d44093bba9686fac0ebe15aa5445374abd5a5");
+		assert.is(result.sender(), "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 1_690);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });
 
-describe("bip49 wallet", () => {
+describe("BIP49 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["2Mx8BgV28sZNRfxej4LYwdQFxuAVFfomE5x","2NByjSULyMEkygcskxGSacykeAiPRYZuNwy","2N6RNFCB6P2h3rUCq8FaWWNKgusSQwryqUF","2Mxsne6658s13XN5Di7kemRgHXwFSnv96xP","2MvbRTn2zrdf4Zffx5uUC9opA6iKYyqgfgB","2N4mByjRtfvGiYh8zWqEopQ7D8rHk2VjjCp","2N6LFB1UmeyubUYDvFWVmy5U8cZv8Nj4KHS","2MyLZR3jxuWnayunLYE9QZ7ntkLFP2TmcY9","2MwH78onDen8J6JmgsghWmK8faAbDAAELfA","2Myum3pvpF3pK8YVgmQpxRgo577nnJqZjMu","2N5KpAiFmTgWNBsoNcSh48eDaN9qPtZEBZq","2NDYkMgjJhx4DsfHvHMThJ4pJ5YMf3L3PCg","2MshVgiAm2KxndAJAy2aUDQz9GSr9RfLgZ9","2NFd2XpoFLMEdaLq8vtr5f4TCqDo75E3ugG","2MyBLMkMJaxg9CbyiWMB7DrAzrBrpGDnDgw","2MtVanoDBYxiMrgFrQWJh3rmQVMHt5EaNDs","2N7AbAmZjmfZ2ZvYiZXWEFqnf3VnrgUEV2m","2N6n5ZTjpLBcVSVmqq2Do8Apqe6oxrWcr4o","2MwHNChStcwTN8viwCzuouGdgDgnd9UG6Fq","2NE7KtYVPg44W9CZdtdZHnnPQpT8Jq4E4cN","2NB7TCpaJSo7NrYyFZfWvoifFvsybUHMpfx","2N3VXUTTDWnNE2qDsPkpfL7HcBdVPrNkYSc","2Mu1BN78b3yfgHNdcux69wgBez9djsuy4Z5","2NF1ExWsui72mSdtym2rkHqp7oic2jXcAWy","2N2YJeYjbJfcPhHqJhhgHiistfyLWEf7KVL","2N3UosruupFvh9ESM3hMYXut7FR4GzrCfKn","2NEn84bztkL7JjjVcqSPZ3bX5ZaaeMg68L6","2My3aB99xuKZt8YQ5c5icbdhCKZnJC1BdK4","2Mx1cA4mKGQBbokWqArY3RGvxTYc5Vs3zzP","2MzpHtPDji3yXwarEsQgnfKdKEDk3MfdarF","2Mt7zuTLbEoaRgbg9R8aHuYrUKsMNLNBpwM","2N1JBNrEi9LwhKGE5zNy4EwfHyd9eefeVQE","2N8Mh5vyWqsYZSA44k8AK6qktxZc6qD9Bkr","2NDhgWPV3EqAAWigTDugVthNyNe7cdHEuXh","2NA9Xb14nAKnme29AqQFJrpYN5Thnvf7azE","2NAigvVnz6jG7yDzBfrMPsjs4kNhVUs4XBb","2MzfbLtKYGjkJgg1x8obGRY797wttixSzGY","2N9pT6VMcDyD1GNatekK9VKNUTYob7TqbAT","2N99qkLoRN7DHtxU6dX4nMciNY9rkA6oc7i","2NENaVKYDvL5Kd1YS3KpZwWUo3QNVR9E5mR","2N6KvgRKRdQzaVGXgEBxxFynwHCB6vnLfDG","2N8dBRxpFE8wjgpuxroeHMC3MURzE4JRQVr","2NBDZyi5DhK89B2e8D19dojqBumyabmsqMH","2MuD1ET94HqSSdWdWXjZhF8DsfNDzR6YYzD","2N3L2uCn6bmwJycQ7eC3zY9QEeDpQm7BVd5","2Msd8aLAGSrZMNmuJgdE1RcgA6s97ysRjxC","2N1e8UYbwVRqvwQ1pKwByWWcLRjXtLPAj6o","2MvLEkNXpymZgsuLkJ5yrBeSw7hAeMpdzyW","2N52T9P5buocvJArMEGyfWdkokaupBZB9ZQ","2MuUwYRniGiXA52mxkUDPwCNdf7tD3SDfsu","2MyD1dUeWzcKBBBMBuc13o2ATqdeAtnM48W","2N84AzFo5Zba7eZr6K23jNDHKLva9wirSW2","2NEYFAW3aWiVPpoVuyWLRZGg9EbQd4Exk8L","2NCnjy4MootxcfC4uyXBzu5z2HjPJpk9TdR","2Msf9ThkUpoLBBMytDg4C7uWwRjh2xsGxhA","2N6Pqx55rWQH5SgzyrE7qjKgSAH4GNpkQuy","2N9P5cNyVUsX9TVzr7uhHCXbytRMXyxBEqv","2N8hX4FtSky9gMxF4BQnPhiYKqVhte54gcd","2N5bbmLwcSHf2x2W2YGB9cS1u4pKEgBi4Vt","2N9o3HY1TCetk5xuqe8cxeA8jDh3irF4Jtd","2N7VgkgKnoDP61rxUUNjnTSFqFLBQXsTsex","2NAYLihQScz3iHJTvDmj9ACmcqfqYUNRAxv","2Mv6wbB6ViaZiXz6wJFMa5p8Qrf29qXn1yN","2NBpzkXAdL9xAXWH3rGPt47dtBdc6KGygzZ","2NBzwDvi6iNe3Gj6tnMFJ66NV6Pynw2Cip6","2NCDwyLRCbL5oHkyRucmbG9boe5sywdNqps","2N6MAAVdPooqWBJhdtdNF8BWv8gcwyug2mE","2N5hjtAL8JU53oSvWZoHJk72mstW732MowY","2My9Hs9BtbkRmNXXkQyLt1sFs7P24NGJ4Vx","2N374dZdJpraF5ooHqJSZ8iaSCkDp11RvZf","2N1VLmHhvcPLAL6Vp4xz3hs8zLZrt4nvJSE","2NFRAdLzVBje3oqy9LpujgCDRpFfscumK1i","2NAfeXVeYmtBKgqa8RujTerJEK2qqiz3tDr","2NEg9JNWaCRDP7uuBqHsV3iQcFgtt1gDFXv","2NEekrhjfE2hZCSTY9HVopQ4qeeg6N87nN4","2N6FVVpnN4cznpzWbeWZKoHkoGP1baoBnNE","2MwfHLCfW9EC2fa1mPM5UzTGS4Z1jGhs2xE","2N7KzmzEQabVAYHfhoAdQcXKFucN9igy6no","2NCptervssFFLQAHoWtMihjkn2Mb9ijzQbp","2N3PniBwM7bwdjgheUtkFcwXMcWhxoN3YiX","2NFhnFiLnuivYgMXnzoGuVMP2mU2fiPSX4t","2MumCG7uf8YamjcZDQNDdUan5eTzysFXsZ1","2N6P8vZSqbW8fUkdqJwqJgAJ5n9UsWwtntC","2Mu3XFeGCctySKXW7amoXYg9GFUNUHnsKcL","2N2bgA9p2s8NHPvzJgHKj4GNuxRvfeEMbVF","2MuLXhq2WWymGURMk8WT3LQEUXsSwnKVFBL","2N4jrKnX52MZrSkgjL8cUnHjjSuRYDAEyDB","2NBSbAn8K3ZCi7mZsnzkYhrfNgmfXshcNXk","2N8oBJjTCPVCvEjnsCdAb4x5qCQFgF7oLb6","2NDFLrvcr74xxVmURLRBxH5WBajxY2HATSU","2MuP9YynsptF9eH9iMeLFJx1X3pjLnLsUhi","2N1ZKszXutoGtYwQRNnWAqRCM15QT9qk7in","2NGMz23MswCkzeRveXGAqQRsdmoUN3XhG65","2MtUD1x4CLNTY3QMaLt3dBcz7pd4dZd3eqQ","2N8fafFdBvNTCLDZvFd6PgsfgPumGnSPeaN","2MyVuY7gBey38HMppvmBXWHeuHuqebMkhsY","2MyjBb6omXSkpLYt3oBD1ignW1zSiCH5cUZ","2NDi4oz4uxnckwBtqL4AZBZWrSCfKmV9q1K","2N5yzU6NNdBaWL6pXNuMdnE5hRhsiNed1X1","2N2dSPhNMw5Jy6Yh148iYVxY1ceFMauCfy7"]}',
@@ -181,8 +167,6 @@ describe("bip49 wallet", () => {
 	});
 
 	it("should generate a transfer transaction and sign it with ledger nano", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip49.record);
-
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",
@@ -194,7 +178,7 @@ describe("bip49 wallet", () => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await configureMock(ledger.transfers.bip49.record).transfer({
 			data: {
 				amount: 0.0007,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -202,21 +186,22 @@ describe("bip49 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"01000000000102adc5416aa292d604b0c1001d05d018168e5cb97280b4710ac54693d3c6875d1e01000000171600148eb5fdd59771c49650cf7808784fe080d532b307ffffffffca0e01751f86f3ec608cbd33f0825cfa3915ff721f7829f503c278a9ed8f14de01000000171600140f49ae97db28cee136efb9c15fbd9fa87df6cca5ffffffff027011010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4c09100000000000017a914cd7c51c3f3a5ad8533215c499e55fef1d07f852d87024730440220624fca06ae5bf584e37f0a252c0d9a56fbf6d672153a5e5305cfcbb0c4a255c90220589a693fe06609cfb35177962f31b5d1fd492a402041e9283118a0d5b79a4a36012103de2db824354a86e663d615af1982e9ddf9a16565175961670f32091600ec1b2802473044022061219ee1d48659620c33e0482912ea03cdc730fba3c4f1a4807d4f8bb921dd3402200553d1aa9a19d9604df6304e12ce288ad4a1b764ad5166df68afa3af9095dcbe0121021e723637da0432ff9e9de6fdac2a070daaeaf6d6cb795ae42a965b81941e59ac00000000",
 		);
-		expect(result.id()).toBe("6b4e9e2051f1617ef1fa0a712e5b5b4d660fabddac8351077a62ffb439ca1813");
-		expect(result.sender()).toBe("2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(70_000);
-		expect(result.fee().toNumber()).toBe(2_520);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "6b4e9e2051f1617ef1fa0a712e5b5b4d660fabddac8351077a62ffb439ca1813");
+		assert.is(result.sender(), "2NFJNgNKsTDN3dCcFnu4TU9wAv5dK8tNYqT");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 70_000);
+		assert.is(result.fee().toNumber(), 2_520);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });
 
-describe("bip84 wallet", () => {
+describe("BIP84 wallet", ({ beforeAll, it, assert, nock }) => {
 	beforeAll(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3","tb1qtxjg2tzzza7lr60cxadpkp0cuv5zt07h0r2hxs","tb1q0jeyzuj3fwz6nyughmmdsap47xl8zkxcgrta2j","tb1qp4ekevzujt0mcgxvm5lhz2svaujq3qsjrv864d","tb1qdzt03vpcnq4xtcgalgj8je75crmt98ahwd56h6","tb1qgp5hrr4kvplfjg6rnr3her89duz6sgcjr9l6xg","tb1qtcpgl08nh52wtqgndhr7wssa0aw5288nj83w58","tb1q6utl7cpzt6dnm8sp5v8279yxmv2ufu9a4fhuy0","tb1qu2nhuylpw9djpejejzjv8x43qfw7h72qq49hyz","tb1qlnsmeq973nlpkn3dfrgzdtmxm7sxwwnkcmpcz3","tb1qupf7xlutsld6ajpe33z7njlum87qnpx6ug9vj9","tb1qh5gvyp77juyh6tw0y3pfkgpmfh885su7tsn2cr","tb1quf58kja4u48xkgpqdzcsunyafx3w83prvalczq","tb1qr5u0nj2v3p4fxdlnhy6j0xw8ajmlnaxgf5zwy9","tb1qzz96d5w6q3rvjmharjxeft53826y00eyykjk43","tb1q0rnzxz59djmhdh6ej6apk7gg4dvyv205ued4fl","tb1qu2qmfvd559w7z57u0z6kpw2us4mg5fm0my3jdu","tb1qe6zdvnvqgchsxwpg58nkqqdnzv2esn4wx4ekt3","tb1qs84p0jy342cj8ylvxvrtjrpz9l64369uwpcy3p","tb1qvy9mdyfprzauhva9kfsfl7pl8g6j8clp4w85w0","tb1qqjfdux0x5dltzy5hnmgcrnazgq4xcfl7t70xyw","tb1q6rl6ad84g7hww59dwmzsqxhmx5q989fx3378cs","tb1qgpfcm8ug0a9j4lkc77pm29gukl30l9hta2tty2","tb1qdkfqe29cyklwh9mlvsu93qqkj9tx9hrpj9vcpy","tb1qu9swqvrfkmza5jzxze0e83yruenrqfkyz42vch","tb1ql65ylgcypcrdraa4e8tjfwj2dlu5y4kxtjz057","tb1qzykv02g9z9u3vzksjz0ta9xslnsskytpcxjar7","tb1qxmkcgulllpd256ft6zm9pm56tltapw8nhyethm","tb1qrwjvnttd9ddvjspkf77p7maan3snpf09unaugd","tb1q7tarkqsfgteqx79r2t20uwtzl9vva0wx0k4ayz","tb1qlgvxqyl6w35702k2u2939nn9yk59ke453gc8du","tb1q88p4j7zgz9qkmmqn2hnpedtvyydadmf8f0nqce","tb1qveme33aqk50pcgf8ha0x7yk7070zn24adr56vr","tb1q8cvxlzztlx4kjmxw69k0l3mw7gpg7dwyen7t63","tb1q8ecj0zt4wx9nwfvv7zzdd4a5hqft4vweqy5u98","tb1qc4yzwmqf5dj60rkzrjwrl6y3p2hjxvmfz6335g","tb1q03zk0hqnn6efw6jgjxzdh8ecapwe0zq3wn42cl","tb1q5taend7m5cu7t320uwdeeqvxdg2qvj3knh9xqh","tb1qfr6taz70f5nal6p8yu0w0p42tdhl8y5stc0wyh","tb1qk0rfj3fmfaxym8jzzghw7xj0hvey2a6nqtsk25","tb1qgfh9l7mexv9e46tztt9m73reke9u48q6uunmhu","tb1qaa6u30n6t33x3qtkfqgr0csaudv67gn3lf8g6d","tb1q5p2z4m2zcdx4d2lnh07y43qfkzssdz0aqy2wsp","tb1qrj38tggucdz80pwn3qa8862laa8s68cyhc2l7k","tb1q9vuv9rxdcuekrzc7cnwphltdd3jkfrrrcra7er","tb1q3efwr9h42h67wqgqhr8vkhhn8jh75307ndk65z","tb1q5fvq44fnq4u8p6jn83my26ryfy2urqppghavl8","tb1q9tdrprakpaa988mfc8rcz8pz463h0m0nrf522w","tb1qmuc75aqktsuqcx0euzmxx80kfskytt5tnukr52","tb1q7tjr75nnk6jcja50mhclnvrerx24umv5wh0sy0","tb1q0lynmvww482c655eykytt8cayvmmre4je5qwvv","tb1qpvwctppnn7z42zgkcxuqwlvn3h5gqdwrpvxz3q","tb1qexrzqvj2zwedpzvx9wygtvxwt60vf8v3pzshmr","tb1qfyq8zvc5d2qg4kuaj73qgsp8fjr2rsmvlkvpme","tb1qu57cwgs7qsxm8qup7rsxtj66fe5ga535ll2hfp","tb1qee2tzzywvurq25rk40mts9ktepe54a3zftm2yx","tb1qej8tsceu9md3zg0v65hwyeer2gc6jvyk0qtdnp","tb1qk9fufzr5v4n4r5gwdtp0k936m68jttm6hcaxe7","tb1qjqxv88rt5r6hu3x2ss6rwdstz7efyp5hufcpd4","tb1q0rwmmpuyuzyfzglksxuahwqckxarqmhd0pvfp7","tb1qzxkrjd7s600c4f3a2lltm9hkkxut77ewu4unsp","tb1qg80u5d8uczmaumwu33deejppsqjujtax9r9dhc","tb1q8cgvxnmgwhyp3ep2zpx2cxhufl9pk63qdxm26d","tb1q3spthwkc28zdc23yn435vv2z8ewda694u4m9a0","tb1qweawrnsqe5vxdmpjfwyqx9s9r37pwnvypygve5","tb1q6w7866urtvha9t6kq65est66z9ufx2vuueqfpx","tb1q00hfkswhpy70mrssqqqh0x22r7jsmzt33f56ep","tb1q04unutzqzj7ly984pvkffc75f023l5vc4639yu","tb1qgvpuuwjev6e6e8f7qrtsunnsc9ldnt24ewrwfd","tb1qu2gssd6t5krj9lurjy6dnk0tnfwg22pajvw9my","tb1q3s6gvwctm94h5j5jp7su5l4wxupw5qnvs4nwjv","tb1q45mp7jusv8q0ksq0enfagt6z0kx0ef6gdzv5p9","tb1qassvj4kccfwmevt3d6ee8j8zzwr2luynwpsp0a","tb1qmhrc3xrj9z4zuhkvvhx45vulspgg0j4nl3ykm4","tb1qhkrtsvlnntlwqfev5egcd02h54ualu2ss8zmjm","tb1q3ws0px0ehkg6xueucf7dsqwz2cj2fszs2mpym9","tb1qphn2683pdvpz5lgndl5ref486aehp30ghgeqw9","tb1q69ct8fadgrx0gz8kpze3msnefew5k9r3xxa8yk","tb1q70y6wq5twl2hjycehn8cgj3y2xgnq0qcem8elm","tb1q2pugxd8avs5ewk3cfq6d6c25ug9yf7r3278s5x","tb1q3n8a2mhsav2wuxm0myeatuemce8m7d2z3f37ta","tb1qapqysswftgya80ec3svav4n9sjryc3uy07t5wk","tb1qxv33cmhzgzkmpdtyduzxujtz3xy8m8f37g3mps","tb1q7uamgk7mhrwhczfeuxasm0csyq5a8qyyng4ac4","tb1qwlhdldau0778uw30cnfkhs4g5k0rnzdzvph6gt","tb1qprxun35jdxfd9hfcps58atyx5rsl487wkxuw72","tb1q9599m2gx9kmtxty4hg4np0dkn0nx8e4dts735w","tb1qut5a3g6xzse2x8w6rw5uqj8ev5jj0cud8jlrew","tb1qusmz2sygj7yn9jthvjaqm4n2l8kj783wgq6fdy","tb1qntqz4443sya2cm3vevhc2hgxljtykt7f5kkl6x","tb1qthptzxnvw7hvv9ph8vr5lgexwsdgq2zl7yr0pw","tb1q9e9yz469vpyyexjf9lpyf5cnxsnvegptyk40rw","tb1q2q0zgn9yf9pgfhxzu9hg9a3hcu6u77d9p8f2n0","tb1q0yer2sty4rsjcat2qn722pt806h89fpa7q3r9x","tb1q7q6ry5cm57e2qk549zpylpznlzuc03zya3luzv","tb1q2uv9y43l4jyszf7y4mmgrpqn38ll6rkcapyvz9","tb1qzya00lztregd6sx5pkql9guzzp9g00fxh2xk2j","tb1qrnlu25nn8h5rnv8dwys9ffkv0fcw7acrqpu09m","tb1qsenufe757js32mmrdq7mgzuzhsrl0ve6rld7gq","tb1q87xhsk5r3rkjgrdgqapv3yns5hhsu0zdj2n69n"]}',
@@ -261,8 +246,6 @@ describe("bip84 wallet", () => {
 	});
 
 	it("should generate and sign a transfer transaction", async () => {
-		let subject: TransactionService = configureMock(ledger.transfers.bip84.record);
-
 		const signatory = new Signatories.Signatory(
 			new Signatories.LedgerSignatory({
 				signingKey: "doesn't matter",
@@ -274,7 +257,7 @@ describe("bip84 wallet", () => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await configureMock(ledger.transfers.bip84.record).transfer({
 			data: {
 				amount: 0.00104,
 				to: "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz",
@@ -282,14 +265,15 @@ describe("bip84 wallet", () => {
 			signatory,
 		});
 
-		expect(result.toBroadcast()).toBe(
+		assert.is(
+			result.toBroadcast(),
 			"0100000000010294b3cd394e3a4daa30701aebe7c9326483fb6e488465088d17f5c794e811cea80100000000ffffffffadc5416aa292d604b0c1001d05d018168e5cb97280b4710ac54693d3c6875d1e0000000000ffffffff0240960100000000001976a914a43362c51b5ab6b2476c55e0a88452533e1a155a88ac2e0d00000000000016001451e0980b22e2b672fae3e15beab6fe26f9c4822002483045022100a6a44bf6f2ecbdb22e092003db0f092653cf62864bccbe5d47a32aa576f9157102206602bce2f2363dc7479b6456a90085becb8d65c262df97f7054958bc840dd2bd0121023764fe32c78a9dea4cfdcf4682f0992d2724d65507dfe840d9f63a39dbe767c402483045022100f8c9162c3eaceb5298370cb218e959920e7bb2efe0e84615cc5714843dfbd50302205b2d0122c0c1a6cb6021827b69b35fa6b2ba6c72e2daf784eec6e326617c6d86012103ef85b0f883dbcfe5af7620703d5c3b810eb0ebf462102cd33ecd2f610dec6ede00000000",
 		);
-		expect(result.id()).toBe("9eb92ee5952182e1c9a4602d72792024e9324220ed21344d55052fb01e3a0f19");
-		expect(result.sender()).toBe("tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3");
-		expect(result.recipient()).toBe("mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
-		expect(result.amount().toNumber()).toBe(104_000);
-		expect(result.fee().toNumber()).toBe(2_480);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
+		assert.is(result.id(), "9eb92ee5952182e1c9a4602d72792024e9324220ed21344d55052fb01e3a0f19");
+		assert.is(result.sender(), "tb1qwzwugs68sv2f8svsuredhr8ddvnc8tksef5yz3");
+		assert.is(result.recipient(), "mvVAfs3MCDYg7HokDhL6pPuef6KZLPdUUz");
+		assert.is(result.amount().toNumber(), 104_000);
+		assert.is(result.fee().toNumber(), 2_480);
+		assert.instance(result.timestamp(), DateTime);
 	});
 });

@@ -1,37 +1,42 @@
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { describe } from "@payvo/sdk-test";
 
-let subject: ExtendedConfirmedTransactionDataCollection;
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
 const dummy = {
 	id: () => "id",
-	type: () => "type",
-	// @ts-ignore
-	timestamp: () => "timestamp",
-	sender: () => "sender",
 	recipient: () => "recipient",
+	sender: () => "sender",
+	timestamp: () => "timestamp",
+	type: () => "type",
 };
 
-beforeEach(() => {
-	// @ts-ignore
-	subject = new ExtendedConfirmedTransactionDataCollection([dummy], { prev: 1, self: 2, next: 3, last: 3 });
-});
+describe("ExtendedConfirmedTransactionDataCollection", ({ beforeAll, beforeEach, loader, nock, assert, it, stub }) => {
+	beforeEach((context) => {
+		context.subject = new ExtendedConfirmedTransactionDataCollection([dummy], {
+			last: 3,
+			next: 3,
+			prev: 1,
+			self: 2,
+		});
+	});
 
-test("#findById", () => {
-	expect(subject.findById("id")).toEqual(dummy);
-});
+	it("#findById", (context) => {
+		assert.is(context.subject.findById("id"), dummy);
+	});
 
-test("#findByType", () => {
-	expect(subject.findByType("type")).toEqual(dummy);
-});
+	it("#findByType", (context) => {
+		assert.is(context.subject.findByType("type"), dummy);
+	});
 
-test("#findByTimestamp", () => {
-	expect(subject.findByTimestamp("timestamp")).toEqual(dummy);
-});
+	it("#findByTimestamp", (context) => {
+		assert.is(context.subject.findByTimestamp("timestamp"), dummy);
+	});
 
-test("#findBySender", () => {
-	expect(subject.findBySender("sender")).toEqual(dummy);
-});
+	it("#findBySender", (context) => {
+		assert.is(context.subject.findBySender("sender"), dummy);
+	});
 
-test("#findByRecipient", () => {
-	expect(subject.findByRecipient("recipient")).toEqual(dummy);
+	it("#findByRecipient", (context) => {
+		assert.is(context.subject.findByRecipient("recipient"), dummy);
+	});
 });

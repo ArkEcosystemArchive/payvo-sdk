@@ -1,7 +1,7 @@
 import { Contracts } from "@payvo/sdk";
 
-import { IMultiSignature, IReadOnlyWallet, IReadWriteWallet, WalletData } from "./contracts";
-import { ReadOnlyWallet } from "./read-only-wallet";
+import { IMultiSignature, IReadOnlyWallet, IReadWriteWallet, WalletData } from "./contracts.js";
+import { ReadOnlyWallet } from "./read-only-wallet.js";
 
 export class MultiSignature implements IMultiSignature {
 	readonly #wallet: IReadWriteWallet;

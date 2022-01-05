@@ -1,23 +1,20 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { KeyPairService } from "./key-pair.service";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
-
-beforeEach(async () => {
-	subject = await createService(MessageService, undefined, (container: IoC.Container) => {
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(MessageService, undefined, (container) => {
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		});
 	});
-});
 
-describe("MessageService", () => {
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
+	it("should sign and verify a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -29,6 +26,6 @@ describe("MessageService", () => {
 			),
 		});
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
+		assert.true(await context.subject.verify(result));
 	});
 });

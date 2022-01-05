@@ -1,17 +1,17 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { dotCase } from "./dot-case";
 
-describe("#dotCase", () => {
+describe("dotCase", async ({ assert, it, nock, loader }) => {
 	it("should turn any string into dot case", () => {
-		expect(dotCase("string")).toBe("string");
-		expect(dotCase("camelCase")).toBe("camel.case");
-		expect(dotCase("param-case")).toBe("param.case");
-		expect(dotCase("PascalCase")).toBe("pascal.case");
-		expect(dotCase("UPPER_CASE")).toBe("upper.case");
-		expect(dotCase("snake_case")).toBe("snake.case");
-		expect(dotCase("sentence case")).toBe("sentence.case");
-		expect(dotCase("Title Case")).toBe("title.case");
-		expect(dotCase("dot.case")).toBe("dot.case");
+		assert.is(dotCase("string"), "string");
+		assert.is(dotCase("camelCase"), "camel.case");
+		assert.is(dotCase("param-case"), "param.case");
+		assert.is(dotCase("PascalCase"), "pascal.case");
+		assert.is(dotCase("UPPER_CASE"), "upper.case");
+		assert.is(dotCase("snake_case"), "snake.case");
+		assert.is(dotCase("sentence case"), "sentence.case");
+		assert.is(dotCase("Title Case"), "title.case");
+		assert.is(dotCase("dot.case"), "dot.case");
 	});
 });

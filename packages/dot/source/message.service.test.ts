@@ -1,27 +1,24 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Signatories } from "@payvo/sdk";
 import { waitReady } from "@polkadot/wasm-crypto";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		await waitReady();
 
-beforeEach(async () => {
-	await waitReady();
-
-	subject = await createService(MessageService, undefined, async (container: IoC.Container) => {
-		container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
+		context.subject = await createService(MessageService, undefined, async (container) => {
+			container.constant(BindingType.Keyring, createKeyring(container.get(IoC.BindingType.ConfigRepository)));
+		});
 	});
-});
 
-describe("MessageService", () => {
-	it("should sign a message", async () => {
-		const result = await subject.sign({
+	it("should sign a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -33,6 +30,6 @@ describe("MessageService", () => {
 			),
 		});
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
+		assert.true(await context.subject.verify(result));
 	});
 });

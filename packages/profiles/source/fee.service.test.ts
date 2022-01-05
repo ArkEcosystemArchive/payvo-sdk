@@ -1,73 +1,61 @@
-import "jest-extended";
-import "reflect-metadata";
-
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { FeeService } from "./fee.service";
-
-let subject: FeeService;
-import NodeFeesFixture from "../test/fixtures/client/node-fees.json";
 import { Profile } from "./profile";
 
-let profile: Profile;
+describe("FeeService", ({ beforeEach, loader, nock, it, assert }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-beforeAll(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/fees")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/node-fees.json"))
+			.get("/api/transactions/fees")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transaction-fees.json"))
+			.persist();
 
-	nock.disableNetConnect();
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+		context.profile.coins().set("ARK", "ark.devnet");
 
-	nock(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/fees")
-		.query(true)
-		.reply(200, NodeFeesFixture)
-		.get("/api/transactions/fees")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transaction-fees.json"))
-		.persist();
-});
-
-beforeEach(async () => {
-	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
-	profile.coins().set("ARK", "ark.devnet");
-
-	subject = new FeeService();
-});
-
-describe("FeeService", () => {
-	it("should sync fees", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
-
-		await subject.sync(profile, "ARK", "ark.devnet");
-		expect(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		context.subject = new FeeService();
 	});
 
-	it("should sync fees of all coins", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+	it("should sync fees", async (context) => {
+		assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		await subject.syncAll(profile);
-
-		expect(Object.keys(subject.all("ARK", "ark.devnet"))).toHaveLength(11);
+		await context.subject.sync(context.profile, "ARK", "ark.devnet");
+		assert.length(Object.keys(context.subject.all("ARK", "ark.devnet")), 8);
 	});
 
-	it("#findByType", async () => {
-		expect(() => subject.all("ARK", "ark.devnet")).toThrowError("have not been synchronized yet");
+	it("should sync fees of all coins", async (context) => {
+		assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
 
-		await subject.syncAll(profile);
+		await context.subject.syncAll(context.profile);
 
-		const fees = subject.findByType("ARK", "ark.devnet", "transfer");
+		assert.length(Object.keys(context.subject.all("ARK", "ark.devnet")), 8);
+	});
 
-		expect(fees.min.toHuman()).toEqual(0.00357);
-		expect(fees.avg.toHuman()).toEqual(0.1);
-		expect(fees.max.toHuman()).toEqual(0.1);
-		expect(fees.static.toHuman()).toEqual(0.1);
+	it("#findByType", async (context) => {
+		assert.throws(() => context.subject.all("ARK", "ark.devnet"), "have not been synchronized yet");
+
+		await context.subject.syncAll(context.profile);
+
+		const fees = context.subject.findByType("ARK", "ark.devnet", "transfer");
+
+		assert.is(fees.min.toHuman(), 0.003_57);
+		assert.is(fees.avg.toHuman(), 0.1);
+		assert.is(fees.max.toHuman(), 0.1);
+		assert.is(fees.static.toHuman(), 0.1);
 	});
 });

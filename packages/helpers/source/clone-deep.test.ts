@@ -1,33 +1,35 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { cloneDeep } from "./clone-deep";
 
-describe("#cloneDeep", () => {
+describe("cloneDeep", async ({ assert, it, nock, loader }) => {
 	it("should work with objects", () => {
 		const object = { a: 1 };
 
-		expect(cloneDeep(object)).toEqual(object);
+		assert.equal(cloneDeep(object), object);
 	});
 
 	it("should work with class instances", () => {
 		class Wallet {
-			constructor(readonly address) {}
+			constructor(address) {
+				this.address = address;
+			}
 
-			public isDelegate() {
+			isDelegate() {
 				return true;
 			}
 		}
 
 		const original = new Wallet("address");
 
-		expect(original).toEqual(original);
-		expect(original.isDelegate()).toBeTrue();
-		expect(original.address).toBe("address");
+		assert.equal(original, original);
+		assert.true(original.isDelegate());
+		assert.is(original.address, "address");
 
 		const clone = cloneDeep(original);
 
-		expect(clone).toEqual(original);
-		expect(clone.isDelegate()).toBeTrue();
-		expect(clone.address).toBe("address");
+		assert.equal(clone, original);
+		assert.true(clone.isDelegate());
+		assert.is(clone.address, "address");
 	});
 });

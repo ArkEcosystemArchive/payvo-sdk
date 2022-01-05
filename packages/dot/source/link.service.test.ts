@@ -1,23 +1,22 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { Services } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 
-let subject: Services.AbstractLinkService;
+describe("LinkService", async ({ beforeAll, assert, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(Services.AbstractLinkService);
+	});
 
-beforeAll(async () => {
-	subject = await createService(Services.AbstractLinkService);
-});
+	it("should generate a link for a block", (context) => {
+		assert.is(context.subject.block("id"), "https://polkascan.io/polkadot/block/id");
+	});
 
-it("should generate a link for a block", async () => {
-	expect(subject.block("id")).toMatchInlineSnapshot(`"https://polkascan.io/block/id"`);
-});
+	it("should generate a link for a transaction", (context) => {
+		assert.is(context.subject.transaction("id"), "https://polkascan.io/polkadot/tx/id");
+	});
 
-it("should generate a link for a transaction", async () => {
-	expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://polkascan.io/tx/id"`);
-});
-
-it("should generate a link for a wallet", async () => {
-	expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://polkascan.io/address/id"`);
+	it("should generate a link for a wallet", (context) => {
+		assert.is(context.subject.wallet("id"), "https://polkascan.io/polkadot/address/id");
+	});
 });

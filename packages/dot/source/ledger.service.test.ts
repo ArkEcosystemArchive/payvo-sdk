@@ -1,28 +1,30 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { LedgerService } from "./ledger.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { BindingType } from "./constants.js";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record) => {
 	const transport = await createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
+		container.constant(BindingType.ApiPromise, {});
+		container.constant(BindingType.Keyring, {});
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
@@ -34,44 +36,45 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ it, assert }) => {
 	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.disconnect()).resolves.toBeUndefined();
+		assert.undefined(await subject.disconnect());
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ it, assert }) => {
 	it("should generate an app version", async () => {
 		const polkadot = await createMockService(ledger.appVersion.record);
 
-		await expect(polkadot.getVersion()).resolves.toEqual(ledger.appVersion.result);
+		assert.is(await polkadot.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe("getPublicKey", () => {
+describe("getPublicKey", ({ it, assert }) => {
 	it("should generate a publicKey", async () => {
 		const polkadot = await createMockService(ledger.publicKey.record);
 
-		await expect(polkadot.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+		assert.is(await polkadot.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ it, assert }) => {
 	it("should generate output from a transaction", async () => {
 		const polkadot = await createMockService(ledger.transaction.record);
 
-		await expect(
-			polkadot.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
-		).resolves.toEqual(ledger.transaction.result);
+		assert.is(
+			await polkadot.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload, "hex")),
+			ledger.transaction.result,
+		);
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ it, assert }) => {
 	it("should fail to generate an output from a message", async () => {
 		const polkadot = await createMockService("");
 
-		await expect(polkadot.signMessage("", Buffer.alloc(0))).rejects.toThrow();
+		await assert.rejects(() => polkadot.signMessage("", Buffer.alloc(0)));
 	});
 });

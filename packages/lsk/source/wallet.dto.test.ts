@@ -1,64 +1,59 @@
+import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
 import { WalletData } from "./wallet.dto";
-import { createService, requireModule } from "../test/mocking";
-import { expect } from "@jest/globals";
+import { createService } from "../test/mocking";
 
-let subject: WalletData;
+describe("WalletData", async ({ beforeEach, assert, it, nock, loader }) => {
+	beforeEach(async (context) => (context.subject = (await createService(WalletData)).fill(Fixture.data[0])));
 
-describe("WalletData", () => {
-	beforeEach(async () => (subject = (await createService(WalletData)).fill(Fixture.data[0])));
-
-	test("#address", () => {
-		expect(subject.address()).toBe("lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");
+	it("#address", (context) => {
+		assert.is(context.subject.address(), "lskk8upba9sj8zsktr8hb2vcgk3quvgmx8h27h4gr");
 	});
 
-	test("#publicKey", () => {
-		expect(subject.publicKey()).toBe("414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b");
+	it("#publicKey", (context) => {
+		assert.is(context.subject.publicKey(), "414934d5c70dec65c4c01ddef4cb131913cc53b18e0c1c375857a5e7db52484b");
 	});
 
-	test("#balance", () => {
-		expect(subject.balance().total).toBeInstanceOf(BigNumber);
-		expect(subject.balance().total.toHuman()).toBe(1509.94716);
+	it("#balance", (context) => {
+		assert.instance(context.subject.balance().total, BigNumber);
+		assert.is(context.subject.balance().total.toHuman(), 1509.94716);
 
-		expect(subject.balance().available).toBeInstanceOf(BigNumber);
-		expect(subject.balance().available.toHuman()).toBe(1489.94716);
+		assert.instance(context.subject.balance().available, BigNumber);
+		assert.is(context.subject.balance().available.toHuman(), 1489.94716);
 
-		expect(subject.balance().fees).toBeInstanceOf(BigNumber);
-		expect(subject.balance().fees.toHuman()).toBe(1489.94716);
+		assert.instance(context.subject.balance().fees, BigNumber);
+		assert.is(context.subject.balance().fees.toHuman(), 1489.94716);
 
-		expect(subject.balance().locked).toBeInstanceOf(BigNumber);
-		expect(subject.balance().locked?.toHuman()).toBe(20);
+		assert.instance(context.subject.balance().locked, BigNumber);
+		assert.is(context.subject.balance().locked?.toHuman(), 20);
 
-		expect(subject.balance().lockedVotes).toBeInstanceOf(BigNumber);
-		expect(subject.balance().lockedVotes?.toHuman()).toBe(10);
+		assert.instance(context.subject.balance().lockedVotes, BigNumber);
+		assert.is(context.subject.balance().lockedVotes?.toHuman(), 10);
 
-		expect(subject.balance().lockedUnvotes).toBeInstanceOf(BigNumber);
-		expect(subject.balance().lockedUnvotes?.toHuman()).toBe(10);
+		assert.instance(context.subject.balance().lockedUnvotes, BigNumber);
+		assert.is(context.subject.balance().lockedUnvotes?.toHuman(), 10);
 	});
 
-	test("#isDelegate", () => {
-		expect(subject.isDelegate()).toBe(true);
+	it("#isDelegate", (context) => {
+		assert.true(context.subject.isDelegate());
 	});
 
-	describe("#multiSignature", () => {
-		it("should throw error if wallet has not registered multi-signature", () => {
-			expect(() => subject.multiSignature()).toThrowError(
-				"This wallet does not have a multi-signature registered.",
-			);
-		});
+	it("should throw error if wallet has not registered multi-signature", (context) => {
+		assert.throws(
+			() => context.subject.multiSignature(),
+			"This wallet does not have a multi-signature registered.",
+		);
 	});
 
-	describe("#votes", () => {
-		it("should return number of votes received", () => {
-			expect(subject.votes().toHuman()).toBe(0);
-		});
+	it("should return number of votes received", (context) => {
+		assert.is(context.subject.votes().toHuman(), 0);
+	});
 
-		it("should default to 0", async () => {
-			const votes = (await createService(WalletData)).fill({}).votes().toHuman();
+	it("should default to 0 for votes", async () => {
+		const votes = (await createService(WalletData)).fill({}).votes().toHuman();
 
-			expect(votes).toBe(0);
-		});
+		assert.is(votes, 0);
 	});
 });

@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/no-object-as-default-parameter */
 
 import createXpub from "create-xpub";
-import Base, { fromExtendedKey, fromMasterSeed } from "hdkey";
+import hdkey from "hdkey";
 
 const normalise = (value: string | Buffer) => (value instanceof Buffer ? value : Buffer.from(value, "hex"));
 
@@ -20,8 +20,8 @@ export class HDKey {
 	 * @returns {Base}
 	 * @memberof HDKey
 	 */
-	public static fromSeed(seed: string | Buffer): Base {
-		return fromMasterSeed(normalise(seed));
+	public static fromSeed(seed: string | Buffer): hdkey {
+		return hdkey.fromMasterSeed(normalise(seed));
 	}
 
 	/**
@@ -32,12 +32,12 @@ export class HDKey {
 	 * @returns {Base}
 	 * @memberof HDKey
 	 */
-	public static fromExtendedPublicKey(publicKey: string): Base {
+	public static fromExtendedPublicKey(publicKey: string): hdkey {
 		if (!publicKey.startsWith("xpub")) {
 			throw new Error("The given key is not an extended public key.");
 		}
 
-		return fromExtendedKey(publicKey);
+		return hdkey.fromExtendedKey(publicKey);
 	}
 
 	/**
@@ -48,12 +48,12 @@ export class HDKey {
 	 * @returns {Base}
 	 * @memberof HDKey
 	 */
-	public static fromExtendedPrivateKey(privateKey: string): Base {
+	public static fromExtendedPrivateKey(privateKey: string): hdkey {
 		if (!privateKey.startsWith("xprv")) {
 			throw new Error("The given key is not an extended private key.");
 		}
 
-		return fromExtendedKey(privateKey);
+		return hdkey.fromExtendedKey(privateKey);
 	}
 
 	/**
@@ -68,7 +68,7 @@ export class HDKey {
 	public static fromCompressedPublicKey(
 		publicKey: string,
 		options: { depth: number; childNumber: number } = { childNumber: 2_147_483_648, depth: 0 },
-	): Base {
+	): hdkey {
 		return HDKey.fromExtendedPublicKey(
 			createXpub({
 				// Account 0 = 0 + 0x80000000

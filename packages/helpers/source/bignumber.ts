@@ -1,8 +1,6 @@
-import BigNumberJS from "bignumber.js";
+import Big, { BigSource } from "big.js";
 
-export type NumberLike = string | number | BigNumberJS | BigNumber;
-
-const BigNumberClone = BigNumberJS.clone({ DECIMAL_PLACES: 8, EXPONENTIAL_AT: 1e9 });
+export type NumberLike = string | number | bigint | Big | BigNumber;
 
 /**
  * An immutable BigNumber implementation wth some nice-to-have functionality
@@ -34,12 +32,12 @@ export class BigNumber {
 	public static readonly ONE: BigNumber = new BigNumber(1);
 
 	/**
-	 * The current value as a bignumber.js instance.
+	 * The current value as a Big.js instance.
 	 *
-	 * @type {BigNumberJS}
+	 * @type {Big}
 	 * @memberof BigNumber
 	 */
-	readonly #value: BigNumberJS;
+	readonly #value: Big;
 
 	/**
 	 * The number of decimals
@@ -57,11 +55,15 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	private constructor(value: NumberLike, decimals?: number) {
+		Big.RM = Big.roundDown;
+		Big.DP = 30;
+		Big.PE = 35;
+
 		this.#value = this.#toBigNumber(value);
 
 		if (decimals !== undefined) {
 			this.#decimals = decimals;
-			this.#value = this.#value.decimalPlaces(decimals);
+			this.#value = this.#value.round(this.#decimals);
 		}
 	}
 
@@ -119,7 +121,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public divide(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#value.dividedBy(this.#toBigNumber(value)), this.#decimals);
+		return BigNumber.make(this.#value.div(this.#toBigNumber(value)), this.#decimals);
 	}
 
 	/**
@@ -130,7 +132,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public times(value: NumberLike): BigNumber {
-		return BigNumber.make(this.#value.multipliedBy(this.#toBigNumber(value)), this.#decimals);
+		return BigNumber.make(this.#value.times(this.#toBigNumber(value)), this.#decimals);
 	}
 
 	/**
@@ -160,23 +162,13 @@ export class BigNumber {
 	}
 
 	/**
-	 * Determines if the current value is NaN.
-	 *
-	 * @returns {boolean}
-	 * @memberof BigNumber
-	 */
-	public isNaN(): boolean {
-		return this.#value.isNaN();
-	}
-
-	/**
 	 * Determines if the current value is positive.
 	 *
 	 * @returns {boolean}
 	 * @memberof BigNumber
 	 */
 	public isPositive(): boolean {
-		return this.#value.isPositive();
+		return this.#value.gt(0);
 	}
 
 	/**
@@ -186,17 +178,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isNegative(): boolean {
-		return this.#value.isNegative();
-	}
-
-	/**
-	 * Determines if the current value is finite.
-	 *
-	 * @returns {boolean}
-	 * @memberof BigNumber
-	 */
-	public isFinite(): boolean {
-		return this.#value.isFinite();
+		return this.#value.lt(0);
 	}
 
 	/**
@@ -206,7 +188,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isZero(): boolean {
-		return this.#value.isZero();
+		return this.#value.eq(0);
 	}
 
 	/**
@@ -218,7 +200,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public comparedTo(value: NumberLike): number {
-		return this.#value.comparedTo(this.#toBigNumber(value));
+		return this.#value.cmp(this.#toBigNumber(value));
 	}
 
 	/**
@@ -229,7 +211,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isEqualTo(value: NumberLike): boolean {
-		return this.#value.isEqualTo(this.#toBigNumber(value));
+		return this.#value.eq(this.#toBigNumber(value));
 	}
 
 	/**
@@ -240,7 +222,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isGreaterThan(value: NumberLike): boolean {
-		return this.#value.isGreaterThan(this.#toBigNumber(value));
+		return this.#value.gt(this.#toBigNumber(value));
 	}
 
 	/**
@@ -251,7 +233,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isGreaterThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value.isGreaterThanOrEqualTo(this.#toBigNumber(value));
+		return this.#value.gte(this.#toBigNumber(value));
 	}
 
 	/**
@@ -262,7 +244,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isLessThan(value: NumberLike): boolean {
-		return this.#value.isLessThan(this.#toBigNumber(value));
+		return this.#value.lt(this.#toBigNumber(value));
 	}
 
 	/**
@@ -273,7 +255,7 @@ export class BigNumber {
 	 * @memberof BigNumber
 	 */
 	public isLessThanOrEqualTo(value: NumberLike): boolean {
-		return this.#value.isLessThanOrEqualTo(this.#toBigNumber(value));
+		return this.#value.lte(this.#toBigNumber(value));
 	}
 
 	/**
@@ -323,6 +305,7 @@ export class BigNumber {
 			return this.#value.toFixed(decimals);
 		}
 
+		// eslint-disable-next-line unicorn/require-number-to-fixed-digits-argument
 		return this.#value.toFixed();
 	}
 
@@ -361,14 +344,14 @@ export class BigNumber {
 	 *
 	 * @private
 	 * @param {NumberLike} value
-	 * @returns {BigNumberJS}
+	 * @returns {Big}
 	 * @memberof BigNumber
 	 */
-	#toBigNumber(value: NumberLike): BigNumberJS {
+	#toBigNumber(value: NumberLike): Big {
 		if (value instanceof BigNumber) {
-			return new BigNumberClone(value.valueOf());
+			return new Big(value.valueOf());
 		}
 
-		return new BigNumberClone(value);
+		return new Big(value as BigSource);
 	}
 }

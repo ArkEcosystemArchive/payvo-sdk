@@ -1,82 +1,82 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Money } from "./money";
 
-let subject: Money;
+describe("Money", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach((context) => (context.subject = Money.make(5000, "EUR")));
 
-beforeEach(() => (subject = Money.make(5000, "EUR")));
+	it("should get the amount", (context) => {
+		assert.is(context.subject.getAmount(context), 5000);
+	});
 
-test("#getAmount", () => {
-	expect(subject.getAmount()).toBe(5000);
-});
+	it("should set the locale", (context) => {
+		assert.is(context.subject.setLocale("de-DE").format(), "€50.00");
+	});
 
-test("#setLocale", () => {
-	expect(subject.setLocale("de-DE").format()).toBe("€50.00");
-});
+	it("should plus", (context) => {
+		assert.is(context.subject.plus(Money.make(1000, "EUR")).getAmount(), 6000);
+	});
 
-test("#plus", () => {
-	expect(subject.plus(Money.make(1000, "EUR")).getAmount()).toBe(6000);
-});
+	it("should minus", (context) => {
+		assert.is(context.subject.minus(Money.make(1000, "EUR")).getAmount(), 4000);
+	});
 
-test("#minus", () => {
-	expect(subject.minus(Money.make(1000, "EUR")).getAmount()).toBe(4000);
-});
+	it("should times", (context) => {
+		assert.is(context.subject.times(10).getAmount(), 50_000);
+	});
 
-test("#times", () => {
-	expect(subject.times(10).getAmount()).toBe(50_000);
-});
+	it("should divide", (context) => {
+		assert.is(context.subject.divide(10).getAmount(), 500);
+	});
 
-test("#divide", () => {
-	expect(subject.divide(10).getAmount()).toBe(500);
-});
+	it("should determine if the value is equal to another value", (context) => {
+		assert.true(context.subject.isEqualTo(Money.make(5000, "EUR")));
+		assert.false(context.subject.isEqualTo(Money.make(1000, "EUR")));
+	});
 
-test("#isEqualTo", () => {
-	expect(subject.isEqualTo(Money.make(5000, "EUR"))).toBeTrue();
-	expect(subject.isEqualTo(Money.make(1000, "EUR"))).toBeFalse();
-});
+	it("should determine if the value is less than another value", (context) => {
+		assert.true(context.subject.isLessThan(Money.make(6000, "EUR")));
+		assert.false(context.subject.isLessThan(Money.make(5000, "EUR")));
+		assert.false(context.subject.isLessThan(Money.make(4000, "EUR")));
+	});
 
-test("#isLessThan", () => {
-	expect(subject.isLessThan(Money.make(6000, "EUR"))).toBeTrue();
-	expect(subject.isLessThan(Money.make(5000, "EUR"))).toBeFalse();
-	expect(subject.isLessThan(Money.make(4000, "EUR"))).toBeFalse();
-});
+	it("should determine if the value is less than or equal another value", (context) => {
+		assert.true(context.subject.isLessThanOrEqual(Money.make(5000, "EUR")));
+		assert.true(context.subject.isLessThanOrEqual(Money.make(6000, "EUR")));
+		assert.false(context.subject.isLessThanOrEqual(Money.make(4000, "EUR")));
+	});
 
-test("#isLessThanOrEqual", () => {
-	expect(subject.isLessThanOrEqual(Money.make(5000, "EUR"))).toBeTrue();
-	expect(subject.isLessThanOrEqual(Money.make(6000, "EUR"))).toBeTrue();
-	expect(subject.isLessThanOrEqual(Money.make(4000, "EUR"))).toBeFalse();
-});
+	it("should determine if the value is greater than another value", (context) => {
+		assert.true(context.subject.isGreaterThan(Money.make(1000, "EUR")));
+		assert.true(context.subject.isGreaterThan(Money.make(1000, "EUR")));
+		assert.false(context.subject.isGreaterThan(Money.make(6000, "EUR")));
+	});
 
-test("#isGreaterThan", () => {
-	expect(subject.isGreaterThan(Money.make(1000, "EUR"))).toBeTrue();
-	expect(subject.isGreaterThan(Money.make(1000, "EUR"))).toBeTrue();
-	expect(subject.isGreaterThan(Money.make(6000, "EUR"))).toBeFalse();
-});
+	it("should determine if the value is greater than or equal another value", (context) => {
+		assert.true(context.subject.isGreaterThanOrEqual(Money.make(1000, "EUR")));
+		assert.true(context.subject.isGreaterThanOrEqual(Money.make(1000, "EUR")));
+		assert.false(context.subject.isGreaterThanOrEqual(Money.make(6000, "EUR")));
+	});
 
-test("#isGreaterThanOrEqual", () => {
-	expect(subject.isGreaterThanOrEqual(Money.make(1000, "EUR"))).toBeTrue();
-	expect(subject.isGreaterThanOrEqual(Money.make(1000, "EUR"))).toBeTrue();
-	expect(subject.isGreaterThanOrEqual(Money.make(6000, "EUR"))).toBeFalse();
-});
+	it("should determine if the value is positive", () => {
+		assert.true(Money.make(1, "EUR").isPositive());
+		assert.false(Money.make(-1, "EUR").isPositive());
+	});
 
-test("#isPositive", () => {
-	expect(Money.make(1, "EUR").isPositive()).toBeTrue();
-	expect(Money.make(-1, "EUR").isPositive()).toBeFalse();
-});
+	it("should determine if the value is negative", () => {
+		assert.true(Money.make(-1, "EUR").isNegative());
+		assert.false(Money.make(1, "EUR").isNegative());
+	});
 
-test("#isNegative", () => {
-	expect(Money.make(-1, "EUR").isNegative()).toBeTrue();
-	expect(Money.make(1, "EUR").isNegative()).toBeFalse();
-});
+	it("should get the currency", (context) => {
+		assert.is(context.subject.getCurrency(), "EUR");
+	});
 
-test("#getCurrency", () => {
-	expect(subject.getCurrency()).toBe("EUR");
-});
+	it("should format it into a standardised string", (context) => {
+		assert.is(context.subject.format(), "€50.00");
+	});
 
-test("#format", () => {
-	expect(subject.format()).toBe("€50.00");
-});
-
-test("#toUnit", () => {
-	expect(subject.toUnit()).toBe(50);
+	it("should convert it to the unit (cents to euro)", (context) => {
+		assert.is(context.subject.toUnit(), 50);
+	});
 });

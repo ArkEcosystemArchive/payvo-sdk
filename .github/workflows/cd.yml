@@ -33,11 +33,7 @@ jobs:
               uses: pnpm/action-setup@v2
               with:
                   version: 6.20.4
-            - name: Install rimraf
-              run: pnpm install rimraf -g
             - name: Install dependencies
-              run: node common/scripts/install-run-rush.js install
-            - name: Build
-              run: node common/scripts/install-run-rush.js build:npm --verbose
+              run: pnpm install
             - name: Publish
-              run: NPM_AUTH_TOKEN=${{ secrets.NPM_AUTH_TOKEN }} node common/scripts/install-run-rush.js publish --publish --set-access-level=public --include-all
+              run: bash scripts/publish.sh

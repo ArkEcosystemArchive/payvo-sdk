@@ -1,13 +1,13 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { isNumberArray } from "./is-number-array";
 
-describe("#isNumberArray", () => {
+describe("isNumberArray", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
-		expect(isNumberArray([1])).toBeTrue();
+		assert.true(isNumberArray([1]));
 	});
 
 	it("should fail", () => {
-		expect(isNumberArray(["string"])).toBeFalse();
+		assert.false(isNumberArray(["string"]));
 	});
 });

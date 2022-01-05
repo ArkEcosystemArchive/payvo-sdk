@@ -3,7 +3,6 @@ import { DateTime } from "@payvo/sdk-intl";
 import { api, wallet } from "@cityofzion/neon-js";
 import { UUID } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
 		const signedTransaction = {

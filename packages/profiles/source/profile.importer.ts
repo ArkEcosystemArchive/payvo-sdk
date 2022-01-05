@@ -1,14 +1,12 @@
-import { Base64 } from "@payvo/sdk-cryptography";
 import { Coins } from "@payvo/sdk";
-import { IProfileData, IProfile, WalletData } from "./contracts";
+import { Base64 } from "@payvo/sdk-cryptography";
 
+import { container } from "./container.js";
+import { Identifiers } from "./container.models.js";
+import { IProfile, IProfileData, IProfileImporter, IProfileValidator, WalletData } from "./contracts.js";
+import { Migrator } from "./migrator.js";
 import { ProfileEncrypter } from "./profile.encrypter";
-import { IProfileImporter } from "./contracts";
-import { IProfileValidator } from "./contracts";
 import { ProfileValidator } from "./profile.validator";
-import { container } from "./container";
-import { Identifiers } from "./container.models";
-import { Migrator } from "./migrator";
 
 export class ProfileImporter implements IProfileImporter {
 	readonly #profile: IProfile;
@@ -21,7 +19,7 @@ export class ProfileImporter implements IProfileImporter {
 
 	/** {@inheritDoc IProfileImporter.import} */
 	public async import(password?: string): Promise<void> {
-		let data: IProfileData | undefined = this.#unpack(password);
+		let data: IProfileData | undefined = await this.#unpack(password);
 
 		if (container.has(Identifiers.MigrationSchemas) && container.has(Identifiers.MigrationVersion)) {
 			await new Migrator(this.#profile, data).migrate(
@@ -57,7 +55,7 @@ export class ProfileImporter implements IProfileImporter {
 	 * @return {Promise<IProfileData>}
 	 * @memberof Profile
 	 */
-	#unpack(password?: string): IProfileData {
+	async #unpack(password?: string): Promise<IProfileData> {
 		let data: IProfileData | undefined;
 		let errorReason = "";
 
@@ -65,7 +63,7 @@ export class ProfileImporter implements IProfileImporter {
 			if (typeof password === "string") {
 				this.#profile.password().set(password);
 
-				data = new ProfileEncrypter(this.#profile).decrypt(password);
+				data = await new ProfileEncrypter(this.#profile).decrypt(password);
 			} else {
 				data = JSON.parse(Base64.decode(this.#profile.getAttributes().get<string>("data")));
 			}
@@ -97,7 +95,7 @@ export class ProfileImporter implements IProfileImporter {
 		}
 
 		for (const contact of Object.values(data.contacts)) {
-			for (const { coin, network } of Object.values(contact.addresses) as { coin: string; network: string }[]) {
+			for (const { coin, network } of Object.values(contact.addresses) as any) {
 				if (isRegistered(coin)) {
 					this.#profile.coins().set(coin, network);
 				}

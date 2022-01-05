@@ -1,30 +1,22 @@
-import "jest-extended";
-
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { WalletDiscoveryService } from "./wallet-discovery.service";
 import { BindingType } from "./constants";
 import { AddressFactory } from "./address.factory";
 
-let subject;
-
-beforeAll(async () => {
-	nock.disableNetConnect();
-});
-
-describe("testnet", () => {
-	beforeEach(async () => {
-		subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
+describe("testnet", ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WalletDiscoveryService, "btc.testnet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "n2qGdjfjmFyvAXqbErrtXpfypXhtbNWruM",
 				path: "m/44'/1'/0'/0/0",
@@ -43,8 +35,8 @@ describe("testnet", () => {
 		]);
 	});
 
-	it("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for specific paths for each addressing schema", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
 				change: 0,
@@ -62,7 +54,7 @@ describe("testnet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "mjS2VkYDn9ZxB4pVTgQGy5wYiPPwTnQHij",
 				path: "m/44'/1'/7'/0/3",
@@ -81,8 +73,8 @@ describe("testnet", () => {
 		]);
 	});
 
-	it("should generate an output from a mnemonic for change chain", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for change chain", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,
 				change: 1,
@@ -100,7 +92,7 @@ describe("testnet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "mnaedh1YpvPsgybYyoyUjtnYaq91DjSXi4",
 				path: "m/44'/1'/5'/1/2",
@@ -120,17 +112,17 @@ describe("testnet", () => {
 	});
 });
 
-describe("livenet", () => {
-	beforeEach(async () => {
-		subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
+describe("livenet", ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WalletDiscoveryService, "btc.livenet", (container) => {
 			container.singleton(BindingType.AddressFactory, AddressFactory);
 		});
 	});
 
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "1PLDRLacEkAaaiWnfojVDb5hWpwXvKJrRa",
 				path: "m/44'/0'/0'/0/0",
@@ -149,8 +141,8 @@ describe("livenet", () => {
 		]);
 	});
 
-	it("should generate an output from a mnemonic for specific paths for each addressing schema", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for specific paths for each addressing schema", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 7,
 				change: 0,
@@ -168,7 +160,7 @@ describe("livenet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "1DFirytnzyKwMBA2T8JNhjzwEoEimKTCKd",
 				path: "m/44'/0'/7'/0/3",
@@ -187,8 +179,8 @@ describe("livenet", () => {
 		]);
 	});
 
-	it("should generate an output from a mnemonic for change chain", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic, {
+	it("should generate an output from a mnemonic for change chain", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic, {
 			bip44: {
 				account: 5,
 				change: 1,
@@ -206,7 +198,7 @@ describe("livenet", () => {
 			},
 		});
 
-		expect(result).toEqual([
+		assert.equal(result, [
 			{
 				address: "1PSddm78a9UnGWvL5xVCAcV7HddY16Vgjv",
 				path: "m/44'/0'/5'/1/2",

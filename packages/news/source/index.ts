@@ -1,3 +1,3 @@
-export * from "./blockfolio";
-export * from "./blockfolio.models";
-export * from "./feed";
+export * from "./blockfolio.js";
+export * from "./blockfolio.models.js";
+export * from "./feed.js";

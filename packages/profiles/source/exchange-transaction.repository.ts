@@ -1,7 +1,5 @@
-import { injectable } from "inversify";
 import { UUID } from "@payvo/sdk-cryptography";
 
-import { ExchangeTransaction } from "./exchange-transaction";
 import {
 	ExchangeTransactionDetail,
 	ExchangeTransactionStatus,
@@ -10,10 +8,10 @@ import {
 	IExchangeTransactionInput,
 	IExchangeTransactionRepository,
 	IProfile,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
+import { ExchangeTransaction } from "./exchange-transaction.js";
 
-@injectable()
 export class ExchangeTransactionRepository implements IExchangeTransactionRepository {
 	readonly #profile: IProfile;
 	readonly #data: DataRepository = new DataRepository();

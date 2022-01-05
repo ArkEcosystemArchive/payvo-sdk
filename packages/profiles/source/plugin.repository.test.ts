@@ -1,86 +1,89 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { PluginRegistry } from "./plugin-registry.service";
 import { PluginRepository } from "./plugin.repository";
+import { PluginRegistry } from "./plugin-registry.service";
 
-const stubPlugin = {
-	name: "@hello/world",
-	version: "1.0.0",
-	isEnabled: true,
-	permissions: ["something"],
-	urls: ["https://google.com"],
-};
+describeWithContext(
+	"PluginRepository",
+	{
+		stubPlugin: {
+			isEnabled: true,
+			name: "@hello/world",
+			permissions: ["something"],
+			urls: ["https://google.com"],
+			version: "1.0.0",
+		},
+	},
+	({ beforeEach, it, assert }) => {
+		beforeEach((context) => {
+			bootContainer();
 
-let subject: PluginRepository;
+			context.subject = new PluginRepository();
+		});
 
-beforeAll(() => bootContainer());
+		it("should return all data", (context) => {
+			assert.object(context.subject.all());
+		});
 
-beforeEach(() => {
-	subject = new PluginRepository();
-});
+		it("should return the first item", (context) => {
+			assert.undefined(context.subject.first());
+		});
 
-it("should return all data", () => {
-	expect(subject.all()).toBeObject();
-});
+		it("should return the last item", (context) => {
+			assert.undefined(context.subject.last());
+		});
 
-it("should return the first item", () => {
-	expect(subject.first()).toMatchInlineSnapshot(`undefined`);
-});
+		it("should return all data keys", (context) => {
+			assert.array(context.subject.keys());
+		});
 
-it("should return the last item", () => {
-	expect(subject.last()).toMatchInlineSnapshot(`undefined`);
-});
+		it("should return all data values", (context) => {
+			assert.array(context.subject.values());
+		});
 
-it("should return all data keys", () => {
-	expect(subject.keys()).toBeArray();
-});
+		it("should find a plugin by its ID", (context) => {
+			const { id } = context.subject.push(context.stubPlugin);
 
-it("should return all data values", () => {
-	expect(subject.values()).toBeArray();
-});
+			assert.is(context.subject.findById(id).name, context.stubPlugin.name);
+		});
 
-it("should find a plugin by its ID", () => {
-	const { id } = subject.push(stubPlugin);
+		it("should throw if a plugin cannot be found by its ID", (context) => {
+			assert.throws(() => context.subject.findById("fake"), `Failed to find a plugin for [fake].`);
+		});
 
-	expect(subject.findById(id).name).toBe(stubPlugin.name);
-});
+		it("should restore previously created data", (context) => {
+			context.subject.fill({ ["fake"]: context.stubPlugin });
 
-it("should throw if a plugin cannot be found by its ID", () => {
-	expect(() => subject.findById("fake")).toThrow(`Failed to find a plugin for [fake].`);
-});
+			assert.is(context.subject.findById("fake"), context.stubPlugin);
+		});
 
-it("should restore previously created data", () => {
-	subject.fill({ ["fake"]: stubPlugin });
+		it("should forget specific data", (context) => {
+			const { id } = context.subject.push(context.stubPlugin);
 
-	expect(subject.findById("fake")).toEqual(stubPlugin);
-});
+			assert.is(context.subject.count(), 1);
 
-it("should forget specific data", () => {
-	const { id } = subject.push(stubPlugin);
+			context.subject.forget(id);
 
-	expect(subject.count()).toBe(1);
+			assert.is(context.subject.count(), 0);
+		});
 
-	subject.forget(id);
+		it("should flush the data", (context) => {
+			context.subject.push(context.stubPlugin);
 
-	expect(subject.count()).toBe(0);
-});
+			assert.is(context.subject.count(), 1);
 
-it("should flush the data", () => {
-	subject.push(stubPlugin);
+			assert.undefined(context.subject.flush());
 
-	expect(subject.count()).toBe(1);
+			assert.is(context.subject.count(), 0);
+		});
 
-	expect(subject.flush()).toBeUndefined();
+		it("should count the data", (context) => {
+			assert.is(context.subject.count(), 0);
+		});
 
-	expect(subject.count()).toBe(0);
-});
-
-it("should count the data", () => {
-	expect(subject.count()).toBe(0);
-});
-
-it("should access the plugin registry", () => {
-	expect(subject.registry()).toBeInstanceOf(PluginRegistry);
-});
+		it("should access the plugin registry", (context) => {
+			assert.instance(context.subject.registry(), PluginRegistry);
+		});
+	},
+);

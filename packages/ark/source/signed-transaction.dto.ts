@@ -1,10 +1,9 @@
-import { Identities } from "@arkecosystem/crypto";
+import { Identities } from "./crypto/index.js";
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { TransactionTypeService } from "./transaction-type.service";
+import { TransactionTypeService } from "./transaction-type.service.js";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData
@@ -40,7 +39,6 @@ export class SignedTransactionData
 			return DateTime.make(this.signedData.timestamp);
 		}
 
-		// defaulting to now because timestamps missing in V2
 		return DateTime.make();
 	}
 

@@ -4,13 +4,13 @@ import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#rpc!: JsonRpc;
 	#api!: Api;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#rpc = new JsonRpc(Helpers.randomHostFromConfig(this.configRepository), { fetch });
 
 		this.#api = new Api({

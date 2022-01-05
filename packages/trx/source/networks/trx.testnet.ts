@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared";
+import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "TRON",
@@ -20,7 +20,7 @@ const network: Networks.NetworkManifest = {
 			type: "full",
 		},
 		{
-			host: "https://shasta.tronscan.org/#",
+			host: "https://shasta.tronscan.org",
 			type: "explorer",
 		},
 	],

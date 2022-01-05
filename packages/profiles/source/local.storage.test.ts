@@ -1,101 +1,105 @@
-import "jest-extended";
-
 import { UUID } from "@payvo/sdk-cryptography";
+import { describe } from "@payvo/sdk-test";
+import localForage from "localforage";
+import memoryDriver from "localforage-driver-memory";
 
 import { LocalStorage } from "./local.storage";
 
-let subject: LocalStorage;
-let key: string;
+describe("LocalStorage", ({ assert, beforeAll, beforeEach, it }) => {
+	beforeAll(async () => {
+		await localForage.defineDriver(memoryDriver);
+	});
 
-beforeEach(() => {
-	subject = new LocalStorage("localstorage");
-	key = UUID.random();
-});
+	beforeEach(async (context) => {
+		context.subject = new LocalStorage("memory");
+		context.key = UUID.random();
+	});
 
-it("should get all items", async () => {
-	await expect(subject.all()).resolves.toEqual({});
+	it("should get all items", async (context) => {
+		assert.equal(await context.subject.all(), {});
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.all()).resolves.toEqual({ [key]: "value" });
+		assert.equal(await context.subject.all(), { [context.key]: "value" });
 
-	await subject.flush();
+		await context.subject.flush();
 
-	await expect(subject.all()).resolves.toEqual({});
-});
+		assert.equal(await context.subject.all(), {});
+	});
 
-it("should should get the value for the given key", async () => {
-	await subject.set(key, "value");
+	it("should should get the value for the given key", async (context) => {
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.get(key)).resolves.toBe("value");
-});
+		assert.is(await context.subject.get(context.key), "value");
+	});
 
-it("should should set the value in the storage", async () => {
-	await expect(subject.set(key, "value")).resolves.toBeUndefined();
-});
+	it("should should set the value in the storage", async (context) => {
+		assert.undefined(await context.subject.set(context.key, "value"));
+	});
 
-it("should should check if the given key exists", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+	it("should should check if the given key exists", async (context) => {
+		assert.false(await context.subject.has(context.key));
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
-});
+		assert.true(await context.subject.has(context.key));
+	});
 
-it("should should forget the given key", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+	it("should should forget the given key", async (context) => {
+		assert.false(await context.subject.has(context.key));
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+		assert.true(await context.subject.has(context.key));
 
-	await subject.forget(key);
+		await context.subject.forget(context.key);
 
-	await expect(subject.has(key)).resolves.toBeFalse();
-});
+		assert.false(await context.subject.has(context.key));
+	});
 
-it("should flush the storage", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+	it("should flush the storage", async (context) => {
+		assert.false(await context.subject.has(context.key));
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+		assert.true(await context.subject.has(context.key));
 
-	await subject.flush();
+		await context.subject.flush();
 
-	await expect(subject.has(key)).resolves.toBeFalse();
-});
+		assert.false(await context.subject.has(context.key));
+	});
 
-it("should count all items", async () => {
-	await expect(subject.count()).resolves.toBe(0);
+	it("should count all items", async (context) => {
+		assert.is(await context.subject.count(), 0);
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.count()).resolves.toBe(1);
+		assert.is(await context.subject.count(), 1);
 
-	await subject.forget(key);
+		await context.subject.forget(context.key);
 
-	await expect(subject.count()).resolves.toBe(0);
-});
+		assert.is(await context.subject.count(), 0);
+	});
 
-it("should create a snapshot and restore it", async () => {
-	await subject.set("a", "b");
+	it("should create a snapshot and restore it", async (context) => {
+		await context.subject.set("a", "b");
 
-	await expect(subject.count()).resolves.toBe(1);
+		assert.is(await context.subject.count(), 1);
 
-	await subject.snapshot();
+		await context.subject.snapshot();
 
-	await expect(subject.count()).resolves.toBe(1);
+		assert.is(await context.subject.count(), 1);
 
-	await subject.set(key, "value");
+		await context.subject.set(context.key, "value");
 
-	await expect(subject.count()).resolves.toBe(2);
+		assert.is(await context.subject.count(), 2);
 
-	await subject.restore();
+		await context.subject.restore();
 
-	await expect(subject.count()).resolves.toBe(1);
-});
+		assert.is(await context.subject.count(), 1);
+	});
 
-it("should fail to restore if there is no snapshot", async () => {
-	await expect(subject.restore()).rejects.toThrowError("There is no snapshot to restore.");
+	it("should fail to restore if there is no snapshot", async (context) => {
+		await assert.rejects(() => context.subject.restore(), "There is no snapshot to restore.");
+	});
 });

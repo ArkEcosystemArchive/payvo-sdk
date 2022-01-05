@@ -1,10 +1,11 @@
-/__snapshots__/
-/__tests__/unit/coverage/
+.ultra.cache.json
 /*.js
 /build/
 /config/
 /distribution/
 /docs/
-/prisma/
 /node_modules/**
+/prisma/
+/snapshots/
 env.json
+packages/**/coverage

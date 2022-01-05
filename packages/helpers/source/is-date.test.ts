@@ -1,13 +1,13 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { isDate } from "./is-date";
 
-describe("#isDate", () => {
+describe("isDate", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
-		expect(isDate(new Date())).toBeTrue();
+		assert.true(isDate(new Date()));
 	});
 
 	it("should fail", () => {
-		expect(isDate(1)).toBeFalse();
+		assert.false(isDate(1));
 	});
 });

@@ -2,10 +2,10 @@
 
 import { Contracts, Services, Signatories } from "@payvo/sdk";
 
-import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts";
-import { pqueueSettled } from "./helpers/queue";
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
-import { SignedTransactionDataDictionary } from "./wallet-transaction.service.contract";
+import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts.js";
+import { pqueueSettled } from "./helpers/queue.js";
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
+import { SignedTransactionDataDictionary } from "./wallet-transaction.service.contract.js";
 
 export class TransactionService implements ITransactionService {
 	/**
@@ -121,21 +121,6 @@ export class TransactionService implements ITransactionService {
 	/** {@inheritDoc ITransactionService.signDelegateResignation} */
 	public async signDelegateResignation(input: Services.DelegateResignationInput): Promise<string> {
 		return this.#signTransaction("delegateResignation", input);
-	}
-
-	/** {@inheritDoc ITransactionService.signHtlcLock} */
-	public async signHtlcLock(input: Services.HtlcLockInput): Promise<string> {
-		return this.#signTransaction("htlcLock", input);
-	}
-
-	/** {@inheritDoc ITransactionService.signHtlcClaim} */
-	public async signHtlcClaim(input: Services.HtlcClaimInput): Promise<string> {
-		return this.#signTransaction("htlcClaim", input);
-	}
-
-	/** {@inheritDoc ITransactionService.signHtlcRefund} */
-	public async signHtlcRefund(input: Services.HtlcRefundInput): Promise<string> {
-		return this.#signTransaction("htlcRefund", input);
 	}
 
 	/** {@inheritDoc ITransactionService.signUnlockToken} */

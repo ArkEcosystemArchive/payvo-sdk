@@ -1,29 +1,22 @@
-import { Managers, Transactions, Interfaces, Identities, Enums, Utils } from "@arkecosystem/crypto";
+import { Managers, Transactions, Interfaces, Identities, Enums } from "./crypto/index.js";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
+import { numberToHex } from "@payvo/sdk-helpers";
 
-import { BindingType } from "./coin.contract";
-import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract";
+import { BindingType } from "./coin.contract.js";
+import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
 import { uniq } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class MultiSignatureSigner {
-	@IoC.inject(IoC.BindingType.LedgerService)
-	private readonly ledgerService!: Services.LedgerService;
+	readonly #ledgerService!: Services.LedgerService;
+	readonly #keyPairService!: Services.KeyPairService;
 
-	@IoC.inject(IoC.BindingType.KeyPairService)
-	private readonly keyPairService!: Services.KeyPairService;
+	public constructor(container: IoC.IContainer) {
+		this.#ledgerService = container.get(IoC.BindingType.LedgerService);
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
 
-	@IoC.inject(BindingType.Crypto)
-	private readonly config!: Interfaces.NetworkConfig;
-
-	@IoC.inject(BindingType.Height)
-	private readonly height!: number;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		Managers.configManager.setConfig(this.config);
-		Managers.configManager.setHeight(this.height);
+		Managers.configManager.setConfig(container.get(BindingType.Crypto));
+		Managers.configManager.setHeight(container.get(BindingType.Height));
 	}
 
 	// The first argument should be a TransactionBuilder but we have no proper type to hint that.
@@ -67,7 +60,7 @@ export class MultiSignatureSigner {
 			if (signatory.actsWithLedger()) {
 				const index: number = this.#publicKeyIndex(
 					transaction,
-					await this.ledgerService.getPublicKey(signatory.signingKey()),
+					await this.#ledgerService.getPublicKey(signatory.signingKey()),
 				);
 
 				if (!transaction.signatures) {
@@ -75,7 +68,7 @@ export class MultiSignatureSigner {
 				}
 
 				const signature: string = await this.#signWithLedger(transaction, signatory, true);
-				const signatureIndex: string = Utils.numberToHex(index === -1 ? transaction.signatures.length : index);
+				const signatureIndex: string = numberToHex(index === -1 ? transaction.signatures.length : index);
 
 				transaction.signatures.push(`${signatureIndex}${signature}`);
 			} else {
@@ -127,28 +120,28 @@ export class MultiSignatureSigner {
 		}
 
 		if (signatory.actsWithSecret()) {
-			signingKeys = await this.keyPairService.fromSecret(signatory.signingKey());
+			signingKeys = await this.#keyPairService.fromSecret(signatory.signingKey());
 		}
 
 		if (signatory.actsWithMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
+			signingKeys = await this.#keyPairService.fromMnemonic(signatory.signingKey());
 		}
 
 		if (signatory.actsWithConfirmationMnemonic()) {
-			signingKeys = await this.keyPairService.fromMnemonic(signatory.signingKey());
+			signingKeys = await this.#keyPairService.fromMnemonic(signatory.signingKey());
 
 			if (needsFinalSignature) {
-				confirmKeys = await this.keyPairService.fromMnemonic(signatory.confirmKey());
+				confirmKeys = await this.#keyPairService.fromMnemonic(signatory.confirmKey());
 			}
 		}
 
 		if (signatory.actsWithWIF()) {
-			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
+			signingKeys = await this.#keyPairService.fromWIF(signatory.signingKey());
 		}
 
 		if (signatory.actsWithConfirmationWIF()) {
-			signingKeys = await this.keyPairService.fromWIF(signatory.signingKey());
-			confirmKeys = await this.keyPairService.fromWIF(signatory.confirmKey());
+			signingKeys = await this.#keyPairService.fromWIF(signatory.signingKey());
+			confirmKeys = await this.#keyPairService.fromWIF(signatory.confirmKey());
 		}
 
 		if (!signingKeys) {
@@ -166,10 +159,11 @@ export class MultiSignatureSigner {
 		signatory: Signatories.Signatory,
 		excludeMultiSignature = false,
 	): Promise<string> {
-		await this.ledgerService.connect();
+		await this.#ledgerService.connect();
 
-		const signature = await this.ledgerService.signTransaction(
+		const signature = await this.#ledgerService.signTransaction(
 			signatory.signingKey(),
+			// @ts-ignore
 			Transactions.Serializer.getBytes(transaction, {
 				excludeSignature: true,
 				excludeSecondSignature: true,
@@ -177,7 +171,7 @@ export class MultiSignatureSigner {
 			}),
 		);
 
-		await this.ledgerService.disconnect();
+		await this.#ledgerService.disconnect();
 
 		return signature;
 	}

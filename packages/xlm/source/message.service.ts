@@ -2,7 +2,6 @@ import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import Stellar from "stellar-sdk";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const source = Stellar.Keypair.fromSecret(input.signatory.privateKey());

@@ -1,6 +1,6 @@
 import { DateTime } from "@payvo/sdk-intl";
 
-import { convertToCurrency } from "../utils";
+import { convertToCurrency } from "../utils.js";
 import {
 	DailyAverageOptions,
 	HistoricalData,
@@ -9,7 +9,7 @@ import {
 	HistoricalVolumeOptions,
 	MarketDataCollection,
 	PriceTracker,
-} from "../../../contracts";
+} from "../../../contracts/index.js";
 
 /**
  * Implements a transformer for historical volume data.

@@ -1,14 +1,13 @@
 import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 
-import { WalletData } from "./wallet.dto";
-import { NanoClient } from "./rpc";
+import { NanoClient } from "./rpc.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#client!: NanoClient;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#client = new NanoClient(this.configRepository, this.httpClient);
 	}
 

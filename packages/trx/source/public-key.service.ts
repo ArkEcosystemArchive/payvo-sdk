@@ -1,7 +1,6 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

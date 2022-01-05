@@ -1,5 +1,4 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -12,17 +11,17 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record) => {
 	const transport = await createService(LedgerService, undefined, (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
@@ -34,44 +33,45 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
-describe("disconnect", () => {
+describe("disconnect", ({ assert, it, nock, loader }) => {
 	it("should pass with a resolved transport closure", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.disconnect()).resolves.toBeUndefined();
+		assert.undefined(await subject.disconnect());
 	});
 });
 
-describe("getVersion", () => {
+describe("getVersion", ({ assert, it, nock, loader }) => {
 	it("should pass with an app version", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
-		await expect(subject.getVersion()).resolves.toEqual(ledger.appVersion.result);
+		assert.is(await subject.getVersion(), ledger.appVersion.result);
 	});
 });
 
-describe.skip("getPublicKey", () => {
+describe("getPublicKey", ({ assert, it, nock, loader }) => {
 	it("should pass with a compressed publicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
-		await expect(subject.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
 });
 
-describe("signTransaction", () => {
+describe("signTransaction", ({ assert, it, nock, loader }) => {
 	it("should pass with a signature", async () => {
 		const subject = await createMockService(ledger.transaction.record);
 
-		await expect(
-			subject.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload)),
-		).resolves.toEqual(ledger.transaction.result);
+		assert.is(
+			await subject.signTransaction(ledger.bip44.path, Buffer.from(ledger.transaction.payload)),
+			ledger.transaction.result,
+		);
 	});
 });
 
-describe("signMessage", () => {
+describe("signMessage", ({ assert, it, nock, loader }) => {
 	it("should fail with a 'NotImplemented' error", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.signMessage("", Buffer.alloc(0))).rejects.toThrow();
+		await assert.rejects(() => subject.signMessage("", Buffer.alloc(0)));
 	});
 });

@@ -1,19 +1,16 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
 
-let subject: WIFService;
+describe("WIFService", async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WIFService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(WIFService);
-});
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-describe("WIF", () => {
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
-
-		expect(result).toEqual({ wif: identity.wif });
+		assert.equal(result, { wif: identity.wif });
 	});
 });

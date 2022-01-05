@@ -1,9 +1,7 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import nock from "nock";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { identity } from "../test/fixtures/identity";
 import { FeeService } from "./fee.service";
 import { AddressService } from "./address.service";
@@ -19,30 +17,25 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-const matchSnapshot = (transaction): void =>
-	expect({
-		min: transaction.min.toString(),
-		avg: transaction.avg.toString(),
-		max: transaction.max.toString(),
-		static: transaction.static.toString(),
+describe("FeeService", async ({ assert, nock, it, loader }) => {
+	const normaliseFees = (transaction) => ({
+		min: transaction.min,
+		avg: transaction.avg,
+		max: transaction.max,
+		static: transaction.static,
 		isDynamic: transaction.isDynamic,
-	}).toMatchSnapshot();
+	});
 
-afterEach(() => nock.cleanAll());
-
-beforeAll(() => nock.disableNetConnect());
-
-describe("FeeService", () => {
 	it("should get the fees for ARK", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/node/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByNode.json`))
+			.reply(200, loader.json(`test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByType.json`));
+			.reply(200, loader.json(`test/fixtures/client/feesByType.json`));
 
 		const result = await (await createService(FeeService, "ark.devnet")).all();
 
-		expect(result).toContainAllKeys([
+		assert.containKeys(result, [
 			"transfer",
 			"secondSignature",
 			"delegateRegistration",
@@ -51,34 +44,28 @@ describe("FeeService", () => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
-		matchSnapshot(result.transfer);
-		matchSnapshot(result.secondSignature);
-		matchSnapshot(result.delegateRegistration);
-		matchSnapshot(result.vote);
-		matchSnapshot(result.multiSignature);
-		matchSnapshot(result.ipfs);
-		matchSnapshot(result.multiPayment);
-		matchSnapshot(result.delegateResignation);
-		matchSnapshot(result.htlcLock);
-		matchSnapshot(result.htlcClaim);
-		matchSnapshot(result.htlcRefund);
+		assert.snapshot("fees_ark_transfer", normaliseFees(result.transfer));
+		assert.snapshot("fees_ark_second_signature", normaliseFees(result.secondSignature));
+		assert.snapshot("fees_ark_delegate_registration", normaliseFees(result.delegateRegistration));
+		assert.snapshot("fees_ark_vote", normaliseFees(result.vote));
+		assert.snapshot("fees_ark_multi_signature", normaliseFees(result.multiSignature));
+		assert.snapshot("fees_ark_ipfs", normaliseFees(result.ipfs));
+		assert.snapshot("fees_ark_multi_payment", normaliseFees(result.multiPayment));
+		assert.snapshot("fees_ark_delegate_resignation", normaliseFees(result.delegateResignation));
 	});
 
 	it("should get the fees for BIND", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get("/api/node/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByNode-bind.json`))
+			.reply(200, loader.json(`test/fixtures/client/feesByNode-bind.json`))
 			.get("/api/transactions/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByType-bind.json`));
+			.reply(200, loader.json(`test/fixtures/client/feesByType-bind.json`));
 
 		const result = await (await createService(FeeService, "bind.testnet")).all();
 
-		expect(result).toContainAllKeys([
+		assert.containKeys(result, [
 			"transfer",
 			"secondSignature",
 			"delegateRegistration",
@@ -87,32 +74,26 @@ describe("FeeService", () => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
-		matchSnapshot(result.transfer);
-		matchSnapshot(result.secondSignature);
-		matchSnapshot(result.delegateRegistration);
-		matchSnapshot(result.vote);
-		matchSnapshot(result.multiSignature);
-		matchSnapshot(result.ipfs);
-		matchSnapshot(result.multiPayment);
-		matchSnapshot(result.delegateResignation);
-		matchSnapshot(result.htlcLock);
-		matchSnapshot(result.htlcClaim);
-		matchSnapshot(result.htlcRefund);
+		assert.snapshot("fees_bind_transfer", normaliseFees(result.transfer));
+		assert.snapshot("fees_bind_second_signature", normaliseFees(result.secondSignature));
+		assert.snapshot("fees_bind_delegate_registration", normaliseFees(result.delegateRegistration));
+		assert.snapshot("fees_bind_vote", normaliseFees(result.vote));
+		assert.snapshot("fees_bind_multi_signature", normaliseFees(result.multiSignature));
+		assert.snapshot("fees_bind_ipfs", normaliseFees(result.ipfs));
+		assert.snapshot("fees_bind_multi_payment", normaliseFees(result.multiPayment));
+		assert.snapshot("fees_bind_delegate_resignation", normaliseFees(result.delegateResignation));
 	});
 
 	it("should calculate the fees for ARK multi-signature registrations", async () => {
-		nock(/.+/)
+		nock.fake(/.+/)
 			.get(`/api/wallets/${identity.address}`)
 			.reply(200, { data: { nonce: "1" } })
 			.get("/api/node/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByNode.json`))
+			.reply(200, loader.json(`test/fixtures/client/feesByNode.json`))
 			.get("/api/transactions/fees")
-			.reply(200, requireModule(`../test/fixtures/client/feesByType.json`))
+			.reply(200, loader.json(`test/fixtures/client/feesByType.json`))
 			.persist();
 
 		const a = await (
@@ -121,9 +102,6 @@ describe("FeeService", () => {
 			await (
 				await createService(TransactionService, "ark.devnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
-					container.singleton(IoC.BindingType.AddressService, AddressService);
-					container.singleton(IoC.BindingType.ClientService, ClientService);
-					container.singleton(IoC.BindingType.FeeService, FeeService);
 					container.constant(IoC.BindingType.DataTransferObjects, {
 						SignedTransactionData,
 						ConfirmedTransactionData,
@@ -133,12 +111,15 @@ describe("FeeService", () => {
 						IoC.BindingType.DataTransferObjectService,
 						Services.AbstractDataTransferObjectService,
 					);
+					container.singleton(IoC.BindingType.AddressService, AddressService);
+					container.singleton(IoC.BindingType.ClientService, ClientService);
+					container.singleton(IoC.BindingType.FeeService, FeeService);
 					container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
 					container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
 					container.singleton(IoC.BindingType.LedgerService, LedgerService);
 					container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 					container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-					container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+					container.factory(BindingType.MultiSignatureSigner, MultiSignatureSigner);
 				})
 			).multiSignature({
 				signatory: new Signatories.Signatory(
@@ -168,7 +149,7 @@ describe("FeeService", () => {
 
 		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1 });
 
-		expect(a.toHuman()).toBe(50); // Signatures + Base 5
-		expect(b.toHuman()).toBe(0);
+		assert.is(a.toHuman(), 50); // Signatures + Base 5
+		assert.is(b.toHuman(), 0);
 	});
 });

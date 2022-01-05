@@ -4,20 +4,10 @@ import { BN, bytes, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
 
 export const getZilliqaVersion = (config: Coins.ConfigRepository) => {
-	const id = config.get<string>("network.id");
-
-	let chainId: number | undefined;
-
-	if (id === "zil.testnet") {
-		chainId = 333;
-	}
-
-	if (id === "zil.mainnet") {
-		chainId = 1;
-	}
+	const chainId: number | undefined = config.get("network.meta.chainId");
 
 	if (!chainId) {
-		throw new Exceptions.Exception(`Add chainId for network ${id}`);
+		throw new Exceptions.Exception(`Add chainId for network ${chainId}`);
 	}
 
 	return bytes.pack(chainId, 1);
@@ -28,13 +18,14 @@ export const accountFromMnemonic = async (
 	mnemonic: string,
 	options?: Services.IdentityOptions,
 ): Promise<Account> => {
-	const index = options?.bip44?.addressIndex;
-	const address = zilliqa.wallet.addByMnemonic(mnemonic, index); // TODO: is second argument correct?
+	const address: string = zilliqa.wallet.addByMnemonic(mnemonic, options?.bip44?.addressIndex);
+
 	return zilliqa.wallet.accounts[address];
 };
 
 export const accountFromPrivateKey = async (zilliqa: Zilliqa, privateKey: string): Promise<Account> => {
-	const address = zilliqa.wallet.addByPrivateKey(privateKey);
+	const address: string = zilliqa.wallet.addByPrivateKey(privateKey);
+
 	return zilliqa.wallet.accounts[address];
 };
 

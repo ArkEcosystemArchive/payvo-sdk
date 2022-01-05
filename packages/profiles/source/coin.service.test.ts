@@ -1,104 +1,90 @@
-import "jest-extended";
-import "reflect-metadata";
-import { mock } from "jest-mock-extended";
-
 import { Coins } from "@payvo/sdk";
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import NodeFeesFixture from "../test/fixtures/client/node-fees.json";
-import { Profile } from "./profile";
-import { ICoinService, IDataRepository } from "./contracts";
 import { CoinService } from "./coin.service";
+import { Profile } from "./profile";
 
-let subject: ICoinService;
+describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-beforeAll(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/fees")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/node-fees.json"))
+			.get("/api/transactions/fees")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/client/transaction-fees.json"))
+			.persist();
 
-	nock.disableNetConnect();
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 
-	nock(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/fees")
-		.query(true)
-		.reply(200, NodeFeesFixture)
-		.get("/api/transactions/fees")
-		.query(true)
-		.reply(200, require("../test/fixtures/client/transaction-fees.json"))
-		.persist();
-});
-
-beforeEach(async () => {
-	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
-
-	subject = new CoinService(profile.data());
-});
-
-describe("CoinService", () => {
-	it("#push", () => {
-		subject.set("ARK", "ark.devnet");
-		const coin = subject.get("ARK", "ark.devnet");
-		expect(coin.network().id()).toEqual("ark.devnet");
+		context.subject = new CoinService(profile.data());
 	});
 
-	it("#has", async () => {
-		subject.set("ARK", "ark.devnet");
-
-		expect(subject.has("ARK", "ark.devnet")).toBeTrue();
-		expect(subject.has("UNKNOWN", "ark.devnet")).toBeFalse();
+	it("#set should succeed", (context) => {
+		context.subject.set("ARK", "ark.devnet");
+		const coin = context.subject.get("ARK", "ark.devnet");
+		assert.is(coin.network().id(), "ark.devnet");
 	});
 
-	it("#get", async () => {
-		subject.set("ARK", "ark.devnet");
+	it("#has should succeed", async (context) => {
+		context.subject.set("ARK", "ark.devnet");
 
-		expect(subject.get("ARK", "ark.devnet").network().id()).toEqual("ark.devnet");
-		expect(() => subject.get("ARK", "unknown")).toThrow(/does not exist/);
+		assert.true(context.subject.has("ARK", "ark.devnet"));
+		assert.false(context.subject.has("UNKNOWN", "ark.devnet"));
 	});
 
-	it("#values", async () => {
-		subject.set("ARK", "ark.devnet");
+	it("#get should succeed", async (context) => {
+		context.subject.set("ARK", "ark.devnet");
 
-		const values = subject.values();
-		expect(values).toEqual([{ ark: { devnet: expect.anything() } }]);
-		//@ts-ignore
-		expect(values[0].ark.devnet).toBeInstanceOf(Coins.Coin);
+		assert.is(context.subject.get("ARK", "ark.devnet").network().id(), "ark.devnet");
+		assert.throws(() => context.subject.get("ARK", "unknown"), /does not exist/);
 	});
 
-	it("#all", async () => {
-		subject.set("ARK", "ark.devnet");
+	it("#values should succeed", async (context) => {
+		context.subject.set("ARK", "ark.devnet");
 
-		expect(Object.keys(subject.all())).toEqual(["ARK"]);
+		const values = context.subject.values();
+		// assert.is(values, [{ ark: { devnet: expect.anything() } }]);
+		assert.array(values);
+		assert.instance(values[0].ark.devnet, Coins.Coin);
 	});
 
-	it("#entries", async () => {
-		subject.set("ARK", "ark.devnet");
+	it("#all should succeed", async (context) => {
+		context.subject.set("ARK", "ark.devnet");
 
-		expect(subject.entries()).toEqual([["ARK", ["ark.devnet"]]]);
-
-		const mockUndefinedNetwork = jest
-			.spyOn(subject, "all")
-			// @ts-ignore
-			.mockReturnValue({ ARK: { ark: undefined } });
-
-		expect(subject.entries()).toEqual([["ARK", ["ark"]]]);
-
-		mockUndefinedNetwork.mockRestore();
+		assert.equal(Object.keys(context.subject.all()), ["ARK"]);
 	});
 
-	it("#flush", async () => {
-		const dataRepository: IDataRepository = mock<IDataRepository>();
-		subject = new CoinService(dataRepository);
+	it("#entries should succeed", async (context) => {
+		context.subject.set("ARK", "ark.devnet");
 
-		subject.flush();
+		assert.equal(context.subject.entries(), [["ARK", ["ark.devnet"]]]);
 
-		expect(dataRepository.flush).toHaveBeenCalled();
+		stub(context.subject, "all").returnValue({ ARK: { ark: undefined } });
+
+		assert.equal(context.subject.entries(), [["ARK", ["ark"]]]);
+	});
+
+	it("#flush should succeed", async (context) => {
+		const dataRepository = { flush: () => {} };
+
+		const flushSpy = spy(dataRepository, "flush");
+
+		context.subject = new CoinService(dataRepository as any);
+
+		context.subject.flush();
+
+		assert.true(flushSpy.calledOnce);
 	});
 });

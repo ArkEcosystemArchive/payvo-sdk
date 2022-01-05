@@ -1,28 +1,30 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { BigNumber } from "./bignumber";
 import { CurrencyFormatter } from "./currency-formatter";
 
-test("#simpleFormatCrypto", () => {
-	expect(CurrencyFormatter.simpleFormatCrypto(10, "ETH")).toBe("10 ETH");
-});
+describe("CurrencyFormatter", async ({ assert, it, nock, loader }) => {
+	it("should format the value with a ticker", () => {
+		assert.is(CurrencyFormatter.simpleFormatCrypto(10, "ETH"), "10 ETH");
+	});
 
-test("#toBuilder", () => {
-	expect(CurrencyFormatter.toBuilder(10)).toBeInstanceOf(BigNumber);
-});
+	it("should transform the value to a BigNumber instance", () => {
+		assert.instance(CurrencyFormatter.toBuilder(10), BigNumber);
+	});
 
-test("#subToUnit", () => {
-	expect(CurrencyFormatter.subToUnit(10e8).toString()).toBe("10");
-});
+	it("should should convert scientific notation to a unit", () => {
+		assert.is(CurrencyFormatter.subToUnit(10e8).toString(), "10");
+	});
 
-test("#unitToSub", () => {
-	expect(CurrencyFormatter.unitToSub(10).toString()).toBe("1000000000");
-});
+	it("should should convert a unit to scientific notation", () => {
+		assert.is(CurrencyFormatter.unitToSub(10).toString(), "1000000000");
+	});
 
-test("#cryptoToCurrency with fromSubUnit:true", () => {
-	expect(CurrencyFormatter.cryptoToCurrency(10e8, 5)).toBe("50");
-});
+	it("should should convert scientific notation to a unit with a multiplier", () => {
+		assert.is(CurrencyFormatter.cryptoToCurrency(10e8, 5), "50");
+	});
 
-test("#cryptoToCurrency with fromSubUnit:false", () => {
-	expect(CurrencyFormatter.cryptoToCurrency(10, 5, { fromSubUnit: false, decimals: 8 })).toBe("50");
+	it("should should convert a unit with a multiplier", () => {
+		assert.is(CurrencyFormatter.cryptoToCurrency(10, 5, { fromSubUnit: false, decimals: 8 }), "50");
+	});
 });

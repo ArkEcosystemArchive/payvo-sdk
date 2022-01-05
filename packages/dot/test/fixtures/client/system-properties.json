@@ -1,0 +1,9 @@
+{
+	"id": 1,
+	"jsonrpc": "2.0",
+	"result": {
+		"ss58Format": 0,
+		"tokenDecimals": 10,
+		"tokenSymbol": "DOT"
+	}
+}

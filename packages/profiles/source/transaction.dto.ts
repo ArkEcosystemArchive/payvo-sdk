@@ -4,9 +4,9 @@ import { Coins, Contracts } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { IExchangeRateService, IReadWriteWallet } from "./contracts";
-import { container } from "./container";
-import { Identifiers } from "./container.models";
+import { IExchangeRateService, IReadWriteWallet } from "./contracts.js";
+import { container } from "./container.js";
+import { Identifiers } from "./container.models.js";
 
 export interface ExtendedTransactionRecipient {
 	address: string;

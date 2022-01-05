@@ -1,125 +1,130 @@
-import "jest-extended";
-import "reflect-metadata";
-import nock from "nock";
+import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { Profile } from "./profile";
-
-import { ProfileNotificationService } from "./notification.service";
-import { ProfileTransactionNotificationService } from "./notification.transactions.service";
 import { WalletReleaseNotificationService } from "./notification.releases.service";
 import { INotificationTypes } from "./notification.repository.contract";
+import { ProfileNotificationService } from "./notification.service";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { Profile } from "./profile";
 
-const NotificationTransactionFixtures = require("../test/fixtures/client/notification-transactions.json");
-const includedTransactionNotificationId = NotificationTransactionFixtures.data[1].id;
+describeWithContext(
+	"NotificationService",
+	{ mnemonic: identity.mnemonic },
+	({ it, assert, loader, beforeEach, nock }) => {
+		beforeEach(async (context) => {
+			bootContainer();
 
-let subject: ProfileNotificationService;
+			context.notificationTransactionFixtures = loader.json(
+				"test/fixtures/client/notification-transactions.json",
+			);
 
-beforeAll(async () => {
-	bootContainer();
+			nock.fake()
+				.get("/api/node/configuration")
+				.reply(200, loader.json("test/fixtures/client/configuration.json"))
+				.get("/api/node/configuration/crypto")
+				.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+				.get("/api/node/syncing")
+				.reply(200, loader.json("test/fixtures/client/syncing.json"))
+				.get("/api/peers")
+				.reply(200, loader.json("test/fixtures/client/peers.json"))
+				.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+				.reply(200, loader.json("test/fixtures/client/wallet.json"))
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, context.notificationTransactionFixtures)
+				.persist();
 
-	nock.disableNetConnect();
+			const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+			await importByMnemonic(profile, context.mnemonic, "ARK", "ark.devnet");
 
-	nock(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.persist();
+			context.subject = new ProfileNotificationService(profile);
+		});
 
-	nock(/.+/).get("/api/transactions").query(true).reply(200, NotificationTransactionFixtures).persist();
-});
+		it("#transactions", async (context) => {
+			assert.instance(context.subject.transactions(), ProfileTransactionNotificationService);
+		});
 
-beforeEach(async () => {
-	const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
-	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+		it("#releases", async (context) => {
+			assert.instance(context.subject.releases(), WalletReleaseNotificationService);
+		});
 
-	subject = new ProfileNotificationService(profile);
-});
+		it("#markAsRead", async (context) => {
+			assert.false(context.subject.hasUnread());
+			await context.subject.transactions().sync({});
 
-test("#transactions", async () => {
-	expect(subject.transactions()).toBeInstanceOf(ProfileTransactionNotificationService);
-});
+			assert.true(context.subject.hasUnread());
 
-test("#releases", async () => {
-	expect(subject.releases()).toBeInstanceOf(WalletReleaseNotificationService);
-});
+			const notification = context.subject
+				.transactions()
+				.findByTransactionId(context.notificationTransactionFixtures.data[1].id);
+			context.subject.markAsRead(notification?.id);
 
-test("#markAsRead", async () => {
-	expect(subject.hasUnread()).toBeFalse();
-	await subject.transactions().sync({});
+			const notification2 = context.subject
+				.transactions()
+				.findByTransactionId(context.notificationTransactionFixtures.data[2].id);
+			context.subject.markAsRead(notification2?.id);
 
-	expect(subject.hasUnread()).toBeTrue();
+			assert.false(context.subject.hasUnread());
+		});
 
-	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
-	subject.markAsRead(notification?.id as string);
+		it("#get", async (context) => {
+			assert.false(context.subject.hasUnread());
+			await context.subject.transactions().sync({});
 
-	const notification2 = subject.transactions().findByTransactionId(NotificationTransactionFixtures.data[2].id);
-	subject.markAsRead(notification2?.id as string);
+			const notification = context.subject
+				.transactions()
+				.findByTransactionId(context.notificationTransactionFixtures.data[1].id);
 
-	expect(subject.hasUnread()).toBeFalse();
-});
+			assert.is(context.subject.get(notification?.id).meta, notification?.meta);
+		});
 
-test("#get", async () => {
-	expect(subject.hasUnread()).toBeFalse();
-	await subject.transactions().sync({});
+		it("#filterByType", async (context) => {
+			await context.subject.transactions().sync({});
 
-	const notification = subject.transactions().findByTransactionId(includedTransactionNotificationId);
+			assert.length(context.subject.filterByType(INotificationTypes.Transaction), 2);
+		});
 
-	expect(subject.get(notification?.id!).meta).toEqual(notification?.meta!);
-});
+		it("#hasUnread", async (context) => {
+			assert.false(context.subject.hasUnread());
+			await context.subject.transactions().sync({});
+			assert.true(context.subject.hasUnread());
+		});
 
-test("#filterByType", async () => {
-	await subject.transactions().sync({});
+		it("#all", async (context) => {
+			await context.subject.transactions().sync({});
+			assert.instance(context.subject.all(), Object);
+			assert.length(Object.values(context.subject.all()), 2);
+		});
 
-	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(2);
-});
+		it("#count", async (context) => {
+			await context.subject.transactions().sync({});
+			assert.is(context.subject.count(), 2);
+		});
 
-test("#hasUnread", async () => {
-	expect(subject.hasUnread()).toBeFalse();
-	await subject.transactions().sync({});
-	expect(subject.hasUnread()).toBeTrue();
-});
+		it("#flush", async (context) => {
+			await context.subject.transactions().sync({});
+			assert.is(context.subject.count(), 2);
+			context.subject.flush();
+			assert.is(context.subject.count(), 0);
+		});
 
-test("#all", async () => {
-	await subject.transactions().sync({});
-	expect(subject.all()).toBeInstanceOf(Object);
-	expect(Object.values(subject.all())).toHaveLength(2);
-});
+		it("#fill", async (context) => {
+			const notifications = {
+				"46530491-0056-4239-ae12-1b406ba7f68d": {
+					id: "46530491-0056-4239-ae12-1b406ba7f68d",
+					meta: {
+						timestamp: 1_584_871_208,
+						transactionId: "9049c49eb0e0d9b14becc38d4f51ab993aa9fc7f6a7b23a1aff9e7bc060d2bb1",
+					},
+					read_at: undefined,
+					type: "transaction",
+				},
+			};
 
-test("#count", async () => {
-	await subject.transactions().sync({});
-	expect(subject.count()).toBe(2);
-});
-
-test("#flush", async () => {
-	await subject.transactions().sync({});
-	expect(subject.count()).toBe(2);
-	subject.flush();
-	expect(subject.count()).toBe(0);
-});
-
-test("#fill", async () => {
-	const notifications = {
-		"46530491-0056-4239-ae12-1b406ba7f68d": {
-			id: "46530491-0056-4239-ae12-1b406ba7f68d",
-			meta: {
-				timestamp: 1584871208,
-				transactionId: "9049c49eb0e0d9b14becc38d4f51ab993aa9fc7f6a7b23a1aff9e7bc060d2bb1",
-			},
-			read_at: undefined,
-			type: "transaction",
-		},
-	};
-
-	expect(subject.count()).toBe(0);
-	subject.fill(notifications);
-	expect(subject.count()).toBe(1);
-});
+			assert.is(context.subject.count(), 0);
+			context.subject.fill(notifications);
+			assert.is(context.subject.count(), 1);
+		});
+	},
+);

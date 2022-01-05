@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { assets, explorer, featureFlags, governance, importMethods, transactions } from "./shared";
+import { assets, explorer, featureFlags, governance, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Lisk",

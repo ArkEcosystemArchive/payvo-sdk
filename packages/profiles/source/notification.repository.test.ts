@@ -1,285 +1,324 @@
-import "jest-extended";
-import "reflect-metadata";
-import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
+import { describeWithContext } from "@payvo/sdk-test";
 
+import { bootContainer } from "../test/mocking";
 import { NotificationRepository } from "./notification.repository";
 import { INotificationTypes } from "./notification.repository.contract";
+import { Profile } from "./profile";
 
-let subject: NotificationRepository;
-
-const stubNotifications = [
+describeWithContext(
+	"NotificationRepository",
 	{
-		icon: "warning",
-		name: "Ledger Update Available",
-		type: "ledger",
-		body: "...",
-		action: "Read Changelog",
-	},
-	{
-		icon: "warning",
-		name: "Ledger Update Available",
-		type: "plugin",
-		body: "...",
-		action: "Read Changelog",
-	},
-	{
-		icon: "info",
-		name: "Transaction Created",
-		body: "...",
-		type: "transaction",
-		action: "open",
-		meta: {
-			txId: "1",
+		releaseNotifications: [
+			{
+				body: "...",
+				icon: "warning",
+				meta: {
+					version: "3.0.0",
+				},
+				name: "Wallet Update Available",
+				type: INotificationTypes.Release,
+			},
+		],
+		stubNotification: {
+			action: "Read Changelog",
+			body: "...",
+			icon: "warning",
+			name: "Ledger Update Available",
+			type: "ledger",
 		},
+		stubNotifications: [
+			{
+				action: "Read Changelog",
+				body: "...",
+				icon: "warning",
+				name: "Ledger Update Available",
+				type: "ledger",
+			},
+			{
+				action: "Read Changelog",
+				body: "...",
+				icon: "warning",
+				name: "Ledger Update Available",
+				type: "plugin",
+			},
+			{
+				action: "open",
+				body: "...",
+				icon: "info",
+				meta: {
+					txId: "1",
+				},
+				name: "Transaction Created",
+				type: "transaction",
+			},
+		],
+		transactionNotifications: [
+			{
+				meta: {
+					transactionId: "1",
+				},
+				type: INotificationTypes.Transaction,
+			},
+			{
+				meta: {
+					transactionId: "2",
+				},
+				type: INotificationTypes.Transaction,
+			},
+			{
+				meta: {
+					transactionId: "3",
+				},
+				type: INotificationTypes.Transaction,
+			},
+		],
 	},
-];
+	({ beforeEach, assert, it, nock, loader }) => {
+		beforeEach((context) => {
+			bootContainer();
 
-const transactionNotifications = [
-	{
-		type: INotificationTypes.Transaction,
-		meta: {
-			transactionId: "1",
-		},
+			context.subject = new NotificationRepository(
+				new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }),
+			);
+		});
+
+		it("#all", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			assert.length(Object.keys(context.subject.all()), context.stubNotifications.length);
+		});
+
+		it("#first", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+
+			assert.length(context.subject.keys(), context.stubNotifications.length);
+			assert.is(context.subject.first().name, context.stubNotification.name);
+		});
+
+		it("#last", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+
+			assert.length(context.subject.keys(), context.stubNotifications.length);
+			assert.is(context.subject.last().name, context.stubNotifications.at(-1).name);
+		});
+
+		it("#keys", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			const keys = Object.keys(context.subject.all());
+
+			assert.equal(context.subject.keys(), keys);
+		});
+
+		it("#values", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			const values = Object.keys(context.subject.all()).map((id) => context.subject.get(id));
+
+			assert.equal(context.subject.values(), values);
+		});
+
+		it("#get", (context) => {
+			assert.throws(() => context.subject.get("invalid"), "Failed to find");
+
+			const notification = context.subject.push(context.stubNotification);
+
+			assert.object(context.subject.get(notification.id));
+		});
+
+		it("#push", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			context.subject.push(context.stubNotification);
+
+			assert.length(context.subject.keys(), 1);
+
+			context.subject.push(context.stubNotification);
+
+			assert.length(context.subject.keys(), 2);
+		});
+
+		it("#fill", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			const first = context.subject.first();
+			context.subject.fill(Object.assign(first, { name: "updated name" }));
+
+			assert.is(context.subject.first().name, "updated name");
+		});
+
+		it("#has", (context) => {
+			const notification = context.subject.push(context.stubNotification);
+
+			assert.true(context.subject.has(notification.id));
+
+			context.subject.forget(notification.id);
+
+			assert.false(context.subject.has(notification.id));
+		});
+
+		it("#forget", (context) => {
+			assert.throws(() => context.subject.forget("invalid"), "Failed to find");
+
+			const notification = context.subject.push(context.stubNotification);
+
+			context.subject.forget(notification.id);
+
+			assert.throws(() => context.subject.get(notification.id), "Failed to find");
+		});
+
+		it("#flush", (context) => {
+			context.subject.push(context.stubNotification);
+
+			assert.length(context.subject.keys(), 1);
+
+			context.subject.flush();
+
+			assert.length(context.subject.keys(), 0);
+		});
+
+		it("#count", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+
+			assert.is(context.subject.count(), context.stubNotifications.length);
+		});
+
+		it("marks notifications as read and filters them", (context) => {
+			context.subject.push(context.stubNotification);
+			context.subject.markAsRead(context.subject.push(context.stubNotification).id);
+
+			assert.length(context.subject.read(), 1);
+			assert.length(context.subject.unread(), 1);
+		});
+
+		it("#read", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			context.subject.markAsRead(context.subject.first().id);
+
+			assert.length(context.subject.unread(), 2);
+			assert.truthy(context.subject.first().read_at);
+		});
+
+		it("#unread", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+			context.subject.markAsRead(context.subject.first().id);
+
+			assert.length(context.subject.unread(), 2);
+			assert.truthy(context.subject.first().read_at);
+
+			assert.undefined(context.subject.last().read_at);
+		});
+
+		it("#filterByType", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.transactionNotifications) {
+				context.subject.push(n);
+			}
+			for (const n of context.releaseNotifications) {
+				context.subject.push(n);
+			}
+
+			assert.length(context.subject.filterByType(INotificationTypes.Release), 1);
+			assert.length(context.subject.filterByType(INotificationTypes.Transaction), 3);
+		});
+
+		it("#findByTransactionId", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			assert.undefined(context.subject.findByTransactionId("1")?.meta?.transactionId);
+
+			for (const n of context.transactionNotifications) {
+				context.subject.push(n);
+			}
+
+			assert.is(
+				context.subject.findByTransactionId("1")?.meta?.transactionId,
+				context.transactionNotifications[0]?.meta.transactionId,
+			);
+			assert.undefined(context.subject.findByTransactionId("10")?.meta?.transactionId);
+
+			context.subject.push({
+				type: INotificationTypes.Transaction,
+			});
+
+			assert.length(context.subject.filterByType(INotificationTypes.Transaction), 4);
+			assert.undefined(context.subject.findByTransactionId("100")?.meta?.transactionId);
+		});
+
+		it("#findByVersion", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			assert.undefined(context.subject.findByVersion("3.0.0")?.meta?.version);
+
+			for (const n of context.releaseNotifications) {
+				context.subject.push(n);
+			}
+
+			context.subject.push({
+				type: INotificationTypes.Release,
+			});
+
+			assert.is(
+				context.subject.findByVersion("3.0.0")?.meta?.version,
+				context.releaseNotifications[0]?.meta.version,
+			);
+			assert.undefined(context.subject.findByVersion("3.0.1")?.meta?.version);
+		});
+
+		it("should have meta info", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+
+			const last = context.stubNotifications.at(-1);
+			assert.object(context.subject.last().meta);
+			assert.is(context.subject.last().meta, last.meta);
+		});
+
+		it("should have a type", (context) => {
+			assert.length(context.subject.keys(), 0);
+
+			for (const n of context.stubNotifications) {
+				context.subject.push(n);
+			}
+
+			const last = context.stubNotifications.at(-1);
+			assert.is(context.subject.last().type, last.type);
+		});
 	},
-	{
-		type: INotificationTypes.Transaction,
-		meta: {
-			transactionId: "2",
-		},
-	},
-	{
-		type: INotificationTypes.Transaction,
-		meta: {
-			transactionId: "3",
-		},
-	},
-];
-
-const releaseNotifications = [
-	{
-		icon: "warning",
-		name: "Wallet Update Available",
-		type: INotificationTypes.Release,
-		body: "...",
-		meta: {
-			version: "3.0.0",
-		},
-	},
-];
-
-const stubNotification = stubNotifications[0];
-
-beforeAll(() => {
-	bootContainer();
-});
-
-beforeEach(
-	() => (subject = new NotificationRepository(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }))),
 );
-
-test("#all", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	expect(Object.keys(subject.all())).toHaveLength(stubNotifications.length);
-});
-
-test("#first", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-
-	expect(subject.keys()).toHaveLength(stubNotifications.length);
-	expect(subject.first().name).toEqual(stubNotification.name);
-});
-
-test("#last", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-
-	expect(subject.keys()).toHaveLength(stubNotifications.length);
-	expect(subject.last().name).toEqual(stubNotifications[stubNotifications.length - 1].name);
-});
-
-test("#keys", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	const keys = Object.keys(subject.all());
-
-	expect(subject.keys()).toEqual(keys);
-});
-
-test("#values", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	const values = Object.keys(subject.all()).map((id) => subject.get(id));
-
-	expect(subject.values()).toEqual(values);
-});
-
-test("#get", () => {
-	expect(() => subject.get("invalid")).toThrowError("Failed to find");
-
-	const notification = subject.push(stubNotification);
-
-	expect(subject.get(notification.id)).toBeObject();
-});
-
-test("#push", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	subject.push(stubNotification);
-
-	expect(subject.keys()).toHaveLength(1);
-
-	subject.push(stubNotification);
-
-	expect(subject.keys()).toHaveLength(2);
-});
-
-test("#fill", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	const first = subject.first();
-	subject.fill(Object.assign(first, { name: "updated name" }));
-
-	expect(subject.first().name).toEqual("updated name");
-});
-
-test("#has", () => {
-	const notification = subject.push(stubNotification);
-
-	expect(subject.has(notification.id)).toBeTrue();
-
-	subject.forget(notification.id);
-
-	expect(subject.has(notification.id)).toBeFalse();
-});
-
-test("#forget", () => {
-	expect(() => subject.forget("invalid")).toThrowError("Failed to find");
-
-	const notification = subject.push(stubNotification);
-
-	subject.forget(notification.id);
-
-	expect(() => subject.get(notification.id)).toThrowError("Failed to find");
-});
-
-test("#flush", () => {
-	subject.push(stubNotification);
-	subject.push(stubNotification);
-
-	expect(subject.keys()).toHaveLength(2);
-
-	subject.flush();
-
-	expect(subject.keys()).toHaveLength(0);
-});
-
-test("#count", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-
-	expect(subject.count()).toEqual(stubNotifications.length);
-});
-
-test("marks notifications as read and filters them", () => {
-	subject.push(stubNotification);
-	subject.markAsRead(subject.push(stubNotification).id);
-
-	expect(subject.read()).toHaveLength(1);
-	expect(subject.unread()).toHaveLength(1);
-});
-
-test("#read", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	subject.markAsRead(subject.first().id);
-
-	expect(subject.unread()).toHaveLength(2);
-	expect(subject.first().read_at).toBeTruthy();
-});
-
-test("#unread", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-	subject.markAsRead(subject.first().id);
-
-	expect(subject.unread()).toHaveLength(2);
-	expect(subject.first().read_at).toBeTruthy();
-
-	expect(subject.last().read_at).toBeUndefined();
-});
-
-test("#filterByType", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	transactionNotifications.forEach((n) => subject.push(n));
-	releaseNotifications.forEach((n) => subject.push(n));
-
-	expect(subject.filterByType(INotificationTypes.Release)).toHaveLength(1);
-	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(3);
-});
-
-test("#findByTransactionId", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	expect(subject.findByTransactionId("1")?.meta?.transactionId).toBeUndefined();
-
-	transactionNotifications.forEach((n) => subject.push(n));
-
-	expect(subject.findByTransactionId("1")?.meta?.transactionId).toEqual(
-		transactionNotifications[0]?.meta.transactionId,
-	);
-	expect(subject.findByTransactionId("10")?.meta?.transactionId).toBeUndefined();
-
-	subject.push({
-		type: INotificationTypes.Transaction,
-	});
-
-	expect(subject.filterByType(INotificationTypes.Transaction)).toHaveLength(4);
-	expect(subject.findByTransactionId("100")?.meta?.transactionId).toBeUndefined();
-});
-
-test("#findByVersion", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	expect(subject.findByVersion("3.0.0")?.meta?.version).toBeUndefined();
-
-	releaseNotifications.forEach((n) => subject.push(n));
-
-	subject.push({
-		type: INotificationTypes.Release,
-	});
-
-	expect(subject.findByVersion("3.0.0")?.meta?.version).toEqual(releaseNotifications[0]?.meta.version);
-	expect(subject.findByVersion("3.0.1")?.meta?.version).toBeUndefined();
-});
-
-it("should have meta info", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-
-	const last = stubNotifications[stubNotifications.length - 1];
-	expect(subject.last().meta).toBeObject();
-	expect(subject.last().meta).toEqual(last.meta);
-});
-
-it("should have a type", () => {
-	expect(subject.keys()).toHaveLength(0);
-
-	stubNotifications.forEach((n) => subject.push(n));
-
-	const last = stubNotifications[stubNotifications.length - 1];
-	expect(subject.last().type).toEqual(last.type);
-});

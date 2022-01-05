@@ -1,6 +1,5 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
-import { jest } from "@jest/globals";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -8,420 +7,415 @@ import CryptoConfiguration from "../test/fixtures/client/cryptoConfiguration.jso
 import Fixture from "../test/fixtures/client/transaction.json";
 import MultipaymentFixtures from "../test/fixtures/client/transactions.json";
 import VoteFixtures from "../test/fixtures/client/votes.json";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ConfirmedTransactionData;
-
-beforeEach(async () => {
-	subject = await createService(ConfirmedTransactionData);
-	subject.configure(Fixture.data);
-});
-
-describe("ConfirmedTransactionData", () => {
-	test("#id", () => {
-		expect(subject.id()).toBe("3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
+describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(Fixture.data);
 	});
 
-	test("#blockId", () => {
-		expect(subject.blockId()).toBe("13114381566690093367");
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572");
 	});
 
-	test("#timestamp", () => {
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.timestamp()?.toUNIX()).toBe(Fixture.data.timestamp.unix);
-		expect(subject.timestamp()?.toISOString()).toBe(Fixture.data.timestamp.human);
+	it("should have a blockId", (context) => {
+		assert.is(context.subject.blockId(), "13114381566690093367");
 	});
 
-	test("#confirmations", () => {
-		expect(subject.confirmations()).toEqual(BigNumber.make(4636121));
+	it("should have a timestamp", (context) => {
+		assert.instance(context.subject.timestamp(), DateTime);
+		assert.is(context.subject.timestamp()?.toUNIX(), Fixture.data.timestamp.unix);
+		assert.is(context.subject.timestamp()?.toISOString(), Fixture.data.timestamp.human);
 	});
 
-	test("#sender", () => {
-		expect(subject.sender()).toBe("DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
+	it("should have a number of confirmations", (context) => {
+		assert.equal(context.subject.confirmations(), BigNumber.make(4636121));
 	});
 
-	test("#recipient", () => {
-		expect(subject.recipient()).toBe("D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
+	it("should have a sender", (context) => {
+		assert.is(context.subject.sender(), "DLK7ts2DpkbeBjFamuFtHLoDAq5upDhCmf");
 	});
 
-	test("#recipients", async () => {
-		expect(subject.recipients()).toEqual([]);
-
-		subject = await createService(ConfirmedTransactionData);
-		subject.configure(MultipaymentFixtures.data[0]);
-		expect(subject.recipients()).toBeArrayOfSize(9);
+	it("should have a recipient", (context) => {
+		assert.is(context.subject.recipient(), "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax");
 	});
 
-	test("#amount", async () => {
-		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+	it("should have a list of recipients for multi payments", async (context) => {
+		assert.equal(context.subject.recipients(), []);
 
-		subject = await createService(ConfirmedTransactionData);
-		subject.configure(MultipaymentFixtures.data[0]);
-		expect(subject.amount()).toEqual(BigNumber.make("12500000000000000"));
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(MultipaymentFixtures.data[0]);
+		assert.length(context.subject.recipients(), 9);
 	});
 
-	test("#fee", () => {
-		expect(subject.fee()).toEqual(BigNumber.ZERO);
+	it("should have an amount", async (context) => {
+		assert.equal(context.subject.amount(), BigNumber.make("12500000000000000"));
+
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(MultipaymentFixtures.data[0]);
+		assert.equal(context.subject.amount(), BigNumber.make("12500000000000000"));
 	});
 
-	test("#asset", () => {
-		expect(subject.asset()).toEqual({});
+	it("should have a fee", (context) => {
+		assert.equal(context.subject.fee(), BigNumber.ZERO);
 	});
 
-	test("#inputs", () => {
-		expect(subject.inputs()).toEqual([]);
+	it("should determine if the transction is confirmed", (context) => {
+		assert.true(context.subject.isConfirmed());
 	});
 
-	test("#outputs", () => {
-		expect(subject.outputs()).toEqual([]);
+	it("should be a return for transfers if sender equals recipient", (context) => {
+		stub(context.subject, "isTransfer").returnValueOnce(true);
+		stub(context.subject, "isSent").returnValueOnce(true);
+		stub(context.subject, "isReceived").returnValueOnce(true);
+		stub(context.subject, "recipient").returnValueOnce(context.subject.sender());
+
+		assert.is(context.subject.isReturn(), true);
 	});
 
-	test("#isConfirmed", () => {
-		expect(subject.isConfirmed()).toBeTrue();
+	it("should not be a return for transfers if sender does not equal recipient", (context) => {
+		stub(context.subject, "isTransfer").returnValueOnce(true);
+		stub(context.subject, "isReceived").returnValueOnce(true);
+		stub(context.subject, "recipient").returnValueOnce(context.subject.sender());
+
+		assert.false(context.subject.isReturn());
 	});
 
-	describe("#isReturn", () => {
-		test("should return true for transfers if sender equals recipient", () => {
-			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(true);
-			jest.spyOn(subject, "isSent").mockReturnValueOnce(true);
-			jest.spyOn(subject, "isReceived").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipient").mockReturnValueOnce(subject.sender());
+	it("should be a return true for multipayments if sender is included in recipients", (context) => {
+		stub(context.subject, "isTransfer").returnValueOnce(false);
+		stub(context.subject, "isMultiPayment").returnValueOnce(true);
+		stub(context.subject, "recipients").returnValueOnce([
+			{ amount: BigNumber.ZERO, address: context.subject.sender() },
+		]);
 
-			expect(subject.isReturn()).toBeTrue();
-		});
-
-		test("should return false for transfers if sender does not equal recipient", () => {
-			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(true);
-			jest.spyOn(subject, "isReceived").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipient").mockReturnValueOnce(subject.sender());
-
-			expect(subject.isReturn()).toBeFalse();
-		});
-
-		test("should return true for multipayments if sender is included in recipients", () => {
-			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
-			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipients").mockReturnValueOnce([
-				{ amount: BigNumber.ZERO, address: subject.sender() },
-			]);
-
-			expect(subject.isReturn()).toBeTrue();
-		});
-
-		test("should return false for multipayments if sender is not included in recipients", () => {
-			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
-			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(true);
-			jest.spyOn(subject, "recipients").mockReturnValueOnce([
-				{ amount: BigNumber.ZERO, address: subject.recipient() },
-			]);
-
-			expect(subject.isReturn()).toBeFalse();
-		});
-
-		test("should return false if transaction type is not 'transfer' or 'multiPayment'", () => {
-			jest.spyOn(subject, "isTransfer").mockReturnValueOnce(false);
-			jest.spyOn(subject, "isMultiPayment").mockReturnValueOnce(false);
-
-			expect(subject.isReturn()).toBeFalse();
-		});
+		assert.is(context.subject.isReturn(), true);
 	});
 
-	test("#isSent", () => {
-		expect(subject.isSent()).toBeFalse();
+	it("should not be a return for multipayments if sender is not included in recipients", (context) => {
+		stub(context.subject, "isTransfer").returnValueOnce(false);
+		stub(context.subject, "isMultiPayment").returnValueOnce(true);
+		stub(context.subject, "recipients").returnValueOnce([
+			{ amount: BigNumber.ZERO, address: context.subject.recipient() },
+		]);
+
+		assert.false(context.subject.isReturn());
 	});
 
-	test("#isReceived", () => {
-		expect(subject.isReceived()).toBeFalse();
+	it("should not be a return if transaction type is not 'transfer' or 'multiPayment'", (context) => {
+		stub(context.subject, "isTransfer").returnValueOnce(false);
+		stub(context.subject, "isMultiPayment").returnValueOnce(false);
+
+		assert.false(context.subject.isReturn());
 	});
 
-	test("#isTransfer", () => {
-		expect(subject.isTransfer()).toBeTrue();
+	it("should determine if the transction is sent", (context) => {
+		assert.false(context.subject.isSent());
 	});
 
-	test("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
+	it("should determine if the transction is received", (context) => {
+		assert.false(context.subject.isReceived());
 	});
 
-	test("#isDelegateRegistration", () => {
-		expect(subject.isDelegateRegistration()).toBeFalse();
+	it("should determine if the transction is a transfer", (context) => {
+		assert.true(context.subject.isTransfer());
 	});
 
-	test("#isVoteCombination", async () => {
-		expect(subject.isVoteCombination()).toBeFalse();
+	it("should determine if the transction is a second signature", (context) => {
+		assert.false(context.subject.isSecondSignature());
+	});
+
+	it("should determine if the transction is a delegate registration", (context) => {
+		assert.false(context.subject.isDelegateRegistration());
+	});
+
+	it("should determine if the transction is a vote combination type", async (context) => {
+		assert.false(context.subject.isVoteCombination());
 
 		const data = VoteFixtures.data[0];
-		subject = await createService(ConfirmedTransactionData);
-		subject.configure({ ...data, asset: { votes: [...data.asset.votes, "-X"] } });
-		expect(subject.isVoteCombination()).toBeTrue();
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ ...data, asset: { votes: [...data.asset.votes, "-X"] } });
+		assert.is(context.subject.isVoteCombination(), true);
 	});
 
-	test("#isVote", () => {
-		expect(subject.isVote()).toBeFalse();
+	it("should determine if the transction is a vote", (context) => {
+		assert.false(context.subject.isVote());
 	});
 
-	test("#isUnvote", () => {
-		expect(subject.isUnvote()).toBeFalse();
+	it("should determine if the transction is a unvote", (context) => {
+		assert.false(context.subject.isUnvote());
 	});
 
-	test("#isMultiSignatureRegistration", () => {
-		expect(subject.isMultiSignatureRegistration()).toBeFalse();
+	it("should determine if the transction is a multi signature registration", (context) => {
+		assert.false(context.subject.isMultiSignatureRegistration());
 	});
 
-	test("#isIpfs", () => {
-		expect(subject.isIpfs()).toBeFalse();
+	it("should determine if the transction is a ipfs", (context) => {
+		assert.false(context.subject.isIpfs());
 	});
 
-	test("#isMultiPayment", () => {
-		expect(subject.isMultiPayment()).toBeFalse();
+	it("should determine if the transction is a multi payment", (context) => {
+		assert.false(context.subject.isMultiPayment());
 	});
 
-	test("#isDelegateResignation", () => {
-		expect(subject.isDelegateResignation()).toBeFalse();
+	it("should determine if the transction is a delegate resignation", (context) => {
+		assert.false(context.subject.isDelegateResignation());
 	});
 
-	test("#isHtlcLock", () => {
-		expect(subject.isHtlcLock()).toBeFalse();
+	it("should determine if the transction is a htlc lock", (context) => {
+		assert.false(context.subject.isHtlcLock());
 	});
 
-	test("#isHtlcClaim", () => {
-		expect(subject.isHtlcClaim()).toBeFalse();
+	it("should determine if the transction is a htlc claim", (context) => {
+		assert.false(context.subject.isHtlcClaim());
 	});
 
-	test("#isHtlcRefund", () => {
-		expect(subject.isHtlcRefund()).toBeFalse();
+	it("should determine if the transction is a htlc refund", (context) => {
+		assert.false(context.subject.isHtlcRefund());
 	});
 
-	test("#isMagistrate", () => {
-		expect(subject.isMagistrate()).toBeFalse();
+	it("should determine if the transction is a magistrate", (context) => {
+		assert.false(context.subject.isMagistrate());
 	});
 
-	test("#toObject", () => {
-		expect(subject.toObject()).toBeObject();
+	it("should turn into an object", (context) => {
+		assert.object(context.subject.toObject());
 	});
 
-	test("#raw", () => {
-		expect(subject.raw()).toEqual(Fixture.data);
+	it("should return the underlying data", (context) => {
+		assert.equal(context.subject.raw(), Fixture.data);
 	});
 
-	test("#type", () => {
-		expect(subject.type()).toBe("transfer");
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "transfer");
+	});
+});
+
+describe("ConfirmedTransactionData - DelegateRegistrationData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 	});
 
-	describe("DelegateRegistrationData", () => {
-		beforeEach(async () => {
-			subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
-		});
-
-		test("#id", () => {
-			expect(subject.username()).toBe("genesis_1");
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("delegateRegistration");
-		});
+	it("should a username for the delegate", (context) => {
+		assert.is(context.subject.username(), "genesis_1");
 	});
 
-	describe("DelegateResignationData", () => {
-		beforeEach(async () => {
-			CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
-			subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
-		});
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "delegateRegistration");
+	});
+});
 
-		test("#type", () => {
-			expect(subject.type()).toBe("delegateResignation");
-		});
+describe("ConfirmedTransactionData - DelegateResignationData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		CryptoConfiguration.data.genesisBlock.transactions[1].type = 7;
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(CryptoConfiguration.data.genesisBlock.transactions[1]);
 	});
 
-	describe("HtlcClaimData", () => {
-		beforeEach(async () => {
-			subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
-		});
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "delegateResignation");
+	});
+});
 
-		test("#lockTransactionId", () => {
-			expect(subject.lockTransactionId()).toBe("1");
-		});
-
-		test("#unlockSecret", () => {
-			expect(subject.unlockSecret()).toBe("2");
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("htlcClaim");
-		});
+describe("ConfirmedTransactionData - HtlcClaimData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
 	});
 
-	describe("HtlcLockData", () => {
-		beforeEach(async () => {
-			subject.configure({
-				type: 8,
-				asset: {
-					lock: {
-						amount: 1,
-						to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-						secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
-						expiration: {
-							type: 1,
-							value: 123456789,
-						},
+	it("should have the ID of a locked transaction", (context) => {
+		assert.is(context.subject.lockTransactionId(), "1");
+	});
+
+	it("should have an unlock secret", (context) => {
+		assert.is(context.subject.unlockSecret(), "2");
+	});
+
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "htlcClaim");
+	});
+});
+
+describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({
+			type: 8,
+			asset: {
+				lock: {
+					amount: 1,
+					to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+					secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
+					expiration: {
+						type: 1,
+						value: 123456789,
 					},
 				},
-			});
-		});
-
-		test("#secretHash", () => {
-			expect(subject.secretHash()).toBe("0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454");
-		});
-
-		test("#expirationType", () => {
-			expect(subject.expirationType()).toBe(1);
-		});
-
-		test("#expirationValue", () => {
-			expect(subject.expirationValue()).toBe(123456789);
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("htlcLock");
+			},
 		});
 	});
 
-	describe("HtlcRefundData", () => {
-		beforeEach(async () => {
-			subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
-		});
+	it("should have a secret hash for claim", (context) => {
+		assert.is(context.subject.secretHash(), "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454");
+	});
 
-		test("#lockTransactionId", () => {
-			expect(subject.lockTransactionId()).toBe("1");
-		});
+	it("should have an expiration type", (context) => {
+		assert.is(context.subject.expirationType(), 1);
+	});
 
-		test("#type", () => {
-			expect(subject.type()).toBe("htlcRefund");
+	it("should have an expiration value", (context) => {
+		assert.is(context.subject.expirationValue(), 123456789);
+	});
+
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "htlcLock");
+	});
+});
+
+describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
+	});
+
+	it("should have the ID of a locked transaction", (context) => {
+		assert.is(context.subject.lockTransactionId(), "1");
+	});
+
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "htlcRefund");
+	});
+});
+
+describe("ConfirmedTransactionData - IpfsData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ type: 5, asset: { ipfs: "123456789" } });
+	});
+
+	it("should have an IPFS hash", (context) => {
+		assert.is(context.subject.hash(), "123456789");
+	});
+
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "ipfs");
+	});
+});
+
+describe("ConfirmedTransactionData - MultiPaymentData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({
+			type: 6,
+			asset: {
+				payments: [
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+				],
+			},
 		});
 	});
 
-	describe("IpfsData", () => {
-		beforeEach(async () => {
-			subject.configure({ type: 5, asset: { ipfs: "123456789" } });
-		});
-
-		test("#lockTransactionId", () => {
-			expect(subject.hash()).toBe("123456789");
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("ipfs");
-		});
+	it("should have a memo", (context) => {
+		assert.undefined(context.subject.memo());
 	});
 
-	describe("MultiPaymentData", () => {
-		beforeEach(async () => {
-			subject.configure({
-				type: 6,
-				asset: {
-					payments: [
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-						{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-					],
+	it("should have a list of payments", (context) => {
+		assert.length(context.subject.payments(), 3);
+	});
+
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "multiPayment");
+	});
+});
+
+describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({
+			type: 4,
+			asset: {
+				multiSignature: {
+					min: 1,
+					publicKeys: ["2", "3"],
 				},
-			});
-		});
-
-		test("#memo", () => {
-			expect(subject.memo()).toBeUndefined();
-		});
-
-		test("#payments", () => {
-			expect(subject.payments()).toBeArrayOfSize(3);
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("multiPayment");
+			},
 		});
 	});
 
-	describe("MultiSignatureData", () => {
-		beforeEach(async () => {
-			subject.configure({
-				type: 4,
-				asset: {
-					multiSignature: {
-						min: 1,
-						publicKeys: ["2", "3"],
-					},
-				},
-			});
-		});
-
-		test("#publicKeys", () => {
-			expect(subject.publicKeys()).toBeArrayOfSize(2);
-		});
-
-		test("#min", () => {
-			expect(subject.min()).toEqual(1);
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("multiSignature");
-		});
+	it("should have a list of participant public keys", (context) => {
+		assert.length(context.subject.publicKeys(), 2);
 	});
 
-	describe("SecondSignatureData", () => {
-		beforeEach(async () => {
-			subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
-		});
-
-		test("#publicKeys", () => {
-			expect(subject.secondPublicKey()).toEqual("1");
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("secondSignature");
-		});
+	it("should have a minimum number or required signatures", (context) => {
+		assert.is(context.subject.min(), 1);
 	});
 
-	describe("TransferData", () => {
-		beforeEach(async () => {
-			subject.configure({ vendorField: "X" });
-		});
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "multiSignature");
+	});
+});
 
-		test("#memo", () => {
-			expect(subject.memo()).toEqual("X");
-		});
-
-		test("#type", () => {
-			expect(subject.type()).toBe("transfer");
-		});
+describe("ConfirmedTransactionData - SecondSignatureData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
 	});
 
-	describe("VoteData", () => {
-		beforeEach(async () => {
-			subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
-		});
+	it("should have a secondary public key", (context) => {
+		assert.is(context.subject.secondPublicKey(), "1");
+	});
 
-		test("#votes", () => {
-			expect(subject.votes()).toBeArrayOfSize(1);
-			expect(subject.votes()[0]).toEqual("A");
-		});
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "secondSignature");
+	});
+});
 
-		test("#unvotes", () => {
-			expect(subject.unvotes()).toBeArrayOfSize(1);
-			expect(subject.unvotes()[0]).toEqual("B");
-		});
+describe("ConfirmedTransactionData - TransferData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ vendorField: "X" });
+	});
 
-		test.only("#type", () => {
-			subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
+	it("should have a memo", (context) => {
+		assert.is(context.subject.memo(), "X");
+	});
 
-			expect(subject.type()).toBe("voteCombination");
+	it("should have a type", (context) => {
+		assert.is(context.subject.type(), "transfer");
+	});
+});
 
-			subject.configure({ type: 3, asset: { votes: ["+A"] } });
+describe("ConfirmedTransactionData - VoteData", ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
+	});
 
-			expect(subject.type()).toBe("vote");
+	it("should have a list of votes", (context) => {
+		assert.length(context.subject.votes(), 1);
+		assert.is(context.subject.votes()[0], "A");
+	});
 
-			subject.configure({ type: 3, asset: { votes: ["-B"] } });
+	it("should have a list of unvotes", (context) => {
+		assert.length(context.subject.unvotes(), 1);
+		assert.is(context.subject.unvotes()[0], "B");
+	});
 
-			expect(subject.type()).toBe("unvote");
-		});
+	it("should have 3 different types of votes", (context) => {
+		context.subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
+
+		assert.is(context.subject.type(), "voteCombination");
+
+		context.subject.configure({ type: 3, asset: { votes: ["+A"] } });
+
+		assert.is(context.subject.type(), "vote");
+
+		context.subject.configure({ type: 3, asset: { votes: ["-B"] } });
+
+		assert.is(context.subject.type(), "unvote");
 	});
 });

@@ -2,7 +2,7 @@ import { Hash } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import NodeCache from "node-cache";
 
-import { ICache } from "./contracts";
+import { ICache } from "./contracts.js";
 
 type CacheStore = Record<string, { expires_at: DateTime; value: unknown }>;
 
@@ -56,6 +56,6 @@ export class Cache implements ICache {
 	}
 
 	#getCacheKey(value: unknown): string {
-		return Hash.sha1(`${this.#prefix}.${JSON.stringify(value)}`).toString("hex");
+		return Hash.sha256(`${this.#prefix}.${JSON.stringify(value)}`).toString("hex");
 	}
 }

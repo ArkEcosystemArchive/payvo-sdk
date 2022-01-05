@@ -1,9 +1,9 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { concat } from "./concat";
 
-describe("#concat", () => {
+describe("concat", async ({ assert, it, nock, loader }) => {
 	it("should concatenate all values", () => {
-		expect(concat([1], 2, [3], [[4]])).toEqual([1, 2, 3, [4]]);
+		assert.equal(concat([1], 2, [3], [[4]]), [1, 2, 3, [4]]);
 	});
 });

@@ -1,4 +1,4 @@
-import { Base58Check } from "./base58-check";
+import { Base58Check } from "./base58-check.js";
 
 export interface Structure {
 	readonly version: number;

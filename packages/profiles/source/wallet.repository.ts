@@ -1,10 +1,9 @@
-import { sortBy, sortByDesc } from "@payvo/sdk-helpers";
 import { Coins } from "@payvo/sdk";
-import { injectable } from "inversify";
+import { sortBy, sortByDesc } from "@payvo/sdk-helpers";
 import retry from "p-retry";
 
-import { container } from "./container";
-import { Identifiers } from "./container.models";
+import { container } from "./container.js";
+import { Identifiers } from "./container.models.js";
 import {
 	IDataRepository,
 	IProfile,
@@ -13,12 +12,11 @@ import {
 	IWalletExportOptions,
 	IWalletRepository,
 	WalletData,
-} from "./contracts";
+} from "./contracts.js";
 import { DataRepository } from "./data.repository";
-import { pqueue } from "./helpers";
-import { Wallet } from "./wallet";
+import { pqueue } from "./helpers/queue.js";
+import { Wallet } from "./wallet.js";
 
-@injectable()
 export class WalletRepository implements IWalletRepository {
 	readonly #profile: IProfile;
 	readonly #data: IDataRepository = new DataRepository();

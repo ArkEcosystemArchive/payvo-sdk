@@ -1,13 +1,16 @@
+import { describe } from "@payvo/sdk-test";
+
 import { compoundWords } from "./compound-words";
 
-describe("#compoundWords", () => {
+describe("compoundWords", async ({ assert, it, nock, loader }) => {
 	it("should return undefined if the given string is empty", () => {
-		expect(compoundWords("", (word) => word)).toBeUndefined();
+		assert.undefined(compoundWords("", (word) => word));
 	});
 
 	it("should return a list of words", () => {
-		expect(
-			compoundWords("fred, barney, & pebbles", (result: string, word: string) => `${result} ${word}`.trim()),
-		).toEqual("fred barney pebbles");
+		assert.is(
+			compoundWords("fred, barney, & pebbles", (result, word) => `${result} ${word}`.trim()),
+			"fred barney pebbles",
+		);
 	});
 });

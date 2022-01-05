@@ -1,14 +1,13 @@
 import { IoC, Services } from "@payvo/sdk";
 import { u8aToHex } from "@polkadot/util";
-import { mnemonicToMiniSecret, naclKeypairFromSeed } from "@polkadot/util-crypto";
+import { mnemonicToMiniSecret, naclBoxPairFromSecret } from "@polkadot/util-crypto";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.KeyPairDataTransferObject> {
-		const { publicKey, secretKey } = naclKeypairFromSeed(mnemonicToMiniSecret(mnemonic));
+		const { publicKey, secretKey } = naclBoxPairFromSecret(mnemonicToMiniSecret(mnemonic));
 
 		return { publicKey: u8aToHex(publicKey), privateKey: u8aToHex(secretKey) };
 	}

@@ -1,8 +1,8 @@
 import { IoC } from "@payvo/sdk";
-import { BindingType } from "./constants";
+import { BindingType } from "./constants.js";
 
 import { AddressFactory } from "./address.factory";
-import { MultiSignatureSigner } from "./multi-signature.signer";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
 export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public override async make(container: IoC.Container): Promise<void> {

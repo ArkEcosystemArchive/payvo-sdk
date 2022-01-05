@@ -1,21 +1,18 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 import { TransactionSerializer } from "./transaction.serializer";
-import { BindingType } from "./coin.contract";
-import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers";
+import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
+	readonly #bigNumberService: Services.BigNumberService;
+	readonly #broadcastSerializer: IoC.Factory<TransactionSerializer>;
 	#peer!: string;
 
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	protected readonly bigNumberService!: Services.BigNumberService;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.inject(BindingType.TransactionSerializer)
-	protected readonly broadcastSerializer!: TransactionSerializer;
-
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+		this.#bigNumberService = container.get(IoC.BindingType.BigNumberService);
+		this.#broadcastSerializer = container.factory(TransactionSerializer);
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository, "full");
 	}
 
@@ -92,7 +89,7 @@ export class ClientService extends Services.AbstractClientService {
 			available: 20 - data.account.votesUsed,
 			votes: (data.votes ?? []).map(({ address, amount }) => ({
 				id: address,
-				amount: this.bigNumberService.make(amount).toHuman(),
+				amount: this.#bigNumberService.make(amount).toHuman(),
 			})),
 		};
 	}
@@ -107,13 +104,13 @@ export class ClientService extends Services.AbstractClientService {
 		return {
 			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
 				address: delegateAddress,
-				amount: this.bigNumberService.make(amount),
+				amount: this.#bigNumberService.make(amount),
 				height: Number(height.start),
 				timestamp: getPendingTime(currentBlockHeight, height.end, blockTime),
 				isReady: isBlockHeightReached(height.end, currentBlockHeight),
 			})),
-			current: this.bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
-			pending: this.bigNumberService.make(calculateUnlockableBalanceInTheFuture(unlocking, currentBlockHeight)),
+			current: this.#bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
+			pending: this.#bigNumberService.make(calculateUnlockableBalanceInTheFuture(unlocking, currentBlockHeight)),
 		};
 	}
 
@@ -129,7 +126,7 @@ export class ClientService extends Services.AbstractClientService {
 		for (const transaction of transactions) {
 			try {
 				const { transactionId, message } = await this.#post("transactions", {
-					transaction: this.broadcastSerializer.toString(transaction.toBroadcast()),
+					transaction: this.#broadcastSerializer().toString(transaction.toBroadcast()),
 				});
 
 				if (transactionId) {

@@ -1,4 +1,4 @@
-import { IAppearanceService, IProfile, IProfileAppearance, ProfileSetting } from "./contracts";
+import { IAppearanceService, IProfile, IProfileAppearance, ProfileSetting } from "./contracts.js";
 
 export class AppearanceService implements IAppearanceService {
 	readonly #profile: IProfile;
@@ -10,24 +10,24 @@ export class AppearanceService implements IAppearanceService {
 		};
 	} = {
 		accentColor: {
-			profileSetting: ProfileSetting.AccentColor,
 			defaultValue: "green",
+			profileSetting: ProfileSetting.AccentColor,
 		},
 		dashboardTransactionHistory: {
+			defaultValue: true,
 			profileSetting: ProfileSetting.DashboardTransactionHistory,
-			defaultValue: false,
 		},
 		theme: {
-			profileSetting: ProfileSetting.Theme,
 			defaultValue: "light",
+			profileSetting: ProfileSetting.Theme,
 		},
 		useExpandedTables: {
-			profileSetting: ProfileSetting.UseExpandedTables,
 			defaultValue: false,
+			profileSetting: ProfileSetting.UseExpandedTables,
 		},
 		useNetworkWalletNames: {
-			profileSetting: ProfileSetting.UseNetworkWalletNames,
 			defaultValue: false,
+			profileSetting: ProfileSetting.UseNetworkWalletNames,
 		},
 	};
 

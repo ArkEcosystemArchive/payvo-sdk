@@ -3,10 +3,8 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { getLisk32AddressFromAddress, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
-import { normalizeTimestamp } from "./timestamps";
-import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers";
+import { isDelegateRegistration, isMultiSignatureRegistration, isTransfer, isUnlockToken, isVote } from "./helpers.js";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData
@@ -50,7 +48,7 @@ export class SignedTransactionData
 			return DateTime.make(this.signedData.timestamp);
 		}
 
-		return normalizeTimestamp(this.signedData.timestamp);
+		return DateTime.make();
 	}
 
 	public override isTransfer(): boolean {

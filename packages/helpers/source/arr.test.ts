@@ -1,9 +1,11 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Arr } from "./arr";
 
-test("#randomElement", () => {
-	const data = [...Array(1000).keys()];
+describe("randomElement", async ({ assert, it, nock, loader }) => {
+	it("should pick random elements", () => {
+		const data = [...Array(1000).keys()];
 
-	expect(Arr.randomElement(data)).not.toBe(Arr.randomElement(data));
+		assert.is.not(Arr.randomElement(data), Arr.randomElement(data));
+	});
 });

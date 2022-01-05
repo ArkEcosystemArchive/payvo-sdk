@@ -1,115 +1,93 @@
-import "jest-extended";
-import "reflect-metadata";
-
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { IProfile, IReadWriteWallet } from "./contracts";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
 import { WalletService } from "./wallet.service";
 
-let profile: IProfile;
-let wallet: IReadWriteWallet;
-let subject: WalletService;
+describe("WalletService", ({ afterEach, beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
+	beforeAll(() => bootContainer());
 
-let liveSpy: jest.SpyInstance;
-let testSpy: jest.SpyInstance;
-
-beforeAll(() => bootContainer());
-
-beforeEach(async () => {
-	nock.cleanAll();
-
-	nock(/.+/)
-		.get("/api/node/configuration")
-		.reply(200, require("../test/fixtures/client/configuration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.get("/api/delegates")
-		.reply(200, require("../test/fixtures/client/delegates-1.json"))
-		.get("/api/delegates?page=2")
-		.reply(200, require("../test/fixtures/client/delegates-2.json"))
-		// coingecho
-		.get("/api/v3/coins/dark/history")
-		.query(true)
-		.reply(200, {
-			id: "ark",
-			symbol: "ark",
-			name: "Ark",
-			market_data: {
-				current_price: {
-					btc: 0.0006590832396635801,
-				},
-				market_cap: {
-					btc: 64577.8220851173,
-				},
-				total_volume: {
-					btc: 3054.8117101964535,
-				},
-			},
-		})
-		// coingecho
-		.get("/api/v3/coins/list")
-		.query(true)
-		.reply(200, [
-			{
+	beforeEach(async (context) => {
+		nock.fake()
+			.get("/api/node/configuration")
+			.reply(200, loader.json("test/fixtures/client/configuration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.get("/api/delegates")
+			.reply(200, loader.json("test/fixtures/client/delegates-1.json"))
+			.get("/api/delegates?page=2")
+			.reply(200, loader.json("test/fixtures/client/delegates-2.json"))
+			// coingecho
+			.get("/api/v3/coins/dark/history")
+			.query(true)
+			.reply(200, {
 				id: "ark",
+				market_data: {
+					current_price: {
+						btc: 0.000_659_083_239_663_580_1,
+					},
+					market_cap: {
+						btc: 64_577.822_085_117_3,
+					},
+					total_volume: {
+						btc: 3054.811_710_196_453_5,
+					},
+				},
+				name: "Ark",
 				symbol: "ark",
-				name: "ark",
-			},
-			{
-				id: "dark",
-				symbol: "dark",
-				name: "dark",
-			},
-		])
-		.persist();
+			})
+			// coingecho
+			.get("/api/v3/coins/list")
+			.query(true)
+			.reply(200, [
+				{
+					id: "ark",
+					name: "ark",
+					symbol: "ark",
+				},
+				{
+					id: "dark",
+					name: "dark",
+					symbol: "dark",
+				},
+			])
+			.persist();
 
-	const profileRepository = new ProfileRepository();
+		const profileRepository = new ProfileRepository();
 
-	if (container.has(Identifiers.ProfileRepository)) {
-		container.unbind(Identifiers.ProfileRepository);
-	}
+		if (container.has(Identifiers.ProfileRepository)) {
+			container.unbind(Identifiers.ProfileRepository);
+		}
 
-	container.constant(Identifiers.ProfileRepository, profileRepository);
+		container.constant(Identifiers.ProfileRepository, profileRepository);
 
-	profile = profileRepository.create("John Doe");
+		context.profile = await profileRepository.create("John Doe");
 
-	wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+		context.wallet = await importByMnemonic(context.profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	liveSpy = jest.spyOn(wallet.network(), "isLive").mockReturnValue(true);
-	testSpy = jest.spyOn(wallet.network(), "isTest").mockReturnValue(false);
+		context.liveSpy = stub(context.wallet.network(), "isLive").returnValue(true);
+		context.testSpy = stub(context.wallet.network(), "isTest").returnValue(false);
 
-	subject = new WalletService();
-});
+		context.subject = new WalletService();
+	});
 
-afterEach(() => {
-	liveSpy.mockRestore();
-	testSpy.mockRestore();
-});
+	it("#syncByProfile", async (context) => {
+		assert.throws(() => context.wallet.voting().current(), /has not been synced/);
 
-beforeAll(() => nock.disableNetConnect());
+		await context.subject.syncByProfile(context.profile);
 
-describe("WalletService", () => {
-	it("#syncByProfile", async () => {
-		expect(() => wallet.voting().current()).toThrowError(/has not been synced/);
+		assert.not.throws(() => context.wallet.voting().current(), /has not been synced/);
 
-		await subject.syncByProfile(profile);
-
-		expect(() => wallet.voting().current()).not.toThrowError(/has not been synced/);
-
-		// @ts-ignore
-		const mockUndefinedWallets = jest.spyOn(profile.wallets(), "values").mockReturnValue([undefined]);
-		await subject.syncByProfile(profile);
-		mockUndefinedWallets.mockRestore();
+		stub(context.profile.wallets(), "values").returnValue([undefined]);
+		await context.subject.syncByProfile(context.profile);
 	});
 });

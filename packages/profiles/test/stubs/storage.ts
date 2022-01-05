@@ -1,9 +1,7 @@
-import "jest-extended";
-
 import { readFileSync, writeFileSync } from "fs";
 import { resolve } from "path";
 
-import { Storage } from "../../source/env.models";
+import { Storage } from "../../source/environment.models";
 
 export class StubStorage implements Storage {
 	readonly #storage;

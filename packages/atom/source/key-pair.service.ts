@@ -1,8 +1,6 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP44 } from "@payvo/sdk-cryptography";
-import { secp256k1 } from "bcrypto";
+import { Coins, IoC, Services } from "@payvo/sdk";
+import { BIP44, secp256k1 } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class KeyPairService extends Services.AbstractKeyPairService {
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -18,9 +16,9 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 		}
 
 		return {
-			publicKey: secp256k1.publicKeyCreate(child.privateKey, true).toString("hex"),
-			privateKey: child.privateKey.toString("hex"),
 			path,
+			privateKey: child.privateKey.toString("hex"),
+			publicKey: secp256k1.publicKeyCreate(child.privateKey, true).toString("hex"),
 		};
 	}
 }

@@ -1,8 +1,7 @@
 import { Coins, IoC, Services } from "@payvo/sdk";
 
-import { cb58Encode, keyPairFromMnemonic } from "./helpers";
+import { cb58Encode, keyPairFromMnemonic } from "./helpers.js";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

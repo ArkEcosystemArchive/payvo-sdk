@@ -1,87 +1,85 @@
-import "jest-extended";
-
 import { UUID } from "@payvo/sdk-cryptography";
+import { describe } from "@payvo/sdk-test";
 
 import { MemoryStorage } from "./memory.storage";
 
-let subject: MemoryStorage;
-let key: string;
+describe("MemoryStorage", ({ beforeEach, it, assert }) => {
+	beforeEach((context) => {
+		context.subject = new MemoryStorage();
+		context.key = UUID.random();
+	});
 
-beforeEach(() => {
-	subject = new MemoryStorage();
-	key = UUID.random();
-});
+	it("MemoryStorage#all", async (context) => {
+		assert.equal(await context.subject.all(), {});
 
-test("MemoryStorage#all", async () => {
-	await expect(subject.all()).resolves.toEqual({});
+		await context.subject.set(context.key, "value");
 
-	await subject.set(key, "value");
+		assert.equal(await context.subject.all(), { [context.key]: "value" });
 
-	await expect(subject.all()).resolves.toEqual({ [key]: "value" });
+		await context.subject.flush();
 
-	await subject.flush();
+		assert.equal(await context.subject.all(), {});
+	});
 
-	await expect(subject.all()).resolves.toEqual({});
-});
+	it("MemoryStorage#get", async (context) => {
+		await context.subject.set(context.key, "value");
 
-test("MemoryStorage#get", async () => {
-	await subject.set(key, "value");
+		assert.is(await context.subject.get(context.key), "value");
+	});
 
-	await expect(subject.get(key)).resolves.toBe("value");
-});
+	it("MemoryStorage#set", async (context) => {
+		assert.undefined(await context.subject.set(context.key, "value"));
+	});
 
-test("MemoryStorage#set", async () => {
-	await expect(subject.set(key, "value")).resolves.toBeUndefined();
-});
+	it("MemoryStorage#has", async (context) => {
+		assert.is(await context.subject.has(context.key), false);
 
-test("MemoryStorage#has", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+		await context.subject.set(context.key, "value");
 
-	await subject.set(key, "value");
+		assert.true(await context.subject.has(context.key));
+	});
 
-	await expect(subject.has(key)).resolves.toBeTrue();
-});
+	it("MemoryStorage#forget", async (context) => {
+		assert.is(await context.subject.has(context.key), false);
 
-test("MemoryStorage#forget", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+		await context.subject.set(context.key, "value");
 
-	await subject.set(key, "value");
+		assert.true(await context.subject.has(context.key));
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+		await context.subject.forget(context.key);
 
-	await subject.forget(key);
+		assert.is(await context.subject.has(context.key), false);
+	});
 
-	await expect(subject.has(key)).resolves.toBeFalse();
-});
+	it("MemoryStorage#flush", async (context) => {
+		assert.is(await context.subject.has(context.key), false);
 
-test("MemoryStorage#flush", async () => {
-	await expect(subject.has(key)).resolves.toBeFalse();
+		await context.subject.set(context.key, "value");
 
-	await subject.set(key, "value");
+		assert.true(await context.subject.has(context.key));
 
-	await expect(subject.has(key)).resolves.toBeTrue();
+		await context.subject.flush();
 
-	await subject.flush();
+		assert.is(await context.subject.has(context.key), false);
+	});
 
-	await expect(subject.has(key)).resolves.toBeFalse();
-});
+	it("MemoryStorage#count", async (context) => {
+		assert.is(await context.subject.count(), 0);
 
-test("MemoryStorage#count", async () => {
-	await expect(subject.count()).resolves.toBe(0);
+		await context.subject.set(context.key, "value");
 
-	await subject.set(key, "value");
+		assert.is(await context.subject.count(), 1);
 
-	await expect(subject.count()).resolves.toBe(1);
+		await context.subject.forget(context.key);
 
-	await subject.forget(key);
+		assert.is(await context.subject.count(), 0);
+	});
 
-	await expect(subject.count()).resolves.toBe(0);
-});
+	it("MemoryStorage#snapshot", async (context) => {
+		assert.undefined(await context.subject.snapshot());
+	});
 
-test("MemoryStorage#snapshot", async () => {
-	await expect(subject.snapshot()).resolves.toBe(undefined);
-});
-
-test("MemoryStorage#restore", async () => {
-	await expect(subject.restore()).resolves.toBe(undefined);
+	it("MemoryStorage#restore", async (context) => {
+		assert.undefined(await context.subject.restore());
+	});
 });

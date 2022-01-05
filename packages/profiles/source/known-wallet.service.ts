@@ -1,12 +1,10 @@
 import { Services } from "@payvo/sdk";
 
-import { pqueue } from "./helpers/queue";
-import { IKnownWalletService, IProfile } from "./contracts";
-import { injectable } from "inversify";
+import { IKnownWalletService, IProfile } from "./contracts.js";
+import { pqueue } from "./helpers/queue.js";
 
 type KnownWalletRegistry = Record<string, Services.KnownWallet[]>;
 
-@injectable()
 export class KnownWalletService implements IKnownWalletService {
 	readonly #registry: KnownWalletRegistry = {};
 
@@ -19,7 +17,7 @@ export class KnownWalletService implements IKnownWalletService {
 				promises.push(async () => {
 					try {
 						this.#registry[network] = await profile.coins().get(coin, network).knownWallet().all();
-					} catch (error) {
+					} catch {
 						// Do nothing if it fails. It's not critical functionality.
 					}
 				});

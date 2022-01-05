@@ -1,6 +1,6 @@
 import localForage from "localforage";
 
-import { Storage } from "./env.models";
+import { Storage } from "./environment.models.js";
 
 export class LocalStorage implements Storage {
 	readonly #storage;
@@ -8,11 +8,13 @@ export class LocalStorage implements Storage {
 
 	public constructor(driver: string) {
 		this.#storage = localForage.createInstance({
-			driver: {
-				indexeddb: localForage.INDEXEDDB,
-				websql: localForage.WEBSQL,
-				localstorage: localForage.LOCALSTORAGE,
-			}[driver],
+			driver:
+				process.env.LFD ??
+				{
+					indexeddb: localForage.INDEXEDDB,
+					localstorage: localForage.LOCALSTORAGE,
+					websql: localForage.WEBSQL,
+				}[driver],
 		});
 	}
 

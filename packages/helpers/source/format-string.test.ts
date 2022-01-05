@@ -1,9 +1,9 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { formatString } from "./format-string";
 
-describe("#formatString", () => {
+describe("formatString", async ({ assert, it, nock, loader }) => {
 	it("should format the string with an explicit positional index", () => {
-		expect(formatString("{0} World", "Hello")).toBe("Hello World");
+		assert.is(formatString("{0} World", "Hello"), "Hello World");
 	});
 });

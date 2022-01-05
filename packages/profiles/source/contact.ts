@@ -1,8 +1,8 @@
 import Joi from "joi";
 
 import { ContactAddressRepository } from "./contact-address.repository";
-import { IContact, IContactAddressInput, IContactAddressRepository, IContactData, IProfile } from "./contracts";
-import { Avatar } from "./helpers/avatar";
+import { IContact, IContactAddressInput, IContactAddressRepository, IContactData, IProfile } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
 
 export class Contact implements IContact {
 	readonly #profile: IProfile;
@@ -84,28 +84,28 @@ export class Contact implements IContact {
 	/** {@inheritDoc IContact.toObject} */
 	public toObject(): IContactData {
 		return {
+			addresses: this.addresses().toArray(),
 			id: this.id(),
 			name: this.name(),
 			starred: this.isStarred(),
-			addresses: this.addresses().toArray(),
 		};
 	}
 
 	#validate(data: Omit<IContactData, "addresses"> & { addresses: IContactAddressInput[] }): void {
 		const { error } = Joi.object({
-			id: Joi.string().required(),
-			name: Joi.string().required(),
 			addresses: Joi.array()
 				.min(1)
 				.items(
 					Joi.object({
+						address: Joi.string().required(),
 						coin: Joi.string().required(),
 						network: Joi.string().required(),
-						address: Joi.string().required(),
 					}),
 				),
+			id: Joi.string().required(),
+			name: Joi.string().required(),
 			starred: Joi.boolean().required(),
-		}).validate(data, { stripUnknown: true, allowUnknown: true });
+		}).validate(data, { allowUnknown: true, stripUnknown: true });
 
 		if (error !== undefined) {
 			throw error;

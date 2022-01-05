@@ -3,10 +3,8 @@ import {
 	ExchangeTransactionStatus,
 	IExchangeTransaction,
 	IExchangeTransactionData,
-	IExchangeTransactionRepository,
 	IProfile,
-} from "./contracts";
-import { Avatar } from "./helpers/avatar";
+} from "./contracts.js";
 
 export class ExchangeTransaction implements IExchangeTransaction {
 	readonly #profile: IProfile;

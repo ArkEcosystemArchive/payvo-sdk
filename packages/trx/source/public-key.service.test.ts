@@ -1,24 +1,17 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { PublicKeyService } from "./public-key.service";
 
-let subject: PublicKeyService;
+describe("PublicKeyService", async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(PublicKeyService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(PublicKeyService);
-});
-
-describe("PublicKey", () => {
-	describe("#fromMnemonic", () => {
-		it("should generate an output from a mnemonic", async () => {
-			await expect(subject.fromMnemonic(identity.mnemonic)).resolves.toMatchInlineSnapshot(`
-						Object {
-						  "path": "m/44'/195'/0'/0/0",
-						  "publicKey": "0277a3fb802f02a0fc916370c1fe14355db6cc91d6355ac600e2039a267a7e1b3c",
-						}
-					`);
+	it("should generate an output from a mnemonic", async (context) => {
+		assert.equal(await context.subject.fromMnemonic(identity.mnemonic), {
+			publicKey: "0277a3fb802f02a0fc916370c1fe14355db6cc91d6355ac600e2039a267a7e1b3c",
+			path: "m/44'/195'/0'/0/0",
 		});
 	});
 });

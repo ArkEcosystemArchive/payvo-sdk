@@ -1,409 +1,326 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
+import { IoC, Services } from "@payvo/sdk";
 
-import { IoC, Services, Test } from "@payvo/sdk";
-import nock from "nock";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
-
-beforeAll(async () => {
-	nock.disableNetConnect();
-
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-afterEach(() => nock.cleanAll());
-
-describe("ClientService", () => {
-	describe("#transaction", () => {
-		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
-				.reply(200, requireModule(`../test/fixtures/client/transaction.json`));
-
-			const result = await subject.transaction(
-				"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-			);
-
-			expect(result).toBeInstanceOf(ConfirmedTransactionData);
+describe("AddressService", async ({ assert, nock, beforeAll, it, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 	});
 
-	describe("#transactions", () => {
-		describe("should work with Core 2.0", () => {
-			beforeEach(async () => {
-				subject = await createService(ClientService, "ark.mainnet", (container) => {
-					container.constant(IoC.BindingType.Container, container);
-					container.constant(IoC.BindingType.DataTransferObjects, {
-						SignedTransactionData,
-						ConfirmedTransactionData,
-						WalletData,
-					});
-					container.singleton(
-						IoC.BindingType.DataTransferObjectService,
-						Services.AbstractDataTransferObjectService,
-					);
-				});
-			});
-			it("single address", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
-					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
+	it("should retrieve a transaction", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions/3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572")
+			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
-				const result = await subject.transactions({
-					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-					cursor: "0",
-				});
+		const result = await context.subject.transaction(
+			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
+		);
 
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-
-			it("multiple addresses", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({
-						page: "0",
-						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5",
-					})
-					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [
-						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
-						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
-					],
-					cursor: "0",
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-		});
-
-		describe("should work with Core 3.0", () => {
-			beforeEach(async () => {
-				subject = await createService(ClientService, "ark.devnet", (container) => {
-					container.constant(IoC.BindingType.Container, container);
-					container.constant(IoC.BindingType.DataTransferObjects, {
-						SignedTransactionData,
-						ConfirmedTransactionData,
-						WalletData,
-					});
-					container.singleton(
-						IoC.BindingType.DataTransferObjectService,
-						Services.AbstractDataTransferObjectService,
-					);
-				});
-			});
-
-			it("single address", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-
-			it("multiple addresses", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
-					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [
-						{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
-						{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
-					],
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-
-			it("for advanced search", async () => {
-				nock(/.+/)
-					.get("/api/transactions")
-					.query({
-						address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
-						"asset.type": "4",
-						"asset.action": "0",
-						type: 0,
-						typeGroup: 1,
-					})
-					.reply(200, requireModule(`../test/fixtures/client/transactions.json`));
-
-				const result = await subject.transactions({
-					identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-					asset: { type: 4, action: 0 },
-					type: "transfer",
-				});
-
-				expect(result).toBeObject();
-				expect(result.items()[0]).toBeInstanceOf(ConfirmedTransactionData);
-			});
-		});
+		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	describe("#wallet", () => {
-		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
-				.reply(200, requireModule(`../test/fixtures/client/wallet.json`));
+	it("should retrieve a list of transactions for a single address via Core 2.0", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions")
+			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8", page: "0" })
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			const result = await subject.wallet({
-				type: "address",
-				value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-			});
-
-			expect(result).toBeInstanceOf(WalletData);
+		const result = await context.subject.transactions({
+			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+			cursor: "0",
 		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	describe("#wallets", () => {
-		it("should work with Core 2.0", async () => {
-			subject = await createService(ClientService, "ark.mainnet", (container) => {
-				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, {
-					SignedTransactionData,
-					ConfirmedTransactionData,
-					WalletData,
-				});
-				container.singleton(
-					IoC.BindingType.DataTransferObjectService,
-					Services.AbstractDataTransferObjectService,
-				);
-			});
+	it("should retrieve a list of transactions for multiple addresses via Core 2.0", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions")
+			.query({
+				page: "0",
+				address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5",
+			})
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			nock(/.+/)
-				.get("/api/wallets")
-				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, requireModule(`../test/fixtures/client/wallets.json`));
-
-			const result = await subject.wallets({
-				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-			});
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
+		const result = await context.subject.transactions({
+			identifiers: [
+				{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
+				{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
+			],
+			cursor: "0",
 		});
 
-		it("should work with Core 3.0", async () => {
-			subject = await createService(ClientService, "ark.devnet", (container) => {
-				container.constant(IoC.BindingType.Container, container);
-				container.constant(IoC.BindingType.DataTransferObjects, {
-					SignedTransactionData,
-					ConfirmedTransactionData,
-					WalletData,
-				});
-				container.singleton(
-					IoC.BindingType.DataTransferObjectService,
-					Services.AbstractDataTransferObjectService,
-				);
-			});
-
-			nock(/.+/)
-				.get("/api/wallets")
-				.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
-				.reply(200, requireModule(`../test/fixtures/client/wallets.json`));
-
-			const result = await subject.wallets({
-				identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
-			});
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
-		});
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	describe("#delegate", () => {
-		it("should succeed", async () => {
-			nock(/.+/).get("/api/delegates/arkx").reply(200, requireModule(`../test/fixtures/client/delegate.json`));
+	it("should retrieve a list of transactions for a single address via Core 3.0", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions")
+			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			const result = await subject.delegate("arkx");
-
-			expect(result).toBeInstanceOf(WalletData);
+		const result = await context.subject.transactions({
+			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
 		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	describe("#delegates", () => {
-		it("should succeed", async () => {
-			nock(/.+/).get("/api/delegates").reply(200, requireModule(`../test/fixtures/client/delegates.json`));
+	it("should retrieve a list of transactions for multiple addresses via Core 3.0", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions")
+			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8,DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" })
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-			const result = await subject.delegates();
-
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
+		const result = await context.subject.transactions({
+			identifiers: [
+				{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" },
+				{ type: "address", value: "DRwgqrfuuaPCy3AE8Sz1AjdrncKfHjePn5" },
+			],
 		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
-	describe("#votes", () => {
-		let fixture;
+	it("should retrieve a list of transactions for an advanced search via Core 3.0", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/transactions")
+			.query({
+				address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8",
+				"asset.type": "4",
+				"asset.action": "0",
+				type: 0,
+				typeGroup: 1,
+			})
+			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
-		beforeEach(async () => {
-			fixture = requireModule(`../test/fixtures/client/wallet.json`);
+		const result = await context.subject.transactions({
+			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+			asset: { type: 4, action: 0 },
+			type: "transfer",
 		});
 
-		it("should succeed", async () => {
-			nock(/.+/).get("/api/wallets/arkx").reply(200, fixture);
+		assert.object(result);
+		assert.instance(result.items()[0], ConfirmedTransactionData);
+	});
 
-			const result = await subject.votes("arkx");
+	it("should retrieve a wallet", async (context) => {
+		nock.fake(/.+/)
+			.get("/api/wallets/DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9")
+			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
-			expect(result).toBeObject();
-			expect(result.used).toBe(1);
-			expect(result.available).toBe(0);
-			expect(result.votes).toMatchInlineSnapshot(`
-			Array [
-			  Object {
-			    "amount": 0,
-			    "id": "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-			  },
-			]
-		`);
+		const result = await context.subject.wallet({
+			type: "address",
+			value: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 		});
 
-		it("should succeed without vote", async () => {
-			const fixtureWithoutVote = {
-				data: {
-					...fixture.data,
-					attributes: {
-						...fixture.data.attributes,
-						vote: undefined,
-					},
+		assert.instance(result, WalletData);
+	});
+
+	it("should retrieve a list of wallets via Core 2.0", async (context) => {
+		context.subject = await createService(ClientService, "ark.mainnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		});
+
+		nock.fake(/.+/)
+			.get("/api/wallets")
+			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
+			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
+
+		const result = await context.subject.wallets({
+			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
+	});
+
+	it("should retrieve a list of wallets via Core 3.0", async (context) => {
+		context.subject = await createService(ClientService, "ark.devnet", (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		});
+
+		nock.fake(/.+/)
+			.get("/api/wallets")
+			.query({ address: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" })
+			.reply(200, loader.json(`test/fixtures/client/wallets.json`));
+
+		const result = await context.subject.wallets({
+			identifiers: [{ type: "address", value: "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8" }],
+		});
+
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
+	});
+
+	it("should retrieve a delegate", async (context) => {
+		nock.fake(/.+/).get("/api/delegates/arkx").reply(200, loader.json(`test/fixtures/client/delegate.json`));
+
+		const result = await context.subject.delegate("arkx");
+
+		assert.instance(result, WalletData);
+	});
+
+	it("should retrieve a list of delegates", async (context) => {
+		nock.fake(/.+/).get("/api/delegates").reply(200, loader.json(`test/fixtures/client/delegates.json`));
+
+		const result = await context.subject.delegates();
+
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
+	});
+
+	it("should retrieve votes of a wallet", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixture);
+
+		const result = await context.subject.votes("arkx");
+
+		assert.object(result);
+		assert.is(result.used, 1);
+		assert.is(result.available, 0);
+		assert.array(result.votes);
+	});
+
+	it("should retrieve votes of a wallet without a vote", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
+
+		const fixtureWithoutVote = {
+			data: {
+				...fixture.data,
+				attributes: {
+					...fixture.data.attributes,
 					vote: undefined,
 				},
-			};
+				vote: undefined,
+			},
+		};
 
-			nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
-			const result = await subject.votes("arkx");
+		const result = await context.subject.votes("arkx");
 
-			expect(result).toBeObject();
-			expect(result.used).toBe(0);
-			expect(result.available).toBe(1);
-			expect(result.votes).toMatchInlineSnapshot(`Array []`);
-		});
+		assert.object(result);
+		assert.is(result.used, 0);
+		assert.is(result.available, 1);
+		assert.array(result.votes);
+	});
 
-		it("should succeed without attributes when no vote", async () => {
-			const fixtureWithoutVote = {
-				data: {
-					...fixture.data,
-					attributes: undefined,
-					vote: undefined,
-				},
-			};
+	it("should retrieve votes of a wallet without attributes when not voting", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
-			nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+		const fixtureWithoutVote = {
+			data: {
+				...fixture.data,
+				attributes: undefined,
+				vote: undefined,
+			},
+		};
 
-			const result = await subject.votes("arkx");
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
 
-			expect(result).toBeObject();
-			expect(result.used).toBe(0);
-			expect(result.available).toBe(1);
-			expect(result.votes).toMatchInlineSnapshot(`Array []`);
-		});
+		const result = await context.subject.votes("arkx");
 
-		it("should succeed without attributes", async () => {
-			const fixtureWithoutVote = {
-				data: {
-					...fixture.data,
-					attributes: undefined,
-				},
-			};
+		assert.object(result);
+		assert.is(result.used, 0);
+		assert.is(result.available, 1);
+		assert.array(result.votes);
+	});
 
-			nock(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+	it("should retrieve votes of a wallet without attributes", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/wallet.json`);
 
-			const result = await subject.votes("arkx");
+		const fixtureWithoutVote = {
+			data: {
+				...fixture.data,
+				attributes: undefined,
+			},
+		};
 
-			expect(result).toBeObject();
-			expect(result.used).toBe(1);
-			expect(result.available).toBe(0);
-			expect(result.votes).toMatchInlineSnapshot(`
-			Array [
-			  Object {
-			    "amount": 0,
-			    "id": "03bbfb43ecb5a54a1e227bb37b5812b5321213838d376e2b455b6af78442621dec",
-			  },
-			]
-		`);
+		nock.fake(/.+/).get("/api/wallets/arkx").reply(200, fixtureWithoutVote);
+
+		const result = await context.subject.votes("arkx");
+
+		assert.object(result);
+		assert.is(result.used, 1);
+		assert.is(result.available, 0);
+		assert.array(result.votes);
+	});
+
+	it("should retrieve a list of voters", async (context) => {
+		nock.fake(/.+/).get("/api/delegates/arkx/voters").reply(200, loader.json(`test/fixtures/client/voters.json`));
+
+		const result = await context.subject.voters("arkx");
+
+		assert.object(result);
+		assert.instance(result.items()[0], WalletData);
+	});
+
+	it("should broadcast and accept 1 transaction and reject 1 transaction", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
+		nock.fake(/.+/).post("/api/transactions").reply(422, fixture);
+
+		const mock = { toBroadcast: () => "" };
+		const result = await context.subject.broadcast([mock]);
+
+		assert.equal(result, {
+			accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
+			rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
+			errors: {
+				d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216: "Already forged.",
+			},
 		});
 	});
 
-	describe("#voters", () => {
-		it("should succeed", async () => {
-			nock(/.+/)
-				.get("/api/delegates/arkx/voters")
-				.reply(200, requireModule(`../test/fixtures/client/voters.json`));
+	it("should broadcast and read errors in non-array format", async (context) => {
+		const fixture = loader.json(`test/fixtures/client/broadcast.json`);
+		const errorId = Object.keys(fixture.errors)[0];
+		const nonArrayFixture = {
+			data: fixture.data,
+			errors: { [errorId]: fixture.errors[errorId][0] },
+		};
 
-			const result = await subject.voters("arkx");
+		nock.fake(/.+/).post("/api/transactions").reply(422, nonArrayFixture);
 
-			expect(result).toBeObject();
-			expect(result.items()[0]).toBeInstanceOf(WalletData);
-		});
-	});
+		const mock = { toBroadcast: () => "" };
+		const result = await context.subject.broadcast([mock]);
 
-	describe("#broadcast", () => {
-		let fixture;
-
-		beforeEach(async () => {
-			fixture = requireModule(`../test/fixtures/client/broadcast.json`);
-		});
-
-		it("should accept 1 transaction and reject 1 transaction", async () => {
-			nock(/.+/).post("/api/transactions").reply(422, fixture);
-
-			const mock = { toBroadcast: () => "" } as SignedTransactionData;
-			const result = await subject.broadcast([mock]);
-
-			expect(result).toEqual({
-				accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
-				rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
-				errors: {
-					d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216: "Already forged.",
-				},
-			});
-		});
-
-		it("should read errors in non-array format", async () => {
-			const errorId = Object.keys(fixture.errors)[0];
-			const nonArrayFixture = {
-				data: fixture.data,
-				errors: { [errorId]: fixture.errors[errorId][0] },
-			};
-
-			nock(/.+/).post("/api/transactions").reply(422, nonArrayFixture);
-
-			const mock = { toBroadcast: () => "" } as SignedTransactionData;
-			const result = await subject.broadcast([mock]);
-
-			expect(result).toEqual({
-				accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
-				rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
-				errors: {
-					d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216: "Already forged.",
-				},
-			});
+		assert.equal(result, {
+			accepted: ["e4311204acf8a86ba833e494f5292475c6e9e0913fc455a12601b4b6b55818d8"],
+			rejected: ["d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216"],
+			errors: {
+				d4cb4edfbd50a5d71d3d190a687145530b73f041c59e2c4137fe8b3d1f970216: "Already forged.",
+			},
 		});
 	});
 });

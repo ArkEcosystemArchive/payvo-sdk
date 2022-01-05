@@ -1,9 +1,9 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { reverse } from "./reverse";
 
-describe("#reverse", () => {
+describe("reverse", async ({ assert, it, nock, loader }) => {
 	it("should work with a string", () => {
-		expect(reverse("abc")).toEqual("cba");
+		assert.is(reverse("abc"), "cba");
 	});
 });

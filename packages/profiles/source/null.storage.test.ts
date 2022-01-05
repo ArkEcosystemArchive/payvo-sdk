@@ -1,43 +1,43 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { NullStorage } from "./null.storage";
 
-let subject: NullStorage;
+describe("NullStorage", ({ it, assert, beforeEach }) => {
+	beforeEach((context) => (context.subject = new NullStorage()));
 
-beforeEach(() => (subject = new NullStorage()));
+	it("#all", async (context) => {
+		assert.equal(await context.subject.all(), {});
+	});
 
-test("#all", async () => {
-	await expect(subject.all()).resolves.toEqual({});
-});
+	it("#get", async (context) => {
+		assert.undefined(await context.subject.get("key"));
+	});
 
-test("#get", async () => {
-	await expect(subject.get("key")).resolves.toBeUndefined();
-});
+	it("#set", async (context) => {
+		assert.undefined(await context.subject.set("key", "value"));
+	});
 
-test("#set", async () => {
-	await expect(subject.set("key", "value")).resolves.toBeUndefined();
-});
+	it("#has", async (context) => {
+		assert.false(await context.subject.has("key"));
+	});
 
-test("#has", async () => {
-	await expect(subject.has("key")).resolves.toBeFalse();
-});
+	it("#forget", async (context) => {
+		assert.undefined(await context.subject.forget("null"));
+	});
 
-test("#forget", async () => {
-	await expect(subject.forget("null")).resolves.toBeUndefined();
-});
+	it("#flush", async (context) => {
+		assert.undefined(await context.subject.flush());
+	});
 
-test("#flush", async () => {
-	await expect(subject.flush()).resolves.toBeUndefined();
-});
+	it("#count", async (context) => {
+		assert.is(await context.subject.count(), 0);
+	});
 
-test("#count", async () => {
-	await expect(subject.count()).resolves.toBe(0);
-});
+	it("#snapshot", async (context) => {
+		assert.undefined(await context.subject.snapshot());
+	});
 
-test("#snapshot", async () => {
-	await expect(subject.snapshot()).resolves.toBeUndefined();
-});
-
-test("#restore", async () => {
-	await expect(subject.restore()).resolves.toBeUndefined();
+	it("#restore", async (context) => {
+		assert.undefined(await context.subject.restore());
+	});
 });

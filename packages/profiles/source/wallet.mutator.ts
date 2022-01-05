@@ -1,8 +1,8 @@
-import { BIP39 } from "@payvo/sdk-cryptography";
 import { Services } from "@payvo/sdk";
+import { BIP39 } from "@payvo/sdk-cryptography";
 
-import { IReadWriteWallet, IWalletMutator, WalletData, WalletImportMethod, WalletSetting } from "./contracts";
-import { Avatar } from "./helpers";
+import { IReadWriteWallet, IWalletMutator, WalletData, WalletImportMethod, WalletSetting } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
 
 export class WalletMutator implements IWalletMutator {
 	readonly #wallet: IReadWriteWallet;
@@ -80,7 +80,7 @@ export class WalletMutator implements IWalletMutator {
 
 		this.#wallet.data().set(WalletData.PublicKey, value);
 
-		return this.address({ type, address, path });
+		return this.address({ address, path, type });
 	}
 
 	/** {@inheritDoc IWalletMutator.address} */
@@ -146,7 +146,7 @@ export class WalletMutator implements IWalletMutator {
 
 	async #verifyPassword(password: string): Promise<boolean> {
 		try {
-			const wif = this.#wallet.signingKey().get(password);
+			const wif = await this.#wallet.signingKey().get(password);
 
 			let address: string;
 

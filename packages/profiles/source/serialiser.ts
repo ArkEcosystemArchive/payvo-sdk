@@ -1,6 +1,6 @@
 import { Contracts } from "@payvo/sdk";
 
-import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts";
+import { IReadWriteWallet, IWalletData, WalletData, WalletFlag } from "./contracts.js";
 
 type SerializedBalance = {
 	available: string;
@@ -27,7 +27,6 @@ export class WalletSerialiser {
 		this.#wallet.transaction().dump();
 
 		return {
-			id: this.#wallet.id(),
 			data: {
 				[WalletData.Coin]: this.#wallet.coin().manifest().get<string>("name"),
 				[WalletData.Network]: this.#wallet.networkId(),
@@ -38,7 +37,7 @@ export class WalletSerialiser {
 				[WalletData.DerivationPath]: this.#wallet.data().get(WalletData.DerivationPath),
 				[WalletData.DerivationType]: this.#wallet.data().get(WalletData.DerivationType),
 				[WalletData.ImportMethod]: this.#wallet.data().get(WalletData.ImportMethod),
-				[WalletData.Sequence]: this.#wallet.nonce().toFixed(),
+				[WalletData.Sequence]: this.#wallet.nonce().toFixed(0),
 				[WalletData.SignedTransactions]: this.#wallet.data().get(WalletData.SignedTransactions, []),
 				[WalletData.PendingMultiSignatures]: this.#wallet.data().get(WalletData.PendingMultiSignatures, []),
 				[WalletData.Votes]: this.#wallet.data().get(WalletData.Votes, []),
@@ -50,6 +49,7 @@ export class WalletSerialiser {
 				[WalletData.LedgerModel]: this.#wallet.data().get(WalletData.LedgerModel),
 				[WalletData.Status]: this.#wallet.data().get(WalletData.Status),
 			},
+			id: this.#wallet.id(),
 			settings: this.#wallet.settings().all(),
 		};
 	}

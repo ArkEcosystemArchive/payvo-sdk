@@ -1,14 +1,14 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { isSyncFunction } from "./is-sync-function";
 
-describe("#isSyncFunction", () => {
+describe("isSyncFunction", async ({ assert, it, nock, loader }) => {
 	it("should pass", () => {
-		expect(isSyncFunction(new Function())).toBeTrue();
+		assert.true(isSyncFunction(new Function()));
 	});
 
 	it("should fail", () => {
-		expect(isSyncFunction(async () => ({}))).toBeFalse();
-		expect(isSyncFunction([])).toBeFalse();
+		assert.false(isSyncFunction(async () => ({})));
+		assert.false(isSyncFunction([]));
 	});
 });

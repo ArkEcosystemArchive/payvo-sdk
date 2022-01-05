@@ -1,5 +1,4 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
@@ -11,23 +10,26 @@ import { LedgerService } from "./ledger.service";
 import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
+import { AddressFactory } from "./address.factory.js";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { BindingType } from "./constants.js";
 
-const createMockService = async (record: string) => {
+const createMockService = async (record) => {
 	const transport = await createService(LedgerService, "btc.testnet", (container) => {
 		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(IoC.BindingType.DataTransferObjects, {
 			SignedTransactionData,
 			ConfirmedTransactionData,
 			WalletData,
 		});
 		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+		container.singleton(BindingType.AddressFactory, AddressFactory);
+		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+		container.singleton(IoC.BindingType.AddressService, AddressService);
+		container.singleton(IoC.BindingType.ClientService, ClientService);
 		container.constant(
 			IoC.BindingType.LedgerTransportFactory,
 			async () => await openTransportReplayer(RecordStore.fromString(record)),
-			// // @ts-ignore
-			// async () => await TransportNodeHid.default.open(null)
 		);
 	});
 
@@ -36,54 +38,43 @@ const createMockService = async (record: string) => {
 	return transport;
 };
 
-describe("disconnect", () => {
-	it("should pass with a resolved transport closure", async () => {
+describe("LedgerService", async ({ assert, it }) => {
+	it("disconnect", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.disconnect()).resolves.toBeUndefined();
+		assert.undefined(await subject.disconnect());
 	});
-});
 
-describe("disconnect", () => {
-	it("should pass with a resolved transport closure", async () => {
+	it("disconnect", async () => {
 		const subject = await createMockService("");
 
-		await expect(subject.disconnect()).resolves.toBeUndefined();
+		assert.undefined(await subject.disconnect());
 	});
-});
 
-describe("getVersion", () => {
-	it("should pass with an app version", async () => {
+	it("getVersion", async () => {
 		const subject = await createMockService(ledger.appVersion.record);
 
-		await expect(subject.getVersion()).resolves.toBe(ledger.appVersion.result);
+		assert.is(await subject.getVersion(), ledger.appVersion.result);
 	});
-});
 
-describe("getPublicKey", () => {
-	it("should pass with a compressed publicKey", async () => {
+	it("getPublicKey", async () => {
 		const subject = await createMockService(ledger.publicKey.record);
 
-		await expect(subject.getPublicKey(ledger.bip44.path)).resolves.toEqual(ledger.publicKey.result);
+		assert.is(await subject.getPublicKey(ledger.bip44.path), ledger.publicKey.result);
 	});
-});
 
-describe("getExtendedPublicKey", () => {
-	it("should pass with for a given path", async () => {
+	it("getExtendedPublicKey", async () => {
 		const subject = await createMockService(ledger.extendedPublicKey.record);
 
-		await expect(subject.getExtendedPublicKey(ledger.extendedPublicKey.path)).resolves.toEqual(
-			ledger.extendedPublicKey.result,
-		);
+		assert.is(await subject.getExtendedPublicKey(ledger.extendedPublicKey.path), ledger.extendedPublicKey.result);
 	});
-});
 
-describe("signMessage", () => {
-	it("should pass with an ecdsa signature", async () => {
+	it("signMessage", async () => {
 		const subject = await createMockService(ledger.message.record);
 
-		await expect(
-			subject.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "utf-8")),
-		).resolves.toEqual(ledger.message.result);
+		assert.is(
+			await subject.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "utf-8")),
+			ledger.message.result,
+		);
 	});
 });

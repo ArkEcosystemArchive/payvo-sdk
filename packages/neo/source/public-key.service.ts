@@ -1,8 +1,7 @@
 import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { createWallet, deriveWallet } from "./utils";
+import { createWallet, deriveWallet } from "./utils.js";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

@@ -1,18 +1,15 @@
 import { IoC, Services } from "@payvo/sdk";
 import Tron from "@ledgerhq/hw-app-trx";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Tron;
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Tron.default(this.#ledger);
+		this.#transport = new Tron(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

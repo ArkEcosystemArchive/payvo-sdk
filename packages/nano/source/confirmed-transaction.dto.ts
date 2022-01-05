@@ -2,7 +2,6 @@ import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
 	public override id(): string {
 		return this.data.hash;
@@ -14,10 +13,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	public override timestamp(): DateTime {
 		return DateTime.fromUnix(this.data.local_timestamp);
-	}
-
-	public override confirmations(): BigNumber {
-		return BigNumber.ZERO;
 	}
 
 	public override sender(): string {
@@ -38,10 +33,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 
 	public override amount(): BigNumber {
 		return this.bigNumberService.make(this.data.amount);
-	}
-
-	public override fee(): BigNumber {
-		return BigNumber.ZERO;
 	}
 
 	public override isConfirmed(): boolean {

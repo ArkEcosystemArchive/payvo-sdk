@@ -1,8 +1,7 @@
 import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { BigNumber, NumberLike } from "@payvo/sdk-helpers";
-import { calculateBalanceLockedInUnvotes, calculateBalanceLockedInVotes } from "./helpers";
+import { calculateBalanceLockedInUnvotes, calculateBalanceLockedInVotes } from "./helpers.js";
 
-@IoC.injectable()
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
 	public override primaryKey(): string {
 		return this.address();
@@ -55,10 +54,6 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return BigNumber.ZERO;
 	}
 
-	public override secondPublicKey(): string | undefined {
-		return undefined;
-	}
-
 	public override username(): string | undefined {
 		return this.data.dpos?.delegate?.username;
 	}
@@ -75,7 +70,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return BigNumber.ZERO;
 	}
 
-	public multiSignature(): Contracts.WalletMultiSignature {
+	public override multiSignature(): Contracts.WalletMultiSignature {
 		if (!this.isMultiSignature()) {
 			throw new Error("This wallet does not have a multi-signature registered.");
 		}

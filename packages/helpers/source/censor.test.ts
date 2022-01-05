@@ -1,26 +1,28 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Censor } from "./censor";
 
-let subject: Censor;
-beforeEach(() => (subject = new Censor()));
+describe("Censor", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach((context) => (context.subject = new Censor()));
 
-test("#isBad", () => {
-	expect(subject.isBad("onion")).toBeTrue();
-	expect(subject.isBad("zyva.org")).toBeTrue();
-	expect(subject.isBad("tighturl.com")).toBeTrue(); // allow uppercase in code
-	expect(subject.isBad("ZYVA.ORG")).toBeTrue(); // allow uppercase in data
-	expect(subject.isBad("tree")).toBeFalse();
-	expect(subject.isBad("")).toBeFalse();
-});
+	it("#isBad", (context) => {
+		assert.true(context.subject.isBad("onion"));
+		assert.true(context.subject.isBad("zyva.org"));
+		assert.true(context.subject.isBad("tighturl.com")); // allow uppercase in code
+		assert.true(context.subject.isBad("ZYVA.ORG")); // allow uppercase in data
+		assert.false(context.subject.isBad("tree"));
+		assert.false(context.subject.isBad(""));
+	});
 
-test("#process", () => {
-	expect(subject.process("pedo")).toBe("****");
-	expect(subject.process("pedophile")).toBe("*********");
-	expect(subject.process("zyva.org")).toBe("********");
-	expect(subject.process("https://www.google.com/ Don't be an ash0le :smile:")).toBe(
-		"*********************** Don't be an ****** :smile:",
-	);
-	expect(subject.process("tree")).toBe("tree");
-	expect(subject.process("")).toBe("");
+	it("#process", (context) => {
+		assert.is(context.subject.process("pedo"), "****");
+		assert.is(context.subject.process("pedophile"), "*********");
+		assert.is(context.subject.process("zyva.org"), "********");
+		assert.is(
+			context.subject.process("https://www.google.com/ Don't be an ash0le :smile:"),
+			"*********************** Don't be an ****** :smile:",
+		);
+		assert.is(context.subject.process("tree"), "tree");
+		assert.is(context.subject.process(""), "");
+	});
 });

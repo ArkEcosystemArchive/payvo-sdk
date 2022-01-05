@@ -1,5 +1,5 @@
-import { IContactAddress, IContactAddressData, IProfile } from "./contracts";
-import { Avatar } from "./helpers/avatar";
+import { IContactAddress, IContactAddressData, IProfile } from "./contracts.js";
+import { Avatar } from "./helpers/avatar.js";
 
 export class ContactAddress implements IContactAddress {
 	readonly #profile: IProfile;
@@ -38,10 +38,10 @@ export class ContactAddress implements IContactAddress {
 	/** {@inheritDoc IContactAddress.toObject} */
 	public toObject(): IContactAddressData {
 		return {
-			id: this.id(),
-			coin: this.coin(),
-			network: this.network(),
 			address: this.address(),
+			coin: this.coin(),
+			id: this.id(),
+			network: this.network(),
 		};
 	}
 

@@ -2,11 +2,9 @@ import { DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber, convertString } from "@payvo/sdk-helpers";
 
-import { normalizeTimestamp } from "./timestamps";
-import { TransactionTypeService } from "./transaction-type.service";
+import { TransactionTypeService } from "./transaction-type.service.js";
 import { getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 
-@IoC.injectable()
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
 	public override id(): string {
 		return this.data.id;

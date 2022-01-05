@@ -1,6 +1,5 @@
 import { IoC, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
 	public override async all(): Promise<Services.TransactionFees> {
 		const { slow, normal, fast, instant } = (await this.httpClient.get("https://ethgas.watch/api/gas")).json();
@@ -21,9 +20,6 @@ export class FeeService extends Services.AbstractFeeService {
 			ipfs: fees,
 			multiPayment: fees,
 			delegateResignation: fees,
-			htlcLock: fees,
-			htlcClaim: fees,
-			htlcRefund: fees,
 		};
 	}
 }

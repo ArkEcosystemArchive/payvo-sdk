@@ -1,14 +1,19 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 
-import { KeyPairService } from "./key-pair.service";
-
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
+	readonly #keyPairService: Services.KeyPairService;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
+	}
+
 	public override async fromMnemonic(
 		mnemonic: string,
 		options?: Services.IdentityOptions,
 	): Promise<Services.PrivateKeyDataTransferObject> {
-		const { privateKey } = await new KeyPairService().fromMnemonic(mnemonic);
+		const { privateKey } = await this.#keyPairService.fromMnemonic(mnemonic);
 
 		if (!privateKey) {
 			throw new Error("Failed to derive the private key.");

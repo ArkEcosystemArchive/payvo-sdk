@@ -1,4 +1,4 @@
-import { Interfaces } from "@arkecosystem/crypto";
+import { Interfaces } from "./crypto/index.js";
 
 export type MultiSignatureTransaction = Interfaces.ITransactionData & {
 	multiSignature: Interfaces.IMultiSignatureAsset;

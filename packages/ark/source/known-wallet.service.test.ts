@@ -1,23 +1,15 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { Coins, IoC } from "@payvo/sdk";
-import nock from "nock";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { KnownWalletService } from "./known-wallet.service";
 
-let subject: KnownWalletService;
+describe("KnownWalletService", async ({ assert, beforeAll, it, nock }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(KnownWalletService);
+	});
 
-beforeAll(() => nock.disableNetConnect());
-
-beforeEach(async () => {
-	subject = await createService(KnownWalletService);
-});
-
-afterEach(() => nock.cleanAll());
-
-describe("KnownWalletService", () => {
-	it("should return a list of known wallets if the request succeeds", async () => {
+	it("should return a list of known wallets if the request succeeds", async (context) => {
 		const wallets = [
 			{
 				type: "team",
@@ -31,36 +23,34 @@ describe("KnownWalletService", () => {
 			},
 		];
 
-		nock("https://raw.githubusercontent.com")
+		nock.fake("https://raw.githubusercontent.com")
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, wallets);
 
-		await expect(subject.all()).resolves.toEqual(wallets);
+		assert.equal(await context.subject.all(), wallets);
 	});
 
-	it("should return an empty list if the request fails", async () => {
-		nock("https://raw.githubusercontent.com")
+	it("should return an empty list if the request fails", async (context) => {
+		nock.fake("https://raw.githubusercontent.com")
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(404);
 
-		await expect(subject.all()).resolves.toEqual([]);
+		assert.equal(await context.subject.all(), []);
 	});
 
-	it("should return an empty list if the request response is not an array", async () => {
-		nock("https://raw.githubusercontent.com")
+	it("should return an empty list if the request response is not an array", async (context) => {
+		nock.fake("https://raw.githubusercontent.com")
 			.get("/ArkEcosystem/common/master/devnet/known-wallets-extended.json")
 			.reply(200, {});
 
-		await expect(subject.all()).resolves.toEqual([]);
+		assert.equal(await context.subject.all(), []);
 	});
 
-	it("should return an empty list if the source is empty", async () => {
-		subject = await createService(KnownWalletService, undefined, async (container: IoC.Container) => {
-			container
-				.get<Coins.ConfigRepository>(IoC.BindingType.ConfigRepository)
-				.forget(Coins.ConfigKey.KnownWallets);
+	it("should return an empty list if the source is empty", async (context) => {
+		context.subject = await createService(KnownWalletService, undefined, async (container) => {
+			container.get(IoC.BindingType.ConfigRepository).forget(Coins.ConfigKey.KnownWallets);
 		});
 
-		await expect(subject.all()).resolves.toEqual([]);
+		assert.equal(await context.subject.all(), []);
 	});
 });

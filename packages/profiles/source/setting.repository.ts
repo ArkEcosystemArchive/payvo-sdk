@@ -1,9 +1,6 @@
-import { injectable } from "inversify";
-
-import { IProfile, ISettingRepository } from "./contracts";
+import { IProfile, ISettingRepository } from "./contracts.js";
 import { DataRepository } from "./data.repository";
 
-@injectable()
 export class SettingRepository implements ISettingRepository {
 	readonly #profile: IProfile;
 	#data: DataRepository;

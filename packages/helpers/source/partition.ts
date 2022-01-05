@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const partition = <T>(iterable: T[], iteratee: FunctionReturning): [T[], T[]] =>
 	iterable.reduce(

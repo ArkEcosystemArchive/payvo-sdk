@@ -1,4 +1,4 @@
-import { IReadWriteWallet } from "./contracts";
+import { IReadWriteWallet } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the registration aggregate.

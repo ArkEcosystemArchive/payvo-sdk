@@ -1,15 +1,14 @@
-import { Coins, Exceptions, IoC, Services } from "@payvo/sdk";
-import { BIP39 } from "@payvo/sdk-cryptography";
-import { base58 } from "bstring";
+import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { Base58, BIP39 } from "@payvo/sdk-cryptography";
 
-import { derivePrivateKey, derivePublicKey } from "./keys";
+import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	#slip44!: number;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#slip44 = this.configRepository.get<number>("network.constants.slip44");
 	}
 
@@ -23,7 +22,7 @@ export class AddressService extends Services.AbstractAddressService {
 
 		return {
 			type: "bip44",
-			address: base58.encode(
+			address: Base58.encode(
 				derivePublicKey(
 					derivePrivateKey(
 						mnemonic,
@@ -42,7 +41,7 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: base58.encode(Buffer.from(publicKey, "hex")),
+			address: Base58.encode(Buffer.from(publicKey, "hex")),
 		};
 	}
 
@@ -52,13 +51,13 @@ export class AddressService extends Services.AbstractAddressService {
 	): Promise<Services.AddressDataTransferObject> {
 		return {
 			type: "bip44",
-			address: base58.encode(derivePublicKey(Buffer.from(privateKey, "hex"))),
+			address: Base58.encode(derivePublicKey(Buffer.from(privateKey, "hex"))),
 		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
 		try {
-			base58.decode(address);
+			Base58.decode(address);
 
 			return true;
 		} catch {

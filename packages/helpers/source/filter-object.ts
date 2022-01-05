@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const filterObject = <T>(iterable: T, iteratee: FunctionReturning): T => {
 	const keys = Object.keys(iterable);

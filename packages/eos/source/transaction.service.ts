@@ -1,20 +1,18 @@
 import { Coins, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
-import { createHash } from "crypto";
+import { Hash } from "@payvo/sdk-cryptography";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
 import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
-@IoC.injectable()
 export class TransactionService extends Services.AbstractTransactionService {
-	#networkId!: string;
 	#peer!: string;
 	#ticker!: string;
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
-		this.#networkId = this.configRepository.get<string>("network.meta.networkId");
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 		this.#ticker = this.configRepository.get<string>(Coins.ConfigKey.CurrencyTicker);
 	}
@@ -66,7 +64,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		return this.dataTransferObjectService.signedTransaction(
-			createHash("sha256").update(transaction.serializedTransaction).digest("hex"),
+			Hash.sha256(Buffer.from(transaction.serializedTransaction)).toString("hex"),
 			{ ...transaction, timestamp: DateTime.make() },
 			transaction,
 		);

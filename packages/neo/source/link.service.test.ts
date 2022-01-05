@@ -1,23 +1,22 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { Services } from "@payvo/sdk";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 
-let subject: Services.AbstractLinkService;
+describe("LinkService", async ({ beforeAll, it, assert }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(Services.AbstractLinkService);
+	});
 
-beforeAll(async () => {
-	subject = await createService(Services.AbstractLinkService);
-});
+	it("should generate a link for a block", (context) => {
+		assert.is(context.subject.block("id"), "https://neoscan-testnet.io/block/height/id");
+	});
 
-it("should generate a link for a block", async () => {
-	expect(subject.block("id")).toMatchInlineSnapshot(`"https://neoscan-testnet.io/block/height/id"`);
-});
+	it("should generate a link for a transaction", (context) => {
+		assert.is(context.subject.transaction("id"), "https://neoscan-testnet.io/tx/id");
+	});
 
-it("should generate a link for a transaction", async () => {
-	expect(subject.transaction("id")).toMatchInlineSnapshot(`"https://neoscan-testnet.io/tx/id"`);
-});
-
-it("should generate a link for a wallet", async () => {
-	expect(subject.wallet("id")).toMatchInlineSnapshot(`"https://neoscan-testnet.io/address/id"`);
+	it("should generate a link for a wallet", (context) => {
+		assert.is(context.subject.wallet("id"), "https://neoscan-testnet.io/address/id");
+	});
 });

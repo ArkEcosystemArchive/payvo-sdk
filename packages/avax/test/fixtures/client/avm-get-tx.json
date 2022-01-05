@@ -1,0 +1,8 @@
+{
+	"jsonrpc": "2.0",
+	"result": {
+		"tx": "111111111489TZ9qvxFYbETdE4vQ9b9ksjoUzgnoH6hoqcdW9G7FUn2StUWnXXMsVnR1L88SJXygzJrsge43HLKVHNjBAaDfqDmpZg8Up6uVnzhtx2KFuDwLQniKy32Gnfn8DsJBJtvgxhvstEch5i6ESaEwC8fhpsjv8joPDpw6P64A6tj3enRjSNzgrQoh9ATKvLjGxJUr8Z6n6hrCi1nrcTbjE9nbcTxcFKVm75pNgh6rsMR7LRRB4F8a6EG3y5Udx5H1NmnTVivVfQASWnGDMJjMyCHQRBsbyh79mR1Px2rKePrpEqy25eRWjQdqcNa29ghmzSnMqPf31xmre6e42KX1RLWCuTMhXG3jF3PtByUKbE1k6ZYU4ZteMGi5Q5DUs6P8WdT6zSucxYjLjmRGLooZD4iMK4WRF9b6mRmnmCrhxjRJWGX6qwgTRjzAWmXtwh8oB6Dzr5BpAn5qSkdbbj9dkwqCdFuxod1qV5tWtaCkxTyYxkFbZRXK2X7sCnnKED7yN2v2U",
+		"encoding": "cb58"
+	},
+	"id": 1
+}

@@ -2,7 +2,6 @@ import { Contracts, DTO, IoC } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-@IoC.injectable()
 export class SignedTransactionData
 	extends DTO.AbstractSignedTransactionData
 	implements Contracts.SignedTransactionData
@@ -17,10 +16,6 @@ export class SignedTransactionData
 
 	public override amount(): BigNumber {
 		return this.bigNumberService.make(this.signedData.amountRaw);
-	}
-
-	public override fee(): BigNumber {
-		return BigNumber.ZERO;
 	}
 
 	public override timestamp(): DateTime {

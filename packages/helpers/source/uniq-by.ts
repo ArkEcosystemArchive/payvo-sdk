@@ -1,4 +1,4 @@
-import { FunctionReturning } from "./types";
+import { FunctionReturning } from "./types.js";
 
 export const uniqBy = <T>(iterable: T[], iteratee: FunctionReturning): T[] => {
 	const result: T[] = [];

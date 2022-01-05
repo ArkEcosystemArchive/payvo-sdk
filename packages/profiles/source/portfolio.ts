@@ -1,4 +1,4 @@
-import { IPortfolio, IPortfolioBreakdownOptions, IPortfolioEntry, IProfile } from "./contracts";
+import { IPortfolio, IPortfolioBreakdownOptions, IPortfolioEntry, IProfile } from "./contracts.js";
 
 export class Portfolio implements IPortfolio {
 	readonly #profile: IProfile;
@@ -25,9 +25,9 @@ export class Portfolio implements IPortfolio {
 			if (result[ticker] === undefined) {
 				result[ticker] = {
 					coin: wallet.coin(),
+					shares: 0,
 					source: 0,
 					target: 0,
-					shares: 0,
 				};
 			}
 

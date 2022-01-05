@@ -1,63 +1,73 @@
 import { Collections, IoC, Services } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ClientService } from "./client.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: ClientService;
-
-beforeAll(async () => {
-	subject = await createService(ClientService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
-		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-	});
-});
-
-describe("ClientService", () => {
-	describe("#transaction", () => {
-		it("should succeed", async () => {
-			const result = await subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
-
-			expect(result).toBeInstanceOf(ConfirmedTransactionData);
-		});
-	});
-
-	describe.skip("#transactions", () => {
-		it("should succeed", async () => {
-			const result = await subject.transactions({
-				identifiers: [
-					{
-						type: "address",
-						value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-					},
-				],
+describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(ClientService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				ConfirmedTransactionData,
+				SignedTransactionData,
+				WalletData,
 			});
-
-			expect(result).toBeInstanceOf(Collections.ConfirmedTransactionDataCollection);
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
 		});
 	});
 
-	describe("#wallet", () => {
-		it("should succeed", async () => {
-			const result = await subject.wallet({
-				type: "address",
-				value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
-			});
+	it("should retrieve a single transaction", async (context) => {
+		nock.fake()
+			.post("/ext/bc/X", ({ method }) => method === "avm.getTx")
+			.reply(200, loader.json("test/fixtures/client/avm-get-tx.json"))
+			.get("/v2/transactions")
+			.query(true)
+			.reply(200, loader.json("test/fixtures/transactions.json"));
 
-			expect(result).toBeInstanceOf(WalletData);
-		});
+		const result = await context.subject.transaction("2qwe2tsgBZ5yqq6Qg2eTDPJ1tVVZZ9KoPLMDwurLTGTNpGMFr9");
+
+		assert.instance(result, ConfirmedTransactionData);
 	});
 
-	describe("#delegates", () => {
-		it("should succeed", async () => {
-			await expect(subject.delegates()).resolves.toBeInstanceOf(Collections.WalletDataCollection);
+	it("should retrieve a list of transactions", async (context) => {
+		nock.fake().get("/v2/transactions").query(true).reply(200, loader.json("test/fixtures/transactions.json"));
+
+		const result = await context.subject.transactions({
+			identifiers: [
+				{
+					type: "address",
+					value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+				},
+			],
 		});
+
+		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
+	});
+
+	it("#wallet should succeed", async (context) => {
+		nock.fake()
+			.post("/ext/bc/X", ({ method }) => method === "avm.getTx")
+			.reply(200, loader.json("test/fixtures/client/avm-get-tx.json"))
+			.post("/ext/bc/X", ({ method }) => method === "avm.getBalance")
+			.reply(200, loader.json("test/fixtures/client/avm-get-balance.json"));
+
+		const result = await context.subject.wallet({
+			type: "address",
+			value: "X-fuji1my5kqjufcshudkzu4xdt5rlqk99j9nwseclkwq",
+		});
+
+		assert.instance(result, WalletData);
+	});
+
+	it("#delegates should succeed", async (context) => {
+		nock.fake()
+			.post("/ext/bc/P", ({ method }) => method === "platform.sampleValidators")
+			.reply(200, loader.json("test/fixtures/client/platform-sample-validators.json"));
+
+		assert.instance(await context.subject.delegates(), Collections.WalletDataCollection);
 	});
 });

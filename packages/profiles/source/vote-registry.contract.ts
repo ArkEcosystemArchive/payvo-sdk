@@ -1,4 +1,4 @@
-import { IReadOnlyWallet } from "./contracts";
+import { IReadOnlyWallet } from "./contracts.js";
 
 export interface VoteRegistryItem {
 	amount: number;

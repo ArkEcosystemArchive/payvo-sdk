@@ -1,23 +1,26 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
+import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { PrivateKeyService } from "./private-key.service";
+import { KeyPairService } from "./key-pair.service.js";
 
-let subject: PrivateKeyService;
-
-beforeEach(async () => {
-	subject = await createService(PrivateKeyService);
-});
-
-describe("PrivateKey", () => {
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
-
-		expect(result).toEqual({ privateKey: identity.privateKey });
+describe("PrivateKeyService", async ({ assert, beforeEach, it }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(PrivateKeyService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+		});
 	});
 
-	it("should fail to generate an output from an invalid mnemonic", async () => {
-		await expect(subject.fromMnemonic(identity.mnemonic.slice(0, 10))).rejects.toThrowError();
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
+
+		assert.equal(result, { privateKey: identity.privateKey });
+	});
+
+	it("should fail to generate an output from an invalid mnemonic", async (context) => {
+		await assert.rejects(() => context.subject.fromMnemonic(identity.mnemonic.slice(0, 10)));
 	});
 });

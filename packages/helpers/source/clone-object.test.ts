@@ -1,11 +1,11 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { cloneObject } from "./clone-object";
 
-describe("#cloneObject", () => {
+describe("cloneObject", async ({ assert, it, nock, loader }) => {
 	it("should work like lodash", () => {
 		const objects = { a: 1 };
 
-		expect(cloneObject(objects)).toEqual(objects);
+		assert.equal(cloneObject(objects), objects);
 	});
 });

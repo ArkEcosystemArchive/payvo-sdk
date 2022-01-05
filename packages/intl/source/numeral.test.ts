@@ -1,13 +1,17 @@
+import { describe } from "@payvo/sdk-test";
+
 import { Numeral } from "./numeral";
 
-test("#format", () => {
-	expect(Numeral.make("en").format(5000)).toBe("5,000");
-});
+describe("Numeral", ({ assert, it, nock, loader }) => {
+	it("should format", () => {
+		assert.is(Numeral.make("en").format(5000), "5,000");
+	});
 
-test("#formatAsCurrency", () => {
-	expect(Numeral.make("en").formatAsCurrency(5000, "EUR")).toBe("€5,000.00");
-});
+	it("should format the number as a currency", () => {
+		assert.is(Numeral.make("en").formatAsCurrency(5000, "EUR"), "€5,000.00");
+	});
 
-test("#formatAsUnit", () => {
-	expect(Numeral.make("en").formatAsUnit(5000, "kilobyte")).toBe("5,000 kB");
+	it("should format the number as a unit", () => {
+		assert.is(Numeral.make("en").formatAsUnit(5000, "kilobyte"), "5,000 kB");
+	});
 });

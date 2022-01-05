@@ -1,26 +1,23 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { AddressService } from "./address.service";
 import { AddressFactory } from "./address.factory";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
-
-beforeEach(async () => {
-	subject = await createService(MessageService, undefined, (container) => {
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(BindingType.AddressFactory, AddressFactory);
+describe("MessageService", async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(MessageService, undefined, (container) => {
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+		});
 	});
-});
 
-describe("MessageService", () => {
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
+	it("should sign and verify a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "This is an example of a signed message.",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -37,6 +34,6 @@ describe("MessageService", () => {
 			),
 		});
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
+		assert.true(await context.subject.verify(result));
 	});
 });

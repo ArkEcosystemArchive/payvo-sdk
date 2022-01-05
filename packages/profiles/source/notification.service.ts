@@ -1,15 +1,14 @@
-import { IProfile } from "./contracts";
+import { IProfile } from "./contracts.js";
+import { WalletReleaseNotificationService } from "./notification.releases.service.js";
+import { NotificationRepository } from "./notification.repository";
 import {
-	IProfileTransactionNotificationService,
-	IProfileNotificationService,
 	INotificationRepository,
 	INotificationType,
+	IProfileNotificationService,
+	IProfileTransactionNotificationService,
 	IWalletReleaseNotificationService,
-} from "./notification.repository.contract";
-
-import { NotificationRepository } from "./notification.repository";
-import { ProfileTransactionNotificationService } from "./notification.transactions.service";
-import { WalletReleaseNotificationService } from "./notification.releases.service";
+} from "./notification.repository.contract.js";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service.js";
 
 export class ProfileNotificationService implements IProfileNotificationService {
 	readonly #transactions: IProfileTransactionNotificationService;

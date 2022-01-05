@@ -1,52 +1,50 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { WIFService } from "./wif.service";
 import { WIF } from "@payvo/sdk-cryptography";
 
-let subject: WIFService;
-
-beforeEach(async () => {
-	subject = await createService(WIFService);
-});
-
-describe("WIF", () => {
-	it("should generate an output from a mnemonic", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
-
-		expect(result).toEqual({ wif: identity.wif });
-		expect(WIF.decode(result.wif).privateKey).toBe(identity.privateKey);
+describe("WIFService", async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(WIFService);
 	});
 
-	it("should generate an output from a mnemonic given a custom locale", async () => {
-		const result = await subject.fromMnemonic(identity.mnemonic);
+	it("should generate an output from a mnemonic", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		expect(result).toEqual({ wif: identity.wif });
+		assert.equal(result, { wif: identity.wif });
+		assert.is(WIF.decode(result.wif).privateKey, identity.privateKey);
 	});
 
-	it("should fail to generate an output from an invalid mnemonic", async () => {
-		await expect(subject.fromMnemonic(undefined!)).rejects.toThrow();
+	it("should generate an output from a mnemonic given a custom locale", async (context) => {
+		const result = await context.subject.fromMnemonic(identity.mnemonic);
+
+		assert.equal(result, { wif: identity.wif });
 	});
 
-	it("should generate an output from a private key", async () => {
-		const result = await subject.fromPrivateKey(identity.privateKey);
-
-		expect(result).toEqual({ wif: identity.wif });
-		expect(WIF.decode(result.wif).privateKey).toBe(identity.privateKey);
+	it("should fail to generate an output from an invalid mnemonic", async (context) => {
+		await assert.rejects(() => context.subject.fromMnemonic(undefined));
 	});
 
-	it("should generate an output from a secret", async () => {
-		await expect(subject.fromSecret(identity.mnemonic)).rejects.toEqual(
-			new Error("The given value is BIP39 compliant. Please use [fromMnemonic] instead."),
+	it("should generate an output from a private key", async (context) => {
+		const result = await context.subject.fromPrivateKey(identity.privateKey);
+
+		assert.equal(result, { wif: identity.wif });
+		assert.is(WIF.decode(result.wif).privateKey, identity.privateKey);
+	});
+
+	it("should generate an output from a secret", async (context) => {
+		await assert.rejects(
+			() => context.subject.fromSecret(identity.mnemonic),
+			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
 		);
 
-		const result = await subject.fromSecret("abc");
+		const result = await context.subject.fromSecret("abc");
 
-		expect(result).toEqual({ wif: "LvwxxwvWMU7BNF6VBo3vmUbHRZfsjyfrQJtDRTP5UMmtuhLWW4WU" });
+		assert.equal(result, { wif: "LvwxxwvWMU7BNF6VBo3vmUbHRZfsjyfrQJtDRTP5UMmtuhLWW4WU" });
 	});
 
-	it("should fail to generate an output from an invalid private key", async () => {
-		await expect(subject.fromPrivateKey(undefined!)).rejects.toThrow();
+	it("should fail to generate an output from an invalid private key", async (context) => {
+		await assert.rejects(() => context.subject.fromPrivateKey(undefined));
 	});
 });

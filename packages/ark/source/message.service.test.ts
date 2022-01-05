@@ -1,20 +1,17 @@
-import "jest-extended";
-
-import { Exceptions, Services, Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
+import { Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { MessageService } from "./message.service";
 
-let subject: MessageService;
+describe("MessageService", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(MessageService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(MessageService);
-});
-
-describe("MessageService", () => {
-	it("should sign and verify a message", async () => {
-		const result = await subject.sign({
+	it("should sign and verify a message", async (context) => {
+		const result = await context.subject.sign({
 			message: "Hello World",
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
@@ -26,11 +23,11 @@ describe("MessageService", () => {
 			),
 		});
 
-		await expect(subject.verify(result)).resolves.toBeTrue();
-		await expect(subject.verify({} as Services.SignedMessage)).rejects.toThrow();
+		assert.true(await context.subject.verify(result));
+		await assert.rejects(() => context.subject.verify({}));
 	});
 
-	it("shouldn't sign and verify a invalid message", async () => {
-		await expect(subject.sign({} as Services.MessageInput)).rejects.toThrow();
+	it("shouldn't sign and verify an invalid message", async (context) => {
+		await assert.rejects(() => context.subject.sign({}));
 	});
 });

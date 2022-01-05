@@ -1,13 +1,6 @@
-import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
+import { Helpers, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	private readonly bigNumberService!: Services.BigNumberService;
-
 	public override async all(): Promise<Services.TransactionFees> {
 		const { min, avg, max } = (
 			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
@@ -22,9 +15,6 @@ export class FeeService extends Services.AbstractFeeService {
 			ipfs: this.#transform(0, 0, 0),
 			multiPayment: this.#transform(0, 0, 0),
 			delegateResignation: this.#transform(0, 0, 0),
-			htlcLock: this.#transform(0, 0, 0),
-			htlcClaim: this.#transform(0, 0, 0),
-			htlcRefund: this.#transform(0, 0, 0),
 		};
 	}
 

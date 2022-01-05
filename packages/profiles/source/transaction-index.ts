@@ -1,10 +1,9 @@
 import { Coins, Services } from "@payvo/sdk";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
-import { transformTransactionData, transformConfirmedTransactionDataCollection } from "./transaction.mapper";
-import { IReadWriteWallet, WalletData } from "./contracts";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import { ITransactionIndex } from "./contracts";
+import { IReadWriteWallet, ITransactionIndex, WalletData } from "./contracts.js";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
+import { transformConfirmedTransactionDataCollection, transformTransactionData } from "./transaction.mapper";
 import { WalletFlag } from "./wallet.enum";
 
 export class TransactionIndex implements ITransactionIndex {
@@ -22,9 +21,9 @@ export class TransactionIndex implements ITransactionIndex {
 			...query,
 			identifiers: [
 				{
+					method: this.#wallet.data().get(WalletData.ImportMethod),
 					type: "address",
 					value: this.#wallet.address(),
-					method: this.#wallet.data().get(WalletData.ImportMethod),
 				},
 			],
 		});

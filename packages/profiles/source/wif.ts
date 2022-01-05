@@ -1,6 +1,6 @@
 import { PBKDF2 } from "@payvo/sdk-cryptography";
 
-import { IReadWriteWallet, IWalletImportFormat, WalletData } from "./contracts";
+import { IReadWriteWallet, IWalletImportFormat } from "./contracts.js";
 
 // @TODO: rename to something better
 export class WalletImportFormat implements IWalletImportFormat {
@@ -13,7 +13,7 @@ export class WalletImportFormat implements IWalletImportFormat {
 	}
 
 	/** {@inheritDoc IWalletImportFormat.get} */
-	public get(password: string): string {
+	public async get(password: string): Promise<string> {
 		const encryptedKey: string | undefined = this.#wallet.data().get(this.#key);
 
 		if (encryptedKey === undefined) {
@@ -24,8 +24,8 @@ export class WalletImportFormat implements IWalletImportFormat {
 	}
 
 	/** {@inheritDoc IWalletImportFormat.set} */
-	public set(value: string, password: string): void {
-		this.#wallet.data().set(this.#key, PBKDF2.encrypt(value, password));
+	public async set(value: string, password: string): Promise<void> {
+		this.#wallet.data().set(this.#key, await PBKDF2.encrypt(value, password));
 
 		this.#wallet.profile().status().markAsDirty();
 	}

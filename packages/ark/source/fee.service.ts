@@ -1,15 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { Coins, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { Contracts, Helpers, Services } from "@payvo/sdk";
 
-@IoC.injectable()
 export class FeeService extends Services.AbstractFeeService {
-	@IoC.inject(IoC.BindingType.ConfigRepository)
-	private readonly configRepository!: Coins.ConfigRepository;
-
-	@IoC.inject(IoC.BindingType.BigNumberService)
-	private readonly bigNumberService!: Services.BigNumberService;
-
 	public override async all(): Promise<Services.TransactionFees> {
 		const node = await this.#get("node/fees");
 		const type = await this.#get("transactions/fees");
@@ -26,9 +18,6 @@ export class FeeService extends Services.AbstractFeeService {
 			ipfs: this.#transform("ipfs", 1, staticFees, dynamicFees),
 			multiPayment: this.#transform("multiPayment", 1, staticFees, dynamicFees),
 			delegateResignation: this.#transform("delegateResignation", 1, staticFees, dynamicFees),
-			htlcLock: this.#transform("htlcLock", 1, staticFees, dynamicFees),
-			htlcClaim: this.#transform("htlcClaim", 1, staticFees, dynamicFees),
-			htlcRefund: this.#transform("htlcRefund", 1, staticFees, dynamicFees),
 		};
 	}
 

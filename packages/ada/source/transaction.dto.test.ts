@@ -1,162 +1,166 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { DTO } from "@payvo/sdk";
 
 import Fixture from "../test/fixtures/client/transaction.json";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ConfirmedTransactionData;
-
-beforeEach(async () => {
-	subject = await createService(ConfirmedTransactionData);
-	subject.configure(Fixture.data.transactions[0]);
-});
-
-describe("ConfirmedTransactionData", () => {
-	it("#id", () => {
-		expect(subject.id()).toEqual("35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
+describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(Fixture.data.transactions[0]);
 	});
 
-	it("#blockId", () => {
-		expect(subject.blockId()).toBeUndefined();
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "35b40547f04963d3b41478fc27038948d74718802c486d9125f1884d8c83a31d");
 	});
 
-	it("#timestamp", () => {
-		expect(subject.timestamp().toISOString()).toBe("2021-02-05T15:04:16.000Z");
+	it("should have a blockId", (context) => {
+		assert.undefined(context.subject.blockId());
 	});
 
-	it("#confirmations", () => {
-		expect(subject.confirmations().toString()).toBe("0");
+	it("should have a timestamp", (context) => {
+		assert.is(context.subject.timestamp().toISOString(), "2021-02-05T15:04:16.000Z");
 	});
 
-	it("#sender", () => {
-		expect(subject.sender()).toBe(
+	it("should have confirmations", (context) => {
+		assert.is(context.subject.confirmations().toString(), "0");
+	});
+
+	it("should have a sender", (context) => {
+		assert.is(
+			context.subject.sender(),
 			"addr_test1qrhvwtn8sa3duzkm93v5kjjxlv5lvg67j530wyeumngu23lk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33s4s8xvh",
 		);
 	});
 
-	it("#recipient", () => {
-		expect(subject.recipient()).toBe(
+	it("should have a recipient", (context) => {
+		assert.is(
+			context.subject.recipient(),
 			"addr_test1qzct2hsralem3fqn8fupu90v3jkelpg4rfp4zqx06zgevpachk6az8jcydma5a6vgsuw5c37v0c8j6rlclpqajn2vxsq3rz4th",
 		);
 	});
 
-	it("#recipients", () => {
-		const actual = subject.recipients();
-		expect(actual[0].address).toBe(
+	it("should have recipients", (context) => {
+		const actual = context.subject.recipients();
+		assert.is(
+			actual[0].address,
 			"addr_test1qzct2hsralem3fqn8fupu90v3jkelpg4rfp4zqx06zgevpachk6az8jcydma5a6vgsuw5c37v0c8j6rlclpqajn2vxsq3rz4th",
 		);
-		expect(actual[0].amount.toString()).toBe("25000000");
-		expect(actual[1].address).toBe(
+		assert.is(actual[0].amount.toString(), "25000000");
+		assert.is(
+			actual[1].address,
 			"addr_test1qzfjfm724nv9qz6nfyagmj0j2uppr35gzv5qee8s7489wxlk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33scc4thv",
 		);
-		expect(actual[1].amount.toString()).toBe("4831199");
+		assert.is(actual[1].amount.toString(), "4831199");
 	});
 
-	it("#inputs", () => {
-		const inputs = subject.inputs();
-		expect(inputs).toBeArrayOfSize(1);
-		expect(inputs[0]).toBeInstanceOf(DTO.UnspentTransactionData);
-		expect(inputs[0].id()).toBe("6bf76f4380da8a389ae0a7ecccf1922b74ae11d773ba8b1b761d84a1b4474a4f");
-		expect(inputs[0].amount().toString()).toBe("30000000");
-		expect(inputs[0].address()).toBe(
+	it("should have inputs", (context) => {
+		const inputs = context.subject.inputs();
+		assert.length(inputs, 1);
+		assert.instance(inputs[0], DTO.UnspentTransactionData);
+		assert.is(inputs[0].id(), "6bf76f4380da8a389ae0a7ecccf1922b74ae11d773ba8b1b761d84a1b4474a4f");
+		assert.is(inputs[0].amount().toString(), "30000000");
+		assert.is(
+			inputs[0].address(),
 			"addr_test1qrhvwtn8sa3duzkm93v5kjjxlv5lvg67j530wyeumngu23lk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33s4s8xvh",
 		);
 	});
 
-	it("#outputs", () => {
-		const outputs = subject.outputs();
-		expect(outputs).toBeArrayOfSize(2);
-		expect(outputs[0]).toBeInstanceOf(DTO.UnspentTransactionData);
-		expect(outputs[0].amount().toString()).toBe("25000000");
-		expect(outputs[0].address()).toBe(
+	it("should have outputs", (context) => {
+		const outputs = context.subject.outputs();
+		assert.length(outputs, 2);
+		assert.instance(outputs[0], DTO.UnspentTransactionData);
+		assert.is(outputs[0].amount().toString(), "25000000");
+		assert.is(
+			outputs[0].address(),
 			"addr_test1qzct2hsralem3fqn8fupu90v3jkelpg4rfp4zqx06zgevpachk6az8jcydma5a6vgsuw5c37v0c8j6rlclpqajn2vxsq3rz4th",
 		);
-		expect(outputs[1]).toBeInstanceOf(DTO.UnspentTransactionData);
-		expect(outputs[1].amount().toString()).toBe("4831199");
-		expect(outputs[1].address()).toBe(
+		assert.instance(outputs[1], DTO.UnspentTransactionData);
+		assert.is(outputs[1].amount().toString(), "4831199");
+		assert.is(
+			outputs[1].address(),
 			"addr_test1qzfjfm724nv9qz6nfyagmj0j2uppr35gzv5qee8s7489wxlk8ttq8f3gag0h89aepvx3xf69g0l9pf80tqv7cve0l33scc4thv",
 		);
 	});
 
-	it("#amount", () => {
-		expect(subject.amount().toString()).toBe("25000000");
+	it("should have an amount", (context) => {
+		assert.is(context.subject.amount().toString(), "25000000");
 	});
 
-	it("#fee", () => {
-		expect(subject.fee().toString()).toBe("168801");
+	it("should have a fee", (context) => {
+		assert.is(context.subject.fee().toString(), "168801");
 	});
 
-	it("#asset", () => {
-		expect(subject.asset()).toEqual({});
+	it("should have the asset", (context) => {
+		assert.equal(context.subject.asset(), {});
 	});
 
-	it("#isConfirmed", () => {
-		expect(subject.isConfirmed()).toBeFalse();
+	it("should have a method to know if transaction is confirmed", (context) => {
+		assert.false(context.subject.isConfirmed());
 	});
 
-	it("#isSent", () => {
-		expect(subject.isSent()).toBeFalse();
+	it("should have a method to know if transaction is sent", (context) => {
+		assert.false(context.subject.isSent());
 	});
 
-	it("#isReceived", () => {
-		expect(subject.isReceived()).toBeFalse();
+	it("should have a method to know if transaction is received", (context) => {
+		assert.false(context.subject.isReceived());
 	});
 
-	it("#isTransfer", () => {
-		expect(subject.isTransfer()).toBeTrue();
+	it("should have a method to know if transaction is transfer", (context) => {
+		assert.true(context.subject.isTransfer());
 	});
 
-	it("#isSecondSignature", () => {
-		expect(subject.isSecondSignature()).toBeFalse();
+	it("should have a method to know if transaction is second signature", (context) => {
+		assert.false(context.subject.isSecondSignature());
 	});
 
-	it("#isDelegateRegistration", () => {
-		expect(subject.isDelegateRegistration()).toBeFalse();
+	it("should have a method to know if transaction is delegate registration", (context) => {
+		assert.false(context.subject.isDelegateRegistration());
 	});
 
-	it("#isVoteCombination", () => {
-		expect(subject.isVoteCombination()).toBeFalse();
+	it("should have a method to know if transaction is vote combination", (context) => {
+		assert.false(context.subject.isVoteCombination());
 	});
 
-	it("#isVote", () => {
-		expect(subject.isVote()).toBeFalse();
+	it("should have a method to know if transaction is vote", (context) => {
+		assert.false(context.subject.isVote());
 	});
 
-	it("#isUnvote", () => {
-		expect(subject.isUnvote()).toBeFalse();
+	it("should have a method to know if transaction is unvote", (context) => {
+		assert.false(context.subject.isUnvote());
 	});
 
-	it("#isMultiSignatureRegistration", () => {
-		expect(subject.isMultiSignatureRegistration()).toBeFalse();
+	it("should have a method to know if transaction is multisignature registration", (context) => {
+		assert.false(context.subject.isMultiSignatureRegistration());
 	});
 
-	it("#isIpfs", () => {
-		expect(subject.isIpfs()).toBeFalse();
+	it("should have a method to know if transaction is ipfs", (context) => {
+		assert.false(context.subject.isIpfs());
 	});
 
-	it("#isMultiPayment", () => {
-		expect(subject.isMultiPayment()).toBeFalse();
+	it("should have a method to know if transaction is multipayment", (context) => {
+		assert.false(context.subject.isMultiPayment());
 	});
 
-	it("#isDelegateResignation", () => {
-		expect(subject.isDelegateResignation()).toBeFalse();
+	it("should have a method to know if transaction is delegate resignation", (context) => {
+		assert.false(context.subject.isDelegateResignation());
 	});
 
-	it("#isHtlcLock", () => {
-		expect(subject.isHtlcLock()).toBeFalse();
+	it("should have a method to know if transaction is htlc lock", (context) => {
+		assert.false(context.subject.isHtlcLock());
 	});
 
-	it("#isHtlcClaim", () => {
-		expect(subject.isHtlcClaim()).toBeFalse();
+	it("should have a method to know if transaction is htlc claim", (context) => {
+		assert.false(context.subject.isHtlcClaim());
 	});
 
-	it("#isHtlcRefund", () => {
-		expect(subject.isHtlcRefund()).toBeFalse();
+	it("should have a method to know if transaction is htlc refund", (context) => {
+		assert.false(context.subject.isHtlcRefund());
 	});
 
-	it("#isMagistrate", () => {
-		expect(subject.isMagistrate()).toBeFalse();
+	it("should have a method to know if transaction is magistrate", (context) => {
+		assert.false(context.subject.isMagistrate());
 	});
 });

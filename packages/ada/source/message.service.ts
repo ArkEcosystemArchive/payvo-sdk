@@ -1,9 +1,8 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { Ed25519Signature, PublicKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
-import { deriveRootKey } from "./shelley";
+import { deriveRootKey } from "./shelley.js";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const privateKey = deriveRootKey(input.signatory.signingKey());

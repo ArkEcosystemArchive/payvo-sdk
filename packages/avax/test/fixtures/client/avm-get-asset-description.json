@@ -1,0 +1,10 @@
+{
+	"jsonrpc": "2.0",
+	"result": {
+		"assetID": "U8iRqJoiJm8xZHAacmvYyZVwqQx6uDNtQeP3CQ6fcgQk3JqnK",
+		"name": "Avalanche",
+		"symbol": "AVAX",
+		"denomination": "9"
+	},
+	"id": 1
+}

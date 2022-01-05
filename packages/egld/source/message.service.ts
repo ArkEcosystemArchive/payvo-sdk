@@ -2,7 +2,6 @@ import { Exceptions, IoC, Services } from "@payvo/sdk";
 import { Mnemonic } from "@elrondnetwork/erdjs/out";
 import { getPublicKey, sign, verify } from "@noble/ed25519";
 
-@IoC.injectable()
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
 		const privateKey = Mnemonic.fromString(input.signatory.signingKey()).deriveKey(0).hex();

@@ -1,14 +1,16 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Bcrypt } from "./bcrypt";
 
-test("#hash", () => {
-	expect(Bcrypt.hash("password")).toBeString();
-});
+describe("Bcrypt", ({ assert, it, nock, loader }) => {
+	it("should hash the given value", () => {
+		assert.type(Bcrypt.hash("password"), "string");
+	});
 
-test("#verify", () => {
-	const hash = Bcrypt.hash("password");
+	it("should verify the given value", () => {
+		const hash = Bcrypt.hash("password");
 
-	expect(Bcrypt.verify(hash, "password")).toBeTrue();
-	expect(Bcrypt.verify(hash, "invalid")).toBeFalse();
+		assert.is(Bcrypt.verify(hash, "password"), true);
+		assert.is(Bcrypt.verify(hash, "invalid"), false);
+	});
 });

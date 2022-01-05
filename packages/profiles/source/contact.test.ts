@@ -1,21 +1,18 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { Contact } from "./contact";
 import { ContactAddressRepository } from "./contact-address.repository";
 import { Profile } from "./profile";
 
-beforeAll(() => bootContainer());
+describe("Contact", ({ assert, it, beforeEach }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-describe("contact", () => {
-	let subject: Contact;
-
-	beforeEach(() => {
-		const profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 		profile.coins().set("ARK", "ark.devnet");
 
-		subject = new Contact(
+		context.subject = new Contact(
 			{
 				id: "uuid",
 				name: "John Doe",
@@ -25,36 +22,34 @@ describe("contact", () => {
 		);
 	});
 
-	it("should have an id", () => {
-		expect(subject.id()).toBe("uuid");
+	it("should have an id", (context) => {
+		assert.is(context.subject.id(), "uuid");
 	});
 
-	it("should have a name", () => {
-		expect(subject.name()).toBe("John Doe");
+	it("should have a name", (context) => {
+		assert.is(context.subject.name(), "John Doe");
 	});
 
-	it("should be able to change name", () => {
-		subject.setName("Jane Doe");
-		expect(subject.name()).toBe("Jane Doe");
+	it("should be able to change name", (context) => {
+		context.subject.setName("Jane Doe");
+		assert.is(context.subject.name(), "Jane Doe");
 	});
 
-	it("should have starred state", () => {
-		expect(subject.isStarred()).toBeTrue();
+	it("should have starred state", (context) => {
+		assert.true(context.subject.isStarred());
 	});
 
-	it("should be able to toggle starred state", () => {
-		subject.toggleStarred();
-		expect(subject.isStarred()).toBeFalse();
+	it("should be able to toggle starred state", (context) => {
+		context.subject.toggleStarred();
+		assert.false(context.subject.isStarred());
 	});
 
-	it("should have an avatar", () => {
-		expect(subject.avatar()).toMatchInlineSnapshot(
-			`"<svg version=\\"1.1\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"picasso\\" width=\\"100\\" height=\\"100\\" viewBox=\\"0 0 100 100\\"><style>.picasso circle{mix-blend-mode:soft-light;}</style><rect fill=\\"rgb(233, 30, 99)\\" width=\\"100\\" height=\\"100\\"/><circle r=\\"45\\" cx=\\"80\\" cy=\\"30\\" fill=\\"rgb(76, 175, 80)\\"/><circle r=\\"55\\" cx=\\"0\\" cy=\\"60\\" fill=\\"rgb(255, 152, 0)\\"/><circle r=\\"40\\" cx=\\"50\\" cy=\\"50\\" fill=\\"rgb(3, 169, 244)\\"/></svg>"`,
-		);
+	it("should have an avatar", (context) => {
+		assert.string(context.subject.avatar());
 	});
 
-	it("should map to object", () => {
-		expect(subject.toObject()).toStrictEqual({
+	it("should map to object", (context) => {
+		assert.equal(context.subject.toObject(), {
 			addresses: [],
 			id: "uuid",
 			name: "John Doe",
@@ -62,21 +57,21 @@ describe("contact", () => {
 		});
 	});
 
-	it("should return addresses", () => {
-		expect(subject.addresses()).toBeInstanceOf(ContactAddressRepository);
+	it("should return addresses", (context) => {
+		assert.instance(context.subject.addresses(), ContactAddressRepository);
 	});
 
-	it("should be able to set addresses", () => {
-		expect(() => subject.setAddresses([])).toThrowError('"addresses" must contain at least 1 items');
+	it("should be able to set addresses", (context) => {
+		assert.throws(() => context.subject.setAddresses([]), '"addresses" must contain at least 1 items');
 
-		subject.setAddresses([
+		context.subject.setAddresses([
 			{
+				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 				coin: "ARK",
 				network: "ark.devnet",
-				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
 			},
 		]);
 
-		expect(subject.addresses().count()).toEqual(1);
+		assert.is(context.subject.addresses().count(), 1);
 	});
 });

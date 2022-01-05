@@ -1,13 +1,13 @@
 /* istanbul ignore file */
 
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { Contracts, DTO } from "@payvo/sdk";
 
-import { container } from "./container";
-import { Identifiers } from "./container.models";
-import { IExchangeRateService, IReadWriteWallet } from "./contracts";
-import { ExtendedTransactionRecipient } from "./transaction.dto";
+import { container } from "./container.js";
+import { Identifiers } from "./container.models.js";
+import { IExchangeRateService, IReadWriteWallet } from "./contracts.js";
+import { ExtendedTransactionRecipient } from "./transaction.dto.js";
 
 export class ExtendedSignedTransactionData {
 	readonly #data: Contracts.SignedTransactionData;

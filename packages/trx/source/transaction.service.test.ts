@@ -1,10 +1,8 @@
-import "jest-extended";
-
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import nock from "nock";
+import { describe, loader } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 import { ClientService } from "./client.service";
 import { KeyPairService } from "./key-pair.service";
@@ -15,38 +13,32 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: TransactionService;
-
-beforeAll(async () => {
-	subject = await createService(TransactionService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(TransactionService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
+			container.singleton(IoC.BindingType.PrivateKeyService, PrivateKeyService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-		container.singleton(IoC.BindingType.PrivateKeyService, PrivateKeyService);
 	});
-});
 
-beforeAll(async () => {
-	nock.disableNetConnect();
-});
-
-describe("TransactionService", () => {
-	test("#transfer", async () => {
-		nock("https://api.shasta.trongrid.io")
+	it("#transfer", async (context) => {
+		nock.fake("https://api.shasta.trongrid.io")
 			.post("/wallet/createtransaction")
-			.reply(200, requireModule(`../test/fixtures/crypto/transfer.json`))
+			.reply(200, loader.json(`test/fixtures/crypto/transfer.json`))
 			.post("/wallet/broadcasttransaction")
 			.reply(200, { result: true, txid: "920048e37005eb84299fe99ae666dcfe220a5befa587eec9c36c9e75dc37f821" });
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			signatory: new Signatories.Signatory(
 				new Signatories.MnemonicSignatory({
 					signingKey: identity.mnemonic,
@@ -61,7 +53,7 @@ describe("TransactionService", () => {
 			},
 		});
 
-		expect(result).toBeObject();
-		expect(result.amount().toNumber()).toBe(1_000_000);
+		assert.object(result);
+		assert.is(result.amount().toNumber(), 1_000_000);
 	});
 });

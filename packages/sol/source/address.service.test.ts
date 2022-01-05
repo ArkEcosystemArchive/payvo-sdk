@@ -1,38 +1,35 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { AddressService } from "./address.service";
 
-let subject: AddressService;
+describe("AddressService", ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(AddressService);
+	});
 
-beforeEach(async () => {
-	subject = await createService(AddressService);
-});
-
-describe("Address", () => {
-	it("should generate an output from a mnemonic", async () => {
-		await expect(subject.fromMnemonic(identity.mnemonic)).resolves.toEqual({
+	it("should generate an output from a mnemonic", async (context) => {
+		assert.equal(await context.subject.fromMnemonic(identity.mnemonic), {
 			type: "bip44",
 			address: identity.address,
 		});
 	});
 
-	it("should fail to generate an output from a privateKey", async () => {
-		await expect(subject.fromPrivateKey(identity.privateKey)).resolves.toEqual({
+	it("should fail to generate an output from a privateKey", async (context) => {
+		assert.equal(await context.subject.fromPrivateKey(identity.privateKey), {
 			type: "bip44",
 			address: identity.address,
 		});
 	});
 
-	it("should generate an output from a publicKey", async () => {
-		await expect(subject.fromPublicKey(identity.publicKey)).resolves.toEqual({
+	it("should generate an output from a publicKey", async (context) => {
+		assert.equal(await context.subject.fromPublicKey(identity.publicKey), {
 			type: "bip44",
 			address: identity.address,
 		});
 	});
 
-	it("should validate an address", async () => {
-		await expect(subject.validate(identity.address)).resolves.toBeTrue();
+	it("should validate an address", async (context) => {
+		assert.true(await context.subject.validate(identity.address));
 	});
 });

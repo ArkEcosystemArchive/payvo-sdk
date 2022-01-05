@@ -1,4 +1,4 @@
-import { IProfileExportOptions } from "./contracts";
+import { IProfileExportOptions } from "./contracts.js";
 
 export interface IProfileExporter {
 	/**
@@ -9,5 +9,5 @@ export interface IProfileExporter {
 	 * @return {string}
 	 * @memberof Profile
 	 */
-	export(password?: string, options?: IProfileExportOptions): string;
+	export(password?: string, options?: IProfileExportOptions): Promise<string>;
 }

@@ -1,4 +1,4 @@
-import { IProfileData } from "./contracts";
+import { IProfileData } from "./contracts.js";
 
 export interface IProfileEncrypter {
 	/**
@@ -7,12 +7,12 @@ export interface IProfileEncrypter {
 	 * @param unencrypted The JSON string to encrypt
 	 * @param password? A hard-to-guess password to encrypt the contents.
 	 */
-	encrypt(unencrypted: string, password?: string): string;
+	encrypt(unencrypted: string, password?: string): Promise<string>;
 
 	/**
 	 * Attempt to decrypt the profile data with the given password.
 	 *
 	 * @param password A hard-to-guess password to decrypt the contents.
 	 */
-	decrypt(password: string): IProfileData;
+	decrypt(password: string): Promise<IProfileData>;
 }

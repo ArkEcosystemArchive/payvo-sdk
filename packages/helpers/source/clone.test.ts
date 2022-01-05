@@ -1,17 +1,17 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { clone } from "./clone";
 
-describe("#clone", () => {
+describe("clone", async ({ assert, it, nock, loader }) => {
 	it("should work with an array", () => {
 		const objects = [{ a: 1 }, { b: 2 }];
 
-		expect(clone(objects)).toEqual(objects);
+		assert.equal(clone(objects), objects);
 	});
 
 	it("should work with an object", () => {
 		const objects = { a: 1 };
 
-		expect(clone(objects)).toEqual(objects);
+		assert.equal(clone(objects), objects);
 	});
 });

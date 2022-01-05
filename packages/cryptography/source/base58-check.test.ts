@@ -1,12 +1,14 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { Base58Check } from "./base58-check";
 
-test("#encode", () => {
-	expect(Base58Check.encode("Hello")).toBeString();
-	expect(Base58Check.encode(Buffer.from("Hello"))).toBeString();
-});
+describe("Base58Check", ({ assert, it }) => {
+	it("should encode the given value", () => {
+		assert.type(Base58Check.encode("Hello"), "string");
+		assert.type(Base58Check.encode(Buffer.from("Hello")), "string");
+	});
 
-test("#decode", () => {
-	expect(Base58Check.decode(Base58Check.encode("Hello")).toString("utf8")).toBe("Hello");
+	it("should decode the given value", () => {
+		assert.is(Base58Check.decode(Base58Check.encode("Hello")).toString("utf8"), "Hello");
+	});
 });

@@ -1,8 +1,7 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
 
-import { WalletData } from "./wallet.dto";
+import { WalletData } from "./wallet.dto.js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
 		id: string,

@@ -1,25 +1,15 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
-import nock from "nock";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { FeeService } from "./fee.service";
 
-const matchSnapshot = (transaction): void =>
-	expect({
-		min: transaction.min.toString(),
-		avg: transaction.avg.toString(),
-		max: transaction.max.toString(),
-		static: transaction.static.toString(),
-	}).toMatchSnapshot();
+describe("FeeService", async ({ beforeAll, afterEach, it, assert, nock }) => {
+	beforeAll(() => nock.disableNetConnect());
 
-afterEach(() => nock.cleanAll());
+	afterEach(() => nock.cleanAll());
 
-beforeAll(() => nock.disableNetConnect());
-
-describe("FeeService", () => {
 	it("should get the fees", async () => {
-		nock("https://btc-test.payvo.com:443")
+		nock.fake("https://btc-test.payvo.com:443")
 			.get("/api/fees")
 			.reply(200, {
 				data: {
@@ -31,7 +21,7 @@ describe("FeeService", () => {
 
 		const result = await (await createService(FeeService, "btc.testnet")).all();
 
-		expect(result).toContainAllKeys([
+		assert.containKeys(result, [
 			"transfer",
 			"secondSignature",
 			"delegateRegistration",
@@ -40,21 +30,24 @@ describe("FeeService", () => {
 			"ipfs",
 			"multiPayment",
 			"delegateResignation",
-			"htlcLock",
-			"htlcClaim",
-			"htlcRefund",
 		]);
 
-		matchSnapshot(result.transfer);
-		matchSnapshot(result.secondSignature);
-		matchSnapshot(result.delegateRegistration);
-		matchSnapshot(result.vote);
-		matchSnapshot(result.multiSignature);
-		matchSnapshot(result.ipfs);
-		matchSnapshot(result.multiPayment);
-		matchSnapshot(result.delegateResignation);
-		matchSnapshot(result.htlcLock);
-		matchSnapshot(result.htlcClaim);
-		matchSnapshot(result.htlcRefund);
+		for (const [name, transaction] of Object.entries({
+			fees_transfer: result.transfer,
+			fees_second_signature: result.secondSignature,
+			fees_delegate_registration: result.delegateRegistration,
+			fees_vote: result.vote,
+			fees_multi_signature: result.multiSignature,
+			fees_ipfs: result.ipfs,
+			fees_multi_payment: result.multiPayment,
+			fees_delegate_resignation: result.delegateResignation,
+		})) {
+			assert.snapshot(name, {
+				min: transaction.min,
+				avg: transaction.avg,
+				max: transaction.max,
+				static: transaction.static,
+			});
+		}
 	});
 });

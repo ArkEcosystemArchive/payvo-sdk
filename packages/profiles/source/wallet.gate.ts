@@ -1,5 +1,4 @@
-import { IReadWriteWallet } from "./contracts";
-import { IWalletGate } from "./contracts";
+import { IReadWriteWallet, IWalletGate } from "./contracts.js";
 
 export class WalletGate implements IWalletGate {
 	readonly #wallet: IReadWriteWallet;

@@ -1,7 +1,7 @@
 import semver from "semver";
 
-import { IMigrator, IProfile, ProfileData } from "./contracts";
-import { IProfileData } from "./profile.contract";
+import { IMigrator, IProfile, ProfileData } from "./contracts.js";
+import { IProfileData } from "./profile.contract.js";
 
 export class Migrator implements IMigrator {
 	readonly #profile: IProfile;
@@ -24,7 +24,7 @@ export class Migrator implements IMigrator {
 			try {
 				this.#profile.data().snapshot();
 
-				await migrations[version]({ profile: this.#profile, data: this.#data });
+				await migrations[version]({ data: this.#data, profile: this.#profile });
 
 				this.#set(version);
 

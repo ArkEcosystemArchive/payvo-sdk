@@ -1,8 +1,7 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 
-import { privateToPublic } from "./crypto";
+import { privateToPublic } from "./crypto.js";
 
-@IoC.injectable()
 export class PublicKeyService extends Services.AbstractPublicKeyService {
 	public override async fromMnemonic(
 		mnemonic: string,

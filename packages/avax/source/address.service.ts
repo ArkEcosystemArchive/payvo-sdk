@@ -1,9 +1,8 @@
-import { Coins, IoC, Services } from "@payvo/sdk";
+import { IoC, Services } from "@payvo/sdk";
 import { BinTools } from "avalanche";
 
-import { keyPairFromMnemonic, useKeychain } from "./helpers";
+import { keyPairFromMnemonic, useKeychain, useXChain } from "./helpers.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -31,7 +30,10 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		// @TODO: figure out some actual validation
-		return true;
+		try {
+			return useXChain(this.configRepository).parseAddress(address) !== undefined;
+		} catch {
+			return false;
+		}
 	}
 }

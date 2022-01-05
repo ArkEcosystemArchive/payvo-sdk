@@ -1,15 +1,19 @@
-import { Interfaces } from "@arkecosystem/crypto";
-import { PrivateKey as BasePrivateKey } from "@arkecosystem/crypto-identities";
-import { Exceptions, IoC, Services } from "@payvo/sdk";
+import { Interfaces } from "./crypto/index.js";
+import { PrivateKey as BasePrivateKey } from "./crypto/identities/private-key.js";
+import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
-import { BindingType } from "./coin.contract";
+import { BindingType } from "./coin.contract.js";
 
-@IoC.injectable()
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
-	@IoC.inject(BindingType.Crypto)
-	private readonly config!: Interfaces.NetworkConfig;
+	readonly #config!: Interfaces.NetworkConfig;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#config = container.get(BindingType.Crypto);
+	}
 
 	public override async fromMnemonic(
 		mnemonic: string,
@@ -32,7 +36,7 @@ export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 
 	public override async fromWIF(wif: string): Promise<Services.PrivateKeyDataTransferObject> {
 		return {
-			privateKey: BasePrivateKey.fromWIF(wif, this.config.network),
+			privateKey: BasePrivateKey.fromWIF(wif),
 		};
 	}
 }

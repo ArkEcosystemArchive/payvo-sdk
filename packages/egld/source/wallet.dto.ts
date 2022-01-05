@@ -10,15 +10,20 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return this.data.id;
 	}
 
-	public override publicKey(): string | undefined {
-		return undefined;
-	}
-
 	public override balance(): Contracts.WalletBalance {
 		return {
-			total: this.bigNumberService.make(this.data.balance).divide(1e18).times(1e8),
-			available: this.bigNumberService.make(this.data.balance).divide(1e18).times(1e8),
-			fees: this.bigNumberService.make(this.data.balance).divide(1e18).times(1e8),
+			total: this.bigNumberService
+				.make(this.data.balance ?? 0)
+				.divide(1e18)
+				.times(1e8),
+			available: this.bigNumberService
+				.make(this.data.balance ?? 0)
+				.divide(1e18)
+				.times(1e8),
+			fees: this.bigNumberService
+				.make(this.data.balance ?? 0)
+				.divide(1e18)
+				.times(1e8),
 		};
 	}
 
@@ -26,39 +31,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 		return BigNumber.make(this.data.nonce);
 	}
 
-	public override secondPublicKey(): string | undefined {
-		return undefined;
-	}
-
 	public override username(): string | undefined {
 		return this.data.username;
-	}
-
-	public override rank(): number | undefined {
-		return undefined;
-	}
-
-	public override votes(): BigNumber | undefined {
-		return undefined;
-	}
-
-	public multiSignature(): Contracts.WalletMultiSignature {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.multiSignature.name);
-	}
-
-	public override isDelegate(): boolean {
-		return false;
-	}
-
-	public override isResignedDelegate(): boolean {
-		return false;
-	}
-
-	public override isMultiSignature(): boolean {
-		return false;
-	}
-
-	public override isSecondSignature(): boolean {
-		return false;
 	}
 }

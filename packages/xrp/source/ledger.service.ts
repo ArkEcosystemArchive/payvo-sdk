@@ -1,18 +1,15 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ripple from "@ledgerhq/hw-app-xrp";
 
-@IoC.injectable()
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
 	#transport!: Ripple;
 
 	public override async connect(): Promise<void> {
 		this.#ledger = await this.ledgerTransportFactory();
-		// @ts-ignore
-		this.#transport = new Ripple.default(this.#ledger);
+		this.#transport = new Ripple(this.#ledger);
 	}
 
-	@IoC.preDestroy()
 	public override async disconnect(): Promise<void> {
 		await this.#ledger.close();
 	}

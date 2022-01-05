@@ -1,36 +1,28 @@
-import "jest-extended";
-
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import Fixture from "../test/fixtures/client/transaction.json";
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 
-let subject: ConfirmedTransactionData;
+describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
+	beforeEach(async (context) => {
+		context.subject = await createService(ConfirmedTransactionData);
+		context.subject.configure(Fixture.data);
+	});
 
-beforeEach(async () => {
-	subject = await createService(ConfirmedTransactionData);
-	subject.configure(Fixture.data);
-});
+	it("should succeed", async (context) => {
+		assert.instance(context.subject, ConfirmedTransactionData);
+		assert.is(context.subject.id(), "21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
+		assert.is(context.subject.type(), "transfer");
+		assert.instance(context.subject.timestamp(), DateTime);
+		assert.is(context.subject.confirmations().toNumber(), 123456);
 
-describe("ConfirmedTransactionData", () => {
-	it("should succeed", async () => {
-		expect(subject).toBeInstanceOf(ConfirmedTransactionData);
-		expect(subject.id()).toBe("21c0cdf1d1e191823540841dd926944e7bc4ee37a7227ec9609ad9715227a02d");
-		expect(subject.type()).toBe("transfer");
-		expect(subject.timestamp()).toBeInstanceOf(DateTime);
-		expect(subject.confirmations().toNumber()).toEqual(123456);
+		assert.is(context.subject.sender(), "1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
 
-		expect(subject.sender()).toBe("1Ct7Aivo3jBhabLW8MRkzf28M1QHuqDWCg");
-		expect(subject.senders()).toMatchSnapshot();
+		assert.is(context.subject.recipient(), "1DVGtxX1ox92cQ5uMrXBL8snE3Agkt9zPr");
 
-		expect(subject.recipient()).toBe("1DVGtxX1ox92cQ5uMrXBL8snE3Agkt9zPr");
-		expect(subject.recipients()).toMatchSnapshot();
-
-		expect(subject.amount().toNumber()).toEqual(62550000);
-		expect(subject.fee().toNumber()).toEqual(50000);
-
-		expect(subject.inputs()).toMatchSnapshot();
-		expect(subject.outputs()).toMatchSnapshot();
+		assert.is(context.subject.amount().toNumber(), 62550000);
+		assert.is(context.subject.fee().toNumber(), 50000);
 	});
 });

@@ -1,31 +1,31 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import { CappedSet } from "./capped-set";
 
-describe("CappedSet", () => {
+describe("CappedSet", async ({ assert, it, nock, loader }) => {
 	it("basic", () => {
-		const cappedSet = new CappedSet<number>();
+		const cappedSet = new CappedSet();
 
 		cappedSet.add(20);
 
-		expect(cappedSet.has(20)).toBeTrue();
-		expect(cappedSet.has(21)).toBeFalse();
+		assert.true(cappedSet.has(20));
+		assert.false(cappedSet.has(21));
 	});
 
 	it("overflow", () => {
 		const maxSize = 10;
-		const cappedSet = new CappedSet<number>(maxSize);
+		const cappedSet = new CappedSet(maxSize);
 
 		for (let i = 0; i < 15; i++) {
 			cappedSet.add(i);
 		}
 
 		for (let i = 0; i < 5; i++) {
-			expect(cappedSet.has(i)).toBeFalse();
+			assert.false(cappedSet.has(i));
 		}
 
 		for (let i = 5; i < 15; i++) {
-			expect(cappedSet.has(i)).toBeTrue();
+			assert.true(cappedSet.has(i));
 		}
 	});
 });

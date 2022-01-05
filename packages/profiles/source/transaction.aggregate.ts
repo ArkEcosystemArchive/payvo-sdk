@@ -1,10 +1,10 @@
 import { Collections, Services } from "@payvo/sdk";
-import { IProfile, IReadWriteWallet, ITransactionAggregate } from "./contracts";
-import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
-import { promiseAllSettledByKey } from "./helpers/promise";
-import { AggregateQuery } from "./transaction.aggregate.contract";
+import { IProfile, IReadWriteWallet, ITransactionAggregate } from "./contracts.js";
+import { promiseAllSettledByKey } from "./helpers/promise.js";
+import { AggregateQuery } from "./transaction.aggregate.contract.js";
+import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection.js";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 type HistoryMethod = string;
 type HistoryWallet = ExtendedConfirmedTransactionDataCollection;
@@ -99,10 +99,10 @@ export class TransactionAggregate implements ITransactionAggregate {
 		}
 
 		return new ExtendedConfirmedTransactionDataCollection(result, {
+			last: undefined,
+			next: Number(this.hasMore(method)),
 			prev: undefined,
 			self: undefined,
-			next: Number(this.hasMore(method)),
-			last: undefined,
 		});
 	}
 
@@ -112,7 +112,7 @@ export class TransactionAggregate implements ITransactionAggregate {
 			.values()
 			.filter((wallet: IReadWriteWallet) => {
 				const match =
-					!identifiers.length ||
+					identifiers.length === 0 ||
 					identifiers.some(({ type, value }: Services.WalletIdentifier) => {
 						if (type === "address") {
 							return value === wallet.address();

@@ -1,6 +1,6 @@
 import { Collections } from "@payvo/sdk";
 
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 export class ExtendedConfirmedTransactionDataCollection extends Collections.Paginator<ExtendedConfirmedTransactionData> {
 	public findById(id: string): ExtendedConfirmedTransactionData | undefined {

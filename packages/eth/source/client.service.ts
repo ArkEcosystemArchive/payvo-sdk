@@ -1,14 +1,12 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import Web3 from "web3";
+import { Hash } from "@payvo/sdk-cryptography";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
-	static readonly MONTH_IN_SECONDS = 8640 * 30;
+	readonly #peer: string;
 
-	#peer!: string;
+	public constructor(container: IoC.IContainer) {
+		super(container);
 
-	@IoC.postConstruct()
-	private onPostConstruct(): void {
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 	}
 
@@ -28,10 +26,10 @@ export class ClientService extends Services.AbstractClientService {
 			transactions,
 			// TODO: implement pagination on server
 			{
+				last: undefined,
+				next: undefined,
 				prev: undefined,
 				self: undefined,
-				next: undefined,
-				last: undefined,
 			},
 		);
 	}
@@ -45,12 +43,12 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
-			const transactionId: string | null = Web3.utils.sha3(transaction.toBroadcast());
+			const transactionId: string = Hash.sha3(transaction.toBroadcast()).toString("hex");
 
 			if (!transactionId) {
 				throw new Error("Failed to compute the transaction ID.");

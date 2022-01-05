@@ -1,9 +1,8 @@
 import { Exceptions, IoC, Services } from "@payvo/sdk";
 import Stellar from "stellar-sdk";
 
-import { buildPath, deriveKeyPair } from "./helpers";
+import { buildPath, deriveKeyPair } from "./helpers.js";
 
-@IoC.injectable()
 export class AddressService extends Services.AbstractAddressService {
 	public override async fromMnemonic(
 		mnemonic: string,

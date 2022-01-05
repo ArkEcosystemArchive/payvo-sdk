@@ -1,9 +1,7 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
+import { IoC, Services, Signatories } from "@payvo/sdk";
 
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import nock from "nock";
-
-import { createService, requireModule } from "../test/mocking";
+import { createService } from "../test/mocking";
 import { MultiSignatureService } from "./multi-signature.service";
 import { ClientService } from "./client.service";
 import { BindingType } from "./coin.contract";
@@ -16,72 +14,64 @@ import { SignedTransactionData } from "./signed-transaction.dto";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
 import { WalletData } from "./wallet.dto";
 
-let subject: MultiSignatureService;
-
-beforeAll(async () => {
-	nock.disableNetConnect();
-
-	subject = await createService(MultiSignatureService, undefined, (container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, it, loader }) => {
+	beforeAll(async (context) => {
+		context.subject = await createService(MultiSignatureService, undefined, (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.factory(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
+			container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-		container.singleton(IoC.BindingType.KeyPairService, KeyPairService);
-		container.constant(IoC.BindingType.LedgerTransportFactory, async () => {});
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
-	});
-});
-
-afterEach(() => nock.cleanAll());
-
-describe("MultiSignatureService", () => {
-	let fixtures;
-
-	beforeEach(async () => {
-		fixtures = requireModule(`../test/fixtures/client/multisig-transactions.json`);
 	});
 
-	test("#allWithPendingState", async () => {
-		nock(/.+/).post("/").reply(200, fixtures);
-
-		await expect(subject.allWithPendingState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeArrayOfSize(3);
+	beforeEach(async (context) => {
+		context.fixtures = loader.json(`test/fixtures/client/multisig-transactions.json`);
 	});
 
-	test("#allWithReadyState", async () => {
-		nock(/.+/).post("/").reply(200, fixtures);
+	it("should list all all transaction With a PendingState", async (context) => {
+		nock.fake(/.+/).post("/").reply(200, context.fixtures);
 
-		await expect(subject.allWithReadyState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeArrayOfSize(3);
+		assert.length(await context.subject.allWithPendingState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"), 3);
 	});
 
-	test("#findById", async () => {
-		nock(/.+/).post("/").reply(200, { result: fixtures.result[0] });
+	it("should list all all transaction With a ReadyState", async (context) => {
+		nock.fake(/.+/).post("/").reply(200, context.fixtures);
 
-		await expect(subject.findById("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).resolves.toBeObject();
+		assert.length(await context.subject.allWithReadyState("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"), 3);
 	});
 
-	test("#broadcast", async () => {
-		nock(/.+/)
+	it("should find a transaction by its ID", async (context) => {
+		nock.fake(/.+/).post("/").reply(200, { result: context.fixtures.result[0] });
+
+		assert.object(await context.subject.findById("DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"));
+	});
+
+	it("should broadcast a transaction", async (context) => {
+		nock.fake(/.+/)
 			.post("/")
 			.reply(200, { result: { id: "abc" } })
 			.post("/")
 			.reply(200, { result: { id: "abc" } });
 
-		await expect(subject.broadcast({})).resolves.toEqual({ accepted: ["abc"], errors: {}, rejected: [] });
-		await expect(subject.broadcast({ asset: { multiSignature: "123" } })).resolves.toEqual({
+		await assert.equal(await context.subject.broadcast({}), { accepted: ["abc"], errors: {}, rejected: [] });
+		await assert.equal(await context.subject.broadcast({ asset: { multiSignature: "123" } }), {
 			accepted: ["abc"],
 			errors: {},
 			rejected: [],
 		});
 	});
 
-	test("#addSignature", async () => {
+	it("should add a signature", async (context) => {
 		const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
@@ -124,28 +114,28 @@ describe("MultiSignatureService", () => {
 			},
 		};
 
-		expect((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+		assert.equal((await context.subject.addSignature(transactionData, signatory)).data().signatures, [
 			"00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
 		]);
 
-		expect((await subject.addSignature(transactionData, signatory)).data().signatures).toEqual([
+		assert.equal((await context.subject.addSignature(transactionData, signatory)).data().signatures, [
 			"00be3162093f9fc76273ab208cd0cff1dc9560e1faba6f27f9ffce9a3c593671aa8913c071118f446e27de404ceac9c2188edd8ad9f1a2c8033258f65138bca9a4",
 		]);
 	});
 
-	test("#isMultiSignatureRegistrationReady", async () => {
+	it("should determine if the multi-signature registration is ready", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.isMultiSignatureReady(transaction)).toBeTrue();
+		assert.true(context.subject.isMultiSignatureReady(transaction));
 	});
 
-	test("#needsSignatures", async () => {
+	it("should determine if it needs any signatures", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.needsSignatures(transaction)).toBeFalse();
+		assert.false(context.subject.needsSignatures(transaction));
 	});
 
-	test("#needsAllSignatures", async () => {
+	it("should determine if it needs all signatures", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", {
 			signatures: [],
 			multiSignature: {
@@ -157,22 +147,22 @@ describe("MultiSignatureService", () => {
 			},
 		});
 
-		expect(subject.needsAllSignatures(transaction)).toBeTrue();
+		assert.true(context.subject.needsAllSignatures(transaction));
 	});
 
-	test("#needsWalletSignature", async () => {
+	it("should determine if it needs the signature of a specific wallet", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.needsWalletSignature(transaction, "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8")).toBeFalse();
+		assert.false(context.subject.needsWalletSignature(transaction, "DBk4cPYpqp7EBcvkstVDpyX7RQJNHxpMg8"));
 	});
 
-	test("#needsFinalSignature", async () => {
+	it("should determine if it needs the final signature by the initiator", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", { signatures: [] });
 
-		expect(subject.needsFinalSignature(transaction)).toBeTrue();
+		assert.true(context.subject.needsFinalSignature(transaction));
 	});
 
-	test("#remainingSignatureCount", async () => {
+	it("should determine the remaining signature count", async (context) => {
 		const transaction = (await createService(SignedTransactionData)).configure("123", {
 			signatures: [],
 			multiSignature: {
@@ -184,6 +174,6 @@ describe("MultiSignatureService", () => {
 			},
 		});
 
-		expect(subject.remainingSignatureCount(transaction)).toBe(2);
+		assert.is(context.subject.remainingSignatureCount(transaction), 2);
 	});
 });

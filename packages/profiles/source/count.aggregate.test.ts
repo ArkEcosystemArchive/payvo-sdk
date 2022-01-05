@@ -1,18 +1,21 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { Profile } from "./profile";
 import { CountAggregate } from "./count.aggregate";
+import { Profile } from "./profile";
 
-let subject: CountAggregate;
+describe("CountAggregate", async ({ beforeEach, assert, each }) => {
+	beforeEach(async (context) => {
+		bootContainer();
 
-beforeAll(() => bootContainer());
+		context.subject = new CountAggregate(new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" }));
+	});
 
-beforeEach(async () => {
-	subject = new CountAggregate(new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" }));
-});
-
-it.each(["contacts", "notifications", "wallets"])("should count %s", (method: string) => {
-	expect(subject[method]()).toBeNumber();
+	each(
+		"should count %s",
+		({ context, dataset }) => {
+			assert.number(context.subject[dataset]());
+		},
+		["contacts", "notifications", "wallets"],
+	);
 });

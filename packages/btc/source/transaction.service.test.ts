@@ -1,10 +1,7 @@
-import "jest-extended";
-import { jest } from "@jest/globals";
-
-import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
-import { IoC, Services, Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
-import nock from "nock";
+import { IoC, Services, Signatories } from "@payvo/sdk";
+import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { createServiceAsync } from "../test/mocking";
@@ -42,65 +39,64 @@ import { signatureValidator } from "./helpers";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 
-jest.setTimeout(60_000);
-let subject: TransactionService;
-let musigService: MultiSignatureService;
-
-beforeEach(async () => {
-	nock.disableNetConnect();
-
-	subject = await createServiceAsync(TransactionService, "btc.testnet", async (container: IoC.Container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+const createLocalServices = async (context) => {
+	const createTransactionService = async () =>
+		createServiceAsync(TransactionService, "btc.testnet", async (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+			container.singleton(IoC.BindingType.FeeService, FeeService);
+			container.constant(
+				IoC.BindingType.LedgerTransportFactory,
+				async () => await openTransportReplayer(RecordStore.fromString("")),
+			);
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
-		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.constant(
-			IoC.BindingType.LedgerTransportFactory,
-			async () => await openTransportReplayer(RecordStore.fromString("")),
-		);
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-		container.singleton(BindingType.AddressFactory, AddressFactory);
-	});
 
-	musigService = await createServiceAsync(MultiSignatureService, "btc.testnet", async (container: IoC.Container) => {
-		container.constant(IoC.BindingType.Container, container);
-		container.singleton(IoC.BindingType.AddressService, AddressService);
-		container.singleton(IoC.BindingType.ClientService, ClientService);
-		container.constant(IoC.BindingType.DataTransferObjects, {
-			SignedTransactionData,
-			ConfirmedTransactionData,
-			WalletData,
+	const createMusigService = async () =>
+		createServiceAsync(MultiSignatureService, "btc.testnet", async (container) => {
+			container.constant(IoC.BindingType.Container, container);
+			container.constant(IoC.BindingType.DataTransferObjects, {
+				SignedTransactionData,
+				ConfirmedTransactionData,
+				WalletData,
+			});
+			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
+			container.singleton(BindingType.AddressFactory, AddressFactory);
+			container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+			container.singleton(IoC.BindingType.AddressService, AddressService);
+			container.singleton(IoC.BindingType.ClientService, ClientService);
+			container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
+			container.singleton(IoC.BindingType.FeeService, FeeService);
+			container.constant(
+				IoC.BindingType.LedgerTransportFactory,
+				async () => await openTransportReplayer(RecordStore.fromString("")),
+			);
+			container.singleton(IoC.BindingType.LedgerService, LedgerService);
+			container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
 		});
-		container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
-		container.singleton(IoC.BindingType.ExtendedPublicKeyService, ExtendedPublicKeyService);
-		container.singleton(IoC.BindingType.FeeService, FeeService);
-		container.constant(
-			IoC.BindingType.LedgerTransportFactory,
-			async () => await openTransportReplayer(RecordStore.fromString("")),
-		);
-		container.singleton(IoC.BindingType.LedgerService, LedgerService);
-		container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-		container.singleton(BindingType.MultiSignatureSigner, MultiSignatureSigner);
-		container.singleton(BindingType.AddressFactory, AddressFactory);
-	});
-});
 
-afterEach(async () => {
-	nock.cleanAll();
-});
+	const [subject, musigService] = await Promise.all([createTransactionService(), createMusigService()]);
 
-describe("bip44 wallet", () => {
-	beforeEach(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+	context.subject = subject;
+	context.musigService = musigService;
+};
+
+describe("BIP44 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6","mqLZY69ZjogwvFWfLEuGdFUPKeZ6JvyRj1","mwhFCM54gRxY27ynaB7xmmuuGpxATWDzXd","mjTpEuSwBh4KmKMt9pwFViTWQVZzqnWEis","mxdEAqtmiXqqczohNonMbUZP8ntYLPUUF4","miWmLw6bSSqvKDiVpM4SNKuSz5SX9kkMPA","mvRNAXLYUYhxuTdZahnw3mNtyDcxeiSt6y","mirzRVH2z9hyEVDDbv2QAMSaWjPDjFM3Na","mo6XLVZ39Pd3bkSsNjLs6iyz56qF4PYe9g","mtSQ96xauiYzz1xryvLhMNduw57Sie9LSE","mqNKx6o1P74CDDkvMoa2Jq4qcMviKYZFc1","mjr9b55DXcCLEZbqj4Z1JX2GgvZip75ge7","msZGjfGbdNDwhcH4M2UypirvxFeBS1Q8Y6","mo3dcPFguG2PacM5NUfp64k95qUzk8d6UE","n2VAVsBWCESjCaWrdZwJq3aYJr7zLQdEJ8","mytz9GeGaU7QrtGPYh7Pz9f7gihvbHKLum","muKxLoTUeCBL4czS9uaYeoWrWGcc3guyqL","mkkvJiKyYeRPZ8R4ZXv6p3aFBg28asBXZJ","muH9SVf3xvZPTpezLyH8Q6oixq4gNnoz7k","mfvGHJx8C5X7FjVaPvnkX4SLmC8XQ1xYHG","moa7w3BfHA9ENzuzBwCPMjWKWnokUDtc3P","n3rg3cRpwydmzuFF6DB33mDujFZU9xUVhS","my14NrWyUxsAir8sEWVZeDcvGEQVPo9y6m","msedyPEyejVYLWQpSarPL33MPgVzmaFEoN","mkYWa3ndp42DMryDk3R435vFW7he6rAkaN","mpNBsosQ4nvGpGzKYXahmKxtECagWyWHmB","mj4FbCdfjuhnrL47fvXqiGwtb4YA2BNmg7","n2e3aamJ9rijAWNgbhqaEhQz1gkXqVwv3H","mprAVWpzQWXfZQyCL1cXbdS5r1P6PQH7Lx","mgmACAUXLU4Y6UtK6f8FWe5v91ZV9diEYV","mtTirAvBsJnm2sN2yFxc4RbjEPKdPGZPpw","mzix3qtCtrnMPUEyi8WK6tCTjD2p8jSTER","mzLWiJBTaShRjA8aUifDiKPf2QZRk9fc9b","n2rEg9zPanYzxYd7QefY6ts4YyoVmdMUDH","mwqYEM9MreprUT7B74GMvtZoVoTS21ujja","mzmNYJg1o8W8P3dw5LwgpaMZMHBhY8dJ3f","mh6rfmwHMfk7VuBgpvjyxyfYqndvya5FJA","mphDrvh3NZzEhuUjnnfHvmXRyC4vw2rW3E","mn24hyd8P72KQH4Cw2SRwuijV9T3A5K7cZ","n4cVj1UYzqkfyKL6B4Qxwms5YGA3Fg6jzp","moHTPGxDPESt8oxqmPAavpopGUMT5rg3yx","mrwMYe7MoDEjzCSBs7RABHTkvJ1REnBSBz","mwcxFKnUf8QLCXkCAA9kNMUo8PoeE3ZNih","n1ny4eeB6brjVs9vr7hAvVfxPzebx4dXVn","mn4jAxNChyWiQTUWcWD7TkubkWnpvjgBv4","n18mAypHDvxee2E6V6AviKmnZPm1wzFE19","msGcyr9E4cDzxD9EDiPxM29cC8c7QumozJ","mhH5bnYnLJmxN2Z5tHxSeSSkNMahL4EzKs","mqYjXDpCVKMA35dfzdUYBYTQD25AWvVoiG","myvyBt3zC352JR7413McVEvAYuFqkwgqWb","n1i8xa9CRHhMPCV5pddciGpaKdL3tpDu3K","mzuxJDcbgKU6bv3gVXLJ1HdLtAyZXA31zV","mfg6im7pkgQFyuzaQSPt1KBKU9zdZnkqgy","n1ymFJTcCdCZQvrFvCKWJQWpwxVmF7YvLA","mnLovetW93Mdgo2vT5y3wYHUv6BJKgZoxb","msUTXvU96voEAVpz9KQ3fAuwaGd4FQAyrq","mkk64Ch1kKvyXpqRYmWX83yQRsy3eRTTRX","mjw6TdbDdSnfuEenqBAD65AfbsuPSZ5p9Y","mi8F4pRefaGKvVpXJsMbbo4PbBNTtvXmag","mydNPx62PcyYjRrJCS63zf2BH1xHLSXX9u","n3KBoSgDqnBQBeCnKfBjPEdxPHBnZ7xp6h","mnZAdewZ4v8Ppdh7JEEMQJtvLdeRHH1VNn","mg656eh1DVFspD15jkxXxoyi7Kv7fgMdvM","mwWnGEsATbfCS4AV5hFkXWJ2RYCQAqFJGA","mjpkTaJ9DANEdERbYYS9HuUDmgEPYYyBK9","mv9aAsmv6NdvaGoYSkmVUcLpUH9xeziP9G","n2t3VNLRR8a7tGeGiJrUM6e1meTbdw25CZ","mfxMkw5nLm5WioT77twDETR722g9SbnoZt","mzrt4ynLsVUE3osMEkdhpQGqzutQ49CWVA","mwpEVmw1Ng2mnNeiTKrvtwCn6CtN4VD99C","mnMGzAtqhkduba7Nco69Y68Ug1WznBANHY","mt1qyjuY36A6gu9qh35mXMmTEivxysP2Hk","mpJxJHWkiTd8nbPKWtoq8FxYrNeDsfXuyX","mi5td1SkrnPU8pkwkb3d9nWhCJxUzZnBXp","mjRxeSS9P3DHMwmcnkDpdK45T9Zreogd1d","mohFFiM4S5BbwUiLTBmGjNpujaUzd2jav5","mg5a3aAfN5sikYmrSdxJnM6BxG5BxaFybx","ms2PzPBBGF377CnRmN559E2NK4mK82hbYc","msrUFHvQ9TNf55PR5fRKDzK9KbjakL9wLz","mt2cmM2Umo2cSDNZX635pPJTsdJCH31gsp","mnDK5vBXuMh8t6As3YfibqGVqshj9DkGwJ","muM8F7AM7rU7a7uSBs8LS5Qj26NPVzkp7f","mqs6W2ujvSbrGyUXxsybfYxrqyHgSnbKLi","muFyoYmo7wsRzx6bZ5EReRJrQpREFbgBUU","mxyHq29pLa52X4Jghj1KvLs6mhGNDUygBH","n12EFBQ25Wh67KrBTmEjze13PyQxGUdUt5","mzrcunEFvoBPdN4N2KyDi7G4JvpMkWdtCJ","msKrmVTy99orKLdA5fPynmdY7jr2mc3uTN","mfuUcXpTzmxUag9r3hsgn89hoFDBkUCvYV","moohmKrnKUMkzt5jKwFkpUagad6o5NBrd7","mi21bYwhvLL4DSuZhiLKfDLDv7J8xyDhXA","mqzxFciGNGdAtnkyftU2XJ43oesV5V9Q1o","mhJCwNQNe5UiFSU9WnehKF2zQp4qNmhU9V","my1jQfVeHEHfjSWmbrAhQ3a1KuFemg3zvo","mqDxWKmfsGnCKj7gFDbrhQYJdUFtKxbgvL","miN3x4ZecShnV2c5RBDWVaJtiRNpQM9yBB","mwaiuRVexbNkq5n4vn95jonVLnUyCR8D1r","n1Hjmy8aSfi51VeXi9BG7Ku1tePJ6EmWQ5","mvxDAPoF63a1BmNJBmQWHjNXM6LFXtY9mU","my9uRTqts9FStbDzDGyjL4CpkCSwbN69at"]}',
@@ -144,7 +140,7 @@ describe("bip44 wallet", () => {
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -158,7 +154,7 @@ describe("bip44 wallet", () => {
 				},
 			}),
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -166,21 +162,24 @@ describe("bip44 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("a24184f69af2af696a07e3a70c468339654904bbc254ea908e28e0c049200504");
-		expect(result.sender()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(169_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "a24184f69af2af696a07e3a70c468339654904bbc254ea908e28e0c049200504");
+		assert.is(result.sender(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 169_000);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"0200000001e6eb100bcd16a7347f3405b804b372726e761c2e13f0557aee1ade1a796a3394000000006b483045022100fea3dfdd9e2afeb1d594c2020334a06fdb660d40238d6b2c45fb33fd90b5357102202297135d22b0d45d6638af023dfa3cc06f6d4cac1073a101a66d5acc5073b155012102692389c4f8121468f18e779b66253b7eb9495fe215dc1edf0e11cbaeff3f67c8ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac478270b00000000001976a914c6099396735474ac6ff0ed5d0d0ad3f55f470f5488ac00000000",
 		);
 	});
 });
 
-describe("bip49 wallet", () => {
-	beforeEach(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+describe("BIP49 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["2N789HT3aXABch6TqknX2TCekPEUGLMfurn","2N6PNXPhGCbuSH2vbKBAw3yV6Shx9xhVmdT","2MyHRvRGabh3rLgKTxm9w6ACwiismanVYcB","2MvxBq4NpBpBT2ZJhkj4eJXjAWzbo3vsnGR","2N5H3mWaqj7m8NQJaNXGt1myGsN9HZZVvbm","2MsKn6krztaAgssnYAXAUEjpBUB6hUoP4hF","2NAQ4EK2QdhUBSAunsRbgoh4Sd51rcZr1rb","2N4zv2KR93169CLL19XhXqMoyoThqneEGFe","2MwWzNwJLsLATochEcYmujbfmPyZxdXx9iD","2NFKpqkYwkciKeH4BxeUzD7UTHa5PJRcMNE","2NDCrPojzPDn6R7cHrxzmZBWndnxcuXVxiM","2N8nza539HAe6K9coAsZuEpGH6XTVQvvaMh","2Mw9ri9oks7CGkXxnkJseohk5dzmK39pndL","2N6BTWoweaufr7RXHPaPTiyPkrNdcjzeAKC","2MxJJ2CCNrDuZ9sYhAZjHcydeZY6U6nEXTC","2MsxeeHWUevXrCrXwc7tL6GPCmYuSyYZNuP","2NFwTtVpP8TqLRVLeNQ4z2BKD9LvkJGgqTx","2N6rWGYk8HaaezqWhysBZoNpJXkrk2ZBBnz","2MtYXRziznpvRfQVDfEhDTCYacUK1VKTYAR","2N8ST28NsESkkBohTFZhwXvJSTphe7eByUw","2N28utBztNg5XuEkustWDUsS3fQjQynPKxJ","2NCbA9qsyz3afU6DKUDG7pzxM9L5NqXjNzr","2MvyN2nHkpWrRoivaYZaAjJZR8wQPNvUiAE","2N6qNLeNJn7DWKM6ZCcF8GqCuYngifk1KoW","2N2kKdqAvvD5xT95LarwfPYHXLy4Kw7i7mu","2MvT4SX9zJm3H8NeGdEjsiJ5MuSyMqukLKj","2N8LFVMBZ22ZRHVo2qy41EiE3RGLnxk4QNd","2MxwHtHpBgGtC7RrFppwTrcjAthC1EQHj5p","2Msu29MZN2wdtub4Z3YxhS1XbrPBMHyuwsp","2NEjp5T1G6y61H1JPLPRxzx9wKctHhJz93x","2N5gz2yCQJRm4SqmUZcfc67HTjrUo55gHh3","2N3AwQqdPqeQ6MvS7rhSaC2gFvTru41xiK3","2MxrkkkBriArzsvv7DDnxANz8HjYaEXj86i","2N8uaCHXCrBVvp713ryViPfv4S3XxuaCTYK","2NFe4WTqCHgSYLrHwa6EF2rqgEeK4TdP1HU","2N2HC6Gxy85tGWNQsDLrJpDkEFsYtFmte2C","2Mwbt8GFowWm3AoatvhSCaQqNXV4YUkiDqs","2NE4RjenrKzgCNdyn5ePjGYYuViJTQrhdCT","2N5ZVzEfrSomVa2YVtwXz5SR3LpnWz7jSmQ","2NFXwS9S3zEdw4uyuPd4aJrrGgsNUqdBsLp","2MzdNTpW3WCBmZcjX4BV33dZsbLho6We4oT","2MzVNYFRpQnxLZ8AEUeyVuZBDrue9dq2Ukj","2MyCpARHGEr82U8JhFdQJ1rB4pYtWVSLeYR","2NDtXCMwG7btvTJ3iWckxQWD4T8f4K6KNLh","2MyCFvaYjcdKPEGxSGqNNwMtwEDnMEcH56k","2NFo3ZPMYMEe8W1ri7UD5AipdV8YfVGydYB","2N1Bd8YCSrSbHSZsbf5o3V3FrniZDwnQ8gw","2N8Mqj5ncuQGWEqzFp3muozALZVnt2qMbtR","2MtZ5cVKWSPB3PdozB5mjrmA3hXXZzuhSQG","2NDoKKEN54H3Zwwi1WDtLQ1pzC5VzGYSEKT","2MtaDtk6MxnYcLgRk2Tx4DduJxSZMwoi8TP","2MvpLKQqkeEnuU9EzASgd9Yg16AjAPzf8UV","2Mz4VbaTkocnPkUt7CxPRXg9uYd8pSGJS5b","2NAsJp3YXff1Ap77M9yBMuPfQAwe2sTfZzg","2N4GYLo4Zbz6hfgN1zq8GFqTRqEkc4XJ7j9","2NEA6FpdA3p4c5AsXVSwLdTZabQQgpzoWwY","2NAbA1nTMj8ENVs3wTi8QoQseuarXVhMke3","2MwrTMp2LXzCcJwKRvxAa3wdBNu6igdWSjz","2MzdrYY7sGc1gZkZwd6oKX6UExwX6UgVUCV","2MxqZAjk7UHqfgkEpHhkHhWpXHBjF9BQGpa","2MyV6XHikXbJuGvjQFLn8T2mW3s6BnZYALs","2N9xxRKVjXdgGoeu1bpZn6BDBBkH1FY2co9","2N2Y614L73mmGm5VpCCgb9zmbZZTRgvmj4b","2MwEek5fYgMjLh5z4db66bs2odPmhKayiXY","2MtT9XVV7JnMqZPTuRWmTZyKWrsFtxgWo9k","2MwEJWJsRmrQbmuzZpQJ1zrj33CPF9DxDpL","2N8a3JoEGX5LdnNofQPMV8ERKuVXdpuFgJc","2NDHtfxJv3WMp3x6WqDihHkGH2qPGart3wo","2N9zgD6ruwBvx711E1vdUhJwNW21UXdcjCD","2N2UCaSW44EHyxjuxTKghiGSjLaTdq9hM9Y","2N9zAgXDx2edhJBPSsr5BDHuxpjFg23k5m9","2NALsVSqT1x2TtdcGTWckvkwrbRRjdKDUEf","2MwmPqU3ukg8UyrsncEpTK5sLg3GcE7xqse","2NFBMzd7JgdKZKbGBaH6ukD6ngMDULCWBKv","2NDQa1rxk2RJ3ADTa53mhUp9RqeebFxNfAq","2MxWz1b1ALgwZUYDGFZYqXSrTPxSZTTYoQP","2Mwq3agY92JHqyqk8ScHtTdLJ6eYWDwNsaU","2MzZ6rGbSXx28BWdWsEfgxQDyHEhK3FPDbP","2MvJ93MF8q42nLUzep59v6sJRHca5Kz5Qxp","2N1eYd4UzUHmGxpNqhudeB2GaPNQsAvEhVG","2N48CwaTWgrKm8AkCGXHKyhCL1ttQFYtNNw","2Mt9iBT4RafyvC2S1JV2BcSZRmYQjL9e3g6","2MsrLJk9G84TsEJLXYTayPDM3keXJTFWohP","2N9Q8GSUN14qRTwgromn3ddjrUaX7NQFwzg","2NFY3ELk4XoVh6jWLmF647hMjcwyMVnbJMA","2MvVw42sEYGL2YwyYhwDbtdZpdv4ErQnXTH","2N2BLY9qoKVFDsynTdthzACLqZd4PfPbYKt","2N4ETCE7UkrE48pGcpW8P3iWqsoZuvgw7HX","2MstS3Yt5ehcEFxvELNeRhCdR4fRC7JWPmK","2N7ewhV2ZXSwHZuaagMHdSvJjpvaNuQbfQD","2NGJMGNeoocbNhurRw9EdWUqMYghC7EGaQA","2Mz3GJ4eCk4Pzc53STigVKQKiwuRwf6W8CW","2N6y5cWzLfLBBqxxGyMiykN9Ag3tCmy3yNv","2N4jqmC9t3ua1Dq9V6AxLHu4oHfGtT59dUj","2N1nsNGjv7NTR3rix4d8YLvpD3ohSeNFSZG","2N2hrq76A891qLShomZ2JfD6F4GMopj8KpW","2N7pcjatioAmK4PzKHDXcs5n9QN4wzkJedR","2MtrmGAW78kfkzaVfy4fw7tfwi9xmcPJmjh","2N4s867WeGgaQc1CAaTdLpaNjkr4h379Jbd","2MwKvaKjUp8CNP2PhUP2J3CtSvk1SujxWQy"]}',
@@ -224,7 +223,7 @@ describe("bip49 wallet", () => {
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -239,7 +238,7 @@ describe("bip49 wallet", () => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -247,21 +246,24 @@ describe("bip49 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("e0d736fd2f5774b7499fc557d22e6f99303b8b592d32481206f99d54de5df5de");
-		expect(result.sender()).toBe("2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(165_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "e0d736fd2f5774b7499fc557d22e6f99303b8b592d32481206f99d54de5df5de");
+		assert.is(result.sender(), "2N789HT3aXABch6TqknX2TCekPEUGLMfurn");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 165_000);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"02000000000101aaf23e0cb853c0820b5cbeb9292fff12fc925031905d1e90fc2f426f453930a80000000017160014ad5d241c585fd25d3271875af67a077ba4cf7324ffffffff02a086010000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac418370b000000000017a914d3cc481599f154c8cf7f9111681f7da53e54cd4b8702483045022100f10c644094fec83dba98f5ea346e5df441f76ba2250edbe1fe8d19646edb4e1d0220675e13b257c973902f8289692a3f7ef661f3610a1867aa8505b3d7538ad8dc74012103987e47d69f9980f32363e40f50224fba7e22482459dc34d75e6f2353e9465d7600000000",
 		);
 	});
 });
 
-describe("bip84 wallet", () => {
-	beforeEach(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+describe("BIP84 wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn","tb1qnyupre6mtmhzguffsucrz40sy2katy8vkt8zfu","tb1q4hel24zseq8xkdeq6vha54n6384kgeu95hyyv3","tb1q8g0j9eqtntqnh3tvsfvw74j546td7c5996wyn6","tb1qzu6m9fkjut4lazp3r0ng8vffckzjtw09yuynwr","tb1q5szhk63gy5kcjss5k9lczuvrrdkj0s47ys5d7n","tb1qft4e63naynzfv6cuq8fmzqw6vm5h0826y975zq","tb1qwm4e2thywjze204pyy3dl4q7367jl7dx5gemys","tb1qg83jwmwz30gkgxye58t98tkdplseurgjt3w8ef","tb1qvtu2n0wf4k2wxw347l9jyqcv3m3f9g2afz8jxd","tb1qjc3d58wx2k534xwhpxn7rn9ztfztvxpf47rtzr","tb1qn5yntgep5vwyvgaqpuadywnykaeahmujydhs0y","tb1qc3wayhruahwwu98j9pmqdv7zsktm78n79ekgz3","tb1q2qkcmydj76kcpf7k9mugmjufts5x7756gp6ktx","tb1q3vemskd4app577n47yrnrsz62zv6anz45r8j5m","tb1q8yyhk6ujynw32d6vg2xgdnln4c5t9k0vesuvrw","tb1q7mhg4pfudy02eegcjwnzey237sveggtdfldgh7","tb1qnq8teyxjvl856zlzd0grggt3r8j57q3yglmmm8","tb1q287042u5t4jxlwu0pjdal2ewnzm0k3urf595y0","tb1qrmem58ypay69y29lh4pfk3d5r4hsl3a4kgd7cd","tb1qpwum56tqxj3gs269f7tcy7sawrc2gs8ry8fpk4","tb1q5dk3crwgmqachcpdrl0d0hfs3ufu464nmkndvj","tb1q0247au5mcn8qf862z2c8aejjfxzwsu2m9gehlu","tb1qr095h3mc7zkkypx8y6fhtjmv0e7dl4nst9lcxv","tb1qlhkvctujxxfyxldvqsurqhxn854vqv7we2uqlu","tb1qzdvs64mt38t8nxrvwczt3wphfclkdgwhysmejk","tb1q5rrec57glqjq40l6uncswrkxg6yw23vdcr9mlz","tb1qafpwdv45cj3wuc2y0dz737rjagdx0vxu5rnmyv","tb1qtw845dktyuh9em4g6spf60l73kcazfa8tscxvm","tb1qzglhldv20xlwu9y9zc8ra0785nvrg0fljmzqlt","tb1q6srmkcmqjup2a6kelks7d8erlqqecz6uspwecw","tb1qgy49nf8tevqptsvzke4ld0w3aa73r7he6h77d6","tb1qthjufnk4k80mpzcj2ylmh87dkw5rzfvmfq4752","tb1q7aaapr73fzlyvt7350k2wy5kmnr9cgwedfejc3","tb1q2k29k05gtyukjnhmy2d3x07gg50rruz7xk2uwu","tb1qd63u72htfuazgdg2y95g93tytvjszt9882hhjd","tb1qfj2nxcu3gqtny9rftryxrcmr7yzgqejlpnl2sy","tb1qq3etva0ycdkvxln8q5uw836ccjmp28r6c0d2ws","tb1qtdmpktudjn6h22rp50pz8wqnp8pjc5582w6zuq","tb1qvnqkjml2td327hrwkc2p2ktxca5wfas8sx7rmm","tb1qtz6023w334akvfdp6mke7wu68f5mfdtuwwvp0w","tb1qka7lmpa08fryucx6jkwmjagu0u5ht99nqevz5g","tb1qxduwknmu3epxqtvptcxmg8dm7calf4rmeah0ce","tb1qxv4as5np4hswyzlgcm8jjg8sd7yhda2rvy4wv7","tb1qlfee29rd4r8pyq69mqwm8dx6ym5jgcfaj8yvlv","tb1qhak9pdn00lrctrjg43zkwk9gcmfwyh7ctru2lt","tb1q3ady3drv05qgex0ckldlmr7jua4mzh7g8ywpua","tb1qsaj63xdqla8tfydk7yufyk4qpg33xke9t0kpna","tb1q6prya27nf3aku6le939n3trvq9hm9vvggw3q29","tb1q9n8nzxv5pt64h3x20sdmngppd6smrczps8s8r5","tb1qvrgkjra3kzm6mzgddptzp8h6r2fv2nyu38qy36","tb1qjgkjr0wracp8hc3yl8w24eg7amktf3hlj05hcp","tb1qmah2zdm3eu6nlq2383h99sv08yux8qkmxc6qpc","tb1qc4nwmq367a48jmzvnfav6vme5nyxntyg5dkakk","tb1qtmhm86se75j2el84gdurz209v72g5w23c43u0m","tb1qwp8fupq52ez6z9gpzg4rg7rr46c5s4qjx59xq6","tb1qgtuhutm6msxq9rvd5k0uj7vet8rxc5l0sqxfut","tb1q205nkwd23h6j8mkagvvezl3av56gu3k08zm3rf","tb1qvgpjkryzkdc5r9clsqln32c6s0980cjs6p7csz","tb1qh0dsjewn3yn4v6s88k6ksvpfv0nuytwucvqf7j","tb1q4fsuxvf9se3x0yu9hkys7unmht82fxyyyqju36","tb1qc3cqsgyp6d5p00a777lruchlkqh294wy308hyw","tb1qyus7f3ef0wle99fu73tu3a52chz0y6m5td6vhk","tb1qnddsnsj5n3zgl6uy4kp9rgzpynfgy3gres6zt4","tb1qhvq9jdvt5nrf5hxhqgsa95227ty7g6wjk2lnv5","tb1q0p2tt0t7tz6nrekg2rt7y0dmn2yhkp7nclak6v","tb1q8nd8uaqlc83y3d3m2sm8qfpj23aegj8he88xrl","tb1qst0txydc5q9nkeyqv58346hrvtfxfquyw7dmsn","tb1qjyv67rdgfhav3cgzp3kun2qhr9jmajqhunce95","tb1q550t3wt8ddvytftfpvay0yywrjmjzkcsm6fuzd","tb1ql8r5596kq9hm4vzamvv9576zup6d7s2ccq3rg9","tb1q90jx45swj5f78wh5fg2jz7cexeppy7teanr4xv","tb1q0pp2647uekaj7ew3ymp07x684v838lgwh78swa","tb1qefgkdfdvwgzl9gctvudyuvxa8fd7rujuhg9pyl","tb1q8gxjp3yt7pr7h2yepw93pwasmfudv4ls3vff7t","tb1qga0xqgwndrvs87quycav3t520c3jn7s6pym5ek","tb1qszms32540n60kymp9542ar2r23y3df0q3j9zxp","tb1q23jkrgu0glt2ghdxlm233uy54jg97aegumxq9k","tb1qk6fxhqz592xe5ttqzdzdlxx8um0nmk3jtjz5uw","tb1qlvzq53sttx5556g02tmxjfr5647jspwnd7k33e","tb1q82n0h930vvewmnph9k7204re8g6k30x6cv5466","tb1qz5trkf0le9hmvvsclpl596e7c63v4at6e80sv5","tb1qk69dg527ykhtzg8zns6zhztasgzpxttn8gw9fe","tb1qmk780025qyjkm8ys8mv6mh6um6ddf55dc99yfy","tb1qg6p77jqp26y9qa35dxuhzl9ztf84ngd4wcqgxk","tb1qffgre788as3rs3nwdeu84d4j2nl790a846zdj7","tb1qfu5tdchmlmdhh7svjw6qs95p6net2kglvudqcr","tb1q924a4x6dqteaw0e4z62cvg9gqdsp7w2xpepww4","tb1qp0t256s06glsupjjf9znfg5v0k7aeuwtxhh99t","tb1qr05syarj38wxjdn65y0mdm0kyp82dpl6zdw7cl","tb1qzzknzfxatdhjus66fnd7pl4gpclv0r7ljju7kk","tb1q7hjfm7503vl9vkx9nell34du0tulstf0dh0ch8","tb1q7hjujwr6hpd90rw7w2ctf0ldtehgehjy6rxt25","tb1qeqllgy73sv6wh5fexdyvnjzrhv6mvnucatarjz","tb1qjwxn45a8mluhevzyvtavyp486k9mg7qh3777px","tb1qhvgr6va55xhqdg6sjwqn43j5vpt872nvp3asxn","tb1qfmzsm7ttqfmzw6um7vq3ndf6w2q8u2n9tj8lcw","tb1qnz6zh6j9uuxkfslr6qc3x8xau9djz8a438xhe2","tb1qmw2p34lzdp8cwyhqdjyj3qd232yymlyx0vcjqp","tb1qxxp206q44rkljappkdtp5zq8ed55ekax97zauh"]}',
@@ -305,7 +307,7 @@ describe("bip84 wallet", () => {
 			.persist();
 	});
 
-	it("should generate and sign a transfer transaction", async () => {
+	it("should generate and sign a transfer transaction", async (context) => {
 		const signatory = new Signatories.Signatory(
 			new Signatories.MnemonicSignatory({
 				signingKey: mnemonic,
@@ -320,7 +322,7 @@ describe("bip84 wallet", () => {
 			}),
 		);
 
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.001,
 				to: "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6",
@@ -328,21 +330,24 @@ describe("bip84 wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("1fbed27b452d2cc130234774e81e92e7b3f84a5e8e0a977cd82587a8a43a98d8");
-		expect(result.sender()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.recipient()).toBe("mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
-		expect(result.amount().toNumber()).toBe(100_000);
-		expect(result.fee().toNumber()).toBe(163_000);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(
+		assert.is(result.id(), "1fbed27b452d2cc130234774e81e92e7b3f84a5e8e0a977cd82587a8a43a98d8");
+		assert.is(result.sender(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.recipient(), "mv9pNZs3d65sjL68JueZDphWe3vHNmmSn6");
+		assert.is(result.amount().toNumber(), 100_000);
+		assert.is(result.fee().toNumber(), 163_000);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(
+			result.toBroadcast(),
 			"020000000001013505436737642a34e076976d65b6ed2c2bfb9ac95fec85589303be5164714b2d0000000000ffffffff02a0860100000000001976a914a08a89d81d7a9be55a18d12f9808dcd572e2cd1c88ace83e0b00000000001600146a101086f0b693211782261f13bf4bbbd516f2b60247304402204e38c7afe2318a8d5e7d26cc6a5205ef6b9155582e741255457438d6d84e444602206d76110a3a788d3863e926fdeac6952392e46898f31803f5093a7660975d626b0121023604afdf13cda171630e1e4dddade91d5984d54f1b7dbdf06ed7cd1977fe7ef400000000",
 		);
 	});
 });
 
-describe("legacy multisignature wallet", () => {
-	beforeEach(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+describe("legacy multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k","2NAga16irQ8iaMEU3db3k7ZTmg7eaGSpzvy","2MzLoh1jz3QJ8DARk99NuQvy2Mfg954J4HE","2MuDecKd8h4CwLJCD2vUSdtKGTopiR9QkVC","2N2sUjyiXGxBYo39MeuppR57ZUuPTFCbAhU","2MsmPAUNGwNSHqJeHwfsRF2bzuC8k8UGRB5","2N99WuTbJPvbhPj4Lch6USatqrJ8Sptjh62","2My8s3TaWBkhpAwWu1d8pHG8vNL2t2GXv6z","2N4q4BZE4sfQn4Fbv34ooezNZpnY2HShJFS","2NADDKDFCDwEuxdGnXrUBBqT4z1zASos7Kn","2MyRRQwfxgj7RLxB1WrGzgZk76Ybrd8aBA9","2N7Yeq6sdskLbByHzuVkFE6cW7fYuDLhyoY","2NDymWV8J1HReHPrxQLJt2SiqpWGDtrHcB9","2N5X2tx625hmLbS2szFJQNrANaFtTAok2HK","2MwWEaYH25jfJFzVkUUQ3E5vJvaDLJ6d2o7","2NGL4D6ypy45tVDu5wp58qmHZQzLVbg9XGF","2N2GhTcKw5x8t8bH8VgwJL5xmZwEyxFhL6w","2MsPsFoDKY5TDHQFykFrcLjZsxbCtL6rGnW","2NDFMbhEcPiveuP5aRGb9LysuS4ABPV9kGR","2NEy9NY8WcKyzRbLx413zgm1HmcohCLTAx5","2Mshmmh3UDPdepELxXYNNYWvmad4ibisYG4","2MzReeKG18uN2nkWUnsrirnBNJoBBYTvCaC","2NCNVYMJvrtXZXCfX62i6XaUemGkXygjP5h","2NGHiREgdM1DWT9QPohuMQfYkL4XKBC2p4R","2N5XgNC1qYrvM4gU2ZsgiYjMb2zPHYP4iur","2N7bnpxjpfBnu7sAUJaRguddY5G8Rg1dwLr","2NGEex9AYZmCe7vyhTjUcjGhGaF4L369n2c","2N8poQRukhmLZyARnBCd4hhttFsrr1UQNtp","2N4ebzXwqxbDNjXLTq9i4c5Rzkb2azsfWUF","2Mt9Kh1aLA9x3KEzyDTrbC8z7GE56wo49Ep","2N9mvnbsPHofThC6Jo3Mp6qg8TeJAh6RzsN","2NFNoxCAB8P77Yss39uhNBbJF5kvah39oBT","2N3BSZj88eWjc2PXAXEBChTmokQxLxNjeeG","2Mz7h15waFNRfCvhEXTkMG8S6s5MDeWjX2r","2N3sW2WVDYAMvZ9ridRjuVKZjXvJRGDhLa4","2N6GLd93Q2PtViHXsMrH6QQteZu48zddXhy","2N43s4UPNzUZpggzjsR3Ky4gHevoVDtsK73","2N6ik2Z3YZMps6bdJrvmRH23Ly3jHWpDksp","2MvMWnxaFhxTAs3j8v3r5abmaZPTMyAQG8j","2N2imDRsGinrK2U9yKQAEiEpFExJoCagZSq","2N52i6MhRnQVsaFYB4oVKx8UysmQXWhLWva","2Mzt5YoPysrsNVEMnoRbaawZE824CXUCbJN","2NEQtQXqrQMyoCc84H2fkBme6UrG7eVB8ce","2NFx7kkDf4vvMRMBJHENgm9go6VwvDegQie","2N1jSjzmyMXArjBwJsfwJfgfmkvenfwERp3","2MtPYwEt8atVwGsXyptg9RPBP9AkYphykmt","2N2jXKG7pEzaaQ7SMfYhbLK9Lf7c41PKo6J","2NC3qmfuxediUYHwerieAeY8PefWQ2RsYdJ","2N43t5S8eQhYjYboLL2w96yGTEou7vJtNAw","2N6amaJZUb3DtkpEsFWo4nEAQMZUpRjkAZ3","2N9pm7a5MAoVtMT5fmmiQM8Dnskzb5gcL9T","2N7tpWUCRMiDmCzkkbbnGZEVJnpjXsDQdJV","2MzQQzCJ3ASwmPXPuaJVTuqUueLd6Y9bYJr","2MvR7LgpKDd8sQ4DBgBCS4YP2yFPfte4vLa","2NETAdQ19YibtdpuVP48jNoPTX5FnXk8Qdk","2MwuqXiT5hLPhSDDRwcAaUr6mZD1q1QxEGS","2NCZQQLNDkFUtQ9gBF2kBmbgtvoi2pCuXrJ","2MveeHvE8nfhaDtXzHT1JUuYHd1rs1iX6yc","2MzkYDH7ZpdTXYn15qfpFnieDnJHrWgg6Qk","2MsjxkF78K7AX3ueGS8ytb9ampoXMctHin4","2NBmvPGXfQQYk8fPEhtYPYpe1FGwiyhq4Ss","2MyvDW6npiF95DPGAEBRR7ND6PrqKo2yxEK","2N4hJe6YDHaVGwjZX3qJnS954ifr4pTBdqo","2N3jjQev7dLHLYmojiaoZdLgFdSrMmdopHv","2N2YP37NuUg1Wo1m6pMARQNuExaughZLDsz","2ND4NwHC853wuWDzfLL2vUKYGvUDn9VGTjM","2NEoebEVPWseaMA5A3W8pe2ugY1uyxmqApA","2N95cG6zRafn2d3CZkKkHeRL3fn1p8eZFDU","2MusfviKsuqKEoman9sN7y7EDAWFQKMbzrB","2MzwniAC4TtCzTSiVdf52GGVgf4FUVsKt8A","2MwTjueWV4XYsAgpbeAfbbhgYyKXbbc4N6c","2N658QDFnMTqNLTyfZbVShQonxRcgDxtvMB","2NBtvtF1Y1S3Gb3Fw87DmZGwAybZFpHhJde","2N1PcDHnLKFzwVNoUaxxGLNbG7TwK4J5a2i","2NDtv5EiLtQ146sqSoBpZZ92GgVACvAUp3M","2N1yoYNCCwBK64YpurAp2JmXj6zreWaLbW6","2MzR7qGRCozRTtrqpyZpNX321xz1xJPePjU","2N8Xk8VXRDQJpUhMyUxEHcPdPM7xC6QxKG4","2NEQc3Kw5ttVPkeFVs9LioZEFw1qTwPe4FM","2MyMVLRxdqSC4pfuzFtrqjU6jteas4Yq47C","2NFKcdvRTxvRPM894hBrcoELVyQ74AsPo8U","2MxxdR1EB2r52iYBc1yQ3tEBCNHe7hMhdQ5","2NEcS5fJJjFq2E84wD9uqQVw5MUbaKqMFHi","2N1zdZzw58MxkVN44unaCfpa4VdJxYuPtpa","2N19qNAzeQ7tvrLpFdf5ncEEz2DqzWPT917","2MwQ6RdXyoFFK7tSKehGJkRhkFWFLiweWqr","2Mv5KUW3kVBdNCf6KnXFYR3kNHT1BvZmL8r","2N8gT1XUcjJK5yd3TK72ExqSAMmFzrAqJtM","2N4o5CuPWJNFbBrNuhCyY9A7SFnhzHaEyPy","2NARsar2aLWfFWWsACukG2aYS28sxZ3g4mz","2NEkBFBanbLuU8XiHPjFxbuV8vqKJqUAKog","2NBR4ZDUDDGXnUwwTjifZnrHkpAurpnxWAU","2NDWJPS4BT8ishZWMbqeKGgQCrxtXgLgKHE","2NEGBQxZTV3MQDML42YYRvbCBWL4GKrSon9","2N89zd657Y4v9SvThXgEjnbuKhEKvTQRAHE","2N3mZVGEKYn6LErJCoaWGAiLfbd1xfyfwj9","2NArmXzSEeekEh1zVaZqbouESKfDDvwiAZV","2NC4demeenvY8XHZ8pFvD88rZyz7m4xpQuk","2NEzFub2aPomAXnLDvoKtFhhNxYgTrkE6HU","2Mz3fPZiR6T9QW7n3zpiDJLpatqK6K4HBgf"]}',
@@ -383,8 +388,8 @@ describe("legacy multisignature wallet", () => {
 			.persist();
 	});
 
-	it("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	it("should generate a transfer transaction", async (context) => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.legacyMasterPublicKey),
 		};
@@ -392,7 +397,7 @@ describe("legacy multisignature wallet", () => {
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -400,13 +405,13 @@ describe("legacy multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe(unsignedLegacyMusigTransferTx.id);
-		expect(result.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedLegacyMusigTransferTx.psbt);
+		assert.is(result.id(), unsignedLegacyMusigTransferTx.id);
+		assert.is(result.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedLegacyMusigTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -423,7 +428,7 @@ describe("legacy multisignature wallet", () => {
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -433,13 +438,13 @@ describe("legacy multisignature wallet", () => {
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe(oneSignatureLegacyMusigTransferTx.id);
-		expect(signed1.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(330);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureLegacyMusigTransferTx.psbt);
+		assert.is(signed1.id(), oneSignatureLegacyMusigTransferTx.id);
+		assert.is(signed1.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 330);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureLegacyMusigTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -449,12 +454,12 @@ describe("legacy multisignature wallet", () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				publicKey: wallet2.path, // @TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -464,27 +469,30 @@ describe("legacy multisignature wallet", () => {
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe(twoSignatureLegacyMusigTransferTx.id);
-		expect(signed2.sender()).toBe("2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(330);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureLegacyMusigTransferTx.psbt);
+		assert.is(signed2.id(), twoSignatureLegacyMusigTransferTx.id);
+		assert.is(signed2.sender(), "2Mzq2GgWGQShdNr7H2hCxvC6pGrqzb64R3k");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 330);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureLegacyMusigTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000010429a1a0643dd1493bb8f89515d38872b4f7602fddcaab31aa4edfb304d72d0000000000fdfe00004830450221008e49b68e58a819e5e7199f69ca7aea8a0e83c137aa5d63334167f46263d13fa302203bbc8490e10e91a66cbef8dee64e41f46436caf5815702109211d3a37fa651fd01483045022100a1dcf290034f8f177b6069bf0b10b11c0d37c5dbdc6d9ff189cfb69d06026dd702200db05bcc907117d506af47a5648bfc81fc5a58e0766c1076401e5b4debfbb565014c69522102685c2d9e7743b278d57b8de9c81c4478737eb3453fe59e51b1e20020c583395621029015af20164d731b612990bee7a995c032abba83fa186a3ae3918f996f2173402103970f2c616181063e26fd970b9bc1308a78986f3f59053e554b1f297bde8e3d5053aeffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4465e01000000000017a914837ca148b6a9559bd170cd99650fc3f1107c4ebc8700000000",
 		);
 	});
 });
 
-describe("p2sh segwit multisignature wallet", () => {
-	beforeAll(() => {
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+describe("p2sh segwit multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT","2MtQ9HwWz8wvax9YNLo3S35tcGWZMYTWW1B","2N9kwKrsHVgnTuTiTSqVoXoxk4nUGKSscey","2N63d778E43JWTa7yUtD7vS8YJn5n8Nfw7j","2MusbEv7ki5s1nQ3VJCtJ6zYr78PXtpzzGx","2N4LfpVsEyjcDvUNtHLdZCEUXPoW7D2QqLJ","2MxMHtPk2LBorEcPbfVGD7FgcKLeY5mnz8h","2NChVE97cYrdSo7KtC52gpfcadykbRU1QLL","2MssW4Smgz8NhgeGTnXQH5n79be8bVA9Z2J","2Muf4vBSVsbTtFmbymBkjEMJnjk9GGXocNs","2MteHjmju1aTHdEExVjHaQDpnNvMbS1eCYR","2NB8WS2q9AAfZf8LTqtL55FeiZ6A5He2Hib","2NFCuxxPQCErmJmvooLxfdydoJhWDhk2J5u","2NAGETNk2bnKkMhDHUZCzH2F3Af2gbdGCNe","2N5PZDaKmcM51SKRDT7vV4rJ2uixgeXGS1f","2N2Rbm9kYYpRNuJfGHcnb8PU2Hx3TsTDDMW","2N559RGP824hq3mkrmf5QZYtNb6rQkugV2m","2MsxH2shVEgcGSDKQwdoCNxYmDEU4t6H6gg","2N51z4vR1UU2i5f3ZcMSbYNXBdAMvPMgkHv","2NFEXJ21jVzJbFJ1pB5oitnRDmVkthqZM8d","2N6tQNP16aYZb3Xh5CTpKMStmWUHFT32sRe","2MyiiZAztyqakB14CiHeAZqqxSACu73Yc5R","2MwKXPNqumersjzWZh5BU5pvsag9X2xAcL5","2N1AKM2pZEmAy25iPGBDfkvENAQMbokGxE1","2NDo2sc6XhsCEqCNF97gr7uzrXcBv8gdRMV","2NEiAjpp5X6k7wDytx6oyJu22V5JKBGup2N","2N7Qn4XBjSDgEDnZRwRQNRKMKtfX4e2ovp8","2N4ytaAni3NEfu8K3F6yHyGSRxEnBbLPpFw","2NGDp9YWBBRWwcW6kRJMbBxjL6iDQHKhzDW","2Mx9R7LgcU2N41uhr5tWhznoJM7bKbxYkJ8","2N28fARc44TPZ5afbjj59WFERshqyKcDK7a","2NFUNB7widPqtMZhmFpSysVZZbWtn8G71HC","2N4KeoxHETQGMSzpW3Q8ZZbeyEAwuTYVAVF","2N3XiCJ24dopacSvMjV4BGHAtcW3cn7zAmv","2N2ZEfUtXkb4eEWu5M2qpfHstKXkdgZGPwc","2NE1MA4wCRAc6AFtEwBZ5w1UZqZoSk3FpEB","2NCYnPg8QNfMocUshxxvBaRTaTQoomGDe4A","2MtEhjJBext2s3hGuD9FB3t2xqXgqKmwhCF","2MvpM6Fe8mCj4C7nSrceHFFYwRZuibEKe2B","2MziCoxdaprPAkWzun3B5ioDwBG6mqzodmu","2NDq4g3geveBiQTBYZs1PYwqXqGKYZ98FPg","2NCPnpDKwRkfZfC8BXTYXEAuJFF8gs244wu","2NEG9dNurWNeYBd3EW6vjQVdot3DyaZVbph","2N9VrzQyBsUmZJX2zRTz4vtXeyFTKNwggCH","2MzhHTFH4HPk5exNDR8uMk3KLJm1gtFLKdg","2MyirN9mKe7CQkTYfsLcH1VdLdWFQXGrajT","2MwKk6pCKpWsexEtBMj5G4fBuc3pZHDyV8h","2MznSTC6k6WSwnXawoerW859T2BVDJYm4Fk","2N6RWLU3CAc1KnbE4HX3EEQS1qrZn4Hx6ih","2MsMoFZ76mjgLQQatPGHQrFTeG7dyMxPfV9","2NDsiBvb251gZrbfHBuhTjZ1X156gmYqiXK","2N726ABoeWEh3xaXrvLAAr4CSZrHnKD51JJ","2Mw2qnaq4zmayD9ct2ng4cRBP36kZVG7FLE","2N9YyWaLHPqNanNw8bu1uDaWERBzLKzpBx3","2N3KAwcaR9yFkK4cv55RGRxs99F2Mou26np","2MzU1bSjZwnaoHMuj8mL5p1S6LYsQhvanh2","2MsrmMK7F6HKthwLrD5qd8Qw95HwV7GXB6n","2NB93wCKg9Gz1eSHBPvaXe7gPbLtrC5ZSMi","2NAh4zvHYX92kWVDMXibwsEfimnUJwLWNMD","2NGCKjKZQjRgm3QBJhGakxM5SbnnjaoZ4mz","2MwVAfxhgymM4kj3d3o6ze2qsygeM32Bh5g","2N367GUW38H74DYxrM2QwTQ8Kv8G7NQPsC9","2N28x9tFLTVvjrM6NppRhwTKZNeLyyH3YG7","2NAdji8hRJopDorgUiQoPfRATEoihj1vNPU","2NFBDRaEJcmRGuzHMFUEFrp56GdBJg3zmy4","2MzcB7U1fdXK8bGeqZjHqzLUTC79v8PSubq","2MwraVaJYSWHCPkPTjk2TGKQaEajaYgmKtH","2N9WEg3SSjPJK3xYTNPTCdfxhefytVzYj2V","2MxeTviLN11wd52LSxVxbVjEYdyL3JSU5e4","2NCFfmNCyqBjJXmRsvHFGai62NugzAziXQs","2N4S1gtZ1mKXmeZVjfQX8d5oMPD6vqUwdMe","2Mz8AbkpMrcamjj79cakejMRL2Xy7cytNc4","2MuUNLaRrFwyex8qNew2pXEuofvFsEDWtn4","2NDnQa9Q6gRjrcwpPs2kPjr6dKpNfCo1UxD","2N6U3ZVA7kk4Kdp8gMnbEmstr7VkmesYGJW","2Mw4bv1p8BvtHqUoDBftLabs1Hph9HwvNB7","2N1mfFNZ22tszgr5v5Yvu6ogmp9Q5UoR9xj","2Mxz9UCoPv7QH96AcWHhdwg4mjowGR3cYYc","2MxokwYeSef4SKUMvt1CxCxoPNVePFxCsu9","2MwpS346JKGdPb5iDjbdKrryT8LSzEGH589","2MseoYhkf4SzhhFjszK59fDAeKuxuvXMooM","2N3LignBrJ9owsuPA8TKwphEDM9p2f12EKY","2Mz5nLpfiUZRQsZ9134phtNMEwYnGSE8ynz","2MspwCE3QKPMsYJEaRfuts9nXiYjdwHep5n","2Mtg7bcTPfJD97ibdVS3GwxsFjAfi4R3K1H","2NGMFAC3BkeKLSEEqfejfumCQgaiNnoCx2o","2MxWsLtirfUneEa9PgKLMYHvigYEgMaP6ag","2NAcwwnYjfpX4uqXs6XAcj6tis1DZX3VRUn","2NAdmk1exVoiH89qK3eUcnxUjWpdhDbhvyK","2N13cCQQw3BVeeGhDo7p8VBzRN29t9f3Zv2","2NG6dGumkFJ2rDL1e61ssgMV5pY4CgymuzM","2NGMurgGA5RPZwtXNf7Lrh76UJR86eLddQ3","2NDTVLFXAT1YEpAdse4uo457KAP3Hq6fAUM","2NC5ZC4JQ3sqVHBJH2TpH2hmtN735qQb2BT","2MsYoWCqBDJc6u5j8r7uHSVeyabKVwQ3Utp","2NATi3q4s1KwBtE58TKULRfbLnrT3Xsh1kY","2MskUTAg9sHWqGoEHWRcjYdr4tMNb8No7Mb","2MsYDVZCe7bzLWhdsYx6CB98VtonE42QpA2","2NCMtoLEw4qfR2yxyjaqauRVgsc9ykrG4fm","2N7QVnyRtpWUbnJn9cwwpRGsNFA5G42EbSk"]}',
@@ -524,8 +532,8 @@ describe("p2sh segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	it("should generate a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	it("should generate a transfer transaction", async (context) => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.p2shSegwitMasterPublicKey),
 		};
@@ -533,7 +541,7 @@ describe("p2sh segwit multisignature wallet", () => {
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -541,13 +549,13 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe(unsignedMusigP2shSegwitTransferTx.id);
-		expect(result.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(330);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedMusigP2shSegwitTransferTx.psbt);
+		assert.is(result.id(), unsignedMusigP2shSegwitTransferTx.id);
+		assert.is(result.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 330);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedMusigP2shSegwitTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -564,7 +572,7 @@ describe("p2sh segwit multisignature wallet", () => {
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -574,13 +582,13 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe(oneSignatureMusigP2shSegwitTransferTx.id);
-		expect(signed1.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(330);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureMusigP2shSegwitTransferTx.psbt);
+		assert.is(signed1.id(), oneSignatureMusigP2shSegwitTransferTx.id);
+		assert.is(signed1.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 330);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureMusigP2shSegwitTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -590,12 +598,12 @@ describe("p2sh segwit multisignature wallet", () => {
 			new Signatories.MnemonicSignatory({
 				signingKey: wallet2.signingKey,
 				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO for now we use publicKey for passing path
+				publicKey: wallet2.path, // @TODO for now we use publicKey for passing path
 				privateKey: "privateKey", // Not needed / used
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -605,28 +613,30 @@ describe("p2sh segwit multisignature wallet", () => {
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe(twoSignatureMusigP2shSegwitTransferTx.id);
-		expect(signed2.sender()).toBe("2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(330);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureMusigP2shSegwitTransferTx.psbt);
+		assert.is(signed2.id(), twoSignatureMusigP2shSegwitTransferTx.id);
+		assert.is(signed2.sender(), "2Mv8e5hWoFh9X8YdU4e4qCAv7m4wBCz2ytT");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 330);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureMusigP2shSegwitTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000000101492371bc59e8a3e27e574759e49729d730bbf8a8054c18822b9a40ae231fa8df000000002322002094bffa57fc318c02c22d0c0a73aebe0f3bbf0e943f6ee3f5be69d8af51eec1faffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4965901000000000017a91470948f338431375ca5ea007ba4ba287712d459f3870400483045022100fbd10b1104d55aeda1e889bee0bb1fc03aab94f7854f816a4fbf0ae838fb34de022008e3df71716593353a53c2afdd39b3d48851b3d98cd1b009ee8e7e0bdd32bb3201483045022100b3da66f4604551b6e5327496cc895ab8cf7354f4b5ac2ffdf9b6452f589ca41402201aa8b331522a525b4734b263958e8cd15e7be6e1c82b473543a94839f906a1e90169522102398cf7167bbabcec35a34d07d3597592a55d0ebd8e6ab8c911bfa6b0519bc8202102806ff2a45228d117e4723d6db6943b7fcb8713971a59c7c7051f6c12dfdba68021031a69f4d735f153a39c83f16765fccb0f2e66673ec47c6bfbc3b2fac1a9fca04753ae00000000",
 		);
 	});
 });
 
-describe("native segwit multisignature wallet", () => {
-	beforeAll(() => {
-		// nock.recorder.rec();
-		nock("https://btc-test.payvo.com:443", { encodedQueryParams: true })
+describe("native segwit multisignature wallet", ({ afterEach, beforeEach, it, nock, assert }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
+
+		nock.fake("https://btc-test.payvo.com:443", { encodedQueryParams: true })
 			.post(
 				"/api/wallets/addresses",
 				'{"addresses":["tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965","tb1qq57mp9ygm7d6ps9mzgelzwj806dfszw4paqzmuds8n24q9eacspq4t20kv","tb1qu74mke55g3645qz2phgvej24k4qpmq33mkywyn5yyqknh7lcag5qapfmxv","tb1qhy9td6wyklj8cf0r5y8jxefrace6txkwaqj72aumm5jn703e2geqt3y5mj","tb1quwzh2lh27rr4gr6jm9ajhgd3kl42rhmgmt7clyfl8uvyhj0msstsj44x6q","tb1qrvg0evduwlpqcegehxe67850fa6ks7m2ggmrcdfdqt0v99fr4xds6g8c25","tb1q53370mfkprpzhy3amx86jdz2dt4h6jtwy6h86z7hr5ls6yzca5hq6t380v","tb1q44w9jpfmh2lppzw5qdm967tyd52n7c38xarhz9sgzhp5nmr66tnsrel5vx","tb1ql52r8a5z0a9enjff0xze483rcdywehhcdaja2h0ska33ch3dklsq96hx5f","tb1qdl6wmannd5rrtyy7qt8rkssldr9t8l33c5dk380pzd0qnu346w9qq8x4g6","tb1qd39n5952y7ayq9saq0l8kl6dvr0zuufa62pxdk566q4qpg0kp6dqvtu4j4","tb1qj2veuskz4m5hkx4hu6m8kew2mxmer5qkx9rzqmcpp585jj3wt5eqgk055h","tb1qj0hpe62hw99cqe6q65pjg2gfp2kf5eymt536tgd548u44q433hwsa7vapp","tb1q34x3atvc8h7s5ptqthlkh6f578avnnugn8rtwpn9egmaclvy53jsescqxq","tb1qkusd957vyd0kktg7s6lw5sajm3tlr7akzhxsselxyme5hcy86uashssgcy","tb1qs92g8nqskcjtyp593tlkmqg5wprpdfpg6m4g9x7ynnxac68an38s08ahcj","tb1qhfzlatav6vvfs593ppd3gkadpgdqq575wt8ffqnh9tkjaflcse0syyv9vg","tb1qpuqj28cdaa4wdw9lma36k4nrrxqnhtvt3pq6dj6h4c4r0u43e2vsr4rw7r","tb1qvfpqldfkqmg8pczyy360uxp74a57c2224f9edrae69jc2tun749qp2yz6f","tb1qtv6kgceeedq929syhtpg3rvdkdmyjscp3ncy6pcy4jkxujlaxsuqj5v3fv","tb1qmwhu5hw4ea3ktdwj4dn04l4t5rv0zzs4t6xmpgmch8rnghtcnc6s5nrczz","tb1qx3ywunss5ewqntpy4539yjhz3453ya3y76qy64829zwdfnnslanq6mxhn8","tb1qeukh8r0jtalhu0a2y8c22qkuj5wx2lw236fgqasvsk0y5zxqj9kqruz9g0","tb1qjs33vw030f03tygudt7xccetrcggg4e4xu2lfaw2jvh5s7ehw6zscdfudy","tb1qpl3jwtug967y87k6kfkvev5dlh3kwyupjypgham3qqlu9y3f625qx8nsmz","tb1qdsvzjzw5kdg4l7ylxakrguctq2cenaqg5p6dz0swjysl74y5gnfqkn5p3z","tb1qlx7tvfd345gvenemydsfacxn7vw0smw84n2pgc9v7j90uuh0qh4q0gp7ng","tb1quqkcmznkmlrnjehnujec2fqcavnk6c9wd3jqtnhlgrpxkaup4e4qnk6xct","tb1qpega6z25a0nwft7d2wgqj45w6wzzdwafgqk99ru7rnkm8wtkysgq2588v6","tb1q7z89dpp4mv34wxy3glccha0mawvafwpwge6gjthmz7fl3skv3y0s50mtt5","tb1qs52dcvl5yeuvjt50uy5ws6f939cwcyyk5dcyhj48zu7s0ggr2pcs0rm073","tb1q53sgy4ex4qn2la2uzn5gdgn4q9fz6w6g75u0myayjd373pxdwa7q3aqut4","tb1qu0naz3tjhu0lk8v5v5qc4gakz39qlnq3w3wnjvx77f32w9vce7csmklv7w","tb1qc0phtm60v9y49z03c0ym9jthepns377072yhlwwt0xp9fxhlpguqz8z4kh","tb1qzweuvgem733ads70krmf0gk9m62rpcgupfaal36qk2d27f9zaf2sae7cmj","tb1ql8gwlsfmkq3xsrjm3ternuj4ny09ss3zfmd4zdg4ycycyywqqfcqr9cxpp","tb1qwjqg249rdrggnkhjfw4gg890ha4hxcjuhaylppfe2fvhkgtqhxpstjw3jh","tb1q5dv65q30ehx0qh749edze49xcvqsf6ylkyzyckm4u6mpxwy3f09smlsryv","tb1qwnma40s4zcrht65tpxthzvc58vq6azwj3udu6ns7uh5zvwgv8nfqv9u7k8","tb1qyxkghscsxuqwsf4hntdns3u2mxjlpnkqgux274e6ua4lgxfurvlsz0prld","tb1q4dka3shget65x0e7t4wxasgdnmxfny4ut8wpwx5mvcfpl9fhsmzqwwjl9p","tb1qaga4x68ap9rctf75ktvmjyvrry64k0gheseksr3npnkxlkkdp83q0azlrz","tb1q7scsecp5uvsajcuxl8f4g2kfdk5z5knewmms7jc8dl6kv3qmnmwq9w7ljk","tb1qqdsmqt29ylkuz92xaqm0sle3aakc6a402unwxmfkq7aue9tz47vsquyzuv","tb1q0uugyd4ccnkawj72adxs40f6649wm8dj9dkcxha83t0jhkdzletqllka25","tb1q4hm4p9vla4wm6xgf8wqqn4k3lqu2ra8l9t9hlw60vwhkvsa499ps85unuy","tb1qy06xwxefpgd69e4rr42vugug3hjc6kdww6mq3lzxjjydsj8t22qqfccvjz","tb1qcm29h84uu4ptelml57gnnv2ml762fn86rqtckcp7pjfjssnpj0lsmu56fz","tb1qw7d6yvckd0mmzmx3fhenrtn938mus79dl2t8cyqmhphcnner6v7sqntg35","tb1qvemevdm7pyseeaksea6dgp6rafczvp7z4f4evtwy3q7nkn800qfs9xvhck","tb1qdmc80qfxm7e93lcgptg7wsvhqzwp2mfamxhamthpkqrexq9rhtysqcjfvt","tb1q5lgxzhzpcv7xgu73klp2nzmdp9h085tuywkdad4x7dkuh0cjq08q6usjjw","tb1qt8xcxqxvyjha32npwlsu36yn534phy5c2dykg6dsuz3cwjh0k63q789gsx","tb1qfu9wynwjlle2etrcm7ee4yjpd5mhhk4c4dn3hrgh8666dlae8zesu32vpy","tb1qdxd8tetdnwf2j0jrxsa9ne6fd96k352svxanypfufwkx3j0d3tsqsjfywu","tb1qadwrq8ecm97ruldza8nfrnv3fx429lrfe52lgmgeh55qj2j62epsl5p3x4","tb1qjff902tq557hrppg2mnkzxk464369g280wp86z9mscwy5z5xesaq4fn9xc","tb1qtwh0r2aughuvtj3zq67pxcx4q8pnzsaw5styeehq0ffp9z0xfrlqdz7zya","tb1qymnd70ky64fesrp4gm5sjvkeg3ycly7nee9r89rryrsn547ty4jsqsxmff","tb1qrtk9mha9ck7ydudgrdyfn48ttldlk6739ekgqslendhx4ruskagqktx4vz","tb1qsttp3pd68658zvtcmhx7dzpz0l7p6nwryaqmqwn4mtjr79rzuvrskgr26d","tb1q8py2zv0qpje3cdr6zhn62ev28ps8sw5lwmdxu7kczrhpq9vndccswpswzc","tb1qpu68s278ulzp9sj6wwltj4e7ssdptmy3dvm2g7estaj5m7tg5v6sp66p0a","tb1qetuf0vpqknz9vpa47efv2fc769hlqudavn8k52tmzj95c7hed78q3v0d4h","tb1qcfw6l0d56upv77hw5dqzqu892fy87dcvlv3thy244tcya0w6d8mqklnjvg","tb1q5j5zlayztgshguc4hcdx2gyuzypw99hesl3r4eany3p9rk54ks8sm0grq6","tb1q3j0v0yv49hagax0kzefra90shrspvcssykumam2zge79ryclag3sn27uss","tb1qu4v2u6k6cjh9phz6z40kxrcwm7ljmnhl4w0ky5d7ejnyz06ddgus0xykah","tb1qhmngyjlxmywhxhe2jyl67cj7rgvxafcmhcusuzewl46uugmaw7aswqn7zz","tb1qxta2grupj8jyw6h7arpgswuhrq867w8uwd3l0a2hhdhwu33d5syqhf9frc","tb1qg3087y743kwz7l4z9edqxp9cmqsldvlvdlz0pcnzelpppcxl6v8s5vwyvk","tb1qa4gukdglrtscxw9cy86cevvqu93a43n9rvge8ksuk6jpqqmxngusx4cx7g","tb1qd85s22ky4hz0mae8jd2kv2n3gmf7yxa3scydeaey9jllvz9mavjsmupt83","tb1qcnwxgsaa7jkxwxl3yjsw6f8wdmd3c53wlsshc4yh2kv9s0vd9t7s0mzhnu","tb1q3e2p0s7ns95d0kdmwqtlax6t5qe6ua9wcjjkz7j0ljhtss6plw6syy0qza","tb1qtyghqvye3tlvka3p39yx6yy4hr8rkcac5yzlm32ryk8ks254pdmqxp9qw5","tb1qyusd3uunftjhpcl5ygp4aklnh6qgdsjznkek6epd7pt6y0tq5y8s9llm6h","tb1qda66hc47czk3z7qj709jgsm6muqzah3qq07uf5ww38rtkpng5m7szwcaqs","tb1qcksnsxfptln66dgwwgljm0ktlwh9pdcmwze8l7qr03z9gan9yshqd65fen","tb1qkggt5x6msdn26a7f4uzz2edfa9mhqhul7dzqud9gaezyz5fmwpfsj7x5ry","tb1qmkuecn6m2hq43yd7vzjq5v906f84v6cl9y32ecwcd00tt2z8zpash3s6f5","tb1qa8qzgzj3666a2dsgcskwwxjh9crgn9e7zztjlt43hcufdxuaamtq9wnfl5","tb1q8lpl0sf70ryx205qtmf8w3a40j5u4waqcjzlgllr70daam87zdzs5k2p4w","tb1qtcuqxpa86fp7lslvq3u2evpklje3jyt73m37hwrjzcnmql4vy5ps5vuasj","tb1qxfzf87txk5uknfuaw0nfu0mawveap9084ewgeu3u70z5yxs094csp5d9g0","tb1qxqehg7qaue5q2yhc73xa8s8cekswp0qvvfuajrkm42k368wgvg2s5k5h66","tb1qr7cwmue7fmmdlj526u8t5pca2d73jrcfkvvqc6l83jwm4c9jkzyqhmta8w","tb1q9xtmpmcwvudr4n07tursynk8nldpuda6ypn4q27jt2j8395mcgrq9pmu8x","tb1qcqmd9z0dsstj7han2dt8sm59qmvs47gd5h0wcccq3atxxrrmfa6q9jwekw","tb1qnv0zyfglp5e93jzsvnncmdjmy9zg9433v6wxyh9wqzgsmlehvjnq5rnscx","tb1qh0tpkurympgepwkwdsnn5n2rx2d3pehp0vxgxlpdxsgz3x5f5zyseptjp8","tb1qq3ezhqe8jzp9dh362tl9uyr0hfty9dj7ldyxlfftvuldmffaas6skrmdt9","tb1q48xf0lje9f2fl53j9mcuk3au5wy2f7569sgjlsnnuvuug5wknt5s9t8jpl","tb1qmhu3a7q4u9lml7j3ulqlt0fu33m5ay6t9jq49psgsdyc9949sx8s07npyz","tb1qun4apsdelhydazn8zjschmjqnrpxd72p72u5yetp240ujs5xzggqfqaqyk","tb1qs07snkpsaggqhqj0n3uwf49kckkl8wl202p4p67hh4e33wkwe6fsdz95ls","tb1q42pd9zegquvl0uwfpg4fjs80yn3qjw823t3n30k6vfl3j8we2gqs6u354f","tb1q6p75yzxj2pc3w46gxa0w6vqg9yftkc665adfh5d0v35rqam8vclshgjrlt","tb1qezqpes0s5sm46vf5ymctnkqp4dqgft8weakchp469g3j96l6hxxquan0hr","tb1qqr667p2ac8848f523mytzy4hfcf5m93z79s8nvmvgd8d25sk89csatqs4m"]}',
@@ -670,8 +680,8 @@ describe("native segwit multisignature wallet", () => {
 			.persist();
 	});
 
-	it("should generate, sign and broadcast a transfer transaction", async () => {
-		const multiSignatureAsset: Services.MultiSignatureAsset = {
+	it("should generate a transfer transaction", async (context) => {
+		const multiSignatureAsset = {
 			min: 2,
 			publicKeys: musig.accounts.map((account) => account.nativeSegwitMasterPublicKey),
 		};
@@ -679,7 +689,7 @@ describe("native segwit multisignature wallet", () => {
 			new Signatories.MultiSignatureSignatory(multiSignatureAsset, "address"),
 			multiSignatureAsset,
 		);
-		const result = await subject.transfer({
+		const result = await context.subject.transfer({
 			data: {
 				amount: 0.0001,
 				to: "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn",
@@ -687,13 +697,13 @@ describe("native segwit multisignature wallet", () => {
 			signatory,
 		});
 
-		expect(result.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(result.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(result.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(result.amount().toNumber()).toBe(10_000);
-		expect(result.fee().toNumber()).toBe(374);
-		expect(result.timestamp()).toBeInstanceOf(DateTime);
-		expect(result.toBroadcast()).toBe(unsignedNativeSegwitMusigTransferTx.psbt);
+		assert.is(result.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(result.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(result.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(result.amount().toNumber(), 10_000);
+		assert.is(result.fee().toNumber(), 374);
+		assert.instance(result.timestamp(), DateTime);
+		assert.is(result.toBroadcast(), unsignedNativeSegwitMusigTransferTx.psbt);
 
 		// Now make participants sign their parts
 
@@ -710,7 +720,7 @@ describe("native segwit multisignature wallet", () => {
 			}),
 		);
 
-		const signed1 = await musigService.addSignature(
+		const signed1 = await context.musigService.addSignature(
 			{
 				id: result.id(),
 				...result.data(),
@@ -720,13 +730,13 @@ describe("native segwit multisignature wallet", () => {
 			signatory1,
 		);
 
-		expect(signed1.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(signed1.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(signed1.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed1.amount().toNumber()).toBe(10_000);
-		expect(signed1.fee().toNumber()).toBe(374);
-		expect(signed1.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed1.toBroadcast()).toBe(oneSignatureNativeSegwitMusigTransferTx.psbt);
+		assert.is(signed1.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(signed1.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(signed1.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed1.amount().toNumber(), 10_000);
+		assert.is(signed1.fee().toNumber(), 374);
+		assert.instance(signed1.timestamp(), DateTime);
+		assert.is(signed1.toBroadcast(), oneSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const wallet2 = {
 			signingKey: musig.accounts[1].mnemonic,
@@ -741,7 +751,7 @@ describe("native segwit multisignature wallet", () => {
 			}),
 		);
 
-		const signed2 = await musigService.addSignature(
+		const signed2 = await context.musigService.addSignature(
 			{
 				id: signed1.id(),
 				...signed1.data(),
@@ -751,88 +761,96 @@ describe("native segwit multisignature wallet", () => {
 			signatory2,
 		);
 
-		expect(signed2.id()).toBe("5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
-		expect(signed2.sender()).toBe("tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
-		expect(signed2.recipient()).toBe("tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
-		expect(signed2.amount().toNumber()).toBe(10_000);
-		expect(signed2.fee().toNumber()).toBe(374);
-		expect(signed2.timestamp()).toBeInstanceOf(DateTime);
-		expect(signed2.toBroadcast()).toBe(twoSignatureNativeSegwitMusigTransferTx.psbt);
+		assert.is(signed2.id(), "5f74b4e299f42315727024fde9cb95a387d31f260e7c0a91cea6724fa656e458");
+		assert.is(signed2.sender(), "tb1qzdtkhgwyqnufeuc3tq88d74plcagcryzmfwclyadxgj90kwvhpps0gu965");
+		assert.is(signed2.recipient(), "tb1q705a7ak4ejlmfc5uq3afg2q45v4yw7kyv8jgsn");
+		assert.is(signed2.amount().toNumber(), 10_000);
+		assert.is(signed2.fee().toNumber(), 374);
+		assert.instance(signed2.timestamp(), DateTime);
+		assert.is(signed2.toBroadcast(), twoSignatureNativeSegwitMusigTransferTx.psbt);
 
 		const signedFinal = bitcoin.Psbt.fromBase64(signed2.toBroadcast());
-		expect(signedFinal.validateSignaturesOfAllInputs(signatureValidator)).toBeTrue();
+		assert.true(signedFinal.validateSignaturesOfAllInputs(signatureValidator));
 
 		signedFinal.finalizeAllInputs();
-		expect(signedFinal.extractTransaction().toHex()).toBe(
+		assert.is(
+			signedFinal.extractTransaction().toHex(),
 			"02000000000101fc2a1a1ee1f68edd4b78a367f02d301abd6f8f88c1ade83be7073dfc5889fd960100000000ffffffff021027000000000000160014f3e9df76d5ccbfb4e29c047a942815a32a477ac4524a000000000000220020cc29fc62cc2f96fe6e64638d895fc4aff3beb5fc5ba5faff08a5497359abfa080400473044022066a9bba1433025ddfd2e8915c91ef7a83815f7487844ede9d0fc7e508734de24022067058b1d83eaff20075624e72225f1c2795faeccc74841a44f209b7b1f0d91aa01473044022062d77ba018c7c4bcef5e2e12a88a7487458ff621092faf860a337f79785750f3022068277031a2b04c731b381789d4dc9471a75baee2136e7c6cf4d72f836fd409d20169522102694992474a7b5f54e32f9533eb8638e3fe2febe1fd91fa58851206c1fe65d18a2102a0bc42bd4d44a93e066381c442733401357a9a6f30bd0ed9c35dd70e9a0947062103da12a46cc7bd880762b4e9fb7e99496e88dd2ab8cf15dbb195d3d8348a462ac053ae00000000",
 		);
 	});
 });
 
-test("#multiSignature (fake) registration", async () => {
-	jest.spyOn(UUID, "random").mockReturnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
-	const wallet1 = {
-		signingKey: musig.accounts[0].mnemonic,
-		path: musig.accounts[0].nativeSegwitMasterPath,
-	};
+describe("Musig (fake) registration", async ({ assert, it, stub, beforeEach }) => {
+	beforeEach(async (context) => {
+		await createLocalServices(context);
 
-	const wallet2 = {
-		signingKey: musig.accounts[1].mnemonic,
-		path: musig.accounts[1].nativeSegwitMasterPath,
-	};
-
-	const wallet3 = {
-		signingKey: musig.accounts[2].mnemonic,
-		path: musig.accounts[2].nativeSegwitMasterPath,
-	};
-
-	const transaction1 = await subject.renamedMultiSignature({
-		signatory: new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet1.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet1.path, // TODO for now we use publicKey for passing path
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-		data: {
-			min: 2,
-			numberOfSignatures: 3,
-			publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
-			derivationMethod: "nativeSegwitMusig",
-		},
+		stub(UUID, "random").returnValueOnce("189f015c-2a58-4664-83f4-0b331fa9172a");
 	});
 
-	expect(transaction1).toBeInstanceOf(SignedTransactionData);
-	expect(transaction1).toMatchSnapshot();
+	it("should succeed", async (context) => {
+		const wallet1 = {
+			signingKey: musig.accounts[0].mnemonic,
+			path: musig.accounts[0].nativeSegwitMasterPath,
+		};
 
-	const transaction2 = await musigService.addSignature(
-		transaction1.data(),
-		new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet2.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet2.path, // TODO really? We need a way to pass in the account path
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-	);
+		const wallet2 = {
+			signingKey: musig.accounts[1].mnemonic,
+			path: musig.accounts[1].nativeSegwitMasterPath,
+		};
 
-	expect(transaction2).toBeInstanceOf(SignedTransactionData);
-	expect(transaction2).toMatchSnapshot();
+		const wallet3 = {
+			signingKey: musig.accounts[2].mnemonic,
+			path: musig.accounts[2].nativeSegwitMasterPath,
+		};
 
-	const transaction3 = await musigService.addSignature(
-		transaction2.data(),
-		new Signatories.Signatory(
-			new Signatories.MnemonicSignatory({
-				signingKey: wallet3.signingKey,
-				address: "address", // Not needed / used
-				publicKey: wallet3.path, // TODO really?
-				privateKey: "privateKey", // Not needed / used
-			}),
-		),
-	);
+		const transaction1 = await context.subject.renamedMultiSignature({
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet1.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet1.path, // @TODO for now we use publicKey for passing path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+			data: {
+				min: 2,
+				numberOfSignatures: 3,
+				publicKeys: [musig.accounts[0].nativeSegwitMasterPublicKey],
+				derivationMethod: "nativeSegwitMusig",
+			},
+		});
 
-	expect(transaction3).toBeInstanceOf(SignedTransactionData);
-	expect(transaction3).toMatchSnapshot();
+		assert.instance(transaction1, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction1", transaction1);
+
+		const transaction2 = await context.musigService.addSignature(
+			transaction1.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet2.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet2.path, // @TODO really? We need a way to pass in the account path
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+		);
+
+		assert.instance(transaction2, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction2", transaction2);
+
+		const transaction3 = await context.musigService.addSignature(
+			transaction2.data(),
+			new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					signingKey: wallet3.signingKey,
+					address: "address", // Not needed / used
+					publicKey: wallet3.path, // @TODO really?
+					privateKey: "privateKey", // Not needed / used
+				}),
+			),
+		);
+
+		assert.instance(transaction3, SignedTransactionData);
+		assert.snapshot("musig-registration-transaction3", transaction3);
+	});
 });

@@ -1,163 +1,150 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { DataRepository } from "./data.repository";
 
-let subject: DataRepository;
+describe("DataRepository", ({ it, assert, beforeEach }) => {
+	beforeEach((context) => (context.subject = new DataRepository()));
 
-beforeEach(() => (subject = new DataRepository()));
+	it("#all", (context) => {
+		context.subject.set("key1", "value1");
+		context.subject.set("key2", "value2");
 
-test("#all", () => {
-	subject.set("key1", "value1");
-	subject.set("key2", "value2");
+		assert.equal(context.subject.all(), {
+			key1: "value1",
+			key2: "value2",
+		});
+	});
 
-	expect(subject.all()).toMatchInlineSnapshot(`
-		Object {
-		  "key1": "value1",
-		  "key2": "value2",
-		}
-	`);
-});
+	it("#first", (context) => {
+		context.subject.set("key1", "value1");
+		context.subject.set("key2", "value2");
 
-test("#first", () => {
-	subject.set("key1", "value1");
-	subject.set("key2", "value2");
+		assert.is(context.subject.first(), "value1");
+	});
 
-	expect(subject.first()).toBe("value1");
-});
+	it("#last", (context) => {
+		context.subject.set("key1", "value1");
+		context.subject.set("key2", "value2");
 
-test("#last", () => {
-	subject.set("key1", "value1");
-	subject.set("key2", "value2");
+		assert.is(context.subject.last(), "value2");
+	});
 
-	expect(subject.last()).toBe("value2");
-});
+	it("#keys", (context) => {
+		context.subject.set("key1", "value1");
+		context.subject.set("key2", "value2");
 
-test("#keys", () => {
-	subject.set("key1", "value1");
-	subject.set("key2", "value2");
+		assert.equal(context.subject.keys(), ["key1", "key2"]);
+	});
 
-	expect(subject.keys()).toMatchInlineSnapshot(`
-		Array [
-		  "key1",
-		  "key2",
-		]
-	`);
-});
+	it("#values", (context) => {
+		context.subject.set("key1", "value1");
+		context.subject.set("key2", "value2");
 
-test("#values", () => {
-	subject.set("key1", "value1");
-	subject.set("key2", "value2");
+		assert.equal(context.subject.values(), ["value1", "value2"]);
+	});
 
-	expect(subject.values()).toMatchInlineSnapshot(`
-		Array [
-		  "value1",
-		  "value2",
-		]
-	`);
-});
+	it("#get | #set | #has | #missing", (context) => {
+		assert.undefined(context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+		assert.true(context.subject.missing("key"));
 
-test("#get | #set | #has | #missing", () => {
-	expect(subject.get("key")).toBeUndefined();
-	expect(subject.has("key")).toBeFalse();
-	expect(subject.missing("key")).toBeTrue();
+		context.subject.set("key", "value");
 
-	subject.set("key", "value");
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
+		assert.false(context.subject.missing("key"));
+	});
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
-	expect(subject.missing("key")).toBeFalse();
-});
+	it("#fill", (context) => {
+		context.subject.set("key", "value");
 
-test("#fill", () => {
-	subject.set("key", "value");
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
+		assert.false(context.subject.missing("key"));
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
-	expect(subject.missing("key")).toBeFalse();
+		context.subject.flush();
 
-	subject.flush();
+		assert.undefined(context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+		assert.true(context.subject.missing("key"));
+	});
 
-	expect(subject.get("key")).toBeUndefined();
-	expect(subject.has("key")).toBeFalse();
-	expect(subject.missing("key")).toBeTrue();
-});
+	it("#forget", (context) => {
+		context.subject.set("key", "value");
 
-test("#forget", () => {
-	subject.set("key", "value");
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
+		assert.false(context.subject.missing("key"));
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
-	expect(subject.missing("key")).toBeFalse();
+		context.subject.forget("key");
 
-	subject.forget("key");
+		assert.undefined(context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+		assert.true(context.subject.missing("key"));
+	});
 
-	expect(subject.get("key")).toBeUndefined();
-	expect(subject.has("key")).toBeFalse();
-	expect(subject.missing("key")).toBeTrue();
-});
+	it("#forgetIndex", (context) => {
+		context.subject.set("key", [1, 2, 3]);
 
-test("#forgetIndex", () => {
-	subject.set("key", [1, 2, 3]);
+		assert.equal(context.subject.get("key"), [1, 2, 3]);
 
-	expect(subject.get("key")).toEqual([1, 2, 3]);
+		context.subject.forgetIndex("key", 1);
 
-	subject.forgetIndex("key", 1);
+		assert.equal(context.subject.get("key"), [1, 3]);
 
-	expect(subject.get("key")).toEqual([1, 3]);
+		context.subject.forgetIndex("key", 10);
 
-	subject.forgetIndex("key", 10);
+		assert.equal(context.subject.get("key"), [1, 3]);
 
-	expect(subject.get("key")).toEqual([1, 3]);
+		context.subject.forgetIndex("xkey", 10);
 
-	subject.forgetIndex("xkey", 10);
+		assert.undefined(context.subject.get("xkey"));
+	});
 
-	expect(subject.get("xkey")).toBeUndefined();
-});
+	it("#flush", (context) => {
+		context.subject.set("key", "value");
 
-test("#flush", () => {
-	subject.set("key", "value");
+		assert.is(context.subject.get("key"), "value");
+		assert.true(context.subject.has("key"));
+		assert.false(context.subject.missing("key"));
 
-	expect(subject.get("key")).toBe("value");
-	expect(subject.has("key")).toBeTrue();
-	expect(subject.missing("key")).toBeFalse();
+		context.subject.flush();
 
-	subject.flush();
+		assert.undefined(context.subject.get("key"));
+		assert.false(context.subject.has("key"));
+		assert.true(context.subject.missing("key"));
+	});
 
-	expect(subject.get("key")).toBeUndefined();
-	expect(subject.has("key")).toBeFalse();
-	expect(subject.missing("key")).toBeTrue();
-});
+	it("#count", (context) => {
+		context.subject.set("key", "value");
 
-test("#count", () => {
-	subject.set("key", "value");
+		assert.is(context.subject.count(), 1);
 
-	expect(subject.count()).toBe(1);
+		context.subject.flush();
 
-	subject.flush();
+		assert.is(context.subject.count(), 0);
+	});
 
-	expect(subject.count()).toBe(0);
-});
+	it("#snapshot | #restore", (context) => {
+		context.subject.set("key", "value");
 
-test("#snapshot | #restore", () => {
-	subject.set("key", "value");
+		assert.is(context.subject.count(), 1);
 
-	expect(subject.count()).toBe(1);
+		context.subject.snapshot();
+		context.subject.flush();
 
-	subject.snapshot();
-	subject.flush();
+		assert.is(context.subject.count(), 0);
 
-	expect(subject.count()).toBe(0);
+		context.subject.restore();
 
-	subject.restore();
+		assert.is(context.subject.count(), 1);
 
-	expect(subject.count()).toBe(1);
+		assert.throws(() => context.subject.restore(), "There is no snapshot to restore.");
+	});
 
-	expect(() => subject.restore()).toThrow("There is no snapshot to restore.");
-});
+	it("#toJSON", (context) => {
+		context.subject.set("key", "value");
 
-test("#toJSON", () => {
-	subject.set("key", "value");
-
-	expect(subject.toJSON()).toMatchInlineSnapshot(`"{\\"key\\":\\"value\\"}"`);
+		assert.string(context.subject.toJSON());
+	});
 });

@@ -1,4 +1,4 @@
-import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts";
+import { IProfile, IProfileExportOptions, IProfileInput } from "./contracts.js";
 
 /**
  * Defines the implementation contract for the profile repository.
@@ -88,7 +88,7 @@ export interface IProfileRepository {
 	 * @returns {IProfile}
 	 * @memberof IProfileRepository
 	 */
-	create(name: string): IProfile;
+	create(name: string): Promise<IProfile>;
 
 	/**
 	 * Import a profile from its data.
@@ -109,7 +109,7 @@ export interface IProfileRepository {
 	 * @returns {string}
 	 * @memberof IProfileRepository
 	 */
-	export(profile: IProfile, options?: IProfileExportOptions, password?: string): string;
+	export(profile: IProfile, options?: IProfileExportOptions, password?: string): Promise<string>;
 
 	/**
 	 * Restore a profile from its data.
@@ -136,7 +136,7 @@ export interface IProfileRepository {
 	 * @param {IProfile} profile
 	 * @memberof IProfile
 	 */
-	persist(profile: IProfile): void;
+	persist(profile: IProfile): Promise<void>;
 
 	/**
 	 * Determine if a profile for the given ID exists.

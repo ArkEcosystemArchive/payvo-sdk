@@ -1,77 +1,66 @@
-import "jest-extended";
-import "reflect-metadata";
-
 import { BigNumber } from "@payvo/sdk-helpers";
-import nock from "nock";
+import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
 import { WalletAggregate } from "./wallet.aggregate";
-import { IProfile } from "./contracts";
 
-let subject: WalletAggregate;
-let profile: IProfile;
+describe("WalletAggregate", ({ beforeAll, nock, assert, it, stub, loader }) => {
+	beforeAll(async (context) => {
+		bootContainer();
 
-beforeAll(() => {
-	bootContainer();
+		nock.fake()
+			.get("/api/node/configuration/crypto")
+			.reply(200, loader.json("test/fixtures/client/cryptoConfiguration.json"))
+			.get("/api/peers")
+			.reply(200, loader.json("test/fixtures/client/peers.json"))
+			.get("/api/node/syncing")
+			.reply(200, loader.json("test/fixtures/client/syncing.json"))
+			.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
+			.reply(200, loader.json("test/fixtures/client/wallet.json"))
+			.persist();
 
-	nock(/.+/)
-		.get("/api/node/configuration/crypto")
-		.reply(200, require("../test/fixtures/client/cryptoConfiguration.json"))
-		.get("/api/peers")
-		.reply(200, require("../test/fixtures/client/peers.json"))
-		.get("/api/node/syncing")
-		.reply(200, require("../test/fixtures/client/syncing.json"))
-		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
-		.reply(200, require("../test/fixtures/client/wallet.json"))
-		.persist();
-});
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 
-beforeEach(async () => {
-	profile = new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "" });
+		await importByMnemonic(context.profile, identity.mnemonic, "ARK", "ark.devnet");
 
-	await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
-
-	subject = new WalletAggregate(profile);
-});
-
-describe("WalletAggregate", () => {
-	it("#balance", async () => {
-		expect(subject.balance("test")).toEqual(558270.93444556);
-		expect(subject.balance("live")).toEqual(0);
-		expect(subject.balance()).toEqual(0);
-
-		const mockWalletLive = jest.spyOn(profile.wallets().first().network(), "isLive").mockReturnValue(true);
-		expect(subject.balance("live")).toEqual(558270.93444556);
-		mockWalletLive.mockRestore();
+		context.subject = new WalletAggregate(context.profile);
 	});
 
-	it("#convertedBalance", async () => {
-		expect(subject.convertedBalance()).toEqual(0);
+	it("#balance", async (context) => {
+		assert.is(context.subject.balance("test"), 558_270.934_445_56);
+		assert.is(context.subject.balance("live"), 0);
+		assert.is(context.subject.balance(), 0);
+
+		stub(context.profile.wallets().first().network(), "isLive").returnValue(true);
+		assert.is(context.subject.balance("live"), 558_270.934_445_56);
 	});
 
-	it("#balancesByNetworkType", async () => {
-		expect(subject.balancesByNetworkType()).toEqual({
+	it("#convertedBalance", async (context) => {
+		assert.is(context.subject.convertedBalance(), 0);
+	});
+
+	it("#balancesByNetworkType", async (context) => {
+		assert.equal(context.subject.balancesByNetworkType(), {
 			live: BigNumber.ZERO,
 			test: BigNumber.make("55827093444556"),
 		});
 	});
 
-	it("#balancePerCoin", async () => {
-		expect(subject.balancePerCoin()).toEqual({});
-		expect(subject.balancePerCoin("live")).toEqual({});
+	it("#balancePerCoin", async (context) => {
+		assert.equal(context.subject.balancePerCoin(), {});
+		assert.equal(context.subject.balancePerCoin("live"), {});
 
-		expect(subject.balancePerCoin("test")).toEqual({
+		assert.equal(context.subject.balancePerCoin("test"), {
 			DARK: {
 				percentage: "100.00",
 				total: "558270.93444556",
 			},
 		});
 
-		const mockWalletLive = jest.spyOn(profile.wallets().first(), "balance").mockReturnValue(0);
+		stub(context.profile.wallets().first(), "balance").returnValue(0);
 
-		expect(subject.balancePerCoin("test")).toEqual({ DARK: { percentage: "0.00", total: "0" } });
-		mockWalletLive.mockRestore();
+		assert.equal(context.subject.balancePerCoin("test"), { DARK: { percentage: "0.00", total: "0" } });
 	});
 });

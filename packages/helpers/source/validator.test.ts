@@ -1,111 +1,112 @@
-import "jest-extended";
+import { describe } from "@payvo/sdk-test";
 
 import Joi from "joi";
 
 import { Validator } from "./validator";
 
-let subject: Validator;
-beforeEach(() => (subject = new Validator()));
+describe("Validator", async ({ assert, beforeEach, it, nock, loader }) => {
+	beforeEach((context) => (context.subject = new Validator()));
 
-test("#validate", () => {
-	const actual = subject.validate(
-		{
-			name: "jimmy",
-			age: "24",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+	it("should validate and normalise the data", (context) => {
+		const actual = context.subject.validate(
+			{
+				name: "jimmy",
+				age: "24",
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(actual).toEqual({ age: 24, name: "jimmy" });
-});
+		assert.equal(actual, { age: 24, name: "jimmy" });
+	});
 
-test("#passes", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: 24,
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+	it("should pass validation", (context) => {
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: 24,
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(subject.passes()).toBeTrue();
+		assert.true(context.subject.passes());
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: "invalid number",
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(subject.passes()).toBeFalse();
-});
+		assert.false(context.subject.passes());
+	});
 
-test("#fails", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+	it("should fail validation", (context) => {
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: "invalid number",
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(subject.fails()).toBeTrue();
+		assert.true(context.subject.fails());
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: 24,
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: 24,
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(subject.fails()).toBeFalse();
-});
+		assert.false(context.subject.fails());
+	});
 
-test("#errors", () => {
-	expect(subject.errors()).toBeUndefined();
+	it("should have errors", (context) => {
+		assert.undefined(context.subject.errors());
 
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().positive().integer().required(),
-		}),
-	);
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: "invalid number",
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().positive().integer().required(),
+			}),
+		);
 
-	expect(subject.errors()).toHaveLength(1);
-});
+		assert.length(context.subject.errors(), 1);
+	});
 
-test("#error", () => {
-	subject.validate(
-		{
-			name: "jimmy",
-			age: "invalid number",
-		},
-		Joi.object({
-			name: Joi.string().required(),
-			age: Joi.number().required().positive().integer(),
-		}),
-	);
+	it("should have an error", (context) => {
+		context.subject.validate(
+			{
+				name: "jimmy",
+				age: "invalid number",
+			},
+			Joi.object({
+				name: Joi.string().required(),
+				age: Joi.number().required().positive().integer(),
+			}),
+		);
 
-	expect(subject.error()).toBeInstanceOf(Joi.ValidationError);
+		assert.instance(context.subject.error(), Joi.ValidationError);
+	});
 });

@@ -1,4 +1,4 @@
-import { IProfile, IProfileDumper, IProfileInput } from "./contracts";
+import { IProfile, IProfileDumper, IProfileInput } from "./contracts.js";
 
 export class ProfileDumper implements IProfileDumper {
 	readonly #profile: IProfile;
@@ -16,12 +16,12 @@ export class ProfileDumper implements IProfileDumper {
 		}
 
 		return {
+			appearance: this.#profile.appearance().all(),
+			avatar: this.#profile.avatar(),
+			data: this.#profile.getAttributes().get<string>("data"),
 			id: this.#profile.id(),
 			name: this.#profile.name(),
-			avatar: this.#profile.avatar(),
 			password: this.#profile.getAttributes().get<string>("password"),
-			data: this.#profile.getAttributes().get<string>("data"),
-			appearance: this.#profile.appearance().all(),
 		};
 	}
 }

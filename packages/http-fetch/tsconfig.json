@@ -1,8 +1,0 @@
-{
-	"extends": "../../tsconfig.json",
-	"compilerOptions": {
-		"outDir": "distribution/cjs",
-		"typeRoots": ["./node_modules/@types"]
-	},
-	"include": ["source/**/**.ts"]
-}

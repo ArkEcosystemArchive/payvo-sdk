@@ -1,13 +1,13 @@
 import { Collections, Contracts, IoC, Networks, Services } from "@payvo/sdk";
 import Neon, { api } from "@cityofzion/neon-js";
 
-@IoC.injectable()
 export class ClientService extends Services.AbstractClientService {
 	#peer!: string;
 	#apiProvider;
 
-	@IoC.postConstruct()
-	private onPostConstruct() {
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
 		const network: string = this.configRepository.get<Networks.NetworkManifest>("network").id.split(".")[1];
 
 		this.#peer = {
@@ -42,7 +42,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		return this.dataTransferObjectService.wallet({
 			address: id.value,
-			balance: response.balance.find((balance) => balance.asset === "NEO").amount,
+			balance: response.balance,
 		});
 	}
 
@@ -51,35 +51,33 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
-			const { response } = await Neon.sendAsset({
-				api: this.#apiProvider,
-				account: transaction.get("account"),
-				intents: transaction.get("intents"),
-			});
+			try {
+				const { response } = await Neon.sendAsset({
+					account: transaction.get("account"),
+					api: this.#apiProvider,
+					intents: transaction.get("intents"),
+				});
 
-			if (response === undefined) {
+				if (response === undefined) {
+					result.rejected.push(transaction.id());
+
+					continue;
+				}
+
+				if (response.txid) {
+					transaction.setAttributes({ identifier: response.txid });
+
+					result.accepted.push(transaction.id());
+				}
+			} catch (error) {
 				result.rejected.push(transaction.id());
 
-				continue;
-			}
-
-			if (response.txid) {
-				transaction.setAttributes({ identifier: response.txid });
-
-				result.accepted.push(transaction.id());
-			}
-
-			// @ts-ignore
-			if (response.error) {
-				result.rejected.push(transaction.id());
-
-				// @ts-ignore
-				result.errors[transaction.id()] = response.error.message;
+				result.errors[transaction.id()] = error.message;
 			}
 		}
 

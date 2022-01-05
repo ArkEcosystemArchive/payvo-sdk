@@ -1,26 +1,15 @@
-import "jest-extended";
-import "reflect-metadata";
+import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { AppearanceService } from "./appearance.service";
 import { Profile } from "./profile";
-import { IProfile } from "./profile.contract";
 import { ProfileSetting } from "./profile.enum.contract";
 
-beforeAll(() => {
-	bootContainer();
-});
+describe("AppearanceService", async ({ beforeEach, it, assert }) => {
+	beforeEach((context) => {
+		bootContainer();
 
-describe("AppearanceService", () => {
-	let profile: IProfile;
-	let subject: AppearanceService;
-
-	beforeEach(() => {
-		profile = new Profile({
-			id: "uuid",
-			name: "name",
-			avatar: "avatar",
-			data: "",
+		context.profile = new Profile({
 			appearance: {
 				accentColor: "blue",
 				dashboardTransactionHistory: false,
@@ -28,13 +17,17 @@ describe("AppearanceService", () => {
 				useExpandedTables: true,
 				useNetworkWalletNames: true,
 			},
+			avatar: "avatar",
+			data: "",
+			id: "uuid",
+			name: "name",
 		});
 
-		subject = new AppearanceService(profile);
+		context.subject = new AppearanceService(context.profile);
 	});
 
-	test("#defaults", async () => {
-		expect(subject.defaults()).toEqual({
+	it("#defaults", async (context) => {
+		assert.equal(context.subject.defaults(), {
 			accentColor: "green",
 			dashboardTransactionHistory: false,
 			theme: "light",
@@ -43,8 +36,8 @@ describe("AppearanceService", () => {
 		});
 	});
 
-	test("#all", async () => {
-		expect(subject.all()).toEqual({
+	it("#all", async (context) => {
+		assert.equal(context.subject.all(), {
 			accentColor: "blue",
 			dashboardTransactionHistory: false,
 			theme: "dark",
@@ -53,31 +46,30 @@ describe("AppearanceService", () => {
 		});
 	});
 
-	describe("#get", () => {
-		test("should throw error if an unknown key is provided", () => {
-			expect(() => subject.get("unknownKey" as any)).toThrow(
-				'Parameter "key" must be one of: accentColor, dashboardTransactionHistory, theme, useExpandedTables, useNetworkWalletNames',
-			);
-		});
+	it("should throw error if an unknown key is provided", (context) => {
+		assert.throws(
+			() => context.subject.get("unknownKey"),
+			'Parameter "key" must be one of: accentColor, dashboardTransactionHistory, theme, useExpandedTables, useNetworkWalletNames',
+		);
+	});
 
-		test("should get setting value by key", () => {
-			expect(subject.get("accentColor")).toBe("blue");
-			expect(subject.get("dashboardTransactionHistory")).toBe(false);
-			expect(subject.get("theme")).toBe("dark");
-			expect(subject.get("useExpandedTables")).toBe(true);
-			expect(subject.get("useNetworkWalletNames")).toBe(true);
-		});
+	it("should get setting value by key", (context) => {
+		assert.is(context.subject.get("accentColor"), "blue");
+		assert.false(context.subject.get("dashboardTransactionHistory"));
+		assert.is(context.subject.get("theme"), "dark");
+		assert.true(context.subject.get("useExpandedTables"));
+		assert.true(context.subject.get("useNetworkWalletNames"));
+	});
 
-		test("should prioritize settings over attributes", () => {
-			profile.settings().set(ProfileSetting.Theme, "light");
-			expect(subject.get("theme")).toBe("light");
-		});
+	it("should prioritize settings over attributes", (context) => {
+		context.profile.settings().set(ProfileSetting.Theme, "light");
+		assert.is(context.subject.get("theme"), "light");
+	});
 
-		test("should return default value if both settings and attributes are missing", () => {
-			profile.settings().forget(ProfileSetting.Theme);
-			delete profile.getAttributes().get("appearance").theme;
+	it("should return default value if both settings and attributes are missing", (context) => {
+		context.profile.settings().forget(ProfileSetting.Theme);
+		delete context.profile.getAttributes().get("appearance").theme;
 
-			expect(subject.get("theme")).toBe(subject.defaults().theme);
-		});
+		assert.is(context.subject.get("theme"), context.subject.defaults().theme);
 	});
 });
