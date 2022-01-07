@@ -1,7 +1,7 @@
 import ByteBuffer from "bytebuffer";
 
 import { TransactionTypeGroup } from "../../enums";
-import { NotImplemented } from "../../errors";
+import { NotImplemented } from "../../errors.js";
 import { Address } from "../../identities/address.js";
 import {
 	ISchemaValidationResult,

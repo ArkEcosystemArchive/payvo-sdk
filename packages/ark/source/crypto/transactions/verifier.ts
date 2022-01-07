@@ -1,4 +1,4 @@
-import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors";
+import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors.js";
 import { Hash } from "../hash";
 import { IMultiSignatureAsset, ISchemaValidationResult, ITransactionData, IVerifyOptions } from "../interfaces";
 import { configManager } from "../managers";

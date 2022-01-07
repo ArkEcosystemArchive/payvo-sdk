@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { keys } from "./keys";
+import { keys } from "./keys.js";
 
 describe("keys", async ({ assert, it, nock, loader }) => {
 	it("should work with an object", () => {

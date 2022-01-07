@@ -2,9 +2,9 @@ import { Base58Check, Hash } from "@payvo/sdk-cryptography";
 
 import { Network } from "../interfaces/networks";
 import { MultiSignatureAsset, KeyPair } from "./contracts";
-import { PublicKeyError } from "./errors";
+import { PublicKeyError } from "./errors.js";
 import { getPubKeyHash } from "./helpers.js";
-import { PublicKey } from "./public-key";
+import { PublicKey } from "./public-key.js";
 
 export class Address {
 	public static fromPassphrase(passphrase: string, network?: Network): string {

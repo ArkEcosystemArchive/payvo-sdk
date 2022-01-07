@@ -1,4 +1,4 @@
-import { UnkownTransactionError } from "../../errors";
+import { UnkownTransactionError } from "../../errors.js";
 import { ITransaction, ITransactionData } from "../../interfaces";
 import { InternalTransactionType } from "./internal-transaction-type";
 import { Transaction } from "./transaction.js";

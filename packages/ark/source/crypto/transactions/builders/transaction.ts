@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { TransactionTypeGroup } from "../../enums";
-import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../errors";
+import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../errors.js";
 import { Address } from "../../identities/address.js";
 import { Keys } from "../../identities/keys.js";
 import { IKeyPair, ITransaction, ITransactionData } from "../../interfaces";

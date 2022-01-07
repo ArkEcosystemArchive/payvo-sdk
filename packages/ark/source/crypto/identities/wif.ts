@@ -3,7 +3,7 @@ import { WIF as Base } from "@payvo/sdk-cryptography";
 import { Network } from "../interfaces/networks";
 import { KeyPair } from "./contracts";
 import { getWIF } from "./helpers.js";
-import { Keys } from "./keys";
+import { Keys } from "./keys.js";
 
 export class WIF {
 	public static fromPassphrase(passphrase: string, network?: Network): string {

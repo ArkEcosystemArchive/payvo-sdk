@@ -2,7 +2,7 @@ import deepmerge from "deepmerge";
 import get from "lodash.get";
 import set from "lodash.set";
 
-import { InvalidMilestoneConfigurationError } from "../errors";
+import { InvalidMilestoneConfigurationError } from "../errors.js";
 import { IMilestone } from "../interfaces";
 import { NetworkConfig } from "../interfaces/networks";
 import * as networks from "../networks";
