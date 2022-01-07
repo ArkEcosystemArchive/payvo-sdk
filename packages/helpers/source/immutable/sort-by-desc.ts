@@ -1,4 +1,4 @@
-import { ISortBy, ISortByFunction } from "fast-sort";
+import { ISortBy, ISortByFunction } from "../fast-sort.js";
 
 import { sortByDesc as baseSortByDesc } from "../sort-by-desc.js";
 
