@@ -1,7 +1,7 @@
 import { Base58Check, Hash } from "@payvo/sdk-cryptography";
 
 import { Network } from "../interfaces/networks.js";
-import { KeyPair,MultiSignatureAsset } from "./contracts.js";
+import { KeyPair, MultiSignatureAsset } from "./contracts.js";
 import { PublicKeyError } from "./errors.js";
 import { getPubKeyHash } from "./helpers.js";
 import { PublicKey } from "./public-key.js";
