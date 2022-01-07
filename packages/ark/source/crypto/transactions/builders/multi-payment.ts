@@ -1,6 +1,6 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { MaximumPaymentCountExceededError, MinimumPaymentCountSubceededError } from "../../errors";
+import { MaximumPaymentCountExceededError, MinimumPaymentCountSubceededError } from "../../errors.js";
 import { ITransactionData } from "../../interfaces";
 import { configManager } from "../../managers";
 import { MultiPaymentTransaction } from "../types";

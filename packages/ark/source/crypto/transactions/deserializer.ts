@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors";
+import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors.js";
 import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces";
 import { TransactionTypeFactory } from "./types";
 

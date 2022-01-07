@@ -2,7 +2,7 @@ import { Hash, secp256k1, WIF } from "@payvo/sdk-cryptography";
 
 import { Network } from "../interfaces/networks";
 import { KeyPair } from "./contracts";
-import { NetworkVersionError } from "./errors";
+import { NetworkVersionError } from "./errors.js";
 import { getWIF } from "./helpers.js";
 
 export class Keys {
@@ -14,9 +14,9 @@ export class Keys {
 		privateKey = privateKey instanceof Buffer ? privateKey : Buffer.from(privateKey, "hex");
 
 		return {
-			publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
-			privateKey: privateKey.toString("hex"),
 			compressed,
+			privateKey: privateKey.toString("hex"),
+			publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
 		};
 	}
 
@@ -28,9 +28,9 @@ export class Keys {
 		}
 
 		return {
-			publicKey: secp256k1.publicKeyCreate(Buffer.from(privateKey, "hex"), compressed).toString("hex"),
-			privateKey,
 			compressed,
+			privateKey,
+			publicKey: secp256k1.publicKeyCreate(Buffer.from(privateKey, "hex"), compressed).toString("hex"),
 		};
 	}
 }

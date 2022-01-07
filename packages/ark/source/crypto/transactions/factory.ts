@@ -5,7 +5,7 @@ import {
 	InvalidTransactionBytesError,
 	TransactionSchemaError,
 	TransactionVersionError,
-} from "../errors";
+} from "../errors.js";
 import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces";
 import { Deserializer } from "./deserializer.js";
 import { Serializer } from "./serializer.js";

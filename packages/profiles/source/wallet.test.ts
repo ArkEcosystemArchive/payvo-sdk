@@ -11,7 +11,7 @@ import { WalletData, WalletFlag, WalletImportMethod, WalletLedgerModel, WalletSe
 import { ExchangeRateService } from "./exchange-rate.service.js";
 import { SignatoryFactory } from "./signatory.factory.js";
 import { Wallet } from "./wallet";
-import { WalletImportFormat } from "./wif";
+import { WalletImportFormat } from "./wif.js";
 
 describe("Wallet", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll(() => {

@@ -7,11 +7,11 @@ import { AbstractWalletData } from "./wallet.dto.js";
 
 class Wallet extends AbstractWalletData {
 	primaryKey() {
-		return "address";
+		return "address.js";
 	}
 
 	address() {
-		return "address";
+		return "address.js";
 	}
 
 	publicKey() {
