@@ -27,7 +27,10 @@ export class Validator {
 		return this.validateSchema(this.ajv, schemaKeyReference, data);
 	}
 
-	public validateException<T = any>(schemaKeyReference: string | boolean | object, data: T): ISchemaValidationResult<T> {
+	public validateException<T = any>(
+		schemaKeyReference: string | boolean | object,
+		data: T,
+	): ISchemaValidationResult<T> {
 		const ajv = this.instantiateAjv({ allErrors: true, verbose: true });
 
 		for (const schema of this.transactionSchemas.values()) {
@@ -79,12 +82,10 @@ export class Validator {
 
 	private instantiateAjv(options: Record<string, any>) {
 		const ajv = new Ajv({
-
-				$data: true,
-				extendRefs: true,
-				removeAdditional: true,
-				schemas
-			,
+			$data: true,
+			extendRefs: true,
+			removeAdditional: true,
+			schemas,
 			...options,
 		});
 		ajvKeywords(ajv);
