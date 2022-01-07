@@ -1,8 +1,8 @@
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
-import { numberToHex , uniq } from "@payvo/sdk-helpers";
+import { numberToHex, uniq } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
-import { Enums,Identities, Interfaces, Managers, Transactions } from "./crypto/index.js";
+import { Enums, Identities, Interfaces, Managers, Transactions } from "./crypto/index.js";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 

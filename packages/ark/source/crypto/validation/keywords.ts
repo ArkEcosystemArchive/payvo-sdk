@@ -35,11 +35,13 @@ const transactionType = (ajv: Ajv) => {
 				if (
 					data === TransactionType.MultiPayment &&
 					parentObject &&
-					(!parentObject.typeGroup || parentObject.typeGroup === 1)
-				 && parentObject.asset && parentObject.asset.payments) {
-						const limit: number = configManager.getMilestone().multiPaymentLimit || 256;
-						return parentObject.asset.payments.length <= limit;
-					}
+					(!parentObject.typeGroup || parentObject.typeGroup === 1) &&
+					parentObject.asset &&
+					parentObject.asset.payments
+				) {
+					const limit: number = configManager.getMilestone().multiPaymentLimit || 256;
+					return parentObject.asset.payments.length <= limit;
+				}
 
 				return data === schema;
 			};
