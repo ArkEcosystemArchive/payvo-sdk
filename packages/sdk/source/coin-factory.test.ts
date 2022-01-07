@@ -1,8 +1,8 @@
 /* eslint-disable sonarjs/no-identical-expressions */
 import { describe } from "@payvo/sdk-test";
 
-import { ARK } from "../../ark/distribution/esm";
-import { Request } from "../../fetch/distribution/esm";
+import { ARK } from "../../ark/distribution/esm/index.js";
+import { Request } from "../../fetch/distribution/esm/index.js";
 import { Coin } from "./coin.js";
 import { CoinFactory } from "./coin-factory.js";
 

@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
-import { manifest } from "../../ark/distribution/esm/manifest";
-import { NetworkRepository } from "./network-repository";
+import { manifest } from "../../ark/distribution/esm/manifest.js";
+import { NetworkRepository } from "./network-repository.js";
 
 describe("NetworkRepository", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = new NetworkRepository(manifest.networks)));
