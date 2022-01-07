@@ -1,4 +1,4 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Services } from "@payvo/sdk";
 
 import { deriveAccountKey, deriveRootKey } from "./shelley.js";
 

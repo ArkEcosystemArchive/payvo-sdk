@@ -4,9 +4,9 @@ import { DateTime } from "@payvo/sdk-intl";
 import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
 import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers.js";
-import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain";
+import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain.js";
 import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
-import { createValue } from "./transaction.factory";
+import { createValue } from "./transaction.factory.js";
 import { UnspentTransaction } from "./transaction.models.js";
 
 export class TransactionService extends Services.AbstractTransactionService {

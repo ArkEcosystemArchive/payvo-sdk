@@ -37,7 +37,7 @@ module.exports = {
 		library: {
 			type: "module",
 		},
-		path: path.resolve(process.cwd(), "distribution"),
+		path: path.resolve(process.cwd(), "distribution/browser"),
 	},
 	performance: {
 		hints: "warning",

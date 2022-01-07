@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { manifest } from "../../ark/distribution/manifest";
+import { manifest } from "../../ark/distribution/esm/manifest";
 import { FeatureFlag } from "./enums";
 import { Network } from "./network";
 
