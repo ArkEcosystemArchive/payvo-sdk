@@ -1,10 +1,10 @@
 /* eslint-disable sonarjs/no-identical-expressions */
 import { describe } from "@payvo/sdk-test";
 
-import { ARK } from "../../ark/distribution";
-import { Request } from "../../fetch/distribution";
-import { Coin } from "./coin";
-import { CoinFactory } from "./coin-factory";
+import { ARK } from "../../ark/distribution/index.js";
+import { Request } from "../../fetch/distribution/index.js";
+import { Coin } from "./coin.js";
+import { CoinFactory } from "./coin-factory.js";
 
 describe("CoinFactory", ({ assert, beforeEach, loader, nock, it }) => {
 	beforeEach(async (context) => {

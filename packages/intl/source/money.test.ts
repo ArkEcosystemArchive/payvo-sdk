@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Money } from "./money";
+import { Money } from "./money.js";
 
 describe("Money", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = Money.make(5000, "EUR")));

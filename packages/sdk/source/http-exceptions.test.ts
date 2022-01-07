@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
-import { BadResponseException, RequestException } from "./http-exceptions";
-import { Response } from "./http-response";
+import { BadResponseException, RequestException } from "./http-exceptions.js";
+import { Response } from "./http-response.js";
 
 describe("HTTP Exceptions", ({ assert, it, nock, loader }) => {
 	it("should throw an exception with the type RequestException", () => {

@@ -1,5 +1,5 @@
 import { secp256k1 } from "./bcrypto/secp256k1.js";
-import { IKeyPair } from "./interfaces";
+import { IKeyPair } from "./interfaces/index.js";
 
 export class Hash {
 	public static signSchnorr(hash: Buffer, keys: IKeyPair): string {
