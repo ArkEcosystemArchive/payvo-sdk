@@ -4,18 +4,18 @@ import { IoC, Services, Signatories } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
 import { BindingType } from "./coin.contract";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { TransactionService } from "./transaction.service";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { TransactionService } from "./transaction.service.js";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureService } from "./multi-signature.service.js";
 import { identity } from "../test/fixtures/identity";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("TransactionService", async ({ assert, beforeAll, nock, it, loader }) => {
 	beforeAll(async (context) => {

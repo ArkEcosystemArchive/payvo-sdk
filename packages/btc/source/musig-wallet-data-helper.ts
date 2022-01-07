@@ -4,7 +4,7 @@ import * as bitcoin from "bitcoinjs-lib";
 import { BIP32Interface } from "@payvo/sdk-cryptography";
 
 import { Bip44Address, UnspentTransaction } from "./contracts.js";
-import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain";
+import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain.js";
 import { post, walletUsedAddresses } from "./helpers.js";
 
 const getDerivationFunction = (

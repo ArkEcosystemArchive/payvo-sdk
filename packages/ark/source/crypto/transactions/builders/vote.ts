@@ -1,7 +1,8 @@
-import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { VoteTransaction } from "../types";
-import { TransactionBuilder } from "./transaction";
+
+import { ITransactionData } from "../../interfaces/index.js";
+import { VoteTransaction } from "../types/index.js";
+import { TransactionBuilder } from "./transaction.js";
 
 export class VoteBuilder extends TransactionBuilder<VoteBuilder> {
 	public constructor() {

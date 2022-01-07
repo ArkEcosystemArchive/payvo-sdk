@@ -5,17 +5,17 @@ import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { FeeService } from "./fee.service";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { MultiSignatureService } from "./multi-signature.service";
-import { PublicKeyService } from "./public-key.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { TransactionService } from "./transaction.service";
-import { WalletData } from "./wallet.dto";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { FeeService } from "./fee.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { TransactionService } from "./transaction.service.js";
+import { WalletData } from "./wallet.dto.js";
 
 describeWithContext(
 	"TransactionService",

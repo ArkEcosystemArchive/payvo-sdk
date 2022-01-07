@@ -2,9 +2,9 @@ import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { WalletDiscoveryService } from "./wallet-discovery.service";
+import { WalletDiscoveryService } from "./wallet-discovery.service.js";
 import { BindingType } from "./constants";
-import { AddressFactory } from "./address.factory";
+import { AddressFactory } from "./address.factory.js";
 
 describe("testnet", ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {

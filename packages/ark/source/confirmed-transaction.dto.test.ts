@@ -1,14 +1,13 @@
-import { describe } from "@payvo/sdk-test";
-
-import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
 
 import CryptoConfiguration from "../test/fixtures/client/cryptoConfiguration.json";
 import Fixture from "../test/fixtures/client/transaction.json";
 import MultipaymentFixtures from "../test/fixtures/client/transactions.json";
 import VoteFixtures from "../test/fixtures/client/votes.json";
 import { createService } from "../test/mocking";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) => {
 	beforeEach(async (context) => {
@@ -31,7 +30,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	});
 
 	it("should have a number of confirmations", (context) => {
-		assert.equal(context.subject.confirmations(), BigNumber.make(4636121));
+		assert.equal(context.subject.confirmations(), BigNumber.make(4_636_121));
 	});
 
 	it("should have a sender", (context) => {
@@ -87,7 +86,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 		stub(context.subject, "isTransfer").returnValueOnce(false);
 		stub(context.subject, "isMultiPayment").returnValueOnce(true);
 		stub(context.subject, "recipients").returnValueOnce([
-			{ amount: BigNumber.ZERO, address: context.subject.sender() },
+			{ address: context.subject.sender(), amount: BigNumber.ZERO },
 		]);
 
 		assert.is(context.subject.isReturn(), true);
@@ -97,7 +96,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 		stub(context.subject, "isTransfer").returnValueOnce(false);
 		stub(context.subject, "isMultiPayment").returnValueOnce(true);
 		stub(context.subject, "recipients").returnValueOnce([
-			{ amount: BigNumber.ZERO, address: context.subject.recipient() },
+			{ address: context.subject.recipient(), amount: BigNumber.ZERO },
 		]);
 
 		assert.false(context.subject.isReturn());
@@ -222,7 +221,7 @@ describe("ConfirmedTransactionData - DelegateResignationData", ({ assert, before
 describe("ConfirmedTransactionData - HtlcClaimData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
-		context.subject.configure({ type: 9, asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } } });
+		context.subject.configure({ asset: { lock: { lockTransactionId: "1", unlockSecret: "2" } }, type: 9 });
 	});
 
 	it("should have the ID of a locked transaction", (context) => {
@@ -242,18 +241,18 @@ describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it, n
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
-			type: 8,
 			asset: {
 				lock: {
 					amount: 1,
-					to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-					secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
 					expiration: {
 						type: 1,
-						value: 123456789,
+						value: 123_456_789,
 					},
+					secretHash: "0f128d401958b1b30ad0d10406f47f9489321017b4614e6cb993fc63913c5454",
+					to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 				},
 			},
+			type: 8,
 		});
 	});
 
@@ -266,7 +265,7 @@ describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it, n
 	});
 
 	it("should have an expiration value", (context) => {
-		assert.is(context.subject.expirationValue(), 123456789);
+		assert.is(context.subject.expirationValue(), 123_456_789);
 	});
 
 	it("should have a type", (context) => {
@@ -277,7 +276,7 @@ describe("ConfirmedTransactionData - HtlcLockData", ({ assert, beforeEach, it, n
 describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
-		context.subject.configure({ type: 10, asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } } });
+		context.subject.configure({ asset: { refund: { lockTransactionId: "1", unlockSecret: "2" } }, type: 10 });
 	});
 
 	it("should have the ID of a locked transaction", (context) => {
@@ -292,7 +291,7 @@ describe("ConfirmedTransactionData - HtlcRefundData", ({ assert, beforeEach, it,
 describe("ConfirmedTransactionData - IpfsData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
-		context.subject.configure({ type: 5, asset: { ipfs: "123456789" } });
+		context.subject.configure({ asset: { ipfs: "123456789" }, type: 5 });
 	});
 
 	it("should have an IPFS hash", (context) => {
@@ -308,14 +307,14 @@ describe("ConfirmedTransactionData - MultiPaymentData", ({ assert, beforeEach, i
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
-			type: 6,
 			asset: {
 				payments: [
-					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
-					{ to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9", amount: 10 },
+					{ amount: 10, to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9" },
+					{ amount: 10, to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9" },
+					{ amount: 10, to: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9" },
 				],
 			},
+			type: 6,
 		});
 	});
 
@@ -336,13 +335,13 @@ describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach,
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure({
-			type: 4,
 			asset: {
 				multiSignature: {
 					min: 1,
 					publicKeys: ["2", "3"],
 				},
 			},
+			type: 4,
 		});
 	});
 
@@ -362,7 +361,7 @@ describe("ConfirmedTransactionData - MultiSignatureData", ({ assert, beforeEach,
 describe("ConfirmedTransactionData - SecondSignatureData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
-		context.subject.configure({ type: 1, asset: { signature: { publicKey: "1" } } });
+		context.subject.configure({ asset: { signature: { publicKey: "1" } }, type: 1 });
 	});
 
 	it("should have a secondary public key", (context) => {
@@ -392,7 +391,7 @@ describe("ConfirmedTransactionData - TransferData", ({ assert, beforeEach, it, n
 describe("ConfirmedTransactionData - VoteData", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
 		context.subject = await createService(ConfirmedTransactionData);
-		context.subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
+		context.subject.configure({ asset: { votes: ["+A", "-B"] }, type: 3 });
 	});
 
 	it("should have a list of votes", (context) => {
@@ -406,15 +405,15 @@ describe("ConfirmedTransactionData - VoteData", ({ assert, beforeEach, it, nock,
 	});
 
 	it("should have 3 different types of votes", (context) => {
-		context.subject.configure({ type: 3, asset: { votes: ["+A", "-B"] } });
+		context.subject.configure({ asset: { votes: ["+A", "-B"] }, type: 3 });
 
 		assert.is(context.subject.type(), "voteCombination");
 
-		context.subject.configure({ type: 3, asset: { votes: ["+A"] } });
+		context.subject.configure({ asset: { votes: ["+A"] }, type: 3 });
 
 		assert.is(context.subject.type(), "vote");
 
-		context.subject.configure({ type: 3, asset: { votes: ["-B"] } });
+		context.subject.configure({ asset: { votes: ["-B"] }, type: 3 });
 
 		assert.is(context.subject.type(), "unvote");
 	});

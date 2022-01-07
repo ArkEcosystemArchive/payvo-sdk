@@ -4,7 +4,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { AbstractSignedTransactionData } from "./signed-transaction.dto";
+import { AbstractSignedTransactionData } from "./signed-transaction.dto.js";
 
 class Transaction extends AbstractSignedTransactionData {
 	sender() {

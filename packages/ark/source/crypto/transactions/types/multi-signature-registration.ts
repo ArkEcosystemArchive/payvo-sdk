@@ -1,11 +1,11 @@
+import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { TransactionType, TransactionTypeGroup } from "./../../enums";
-import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "./../../interfaces";
-import { configManager } from "./../../managers";
-import { BigNumber } from "@payvo/sdk-helpers";
-import * as schemas from "./schemas";
-import { Transaction } from "./transaction";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "../../interfaces/index.js";
+import { configManager } from "../../managers/index.js";
+import * as schemas from "./schemas.js";
+import { Transaction } from "./transaction.js";
 
 export class MultiSignatureRegistrationTransaction extends Transaction {
 	public static override typeGroup: number = TransactionTypeGroup.Core;
@@ -48,11 +48,11 @@ export class MultiSignatureRegistrationTransaction extends Transaction {
 	public deserialize(buf: ByteBuffer): void {
 		const { data } = this;
 
-		const multiSignature: IMultiSignatureAsset = { publicKeys: [], min: 0 };
+		const multiSignature: IMultiSignatureAsset = { min: 0, publicKeys: [] };
 		multiSignature.min = buf.readUint8();
 
 		const count = buf.readUint8();
-		for (let i = 0; i < count; i++) {
+		for (let index = 0; index < count; index++) {
 			const publicKey = buf.readBytes(33).toString("hex");
 			multiSignature.publicKeys.push(publicKey);
 		}

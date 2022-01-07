@@ -1,10 +1,10 @@
 import { secp256k1 } from "@payvo/sdk-cryptography";
 import { numberToHex } from "@payvo/sdk-helpers";
 
-import { Network } from "../interfaces/networks";
-import { MultiSignatureAsset } from "./contracts";
-import { InvalidMultiSignatureAssetError, PublicKeyError } from "./errors";
-import { Keys } from "./keys";
+import { Network } from "../interfaces/networks.js";
+import { MultiSignatureAsset } from "./contracts.js";
+import { InvalidMultiSignatureAssetError, PublicKeyError } from "./errors.js";
+import { Keys } from "./keys.js";
 
 export class PublicKey {
 	public static fromPassphrase(passphrase: string): string {

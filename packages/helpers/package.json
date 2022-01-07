@@ -5,8 +5,11 @@
 	"license": "MIT",
 	"contributors": [],
 	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
+	"exports": {
+		"browser": "./distribution/browser/index.js",
+		"default": "./distribution/esm/index.js"
+	},
+	"types": "./distribution/esm/index.d.ts",
 	"files": [
 		"/distribution"
 	],
@@ -16,6 +19,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
+		"clean:browser": "rimraf distribution/browser",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
@@ -29,7 +33,6 @@
 		"dot-prop": "~6.0.1",
 		"fast-copy": "^2.1.1",
 		"fast-deep-equal": "^3.1.3",
-		"fast-sort": "^3.1.1",
 		"joi": "^17.4.2",
 		"qrcode": "^1.5.0",
 		"query-string": "^7.0.1"
@@ -37,7 +40,6 @@
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
 		"@types/big.js": "^6.1.2",
-		"@types/lodash": "^4.14.177",
 		"@types/node": "^16.11.10",
 		"@types/qrcode": "1.4.1"
 	},

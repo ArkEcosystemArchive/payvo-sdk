@@ -1,4 +1,4 @@
-import milestones from "./milestones.json";
-import network from "./network.json";
+import { milestones } from "./milestones.js";
+import { network } from "./network.js";
 
 export const devnet = { milestones, network };

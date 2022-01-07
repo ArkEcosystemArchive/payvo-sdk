@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { WIF } from "./wif";
+import { WIF } from "./wif.js";
 
 describe("WIF", ({ assert, it, nock, loader }) => {
 	it("should encode the given value", () => {

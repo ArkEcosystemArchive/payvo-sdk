@@ -6,14 +6,14 @@ import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createApiPromise, createKeyring } from "./factories";
-import { ClientService } from "./client.service";
-import { AddressService } from "./address.service";
-import { KeyPairService } from "./key-pair.service";
-import { PublicKeyService } from "./public-key.service";
-import { TransactionService } from "./transaction.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ClientService } from "./client.service.js";
+import { AddressService } from "./address.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {

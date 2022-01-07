@@ -4,7 +4,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/transaction.json";
 import { createService } from "../test/mocking";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 describe("ConfirmedTransactionData", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {

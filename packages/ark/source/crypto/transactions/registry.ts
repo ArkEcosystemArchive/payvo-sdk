@@ -3,8 +3,8 @@ import {
 	TransactionKeyAlreadyRegisteredError,
 	TransactionVersionAlreadyRegisteredError,
 	UnkownTransactionError,
-} from "../errors";
-import { validator } from "../validation";
+} from "../errors.js";
+import { validator } from "../validation/index.js";
 import {
 	DelegateRegistrationTransaction,
 	DelegateResignationTransaction,
@@ -16,8 +16,8 @@ import {
 	TransactionTypeFactory,
 	TransferTransaction,
 	VoteTransaction,
-} from "./types";
-import { InternalTransactionType } from "./types/internal-transaction-type";
+} from "./types/index.js";
+import { InternalTransactionType } from "./types/internal-transaction-type.js";
 
 export type TransactionConstructor = typeof Transaction;
 
@@ -41,12 +41,12 @@ class TransactionRegistry {
 		const { typeGroup, type } = constructor;
 
 		if (typeof type === "undefined" || typeof typeGroup === "undefined") {
-			throw new Error();
+			throw new TypeError();
 		}
 
 		const internalType: InternalTransactionType = InternalTransactionType.from(type, typeGroup);
 		for (const registeredConstructors of this.transactionTypes.values()) {
-			if (registeredConstructors.size) {
+			if (registeredConstructors.size > 0) {
 				const first = [...registeredConstructors.values()][0];
 				if (
 					first.key === constructor.key &&
@@ -77,7 +77,7 @@ class TransactionRegistry {
 		const { typeGroup, type, version } = constructor;
 
 		if (typeof type === "undefined" || typeof typeGroup === "undefined") {
-			throw new Error();
+			throw new TypeError();
 		}
 
 		const internalType: InternalTransactionType = InternalTransactionType.from(type, typeGroup);

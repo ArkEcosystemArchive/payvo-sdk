@@ -1,2 +1,2 @@
-export { configManager } from "./config";
-export { NetworkManager } from "./network";
+export { configManager } from "./config.js";
+export { NetworkManager } from "./network.js";

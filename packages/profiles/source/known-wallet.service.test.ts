@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { KnownWalletService } from "./known-wallet.service";
+import { KnownWalletService } from "./known-wallet.service.js";
 import { Profile } from "./profile";
 
 describe("KnownWalletService", ({ loader, it, assert, beforeEach, afterEach, nock }) => {

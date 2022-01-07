@@ -4,7 +4,7 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { Profile } from "./profile";
-import { SignatoryFactory } from "./signatory.factory";
+import { SignatoryFactory } from "./signatory.factory.js";
 
 const mnemonic = identity.mnemonic;
 

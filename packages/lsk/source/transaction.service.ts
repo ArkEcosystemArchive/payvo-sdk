@@ -2,7 +2,7 @@ import { Contracts, IoC, Services } from "@payvo/sdk";
 import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { TransactionSerializer } from "./transaction.serializer";
+import { TransactionSerializer } from "./transaction.serializer.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
 	readonly #feeService!: Services.FeeService;

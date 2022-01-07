@@ -1,7 +1,7 @@
 import { describeEach } from "@payvo/sdk-test";
 
 import { bootContainer, makeCoin } from "../test/mocking";
-import { ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service";
+import { ParallelDelegateSyncer, SerialDelegateSyncer } from "./delegate-syncer.service.js";
 
 describeEach(
 	"DelegateSyncer(%s)",

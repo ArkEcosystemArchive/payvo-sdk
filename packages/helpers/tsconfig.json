@@ -1,7 +1,7 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"outDir": "distribution",
+		"outDir": "distribution/esm",
 		"typeRoots": ["./node_modules/@types"]
 	},
 	"include": ["source/**/**.ts"]

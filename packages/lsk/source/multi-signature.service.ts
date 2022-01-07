@@ -3,10 +3,10 @@ import { UUID } from "@payvo/sdk-cryptography";
 import { convertBuffer, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 
-import { getKeys, joinModuleAndAssetIds } from "./multi-signature.domain";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-import { TransactionSerializer } from "./transaction.serializer";
-import { AssetSerializer } from "./asset.serializer";
+import { getKeys, joinModuleAndAssetIds } from "./multi-signature.domain.js";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
+import { TransactionSerializer } from "./transaction.serializer.js";
+import { AssetSerializer } from "./asset.serializer.js";
 import { isMultiSignatureRegistration } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 

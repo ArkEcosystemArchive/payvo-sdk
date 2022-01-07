@@ -1,8 +1,8 @@
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
-import { BindingType } from "./coin.contract.js";
 
+import { BindingType } from "./coin.contract.js";
 import { Keys as BaseKeys } from "./crypto/identities/keys.js";
 import { Interfaces } from "./crypto/index.js";
 
@@ -23,7 +23,7 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 		const { publicKey, privateKey } = BaseKeys.fromPassphrase(mnemonic, true);
 
-		return { publicKey, privateKey };
+		return { privateKey, publicKey };
 	}
 
 	public override async fromSecret(secret: string): Promise<Services.KeyPairDataTransferObject> {
@@ -31,12 +31,12 @@ export class KeyPairService extends Services.AbstractKeyPairService {
 
 		const { publicKey, privateKey } = BaseKeys.fromPassphrase(secret, true);
 
-		return { publicKey, privateKey };
+		return { privateKey, publicKey };
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.KeyPairDataTransferObject> {
 		const { publicKey, privateKey } = BaseKeys.fromWIF(wif, this.#config.network);
 
-		return { publicKey, privateKey };
+		return { privateKey, publicKey };
 	}
 }

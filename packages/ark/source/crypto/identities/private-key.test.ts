@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { PrivateKey } from "./private-key";
+import { PrivateKey } from "./private-key.js";
 
 describe("Private Key", ({ assert, it }) => {
 	it("fromPassphrase", () => {

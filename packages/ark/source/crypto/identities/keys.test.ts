@@ -2,8 +2,8 @@ import { describe } from "@payvo/sdk-test";
 import { WIF } from "@payvo/sdk-cryptography";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { Address } from "./address";
-import { Keys } from "./keys";
+import { Address } from "./address.js";
+import { Keys } from "./keys.js";
 
 describe("Keys", ({ assert, it, stub }) => {
 	it("fromPassphrase should return two keys in hex", () => {

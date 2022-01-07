@@ -1,6 +1,6 @@
-import { ripemd160 } from "@noble/hashes/lib/ripemd160";
-import { sha3_256 } from "@noble/hashes/lib/sha3";
-import { sha256 } from "@noble/hashes/lib/sha256";
+import { ripemd160 } from "@noble/hashes/lib/ripemd160.js";
+import { sha3_256 } from "@noble/hashes/lib/sha3.js";
+import { sha256 } from "@noble/hashes/lib/sha256.js";
 
 export class Hash {
 	public static hash160(buffer: Buffer | string): Buffer {

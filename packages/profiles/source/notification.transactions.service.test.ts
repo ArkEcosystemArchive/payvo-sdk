@@ -4,10 +4,10 @@ import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
 import { NotificationRepository } from "./notification.repository";
 import { INotificationTypes } from "./notification.repository.contract";
-import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service.js";
 import { Profile } from "./profile";
 import { ProfileSetting } from "./profile.enum.contract";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 describeWithContext(
 	"ProfileTransactionNotificationService",

@@ -1,8 +1,9 @@
-import { Keys } from "../../identities";
-import { ITransactionAsset, ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { SecondSignatureRegistrationTransaction } from "../types";
-import { TransactionBuilder } from "./transaction";
+
+import { Keys } from "../../identities/index.js";
+import { ITransactionAsset, ITransactionData } from "../../interfaces/index.js";
+import { SecondSignatureRegistrationTransaction } from "../types/index.js";
+import { TransactionBuilder } from "./transaction.js";
 
 export class SecondSignatureBuilder extends TransactionBuilder<SecondSignatureBuilder> {
 	public constructor() {

@@ -3,9 +3,9 @@ import { IoC, Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { KeyPairService } from "./key-pair.service";
-import { MessageService } from "./message.service";
+import { AddressService } from "./address.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { MessageService } from "./message.service.js";
 
 describe("MessageService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {

@@ -43,7 +43,7 @@ import { RegistrationAggregate } from "./registration.aggregate";
 import { SettingRepository } from "./setting.repository";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
-import { WalletFactory } from "./wallet.factory";
+import { WalletFactory } from "./wallet.factory.js";
 import { WalletRepository } from "./wallet.repository";
 
 export class Profile implements IProfile {

@@ -1,6 +1,7 @@
-import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+
 import { TransactionTypeService } from "./transaction-type.service.js";
 
 export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionData {
@@ -146,13 +147,13 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	public override votes(): string[] {
 		return this.data.asset.votes
 			.filter((vote: string) => vote.startsWith("+"))
-			.map((publicKey: string) => publicKey.substr(1));
+			.map((publicKey: string) => publicKey.slice(1));
 	}
 
 	public override unvotes(): string[] {
 		return this.data.asset.votes
 			.filter((vote: string) => vote.startsWith("-"))
-			.map((publicKey: string) => publicKey.substr(1));
+			.map((publicKey: string) => publicKey.slice(1));
 	}
 
 	// Second-Signature Registration

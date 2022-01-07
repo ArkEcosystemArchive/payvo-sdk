@@ -5,7 +5,7 @@ import * as bitcoin from "bitcoinjs-lib";
 import { sign } from "bitcoinjs-message";
 import { getNetworkConfig } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
-import { isMultiSignatureRegistration } from "./multi-signature.domain";
+import { isMultiSignatureRegistration } from "./multi-signature.domain.js";
 import { signWith } from "./helpers.js";
 
 export class MultiSignatureSigner {

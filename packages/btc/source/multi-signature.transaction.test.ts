@@ -25,7 +25,7 @@ import {
 } from "../test/fixtures/musig-native-segwit-txs";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 import { AddressFactory } from "./address.factory.js";
 
 describe("MultiSignatureTransaction", async ({ assert, beforeAll, each }) => {

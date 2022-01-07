@@ -1,7 +1,7 @@
 import { describeWithContext } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { WalletReleaseNotificationService } from "./notification.releases.service";
+import { WalletReleaseNotificationService } from "./notification.releases.service.js";
 import { NotificationRepository } from "./notification.repository";
 import { INotificationTypes } from "./notification.repository.contract";
 import { Profile } from "./profile";

@@ -1,11 +1,10 @@
 import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
-import { Hash } from "@payvo/sdk-cryptography";
-import { DateTime } from "@payvo/sdk-intl";
+import { Hash, UUID } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 import { BN, Buffer } from "avalanche";
-import { AVMAPI } from "avalanche/dist/apis/avm";
-import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
-import { UUID } from "@payvo/sdk-cryptography";
+import { AVMAPI } from "avalanche/dist/apis/avm/index.js";
+import { PlatformVMAPI } from "avalanche/dist/apis/platformvm/index.js";
 
 import { keyPairFromMnemonic, useKeychain, usePChain, useXChain } from "./helpers.js";
 
@@ -50,10 +49,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 			// @ts-ignore - feross/buffer should behave the same as nodejs/buffer
 			Hash.sha256(signedTx.toBuffer()).toString("hex"),
 			{
-				sender: input.signatory.address(),
-				recipient: input.data.to,
 				amount,
 				fee: BigNumber.make(0.001).times(1e8),
+				recipient: input.data.to,
+				sender: input.signatory.address(),
 				timestamp: DateTime.make(),
 			},
 			signedTx.toString(),
@@ -89,10 +88,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			UUID.random(),
 			{
-				sender: input.signatory.address(),
-				recipient: input.signatory.address(),
 				amount: 0,
 				fee: 0,
+				recipient: input.signatory.address(),
+				sender: input.signatory.address(),
 			},
 			signedTx.toString(),
 		);
