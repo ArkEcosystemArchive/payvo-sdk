@@ -1,4 +1,4 @@
-import { Contracts, DTO, IoC } from "@payvo/sdk";
+import { Contracts, DTO } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
