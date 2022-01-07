@@ -1,7 +1,7 @@
 import { Hash, secp256k1, WIF } from "@payvo/sdk-cryptography";
 
-import { Network } from "../interfaces/networks";
-import { KeyPair } from "./contracts";
+import { Network } from "../interfaces/networks.js";
+import { KeyPair } from "./contracts.js";
 import { NetworkVersionError } from "./errors.js";
 import { getWIF } from "./helpers.js";
 

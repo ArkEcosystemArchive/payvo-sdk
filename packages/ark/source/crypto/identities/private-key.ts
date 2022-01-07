@@ -1,4 +1,4 @@
-import { Network } from "../interfaces/networks";
+import { Network } from "../interfaces/networks.js";
 import { Keys } from "./keys.js";
 
 export class PrivateKey {
