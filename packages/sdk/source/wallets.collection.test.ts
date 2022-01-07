@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { WalletDataCollection } from "./wallets.collection";
+import { WalletDataCollection } from "./wallets.collection.js";
 
 describe("WalletDataCollection", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(

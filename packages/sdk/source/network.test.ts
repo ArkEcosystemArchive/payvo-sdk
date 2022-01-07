@@ -1,8 +1,8 @@
 import { describe } from "@payvo/sdk-test";
 
-import { manifest } from "../../ark/distribution/esm/manifest";
-import { FeatureFlag } from "./enums";
-import { Network } from "./network";
+import { manifest } from "../../ark/distribution/esm/manifest.js";
+import { FeatureFlag } from "./enums.js";
+import { Network } from "./network.js";
 
 describe("Network", ({ assert, beforeEach, it, stub }) => {
 	beforeEach((context) => {

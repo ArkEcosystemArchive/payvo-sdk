@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Numeral } from "./numeral";
+import { Numeral } from "./numeral.js";
 
 describe("Numeral", ({ assert, it, nock, loader }) => {
 	it("should format", () => {

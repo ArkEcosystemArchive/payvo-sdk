@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { DateTime } from "./datetime";
+import { DateTime } from "./datetime.js";
 
 describe("DateTime", ({ assert, beforeEach, it, stub }) => {
 	beforeEach((context) => (context.subject = DateTime.make("2020-01-01")));

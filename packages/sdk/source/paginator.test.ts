@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Paginator } from "./paginator";
+import { Paginator } from "./paginator.js";
 
 describe("Paginator", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(

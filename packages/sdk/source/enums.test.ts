@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { FeatureFlag } from "./enums";
+import { FeatureFlag } from "./enums.js";
 
 describe("Enums", ({ assert, it, nock, loader }) => {
 	it("should have feature flags", () => {

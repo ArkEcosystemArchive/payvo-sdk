@@ -12,6 +12,3 @@ export * as Networks from "./networks.js";
 export * as Services from "./services.js";
 export * as Signatories from "./signatories.js";
 export * as Test from "./test.js";
-
-export const pino = 1;
-console.log("cagame");

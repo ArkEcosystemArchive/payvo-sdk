@@ -1,7 +1,7 @@
 import { Request } from "@payvo/sdk-fetch";
 import { describe } from "@payvo/sdk-test";
 
-import { Blockfolio } from "./blockfolio";
+import { Blockfolio } from "./blockfolio.js";
 
 describe("FeedService", async ({ assert, beforeEach, it, nock }) => {
 	beforeEach((context) => {

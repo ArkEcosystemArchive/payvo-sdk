@@ -56,7 +56,7 @@
 		"import/default": "error",
 		"import/export": "error",
 		"import/exports-last": "error",
-		"import/extensions": "off",
+		"import/extensions": ["warn", "always"],
 		"import/first": "error",
 		"import/group-exports": "off",
 		"import/namespace": "error",

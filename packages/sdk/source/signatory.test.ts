@@ -1,15 +1,15 @@
 import { describe } from "@payvo/sdk-test";
 
-import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory";
-import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory";
-import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory";
-import { LedgerSignatory } from "./ledger.signatory";
-import { MnemonicSignatory } from "./mnemonic.signatory";
-import { MultiSignatureSignatory } from "./multi-signature.signatory";
-import { PrivateKeySignatory } from "./private-key.signatory";
-import { SecretSignatory } from "./secret.signatory";
-import { Signatory } from "./signatory";
-import { WIFSignatory } from "./wif.signatory";
+import { ConfirmationMnemonicSignatory } from "./confirmation-mnemonic.signatory.js";
+import { ConfirmationSecretSignatory } from "./confirmation-secret.signatory.js";
+import { ConfirmationWIFSignatory } from "./confirmation-wif.signatory.js";
+import { LedgerSignatory } from "./ledger.signatory.js";
+import { MnemonicSignatory } from "./mnemonic.signatory.js";
+import { MultiSignatureSignatory } from "./multi-signature.signatory.js";
+import { PrivateKeySignatory } from "./private-key.signatory.js";
+import { SecretSignatory } from "./secret.signatory.js";
+import { Signatory } from "./signatory.js";
+import { WIFSignatory } from "./wif.signatory.js";
 
 describe("Signatory", ({ assert, it, nock, loader }) => {
 	it("should determine if has a multi-signature asset", () => {

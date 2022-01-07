@@ -2,7 +2,7 @@
 /*.js
 /build/
 /config/
-/distribution/
+packages/**/distribution
 /docs/
 /node_modules/**
 /prisma/

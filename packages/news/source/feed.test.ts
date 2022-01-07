@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import fs from "fs-extra";
 import { resolve } from "path";
 
-import { FeedService } from "./feed";
+import { FeedService } from "./feed.js";
 
 const fixture = fs.readFileSync(resolve("test/fixtures/feed.xml")).toString();
 

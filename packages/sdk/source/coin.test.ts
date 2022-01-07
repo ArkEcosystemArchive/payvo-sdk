@@ -1,11 +1,11 @@
 import { describe } from "@payvo/sdk-test";
 
-import { ARK } from "../../ark/distribution/esm";
-import { Request } from "../../fetch/distribution/esm";
+import { ARK } from "../../ark/distribution/esm/index.js";
+import { Request } from "../../fetch/distribution/esm/index.js";
 import { CoinFactory } from "./coin-factory.js";
-import { ConfigRepository } from "./config";
-import { Manifest } from "./manifest";
-import { Network, NetworkRepository } from "./networks";
+import { ConfigRepository } from "./config.js";
+import { Manifest } from "./manifest.js";
+import { Network, NetworkRepository } from "./networks.js";
 
 describe("Coin", ({ assert, beforeEach, each, loader, nock, it }) => {
 	beforeEach(async (context) => {
