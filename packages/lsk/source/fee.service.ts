@@ -3,8 +3,8 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
 
 import { isMultiSignatureRegistration } from "./helpers.js";
-import { TransactionSerializer } from "./transaction.serializer";
-import { joinModuleAndAssetIds } from "./multi-signature.domain";
+import { TransactionSerializer } from "./transaction.serializer.js";
+import { joinModuleAndAssetIds } from "./multi-signature.domain.js";
 
 export class FeeService extends Services.AbstractFeeService {
 	readonly #transactionSerializer: IoC.Factory<TransactionSerializer>;

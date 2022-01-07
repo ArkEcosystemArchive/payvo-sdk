@@ -5,7 +5,7 @@ import { bootContainer, importByMnemonic } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileRepository } from "./profile.repository";
-import { WalletService } from "./wallet.service";
+import { WalletService } from "./wallet.service.js";
 
 describe("WalletService", ({ afterEach, beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll(() => bootContainer());

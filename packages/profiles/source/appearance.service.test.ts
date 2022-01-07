@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { AppearanceService } from "./appearance.service";
+import { AppearanceService } from "./appearance.service.js";
 import { Profile } from "./profile";
 import { ProfileSetting } from "./profile.enum.contract";
 

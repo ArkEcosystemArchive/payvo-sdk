@@ -1,12 +1,12 @@
-export * as schemas from "./schemas";
 export * from "./delegate-registration";
 export * from "./delegate-resignation";
-export * from "./factory";
+export * from "./factory.js";
 export * from "./internal-transaction-type";
 export * from "./ipfs";
 export * from "./multi-payment";
 export * from "./multi-signature-registration";
+export * as schemas from "./schemas";
 export * from "./second-signature-registration";
-export * from "./transaction";
+export * from "./transaction.js";
 export * from "./transfer";
 export * from "./vote";

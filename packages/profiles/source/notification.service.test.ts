@@ -2,10 +2,10 @@ import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
-import { WalletReleaseNotificationService } from "./notification.releases.service";
+import { WalletReleaseNotificationService } from "./notification.releases.service.js";
 import { INotificationTypes } from "./notification.repository.contract";
-import { ProfileNotificationService } from "./notification.service";
-import { ProfileTransactionNotificationService } from "./notification.transactions.service";
+import { ProfileNotificationService } from "./notification.service.js";
+import { ProfileTransactionNotificationService } from "./notification.transactions.service.js";
 import { Profile } from "./profile";
 
 describeWithContext(

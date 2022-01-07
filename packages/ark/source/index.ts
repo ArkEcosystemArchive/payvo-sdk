@@ -16,7 +16,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { WIFService } from "./wif.service.js";
 import { manifest } from "./manifest.js";
-import { ServiceProvider } from "./coin.provider";
+import { ServiceProvider } from "./coin.provider.js";
 
 export const ARK: Coins.CoinBundle = bundle({
 	dataTransferObjects: {

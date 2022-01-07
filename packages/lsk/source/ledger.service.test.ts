@@ -4,14 +4,14 @@ import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocke
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { LedgerService } from "./ledger.service";
-import { AssetSerializer } from "./asset.serializer";
-import { TransactionSerializer } from "./transaction.serializer";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { AssetSerializer } from "./asset.serializer.js";
+import { TransactionSerializer } from "./transaction.serializer.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 const createMockService = async (record) => {
 	const transport = await createService(LedgerService, "lsk.mainnet", (container) => {

@@ -12,7 +12,7 @@ import {
 } from "../../interfaces";
 import { configManager } from "../../managers/config";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { Verifier } from "../verifier";
+import { Verifier } from "../verifier.js";
 import { TransactionSchema } from "./schemas";
 
 export abstract class Transaction implements ITransaction {

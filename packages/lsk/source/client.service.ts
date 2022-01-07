@@ -1,5 +1,5 @@
 import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { TransactionSerializer } from "./transaction.serializer";
+import { TransactionSerializer } from "./transaction.serializer.js";
 import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
 import { DateTime } from "@payvo/sdk-intl";
 

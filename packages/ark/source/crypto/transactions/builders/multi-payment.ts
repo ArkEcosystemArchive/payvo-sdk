@@ -1,9 +1,10 @@
+import { BigNumber } from "@payvo/sdk-helpers";
+
 import { MaximumPaymentCountExceededError, MinimumPaymentCountSubceededError } from "../../errors";
 import { ITransactionData } from "../../interfaces";
 import { configManager } from "../../managers";
-import { BigNumber } from "@payvo/sdk-helpers";
 import { MultiPaymentTransaction } from "../types";
-import { TransactionBuilder } from "./transaction";
+import { TransactionBuilder } from "./transaction.js";
 
 export class MultiPaymentBuilder extends TransactionBuilder<MultiPaymentBuilder> {
 	public constructor() {

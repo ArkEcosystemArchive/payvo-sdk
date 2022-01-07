@@ -1,14 +1,15 @@
 import { BigNumber } from "@payvo/sdk-helpers";
-import { TransactionFactory } from "../factory.js";
-import { Utils } from "../utils.js";
+
 import { TransactionTypeGroup } from "../../enums";
 import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../errors";
 import { Address } from "../../identities/address.js";
 import { Keys } from "../../identities/keys.js";
 import { IKeyPair, ITransaction, ITransactionData } from "../../interfaces";
-import { maxVendorFieldLength } from "../../utils";
+import { maxVendorFieldLength } from "../../utils.js";
+import { TransactionFactory } from "../factory.js";
 import { Signer } from "../signer";
-import { Verifier } from "../verifier";
+import { Utils } from "../utils.js";
+import { Verifier } from "../verifier.js";
 
 export abstract class TransactionBuilder<TBuilder extends TransactionBuilder<TBuilder>> {
 	public data: ITransactionData;
@@ -20,8 +21,8 @@ export abstract class TransactionBuilder<TBuilder extends TransactionBuilder<TBu
 	public constructor() {
 		this.data = {
 			id: undefined,
-			typeGroup: TransactionTypeGroup.Test,
 			nonce: BigNumber.ZERO,
+			typeGroup: TransactionTypeGroup.Test,
 			version: 0x02,
 		} as ITransactionData;
 	}

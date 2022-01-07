@@ -1,4 +1,4 @@
-import { sha256 } from "@noble/hashes/lib/sha256";
+import { sha256 } from "@noble/hashes/lib/sha256.js";
 
 import { Base58 } from "./base58.js";
 

@@ -1,5 +1,5 @@
 import { describe } from "@payvo/sdk-test";
-import { TransactionTypeService } from "./transaction-type.service";
+import { TransactionTypeService } from "./transaction-type.service.js";
 
 describe("TransactionTypeService", async ({ assert, it, nock, loader }) => {
 	it("should determine if the transaction is a transfer", () => {

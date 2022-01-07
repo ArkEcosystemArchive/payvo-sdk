@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { createValue } from "./transaction.factory";
+import { createValue } from "./transaction.factory.js";
 
 describe("createValue", async ({ assert, it, nock, loader }) => {
 	it("should succeed", async () => {

@@ -1,5 +1,5 @@
-import { BigNumber } from "@payvo/sdk-helpers";
 import { Contracts, Helpers, Services } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 export class FeeService extends Services.AbstractFeeService {
 	public override async all(): Promise<Services.TransactionFees> {
@@ -10,14 +10,14 @@ export class FeeService extends Services.AbstractFeeService {
 		const dynamicFees: object = node.data;
 
 		return {
-			transfer: this.#transform("transfer", 1, staticFees, dynamicFees),
-			secondSignature: this.#transform("secondSignature", 1, staticFees, dynamicFees),
 			delegateRegistration: this.#transform("delegateRegistration", 1, staticFees, dynamicFees),
-			vote: this.#transform("vote", 1, staticFees, dynamicFees),
-			multiSignature: this.#transform("multiSignature", 1, staticFees, dynamicFees),
+			delegateResignation: this.#transform("delegateResignation", 1, staticFees, dynamicFees),
 			ipfs: this.#transform("ipfs", 1, staticFees, dynamicFees),
 			multiPayment: this.#transform("multiPayment", 1, staticFees, dynamicFees),
-			delegateResignation: this.#transform("delegateResignation", 1, staticFees, dynamicFees),
+			multiSignature: this.#transform("multiSignature", 1, staticFees, dynamicFees),
+			secondSignature: this.#transform("secondSignature", 1, staticFees, dynamicFees),
+			transfer: this.#transform("transfer", 1, staticFees, dynamicFees),
+			vote: this.#transform("vote", 1, staticFees, dynamicFees),
 		};
 	}
 
@@ -46,13 +46,13 @@ export class FeeService extends Services.AbstractFeeService {
 		}
 
 		return {
-			static: maximumFee,
-			min: minimumFee.isGreaterThan(maximumFee) ? maximumFee : minimumFee,
 			avg: averageFee.isGreaterThan(maximumFee) ? maximumFee : averageFee,
-			max: maximumFee,
 			isDynamic:
 				this.configRepository.get<string>("network.transactions.fees.type") !== "static" &&
 				type !== "multiSignature",
+			max: maximumFee,
+			min: minimumFee.isGreaterThan(maximumFee) ? maximumFee : minimumFee,
+			static: maximumFee,
 		};
 	}
 

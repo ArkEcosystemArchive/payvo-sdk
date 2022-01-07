@@ -8,8 +8,8 @@ import { bootContainer, importByMnemonic } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { WalletData, WalletFlag, WalletImportMethod, WalletLedgerModel, WalletSetting } from "./contracts";
-import { ExchangeRateService } from "./exchange-rate.service";
-import { SignatoryFactory } from "./signatory.factory";
+import { ExchangeRateService } from "./exchange-rate.service.js";
+import { SignatoryFactory } from "./signatory.factory.js";
 import { Wallet } from "./wallet";
 import { WalletImportFormat } from "./wif";
 

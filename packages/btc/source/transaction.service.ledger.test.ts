@@ -2,21 +2,21 @@ import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { createService } from "../test/mocking";
-import { TransactionService } from "./transaction.service";
+import { TransactionService } from "./transaction.service.js";
 import { BindingType } from "./constants";
-import { AddressFactory } from "./address.factory";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
-import { FeeService } from "./fee.service";
-import { LedgerService } from "./ledger.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { AddressFactory } from "./address.factory.js";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
+import { FeeService } from "./fee.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocker";
 
 import { ledger } from "../test/fixtures/ledger";
-import { MultiSignatureService } from "./multi-signature.service";
+import { MultiSignatureService } from "./multi-signature.service.js";
 import { MultiSignatureSigner } from "./multi-signature.signer";
 
 const configureMock = (record) =>

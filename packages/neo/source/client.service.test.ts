@@ -1,23 +1,23 @@
-import { loader, describe } from "@payvo/sdk-test";
-import { IoC, Services, Signatories, Test } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
-import { BigNumber } from "@payvo/sdk-helpers";
-
-import { createService } from "../test/mocking";
-import { ClientService } from "./client.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
 import { api, wallet } from "@cityofzion/neon-js";
+import { IoC, Services, Signatories } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
+
 import { identity } from "../test/fixtures/identity";
+import { createService } from "../test/mocking";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loader }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(ClientService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
 				ConfirmedTransactionData,
+				SignedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -82,7 +82,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 							}),
 						).signingKey(),
 					),
-					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+					intents: api.makeIntent({ GAS: 1e-8, NEO: 1 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
 				},
 				"",
 			),
@@ -90,8 +90,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 
 		assert.equal(result, {
 			accepted: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		});
 	});
 
@@ -118,7 +118,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 							}),
 						).signingKey(),
 					),
-					intents: api.makeIntent({ NEO: 1, GAS: 1e-8 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
+					intents: api.makeIntent({ GAS: 1e-8, NEO: 1 }, "Ab9QkPeMzx7ehptvjbjHviAXUfdhAmEAUF"),
 				},
 				"",
 			),
@@ -126,11 +126,11 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock, loade
 
 		assert.equal(result, {
 			accepted: [],
-			rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
 			errors: {
 				"0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652":
 					"http://seed2.neo.org:20332: ERR_INSUFFICIENT_FUNDS",
 			},
+			rejected: ["0cb2e1fc8caa83cfb204e5cd2f66a58f3954a3b7bcc8958aaba38b582376e652"],
 		});
 	});
 });

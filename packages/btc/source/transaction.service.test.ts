@@ -5,20 +5,20 @@ import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocke
 import * as bitcoin from "bitcoinjs-lib";
 
 import { createServiceAsync } from "../test/mocking";
-import { TransactionService } from "./transaction.service";
+import { TransactionService } from "./transaction.service.js";
 import { BindingType } from "./constants";
-import { AddressFactory } from "./address.factory";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
-import { FeeService } from "./fee.service";
-import { LedgerService } from "./ledger.service";
+import { AddressFactory } from "./address.factory.js";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
+import { FeeService } from "./fee.service.js";
+import { LedgerService } from "./ledger.service.js";
 import { musig } from "../test/fixtures/musig";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { MultiSignatureService } from "./multi-signature.service";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { MultiSignatureService } from "./multi-signature.service.js";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-import { WalletData } from "./wallet.dto";
+import { WalletData } from "./wallet.dto.js";
 import { UUID } from "@payvo/sdk-cryptography";
 import {
 	oneSignatureLegacyMusigTransferTx,
@@ -35,7 +35,7 @@ import {
 	twoSignatureNativeSegwitMusigTransferTx,
 	unsignedNativeSegwitMusigTransferTx,
 } from "../test/fixtures/musig-native-segwit-txs";
-import { signatureValidator } from "./helpers";
+import { signatureValidator } from "./helpers.js";
 
 const mnemonic = "skin fortune security mom coin hurdle click emotion heart brisk exact reason";
 

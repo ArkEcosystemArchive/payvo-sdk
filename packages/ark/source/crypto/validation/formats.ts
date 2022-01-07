@@ -1,6 +1,6 @@
 import { Ajv } from "ajv";
 
-import { maxVendorFieldLength } from "../utils";
+import { maxVendorFieldLength } from "../utils.js";
 
 const vendorField = (ajv: Ajv) => {
 	ajv.addFormat("vendorField", (data) => {

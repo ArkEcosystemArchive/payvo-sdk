@@ -7,14 +7,14 @@ import { ProfileData, ProfileSetting } from "./contracts";
 import { CountAggregate } from "./count.aggregate";
 import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
-import { ProfileNotificationService } from "./notification.service";
+import { ProfileNotificationService } from "./notification.service.js";
 import { PluginRepository } from "./plugin.repository";
 import { Profile } from "./profile";
 import { RegistrationAggregate } from "./registration.aggregate";
 import { SettingRepository } from "./setting.repository";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
-import { WalletFactory } from "./wallet.factory";
+import { WalletFactory } from "./wallet.factory.js";
 import { WalletRepository } from "./wallet.repository";
 
 describe("Profile", ({ beforeEach, it, assert, loader, stub, nock }) => {

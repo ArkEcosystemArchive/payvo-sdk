@@ -3,8 +3,8 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
-import { AddressService } from "./address.service";
-import { AddressFactory } from "./address.factory";
+import { AddressService } from "./address.service.js";
+import { AddressFactory } from "./address.factory.js";
 
 const createMockService = () =>
 	createService(AddressService, undefined, async (container) => {

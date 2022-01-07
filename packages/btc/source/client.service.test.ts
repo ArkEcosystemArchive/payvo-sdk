@@ -3,10 +3,10 @@ import { IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { Collections } from "@payvo/sdk";
 
 describe("ClientService", async ({ beforeAll, afterEach, it, assert, loader, nock }) => {

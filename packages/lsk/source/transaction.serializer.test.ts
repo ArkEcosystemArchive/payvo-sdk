@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
-import { TransactionSerializer } from "./transaction.serializer";
+import { TransactionSerializer } from "./transaction.serializer.js";
 
 const clone = (data) => JSON.parse(JSON.stringify(data));
 

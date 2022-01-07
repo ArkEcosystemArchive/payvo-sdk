@@ -1,7 +1,7 @@
 import { Hash } from "@payvo/sdk-cryptography";
 import { ISerializeOptions, ITransactionData } from "../interfaces";
-import { Serializer } from "./serializer";
-import { TransactionTypeFactory } from "./types/factory";
+import { Serializer } from "./serializer.js";
+import { TransactionTypeFactory } from "./types/factory.js";
 
 export class Utils {
 	public static toBytes(data: ITransactionData): Buffer {

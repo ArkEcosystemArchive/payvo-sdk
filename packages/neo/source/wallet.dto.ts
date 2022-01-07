@@ -19,9 +19,9 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 			.times(1e8);
 
 		return {
-			total: available.plus(fees),
 			available,
 			fees,
+			total: available.plus(fees),
 		};
 	}
 }

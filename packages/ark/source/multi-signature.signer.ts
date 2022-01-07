@@ -1,11 +1,10 @@
-import { Managers, Transactions, Interfaces, Identities, Enums } from "./crypto/index.js";
 import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
-import { numberToHex } from "@payvo/sdk-helpers";
+import { numberToHex , uniq } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
+import { Enums,Identities, Interfaces, Managers, Transactions } from "./crypto/index.js";
 import { MultiSignatureAsset, MultiSignatureTransaction } from "./multi-signature.contract.js";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
-import { uniq } from "@payvo/sdk-helpers";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 
 export class MultiSignatureSigner {
 	readonly #ledgerService!: Services.LedgerService;
@@ -112,11 +111,11 @@ export class MultiSignatureSigner {
 		signingKeys: Interfaces.IKeyPair | undefined;
 		confirmKeys: Interfaces.IKeyPair | undefined;
 	}> {
-		let signingKeys: Services.KeyPairDataTransferObject | undefined = undefined;
-		let confirmKeys: Services.KeyPairDataTransferObject | undefined = undefined;
+		let signingKeys: any;
+		let confirmKeys: any;
 
 		if (signatory.actsWithLedger()) {
-			return { signingKeys, confirmKeys };
+			return { confirmKeys, signingKeys };
 		}
 
 		if (signatory.actsWithSecret()) {
@@ -149,8 +148,8 @@ export class MultiSignatureSigner {
 		}
 
 		return {
-			signingKeys: this.#formatKeyPair(signingKeys),
 			confirmKeys: this.#formatKeyPair(confirmKeys),
+			signingKeys: this.#formatKeyPair(signingKeys),
 		};
 	}
 
@@ -165,9 +164,9 @@ export class MultiSignatureSigner {
 			signatory.signingKey(),
 			// @ts-ignore
 			Transactions.Serializer.getBytes(transaction, {
-				excludeSignature: true,
-				excludeSecondSignature: true,
 				excludeMultiSignature,
+				excludeSecondSignature: true,
+				excludeSignature: true,
 			}),
 		);
 
@@ -179,9 +178,9 @@ export class MultiSignatureSigner {
 	#formatKeyPair(keyPair?: Services.KeyPairDataTransferObject): Interfaces.IKeyPair | undefined {
 		if (keyPair) {
 			return {
-				publicKey: keyPair.publicKey,
-				privateKey: keyPair.privateKey,
 				compressed: true,
+				privateKey: keyPair.privateKey,
+				publicKey: keyPair.publicKey,
 			};
 		}
 

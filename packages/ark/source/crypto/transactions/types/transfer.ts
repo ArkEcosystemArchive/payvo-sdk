@@ -5,7 +5,7 @@ import { Address } from "./../../identities/address.js";
 import { ISerializeOptions } from "./../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
 import * as schemas from "./schemas";
-import { Transaction } from "./transaction";
+import { Transaction } from "./transaction.js";
 
 export abstract class TransferTransaction extends Transaction {
 	public static override typeGroup: number = TransactionTypeGroup.Core;

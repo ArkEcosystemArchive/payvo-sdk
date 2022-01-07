@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Cache } from "./cache.service";
+import { Cache } from "./cache.service.js";
 
 describe("Cache", async ({ beforeEach, it, assert }) => {
 	beforeEach((context) => (context.subject = new Cache("wallet-ABC")));

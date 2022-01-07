@@ -2,7 +2,7 @@ import { Coins } from "@payvo/sdk";
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { CoinService } from "./coin.service";
+import { CoinService } from "./coin.service.js";
 import { Profile } from "./profile";
 
 describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy }) => {

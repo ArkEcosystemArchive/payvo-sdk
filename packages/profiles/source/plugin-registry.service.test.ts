@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { PluginRegistry } from "./plugin-registry.service";
+import { PluginRegistry } from "./plugin-registry.service.js";
 
 describe("PluginRegistry", ({ beforeEach, afterEach, it, assert, nock, loader }) => {
 	beforeEach((context) => {

@@ -5,7 +5,7 @@ import { bootContainer } from "../test/mocking";
 import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { Wallet } from "./wallet";
-import { WalletFactory } from "./wallet.factory";
+import { WalletFactory } from "./wallet.factory.js";
 import { WalletRepository } from "./wallet.repository";
 
 const generate = async (context, coin, network) => {
