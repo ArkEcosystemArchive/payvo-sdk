@@ -16,7 +16,7 @@ export const orderBy = <T>(values: T[], iteratees: Iteratee | Iteratee[], orders
 		orders = [orders];
 	}
 
-	return fastSort.sort(values).by(
-		map(iteratees as any, (_: string, index: number) => ({ [orders[index]]: iteratees[index] })),
-	);
+	return fastSort
+		.sort(values)
+		.by(map(iteratees as any, (_: string, index: number) => ({ [orders[index]]: iteratees[index] })));
 };
