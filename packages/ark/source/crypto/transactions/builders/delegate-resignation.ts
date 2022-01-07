@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { ITransactionData } from "../../interfaces";
-import { DelegateResignationTransaction } from "../types";
+import { ITransactionData } from "../../interfaces/index.js";
+import { DelegateResignationTransaction } from "../types/index.js";
 import { TransactionBuilder } from "./transaction.js";
 
 export class DelegateResignationBuilder extends TransactionBuilder<DelegateResignationBuilder> {

@@ -1,13 +1,13 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { TransactionTypeGroup } from "../../enums";
+import { TransactionTypeGroup } from "../../enums.js";
 import { MissingTransactionSignatureError, VendorFieldLengthExceededError } from "../../errors.js";
 import { Address } from "../../identities/address.js";
 import { Keys } from "../../identities/keys.js";
-import { IKeyPair, ITransaction, ITransactionData } from "../../interfaces";
+import { IKeyPair, ITransaction, ITransactionData } from "../../interfaces/index.js";
 import { maxVendorFieldLength } from "../../utils.js";
 import { TransactionFactory } from "../factory.js";
-import { Signer } from "../signer";
+import { Signer } from "../signer.js";
 import { Utils } from "../utils.js";
 import { Verifier } from "../verifier.js";
 

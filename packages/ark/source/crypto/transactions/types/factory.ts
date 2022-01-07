@@ -1,6 +1,6 @@
 import { UnkownTransactionError } from "../../errors.js";
-import { ITransaction, ITransactionData } from "../../interfaces";
-import { InternalTransactionType } from "./internal-transaction-type";
+import { ITransaction, ITransactionData } from "../../interfaces/index.js";
+import { InternalTransactionType } from "./internal-transaction-type.js";
 import { Transaction } from "./transaction.js";
 
 type TransactionConstructor = typeof Transaction;

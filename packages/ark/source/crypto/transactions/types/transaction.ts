@@ -1,6 +1,7 @@
+import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { TransactionTypeGroup } from "../../enums";
+import { TransactionTypeGroup } from "../../enums.js";
 import { NotImplemented } from "../../errors.js";
 import { Address } from "../../identities/address.js";
 import {
@@ -9,21 +10,20 @@ import {
 	ITransaction,
 	ITransactionData,
 	ITransactionJson,
-} from "../../interfaces";
-import { configManager } from "../../managers/config";
-import { BigNumber } from "@payvo/sdk-helpers";
+} from "../../interfaces/index.js";
+import { configManager } from "../../managers/config.js";
 import { Verifier } from "../verifier.js";
-import { TransactionSchema } from "./schemas";
+import { TransactionSchema } from "./schemas.js";
 
 export abstract class Transaction implements ITransaction {
 	public static type: number | undefined = undefined;
 	public static typeGroup: number | undefined = undefined;
-	public static version: number = 2;
+	public static version = 2;
 	public static key: string | undefined = undefined;
 
 	protected static defaultStaticFee: BigNumber = BigNumber.ZERO;
 
-	public isVerified: boolean = false;
+	public isVerified = false;
 	public data!: ITransactionData;
 	public serialized!: Buffer;
 	public timestamp!: number;

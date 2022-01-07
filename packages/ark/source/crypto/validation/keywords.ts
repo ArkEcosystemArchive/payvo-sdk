@@ -2,9 +2,9 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { Ajv } from "ajv";
 import ajvKeywords from "ajv-keywords";
 
-import { TransactionType } from "../enums";
-import { ITransactionData } from "../interfaces";
-import { configManager } from "../managers";
+import { TransactionType } from "../enums.js";
+import { ITransactionData } from "../interfaces/index.js";
+import { configManager } from "../managers/index.js";
 
 const maxBytes = (ajv: Ajv) => {
 	ajv.addKeyword("maxBytes", {

@@ -1,11 +1,11 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { TransactionType, TransactionTypeGroup } from "../../enums";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
 import { Address } from "../../identities/address.js";
-import { IMultiPaymentItem, ISerializeOptions } from "../../interfaces";
-import { configManager } from "../../managers";
-import * as schemas from "./schemas";
+import { IMultiPaymentItem, ISerializeOptions } from "../../interfaces/index.js";
+import { configManager } from "../../managers/index.js";
+import * as schemas from "./schemas.js";
 import { Transaction } from "./transaction.js";
 
 export abstract class MultiPaymentTransaction extends Transaction {

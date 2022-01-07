@@ -4,7 +4,7 @@ import {
 	TransactionVersionAlreadyRegisteredError,
 	UnkownTransactionError,
 } from "../errors.js";
-import { validator } from "../validation";
+import { validator } from "../validation/index.js";
 import {
 	DelegateRegistrationTransaction,
 	DelegateResignationTransaction,
@@ -16,8 +16,8 @@ import {
 	TransactionTypeFactory,
 	TransferTransaction,
 	VoteTransaction,
-} from "./types";
-import { InternalTransactionType } from "./types/internal-transaction-type";
+} from "./types/index.js";
+import { InternalTransactionType } from "./types/internal-transaction-type.js";
 
 export type TransactionConstructor = typeof Transaction;
 

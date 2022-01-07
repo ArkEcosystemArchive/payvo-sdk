@@ -1,4 +1,4 @@
-import { configManager } from "./managers";
+import { configManager } from "./managers/index.js";
 
 export const maxVendorFieldLength = (height?: number): number => configManager.getMilestone(height).vendorFieldLength;
 

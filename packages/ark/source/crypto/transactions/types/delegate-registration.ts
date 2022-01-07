@@ -1,9 +1,9 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { TransactionType, TransactionTypeGroup } from "../../enums";
-import { ISerializeOptions } from "../../interfaces";
-import * as schemas from "./schemas";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { ISerializeOptions } from "../../interfaces/index.js";
+import * as schemas from "./schemas.js";
 import { Transaction } from "./transaction.js";
 
 export abstract class DelegateRegistrationTransaction extends Transaction {

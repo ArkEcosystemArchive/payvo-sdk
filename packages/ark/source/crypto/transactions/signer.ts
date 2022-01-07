@@ -1,7 +1,7 @@
 import { numberToHex } from "@payvo/sdk-helpers";
 
 import { Hash } from "../hash.js";
-import { IKeyPair, ISerializeOptions, ITransactionData } from "../interfaces";
+import { IKeyPair, ISerializeOptions, ITransactionData } from "../interfaces/index.js";
 import { Utils } from "./utils.js";
 
 export class Signer {

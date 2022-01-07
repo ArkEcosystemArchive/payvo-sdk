@@ -1,10 +1,10 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
-import { TransactionType, TransactionTypeGroup } from "../../enums";
-import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "../../interfaces";
-import { configManager } from "../../managers";
-import * as schemas from "./schemas";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "../../interfaces/index.js";
+import { configManager } from "../../managers/index.js";
+import * as schemas from "./schemas.js";
 import { Transaction } from "./transaction.js";
 
 export class MultiSignatureRegistrationTransaction extends Transaction {

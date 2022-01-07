@@ -6,7 +6,7 @@ import {
 	TransactionSchemaError,
 	TransactionVersionError,
 } from "../errors.js";
-import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces";
+import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces/index.js";
 import { Deserializer } from "./deserializer.js";
 import { Serializer } from "./serializer.js";
 import { TransactionTypeFactory } from "./types/factory.js";

@@ -1,7 +1,7 @@
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { IMultiSignatureAsset, ITransactionData } from "../../interfaces";
-import { MultiSignatureRegistrationTransaction } from "../types";
+import { IMultiSignatureAsset, ITransactionData } from "../../interfaces/index.js";
+import { MultiSignatureRegistrationTransaction } from "../types/index.js";
 import { TransactionBuilder } from "./transaction.js";
 
 export class MultiSignatureBuilder extends TransactionBuilder<MultiSignatureBuilder> {

@@ -1,8 +1,8 @@
 import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors.js";
-import { Hash } from "../hash";
-import { IMultiSignatureAsset, ISchemaValidationResult, ITransactionData, IVerifyOptions } from "../interfaces";
-import { configManager } from "../managers";
-import { validator } from "../validation";
+import { Hash } from "../hash.js";
+import { IMultiSignatureAsset, ISchemaValidationResult, ITransactionData, IVerifyOptions } from "../interfaces/index.js";
+import { configManager } from "../managers/index.js";
+import { validator } from "../validation/index.js";
 import { TransactionTypeFactory } from "./types/factory.js";
 import { Utils } from "./utils.js";
 

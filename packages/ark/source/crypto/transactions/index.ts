@@ -1,7 +1,7 @@
 export * from "./builders";
 export * from "./deserializer.js";
 export * from "./factory.js";
-export { TransactionConstructor, transactionRegistry as TransactionRegistry } from "./registry";
+export { TransactionConstructor, transactionRegistry as TransactionRegistry } from "./registry.js";
 export * from "./serializer.js";
 export * from "./signer";
 export * from "./types";

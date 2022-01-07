@@ -1,5 +1,6 @@
 import { Hash } from "@payvo/sdk-cryptography";
-import { ISerializeOptions, ITransactionData } from "../interfaces";
+
+import { ISerializeOptions, ITransactionData } from "../interfaces/index.js";
 import { Serializer } from "./serializer.js";
 import { TransactionTypeFactory } from "./types/factory.js";
 

@@ -1,4 +1,4 @@
-import { TransactionTypeGroup } from "../../enums";
+import { TransactionTypeGroup } from "../../enums.js";
 
 export class InternalTransactionType {
 	private static types: Map<string, InternalTransactionType> = new Map();

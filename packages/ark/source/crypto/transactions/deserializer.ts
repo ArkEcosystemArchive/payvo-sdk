@@ -2,8 +2,8 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import ByteBuffer from "bytebuffer";
 
 import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors.js";
-import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces";
-import { TransactionTypeFactory } from "./types";
+import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces/index.js";
+import { TransactionTypeFactory } from "./types/index.js";
 
 export class Deserializer {
 	public static deserialize(serialized: string | Buffer, options: IDeserializeOptions = {}): ITransaction {

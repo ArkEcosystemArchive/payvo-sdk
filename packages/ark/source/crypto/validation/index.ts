@@ -1,11 +1,11 @@
 import Ajv from "ajv";
 import ajvKeywords from "ajv-keywords";
 
-import { ISchemaValidationResult } from "../interfaces";
-import { signedSchema, strictSchema, TransactionSchema } from "../transactions/types/schemas";
-import { formats } from "./formats";
-import { keywords } from "./keywords";
-import { schemas } from "./schemas";
+import { ISchemaValidationResult } from "../interfaces/index.js";
+import { signedSchema, strictSchema, TransactionSchema } from "../transactions/types/schemas.js";
+import { formats } from "./formats.js";
+import { keywords } from "./keywords.js";
+import { schemas } from "./schemas.js";
 
 export class Validator {
 	private ajv: Ajv.Ajv;
@@ -23,18 +23,18 @@ export class Validator {
 		return this.ajv;
 	}
 
-	public validate<T = any>(schemaKeyRef: string | boolean | object, data: T): ISchemaValidationResult<T> {
-		return this.validateSchema(this.ajv, schemaKeyRef, data);
+	public validate<T = any>(schemaKeyReference: string | boolean | object, data: T): ISchemaValidationResult<T> {
+		return this.validateSchema(this.ajv, schemaKeyReference, data);
 	}
 
-	public validateException<T = any>(schemaKeyRef: string | boolean | object, data: T): ISchemaValidationResult<T> {
+	public validateException<T = any>(schemaKeyReference: string | boolean | object, data: T): ISchemaValidationResult<T> {
 		const ajv = this.instantiateAjv({ allErrors: true, verbose: true });
 
 		for (const schema of this.transactionSchemas.values()) {
 			this.extendTransactionSchema(ajv, schema);
 		}
 
-		return this.validateSchema(ajv, schemaKeyRef, data);
+		return this.validateSchema(ajv, schemaKeyReference, data);
 	}
 
 	public addFormat(name: string, format: Ajv.FormatDefinition): void {
@@ -53,8 +53,8 @@ export class Validator {
 		this.ajv.removeKeyword(keyword);
 	}
 
-	public removeSchema(schemaKeyRef: string | boolean | object | RegExp): void {
-		this.ajv.removeSchema(schemaKeyRef);
+	public removeSchema(schemaKeyReference: string | boolean | object | RegExp): void {
+		this.ajv.removeSchema(schemaKeyReference);
 	}
 
 	public extendTransaction(schema: TransactionSchema, remove?: boolean) {
@@ -63,28 +63,28 @@ export class Validator {
 
 	private validateSchema<T = any>(
 		ajv: Ajv.Ajv,
-		schemaKeyRef: string | boolean | object,
+		schemaKeyReference: string | boolean | object,
 		data: T,
 	): ISchemaValidationResult<T> {
 		try {
-			ajv.validate(schemaKeyRef, data);
+			ajv.validate(schemaKeyReference, data);
 
 			const error = ajv.errors ? ajv.errorsText() : undefined;
 
-			return { value: data, error, errors: ajv.errors || undefined };
+			return { error, errors: ajv.errors || undefined, value: data };
 		} catch (error) {
-			return { value: undefined, error: error.stack, errors: [] };
+			return { error: error.stack, errors: [], value: undefined };
 		}
 	}
 
 	private instantiateAjv(options: Record<string, any>) {
 		const ajv = new Ajv({
-			...{
+
 				$data: true,
-				schemas,
-				removeAdditional: true,
 				extendRefs: true,
-			},
+				removeAdditional: true,
+				schemas
+			,
 			...options,
 		});
 		ajvKeywords(ajv);
@@ -126,9 +126,9 @@ export class Validator {
 		ajv.removeSchema("transactions");
 		ajv.addSchema({
 			$id: "transactions",
-			type: "array",
 			additionalItems: false,
 			items: { anyOf: [...this.transactionSchemas.keys()].map((schema) => ({ $ref: `${schema}Signed` })) },
+			type: "array",
 		});
 	}
 }
