@@ -1,4 +1,5 @@
-import fastSort, { ISortBy, ISortByFunction } from "fast-sort";
+import * as fastSort from "./fast-sort.js";
+import { ISortBy, ISortByFunction } from "./fast-sort.js";
 
 export const sortBy = <T>(
 	values: T[],

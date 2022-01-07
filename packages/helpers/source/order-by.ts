@@ -1,4 +1,4 @@
-import fastSort from "fast-sort";
+import * as fastSort from "./fast-sort.js";
 
 import { isFunction } from "./is-function.js";
 import { isString } from "./is-string.js";
