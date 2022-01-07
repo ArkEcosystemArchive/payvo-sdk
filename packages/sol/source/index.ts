@@ -11,7 +11,7 @@ import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { manifest } from "./manifest.js";
 
-export const NEO: Coins.CoinBundle = bundle({
+export const SOL: Coins.CoinBundle = bundle({
 	dataTransferObjects: {
 		SignedTransactionData,
 		ConfirmedTransactionData,
