@@ -5,7 +5,7 @@ import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
-import { WalletIdentifierFactory } from "./wallet.identifier.factory";
+import { WalletIdentifierFactory } from "./wallet.identifier.factory.js";
 
 describe("WalletIdentifierFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll(() => {

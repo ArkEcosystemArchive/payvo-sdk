@@ -12,7 +12,7 @@ import { SignedTransactionData } from "./signed-transaction.dto.js";
 import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { WalletData } from "./wallet.dto.js";
 import { manifest } from "./manifest.js";
-import { ServiceProvider } from "./coin.provider";
+import { ServiceProvider } from "./coin.provider.js";
 
 export const DOT: Coins.CoinBundle = bundle({
 	dataTransferObjects: {

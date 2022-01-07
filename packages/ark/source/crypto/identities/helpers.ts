@@ -1,5 +1,5 @@
-import { Network } from "../interfaces/networks";
-import { configManager } from "../managers";
+import { Network } from "../interfaces/networks.js";
+import { configManager } from "../managers/index.js";
 
 export const getWIF = (network?: Network): number => (network ? network.wif : configManager.get("network.wif"));
 

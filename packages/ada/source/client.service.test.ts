@@ -3,11 +3,11 @@ import { DTO, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { TransactionService } from "./transaction.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {

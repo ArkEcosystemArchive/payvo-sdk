@@ -4,7 +4,7 @@ import { ECPair } from "ecpair";
 import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./constants.js";
-import { AddressFactory } from "./address.factory";
+import { AddressFactory } from "./address.factory.js";
 import { getNetworkConfig, getNetworkID } from "./config.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { strict as assert } from "assert";

@@ -1,9 +1,9 @@
-import ByteBuffer from "bytebuffer";
 import { BigNumber } from "@payvo/sdk-helpers";
+import ByteBuffer from "bytebuffer";
 
-import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors";
-import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces";
-import { TransactionTypeFactory } from "./types";
+import { DuplicateParticipantInMultiSignatureError, InvalidTransactionBytesError } from "../errors.js";
+import { IDeserializeOptions, ITransaction, ITransactionData } from "../interfaces/index.js";
+import { TransactionTypeFactory } from "./types/index.js";
 
 export class Deserializer {
 	public static deserialize(serialized: string | Buffer, options: IDeserializeOptions = {}): ITransaction {
@@ -65,7 +65,7 @@ export class Deserializer {
 			const lengthHex: string = buf.skip(1).readBytes(1).toString("hex");
 
 			buf.reset();
-			return parseInt(lengthHex, 16) + 2;
+			return Number.parseInt(lengthHex, 16) + 2;
 		};
 
 		// Signature
@@ -103,9 +103,8 @@ export class Deserializer {
 	}
 
 	private static deserializeSchnorr(transaction: ITransactionData, buf: ByteBuffer): void {
-		const canReadNonMultiSignature = () => {
-			return buf.remaining() && (buf.remaining() % 64 === 0 || buf.remaining() % 65 !== 0);
-		};
+		const canReadNonMultiSignature = () =>
+			buf.remaining() && (buf.remaining() % 64 === 0 || buf.remaining() % 65 !== 0);
 
 		if (canReadNonMultiSignature()) {
 			transaction.signature = buf.readBytes(64).toString("hex");
@@ -121,9 +120,9 @@ export class Deserializer {
 
 				const count: number = buf.remaining() / 65;
 				const publicKeyIndexes: { [index: number]: boolean } = {};
-				for (let i = 0; i < count; i++) {
+				for (let index = 0; index < count; index++) {
 					const multiSignaturePart: string = buf.readBytes(65).toString("hex");
-					const publicKeyIndex: number = parseInt(multiSignaturePart.slice(0, 2), 16);
+					const publicKeyIndex: number = Number.parseInt(multiSignaturePart.slice(0, 2), 16);
 
 					if (!publicKeyIndexes[publicKeyIndex]) {
 						publicKeyIndexes[publicKeyIndex] = true;

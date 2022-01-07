@@ -9,7 +9,7 @@ import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 
 const mnemonic = identity.mnemonic;
 

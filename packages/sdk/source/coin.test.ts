@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { ARK } from "../../ark/distribution/esm";
 import { Request } from "../../fetch/distribution/esm";
-import { CoinFactory } from "./coin-factory";
+import { CoinFactory } from "./coin-factory.js";
 import { ConfigRepository } from "./config";
 import { Manifest } from "./manifest";
 import { Network, NetworkRepository } from "./networks";

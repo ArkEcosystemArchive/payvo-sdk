@@ -34,7 +34,7 @@ import { KnownWalletService } from "./known-wallet.service.js";
 import { MultiSignature } from "./multi-signature.js";
 import { WalletSerialiser } from "./serialiser.js";
 import { SettingRepository } from "./setting.repository";
-import { SignatoryFactory } from "./signatory.factory";
+import { SignatoryFactory } from "./signatory.factory.js";
 import { TransactionIndex } from "./transaction-index.js";
 import { VoteRegistry } from "./vote-registry.js";
 import { WalletBalanceType, WalletDerivationMethod } from "./wallet.contract.js";

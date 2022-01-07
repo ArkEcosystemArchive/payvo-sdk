@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { WalletData } from "./wallet.dto";
+import { WalletData } from "./wallet.dto.js";
 import { createService } from "../test/mocking";
 
 describe("WalletData", async ({ beforeEach, it, assert }) => {

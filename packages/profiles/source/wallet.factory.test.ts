@@ -4,7 +4,7 @@ import { describe } from "@payvo/sdk-test";
 import { bootContainer } from "../test/mocking";
 import { WalletData } from "./contracts";
 import { Profile } from "./profile";
-import { WalletFactory } from "./wallet.factory";
+import { WalletFactory } from "./wallet.factory.js";
 
 describe("WalletFactory", ({ beforeAll, beforeEach, loader, nock, assert, stub, it }) => {
 	beforeAll((context) => {

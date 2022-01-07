@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { RegistryPlugin } from "./plugin-registry.dto";
+import { RegistryPlugin } from "./plugin-registry.dto.js";
 
 describe("RegistryPlugin #sourceProvider", ({ it, assert, each }) => {
 	each(

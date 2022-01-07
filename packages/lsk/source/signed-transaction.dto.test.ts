@@ -3,7 +3,7 @@ import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {

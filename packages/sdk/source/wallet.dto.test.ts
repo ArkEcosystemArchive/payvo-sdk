@@ -3,7 +3,7 @@
 import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
-import { AbstractWalletData } from "./wallet.dto";
+import { AbstractWalletData } from "./wallet.dto.js";
 
 class Wallet extends AbstractWalletData {
 	primaryKey() {

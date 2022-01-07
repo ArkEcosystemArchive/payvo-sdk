@@ -2,7 +2,7 @@
 //
 
 // import { bootContainer } from "../test/mocking";
-// import { ExchangeTransaction } from "./exchange-transaction";
+// import { ExchangeTransaction } from "./exchange-transaction.js";
 // import { ExchangeTransactionStatus } from "./exchange-transaction.enum";
 // import { Profile } from "./profile";
 

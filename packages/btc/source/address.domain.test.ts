@@ -9,7 +9,7 @@ import {
 	defaultNativeSegwitMusigAccountKey,
 	defaultP2SHSegwitMusigAccountKey,
 	rootToAccountKeys,
-} from "./address.domain";
+} from "./address.domain.js";
 import { musig } from "../test/fixtures/musig";
 import { convertBuffer } from "@payvo/sdk-helpers";
 

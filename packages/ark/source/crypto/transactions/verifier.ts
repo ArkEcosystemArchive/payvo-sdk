@@ -1,10 +1,15 @@
-import { Hash } from "../hash";
-import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors";
-import { IMultiSignatureAsset, ISchemaValidationResult, ITransactionData, IVerifyOptions } from "../interfaces";
-import { configManager } from "../managers";
-import { validator } from "../validation";
-import { TransactionTypeFactory } from "./types/factory";
-import { Utils } from "./utils";
+import { DuplicateParticipantInMultiSignatureError, InvalidMultiSignatureAssetError } from "../errors.js";
+import { Hash } from "../hash.js";
+import {
+	IMultiSignatureAsset,
+	ISchemaValidationResult,
+	ITransactionData,
+	IVerifyOptions,
+} from "../interfaces/index.js";
+import { configManager } from "../managers/index.js";
+import { validator } from "../validation/index.js";
+import { TransactionTypeFactory } from "./types/factory.js";
+import { Utils } from "./utils.js";
 
 export class Verifier {
 	public static verify(data: ITransactionData, options?: IVerifyOptions): boolean {
@@ -42,19 +47,19 @@ export class Verifier {
 		const { signatures }: ITransactionData = transaction;
 
 		const hash: Buffer = Utils.toHash(transaction, {
-			excludeSignature: true,
-			excludeSecondSignature: true,
 			excludeMultiSignature: true,
+			excludeSecondSignature: true,
+			excludeSignature: true,
 		});
 
 		const publicKeyIndexes: { [index: number]: boolean } = {};
-		let verified: boolean = false;
-		let verifiedSignatures: number = 0;
+		let verified = false;
+		let verifiedSignatures = 0;
 
 		if (signatures) {
-			for (let i = 0; i < signatures.length; i++) {
-				const signature: string = signatures[i];
-				const publicKeyIndex: number = parseInt(signature.slice(0, 2), 16);
+			for (let index = 0; index < signatures.length; index++) {
+				const signature: string = signatures[index];
+				const publicKeyIndex: number = Number.parseInt(signature.slice(0, 2), 16);
 
 				if (!publicKeyIndexes[publicKeyIndex]) {
 					publicKeyIndexes[publicKeyIndex] = true;
@@ -72,7 +77,7 @@ export class Verifier {
 				if (verifiedSignatures === min) {
 					verified = true;
 					break;
-				} else if (signatures.length - (i + 1 - verifiedSignatures) < min) {
+				} else if (signatures.length - (index + 1 - verifiedSignatures) < min) {
 					break;
 				}
 			}
@@ -90,8 +95,8 @@ export class Verifier {
 
 		const hash: Buffer = Utils.toHash(data, {
 			disableVersionCheck,
-			excludeSignature: true,
 			excludeSecondSignature: true,
+			excludeSignature: true,
 		});
 
 		return this.internalVerifySignature(hash, signature, senderPublicKey);

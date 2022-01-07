@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { ContactAddress } from "./contact-address";
+import { ContactAddress } from "./contact-address.js";
 import { Profile } from "./profile";
 
 describe("ContactAddress", async ({ it, assert, beforeEach }) => {

@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 describe("ConfirmedTransactionData", async ({ it, assert, loader }) => {
 	it("should parse blockId correctly", async () => {

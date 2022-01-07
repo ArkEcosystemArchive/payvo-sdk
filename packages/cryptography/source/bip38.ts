@@ -1,13 +1,13 @@
 // Based on https://github.com/bitcoinjs/bip38/blob/master/index.js
 
-import { scrypt } from "@noble/hashes/lib/scrypt";
+import { scrypt } from "@noble/hashes/lib/scrypt.js";
 import BigInteger from "bigi";
 import { Buffer } from "buffer";
 import { createCipheriv, createDecipheriv } from "crypto";
 
 import { Base58Check } from "./base58-check.js";
 import { secp256k1 } from "./ecurve/names.js";
-import { Hash } from "./hash";
+import { Hash } from "./hash.js";
 
 // constants
 const SCRYPT_PARAMS = {

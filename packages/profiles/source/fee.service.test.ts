@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { FeeService } from "./fee.service";
+import { FeeService } from "./fee.service.js";
 import { Profile } from "./profile";
 
 describe("FeeService", ({ beforeEach, loader, nock, it, assert }) => {

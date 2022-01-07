@@ -1,10 +1,10 @@
-import { Interfaces } from "./crypto/index.js";
-import { WIF as BaseWIF } from "./crypto/identities/wif.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
+import { WIF as BaseWIF } from "./crypto/identities/wif.js";
+import { Interfaces } from "./crypto/index.js";
 
 export class WIFService extends Services.AbstractWIFService {
 	readonly #config!: Interfaces.NetworkConfig;
@@ -37,7 +37,7 @@ export class WIFService extends Services.AbstractWIFService {
 	public override async fromPrivateKey(privateKey: string): Promise<Services.WIFDataTransferObject> {
 		return {
 			// @ts-ignore - We don't care about having a public key for this
-			wif: BaseWIF.fromKeys({ privateKey, compressed: true }),
+			wif: BaseWIF.fromKeys({ compressed: true, privateKey }),
 		};
 	}
 }

@@ -1,10 +1,10 @@
-import { Identities, Interfaces, Transactions } from "./crypto/index.js";
-import { Contracts, Exceptions, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
+import { Contracts, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
 import { applyCryptoConfiguration } from "./config.js";
+import { Identities, Interfaces, Transactions } from "./crypto/index.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
@@ -130,8 +130,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			}
 
 			transaction.multiSignatureAsset({
-				publicKeys: data.publicKeys,
 				min: data.min,
+				publicKeys: data.publicKeys,
 			});
 		});
 	}
@@ -231,7 +231,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		} else {
 			const wallet = await this.clientService.wallet({ type: "address", value: address! });
 
-			transaction.nonce(wallet.nonce().plus(1).toFixed());
+			transaction.nonce(wallet.nonce().plus(1).toFixed(0));
 		}
 
 		if (input.data && input.data.amount) {
@@ -259,7 +259,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 				}
 
 				if (estimatedExpiration) {
-					transaction.expiration(parseInt(estimatedExpiration));
+					transaction.expiration(Number.parseInt(estimatedExpiration));
 				}
 			}
 		} catch {
@@ -267,7 +267,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		if (callback) {
-			callback({ transaction, data: input.data });
+			callback({ data: input.data, transaction });
 		}
 
 		if (input.signatory.actsWithMultiSignature()) {
@@ -287,8 +287,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			return this.#addSignature(
 				transaction,
 				{
-					publicKeys: input.data.publicKeys,
 					min: input.data.min,
+					publicKeys: input.data.publicKeys,
 				},
 				input.signatory,
 				senderPublicKey,
@@ -299,8 +299,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 			transaction.data.signature = await this.#ledgerService.signTransaction(
 				input.signatory.signingKey(),
 				Transactions.Serializer.getBytes(transaction.data, {
-					excludeSignature: true,
 					excludeSecondSignature: true,
+					excludeSignature: true,
 				}),
 			);
 

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
-import { AddressFactory } from "./address.factory";
+import { AddressFactory } from "./address.factory.js";
 import * as bitcoin from "bitcoinjs-lib";
 
 describe("Wallet data helper", async ({ beforeEach, it, assert, nock }) => {

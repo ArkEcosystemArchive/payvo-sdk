@@ -1,4 +1,4 @@
-import { Contracts, DTO, IoC } from "@payvo/sdk";
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber, get, has } from "@payvo/sdk-helpers";
 
 export class WalletData extends DTO.AbstractWalletData implements Contracts.WalletData {
@@ -16,9 +16,9 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 
 	public override balance(): Contracts.WalletBalance {
 		return {
-			total: this.bigNumberService.make(this.data.balance ?? 0),
 			available: this.bigNumberService.make(this.data.balance ?? 0),
 			fees: this.bigNumberService.make(this.data.balance ?? 0),
+			total: this.bigNumberService.make(this.data.balance ?? 0),
 		};
 	}
 

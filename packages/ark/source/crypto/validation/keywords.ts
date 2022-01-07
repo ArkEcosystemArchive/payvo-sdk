@@ -2,13 +2,12 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { Ajv } from "ajv";
 import ajvKeywords from "ajv-keywords";
 
-import { TransactionType } from "../enums";
-import { ITransactionData } from "../interfaces";
-import { configManager } from "../managers";
+import { TransactionType } from "../enums.js";
+import { ITransactionData } from "../interfaces/index.js";
+import { configManager } from "../managers/index.js";
 
 const maxBytes = (ajv: Ajv) => {
 	ajv.addKeyword("maxBytes", {
-		type: "string",
 		compile(schema, parentSchema) {
 			return (data) => {
 				if ((parentSchema as any).type !== "string") {
@@ -20,9 +19,10 @@ const maxBytes = (ajv: Ajv) => {
 		},
 		errors: false,
 		metaSchema: {
-			type: "integer",
 			minimum: 0,
+			type: "integer",
 		},
+		type: "string",
 	});
 };
 
@@ -35,12 +35,12 @@ const transactionType = (ajv: Ajv) => {
 				if (
 					data === TransactionType.MultiPayment &&
 					parentObject &&
-					(!parentObject.typeGroup || parentObject.typeGroup === 1)
+					(!parentObject.typeGroup || parentObject.typeGroup === 1) &&
+					parentObject.asset &&
+					parentObject.asset.payments
 				) {
-					if (parentObject.asset && parentObject.asset.payments) {
-						const limit: number = configManager.getMilestone().multiPaymentLimit || 256;
-						return parentObject.asset.payments.length <= limit;
-					}
+					const limit: number = configManager.getMilestone().multiPaymentLimit || 256;
+					return parentObject.asset.payments.length <= limit;
 				}
 
 				return data === schema;
@@ -48,8 +48,8 @@ const transactionType = (ajv: Ajv) => {
 		},
 		errors: false,
 		metaSchema: {
-			type: "integer",
 			minimum: 0,
+			type: "integer",
 		},
 	});
 };
@@ -57,9 +57,7 @@ const transactionType = (ajv: Ajv) => {
 const network = (ajv: Ajv) => {
 	ajv.addKeyword("network", {
 		compile(schema) {
-			return (data) => {
-				return schema && data === configManager.get("network.pubKeyHash");
-			};
+			return (data) => schema && data === configManager.get("network.pubKeyHash");
 		},
 		errors: false,
 		metaSchema: {
@@ -105,15 +103,15 @@ const bignumber = (ajv: Ajv) => {
 			};
 		},
 		errors: false,
-		modifying: true,
 		metaSchema: {
-			type: "object",
-			properties: {
-				minimum: { type: "integer" },
-				maximum: { type: "integer" },
-			},
 			additionalItems: false,
+			properties: {
+				maximum: { type: "integer" },
+				minimum: { type: "integer" },
+			},
+			type: "object",
 		},
+		modifying: true,
 	});
 };
 

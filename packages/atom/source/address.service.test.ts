@@ -3,8 +3,8 @@ import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { KeyPairService } from "./key-pair.service";
+import { AddressService } from "./address.service.js";
+import { KeyPairService } from "./key-pair.service.js";
 
 describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {

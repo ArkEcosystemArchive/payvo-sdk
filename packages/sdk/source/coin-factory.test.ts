@@ -4,7 +4,7 @@ import { describe } from "@payvo/sdk-test";
 import { ARK } from "../../ark/distribution/esm";
 import { Request } from "../../fetch/distribution/esm";
 import { Coin } from "./coin";
-import { CoinFactory } from "./coin-factory";
+import { CoinFactory } from "./coin-factory.js";
 
 describe("CoinFactory", ({ assert, beforeEach, loader, nock, it }) => {
 	beforeEach(async (context) => {

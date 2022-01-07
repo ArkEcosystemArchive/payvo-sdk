@@ -1,6 +1,6 @@
 import { UUID } from "@payvo/sdk-cryptography";
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 import { BindingType } from "./constants.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
 import { getNetworkConfig } from "./config.js";

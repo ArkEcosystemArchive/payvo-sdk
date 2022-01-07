@@ -2,7 +2,7 @@ import { describeWithContext } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
-import { DelegateService } from "./delegate.service";
+import { DelegateService } from "./delegate.service.js";
 import { Profile } from "./profile";
 
 describeWithContext(

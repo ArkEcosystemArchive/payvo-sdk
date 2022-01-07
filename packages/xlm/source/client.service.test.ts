@@ -5,12 +5,12 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { ClientService } from "./client.service";
-import { KeyPairService } from "./key-pair.service";
-import { TransactionService } from "./transaction.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ClientService } from "./client.service.js";
+import { KeyPairService } from "./key-pair.service.js";
+import { TransactionService } from "./transaction.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("ClientService", async ({ beforeAll, it, assert, nock }) => {
 	beforeAll(async (context) => {

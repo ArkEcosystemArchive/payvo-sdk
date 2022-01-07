@@ -1,5 +1,5 @@
 import { describe } from "@payvo/sdk-test";
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 
 const asset = {
 	numberOfSignatures: 2,

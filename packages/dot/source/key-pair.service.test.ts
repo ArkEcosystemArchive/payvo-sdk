@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { KeyPairService } from "./key-pair.service";
+import { KeyPairService } from "./key-pair.service.js";
 
 describe("KeyPairService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {

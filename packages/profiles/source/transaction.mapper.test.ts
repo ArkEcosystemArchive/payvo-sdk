@@ -6,7 +6,7 @@ import { bootContainer } from "../test/mocking";
 import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
-import { ExtendedConfirmedTransactionData } from "./transaction.dto";
+import { ExtendedConfirmedTransactionData } from "./transaction.dto.js";
 import { transformConfirmedTransactionDataCollection } from "./transaction.mapper";
 
 describeWithContext(

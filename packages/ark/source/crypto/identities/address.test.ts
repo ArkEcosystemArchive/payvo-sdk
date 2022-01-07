@@ -2,9 +2,9 @@ import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
 import { configManager } from "../managers/config.js";
-import { Address } from "./address";
-import { Keys } from "./keys";
-import { PublicKey } from "./public-key";
+import { Address } from "./address.js";
+import { Keys } from "./keys.js";
+import { PublicKey } from "./public-key.js";
 
 describe("Address", ({ assert, it }) => {
 	it("fromPassphrase", () => {

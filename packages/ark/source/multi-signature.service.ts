@@ -1,14 +1,13 @@
-import { Interfaces } from "./crypto/index.js";
-import { uniq } from "@payvo/sdk-helpers";
+import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
+import { uniq } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { Coins, Contracts, Helpers, IoC, Networks, Services, Signatories } from "@payvo/sdk";
-import { Http } from "@payvo/sdk";
+
 import { BindingType } from "./coin.contract.js";
 import { applyCryptoConfiguration } from "./config.js";
+import { Interfaces } from "./crypto/index.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
-
-import { PendingMultiSignatureTransaction } from "./multi-signature.transaction";
+import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
 
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
 	readonly #configRepository!: Coins.ConfigRepository;
@@ -72,17 +71,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 			return {
 				accepted: [id],
-				rejected: [],
 				errors: {},
+				rejected: [],
 			};
 		} catch (error) {
 			if (error instanceof Http.RequestException) {
 				return {
 					accepted: [],
-					rejected: [transaction.id],
 					errors: {
 						[transaction.id]: (error as any).response.json().message,
 					},
+					rejected: [transaction.id],
 				};
 			}
 
@@ -138,15 +137,15 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		);
 	}
 
-	async #post(method: string, params: any): Promise<Contracts.KeyValuePair> {
+	async #post(method: string, parameters: any): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.#httpClient.post(
 				Helpers.randomHost(this.#configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
 				{
-					jsonrpc: "2.0",
 					id: UUID.random(),
+					jsonrpc: "2.0",
 					method,
-					params,
+					params: parameters,
 				},
 			)
 		).json().result;
@@ -162,9 +161,11 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	 */
 	#normalizeTransaction({ data, id, multisigAsset, timestampReceived }: any): Record<string, any> {
 		const result = {
-			...{ ...data, timestamp: DateTime.fromUnix(timestampReceived) },
-			id, // This is the real ID, computed by the MuSig Server.
+			...data,
+			id,
+			// This is the real ID, computed by the MuSig Server.
 			multiSignature: multisigAsset,
+			timestamp: DateTime.fromUnix(timestampReceived),
 		};
 
 		if (Array.isArray(result.signatures)) {

@@ -1,8 +1,8 @@
 import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
-import { AddressFactory } from "./address.factory";
-import { defaultNativeSegwitMusigAccountKey, rootToAccountKeys } from "./address.domain";
+import { AddressFactory } from "./address.factory.js";
+import { defaultNativeSegwitMusigAccountKey, rootToAccountKeys } from "./address.domain.js";
 import { BIP32 } from "@payvo/sdk-cryptography";
 import * as bitcoin from "bitcoinjs-lib";
 import { musig } from "../test/fixtures/musig";

@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 import Fixture from "../test/fixtures/client/wallet.json";
-import { WalletData } from "./wallet.dto";
+import { WalletData } from "./wallet.dto.js";
 import { createService } from "../test/mocking";
 
 describe("WalletData", async ({ beforeAll, assert, it, nock, loader }) => {

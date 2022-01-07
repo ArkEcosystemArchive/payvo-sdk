@@ -3,7 +3,7 @@ import { DTO } from "@payvo/sdk";
 
 import Fixture from "../test/fixtures/client/transaction.json";
 import { createService } from "../test/mocking";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 
 describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {

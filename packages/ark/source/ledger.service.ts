@@ -1,7 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
-import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers";
+import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers.js";
 
 export class LedgerService extends Services.AbstractLedgerService {
 	readonly #clientService!: Services.ClientService;

@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 
-import { AddressFactory } from "./address.factory";
+import { AddressFactory } from "./address.factory.js";
 import { BindingType } from "./constants.js";
 
 export class WalletDiscoveryService extends Services.AbstractWalletDiscoveryService {
