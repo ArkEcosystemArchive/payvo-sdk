@@ -1,8 +1,8 @@
 import { Services } from "@payvo/sdk";
 import { Hash } from "@payvo/sdk-cryptography";
 import { BinTools, Buffer } from "avalanche";
-import { KeyPair } from "avalanche/dist/apis/avm";
-import { getPreferredHRP } from "avalanche/dist/utils";
+import { KeyPair } from "avalanche/dist/apis/avm/index.js";
+import { getPreferredHRP } from "avalanche/dist/utils/index.js";
 
 import { cb58Decode as callback58Decode, cb58Encode as callback58Encode, keyPairFromMnemonic } from "./helpers.js";
 
