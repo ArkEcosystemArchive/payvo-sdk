@@ -5,6 +5,7 @@ export * from "./at.js";
 export * from "./base64.js";
 export * from "./bignumber.js";
 export * from "./binary.js";
+export * from "./byte-buffer.js";
 export * from "./camel-case.js";
 export * from "./capped-map.js";
 export * from "./capped-set.js";
