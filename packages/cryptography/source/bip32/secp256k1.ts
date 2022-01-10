@@ -1,8 +1,7 @@
 // Based on https://github.com/sclihuiming/tiny-bip32/blob/main/ts-src/tiny-secp256k1/secp256k1.js
 
 import BN from "bn.js";
-// eslint-disable-next-line import/no-namespace
-import * as elliptic from "elliptic";
+import elliptic from "elliptic";
 
 import { deterministicGenerate } from "./rfc6979.js";
 
