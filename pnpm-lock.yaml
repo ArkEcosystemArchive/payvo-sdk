@@ -123,7 +123,6 @@ importers:
       ajv: 6.12.6
       ajv-keywords: 3.4.1
       bip39: 3.0.4
-      bytebuffer: 5.0.1
       dayjs: 1.10.7
       deepmerge: 4.2.2
       get-random-values: ^1.2.2
@@ -140,7 +139,6 @@ importers:
       ajv: 6.12.6
       ajv-keywords: 3.4.1_ajv@6.12.6
       bip39: 3.0.4
-      bytebuffer: 5.0.1
       dayjs: 1.10.7
       deepmerge: 4.2.2
       get-random-values: 1.2.2
@@ -5153,13 +5151,6 @@ packages:
     resolution: {integrity: sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=}
     dev: false
 
-  /bytebuffer/5.0.1:
-    resolution: {integrity: sha1-WC7qSxqHO20CCkjVjfhfC7ps/d0=}
-    engines: {node: '>=0.8'}
-    dependencies:
-      long: 3.2.0
-    dev: false
-
   /bytesish/0.4.4:
     resolution: {integrity: sha512-i4uu6M4zuMUiyfZN4RU2+i9+peJh//pXhd9x1oSe1LBkZ3LEbCoygu8W0bXTukU1Jme2txKuotpCZRaC3FLxcQ==}
     dev: false
@@ -8237,11 +8228,6 @@ packages:
 
   /long/2.4.0:
     resolution: {integrity: sha1-n6GAux2VAM3CnEFWdmoZleH0Uk8=}
-    engines: {node: '>=0.6'}
-    dev: false
-
-  /long/3.2.0:
-    resolution: {integrity: sha1-2CG3E4yhy1gcFymQ7xTbIAtcR0s=}
     engines: {node: '>=0.6'}
     dev: false
 
