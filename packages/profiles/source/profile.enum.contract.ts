@@ -13,7 +13,6 @@ export enum ProfileSetting {
 	MarketProvider = "MARKET_PROVIDER",
 	Name = "NAME",
 	Password = "PASSWORD",
-	ScreenshotProtection = "SCREENSHOT_PROTECTION",
 	ErrorReporting = "ERROR_REPORTING",
 	// UI
 	AccentColor = "ACCENT_COLOR",
