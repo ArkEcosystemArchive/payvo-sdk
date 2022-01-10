@@ -1,5 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { createService } from "../test/mocking";
 import { MultiSignatureService } from "./multi-signature.service.js";
@@ -92,9 +93,9 @@ describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, 
 			typeGroup: 1,
 			version: 2,
 			signatures: [],
-			nonce: "1",
-			amount: "0",
-			fee: "0",
+			nonce: new BigNumber("1"),
+			amount: new BigNumber("0"),
+			fee: new BigNumber("0"),
 			senderPublicKey: "02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
 			asset: {
 				multiSignature: {
