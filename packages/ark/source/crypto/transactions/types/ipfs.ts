@@ -1,6 +1,5 @@
 import { Base58 } from "@payvo/sdk-cryptography";
-import { BigNumber } from "@payvo/sdk-helpers";
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
 import { TransactionType, TransactionTypeGroup } from "../../enums.js";
 import { ISerializeOptions } from "../../interfaces/index.js";
@@ -28,11 +27,11 @@ export abstract class IpfsTransaction extends Transaction {
 
 		if (data.asset) {
 			const ipfsBuffer: Buffer = Buffer.from(Base58.decode(data.asset.ipfs!));
-			const buffer: ByteBuffer = new ByteBuffer(ipfsBuffer.length, true);
+			const buff: ByteBuffer = new ByteBuffer(Buffer.alloc(ipfsBuffer.length));
 
-			buffer.append(ipfsBuffer, "hex");
+			buff.writeBuffer(ipfsBuffer);
 
-			return buffer;
+			return buff;
 		}
 
 		return undefined;
@@ -41,17 +40,17 @@ export abstract class IpfsTransaction extends Transaction {
 	public deserialize(buf: ByteBuffer): void {
 		const { data } = this;
 
-		const hashFunction: number = buf.readUint8();
-		const ipfsHashLength: number = buf.readUint8();
-		const ipfsHash: Buffer = buf.readBytes(ipfsHashLength).toBuffer();
+		const hashFunction: number = buf.readUInt8();
+		const ipfsHashLength: number = buf.readUInt8();
+		const ipfsHash: Buffer = buf.readBuffer(ipfsHashLength);
 
-		const buffer: Buffer = Buffer.alloc(ipfsHashLength + 2);
-		buffer.writeUInt8(hashFunction, 0);
-		buffer.writeUInt8(ipfsHashLength, 1);
-		buffer.fill(ipfsHash, 2);
+		const buff: Buffer = Buffer.alloc(ipfsHashLength + 2);
+		buff.writeUInt8(hashFunction, 0);
+		buff.writeUInt8(ipfsHashLength, 1);
+		buff.fill(ipfsHash, 2);
 
 		data.asset = {
-			ipfs: Base58.encode(buffer),
+			ipfs: Base58.encode(buff),
 		};
 	}
 }
