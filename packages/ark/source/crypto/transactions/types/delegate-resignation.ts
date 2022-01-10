@@ -1,5 +1,4 @@
-import { BigNumber } from "@payvo/sdk-helpers";
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
 import { TransactionType, TransactionTypeGroup } from "../../enums.js";
 import { ISerializeOptions } from "../../interfaces/index.js";
@@ -23,7 +22,7 @@ export abstract class DelegateResignationTransaction extends Transaction {
 	}
 
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
-		return new ByteBuffer(0);
+		return new ByteBuffer(Buffer.alloc(0));
 	}
 
 	public deserialize(buf: ByteBuffer): void {
