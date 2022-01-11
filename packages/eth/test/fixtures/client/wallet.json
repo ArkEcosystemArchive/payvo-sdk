@@ -1,6 +1,10 @@
 {
 	"address": "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe",
-	"balance": "0x2850551ae593315af",
+	"balance": 10,
 	"nonce": "0x299",
-	"code": "0x"
+	"code": "0x",
+	"tokens": {
+		"0xB8c77482e45F1F44dE1745F52C74426C631bDD52": 10,
+		"0x2b591e99afe9f32eaa6214f7b7629768c40eeb39": 25.5
+	}
 }

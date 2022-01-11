@@ -68,6 +68,12 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.instance(result, WalletData);
 		assert.is(result.address(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
 		assert.object(result.balance());
+		assert.equal(result.balance().available.toString(), "10");
+		assert.length(Object.keys(result.balance().tokens), 2);
+		assert.instance(result.balance().tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"], BigNumber);
+		assert.instance(result.balance().tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"], BigNumber);
+		assert.equal(result.balance().tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"].toString(), "10");
+		assert.equal(result.balance().tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"].toString(), "25.5");
 		assert.is(result.nonce().toString(), "665");
 	});
 
