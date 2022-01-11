@@ -88,7 +88,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 			}),
 			outputScriptHex,
 			// 1
-segwit: isSegwit,
+			segwit: isSegwit,
 			sigHashType: bitcoin.Transaction.SIGHASH_ALL,
 		});
 		return bitcoin.Transaction.fromHex(transactionHex);
@@ -96,12 +96,12 @@ segwit: isSegwit,
 
 	async #getOutputScript(outputs: any[]): Promise<string> {
 		const psbt = new bitcoin.Psbt({ network: this.#network });
-		for (const output of outputs)
-			{psbt.addOutput({
+		for (const output of outputs) {
+			psbt.addOutput({
 				address: output.address,
 				value: output.value,
-			})
-		;}
+			});
+		}
 		// @ts-ignore
 		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
 		const outLedgerTx = this.#splitTransaction(newTx);

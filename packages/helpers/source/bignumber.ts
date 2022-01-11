@@ -320,6 +320,16 @@ export class BigNumber {
 	}
 
 	/**
+	 * Returns the current value as a BigInt.
+	 *
+	 * @returns {bigint}
+	 * @memberof BigNumber
+	 */
+	public toBigInt(): bigint {
+		return BigInt(this.toString());
+	}
+
+	/**
 	 * Returns the current value as primitive string.
 	 *
 	 * @returns {string}

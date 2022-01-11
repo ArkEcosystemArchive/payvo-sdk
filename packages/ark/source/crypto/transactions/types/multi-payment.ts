@@ -1,5 +1,4 @@
-import { BigNumber } from "@payvo/sdk-helpers";
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
 import { TransactionType, TransactionTypeGroup } from "../../enums.js";
 import { Address } from "../../identities/address.js";
@@ -31,16 +30,15 @@ export abstract class MultiPaymentTransaction extends Transaction {
 		const { data } = this;
 
 		if (data.asset && data.asset.payments) {
-			const buffer: ByteBuffer = new ByteBuffer(2 + data.asset.payments.length * 29, true);
-			buffer.writeUint16(data.asset.payments.length);
+			const buf: ByteBuffer = new ByteBuffer(Buffer.alloc(2 + data.asset.payments.length * 29));
+			buf.writeUInt16LE(data.asset.payments.length);
 
 			for (const payment of data.asset.payments) {
-				buffer.writeUint64(payment.amount.toString());
-
-				buffer.append(Address.toBuffer(payment.recipientId));
+				buf.writeBigUInt64LE(payment.amount.toBigInt());
+				buf.writeBuffer(Address.toBuffer(payment.recipientId));
 			}
 
-			return buffer;
+			return buf;
 		}
 
 		return undefined;
@@ -49,12 +47,12 @@ export abstract class MultiPaymentTransaction extends Transaction {
 	public deserialize(buf: ByteBuffer): void {
 		const { data } = this;
 		const payments: IMultiPaymentItem[] = [];
-		const total: number = buf.readUint16();
+		const total: number = buf.readUInt16LE();
 
-		for (let index = 0; index < total; index++) {
+		for (let j = 0; j < total; j++) {
 			payments.push({
-				amount: BigNumber.make(buf.readUint64().toString()),
-				recipientId: Address.fromBuffer(buf.readBytes(21).toBuffer()),
+				amount: BigNumber.make(buf.readBigUInt64LE().toString()),
+				recipientId: Address.fromBuffer(buf.readBuffer(21)),
 			});
 		}
 

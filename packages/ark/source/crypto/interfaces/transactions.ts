@@ -1,6 +1,5 @@
-import { BigNumber } from "@payvo/sdk-helpers";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 import { ErrorObject } from "ajv";
-import ByteBuffer from "bytebuffer";
 
 export interface ITransaction {
 	readonly id: string | undefined;

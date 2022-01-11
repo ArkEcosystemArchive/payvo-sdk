@@ -33,7 +33,6 @@
 		"ajv": "6.12.6",
 		"ajv-keywords": "3.4.1",
 		"bip39": "3.0.4",
-		"bytebuffer": "5.0.1",
 		"dayjs": "1.10.7",
 		"deepmerge": "4.2.2",
 		"get-random-values": "^1.2.2",

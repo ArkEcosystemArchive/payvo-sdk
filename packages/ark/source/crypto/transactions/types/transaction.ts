@@ -1,5 +1,4 @@
-import { BigNumber } from "@payvo/sdk-helpers";
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
 import { TransactionTypeGroup } from "../../enums.js";
 import { NotImplemented } from "../../errors.js";

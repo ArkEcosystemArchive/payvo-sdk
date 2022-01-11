@@ -1,6 +1,6 @@
 import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
-import { uniq } from "@payvo/sdk-helpers";
+import { uniq, BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 
 import { BindingType } from "./coin.contract.js";
@@ -167,6 +167,13 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 			multiSignature: multisigAsset,
 			timestamp: DateTime.fromUnix(timestampReceived),
 		};
+
+		const bigNumbers = ["amount", "fee", "nonce"];
+		for (const key of bigNumbers) {
+			if (result[key]) {
+				result[key] = BigNumber.make(result[key]);
+			}
+		}
 
 		if (Array.isArray(result.signatures)) {
 			result.signatures = uniq(result.signatures);
