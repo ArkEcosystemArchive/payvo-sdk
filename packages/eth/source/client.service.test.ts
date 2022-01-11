@@ -52,6 +52,8 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 			limit: 1,
 		});
 
+		// TODO: Improve test...
+
 		assert.instance(result.items()[0], ConfirmedTransactionData);
 	});
 
