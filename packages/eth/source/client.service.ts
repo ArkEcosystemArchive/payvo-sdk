@@ -20,17 +20,11 @@ export class ClientService extends Services.AbstractClientService {
 	public override async transactions(
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
-		const transactions: unknown[] = (await this.#get(`wallets/${query.identifiers![0].value}/transactions`)) as any;
+		const response: any = await this.#get(`wallets/${query.identifiers![0].value}/transactions`);
+		const transactions: unknown[] = response.data;
 
 		return this.dataTransferObjectService.transactions(
-			transactions,
-			// TODO: implement pagination on server
-			{
-				last: undefined,
-				next: undefined,
-				prev: undefined,
-				self: undefined,
-			},
+			transactions, this.#createMetaPagination(response)
 		);
 	}
 
@@ -78,5 +72,20 @@ export class ClientService extends Services.AbstractClientService {
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
 		return (await this.httpClient.post(`${this.#peer}/${path}`, body)).json();
+	}
+
+	#createMetaPagination(body): Services.MetaPagination {
+		const getPage = (url: string): string | undefined => {
+			const match: RegExpExecArray | null = RegExp(/page=(\d+)/).exec(url);
+
+			return match ? match[1] || undefined : undefined;
+		};
+
+		return {
+			prev: getPage(body.links.prev) || undefined,
+			next: getPage(body.links.next) || undefined,
+			self: body.meta.current_page || undefined,
+			last: body.meta.last_page || undefined,
+		};
 	}
 }
