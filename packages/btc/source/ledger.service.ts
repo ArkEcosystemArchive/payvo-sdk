@@ -32,14 +32,14 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getVersion(): Promise<string> {
-		  const r = await this.#ledger.send(0xb0, 0x01, 0x00, 0x00);
-		  let index = 0;
-		  const format = r[index++];
-		  invariant(format === 1, "getAppAndVersion: format not supported");
-
-		  const versionLength: number = r[index++];
-
-		  return r.slice(index, (index += versionLength)).toString("ascii");
+		const r = await this.#ledger.send(0xb0, 0x01, 0x00, 0x00);
+		let i = 0;
+		const format = r[i++];
+		invariant(format === 1, "getAppAndVersion: format not supported");
+		const nameLength = r[i++];
+		r.slice(i, (i += nameLength)).toString("ascii");
+		const versionLength = r[i++];
+		return r.slice(i, (i += versionLength)).toString("ascii");
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
