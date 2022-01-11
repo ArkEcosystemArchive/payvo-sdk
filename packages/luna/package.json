@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-luna",
-	"version": "4.0.0",
+	"version": "4.1.0",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
