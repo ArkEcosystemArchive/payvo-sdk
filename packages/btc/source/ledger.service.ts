@@ -1,13 +1,13 @@
+import Bitcoin from "@ledgerhq/hw-app-btc";
 import { IoC, Services } from "@payvo/sdk";
 import { convertBuffer } from "@payvo/sdk-helpers";
-import Bitcoin from "@ledgerhq/hw-app-btc";
 import * as bitcoin from "bitcoinjs-lib";
-import { getAppAndVersion } from "@ledgerhq/hw-app-btc/lib/getAppAndVersion";
 import createXpub from "create-xpub";
+import invariant from "invariant";
 
 import { getNetworkConfig, getNetworkID } from "./config.js";
-import { maxLevel } from "./helpers.js";
 import { Bip44Address } from "./contracts.js";
+import { maxLevel } from "./helpers.js";
 
 export class LedgerService extends Services.AbstractLedgerService {
 	readonly #network: bitcoin.networks.Network;
@@ -32,9 +32,14 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async getVersion(): Promise<string> {
-		const { version } = await getAppAndVersion(this.#ledger);
-
-		return version;
+		const r = await this.#ledger.send(0xb0, 0x01, 0x00, 0x00);
+		let i = 0;
+		const format = r[i++];
+		invariant(format === 1, "getAppAndVersion: format not supported");
+		const nameLength = r[i++];
+		r.slice(i, (i += nameLength)).toString("ascii");
+		const versionLength = r[i++];
+		return r.slice(i, (i += versionLength)).toString("ascii");
 	}
 
 	public override async getPublicKey(path: string): Promise<string> {
@@ -49,10 +54,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const walletPublicKey = await this.#transport.getWalletPublicKey(path, { verify: false });
 
 		return createXpub({
-			networkVersion: networkId === "testnet" ? createXpub.testnet : createXpub.mainnet,
-			depth: maxLevel(path),
-			childNumber: 2147483648,
 			chainCode: walletPublicKey.chainCode,
+			childNumber: 2_147_483_648,
+			depth: maxLevel(path),
+			networkVersion: networkId === "testnet" ? createXpub.testnet : createXpub.mainnet,
 			publicKey: walletPublicKey.publicKey,
 		});
 	}
@@ -74,28 +79,29 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const additionals: string[] = isBip84 ? ["bech32"] : [];
 
 		const transactionHex = await this.#transport.createPaymentTransactionNew({
+			additionals,
+			associatedKeysets: inputs.map((input) => input.path),
+			changePath: changeAddress.path,
 			inputs: inputs.map((input) => {
 				const inLedgerTx = this.#splitTransaction(bitcoin.Transaction.fromHex(input.txRaw));
 				return [inLedgerTx, input.vout as number, undefined, undefined];
 			}),
-			associatedKeysets: inputs.map((input) => input.path),
-			changePath: changeAddress.path,
-			additionals,
 			outputScriptHex,
-			sigHashType: bitcoin.Transaction.SIGHASH_ALL, // 1
-			segwit: isSegwit,
+			// 1
+segwit: isSegwit,
+			sigHashType: bitcoin.Transaction.SIGHASH_ALL,
 		});
 		return bitcoin.Transaction.fromHex(transactionHex);
 	}
 
 	async #getOutputScript(outputs: any[]): Promise<string> {
 		const psbt = new bitcoin.Psbt({ network: this.#network });
-		outputs.forEach((output) =>
-			psbt.addOutput({
+		for (const output of outputs)
+			{psbt.addOutput({
 				address: output.address,
 				value: output.value,
-			}),
-		);
+			})
+		;}
 		// @ts-ignore
 		const newTx: bitcoin.Transaction = psbt.__CACHE.__TX;
 		const outLedgerTx = this.#splitTransaction(newTx);

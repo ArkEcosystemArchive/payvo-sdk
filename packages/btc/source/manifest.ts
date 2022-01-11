@@ -1,4 +1,4 @@
-import BtcLivenet from "./networks/btc.livenet";
+import BtcLivenet from "./networks/btc.livenet.js";
 import BtcTestnet from "./networks/btc.testnet.js";
 
 export const manifest = {

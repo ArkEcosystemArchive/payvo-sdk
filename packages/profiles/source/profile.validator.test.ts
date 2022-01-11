@@ -76,7 +76,6 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 				[ProfileSetting.MarketProvider]: "coingecko",
 				[ProfileSetting.Name]: "John Doe",
 				[ProfileSetting.NewsFilters]: JSON.stringify({ categories: [], coins: ["ARK"] }),
-				[ProfileSetting.ScreenshotProtection]: false,
 				[ProfileSetting.Theme]: "dark",
 				[ProfileSetting.TimeFormat]: "HH::MM",
 				[ProfileSetting.UseExpandedTables]: false,

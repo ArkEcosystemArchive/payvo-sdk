@@ -105,7 +105,6 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.Name]: Joi.string().required(),
 				[ProfileSetting.NewsFilters]: Joi.string(),
 				[ProfileSetting.Password]: Joi.string(),
-				[ProfileSetting.ScreenshotProtection]: Joi.boolean().default(false),
 				[ProfileSetting.Theme]: Joi.string().required(),
 				[ProfileSetting.TimeFormat]: Joi.string().required(),
 				[ProfileSetting.UseExpandedTables]: Joi.boolean().default(false),
