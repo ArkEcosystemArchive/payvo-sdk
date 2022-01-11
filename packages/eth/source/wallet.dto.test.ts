@@ -34,8 +34,11 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 		const balance = context.subject.balance();
 
 		assert.length(Object.keys(balance.tokens), 2);
-		assert.equal(balance.tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"], BigNumber.make("10"));
-		assert.equal(balance.tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"], BigNumber.make("25.5"));
+		assert.instance(balance.tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"], BigNumber);
+		assert.instance(balance.tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"], BigNumber);
+
+		assert.equal(balance.tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"].toString(), "10");
+		assert.equal(balance.tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"].toString(), "25.5");
 	});
 
 	it("should have a nonce", (context) => {
