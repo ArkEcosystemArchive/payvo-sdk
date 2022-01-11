@@ -1,6 +1,6 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { Mnemonic } from "@elrondnetwork/erdjs/out";
+import { Mnemonic } from "@elrondnetwork/erdjs/out/index.js";
 import { getPublicKey, sign, verify } from "@noble/ed25519";
+import { Services } from "@payvo/sdk";
 
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
