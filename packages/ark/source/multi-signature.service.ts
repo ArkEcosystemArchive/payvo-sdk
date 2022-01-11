@@ -169,9 +169,9 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 		};
 
 		const bigNumbers = ["amount", "fee", "nonce"];
-		for(const key of bigNumbers) {
-			if(result[key]) {
-				result[key] = BigNumber.make(result[key])
+		for (const key of bigNumbers) {
+			if (result[key]) {
+				result[key] = BigNumber.make(result[key]);
 			}
 		}
 
