@@ -27,7 +27,7 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have a balance", (context) => {
-		assert.equal(context.subject.balance().available, BigNumber.make("10"));
+		assert.equal(context.subject.balance().available.toString(), "10");
 	});
 
 	it("should have a list of tokens and its balances", (context) => {
