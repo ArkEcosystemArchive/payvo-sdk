@@ -16,7 +16,7 @@ const network: Networks.NetworkManifest = {
 	featureFlags,
 	hosts: [
 		{
-			host: "https://platform.ark.io/api/eth",
+			host: "https://eth-live.payvo.com/api",
 			type: "full",
 		},
 		{

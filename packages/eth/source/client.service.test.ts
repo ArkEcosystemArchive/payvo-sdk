@@ -22,7 +22,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("#transaction should succeed", async (context) => {
-		nock.fake("https://platform.ark.io/api/eth")
+		nock.fake("https://eth-live.payvo.com/api")
 			.get("/transactions/0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae")
 			.reply(200, loader.json(`test/fixtures/client/transaction.json`));
 
@@ -43,7 +43,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("#transactions should succeed", async (context) => {
-		nock.fake("https://platform.ark.io/api/eth")
+		nock.fake("https://eth-live.payvo.com/api")
 			.get("/wallets/0x8e5231be3b71afdd0c417164986573fecddbae59/transactions")
 			.reply(200, loader.json(`test/fixtures/client/transactions.json`));
 
@@ -56,7 +56,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("#wallet should succeed", async (context) => {
-		nock.fake("https://platform.ark.io/api/eth")
+		nock.fake("https://eth-live.payvo.com/api")
 			.get("/wallets/0x4581a610f96878266008993475f1476ca9997081")
 			.reply(200, loader.json(`test/fixtures/client/wallet.json`));
 
@@ -78,7 +78,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("broadcast should pass", async (context) => {
-		nock.fake("https://platform.ark.io/api/eth")
+		nock.fake("https://eth-live.payvo.com/api")
 			.post("/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast.json`));
 
@@ -94,7 +94,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 	});
 
 	it("broadcast should fail", async (context) => {
-		nock.fake("https://platform.ark.io/api/eth")
+		nock.fake("https://eth-live.payvo.com/api")
 			.post("/transactions")
 			.reply(200, loader.json(`test/fixtures/client/broadcast-failure.json`));
 
