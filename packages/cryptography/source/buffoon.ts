@@ -18,7 +18,6 @@ export class Buffoon {
 			return value;
 		}
 
-
 		return Buffer.from(value);
 	}
 
