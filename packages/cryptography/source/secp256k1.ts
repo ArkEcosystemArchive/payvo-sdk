@@ -4,7 +4,7 @@ import { toArrayBuffer, toArrayBufferList } from "./internal/buffer-to-uint8arra
 
 class Secp256k1 {
 	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return Buffer.from(publicKeyCreate(toArrayBuffer(privateKey), toArrayBuffer(compressed)));
+		return Buffer.from(publicKeyCreate(toArrayBuffer(privateKey), compressed));
 	}
 
 	public publicKeyVerify(publicKey: Buffer): boolean {
