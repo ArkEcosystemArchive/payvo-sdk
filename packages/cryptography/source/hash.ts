@@ -35,6 +35,6 @@ export class Hash {
 			return result;
 		}
 
-		return (new TextEncoder()).encode(value);
+		return new TextEncoder().encode(value);
 	}
 }
