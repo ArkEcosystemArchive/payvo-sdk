@@ -14,22 +14,14 @@ export class Hash {
 	}
 
 	public static ripemd160(buffer: Buffer | string): Buffer {
-		return Buffer.from(ripemd160(Hash.#bufferize(buffer)));
+		return Buffer.from(ripemd160(toArrayBuffer(buffer)));
 	}
 
 	public static sha3(buffer: Buffer | string): Buffer {
-		return Buffer.from(sha3_256(Hash.#bufferize(buffer)));
+		return Buffer.from(sha3_256(toArrayBuffer(buffer)));
 	}
 
 	public static sha256(buffer: Buffer | string): Buffer {
-		return Buffer.from(sha256(Hash.#bufferize(buffer)));
-	}
-
-	static #bufferize(value: Buffer | string): Uint8Array {
-		if (value instanceof Buffer) {
-			return toArrayBuffer(value);
-		}
-
-		return new TextEncoder().encode(value);
+		return Buffer.from(sha256(toArrayBuffer(buffer)));
 	}
 }
