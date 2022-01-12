@@ -65,9 +65,12 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		
 		assert.instance(transaction, ConfirmedTransactionData);
 		assert.is(transaction.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+		assert.is(transaction.hash(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+		assert.is(transaction.blockId(), "0x5f08ba3c5b6141f4f5e82f7fa3e51d732ab61ee4e84544cdf2883400edefc1fb");
 		assert.is(transaction.sender(), "0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
 		assert.is(transaction.recipient(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
 		assert.instance(transaction.timestamp(), DateTime);
+		assert.true(transaction.timestamp().isSame(1593253136));
 		assert.equal(transaction.amount().toString(), "10");
 		assert.equal(transaction.memo(), "0x");
 	});
