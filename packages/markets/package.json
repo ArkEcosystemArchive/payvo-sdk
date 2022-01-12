@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-markets",
-	"version": "4.1.3",
+	"version": "4.1.4",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
