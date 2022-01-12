@@ -2,6 +2,8 @@ import { ripemd160 } from "@noble/hashes/lib/ripemd160.js";
 import { sha3_256 } from "@noble/hashes/lib/sha3.js";
 import { sha256 } from "@noble/hashes/lib/sha256.js";
 
+import { toArrayBuffer } from "./internal/buffer-to-uint8array";
+
 export class Hash {
 	public static hash160(buffer: Buffer | string): Buffer {
 		return Hash.ripemd160(Hash.sha256(buffer));
@@ -25,14 +27,7 @@ export class Hash {
 
 	static #bufferize(value: Buffer | string): Uint8Array {
 		if (value instanceof Buffer) {
-			const buffer = new ArrayBuffer(value.length);
-			const result = new Uint8Array(buffer);
-
-			for (let i = 0; i < value.length; ++i) {
-				result[i] = value[i];
-			}
-
-			return result;
+			return toArrayBuffer(value);
 		}
 
 		return new TextEncoder().encode(value);
