@@ -23,8 +23,8 @@ export class Hash {
 		return Buffer.from(sha256(Hash.#bufferize(buffer)));
 	}
 
-	static #bufferize(buffer: Buffer | string): Uint8Array {
-		const convert = (value: Buffer): Uint8Array => {
+	static #bufferize(value: Buffer | string): Uint8Array {
+		if (value instanceof Buffer) {
 			const buffer = new ArrayBuffer(value.length);
 			const result = new Uint8Array(buffer);
 
@@ -35,10 +35,6 @@ export class Hash {
 			return result;
 		}
 
-		if (buffer instanceof Buffer) {
-			return convert(buffer);
-		}
-
-		return convert(Buffer.from(buffer));
+		return (new TextEncoder()).encode(value);
 	}
 }
