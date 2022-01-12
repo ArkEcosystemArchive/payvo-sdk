@@ -1,5 +1,6 @@
-import { IoC, Services } from "@payvo/sdk";
+import { Collections, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
 import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
@@ -49,12 +50,26 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 
 		const result = await context.subject.transactions({
 			identifiers: [{ type: "address", value: "0x8e5231be3b71afdd0c417164986573fecddbae59" }],
-			limit: 1,
 		});
 
-		// TODO: Improve test...
+		assert.instance(result, Collections.ConfirmedTransactionDataCollection);
+		assert.is(result.currentPage(), 1);
+		assert.is(result.getPagination().last, 1);
+		assert.is(result.getPagination().self, 1);
+		assert.undefined(result.getPagination().prev);
+		assert.undefined(result.getPagination().next);
 
-		assert.instance(result.items()[0], ConfirmedTransactionData);
+		assert.length(result.items(), 1);
+
+		const transaction = result.items()[0];
+		
+		assert.instance(transaction, ConfirmedTransactionData);
+		assert.is(transaction.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
+		assert.is(transaction.sender(), "0xac1a0f50604c430c25a9fa52078f7f7ec9523519");
+		assert.is(transaction.recipient(), "0xb5663d3a23706eb4537ffea78f56948a53ac2ebe");
+		assert.instance(transaction.timestamp(), DateTime);
+		assert.equal(transaction.amount().toString(), "10");
+		assert.equal(transaction.memo(), "0x");
 	});
 
 	it("#wallet should succeed", async (context) => {

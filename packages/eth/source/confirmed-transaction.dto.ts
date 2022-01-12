@@ -36,6 +36,6 @@ export class ConfirmedTransactionData extends DTO.AbstractConfirmedTransactionDa
 	}
 
 	public override memo(): string | undefined {
-		return this.data.input;
+		return this.data.memo;
 	}
 }
