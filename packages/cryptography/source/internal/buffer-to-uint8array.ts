@@ -1,12 +1,16 @@
-export const toArrayBuffer = (value: Buffer): Uint8Array => {
-	const buffer = new ArrayBuffer(value.length);
-	const result = new Uint8Array(buffer);
+export const toArrayBuffer = (value: Buffer | string): Uint8Array => {
+	if (value instanceof Buffer) {
+		const buffer = new ArrayBuffer(value.length);
+		const result = new Uint8Array(buffer);
 
-	for (const [index, element] of value.entries()) {
-		result[index] = element;
+		for (const [index, element] of value.entries()) {
+			result[index] = element;
+		}
+
+		return result;
 	}
 
-	return result;
+	return new TextEncoder().encode(value);
 };
 
 export const toArrayBufferList = (values: Buffer[]): Uint8Array[] =>

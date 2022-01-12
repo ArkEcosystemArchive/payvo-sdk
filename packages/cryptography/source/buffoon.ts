@@ -14,7 +14,12 @@ export class Buffoon {
 	 * @memberof Buffoon
 	 */
 	public static make(value: Buffer | string): Buffer {
-		return value instanceof Buffer ? value : Buffer.from(value);
+		if (value instanceof Buffer) {
+			return value;
+		}
+
+
+		return Buffer.from(value);
 	}
 
 	/**
