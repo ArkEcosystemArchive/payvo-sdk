@@ -12,13 +12,13 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 	it("should generate an output from a mnemonic", async (context) => {
 		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		assert.equal(result, { type: "bip39", address: identity.address });
+		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
 	it("should generate an output from a mnemonic given a custom locale", async (context) => {
 		const result = await context.subject.fromMnemonic(identity.mnemonic);
 
-		assert.equal(result, { type: "bip39", address: identity.address });
+		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
 	it("should generate an output from a multiSignature", async (context) => {
@@ -27,22 +27,22 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 			publicKeys: identity.multiSignature.publicKeys,
 		});
 
-		assert.equal(result, { type: "bip39", address: "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi" });
+		assert.equal(result, { address: "DMS861mLRrtH47QUMVif3C2rBCAdHbmwsi", type: "bip39" });
 	});
 
 	it("should generate an output from a publicKey", async (context) => {
 		const result = await context.subject.fromPublicKey(identity.publicKey);
 
-		assert.equal(result, { type: "bip39", address: identity.address });
+		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
 	it("should generate an output from a privateKey", async (context) => {
 		const result = await context.subject.fromPrivateKey(identity.privateKey);
 
-		assert.equal(result, { type: "bip39", address: identity.address });
+		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
-	it("should generate an output from a secret", async (context) => {
+	it.only("should generate an output from a secret", async (context) => {
 		await assert.rejects(
 			() => context.subject.fromSecret(identity.mnemonic),
 			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
@@ -50,13 +50,13 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 
 		const result = await context.subject.fromSecret("abc");
 
-		assert.equal(result, { type: "bip39", address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN" });
+		assert.equal(result, { address: "DNTwQTSp999ezQ425utBsWetcmzDuCn2pN", type: "bip39" });
 	});
 
 	it("should generate an output from a wif", async (context) => {
 		const result = await context.subject.fromWIF(identity.wif);
 
-		assert.equal(result, { type: "bip39", address: identity.address });
+		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
 	it("should validate an address", async (context) => {
@@ -64,7 +64,7 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 		assert.false(await context.subject.validate("AdVSe37niA3uFUPgCgMUH2tMsHF4LpLoiX"));
 		assert.false(await context.subject.validate("ABC"));
 		assert.false(await context.subject.validate(""));
-		assert.false(await context.subject.validate(undefined));
+		assert.false(await context.subject.validate());
 		assert.false(await context.subject.validate(null));
 		assert.false(await context.subject.validate({}));
 	});
@@ -78,7 +78,7 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 		"fromWIF",
 	]) {
 		it(`should fail to generate an output from an invalid input when using ${method}()`, async (context) => {
-			await assert.rejects(() => context.subject[method](undefined));
+			await assert.rejects(() => context.subject[method]());
 		});
 	}
 });

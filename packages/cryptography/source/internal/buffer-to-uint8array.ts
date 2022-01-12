@@ -1,4 +1,6 @@
-export const toArrayBuffer = (value: Buffer | string): Uint8Array => {
+export type CrossBuffer = Buffer | Uint8Array;
+
+export const toArrayBuffer = (value: CrossBuffer | string): Uint8Array => {
 	if (value instanceof Buffer) {
 		const buffer = new ArrayBuffer(value.length);
 		const result = new Uint8Array(buffer);
@@ -10,8 +12,12 @@ export const toArrayBuffer = (value: Buffer | string): Uint8Array => {
 		return result;
 	}
 
+	if (value instanceof Uint8Array) {
+		return value;
+	}
+
 	return new TextEncoder().encode(value);
 };
 
-export const toArrayBufferList = (values: Buffer[]): Uint8Array[] =>
-	values.map((value: Buffer) => toArrayBuffer(value));
+export const toArrayBufferList = (values: CrossBuffer[]): Uint8Array[] =>
+	values.map((value: Uint8Array | Buffer) => toArrayBuffer(value));
