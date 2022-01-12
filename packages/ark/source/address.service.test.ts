@@ -42,7 +42,7 @@ describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 		assert.equal(result, { address: identity.address, type: "bip39" });
 	});
 
-	it.only("should generate an output from a secret", async (context) => {
+	it("should generate an output from a secret", async (context) => {
 		await assert.rejects(
 			() => context.subject.fromSecret(identity.mnemonic),
 			"The given value is BIP39 compliant. Please use [fromMnemonic] instead.",
