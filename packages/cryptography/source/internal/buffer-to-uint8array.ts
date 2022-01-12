@@ -7,6 +7,7 @@ export const toArrayBuffer = (value: Buffer): Uint8Array => {
 	}
 
 	return result;
-}
+};
 
-export const toArrayBufferList = (values: Buffer[]): Uint8Array[] => values.map((value: Buffer) => toArrayBuffer(value));
+export const toArrayBufferList = (values: Buffer[]): Uint8Array[] =>
+	values.map((value: Buffer) => toArrayBuffer(value));

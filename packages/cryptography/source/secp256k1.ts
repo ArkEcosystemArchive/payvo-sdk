@@ -1,4 +1,4 @@
-import { ecdsaSign, ecdsaVerify,publicKeyCombine, publicKeyCreate, publicKeyVerify } from "secp256k1";
+import { ecdsaSign, ecdsaVerify, publicKeyCombine, publicKeyCreate, publicKeyVerify } from "secp256k1";
 
 import { toArrayBuffer, toArrayBufferList } from "./internal/buffer-to-uint8array.js";
 
