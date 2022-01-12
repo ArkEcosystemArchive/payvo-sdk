@@ -23,7 +23,22 @@ export class Hash {
 		return Buffer.from(sha256(Hash.#bufferize(buffer)));
 	}
 
-	static #bufferize(buffer: Buffer | string) {
-		return buffer instanceof Buffer ? buffer : Buffer.from(buffer);
+	static #bufferize(buffer: Buffer | string): Uint8Array {
+		const convert = (value: Buffer): Uint8Array => {
+			const buffer = new ArrayBuffer(value.length);
+			const result = new Uint8Array(buffer);
+
+			for (let i = 0; i < value.length; ++i) {
+				result[i] = value[i];
+			}
+
+			return result;
+		}
+
+		if (buffer instanceof Buffer) {
+			return convert(buffer);
+		}
+
+		return convert(Buffer.from(buffer));
 	}
 }
