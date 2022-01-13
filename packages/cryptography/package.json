@@ -48,9 +48,9 @@
 		"@types/bip38": "2.0.1",
 		"@types/create-xpub": "^2.1.1",
 		"@types/ecurve": "^1.0.0",
-		"@types/hdkey": "^2.0.0",
-		"@types/node": "^16.11.10",
-		"@types/uuid": "^8.3.3",
+		"@types/hdkey": "^2.0.1",
+		"@types/node": "^17.0.8",
+		"@types/uuid": "^8.3.4",
 		"@types/wif": "^2.0.2",
 		"wif": "^2.0.6"
 	},

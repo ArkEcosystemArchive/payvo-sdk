@@ -35,10 +35,10 @@
 		"ripple-lib": "^1.10.0"
 	},
 	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
+		"@ledgerhq/hw-transport-mocker": "^6.20.0",
 		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10"
+		"@types/node": "^17.0.8"
 	},
 	"engines": {
 		"node": ">=16.0.0"

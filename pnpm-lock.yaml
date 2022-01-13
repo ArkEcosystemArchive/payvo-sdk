@@ -97,7 +97,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@emurgo/cardano-serialization-lib-nodejs': 9.1.2
       '@payvo/sdk': link:../sdk
@@ -107,19 +107,19 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/ark:
     specifiers:
       '@arkecosystem/ledger-transport': ^2.0.0
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       ajv: 6.12.6
       ajv-keywords: 3.4.1
       bip39: 3.0.4
@@ -147,21 +147,21 @@ importers:
       lodash.set: 4.3.2
       node-dotify: 1.1.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/atom:
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       ledger-cosmos-js: ^2.1.8
     dependencies:
       '@payvo/sdk': link:../sdk
@@ -170,22 +170,22 @@ importers:
       '@payvo/sdk-intl': link:../intl
       ledger-cosmos-js: 2.1.8
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/avax:
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/hdkey': 2.0.0
-      '@types/node': ^16.11.10
+      '@types/hdkey': 2.0.1
+      '@types/node': ^17.0.8
       avalanche: ^3.9.3
       isomorphic-dompurify: ^0.16.0
     dependencies:
@@ -196,16 +196,16 @@ importers:
       avalanche: 3.9.3
       isomorphic-dompurify: 0.16.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/hdkey': 2.0.0
-      '@types/node': 16.11.10
+      '@types/hdkey': 2.0.1
+      '@types/node': 17.0.8
 
   packages/btc:
     specifiers:
       '@ledgerhq/hw-app-btc': ^6.15.1
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@ledgerhq/logs': ^6.10.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
@@ -214,7 +214,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/create-xpub': ^2.1.1
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       bitcoinjs-lib: ^6.0.0
       bitcoinjs-message: ^2.2.0
       coinselect: ^3.1.12
@@ -236,12 +236,12 @@ importers:
       invariant: 2.2.4
       xpub-converter: 1.0.2
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@ledgerhq/logs': 6.10.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/create-xpub': 2.1.1
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/cryptography:
     specifiers:
@@ -254,9 +254,9 @@ importers:
       '@types/bip38': 2.0.1
       '@types/create-xpub': ^2.1.1
       '@types/ecurve': ^1.0.0
-      '@types/hdkey': ^2.0.0
-      '@types/node': ^16.11.10
-      '@types/uuid': ^8.3.3
+      '@types/hdkey': ^2.0.1
+      '@types/node': ^17.0.8
+      '@types/uuid': ^8.3.4
       '@types/wif': ^2.0.2
       bcryptjs: ^2.4.3
       bigi: ^1.4.2
@@ -294,15 +294,15 @@ importers:
       '@types/bip38': 2.0.1
       '@types/create-xpub': 2.1.1
       '@types/ecurve': 1.0.0
-      '@types/hdkey': 2.0.0
-      '@types/node': 16.11.10
-      '@types/uuid': 8.3.3
+      '@types/hdkey': 2.0.1
+      '@types/node': 17.0.8
+      '@types/uuid': 8.3.4
       '@types/wif': 2.0.2
       wif: 2.0.6
 
   packages/dot:
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
@@ -316,7 +316,7 @@ importers:
       '@polkadot/util-crypto': ^8.0.5
       '@polkadot/wasm-crypto': ^4.4.1
       '@polkadot/x-randomvalues': ^8.0.5
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       '@zondax/ledger-substrate': ^0.22.0
     dependencies:
       '@payvo/sdk': link:../sdk
@@ -332,10 +332,10 @@ importers:
       '@polkadot/x-randomvalues': 8.0.5
       '@zondax/ledger-substrate': 0.22.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/egld:
     specifiers:
@@ -348,7 +348,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@elrondnetwork/elrond-core-js': 2.1.0
       '@elrondnetwork/erdjs': 8.0.0
@@ -360,18 +360,18 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/eos:
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       cross-fetch: ^3.1.4
       eosjs: ^22.1.0
     dependencies:
@@ -382,24 +382,24 @@ importers:
       cross-fetch: 3.1.4
       eosjs: 22.1.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/eth:
     specifiers:
       '@ethereumjs/common': ^2.6.0
       '@ethereumjs/tx': ^3.4.0
       '@ledgerhq/hw-app-eth': ^6.16.2
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       ethers: ^5.5.1
       web3-eth-contract: ^1.6.1
     dependencies:
@@ -413,17 +413,17 @@ importers:
       ethers: 5.5.1
       web3-eth-contract: 1.6.1
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/fetch:
     specifiers:
       '@payvo/sdk': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/fs-extra': ^9.0.13
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       cross-fetch: ^3.1.4
       fs-extra: ^10.0.0
       query-string: ^7.0.1
@@ -434,7 +434,7 @@ importers:
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/fs-extra': 9.0.13
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       fs-extra: 10.0.0
 
   packages/helpers:
@@ -442,8 +442,8 @@ importers:
       '@hapi/bourne': ^2.0.0
       '@payvo/sdk-test': workspace:*
       '@types/big.js': ^6.1.2
-      '@types/node': ^16.11.10
-      '@types/qrcode': 1.4.1
+      '@types/node': ^17.0.8
+      '@types/qrcode': 1.4.2
       bad-words: ^3.0.4
       big.js: ^6.1.1
       censorify-it: ^3.0.2
@@ -469,14 +469,14 @@ importers:
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/big.js': 6.1.2
-      '@types/node': 16.11.10
-      '@types/qrcode': 1.4.1
+      '@types/node': 17.0.8
+      '@types/qrcode': 1.4.2
 
   packages/intl:
     specifiers:
       '@payvo/sdk-test': workspace:*
       '@types/dinero.js': 1.9.0
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       dayjs: ^1.10.7
       dinero.js: ^1.9.1
     dependencies:
@@ -485,7 +485,7 @@ importers:
     devDependencies:
       '@payvo/sdk-test': link:../test
       '@types/dinero.js': 1.9.0
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/ledger:
     specifiers:
@@ -493,7 +493,7 @@ importers:
       '@ledgerhq/hw-transport-webhid': ^6.19.0
       '@ledgerhq/hw-transport-webusb': ^6.19.0
       '@payvo/sdk': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       platform: ^1.3.6
     dependencies:
       '@ledgerhq/hw-transport-u2f': 5.36.0-deprecated
@@ -502,11 +502,11 @@ importers:
       '@payvo/sdk': link:../sdk
       platform: 1.3.6
     devDependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/lsk:
     specifiers:
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@liskhq/lisk-cryptography': ^3.2
       '@liskhq/lisk-transactions': ^5.2
       '@payvo/sdk': workspace:*
@@ -515,7 +515,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@liskhq/lisk-cryptography': 3.2.0
       '@liskhq/lisk-transactions': 5.2.0
@@ -524,10 +524,10 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/luna:
     specifiers:
@@ -538,7 +538,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@terra-money/terra.js': ^3.0.1
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-cryptography': link:../cryptography
@@ -548,7 +548,7 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/markets:
     specifiers:
@@ -556,14 +556,14 @@ importers:
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@payvo/sdk': link:../sdk
       '@payvo/sdk-intl': link:../intl
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/nano:
     specifiers:
@@ -573,7 +573,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       nanocurrency: ^2.5.0
       nanocurrency-web: ^1.3.5
     dependencies:
@@ -586,19 +586,19 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/neo:
     specifiers:
       '@cityofzion/neon-js': ^4.9.0
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
     dependencies:
       '@cityofzion/neon-js': 4.9.0
       '@payvo/sdk': link:../sdk
@@ -606,10 +606,10 @@ importers:
       '@payvo/sdk-helpers': link:../helpers
       '@payvo/sdk-intl': link:../intl
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/news:
     specifiers:
@@ -617,7 +617,7 @@ importers:
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/fs-extra': ^9.0.13
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       fs-extra: ^10.0.0
       rss-parser: ^3.12.0
     dependencies:
@@ -627,7 +627,7 @@ importers:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
       '@types/fs-extra': 9.0.13
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       fs-extra: 10.0.0
 
   packages/profiles:
@@ -645,7 +645,7 @@ importers:
       '@payvo/sdk-markets': workspace:*
       '@payvo/sdk-test': workspace:*
       '@types/fs-extra': ^9.0.13
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       '@types/semver': 7.3.9
       '@vechain/picasso': ^2.1.1
       fs-extra: ^10.0.0
@@ -680,7 +680,7 @@ importers:
       '@payvo/sdk-lsk': link:../lsk
       '@payvo/sdk-test': link:../test
       '@types/fs-extra': 9.0.13
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/semver': 7.3.9
       fs-extra: 10.0.0
       localforage-driver-memory: 1.0.5_localforage@1.10.0
@@ -690,7 +690,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       '@types/node-emoji': 1.8.1
       bad-words: ^3.0.4
       bent: ^7.3
@@ -721,7 +721,7 @@ importers:
       uuid: 8.3.2
     devDependencies:
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/node-emoji': 1.8.1
 
   packages/sol:
@@ -733,7 +733,7 @@ importers:
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
       '@solana/web3.js': ^1.30.2
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       ed25519-hd-key: ^1.2.0
     dependencies:
       '@payvo/sdk': link:../sdk
@@ -745,11 +745,11 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/test:
     specifiers:
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       '@types/sinon': ^10.0.6
       concordance: ~5.0.4
       kleur: ~4.1.4
@@ -767,20 +767,20 @@ importers:
       uvu: 0.5.2
       zod: 3.11.6
     devDependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/sinon': 10.0.6
 
   packages/trx:
     specifiers:
       '@ledgerhq/hw-app-trx': ^6.11.2
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       tronweb: ^4.0.1
     dependencies:
       '@ledgerhq/hw-app-trx': 6.11.2
@@ -790,22 +790,22 @@ importers:
       '@payvo/sdk-intl': link:../intl
       tronweb: 4.0.1
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/xlm:
     specifiers:
       '@ledgerhq/hw-app-str': ^6.11.2
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       ed25519-hd-key: ^1.2.0
       stellar-sdk: ^9.1.0
     dependencies:
@@ -817,22 +817,22 @@ importers:
       ed25519-hd-key: 1.2.0
       stellar-sdk: 9.1.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/xrp:
     specifiers:
       '@ledgerhq/hw-app-xrp': ^6.11.2
-      '@ledgerhq/hw-transport-mocker': ^6.11.2
+      '@ledgerhq/hw-transport-mocker': ^6.20.0
       '@payvo/sdk': workspace:*
       '@payvo/sdk-cryptography': workspace:*
       '@payvo/sdk-fetch': workspace:*
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       base-x: ^3.0.9
       ripple-keypairs: ^1.1.0
       ripple-lib: ^1.10.0
@@ -846,10 +846,10 @@ importers:
       ripple-keypairs: 1.1.0
       ripple-lib: 1.10.0
     devDependencies:
-      '@ledgerhq/hw-transport-mocker': 6.11.2
+      '@ledgerhq/hw-transport-mocker': 6.20.0
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
   packages/zil:
     specifiers:
@@ -858,7 +858,7 @@ importers:
       '@payvo/sdk-helpers': workspace:*
       '@payvo/sdk-intl': workspace:*
       '@payvo/sdk-test': workspace:*
-      '@types/node': ^16.11.10
+      '@types/node': ^17.0.8
       '@zilliqa-js/account': ^3.3.3
       '@zilliqa-js/util': ^3.3.3
       '@zilliqa-js/zilliqa': ^3.3.3
@@ -872,7 +872,7 @@ importers:
     devDependencies:
       '@payvo/sdk-fetch': link:../fetch
       '@payvo/sdk-test': link:../test
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
 
 packages:
 
@@ -2676,6 +2676,7 @@ packages:
       '@ledgerhq/logs': 6.10.0
       rxjs: 6.6.7
       semver: 7.3.5
+    dev: false
 
   /@ledgerhq/devices/6.19.0:
     resolution: {integrity: sha512-xk/6JGrFP/c8aMK4O2fKZFJGH3STynwnIRy6si/400r5p3kJmoyR6h16U954EYcCbyScrVdtDYnZKLTUCbtAIQ==}
@@ -2685,6 +2686,15 @@ packages:
       rxjs: 6.6.7
       semver: 7.3.5
     dev: false
+
+  /@ledgerhq/devices/6.20.0:
+    resolution: {integrity: sha512-WehM7HGdb+nSUzyUlz1t2qJ8Tg4I+rQkOJJsx0/Dpjkx6/+1hHcX6My/apPuwh39qahqwYhjszq0H1YzGDS0Yg==}
+    dependencies:
+      '@ledgerhq/errors': 6.10.0
+      '@ledgerhq/logs': 6.10.0
+      rxjs: 6.6.7
+      semver: 7.3.5
+    dev: true
 
   /@ledgerhq/errors/5.50.0:
     resolution: {integrity: sha512-gu6aJ/BHuRlpU7kgVpy2vcYk6atjB4iauP2ymF7Gk0ez0Y/6VSMVSJvubeEQN+IV60+OBK0JgeIZG7OiHaw8ow==}
@@ -2748,10 +2758,10 @@ packages:
       bip32-path: 0.4.2
     dev: false
 
-  /@ledgerhq/hw-transport-mocker/6.11.2:
-    resolution: {integrity: sha512-krd6L+1dnx+LftiTaIDNf7CpzUUtyshnMmzqR2XGDz7OfLOycIAcr2SmNZGTUZ2lTh+e/rQYbd+BDN5tdKLGRg==}
+  /@ledgerhq/hw-transport-mocker/6.20.0:
+    resolution: {integrity: sha512-oIanrhclhyf3/MwvrQly0+xFOLBge+RqtGqWn9f9bp2ic7ctW9O4YPCTDZ1HN8xR5zEPc+kgikWYlwJkRj2wuQ==}
     dependencies:
-      '@ledgerhq/hw-transport': 6.11.2
+      '@ledgerhq/hw-transport': 6.20.0
       '@ledgerhq/logs': 6.10.0
     dev: true
 
@@ -2839,6 +2849,7 @@ packages:
       '@ledgerhq/devices': 6.11.2
       '@ledgerhq/errors': 6.10.0
       events: 3.3.0
+    dev: false
 
   /@ledgerhq/hw-transport/6.19.0:
     resolution: {integrity: sha512-B16iNtLb3BS+PlqKU1b6eLzOa8Os03SdeUQUYJrqc8XCqNMHJvpQxSvWVbqZFvRS5Cu991usVsCTFrPtOqaCeQ==}
@@ -2847,6 +2858,14 @@ packages:
       '@ledgerhq/errors': 6.10.0
       events: 3.3.0
     dev: false
+
+  /@ledgerhq/hw-transport/6.20.0:
+    resolution: {integrity: sha512-5KS0Y6CbWRDOv3FgNIfk53ViQOIZqMxAw0RuOexreW5GMwuYfK7ddGi4142qcu7YrxkGo7cNe42wBbx1hdXl0Q==}
+    dependencies:
+      '@ledgerhq/devices': 6.20.0
+      '@ledgerhq/errors': 6.10.0
+      events: 3.3.0
+    dev: true
 
   /@ledgerhq/logs/5.50.0:
     resolution: {integrity: sha512-swKHYCOZUGyVt4ge0u8a7AwNcA//h4nx5wIi0sruGye1IJ5Cva0GyK9L2/WdX+kWVTKp92ZiEo1df31lrWGPgA==}
@@ -3036,7 +3055,7 @@ packages:
   /@octokit/types/2.16.2:
     resolution: {integrity: sha512-O75k56TYvJ8WpAakWwYRN8Bgu60KrmX0z1KqFp1kNiFNkgW+JW+9EBKZ+S33PU6SLvbihqd+3drvPxKK68Ee8Q==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@octokit/types/6.34.0:
@@ -3472,25 +3491,25 @@ packages:
   /@types/bip38/2.0.1:
     resolution: {integrity: sha512-mZTvxt9Oue3dDV8/sgJWNCsdmrkmhnGVRja3ZFKeMHheKbyS6FgcBep0WlpTP5pK8Z3Y3YILBP4nHnAV7knq0g==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/bip39/2.4.2:
     resolution: {integrity: sha512-Vo9lqOIRq8uoIzEVrV87ZvcIM0PN9t0K3oYZ/CS61fIYKCBdOIM7mlWzXuRvSXrDtVa1uUO2w1cdfufxTC0bzg==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/bn.js/4.11.6:
     resolution: {integrity: sha512-pqr857jrp2kPuO9uRjZ3PwnJTjoQy+fcdxvBTvHm6dkmEL9q+hDD/2j/0ELOBPtPnS8LjCX0gI9nbl8lVkadpg==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/bn.js/5.1.0:
     resolution: {integrity: sha512-QSSVYj7pYFN49kW77o2s9xTCwZ8F2xLbjLLSEVh8D2F4JUhZtPAGOFLTD+ffqksBx/u4cE/KImFjyhqCjn/LIA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/bs58/4.0.1:
@@ -3504,14 +3523,14 @@ packages:
     dependencies:
       '@types/http-cache-semantics': 4.0.1
       '@types/keyv': 3.1.3
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/responselike': 1.0.0
     dev: false
 
   /@types/connect/3.4.35:
     resolution: {integrity: sha512-cdeYyv4KWoEgpBISTxWvqYsVy444DOqehiF3fM3ne10AmJ62RSyNkUnxMJXHQWRQQX2eR94m5y1IZyDwBjV9FQ==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/create-xpub/2.1.1:
@@ -3536,7 +3555,7 @@ packages:
     resolution: {integrity: sha1-DR/OAi2LqyvEurKMXXgbZCEAGMQ=}
     dependencies:
       '@types/bigi': 1.4.2
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/elliptic/6.4.12:
@@ -3582,7 +3601,7 @@ packages:
   /@types/express-serve-static-core/4.17.25:
     resolution: {integrity: sha512-OUJIVfRMFijZukGGwTpKNFprqCCXk5WjNGvUgB/CxxBR40QWSjsNK86+yvGKlCOGc7sbwfHLaXhkG+NsytwBaQ==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/qs': 6.9.7
       '@types/range-parser': 1.2.4
     dev: false
@@ -3590,7 +3609,7 @@ packages:
   /@types/fs-extra/9.0.13:
     resolution: {integrity: sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/glob/7.2.0:
@@ -3603,13 +3622,13 @@ packages:
   /@types/hdkey/0.7.1:
     resolution: {integrity: sha512-4Kkr06hq+R8a9EzVNqXGOY2x1xA7dhY6qlp6OvaZ+IJy1BCca1Cv126RD9X7CMJoXoLo8WvAizy8gQHpqW6K0Q==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
-  /@types/hdkey/2.0.0:
-    resolution: {integrity: sha512-tq+EUqdxFKX+opzlGudmq+l00rKCWS4ngZzcSgUSe+DTCu8GzUQ6QHmX0IhTxT/3XGyxfwyWiZwhoQKh1Yid8Q==}
+  /@types/hdkey/2.0.1:
+    resolution: {integrity: sha512-4s6jhP0BT3sWBaRo0BfA3BpFllQvuRlXUzIqnuvSNmPhmMCZYjhrDe31nJb8kJLc0ZVdqj9Ep9eH2RGBNCK9Sw==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/http-cache-semantics/4.0.1:
@@ -3631,7 +3650,7 @@ packages:
   /@types/keyv/3.1.3:
     resolution: {integrity: sha512-FXCJgyyN3ivVgRoml4h94G/p3kY+u/B86La+QptcqJaWtBWtmc6TtkNfS40n9bIvyLteHh7zXOtgbobORKPbDg==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/lodash/4.14.177:
@@ -3653,7 +3672,7 @@ packages:
   /@types/node-fetch/2.5.12:
     resolution: {integrity: sha512-MKgC4dlq4kKNa/mYrwpKfzQMB5X3ee5U6fSprkKpToBqBmX4nFZL9cW5jl6sWn+xpRJ7ypWh2yyqqr8UUCstSw==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       form-data: 3.0.1
     dev: false
 
@@ -3679,6 +3698,10 @@ packages:
 
   /@types/node/16.11.10:
     resolution: {integrity: sha512-3aRnHa1KlOEEhJ6+CvyHKK5vE9BcLGjtUpwvqYLRvYNQKMfabu3BwfJaA/SLW8dxe28LsNDjtHwePTuzn3gmOA==}
+    dev: false
+
+  /@types/node/17.0.8:
+    resolution: {integrity: sha512-YofkM6fGv4gDJq78g4j0mMuGMkZVxZDgtU0JRdx6FgiJDG+0fY0GKVolOV8WqVmEhLCXkQRjwDdKyPxJp/uucg==}
 
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -3687,13 +3710,13 @@ packages:
   /@types/pbkdf2/3.1.0:
     resolution: {integrity: sha512-Cf63Rv7jCQ0LaL8tNXmEyqTHuIJxRdlS5vMh1mj5voN4+QFhVZnlZruezqpWYDiJ8UTzhP0VmeLXCmBk66YrMQ==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
-  /@types/qrcode/1.4.1:
-    resolution: {integrity: sha512-vxMyr7JM7tYPxu8vUE83NiosWX5DZieCyYeJRoOIg0pAkyofCBzknJ2ycUZkPGDFis2RS8GN/BeJLnRnAPxeCA==}
+  /@types/qrcode/1.4.2:
+    resolution: {integrity: sha512-7uNT9L4WQTNJejHTSTdaJhfBSCN73xtXaHFyBJ8TSwiLhe4PRuTue7Iph0s2nG9R/ifUaSnGhLUOZavlBEqDWQ==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/qs/6.9.7:
@@ -3703,7 +3726,7 @@ packages:
   /@types/randombytes/2.0.0:
     resolution: {integrity: sha512-bz8PhAVlwN72vqefzxa14DKNT8jK/mV66CSjwdVQM/k3Th3EPKfUtdMniwZgMedQTFuywAsfjnZsg+pEnltaMA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/range-parser/1.2.4:
@@ -3713,7 +3736,7 @@ packages:
   /@types/responselike/1.0.0:
     resolution: {integrity: sha512-85Y2BjiufFzaMIlvJDvTTB8Fxl2xfLo4HgmHzVBz08w4wDePCTjYw66PdrolO0kzli3yam/YCgRufyo1DdQVTA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/retry/0.12.1:
@@ -3723,7 +3746,7 @@ packages:
   /@types/secp256k1/4.0.3:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/semver/7.3.9:
@@ -3748,26 +3771,26 @@ packages:
     resolution: {integrity: sha512-Y2mHTRAbqfFkpjldbkHGY8JIzRN6XqYRliG8/24FcHm2D2PwW24fl5xMRTVGdrb7iMrwCaIEbLWerGIkXuFWVg==}
     dev: false
 
-  /@types/uuid/8.3.3:
-    resolution: {integrity: sha512-0LbEEx1zxrYB3pgpd1M5lEhLcXjKJnYghvhTRgaBeUivLHMDM1TzF3IJ6hXU2+8uA4Xz+5BA63mtZo5DjVT8iA==}
+  /@types/uuid/8.3.4:
+    resolution: {integrity: sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==}
     dev: true
 
   /@types/websocket/1.0.4:
     resolution: {integrity: sha512-qn1LkcFEKK8RPp459jkjzsfpbsx36BBt3oC3pITYtkoBw/aVX+EZFa5j3ThCRTNpLFvIMr5dSTD4RaMdilIOpA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@types/wif/2.0.2:
     resolution: {integrity: sha512-IiIuBeJzlh4LWJ7kVTrX0nwB60OG0vvGTaWC/SgSbVFw7uYUTF6gEuvDZ1goWkeirekJDD58Y8g7NljQh2fNkA==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: true
 
   /@types/ws/7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
     dev: false
 
   /@typescript-eslint/eslint-plugin/5.4.0_5c8ff4cecd5a55e744866c0654edac32:
@@ -9142,7 +9165,7 @@ packages:
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
       '@types/long': 4.0.1
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       long: 4.0.0
     dev: false
 
@@ -9944,7 +9967,7 @@ packages:
     resolution: {integrity: sha512-Y2B/pGM+eEC4Iuf6vGBGD86AdXYHCahuEiTa7kMOSDR/SXv7UQdOcrEpho+ZjTqZP0cYBe9UOTkYiW12Sm3IzQ==}
     dependencies:
       '@types/eventsource': 1.1.7
-      '@types/node': 16.11.10
+      '@types/node': 17.0.8
       '@types/randombytes': 2.0.0
       '@types/urijs': 1.19.17
       axios: 0.21.4
