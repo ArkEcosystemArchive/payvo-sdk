@@ -1,6 +1,6 @@
-import { ripemd160 } from "@noble/hashes/lib/ripemd160.js";
-import { sha3_256 } from "@noble/hashes/lib/sha3.js";
-import { sha256 } from "@noble/hashes/lib/sha256.js";
+import { ripemd160 } from "@noble/hashes/ripemd160.js";
+import { sha3_256 } from "@noble/hashes/sha3.js";
+import { sha256 } from "@noble/hashes/sha256.js";
 
 import { toArrayBuffer } from "./internal/buffer-to-uint8array.js";
 

@@ -1,8 +1,8 @@
 // Based on https://github.com/bitcoinjs/bip38/blob/master/index.js
 
-import { scrypt } from "@noble/hashes/lib/scrypt.js";
-import BigInteger from "bigi";
 import { Buffer } from "buffer";
+import { scrypt } from "@noble/hashes/scrypt.js";
+import BigInteger from "bigi";
 import { createCipheriv, createDecipheriv } from "crypto";
 
 import { Base58Check } from "./base58-check.js";
