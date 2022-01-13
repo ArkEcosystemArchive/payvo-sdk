@@ -40,12 +40,12 @@
 		"xpub-converter": "^1.0.2"
 	},
 	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
+		"@ledgerhq/hw-transport-mocker": "^6.20.0",
 		"@ledgerhq/logs": "^6.10.0",
 		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
 		"@types/create-xpub": "^2.1.1",
-		"@types/node": "^16.11.10"
+		"@types/node": "^17.0.8"
 	},
 	"engines": {
 		"node": ">=16.0.0"
