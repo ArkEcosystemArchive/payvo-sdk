@@ -13,11 +13,11 @@ export class Keys {
 	public static fromPrivateKey(privateKey: Buffer | string, compressed = true): KeyPair {
 		privateKey = privateKey instanceof Buffer ? privateKey : Buffer.from(privateKey, "hex");
 
-        return {
-            compressed,
-            privateKey: privateKey.toString("hex"),
-            publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
-        };
+		return {
+			compressed,
+			privateKey: privateKey.toString("hex"),
+			publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
+		};
 	}
 
 	public static fromWIF(wif: string, network?: Network): KeyPair {
