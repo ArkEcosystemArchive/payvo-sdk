@@ -33,13 +33,13 @@
 		"@payvo/sdk-intl": "workspace:*",
 		"@payvo/sdk-markets": "workspace:*",
 		"@vechain/picasso": "^2.1.1",
-		"joi": "^17.4.2",
+		"joi": "^17.5.0",
 		"localforage": "^1.10.0",
 		"node-cache": "^5.1.2",
 		"p-queue": "^7.1.0",
 		"p-retry": "^5.0.0",
 		"semver": "^7.3.5",
-		"type-fest": "^2.6.0"
+		"type-fest": "^2.9.0"
 	},
 	"devDependencies": {
 		"@payvo/sdk-ada": "workspace:*",

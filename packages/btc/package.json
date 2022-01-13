@@ -26,16 +26,16 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-app-btc": "^6.15.1",
+		"@ledgerhq/hw-app-btc": "^6.21.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"bitcoinjs-lib": "^6.0.0",
+		"bitcoinjs-lib": "^6.0.1",
 		"bitcoinjs-message": "^2.2.0",
 		"coinselect": "^3.1.12",
 		"create-xpub": "^2.1.0",
-		"ecpair": "^1.0.1",
+		"ecpair": "^1.0.0",
 		"invariant": "^2.2.4",
 		"xpub-converter": "^1.0.2"
 	},

@@ -33,9 +33,9 @@
 		"dot-prop": "~6.0.1",
 		"fast-copy": "^2.1.1",
 		"fast-deep-equal": "^3.1.3",
-		"joi": "^17.4.2",
+		"joi": "^17.5.0",
 		"qrcode": "^1.5.0",
-		"query-string": "^7.0.1"
+		"query-string": "^7.1.0"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",

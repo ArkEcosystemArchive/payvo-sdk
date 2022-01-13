@@ -25,7 +25,7 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
-		"@emurgo/cardano-serialization-lib-nodejs": "^9.0.0",
+		"@emurgo/cardano-serialization-lib-nodejs": "^9.1.4",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",

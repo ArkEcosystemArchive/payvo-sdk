@@ -1,5 +1,6 @@
-import { IoC, Services } from "@payvo/sdk";
 import { getPublicKey, sign, verify } from "@noble/ed25519";
+import { IoC, Services } from "@payvo/sdk";
+import { Uint8 } from "@payvo/sdk-helpers";
 
 export class MessageService extends Services.AbstractMessageService {
 	readonly #keyPairService: Services.KeyPairService;
@@ -19,8 +20,8 @@ export class MessageService extends Services.AbstractMessageService {
 
 		return {
 			message: input.message,
-			signatory: await getPublicKey(privateKey),
-			signature: await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey),
+			signatory: Uint8.from(await getPublicKey(privateKey)),
+			signature: Uint8.from(await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey)),
 		};
 	}
 

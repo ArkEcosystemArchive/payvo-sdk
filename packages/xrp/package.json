@@ -25,13 +25,13 @@
 		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
-		"@ledgerhq/hw-app-xrp": "^6.11.2",
+		"@ledgerhq/hw-app-xrp": "^6.20.0",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
 		"base-x": "^3.0.9",
-		"ripple-keypairs": "^1.1.0",
+		"ripple-keypairs": "^1.1.3",
 		"ripple-lib": "^1.10.0"
 	},
 	"devDependencies": {

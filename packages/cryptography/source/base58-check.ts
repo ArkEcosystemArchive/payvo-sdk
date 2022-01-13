@@ -1,4 +1,4 @@
-import { sha256 } from "@noble/hashes/lib/sha256.js";
+import { sha256 } from "@noble/hashes/sha256";
 
 import { Base58 } from "./base58.js";
 import { toArrayBuffer } from "./internal/buffer-to-uint8array.js";

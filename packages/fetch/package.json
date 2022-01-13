@@ -27,7 +27,7 @@
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",
 		"cross-fetch": "^3.1.4",
-		"query-string": "^7.0.1"
+		"query-string": "^7.1.0"
 	},
 	"devDependencies": {
 		"@payvo/sdk-test": "workspace:*",
