@@ -18,8 +18,8 @@ describeWithContext(
 		});
 
 		it("should verify the given value", async ({ message, password }) => {
-			assert.true(await PBKDF2.verify(await PBKDF2.encrypt(message, password), password));
-			assert.false(await PBKDF2.verify(await PBKDF2.encrypt(message, password), "invalid-password"));
+			assert.true(await PBKDF2.verify(await PBKDF2.encrypt(message, password), password, message));
+			assert.false(await PBKDF2.verify(await PBKDF2.encrypt(message, password), "invalid-password", message));
 		});
 	},
 );
