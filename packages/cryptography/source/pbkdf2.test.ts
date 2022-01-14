@@ -16,10 +16,5 @@ describeWithContext(
 		it("should decrypt the given value", async ({ message, password }) => {
 			assert.is(await PBKDF2.decrypt(await PBKDF2.encrypt(message, password), password), message);
 		});
-
-		it("should verify the given value", async ({ message, password }) => {
-			assert.true(await PBKDF2.verify(await PBKDF2.encrypt(message, password), password, message));
-			assert.false(await PBKDF2.verify(await PBKDF2.encrypt(message, password), "invalid-password", message));
-		});
 	},
 );
