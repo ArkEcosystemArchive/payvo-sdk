@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-cryptography",
-	"version": "4.2.0",
+	"version": "4.3.0",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
@@ -27,12 +27,12 @@
 	"dependencies": {
 		"@noble/hashes": "^0.5.9",
 		"@noble/secp256k1": "^1.4.0",
-		"@peculiar/webcrypto": "^1.2.3",
 		"bcryptjs": "^2.4.3",
 		"bigi": "^1.4.2",
 		"bn.js": "^5.2.0",
 		"create-hmac": "^1.1.7",
 		"create-xpub": "^2.1.0",
+		"crypto-js": "^4.1.1",
 		"elliptic": "^6.5.4",
 		"hdkey": "^2.0.1",
 		"micro-base": "^0.10.2",
