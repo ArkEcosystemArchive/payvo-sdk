@@ -9,7 +9,7 @@ import { Profile } from "./profile";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { readFileSync } from 'fs'
+import { readFileSync } from "fs";
 
 describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) => {
 	beforeEach((context) => {
