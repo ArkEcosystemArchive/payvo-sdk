@@ -79,6 +79,6 @@ export class AddressService extends Services.AbstractAddressService {
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return BaseAddress.validate(address);
+		return BaseAddress.validate(address, this.#config.network);
 	}
 }

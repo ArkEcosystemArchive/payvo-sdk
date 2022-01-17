@@ -51,9 +51,9 @@ export class Address {
 		return result;
 	}
 
-	public static validate(address: string): boolean {
+	public static validate(address: string, network?: Network): boolean {
 		try {
-			return Base58Check.decode(address)[0] === getPubKeyHash();
+			return Base58Check.decode(address)[0] === getPubKeyHash(network);
 		} catch {
 			return false;
 		}
