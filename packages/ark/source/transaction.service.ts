@@ -27,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#addressService = container.get(IoC.BindingType.AddressService);
 		this.#publicKeyService = container.get(IoC.BindingType.PublicKeyService);
 		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
-		this.#multiSignatureSigner = container.factory(BindingType.MultiSignatureSigner);
+		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
 
 		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
 		this.#configCrypto = {
