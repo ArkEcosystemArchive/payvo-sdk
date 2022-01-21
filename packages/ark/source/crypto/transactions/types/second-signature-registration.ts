@@ -1,10 +1,9 @@
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
-import { TransactionType, TransactionTypeGroup } from "./../../enums";
-import { ISerializeOptions } from "./../../interfaces";
-import { BigNumber } from "@payvo/sdk-helpers";
-import * as schemas from "./schemas";
-import { Transaction } from "./transaction";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { ISerializeOptions } from "../../interfaces/index.js";
+import * as schemas from "./schemas.js";
+import { Transaction } from "./transaction.js";
 
 export abstract class SecondSignatureRegistrationTransaction extends Transaction {
 	public static override typeGroup: number = TransactionTypeGroup.Core;
@@ -19,13 +18,13 @@ export abstract class SecondSignatureRegistrationTransaction extends Transaction
 
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
 		const { data } = this;
-		const buffer: ByteBuffer = new ByteBuffer(33, true);
+		const buf: ByteBuffer = new ByteBuffer(Buffer.alloc(33));
 
 		if (data.asset && data.asset.signature) {
-			buffer.append(data.asset.signature.publicKey, "hex");
+			buf.writeBuffer(Buffer.from(data.asset.signature.publicKey, "hex"));
 		}
 
-		return buffer;
+		return buf;
 	}
 
 	public deserialize(buf: ByteBuffer): void {
@@ -33,7 +32,7 @@ export abstract class SecondSignatureRegistrationTransaction extends Transaction
 
 		data.asset = {
 			signature: {
-				publicKey: buf.readBytes(33).toString("hex"),
+				publicKey: buf.readBuffer(33).toString("hex"),
 			},
 		};
 	}

@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { PublicKey } from "./public-key";
+import { PublicKey } from "./public-key.js";
 
 const publicKeys = {
 	valid: [

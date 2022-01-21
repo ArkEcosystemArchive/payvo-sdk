@@ -8,7 +8,7 @@ import {
 	MissingArgument,
 	NotImplemented,
 	NotSupported,
-} from "./exceptions";
+} from "./exceptions.js";
 
 describe("Exceptions", ({ assert, it, nock, loader }) => {
 	it("should throw an exception with the type NotImplemented", () => {

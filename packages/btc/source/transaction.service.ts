@@ -6,11 +6,11 @@ import coinSelect from "coinselect";
 
 import { getNetworkConfig } from "./config.js";
 import { BindingType } from "./constants.js";
-import { AddressFactory } from "./address.factory";
+import { AddressFactory } from "./address.factory.js";
 import { BipLevel, Levels, UnspentTransaction } from "./contracts.js";
 import { LedgerService } from "./ledger.service.js";
 import { MultiSignatureTransaction } from "./multi-signature.contract.js";
-import { keysAndMethod, toExtPubKey } from "./multi-signature.domain";
+import { keysAndMethod, toExtPubKey } from "./multi-signature.domain.js";
 import { MultiSignatureService } from "./multi-signature.service.js";
 import { signatureValidator } from "./helpers.js";
 

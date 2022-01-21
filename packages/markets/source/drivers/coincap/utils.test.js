@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { convertToCurrency } from "./utils";
+import { convertToCurrency } from "./utils.js";
 
 describe("convertToCurrency", async ({ assert, it, nock, loader }) => {
 	it("If `from` equals `base`, return the basic exchange rate for the `to` currency", async () => {

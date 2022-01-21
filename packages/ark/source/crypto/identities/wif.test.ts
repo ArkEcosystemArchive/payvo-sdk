@@ -1,8 +1,8 @@
 import { describe } from "@payvo/sdk-test";
 
 import { data, passphrase } from "../../../test/crypto/identity.json";
-import { Keys } from "./keys";
-import { WIF } from "./wif";
+import { Keys } from "./keys.js";
+import { WIF } from "./wif.js";
 
 describe("WIF", ({ assert, it }) => {
 	it("fromPassphrase", () => {

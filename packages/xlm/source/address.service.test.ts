@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
-import { AddressService } from "./address.service";
+import { AddressService } from "./address.service.js";
 
 describe("AddressService", async ({ beforeEach, assert, it }) => {
 	beforeEach(async (context) => {

@@ -5,7 +5,7 @@ import { bootContainer, importByMnemonic } from "../test/mocking";
 import { container } from "./container";
 import { Identifiers } from "./container.models";
 import { ProfileSetting, WalletData } from "./contracts";
-import { ExchangeRateService } from "./exchange-rate.service";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 import { ProfileRepository } from "./profile.repository";
 
 describe("ExchangeRateService", ({ beforeEach, afterEach, it, assert, nock, loader, stub }) => {

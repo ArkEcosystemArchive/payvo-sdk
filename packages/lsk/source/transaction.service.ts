@@ -2,7 +2,7 @@ import { Contracts, IoC, Services } from "@payvo/sdk";
 import { convertLSKToBeddows, signTransaction, signMultiSignatureTransaction } from "@liskhq/lisk-transactions";
 import { convertBuffer, convertBufferList, convertString, convertStringList } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import { TransactionSerializer } from "./transaction.serializer";
+import { TransactionSerializer } from "./transaction.serializer.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
 	readonly #feeService!: Services.FeeService;
@@ -66,27 +66,28 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.#createFromData("dpos:voteDelegate", { votes }, input);
 	}
 
-	public override async multiSignature(
-		input: Services.MultiSignatureInput,
-	): Promise<Contracts.SignedTransactionData> {
-		if (!Array.isArray(input.data.mandatoryKeys)) {
-			throw new Error("Expected [input.data.mandatoryKeys] to be defined as a list of strings.");
-		}
-
-		if (!Array.isArray(input.data.optionalKeys)) {
-			throw new Error("Expected [input.data.optionalKeys] to be defined as a list of strings.");
-		}
-
-		return this.#createFromData(
-			"keys:registerMultisignatureGroup",
-			{
-				numberOfSignatures: input.data.numberOfSignatures,
-				mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
-				optionalKeys: input.data.optionalKeys.slice(input.data.min),
-			},
-			input,
-		);
-	}
+	// TODO: for now, we just disable Lisk musig, we will come back to it in the future
+	// public override async multiSignature(
+	// 	input: Services.MultiSignatureInput,
+	// ): Promise<Contracts.SignedTransactionData> {
+	// 	if (!Array.isArray(input.data.mandatoryKeys)) {
+	// 		throw new Error("Expected [input.data.mandatoryKeys] to be defined as a list of strings.");
+	// 	}
+	//
+	// 	if (!Array.isArray(input.data.optionalKeys)) {
+	// 		throw new Error("Expected [input.data.optionalKeys] to be defined as a list of strings.");
+	// 	}
+	//
+	// 	return this.#createFromData(
+	// 		"keys:registerMultisignatureGroup",
+	// 		{
+	// 			numberOfSignatures: input.data.numberOfSignatures,
+	// 			mandatoryKeys: input.data.mandatoryKeys.slice(0, input.data.min),
+	// 			optionalKeys: input.data.optionalKeys.slice(input.data.min),
+	// 		},
+	// 		input,
+	// 	);
+	// }
 
 	public override async unlockToken(input: Services.UnlockTokenInput): Promise<Contracts.SignedTransactionData> {
 		return this.#createFromData(

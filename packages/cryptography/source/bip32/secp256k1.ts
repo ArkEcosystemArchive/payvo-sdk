@@ -1,10 +1,11 @@
 // Based on https://github.com/sclihuiming/tiny-bip32/blob/main/ts-src/tiny-secp256k1/secp256k1.js
 
 import BN from "bn.js";
-import { ec as EC } from "elliptic";
+import elliptic from "elliptic";
 
 import { deterministicGenerate } from "./rfc6979.js";
 
+const EC = elliptic.ec;
 const secp256k1 = new EC("secp256k1");
 
 const ZERO32 = Buffer.alloc(32, 0);

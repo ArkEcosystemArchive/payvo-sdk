@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { BIP38 } from "./bip38";
-import { WIF } from "./wif";
+import { WIF } from "./wif.js";
 
 describe("BIP38", ({ assert, it }) => {
 	it("should encrypt the given value", async () => {

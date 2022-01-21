@@ -2,7 +2,7 @@ import { describeWithContext } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { PluginRepository } from "./plugin.repository";
-import { PluginRegistry } from "./plugin-registry.service";
+import { PluginRegistry } from "./plugin-registry.service.js";
 
 describeWithContext(
 	"PluginRepository",

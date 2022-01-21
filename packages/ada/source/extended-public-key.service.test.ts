@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
-import { ExtendedPublicKeyService } from "./extended-public-key.service";
+import { ExtendedPublicKeyService } from "./extended-public-key.service.js";
 
 describe("ExtendedPublicKeyService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {

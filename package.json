@@ -4,12 +4,14 @@
 	"description": "Cross-Platform Utilities for ARK Applications",
 	"scripts": {
 		"build": "ultra -r build",
-		"build:release": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish.sh",
-		"build:release:next": "NODE_ENV=production bash scripts/build-release.sh && bash scripts/publish-next.sh",
+		"build:all": "pnpm run build && pnpm run build:release",
+		"build:release": "NODE_ENV=production bash scripts/build-release.sh",
 		"clean": "ultra -r clean",
+		"clean:browser": "ultra -r clean:browser",
 		"lint": "bash scripts/lint.sh",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./packages/**/*.{ts,js,json,md}\"",
 		"rebuild": "ultra -r rebuild",
+		"release": "pnpm run build:release && bash scripts/publish.sh",
 		"sort-package-json": "sort-package-json package.json && sort-package-json packages/**/package.json",
 		"test": "ultra -r test"
 	},

@@ -1,10 +1,10 @@
 import { Base58Check, Hash } from "@payvo/sdk-cryptography";
 
-import { Network } from "../interfaces/networks";
-import { MultiSignatureAsset, KeyPair } from "./contracts";
-import { PublicKeyError } from "./errors";
+import { Network } from "../interfaces/networks.js";
+import { KeyPair, MultiSignatureAsset } from "./contracts.js";
+import { PublicKeyError } from "./errors.js";
 import { getPubKeyHash } from "./helpers.js";
-import { PublicKey } from "./public-key";
+import { PublicKey } from "./public-key.js";
 
 export class Address {
 	public static fromPassphrase(passphrase: string, network?: Network): string {
@@ -51,9 +51,9 @@ export class Address {
 		return result;
 	}
 
-	public static validate(address: string): boolean {
+	public static validate(address: string, network?: Network): boolean {
 		try {
-			return Base58Check.decode(address)[0] === getPubKeyHash();
+			return Base58Check.decode(address)[0] === getPubKeyHash(network);
 		} catch {
 			return false;
 		}

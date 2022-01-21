@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Manifest } from "./manifest";
+import { Manifest } from "./manifest.js";
 
 describe("Manifest", ({ assert, it, nock, loader }) => {
 	it("should get all values", () => {

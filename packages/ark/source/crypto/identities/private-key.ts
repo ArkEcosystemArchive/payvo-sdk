@@ -1,5 +1,5 @@
-import { Network } from "../interfaces/networks";
-import { Keys } from "./keys";
+import { Network } from "../interfaces/networks.js";
+import { Keys } from "./keys.js";
 
 export class PrivateKey {
 	public static fromPassphrase(passphrase: string): string {

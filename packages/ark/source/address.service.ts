@@ -1,12 +1,12 @@
-import { Interfaces } from "./crypto/index.js";
-import { Address as BaseAddress } from "./crypto/identities/address.js";
-import { Keys } from "./crypto/identities/keys.js";
+import { strict as assert } from "assert";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
-import { strict as assert } from "assert";
 
 import { BindingType } from "./coin.contract.js";
+import { Address as BaseAddress } from "./crypto/identities/address.js";
+import { Keys } from "./crypto/identities/keys.js";
+import { Interfaces } from "./crypto/index.js";
 
 export class AddressService extends Services.AbstractAddressService {
 	readonly #config!: Interfaces.NetworkConfig;
@@ -24,8 +24,8 @@ export class AddressService extends Services.AbstractAddressService {
 		abort_unless(BIP39.compatible(mnemonic), "The given value is not BIP39 compliant.");
 
 		return {
-			type: "bip39",
 			address: BaseAddress.fromPassphrase(mnemonic, this.#config.network),
+			type: "bip39",
 		};
 	}
 
@@ -37,8 +37,8 @@ export class AddressService extends Services.AbstractAddressService {
 		assert.ok(min);
 
 		return {
-			type: "bip39",
 			address: BaseAddress.fromMultiSignatureAsset({ min, publicKeys }, this.#config.network),
+			type: "bip39",
 		};
 	}
 
@@ -47,8 +47,8 @@ export class AddressService extends Services.AbstractAddressService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		return {
-			type: "bip39",
 			address: BaseAddress.fromPublicKey(publicKey, this.#config.network),
+			type: "bip39",
 		};
 	}
 
@@ -57,8 +57,8 @@ export class AddressService extends Services.AbstractAddressService {
 		options?: Services.IdentityOptions,
 	): Promise<Services.AddressDataTransferObject> {
 		return {
-			type: "bip39",
 			address: BaseAddress.fromPrivateKey(Keys.fromPrivateKey(privateKey), this.#config.network),
+			type: "bip39",
 		};
 	}
 
@@ -66,19 +66,19 @@ export class AddressService extends Services.AbstractAddressService {
 		abort_if(BIP39.compatible(secret), "The given value is BIP39 compliant. Please use [fromMnemonic] instead.");
 
 		return {
-			type: "bip39",
 			address: BaseAddress.fromPassphrase(secret, this.#config.network),
+			type: "bip39",
 		};
 	}
 
 	public override async fromWIF(wif: string): Promise<Services.AddressDataTransferObject> {
 		return {
-			type: "bip39",
 			address: BaseAddress.fromWIF(wif, this.#config.network),
+			type: "bip39",
 		};
 	}
 
 	public override async validate(address: string): Promise<boolean> {
-		return BaseAddress.validate(address);
+		return BaseAddress.validate(address, this.#config.network);
 	}
 }

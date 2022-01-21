@@ -1,6 +1,7 @@
-import { Exceptions, IoC, Services } from "@payvo/sdk";
-import { Mnemonic } from "@elrondnetwork/erdjs/out";
+import { Mnemonic } from "@elrondnetwork/erdjs/out/index.js";
 import { getPublicKey, sign, verify } from "@noble/ed25519";
+import { Services } from "@payvo/sdk";
+import { Uint8 } from "@payvo/sdk-helpers";
 
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
@@ -8,8 +9,8 @@ export class MessageService extends Services.AbstractMessageService {
 
 		return {
 			message: input.message,
-			signatory: await getPublicKey(privateKey),
-			signature: await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey),
+			signatory: Uint8.from(await getPublicKey(privateKey)),
+			signature: Uint8.from(await sign(Buffer.from(input.message, "utf8").toString("hex"), privateKey)),
 		};
 	}
 

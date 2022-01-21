@@ -1,12 +1,15 @@
 {
 	"name": "@payvo/sdk-eth",
-	"version": "4.0.0-next.22",
+	"version": "4.3.3",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
 	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
+	"exports": {
+		"browser": "./distribution/browser/index.js",
+		"default": "./distribution/esm/index.js"
+	},
+	"types": "./distribution/esm/index.d.ts",
 	"files": [
 		"/distribution"
 	],
@@ -16,6 +19,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
+		"clean:browser": "rimraf distribution/browser",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
@@ -23,19 +27,19 @@
 	"dependencies": {
 		"@ethereumjs/common": "^2.6.0",
 		"@ethereumjs/tx": "^3.4.0",
-		"@ledgerhq/hw-app-eth": "^6.16.2",
+		"@ledgerhq/hw-app-eth": "^6.22.3",
 		"@payvo/sdk": "workspace:*",
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"ethers": "^5.5.1",
+		"ethers": "^5.5.3",
 		"web3-eth-contract": "^1.6.1"
 	},
 	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
+		"@ledgerhq/hw-transport-mocker": "^6.20.0",
 		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10"
+		"@types/node": "^17.0.8"
 	},
 	"engines": {
 		"node": ">=16.0.0"

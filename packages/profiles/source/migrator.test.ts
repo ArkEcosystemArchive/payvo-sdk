@@ -221,7 +221,6 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 					[ProfileSetting.NewsFilters]: JSON.stringify({ categories: [], coins: ["ARK"] }),
 					[ProfileSetting.Password]:
 						"$argon2id$v=19$m=16,t=2,p=1$S09reTl2S1NTVllrU2ZuMg$Efpf9GGOgXdDmFmW1eF1Ew",
-					[ProfileSetting.ScreenshotProtection]: false,
 					[ProfileSetting.Theme]: "dark",
 					[ProfileSetting.TimeFormat]: "HH::MM",
 					[ProfileSetting.UseExpandedTables]: false,

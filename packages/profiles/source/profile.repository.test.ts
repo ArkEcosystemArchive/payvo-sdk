@@ -9,6 +9,7 @@ import { Profile } from "./profile";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileSerialiser } from "./profile.serialiser";
+import { readFileSync } from "fs";
 
 describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) => {
 	beforeEach((context) => {
@@ -248,15 +249,25 @@ describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) =
 	});
 
 	it("should import ok", async (context) => {
+		const wweFileContents = readFileSync("test/fixtures/profiles/empty-profile.wwe");
 		context.subject.flush();
 
+		// sdk export
 		assert.instance(await context.subject.import(PROFILE_BLANK), Profile);
+
+		// ww export
+		assert.instance(await context.subject.import(wweFileContents.toString()), Profile);
 	});
 
 	it("should import ok with password", async (context) => {
+		const wweFileContents = readFileSync("test/fixtures/profiles/password-protected-profile.wwe");
 		context.subject.flush();
 
+		// sdk export
 		assert.instance(await context.subject.import(PROFILE_PASSWORD, "some pass"), Profile);
+
+		// ww export
+		assert.instance(await context.subject.import(wweFileContents.toString(), "S3cUrePa$sword"), Profile);
 	});
 
 	it("should restore", async (context) => {

@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
-import { AppearanceService } from "./appearance.service";
+import { AppearanceService } from "./appearance.service.js";
 import { Profile } from "./profile";
 import { ProfileSetting } from "./profile.enum.contract";
 
@@ -29,7 +29,7 @@ describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 	it("#defaults", async (context) => {
 		assert.equal(context.subject.defaults(), {
 			accentColor: "green",
-			dashboardTransactionHistory: true,
+			dashboardTransactionHistory: false,
 			theme: "light",
 			useExpandedTables: false,
 			useNetworkWalletNames: false,

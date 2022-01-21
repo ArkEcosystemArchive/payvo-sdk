@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Response } from "./http-response";
+import { Response } from "./http-response.js";
 
 describe("Response", ({ assert, afterEach, beforeEach, it, stub }) => {
 	beforeEach((context) => {

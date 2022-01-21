@@ -1,2 +1,2 @@
-export { devnet } from "./devnet";
-export { mainnet } from "./mainnet";
+export { devnet } from "./devnet/index.js";
+export { mainnet } from "./mainnet/index.js";

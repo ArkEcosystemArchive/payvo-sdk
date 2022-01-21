@@ -1,9 +1,9 @@
-import { describe } from "@payvo/sdk-test";
-import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {
@@ -12,12 +12,12 @@ describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }
 		context.subject.configure(
 			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			{
-				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 				amount: "12500000000000000",
 				fee: "0",
-				timestamp: "1970-01-01T00:00:00.000Z",
-				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 				recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
+				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				timestamp: "1970-01-01T00:00:00.000Z",
 			},
 			"",
 		);
@@ -43,24 +43,24 @@ describe("SignedTransactionData", async ({ assert, beforeAll, it, nock, loader }
 		context.subject.configure(
 			"3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 			{
-				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
-				type: 6,
-				fee: "0",
 				asset: {
 					payments: [
 						{
-							recipientId: "",
 							amount: "12500000000000000",
+							recipientId: "",
 						},
 						{
-							recipientId: "",
 							amount: "12500000000000000",
+							recipientId: "",
 						},
 					],
 				},
-				timestamp: "1970-01-01T00:00:00.000Z",
-				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				fee: "0",
+				id: "3e3817fd0c35bc36674f3874c2953fa3e35877cbcdb44a08bdc6083dbd39d572",
 				recipientId: "D6Z26L69gdk9qYmTv5uzk3uGepigtHY4ax",
+				senderPublicKey: "0208e6835a8f020cfad439c059b89addc1ce21f8cab0af6e6957e22d3720bff8a4",
+				timestamp: "1970-01-01T00:00:00.000Z",
+				type: 6,
 			},
 			"",
 		);

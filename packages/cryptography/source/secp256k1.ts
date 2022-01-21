@@ -1,28 +1,30 @@
-import * as secp from "secp256k1";
+import { ecdsaSign, ecdsaVerify, publicKeyCombine, publicKeyCreate, publicKeyVerify } from "secp256k1";
+
+import { CrossBuffer, toArrayBuffer, toArrayBufferList } from "./internal/buffer-to-uint8array.js";
 
 class Secp256k1 {
-	public publicKeyCreate(privateKey: Buffer, compressed: boolean): Buffer {
-		return Buffer.from(secp.publicKeyCreate(privateKey, compressed));
+	public publicKeyCreate(privateKey: CrossBuffer, compressed: boolean): Buffer {
+		return Buffer.from(publicKeyCreate(toArrayBuffer(privateKey), compressed));
 	}
 
-	public publicKeyVerify(publicKey: Buffer): boolean {
+	public publicKeyVerify(publicKey: CrossBuffer): boolean {
 		try {
-			return secp.publicKeyVerify(publicKey);
+			return publicKeyVerify(toArrayBuffer(publicKey));
 		} catch {
 			return false;
 		}
 	}
 
-	public publicKeyCombine(publicKeys: Buffer[]): Buffer {
-		return Buffer.from(secp.publicKeyCombine(publicKeys));
+	public publicKeyCombine(publicKeys: CrossBuffer[]): Buffer {
+		return Buffer.from(publicKeyCombine(toArrayBufferList(publicKeys)));
 	}
 
-	public sign(hash: Buffer, privateKey: Buffer): Buffer {
-		return Buffer.from(secp.ecdsaSign(hash, privateKey).signature);
+	public sign(hash: CrossBuffer, privateKey: CrossBuffer): Buffer {
+		return Buffer.from(ecdsaSign(toArrayBuffer(hash), toArrayBuffer(privateKey)).signature);
 	}
 
-	public verify(hash: Buffer, signature: Buffer, publicKey: Buffer): boolean {
-		return secp.ecdsaVerify(signature, hash, publicKey);
+	public verify(hash: CrossBuffer, signature: CrossBuffer, publicKey: CrossBuffer): boolean {
+		return ecdsaVerify(toArrayBuffer(signature), toArrayBuffer(hash), toArrayBuffer(publicKey));
 	}
 }
 

@@ -4,12 +4,12 @@ import { openTransportReplayer, RecordStore } from "@ledgerhq/hw-transport-mocke
 
 import { ledger } from "../test/fixtures/ledger";
 import { createService } from "../test/mocking";
-import { AddressService } from "./address.service";
-import { ClientService } from "./client.service";
-import { LedgerService } from "./ledger.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 import { AddressFactory } from "./address.factory.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
 import { BindingType } from "./constants.js";

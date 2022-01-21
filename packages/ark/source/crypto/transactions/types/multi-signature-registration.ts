@@ -1,11 +1,10 @@
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
-import { TransactionType, TransactionTypeGroup } from "./../../enums";
-import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "./../../interfaces";
-import { configManager } from "./../../managers";
-import { BigNumber } from "@payvo/sdk-helpers";
-import * as schemas from "./schemas";
-import { Transaction } from "./transaction";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { IMultiSignatureAsset, ISerializeOptions, ITransactionData } from "../../interfaces/index.js";
+import { configManager } from "../../managers/index.js";
+import * as schemas from "./schemas.js";
+import { Transaction } from "./transaction.js";
 
 export class MultiSignatureRegistrationTransaction extends Transaction {
 	public static override typeGroup: number = TransactionTypeGroup.Core;
@@ -33,27 +32,27 @@ export class MultiSignatureRegistrationTransaction extends Transaction {
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
 		const { data } = this;
 		const { min, publicKeys } = data.asset!.multiSignature!;
-		const buffer: ByteBuffer = new ByteBuffer(2 + publicKeys.length * 33);
+		const buf: ByteBuffer = new ByteBuffer(Buffer.alloc(2 + publicKeys.length * 33));
 
-		buffer.writeUint8(min);
-		buffer.writeUint8(publicKeys.length);
+		buf.writeUInt8(min);
+		buf.writeUInt8(publicKeys.length);
 
 		for (const publicKey of publicKeys) {
-			buffer.append(publicKey, "hex");
+			buf.writeBuffer(Buffer.from(publicKey, "hex"));
 		}
 
-		return buffer;
+		return buf;
 	}
 
 	public deserialize(buf: ByteBuffer): void {
 		const { data } = this;
 
 		const multiSignature: IMultiSignatureAsset = { publicKeys: [], min: 0 };
-		multiSignature.min = buf.readUint8();
+		multiSignature.min = buf.readUInt8();
 
-		const count = buf.readUint8();
+		const count = buf.readUInt8();
 		for (let i = 0; i < count; i++) {
-			const publicKey = buf.readBytes(33).toString("hex");
+			const publicKey = buf.readBuffer(33).toString("hex");
 			multiSignature.publicKeys.push(publicKey);
 		}
 

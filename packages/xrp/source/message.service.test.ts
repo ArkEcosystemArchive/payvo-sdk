@@ -3,7 +3,7 @@ import { Signatories } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { MessageService } from "./message.service";
+import { MessageService } from "./message.service.js";
 
 describe("MessageService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {

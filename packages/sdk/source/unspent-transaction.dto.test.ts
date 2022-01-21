@@ -2,7 +2,7 @@ import { BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
 import { describe } from "@payvo/sdk-test";
 
-import { UnspentTransactionData } from "./unspent-transaction.dto";
+import { UnspentTransactionData } from "./unspent-transaction.dto.js";
 
 describe("UnspentTransactionData", ({ assert, it, nock, loader }) => {
 	it("should have an id", () => {

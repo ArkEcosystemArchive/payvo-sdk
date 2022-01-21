@@ -1,7 +1,8 @@
-import { ITransactionData } from "../../interfaces";
 import { BigNumber } from "@payvo/sdk-helpers";
-import { TransferTransaction } from "../types";
-import { TransactionBuilder } from "./transaction";
+
+import { ITransactionData } from "../../interfaces/index.js";
+import { TransferTransaction } from "../types/index.js";
+import { TransactionBuilder } from "./transaction.js";
 
 export class TransferBuilder extends TransactionBuilder<TransferBuilder> {
 	public constructor() {

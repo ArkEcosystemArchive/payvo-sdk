@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Request } from "./request";
+import { Request } from "./request.js";
 
 describe("Request", ({ assert, beforeAll, it, nock }) => {
 	beforeAll((context) => {

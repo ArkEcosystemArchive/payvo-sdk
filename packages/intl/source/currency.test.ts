@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { Currency } from "./currency";
+import { Currency } from "./currency.js";
 
 describe("Currency", ({ assert, it, nock, loader }) => {
 	it("should parse a currency string and turn it into an object", () => {

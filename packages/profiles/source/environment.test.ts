@@ -15,14 +15,14 @@ import { Identifiers } from "./container.models";
 import { ProfileData } from "./contracts";
 import { DataRepository } from "./data.repository";
 import { Environment } from "./environment";
-import { ExchangeRateService } from "./exchange-rate.service";
+import { ExchangeRateService } from "./exchange-rate.service.js";
 import { MemoryStorage } from "./memory.storage";
-import { PluginRegistry } from "./plugin-registry.service";
+import { PluginRegistry } from "./plugin-registry.service.js";
 import { Profile } from "./profile";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { WalletService } from "./wallet.service";
+import { WalletService } from "./wallet.service.js";
 
 const makeSubject = async (context) => {
 	context.subject = new Environment({
@@ -205,14 +205,13 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			ADVANCED_MODE: false,
 			AUTOMATIC_SIGN_OUT_PERIOD: 15,
 			BIP39_LOCALE: "english",
-			DASHBOARD_TRANSACTION_HISTORY: true,
+			DASHBOARD_TRANSACTION_HISTORY: false,
 			DO_NOT_SHOW_FEE_WARNING: false,
 			ERROR_REPORTING: false,
 			EXCHANGE_CURRENCY: "BTC",
 			LOCALE: "en-US",
 			MARKET_PROVIDER: "cryptocompare",
 			NAME: "John Doe",
-			SCREENSHOT_PROTECTION: true,
 			THEME: "light",
 			TIME_FORMAT: "h:mm A",
 			USE_EXPANDED_TABLES: false,
@@ -254,7 +253,6 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			LOCALE: "en-US",
 			MARKET_PROVIDER: "cryptocompare",
 			NAME: "John Doe",
-			SCREENSHOT_PROTECTION: true,
 			THEME: "light",
 			TIME_FORMAT: "h:mm A",
 			USE_EXPANDED_TABLES: false,

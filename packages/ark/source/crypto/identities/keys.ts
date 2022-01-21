@@ -1,8 +1,8 @@
 import { Hash, secp256k1, WIF } from "@payvo/sdk-cryptography";
 
-import { Network } from "../interfaces/networks";
-import { KeyPair } from "./contracts";
-import { NetworkVersionError } from "./errors";
+import { Network } from "../interfaces/networks.js";
+import { KeyPair } from "./contracts.js";
+import { NetworkVersionError } from "./errors.js";
 import { getWIF } from "./helpers.js";
 
 export class Keys {
@@ -13,11 +13,22 @@ export class Keys {
 	public static fromPrivateKey(privateKey: Buffer | string, compressed = true): KeyPair {
 		privateKey = privateKey instanceof Buffer ? privateKey : Buffer.from(privateKey, "hex");
 
-		return {
-			publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
-			privateKey: privateKey.toString("hex"),
-			compressed,
-		};
+		try {
+			return {
+				compressed,
+				privateKey: privateKey.toString("hex"),
+				publicKey: secp256k1.publicKeyCreate(privateKey, compressed).toString("hex"),
+			};
+		} catch (error) {
+			console.error({
+				error,
+				message: error.message,
+				privateKeLength: privateKey.length,
+				privateKey,
+			});
+
+			throw error;
+		}
 	}
 
 	public static fromWIF(wif: string, network?: Network): KeyPair {
@@ -28,9 +39,9 @@ export class Keys {
 		}
 
 		return {
-			publicKey: secp256k1.publicKeyCreate(Buffer.from(privateKey, "hex"), compressed).toString("hex"),
-			privateKey,
 			compressed,
+			privateKey,
+			publicKey: secp256k1.publicKeyCreate(Buffer.from(privateKey, "hex"), compressed).toString("hex"),
 		};
 	}
 }

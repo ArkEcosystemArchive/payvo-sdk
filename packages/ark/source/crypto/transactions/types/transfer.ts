@@ -1,11 +1,10 @@
-import ByteBuffer from "bytebuffer";
+import { BigNumber, ByteBuffer } from "@payvo/sdk-helpers";
 
-import { TransactionType, TransactionTypeGroup } from "./../../enums";
-import { Address } from "./../../identities/address.js";
-import { ISerializeOptions } from "./../../interfaces";
-import { BigNumber } from "@payvo/sdk-helpers";
-import * as schemas from "./schemas";
-import { Transaction } from "./transaction";
+import { TransactionType, TransactionTypeGroup } from "../../enums.js";
+import { Address } from "../../identities/address.js";
+import { ISerializeOptions } from "../../interfaces/index.js";
+import * as schemas from "./schemas.js";
+import { Transaction } from "./transaction.js";
 
 export abstract class TransferTransaction extends Transaction {
 	public static override typeGroup: number = TransactionTypeGroup.Core;
@@ -24,21 +23,21 @@ export abstract class TransferTransaction extends Transaction {
 
 	public serialize(options?: ISerializeOptions): ByteBuffer | undefined {
 		const { data } = this;
-		const buffer: ByteBuffer = new ByteBuffer(24, true);
-		buffer.writeUint64(data.amount.toString());
-		buffer.writeUint32(data.expiration || 0);
+		const buff: ByteBuffer = new ByteBuffer(Buffer.alloc(33));
+		buff.writeBigUInt64LE(data.amount.toBigInt());
+		buff.writeUInt32LE(data.expiration || 0);
 
 		if (data.recipientId) {
-			buffer.append(Address.toBuffer(data.recipientId));
+			buff.writeBuffer(Address.toBuffer(data.recipientId));
 		}
 
-		return buffer;
+		return buff;
 	}
 
 	public deserialize(buf: ByteBuffer): void {
 		const { data } = this;
-		data.amount = BigNumber.make(buf.readUint64().toString());
-		data.expiration = buf.readUint32();
-		data.recipientId = Address.fromBuffer(buf.readBytes(21).toBuffer());
+		data.amount = BigNumber.make(buf.readBigUInt64LE().toString());
+		data.expiration = buf.readUInt32LE();
+		data.recipientId = Address.fromBuffer(buf.readBuffer(21));
 	}
 }

@@ -1,10 +1,9 @@
 import { base58 } from "micro-base";
-
-const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
+import { toArrayBuffer } from "./internal/buffer-to-uint8array";
 
 export class Base58 {
 	public static encode(value: string | Buffer): string {
-		return base58.encode(normalise(value));
+		return base58.encode(toArrayBuffer(value));
 	}
 
 	public static decode(value: string): Uint8Array {

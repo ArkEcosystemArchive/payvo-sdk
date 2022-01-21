@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { ConfirmedTransactionDataCollection } from "./transactions.collection";
+import { ConfirmedTransactionDataCollection } from "./transactions.collection.js";
 
 describe("ConfirmedTransactionDataCollection", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(

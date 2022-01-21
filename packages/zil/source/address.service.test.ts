@@ -3,7 +3,7 @@ import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet } from "../test/mocking";
 import { BindingType } from "./constants";
-import { AddressService } from "./address.service";
+import { AddressService } from "./address.service.js";
 
 describe("AddressService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {

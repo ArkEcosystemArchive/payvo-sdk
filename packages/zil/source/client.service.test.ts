@@ -4,10 +4,10 @@ import { BigNumber } from "@payvo/sdk-helpers";
 
 import { identity } from "../test/fixtures/identity";
 import { createService, mockWallet } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { WalletData } from "./wallet.dto";
-import { ClientService } from "./client.service";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { BindingType } from "./constants";
 
 describe("ClientService", async ({ assert, afterEach, beforeEach, it, nock, loader }) => {

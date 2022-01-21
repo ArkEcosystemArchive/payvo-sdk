@@ -3,7 +3,7 @@ import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { PrivateKeyService } from "./private-key.service";
+import { PrivateKeyService } from "./private-key.service.js";
 import { KeyPairService } from "./key-pair.service.js";
 
 describe("PrivateKeyService", async ({ assert, beforeEach, it }) => {

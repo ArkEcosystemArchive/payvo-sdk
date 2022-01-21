@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { filterHostsFromConfig, pluckAddress, randomHostFromConfig, randomNetworkHostFromConfig } from "./helpers";
+import { filterHostsFromConfig, pluckAddress, randomHostFromConfig, randomNetworkHostFromConfig } from "./helpers.js";
 
 describe("Helpers", ({ assert, it, nock, loader }) => {
 	const configMock = {

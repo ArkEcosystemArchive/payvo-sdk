@@ -1,9 +1,9 @@
 import { Coins, Helpers, Services } from "@payvo/sdk";
 import { BIP39, BIP44, HDKey } from "@payvo/sdk-cryptography";
 import { Avalanche, BinTools, Buffer } from "avalanche";
-import { AVMAPI, KeyPair } from "avalanche/dist/apis/avm";
-import { InfoAPI } from "avalanche/dist/apis/info";
-import { PlatformVMAPI } from "avalanche/dist/apis/platformvm";
+import { AVMAPI, KeyPair } from "avalanche/dist/apis/avm/index.js";
+import { InfoAPI } from "avalanche/dist/apis/info/index.js";
+import { PlatformVMAPI } from "avalanche/dist/apis/platformvm/index.js";
 
 export const useAvalanche = (config: Coins.ConfigRepository): Avalanche => {
 	const host: string = Helpers.randomHostFromConfig(config);

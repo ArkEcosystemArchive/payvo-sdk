@@ -11,7 +11,7 @@ import { Buffer } from "buffer";
 
 import { fetchUsedAddressesData } from "./graphql-helpers.js";
 import { addressFromAccountExtPublicKey, deriveAddress, deriveChangeKey, deriveSpendKey } from "./shelley.js";
-import { createValue } from "./transaction.factory";
+import { createValue } from "./transaction.factory.js";
 import { UnspentTransaction } from "./transaction.models.js";
 
 export const usedAddressesForAccount = async (

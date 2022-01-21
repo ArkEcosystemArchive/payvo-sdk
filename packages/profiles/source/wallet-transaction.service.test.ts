@@ -5,8 +5,8 @@ import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { ProfileSetting, WalletData } from "./contracts";
 import { Profile } from "./profile";
-import { ExtendedSignedTransactionData } from "./signed-transaction.dto";
-import { TransactionService } from "./wallet-transaction.service";
+import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
+import { TransactionService } from "./wallet-transaction.service.js";
 
 const deriveIdentity = async (wallet, signingKey) => ({
 	address: (await wallet.addressService().fromMnemonic(signingKey)).address,

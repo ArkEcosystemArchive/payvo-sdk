@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { DateTime } from "@payvo/sdk-intl";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 describe("SignedTransactionData", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {

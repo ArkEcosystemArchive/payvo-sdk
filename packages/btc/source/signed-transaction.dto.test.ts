@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
-import { SignedTransactionData } from "./signed-transaction.dto";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
 
 let subject;
 

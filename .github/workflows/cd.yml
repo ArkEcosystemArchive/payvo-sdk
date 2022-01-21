@@ -36,4 +36,4 @@ jobs:
             - name: Install dependencies
               run: pnpm install
             - name: Publish
-              run: bash scripts/publish.sh
+              run: bash scripts/publish.sh ${{ secrets.NPM_AUTH_TOKEN }}

@@ -1,18 +1,19 @@
 import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { createService } from "../test/mocking";
-import { MultiSignatureService } from "./multi-signature.service";
-import { ClientService } from "./client.service";
+import { MultiSignatureService } from "./multi-signature.service.js";
+import { ClientService } from "./client.service.js";
 import { BindingType } from "./coin.contract";
 import { MultiSignatureSigner } from "./multi-signature.signer";
-import { KeyPairService } from "./key-pair.service";
-import { LedgerService } from "./ledger.service";
-import { PublicKeyService } from "./public-key.service";
-import { AddressService } from "./address.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { KeyPairService } from "./key-pair.service.js";
+import { LedgerService } from "./ledger.service.js";
+import { PublicKeyService } from "./public-key.service.js";
+import { AddressService } from "./address.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, it, loader }) => {
 	beforeAll(async (context) => {
@@ -92,9 +93,9 @@ describe("MultiSignatureService", async ({ assert, nock, beforeAll, beforeEach, 
 			typeGroup: 1,
 			version: 2,
 			signatures: [],
-			nonce: "1",
-			amount: "0",
-			fee: "0",
+			nonce: new BigNumber("1"),
+			amount: new BigNumber("0"),
+			fee: new BigNumber("0"),
 			senderPublicKey: "02940c966a0b30653fbd102d40be14666bde4d6da5a736422290684cdcac13d7db",
 			asset: {
 				multiSignature: {

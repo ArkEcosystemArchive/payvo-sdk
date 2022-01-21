@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import Fixture from "../test/fixtures/client/wallet.json";
 import { createService } from "../test/mocking";
-import { WalletData } from "./wallet.dto";
+import { WalletData } from "./wallet.dto.js";
 
 describe("WalletData", async ({ assert, beforeAll, it, nock, loader }) => {
 	beforeAll(async (context) => {

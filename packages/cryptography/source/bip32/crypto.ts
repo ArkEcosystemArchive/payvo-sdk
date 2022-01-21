@@ -2,10 +2,10 @@
 
 import createHmac from "create-hmac";
 import typeforce from "typeforce";
-import wif from "wif";
 
 import { Base58Check } from "../base58-check.js";
 import { Hash } from "../hash.js";
+import { WIF } from "../wif.js";
 import { ecc } from "./secp256k1.js";
 
 interface Network {
@@ -161,7 +161,11 @@ class BIP32 implements BIP32Interface {
 		if (!this.privateKey) {
 			throw new TypeError("Missing private key");
 		}
-		return wif.encode(this.network.wif, this.privateKey, true);
+		return WIF.encode({
+			compressed: true,
+			privateKey: this.privateKey.toString("hex"),
+			version: this.network.wif,
+		});
 	}
 
 	// https://github.com/bitcoin/bips/blob/master/bip-0032.mediawiki#child-key-derivation-ckd-functions

@@ -225,6 +225,10 @@ describe("BigNumber", async ({ assert, beforeEach, it }) => {
 		assert.is(context.subject.toNumber(), 1);
 	});
 
+	it("#toBigInt", (context) => {
+		assert.is(context.subject.toBigInt(), BigInt(1));
+	});
+
 	it("#valueOf", (context) => {
 		assert.is(context.subject.valueOf(), "1");
 	});

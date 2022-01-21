@@ -4,7 +4,7 @@ import { IProfile, IProfileExportOptions, IProfileInput, IProfileRepository } fr
 import { DataRepository } from "./data.repository";
 import { ProfileDumper } from "./profile.dumper";
 import { ProfileExporter } from "./profile.exporter";
-import { ProfileFactory } from "./profile.factory";
+import { ProfileFactory } from "./profile.factory.js";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileInitialiser } from "./profile.initialiser";
 import { Profile } from "./profile.js";

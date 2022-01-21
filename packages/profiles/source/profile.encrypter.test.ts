@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
-import { PROFILE_PASSWORD } from "../test/profiles";
 
+import { PROFILE_PASSWORD } from "../test/profiles";
 import { AttributeBag } from "./helpers/attribute-bag";
 import { ProfileEncrypter } from "./profile.encrypter";
 
@@ -73,7 +73,7 @@ describe("ProfileEncrypter #decrypt", ({ it, assert }) => {
 		const subject = new ProfileEncrypter(profile as any);
 
 		const decrypted = await subject.decrypt("some pass");
-		assert.is(decrypted.id, "d4180740-abc2-4a35-b1de-1e118abfe07d");
+		assert.is(decrypted.id, "4b26ccc4-3015-401f-9644-cf29a67998d4");
 	});
 
 	it("should failed if profile is not encrypted", async () => {

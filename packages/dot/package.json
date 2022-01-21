@@ -1,12 +1,15 @@
 {
 	"name": "@payvo/sdk-dot",
-	"version": "4.0.0-next.22",
+	"version": "4.3.3",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
 	"type": "module",
-	"exports": "./distribution/index.js",
-	"types": "./distribution/index.d.ts",
+	"exports": {
+		"browser": "./distribution/browser/index.js",
+		"default": "./distribution/esm/index.js"
+	},
+	"types": "./distribution/esm/index.d.ts",
 	"files": [
 		"/distribution"
 	],
@@ -16,6 +19,7 @@
 		"build:release": "webpack --config ../../webpack.config.cjs",
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
+		"clean:browser": "rimraf distribution/browser",
 		"test": "uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:watch": "watchlist source -- pnpm run test"
@@ -25,20 +29,20 @@
 		"@payvo/sdk-cryptography": "workspace:*",
 		"@payvo/sdk-helpers": "workspace:*",
 		"@payvo/sdk-intl": "workspace:*",
-		"@polkadot/api": "^6.10.3",
-		"@polkadot/keyring": "^8.0.5",
-		"@polkadot/rpc-provider": "^6.10.3",
-		"@polkadot/util": "^8.0.5",
-		"@polkadot/util-crypto": "^8.0.5",
-		"@polkadot/wasm-crypto": "^4.4.1",
-		"@polkadot/x-randomvalues": "^8.0.5",
-		"@zondax/ledger-substrate": "^0.22.0"
+		"@polkadot/api": "^6.0.0",
+		"@polkadot/keyring": "^8.3.1",
+		"@polkadot/rpc-provider": "^6.0.0",
+		"@polkadot/util": "^8.3.1",
+		"@polkadot/util-crypto": "^8.3.1",
+		"@polkadot/wasm-crypto": "^4.5.1",
+		"@polkadot/x-randomvalues": "^8.3.1",
+		"@zondax/ledger-substrate": "^0.24.0"
 	},
 	"devDependencies": {
-		"@ledgerhq/hw-transport-mocker": "^6.11.2",
+		"@ledgerhq/hw-transport-mocker": "^6.20.0",
 		"@payvo/sdk-fetch": "workspace:*",
 		"@payvo/sdk-test": "workspace:*",
-		"@types/node": "^16.11.10"
+		"@types/node": "^17.0.8"
 	},
 	"engines": {
 		"node": ">=16.0.0"

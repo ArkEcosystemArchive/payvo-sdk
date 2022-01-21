@@ -1,6 +1,6 @@
-import { NetworkConfig } from "../interfaces/networks";
-import * as networks from "../networks";
-import { NetworkName } from "../types";
+import { NetworkConfig } from "../interfaces/networks.js";
+import * as networks from "../networks/index.js";
+import { NetworkName } from "../types.js";
 
 export class NetworkManager {
 	public static all(): Record<NetworkName, NetworkConfig> {

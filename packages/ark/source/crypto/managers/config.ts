@@ -2,11 +2,11 @@ import deepmerge from "deepmerge";
 import get from "lodash.get";
 import set from "lodash.set";
 
-import { InvalidMilestoneConfigurationError } from "../errors";
-import { IMilestone } from "../interfaces";
-import { NetworkConfig } from "../interfaces/networks";
-import * as networks from "../networks";
-import { NetworkName } from "../types";
+import { InvalidMilestoneConfigurationError } from "../errors.js";
+import { IMilestone } from "../interfaces/index.js";
+import { NetworkConfig } from "../interfaces/networks.js";
+import * as networks from "../networks/index.js";
+import { NetworkName } from "../types.js";
 
 export interface MilestoneSearchResult {
 	found: boolean;
@@ -26,8 +26,8 @@ export class ConfigManager {
 
 	public setConfig(config: NetworkConfig): void {
 		this.config = {
-			network: config.network,
 			milestones: config.milestones,
+			network: config.network,
 		};
 
 		this.validateMilestones();
@@ -106,29 +106,29 @@ export class ConfigManager {
 	}
 
 	public getNextMilestoneWithNewKey(previousMilestone: number, key: string): MilestoneSearchResult {
-		if (!this.milestones || !this.milestones.length) {
+		if (!this.milestones || this.milestones.length === 0) {
 			throw new Error(`Attempted to get next milestone but none were set`);
 		}
 
-		for (let i = 0; i < this.milestones.length; i++) {
-			const milestone = this.milestones[i];
+		for (let index = 0; index < this.milestones.length; index++) {
+			const milestone = this.milestones[index];
 			if (
 				milestone[key] &&
 				milestone[key] !== this.getMilestone(previousMilestone)[key] &&
 				milestone.height > previousMilestone
 			) {
 				return {
+					data: milestone[key],
 					found: true,
 					height: milestone.height,
-					data: milestone[key],
 				};
 			}
 		}
 
 		return {
+			data: null,
 			found: false,
 			height: previousMilestone,
-			data: null,
 		};
 	}
 
@@ -143,13 +143,13 @@ export class ConfigManager {
 
 		this.milestones = this.config.milestones.sort((a, b) => a.height - b.height);
 		this.milestone = {
-			index: 0,
 			data: this.milestones[0],
+			index: 0,
 		};
 
 		let lastMerged = 0;
 
-		const overwriteMerge = (dest, source, options) => source;
+		const overwriteMerge = (destination, source, options) => source;
 
 		while (lastMerged < this.milestones.length - 1) {
 			this.milestones[lastMerged + 1] = deepmerge(this.milestones[lastMerged], this.milestones[lastMerged + 1], {
@@ -168,9 +168,9 @@ export class ConfigManager {
 			.sort((a, b) => a.height - b.height)
 			.filter((milestone) => milestone.activeDelegates);
 
-		for (let i = 1; i < delegateMilestones.length; i++) {
-			const previous = delegateMilestones[i - 1];
-			const current = delegateMilestones[i];
+		for (let index = 1; index < delegateMilestones.length; index++) {
+			const previous = delegateMilestones[index - 1];
+			const current = delegateMilestones[index];
 
 			if (previous.activeDelegates === current.activeDelegates) {
 				continue;

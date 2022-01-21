@@ -1,10 +1,9 @@
-import { sha256 } from "@noble/hashes/lib/sha256";
+import { sha256 } from "@noble/hashes/sha256";
 
 import { Base58 } from "./base58.js";
+import { toArrayBuffer } from "./internal/buffer-to-uint8array.js";
 
-const normalise = (value: string | Buffer): Buffer => (value instanceof Buffer ? value : Buffer.from(value));
-
-const normaliseSHA256 = (value: string | Buffer) => sha256(sha256(normalise(value)));
+const normaliseSHA256 = (value: string | Buffer) => sha256(sha256(toArrayBuffer(value)));
 
 const decodeRaw = (buffer: Buffer): Buffer | undefined => {
 	const payload = buffer.slice(0, -4);
@@ -25,9 +24,9 @@ const decodeRaw = (buffer: Buffer): Buffer | undefined => {
 
 export class Base58Check {
 	public static encode(payload: string | Buffer): string {
-		payload = normalise(payload);
+		const payloadArray = toArrayBuffer(payload);
 
-		return Base58.encode(Buffer.concat([payload, normaliseSHA256(payload)], payload.length + 4));
+		return Base58.encode(Buffer.concat([payloadArray, normaliseSHA256(payload)], payload.length + 4));
 	}
 
 	public static decode(value: string): Buffer {

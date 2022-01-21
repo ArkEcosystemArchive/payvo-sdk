@@ -2,7 +2,7 @@ import { describe } from "@payvo/sdk-test";
 import { Coins, IoC } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
-import { KnownWalletService } from "./known-wallet.service";
+import { KnownWalletService } from "./known-wallet.service.js";
 
 describe("KnownWalletService", async ({ assert, beforeAll, it, nock }) => {
 	beforeAll(async (context) => {

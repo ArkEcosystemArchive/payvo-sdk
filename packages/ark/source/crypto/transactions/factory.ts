@@ -1,16 +1,17 @@
 import { BigNumber } from "@payvo/sdk-helpers";
+
 import {
 	DuplicateParticipantInMultiSignatureError,
 	InvalidTransactionBytesError,
 	TransactionSchemaError,
 	TransactionVersionError,
-} from "../errors";
-import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces";
-import { Deserializer } from "./deserializer";
-import { Serializer } from "./serializer";
+} from "../errors.js";
+import { IDeserializeOptions, ITransaction, ITransactionData, ITransactionJson } from "../interfaces/index.js";
+import { Deserializer } from "./deserializer.js";
+import { Serializer } from "./serializer.js";
 import { TransactionTypeFactory } from "./types/factory.js";
-import { Utils } from "./utils";
-import { Verifier } from "./verifier";
+import { Utils } from "./utils.js";
+import { Verifier } from "./verifier.js";
 
 export class TransactionFactory {
 	public static fromHex(hex: string): ITransaction {

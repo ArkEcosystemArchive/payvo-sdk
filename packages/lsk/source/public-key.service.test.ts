@@ -1,7 +1,7 @@
 import { describe } from "@payvo/sdk-test";
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { PublicKeyService } from "./public-key.service";
+import { PublicKeyService } from "./public-key.service.js";
 
 describe("PublicKeyService", async ({ beforeEach, it, assert }) => {
 	beforeEach(async (context) => {

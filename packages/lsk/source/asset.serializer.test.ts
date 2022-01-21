@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 import { createService } from "../test/mocking";
-import { AssetSerializer } from "./asset.serializer";
+import { AssetSerializer } from "./asset.serializer.js";
 
 describe("AssetSerializer #toMachine", ({ each, it, assert }) => {
 	each(

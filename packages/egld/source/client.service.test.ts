@@ -2,10 +2,10 @@ import { describe, loader } from "@payvo/sdk-test";
 import { IoC, Services } from "@payvo/sdk";
 
 import { createService } from "../test/mocking";
-import { ClientService } from "./client.service";
-import { SignedTransactionData } from "./signed-transaction.dto";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto";
-import { WalletData } from "./wallet.dto";
+import { ClientService } from "./client.service.js";
+import { SignedTransactionData } from "./signed-transaction.dto.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { WalletData } from "./wallet.dto.js";
 
 describe("ClientService", async ({ beforeAll, afterEach, assert, it, nock, loader }) => {
 	beforeAll(async (context) => {

@@ -1,10 +1,10 @@
-import { Interfaces } from "./crypto/index.js";
-import { PrivateKey as BasePrivateKey } from "./crypto/identities/private-key.js";
 import { IoC, Services } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { abort_if, abort_unless } from "@payvo/sdk-helpers";
 
 import { BindingType } from "./coin.contract.js";
+import { PrivateKey as BasePrivateKey } from "./crypto/identities/private-key.js";
+import { Interfaces } from "./crypto/index.js";
 
 export class PrivateKeyService extends Services.AbstractPrivateKeyService {
 	readonly #config!: Interfaces.NetworkConfig;

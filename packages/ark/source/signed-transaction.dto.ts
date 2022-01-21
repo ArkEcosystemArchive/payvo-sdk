@@ -1,7 +1,8 @@
-import { Identities } from "./crypto/index.js";
-import { Contracts, DTO, IoC } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
+import { Contracts, DTO } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
+import { DateTime } from "@payvo/sdk-intl";
+
+import { Identities } from "./crypto/index.js";
 import { TransactionTypeService } from "./transaction-type.service.js";
 
 export class SignedTransactionData

@@ -6,7 +6,7 @@ import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
 import { BindingType } from "./constants";
 import { createKeyring } from "./factories";
-import { AddressService } from "./address.service";
+import { AddressService } from "./address.service.js";
 
 describe("AddressService", async ({ beforeEach, assert, it, nock, loader }) => {
 	beforeEach(async (context) => {

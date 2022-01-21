@@ -3,8 +3,8 @@ import { IoC } from "@payvo/sdk";
 
 import { identity } from "../test/fixtures/identity";
 import { createService } from "../test/mocking";
-import { KeyPairService } from "./key-pair.service";
-import { PrivateKeyService } from "./private-key.service";
+import { KeyPairService } from "./key-pair.service.js";
+import { PrivateKeyService } from "./private-key.service.js";
 
 describe("PrivateKeyService", async ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach(async (context) => {
