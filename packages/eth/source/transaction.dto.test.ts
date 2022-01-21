@@ -29,7 +29,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, assert, it, nock, load
 	});
 
 	it("should have a timestamp", (context) => {
-		const date = context.subject.timestamp()
+		const date = context.subject.timestamp();
 
 		assert.instance(date, DateTime);
 		assert.equal(date.toUNIX(), 1593253136);

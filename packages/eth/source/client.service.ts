@@ -23,9 +23,7 @@ export class ClientService extends Services.AbstractClientService {
 		const response: any = await this.#get(`wallets/${query.identifiers![0].value}/transactions`);
 		const transactions: unknown[] = response.data;
 
-		return this.dataTransferObjectService.transactions(
-			transactions, this.#createMetaPagination(response)
-		);
+		return this.dataTransferObjectService.transactions(transactions, this.#createMetaPagination(response));
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {

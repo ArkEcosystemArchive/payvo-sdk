@@ -13,7 +13,7 @@ export class WalletData extends DTO.AbstractWalletData implements Contracts.Wall
 	public override balance(): Contracts.WalletBalance {
 		const tokens: Record<string, BigNumber> = this.data.tokens;
 
-		Object.keys(tokens).map((key: string) => tokens[key] = this.bigNumberService.make(tokens[key]));
+		Object.keys(tokens).map((key: string) => (tokens[key] = this.bigNumberService.make(tokens[key])));
 
 		return {
 			available: this.bigNumberService.make(BigInt(this.data.balance).toString()),

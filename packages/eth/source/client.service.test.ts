@@ -64,7 +64,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.length(result.items(), 1);
 
 		const transaction = result.items()[0];
-		
+
 		assert.instance(transaction, ConfirmedTransactionData);
 		assert.is(transaction.id(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
 		assert.is(transaction.hash(), "0xf6ad7f16653a2070f36c5f9c243acb30109da76658b54712745136d8e8236eae");
