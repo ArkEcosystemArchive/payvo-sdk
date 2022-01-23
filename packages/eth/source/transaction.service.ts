@@ -81,6 +81,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return response.json();
 	}
 
+	#generateContractTransferMemo(recipient: string, amount: number, contractAddress: string) {
+		return this.#createContract(contractAddress)
+				.methods.transfer(recipient, amount)
+				.encodeABI();
+	}
+
 	#createContract(contractAddress: string) {
 		return new Contract(
 			[
