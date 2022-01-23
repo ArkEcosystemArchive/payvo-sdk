@@ -43,33 +43,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		const { nonce } = await this.#get(`wallets/${senderData.address}`);
 
-		let data: object;
-
-		if (input.contract && input.contract.address) {
-			data = {
-				data: this.#createContract(input.contract.address)
-					.methods.transfer(input.data.to, input.data.amount)
-					.encodeABI(),
-				gasLimit: this.#toHex(input.feeLimit!),
-				gasPrice: this.#toHex(input.fee!),
-				nonce: this.#toHex(BigInt(nonce) + 1n),
-				to: input.contract.address,
-				value: "0x0",
-			};
-		} else {
-			data = {
-				gasLimit: this.#toHex(input.feeLimit!),
-				gasPrice: this.#toHex(input.fee!),
-				nonce: this.#toHex(BigInt(nonce) + 1n),
-				to: input.data.to,
-				value: this.#toHex(toWei(`${input.data.amount}`, "wei")),
-			};
-
-			if (input.data.memo) {
-				// @ts-ignore
-				data.data = Buffoon.fromUTF8(input.data.memo);
-			}
-		}
+		const data = this.#generateTransactionPayload(input, nonce);
 
 		const transaction: eth.Transaction = new eth.Transaction(data, {
 			common: Common.forCustomChain(this.#chain, {}),
@@ -88,6 +62,36 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const response = await this.httpClient.get(`${this.#peer}/${path}`, query);
 
 		return response.json();
+	}
+
+	#generateTransactionPayload(input: Services.TransferInput, nonce: number): TransactionPayload {
+		const nextNonce = BigInt(nonce) + 1n;
+
+		if (input.contract && input.contract.address) {
+			return {
+				data: this.#generateContractTransferMemo(input.data.to, input.data.amount, input.contract.address),
+				gasLimit: this.#toHex(input.feeLimit!),
+				gasPrice: this.#toHex(input.fee!),
+				nonce: this.#toHex(nextNonce),
+				to: input.contract.address,
+				value: "0x0",
+			};
+		}
+
+		let data: TransactionPayload = {
+			gasLimit: this.#toHex(input.feeLimit!),
+			gasPrice: this.#toHex(input.fee!),
+			nonce: this.#toHex(nextNonce),
+			to: input.data.to,
+			value: this.#toHex(toWei(`${input.data.amount}`, "wei")),
+		};
+
+		if (input.data.memo) {
+			// @ts-ignore
+			data.data = Buffoon.fromUTF8(input.data.memo);
+		}
+
+		return data;
 	}
 
 	#generateContractTransferMemo(recipient: string, amount: number, contractAddress: string) {
