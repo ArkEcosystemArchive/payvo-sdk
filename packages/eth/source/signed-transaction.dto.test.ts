@@ -17,7 +17,7 @@ describe("SignedTransactionData", async ({ assert, beforeEach, it, nock, loader 
 				amount: 100_000,
 				fee: 12_430,
 				timestamp: "1970-01-01T00:00:00.000Z",
-                memo: "0x123"
+				memo: "0x123",
 			},
 			"",
 		);
@@ -43,7 +43,7 @@ describe("SignedTransactionData", async ({ assert, beforeEach, it, nock, loader 
 		assert.is(subject.timestamp().toISOString(), "1970-01-01T00:00:00.000Z");
 	});
 
-    it("#memo", () => {
+	it("#memo", () => {
 		assert.is(subject.memo(), "0x123");
 	});
 });
