@@ -6,6 +6,15 @@ import { Contract } from "web3-eth-contract";
 
 import { toWei } from "./units.js";
 
+interface TransactionPayload {
+	data?: string;
+	to: string;
+	nonce: string; // hexadecimal
+	value: string; // hexadecimal
+	gasLimit: string; // hexadecimal
+	gasPrice: string; // hexadecimal
+}
+
 export class TransactionService extends Services.AbstractTransactionService {
 	readonly #addressService: Services.AddressService;
 	readonly #privateKeyService: Services.PrivateKeyService;
