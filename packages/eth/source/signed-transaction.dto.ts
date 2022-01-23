@@ -26,7 +26,7 @@ export class SignedTransactionData
 		return DateTime.make(this.signedData.timestamp);
 	}
 
-	public override memo(): string|undefined {
+	public override memo(): string | undefined {
 		return this.signedData.memo;
 	}
 }

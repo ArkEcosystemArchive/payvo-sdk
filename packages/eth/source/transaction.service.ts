@@ -57,7 +57,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			amount: input.contract && input.contract.address ? input.data.amount : this.#fromHex(data.value),
 			fee: input.feeLimit! * input.fee!,
 			timestamp: new Date(),
-			memo: data.data
+			memo: data.data,
 		};
 
 		return this.dataTransferObjectService.signedTransaction(
@@ -104,9 +104,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#generateContractTransferMemo(recipient: string, amount: number, contractAddress: string) {
-		return this.#createContract(contractAddress)
-				.methods.transfer(recipient, amount)
-				.encodeABI();
+		return this.#createContract(contractAddress).methods.transfer(recipient, amount).encodeABI();
 	}
 
 	#createContract(contractAddress: string) {
@@ -144,7 +142,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return `0x${value.toString(16)}`;
 	}
 
-	#fromHex(value: string) : bigint | number {
+	#fromHex(value: string): bigint | number {
 		return parseInt(value, 16);
 	}
 }

@@ -57,7 +57,7 @@ export class ClientService extends Services.AbstractClientService {
 			transaction.setAttributes({ identifier: transactionId });
 
 			const response = await this.#post("transactions", {
-				transaction: transaction.toBroadcast()
+				transaction: transaction.toBroadcast(),
 			});
 
 			if (response.result) {
