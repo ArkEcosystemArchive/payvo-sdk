@@ -115,4 +115,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	#toHex(value: bigint | number): string {
 		return `0x${value.toString(16)}`;
 	}
+
+	#fromHex(value: string) : bigint | number {
+		return parseInt(value, 16);
+	}
 }
