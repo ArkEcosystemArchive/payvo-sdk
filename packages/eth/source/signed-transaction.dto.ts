@@ -7,11 +7,11 @@ export class SignedTransactionData
 	implements Contracts.SignedTransactionData
 {
 	public override sender(): string {
-		return this.signedData.from;
+		return this.signedData.sender;
 	}
 
 	public override recipient(): string {
-		return this.signedData.to;
+		return this.signedData.recipient;
 	}
 
 	public override amount(): BigNumber {
@@ -23,6 +23,10 @@ export class SignedTransactionData
 	}
 
 	public override timestamp(): DateTime {
-		return DateTime.make(this.signedData.timestamp)
+		return DateTime.make(this.signedData.timestamp);
+	}
+
+	public override memo(): string|undefined {
+		return this.signedData.memo;
 	}
 }
