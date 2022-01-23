@@ -51,9 +51,18 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		transaction.sign(Buffoon.fromHex(privateKey));
 
+		const signedData = {
+			sender: senderData.address,
+			recipient: data.to,
+			amount: input.contract && input.contract.address ? input.data.amount : this.#fromHex(data.value),
+			fee: input.feeLimit! * input.fee!,
+			timestamp: new Date(),
+			memo: data.data
+		};
+
 		return this.dataTransferObjectService.signedTransaction(
 			transaction.hash().toString("hex"),
-			"0x" + transaction.serialize().toString("hex"),
+			signedData,
 			"0x" + transaction.serialize().toString("hex"),
 		);
 	}
