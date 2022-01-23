@@ -56,7 +56,7 @@ export class ClientService extends Services.AbstractClientService {
 
 			transaction.setAttributes({ identifier: transactionId });
 
-			const response = await this.#post("transactions", { transactions: [transaction] });
+			const response = await this.#post("transactions", { transaction });
 
 			if (response.result) {
 				result.accepted.push(transactionId);
