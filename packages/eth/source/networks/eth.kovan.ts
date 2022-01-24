@@ -16,7 +16,7 @@ const network: Networks.NetworkManifest = {
 	featureFlags,
 	hosts: [
 		{
-			host: "https://coins.com/api/eth",
+			host: "https://eth-test.payvo.com",
 			type: "full",
 		},
 		{

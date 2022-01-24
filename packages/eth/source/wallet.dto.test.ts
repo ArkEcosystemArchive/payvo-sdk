@@ -11,6 +11,10 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 				address: "0x4581a610f96878266008993475f1476ca9997081",
 				balance: 10,
 				nonce: 0,
+				tokens: {
+					"0xB8c77482e45F1F44dE1745F52C74426C631bDD52": 10,
+					"0x2b591e99afe9f32eaa6214f7b7629768c40eeb39": 25.5,
+				},
 			})),
 	);
 
@@ -23,7 +27,18 @@ describe("WalletData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have a balance", (context) => {
-		assert.equal(context.subject.balance().available, BigNumber.make("10"));
+		assert.equal(context.subject.balance().available.toString(), "10");
+	});
+
+	it("should have a list of tokens and its balances", (context) => {
+		const balance = context.subject.balance();
+
+		assert.length(Object.keys(balance.tokens), 2);
+		assert.instance(balance.tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"], BigNumber);
+		assert.instance(balance.tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"], BigNumber);
+
+		assert.equal(balance.tokens["0xB8c77482e45F1F44dE1745F52C74426C631bDD52"].toString(), "10");
+		assert.equal(balance.tokens["0x2b591e99afe9f32eaa6214f7b7629768c40eeb39"].toString(), "25.5");
 	});
 
 	it("should have a nonce", (context) => {
