@@ -4,9 +4,8 @@ import LedgerHID from "@ledgerhq/hw-transport-webhid";
 import LedgerUSB from "@ledgerhq/hw-transport-webusb";
 import platform from "platform";
 
-
 export class LedgerTransportFactory {
-	public async supportedTransport(): Promise<LedgerHID | LedgerUSB | LedgerU2F>  {
+	public async supportedTransport(): Promise<LedgerHID | LedgerUSB | LedgerU2F> {
 		const [supportsHID, supportsUSB, supportsU2F] = await Promise.all([
 			this.#supportsHID(),
 			this.#supportsUSB(),

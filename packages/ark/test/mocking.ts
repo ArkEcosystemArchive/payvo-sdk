@@ -5,11 +5,8 @@ import { loader } from "@payvo/sdk-test";
 import { BindingType } from "../source/coin.contract";
 import { manifest } from "../source/manifest";
 
-export const createService = async <T = any>(
-	service: any,
-	network = "ark.devnet",
-	predicate?: Function,
-): Promise<T> => Test.createServiceAsync({
+export const createService = async <T = any>(service: any, network = "ark.devnet", predicate?: Function): Promise<T> =>
+	Test.createServiceAsync({
 		httpClient: new Request(),
 		manifest: manifest.networks[network],
 		predicate: async (container: IoC.Container) => {
