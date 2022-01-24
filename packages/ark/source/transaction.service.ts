@@ -13,8 +13,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	readonly #publicKeyService!: Services.PublicKeyService;
 	readonly #multiSignatureService!: Services.MultiSignatureService;
 	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
-	readonly #packageCrypto!: Interfaces.NetworkConfig;
-	readonly #packageHeight!: number;
 
 	// @TODO: remove or inject
 	#peer!: string;

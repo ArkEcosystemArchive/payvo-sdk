@@ -1,29 +1,28 @@
-import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 
-import { createService } from "../test/mocking";
-import { identity } from "../test/fixtures/identity";
-import { FeeService } from "./fee.service.js";
+import { identity } from "../test/fixtures/identity.js";
+import { createService } from "../test/mocking.js";
 import { AddressService } from "./address.service.js";
 import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { FeeService } from "./fee.service.js";
 import { KeyPairService } from "./key-pair.service.js";
 import { LedgerService } from "./ledger.service.js";
-import { PublicKeyService } from "./public-key.service.js";
 import { MultiSignatureService } from "./multi-signature.service.js";
-import { BindingType } from "./coin.contract";
-import { TransactionService } from "./transaction.service.js";
-import { MultiSignatureSigner } from "./multi-signature.signer";
+import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { PublicKeyService } from "./public-key.service.js";
 import { SignedTransactionData } from "./signed-transaction.dto.js";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { TransactionService } from "./transaction.service.js";
 import { WalletData } from "./wallet.dto.js";
 
 describe("FeeService", async ({ assert, nock, it, loader }) => {
 	const normaliseFees = (transaction) => ({
-		min: transaction.min,
 		avg: transaction.avg,
-		max: transaction.max,
-		static: transaction.static,
 		isDynamic: transaction.isDynamic,
+		max: transaction.max,
+		min: transaction.min,
+		static: transaction.static,
 	});
 
 	it("should get the fees for ARK", async () => {
@@ -103,8 +102,8 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 				await createService(TransactionService, "ark.devnet", (container) => {
 					container.constant(IoC.BindingType.Container, container);
 					container.constant(IoC.BindingType.DataTransferObjects, {
-						SignedTransactionData,
 						ConfirmedTransactionData,
+						SignedTransactionData,
 						WalletData,
 					});
 					container.singleton(
@@ -119,17 +118,9 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 					container.singleton(IoC.BindingType.LedgerService, LedgerService);
 					container.singleton(IoC.BindingType.PublicKeyService, PublicKeyService);
 					container.singleton(IoC.BindingType.MultiSignatureService, MultiSignatureService);
-					container.factory(BindingType.MultiSignatureSigner, MultiSignatureSigner);
+					container.factory(MultiSignatureSigner);
 				})
 			).multiSignature({
-				signatory: new Signatories.Signatory(
-					new Signatories.MnemonicSignatory({
-						signingKey: identity.mnemonic,
-						address: identity.address,
-						publicKey: "publicKey",
-						privateKey: "privateKey",
-					}),
-				),
 				data: {
 					min: 2,
 					publicKeys: [
@@ -144,6 +135,14 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 						"030fde54605c5d53436217a2849d276376d0b0f12c71219cd62b0a4539e1e75acd", // 45
 					],
 				},
+				signatory: new Signatories.Signatory(
+					new Signatories.MnemonicSignatory({
+						address: identity.address,
+						privateKey: "privateKey",
+						publicKey: "publicKey",
+						signingKey: identity.mnemonic,
+					}),
+				),
 			}),
 		);
 

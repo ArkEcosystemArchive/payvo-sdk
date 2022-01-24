@@ -7,10 +7,9 @@ import { manifest } from "../source/manifest";
 
 export const createService = async <T = any>(
 	service: any,
-	network: string = "ark.devnet",
+	network = "ark.devnet",
 	predicate?: Function,
-): Promise<T> => {
-	return Test.createServiceAsync({
+): Promise<T> => Test.createServiceAsync({
 		httpClient: new Request(),
 		manifest: manifest.networks[network],
 		predicate: async (container: IoC.Container) => {
@@ -31,4 +30,3 @@ export const createService = async <T = any>(
 		},
 		service,
 	});
-};
