@@ -11,7 +11,7 @@
 		"lint": "bash scripts/lint.sh",
 		"prettier": "prettier --write \"./*.{ts,js,json,md}\" \"./packages/**/*.{ts,js,json,md}\"",
 		"rebuild": "ultra -r rebuild",
-		"release": "pnpm run build:release && bash scripts/publish.sh",
+		"release": "pnpm run build:all && bash scripts/publish.sh",
 		"sort-package-json": "sort-package-json package.json && sort-package-json packages/**/package.json",
 		"test": "ultra -r test"
 	},
