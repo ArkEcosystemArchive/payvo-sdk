@@ -1,4 +1,4 @@
-import { Contracts, DTO, Exceptions, IoC } from "@payvo/sdk";
+import { Contracts, DTO } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -7,22 +7,26 @@ export class SignedTransactionData
 	implements Contracts.SignedTransactionData
 {
 	public override sender(): string {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.sender.name);
+		return this.signedData.sender;
 	}
 
 	public override recipient(): string {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.recipient.name);
+		return this.signedData.recipient;
 	}
 
 	public override amount(): BigNumber {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.amount.name);
+		return this.bigNumberService.make(this.signedData.amount);
 	}
 
 	public override fee(): BigNumber {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.fee.name);
+		return this.bigNumberService.make(this.signedData.fee);
 	}
 
 	public override timestamp(): DateTime {
-		throw new Exceptions.NotImplemented(this.constructor.name, this.timestamp.name);
+		return DateTime.make(this.signedData.timestamp);
+	}
+
+	public override memo(): string | undefined {
+		return this.signedData.memo;
 	}
 }
