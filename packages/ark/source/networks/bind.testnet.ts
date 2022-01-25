@@ -62,6 +62,7 @@ const network: Networks.NetworkManifest = {
 			ticker: "TBIND",
 			type: "static",
 		},
+		memo: false,
 	},
 	type: "test",
 };

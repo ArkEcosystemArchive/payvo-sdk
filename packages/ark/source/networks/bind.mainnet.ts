@@ -62,6 +62,7 @@ const network: Networks.NetworkManifest = {
 			ticker: "BIND",
 			type: "static",
 		},
+		memo: false,
 		multiPaymentRecipients: 128,
 	},
 	type: "live",
