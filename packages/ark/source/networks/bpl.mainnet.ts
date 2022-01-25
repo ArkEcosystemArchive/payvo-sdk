@@ -37,7 +37,7 @@ const network: Networks.NetworkManifest = {
 	},
 	hosts: [
 		{
-			host: "http://explorer.blockpool.io:9031/api",
+			host: "https://explorer.blockpool.io:19031/api",
 			type: "full",
 		},
 		{
