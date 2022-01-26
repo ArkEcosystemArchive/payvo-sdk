@@ -1,10 +1,10 @@
-import { resolve } from "path";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
 import { Request } from "@payvo/sdk-fetch";
 import { describe } from "@payvo/sdk-test";
 import fs from "fs-extra";
+import { resolve } from "path";
 
 import storageData from "../test/fixtures/env-storage.json";
 import { identity } from "../test/fixtures/identity";
@@ -393,7 +393,12 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 
 		const profile = await context.subject.profiles().create("John Doe");
 		profile.auth().setPassword("password");
-		assert.not.throws(() => context.subject.persist());
+
+		assert.true(profile.status().isDirty());
+
+		await context.subject.persist();
+
+		assert.false(profile.status().isDirty());
 	});
 
 	it("should flush all bindings", async (context) => {
