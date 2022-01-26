@@ -146,7 +146,7 @@ describe("FeeService", async ({ assert, nock, it, loader }) => {
 			}),
 		);
 
-		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1 });
+		const b = await (await createService(FeeService, "ark.devnet")).calculate({ type: 1, data: () => ({}) });
 
 		assert.is(a.toHuman(), 50); // Signatures + Base 5
 		assert.is(b.toHuman(), 0);
