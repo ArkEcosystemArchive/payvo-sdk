@@ -92,7 +92,7 @@ export class Environment {
 		const storage: Storage = container.get<Storage>(Identifiers.Storage);
 
 		for (const profile of this.profiles().values()) {
-			this.profiles().persist(profile);
+			await this.profiles().persist(profile);
 		}
 
 		await storage.set("profiles", this.profiles().toObject());
