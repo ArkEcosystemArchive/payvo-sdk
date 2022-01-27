@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-xrp",
-	"version": "4.3.12",
+	"version": "4.3.13",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
