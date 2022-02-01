@@ -54,6 +54,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async scan(options?: {
 		useLegacy: boolean;
 		startPath?: string;
+		importedWalletHandler?: ((wallet: Contracts.WalletData) => void);
 	}): Promise<Services.LedgerWalletList> {
 		const pageSize = 5;
 		let page = 0;
@@ -84,6 +85,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 				const collection = await this.#clientService.wallets({
 					identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
 				});
+
+				if (options?.importedWalletHandler !== undefined) {
+					collection.items().forEach((wallet: Contracts.WalletData) => options.importedWalletHandler!(wallet));
+				}
 
 				wallets = wallets.concat(collection.items());
 
@@ -125,6 +130,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 				);
 
 				for (const collection of collections) {
+					if (options?.importedWalletHandler !== undefined) {
+						collection.items().forEach((wallet: Contracts.WalletData) => options.importedWalletHandler!(wallet));
+					}
+
 					wallets = wallets.concat(collection.items());
 
 					hasMore = collection.isNotEmpty();
