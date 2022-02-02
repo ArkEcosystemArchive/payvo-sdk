@@ -20,7 +20,7 @@ export interface LedgerService {
 
 	signMessage(path: string, payload: Buffer): Promise<string>;
 
-	scan(options?: { useLegacy: boolean; startPath?: string }): Promise<Record<string, WalletData>>;
+	scan(options?: { useLegacy: boolean; startPath?: string, onProgress?: (wallet: WalletData) => void }): Promise<Record<string, WalletData>>;
 
 	isNanoS(): Promise<boolean>;
 
