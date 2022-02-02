@@ -1,6 +1,5 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Contracts, IoC, Services } from "@payvo/sdk";
-import { LedgerWalletList } from "@payvo/sdk/distribution/esm/ledger.contract";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
 
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers.js";
@@ -64,7 +63,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const slip44 = this.configRepository.get<number>("network.constants.slip44");
 
 		const addressCache: Record<string, { address: string; publicKey: string }> = {};
-		let wallets: LedgerWalletList = {};
+		let wallets: Services.LedgerWalletList = {};
 
 		let hasMore = true;
 
