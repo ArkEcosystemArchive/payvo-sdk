@@ -1,6 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
+
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers.js";
 
 export class LedgerService extends Services.AbstractLedgerService {
@@ -54,15 +55,17 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async scan(options?: {
 		useLegacy: boolean;
 		startPath?: string;
+		onProgress?: (wallet: Contracts.WalletData) => void;
 	}): Promise<Services.LedgerWalletList> {
 		const pageSize = 5;
 		let page = 0;
 		const slip44 = this.configRepository.get<number>("network.constants.slip44");
 
 		const addressCache: Record<string, { address: string; publicKey: string }> = {};
-		let wallets: Contracts.WalletData[] = [];
+		let wallets: Services.LedgerWalletList = {};
 
 		let hasMore = true;
+
 		do {
 			const addresses: string[] = [];
 
@@ -72,7 +75,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 			 */
 			if (options?.useLegacy) {
 				for (const accountIndex of createRange(page, pageSize)) {
-					const path: string = formatLedgerDerivationPath({ coinType: slip44, account: accountIndex });
+					const path: string = formatLedgerDerivationPath({ account: accountIndex, coinType: slip44 });
 					const publicKey: string = await this.getPublicKey(path);
 					const { address } = await this.#addressService.fromPublicKey(publicKey);
 
@@ -85,7 +88,18 @@ export class LedgerService extends Services.AbstractLedgerService {
 					identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
 				});
 
-				wallets = wallets.concat(collection.items());
+				const ledgerWallets = this.mapPathsToWallets(addressCache, collection.items());
+
+				if (options?.onProgress !== undefined) {
+					for (const path in ledgerWallets) {
+						options.onProgress(ledgerWallets[path]);
+					}
+				}
+
+				wallets = {
+					...wallets,
+					...ledgerWallets,
+				};
 
 				hasMore = collection.isNotEmpty();
 			} else {
@@ -125,7 +139,18 @@ export class LedgerService extends Services.AbstractLedgerService {
 				);
 
 				for (const collection of collections) {
-					wallets = wallets.concat(collection.items());
+					const ledgerWallets = this.mapPathsToWallets(addressCache, collection.items());
+
+					if (options?.onProgress !== undefined) {
+						for (const path in ledgerWallets) {
+							options.onProgress(ledgerWallets[path]);
+						}
+					}
+
+					wallets = {
+						...wallets,
+						...ledgerWallets,
+					};
 
 					hasMore = collection.isNotEmpty();
 				}
@@ -135,7 +160,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		} while (hasMore);
 
 		// Return a mapping of paths and wallets that have been found.
-		return this.mapPathsToWallets(addressCache, wallets);
+		return wallets;
 	}
 
 	public override async isNanoS(): Promise<boolean> {
