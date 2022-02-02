@@ -56,9 +56,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 	public override async scan(options?: {
 		useLegacy: boolean;
 		startPath?: string;
-		onProgress?: ((wallet: Contracts.WalletData) => void);
+		onProgress?: (wallet: Contracts.WalletData) => void;
 	}): Promise<Services.LedgerWalletList> {
-
 		const pageSize = 5;
 		let page = 0;
 		const slip44 = this.configRepository.get<number>("network.constants.slip44");
@@ -100,7 +99,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 				wallets = {
 					...wallets,
-					...ledgerWallets
+					...ledgerWallets,
 				};
 
 				hasMore = collection.isNotEmpty();
@@ -151,7 +150,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 
 					wallets = {
 						...wallets,
-						...ledgerWallets
+						...ledgerWallets,
 					};
 
 					hasMore = collection.isNotEmpty();
