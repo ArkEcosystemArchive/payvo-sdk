@@ -9,7 +9,7 @@ describe("URI", async ({ assert, beforeEach, each, it }) => {
 		const result = context.subject.serialize({
 			amount: 1.2,
 			coin: "ark",
-			origin: 'example.com',
+			origin: "example.com",
 			method: "transfer",
 			memo: "ARK",
 			network: "ark.mainnet",
