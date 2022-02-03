@@ -45,7 +45,7 @@ describe("ClientService", async ({ beforeAll, it, assert, nock }) => {
 		assert.is(result.sender(), "GAHXEI3BVFOBDHWLC4TJKCGTLY6VMTKMRRWWPKNPPULUC7E3PD63ENKO");
 		assert.is(result.recipient(), "GB2V4J7WTTKLIN5O3QPUAQCOLLIIULJM3FHHAQ7GEQ5EH53BXXQ47HU3");
 		assert.equal(result.amount(), BigNumber.make("10000000"));
-		assert.equal(result.fee(), BigNumber.make("10000000000"));
+		assert.equal(result.fee(), BigNumber.make("1000000000"));
 		assert.undefined(result.memo());
 	});
 
