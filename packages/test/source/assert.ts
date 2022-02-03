@@ -22,11 +22,11 @@ export const assert = {
 	empty: (value: any): void => uvu.ok(!value || value.length === 0 || Object.keys(value).length === 0),
 	equal: (a: any, b: any): void => {
 		if (a instanceof BigNumber) {
-			a = a.toString()
+			a = a.toString();
 		}
 
 		if (b instanceof BigNumber) {
-			b = b.toString()
+			b = b.toString();
 		}
 
 		uvu.equal(a, b);
@@ -45,13 +45,13 @@ export const assert = {
 		...uvu.not,
 		equal: (a: any, b: any): void => {
 			if (a instanceof BigNumber) {
-				a = a.toString()
+				a = a.toString();
 			}
 
 			if (b instanceof BigNumber) {
-				b = b.toString()
+				b = b.toString();
 			}
-	
+
 			uvu.not.equal(a, b);
 		},
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
