@@ -50,7 +50,7 @@ describe("ConfirmedTransactionData", async ({ assert, beforeEach, it, stub }) =>
 	});
 
 	it("should have an amount", async (context) => {
-		assert.equal(context.subject.amount(), BigNumber.make("799999999"));
+		assert.equal(context.subject.amount(), BigNumber.make("12500000000000000"));
 
 		context.subject = await createService(ConfirmedTransactionData);
 		context.subject.configure(MultipaymentFixtures.data[0]);
