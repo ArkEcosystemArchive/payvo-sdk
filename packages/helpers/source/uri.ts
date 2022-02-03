@@ -32,11 +32,7 @@ export class URI {
 	 * @memberof URI
 	 */
 	public serialize(input: Record<string, string | number>): string {
-		const method: string = input.method as string;
-
-		delete input.method;
-
-		return `payvo:${method}?${querystring.stringify(input)}`;
+		return querystring.stringify(input);
 	}
 
 	/**
