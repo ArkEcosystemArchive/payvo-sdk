@@ -36,7 +36,7 @@ describe("ClientService", async ({ assert, afterEach, beforeEach, it, nock, load
 		assert.true(result.isConfirmed());
 		assert.is(result.sender(), "0xE77555ff2103cAF9b8Ed5AC46277A50504bbC0EE");
 		assert.is(result.recipient(), "0xA54E49719267E8312510D7b78598ceF16ff127CE");
-		assert.equal(result.amount(), BigNumber.make(1));
+		assert.equal(result.amount(), BigNumber.make("1000000000000"));
 		assert.equal(result.fee(), BigNumber.make("0.1"));
 	});
 

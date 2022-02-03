@@ -12,6 +12,6 @@ describe("WalletData", async ({ it, assert }) => {
 		assert.instance(result, WalletData);
 		assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
 		assert.undefined(result.publicKey());
-		assert.equal(result.balance().available, BigNumber.make("92291324300"));
+		assert.equal(result.balance().available, BigNumber.make("1331561268500000000"));
 	});
 });
