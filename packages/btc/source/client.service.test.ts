@@ -38,8 +38,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, loader, noc
 		assert.is(result.type(), "transfer");
 		assert.instance(result.timestamp(), DateTime);
 		assert.equal(result.confirmations(), BigNumber.make(123456));
-		assert.equal(result.amount(), BigNumber.make(3050000));
-		assert.equal(result.fee(), BigNumber.make(10000));
+		assert.equal(result.amount(), BigNumber.make(62550000));
+		assert.equal(result.fee(), BigNumber.make(50000));
 		assert.undefined(result.memo());
 	});
 
@@ -64,8 +64,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, loader, noc
 		assert.is(transaction.type(), "transfer");
 		assert.instance(transaction.timestamp(), DateTime);
 		assert.equal(transaction.confirmations(), BigNumber.make(559952));
-		assert.equal(transaction.amount(), BigNumber.make(3050000));
-		assert.equal(transaction.fee(), BigNumber.make(10000));
+		assert.equal(transaction.amount(), BigNumber.make(62550000));
+		assert.equal(transaction.fee(), BigNumber.make(50000));
 		assert.undefined(transaction.memo());
 	});
 
