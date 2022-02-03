@@ -2,22 +2,23 @@ import { describe } from "@payvo/sdk-test";
 
 import { URI } from "./uri";
 
-describe("URI", async ({ assert, beforeEach, each, it, nock, loader }) => {
+describe("URI", async ({ assert, beforeEach, each, it }) => {
 	beforeEach(async (context) => (context.subject = new URI()));
 
 	it("should serialize", (context) => {
 		const result = context.subject.serialize({
-			method: "transfer",
+			amount: 1.2,
 			coin: "ark",
+			origin: 'example.com',
+			method: "transfer",
+			memo: "ARK",
 			network: "ark.mainnet",
 			recipient: "DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
-			amount: 1.2,
-			memo: "ARK",
 		});
 
 		assert.is(
 			result,
-			"payvo:transfer?amount=1.2&coin=ark&memo=ARK&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+			"example.com?amount=1.2&coin=ark&memo=ARK&method=transfer&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 		);
 	});
 
