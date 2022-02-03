@@ -116,7 +116,7 @@ for (const network of ["mainnet", "devnet"]) {
 		});
 
 		it("should have a votes", (context) => {
-			assert.equal(context.subject.votes(), network === "devnet" ? BigNumber.make(0) : undefined);
+			assert.equal(context.subject.votes(), network === "devnet" ? BigNumber.make("57037342430760") : undefined);
 		});
 
 		it("should determine if it is a delegate", async (context) => {
