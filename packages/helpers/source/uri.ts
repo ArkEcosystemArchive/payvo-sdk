@@ -32,11 +32,7 @@ export class URI {
 	 * @memberof URI
 	 */
 	public serialize(input: Record<string, string | number>): string {
-		const origin: string = input.origin as string;
-
-		delete input.origin;
-
-		return `${origin}?${querystring.stringify(input)}`;
+		return querystring.stringify(input);
 	}
 
 	/**

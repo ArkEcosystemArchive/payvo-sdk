@@ -9,7 +9,6 @@ describe("URI", async ({ assert, beforeEach, each, it }) => {
 		const result = context.subject.serialize({
 			amount: 1.2,
 			coin: "ark",
-			origin: 'example.com',
 			method: "transfer",
 			memo: "ARK",
 			network: "ark.mainnet",
@@ -18,7 +17,7 @@ describe("URI", async ({ assert, beforeEach, each, it }) => {
 
 		assert.is(
 			result,
-			"example.com?amount=1.2&coin=ark&memo=ARK&method=transfer&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
+			"amount=1.2&coin=ark&memo=ARK&method=transfer&network=ark.mainnet&recipient=DNjuJEDQkhrJ7cA9FZ2iVXt5anYiM8Jtc9",
 		);
 	});
 
