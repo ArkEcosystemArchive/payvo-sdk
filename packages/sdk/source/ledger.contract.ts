@@ -18,7 +18,7 @@ export interface LedgerService {
 
 	signTransaction(path: string, payload: Buffer): Promise<string>;
 
-	signMessage(path: string, payload: Buffer): Promise<string>;
+	signMessage(path: string, payload: string): Promise<string>;
 
 	scan(options?: {
 		useLegacy: boolean;

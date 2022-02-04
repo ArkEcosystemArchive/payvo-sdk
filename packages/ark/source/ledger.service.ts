@@ -1,6 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
+import { Buffer } from "buffer"
 
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers.js";
 
@@ -48,8 +49,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return this.#transport.signTransactionWithSchnorr(path, payload);
 	}
 
-	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		return this.#transport.signMessageWithSchnorr(path, payload);
+	public override async signMessage(path: string, payload: string): Promise<string> {
+		return this.#transport.signMessageWithSchnorr(path, Buffer.from(payload));
 	}
 
 	public override async scan(options?: {

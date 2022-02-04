@@ -1,6 +1,7 @@
 import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
+import { Buffer } from "buffer"
 
 import { LedgerTransport } from "./ledger/transport.js";
 
@@ -42,8 +43,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return signature.toString("hex");
 	}
 
-	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		const signature: Buffer = await this.#transport.signMSG(this.#getLedgerAccount(path), payload);
+	public override async signMessage(path: string, payload: string): Promise<string> {
+		const signature: Buffer = await this.#transport.signMSG(this.#getLedgerAccount(path), Buffer.from(payload));
 
 		return signature.slice(0, 64).toString("hex");
 	}

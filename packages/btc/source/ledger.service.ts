@@ -62,8 +62,8 @@ export class LedgerService extends Services.AbstractLedgerService {
 		});
 	}
 
-	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		const signature = await this.#transport.signMessageNew(path, convertBuffer(payload));
+	public override async signMessage(path: string, payload: string): Promise<string> {
+		const signature = await this.#transport.signMessageNew(path, convertBuffer(Buffer.from(payload)));
 
 		return JSON.stringify(signature);
 	}
