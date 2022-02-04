@@ -1,6 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ethereum from "@ledgerhq/hw-app-eth";
-import { Buffer } from "buffer"
+import { Buffer } from "buffer";
 
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;

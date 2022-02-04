@@ -1,7 +1,7 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
-import { Buffer } from "buffer"
+import { Buffer } from "buffer";
 
 import { chunk, createRange, formatLedgerDerivationPath } from "./ledger.service.helpers.js";
 

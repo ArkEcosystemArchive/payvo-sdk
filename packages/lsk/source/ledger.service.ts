@@ -1,7 +1,7 @@
 import { getLegacyAddressFromPublicKey, getLisk32AddressFromPublicKey } from "@liskhq/lisk-cryptography";
 import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44 } from "@payvo/sdk-cryptography";
-import { Buffer } from "buffer"
+import { Buffer } from "buffer";
 
 import { LedgerTransport } from "./ledger/transport.js";
 
