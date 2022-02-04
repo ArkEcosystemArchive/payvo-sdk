@@ -751,6 +751,7 @@ importers:
 
   packages/test:
     specifiers:
+      '@payvo/sdk-helpers': workspace:*
       '@types/node': ^17.0.8
       '@types/sinon': ^10.0.6
       concordance: ~5.0.4
@@ -769,6 +770,7 @@ importers:
       uvu: 0.5.3
       zod: 3.11.6
     devDependencies:
+      '@payvo/sdk-helpers': link:../helpers
       '@types/node': 17.0.8
       '@types/sinon': 10.0.6
 

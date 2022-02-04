@@ -1,6 +1,24 @@
 import { describe } from "./describe";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 describe("assert", ({ assert, it, schema }) => {
+	it("determines if two values are equal", () => {
+		assert.equal("hello", "hello");
+		assert.equal(5, 5);
+		assert.equal(true, true);
+
+		// Not...
+		assert.not.equal("hello", "world");
+		assert.not.equal(5, 6);
+		assert.not.equal(true, false);
+	});
+
+	it("determines if two numbers are equal", () => {
+		assert.equal(BigNumber.make(10), BigNumber.make(10));
+
+		assert.not.equal(BigNumber.make(10), BigNumber.make(15));
+	});
+
 	it("does match the given object", () => {
 		assert.matchesObject(
 			{

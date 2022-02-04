@@ -21,8 +21,8 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 		assert.equal(context.subject.confirmations(), BigNumber.ZERO);
 		assert.is(context.subject.sender(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
 		assert.is(context.subject.recipient(), "r3PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH");
-		assert.equal(context.subject.amount(), BigNumber.make(100000));
-		assert.equal(context.subject.fee(), BigNumber.make(1000));
+		assert.equal(context.subject.amount(), BigNumber.make(1000));
+		assert.equal(context.subject.fee(), BigNumber.make(10000000));
 		assert.undefined(context.subject.memo());
 	});
 });

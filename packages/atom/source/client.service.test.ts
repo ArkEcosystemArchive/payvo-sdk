@@ -82,7 +82,7 @@ describe("ClientService", async ({ assert, beforeAll, it, nock, loader }) => {
 		assert.instance(result, WalletData);
 		assert.is(result.address(), "cosmos1de7pk372jkp9vrul0gv5j6r3l9mt3wa6m4h6h0");
 		assert.is(result.publicKey(), "Ap65s+Jdgo8BtvTbkc7GyUti8yJ7RpZ7cE1zCuKgNeXY");
-		assert.equal(result.balance().available, BigNumber.make(22019458509));
+		assert.equal(result.balance().available, BigNumber.make(0));
 		assert.equal(result.nonce(), BigNumber.make(24242));
 	});
 

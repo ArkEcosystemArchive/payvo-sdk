@@ -38,8 +38,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock }) => 
 		assert.equal(result.confirmations(), BigNumber.ZERO);
 		assert.is(result.sender(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
 		assert.is(result.recipient(), "r3PDtZSa5LiYp1Ysn1vMuMzB59RzV3W9QH");
-		assert.equal(result.amount(), BigNumber.make(100000));
-		assert.equal(result.fee(), BigNumber.make(1000));
+		assert.equal(result.amount(), BigNumber.make(1000));
+		assert.equal(result.fee(), BigNumber.make(10000000));
 		assert.undefined(result.memo());
 	});
 
@@ -58,8 +58,8 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock }) => 
 		assert.equal(result.items()[0].confirmations(), BigNumber.ZERO);
 		assert.is(result.items()[0].sender(), "rLNaPoKeeBjZe2qs6x52yVPZpZ8td4dc6w");
 		assert.is(result.items()[0].recipient(), "raLPjTYeGezfdb6crXZzcC8RkLBEwbBHJ5");
-		assert.equal(result.items()[0].amount(), BigNumber.make(100000));
-		assert.equal(result.items()[0].fee(), BigNumber.make(1000));
+		assert.equal(result.items()[0].amount(), BigNumber.make("455643030000000"));
+		assert.equal(result.items()[0].fee(), BigNumber.make(40000000));
 	});
 
 	it("#wallet should succeed", async (context) => {
@@ -73,7 +73,7 @@ describe("ClientService", async ({ beforeAll, afterEach, it, assert, nock }) => 
 		assert.instance(result, WalletData);
 		assert.is(result.address(), "r9cZA1mLK5R5Am25ArfXFmqgNwjZgnfk59");
 		assert.undefined(result.publicKey());
-		assert.equal(result.balance().available, BigNumber.make("92291324300"));
+		assert.equal(result.balance().available, BigNumber.make("1331561268500000000"));
 	});
 
 	const transactionPayload = createService(SignedTransactionData).configure(

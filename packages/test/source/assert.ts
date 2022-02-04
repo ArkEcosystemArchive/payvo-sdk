@@ -3,6 +3,7 @@ import { existsSync, mkdirSync, readFileSync, unlinkSync, writeFileSync } from "
 import { join } from "path";
 import * as uvu from "uvu/assert";
 import { z, ZodRawShape } from "zod";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 export const assert = {
 	...uvu,
@@ -19,6 +20,17 @@ export const assert = {
 	containValues: (value: object, key: string): void => assert.false(Object.values(value).includes(key)),
 	defined: (value: unknown): void => uvu.ok(value !== undefined),
 	empty: (value: any): void => uvu.ok(!value || value.length === 0 || Object.keys(value).length === 0),
+	equal: (a: any, b: any): void => {
+		if (a instanceof BigNumber) {
+			a = a.toString();
+		}
+
+		if (b instanceof BigNumber) {
+			b = b.toString();
+		}
+
+		uvu.equal(a, b);
+	},
 	false: (value: unknown): void => uvu.is(value, false),
 	function: (value: unknown): void => uvu.type(value, "function"),
 	gt: (a: number, b: number): void => uvu.ok(a > b),
@@ -31,6 +43,17 @@ export const assert = {
 	matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.not.throws(() => z.object(schema).parse(value)),
 	not: {
 		...uvu.not,
+		equal: (a: any, b: any): void => {
+			if (a instanceof BigNumber) {
+				a = a.toString();
+			}
+
+			if (b instanceof BigNumber) {
+				b = b.toString();
+			}
+
+			uvu.not.equal(a, b);
+		},
 		containKey: (value: object, key: string): void => assert.false(Object.keys(value).includes(key)),
 		empty: (value: unknown[]): void => uvu.ok(Object.keys(value).length > 0),
 		matchesObject: (value: unknown, schema: ZodRawShape): void => uvu.throws(() => z.object(schema).parse(value)),

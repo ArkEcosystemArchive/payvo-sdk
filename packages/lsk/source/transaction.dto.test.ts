@@ -66,7 +66,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have confirmations", (context) => {
-		assert.equal(context.subject.confirmations(), BigNumber.make(35754));
+		assert.equal(context.subject.confirmations(), BigNumber.make(0));
 	});
 
 	it("should have sender", (context) => {
@@ -82,7 +82,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should return transaction amount", (context) => {
-		assert.equal(context.subject.amount(), BigNumber.make("1"));
+		assert.equal(context.subject.amount(), BigNumber.make(0));
 	});
 
 	it("should return sum of unlock objects amounts when type is unlockToken", async (context) => {
@@ -110,7 +110,7 @@ describe("ConfirmedTransactionData", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should have fee", (context) => {
-		assert.equal(context.subject.fee(), BigNumber.make("10000000"));
+		assert.equal(context.subject.fee(), BigNumber.make(144000));
 	});
 
 	it("should have memo", (context) => {
