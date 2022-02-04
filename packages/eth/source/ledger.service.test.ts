@@ -71,7 +71,7 @@ describe("signMessage", ({ it, assert }) => {
 	it("should pass with a signature", async () => {
 		const trx = await createMockService(ledger.message.record);
 
-		const result = await trx.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex"));
+		const result = await trx.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex").toString());
 
 		assert.equal(JSON.parse(result), ledger.message.result);
 	});

@@ -80,6 +80,6 @@ describe("signMessage", ({ it, assert }) => {
 	it("should fail with a 'NotImplemented' error", async () => {
 		const subject = await createMockService("");
 
-		await assert.rejects(() => subject.signMessage("", Buffer.alloc(0)));
+		await assert.rejects(() => subject.signMessage("", ""));
 	});
 });

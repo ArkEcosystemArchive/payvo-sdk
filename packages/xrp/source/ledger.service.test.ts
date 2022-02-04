@@ -72,6 +72,6 @@ describe("signMessage", ({ it, assert }) => {
 	it("should fail with a 'NotImplemented' error", async () => {
 		const xrp = await createMockService("");
 
-		await assert.rejects(() => xrp.signMessage("", Buffer.alloc(0)));
+		await assert.rejects(() => xrp.signMessage("", ""));
 	});
 });

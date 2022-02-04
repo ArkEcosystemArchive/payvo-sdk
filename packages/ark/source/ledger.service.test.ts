@@ -73,7 +73,7 @@ describe("LedgerService", async ({ assert, it, nock, loader }) => {
 		const ark = await createMockService(ledger.message.schnorr.record);
 
 		assert.is(
-			await ark.signMessage(ledger.bip44.path, Buffer.from(ledger.message.schnorr.payload, "hex")),
+			await ark.signMessage(ledger.bip44.path, Buffer.from(ledger.message.schnorr.payload, "hex").toString()),
 			ledger.message.schnorr.result,
 		);
 	});

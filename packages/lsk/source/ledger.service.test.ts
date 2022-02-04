@@ -96,7 +96,7 @@ describe("signMessage", ({ it, assert }) => {
 		const lsk = await createMockService(ledger.message.record);
 
 		assert.is(
-			await lsk.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex")),
+			await lsk.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "hex").toString()),
 			ledger.message.result,
 		);
 	});

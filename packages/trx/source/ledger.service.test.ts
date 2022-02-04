@@ -64,6 +64,6 @@ describe("LedgerService", async ({ it, assert }) => {
 	it("#signMessage", async () => {
 		const trx = await createMockService("");
 
-		await assert.rejects(() => trx.signMessage("", Buffer.alloc(0)));
+		await assert.rejects(() => trx.signMessage("", ""));
 	});
 });

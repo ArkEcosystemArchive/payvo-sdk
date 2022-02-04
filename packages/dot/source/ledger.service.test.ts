@@ -75,6 +75,6 @@ describe("signMessage", ({ it, assert }) => {
 	it("should fail to generate an output from a message", async () => {
 		const polkadot = await createMockService("");
 
-		await assert.rejects(() => polkadot.signMessage("", Buffer.alloc(0)));
+		await assert.rejects(() => polkadot.signMessage("", ""));
 	});
 });

@@ -44,7 +44,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 	}
 
 	public override async signMessage(path: string, payload: string): Promise<string> {
-		const signature: Buffer = await this.#transport.signMSG(this.#getLedgerAccount(path), Buffer.from(payload));
+		const signature: Buffer = await this.#transport.signMSG(this.#getLedgerAccount(path), payload);
 
 		return signature.slice(0, 64).toString("hex");
 	}
