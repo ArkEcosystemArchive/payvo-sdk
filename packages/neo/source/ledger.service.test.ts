@@ -85,6 +85,6 @@ describe("signMessage", ({ it, assert }) => {
 	it("should pass with an ecdsa signature", async () => {
 		const subject = await createMockService("");
 
-		await assert.rejects(() => subject.signMessage("", Buffer.alloc(0)));
+		await assert.rejects(() => subject.signMessage("", ""));
 	});
 });

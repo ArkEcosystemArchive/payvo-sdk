@@ -1,5 +1,6 @@
 import { IoC, Services } from "@payvo/sdk";
 import Ethereum from "@ledgerhq/hw-app-eth";
+import { Buffer } from "buffer";
 
 export class LedgerService extends Services.AbstractLedgerService {
 	#ledger: Services.LedgerTransport;
@@ -30,7 +31,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 		return JSON.stringify(await this.#transport.signTransaction(path, payload.toString("hex")));
 	}
 
-	public override async signMessage(path: string, payload: Buffer): Promise<string> {
-		return JSON.stringify(await this.#transport.signPersonalMessage(path, payload.toString("hex")));
+	public override async signMessage(path: string, payload: string): Promise<string> {
+		return JSON.stringify(await this.#transport.signPersonalMessage(path, Buffer.from(payload).toString("hex")));
 	}
 }

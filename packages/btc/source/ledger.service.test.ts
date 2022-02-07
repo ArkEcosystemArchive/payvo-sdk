@@ -72,9 +72,6 @@ describe("LedgerService", async ({ assert, it }) => {
 	it("signMessage", async () => {
 		const subject = await createMockService(ledger.message.record);
 
-		assert.is(
-			await subject.signMessage(ledger.bip44.path, Buffer.from(ledger.message.payload, "utf-8")),
-			ledger.message.result,
-		);
+		assert.is(await subject.signMessage(ledger.bip44.path, ledger.message.payload), ledger.message.result);
 	});
 });
