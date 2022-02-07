@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-ledger",
-	"version": "4.3.16",
+	"version": "4.3.17",
 	"description": "Ledger for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],
