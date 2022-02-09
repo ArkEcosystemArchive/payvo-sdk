@@ -64,15 +64,12 @@ export class CoinService implements ICoinService {
 			return this.#dataRepository.get(cacheKey)!;
 		}
 
-		const instance = Coins.CoinFactory.make(
-			this.#getCoinBundle(coin),
-			{
-				httpClient: container.get(Identifiers.HttpClient),
-				ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
-				network,
-				...options,
-			},
-		);
+		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
+			httpClient: container.get(Identifiers.HttpClient),
+			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
+			network,
+			...options,
+		});
 
 		this.#dataRepository.set(cacheKey, instance);
 
