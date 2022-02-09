@@ -23,8 +23,7 @@
 		"test": "LFD=localforage-driver-memory uvu -r tsm source .test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:integration": "uvu -r tsm test/integration .test.js",
-		"test:watch": "watchlist source -- pnpm run test",
-		"testi": "uvu -r tsm source"
+		"test:watch": "watchlist source -- pnpm run test"
 	},
 	"dependencies": {
 		"@payvo/sdk": "workspace:*",

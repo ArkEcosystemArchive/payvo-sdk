@@ -32,6 +32,8 @@ import { DataRepository } from "./data.repository";
 import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
 import { AttributeBag } from "./helpers/attribute-bag.js";
 import { Avatar } from "./helpers/avatar.js";
+import { IHostRepository } from "./host.repository.contract.js";
+import { HostRepository } from "./host.repository.js";
 import { IProfileNotificationService } from "./notification.repository.contract.js";
 import { ProfileNotificationService } from "./notification.service.js";
 import { PasswordManager } from "./password.js";
@@ -78,6 +80,14 @@ export class Profile implements IProfile {
 	 * @memberof Profile
 	 */
 	readonly #dataRepository: IDataRepository;
+
+	/**
+	 * The host repository.
+	 *
+	 * @type {IHostRepository}
+	 * @memberof Profile
+	 */
+	readonly #hostRepository: IHostRepository;
 
 	/**
 	 * The exchange transaction repository.
@@ -205,6 +215,7 @@ export class Profile implements IProfile {
 		this.#portfolio = new Portfolio(this);
 		this.#contactRepository = new ContactRepository(this);
 		this.#dataRepository = new DataRepository();
+		this.#hostRepository = new HostRepository(this);
 		this.#exchangeTransactionRepository = new ExchangeTransactionRepository(this);
 		this.#notificationsService = new ProfileNotificationService(this);
 		this.#pluginRepository = new PluginRepository();
@@ -305,6 +316,11 @@ export class Profile implements IProfile {
 	/** {@inheritDoc IProfile.data} */
 	public data(): IDataRepository {
 		return this.#dataRepository;
+	}
+
+	/** {@inheritDoc IProfile.hosts} */
+	public hosts(): IHostRepository {
+		return this.#hostRepository;
 	}
 
 	/** {@inheritDoc IProfile.exchangeTransactions} */
