@@ -22,6 +22,7 @@ export type TransactionType =
 export interface NetworkHost {
 	type: NetworkHostType;
 	host: string;
+	custom?: boolean;
 	query?: Record<string, string>;
 }
 

@@ -22,6 +22,7 @@ import {
 	IWalletRepository,
 } from "./contracts.js";
 import { AttributeBag } from "./helpers/attribute-bag.js";
+import { IHostRepository } from "./host.repository.contract.js";
 
 /**
  *
@@ -164,6 +165,14 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	data(): IDataRepository;
+
+	/**
+	 * Get the host repository instance.
+	 *
+	 * @return {IHostRepository}
+	 * @memberof IProfile
+	 */
+	hosts(): IHostRepository;
 
 	/**
 	 * Get the exchange transactions repository instance.
