@@ -1,3 +1,4 @@
+import { readFileSync } from "fs";
 import { describe } from "@payvo/sdk-test";
 
 import { identity } from "../test/fixtures/identity";
@@ -9,7 +10,6 @@ import { Profile } from "./profile";
 import { ProfileImporter } from "./profile.importer";
 import { ProfileRepository } from "./profile.repository";
 import { ProfileSerialiser } from "./profile.serialiser";
-import { readFileSync } from "fs";
 
 describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) => {
 	beforeEach((context) => {
@@ -54,7 +54,9 @@ describe("ProfileRepository", ({ it, assert, beforeEach, loader, nock, stub }) =
 					key: "value",
 				},
 				exchangeTransactions: {},
+				hosts: {},
 				id: "b999d134-7a24-481e-a95d-bc47c543bfc9",
+				networks: {},
 				notifications: {
 					"b183aef3-2dba-471a-a588-0fcf8f01b645": {
 						action: "Read Changelog",

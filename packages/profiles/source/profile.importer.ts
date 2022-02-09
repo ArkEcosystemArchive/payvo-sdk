@@ -34,6 +34,10 @@ export class ProfileImporter implements IProfileImporter {
 
 		this.#profile.data().fill(data.data);
 
+		this.#profile.hosts().fill(data.hosts);
+
+		this.#profile.networks().fill(data.networks);
+
 		this.#profile.exchangeTransactions().fill(data.exchangeTransactions);
 
 		this.#profile.plugins().fill(data.plugins);

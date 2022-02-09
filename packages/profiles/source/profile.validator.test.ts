@@ -58,7 +58,9 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 			},
 			data: { key: "value" },
 			exchangeTransactions: {},
+			hosts: {},
 			id: "uuid",
+			networks: {},
 			notifications: {},
 			plugins: {
 				data: {},
@@ -96,6 +98,8 @@ describe("ProfileValidator", ({ loader, it, assert, nock, beforeEach }) => {
 			contacts: {},
 			data: {},
 			exchangeTransactions: {},
+			hosts: {},
+			networks: {},
 			notifications: {},
 			plugins: { data: {} },
 			settings: { NAME: "John Doe" },
