@@ -33,13 +33,15 @@ import { INetworkRepository } from "./network.repository.contract.js";
  */
 export interface IProfileData {
 	id: string;
-	wallets: Record<string, IWalletData>;
 	contacts: Record<string, any>;
-	plugins: Record<string, any>;
-	notifications: Record<string, any>;
 	data: Record<string, any>;
 	exchangeTransactions: Record<string, any>;
+	hosts: Record<string, any>;
+	networks: Record<string, any>;
+	notifications: Record<string, any>;
+	plugins: Record<string, any>;
 	settings: Record<string, any>;
+	wallets: Record<string, IWalletData>;
 }
 
 /**

@@ -1,19 +1,19 @@
-import { Managers } from "./crypto/index.js";
 import { Coins, Helpers, Http, IoC } from "@payvo/sdk";
 
 import { BindingType } from "./coin.contract.js";
+import { Managers } from "./crypto/index.js";
 
 export class ServiceProvider extends IoC.AbstractServiceProvider {
 	public override async make(container: IoC.Container): Promise<void> {
 		await this.#retrieveNetworkConfiguration(container);
 
-		this.compose(container);
+		await this.compose(container);
 	}
 
 	async #retrieveNetworkConfiguration(container: IoC.Container): Promise<void> {
 		const http: Http.HttpClient = container.get<Http.HttpClient>(IoC.BindingType.HttpClient);
 
-		let peer: string = Helpers.randomHostFromConfig(this.configRepository);
+		const peer: string = Helpers.randomHostFromConfig(this.configRepository);
 
 		const [crypto, status] = await Promise.all([
 			http.get(`${peer}/node/configuration/crypto`),

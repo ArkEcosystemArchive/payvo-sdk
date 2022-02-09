@@ -15,6 +15,13 @@ export class NetworkRepository implements INetworkRepository {
 		return this.#data.all() as NetworkMap;
 	}
 
+	/** {@inheritDoc INetworkRepository.allByCoin} */
+	public allByCoin(coin: string): Network[] {
+		const networks: Network[] = Object.values(this.#data.all()[coin.toLowerCase()] ?? []);
+
+		return networks.filter((network: Network) => network.coin.toLowerCase() === coin.toLowerCase());
+	}
+
 	/** {@inheritDoc NetworkRepository.get} */
 	public get(network: string): Network {
 		const hosts: Network | undefined = this.#data.get(network);
