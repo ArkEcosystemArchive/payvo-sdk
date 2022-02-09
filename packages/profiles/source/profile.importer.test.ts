@@ -33,7 +33,9 @@ describeWithContext(
 			},
 			data: { key: "value" },
 			exchangeTransactions: {},
+			hosts: {},
 			id: "uuid",
+			networks: {},
 			notifications: {},
 			plugins: {
 				data: {},
@@ -150,6 +152,8 @@ describeWithContext(
 				contacts: {},
 				data: {},
 				exchangeTransactions: {},
+				hosts: {},
+				networks: {},
 				notifications: {},
 				plugins: { data: {} },
 				settings: { NAME: "John Doe" },

@@ -59,7 +59,9 @@ export class ProfileValidator implements IProfileValidator {
 					}),
 				)
 				.required(),
+			hosts: Joi.object().default({}),
 			id: Joi.string().required(),
+			networks: Joi.object().default({}),
 			notifications: Joi.object()
 				.pattern(
 					Joi.string().uuid(),
