@@ -181,7 +181,7 @@ export interface IProfile {
 	 * @return {INetworkRepository}
 	 * @memberof IProfile
 	 */
-	 networks(): INetworkRepository;
+	networks(): INetworkRepository;
 
 	/**
 	 * Get the exchange transactions repository instance.

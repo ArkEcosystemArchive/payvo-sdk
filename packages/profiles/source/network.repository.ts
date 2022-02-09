@@ -1,5 +1,5 @@
 import { DataRepository } from "./data.repository.js";
-import { INetworkRepository,Network, NetworkMap } from "./network.repository.contract.js";
+import { INetworkRepository, Network, NetworkMap } from "./network.repository.contract.js";
 import { IProfile } from "./profile.contract.js";
 
 export class NetworkRepository implements INetworkRepository {
