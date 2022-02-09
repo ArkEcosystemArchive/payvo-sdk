@@ -3,6 +3,7 @@ import { describe } from "@payvo/sdk-test";
 
 import { bootContainer } from "../test/mocking";
 import { CoinService } from "./coin.service.js";
+import { DataRepository } from "./data.repository";
 import { Profile } from "./profile";
 
 describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy }) => {
@@ -26,9 +27,8 @@ describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy
 			.reply(200, loader.json("test/fixtures/client/transaction-fees.json"))
 			.persist();
 
-		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
-
-		context.subject = new CoinService(profile.data());
+		context.profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
+		context.subject = new CoinService(context.profile, new DataRepository());
 	});
 
 	it("#set should succeed", (context) => {
@@ -81,7 +81,7 @@ describe("CoinService", async ({ assert, it, beforeEach, loader, nock, stub, spy
 
 		const flushSpy = spy(dataRepository, "flush");
 
-		context.subject = new CoinService(dataRepository as any);
+		context.subject = new CoinService(context.profile, dataRepository as any);
 
 		context.subject.flush();
 

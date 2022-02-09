@@ -3,11 +3,14 @@ import { Coins } from "@payvo/sdk";
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
 import { ICoinService, IDataRepository } from "./contracts.js";
+import { IProfile } from "./profile.contract.js";
 
 export class CoinService implements ICoinService {
+	readonly #profile: IProfile;
 	readonly #dataRepository: IDataRepository;
 
-	public constructor(dataRepository: IDataRepository) {
+	public constructor(profile: IProfile, dataRepository: IDataRepository) {
+		this.#profile = profile;
 		this.#dataRepository = dataRepository;
 	}
 
@@ -61,15 +64,12 @@ export class CoinService implements ICoinService {
 			return this.#dataRepository.get(cacheKey)!;
 		}
 
-		const instance = Coins.CoinFactory.make(
-			container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()],
-			{
-				httpClient: container.get(Identifiers.HttpClient),
-				ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
-				network,
-				...options,
-			},
-		);
+		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
+			httpClient: container.get(Identifiers.HttpClient),
+			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
+			network,
+			...options,
+		});
 
 		this.#dataRepository.set(cacheKey, instance);
 
@@ -84,5 +84,15 @@ export class CoinService implements ICoinService {
 	/** {@inheritDoc ICoinService.flush} */
 	public flush(): void {
 		this.#dataRepository.flush();
+	}
+
+	#getCoinBundle(coin: string): Coins.CoinBundle {
+		const result: Coins.CoinBundle = container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()];
+
+		for (const network of this.#profile.networks().allByCoin(coin)) {
+			result.manifest.networks[network.id] = network;
+		}
+
+		return result;
 	}
 }

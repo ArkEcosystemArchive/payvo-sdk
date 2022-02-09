@@ -112,6 +112,16 @@ describeWithContext(
 			assert.length(Object.keys(context.subject.all()), 1);
 		});
 
+		it("#allByCoin", (context) => {
+			assert.length(Object.keys(context.subject.allByCoin("ARK")), 0);
+			assert.length(Object.keys(context.subject.allByCoin("BTC")), 0);
+
+			context.subject.push(context);
+
+			assert.length(Object.keys(context.subject.allByCoin("ARK")), 1);
+			assert.length(Object.keys(context.subject.allByCoin("BTC")), 0);
+		});
+
 		it("#get", (context) => {
 			assert.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
 
