@@ -29,21 +29,21 @@ describeWithContext(
 		});
 
 		it("#all", (context) => {
-			assert.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
+			assert.length(Object.keys(context.subject.all()), 0);
 
 			context.subject.push("ark.mainnet", context.full);
 			context.subject.push("ark.mainnet", context.musig);
 			context.subject.push("ark.mainnet", context.explorer);
 
-			assert.length(context.subject.get("ark.mainnet"), 3);
+			assert.length(Object.keys(context.subject.all()), 1);
 		});
 
-		it("#get", (context) => {
-			assert.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
+		it("#allByNetwork", (context) => {
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
 
 			context.subject.push("ark.mainnet", context.full);
 
-			assert.array(context.subject.get("ark.mainnet"));
+			assert.array(context.subject.allByNetwork("ark.mainnet"));
 		});
 
 		it("#push", (context) => {
@@ -73,15 +73,15 @@ describeWithContext(
 		});
 
 		it("#forget", (context) => {
-			assert.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
 
 			context.subject.push("ark.mainnet", context.full);
 
-			assert.not.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 1);
 
 			context.subject.forget("ark.mainnet", 0);
 
-			assert.throws(() => context.subject.get("ark.mainnet"), "Failed to find");
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
 		});
 	},
 );

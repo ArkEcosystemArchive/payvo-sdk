@@ -7,7 +7,7 @@ export type HostMap = Record<string, HostSet>;
 export interface IHostRepository {
 	all(): HostMap;
 
-	get(network: string): HostSet;
+	allByNetwork(network: string): HostSet;
 
 	push(network: string, host: Host): HostSet;
 
