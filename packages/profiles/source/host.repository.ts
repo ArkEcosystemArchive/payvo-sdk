@@ -16,14 +16,8 @@ export class HostRepository implements IHostRepository {
 	}
 
 	/** {@inheritDoc HostRepository.get} */
-	public get(network: string): HostSet {
-		const hosts: HostSet | undefined = this.#data.get(network);
-
-		if (!hosts) {
-			throw new Error(`Failed to find hosts that match [${network}].`);
-		}
-
-		return hosts;
+	public allByNetwork(network: string): HostSet {
+		return this.#data.get(network, []) ?? [];
 	}
 
 	/** {@inheritDoc HostRepository.push} */
@@ -38,7 +32,7 @@ export class HostRepository implements IHostRepository {
 
 		this.#profile.status().markAsDirty();
 
-		return this.get(network);
+		return this.allByNetwork(network);
 	}
 
 	/** {@inheritDoc HostRepository.fill} */
@@ -48,7 +42,7 @@ export class HostRepository implements IHostRepository {
 
 	/** {@inheritDoc HostRepository.forget} */
 	public forget(network: string, index?: number): void {
-		this.get(network);
+		this.allByNetwork(network);
 
 		if (index) {
 			this.#data.forgetIndex(network, index);

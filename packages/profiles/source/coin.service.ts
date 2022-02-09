@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { Coins, Networks } from "@payvo/sdk";
 
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
@@ -90,7 +90,13 @@ export class CoinService implements ICoinService {
 		const result: Coins.CoinBundle = container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()];
 
 		for (const network of this.#profile.networks().allByCoin(coin)) {
-			result.manifest.networks[network.id] = network;
+			const clone: Networks.NetworkManifest = { ...network };
+
+			for (const host of this.#profile.hosts().allByNetwork(clone.id)) {
+				clone.hosts.push(host);
+			}
+
+			result.manifest.networks[clone.id] = clone;
 		}
 
 		return result;
