@@ -23,6 +23,7 @@ import {
 } from "./contracts.js";
 import { AttributeBag } from "./helpers/attribute-bag.js";
 import { IHostRepository } from "./host.repository.contract.js";
+import { INetworkRepository } from "./network.repository.contract.js";
 
 /**
  *
@@ -173,6 +174,14 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	hosts(): IHostRepository;
+
+	/**
+	 * Get the network repository instance.
+	 *
+	 * @return {INetworkRepository}
+	 * @memberof IProfile
+	 */
+	networks(): INetworkRepository;
 
 	/**
 	 * Get the exchange transactions repository instance.

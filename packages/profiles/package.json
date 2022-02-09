@@ -20,7 +20,7 @@
 		"build:watch": "pnpm run clean && tsc -w",
 		"clean": "rimraf .coverage distribution tmp",
 		"clean:browser": "rimraf distribution/browser",
-		"test": "LFD=localforage-driver-memory uvu -r tsm source .test.ts",
+		"test": "LFD=localforage-driver-memory uvu -r tsm source network.repository.test.ts",
 		"test:coverage": "c8 pnpm run test",
 		"test:integration": "uvu -r tsm test/integration .test.js",
 		"test:watch": "watchlist source -- pnpm run test"
