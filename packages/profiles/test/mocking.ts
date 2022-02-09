@@ -3,25 +3,25 @@ import { ADA } from "@payvo/sdk-ada";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
-import { LSK } from "@payvo/sdk-lsk";
 import { Request } from "@payvo/sdk-fetch";
+import { LSK } from "@payvo/sdk-lsk";
 import { nock } from "@payvo/sdk-test";
 
-import { container } from "../source/container";
 import { Profile } from "../source";
-import { StubStorage } from "./stubs/storage";
+import { container } from "../source/container";
 import { IProfile, IReadWriteWallet } from "../source/contracts";
-import { WalletFactory } from "../source/wallet.factory";
 import { DriverFactory } from "../source/driver";
+import { WalletFactory } from "../source/wallet.factory";
+import { StubStorage } from "./stubs/storage";
 
 export const bootContainer = (): void => {
 	container.flush();
 
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
-		storage: new StubStorage(),
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {},
+		storage: new StubStorage(),
 	});
 };
 
@@ -35,11 +35,11 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 	}
 
 	coins[cacheKey] = Coins.CoinFactory.make({ ARK }[coin]!, {
-		network,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {
 			//
 		},
+		network,
 	});
 
 	await coins[cacheKey].__construct();
@@ -69,7 +69,7 @@ export const knock = (): void => {
 };
 
 export const makeProfile = (data: object = {}): IProfile =>
-	new Profile({ id: "uuid", name: "name", avatar: "avatar", data: "", ...data });
+	new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name", ...data });
 
 export const importByMnemonic = async (
 	profile: IProfile,
@@ -81,8 +81,8 @@ export const importByMnemonic = async (
 
 	const wallet = await factory.fromMnemonicWithBIP39({
 		coin,
-		network,
 		mnemonic,
+		network,
 	});
 
 	profile.wallets().push(wallet);
@@ -100,9 +100,9 @@ export const importByAddressWithDerivationPath = async (
 	const factory: WalletFactory = new WalletFactory(profile);
 
 	const wallet = await factory.fromAddressWithDerivationPath({
+		address,
 		coin,
 		network,
-		address,
 		path,
 	});
 
