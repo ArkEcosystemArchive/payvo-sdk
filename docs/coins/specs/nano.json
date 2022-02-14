@@ -1,0 +1,114 @@
+{
+    "Client": {
+        "transaction": true,
+        "transactions": true,
+        "wallet": true,
+        "wallets": true,
+        "delegate": true,
+        "delegates": true,
+        "votes": true,
+        "voters": true,
+        "configuration": true,
+        "fees": true,
+        "syncing": true,
+        "broadcast": true
+    },
+    "Fee": {
+        "all": true
+    },
+    "Identity": {
+        "address": {
+            "mnemonic.bip39": false,
+            "mnemonic.bip44": true,
+            "mnemonic.bip49": false,
+            "mnemonic.bip84": false,
+            "multiSignature": false,
+            "privateKey": true,
+            "publicKey": true,
+            "secret": false,
+            "validate": true,
+            "wif": false
+        },
+        "keyPair": {
+            "mnemonic.bip39": false,
+            "mnemonic.bip44": true,
+            "mnemonic.bip49": false,
+            "mnemonic.bip84": false,
+            "privateKey": false,
+            "secret": false,
+            "wif": false
+        },
+        "privateKey": {
+            "mnemonic.bip39": false,
+            "mnemonic.bip44": true,
+            "mnemonic.bip49": false,
+            "mnemonic.bip84": false,
+            "secret": false,
+            "wif": false
+        },
+        "publicKey": {
+            "mnemonic.bip39": false,
+            "mnemonic.bip44": true,
+            "mnemonic.bip49": false,
+            "mnemonic.bip84": false,
+            "multiSignature": false,
+            "secret": false,
+            "wif": false
+        },
+        "wif": {
+            "mnemonic.bip39": false,
+            "mnemonic.bip44": true,
+            "mnemonic.bip49": false,
+            "mnemonic.bip84": false,
+            "secret": false
+        }
+    },
+    "Ledger": {
+        "getVersion": false,
+        "getPublicKey": false,
+        "signTransaction": false,
+        "signMessage": false
+    },
+    "Link": {
+        "block": true,
+        "transaction": true,
+        "wallet": true
+    },
+    "Message": {
+        "sign": true,
+        "verify": true
+    },
+    "Transaction": {
+        "delegateRegistration": false,
+        "delegateRegistration.ledgerS": false,
+        "delegateRegistration.ledgerX": false,
+        "delegateRegistration.musig": false,
+        "delegateResignation": false,
+        "delegateResignation.ledgerS": false,
+        "delegateResignation.ledgerX": false,
+        "delegateResignation.musig": false,
+        "ipfs": false,
+        "ipfs.ledgerS": false,
+        "ipfs.ledgerX": false,
+        "ipfs.musig": false,
+        "multiPayment": false,
+        "multiPayment.ledgerS": false,
+        "multiPayment.ledgerX": false,
+        "multiPayment.musig": false,
+        "multiSignature": false,
+        "multiSignature.ledgerS": false,
+        "multiSignature.ledgerX": false,
+        "secondSignature": false,
+        "secondSignature.ledgerS": false,
+        "secondSignature.ledgerX": false,
+        "secondSignature.musig": false,
+        "transfer": true,
+        "transfer.ledgerS": false,
+        "transfer.ledgerX": false,
+        "transfer.musig": false,
+        "vote": false,
+        "vote.ledgerS": false,
+        "vote.ledgerX": false,
+        "vote.musig": false
+    }
+}
