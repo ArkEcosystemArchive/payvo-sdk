@@ -5,7 +5,7 @@ This is an Avalanche Driver for the Platform SDK. The implementation makes use o
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-avax
+pnpm install @payvo/sdk-avax
 ```
 
 ## Security

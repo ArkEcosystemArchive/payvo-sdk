@@ -5,7 +5,7 @@ This is a Solana Driver for the Platform SDK. The implementation makes use of [S
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-sol
+pnpm install @payvo/sdk-sol
 ```
 
 ## Security

@@ -5,7 +5,7 @@ This is a Lisk Driver for the Platform SDK. The implementation makes use of [Lis
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-lsk
+pnpm install @payvo/sdk-lsk
 ```
 
 ## Security

@@ -5,7 +5,7 @@ This is a Bitcoin Driver for the Platform SDK. The implementation makes use of [
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-btc
+pnpm install @payvo/sdk-btc
 ```
 
 ## Security

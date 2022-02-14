@@ -5,7 +5,7 @@ This is a Cosmos Driver for the Platform SDK. The implementation makes use of [C
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-atom
+pnpm install @payvo/sdk-atom
 ```
 
 ## Security

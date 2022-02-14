@@ -5,7 +5,7 @@ This is a Nano Driver for the Platform SDK. The implementation makes use of [Nan
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-nano
+pnpm install @payvo/sdk-nano
 ```
 
 ## Security

@@ -5,7 +5,7 @@ This is an Internationalization package for the Platform SDK. The implementation
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-intl
+pnpm install @payvo/sdk-intl
 ```
 
 ## Usage

@@ -5,7 +5,7 @@ This is a Tron Driver for the Platform SDK. The implementation makes use of [Tro
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-tron
+pnpm install @payvo/sdk-tron
 ```
 
 ## Security

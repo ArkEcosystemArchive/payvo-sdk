@@ -5,7 +5,7 @@ This is a Zilliqa Driver for the Platform SDK. The implementation makes use of [
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-zil
+pnpm install @payvo/sdk-zil
 ```
 
 ## Security

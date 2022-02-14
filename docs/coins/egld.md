@@ -5,7 +5,7 @@ This is an Elrond Driver for the Platform SDK. The implementation makes use of [
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-egld
+pnpm install @payvo/sdk-egld
 ```
 
 ## Security

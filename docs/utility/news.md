@@ -5,7 +5,7 @@ This is a Blockfolio Integration for the Platform SDK. The implementation adhere
 ## Installation
 
 ```bash
-yarn add @payvo/news
+pnpm install @payvo/news
 ```
 
 ## Usage

@@ -5,7 +5,7 @@ This is a ARK Driver for the Platform SDK. The implementation makes use of [ARK]
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-ark
+pnpm install @payvo/sdk-ark
 ```
 
 ## Security

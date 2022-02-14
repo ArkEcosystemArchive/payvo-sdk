@@ -5,7 +5,7 @@ This is a Terra Driver for the Platform SDK. The implementation makes use of [Te
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-luna
+pnpm install @payvo/sdk-luna
 ```
 
 ## Security

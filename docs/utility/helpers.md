@@ -5,7 +5,7 @@ This is a Collection of Helpers for the Platform SDK. The implementation adheres
 ## Installation
 
 ```bash
-yarn add @payvo/helpers
+pnpm install @payvo/helpers
 ```
 
 ## Usage

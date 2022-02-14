@@ -5,7 +5,7 @@ This is a Cardano Driver for the Platform SDK. The implementation makes use of [
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-ada
+pnpm install @payvo/sdk-ada
 ```
 
 ## Specification

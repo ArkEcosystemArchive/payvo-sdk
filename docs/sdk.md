@@ -5,7 +5,7 @@ This is the foundation of the Platform SDK. This package contains all of the con
 ## Installation
 
 ```bash
-yarn add @payvo/sdk
+pnpm install @payvo/sdk
 ```
 
 ## Usage

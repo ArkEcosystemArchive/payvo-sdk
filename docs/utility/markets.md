@@ -5,7 +5,7 @@ This is a CoinGecko Client for the Platform SDK. The implementation makes use of
 ## Installation
 
 ```bash
-yarn add @payvo/markets
+pnpm install @payvo/markets
 ```
 
 ## Usage

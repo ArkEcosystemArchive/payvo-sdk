@@ -5,7 +5,7 @@ This is an HTTP Client for the Platform SDK. The implementation makes use of [go
 ## Installation
 
 ```bash
-yarn add @payvo/http-got
+pnpm install @payvo/http-got
 ```
 
 ## Usage

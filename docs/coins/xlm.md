@@ -5,7 +5,7 @@ This is a Stellar Driver for the Platform SDK. The implementation makes use of [
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-xlm
+pnpm install @payvo/sdk-xlm
 ```
 
 ## Security

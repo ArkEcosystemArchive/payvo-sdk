@@ -5,7 +5,7 @@ This is a Ethereum Driver for the Platform SDK. The implementation makes use of 
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-eth
+pnpm install @payvo/sdk-eth
 ```
 
 ## Security

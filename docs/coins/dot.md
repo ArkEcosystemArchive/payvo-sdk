@@ -5,7 +5,7 @@ This is an Polkadot Driver for the Platform SDK. The implementation makes use of
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-dot
+pnpm install @payvo/sdk-dot
 ```
 
 ## Security

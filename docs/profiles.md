@@ -5,7 +5,7 @@ This is a Profile System for the Desktop/Mobile Wallet, based on the Platform SD
 ## Installation
 
 ```bash
-yarn add @payvo/profiles
+pnpm install @payvo/profiles
 ```
 
 ## Usage

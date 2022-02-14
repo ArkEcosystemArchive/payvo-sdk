@@ -5,7 +5,7 @@ This is a Cryptography package for the Platform SDK. The implementation makes us
 ## Installation
 
 ```bash
-yarn add @payvo/cryptography
+pnpm install @payvo/cryptography
 ```
 
 ## Usage

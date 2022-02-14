@@ -5,7 +5,7 @@ This is a EOS Driver for the Platform SDK. The implementation makes use of [EOS]
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-eos
+pnpm install @payvo/sdk-eos
 ```
 
 ## Security

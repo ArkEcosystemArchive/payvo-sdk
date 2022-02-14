@@ -5,7 +5,7 @@ This is a NEO Driver for the Platform SDK. The implementation makes use of [NEO]
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-neo
+pnpm install @payvo/sdk-neo
 ```
 
 ## Security

@@ -5,7 +5,7 @@ This is a Ripple Driver for the Platform SDK. The implementation makes use of [R
 ## Installation
 
 ```bash
-yarn add @payvo/sdk-xrp
+pnpm install @payvo/sdk-xrp
 ```
 
 ## Security
