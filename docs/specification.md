@@ -8,13 +8,9 @@ title: Specification
 
 Each coin follows a strict implementation contract. All of these contracts can be found at the following links.
 
-<x-link-collection
-    :links="[
-        ['path' => 'https://github.com/PayvoHQ/sdk/blob/master/packages/sdk/source/coins/contracts.ts', 'name' => 'Coins'],
-        ['path' => 'https://github.com/PayvoHQ/markets/tree/master/source/contracts', 'name' => 'Markets'],
-        ['path' => 'https://github.com/PayvoHQ/sdk/tree/master/packages/sdk/source/dto', 'name' => 'DTO'],
-    ]"
-/>
+- [Coins](https://github.com/PayvoHQ/sdk/blob/master/packages/sdk/source/coins/contracts.ts)
+- [Markets](https://github.com/PayvoHQ/markets/tree/master/source/contracts)
+- [DTO](https://github.com/PayvoHQ/sdk/tree/master/packages/sdk/source/dto)
 
 ## Network Manifest
 

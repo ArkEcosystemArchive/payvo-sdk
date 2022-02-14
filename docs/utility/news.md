@@ -4,11 +4,7 @@ title: News
 
 # News
 
-This is a Blockfolio Integration for the Platform SDK. The implementation adheres to the contracts laid out in the [specification](/docs/sdk/specification).
-
-## Repository
-
-<livewire:embed-link url="https://github.com/PayvoHQ/news" />
+This is a Blockfolio Integration for the Platform SDK. The implementation adheres to the contracts laid out in the [specification](/docs/specification.md).
 
 ## Installation
 

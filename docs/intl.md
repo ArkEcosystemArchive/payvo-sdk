@@ -4,11 +4,7 @@ title: Intl
 
 # Intl
 
-This is an Internationalization package for the Platform SDK. The implementation makes use of native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/sdk/specification).
-
-## Repository
-
-<livewire:embed-link url="https://github.com/PayvoHQ/intl" />
+This is an Internationalization package for the Platform SDK. The implementation makes use of native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/specification.md).
 
 ## Installation
 
@@ -18,14 +14,10 @@ yarn add @payvo/sdk-intl
 
 ## Usage
 
-<x-link-collection
-    :links="[
-        ['path' => '/docs/sdk/intl/currency', 'name' => 'Currency'],
-        ['path' => '/docs/sdk/intl/datetime', 'name' => 'DateTime'],
-        ['path' => '/docs/sdk/intl/money', 'name' => 'Money'],
-        ['path' => '/docs/sdk/intl/numeral', 'name' => 'Numeral'],
-    ]"
-/>
+- [Currency](/docs/intl/currency.md)
+- [DateTime](/docs/intl/datetime.md)
+- [Money](/docs/intl/money.md)
+- [Numeral](/docs/intl/numeral.md)
 
 ## Security
 

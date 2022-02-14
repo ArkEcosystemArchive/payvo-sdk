@@ -4,21 +4,13 @@ title: AVAX
 
 # Avalanche
 
-This is an Avalanche Driver for the Platform SDK. The implementation makes use of [Ava Labs](https://www.avalabs.org/) and adheres to the contracts laid out in the [specification](/docs/sdk/specification). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk/sdk) package.**
-
-## Repository
-
-<livewire:embed-link url="https://github.com/PayvoHQ/sdk/tree/master/packages/sdk-avax" />
+This is an Avalanche Driver for the Platform SDK. The implementation makes use of [Ava Labs](https://www.avalabs.org/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk/sdk) package.**
 
 ## Installation
 
 ```bash
 yarn add @payvo/sdk-avax
 ```
-
-## Specification
-
-<livewire:coin-spec spec="sdk/coins/specs/avax.json" />
 
 ## Security
 

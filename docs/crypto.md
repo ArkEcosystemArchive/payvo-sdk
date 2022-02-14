@@ -4,11 +4,7 @@ title: Crypto
 
 # Crypto
 
-This is a Cryptography package for the Platform SDK. The implementation makes use native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/sdk/specification).
-
-## Repository
-
-<livewire:embed-link url="https://github.com/PayvoHQ/cryptography" />
+This is a Cryptography package for the Platform SDK. The implementation makes use native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/specification.md).
 
 ## Installation
 
@@ -18,24 +14,20 @@ yarn add @payvo/cryptography
 
 ## Usage
 
-<x-link-collection
-    :links="[
-        ['path' => '/docs/sdk/crypto/aes', 'name' => 'AES'],
-        ['path' => '/docs/sdk/crypto/argon2', 'name' => 'argon2'],
-        ['path' => '/docs/sdk/crypto/base64', 'name' => 'Base64'],
-        ['path' => '/docs/sdk/crypto/bcrypt', 'name' => 'bcrypt'],
-        ['path' => '/docs/sdk/crypto/bip32', 'name' => 'BIP32'],
-        ['path' => '/docs/sdk/crypto/bip38', 'name' => 'BIP38'],
-        ['path' => '/docs/sdk/crypto/bip39', 'name' => 'BIP39'],
-        ['path' => '/docs/sdk/crypto/bip44', 'name' => 'BIP44'],
-        ['path' => '/docs/sdk/crypto/hash', 'name' => 'Hash'],
-        ['path' => '/docs/sdk/crypto/hdkey', 'name' => 'HDKey'],
-        ['path' => '/docs/sdk/crypto/keychain', 'name' => 'Keychain'],
-        ['path' => '/docs/sdk/crypto/pbkdf2', 'name' => 'PBKDF2'],
-        ['path' => '/docs/sdk/crypto/uuid', 'name' => 'UUID'],
-        ['path' => '/docs/sdk/crypto/wif', 'name' => 'WIF'],
-    ]"
-/>
+- [AES](/docs/crypto/aes.md)
+- [argon2](/docs/crypto/argon2.md)
+- [Base64](/docs/crypto/base64.md)
+- [bcrypt](/docs/crypto/bcrypt.md)
+- [BIP32](/docs/crypto/bip32.md)
+- [BIP38](/docs/crypto/bip38.md)
+- [BIP39](/docs/crypto/bip39.md)
+- [BIP44](/docs/crypto/bip44.md)
+- [Hash](/docs/crypto/hash.md)
+- [HDKey](/docs/crypto/hdkey.md)
+- [Keychain](/docs/crypto/keychain.md)
+- [PBKDF2](/docs/crypto/pbkdf2.md)
+- [UUID](/docs/crypto/uuid.md)
+- [WIF](/docs/crypto/wif.md)
 
 ## Security
 
