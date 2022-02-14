@@ -44,9 +44,7 @@ await wallet.transaction().transaction(transactionId).hasBeenConfirmed();
 
 ## Sign and broadcast a transaction with multi-signature with 2 participants
 
-<x-alert type="warning">
-You should always ensure to call `wallet.syncIdentity()` before trying to sign transactions.
-</x-alert>
+> You should always ensure to call `wallet.syncIdentity()` before trying to sign transactions.
 
 ```typescript
 // This is the initial transaction without any signatures.
@@ -81,9 +79,7 @@ await wallet.transaction().broadcast(transactionId);
 
 ## Sign and broadcast a multi-signature registration with 3 participants
 
-<x-alert type="warning">
-You should always ensure to call `wallet.syncIdentity()` before trying to sign transactions.
-</x-alert>
+> You should always ensure to call `wallet.syncIdentity()` before trying to sign transactions.
 
 ```typescript
 // This is the initial transaction without any signatures.
@@ -143,9 +139,7 @@ await activeWallet.transaction().broadcast(transactionId);
 
 ## Check what signatures a Multi-Signature Transaction or Registration is awaiting
 
-<x-alert type="warning">
-If both of the below examples are true the transaction is ready to be broadcast.
-</x-alert>
+> If both of the below examples are true the transaction is ready to be broadcast.
 
 ```typescript
 // Needs the signature of the currently active wallet.

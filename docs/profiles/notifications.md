@@ -1,8 +1,6 @@
 # Notifications
 
-<x-alert type="info">
-These methods are accessible through `profile.notifications()` which exposes a `NotificationRepository` instance.
-</x-alert>
+> These methods are accessible through `profile.notifications()` which exposes a `NotificationRepository` instance.
 
 ## Get a list of all notifications
 

@@ -1,8 +1,6 @@
 # Contacts
 
-<x-alert type="info">
-These methods are accessible through `profile.contacts()` which exposes a `ContactRepository` instance.
-</x-alert>
+> These methods are accessible through `profile.contacts()` which exposes a `ContactRepository` instance.
 
 ## Get a list of all contacts
 

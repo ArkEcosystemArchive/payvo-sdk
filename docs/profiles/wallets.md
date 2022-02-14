@@ -1,8 +1,6 @@
 # Wallets
 
-<x-alert type="info">
-These methods are accessible through `profile.wallets()` which exposes a `WalletRepository` instance.
-</x-alert>
+> These methods are accessible through `profile.wallets()` which exposes a `WalletRepository` instance.
 
 ## Wallet Calls
 
@@ -188,9 +186,7 @@ await profile.walletFactory().fromWIF({ ... });
 
 ## API Calls
 
-<x-alert type="info">
-The following methods are accessible through `profile.wallets()` and provide a means of interacting with the underlying coin.
-</x-alert>
+> The following methods are accessible through `profile.wallets()` and provide a means of interacting with the underlying coin.
 
 ### API Options
 

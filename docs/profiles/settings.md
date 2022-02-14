@@ -1,8 +1,6 @@
 # Settings
 
-<x-alert type="info">
-These methods are accessible through `profile.settings()` and `wallet.settings()` which expose a `SettingRepository` instance.
-</x-alert>
+> These methods are accessible through `profile.settings()` and `wallet.settings()` which expose a `SettingRepository` instance.
 
 ## Get a list of all settings with key and value
 

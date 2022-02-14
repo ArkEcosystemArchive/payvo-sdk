@@ -1,8 +1,6 @@
 # Data
 
-<x-alert type="info">
-These methods are accessible through `env.data()`, `profile.data()` and `wallet.data()` which expose a `DataRepository` instance.
-</x-alert>
+> These methods are accessible through `env.data()`, `profile.data()` and `wallet.data()` which expose a `DataRepository` instance.
 
 ## Get a list of all stored data
 

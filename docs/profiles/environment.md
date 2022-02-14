@@ -16,9 +16,7 @@ new Environment({
 
 ## Profiles
 
-<x-alert type="info">
-These methods are accessible through `env.profiles()` which exposes a `ProfileRepository` instance.
-</x-alert>
+> These methods are accessible through `env.profiles()` which exposes a `ProfileRepository` instance.
 
 ### Fill the profile using the provided data
 

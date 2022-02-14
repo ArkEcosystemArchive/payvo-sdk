@@ -1,8 +1,6 @@
 # Plugins
 
-<x-alert type="info">
-These methods are accessible through `profile.plugins()` which exposes a `PluginRepository` instance.
-</x-alert>
+> These methods are accessible through `profile.plugins()` which exposes a `PluginRepository` instance.
 
 ## Get a list of all plugins
 
@@ -72,9 +70,7 @@ profile.plugins().count();
 
 ## Registry
 
-<x-alert type="info">
-These methods are accessible through `profile.plugins().registry()` which exposes a `PluginRegistry` instance.
-</x-alert>
+> These methods are accessible through `profile.plugins().registry()` which exposes a `PluginRegistry` instance.
 
 ## Get a list of registered plugins
 
