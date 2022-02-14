@@ -1,7 +1,3 @@
----
-title: Notifications
----
-
 # Notifications
 
 <x-alert type="info">

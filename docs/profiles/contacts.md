@@ -1,7 +1,3 @@
----
-title: Contacts
----
-
 # Contacts
 
 <x-alert type="info">

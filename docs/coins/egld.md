@@ -1,7 +1,3 @@
----
-title: EGLD
----
-
 # Elrond
 
 This is an Elrond Driver for the Platform SDK. The implementation makes use of [Elrond](https://elrond.com/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk.md) package.**

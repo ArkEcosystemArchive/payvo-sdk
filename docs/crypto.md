@@ -1,7 +1,3 @@
----
-title: Crypto
----
-
 # Crypto
 
 This is a Cryptography package for the Platform SDK. The implementation makes use native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/specification.md).

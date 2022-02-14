@@ -1,7 +1,3 @@
----
-title: Base64
----
-
 # Base64
 
 The `Base64` class provides methods to encode, decode, and validate base64 strings.

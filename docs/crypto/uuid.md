@@ -1,7 +1,3 @@
----
-title: UUID
----
-
 # UUID
 
 The `UUID` class provides methods to make working with UUIDs easier and consistent across all Platform SDK products.

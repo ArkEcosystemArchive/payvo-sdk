@@ -1,7 +1,3 @@
----
-title: Plugins
----
-
 # Plugins
 
 <x-alert type="info">

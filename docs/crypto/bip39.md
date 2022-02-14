@@ -1,7 +1,3 @@
----
-title: BIP39
----
-
 # BIP39
 
 The `BIP39` class provides methods to generate, extract, normalize, and validate mnemonic recovery phrases.

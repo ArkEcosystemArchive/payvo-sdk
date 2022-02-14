@@ -1,7 +1,3 @@
----
-title: WIF
----
-
 # WIF
 
 The `WIF` class provides methods to make working with the `Bitcoin Wallet Import Format` easier and consistent across all Platform SDK products.

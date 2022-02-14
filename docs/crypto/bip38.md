@@ -1,7 +1,3 @@
----
-title: BIP38
----
-
 # BIP38
 
 The `BIP38` class provides methods to extract the numerical value out of any currency representation by normalizing the input and removing any locale specific rules like symbols and use of commas.

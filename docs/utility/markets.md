@@ -1,7 +1,3 @@
----
-title: Markets
----
-
 # Markets
 
 This is a CoinGecko Client for the Platform SDK. The implementation makes use of [CoinCap](/docs/sdk/markets/coincap), [CoinGecko](/docs/sdk/markets/coingecko) and [CryptoCompare](/docs/sdk/markets/cryptocompare) and adheres to the contracts laid out in the [specification](/docs/specification.md).

@@ -1,7 +1,3 @@
----
-title: Money
----
-
 # Money
 
 ## Importing the Money class

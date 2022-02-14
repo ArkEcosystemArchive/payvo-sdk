@@ -1,7 +1,3 @@
----
-title: Specification
----
-
 # Specification
 
 ## Contracts

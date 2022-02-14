@@ -1,7 +1,3 @@
----
-title: Numeral
----
-
 # Numeral
 
 ## Importing the Numeral class

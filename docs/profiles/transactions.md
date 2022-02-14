@@ -1,7 +1,3 @@
----
-title: Transactions
----
-
 # Transactions
 
 ## List transactions for a profile

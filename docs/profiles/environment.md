@@ -1,7 +1,3 @@
----
-title: Environment
----
-
 # Environment
 
 ## Create a new environment

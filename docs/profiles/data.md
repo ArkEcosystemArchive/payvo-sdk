@@ -1,7 +1,3 @@
----
-title: Data
----
-
 # Data
 
 <x-alert type="info">

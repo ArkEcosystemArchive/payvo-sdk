@@ -1,7 +1,3 @@
----
-title: SDK Development Guide
----
-
 # SDK Development Guide
 
 The Payvo SDK provides all the boilerplate and structures you need to integrate your blockchain into Payvo products. This guide will provide in-depth explanations as to what you will need to do, how to do it, and what limitations and gotchas there are that need to be kept in mind when developing your integration.

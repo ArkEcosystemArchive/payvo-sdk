@@ -1,7 +1,3 @@
----
-title: HDKey
----
-
 # HDKey
 
 The `HDKey` class provides methods to make derivation of hierarchical deterministic keys easier. This class is similar to the `BIP32` class but provides some convenience methods for working with `xpub` and `xprv` values.

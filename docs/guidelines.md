@@ -1,8 +1,3 @@
----
-title: Guidelines
-faq_index: 1
----
-
 # Guidelines
 
 When working with the SDK there are a few things that need to be kept in mind if you plan to make any changes, add new functionality or simply use it. This document will outline the most important but there are also case-by-case guidelines that can be applied as a reviewer sees fit.

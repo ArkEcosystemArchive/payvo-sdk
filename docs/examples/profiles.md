@@ -1,7 +1,3 @@
----
-title: Profiles
----
-
 # Profiles
 
 ## Environment

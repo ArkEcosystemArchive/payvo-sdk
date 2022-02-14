@@ -1,7 +1,3 @@
----
-title: Settings
----
-
 # Settings
 
 <x-alert type="info">

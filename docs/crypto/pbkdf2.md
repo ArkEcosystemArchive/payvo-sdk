@@ -1,7 +1,3 @@
----
-title: PBKDF2
----
-
 # PBKDF2
 
 The `PBKDF2` (_Password-Based Key Derivation Function 2_) class provides methods to encrypt and decrypt messages using a password.

@@ -1,7 +1,3 @@
----
-title: BIP32
----
-
 # BIP32
 
 The `BIP32` class provides methods to make derivation of hierarchical deterministic keys easier.

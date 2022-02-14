@@ -1,7 +1,3 @@
----
-title: Intl
----
-
 # Intl
 
 This is an Internationalization package for the Platform SDK. The implementation makes use of native and third-party packages to ensure consistent outcomes and adheres to the contracts laid out in the [specification](/docs/specification.md).

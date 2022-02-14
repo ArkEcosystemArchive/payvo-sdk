@@ -1,7 +1,3 @@
----
-title: DOT
----
-
 # Polkadot
 
 This is an Polkadot Driver for the Platform SDK. The implementation makes use of [Polkadot](https://polkadot.network/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk.md) package.**

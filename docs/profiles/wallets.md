@@ -1,7 +1,3 @@
----
-title: Wallets
----
-
 # Wallets
 
 <x-alert type="info">

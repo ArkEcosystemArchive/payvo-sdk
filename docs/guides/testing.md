@@ -1,7 +1,3 @@
----
-title: Testing
----
-
 # Testing
 
 Writing automated tests for your software is important to ensure no regressions sneak in, everything works as expected and that you're not corrupting user data.
