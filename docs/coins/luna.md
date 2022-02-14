@@ -4,7 +4,7 @@ title: LUNA
 
 # Terra
 
-This is a Terra Driver for the Platform SDK. The implementation makes use of [Terra](https://www.terra.money/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk/sdk) package.**
+This is a Terra Driver for the Platform SDK. The implementation makes use of [Terra](https://www.terra.money/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk.md) package.**
 
 ## Installation
 

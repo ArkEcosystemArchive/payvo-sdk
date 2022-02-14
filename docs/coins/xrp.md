@@ -4,7 +4,7 @@ title: XRP
 
 # Ripple
 
-This is a Ripple Driver for the Platform SDK. The implementation makes use of [Ripple](https://ripple.com/xrp/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk/sdk) package.**
+This is a Ripple Driver for the Platform SDK. The implementation makes use of [Ripple](https://ripple.com/xrp/) and adheres to the contracts laid out in the [specification](/docs/specification.md). **This package should not be used directly. It is designed to be consumed through the [SDK](/docs/sdk.md) package.**
 
 ## Installation
 
