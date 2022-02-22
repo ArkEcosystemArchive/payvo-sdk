@@ -292,16 +292,16 @@ export class TransactionService implements ITransactionService {
 		if (this.canBeBroadcasted(id)) {
 			result = await this.#wallet.client().broadcast([transaction.data()]);
 		} else if (transaction.isMultiSignatureRegistration() || transaction.usesMultiSignature()) {
-			const transactionData = transaction.data().data();
+			const { amount, fee, nonce, ...restOfThePayload } = transaction.data().data();
 
 			result = await this.#wallet
 				.coin()
 				.multiSignature()
 				.broadcast({
-					...JSON.parse(JSON.stringify(transactionData, null, 4)),
-					amount: transactionData.amount.toString(),
-					fee: transactionData.fee.toString(),
-					nonce: transactionData.nonce.toString(),
+					...JSON.parse(JSON.stringify(restOfThePayload, undefined, 4)),
+					amount: amount.toString(),
+					fee: fee.toString(),
+					nonce: nonce.toString(),
 				});
 		}
 
