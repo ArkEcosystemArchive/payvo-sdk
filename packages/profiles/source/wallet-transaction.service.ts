@@ -302,7 +302,7 @@ export class TransactionService implements ITransactionService {
 					amount: transactionData.amount.toString(),
 					fee: transactionData.fee.toString(),
 					nonce: transactionData.nonce.toString(),
-				})
+				});
 		}
 
 		if (result.accepted.includes(transaction.id())) {
