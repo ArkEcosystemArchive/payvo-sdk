@@ -1,5 +1,5 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
-import { Collections,Contracts, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
 import { Buffer } from "buffer";
 
@@ -93,7 +93,7 @@ export class LedgerService extends Services.AbstractLedgerService {
 				const batchWalletsCollection = collection.items();
 
 				if (options?.onProgress !== undefined) {
-					for (const item of batchWalletsCollection)  {
+					for (const item of batchWalletsCollection) {
 						options.onProgress(item);
 					}
 				}
@@ -140,20 +140,20 @@ export class LedgerService extends Services.AbstractLedgerService {
 				const batchWalletsCollection = collections.flatMap((collection) => collection.items());
 
 				if (options?.onProgress !== undefined) {
-					for (const item of batchWalletsCollection)  {
+					for (const item of batchWalletsCollection) {
 						options.onProgress(item);
 					}
 				}
 
 				walletsCollection.push(...batchWalletsCollection);
 
-				hasMore = collections.some(collection => collection.isNotEmpty());
+				hasMore = collections.some((collection) => collection.isNotEmpty());
 			}
 
 			page++;
 		} while (hasMore);
 
-		return this.mapPathsToWallets(addressCache, walletsCollection)
+		return this.mapPathsToWallets(addressCache, walletsCollection);
 	}
 
 	public override async isNanoS(): Promise<boolean> {
