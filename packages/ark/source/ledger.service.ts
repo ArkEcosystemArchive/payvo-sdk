@@ -1,5 +1,5 @@
 import { ARKTransport } from "@arkecosystem/ledger-transport";
-import { Contracts, IoC, Services } from "@payvo/sdk";
+import { Collections,Contracts, IoC, Services } from "@payvo/sdk";
 import { BIP44, HDKey } from "@payvo/sdk-cryptography";
 import { Buffer } from "buffer";
 
@@ -63,9 +63,10 @@ export class LedgerService extends Services.AbstractLedgerService {
 		const slip44 = this.configRepository.get<number>("network.constants.slip44");
 
 		const addressCache: Record<string, { address: string; publicKey: string }> = {};
-		let wallets: Services.LedgerWalletList = {};
 
 		let hasMore = true;
+
+		const walletsCollection: Contracts.WalletData[] = [];
 
 		do {
 			const addresses: string[] = [];
@@ -89,18 +90,15 @@ export class LedgerService extends Services.AbstractLedgerService {
 					identifiers: [...addresses].map((address: string) => ({ type: "address", value: address })),
 				});
 
-				const ledgerWallets = this.mapPathsToWallets(addressCache, collection.items());
+				const batchWalletsCollection = collection.items();
 
 				if (options?.onProgress !== undefined) {
-					for (const path in ledgerWallets) {
-						options.onProgress(ledgerWallets[path]);
+					for (const item of batchWalletsCollection)  {
+						options.onProgress(item);
 					}
 				}
 
-				wallets = {
-					...wallets,
-					...ledgerWallets,
-				};
+				walletsCollection.push(...batchWalletsCollection);
 
 				hasMore = collection.isNotEmpty();
 			} else {
@@ -139,29 +137,23 @@ export class LedgerService extends Services.AbstractLedgerService {
 					),
 				);
 
-				for (const collection of collections) {
-					const ledgerWallets = this.mapPathsToWallets(addressCache, collection.items());
+				const batchWalletsCollection = collections.flatMap((collection) => collection.items());
 
-					if (options?.onProgress !== undefined) {
-						for (const path in ledgerWallets) {
-							options.onProgress(ledgerWallets[path]);
-						}
+				if (options?.onProgress !== undefined) {
+					for (const item of batchWalletsCollection)  {
+						options.onProgress(item);
 					}
-
-					wallets = {
-						...wallets,
-						...ledgerWallets,
-					};
-
-					hasMore = collection.isNotEmpty();
 				}
+
+				walletsCollection.push(...batchWalletsCollection);
+
+				hasMore = collections.some(collection => collection.isNotEmpty());
 			}
 
 			page++;
 		} while (hasMore);
 
-		// Return a mapping of paths and wallets that have been found.
-		return wallets;
+		return this.mapPathsToWallets(addressCache, walletsCollection)
 	}
 
 	public override async isNanoS(): Promise<boolean> {
