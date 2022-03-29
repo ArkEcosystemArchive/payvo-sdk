@@ -13,9 +13,9 @@ const network: Networks.NetworkManifest = {
 		ticker: "dXQR",
 	},
 	explorer: {
-		block: "qredit-testnet/block/{0}",
-		transaction: "qredit-testnet/transaction/{0}",
-		wallet: "qredit-testnet/wallet/{0}",
+		block: "dxqr/block/{0}",
+		transaction: "dxqr/transaction/{0}",
+		wallet: "dxqr/wallet/{0}",
 	},
 	featureFlags: {
 		...featureFlags,
