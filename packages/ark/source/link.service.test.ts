@@ -79,37 +79,37 @@ describe("LinkService", ({ assert, it, nock, loader }) => {
 	it("should generate a link for a block on a [xqr.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.mainnet");
 
-		assert.is(subject.block("id"), "https://explorer.sh/qredit/block/id");
+		assert.is(subject.block("id"), "https://explorer.sh/xqr/block/id");
 	});
 
 	it("should generate a link for a transaction on a [xqr.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.mainnet");
 
-		assert.is(subject.transaction("id"), "https://explorer.sh/qredit/transaction/id");
+		assert.is(subject.transaction("id"), "https://explorer.sh/xqr/transaction/id");
 	});
 
 	it("should generate a link for a wallet on a [xqr.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.mainnet");
 
-		assert.is(subject.wallet("id"), "https://explorer.sh/qredit/wallet/id");
+		assert.is(subject.wallet("id"), "https://explorer.sh/xqr/wallet/id");
 	});
 
 	it("should generate a link for a block on a [xqr.testnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.testnet");
 
-		assert.is(subject.block("id"), "https://explorer.sh/qredit-testnet/block/id");
+		assert.is(subject.block("id"), "https://explorer.sh/dxqr/block/id");
 	});
 
 	it("should generate a link for a transaction on a [xqr.testnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.testnet");
 
-		assert.is(subject.transaction("id"), "https://explorer.sh/qredit-testnet/transaction/id");
+		assert.is(subject.transaction("id"), "https://explorer.sh/dxqr/transaction/id");
 	});
 
 	it("should generate a link for a wallet on a [xqr.testnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "xqr.testnet");
 
-		assert.is(subject.wallet("id"), "https://explorer.sh/qredit-testnet/wallet/id");
+		assert.is(subject.wallet("id"), "https://explorer.sh/dxqr/wallet/id");
 	});
 
 	it("should generate a link for a block on a [bpl.mainnet] explorer", async () => {
