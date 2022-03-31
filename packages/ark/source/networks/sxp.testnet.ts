@@ -1,75 +1,61 @@
 import { Networks } from "@payvo/sdk";
 
-import { featureFlags, importMethods, transactions } from "./shared.js";
+import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
-	coin: "Compendia",
+	coin: "Solar",
 	constants: {
-		slip44: 543,
+		slip44: 1,
 	},
 	currency: {
 		decimals: 8,
-		symbol: "ß",
-		ticker: "BIND",
+		symbol: "tSXP",
+		ticker: "tSXP",
 	},
-	explorer: {
-		block: "block/{0}",
-		transaction: "transaction/{0}",
-		wallet: "wallets/{0}",
-	},
+	explorer,
 	featureFlags: {
 		...featureFlags,
 		Transaction: [
 			"delegateRegistration",
 			"delegateResignation",
 			"estimateExpiration",
-			"multiPayment.musig",
 			"multiPayment",
-			"multiSignature.musig",
-			"multiSignature",
 			"secondSignature",
-			"transfer.musig",
 			"transfer",
-			"vote.musig",
 			"vote",
 		],
 	},
 	governance: {
-		delegateCount: 47,
+		delegateCount: 53,
 		method: "split",
 		votesPerTransaction: 1,
 		votesPerWallet: 1,
 	},
 	hosts: [
 		{
-			host: "https://apis.compendia.org/api",
+			host: "https://sxp1.testnet.sh/api",
 			type: "full",
 		},
 		{
-			host: "https://bind-live-musig.payvo.com",
-			type: "musig",
-		},
-		{
-			host: "https://bindscan.io",
+			host: "https://texplorer.solar.org",
 			type: "explorer",
 		},
 	],
-	id: "bind.mainnet",
+	id: "sxp.testnet",
 	importMethods,
 	meta: {
 		fastDelegateSync: true,
 	},
-	name: "Mainnet",
+	name: "Testnet",
 	transactions: {
 		...transactions,
 		fees: {
-			ticker: "BIND",
-			type: "static",
+			ticker: "tSXP",
+			type: "dynamic",
 		},
-		memo: false,
 		multiPaymentRecipients: 128,
 	},
-	type: "live",
+	type: "test",
 };
 
 export default network;
