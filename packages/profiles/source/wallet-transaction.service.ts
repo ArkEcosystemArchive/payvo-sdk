@@ -1,6 +1,7 @@
 /* istanbul ignore file */
 
 import { Contracts, Services, Signatories } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts.js";
 import { pqueueSettled } from "./helpers/queue.js";
@@ -80,16 +81,10 @@ export class TransactionService implements ITransactionService {
 			//
 		}
 
-		const t = await this.#wallet
+		return this.#wallet
 			.coin()
 			.multiSignature()
-			.broadcast({
-				...transactionWithSignature.data(),
-				fee: transactionWithSignature.fee().toString(),
-				amount: transactionWithSignature.amount().toString(),
-				nonce: transactionWithSignature.data().nonce.toNumber(),
-			});
-		return t;
+			.broadcast(this.#normalizeTransactionData(transactionWithSignature.data()));
 	}
 
 	/** {@inheritDoc ITransactionService.signTransfer} */
@@ -301,17 +296,10 @@ export class TransactionService implements ITransactionService {
 		if (this.canBeBroadcasted(id)) {
 			result = await this.#wallet.client().broadcast([transaction.data()]);
 		} else if (transaction.isMultiSignatureRegistration() || transaction.usesMultiSignature()) {
-			const { amount, fee, nonce, ...restOfThePayload } = transaction.data().data();
-
 			result = await this.#wallet
 				.coin()
 				.multiSignature()
-				.broadcast({
-					...JSON.parse(JSON.stringify(restOfThePayload, undefined, 4)),
-					amount: amount.toString(),
-					fee: fee.toString(),
-					nonce: nonce.toString(),
-				});
+				.broadcast(this.#normalizeTransactionData(transaction.data().data()));
 		}
 
 		if (result.accepted.includes(transaction.id())) {
@@ -489,5 +477,25 @@ export class TransactionService implements ITransactionService {
 
 	#createExtendedSignedTransactionData(transaction: Contracts.SignedTransactionData): ExtendedSignedTransactionData {
 		return new ExtendedSignedTransactionData(transaction, this.#wallet);
+	}
+
+	#normalizeTransactionData<T>(value: Contracts.RawTransactionData): T {
+		return JSON.parse(
+			JSON.stringify(value, (_, value) => {
+				if (typeof value === "bigint") {
+					return value.toString();
+				}
+
+				if (value instanceof BigNumber) {
+					return value.toString();
+				}
+
+				if (value instanceof Map) {
+					return Object.fromEntries(value);
+				}
+
+				return value;
+			}),
+		);
 	}
 }
