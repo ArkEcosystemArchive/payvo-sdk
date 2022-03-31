@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-sol",
-	"version": "4.4.5",
+	"version": "4.4.6",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
