@@ -7,7 +7,7 @@ describe("NetworkRepository", ({ assert, beforeEach, it, nock, loader }) => {
 	beforeEach((context) => (context.subject = new NetworkRepository(manifest.networks)));
 
 	it("should get all values", (context) => {
-		assert.length(Object.keys(context.subject.all()), 8);
+		assert.length(Object.keys(context.subject.all()), 10);
 	});
 
 	it("should set, get and forget a network", (context) => {
