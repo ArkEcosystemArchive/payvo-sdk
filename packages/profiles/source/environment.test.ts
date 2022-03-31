@@ -107,7 +107,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 	it("should have available networks", async (context) => {
 		await makeSubject(context);
 
-		assert.length(context.subject.availableNetworks(), 14);
+		assert.length(context.subject.availableNetworks(), 16);
 
 		for (const network of context.subject.availableNetworks()) {
 			assert.object(network.toObject());
