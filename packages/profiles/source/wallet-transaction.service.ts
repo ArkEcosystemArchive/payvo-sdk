@@ -80,7 +80,16 @@ export class TransactionService implements ITransactionService {
 			//
 		}
 
-		return this.#wallet.coin().multiSignature().broadcast(transactionWithSignature.data());
+		const t = await this.#wallet
+			.coin()
+			.multiSignature()
+			.broadcast({
+				...transactionWithSignature.data(),
+				fee: transactionWithSignature.fee().toString(),
+				amount: transactionWithSignature.amount().toString(),
+				nonce: transactionWithSignature.data().nonce.toNumber(),
+			});
+		return t;
 	}
 
 	/** {@inheritDoc ITransactionService.signTransfer} */
