@@ -1,6 +1,6 @@
 import { Networks } from "@payvo/sdk";
 
-import { explorer, featureFlags, importMethods, transactions } from "./shared.js";
+import { featureFlags, importMethods, transactions } from "./shared.js";
 
 const network: Networks.NetworkManifest = {
 	coin: "Compendia",
@@ -12,7 +12,11 @@ const network: Networks.NetworkManifest = {
 		symbol: "Tß",
 		ticker: "TBIND",
 	},
-	explorer,
+	explorer: {
+		block: "block/{0}",
+		transaction: "transaction/{0}",
+		wallet: "wallets/{0}",
+	},
 	featureFlags: {
 		...featureFlags,
 		Transaction: [

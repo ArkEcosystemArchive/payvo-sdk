@@ -1,5 +1,5 @@
-import { describe } from "@payvo/sdk-test";
 import { Services } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 
@@ -7,13 +7,13 @@ describe("LinkService", ({ assert, it, nock, loader }) => {
 	it("should generate a link for a block on a [ark.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "ark.mainnet");
 
-		assert.is(subject.block("id"), "https://explorer.ark.io/block/id");
+		assert.is(subject.block("id"), "https://explorer.ark.io/blocks/id");
 	});
 
 	it("should generate a link for a transaction on a [ark.mainnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "ark.mainnet");
 
-		assert.is(subject.transaction("id"), "https://explorer.ark.io/transaction/id");
+		assert.is(subject.transaction("id"), "https://explorer.ark.io/transactions/id");
 	});
 
 	it("should generate a link for a wallet on a [ark.mainnet] explorer", async () => {
@@ -25,13 +25,13 @@ describe("LinkService", ({ assert, it, nock, loader }) => {
 	it("should generate a link for a block on a [ark.devnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "ark.devnet");
 
-		assert.is(subject.block("id"), "https://dexplorer.ark.io/block/id");
+		assert.is(subject.block("id"), "https://dexplorer.ark.io/blocks/id");
 	});
 
 	it("should generate a link for a transaction on a [ark.devnet] explorer", async () => {
 		const subject = await createService(Services.AbstractLinkService, "ark.devnet");
 
-		assert.is(subject.transaction("id"), "https://dexplorer.ark.io/transaction/id");
+		assert.is(subject.transaction("id"), "https://dexplorer.ark.io/transactions/id");
 	});
 
 	it("should generate a link for a wallet on a [ark.devnet] explorer", async () => {
@@ -128,5 +128,41 @@ describe("LinkService", ({ assert, it, nock, loader }) => {
 		const subject = await createService(Services.AbstractLinkService, "bpl.mainnet");
 
 		assert.is(subject.wallet("id"), "https://explorer.blockpool.io/#/wallets/id");
+	});
+
+	it("should generate a link for a block on a [sxp.mainnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
+
+		assert.is(subject.block("id"), "https://explorer.solar.org/blocks/id");
+	});
+
+	it("should generate a link for a transaction on a [sxp.mainnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
+
+		assert.is(subject.transaction("id"), "https://explorer.solar.org/transactions/id");
+	});
+
+	it("should generate a link for a wallet on a [sxp.mainnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
+
+		assert.is(subject.wallet("id"), "https://explorer.solar.org/wallets/id");
+	});
+
+	it("should generate a link for a block on a [sxp.testnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
+
+		assert.is(subject.block("id"), "https://texplorer.solar.org/blocks/id");
+	});
+
+	it("should generate a link for a transaction on a [sxp.testnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
+
+		assert.is(subject.transaction("id"), "https://texplorer.solar.org/transactions/id");
+	});
+
+	it("should generate a link for a wallet on a [sxp.testnet] explorer", async () => {
+		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
+
+		assert.is(subject.wallet("id"), "https://texplorer.solar.org/wallets/id");
 	});
 });
