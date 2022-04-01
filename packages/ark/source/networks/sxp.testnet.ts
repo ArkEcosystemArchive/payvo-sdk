@@ -19,6 +19,7 @@ const network: Networks.NetworkManifest = {
 			"delegateRegistration",
 			"delegateResignation",
 			"estimateExpiration",
+			"ipfs",
 			"multiPayment",
 			"secondSignature",
 			"transfer",
@@ -27,7 +28,6 @@ const network: Networks.NetworkManifest = {
 	},
 	governance: {
 		delegateCount: 53,
-		method: "split",
 		votesPerTransaction: 1,
 		votesPerWallet: 1,
 	},
@@ -53,7 +53,7 @@ const network: Networks.NetworkManifest = {
 			ticker: "tSXP",
 			type: "dynamic",
 		},
-		multiPaymentRecipients: 128,
+		multiPaymentRecipients: 256,
 	},
 	type: "test",
 };
