@@ -38,9 +38,9 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 		secondSignature: "isSecondSignature",
 		transfer: "isTransfer",
 		unlockToken: "isUnlockToken",
-		voteCombination: "isVoteCombination",
 		unvote: "isUnvote",
 		vote: "isVote",
+		voteCombination: "isVoteCombination",
 	};
 
 	protected decimals?: number;
@@ -74,7 +74,15 @@ export abstract class AbstractConfirmedTransactionData implements ConfirmedTrans
 	}
 
 	public type(): string {
+		if (this.isVoteCombination()) {
+			return "voteCombination";
+		}
+
 		for (const [type, method] of Object.entries(this.#types)) {
+			if (type === "voteCombination") {
+				continue;
+			}
+
 			if (this[method]()) {
 				return type;
 			}

@@ -65,7 +65,15 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public type(): string {
+		if (this.isVoteCombination()) {
+			return "voteCombination";
+		}
+
 		for (const [type, method] of Object.entries(this.#types)) {
+			if (type === "voteCombination") {
+				continue;
+			}
+
 			if (this[method]()) {
 				return type;
 			}
