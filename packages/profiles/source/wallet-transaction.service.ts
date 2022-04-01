@@ -1,8 +1,6 @@
 /* istanbul ignore file */
 
 import { Contracts, Services, Signatories } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-helpers";
-
 import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts.js";
 import { pqueueSettled } from "./helpers/queue.js";
 import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
@@ -84,7 +82,7 @@ export class TransactionService implements ITransactionService {
 		return this.#wallet
 			.coin()
 			.multiSignature()
-			.broadcast(this.#normalizeTransactionData(transactionWithSignature.data()));
+			.broadcast(this.#createExtendedSignedTransactionData(transactionWithSignature).data().toSignedData());
 	}
 
 	/** {@inheritDoc ITransactionService.signTransfer} */
@@ -296,10 +294,7 @@ export class TransactionService implements ITransactionService {
 		if (this.canBeBroadcasted(id)) {
 			result = await this.#wallet.client().broadcast([transaction.data()]);
 		} else if (transaction.isMultiSignatureRegistration() || transaction.usesMultiSignature()) {
-			result = await this.#wallet
-				.coin()
-				.multiSignature()
-				.broadcast(this.#normalizeTransactionData(transaction.data().data()));
+			result = await this.#wallet.coin().multiSignature().broadcast(transaction.data().toSignedData());
 		}
 
 		if (result.accepted.includes(transaction.id())) {
@@ -477,25 +472,5 @@ export class TransactionService implements ITransactionService {
 
 	#createExtendedSignedTransactionData(transaction: Contracts.SignedTransactionData): ExtendedSignedTransactionData {
 		return new ExtendedSignedTransactionData(transaction, this.#wallet);
-	}
-
-	#normalizeTransactionData<T>(value: Contracts.RawTransactionData): T {
-		return JSON.parse(
-			JSON.stringify(value, (_, value) => {
-				if (typeof value === "bigint") {
-					return value.toString();
-				}
-
-				if (value instanceof BigNumber) {
-					return value.toString();
-				}
-
-				if (value instanceof Map) {
-					return Object.fromEntries(value);
-				}
-
-				return value;
-			}),
-		);
 	}
 }

@@ -84,4 +84,43 @@ describe("AbstractSignedTransactionData", ({ assert, beforeEach, it }) => {
 	it("should transform to a normalised object", (context) => {
 		assert.object(context.subject.configure("id", { key: "value" }, "").toObject());
 	});
+
+	it("should normalize broadcast data", (context) => {
+		assert.object(
+			context.subject
+				.configure(
+					"id",
+					{
+						key: "value",
+					},
+					{
+						key: "value",
+						amount: BigNumber.make(0),
+						fee: BigNumber.make(10),
+						timestamp: DateTime.make(),
+						bigint: BigNumber.make(10).toBigInt(),
+						map: new Map([[1, "one"]]),
+					},
+				)
+				.toSignedData(),
+		);
+	});
+	it("should normalize signed data", (context) => {
+		assert.object(
+			context.subject
+				.configure(
+					"id",
+					{
+						key: "value",
+						amount: BigNumber.make(0),
+						fee: BigNumber.make(10),
+						timestamp: DateTime.make(),
+						bigint: BigNumber.make(10).toBigInt(),
+						map: new Map([[1, "one"]]),
+					},
+					"",
+				)
+				.toSignedData(),
+		);
+	});
 });
