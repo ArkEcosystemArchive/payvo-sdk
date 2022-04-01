@@ -60,8 +60,9 @@ export class TransactionAggregate implements ITransactionAggregate {
 		delete query.identifiers;
 
 		for (const syncedWallet of syncedWallets) {
-			requests[syncedWallet.id()] = new Promise((resolve, reject) => {
-				const lastResponse: HistoryWallet = this.#history[method][syncedWallet.id()];
+			requests[`${syncedWallet.networkId()}.${syncedWallet.id()}`] = new Promise((resolve, reject) => {
+				const lastResponse: HistoryWallet =
+					this.#history[method][`${syncedWallet.networkId()}.${syncedWallet.id()}`];
 
 				if (lastResponse && !lastResponse.hasMorePages()) {
 					return reject(
@@ -113,14 +114,16 @@ export class TransactionAggregate implements ITransactionAggregate {
 			.filter((wallet: IReadWriteWallet) => {
 				const match =
 					identifiers.length === 0 ||
-					identifiers.some(({ type, value }: Services.WalletIdentifier) => {
+					identifiers.some(({ type, value, networkId }: Services.WalletIdentifier) => {
+						const networkMatch = networkId ? networkId === wallet.networkId() : true;
+
 						if (type === "address") {
-							return value === wallet.address();
+							return networkMatch && value === wallet.address();
 						}
 
 						/* istanbul ignore else */
 						if (type === "extendedPublicKey") {
-							return value === wallet.publicKey();
+							return networkMatch && value === wallet.publicKey();
 						}
 
 						/* istanbul ignore next */
