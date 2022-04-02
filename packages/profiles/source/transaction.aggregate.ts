@@ -61,8 +61,7 @@ export class TransactionAggregate implements ITransactionAggregate {
 
 		for (const syncedWallet of syncedWallets) {
 			requests[syncedWallet.id()] = new Promise((resolve, reject) => {
-				const lastResponse: HistoryWallet =
-					this.#history[method][syncedWallet.id()];
+				const lastResponse: HistoryWallet = this.#history[method][syncedWallet.id()];
 
 				if (lastResponse && !lastResponse.hasMorePages()) {
 					return reject(
