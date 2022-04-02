@@ -1,5 +1,4 @@
 import { describe } from "@payvo/sdk-test";
-import { Contracts } from ".";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -7,11 +6,12 @@ import { bootContainer, importByMnemonic } from "../test/mocking";
 import { Profile } from "./profile";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
+import { IReadWriteWallet } from "./wallet.contract";
 
 describe("TransactionAggregate", ({ each, loader, afterEach, beforeAll, beforeEach, nock, assert, stub, spy, it }) => {
 	const datasets = ["all", "sent", "received"];
 
-	let wallet: Contracts.IReadWriteWallet;
+	let wallet: IReadWriteWallet;
 
 	beforeAll(async (context) => {
 		bootContainer();
