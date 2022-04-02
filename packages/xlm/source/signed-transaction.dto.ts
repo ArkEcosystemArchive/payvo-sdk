@@ -22,6 +22,10 @@ export class SignedTransactionData
 		return this.bigNumberService.make(this.signedData._fee);
 	}
 
+	public override toBroadcast(): any {
+		return this.broadcastData;
+	}
+
 	public override timestamp(): DateTime {
 		return DateTime.make(this.signedData.created_at);
 	}

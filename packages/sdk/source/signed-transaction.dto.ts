@@ -187,7 +187,11 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public toBroadcast(): any {
-		return this.broadcastData;
+		return this.#normalizeTransactionData(this.broadcastData);
+	}
+
+	public toSignedData(): any {
+		return this.#normalizeTransactionData(this.signedData);
 	}
 
 	public toObject(): SignedTransactionObject {
@@ -226,5 +230,29 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 				amount: this.amount(),
 			},
 		];
+	}
+
+	#normalizeTransactionData<T>(value: RawTransactionData): T {
+		return JSON.parse(
+			JSON.stringify(value, (key, value) => {
+				if (typeof value === "bigint") {
+					return value.toString();
+				}
+
+				if (["timestamp"].includes(key)) {
+					return DateTime.make(value).toUNIX();
+				}
+
+				if (["amount", "nonce", "fee"].includes(key)) {
+					return value.toString();
+				}
+
+				if (value instanceof Map) {
+					return Object.fromEntries(value);
+				}
+
+				return value;
+			}),
+		);
 	}
 }

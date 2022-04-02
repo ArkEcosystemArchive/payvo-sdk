@@ -55,6 +55,7 @@ export interface SignedTransactionData {
 	get<T = string>(key: string): T;
 	toString(): string;
 	toBroadcast(): any;
+	toSignedData(): any;
 	toObject(): SignedTransactionObject;
 	type(): string;
 

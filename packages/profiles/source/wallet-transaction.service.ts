@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 
 import { Contracts, Services, Signatories } from "@payvo/sdk";
-
 import { IReadWriteWallet, ITransactionService, WalletData } from "./contracts.js";
 import { pqueueSettled } from "./helpers/queue.js";
 import { ExtendedSignedTransactionData } from "./signed-transaction.dto.js";
@@ -80,7 +79,10 @@ export class TransactionService implements ITransactionService {
 			//
 		}
 
-		return this.#wallet.coin().multiSignature().broadcast(transactionWithSignature.data());
+		return this.#wallet
+			.coin()
+			.multiSignature()
+			.broadcast(this.#createExtendedSignedTransactionData(transactionWithSignature).data().toSignedData());
 	}
 
 	/** {@inheritDoc ITransactionService.signTransfer} */
@@ -292,17 +294,7 @@ export class TransactionService implements ITransactionService {
 		if (this.canBeBroadcasted(id)) {
 			result = await this.#wallet.client().broadcast([transaction.data()]);
 		} else if (transaction.isMultiSignatureRegistration() || transaction.usesMultiSignature()) {
-			const { amount, fee, nonce, ...restOfThePayload } = transaction.data().data();
-
-			result = await this.#wallet
-				.coin()
-				.multiSignature()
-				.broadcast({
-					...JSON.parse(JSON.stringify(restOfThePayload, undefined, 4)),
-					amount: amount.toString(),
-					fee: fee.toString(),
-					nonce: nonce.toString(),
-				});
+			result = await this.#wallet.coin().multiSignature().broadcast(transaction.data().toSignedData());
 		}
 
 		if (result.accepted.includes(transaction.id())) {
