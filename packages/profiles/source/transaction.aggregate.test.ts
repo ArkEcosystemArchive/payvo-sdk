@@ -1,4 +1,5 @@
 import { describe } from "@payvo/sdk-test";
+import { Contracts } from ".";
 
 import { identity } from "../test/fixtures/identity";
 import { bootContainer, importByMnemonic } from "../test/mocking";
@@ -7,8 +8,10 @@ import { Profile } from "./profile";
 import { TransactionAggregate } from "./transaction.aggregate";
 import { ExtendedConfirmedTransactionDataCollection } from "./transaction.collection";
 
-describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub, it }) => {
+describe("TransactionAggregate", ({ each, loader, afterEach, beforeAll, beforeEach, nock, assert, stub, spy, it }) => {
 	const datasets = ["all", "sent", "received"];
+
+	let wallet: Contracts.IReadWriteWallet;
 
 	beforeAll(async (context) => {
 		bootContainer();
@@ -28,9 +31,15 @@ describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub,
 
 		const profile = new Profile({ avatar: "avatar", data: "", id: "uuid", name: "name" });
 
-		await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
+		wallet = await importByMnemonic(profile, identity.mnemonic, "ARK", "ark.devnet");
 
 		context.subject = new TransactionAggregate(profile);
+	});
+
+	afterEach((context) => {
+		for (const dataset of datasets) {
+			context.subject.flush(dataset);
+		}
 	});
 
 	each(
@@ -184,23 +193,76 @@ describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub,
 		const results = await context.subject.all();
 		assert.instance(results, ExtendedConfirmedTransactionDataCollection);
 	}, datasets);
+	*/
 
-	each("should aggregate and filter transactions based on provided identifiers of type `address` (%s)", async ({ context, dataset }) => {
-		nock.fake()
-			.get("/api/transactions")
-			.query(true)
-			.reply(200, loader.json("test/fixtures/client/transactions.json"));
+	each(
+		"should aggregate and filter transactions based on provided identifiers of type `address` (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions.json"));
 
-		const result = await context.subject.all({
-			identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
-		});
+			const indexSpy = spy(wallet.transactionIndex(), dataset);
 
-		assert.instance(result, ExtendedConfirmedTransactionDataCollection);
-		assert.length(result.items(), 100);
+			await context.subject[dataset]({
+				identifiers: [{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW" }],
+			});
 
-		context.subject.flush();
-	}, datasets);
+			assert.true(indexSpy.calledOnce);
 
+			indexSpy.restore();
+		},
+		datasets,
+	);
+
+	each(
+		"should aggregate and filter transactions based on provided identifiers of type `address` and network id (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions.json"));
+
+			const indexSpy = spy(wallet.transactionIndex(), dataset);
+
+			await context.subject[dataset]({
+				identifiers: [
+					{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW", networkId: "ark.devnet" },
+				],
+			});
+
+			assert.true(indexSpy.calledOnce);
+
+			indexSpy.restore();
+		},
+		datasets,
+	);
+
+	each(
+		"should not aggregate and filter transactions of wallet if network id does not match (%s)",
+		async ({ context, dataset }) => {
+			nock.fake()
+				.get("/api/transactions")
+				.query(true)
+				.reply(200, loader.json("test/fixtures/client/transactions.json"));
+
+			const indexSpy = spy(wallet.transactionIndex(), dataset);
+
+			await context.subject[dataset]({
+				identifiers: [
+					{ type: "address", value: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW", networkId: "ark.mainnet" },
+				],
+			});
+
+			assert.true(indexSpy.notCalled);
+
+			indexSpy.restore();
+		},
+		datasets,
+	);
+
+	/*
 	each("should aggregate and filter transactions based on provided identifiers of type `extendedPublicKey` (%s)", async ({ context, dataset }) => {
 		nock.fake()
 			.get("/api/transactions")
@@ -221,6 +283,5 @@ describe("TransactionAggregate", ({ each, loader, beforeAll, nock, assert, stub,
 
 		context.subject.flush();
 	}, datasets);
-
 	*/
 });
