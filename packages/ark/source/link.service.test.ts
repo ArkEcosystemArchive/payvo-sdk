@@ -129,40 +129,4 @@ describe("LinkService", ({ assert, it, nock, loader }) => {
 
 		assert.is(subject.wallet("id"), "https://explorer.blockpool.io/#/wallets/id");
 	});
-
-	it("should generate a link for a block on a [sxp.mainnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
-
-		assert.is(subject.block("id"), "https://explorer.solar.org/blocks/id");
-	});
-
-	it("should generate a link for a transaction on a [sxp.mainnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
-
-		assert.is(subject.transaction("id"), "https://explorer.solar.org/transactions/id");
-	});
-
-	it("should generate a link for a wallet on a [sxp.mainnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.mainnet");
-
-		assert.is(subject.wallet("id"), "https://explorer.solar.org/wallets/id");
-	});
-
-	it("should generate a link for a block on a [sxp.testnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
-
-		assert.is(subject.block("id"), "https://texplorer.solar.org/blocks/id");
-	});
-
-	it("should generate a link for a transaction on a [sxp.testnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
-
-		assert.is(subject.transaction("id"), "https://texplorer.solar.org/transactions/id");
-	});
-
-	it("should generate a link for a wallet on a [sxp.testnet] explorer", async () => {
-		const subject = await createService(Services.AbstractLinkService, "sxp.testnet");
-
-		assert.is(subject.wallet("id"), "https://texplorer.solar.org/wallets/id");
-	});
 });
