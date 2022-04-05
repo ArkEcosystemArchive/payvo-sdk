@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-fetch",
-	"version": "4.4.10",
+	"version": "4.4.11",
 	"description": "HTTP Client for @payvo/sdk",
 	"license": "MIT",
 	"contributors": [],
