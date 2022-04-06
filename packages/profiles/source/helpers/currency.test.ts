@@ -7,6 +7,10 @@ describe("Helpers.Currency", ({ assert, each, it }) => {
 		assert.is(Currency.format(10, "USD"), "$10.00");
 	});
 
+	it("should format fiat without decimals", () => {
+		assert.is(Currency.format(10, "KRW"), "₩10.00");
+	});
+
 	each(
 		"should format crypto (%s)",
 		({ dataset }) => {
