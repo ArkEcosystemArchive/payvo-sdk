@@ -29,7 +29,7 @@ export class Currency {
 		}
 
 		let money = Money.make(
-			BigNumber.make(Math.abs(value)).times(Math.pow(10, 2)).decimalPlaces(0).toNumber(),
+			BigNumber.make(Math.abs(value)).times(100).decimalPlaces(0).toNumber(),
 			ticker,
 		);
 
