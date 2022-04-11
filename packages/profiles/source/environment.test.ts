@@ -259,7 +259,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			TIME_FORMAT: "h:mm A",
 			USE_EXPANDED_TABLES: false,
 			USE_NETWORK_WALLET_NAMES: false,
-			USE_TEST_NETWORKS: false
+			USE_TEST_NETWORKS: false,
 		});
 
 		const restoredWallet = newProfile.wallets().first();
