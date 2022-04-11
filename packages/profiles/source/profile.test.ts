@@ -114,7 +114,7 @@ describe("Profile", ({ beforeEach, it, assert, loader, stub, nock }) => {
 
 		context.subject.flush();
 
-		assert.length(context.subject.settings().keys(), 16);
+		assert.length(context.subject.settings().keys(), 17);
 	});
 
 	it("should fail to flush all data if the name is missing", (context) => {
@@ -133,7 +133,7 @@ describe("Profile", ({ beforeEach, it, assert, loader, stub, nock }) => {
 
 		context.subject.flushSettings();
 
-		assert.length(context.subject.settings().keys(), 16);
+		assert.length(context.subject.settings().keys(), 17);
 	});
 
 	it("should fail to flush settings if the name is missing", (context) => {
