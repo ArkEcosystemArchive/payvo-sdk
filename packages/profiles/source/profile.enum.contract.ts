@@ -14,6 +14,7 @@ export enum ProfileSetting {
 	Name = "NAME",
 	Password = "PASSWORD",
 	ErrorReporting = "ERROR_REPORTING",
+	FallbackToDefaultNodes = "FALLBACK_TO_DEFAULT_NODES",
 	// UI
 	AccentColor = "ACCENT_COLOR",
 	DashboardConfiguration = "DASHBOARD_CONFIGURATION",
@@ -26,6 +27,7 @@ export enum ProfileSetting {
 	UseExpandedTables = "USE_EXPANDED_TABLES",
 	UseNetworkWalletNames = "USE_NETWORK_WALLET_NAMES",
 	UseTestNetworks = "USE_TEST_NETWORKS",
+
 }
 
 /**
