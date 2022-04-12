@@ -214,6 +214,7 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 					[ProfileSetting.DashboardTransactionHistory]: false,
 					[ProfileSetting.DoNotShowFeeWarning]: false,
 					[ProfileSetting.ErrorReporting]: false,
+					[ProfileSetting.FallbackToDefaultNodes]: true,
 					[ProfileSetting.ExchangeCurrency]: "ADA",
 					[ProfileSetting.Locale]: "en-US",
 					[ProfileSetting.MarketProvider]: "coingecko",
