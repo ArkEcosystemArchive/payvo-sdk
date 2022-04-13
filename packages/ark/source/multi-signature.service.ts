@@ -162,8 +162,8 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	#normalizeTransaction({ data, id, multisigAsset }: any): Record<string, any> {
 		const result = {
 			...data,
-			id,
 			// This is the real ID, computed by the MuSig Server.
+			id,
 			multiSignature: multisigAsset,
 		};
 
