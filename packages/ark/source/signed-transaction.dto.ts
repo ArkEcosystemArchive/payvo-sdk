@@ -102,4 +102,10 @@ export class SignedTransactionData
 	public override usesMultiSignature(): boolean {
 		return !!this.signedData.multiSignature;
 	}
+
+	public override toBroadcast() {
+		const broadcastData = super.normalizeTransactionData<Contracts.RawTransactionData>(this.broadcastData);
+		delete broadcastData.timestamp;
+		return broadcastData;
+	}
 }
