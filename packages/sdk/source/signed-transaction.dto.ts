@@ -187,11 +187,11 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 	}
 
 	public toBroadcast(): any {
-		return this.#normalizeTransactionData(this.broadcastData);
+		return this.normalizeTransactionData(this.broadcastData);
 	}
 
 	public toSignedData(): any {
-		return this.#normalizeTransactionData(this.signedData);
+		return this.normalizeTransactionData(this.signedData);
 	}
 
 	public toObject(): SignedTransactionObject {
@@ -232,7 +232,7 @@ export class AbstractSignedTransactionData implements SignedTransactionData {
 		];
 	}
 
-	#normalizeTransactionData<T>(value: RawTransactionData): T {
+	protected normalizeTransactionData<T>(value: RawTransactionData): T {
 		return JSON.parse(
 			JSON.stringify(value, (key, value) => {
 				if (typeof value === "bigint") {

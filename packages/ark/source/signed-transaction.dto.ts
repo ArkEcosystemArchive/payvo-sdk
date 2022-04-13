@@ -104,30 +104,8 @@ export class SignedTransactionData
 	}
 
 	public override toBroadcast() {
-		return this.#normalizeBroadcastData(this.broadcastData);
-	}
-
-	#normalizeBroadcastData<T>(value: Contracts.RawTransactionData): T {
-		return JSON.parse(
-			JSON.stringify(value, (key, value) => {
-				if (typeof value === "bigint") {
-					return value.toString();
-				}
-
-				if (["timestamp"].includes(key)) {
-					return undefined;
-				}
-
-				if (["amount", "nonce", "fee"].includes(key)) {
-					return value.toString();
-				}
-
-				if (value instanceof Map) {
-					return Object.fromEntries(value);
-				}
-
-				return value;
-			}),
-		);
+		const broadcastData = super.normalizeTransactionData<Contracts.RawTransactionData>(this.broadcastData);
+		delete broadcastData.timestamp;
+		return broadcastData;
 	}
 }
