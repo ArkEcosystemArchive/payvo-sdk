@@ -101,7 +101,7 @@ export class ProfileValidator implements IProfileValidator {
 				[ProfileSetting.DashboardTransactionHistory]: Joi.boolean().required(),
 				[ProfileSetting.DoNotShowFeeWarning]: Joi.boolean().required(),
 				[ProfileSetting.ErrorReporting]: Joi.boolean().required(),
-				[ProfileSetting.FallbackToDefaultNodes]: Joi.boolean().required(),
+				[ProfileSetting.FallbackToDefaultNodes]: Joi.boolean().default(true),
 				[ProfileSetting.ExchangeCurrency]: Joi.string().required(),
 				[ProfileSetting.Locale]: Joi.string().required(),
 				[ProfileSetting.MarketProvider]: Joi.string().allow("coincap", "cryptocompare", "coingecko").required(),
