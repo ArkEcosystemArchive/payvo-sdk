@@ -14,6 +14,7 @@ export enum ProfileSetting {
 	Name = "NAME",
 	Password = "PASSWORD",
 	ErrorReporting = "ERROR_REPORTING",
+	FallbackToDefaultNodes = "FALLBACK_TO_DEFAULT_NODES",
 	// UI
 	AccentColor = "ACCENT_COLOR",
 	DashboardConfiguration = "DASHBOARD_CONFIGURATION",
