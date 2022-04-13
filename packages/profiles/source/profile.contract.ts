@@ -24,6 +24,7 @@ import {
 import { AttributeBag } from "./helpers/attribute-bag.js";
 import { IHostRepository } from "./host.repository.contract.js";
 import { INetworkRepository } from "./network.repository.contract.js";
+import { IPendingMusigWalletRepository } from "./pending-musig-wallet.repository.contract.js";
 
 /**
  *
@@ -42,6 +43,7 @@ export interface IProfileData {
 	plugins: Record<string, any>;
 	settings: Record<string, any>;
 	wallets: Record<string, IWalletData>;
+	pendingMusigWallets: Record<string, IWalletData>;
 }
 
 /**
@@ -224,6 +226,14 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	wallets(): IWalletRepository;
+
+	/**
+	 * Get the pending musig wallet repository instance.
+	 *
+	 * @return {IPendingMusigWalletRepository}
+	 * @memberof IProfile
+	 */
+	pendingMusigWallets(): IPendingMusigWalletRepository;
 
 	/**
 	 * Access the wallet factory.

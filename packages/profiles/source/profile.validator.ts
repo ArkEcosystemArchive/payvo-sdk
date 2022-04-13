@@ -121,6 +121,14 @@ export class ProfileValidator implements IProfileValidator {
 					settings: Joi.object().required(),
 				}),
 			),
+			pendingMusigWallets: Joi.object().pattern(
+				Joi.string().uuid(),
+				Joi.object({
+					data: Joi.object().required(),
+					id: Joi.string().required(),
+					settings: Joi.object().required(),
+				}),
+			),
 		}).validate(data, { allowUnknown: true, stripUnknown: true });
 
 		if (error !== undefined) {
