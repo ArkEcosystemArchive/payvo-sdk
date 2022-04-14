@@ -31,6 +31,7 @@ export class ProfileSerialiser implements IProfileSerialiser {
 			plugins: this.#profile.plugins().all(),
 			settings: this.#profile.settings().all(),
 			wallets: this.#profile.wallets().toObject(options),
+			pendingMusigWallets: this.#profile.pendingMusigWallets().toObject(),
 		};
 	}
 }

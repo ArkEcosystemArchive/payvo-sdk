@@ -48,6 +48,7 @@ export * from "./wallet.factory.contract.js";
 export * from "./wallet.gate.contract.js";
 export * from "./wallet.mutator.contract.js";
 export * from "./wallet.repository.contract.js";
+export * from "./pending-musig-wallet.repository.contract.js";
 export * from "./wallet.service.contract.js";
 export * from "./wallet.synchroniser.contract.js";
 export * from "./wallet-transaction.service.contract.js";

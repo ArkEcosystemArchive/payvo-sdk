@@ -49,6 +49,8 @@ import { TransactionAggregate } from "./transaction.aggregate";
 import { WalletAggregate } from "./wallet.aggregate";
 import { WalletFactory } from "./wallet.factory.js";
 import { WalletRepository } from "./wallet.repository";
+import { PendingMusigWalletRepository } from "./pending-musig-wallet.repository";
+import { IPendingMusigWalletRepository } from "./pending-musig-wallet.repository.contract.js";
 
 export class Profile implements IProfile {
 	/**
@@ -148,6 +150,14 @@ export class Profile implements IProfile {
 	readonly #walletFactory: IWalletFactory;
 
 	/**
+	 * The pending musig wallet repository.
+	 *
+	 * @type {IPendingMusigWalletRepository}
+	 * @memberof Profile
+	 */
+	readonly #pendingMusigWallets: IPendingMusigWalletRepository;
+
+	/**
 	 * The wallet repository.
 	 *
 	 * @type {IWalletRepository}
@@ -234,6 +244,7 @@ export class Profile implements IProfile {
 		this.#appearanceService = new AppearanceService(this);
 		this.#walletFactory = new WalletFactory(this);
 		this.#walletRepository = new WalletRepository(this);
+		this.#pendingMusigWallets = new PendingMusigWalletRepository(this);
 		this.#countAggregate = new CountAggregate(this);
 		this.#registrationAggregate = new RegistrationAggregate(this);
 		this.#transactionAggregate = new TransactionAggregate(this);
@@ -362,6 +373,11 @@ export class Profile implements IProfile {
 	/** {@inheritDoc IProfile.wallets} */
 	public wallets(): IWalletRepository {
 		return this.#walletRepository;
+	}
+
+	/** {@inheritDoc IProfile.pendingMusigWallets} */
+	public pendingMusigWallets(): IPendingMusigWalletRepository {
+		return this.#pendingMusigWallets;
 	}
 
 	/** {@inheritDoc IProfile.walletFactory} */
