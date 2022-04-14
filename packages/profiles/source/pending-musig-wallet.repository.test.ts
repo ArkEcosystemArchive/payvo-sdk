@@ -1,46 +1,12 @@
 import { describe } from "@payvo/sdk-test";
 
-import { identity } from "../test/fixtures/identity";
 import { bootContainer } from "../test/mocking";
 import { ProfileSetting } from "./contracts";
 import { Profile } from "./profile";
-import { Wallet } from "./wallet";
-import { WalletFactory } from "./wallet.factory.js";
 import { PendingMusigWalletRepository } from "./pending-musig-wallet.repository";
-import { IWalletData } from "./wallet.contract";
+import { WalletFactory } from "./wallet.factory.js";
 
-const generate = async (context: any, coin: string, network: string) => {
-	const { wallet } = await context.factory.generate({ coin, network });
-
-	context.subject.add(wallet);
-
-	return wallet;
-};
-
-const importByMnemonic = async (context: any, mnemonic: string, coin: string, network: string, bip: number) => {
-	const wallet = await context.factory[
-		{
-			39: "fromMnemonicWithBIP39",
-			44: "fromMnemonicWithBIP44",
-			49: "fromMnemonicWithBIP49",
-			84: "fromMnemonicWithBIP84",
-		}[bip]
-	]({
-		coin,
-		levels: {
-			39: {},
-			44: { account: 0 },
-			49: { account: 0 },
-			84: { account: 0 },
-		}[bip],
-		mnemonic,
-		network,
-	});
-
-	return wallet;
-};
-
-const createEnvironment = async (context, { loader, nock }) => {
+const createEnvironment = async (context: any, { loader, nock }) => {
 	nock.fake("https://ark-test.payvo.com:443", { encodedQueryParams: true })
 		.get("/api/node/configuration")
 		.reply(200, loader.json("test/fixtures/client/configuration.json"))
@@ -52,6 +18,8 @@ const createEnvironment = async (context, { loader, nock }) => {
 		.reply(200, loader.json("test/fixtures/client/syncing.json"))
 		.get("/api/wallets/D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW")
 		.reply(200, loader.json("test/fixtures/client/wallet.json"))
+		.get("/api/wallets/1")
+		.reply(404)
 		.get(/\/api\/wallets\/D.*/)
 		.reply(404, `{"statusCode":404,"error":"Not Found","message":"Wallet not found"}`)
 		.persist();
@@ -61,6 +29,8 @@ const createEnvironment = async (context, { loader, nock }) => {
 	context.profile.settings().set(ProfileSetting.Name, "John Doe");
 
 	context.subject = new PendingMusigWalletRepository(context.profile);
+
+	context.factory = new WalletFactory(context.profile);
 };
 
 const defaults = {
@@ -143,6 +113,20 @@ describe("PendingMusigWalletRepository", ({ beforeAll, beforeEach, loader, nock,
 		assert.equal(context.profile.wallets().count(), 1);
 	});
 
+	it("should move to profile wallets and find available alias", async (context) => {
+		const mockExisintWalletAlias = stub(context.profile.wallets(), "findByAlias").returnValueOnce({});
+		await context.subject.fill({
+			"05146383-b26d-4ac0-aad2-3d5cb7e6c5e2": defaults,
+		});
+
+		await context.subject.sync();
+
+		assert.equal(getAddresses(context).length, 0);
+		assert.equal(context.profile.wallets().count(), 1);
+
+		mockExisintWalletAlias.restore();
+	});
+
 	it("should forget synced pending wallet if already exists in profile wallets", async (context) => {
 		const mockExistingWallet = stub(context.profile.wallets(), "findByAddressWithNetwork").returnValue({});
 
@@ -157,5 +141,78 @@ describe("PendingMusigWalletRepository", ({ beforeAll, beforeEach, loader, nock,
 		assert.equal(getAddresses(context).length, 0);
 
 		mockExistingWallet.restore();
+	});
+
+	it("should forget wallet if removed from musig server and is not broadcasted", async (context) => {
+		await context.subject.add("1", "ARK", "ark.devnet");
+
+		assert.equal(getAddresses(context).length, 1);
+
+		await context.subject.sync();
+
+		assert.equal(getAddresses(context).length, 0);
+	});
+
+	it("should not remove wallet if it exists in musig server", async (context) => {
+		context.profile.wallets().push(
+			await context.profile.walletFactory().fromAddress({
+				coin: "ARK",
+				network: "ark.devnet",
+				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+			}),
+		);
+
+		const firstWallet = context.profile.wallets().first();
+
+		const mockPendingTransaction = stub(firstWallet.transaction(), "pending").returnValue({
+			id: {
+				isMultiSignatureRegistration: () => true,
+				get: () => ({
+					publicKeys: [firstWallet.publicKey()],
+					min: 2,
+				}),
+			},
+		});
+
+		const mockMultisignatureGeneration = stub(firstWallet.coin().address(), "fromMultiSignature").returnValue({
+			address: "1",
+		});
+
+		await context.subject.add("1", "ARK", "ark.devnet");
+
+		assert.equal(getAddresses(context).length, 1);
+
+		await context.subject.sync();
+
+		assert.equal(getAddresses(context).length, 1);
+		mockPendingTransaction.restore();
+		mockMultisignatureGeneration.restore();
+	});
+
+	it("should forget wallet if pending transaction not found in musig server", async (context) => {
+		context.profile.wallets().push(
+			await context.profile.walletFactory().fromAddress({
+				coin: "ARK",
+				network: "ark.devnet",
+				address: "D6i8P5N44rFto6M6RALyUXLLs7Q1A1WREW",
+			}),
+		);
+
+		const firstWallet = context.profile.wallets().first();
+
+		const mockPendingTransaction = stub(firstWallet.transaction(), "pending").returnValue({
+			id: {
+				isMultiSignatureRegistration: () => false,
+			},
+		});
+
+		await context.subject.add("1", "ARK", "ark.devnet");
+
+		assert.equal(getAddresses(context).length, 1);
+
+		await context.subject.sync();
+
+		assert.equal(getAddresses(context).length, 0);
+		mockPendingTransaction.restore();
 	});
 });
