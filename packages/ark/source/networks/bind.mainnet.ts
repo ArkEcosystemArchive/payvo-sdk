@@ -25,7 +25,6 @@ const network: Networks.NetworkManifest = {
 			"estimateExpiration",
 			"multiPayment.musig",
 			"multiPayment",
-			"multiSignature",
 			"secondSignature",
 			"transfer.musig",
 			"transfer",
