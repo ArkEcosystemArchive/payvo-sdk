@@ -8,7 +8,7 @@ import { IWalletData } from "./wallet.contract.js";
  */
 export interface IPendingMusigWalletRepository {
 	/**
-	 * Create a new wallet instance ans store it using it's unique ID.
+	 * Create a new wallet instance and store it by its unique ID.
 	 *
 	 * @private
 	 * @param {string} address
