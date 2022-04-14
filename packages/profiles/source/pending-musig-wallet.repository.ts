@@ -83,7 +83,7 @@ export class PendingMusigWalletRepository implements IPendingMusigWalletReposito
 
 	async #moveToWallets(wallet: IReadWriteWallet) {
 		if (this.#profile.wallets().findByAddressWithNetwork(wallet.address(), wallet.networkId())) {
-			return;
+			return this.#wallets.forget(wallet.id());
 		}
 
 		wallet.mutator().alias(this.#makeAlias(wallet));
