@@ -20,7 +20,7 @@ export interface IPendingMusigWalletRepository {
 	add(address: string, coin: string, network: string): Promise<void>;
 
 	/**
-	 * Sync and move broadcasted wallets in profile main wallet repository.
+	 * Sync and move wallets into the wallet repository of the parent profile.
 	 *
 	 * @returns {IReadWriteWallet}
 	 * @memberof IPendingMusigWalletRepository
