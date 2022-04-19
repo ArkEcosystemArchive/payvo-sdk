@@ -1,5 +1,5 @@
 import { DataRepository } from "./data.repository.js";
-import { HostMap, HostSet, IHostRepository } from "./host.repository.contract.js";
+import { Host, HostMap, HostSet, IHostRepository } from "./host.repository.contract.js";
 import { IProfile } from "./profile.contract.js";
 
 export class HostRepository implements IHostRepository {
@@ -21,7 +21,7 @@ export class HostRepository implements IHostRepository {
 	}
 
 	/** {@inheritDoc HostRepository.push} */
-	public push({ host, name, network }): HostSet {
+	public push({ host, name, network }: { host: Host; name: string; network: string }): HostSet {
 		if (!this.#data.has(network)) {
 			this.#data.set(network, []);
 		}
