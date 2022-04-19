@@ -21,14 +21,14 @@ export class HostRepository implements IHostRepository {
 	}
 
 	/** {@inheritDoc HostRepository.push} */
-	public push(network: string, host: Host): HostSet {
+	public push({ host, name, network }: { host: Host; name: string; network: string }): HostSet {
 		if (!this.#data.has(network)) {
 			this.#data.set(network, []);
 		}
 
 		host.custom = true;
 
-		this.#data.get<HostSet>(network)?.push(host);
+		this.#data.get<HostSet>(network)?.push({ host, name });
 
 		this.#profile.status().markAsDirty();
 
@@ -42,8 +42,6 @@ export class HostRepository implements IHostRepository {
 
 	/** {@inheritDoc HostRepository.forget} */
 	public forget(network: string, index?: number): void {
-		this.allByNetwork(network);
-
 		if (index) {
 			this.#data.forgetIndex(network, index);
 		} else {

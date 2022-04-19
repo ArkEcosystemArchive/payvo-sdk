@@ -1,7 +1,7 @@
 import { Networks } from "@payvo/sdk";
 
 export type Host = Networks.NetworkHost;
-export type HostSet = Host[];
+export type HostSet = { name: string; host: Host }[];
 export type HostMap = Record<string, HostSet>;
 
 export interface IHostRepository {
@@ -9,7 +9,7 @@ export interface IHostRepository {
 
 	allByNetwork(network: string): HostSet;
 
-	push(network: string, host: Host): HostSet;
+	push(data: { host: Host; name: string; network: string }): HostSet;
 
 	fill(entries: object): void;
 

@@ -9,16 +9,28 @@ describeWithContext(
 	"HostRepository",
 	{
 		explorer: {
-			host: "https://explorer.ark.io",
-			type: "explorer",
+			host: {
+				host: "https://explorer.ark.io",
+				type: "explorer",
+			},
+			name: "John's Explorer",
+			network: "ark.mainnet",
 		},
 		full: {
-			host: "https://ark-live.payvo.com/api",
-			type: "full",
+			host: {
+				host: "https://ark-live.payvo.com/api",
+				type: "full",
+			},
+			name: "John's Relay",
+			network: "ark.mainnet",
 		},
 		musig: {
-			host: "https://ark-live-musig.payvo.com",
-			type: "musig",
+			host: {
+				host: "https://ark-live-musig.payvo.com",
+				type: "musig",
+			},
+			name: "John's MuSig",
+			network: "ark.mainnet",
 		},
 	},
 	({ beforeEach, assert, it }) => {
@@ -31,9 +43,9 @@ describeWithContext(
 		it("#all", (context) => {
 			assert.length(Object.keys(context.subject.all()), 0);
 
-			context.subject.push("ark.mainnet", context.full);
-			context.subject.push("ark.mainnet", context.musig);
-			context.subject.push("ark.mainnet", context.explorer);
+			context.subject.push(context.full);
+			context.subject.push(context.musig);
+			context.subject.push(context.explorer);
 
 			assert.length(Object.keys(context.subject.all()), 1);
 		});
@@ -41,7 +53,7 @@ describeWithContext(
 		it("#allByNetwork", (context) => {
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
 
-			context.subject.push("ark.mainnet", context.full);
+			context.subject.push(context.full);
 
 			assert.array(context.subject.allByNetwork("ark.mainnet"));
 		});
@@ -49,11 +61,11 @@ describeWithContext(
 		it("#push", (context) => {
 			assert.length(Object.keys(context.subject.all()), 0);
 
-			context.subject.push("ark.mainnet", context.full);
+			context.subject.push(context.full);
 
 			assert.length(context.subject.all().ark.mainnet, 1);
 
-			context.subject.push("ark.mainnet", context.full);
+			context.subject.push(context.full);
 
 			assert.length(context.subject.all().ark.mainnet, 2);
 		});
@@ -61,9 +73,9 @@ describeWithContext(
 		it("#fill", (context) => {
 			assert.length(Object.keys(context.subject.all()), 0);
 
-			context.subject.push("ark.mainnet", context.full);
-			context.subject.push("ark.mainnet", context.full);
-			context.subject.push("ark.mainnet", context.full);
+			context.subject.push(context.full);
+			context.subject.push(context.full);
+			context.subject.push(context.full);
 
 			assert.length(Object.keys(context.subject.all().ark.mainnet), 3);
 
@@ -75,7 +87,7 @@ describeWithContext(
 		it("#forget", (context) => {
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
 
-			context.subject.push("ark.mainnet", context.full);
+			context.subject.push(context.full);
 
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 1);
 

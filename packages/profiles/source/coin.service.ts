@@ -92,7 +92,7 @@ export class CoinService implements ICoinService {
 		for (const network of this.#profile.networks().allByCoin(coin)) {
 			const clone: Networks.NetworkManifest = { ...network };
 
-			for (const host of this.#profile.hosts().allByNetwork(clone.id)) {
+			for (const { host } of Object.values(this.#profile.hosts().allByNetwork(clone.id))) {
 				clone.hosts.push(host);
 			}
 
