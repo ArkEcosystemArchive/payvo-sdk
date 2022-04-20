@@ -10,7 +10,7 @@ export class AppearanceService implements IAppearanceService {
 		};
 	} = {
 		accentColor: {
-			defaultValue: "green",
+			defaultValue: "navy",
 			profileSetting: ProfileSetting.AccentColor,
 		},
 		dashboardTransactionHistory: {

@@ -57,7 +57,7 @@ describe("ProfileInitialiser", ({ afterAll, afterEach, beforeAll, beforeEach, it
 		new ProfileInitialiser(context.profile).initialiseSettings("name");
 
 		assert.is(context.profile.settings().get(ProfileSetting.Name), "name");
-		assert.is(context.profile.settings().get(ProfileSetting.AccentColor), "green");
+		assert.is(context.profile.settings().get(ProfileSetting.AccentColor), "navy");
 		assert.is(context.profile.settings().get(ProfileSetting.Theme), "light");
 	});
 });
