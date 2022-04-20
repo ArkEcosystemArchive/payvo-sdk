@@ -91,7 +91,7 @@ describeWithContext(
 
 			context.subject.push({
 				...context.full,
-				name: "another name"
+				name: "another name",
 			});
 
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 2);
