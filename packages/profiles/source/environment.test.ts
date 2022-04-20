@@ -243,7 +243,7 @@ describe("Environment", ({ beforeEach, it, assert, nock, loader }) => {
 			LATEST_MIGRATION: "0.0.0",
 		});
 		assert.equal(newProfile.settings().all(), {
-			ACCENT_COLOR: "navy",
+			ACCENT_COLOR: "green",
 			ADVANCED_MODE: false,
 			AUTOMATIC_SIGN_OUT_PERIOD: 15,
 			BIP39_LOCALE: "english",
