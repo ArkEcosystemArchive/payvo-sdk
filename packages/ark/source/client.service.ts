@@ -1,14 +1,27 @@
-import { Collections, Contracts, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
 
 import { Enums } from "./crypto/index.js";
+import { Request } from "./request.js";
 
 export class ClientService extends Services.AbstractClientService {
+	readonly #request: Request;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#request = new Request(
+			container.get(IoC.BindingType.ConfigRepository),
+			container.get(IoC.BindingType.HttpClient),
+			container.get(IoC.BindingType.NetworkHostSelector),
+		);
+	}
+
 	public override async transaction(
 		id: string,
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
-		const body = await this.#get(`transactions/${id}`);
+		const body = await this.#request.get(`transactions/${id}`);
 
 		return this.dataTransferObjectService.transaction(body.data);
 	}
@@ -17,22 +30,22 @@ export class ClientService extends Services.AbstractClientService {
 		query: Services.ClientTransactionsInput,
 	): Promise<Collections.ConfirmedTransactionDataCollection> {
 		const response = this.#isLegacy()
-			? await this.#post("transactions/search", this.#createSearchParams(query))
-			: await this.#get("transactions", this.#createSearchParams(query));
+			? await this.#request.post("transactions/search", this.#createSearchParams(query))
+			: await this.#request.get("transactions", this.#createSearchParams(query));
 
 		return this.dataTransferObjectService.transactions(response.data, this.#createMetaPagination(response));
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const body = await this.#get(`wallets/${id.value}`);
+		const body = await this.#request.get(`wallets/${id.value}`);
 
 		return this.dataTransferObjectService.wallet(body.data);
 	}
 
 	public override async wallets(query: Services.ClientWalletsInput): Promise<Collections.WalletDataCollection> {
 		const response = this.#isLegacy()
-			? await this.#post("wallets/search", this.#createSearchParams(query))
-			: await this.#get("wallets", this.#createSearchParams(query));
+			? await this.#request.post("wallets/search", this.#createSearchParams(query))
+			: await this.#request.get("wallets", this.#createSearchParams(query));
 
 		return new Collections.WalletDataCollection(
 			response.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
@@ -41,13 +54,13 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async delegate(id: string): Promise<Contracts.WalletData> {
-		const body = await this.#get(`delegates/${id}`);
+		const body = await this.#request.get(`delegates/${id}`);
 
 		return this.dataTransferObjectService.wallet(body.data);
 	}
 
 	public override async delegates(query?: Contracts.KeyValuePair): Promise<Collections.WalletDataCollection> {
-		const body = await this.#get("delegates", this.#createSearchParams(query || {}));
+		const body = await this.#request.get("delegates", this.#createSearchParams(query || {}));
 
 		return new Collections.WalletDataCollection(
 			body.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
@@ -56,7 +69,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async votes(id: string): Promise<Services.VoteReport> {
-		const { data } = await this.#get(`wallets/${id}`);
+		const { data } = await this.#request.get(`wallets/${id}`);
 
 		const vote = data.vote || data.attributes?.vote;
 		const hasVoted = vote !== undefined;
@@ -79,7 +92,7 @@ export class ClientService extends Services.AbstractClientService {
 		id: string,
 		query?: Contracts.KeyValuePair,
 	): Promise<Collections.WalletDataCollection> {
-		const body = await this.#get(`delegates/${id}/voters`, this.#createSearchParams(query || {}));
+		const body = await this.#request.get(`delegates/${id}/voters`, this.#createSearchParams(query || {}));
 
 		return new Collections.WalletDataCollection(
 			body.data.map((wallet) => this.dataTransferObjectService.wallet(wallet)),
@@ -93,7 +106,7 @@ export class ClientService extends Services.AbstractClientService {
 		let response: Contracts.KeyValuePair;
 
 		try {
-			response = await this.#post("transactions", {
+			response = await this.#request.post("transactions", {
 				body: {
 					transactions: transactions.map((transaction: Contracts.SignedTransactionData) =>
 						transaction.toBroadcast(),
@@ -133,22 +146,6 @@ export class ClientService extends Services.AbstractClientService {
 		}
 
 		return result;
-	}
-
-	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (
-			await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query?.searchParams)
-		).json();
-	}
-
-	async #post(path: string, { body, searchParams }: { body; searchParams? }): Promise<Contracts.KeyValuePair> {
-		return (
-			await this.httpClient.post(
-				`${this.hostSelector(this.configRepository).host}/${path}`,
-				body,
-				searchParams || undefined,
-			)
-		).json();
 	}
 
 	#createMetaPagination(body): Services.MetaPagination {

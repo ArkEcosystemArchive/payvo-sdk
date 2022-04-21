@@ -1,10 +1,24 @@
-import { Contracts, Services } from "@payvo/sdk";
+import { Contracts, IoC, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
+import { Request } from "./request.js";
+
 export class FeeService extends Services.AbstractFeeService {
+	readonly #request: Request;
+
+	public constructor(container: IoC.IContainer) {
+		super(container);
+
+		this.#request = new Request(
+			container.get(IoC.BindingType.ConfigRepository),
+			container.get(IoC.BindingType.HttpClient),
+			container.get(IoC.BindingType.NetworkHostSelector),
+		);
+	}
+
 	public override async all(): Promise<Services.TransactionFees> {
-		const node = await this.#get("node/fees");
-		const type = await this.#get("transactions/fees");
+		const node = await this.#request.get("node/fees");
+		const type = await this.#request.get("transactions/fees");
 
 		const staticFees: object = type.data;
 		const dynamicFees: object = node.data;
@@ -54,9 +68,5 @@ export class FeeService extends Services.AbstractFeeService {
 			min: minimumFee.isGreaterThan(maximumFee) ? maximumFee : minimumFee,
 			static: maximumFee,
 		};
-	}
-
-	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query)).json();
 	}
 }

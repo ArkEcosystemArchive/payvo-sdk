@@ -1,4 +1,4 @@
-import { Coins, Contracts, Helpers, Http, IoC, Networks, Services, Signatories } from "@payvo/sdk";
+import { Contracts, Http, IoC, Services, Signatories } from "@payvo/sdk";
 import { UUID } from "@payvo/sdk-cryptography";
 import { uniq, BigNumber } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
@@ -8,25 +8,29 @@ import { applyCryptoConfiguration } from "./config.js";
 import { Interfaces } from "./crypto/index.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
 import { PendingMultiSignatureTransaction } from "./multi-signature.transaction.js";
+import { Request } from "./request.js";
 
 export class MultiSignatureService extends Services.AbstractMultiSignatureService {
-	readonly #configRepository!: Coins.ConfigRepository;
 	readonly #dataTransferObjectService!: Services.DataTransferObjectService;
-	readonly #httpClient!: Http.HttpClient;
+	readonly #request: Request;
 	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
 	readonly #configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
 
 	public constructor(container: IoC.IContainer) {
 		super();
 
-		this.#configRepository = container.get(IoC.BindingType.ConfigRepository);
 		this.#dataTransferObjectService = container.get(IoC.BindingType.DataTransferObjectService);
-		this.#httpClient = container.get(IoC.BindingType.HttpClient);
 		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
 		this.#configCrypto = {
 			crypto: container.get(BindingType.Crypto),
 			height: container.get(BindingType.Height),
 		};
+
+		this.#request = new Request(
+			container.get(IoC.BindingType.ConfigRepository),
+			container.get(IoC.BindingType.HttpClient),
+			container.get(IoC.BindingType.NetworkHostSelector),
+		);
 	}
 
 	/** @inheritdoc */
@@ -139,21 +143,22 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 
 	async #post(method: string, parameters: any): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.#httpClient.post(
-				Helpers.randomHost(this.#configRepository.get<Networks.NetworkManifest>("network").hosts, "musig").host,
+			await this.#request.post(
+				"/",
 				{
-					id: UUID.random(),
-					jsonrpc: "2.0",
-					method,
-					params: parameters,
+					body: {
+						id: UUID.random(),
+						jsonrpc: "2.0",
+						method,
+						params: parameters,
+					},
 				},
+				"musig",
 			)
-		).json().result;
+		).result;
 	}
 
 	/**
-	 *
-	 *
 	 * @private
 	 * @param {*} transaction
 	 * @returns {Record<string, any>}
