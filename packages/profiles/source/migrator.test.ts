@@ -207,7 +207,7 @@ describe("Migrator", ({ beforeEach, it, assert }) => {
 					data: {},
 				},
 				settings: {
-					[ProfileSetting.AccentColor]: "blue",
+					[ProfileSetting.AccentColor]: "navy",
 					[ProfileSetting.AdvancedMode]: false,
 					[ProfileSetting.AutomaticSignOutPeriod]: 60,
 					[ProfileSetting.Bip39Locale]: "english",

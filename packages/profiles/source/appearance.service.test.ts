@@ -11,7 +11,7 @@ describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 
 		context.profile = new Profile({
 			appearance: {
-				accentColor: "blue",
+				accentColor: "navy",
 				dashboardTransactionHistory: false,
 				theme: "dark",
 				useExpandedTables: true,
@@ -28,7 +28,7 @@ describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 
 	it("#defaults", async (context) => {
 		assert.equal(context.subject.defaults(), {
-			accentColor: "green",
+			accentColor: "navy",
 			dashboardTransactionHistory: false,
 			theme: "light",
 			useExpandedTables: false,
@@ -38,7 +38,7 @@ describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 
 	it("#all", async (context) => {
 		assert.equal(context.subject.all(), {
-			accentColor: "blue",
+			accentColor: "navy",
 			dashboardTransactionHistory: false,
 			theme: "dark",
 			useExpandedTables: true,
@@ -54,7 +54,7 @@ describe("AppearanceService", async ({ beforeEach, it, assert }) => {
 	});
 
 	it("should get setting value by key", (context) => {
-		assert.is(context.subject.get("accentColor"), "blue");
+		assert.is(context.subject.get("accentColor"), "navy");
 		assert.false(context.subject.get("dashboardTransactionHistory"));
 		assert.is(context.subject.get("theme"), "dark");
 		assert.true(context.subject.get("useExpandedTables"));
