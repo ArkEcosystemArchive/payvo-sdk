@@ -1,4 +1,4 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
 export class TransactionService extends Services.AbstractTransactionService {
@@ -11,7 +11,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 		this.#addressService = container.get(IoC.BindingType.AddressService);
 		this.#privateKeyService = container.get(IoC.BindingType.PrivateKeyService);
-		this.#connection = new TronWeb({ fullHost: Helpers.randomHostFromConfig(this.configRepository) });
+		this.#connection = new TronWeb({ fullHost: this.hostSelector(this.configRepository).host });
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {

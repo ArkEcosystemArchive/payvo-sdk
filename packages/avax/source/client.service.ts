@@ -1,4 +1,4 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import { uniq } from "@payvo/sdk-helpers";
 import { AVMAPI, Tx } from "avalanche/dist/apis/avm/index.js";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm/index.js";
@@ -12,8 +12,8 @@ export class ClientService extends Services.AbstractClientService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#xchain = useXChain(this.configRepository);
-		this.#pchain = usePChain(this.configRepository);
+		this.#xchain = useXChain(this.configRepository, this.hostSelector);
+		this.#pchain = usePChain(this.configRepository, this.hostSelector);
 	}
 
 	public override async transaction(
@@ -119,6 +119,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#host(): string {
-		return Helpers.randomHostFromConfig(this.configRepository, "archival");
+		return this.hostSelector(this.configRepository, "archival").host;
 	}
 }

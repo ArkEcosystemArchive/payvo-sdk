@@ -1,12 +1,12 @@
-import { Coins, Helpers, Services } from "@payvo/sdk";
+import { Coins, Networks, Services } from "@payvo/sdk";
 import { BIP39, BIP44, HDKey } from "@payvo/sdk-cryptography";
 import { Avalanche, BinTools, Buffer } from "avalanche";
 import { AVMAPI, KeyPair } from "avalanche/dist/apis/avm/index.js";
 import { InfoAPI } from "avalanche/dist/apis/info/index.js";
 import { PlatformVMAPI } from "avalanche/dist/apis/platformvm/index.js";
 
-export const useAvalanche = (config: Coins.ConfigRepository): Avalanche => {
-	const host: string = Helpers.randomHostFromConfig(config);
+export const useAvalanche = (config: Coins.ConfigRepository, hostSelector: Networks.NetworkHostSelector): Avalanche => {
+	const { host } = hostSelector(config);
 
 	return new Avalanche(
 		new URL(host).hostname,
@@ -17,14 +17,18 @@ export const useAvalanche = (config: Coins.ConfigRepository): Avalanche => {
 	);
 };
 
-export const useInfo = (config: Coins.ConfigRepository): InfoAPI => useAvalanche(config).Info();
+export const useInfo = (config: Coins.ConfigRepository, hostSelector: Networks.NetworkHostSelector): InfoAPI =>
+	useAvalanche(config, hostSelector).Info();
 
-export const useXChain = (config: Coins.ConfigRepository): AVMAPI => useAvalanche(config).XChain();
+export const useXChain = (config: Coins.ConfigRepository, hostSelector: Networks.NetworkHostSelector): AVMAPI =>
+	useAvalanche(config, hostSelector).XChain();
 
-export const usePChain = (config: Coins.ConfigRepository): PlatformVMAPI => useAvalanche(config).PChain();
+export const usePChain = (config: Coins.ConfigRepository, hostSelector: Networks.NetworkHostSelector): PlatformVMAPI =>
+	useAvalanche(config, hostSelector).PChain();
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useKeychain = (config: Coins.ConfigRepository) => useXChain(config).keyChain();
+export const useKeychain = (config: Coins.ConfigRepository, hostSelector: Networks.NetworkHostSelector) =>
+	useXChain(config, hostSelector).keyChain();
 
 // eslint-disable-next-line unicorn/prevent-abbreviations
 export const cb58Decode = (value: string): Buffer => BinTools.getInstance().cb58Decode(value);
@@ -35,6 +39,7 @@ export const cb58Encode = (value: Buffer): string => BinTools.getInstance().cb58
 // Crypto
 export const keyPairFromMnemonic = (
 	config: Coins.ConfigRepository,
+	hostSelector: Networks.NetworkHostSelector,
 	mnemonic: string,
 	options?: Services.IdentityOptions,
 ): { child: KeyPair; path: string } => {
@@ -45,7 +50,7 @@ export const keyPairFromMnemonic = (
 	});
 
 	return {
-		child: useKeychain(config).importKey(
+		child: useKeychain(config, hostSelector).importKey(
 			// @ts-ignore
 			HDKey.fromSeed(Buffer.from(BIP39.toSeed(mnemonic))).derive(path).privateKey,
 		),

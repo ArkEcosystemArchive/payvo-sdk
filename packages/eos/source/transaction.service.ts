@@ -1,9 +1,9 @@
 import { Coins, Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
-import { DateTime } from "@payvo/sdk-intl";
 import { Hash } from "@payvo/sdk-cryptography";
+import { DateTime } from "@payvo/sdk-intl";
+import fetch from "cross-fetch";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
-import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
 export class TransactionService extends Services.AbstractTransactionService {
@@ -13,7 +13,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#peer = this.hostSelector(this.configRepository).host;
 		this.#ticker = this.configRepository.get<string>(Coins.ConfigKey.CurrencyTicker);
 	}
 
@@ -29,7 +29,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 				actions: [
 					{
 						account: "eosio.token",
-						name: "transfer",
 						authorization: [
 							{
 								actor: input.signatory.address(),
@@ -38,19 +37,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 						],
 						data: {
 							from: input.signatory.address(),
-							to: input.data.to,
-							quantity: `${input.data.amount} ${this.#ticker}`,
 							memo: input.data.memo,
+							quantity: `${input.data.amount} ${this.#ticker}`,
+							to: input.data.to,
 						},
+						name: "transfer",
 					},
 				],
 			},
 			{
 				blocksBehind: 3,
-				expireSeconds: 30,
 				broadcast: false,
-				sign: false,
+				expireSeconds: 30,
 				requiredKeys: await signatureProvider.getAvailableKeys(),
+				sign: false,
 			},
 		);
 
@@ -77,10 +77,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 			client: new Api({
 				rpc: new JsonRpc(this.#peer, { fetch }),
 				signatureProvider,
-				// @ts-ignore - this started to error out of nowhere when building
-				textEncoder: new TextEncoder(),
+
 				// @ts-ignore - this started to error out of nowhere when building
 				textDecoder: new TextDecoder(),
+
+				// @ts-ignore - this started to error out of nowhere when building
+				textEncoder: new TextEncoder(),
 			}),
 			signatureProvider,
 		};

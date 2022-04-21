@@ -1,4 +1,5 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, Services } from "@payvo/sdk";
+
 import { getAddresses } from "./helpers.js";
 
 export class ClientService extends Services.AbstractClientService {
@@ -17,10 +18,12 @@ export class ClientService extends Services.AbstractClientService {
 			throw new Error("Need specify either identifiers for querying transactions");
 		}
 
-		let addresses: string[] = [];
+		const addresses: string[] = [];
 
 		for (const identifier of query.identifiers) {
-			addresses.push(...(await getAddresses(identifier, this.httpClient, this.configRepository)));
+			addresses.push(
+				...(await getAddresses(identifier, this.httpClient, this.hostSelector, this.configRepository)),
+			);
 		}
 
 		const response = await this.#post("wallets/transactions", { addresses });
@@ -29,7 +32,7 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	public override async wallet(id: Services.WalletIdentifier): Promise<Contracts.WalletData> {
-		const addresses = await getAddresses(id, this.httpClient, this.configRepository);
+		const addresses = await getAddresses(id, this.httpClient, this.hostSelector, this.configRepository);
 
 		const response = await this.#post(`wallets`, { addresses });
 		return this.dataTransferObjectService.wallet(response.data);
@@ -40,8 +43,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
@@ -68,29 +71,25 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (
-			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`, query)
-		).json();
+		return (await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query)).json();
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (
-			await this.httpClient.post(`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`, body)
-		).json();
+		return (await this.httpClient.post(`${this.hostSelector(this.configRepository).host}/${path}`, body)).json();
 	}
 
 	#createMetaPagination(body): Services.MetaPagination {
 		const getPage = (url: string): string | undefined => {
-			const match: RegExpExecArray | null = RegExp(/page=(\d+)/).exec(url);
+			const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
 			return match ? match[1] || undefined : undefined;
 		};
 
 		return {
-			prev: getPage(body.links.prev) || undefined,
-			next: getPage(body.links.next) || undefined,
-			self: body.meta.current_page || undefined,
 			last: body.meta.last_page || undefined,
+			next: getPage(body.links.next) || undefined,
+			prev: getPage(body.links.prev) || undefined,
+			self: body.meta.current_page || undefined,
 		};
 	}
 }

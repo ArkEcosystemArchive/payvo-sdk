@@ -1,10 +1,10 @@
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { BigNumber } from "@payvo/sdk-helpers";
 import { computeMinFee, getBytes } from "@liskhq/lisk-transactions";
+import { Contracts, IoC, Services } from "@payvo/sdk";
+import { BigNumber } from "@payvo/sdk-helpers";
 
 import { isMultiSignatureRegistration } from "./helpers.js";
-import { TransactionSerializer } from "./transaction.serializer.js";
 import { joinModuleAndAssetIds } from "./multi-signature.domain.js";
+import { TransactionSerializer } from "./transaction.serializer.js";
 
 export class FeeService extends Services.AbstractFeeService {
 	readonly #transactionSerializer: IoC.Factory<TransactionSerializer>;
@@ -17,14 +17,14 @@ export class FeeService extends Services.AbstractFeeService {
 
 	public override async all(): Promise<Services.TransactionFees> {
 		return {
-			transfer: this.#transform(0.1 * 1e8),
-			secondSignature: this.#transform(5 * 1e8),
 			delegateRegistration: this.#transform(25 * 1e8),
-			vote: this.#transform(1 * 1e8),
-			multiSignature: this.#transform(5 * 1e8),
+			delegateResignation: this.#transform(0),
 			ipfs: this.#transform(0),
 			multiPayment: this.#transform(0),
-			delegateResignation: this.#transform(0),
+			multiSignature: this.#transform(5 * 1e8),
+			secondSignature: this.#transform(5 * 1e8),
+			transfer: this.#transform(0.1 * 1e8),
+			vote: this.#transform(1 * 1e8),
 		};
 	}
 
@@ -40,9 +40,7 @@ export class FeeService extends Services.AbstractFeeService {
 			),
 		);
 
-		const { data } = (
-			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/fees`)
-		).json();
+		const { data } = (await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/fees`)).json();
 
 		let numberOfSignatures = 1;
 
@@ -62,9 +60,9 @@ export class FeeService extends Services.AbstractFeeService {
 				const [moduleID, assetID] = fee[0].split(":");
 
 				return {
-					moduleID: Number(moduleID),
 					assetID: Number(assetID),
 					baseFee: fee[1] as string,
+					moduleID: Number(moduleID),
 				};
 			}),
 			numberOfSignatures,
@@ -76,9 +74,9 @@ export class FeeService extends Services.AbstractFeeService {
 		}).length;
 
 		const feePerByte = {
-			slow: data.feeEstimatePerByte.low,
 			average: data.feeEstimatePerByte.medium,
 			fast: data.feeEstimatePerByte.high,
+			slow: data.feeEstimatePerByte.low,
 		}[options?.priority ?? "average"];
 
 		let tieBreaker = 0;
@@ -96,22 +94,22 @@ export class FeeService extends Services.AbstractFeeService {
 		const fee: BigNumber = this.bigNumberService.make(value);
 
 		return {
-			static: fee,
+			avg: fee,
 			max: fee,
 			min: fee,
-			avg: fee,
+			static: fee,
 		};
 	}
 
 	#asset(transaction: Contracts.RawTransactionData): Record<string, number | object> {
 		const moduleAssetId: string | undefined = {
+			"1000:0": "legacyAccount:reclaimLSK",
 			"2:0": "token:transfer",
 			"4:0": "keys:registerMultisignatureGroup",
 			"5:0": "dpos:registerDelegate",
 			"5:1": "dpos:voteDelegate",
 			"5:2": "dpos:unlockToken",
 			"5:3": "dpos:reportDelegateMisbehavior",
-			"1000:0": "legacyAccount:reclaimLSK",
 		}[joinModuleAndAssetIds(transaction)];
 
 		if (!moduleAssetId) {

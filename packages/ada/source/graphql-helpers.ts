@@ -1,18 +1,19 @@
-import { Coins, Helpers, Http } from "@payvo/sdk";
+import { Coins, Http, Networks } from "@payvo/sdk";
 
 import { UnspentTransaction } from "./transaction.models.js";
 
 const postGraphql = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	query: string,
 ): Promise<Record<string, any>> => {
-	const response = await httpClient.post(Helpers.randomHostFromConfig(config), { query });
+	const response = await httpClient.post(hostSelector(config).host, { query });
 
 	const json = response.json();
 
 	if (json.errors) {
-		throw Error(json.errors);
+		throw new Error(json.errors);
 	}
 
 	return json.data;
@@ -21,17 +22,23 @@ const postGraphql = async (
 export const submitTransaction = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	toBroadcast: string,
-): Promise<string> => {
-	return (
-		await postGraphql(config, httpClient, `mutation { submitTransaction(transaction: "${toBroadcast}") { hash } }`)
+): Promise<string> =>
+	(
+		await postGraphql(
+			config,
+			httpClient,
+			hostSelector,
+			`mutation { submitTransaction(transaction: "${toBroadcast}") { hash } }`,
+		)
 	).hash;
-};
 
 export const fetchTransaction = async (
 	id: string,
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 ): Promise<object[]> => {
 	const query = `
 			{
@@ -60,12 +67,13 @@ export const fetchTransaction = async (
 				}
 			}`;
 
-	return (await postGraphql(config, httpClient, query)).transactions[0];
+	return (await postGraphql(config, httpClient, hostSelector, query)).transactions[0];
 };
 
 export const fetchTransactions = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	addresses: string[],
 ): Promise<object[]> => {
 	const query = `
@@ -112,18 +120,23 @@ export const fetchTransactions = async (
 				}
 			}`;
 
-	return (await postGraphql(config, httpClient, query)).transactions;
+	return (await postGraphql(config, httpClient, hostSelector, query)).transactions;
 };
 
-export const fetchNetworkTip = async (config: Coins.ConfigRepository, httpClient: Http.HttpClient): Promise<number> => {
+export const fetchNetworkTip = async (
+	config: Coins.ConfigRepository,
+	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
+): Promise<number> => {
 	const query = `{ cardano { tip { slotNo } } }`;
 
-	return parseInt((await postGraphql(config, httpClient, query)).cardano.tip.slotNo);
+	return Number.parseInt((await postGraphql(config, httpClient, hostSelector, query)).cardano.tip.slotNo);
 };
 
 export const fetchUsedAddressesData = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	addresses: string[],
 ): Promise<string[]> => {
 	const query = `
@@ -160,20 +173,22 @@ export const fetchUsedAddressesData = async (
 					}
 				}
 			}`;
-	return (await postGraphql(config, httpClient, query)).transactions
-		.flatMap((tx) => tx.inputs.map((i) => i.address).concat(tx.outputs.map((o) => o.address)))
+	return (await postGraphql(config, httpClient, hostSelector, query)).transactions
+		.flatMap((tx) => tx.inputs.map((index) => index.address).concat(tx.outputs.map((o) => o.address)))
 		.sort();
 };
 
 export const listUnspentTransactions = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	addresses: string[],
-): Promise<UnspentTransaction[]> => {
-	return (
+): Promise<UnspentTransaction[]> =>
+	(
 		await postGraphql(
 			config,
 			httpClient,
+			hostSelector,
 			`{
 				utxos(
 				  where: {
@@ -193,11 +208,11 @@ export const listUnspentTransactions = async (
 			}`,
 		)
 	).utxos;
-};
 
 export const fetchUtxosAggregate = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	addresses: string[],
 ): Promise<string> => {
 	const query = `
@@ -218,5 +233,5 @@ export const fetchUtxosAggregate = async (
 					}
 				}
 			}`;
-	return (await postGraphql(config, httpClient, query)).utxos_aggregate.aggregate.sum.value;
+	return (await postGraphql(config, httpClient, hostSelector, query)).utxos_aggregate.aggregate.sum.value;
 };

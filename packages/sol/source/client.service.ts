@@ -1,4 +1,4 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { Connection, PublicKey } from "@solana/web3.js";
 
 export class ClientService extends Services.AbstractClientService {
@@ -28,8 +28,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
@@ -50,6 +50,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#host(): string {
-		return Helpers.randomHostFromConfig(this.configRepository);
+		return this.hostSelector(this.configRepository).host;
 	}
 }

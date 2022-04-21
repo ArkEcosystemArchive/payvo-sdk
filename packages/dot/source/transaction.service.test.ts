@@ -1,18 +1,18 @@
-import { describe } from "@payvo/sdk-test";
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import { describe } from "@payvo/sdk-test";
 import { waitReady } from "@polkadot/wasm-crypto";
 
 import { identity } from "../test/fixtures/identity";
 import { createServiceAsync } from "../test/mocking";
+import { AddressService } from "./address.service.js";
+import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { BindingType } from "./constants";
 import { createApiPromise, createKeyring } from "./factories";
-import { ClientService } from "./client.service.js";
-import { AddressService } from "./address.service.js";
 import { KeyPairService } from "./key-pair.service.js";
 import { PublicKeyService } from "./public-key.service.js";
-import { TransactionService } from "./transaction.service.js";
 import { SignedTransactionData } from "./signed-transaction.dto.js";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { TransactionService } from "./transaction.service.js";
 import { WalletData } from "./wallet.dto.js";
 
 describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) => {
@@ -66,15 +66,18 @@ describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) =
 		await waitReady();
 
 		context.subject = await createServiceAsync(TransactionService, undefined, async (container) => {
-			const apiPromise = await createApiPromise(container.get(IoC.BindingType.ConfigRepository));
+			const apiPromise = await createApiPromise(
+				container.get(IoC.BindingType.ConfigRepository),
+				container.get(IoC.BindingType.NetworkHostSelector),
+			);
 			const keyring = createKeyring(container.get(IoC.BindingType.ConfigRepository));
 
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(BindingType.ApiPromise, apiPromise);
 			container.constant(BindingType.Keyring, keyring);
 			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
 				ConfirmedTransactionData,
+				SignedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -87,18 +90,18 @@ describe("TransactionService", async ({ beforeAll, assert, it, nock, loader }) =
 
 	it("#transfer should succeed", async (context) => {
 		const result = await context.subject.transfer({
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey: identity.mnemonic,
-					address: identity.address,
-					publicKey: identity.publicKey,
-					privateKey: identity.privateKey,
-				}),
-			),
 			data: {
-				amount: 12345,
+				amount: 12_345,
 				to: identity.address,
 			},
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					address: identity.address,
+					privateKey: identity.privateKey,
+					publicKey: identity.publicKey,
+					signingKey: identity.mnemonic,
+				}),
+			),
 		});
 
 		assert.instance(result, SignedTransactionData);

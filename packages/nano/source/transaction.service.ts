@@ -11,7 +11,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#client = new NanoClient(this.configRepository, this.httpClient);
+		this.#client = new NanoClient(this.configRepository, this.httpClient, this.hostSelector);
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {

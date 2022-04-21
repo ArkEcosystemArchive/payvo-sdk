@@ -1,4 +1,4 @@
-import { Contracts, Helpers, Services } from "@payvo/sdk";
+import { Contracts, Services } from "@payvo/sdk";
 import { BigNumber } from "@payvo/sdk-helpers";
 
 export class FeeService extends Services.AbstractFeeService {
@@ -57,8 +57,6 @@ export class FeeService extends Services.AbstractFeeService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		return (
-			await this.httpClient.get(`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`, query)
-		).json();
+		return (await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query)).json();
 	}
 }

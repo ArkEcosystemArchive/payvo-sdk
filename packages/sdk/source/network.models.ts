@@ -1,3 +1,5 @@
+import { ConfigRepository } from "./config.js";
+
 export type FeeType = "static" | "dynamic" | "gas" | "free" | "weight" | "size";
 
 export type ExpirationType = "height" | "timestamp";
@@ -25,6 +27,8 @@ export interface NetworkHost {
 	custom?: boolean;
 	query?: Record<string, string>;
 }
+
+export type NetworkHostSelector = (configRepository: ConfigRepository, type?: NetworkHostType) => NetworkHost;
 
 export interface ImportMethod {
 	default: boolean;

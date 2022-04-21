@@ -1,4 +1,4 @@
-import { Coins, Http } from "@payvo/sdk";
+import { Buffer } from "buffer";
 import CardanoWasm, {
 	Address,
 	BigNum,
@@ -7,16 +7,22 @@ import CardanoWasm, {
 	TransactionBuilder,
 	TransactionInput,
 } from "@emurgo/cardano-serialization-lib-nodejs";
-import { Buffer } from "buffer";
+import { Coins, Http, Networks } from "@payvo/sdk";
 
 import { fetchUsedAddressesData } from "./graphql-helpers.js";
-import { addressFromAccountExtPublicKey, deriveAddress, deriveChangeKey, deriveSpendKey } from "./shelley.js";
+import {
+	addressFromAccountExtPublicKey as addressFromAccountExtensionPublicKey,
+	deriveAddress,
+	deriveChangeKey,
+	deriveSpendKey,
+} from "./shelley.js";
 import { createValue } from "./transaction.factory.js";
 import { UnspentTransaction } from "./transaction.models.js";
 
 export const usedAddressesForAccount = async (
 	config: Coins.ConfigRepository,
 	httpClient: Http.HttpClient,
+	hostSelector: Networks.NetworkHostSelector,
 	accountPublicKey: string,
 ) => {
 	const networkId: string = config.get<string>("network.meta.networkId");
@@ -30,19 +36,19 @@ export const usedAddressesForAccount = async (
 		const changeAddresses: string[] = await addressesChunk(networkId, accountPublicKey, true, offset);
 
 		const allAddresses = spendAddresses.concat(changeAddresses);
-		const usedAddresses: string[] = await fetchUsedAddressesData(config, httpClient, allAddresses);
+		const usedAddresses: string[] = await fetchUsedAddressesData(config, httpClient, hostSelector, allAddresses);
 
-		spendAddresses
-			.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)
-			.forEach((sa) => usedSpendAddresses.add(sa));
-		changeAddresses
-			.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)
-			.forEach((sa) => usedChangeAddresses.add(sa));
+		for (const sa of spendAddresses.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)) {
+			usedSpendAddresses.add(sa);
+		}
+		for (const sa of changeAddresses.filter((sa) => usedAddresses.find((ua) => ua === sa) !== undefined)) {
+			usedChangeAddresses.add(sa);
+		}
 
 		exhausted = usedAddresses.length === 0;
 		offset += 20;
 	} while (!exhausted);
-	return { usedSpendAddresses, usedChangeAddresses };
+	return { usedChangeAddresses, usedSpendAddresses };
 };
 
 const addressesChunk = async (
@@ -54,8 +60,8 @@ const addressesChunk = async (
 	const publicKey = Buffer.from(accountPublicKey, "hex");
 
 	const addresses: string[] = [];
-	for (let i = offset; i < offset + 20; ++i) {
-		addresses.push(addressFromAccountExtPublicKey(publicKey, isChange, i, networkId));
+	for (let index = offset; index < offset + 20; ++index) {
+		addresses.push(addressFromAccountExtensionPublicKey(publicKey, isChange, index, networkId));
 	}
 	return addresses;
 };
@@ -78,12 +84,11 @@ export const addUtxoInput = (
 	return { added: !skipped, amount: BigNum.from_str(input.value), fee: feeForInput };
 };
 
-const utxoToTxInput = (utxo: UnspentTransaction): TransactionInput => {
-	return CardanoWasm.TransactionInput.new(
+const utxoToTxInput = (utxo: UnspentTransaction): TransactionInput =>
+	CardanoWasm.TransactionInput.new(
 		CardanoWasm.TransactionHash.from_bytes(Buffer.from(utxo.txHash, "hex")),
-		parseInt(utxo.index),
+		Number.parseInt(utxo.index),
 	);
-};
 
 export const deriveAddressesAndSigningKeys = async (
 	publicKey: Bip32PublicKey,
@@ -91,9 +96,9 @@ export const deriveAddressesAndSigningKeys = async (
 	accountKey: Bip32PrivateKey,
 ) => {
 	const addresses: { [index: number]: {} } = { 0: {}, 1: {} };
-	for (let i = 0; i < 20; ++i) {
-		addresses[0][deriveAddress(publicKey, false, i, networkId)] = deriveSpendKey(accountKey, i);
-		addresses[1][deriveAddress(publicKey, true, i, networkId)] = deriveChangeKey(accountKey, i);
+	for (let index = 0; index < 20; ++index) {
+		addresses[0][deriveAddress(publicKey, false, index, networkId)] = deriveSpendKey(accountKey, index);
+		addresses[1][deriveAddress(publicKey, true, index, networkId)] = deriveChangeKey(accountKey, index);
 	}
 	return addresses;
 };

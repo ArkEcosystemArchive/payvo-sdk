@@ -1,6 +1,7 @@
 import { CoinBundle, CoinOptions } from "./coin.contracts.js";
 import { Coin } from "./coin.js";
 import { ConfigKey, ConfigRepository } from "./config.js";
+import { randomNetworkHostFromConfig } from "./helpers.js";
 import { Container } from "./ioc.js";
 import { Manifest } from "./manifest.js";
 import { NetworkRepository } from "./network-repository.js";
@@ -35,6 +36,7 @@ export class CoinFactory {
 		container.constant(BindingType.ServiceProvider, bundle.serviceProvider);
 		container.constant(BindingType.DataTransferObjects, bundle.dataTransferObjects);
 		container.constant(BindingType.Container, container);
+		container.constant(BindingType.NetworkHostSelector, options.hostSelector ?? randomNetworkHostFromConfig);
 		container.constant(BindingType.HttpClient, options.httpClient);
 		container.constant(BindingType.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(BindingType.Manifest, new Manifest(bundle.manifest));

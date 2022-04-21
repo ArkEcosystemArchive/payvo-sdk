@@ -1,4 +1,4 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import { Hash } from "@payvo/sdk-cryptography";
 
 export class ClientService extends Services.AbstractClientService {
@@ -7,7 +7,7 @@ export class ClientService extends Services.AbstractClientService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#peer = this.hostSelector(this.configRepository).host;
 	}
 
 	public override async transaction(
@@ -76,16 +76,16 @@ export class ClientService extends Services.AbstractClientService {
 
 	#createMetaPagination(body): Services.MetaPagination {
 		const getPage = (url: string): string | undefined => {
-			const match: RegExpExecArray | null = RegExp(/page=(\d+)/).exec(url);
+			const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
 			return match ? match[1] || undefined : undefined;
 		};
 
 		return {
-			prev: getPage(body.links.prev) || undefined,
-			next: getPage(body.links.next) || undefined,
-			self: body.meta.current_page || undefined,
 			last: body.meta.last_page || undefined,
+			next: getPage(body.links.next) || undefined,
+			prev: getPage(body.links.prev) || undefined,
+			self: body.meta.current_page || undefined,
 		};
 	}
 }
