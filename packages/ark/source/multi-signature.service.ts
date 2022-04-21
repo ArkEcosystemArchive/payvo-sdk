@@ -144,17 +144,17 @@ export class MultiSignatureService extends Services.AbstractMultiSignatureServic
 	async #post(method: string, parameters: any): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.#request.post(
-            "/",
-            {
-				body: {
-					id: UUID.random(),
-					jsonrpc: "2.0",
-					method,
-					params: parameters,
-				}
-			},
-			"musig"
-        	)
+				"/",
+				{
+					body: {
+						id: UUID.random(),
+						jsonrpc: "2.0",
+						method,
+						params: parameters,
+					},
+				},
+				"musig",
+			)
 		).result;
 	}
 

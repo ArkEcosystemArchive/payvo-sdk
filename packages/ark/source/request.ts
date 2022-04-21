@@ -7,7 +7,11 @@ export class Request {
 
 	#latestHost?: Networks.NetworkHost = undefined;
 
-	public constructor(configRepository: Coins.ConfigRepository, httpClient: Http.HttpClient, hostSelector: Networks.NetworkHostSelector) {
+	public constructor(
+		configRepository: Coins.ConfigRepository,
+		httpClient: Http.HttpClient,
+		hostSelector: Networks.NetworkHostSelector,
+	) {
 		this.#configRepository = configRepository;
 		this.#httpClient = httpClient;
 		this.#hostSelector = hostSelector;
@@ -17,19 +21,37 @@ export class Request {
 		return this.#latestHost;
 	}
 
-	public async get(path: string, query?: Contracts.KeyValuePair, type: Networks.NetworkHostType = "full"): Promise<Contracts.KeyValuePair> {
-        return this.#sendRequest(() => this.#httpClient.get(`${this.#latestHost?.host}/${path}`.replace(/\/$/, ''), query?.searchParams), type)
+	public async get(
+		path: string,
+		query?: Contracts.KeyValuePair,
+		type: Networks.NetworkHostType = "full",
+	): Promise<Contracts.KeyValuePair> {
+		return this.#sendRequest(
+			() => this.#httpClient.get(`${this.#latestHost?.host}/${path}`.replace(/\/$/, ""), query?.searchParams),
+			type,
+		);
 	}
 
-	public async post(path: string, { body, searchParams }: { body; searchParams? }, type: Networks.NetworkHostType = "full"): Promise<Contracts.KeyValuePair> {
-		return this.#sendRequest(() => this.#httpClient.post(
-            `${this.#latestHost?.host}/${path}`.replace(/\/$/, ''),
-            body,
-            searchParams || undefined,
-        ), type)
+	public async post(
+		path: string,
+		{ body, searchParams }: { body; searchParams? },
+		type: Networks.NetworkHostType = "full",
+	): Promise<Contracts.KeyValuePair> {
+		return this.#sendRequest(
+			() =>
+				this.#httpClient.post(
+					`${this.#latestHost?.host}/${path}`.replace(/\/$/, ""),
+					body,
+					searchParams || undefined,
+				),
+			type,
+		);
 	}
 
-	async #sendRequest(callback: () => Promise<Contracts.KeyValuePair>, type?: Networks.NetworkHostType): Promise<Contracts.KeyValuePair> {
+	async #sendRequest(
+		callback: () => Promise<Contracts.KeyValuePair>,
+		type?: Networks.NetworkHostType,
+	): Promise<Contracts.KeyValuePair> {
 		this.#latestHost = this.#hostSelector(this.#configRepository, type);
 
 		if (this.#latestHost.failedCount === undefined) {
