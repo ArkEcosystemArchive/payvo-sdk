@@ -89,11 +89,16 @@ describeWithContext(
 
 			context.subject.push(context.full);
 
-			assert.length(context.subject.allByNetwork("ark.mainnet"), 1);
+			context.subject.push({
+				...context.full,
+				name: "another name",
+			});
+
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 2);
 
 			context.subject.forget("ark.mainnet", 0);
 
-			assert.length(context.subject.allByNetwork("ark.mainnet"), 0);
+			assert.length(context.subject.allByNetwork("ark.mainnet"), 1);
 		});
 	},
 );
