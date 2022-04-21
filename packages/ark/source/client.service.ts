@@ -1,6 +1,7 @@
-import { Enums } from "./crypto/index.js";
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, Services } from "@payvo/sdk";
 import dotify from "node-dotify";
+
+import { Enums } from "./crypto/index.js";
 
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
@@ -61,13 +62,13 @@ export class ClientService extends Services.AbstractClientService {
 		const hasVoted = vote !== undefined;
 
 		return {
-			used: hasVoted ? 1 : 0,
 			available: hasVoted ? 0 : 1,
+			used: hasVoted ? 1 : 0,
 			votes: hasVoted
 				? [
 						{
-							id: vote,
 							amount: 0,
+							id: vote,
 						},
 				  ]
 				: [],
@@ -107,8 +108,8 @@ export class ClientService extends Services.AbstractClientService {
 
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		if (Array.isArray(data.accept)) {
@@ -136,17 +137,14 @@ export class ClientService extends Services.AbstractClientService {
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.httpClient.get(
-				`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-				query?.searchParams,
-			)
+			await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query?.searchParams)
 		).json();
 	}
 
 	async #post(path: string, { body, searchParams }: { body; searchParams? }): Promise<Contracts.KeyValuePair> {
 		return (
 			await this.httpClient.post(
-				`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
+				`${this.hostSelector(this.configRepository).host}/${path}`,
 				body,
 				searchParams || undefined,
 			)
@@ -155,16 +153,16 @@ export class ClientService extends Services.AbstractClientService {
 
 	#createMetaPagination(body): Services.MetaPagination {
 		const getPage = (url: string): string | undefined => {
-			const match: RegExpExecArray | null = RegExp(/page=(\d+)/).exec(url);
+			const match: RegExpExecArray | null = new RegExp(/page=(\d+)/).exec(url);
 
 			return match ? match[1] || undefined : undefined;
 		};
 
 		return {
+			last: getPage(body.meta.last) || undefined,
+			next: getPage(body.meta.next) || undefined,
 			prev: getPage(body.meta.previous) || undefined,
 			self: getPage(body.meta.self) || undefined,
-			next: getPage(body.meta.next) || undefined,
-			last: getPage(body.meta.last) || undefined,
 		};
 	}
 
@@ -181,8 +179,8 @@ export class ClientService extends Services.AbstractClientService {
 		const mappings: Record<string, string> = {
 			cursor: "page",
 			limit: "limit",
-			orderBy: "orderBy",
 			memo: "vendorField",
+			orderBy: "orderBy",
 		};
 
 		if (!this.#isLegacy()) {
@@ -242,6 +240,9 @@ export class ClientService extends Services.AbstractClientService {
 					type: Enums.TransactionType.Ipfs,
 					typeGroup: Enums.TransactionTypeGroup.Core,
 				},
+				magistrate: {
+					typeGroup: 2,
+				},
 				multiPayment: {
 					type: Enums.TransactionType.MultiPayment,
 					typeGroup: Enums.TransactionTypeGroup.Core,
@@ -261,9 +262,6 @@ export class ClientService extends Services.AbstractClientService {
 				vote: {
 					type: Enums.TransactionType.Vote,
 					typeGroup: Enums.TransactionTypeGroup.Core,
-				},
-				magistrate: {
-					typeGroup: 2,
 				},
 				// @ts-ignore
 			}[body.type];

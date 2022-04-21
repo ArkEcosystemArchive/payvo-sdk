@@ -1,6 +1,4 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-
-import { WalletData } from "./wallet.dto.js";
+import { Collections, Contracts, Helpers, Services } from "@payvo/sdk";
 
 export class ClientService extends Services.AbstractClientService {
 	public override async transaction(
@@ -18,10 +16,10 @@ export class ClientService extends Services.AbstractClientService {
 		const { data } = await this.#get(`address/${Helpers.pluckAddress(query)}/transactions`);
 
 		return this.dataTransferObjectService.transactions(data.transactions, {
+			last: undefined,
+			next: undefined,
 			prev: undefined,
 			self: undefined,
-			next: undefined,
-			last: undefined,
 		});
 	}
 
@@ -36,8 +34,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
@@ -66,6 +64,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#host(): string {
-		return Helpers.randomHostFromConfig(this.configRepository);
+		return this.hostSelector(this.configRepository).host;
 	}
 }

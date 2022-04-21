@@ -1,5 +1,4 @@
 import { ISortBy, ISortByFunction } from "../fast-sort.js";
-
 import { sortBy as baseSortBy } from "../sort-by.js";
 
 export const sortBy = <T>(

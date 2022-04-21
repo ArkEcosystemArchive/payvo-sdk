@@ -65,6 +65,7 @@ export class CoinService implements ICoinService {
 		}
 
 		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
+			hostSelector: container.get(Identifiers.NetworkHostSelector),
 			httpClient: container.get(Identifiers.HttpClient),
 			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
 			network,

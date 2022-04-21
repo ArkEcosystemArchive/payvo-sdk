@@ -9,7 +9,7 @@ export class ClientService extends Services.AbstractClientService {
 		input?: Services.TransactionDetailInput,
 	): Promise<Contracts.ConfirmedTransactionData> {
 		return this.dataTransferObjectService.transaction(
-			await fetchTransaction(id, this.configRepository, this.httpClient),
+			await fetchTransaction(id, this.configRepository, this.httpClient, this.hostSelector),
 		);
 	}
 
@@ -23,20 +23,20 @@ export class ClientService extends Services.AbstractClientService {
 		const { usedSpendAddresses, usedChangeAddresses } = await usedAddressesForAccount(
 			this.configRepository,
 			this.httpClient,
+			this.hostSelector,
 			query.senderPublicKey,
 		);
 
-		const transactions = await fetchTransactions(
-			this.configRepository,
-			this.httpClient,
-			Array.from(usedSpendAddresses.values()).concat(Array.from(usedChangeAddresses.values())),
-		);
+		const transactions = await fetchTransactions(this.configRepository, this.httpClient, this.hostSelector, [
+			...usedSpendAddresses.values(),
+			...usedChangeAddresses.values(),
+		]);
 
 		return this.dataTransferObjectService.transactions(transactions, {
+			last: undefined,
+			next: undefined,
 			prev: undefined,
 			self: undefined,
-			next: undefined,
-			last: undefined,
 		});
 	}
 
@@ -44,18 +44,18 @@ export class ClientService extends Services.AbstractClientService {
 		const { usedSpendAddresses, usedChangeAddresses } = await usedAddressesForAccount(
 			this.configRepository,
 			this.httpClient,
+			this.hostSelector,
 			id.value,
 		);
 
-		const balance = await fetchUtxosAggregate(
-			this.configRepository,
-			this.httpClient,
-			Array.from(usedSpendAddresses.values()).concat(Array.from(usedChangeAddresses.values())),
-		);
+		const balance = await fetchUtxosAggregate(this.configRepository, this.httpClient, this.hostSelector, [
+			...usedSpendAddresses.values(),
+			...usedChangeAddresses.values(),
+		]);
 
 		return this.dataTransferObjectService.wallet({
-			id: id.value,
 			balance,
+			id: id.value,
 		});
 	}
 
@@ -64,13 +64,18 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
 			try {
-				await submitTransaction(this.configRepository, this.httpClient, transaction.toBroadcast());
+				await submitTransaction(
+					this.configRepository,
+					this.httpClient,
+					this.hostSelector,
+					transaction.toBroadcast(),
+				);
 
 				result.accepted.push(transaction.id());
 			} catch (error) {

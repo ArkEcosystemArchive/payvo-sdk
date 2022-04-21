@@ -1,10 +1,10 @@
-import { Coins, Exceptions, Http } from "@payvo/sdk";
+import { Coins, Exceptions, Http, Networks } from "@payvo/sdk";
 import { BIP32Interface, BIP44 } from "@payvo/sdk-cryptography";
+import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 import * as bitcoin from "bitcoinjs-lib";
 
 import { Bip44Address, Bip44AddressWithKeys, BipLevel, Levels, UnspentTransaction } from "./contracts.js";
 import { getDerivationFunction, post, walletUsedAddresses } from "./helpers.js";
-import { convertBuffer, convertString } from "@payvo/sdk-helpers";
 
 export default class WalletDataHelper {
 	readonly #levels: Levels;
@@ -17,6 +17,7 @@ export default class WalletDataHelper {
 	readonly #discoveredSpendAddresses: Bip44AddressWithKeys[] = [];
 	readonly #discoveredChangeAddresses: Bip44AddressWithKeys[] = [];
 	readonly #httpClient: Http.HttpClient;
+	readonly #hostSelector: Networks.NetworkHostSelector;
 	readonly #configRepository: Coins.ConfigRepository;
 
 	public constructor(
@@ -25,6 +26,7 @@ export default class WalletDataHelper {
 		accountKey: BIP32Interface,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
+		hostSelector: Networks.NetworkHostSelector,
 		configRepository: Coins.ConfigRepository,
 	) {
 		this.#levels = levels;
@@ -48,6 +50,7 @@ export default class WalletDataHelper {
 			100,
 		);
 		this.#httpClient = httpClient;
+		this.#hostSelector = hostSelector;
 		this.#configRepository = configRepository;
 	}
 
@@ -90,7 +93,7 @@ export default class WalletDataHelper {
 		const utxos = await this.#unspentTransactionOutputs(addresses);
 
 		return utxos.map((utxo) => {
-			let addressWithKeys: Bip44AddressWithKeys = this.signingKeysForAddress(utxo.address);
+			const addressWithKeys: Bip44AddressWithKeys = this.signingKeysForAddress(utxo.address);
 
 			let extra;
 			if (this.isBip44()) {
@@ -99,11 +102,11 @@ export default class WalletDataHelper {
 				};
 			} else if (this.isBip49()) {
 				const payment = bitcoin.payments.p2sh({
-					redeem: bitcoin.payments.p2wpkh({
-						pubkey: convertString(addressWithKeys.publicKey),
-						network: this.#network,
-					}),
 					network: this.#network,
+					redeem: bitcoin.payments.p2wpkh({
+						network: this.#network,
+						pubkey: convertString(addressWithKeys.publicKey),
+					}),
 				});
 
 				if (!payment.redeem) {
@@ -111,11 +114,11 @@ export default class WalletDataHelper {
 				}
 
 				extra = {
+					redeemScript: payment.redeem.output,
 					witnessUtxo: {
 						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
-					redeemScript: payment.redeem.output,
 				};
 			} else if (this.isBip84()) {
 				extra = {
@@ -127,14 +130,14 @@ export default class WalletDataHelper {
 			}
 			return {
 				address: utxo.address,
+				path: addressWithKeys.path,
+				publicKey: convertString(addressWithKeys.publicKey),
+				script: utxo.script,
+				signingKey: addressWithKeys.privateKey ? convertString(addressWithKeys.privateKey) : undefined,
 				txId: utxo.txId,
 				txRaw: utxo.raw,
-				script: utxo.script,
-				vout: utxo.outputIndex,
 				value: utxo.satoshis,
-				signingKey: addressWithKeys.privateKey ? convertString(addressWithKeys.privateKey) : undefined,
-				publicKey: convertString(addressWithKeys.publicKey),
-				path: addressWithKeys.path,
+				vout: utxo.outputIndex,
 				...extra,
 			};
 		});
@@ -163,10 +166,13 @@ export default class WalletDataHelper {
 			const used: { string: boolean }[] = await walletUsedAddresses(
 				addressChunk.map((address) => address.address),
 				this.#httpClient,
+				this.#hostSelector,
 				this.#configRepository,
 			);
 
-			addressChunk.forEach((address) => (address.status = used[address.address] ? "used" : "unused"));
+			for (const address of addressChunk) {
+				address.status = used[address.address] ? "used" : "unused";
+			}
 			discoveredAddresses.push(...addressChunk);
 
 			exhausted = Object.values(used)
@@ -188,18 +194,18 @@ export default class WalletDataHelper {
 		const chain = isSpend ? 0 : 1;
 		while (index < max) {
 			const chunk: Bip44AddressWithKeys[] = [];
-			for (let i = 0; i < chunkSize; i++) {
+			for (let index_ = 0; index_ < chunkSize; index_++) {
 				const localNode = accountKey.derive(chain).derive(index);
 				chunk.push({
+					address: bip(localNode.publicKey, network),
 					path: BIP44.stringify({
 						...bipLevel,
 						change: chain,
 						index,
 					}),
-					address: bip(localNode.publicKey, network),
-					status: "unknown",
-					publicKey: convertBuffer(localNode.publicKey),
 					privateKey: localNode.privateKey ? convertBuffer(localNode.privateKey) : undefined,
+					publicKey: convertBuffer(localNode.publicKey),
+					status: "unknown",
 				});
 				index++;
 			}
@@ -215,7 +221,13 @@ export default class WalletDataHelper {
 
 	async #unspentTransactionOutputs(addresses: string[]): Promise<UnspentTransaction[]> {
 		const utxos = (
-			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+			await post(
+				`wallets/transactions/unspent`,
+				{ addresses },
+				this.#httpClient,
+				this.#hostSelector,
+				this.#configRepository,
+			)
 		).data;
 
 		const rawTxs = (
@@ -223,6 +235,7 @@ export default class WalletDataHelper {
 				`wallets/transactions/raw`,
 				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
 				this.#httpClient,
+				this.#hostSelector,
 				this.#configRepository,
 			)
 		).data;

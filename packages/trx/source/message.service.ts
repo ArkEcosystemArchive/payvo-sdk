@@ -1,5 +1,5 @@
-import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
 import { Buffer } from "buffer";
+import { Coins, Helpers, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
 export class MessageService extends Services.AbstractMessageService {
@@ -16,7 +16,7 @@ export class MessageService extends Services.AbstractMessageService {
 		this.#keyPairService = container.get(IoC.BindingType.KeyPairService);
 
 		this.#connection = new TronWeb({
-			fullHost: Helpers.randomHostFromConfig(this.#configRepository),
+			fullHost: this.hostSelector(this.#configRepository).host,
 		});
 	}
 

@@ -16,9 +16,6 @@ export const filterHostsFromConfig = (config: ConfigRepository, type: NetworkHos
 export const randomNetworkHostFromConfig = (config: ConfigRepository, type: NetworkHostType = "full"): NetworkHost =>
 	randomHost(config.get<NetworkHost[]>("network.hosts"), type);
 
-export const randomHostFromConfig = (config: ConfigRepository, type: NetworkHostType = "full"): string =>
-	randomNetworkHostFromConfig(config, type).host;
-
 export const pluckAddress = (query): string => {
 	if (query.senderId) {
 		return query.senderId;

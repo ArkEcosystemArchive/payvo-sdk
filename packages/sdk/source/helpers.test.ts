@@ -1,6 +1,6 @@
 import { describe } from "@payvo/sdk-test";
 
-import { filterHostsFromConfig, pluckAddress, randomHostFromConfig, randomNetworkHostFromConfig } from "./helpers.js";
+import { filterHostsFromConfig, pluckAddress, randomNetworkHostFromConfig } from "./helpers.js";
 
 describe("Helpers", ({ assert, it, nock, loader }) => {
 	const configMock = {
@@ -30,7 +30,10 @@ describe("Helpers", ({ assert, it, nock, loader }) => {
 	});
 
 	it("should pick a random host", () => {
-		assert.is(randomHostFromConfig(configMock), "https://wallets.ark.io");
+		assert.equal(randomNetworkHostFromConfig(configMock), {
+			host: "https://wallets.ark.io",
+			type: "full",
+		});
 	});
 
 	it("should pick a random network host by type", () => {

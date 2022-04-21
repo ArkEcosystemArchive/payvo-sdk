@@ -1,4 +1,4 @@
-import { Contracts, Helpers, IoC, Services, Signatories } from "@payvo/sdk";
+import { Contracts, IoC, Services, Signatories } from "@payvo/sdk";
 import { BIP39 } from "@payvo/sdk-cryptography";
 import { BigNumber } from "@payvo/sdk-helpers";
 
@@ -27,7 +27,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
 		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
 
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#peer = this.hostSelector(this.configRepository).host;
 		this.#configCrypto = {
 			crypto: container.get(BindingType.Crypto),
 			height: container.get(BindingType.Height),

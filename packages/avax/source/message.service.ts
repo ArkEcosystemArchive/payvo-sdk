@@ -8,7 +8,7 @@ import { cb58Decode as callback58Decode, cb58Encode as callback58Encode, keyPair
 
 export class MessageService extends Services.AbstractMessageService {
 	public override async sign(input: Services.MessageInput): Promise<Services.SignedMessage> {
-		const { child } = keyPairFromMnemonic(this.configRepository, input.signatory.signingKey());
+		const { child } = keyPairFromMnemonic(this.configRepository, this.hostSelector, input.signatory.signingKey());
 
 		return {
 			message: input.message,

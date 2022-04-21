@@ -1,7 +1,7 @@
 import { Coins, Services } from "@payvo/sdk";
 
 import { IFeeService, IProfile } from "./contracts.js";
-import { DataRepository } from "./data.repository";
+import { DataRepository } from "./data.repository.js";
 import { pqueueSettled } from "./helpers/queue.js";
 
 export class FeeService implements IFeeService {

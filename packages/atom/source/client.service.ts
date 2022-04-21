@@ -73,19 +73,13 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	async #get(path: string, query?: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.get(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			query,
-		);
+		const response = await this.httpClient.get(`${this.hostSelector(this.configRepository).host}/${path}`, query);
 
 		return response.json();
 	}
 
 	async #post(path: string, body: Contracts.KeyValuePair): Promise<Contracts.KeyValuePair> {
-		const response = await this.httpClient.post(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/${path}`,
-			body,
-		);
+		const response = await this.httpClient.post(`${this.hostSelector(this.configRepository).host}/${path}`, body);
 
 		return response.json();
 	}

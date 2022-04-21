@@ -1,17 +1,16 @@
-import { Coins, Exceptions, Http, Services } from "@payvo/sdk";
+import { Coins, Exceptions, Http, Networks, Services } from "@payvo/sdk";
+import { BIP32Interface } from "@payvo/sdk-cryptography";
 import { convertString } from "@payvo/sdk-helpers";
 import * as bitcoin from "bitcoinjs-lib";
-import { BIP32Interface } from "@payvo/sdk-cryptography";
 
-import { Bip44Address, UnspentTransaction } from "./contracts.js";
 import { legacyMusig, nativeSegwitMusig, p2SHSegwitMusig } from "./address.domain.js";
+import { Bip44Address, UnspentTransaction } from "./contracts.js";
 import { post, walletUsedAddresses } from "./helpers.js";
 
 const getDerivationFunction = (
 	method: Services.MusigDerivationMethod,
-): ((n: number, pubkeys: Buffer[], network: bitcoin.Network) => bitcoin.Payment) => {
-	return { legacyMusig, p2SHSegwitMusig, nativeSegwitMusig }[method];
-};
+): ((n: number, pubkeys: Buffer[], network: bitcoin.Network) => bitcoin.Payment) =>
+	({ legacyMusig, nativeSegwitMusig, p2SHSegwitMusig }[method]);
 
 export default class MusigWalletDataHelper {
 	readonly #n: number;
@@ -24,6 +23,7 @@ export default class MusigWalletDataHelper {
 	readonly #discoveredSpendAddresses: Bip44Address[] = [];
 	readonly #discoveredChangeAddresses: Bip44Address[] = [];
 	readonly #httpClient: Http.HttpClient;
+	readonly #hostSelector: Networks.NetworkHostSelector;
 	readonly #configRepository: Coins.ConfigRepository;
 
 	public constructor(
@@ -32,6 +32,7 @@ export default class MusigWalletDataHelper {
 		method: Services.MusigDerivationMethod,
 		network: bitcoin.networks.Network,
 		httpClient: Http.HttpClient,
+		hostSelector: Networks.NetworkHostSelector,
 		configRepository: Coins.ConfigRepository,
 	) {
 		if (n > accountPublicKeys.length) {
@@ -61,6 +62,7 @@ export default class MusigWalletDataHelper {
 			100,
 		);
 		this.#httpClient = httpClient;
+		this.#hostSelector = hostSelector;
 		this.#configRepository = configRepository;
 	}
 
@@ -112,36 +114,36 @@ export default class MusigWalletDataHelper {
 				};
 			} else if (this.#method === "p2SHSegwitMusig") {
 				extra = {
+					redeemScript: payment.redeem!.output,
+					witnessScript: payment.redeem!.redeem!.output,
 					witnessUtxo: {
 						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
-					witnessScript: payment.redeem!.redeem!.output,
-					redeemScript: payment.redeem!.output,
 				};
 			} else if (this.#method === "nativeSegwitMusig") {
 				extra = {
+					witnessScript: payment.redeem!.output,
 					witnessUtxo: {
 						script: convertString(utxo.script),
 						value: utxo.satoshis,
 					},
-					witnessScript: payment.redeem!.output,
 				};
 			}
 
 			return {
 				address: utxo.address,
-				txId: utxo.txId,
-				txRaw: utxo.raw,
-				script: utxo.script,
-				vout: utxo.outputIndex,
-				value: utxo.satoshis,
-				path: address.path,
 				bip32Derivation: this.#accountPublicKeys.map((pubKey) => ({
 					masterFingerprint: pubKey.fingerprint,
 					path: "m/" + address.path,
 					pubkey: pubKey.derivePath(address.path).publicKey,
 				})),
+				path: address.path,
+				script: utxo.script,
+				txId: utxo.txId,
+				txRaw: utxo.raw,
+				value: utxo.satoshis,
+				vout: utxo.outputIndex,
 				...extra,
 			};
 		});
@@ -166,10 +168,13 @@ export default class MusigWalletDataHelper {
 			const used: { string: boolean }[] = await walletUsedAddresses(
 				addressChunk.map((address) => address.address),
 				this.#httpClient,
+				this.#hostSelector,
 				this.#configRepository,
 			);
 
-			addressChunk.forEach((address) => (address.status = used[address.address] ? "used" : "unused"));
+			for (const address of addressChunk) {
+				address.status = used[address.address] ? "used" : "unused";
+			}
 			discoveredAddresses.push(...addressChunk);
 
 			exhausted = Object.values(used)
@@ -190,14 +195,14 @@ export default class MusigWalletDataHelper {
 		let index = 0;
 		while (index < max) {
 			const chunk: Bip44Address[] = [];
-			for (let i = 0; i < chunkSize; i++) {
+			for (let index_ = 0; index_ < chunkSize; index_++) {
 				chunk.push({
-					path: `${chain}/${index}`,
 					address: bip(
 						n,
 						accountKeys.map((pubKey) => pubKey.derive(chain).derive(index).publicKey),
 						network,
 					).address!,
+					path: `${chain}/${index}`,
 					status: "unknown",
 				});
 				index++;
@@ -211,7 +216,13 @@ export default class MusigWalletDataHelper {
 			return [];
 		}
 		const utxos = (
-			await post(`wallets/transactions/unspent`, { addresses }, this.#httpClient, this.#configRepository)
+			await post(
+				`wallets/transactions/unspent`,
+				{ addresses },
+				this.#httpClient,
+				this.#hostSelector,
+				this.#configRepository,
+			)
 		).data;
 
 		const rawTxs = (
@@ -219,6 +230,7 @@ export default class MusigWalletDataHelper {
 				`wallets/transactions/raw`,
 				{ transaction_ids: utxos.map((utxo) => utxo.txId) },
 				this.#httpClient,
+				this.#hostSelector,
 				this.#configRepository,
 			)
 		).data;

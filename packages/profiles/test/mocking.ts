@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { Coins, Helpers } from "@payvo/sdk";
 import { ADA } from "@payvo/sdk-ada";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
@@ -19,6 +19,7 @@ export const bootContainer = (): void => {
 
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
+		hostSelector: Helpers.randomNetworkHostFromConfig,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {},
 		storage: new StubStorage(),
@@ -35,6 +36,7 @@ export const makeCoin = async (coin: string, network: string): Promise<Coins.Coi
 	}
 
 	coins[cacheKey] = Coins.CoinFactory.make({ ARK }[coin]!, {
+		hostSelector: Helpers.randomNetworkHostFromConfig,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {
 			//

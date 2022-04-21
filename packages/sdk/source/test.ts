@@ -3,6 +3,7 @@
 import { v4 } from "uuid";
 
 import { ConfigKey, ConfigRepository } from "./coins.js";
+import { randomNetworkHostFromConfig } from "./helpers.js";
 import { BindingType, Container } from "./ioc.js";
 import { NetworkManifest } from "./networks.js";
 import { BigNumberService } from "./services.js";
@@ -31,6 +32,7 @@ const createContainer = ({
 	const container = new Container();
 	container.constant(BindingType.ConfigRepository, config);
 	container.constant(BindingType.HttpClient, httpClient);
+	container.constant(BindingType.NetworkHostSelector, randomNetworkHostFromConfig);
 	container.singleton(BindingType.BigNumberService, BigNumberService);
 
 	return container;

@@ -1,7 +1,8 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
-import { TransactionSerializer } from "./transaction.serializer.js";
-import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
+
+import { calculateUnlockableBalance, calculateUnlockableBalanceInTheFuture, isBlockHeightReached } from "./helpers.js";
+import { TransactionSerializer } from "./transaction.serializer.js";
 
 export class ClientService extends Services.AbstractClientService {
 	readonly #bigNumberService: Services.BigNumberService;
@@ -13,7 +14,7 @@ export class ClientService extends Services.AbstractClientService {
 
 		this.#bigNumberService = container.get(IoC.BindingType.BigNumberService);
 		this.#broadcastSerializer = container.factory(TransactionSerializer);
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository, "full");
+		this.#peer = this.hostSelector(this.configRepository, "full").host;
 	}
 
 	public override async transaction(
@@ -85,11 +86,11 @@ export class ClientService extends Services.AbstractClientService {
 		const { data } = await this.#get("votes_sent", { address: id });
 
 		return {
-			used: data.account.votesUsed,
 			available: 20 - data.account.votesUsed,
+			used: data.account.votesUsed,
 			votes: (data.votes ?? []).map(({ address, amount }) => ({
-				id: address,
 				amount: this.#bigNumberService.make(amount).toHuman(),
+				id: address,
 			})),
 		};
 	}
@@ -102,14 +103,14 @@ export class ClientService extends Services.AbstractClientService {
 			DateTime.make().setSecond((unlockHeight - unvoteHeight) * blockTime);
 
 		return {
+			current: this.#bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
 			objects: unlocking.map(({ amount, delegateAddress, height }) => ({
 				address: delegateAddress,
 				amount: this.#bigNumberService.make(amount),
 				height: Number(height.start),
-				timestamp: getPendingTime(currentBlockHeight, height.end, blockTime),
 				isReady: isBlockHeightReached(height.end, currentBlockHeight),
+				timestamp: getPendingTime(currentBlockHeight, height.end, blockTime),
 			})),
-			current: this.#bigNumberService.make(calculateUnlockableBalance(unlocking, currentBlockHeight)),
 			pending: this.#bigNumberService.make(calculateUnlockableBalanceInTheFuture(unlocking, currentBlockHeight)),
 		};
 	}
@@ -119,8 +120,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
@@ -162,59 +163,59 @@ export class ClientService extends Services.AbstractClientService {
 		return (await this.httpClient.post(`${this.#peer}/${path}`, body)).json();
 	}
 
-	#createSearchParams(searchParams: Services.ClientTransactionsInput): object {
-		if (searchParams.cursor) {
+	#createSearchParams(searchParameters: Services.ClientTransactionsInput): object {
+		if (searchParameters.cursor) {
 			// @ts-ignore
-			searchParams.offset = searchParams.cursor - 1;
+			searchParameters.offset = searchParameters.cursor - 1;
 
-			delete searchParams.cursor;
+			delete searchParameters.cursor;
 		}
 
 		// LSK doesn't support bulk lookups so we will simply use the first address.
-		if (searchParams.identifiers) {
-			const value = searchParams.identifiers[0].value;
+		if (searchParameters.identifiers) {
+			const value = searchParameters.identifiers[0].value;
 
-			if (!searchParams.type || searchParams.type === "transfer") {
+			if (!searchParameters.type || searchParameters.type === "transfer") {
 				// @ts-ignore - This field doesn't exist on the interface but is needed.
-				searchParams.address = value;
+				searchParameters.address = value;
 			} else {
 				// @ts-ignore - This field doesn't exist on the interface but is needed.
-				searchParams.senderAddress = value;
+				searchParameters.senderAddress = value;
 			}
 
-			delete searchParams.identifiers;
+			delete searchParameters.identifiers;
 		}
 
-		if (searchParams.senderId) {
+		if (searchParameters.senderId) {
 			// @ts-ignore - This field doesn't exist on the interface but is needed.
-			searchParams.senderAddress = searchParams.senderId;
+			searchParameters.senderAddress = searchParameters.senderId;
 
-			delete searchParams.senderId;
+			delete searchParameters.senderId;
 		}
 
-		if (searchParams.recipientId) {
+		if (searchParameters.recipientId) {
 			// @ts-ignore - This field doesn't exist on the interface but is needed.
-			searchParams.recipientAddress = searchParams.recipientId;
+			searchParameters.recipientAddress = searchParameters.recipientId;
 
-			delete searchParams.recipientId;
+			delete searchParameters.recipientId;
 		}
 
-		if (searchParams.type) {
+		if (searchParameters.type) {
 			const moduleAssetId: string | undefined = {
 				delegateRegistration: "5:0",
 				multiSignature: "4:0",
 				transfer: "2:0",
-				vote: "5:1",
 				unlockToken: "5:2",
-			}[searchParams.type];
+				vote: "5:1",
+			}[searchParameters.type];
 
 			// @ts-ignore - This field doesn't exist on the interface but is needed.
-			searchParams.moduleAssetId = moduleAssetId || "0:0";
+			searchParameters.moduleAssetId = moduleAssetId || "0:0";
 
-			delete searchParams.type;
+			delete searchParameters.type;
 		}
 
-		return searchParams;
+		return searchParameters;
 	}
 
 	#createPagination(data, meta): Services.MetaPagination {
@@ -222,10 +223,10 @@ export class ClientService extends Services.AbstractClientService {
 		const hasNextPage: boolean = meta.count + meta.offset !== meta.total;
 
 		return {
+			last: undefined,
+			next: hasNextPage ? Number(meta.offset) + Number(meta.count) : undefined,
 			prev: hasPreviousPage ? Number(meta.offset) - Number(meta.count) : undefined,
 			self: meta.offset,
-			next: hasNextPage ? Number(meta.offset) + Number(meta.count) : undefined,
-			last: undefined,
 		};
 	}
 }

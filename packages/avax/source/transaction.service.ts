@@ -16,9 +16,9 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#xchain = useXChain(this.configRepository);
-		this.#pchain = usePChain(this.configRepository);
-		this.#keychain = useKeychain(this.configRepository);
+		this.#xchain = useXChain(this.configRepository, this.hostSelector);
+		this.#pchain = usePChain(this.configRepository, this.hostSelector);
+		this.#keychain = useKeychain(this.configRepository, this.hostSelector);
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
@@ -27,7 +27,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		const child = this.#keychain.importKey(
-			keyPairFromMnemonic(this.configRepository, input.signatory.signingKey()).child.getPrivateKey(),
+			keyPairFromMnemonic(
+				this.configRepository,
+				this.hostSelector,
+				input.signatory.signingKey(),
+			).child.getPrivateKey(),
 		);
 		const keyPairAddresses = this.#keychain.getAddressStrings();
 		const { utxos } = await this.#xchain.getUTXOs(child.getAddressString());
@@ -65,7 +69,11 @@ export class TransactionService extends Services.AbstractTransactionService {
 		}
 
 		const { child } = this.#keychain.importKey(
-			keyPairFromMnemonic(this.configRepository, input.signatory.signingKey()).child.getPrivateKey(),
+			keyPairFromMnemonic(
+				this.configRepository,
+				this.hostSelector,
+				input.signatory.signingKey(),
+			).child.getPrivateKey(),
 		);
 		const keyPairAddresses = this.#keychain.getAddressStrings();
 		const { utxos } = await this.#pchain.getUTXOs(child.getAddressString());

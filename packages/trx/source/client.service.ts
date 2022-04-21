@@ -1,4 +1,4 @@
-import { Collections, Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Collections, Contracts, IoC, Services } from "@payvo/sdk";
 import TronWeb from "tronweb";
 
 export class ClientService extends Services.AbstractClientService {
@@ -8,7 +8,7 @@ export class ClientService extends Services.AbstractClientService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#peer = this.hostSelector(this.configRepository).host;
 		this.#connection = new TronWeb({ fullHost: this.#peer });
 	}
 
@@ -43,10 +43,10 @@ export class ClientService extends Services.AbstractClientService {
 		return this.dataTransferObjectService.transactions(
 			response.data.filter(({ raw_data }) => raw_data.contract[0].type === "TransferContract"),
 			{
+				last: undefined,
+				next: response.meta.fingerprint,
 				prev: undefined,
 				self: undefined,
-				next: response.meta.fingerprint,
-				last: undefined,
 			},
 		);
 	}
@@ -62,8 +62,8 @@ export class ClientService extends Services.AbstractClientService {
 	): Promise<Services.BroadcastResponse> {
 		const result: Services.BroadcastResponse = {
 			accepted: [],
-			rejected: [],
 			errors: {},
+			rejected: [],
 		};
 
 		for (const transaction of transactions) {
@@ -86,6 +86,6 @@ export class ClientService extends Services.AbstractClientService {
 	}
 
 	#getHost(): string {
-		return Helpers.randomHostFromConfig(this.configRepository);
+		return this.hostSelector(this.configRepository).host;
 	}
 }

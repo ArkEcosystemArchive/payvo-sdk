@@ -18,17 +18,20 @@ import { KeyValuePair, SignedTransactionData, WalletData } from "./contracts.js"
 import { DataTransferObjectService } from "./data-transfer-object.contract.js";
 import { NotImplemented } from "./exceptions.js";
 import { HttpClient } from "./http.js";
+import { NetworkHostSelector } from "./network.models.js";
 import { BindingType } from "./service-provider.contract.js";
 
 export class AbstractClientService implements ClientService {
 	protected readonly configRepository: ConfigRepository;
 	protected readonly dataTransferObjectService: DataTransferObjectService;
 	protected readonly httpClient: HttpClient;
+	protected readonly hostSelector: NetworkHostSelector;
 
 	public constructor(container: IContainer) {
 		this.configRepository = container.get(BindingType.ConfigRepository);
 		this.dataTransferObjectService = container.get(BindingType.DataTransferObjectService);
 		this.httpClient = container.get(BindingType.HttpClient);
+		this.hostSelector = container.get(BindingType.NetworkHostSelector);
 	}
 
 	public async transaction(id: string, input?: TransactionDetailInput): Promise<ConfirmedTransactionData> {

@@ -24,7 +24,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 
 	#useClient(): LCDClient {
 		return useClient(
-			`${Helpers.randomHostFromConfig(this.configRepository)}/api`,
+			`${this.hostSelector(this.configRepository).host}/api`,
 			this.configRepository.get("network.meta.networkId"),
 		);
 	}

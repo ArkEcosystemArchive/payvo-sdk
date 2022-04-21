@@ -1,6 +1,6 @@
 import Common from "@ethereumjs/common";
 import eth from "@ethereumjs/tx";
-import { Contracts, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, IoC, Services } from "@payvo/sdk";
 import { Buffoon } from "@payvo/sdk-cryptography";
 import { Contract } from "web3-eth-contract";
 
@@ -28,7 +28,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#addressService = container.get(IoC.BindingType.AddressService);
 		this.#privateKeyService = container.get(IoC.BindingType.PrivateKeyService);
 		this.#chain = this.configRepository.get("network");
-		this.#peer = Helpers.randomHostFromConfig(this.configRepository);
+		this.#peer = this.hostSelector(this.configRepository).host;
 	}
 
 	public override async transfer(input: Services.TransferInput): Promise<Contracts.SignedTransactionData> {
@@ -52,12 +52,12 @@ export class TransactionService extends Services.AbstractTransactionService {
 		transaction.sign(Buffoon.fromHex(privateKey));
 
 		const signedData = {
-			sender: senderData.address,
-			recipient: data.to,
 			amount: input.contract && input.contract.address ? input.data.amount : this.#fromHex(data.value),
 			fee: input.feeLimit! * input.fee!,
-			timestamp: new Date(),
 			memo: data.data,
+			recipient: data.to,
+			sender: senderData.address,
+			timestamp: new Date(),
 		};
 
 		return this.dataTransferObjectService.signedTransaction(
@@ -87,7 +87,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			};
 		}
 
-		let data: TransactionPayload = {
+		const data: TransactionPayload = {
 			gasLimit: this.#toHex(input.feeLimit!),
 			gasPrice: this.#toHex(input.fee!),
 			nonce: this.#toHex(nextNonce),
@@ -143,6 +143,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#fromHex(value: string): bigint | number {
-		return parseInt(value, 16);
+		return Number.parseInt(value, 16);
 	}
 }

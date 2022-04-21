@@ -1,7 +1,7 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
+import fetch from "cross-fetch";
 import { Api, JsonRpc } from "eosjs";
 import { JsSignatureProvider } from "eosjs/dist/eosjs-jssig";
-import fetch from "cross-fetch";
 import { TextDecoder, TextEncoder } from "util";
 
 export class ClientService extends Services.AbstractClientService {
@@ -11,7 +11,7 @@ export class ClientService extends Services.AbstractClientService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#rpc = new JsonRpc(Helpers.randomHostFromConfig(this.configRepository), { fetch });
+		this.#rpc = new JsonRpc(this.hostSelector(this.configRepository).host, { fetch });
 
 		this.#api = new Api({
 			rpc: this.#rpc,
@@ -40,7 +40,6 @@ export class ClientService extends Services.AbstractClientService {
 				actions: [
 					{
 						account: "eosio.token",
-						name: "transfer",
 						authorization: [
 							{
 								actor: "bdfkbzietxos",
@@ -49,10 +48,11 @@ export class ClientService extends Services.AbstractClientService {
 						],
 						data: {
 							from: "bdfkbzietxos",
-							to: "zqcetsxfxzca",
-							quantity: "0.0001 TNT",
 							memo: "Hello World",
+							quantity: "0.0001 TNT",
+							to: "zqcetsxfxzca",
 						},
+						name: "transfer",
 					},
 				],
 			},

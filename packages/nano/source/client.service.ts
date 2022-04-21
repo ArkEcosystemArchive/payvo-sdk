@@ -8,7 +8,7 @@ export class ClientService extends Services.AbstractClientService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#client = new NanoClient(this.configRepository, this.httpClient);
+		this.#client = new NanoClient(this.configRepository, this.httpClient, this.hostSelector);
 	}
 
 	public override async transactions(

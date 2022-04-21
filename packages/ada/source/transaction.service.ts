@@ -1,11 +1,11 @@
-import { Contracts, IoC, Services } from "@payvo/sdk";
+import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
+import { Contracts, Services } from "@payvo/sdk";
 import { convertBuffer } from "@payvo/sdk-helpers";
 import { DateTime } from "@payvo/sdk-intl";
-import CardanoWasm, { BigNum, Bip32PrivateKey } from "@emurgo/cardano-serialization-lib-nodejs";
 
 import { fetchNetworkTip, listUnspentTransactions } from "./graphql-helpers.js";
-import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain.js";
 import { deriveAccountKey, deriveAddress, deriveRootKey } from "./shelley.js";
+import { addUtxoInput, deriveAddressesAndSigningKeys, usedAddressesForAccount } from "./transaction.domain.js";
 import { createValue } from "./transaction.factory.js";
 import { UnspentTransaction } from "./transaction.models.js";
 
@@ -35,6 +35,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const { usedSpendAddresses, usedChangeAddresses } = await usedAddressesForAccount(
 			this.configRepository,
 			this.httpClient,
+			this.hostSelector,
 			Buffer.from(publicKey.as_bytes()).toString("hex"),
 		);
 		const usedAddresses: string[] = [...usedSpendAddresses.values(), ...usedChangeAddresses.values()];
@@ -43,6 +44,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const utxos: UnspentTransaction[] = await listUnspentTransactions(
 			this.configRepository,
 			this.httpClient,
+			this.hostSelector,
 			usedAddresses,
 		); // when more that one utxo, they seem to be ordered by amount descending
 
@@ -75,7 +77,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 			const expiration = await this.estimateExpiration();
 
 			if (expiration !== undefined) {
-				txBuilder.set_ttl(parseInt(expiration));
+				txBuilder.set_ttl(Number.parseInt(expiration));
 			}
 		} else {
 			txBuilder.set_ttl(input.data.expiration);
@@ -109,20 +111,20 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			convertBuffer(Buffer.from(txHash.to_bytes())),
 			{
-				// @TODO This doesn't make sense in Cardano, because there can be any many senders (all addresses from the same sender)
-				sender: input.signatory.publicKey(),
-				recipient: input.data.to,
 				amount: amount,
 				fee: txBody.fee().to_str(),
+				recipient: input.data.to,
+				// @TODO This doesn't make sense in Cardano, because there can be any many senders (all addresses from the same sender)
+				sender: input.signatory.publicKey(),
 				timestamp: DateTime.make(),
 			},
-			convertBuffer(Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses, undefined).to_bytes())),
+			convertBuffer(Buffer.from(CardanoWasm.Transaction.new(txBody, witnesses).to_bytes())),
 		);
 	}
 
 	public override async estimateExpiration(value?: string): Promise<string | undefined> {
-		const tip: number = await fetchNetworkTip(this.configRepository, this.httpClient);
-		const ttl: number = parseInt(value || "7200"); // Yoroi uses 7200 as TTL default
+		const tip: number = await fetchNetworkTip(this.configRepository, this.httpClient, this.hostSelector);
+		const ttl: number = Number.parseInt(value || "7200"); // Yoroi uses 7200 as TTL default
 
 		return (tip + ttl).toString();
 	}

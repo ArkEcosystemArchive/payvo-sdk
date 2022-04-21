@@ -1,25 +1,25 @@
-import { describe } from "@payvo/sdk-test";
+import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
 import { IoC, Services, Signatories } from "@payvo/sdk";
+import { convertString } from "@payvo/sdk-helpers";
+import { describe } from "@payvo/sdk-test";
 
 import { createService } from "../test/mocking";
 import { AddressService } from "./address.service.js";
 import { ClientService } from "./client.service.js";
+import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
 import { KeyPairService } from "./key-pair.service.js";
 import { PublicKeyService } from "./public-key.service.js";
-import { TransactionService } from "./transaction.service.js";
 import { SignedTransactionData } from "./signed-transaction.dto.js";
-import { ConfirmedTransactionData } from "./confirmed-transaction.dto.js";
+import { TransactionService } from "./transaction.service.js";
 import { WalletData } from "./wallet.dto.js";
-import CardanoWasm from "@emurgo/cardano-serialization-lib-nodejs";
-import { convertString } from "@payvo/sdk-helpers";
 
 describe("TransactionService", async ({ assert, beforeAll, nock, loader, it }) => {
 	beforeAll(async (context) => {
 		context.subject = await createService(TransactionService, undefined, (container) => {
 			container.constant(IoC.BindingType.Container, container);
 			container.constant(IoC.BindingType.DataTransferObjects, {
-				SignedTransactionData,
 				ConfirmedTransactionData,
+				SignedTransactionData,
 				WalletData,
 			});
 			container.singleton(IoC.BindingType.DataTransferObjectService, Services.AbstractDataTransferObjectService);
@@ -42,20 +42,20 @@ describe("TransactionService", async ({ assert, beforeAll, nock, loader, it }) =
 			.reply(200, loader.json(`test/fixtures/transaction/expiration.json`));
 
 		const result = await context.subject.transfer({
-			signatory: new Signatories.Signatory(
-				new Signatories.MnemonicSignatory({
-					signingKey:
-						"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
-					address:
-						"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
-					publicKey: "publicKey",
-					privateKey: "privateKey",
-				}),
-			),
 			data: {
 				amount: 1,
 				to: "addr_test1qpz03ezdyda8ag724zp3n5fqulay02dp7j9mweyeylcaapsxu2hyfhlkwuxupa9d5085eunq2qywy7hvmvej456flknscw3xw7",
 			},
+			signatory: new Signatories.Signatory(
+				new Signatories.MnemonicSignatory({
+					address:
+						"aec30330deaecdd7503195a0d730256faef87027022b1bdda7ca0a61bca0a55e4d575af5a93bdf4905a3702fadedf451ea584791d233ade90965d608bac57304",
+					privateKey: "privateKey",
+					publicKey: "publicKey",
+					signingKey:
+						"excess behave track soul table wear ocean cash stay nature item turtle palm soccer lunch horror start stumble month panic right must lock dress",
+				}),
+			),
 		});
 
 		console.log(CardanoWasm.Transaction.from_bytes(convertString(result.toBroadcast())));

@@ -1,4 +1,4 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
 import { DateTime } from "@payvo/sdk-intl";
 import { BN, Long, units } from "@zilliqa-js/util";
 import { Zilliqa } from "@zilliqa-js/zilliqa";
@@ -12,7 +12,7 @@ export class TransactionService extends Services.AbstractTransactionService {
 	public constructor(container: IoC.IContainer) {
 		super(container);
 
-		this.#zilliqa = new Zilliqa(Helpers.randomHostFromConfig(this.configRepository));
+		this.#zilliqa = new Zilliqa(this.hostSelector(this.configRepository).host);
 		this.#version = getZilliqaVersion(this.configRepository);
 	}
 
@@ -50,21 +50,21 @@ export class TransactionService extends Services.AbstractTransactionService {
 		const fee = units.toQa(input.fee, units.Units.Li).toString();
 		const signedData = {
 			address,
-			recipient: input.data.to,
 			amount,
 			fee,
+			recipient: input.data.to,
 			timestamp: DateTime.make(),
 		};
 
 		const transaction = this.#zilliqa.transactions.new({
-			version: this.#version,
+			amount: new BN(convertZilToQa(input.data.amount)),
+			data: input.data.memo,
+			gasLimit: Long.fromNumber(input.feeLimit),
+			gasPrice: new BN(units.toQa(input.fee, units.Units.Li)),
+			nonce: new BN(input.nonce).toNumber(),
 			pubKey: publicKey,
 			toAddr: input.data.to,
-			amount: new BN(convertZilToQa(input.data.amount)),
-			gasPrice: new BN(units.toQa(input.fee, units.Units.Li)),
-			gasLimit: Long.fromNumber(input.feeLimit),
-			data: input.data.memo,
-			nonce: new BN(input.nonce).toNumber(),
+			version: this.#version,
 		});
 
 		const signedTransaction = await this.#zilliqa.wallet.signWith(transaction, address, true);

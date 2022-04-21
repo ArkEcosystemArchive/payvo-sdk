@@ -1,4 +1,4 @@
-import { Coins, Exceptions, Helpers, Http } from "@payvo/sdk";
+import { Coins, Exceptions, Http, Networks } from "@payvo/sdk";
 import { SignedBlock } from "nanocurrency-web/dist/lib/block-signer";
 
 interface AccountInfoResponse {
@@ -33,10 +33,16 @@ interface AccountHistoryResponse {
 export class NanoClient {
 	readonly #config: Coins.ConfigRepository;
 	readonly #http: Http.HttpClient;
+	readonly #hostSelector: Networks.NetworkHostSelector;
 
-	public constructor(config: Coins.ConfigRepository, httpClient: Http.HttpClient) {
+	public constructor(
+		config: Coins.ConfigRepository,
+		httpClient: Http.HttpClient,
+		hostSelector: Networks.NetworkHostSelector,
+	) {
 		this.#config = config;
 		this.#http = httpClient;
+		this.#hostSelector = hostSelector;
 	}
 
 	public async accountBalance(account: string): Promise<{ balance: string; pending: string }> {
@@ -62,13 +68,11 @@ export class NanoClient {
 		subtype: "send" | "receive" | "open" | "change" | "epoch",
 		block: SignedBlock,
 	): Promise<{ hash: string }> {
-		return this.#post("process", { json_block: "true", subtype, block });
+		return this.#post("process", { block, json_block: "true", subtype });
 	}
 
-	async #post<T = Record<string, any>>(action: string, params: Record<string, unknown>): Promise<T> {
-		const result = (
-			await this.#http.post(Helpers.randomHostFromConfig(this.#config), { action, ...params })
-		).json();
+	async #post<T = Record<string, any>>(action: string, parameters: Record<string, unknown>): Promise<T> {
+		const result = (await this.#http.post(this.#hostSelector(this.#config).host, { action, ...parameters })).json();
 
 		if (result.error) {
 			throw new Exceptions.Exception(`RPC error: ${JSON.stringify(result.error)}`);

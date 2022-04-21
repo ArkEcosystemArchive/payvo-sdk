@@ -85,7 +85,7 @@ export class ClientService extends Services.AbstractClientService {
 
 	async #post(method: string, params: any[]): Promise<Contracts.KeyValuePair> {
 		return (
-			await this.httpClient.post(Helpers.randomHostFromConfig(this.configRepository), {
+			await this.httpClient.post(this.hostSelector(this.configRepository).host, {
 				jsonrpc: "2.0",
 				id: UUID.random(),
 				method,

@@ -1,5 +1,5 @@
 import { HttpClient } from "./http.js";
-import { CoinManifest, NetworkManifest } from "./network.models.js";
+import { CoinManifest, NetworkHostSelector, NetworkManifest } from "./network.models.js";
 import {
 	AddressService,
 	BigNumberService,
@@ -31,6 +31,7 @@ export interface CoinSpec {
 export interface CoinOptions {
 	network: string;
 	networks?: Record<string, NetworkManifest>;
+	hostSelector?: NetworkHostSelector;
 	httpClient: HttpClient;
 	ledgerTransportFactory?: LedgerTransportFactory;
 }

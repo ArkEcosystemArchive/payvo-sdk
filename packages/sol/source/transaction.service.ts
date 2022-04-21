@@ -1,7 +1,7 @@
-import { Contracts, Exceptions, Helpers, IoC, Services } from "@payvo/sdk";
+import { Contracts, Exceptions, IoC, Services } from "@payvo/sdk";
+import { UUID } from "@payvo/sdk-cryptography";
 import { DateTime } from "@payvo/sdk-intl";
 import { Connection, Keypair, PublicKey, SystemProgram, Transaction } from "@solana/web3.js";
-import { UUID } from "@payvo/sdk-cryptography";
 
 import { derivePrivateKey, derivePublicKey } from "./keys.js";
 
@@ -29,8 +29,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 		transaction.add(
 			SystemProgram.transfer({
 				fromPubkey: transaction.feePayer,
-				toPubkey: new PublicKey(input.data.to),
 				lamports: amount,
+				toPubkey: new PublicKey(input.data.to),
 			}),
 		);
 
@@ -42,10 +42,10 @@ export class TransactionService extends Services.AbstractTransactionService {
 		return this.dataTransferObjectService.signedTransaction(
 			UUID.random(),
 			{
-				from: input.signatory.address(),
-				to: input.data.to,
 				amount,
+				from: input.signatory.address(),
 				timestamp: DateTime.make(),
+				to: input.data.to,
 			},
 			signedTransaction.toString("hex"),
 		);
@@ -58,6 +58,6 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	#host(): string {
-		return `${Helpers.randomHostFromConfig(this.configRepository)}/api`;
+		return `${this.hostSelector(this.configRepository).host}/api`;
 	}
 }
