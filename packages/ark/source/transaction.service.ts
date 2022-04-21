@@ -6,6 +6,7 @@ import { BindingType } from "./coin.contract.js";
 import { applyCryptoConfiguration } from "./config.js";
 import { Identities, Interfaces, Transactions } from "./crypto/index.js";
 import { MultiSignatureSigner } from "./multi-signature.signer.js";
+import { Request } from "./request.js";
 
 export class TransactionService extends Services.AbstractTransactionService {
 	readonly #ledgerService!: Services.LedgerService;
@@ -13,9 +14,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	readonly #publicKeyService!: Services.PublicKeyService;
 	readonly #multiSignatureService!: Services.MultiSignatureService;
 	readonly #multiSignatureSigner!: IoC.Factory<MultiSignatureSigner>;
+	readonly #request: Request;
 
-	// @TODO: remove or inject
-	#peer!: string;
 	#configCrypto!: { crypto: Interfaces.NetworkConfig; height: number };
 
 	public constructor(container: IoC.IContainer) {
@@ -27,11 +27,16 @@ export class TransactionService extends Services.AbstractTransactionService {
 		this.#multiSignatureService = container.get(IoC.BindingType.MultiSignatureService);
 		this.#multiSignatureSigner = container.factory(MultiSignatureSigner);
 
-		this.#peer = this.hostSelector(this.configRepository).host;
 		this.#configCrypto = {
 			crypto: container.get(BindingType.Crypto),
 			height: container.get(BindingType.Height),
 		};
+
+		this.#request = new Request(
+			container.get(IoC.BindingType.ConfigRepository),
+			container.get(IoC.BindingType.HttpClient),
+			container.get(IoC.BindingType.NetworkHostSelector),
+		);
 	}
 
 	/**
@@ -169,8 +174,8 @@ export class TransactionService extends Services.AbstractTransactionService {
 	}
 
 	public override async estimateExpiration(value?: string): Promise<string | undefined> {
-		const { data: blockchain } = (await this.httpClient.get(`${this.#peer}/blockchain`)).json();
-		const { data: configuration } = (await this.httpClient.get(`${this.#peer}/node/configuration`)).json();
+		const { data: blockchain } = await this.#request.get("blockchain");
+		const { data: configuration } = await this.#request.get("node/configuration");
 
 		return BigNumber.make(blockchain.block.height)
 			.plus((value ? Number(value) : 5) * configuration.constants.activeDelegates)
