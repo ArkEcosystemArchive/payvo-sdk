@@ -12,7 +12,7 @@ export interface CoinType {
 export interface EnvironmentOptions {
 	coins: CoinList;
 	storage: string | Storage;
-	hostSelector: Networks.NetworkHostSelector;
+	hostSelector?: Networks.NetworkHostSelector;
 	httpClient: Http.HttpClient;
 	ledgerTransportFactory?: Services.LedgerTransportFactory;
 	migrations?: Record<string, any>;
