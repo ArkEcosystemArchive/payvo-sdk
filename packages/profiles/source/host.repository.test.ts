@@ -10,6 +10,7 @@ describeWithContext(
 	{
 		explorer: {
 			host: {
+				enabled: true,
 				host: "https://explorer.ark.io",
 				type: "explorer",
 			},
@@ -18,6 +19,7 @@ describeWithContext(
 		},
 		full: {
 			host: {
+				enabled: false,
 				host: "https://ark-live.payvo.com/api",
 				type: "full",
 			},

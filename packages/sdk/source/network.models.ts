@@ -27,6 +27,7 @@ export interface NetworkHost {
 	custom?: boolean;
 	failedCount?: number;
 	query?: Record<string, string>;
+	enabled?: boolean;
 }
 
 export type NetworkHostSelector = (configRepository: ConfigRepository, type?: NetworkHostType) => NetworkHost;
