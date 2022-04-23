@@ -9,8 +9,11 @@ import { StorageFactory } from "./factory.storage.js";
 import { FeeService } from "./fee.service.js";
 import { KnownWalletService } from "./known-wallet.service.js";
 import { PluginRegistry } from "./plugin-registry.service.js";
+import { IProfile } from "./profile.contract.js";
 import { ProfileRepository } from "./profile.repository.js";
 import { WalletService } from "./wallet.service.js";
+
+const hostSelector = (profile: IProfile) => Helpers.randomNetworkHostFromConfig;
 
 export class DriverFactory {
 	public static make(container: IoC.Container, options: EnvironmentOptions): void {
@@ -24,7 +27,7 @@ export class DriverFactory {
 		container.constant(Identifiers.HttpClient, options.httpClient);
 		container.constant(
 			Identifiers.NetworkHostSelector,
-			options.hostSelector ?? Helpers.randomNetworkHostFromConfig,
+			options.hostSelector ?? hostSelector,
 		);
 		container.constant(Identifiers.Coins, options.coins);
 
