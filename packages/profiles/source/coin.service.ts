@@ -3,6 +3,7 @@ import { Coins, Networks } from "@payvo/sdk";
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
 import { ICoinService, IDataRepository } from "./contracts.js";
+import { NetworkHostSelector } from "./environment.models.js";
 import { IProfile } from "./profile.contract.js";
 
 export class CoinService implements ICoinService {
@@ -65,7 +66,7 @@ export class CoinService implements ICoinService {
 		}
 
 		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
-			hostSelector: container.get(Identifiers.NetworkHostSelector),
+			hostSelector: container.get<NetworkHostSelector>(Identifiers.NetworkHostSelector)(this.#profile),
 			httpClient: container.get(Identifiers.HttpClient),
 			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
 			network,

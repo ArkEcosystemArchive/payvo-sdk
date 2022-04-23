@@ -19,7 +19,7 @@ export const bootContainer = (): void => {
 
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
-		hostSelector: Helpers.randomNetworkHostFromConfig,
+		hostSelector: (profile: IProfile) => Helpers.randomNetworkHostFromConfig,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {},
 		storage: new StubStorage(),

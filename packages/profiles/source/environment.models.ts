@@ -1,5 +1,7 @@
 import { Coins, Http, Networks, Services } from "@payvo/sdk";
 
+import { IProfile } from "./profile.contract.js";
+
 export type CoinList = Record<string, Coins.CoinBundle>;
 
 export interface CoinType {
@@ -9,10 +11,12 @@ export interface CoinType {
 	symbol: string;
 }
 
+export type NetworkHostSelector = (profile: IProfile) => Networks.NetworkHostSelector;
+
 export interface EnvironmentOptions {
 	coins: CoinList;
 	storage: string | Storage;
-	hostSelector?: Networks.NetworkHostSelector;
+	hostSelector?: NetworkHostSelector;
 	httpClient: Http.HttpClient;
 	ledgerTransportFactory?: Services.LedgerTransportFactory;
 	migrations?: Record<string, any>;
