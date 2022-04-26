@@ -11,12 +11,12 @@ export interface CoinType {
 	symbol: string;
 }
 
-export type NetworkHostSelector = (profile: IProfile) => Networks.NetworkHostSelector;
+export type NetworkHostSelectorFactory = (profile: IProfile) => Networks.NetworkHostSelector;
 
 export interface EnvironmentOptions {
 	coins: CoinList;
 	storage: string | Storage;
-	hostSelector?: NetworkHostSelector;
+	hostSelector?: NetworkHostSelectorFactory;
 	httpClient: Http.HttpClient;
 	ledgerTransportFactory?: Services.LedgerTransportFactory;
 	migrations?: Record<string, any>;
