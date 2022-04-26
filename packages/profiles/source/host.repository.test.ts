@@ -20,6 +20,7 @@ describeWithContext(
 		full: {
 			host: {
 				enabled: false,
+				height: 999_999,
 				host: "https://ark-live.payvo.com/api",
 				type: "full",
 			},
