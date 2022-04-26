@@ -18,7 +18,7 @@ export const defaultHostSelector =
 	(profile: IProfile) => (configRepository: Coins.ConfigRepository, type?: Networks.NetworkHostType) => {
 		type ??= "full";
 
-		const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
+		const defaultHosts = Helpers.filterHostsFromConfig(configRepository, type);
 		const customHosts = profile
 			.hosts()
 			.allByNetwork(configRepository.get("network.id"))
@@ -26,7 +26,7 @@ export const defaultHostSelector =
 			.filter(({ custom, enabled }) => custom && enabled);
 
 		if (customHosts.length === 0) {
-			return Helpers.randomHost(allHosts, type);
+			return Helpers.randomHost(defaultHosts, type);
 		}
 
 		if (profile.settings().get(ProfileSetting.FallbackToDefaultNodes)) {
@@ -37,7 +37,7 @@ export const defaultHostSelector =
 			}
 
 			return Helpers.randomHost(
-				allHosts.filter(({ custom }) => !custom),
+				defaultHosts.filter(({ custom }) => !custom),
 				type,
 			);
 		}
