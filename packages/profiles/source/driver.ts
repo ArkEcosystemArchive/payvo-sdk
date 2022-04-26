@@ -19,7 +19,11 @@ export const defaultHostSelector =
 		type ??= "full";
 
 		const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
-		const customHosts = allHosts.filter(({ custom, enabled }) => custom && enabled);
+		const customHosts = profile
+			.hosts()
+			.allByNetwork(configRepository.get("network.id"))
+			.map(({ host }) => host)
+			.filter(({ custom, enabled }) => custom && enabled);
 
 		if (customHosts.length === 0) {
 			return Helpers.randomHost(allHosts, type);
@@ -49,9 +53,14 @@ export class DriverFactory {
 			container.constant(Identifiers.Storage, options.storage);
 		}
 
+		if (typeof options.hostSelector === "function") {
+			container.constant(Identifiers.NetworkHostSelectorFactory, options.hostSelector);
+		} else {
+			container.constant(Identifiers.NetworkHostSelectorFactory, defaultHostSelector);
+		}
+
 		container.constant(Identifiers.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(Identifiers.HttpClient, options.httpClient);
-		container.constant(Identifiers.NetworkHostSelectorFactory, options.hostSelector ?? defaultHostSelector);
 		container.constant(Identifiers.Coins, options.coins);
 
 		container.singleton(Identifiers.AppData, DataRepository);
