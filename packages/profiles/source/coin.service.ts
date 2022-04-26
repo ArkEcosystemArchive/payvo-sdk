@@ -65,9 +65,6 @@ export class CoinService implements ICoinService {
 			return this.#dataRepository.get(cacheKey)!;
 		}
 
-        console.log(container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory))
-        console.log(container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(this.#profile))
-
 		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
 			hostSelector: container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(
 				this.#profile,
