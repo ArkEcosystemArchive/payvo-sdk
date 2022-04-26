@@ -1,4 +1,4 @@
-import { Helpers, IoC } from "@payvo/sdk";
+import { Coins, Helpers, IoC, Networks } from "@payvo/sdk";
 
 import { Identifiers } from "./container.models.js";
 import { DataRepository } from "./data.repository.js";
@@ -10,10 +10,35 @@ import { FeeService } from "./fee.service.js";
 import { KnownWalletService } from "./known-wallet.service.js";
 import { PluginRegistry } from "./plugin-registry.service.js";
 import { IProfile } from "./profile.contract.js";
+import { ProfileSetting } from "./profile.enum.contract.js";
 import { ProfileRepository } from "./profile.repository.js";
 import { WalletService } from "./wallet.service.js";
 
-const hostSelector = (profile: IProfile) => Helpers.randomNetworkHostFromConfig;
+export const defaultHostSelector = (profile: IProfile) => (configRepository: Coins.ConfigRepository, type?: Networks.NetworkHostType) => {
+	type ??= "full";
+
+	const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
+	const customHosts = allHosts.filter(({ custom, enabled }) => custom && enabled);
+
+	if (customHosts.length === 0) {
+		return Helpers.randomHost(allHosts, type);
+	}
+
+	if (profile.settings().get(ProfileSetting.FallbackToDefaultNodes)) {
+		const customHost = Helpers.randomHost(customHosts, type);
+
+		if (!customHost.failedCount || customHost.failedCount < 3) {
+			return customHost;
+		}
+
+		return Helpers.randomHost(
+			allHosts.filter(({ custom }) => !custom),
+			type,
+		);
+	}
+
+	return Helpers.randomHost(customHosts, type);
+};
 
 export class DriverFactory {
 	public static make(container: IoC.Container, options: EnvironmentOptions): void {
@@ -25,7 +50,7 @@ export class DriverFactory {
 
 		container.constant(Identifiers.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(Identifiers.HttpClient, options.httpClient);
-		container.constant(Identifiers.NetworkHostSelectorFactory, options.hostSelector ?? hostSelector);
+		container.constant(Identifiers.NetworkHostSelectorFactory, options.hostSelector ?? defaultHostSelector);
 		container.constant(Identifiers.Coins, options.coins);
 
 		container.singleton(Identifiers.AppData, DataRepository);

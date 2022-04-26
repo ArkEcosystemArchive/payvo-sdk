@@ -10,23 +10,23 @@ import { nock } from "@payvo/sdk-test";
 import { Profile } from "../source";
 import { container } from "../source/container";
 import { IProfile, IReadWriteWallet } from "../source/contracts";
-import { DriverFactory } from "../source/driver";
+import { defaultHostSelector, DriverFactory } from "../source/driver";
 import { WalletFactory } from "../source/wallet.factory";
 import { StubStorage } from "./stubs/storage";
+
+const coins: Record<string, Coins.Coin> = {};
 
 export const bootContainer = (): void => {
 	container.flush();
 
 	DriverFactory.make(container, {
 		coins: { ADA, ARK, BTC, ETH, LSK },
-		hostSelector: (profile: IProfile) => Helpers.randomNetworkHostFromConfig,
+		hostSelector: defaultHostSelector,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {},
 		storage: new StubStorage(),
 	});
 };
-
-const coins: Record<string, Coins.Coin> = {};
 
 export const makeCoin = async (coin: string, network: string): Promise<Coins.Coin> => {
 	const cacheKey = `${coin}.${network}`;
