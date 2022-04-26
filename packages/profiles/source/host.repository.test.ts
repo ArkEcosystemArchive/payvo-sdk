@@ -94,7 +94,7 @@ describeWithContext(
 				host: {
 					...context.full.host,
 					host: "https://other-url.payvo.com/api",
-				}
+				},
 			});
 
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 2);
