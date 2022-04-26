@@ -27,7 +27,7 @@ export class Request {
 		type: Networks.NetworkHostType = "full",
 	): Promise<Contracts.KeyValuePair> {
 		return this.#sendRequest(
-			() => this.#httpClient.get(`${this.#latestHost?.host}/${path}`.replace(/\/$/, ""), query?.searchParams),
+			({ host }) => this.#httpClient.get(`${host}/${path}`.replace(/\/$/, ""), query?.searchParams),
 			type,
 		);
 	}
@@ -38,18 +38,13 @@ export class Request {
 		type: Networks.NetworkHostType = "full",
 	): Promise<Contracts.KeyValuePair> {
 		return this.#sendRequest(
-			() =>
-				this.#httpClient.post(
-					`${this.#latestHost?.host}/${path}`.replace(/\/$/, ""),
-					body,
-					searchParams || undefined,
-				),
+			({ host }) => this.#httpClient.post(`${host}/${path}`.replace(/\/$/, ""), body, searchParams || undefined),
 			type,
 		);
 	}
 
 	async #sendRequest(
-		callback: () => Promise<Contracts.KeyValuePair>,
+		callback: (host: Networks.NetworkHost) => Promise<Contracts.KeyValuePair>,
 		type?: Networks.NetworkHostType,
 	): Promise<Contracts.KeyValuePair> {
 		this.#latestHost = this.#hostSelector(this.#configRepository, type);
@@ -59,7 +54,7 @@ export class Request {
 		}
 
 		try {
-			const response = await callback();
+			const response = await callback(this.#latestHost);
 
 			if (response.serverError()) {
 				this.#latestHost.failedCount++;
