@@ -1,3 +1,4 @@
+import { Helpers } from "@payvo/sdk";
 import { ARK } from "@payvo/sdk-ark";
 import { BTC } from "@payvo/sdk-btc";
 import { ETH } from "@payvo/sdk-eth";
@@ -27,6 +28,7 @@ import { WalletService } from "./wallet.service.js";
 const makeSubject = async (context) => {
 	context.subject = new Environment({
 		coins: { ARK, BTC, ETH },
+		hostSelector: () => Helpers.randomNetworkHostFromConfig,
 		httpClient: new Request(),
 		ledgerTransportFactory: async () => {},
 		storage: new StubStorage(),
