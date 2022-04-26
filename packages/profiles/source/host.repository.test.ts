@@ -14,7 +14,6 @@ describeWithContext(
 				host: "https://explorer.ark.io",
 				type: "explorer",
 			},
-			name: "John's Explorer",
 			network: "ark.mainnet",
 		},
 		full: {
@@ -24,7 +23,6 @@ describeWithContext(
 				host: "https://ark-live.payvo.com/api",
 				type: "full",
 			},
-			name: "John's Relay",
 			network: "ark.mainnet",
 		},
 		musig: {
@@ -32,7 +30,6 @@ describeWithContext(
 				host: "https://ark-live-musig.payvo.com",
 				type: "musig",
 			},
-			name: "John's MuSig",
 			network: "ark.mainnet",
 		},
 	},
@@ -94,7 +91,10 @@ describeWithContext(
 
 			context.subject.push({
 				...context.full,
-				name: "another name",
+				host: {
+					...context.full.host,
+					host: "https://other-url.payvo.com/api",
+				}
 			});
 
 			assert.length(context.subject.allByNetwork("ark.mainnet"), 2);
