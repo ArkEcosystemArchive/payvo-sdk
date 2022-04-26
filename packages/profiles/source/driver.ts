@@ -14,31 +14,32 @@ import { ProfileSetting } from "./profile.enum.contract.js";
 import { ProfileRepository } from "./profile.repository.js";
 import { WalletService } from "./wallet.service.js";
 
-export const defaultHostSelector = (profile: IProfile) => (configRepository: Coins.ConfigRepository, type?: Networks.NetworkHostType) => {
-	type ??= "full";
+export const defaultHostSelector =
+	(profile: IProfile) => (configRepository: Coins.ConfigRepository, type?: Networks.NetworkHostType) => {
+		type ??= "full";
 
-	const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
-	const customHosts = allHosts.filter(({ custom, enabled }) => custom && enabled);
+		const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
+		const customHosts = allHosts.filter(({ custom, enabled }) => custom && enabled);
 
-	if (customHosts.length === 0) {
-		return Helpers.randomHost(allHosts, type);
-	}
-
-	if (profile.settings().get(ProfileSetting.FallbackToDefaultNodes)) {
-		const customHost = Helpers.randomHost(customHosts, type);
-
-		if (!customHost.failedCount || customHost.failedCount < 3) {
-			return customHost;
+		if (customHosts.length === 0) {
+			return Helpers.randomHost(allHosts, type);
 		}
 
-		return Helpers.randomHost(
-			allHosts.filter(({ custom }) => !custom),
-			type,
-		);
-	}
+		if (profile.settings().get(ProfileSetting.FallbackToDefaultNodes)) {
+			const customHost = Helpers.randomHost(customHosts, type);
 
-	return Helpers.randomHost(customHosts, type);
-};
+			if (!customHost.failedCount || customHost.failedCount < 3) {
+				return customHost;
+			}
+
+			return Helpers.randomHost(
+				allHosts.filter(({ custom }) => !custom),
+				type,
+			);
+		}
+
+		return Helpers.randomHost(customHosts, type);
+	};
 
 export class DriverFactory {
 	public static make(container: IoC.Container, options: EnvironmentOptions): void {
