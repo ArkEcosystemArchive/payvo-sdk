@@ -1,4 +1,4 @@
-import { Coins, Networks } from "@payvo/sdk";
+import { Coins } from "@payvo/sdk";
 
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
@@ -65,6 +65,9 @@ export class CoinService implements ICoinService {
 			return this.#dataRepository.get(cacheKey)!;
 		}
 
+        console.log(container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory))
+        console.log(container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(this.#profile))
+
 		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
 			hostSelector: container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(
 				this.#profile,
@@ -91,18 +94,6 @@ export class CoinService implements ICoinService {
 	}
 
 	#getCoinBundle(coin: string): Coins.CoinBundle {
-		const result: Coins.CoinBundle = container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()];
-
-		for (const network of this.#profile.networks().allByCoin(coin)) {
-			const clone: Networks.NetworkManifest = { ...network };
-
-			for (const { host } of Object.values(this.#profile.hosts().allByNetwork(clone.id))) {
-				clone.hosts.push(host);
-			}
-
-			result.manifest.networks[clone.id] = clone;
-		}
-
-		return result;
+		return container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()];
 	}
 }
