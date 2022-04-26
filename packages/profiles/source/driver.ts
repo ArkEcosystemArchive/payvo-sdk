@@ -19,9 +19,11 @@ export const defaultHostSelector =
 		type ??= "full";
 
 		const allHosts = Helpers.filterHostsFromConfig(configRepository, type);
-		const customHosts = profile.hosts().allByNetwork(
-			configRepository.get("network.id"),
-		).map(({ host }) => host).filter(({ custom, enabled }) => custom && enabled);
+		const customHosts = profile
+			.hosts()
+			.allByNetwork(configRepository.get("network.id"))
+			.map(({ host }) => host)
+			.filter(({ custom, enabled }) => custom && enabled);
 
 		if (customHosts.length === 0) {
 			return Helpers.randomHost(allHosts, type);
