@@ -38,12 +38,7 @@ export class Request {
 		type: Networks.NetworkHostType = "full",
 	): Promise<Contracts.KeyValuePair> {
 		return this.#sendRequest(
-			({ host }) =>
-				this.#httpClient.post(
-					`${host}/${path}`.replace(/\/$/, ""),
-					body,
-					searchParams || undefined,
-				),
+			({ host }) => this.#httpClient.post(`${host}/${path}`.replace(/\/$/, ""), body, searchParams || undefined),
 			type,
 		);
 	}

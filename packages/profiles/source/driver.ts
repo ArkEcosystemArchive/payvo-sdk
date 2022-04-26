@@ -25,10 +25,7 @@ export class DriverFactory {
 
 		container.constant(Identifiers.LedgerTransportFactory, options.ledgerTransportFactory);
 		container.constant(Identifiers.HttpClient, options.httpClient);
-		container.constant(
-			Identifiers.NetworkHostSelector,
-			options.hostSelector ?? hostSelector,
-		);
+		container.constant(Identifiers.NetworkHostSelector, options.hostSelector ?? hostSelector);
 		container.constant(Identifiers.Coins, options.coins);
 
 		container.singleton(Identifiers.AppData, DataRepository);
