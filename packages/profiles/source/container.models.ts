@@ -11,7 +11,7 @@ export const Identifiers = {
 	LedgerTransportFactory: Symbol.for("LedgerTransportFactory"),
 	MigrationSchemas: Symbol.for("Migration<Schemas>"),
 	MigrationVersion: Symbol.for("Migration<Version>"),
-	NetworkHostSelector: Symbol.for("NetworkHostSelector"),
+	NetworkHostSelectorFactory: Symbol.for("NetworkHostSelectorFactory"),
 	PluginRegistry: Symbol.for("PluginRegistry"),
 	ProfileRepository: Symbol.for("ProfileRepository"),
 	SettingRepository: Symbol.for("SettingRepository"),
