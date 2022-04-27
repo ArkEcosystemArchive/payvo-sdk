@@ -21,14 +21,14 @@ export class HostRepository implements IHostRepository {
 	}
 
 	/** {@inheritDoc HostRepository.push} */
-	public push({ host, network }: { host: Host; network: string }): HostSet {
+	public push({ host, name, network }: { host: Host; name: string; network: string }): HostSet {
 		if (!this.#data.has(network)) {
 			this.#data.set(network, []);
 		}
 
 		host.custom = true;
 
-		this.#data.get<HostSet>(network)?.push({ host });
+		this.#data.get<HostSet>(network)?.push({ host, name });
 
 		this.#profile.status().markAsDirty();
 
