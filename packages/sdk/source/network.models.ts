@@ -26,6 +26,7 @@ export interface NetworkHost {
 	host: string;
 	custom?: boolean;
 	failedCount?: number;
+	height?: number;
 	query?: Record<string, string>;
 	enabled?: boolean;
 }
