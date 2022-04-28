@@ -1,6 +1,6 @@
 {
 	"name": "@payvo/sdk-atom",
-	"version": "4.6.2",
+	"version": "4.6.4",
 	"description": "Cross-Platform Utilities for Payvo Applications",
 	"license": "MIT",
 	"contributors": [],
