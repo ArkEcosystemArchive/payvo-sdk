@@ -4,6 +4,7 @@ import { ConfigRepository } from "./coins.js";
 import { IContainer } from "./container.contracts.js";
 import { Container } from "./container.js";
 import { AbstractExtendedPublicKeyService } from "./extended-public-key.service.js";
+import { AbstractProberService } from "./prober.service.js";
 import { BindingType, IServiceProvider, ServiceList } from "./service-provider.contract.js";
 import {
 	AbstractAddressService,
@@ -109,6 +110,10 @@ export class AbstractServiceProvider implements IServiceProvider {
 
 		if (container.missing(BindingType.PrivateKeyService)) {
 			container.singleton(BindingType.PrivateKeyService, services.PrivateKeyService || AbstractPrivateKeyService);
+		}
+
+		if (container.missing(BindingType.ProberService)) {
+			container.singleton(BindingType.ProberService, services.ProberService || AbstractProberService);
 		}
 
 		if (container.missing(BindingType.PublicKeyService)) {

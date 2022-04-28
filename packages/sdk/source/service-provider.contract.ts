@@ -25,6 +25,7 @@ export const BindingType = {
 	NetworkHostSelector: Symbol.for("Coin<NetworkHostSelector>"),
 	NetworkRepository: Symbol.for("Coin<NetworkRepository>"),
 	PrivateKeyService: Symbol.for("Coin<PrivateKeyService>"),
+	ProberService: Symbol.for("Coin<ProberService>"),
 	PublicKeyService: Symbol.for("Coin<PublicKeyService>"),
 	ServiceProvider: Symbol.for("Coin<ServiceProvider>"),
 	Services: Symbol.for("Coin<Services>"),
