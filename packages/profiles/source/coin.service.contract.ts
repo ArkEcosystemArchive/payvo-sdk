@@ -68,4 +68,15 @@ export interface ICoinService {
 	 * @memberof ICoinService
 	 */
 	flush(): void;
+
+	/**
+	 * Make an instance of the given coin and network.
+	 *
+	 * @param {string} coin
+	 * @param {string} network
+	 * @param {object} [options]
+	 * @return {Coins.Coin}
+	 * @memberof ICoinService
+	 */
+	makeInstance(coin: string, network: string, options?: object): Coins.Coin;
 }

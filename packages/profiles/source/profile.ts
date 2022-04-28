@@ -2,7 +2,7 @@
 import { AppearanceService } from "./appearance.service.js";
 import { Authenticator } from "./authenticator.js";
 import { CoinService } from "./coin.service.js";
-import { ContactRepository } from "./contact.repository";
+import { ContactRepository } from "./contact.repository.js";
 import {
 	IAppearanceService,
 	IAuthenticator,
@@ -27,9 +27,9 @@ import {
 	ProfileData,
 	ProfileSetting,
 } from "./contracts.js";
-import { CountAggregate } from "./count.aggregate";
-import { DataRepository } from "./data.repository";
-import { ExchangeTransactionRepository } from "./exchange-transaction.repository";
+import { CountAggregate } from "./count.aggregate.js";
+import { DataRepository } from "./data.repository.js";
+import { ExchangeTransactionRepository } from "./exchange-transaction.repository.js";
 import { AttributeBag } from "./helpers/attribute-bag.js";
 import { Avatar } from "./helpers/avatar.js";
 import { IHostRepository } from "./host.repository.contract.js";
@@ -39,18 +39,18 @@ import { NetworkRepository } from "./network.repository.js";
 import { IProfileNotificationService } from "./notification.repository.contract.js";
 import { ProfileNotificationService } from "./notification.service.js";
 import { PasswordManager } from "./password.js";
-import { PluginRepository } from "./plugin.repository";
-import { Portfolio } from "./portfolio.js";
-import { ProfileInitialiser } from "./profile.initialiser";
-import { ProfileStatus } from "./profile.status";
-import { RegistrationAggregate } from "./registration.aggregate";
-import { SettingRepository } from "./setting.repository";
-import { TransactionAggregate } from "./transaction.aggregate";
-import { WalletAggregate } from "./wallet.aggregate";
-import { WalletFactory } from "./wallet.factory.js";
-import { WalletRepository } from "./wallet.repository";
-import { PendingMusigWalletRepository } from "./pending-musig-wallet.repository";
 import { IPendingMusigWalletRepository } from "./pending-musig-wallet.repository.contract.js";
+import { PendingMusigWalletRepository } from "./pending-musig-wallet.repository.js";
+import { PluginRepository } from "./plugin.repository.js";
+import { Portfolio } from "./portfolio.js";
+import { ProfileInitialiser } from "./profile.initialiser.js";
+import { ProfileStatus } from "./profile.status.js";
+import { RegistrationAggregate } from "./registration.aggregate.js";
+import { SettingRepository } from "./setting.repository.js";
+import { TransactionAggregate } from "./transaction.aggregate.js";
+import { WalletAggregate } from "./wallet.aggregate.js";
+import { WalletFactory } from "./wallet.factory.js";
+import { WalletRepository } from "./wallet.repository.js";
 
 export class Profile implements IProfile {
 	/**

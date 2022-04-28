@@ -65,15 +65,7 @@ export class CoinService implements ICoinService {
 			return this.#dataRepository.get(cacheKey)!;
 		}
 
-		const instance = Coins.CoinFactory.make(this.#getCoinBundle(coin), {
-			hostSelector: container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(
-				this.#profile,
-			),
-			httpClient: container.get(Identifiers.HttpClient),
-			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
-			network,
-			...options,
-		});
+		const instance = this.makeInstance(coin, network, options);
 
 		this.#dataRepository.set(cacheKey, instance);
 
@@ -88,6 +80,19 @@ export class CoinService implements ICoinService {
 	/** {@inheritDoc ICoinService.flush} */
 	public flush(): void {
 		this.#dataRepository.flush();
+	}
+
+	/** {@inheritDoc ICoinService.set} */
+	public makeInstance(coin: string, network: string, options: object = {}): Coins.Coin {
+		return Coins.CoinFactory.make(this.#getCoinBundle(coin), {
+			hostSelector: container.get<NetworkHostSelectorFactory>(Identifiers.NetworkHostSelectorFactory)(
+				this.#profile,
+			),
+			httpClient: container.get(Identifiers.HttpClient),
+			ledgerTransportFactory: container.get(Identifiers.LedgerTransportFactory),
+			network,
+			...options,
+		});
 	}
 
 	#getCoinBundle(coin: string): Coins.CoinBundle {
