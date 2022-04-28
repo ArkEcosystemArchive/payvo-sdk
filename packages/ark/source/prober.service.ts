@@ -15,11 +15,7 @@ export class ProberService extends Services.AbstractProberService {
 		try {
 			const { data } = (await this.#httpClient.get(`${host}/node/configuration/crypto`.replace(/\/$/, ""))).json();
 
-			if (data.network.client.token !== this.#configRepository.get(Coins.ConfigKey.CurrencyTicker)) {
-				return false;
-			}
-
-			return true;
+			return data.network.client.token === this.#configRepository.get(Coins.ConfigKey.CurrencyTicker);
 		} catch {
 			return false;
 		}
