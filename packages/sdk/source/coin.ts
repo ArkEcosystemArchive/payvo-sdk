@@ -3,6 +3,7 @@ import { ExtendedPublicKeyService } from "./extended-public-key.contract.js";
 import { Container } from "./ioc.js";
 import { Manifest } from "./manifest.js";
 import { Network, NetworkRepository } from "./networks.js";
+import { ProberService } from "./prober.contract.js";
 import { BindingType } from "./service-provider.contract.js";
 import {
 	AddressService,
@@ -85,6 +86,7 @@ export class Coin {
 		await this.#container.unbindAsync(BindingType.MessageService);
 		await this.#container.unbindAsync(BindingType.MultiSignatureService);
 		await this.#container.unbindAsync(BindingType.PrivateKeyService);
+		await this.#container.unbindAsync(BindingType.ProberService);
 		await this.#container.unbindAsync(BindingType.PublicKeyService);
 		await this.#container.unbindAsync(BindingType.SignatoryService);
 		await this.#container.unbindAsync(BindingType.TransactionService);
@@ -166,6 +168,10 @@ export class Coin {
 
 	public privateKey(): PrivateKeyService {
 		return this.#container.get(BindingType.PrivateKeyService);
+	}
+
+	public prober(): ProberService {
+		return this.#container.get(BindingType.ProberService);
 	}
 
 	public publicKey(): PublicKeyService {

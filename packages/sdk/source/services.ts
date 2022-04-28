@@ -25,6 +25,7 @@ export * from "./multi-signature.contract.js";
 export * from "./multi-signature.service.js";
 export * from "./private-key.contract.js";
 export * from "./private-key.service.js";
+export * from "./prober.service.js";
 export * from "./public-key.contract.js";
 export * from "./public-key.service.js";
 export * from "./shared.contract.js";
