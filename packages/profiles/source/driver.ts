@@ -23,7 +23,7 @@ export const defaultHostSelector =
 			.hosts()
 			.allByNetwork(configRepository.get("network.id"))
 			.map(({ host }) => host)
-			.filter(({ custom, enabled }) => custom && enabled);
+			.filter(({ custom, enabled, type: hostType }) => custom && enabled && hostType === type);
 
 		if (customHosts.length === 0) {
 			return Helpers.randomHost(defaultHosts, type);
