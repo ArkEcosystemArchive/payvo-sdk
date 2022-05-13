@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Networks } from "@payvo/sdk";
 import {
 	IAppearanceService,
 	IAuthenticator,
@@ -186,6 +187,14 @@ export interface IProfile {
 	 * @memberof IProfile
 	 */
 	networks(): INetworkRepository;
+
+	/**
+	 * Get all available coin networks stored in profile.
+	 *
+	 * @return {Networks.Network[]}
+	 * @memberof IProfile
+	 */
+	availableNetworks(): Networks.Network[];
 
 	/**
 	 * Get the exchange transactions repository instance.

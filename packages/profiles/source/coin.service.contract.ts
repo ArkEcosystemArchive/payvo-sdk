@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { Coins, Networks } from "@payvo/sdk";
 
 /**
  * Defines the implementation contract for the coin service.
@@ -79,4 +79,19 @@ export interface ICoinService {
 	 * @memberof ICoinService
 	 */
 	makeInstance(coin: string, network: string, options?: object): Coins.Coin;
+
+	/**
+	 * Register all available coins stored in profile.
+	 *
+	 * @memberof ICoinService
+	 */
+	register(): void;
+
+	/**
+	 * Get all available coin networks.
+	 *
+	 * @return {Networks.Network[]}
+	 * @memberof ICoinService
+	 */
+	availableNetworks(): Networks.Network[];
 }

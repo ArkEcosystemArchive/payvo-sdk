@@ -1,4 +1,4 @@
-import { Coins } from "@payvo/sdk";
+import { Coins, Networks } from "@payvo/sdk";
 
 import { container } from "./container.js";
 import { Identifiers } from "./container.models.js";
@@ -95,7 +95,41 @@ export class CoinService implements ICoinService {
 		});
 	}
 
+	/** {@inheritDoc ICoinService.availableNetworks} */
+	public availableNetworks() {
+		const networks = this.#coinManifests().map((manifest) => {
+			const network = Object.values(manifest.networks)[0];
+			return new Networks.Network(manifest, network);
+		});
+
+		return networks.sort((a, b) => a.displayName().localeCompare(b.displayName()));
+	}
+
+	/** {@inheritDoc ICoinService.register} */
+	public register(): void {
+		for (const manifest of this.#coinManifests()) {
+			for (const network of Object.values(manifest.networks)) {
+				this.set(manifest.name, network.id, { networks: manifest.networks });
+			}
+		}
+	}
+
 	#getCoinBundle(coin: string): Coins.CoinBundle {
 		return container.get<Coins.CoinBundle>(Identifiers.Coins)[coin.toUpperCase()];
+	}
+
+	#coinManifests() {
+		const networks = this.#profile.networks().all();
+
+		return Object.keys(networks).flatMap((name) => {
+			const manifests: Networks.CoinManifest[] = [];
+
+			for (const network of Object.values(networks[name])) {
+				// TODO: Remove hardcoded name.
+				manifests.push({ name: "ARK", networks: { [network.id]: network } });
+			}
+
+			return manifests;
+		});
 	}
 }
