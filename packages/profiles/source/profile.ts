@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Networks } from "@payvo/sdk";
 import { AppearanceService } from "./appearance.service.js";
 import { Authenticator } from "./authenticator.js";
 import { CoinService } from "./coin.service.js";
@@ -348,6 +349,11 @@ export class Profile implements IProfile {
 	/** {@inheritDoc IProfile.networks} */
 	public networks(): INetworkRepository {
 		return this.#networkRepository;
+	}
+
+	/** {@inheritDoc IProfile.availableNetworks} */
+	public availableNetworks(): Networks.Network[] {
+		return this.coins().availableNetworks();
 	}
 
 	/** {@inheritDoc IProfile.exchangeTransactions} */

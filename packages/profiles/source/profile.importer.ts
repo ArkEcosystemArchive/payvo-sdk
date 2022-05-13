@@ -44,6 +44,8 @@ export class ProfileImporter implements IProfileImporter {
 
 		this.#profile.settings().fill(data.settings);
 
+		this.#profile.coins().register();
+
 		await this.#profile.wallets().fill(data.wallets);
 
 		await this.#profile.pendingMusigWallets().fill(data.pendingMusigWallets);
