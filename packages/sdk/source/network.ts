@@ -70,7 +70,7 @@ export class Network {
 	 * Get the display name of the network.
 	 */
 	public displayName(): string {
-		if (this.isLive()) {
+		if (this.isLive() || this.isCustom()) {
 			return this.coinName();
 		}
 
@@ -110,6 +110,13 @@ export class Network {
 	 */
 	public isTest(): boolean {
 		return this.#network.type === "test";
+	}
+
+	/**
+	 * Determine if this is a custom network.
+	 */
+	public isCustom(): boolean {
+		return this.id().endsWith(".custom");
 	}
 
 	/**

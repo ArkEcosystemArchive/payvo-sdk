@@ -29,6 +29,17 @@ describe("Network", ({ assert, beforeEach, it, stub }) => {
 		assert.is(context.subject.displayName(), "ARK");
 	});
 
+	it("should display coin name only for a custom network", (context) => {
+		context.subject = new Network(manifest, {
+			"ark.custom": {
+				...manifest.networks["ark.mainnet"],
+				governance: {},
+			},
+		});
+
+		assert.is(context.subject.displayName(), "ARK");
+	});
+
 	it("should have an explorer", (context) => {
 		assert.is(context.subject.explorer(), "https://explorer.ark.io");
 	});
@@ -43,6 +54,10 @@ describe("Network", ({ assert, beforeEach, it, stub }) => {
 
 	it("should determine if the network is a live environment", (context) => {
 		assert.true(context.subject.isLive());
+	});
+
+	it("should determine if the network is custom", (context) => {
+		assert.false(context.subject.isCustom());
 	});
 
 	it("should determine if the network is a test environment", (context) => {
