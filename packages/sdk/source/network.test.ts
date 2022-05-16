@@ -30,13 +30,7 @@ describe("Network", ({ assert, beforeEach, it, stub }) => {
 	});
 
 	it("should display coin name only for a custom network", (context) => {
-		context.subject = new Network(manifest, {
-			"ark.custom": {
-				...manifest.networks["ark.mainnet"],
-				governance: {},
-			},
-		});
-
+		context.spy = stub(context.subject, "id").returnValue("ark.custom");
 		assert.is(context.subject.displayName(), "ARK");
 	});
 
