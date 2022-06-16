@@ -8,6 +8,8 @@
 
 ## Usage
 
+**Note: this repository has been archived and is replaced by [ArdentHQ/platform-sdk](https://github.com/ArdentHQ/platform-sdk)**
+
 Documentation can be found [here](/docs/README.md).
 
 ## Development
